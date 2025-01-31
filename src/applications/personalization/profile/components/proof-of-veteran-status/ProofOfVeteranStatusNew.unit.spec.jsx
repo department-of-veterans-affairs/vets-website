@@ -237,6 +237,56 @@ describe('ProofOfVeteranStatusNew', () => {
       });
     });
 
+    it('handles a 504 API error with service history', async () => {
+      const mockData = {
+        errors: [
+          {
+            title: 'Gateway Timeout',
+            detail: 'Did not receive a timely response.',
+            code: '504',
+            status: '504',
+          },
+        ],
+      };
+      apiRequestStub.rejects(mockData);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('handles a 403 API error with service history', async () => {
+      const mockData = {
+        errors: [
+          {
+            title: 'Forbidden',
+            detail: 'User does not have access to the requested resource',
+            code: '403',
+            status: '403',
+          },
+        ],
+      };
+      apiRequestStub.rejects(mockData);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
+          ),
+        ).to.exist;
+      });
+    });
+
     it('displays not confirmed message if confirmed with no service history', async () => {
       const mockData = {
         data: {
