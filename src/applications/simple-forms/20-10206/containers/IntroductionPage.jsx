@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
-import manifest from '../manifest.json';
 import { SUBTITLE, TITLE } from '../config/constants';
 
 const ombInfo = {
@@ -81,26 +81,7 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       {userLoggedIn &&
       !userIdVerified /* If User's signed-in but not identity-verified [not LOA3] */ && (
           <div className="id-not-verified-content vads-u-margin-top--4">
-            <va-alert status="continue" uswds visible>
-              <h3 slot="headline">
-                You’ll need to verify your identity to request your records
-              </h3>
-              <p>
-                We need to make sure you’re you — and not someone pretending to
-                be you — before we can give you access to your personal
-                information. This helps to keep your information safe, and to
-                prevent fraud and identity theft.
-              </p>
-              <strong>This one-time process takes about 5-10 minutes.</strong>
-              <p>
-                <a
-                  href={`/verify?next=${manifest.rootUrl}/introduction`}
-                  className="verify-link vads-c-action-link--green"
-                >
-                  Verify your identity
-                </a>
-              </p>
-            </va-alert>
+            <VerifyAlert headingLevel={3} />
             <p className="vads-u-margin-top--3">
               If you don’t want to verify your identity right now, you can still
               download and complete the PDF version of this request.
