@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { scrollTo, waitForRenderThenFocus } from 'platform/utilities/ui';
+import {
+  VaAlert,
+  VaButton,
+  VaSummaryBox,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DlcTelephoneLink from '../components/DlcTelephoneLink';
 import DlcEmailLink from '../components/DlcEmailLink';
 
@@ -51,15 +56,15 @@ export const ConfirmationPage = () => {
         />
       </div>
 
-      <va-alert status="success" class="vads-u-margin-bottom--4" ref={alertRef}>
+      <VaAlert status="success" class="vads-u-margin-bottom--4" ref={alertRef}>
         <h2 slot="headline">You’ve submitted your medical supplies order</h2>
         <p>
           We’ll send you a confirmation email about your order to {emailAddress}
           . Your order will be processed in the next business day.
         </p>
-      </va-alert>
+      </VaAlert>
 
-      <va-summary-box>
+      <VaSummaryBox>
         <h3 slot="headline">Your order information</h3>
 
         <h4>Who submitted this form</h4>
@@ -72,19 +77,19 @@ export const ConfirmationPage = () => {
           ) : null}
         </p>
 
-        <h4>Confirmation number</h4>
+        <h4 className="vads-u-margin-top--1">Confirmation number</h4>
         <p className="vads-u-margin-y--0">{orderIds}</p>
 
-        <h4>Supplies ordered</h4>
-        <ul className="vads-u-margin-y--0">
+        <h4 className="vads-u-margin-top--1">Supplies ordered</h4>
+        <ul className="vads-u-margin-top--0">
           {productNames.map(name => (
             // eslint-disable-next-line react/jsx-key
             <li>{name}</li>
           ))}
         </ul>
 
-        <h4>Shipping address</h4>
-        <p className="vads-u-margin-y--0 dd-privacy-mask">
+        <h4 className="vads-u-margin-top--2">Shipping address</h4>
+        <p className="vads-u-margin-y--0 vads-u-padding-bottom--0 dd-privacy-mask">
           {permanentAddress?.street} {permanentAddress?.street2 || ''}
         </p>
         <p className="vads-u-margin-top--0 dd-privacy-mask">
@@ -95,17 +100,17 @@ export const ConfirmationPage = () => {
           `}
         </p>
 
-        <h4>Date submitted</h4>
+        <h4 className="vads-u-margin-top--1">Date submitted</h4>
         <p data-testid="dateSubmitted" className="vads-u-margin-y--0">
           {submittedAt}
         </p>
 
-        <h4>Confirmation for your records</h4>
+        <h4 className="vads-u-margin-top--1">Confirmation for your records</h4>
         <p className="vads-u-margin-y--0">
           You can print this confirmation page for your records
         </p>
 
-        <va-button
+        <VaButton
           class="vads-u-margin-top--4"
           text="Print this page"
           message-aria-describedby="Print this page for your records"
@@ -113,7 +118,7 @@ export const ConfirmationPage = () => {
             window.print();
           }}
         />
-      </va-summary-box>
+      </VaSummaryBox>
       <div>
         <h2>How long will it take to receive my order?</h2>
         <p>
