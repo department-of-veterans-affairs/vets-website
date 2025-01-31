@@ -75,6 +75,7 @@ export const VA_FORM_IDS = Object.freeze({
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_21_4140: '21-4140',
   FORM_DISPUTE_DEBT: 'DISPUTE-DEBT',
+  FORM_1330M2: '1330M2',
   FORM_1330M: '1330M',
 });
 
@@ -159,6 +160,7 @@ export const getAllFormLinks = getAppUrlImpl => {
       'welcome-va-setup-review-information',
     )}/`,
     [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
+    [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
   };
 };
@@ -469,6 +471,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Dispute your VA debt',
     description: 'digital dispute for debts',
     trackingPrefix: 'dispute-debt',
+  },
+  {
+    id: VA_FORM_IDS.FORM_1330M2,
+    benefit: 'Memorials benefits',
+    title: '1330M2 Apply for a medallion in a private cemetery',
+    description: 'Memorials benefits',
+    trackingPrefix: 'memorials-1330m2',
   },
   {
     id: VA_FORM_IDS.FORM_1330M,
