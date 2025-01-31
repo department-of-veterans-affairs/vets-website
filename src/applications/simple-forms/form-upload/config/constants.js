@@ -30,11 +30,11 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
     >
       {variant === 'name-and-zip-code' ? (
         <h3 slot="headline">
-          Veteran’s name and postal code must match your pdf
+          Veteran’s name and postal code must match your PDF
         </h3>
       ) : (
         <h3 slot="headline">
-          Veteran’s identification information must match your pdf
+          Veteran’s identification information must match your PDF
         </h3>
       )}
       {isLoa3 ? (
@@ -46,12 +46,12 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       {variant === 'name-and-zip-code' ? (
         <p>
           If the Veteran’s name and postal code here don’t match your uploaded
-          pdf, it will cause processing delays.
+          PDF, it will cause processing delays.
         </p>
       ) : (
         <p>
           If the Veteran’s identification information you enter here doesn’t
-          match your uploaded pdf, it will cause processing delays.
+          match your uploaded PDF, it will cause processing delays.
         </p>
       )}
     </VaAlert>
