@@ -5,7 +5,7 @@ import BreadcrumbInstructionPage from './Breadcrumbs';
 export const CalculationInstructions = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">
-      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
+      <div className="desktop-lg:vads-u-padding-left--0">
         <BreadcrumbInstructionPage />
       </div>
       <h1 className="vads-u-margin-top--2">

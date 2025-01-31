@@ -17,7 +17,7 @@ const AboutPage = ({ props }) => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">
-      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
+      <div className="vads-u-margin-top--neg2p5">
         <Breadcrumbs />
       </div>
       <h1>About VA Form 22-10215</h1>
