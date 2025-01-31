@@ -1,13 +1,13 @@
-import mapboxMockData from './typeahead-data/mapbox.json';
+import mapboxMockData from './autosuggest-data/mapbox.json';
 
-describe('Facility Locator Address Typeahead provides correct results from mapbox data', () => {
+describe('Facility Locator Address Autosuggest provides correct results from mapbox data', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/geocoding/**', mapboxMockData).as('mapbox');
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         features: [
           {
-            name: 'facilities_use_address_typeahead',
+            name: 'facilities_use_address_autosuggest',
             value: true,
           },
         ],
@@ -40,7 +40,7 @@ describe('Facility Locator Address Typeahead provides correct results from mapbo
     cy.get('#clear-street-city-state-zip').click();
     cy.axeCheck(); // check with menu open
     cy.get('#street-city-state-zip').should('have.value', '');
-    cy.get('#street-city-state-zip-typeahead-container').should(
+    cy.get('#street-city-state-zip-autosuggest-container').should(
       'have.class',
       'usa-input-error',
     );

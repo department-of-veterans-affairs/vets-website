@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import TypeaheadDropdownOption from './TypeaheadDropdownOption';
 
-function TypeaheadDropdownOptions({
+function AutosuggestOptions({
   getItemProps,
   highlightedIndex,
   options,
@@ -13,6 +12,7 @@ function TypeaheadDropdownOptions({
   getMenuProps,
   noItemsMessage,
   shouldShowNoResults,
+  AutosuggestOptionComponent,
 }) {
   // All an option is required to have is an id, toDisplay, and optionally disabled
   // Anything else is up to the user. The `id` is used for the key and that's why it is required
@@ -38,10 +38,10 @@ function TypeaheadDropdownOptions({
     <div
       className="dropdown"
       {...getMenuProps()}
-      style={{ display: isShown ? 'block' : 'none' }}
+      style={{ display: isShown && optionsToShow?.length ? 'block' : 'none' }}
     >
       {optionsToShow.map((item, index) => (
-        <TypeaheadDropdownOption
+        <AutosuggestOptionComponent
           key={item.id}
           item={item}
           index={index}
@@ -54,7 +54,7 @@ function TypeaheadDropdownOptions({
   );
 }
 
-TypeaheadDropdownOptions.propTypes = {
+AutosuggestOptions.propTypes = {
   getItemProps: PropTypes.func.isRequired,
   getMenuProps: PropTypes.func.isRequired,
   isShown: PropTypes.bool.isRequired,
@@ -62,9 +62,10 @@ TypeaheadDropdownOptions.propTypes = {
   noItemsMessage: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   shouldShowNoResults: PropTypes.bool.isRequired,
+  AutosuggestOptionComponent: PropTypes.elementType,
   highlightedIndex: PropTypes.number, // something may not be higlighted - optional from Downshift
   isLoading: PropTypes.bool,
   loadingMessage: PropTypes.string,
 };
 
-export default TypeaheadDropdownOptions;
+export default AutosuggestOptions;

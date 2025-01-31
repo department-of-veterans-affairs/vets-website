@@ -3,12 +3,13 @@ import classNames from 'classnames';
 import { useCombobox } from 'downshift-v9';
 import { itemToString as toDisplay } from './helpers';
 import InputWithClear from './InputWithClear';
-import TypeaheadDropdownOptions from './TypeaheadDropdownOptions';
-import './sass/typeahead.scss';
-import { TypeaheadProps } from '../../types';
+import AutosuggestOption from './AutosuggestOption';
+import AutosuggestOptions from './AutosuggestOptions';
+import './sass/autosuggest.scss';
+import { AutosuggestProps } from '../../types';
 import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 
-function Typeahead({
+function Autosuggest({
   // downshift props
   handleOnSelect,
   defaultSelectedItem,
@@ -18,14 +19,14 @@ function Typeahead({
   // input props
   onClearClick,
   inputContainerClassName = 'input-container', // allows to work with fixed width from facility-locator
-  inputId = 'typeahead-input',
+  inputId = 'autosuggest-input',
   inputError,
   label,
   labelSibling = null,
   showDownCaret = true,
   // props from Downshift to pass to the input
   downshiftInputProps,
-  // options for the typeahead to show
+  // options for the autosuggest to show
   options,
   minCharacters = 3, // only trigger update after n=3 characters
   noItemsMessage = 'No results found',
@@ -40,6 +41,7 @@ function Typeahead({
   stateReducer = srClearOnBlur,
   isLoading = false,
   loadingMessage = '',
+  AutosuggestOptionComponent = AutosuggestOption,
 }) {
   const {
     isOpen,
@@ -69,19 +71,19 @@ function Typeahead({
 
   return (
     <div
-      id={`${inputId}-typeahead-container`}
-      className={classNames('typeahead-container', 'vads-u-width--full', {
+      id={`${inputId}-autosuggest-container`}
+      className={classNames('autosuggest-container', 'vads-u-width--full', {
         'usa-input-error': showError,
       })}
     >
-      <div className={`${inputId}-typeahead-label-container`}>
+      <div className={`${inputId}-autosuggest-label-container`}>
         <label className={`${inputId}-label`} {...getLabelProps()}>
           {label}
         </label>
         {labelSibling}
       </div>
       {inputError}
-      <div className="typeahead-input-container">
+      <div className="autosuggest-input-container">
         <InputWithClear
           getInputProps={getInputProps}
           getToggleButtonProps={getToggleButtonProps}
@@ -93,7 +95,7 @@ function Typeahead({
           onClearClick={inputClearClick}
           downshiftInputProps={downshiftInputProps}
         />
-        <TypeaheadDropdownOptions
+        <AutosuggestOptions
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           options={options}
@@ -104,12 +106,13 @@ function Typeahead({
           shouldShowNoResults={shouldShowNoResults}
           isLoading={isLoading}
           loadingMessage={loadingMessage}
+          AutosuggestOptionComponent={AutosuggestOptionComponent}
         />
       </div>
     </div>
   );
 }
 
-Typeahead.propTypes = TypeaheadProps;
+Autosuggest.propTypes = AutosuggestProps;
 
-export default Typeahead;
+export default Autosuggest;

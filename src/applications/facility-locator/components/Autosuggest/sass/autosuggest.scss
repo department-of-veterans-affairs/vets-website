@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
-div[id$="-typeahead-container"] {
+div[id$="-autosuggest-container"] {
   &.usa-input-error {
     margin-top: 0 !important;
     padding-top: 0; // matching style to VaSelect use of usa-error
@@ -12,7 +12,7 @@ div[id$="-typeahead-container"] {
       margin-left: -0.9rem; // matching Facility Type - can override
     }
   }
-  div[class$="-typeahead-label-container"] {
+  div[class$="-autosuggest-label-container"] {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -22,7 +22,7 @@ div[id$="-typeahead-container"] {
     }
   }
 
-  .typeahead-input-container {
+  .autosuggest-input-container {
     border-radius: 0;
     box-sizing: border-box;
     cursor: pointer;

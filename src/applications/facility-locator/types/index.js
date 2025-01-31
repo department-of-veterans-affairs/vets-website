@@ -236,7 +236,7 @@ export const SearchControlsTypes = {
   suppressPharmacies: PropTypes.bool,
 };
 
-export const TypeaheadProps = {
+export const AutosuggestProps = {
   handleOnSelect: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired, // controlled component
   label: PropTypes.element.isRequired,
@@ -262,4 +262,5 @@ export const TypeaheadProps = {
   showError: PropTypes.bool, // optional flag to show the error state
   stateReducer: PropTypes.func, // optional function to modify the state of Downshift - e.g. handle escape to not clear
   shouldShowNoResults: PropTypes.bool, // optional to hide show no results under input
+  AutosuggestOptionComponent: PropTypes.elementType, // by default uses the AutosuggestOption component in this directory, but you can supply another
 };

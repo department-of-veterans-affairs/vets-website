@@ -5,7 +5,7 @@ import classNames from 'classnames';
 export const optionClasses = selected =>
   classNames('dropdown-option', { selected });
 
-function TypeaheadDropdownOption({
+function AutosuggestOption({
   highlightedIndex,
   index,
   item,
@@ -27,7 +27,7 @@ function TypeaheadDropdownOption({
   );
 }
 
-TypeaheadDropdownOption.propTypes = {
+AutosuggestOption.propTypes = {
   getItemProps: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
@@ -35,4 +35,4 @@ TypeaheadDropdownOption.propTypes = {
   highlightedIndex: PropTypes.number, // something may not be higlighted - optional from Downshift
 };
 
-export default TypeaheadDropdownOption;
+export default AutosuggestOption;

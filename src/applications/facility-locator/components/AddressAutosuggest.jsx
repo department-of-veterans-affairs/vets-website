@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
 import { searchAddresses } from '../utils/mapHelpers';
-import Typeahead from './Typeahead';
+import Autosuggest from './Autosuggest';
 
 const MIN_SEARCH_CHARS = 3;
 const onlySpaces = str => /^\s+$/.test(str);
 
-function AddressTypeahead({
+function AddressAutosuggest({
   currentQuery,
   geolocateUser,
   inputRef,
@@ -23,7 +23,6 @@ function AddressTypeahead({
   const [options, setOptions] = useState([]);
   const [showAddressError, setShowAddressError] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
-  const [inputHasChanged, setInputHasChanged] = useState(false);
   const [isGeocoding, setIsGeocoding] = useState(false);
 
   const inputClearClick = useCallback(
@@ -33,7 +32,6 @@ function AddressTypeahead({
       // so we set it to a non-existent object
       setSelectedItem(null);
       setOptions([]);
-      setInputHasChanged(false);
       onClearClick?.(); // clears searchString in redux
     },
     [onClearClick],
@@ -66,7 +64,6 @@ function AddressTypeahead({
     }
     if (trimmedTerm.length > MIN_SEARCH_CHARS) {
       // fetch results and set options
-      setInputHasChanged(true); // show no results if none after populating list
       setIsGeocoding(true);
       searchAddresses(trimmedTerm)
         .then(features => {
@@ -148,7 +145,7 @@ function AddressTypeahead({
   );
 
   return (
-    <Typeahead
+    <Autosuggest
       inputValue={inputValue || ''}
       onInputValueChange={handleInputChange}
       selectedItem={selectedItem || null}
@@ -190,15 +187,15 @@ function AddressTypeahead({
       /* eslint-enable prettier/prettier */
       minCharacters={MIN_SEARCH_CHARS}
       keepDataOnBlur
-      showDownCaret
-      shouldShowNoResults={inputHasChanged}
+      showDownCaret={false}
+      shouldShowNoResults={false}
       isLoading={isGeocoding}
       loadingMessage="Searching..."
     />
   );
 }
 
-AddressTypeahead.propTypes = {
+AddressAutosuggest.propTypes = {
   onChange: PropTypes.func.isRequired,
   currentQuery: PropTypes.shape({
     geolocationInProgress: PropTypes.bool,
@@ -210,4 +207,4 @@ AddressTypeahead.propTypes = {
   onClearClick: PropTypes.func,
 };
 
-export default AddressTypeahead;
+export default AddressAutosuggest;

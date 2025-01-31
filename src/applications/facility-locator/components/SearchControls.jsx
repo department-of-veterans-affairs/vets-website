@@ -18,7 +18,7 @@ import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
-import AddressTypeahead from './AddressTypeahead';
+import AddressAutosuggest from './AddressAutosuggest';
 
 const SearchControls = props => {
   const {
@@ -146,7 +146,7 @@ const SearchControls = props => {
   const renderLocationInputField = () => {
     if (facilitiesUseAddressTypeahead) {
       return (
-        <AddressTypeahead
+        <AddressAutosuggest
           geolocateUser={geolocateUser}
           inputRef={locationInputFieldRef}
           onClearClick={handleClearInput}
