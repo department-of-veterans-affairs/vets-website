@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import CCProviderResult from '../CCProviderResult';
 import Covid19Result from '../Covid19Result';
 import EmergencyCareResult from '../EmergencyCareResult';
@@ -17,7 +16,7 @@ import { isHealthAndHealthConnect } from '../../../utils/phoneNumbers';
 
 // Receives a single result and returns the
 // proper data structure / listing (e.g. VA health, VBA, Urgent care)
-const ResultMapper = ({ result, searchQuery, index, headerRef = null }) => {
+export const ResultMapper = (result, searchQuery, index, headerRef = null) => {
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
 
   switch (searchQuery.facilityType) {
@@ -141,15 +140,3 @@ const ResultMapper = ({ result, searchQuery, index, headerRef = null }) => {
       return null;
   }
 };
-
-ResultMapper.propTypes = {
-  headerRef: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.shape({ current: PropTypes.object }),
-  ]),
-  index: PropTypes.number,
-  result: PropTypes.object,
-  searchQuery: PropTypes.object,
-};
-
-export default ResultMapper;

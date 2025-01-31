@@ -6,7 +6,7 @@ import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
 import { Error } from '../constants';
 import { recordSearchResultsEvents } from '../utils/analytics';
-import ResultMapper from './search-results-items/common/ResultMapper';
+import { ResultMapper } from './search-results-items/common/ResultMapper';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 import SearchResultMessage from './SearchResultMessage';
 
@@ -58,14 +58,7 @@ export const ResultsList = ({
    */
   const renderResultItems = (searchQuery, apiResults) => {
     return apiResults?.map((result, index) => {
-      return (
-        <ResultMapper
-          index={index}
-          key={index}
-          searchQuery={searchQuery}
-          result={result}
-        />
-      );
+      return ResultMapper(result, searchQuery, index);
     });
   };
 
