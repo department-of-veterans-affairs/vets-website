@@ -26,7 +26,7 @@ describe('<Autosuggest inputId="any">', () => {
     const wrapper = shallow(<Autosuggest inputId="any" label="any label" />);
     const label = wrapper.find('label').first();
     expect(label.text()).to.equal('any label');
-    expect(label.props('htmlFor')).to.equal('any');
+    expect(label.prop('htmlFor')).to.equal('any');
     expect(label.hasClass('any-label')).to.equal(true);
     wrapper.unmount();
   });
