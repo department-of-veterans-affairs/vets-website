@@ -204,6 +204,11 @@
       "hostname": "www.m.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": false
+    },
+    {
+      "hostname": "sandbox-patientportal.myhealth.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
     }
   ]
 }
