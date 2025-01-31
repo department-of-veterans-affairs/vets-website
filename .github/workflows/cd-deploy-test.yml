@@ -30,7 +30,6 @@ jobs:
 
     steps:
       - name: Notify application team in Slack
-        if: github.event.inputs.entry_names != ''
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         with:
@@ -39,20 +38,10 @@ jobs:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Notify Slack
-        if: github.event.inputs.entry_names == ''
-        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-        continue-on-error: true
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-
   deploy:
     name: Deploy
     if: ${{ github.event.inputs.github_ref == 'refs/heads/main' }}
+    needs: [notify-pending-deployment]
     runs-on: ubuntu-latest
     environment: production-cd
 
