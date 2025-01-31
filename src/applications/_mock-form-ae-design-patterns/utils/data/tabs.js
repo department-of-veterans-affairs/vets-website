@@ -28,7 +28,7 @@ export const tabsConfig = {
       path: '/2/task-orange',
 
       description: 'Pattern 2 - Orange Task',
-      bgColor: '--vads-color-orange',
+      bgColor: '--uswds-system-color-orange-40',
       textColor: '--vads-color-black',
     },
     {
