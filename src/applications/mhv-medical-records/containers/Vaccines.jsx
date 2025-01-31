@@ -153,10 +153,10 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     <div id="vaccines">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
-      <p>Review vaccines (immunizations) in your VA medical records.</p>
-      <p className="vads-u-margin-bottom--4">
-        For a list of your allergies and reactions (including any reactions to
-        vaccines), go to your allergy records.{' '}
+      <p>
+        This list includes all vaccines (immunizations) in your VA medical
+        records. For a list of your allergies and reactions (including any
+        reactions to vaccines), download your allergy records.
       </p>
       <div className="vads-u-margin-bottom--4">
         <Link
