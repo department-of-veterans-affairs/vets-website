@@ -66,6 +66,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'change your address',
+    headerLevel: 3,
   },
   [CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS]: {
     id: CTA_WIDGET_TYPES.CLAIMS_AND_APPEALS,
@@ -206,6 +207,7 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view your lab and test results',
     requiresVerification: true,
+    headerLevel: 3,
   },
   [CTA_WIDGET_TYPES.LETTERS]: {
     id: CTA_WIDGET_TYPES.LETTERS,
@@ -242,6 +244,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'Secure Messaging',
     requiredServices: backendServices.MESSAGING,
     serviceDescription: 'send secure messages',
+    headerLevel: 3,
     requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.RX]: {
@@ -259,6 +262,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'Prescription Refill and Tracking',
     requiredServices: backendServices.RX,
     serviceDescription: 'refill prescriptions',
+    headerLevel: 3,
     requiresVerification: true,
   },
   [CTA_WIDGET_TYPES.SCHEDULE_APPOINTMENTS]: {
@@ -272,6 +276,7 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'VA Appointments',
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
+    headerLevel: 3,
   },
   [CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO]: {
     id: CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO,
@@ -322,6 +327,7 @@ export const ctaWidgetsLookup = {
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
     requiresVerification: true,
+    headerLevel: 3,
   },
   [CTA_WIDGET_TYPES.VIEW_DEPENDENTS]: {
     id: CTA_WIDGET_TYPES.VIEW_DEPENDENTS,
