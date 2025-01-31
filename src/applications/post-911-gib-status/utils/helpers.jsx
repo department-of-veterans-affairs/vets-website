@@ -176,8 +176,9 @@ export const genericErrorMessage = (
   <div>
     <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
     <va-link
+      back
       className="usa-button usa-button-primary"
-      to="https://www.va.gov/education/check-remaining-post-9-11-gi-bill-benefits/"
+      href="https://www.va.gov/education/check-remaining-post-9-11-gi-bill-benefits/"
       text="Back to Post-9/11 GI Bill"
     />
   </div>
@@ -214,7 +215,7 @@ export const authenticationErrorMessage = (
             You haven’t applied yet for Post-9/11 GI Bill education benefits.
             <br />
             <va-link
-              to="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
+              href="https://www.va.gov/education/apply-for-gi-bill-form-22-1990/introduction"
               text="Apply for education benefits"
             />
           </li>
