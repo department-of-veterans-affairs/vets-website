@@ -7,12 +7,11 @@ const MobileMapSearchResult = ({ mobileMapPinSelected, query }) => {
 
   return (
     <>
-      {!mobileMapPinSelected && (
+      {!mobileMapPinSelected ? (
         <p className="vads-u-margin-y--3">
           Select a number to show information about that location.
         </p>
-      )}
-      {mobileMapPinSelected && (
+      ) : (
         <div className="mobile-search-result">
           {ResultMapper(mobileMapPinSelected, query, 0, headerRef)}
         </div>

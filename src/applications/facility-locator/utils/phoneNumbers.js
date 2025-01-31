@@ -61,14 +61,8 @@ export const parsePhoneNumber = phone => {
 };
 
 export const isHealthAndHealthConnect = (apiResult, searchQuery) => {
-  let final = false;
-
-  if (
+  return !!(
     searchQuery?.facilityType === 'health' &&
-    apiResult?.attributes?.phone?.healthConnect !== null
-  ) {
-    final = true;
-  }
-
-  return final;
+    apiResult?.attributes?.phone?.healthConnect
+  );
 };

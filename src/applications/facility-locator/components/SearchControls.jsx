@@ -25,6 +25,8 @@ const SearchControls = props => {
     clearSearchText,
     currentQuery,
     geolocateUser,
+    isMobile,
+    mobileMapUpdateEnabled,
     onChange,
     onSubmit,
     selectMobileMapPin,
@@ -122,7 +124,10 @@ const SearchControls = props => {
       'fl-current-zoom-depth': zoomLevel,
     });
 
-    selectMobileMapPin(null);
+    if (isMobile && mobileMapUpdateEnabled) {
+      selectMobileMapPin(null);
+    }
+
     onSubmit();
   };
 
