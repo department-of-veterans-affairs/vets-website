@@ -25,6 +25,8 @@ jobs:
     name: Notify of Pending Deployment
     if: ${{ github.event.inputs.github_ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    env: 
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
       - name: Notify application team in Slack
