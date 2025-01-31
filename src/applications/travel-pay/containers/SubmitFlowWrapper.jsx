@@ -5,10 +5,6 @@ import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import {
-  selectVAPMailingAddress,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
@@ -23,7 +19,7 @@ import UnsupportedClaimTypePage from '../components/submit-flow/pages/Unsupporte
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 import { getAppointmentData } from '../redux/actions';
 
-const SubmitFlowWrapper = ({ appointment, homeAddress, mailingAddress }) => {
+const SubmitFlowWrapper = ({ appointment }) => {
   const dispatch = useDispatch();
   const { apptId } = useParams();
 
@@ -83,8 +79,6 @@ const SubmitFlowWrapper = ({ appointment, homeAddress, mailingAddress }) => {
       page: 'intro',
       component: (
         <IntroductionPage
-          appointment={data}
-          error={error}
           onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
@@ -96,7 +90,6 @@ const SubmitFlowWrapper = ({ appointment, homeAddress, mailingAddress }) => {
       page: 'mileage',
       component: (
         <MileagePage
-          appointment={data}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           setYesNo={setYesNo}
@@ -121,7 +114,6 @@ const SubmitFlowWrapper = ({ appointment, homeAddress, mailingAddress }) => {
       page: 'address',
       component: (
         <AddressPage
-          address={homeAddress || mailingAddress}
           yesNo={yesNo}
           setYesNo={setYesNo}
           setIsUnsupportedClaimType={setIsUnsupportedClaimType}
@@ -134,8 +126,6 @@ const SubmitFlowWrapper = ({ appointment, homeAddress, mailingAddress }) => {
       page: 'review',
       component: (
         <ReviewPage
-          appointment={data}
-          address={homeAddress || mailingAddress}
           onSubmit={onSubmit}
           setYesNo={setYesNo}
           setPageIndex={setPageIndex}
@@ -191,15 +181,11 @@ const SubmitFlowWrapper = ({ appointment, homeAddress, mailingAddress }) => {
 };
 
 SubmitFlowWrapper.propTypes = {
-  homeAddress: PropTypes.object,
-  mailingAddress: PropTypes.object,
   appointment: PropTypes.object,
 };
 
 function mapStateToProps(state) {
   return {
-    homeAddress: selectVAPResidentialAddress(state),
-    mailingAddress: selectVAPMailingAddress(state),
     appointment: state.travelPay.appointment,
   };
 }

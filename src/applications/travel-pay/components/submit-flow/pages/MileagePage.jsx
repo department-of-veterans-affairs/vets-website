@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   VaButtonPair,
@@ -63,11 +64,11 @@ const MileagePage = ({
         <div slot="form-description">
           <hr className="vads-u-margin-y--0" />
           <p>
-            {' '}
+            For your appointment on{' '}
             <strong>
-              {formattedDate} {formattedTime} at{' '}
-              {appointment.location.attributes.name}
-            </strong>
+              {formattedDate} {formattedTime}
+            </strong>{' '}
+            at <strong>{appointment.location.attributes.name}</strong>
           </p>
           <p>{appointment.reasonForAppointment}</p>
           <hr className="vads-u-margin-y--0" />
@@ -145,4 +146,14 @@ MileagePage.propTypes = {
   yesNo: PropTypes.object,
 };
 
-export default MileagePage;
+function mapStateToProps(state) {
+  return {
+    appointment: state.travelPay.appointment.data,
+    // error: state.travelPay.appointment.error,
+    // isLoading: state.travelPay.appointment.isLoading,
+  };
+}
+
+export default connect(mapStateToProps)(MileagePage);
+
+// export default MileagePage;

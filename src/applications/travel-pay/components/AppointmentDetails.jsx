@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { formatDateTime, getDaysLeft } from '../util/dates';
 
 const AppointmentDetails = ({ appointment }) => {
-  const [formattedDate] = formatDateTime(appointment.start);
-  const daysLeft = getDaysLeft(appointment.start);
+  const [formattedDate] = formatDateTime(appointment.localStartTime);
+  const daysLeft = getDaysLeft(appointment.localStartTime);
 
   return (
     <>

@@ -1,14 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import AppointmentDetails from '../../AppointmentDetails';
 
-const IntroductionPage = ({ appointment, error, onStart }) => {
+const IntroductionPage = ({ appointment, error, isLoading, onStart }) => {
   return (
     <div>
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>
+      {isLoading && (
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          data-testid="travel-pay-loading-indicator"
+        />
+      )}
       {error && <AppointmentErrorAlert />}
       {appointment && <AppointmentDetails appointment={appointment} />}
 
@@ -86,7 +94,18 @@ const IntroductionPage = ({ appointment, error, onStart }) => {
 IntroductionPage.propTypes = {
   appointment: PropTypes.object,
   error: PropTypes.object,
+  isLoading: PropTypes.bool,
   onStart: PropTypes.func,
 };
 
-export default IntroductionPage;
+function mapStateToProps(state) {
+  return {
+    appointment: state.travelPay.appointment.data,
+    error: state.travelPay.appointment.error,
+    isLoading: state.travelPay.appointment.isLoading,
+  };
+}
+
+export default connect(mapStateToProps)(IntroductionPage);
+
+// export default IntroductionPage;

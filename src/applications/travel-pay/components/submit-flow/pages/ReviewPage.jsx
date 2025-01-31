@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import {
+  selectVAPMailingAddress,
+  selectVAPResidentialAddress,
+} from 'platform/user/selectors';
 
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
@@ -24,7 +29,9 @@ const ReviewPage = ({
     scrollToTop('topScrollElement');
   }, []);
 
-  const [formattedDate, formattedTime] = formatDateTime(appointment.start);
+  const [formattedDate, formattedTime] = formatDateTime(
+    appointment.localStartTime,
+  );
 
   const onBack = () => {
     setYesNo({
@@ -139,4 +146,15 @@ ReviewPage.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-export default ReviewPage;
+function mapStateToProps(state) {
+  const homeAddress = selectVAPResidentialAddress(state);
+  const mailingAddress = selectVAPMailingAddress(state);
+  return {
+    appointment: state.travelPay.appointment.data,
+    address: homeAddress || mailingAddress,
+  };
+}
+
+export default connect(mapStateToProps)(ReviewPage);
+
+// export default ReviewPage;
