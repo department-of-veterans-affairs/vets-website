@@ -53,7 +53,6 @@ export default function AppointmentColumn({
       className={getClasses({ className, first, padding, last, size })}
       style={{ ...defaultStyles.canceled, ...style }}
       {...props}
-      role="cell"
     >
       {children}
     </div>
