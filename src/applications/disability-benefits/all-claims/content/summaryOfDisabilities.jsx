@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 
 import {
   capitalizeEachWord,
+  DISABILITY_SHARED_CONFIG,
+  hasRatedDisabilities,
   isClaimingIncrease,
   isClaimingNew,
   isDisabilityPtsd,
@@ -33,12 +35,20 @@ const mapDisabilityName = (disabilityName, formData, index) => {
   return <li key={`"${disabilityName}-${index}"`}>{disabilityName}</li>;
 };
 
-const getRedirectLink = () => {
+const getRedirectLink = formData => {
+  let destinationPath;
+
+  if (hasRatedDisabilities(formData)) {
+    destinationPath = 'claim-type';
+  } else {
+    destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
+  }
+
   return (
     <Link
       aria-label="go back and add any missing disabilities"
       to={{
-        pathname: 'claim-type',
+        pathname: destinationPath,
         search: '?redirect',
       }}
     >
