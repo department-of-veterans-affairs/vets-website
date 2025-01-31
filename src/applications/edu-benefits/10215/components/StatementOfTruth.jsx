@@ -4,7 +4,6 @@ import FormSignature from './FormSignature';
 import FormSignatureCheckbox from './FormSignatureCheckbox';
 
 export default function StatementOfTruth(signatureProps) {
-  // Input states
   const [checked, setChecked] = useState(
     signatureProps?.formData?.AGREED ?? false,
   );
@@ -17,7 +16,6 @@ export default function StatementOfTruth(signatureProps) {
     dirty: signatureProps?.formData?.signatureOfficialTitle?.length > 0,
   });
 
-  // Validation states
   const [signatureError, setSignatureError] = useState(null);
   const [
     signatureOfficialTitleError,

@@ -10,10 +10,8 @@ export const FormSignatureCheckbox = ({
   required,
   showError,
 }) => {
-  // Validation states
   const [checkboxError, setCheckboxError] = useState(null);
 
-  // Checkbox validation
   useEffect(
     () => {
       setCheckboxError(
@@ -43,18 +41,11 @@ export const FormSignatureCheckbox = ({
 FormSignatureCheckbox.propTypes = {
   checked: PropTypes.bool.isRequired,
   setChecked: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/sort-prop-types
   showError: PropTypes.bool.isRequired,
-  /**
-   * The description for the checkbox input
-   */
   checkboxDescription: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.element,
   ]),
-  /**
-   * The label for the checkbox input
-   */
   checkboxLabel: PropTypes.string,
   required: PropTypes.bool,
 };
@@ -63,7 +54,6 @@ FormSignatureCheckbox.defaultProps = {
   checkboxLabel:
     'I certify the information above is correct and true to the best of my knowledge and belief.',
   required: true,
-  // eslint-disable-next-line react/default-props-match-prop-types
 };
 
 export default FormSignatureCheckbox;
