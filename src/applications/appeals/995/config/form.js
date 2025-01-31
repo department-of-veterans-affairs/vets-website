@@ -343,7 +343,7 @@ const formConfig = {
         // Duplicate of evidencePrivateLimitation page, but doesn't need to
         // CustomPage to handle navigation
         evidencePrivateLimitation2: {
-          title: 'Non-VA medical record limitations',
+          title: 'Non-VA medical record limitation details',
           path: EVIDENCE_LIMITATION_PATH2,
           depends: hasPrivateLimitation,
           uiSchema: evidencePrivateLimitation.uiSchema,
