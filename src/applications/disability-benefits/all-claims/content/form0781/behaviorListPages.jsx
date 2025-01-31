@@ -94,13 +94,7 @@ export const behaviorListValidationError = (
   </va-alert>
 );
 
-/**
- * Validates that a required selection is made and that the 'none' checkbox is not selected if behaviors are also selected
- * @param {object} errors - Errors object from rjsf
- * @param {object} formData
- */
-
-export function validateBehaviorSelections(errors, formData) {
+export function conflictingSelections(formData) {
   // returns true at first checkbox selection
   const behaviorsSelected =
     Object.values(formData.workBehaviors || {}).some(
@@ -118,10 +112,23 @@ export function validateBehaviorSelections(errors, formData) {
     selected => selected === true,
   );
 
+  // when a user has selected options and opted out
   if (optedOut && behaviorsSelected) {
-    // when a user has selected options and opted out
-    errors['view:optOut'].addError(
-      'You selected one or more behavioral changes. You also selected "I didn’t experience any behavioral changes." Revise your selection so they don’t conflict to continue.',
-    );
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Validates that a required selection is made and that the 'none' checkbox is not selected if behaviors are also selected
+ * @param {object} errors - Errors object from rjsf
+ * @param {object} formData
+ */
+
+export function validateBehaviorSelections(errors, formData) {
+  const isConflicting = conflictingSelections(formData);
+
+  if (isConflicting === true) {
+    errors['view:optOut'].addError('Conflicting');
   }
 }
