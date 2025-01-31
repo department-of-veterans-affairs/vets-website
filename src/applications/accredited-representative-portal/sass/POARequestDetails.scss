@@ -141,25 +141,6 @@
 
   &__status {
     margin-left: 15px;
-    color: $vads-color-base;
-
-    &.pending {
-      background-color: $vads-color-warning-lighter;
-      border: 1px solid $vads-color-warning-darker;
-    }
-    &.acceptance {
-      background-color: $vads-color-success-lighter;
-      border: 1px solid $vads-color-success;
-    }
-    &.declination,
-    &.expiration {
-      background-color: $vads-color-error-lighter;
-      border: 1px solid $vads-color-error;
-    }
-    &.processing {
-      background-color: $vads-color-gray-light-alt;
-      border: 1px solid $vads-color-base-dark;
-    }
   }
 
   &__table {
