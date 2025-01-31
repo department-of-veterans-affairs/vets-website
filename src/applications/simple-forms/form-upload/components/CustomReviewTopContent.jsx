@@ -40,7 +40,7 @@ const CustomReviewTopContent = () => {
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span
               className="vads-u-font-weight--bold"
-              style={{ wordBreak: 'break-all' }}
+              style={{ 'word-break': 'break-all' }}
             >
               {file.name}
             </span>
