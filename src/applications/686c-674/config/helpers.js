@@ -206,8 +206,13 @@ const filteredStates = constants.states.USA.filter(
 
 const STATE_VALUES = filteredStates.map(state => state.value);
 const STATE_NAMES = filteredStates.map(state => state.label);
-const COUNTRY_VALUES = constants.countries.map(country => country.value);
-const COUNTRY_NAMES = constants.countries.map(country => country.label);
+const COUNTRY_VALUES = constants.countries
+  .filter(country => country.value !== 'USA')
+  .map(country => country.value);
+
+const COUNTRY_NAMES = constants.countries
+  .filter(country => country.label !== 'United States')
+  .map(country => country.label);
 
 export const customLocationSchema = {
   type: 'object',

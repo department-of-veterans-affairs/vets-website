@@ -6,32 +6,53 @@ import { TASK_KEYS } from '../../../constants';
 import { removeDependentOptions } from './helpers';
 
 export const uiSchema = {
-  'view:selectable686Options': checkboxGroupUI({
-    title:
-      'Who do you want to remove as a dependent? Check everyone you want to remove.',
-    required: form => form?.['view:addOrRemoveDependents']?.remove,
-    tile: true,
-    labelHeaderLevel: '3',
-    labels: {
-      reportDivorce: removeDependentOptions.reportDivorce,
-      reportDeath: removeDependentOptions.reportDeath,
-      reportStepchildNotInHousehold:
-        removeDependentOptions.reportStepchildNotInHousehold,
-      reportMarriageOfChildUnder18:
-        removeDependentOptions.reportMarriageOfChildUnder18,
-      reportChild18OrOlderIsNotAttendingSchool:
-        removeDependentOptions.reportChild18OrOlderIsNotAttendingSchool,
+  'view:removeDependentOptions': {
+    ...checkboxGroupUI({
+      title:
+        'Who do you want to remove as a dependent? Check everyone you want to remove.',
+      required: () => true,
+      tile: true,
+      labelHeaderLevel: '3',
+      labels: {
+        reportDivorce: removeDependentOptions.reportDivorce,
+        reportDeath: removeDependentOptions.reportDeath,
+        reportStepchildNotInHousehold:
+          removeDependentOptions.reportStepchildNotInHousehold,
+        reportMarriageOfChildUnder18:
+          removeDependentOptions.reportMarriageOfChildUnder18,
+        reportChild18OrOlderIsNotAttendingSchool:
+          removeDependentOptions.reportChild18OrOlderIsNotAttendingSchool,
+      },
+      errorMessages: {
+        required: 'Select at least one option',
+      },
+    }),
+    'ui:options': {
+      tile: true,
+      updateSchema: (formData, schema) => {
+        // Check if new option is selected
+        // update view:selectable686Options with the selection
+        // this is to preserve field validation
+
+        if (formData?.['view:removeDependentOptions']) {
+          // eslint-disable-next-line no-param-reassign
+          formData['view:selectable686Options'] = {
+            ...formData?.['view:addDependentOptions'],
+            ...formData?.['view:removeDependentOptions'],
+          };
+        }
+
+        return schema;
+      },
     },
-    errorMessages: {
-      required: 'Select at least one option',
-    },
-  }),
+  },
 };
 
 export const schema = {
   type: 'object',
+  required: ['view:removeDependentOptions'],
   properties: {
-    'view:selectable686Options': checkboxGroupSchema([
+    'view:removeDependentOptions': checkboxGroupSchema([
       TASK_KEYS.reportDivorce,
       TASK_KEYS.reportDeath,
       TASK_KEYS.reportStepchildNotInHousehold,

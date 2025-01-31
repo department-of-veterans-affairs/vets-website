@@ -273,6 +273,16 @@ export const formConfig = {
           uiSchema: currentMarriageInformation.uiSchema,
           schema: currentMarriageInformation.schema,
         },
+        // TODO: Rename all of these files to be more dynamic in case we need to move pages around
+        currentMarriageInformationPartFive: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/reason-for-living-separately',
+          uiSchema: currentMarriageInformationPartFive.uiSchema,
+          schema: currentMarriageInformationPartFive.schema,
+        },
         currentMarriageInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
@@ -296,15 +306,6 @@ export const formConfig = {
           path: 'current-marriage-information/type-of-marriage',
           uiSchema: currentMarriageInformationPartFour.uiSchema,
           schema: currentMarriageInformationPartFour.schema,
-        },
-        currentMarriageInformationPartFive: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
-            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
-          title: 'Information needed to add your spouse: Marriage information',
-          path: 'current-marriage-information/reason-for-living-separately',
-          uiSchema: currentMarriageInformationPartFive.uiSchema,
-          schema: currentMarriageInformationPartFive.schema,
         },
 
         ...arrayBuilderPages(spouseMarriageHistoryOptions, pageBuilder => ({

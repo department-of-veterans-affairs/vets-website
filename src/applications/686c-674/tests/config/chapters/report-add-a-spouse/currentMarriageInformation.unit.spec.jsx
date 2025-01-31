@@ -141,7 +141,7 @@ describe('686 current marriage information: Marriage start location', () => {
     expect($$('va-checkbox', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(1);
     expect($$('va-select', container).length).to.equal(1);
-    expect($$('option', container).length).to.equal(228);
+    expect($$('option', container).length).to.equal(227);
   });
 });
 

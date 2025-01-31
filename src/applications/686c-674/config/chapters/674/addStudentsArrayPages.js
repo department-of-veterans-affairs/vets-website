@@ -81,7 +81,8 @@ export const addStudentsOptions = {
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
     (item?.typeOfProgramOrBenefit &&
       Object.values(item.typeOfProgramOrBenefit).includes(true) &&
-      !item?.benefitPaymentDate),
+      !item?.benefitPaymentDate) ||
+    (item?.typeOfProgramOrBenefit?.other && item?.otherProgramOrBenefit),
   maxItems: 20,
   text: {
     summaryTitle: 'Review your students',
@@ -254,6 +255,22 @@ export const studentEducationBenefitsPage = {
         description: generateHelpText('Check all that the student receives'),
       }),
     },
+    otherProgramOrBenefit: {
+      ...textUI({
+        title:
+          'Briefly list any other programs the student receives education benefits from',
+        required: (formData, index) =>
+          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+            ?.other || formData?.typeOfProgramOrBenefit?.other,
+      }),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !(
+            formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+              ?.other || formData?.typeOfProgramOrBenefit?.other
+          ),
+      },
+    },
     tuitionIsPaidByGovAgency: {
       ...yesNoUI(
         'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
@@ -271,6 +288,7 @@ export const studentEducationBenefitsPage = {
     type: 'object',
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
+      otherProgramOrBenefit: textSchema,
       tuitionIsPaidByGovAgency: yesNoSchema,
       'view:programExamples': {
         type: 'object',
