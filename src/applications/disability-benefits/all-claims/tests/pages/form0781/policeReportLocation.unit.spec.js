@@ -6,24 +6,23 @@ import sinon from 'sinon';
 import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { policeReportLocationPageTitle } from '../../../content/policeReportLocation';
-import * as policeReport from '../../../pages/form0781/policeReportLocation';
+import policeReport from '../../../pages/form0781/policeReportLocation';
 
 describe('Police report location', () => {
-  const index = 1;
   const { schema, uiSchema } = {
-    schema: policeReport.schema(index),
-    uiSchema: policeReport.uiSchema(index),
+    schema: policeReport.schema,
+    uiSchema: policeReport.uiSchema,
   };
 
-  it('should define a uiSchema function', () => {
-    expect(policeReport.uiSchema).to.be.a('function');
+  it('should define a uiSchema object', () => {
+    expect(policeReport.uiSchema).to.be.a('object');
   });
 
-  it('should define a schema function', () => {
-    expect(policeReport.schema).to.be.a('function');
+  it('should define a schema object', () => {
+    expect(policeReport.schema).to.be.a('object');
   });
 
-  it('displays agency, city, state, and township fields', () => {
+  it('displays agency, city, state, township fields and country select', () => {
     const onSubmit = sinon.spy();
     const { container, getByText } = render(
       <DefinitionTester
@@ -31,9 +30,7 @@ describe('Police report location', () => {
         uiSchema={uiSchema}
         data={{}}
         definitions={{}}
-        formData={{
-          [`event${index}`]: {},
-        }}
+        formData={{}}
         onSubmit={onSubmit}
       />,
     );
@@ -70,7 +67,7 @@ describe('Police report location', () => {
     expect(townshipTextInput.getAttribute('required')).to.eq('false');
 
     const countrySelect = container.querySelector(
-      `va-select[name="root_event${index}_country"]`,
+      'va-select[name="root_country"]',
     );
     expect(countrySelect).to.not.be.null;
     expect(countrySelect.getAttribute('required')).to.eq(null);
@@ -82,9 +79,7 @@ describe('Police report location', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        formData={{
-          [`event${index}`]: {},
-        }}
+        formData={{}}
         onSubmit={onSubmit}
       />,
     );
@@ -99,9 +94,7 @@ describe('Police report location', () => {
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
-        formData={{
-          [`event${index}`]: {},
-        }}
+        formData={{}}
         onSubmit={onSubmit}
       />,
     );

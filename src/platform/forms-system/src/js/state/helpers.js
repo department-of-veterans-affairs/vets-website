@@ -115,7 +115,13 @@ export function isContentExpanded(data, matcher, formData) {
  * The path parameter will contain the path, relative to formData, to the
  * form data corresponding to the current schema object
  */
-export function setHiddenFields(schema, uiSchema, formData, path = []) {
+export function setHiddenFields(
+  schema,
+  uiSchema,
+  formData,
+  path = [],
+  fullData,
+) {
   if (!uiSchema) {
     return schema;
   }
@@ -131,7 +137,7 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
     null,
   );
 
-  if (hideIf && hideIf(formData, index)) {
+  if (hideIf && hideIf(formData, index, fullData)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = set('ui:hidden', true, updatedSchema);
     }
@@ -167,6 +173,7 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
           uiSchema[next],
           formData,
           path.concat(next),
+          fullData,
         );
 
         if (newSchema !== updatedSchema.properties[next]) {
@@ -187,7 +194,13 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = updatedSchema.items.map((item, idx) =>
-      setHiddenFields(item, uiSchema.items, formData, path.concat(idx)),
+      setHiddenFields(
+        item,
+        uiSchema.items,
+        formData,
+        path.concat(idx),
+        fullData,
+      ),
     );
 
     if (
@@ -632,7 +645,7 @@ export function updateSchemasAndData(
   newSchema = updateRequiredFields(newSchema, uiSchema, formData);
 
   // Update the schema with any fields that are now hidden because of the data change
-  newSchema = setHiddenFields(newSchema, uiSchema, formData);
+  newSchema = setHiddenFields(newSchema, uiSchema, formData, [], fullData);
 
   // Update the uiSchema and  schema with any general updates based on the new data
   const newUiSchema = updateUiSchema(

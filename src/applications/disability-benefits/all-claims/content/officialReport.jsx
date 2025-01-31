@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const officialReportPageTitle = 'Official report';
+
 export const officialReportsDescription = () => {
   return (
     <>
@@ -16,10 +17,13 @@ export const officialReportsDescription = () => {
     </>
   );
 };
+
 export const reportTypesQuestion =
   'Do any of these types of official reports exist for the event you described? Select all that may exist.';
+
 export const otherReportTypesQuestion =
-  'Other offical report type not listed here';
+  'Other official report type not listed here:';
+
 export const otherReportTypesExamples = (
   <va-additional-info trigger="Examples of ’other’ types of reports">
     <div>
