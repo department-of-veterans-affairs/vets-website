@@ -7,7 +7,7 @@ describe('Facility Locator Address Autosuggest provides correct results from map
       data: {
         features: [
           {
-            name: 'facilities_use_address_autosuggest',
+            name: 'facilities_use_address_typeahead',
             value: true,
           },
         ],
