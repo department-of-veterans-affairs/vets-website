@@ -50,7 +50,7 @@ const VaPrescription = prescription => {
   const determineStatus = () => {
     if (pendingRenewal) {
       return (
-        <p>
+        <p data-testid="pending-renewal-status">
           This is a renewal you requested. Your VA pharmacy is reviewing it now.
           Details may change.
         </p>

@@ -574,6 +574,10 @@ class MedicationsDetailsPage {
   verifyHeaderTextOnDetailsPage = text => {
     cy.get('[data-testid="recent-rx"]').should('have.text', text);
   };
+
+  verifyPendingRenewalStatusDescriptionOnDetailsPage = text => {
+    cy.get('[data-testid="pending-renewal-status"]').should('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;
