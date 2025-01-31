@@ -8,6 +8,7 @@ export default {
       title: content.textAreaTitle,
       hint: content.textAreaHint,
       labelHeaderLevel: 3,
+      classNames: 'vads-u-margin-bottom--4',
       required: () => true,
       errorMessages: {
         required: content.errorMessage,
