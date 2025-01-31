@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
@@ -16,7 +16,7 @@ export const mhvHeadingPrefix = 'You need to sign in with a different account';
  * @property {string} signInService the ID of the sign in service
  */
 const UnverifiedAlert = ({
-  headerLevel,
+  headerLevel = 3,
   recordEvent = recordEventFn,
   serviceDescription,
   signInService = CSP_IDS.ID_ME,
@@ -34,12 +34,17 @@ const UnverifiedAlert = ({
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
 
-  recordEvent({
-    event: 'nav-alert-box-load',
-    action: 'load',
-    'alert-box-headline': headline,
-    'alert-box-status': statusLookup,
-  });
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': statusLookup,
+      });
+    },
+    [headline, recordEvent, statusLookup],
+  );
 
   return (
     <div data-testid="mhv-unverified-alert">

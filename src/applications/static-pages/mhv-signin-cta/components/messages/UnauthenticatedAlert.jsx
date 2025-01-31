@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { useDispatch } from 'react-redux';
 import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 
@@ -12,8 +14,8 @@ export const headingPrefix = 'Sign in with a verified account';
  * @property {string} serviceDescription the description of the service that requires verification
  */
 const UnauthenticatedAlert = ({
-  headerLevel,
-  recordEvent,
+  headerLevel = 3,
+  recordEvent = recordEventFn,
   serviceDescription,
 }) => {
   const headline = serviceDescription
