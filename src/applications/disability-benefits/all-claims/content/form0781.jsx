@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const form0781HeadingTag = 'VA FORM 21-0781';
-export const additionalFormsTitle = 'Additional Forms';
+// export const additionalFormsTitle = 'Additional Forms';
 
 export const traumaticEventsExamples = (
   <va-accordion open-single>
