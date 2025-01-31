@@ -1,9 +1,10 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 
-const Breadcrumbs = () => {
-  const [pathname, setPathname] = React.useState(window.location.pathname);
-
+const BreadcrumbsComponent = () => {
+  const location = useLocation();
+  const [pathname, setPathname] = React.useState(location.pathname);
   React.useEffect(() => {
     const handlePathnameChange = () => {
       setPathname(window.location.pathname);
@@ -56,5 +57,11 @@ const Breadcrumbs = () => {
     </div>
   );
 };
+
+const Breadcrumbs = () => (
+  <Router>
+    <BreadcrumbsComponent />
+  </Router>
+);
 
 export default Breadcrumbs;
