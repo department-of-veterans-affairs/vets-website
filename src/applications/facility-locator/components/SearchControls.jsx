@@ -8,7 +8,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   healthServices,
-  benefitsServices,
   urgentCareServices,
   facilityTypesOptions,
   emergencyCareServices,
@@ -18,6 +17,7 @@ import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
+import ServicesLoadingOrShow from './ServicesLoadingOrShow';
 
 const SearchControls = props => {
   const {
@@ -31,6 +31,7 @@ const SearchControls = props => {
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
+  const facilityTypeDropdownRef = useRef(null);
 
   const onlySpaces = str => /^\s+$/.test(str);
 
@@ -55,6 +56,8 @@ const SearchControls = props => {
     onChange({
       facilityType: e.target.value,
       serviceType: null,
+      // Since the facility type may cause an error (PPMS), reset it if the type is changed
+      fetchSvcsError: null,
     });
   };
 
@@ -68,6 +71,7 @@ const SearchControls = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    e.stopPropagation();
 
     const {
       facilityType,
@@ -77,7 +81,6 @@ const SearchControls = props => {
       searchString,
       specialties,
     } = currentQuery;
-
     let analyticsServiceType = serviceType;
 
     const updateReduxState = propName => {
@@ -120,7 +123,6 @@ const SearchControls = props => {
       'fl-search-svc-type': analyticsServiceType,
       'fl-current-zoom-depth': zoomLevel,
     });
-
     onSubmit();
   };
 
@@ -158,7 +160,7 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            <span id="city-state-zip-text">City, state or postal code</span>{' '}
+            <span id="city-state-zip-text">Zip code or city, state</span>{' '}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
@@ -181,7 +183,7 @@ const SearchControls = props => {
         {showError && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
-            Please fill in a city, state, or postal code.
+            Please fill in a zip code or city, state.
           </span>
         )}
         <div className="input-container">
@@ -193,11 +195,10 @@ const SearchControls = props => {
             onChange={handleQueryChange}
             onBlur={handleLocationBlur}
             value={searchString}
-            title="Your location: Street, City, State or Postal code"
           />
           {searchString?.length > 0 && (
             <button
-              aria-label="Clear your city, state or postal code"
+              aria-label="Clear your zip code or city, state"
               type="button"
               id="clear-input"
               className="clear-button"
@@ -228,7 +229,6 @@ const SearchControls = props => {
         {locationOptions[facility]}
       </option>
     ));
-
     return (
       <div
         className={classNames(
@@ -237,18 +237,20 @@ const SearchControls = props => {
           `facility-type-dropdown-val-${facilityType || 'none'}`,
         )}
       >
-        <VaSelect
-          uswds
-          required
-          id="facility-type-dropdown"
-          className={showError ? 'vads-u-padding-left--1p5' : null}
-          label="Facility Type"
-          value={facilityType || ''}
-          onVaSelect={e => handleFacilityTypeChange(e)}
-          error={showError ? 'Please choose a facility type.' : null}
-        >
-          {options}
-        </VaSelect>
+        <div className="facility-type-dropdown-block">
+          <VaSelect
+            ref={facilityTypeDropdownRef}
+            required
+            id="facility-type-dropdown"
+            className={showError ? 'vads-u-padding-left--1p5' : null}
+            label="Facility type"
+            value={facilityType || ''}
+            onVaSelect={e => handleFacilityTypeChange(e)}
+            error={showError ? 'Please choose a facility type.' : null}
+          >
+            {options}
+          </VaSelect>
+        </div>
       </div>
     );
   };
@@ -277,21 +279,20 @@ const SearchControls = props => {
       case LocationType.EMERGENCY_CARE:
         services = emergencyCareServices;
         break;
-      case LocationType.BENEFITS:
-        services = benefitsServices;
-        break;
       case LocationType.CC_PROVIDER:
         return (
-          <div className="typeahead">
-            <ServiceTypeAhead
-              handleServiceTypeChange={handleServiceTypeChange}
-              initialSelectedServiceType={serviceType}
-              showError={showError}
-            />
-          </div>
+          <ServicesLoadingOrShow serviceType="ppms_services">
+            <div id="service-typeahead-container" className="typeahead">
+              <ServiceTypeAhead
+                handleServiceTypeChange={handleServiceTypeChange}
+                initialSelectedServiceType={serviceType}
+                showError={showError}
+              />
+            </div>
+          </ServicesLoadingOrShow>
         );
       default:
-        services = {};
+        return null;
     }
 
     // Create option elements for each VA service type.
@@ -302,7 +303,7 @@ const SearchControls = props => {
     ));
 
     return (
-      <span className="service-type-dropdown-container">
+      <div className="service-type-dropdown-container">
         <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
@@ -312,7 +313,7 @@ const SearchControls = props => {
         >
           {options}
         </select>
-      </span>
+      </div>
     );
   };
 
@@ -383,13 +384,11 @@ const SearchControls = props => {
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
+        <div className="columns vads-u-margin--0 vads-u-padding--0">
           {renderLocationInputField()}
-          <div id="search-controls-bottom-row">
-            {renderFacilityTypeDropdown()}
-            {renderServiceTypeDropdown()}
-            <input id="facility-search" type="submit" value="Search" />
-          </div>
+          {renderFacilityTypeDropdown()}
+          {renderServiceTypeDropdown()}
+          <va-button id="facility-search" submit="prevent" text="Search" />
         </div>
       </form>
     </div>

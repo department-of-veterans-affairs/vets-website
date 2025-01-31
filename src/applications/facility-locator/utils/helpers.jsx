@@ -37,6 +37,7 @@ export const buildMarker = (type, values) => {
     markerElement.textContent = attrs.letter;
     markerElement.addEventListener('click', function() {
       const locationElement = document.getElementById(loc.id);
+
       if (locationElement) {
         Array.from(document.getElementsByClassName('facility-result')).forEach(
           e => {

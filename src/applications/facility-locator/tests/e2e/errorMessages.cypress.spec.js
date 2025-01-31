@@ -24,7 +24,7 @@ describe('Facility search error messages', () => {
   it('shows error message in location field on invalid search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
-      'Please fill in a city, state, or postal code.',
+      'Please fill in a zip code or city, state.',
     );
     cy.get('#street-city-state-zip').should('be.focused');
   });
@@ -36,7 +36,7 @@ describe('Facility search error messages', () => {
       .find('select')
       .focus();
     cy.get('.usa-input-error-message').contains(
-      'Please fill in a city, state, or postal code.',
+      'Please fill in a zip code or city, state.',
     );
     cy.get('#street-city-state-zip').type('A');
     cy.get('.usa-input-error-message').should('not.exist');
@@ -129,5 +129,18 @@ describe('Facility search error messages', () => {
       'Please search for an available service.',
     );
     cy.get('#service-type-ahead-input').should('be.empty');
+  });
+  it('shows error message for Community Providers when 500 error is returned', () => {
+    cy.intercept('GET', '/facilities_api/v2/ccp/specialties', {
+      statusCode: 500,
+      error: 'Internal Server Error',
+    }).as('mockServices');
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('Community providers (in VA’s network)');
+    cy.get('#fetch-ppms-services-error').should('exist');
+    cy.get('#fetch-ppms-services-error').focused();
   });
 });
