@@ -107,38 +107,35 @@ function selectedBehaviors(formData) {
     formData.otherBehaviors || {},
   ).some(selected => selected === true);
 
-  const optedOut = Object.values(formData['view:optOut'] || {}).some(
+  const noneSelected = Object.values(formData['view:noneCheckbox'] || {}).some(
     selected => selected === true,
   );
 
   return {
-    work: workBehaviorsSelected,
-    health: healthBehaviorsSelected,
-    other: otherBehaviorsSelected,
-    none: optedOut,
+    workBehaviors: workBehaviorsSelected,
+    healthBehaviors: healthBehaviorsSelected,
+    otherBehaviors: otherBehaviorsSelected,
+    none: noneSelected,
   };
 }
 
-export function conflictingSelections(formData) {  // when a user has selected options and opted out
-
+// when a user has selected options and selected 'none'
+export function showConflictingAlert(formData) {
   const selections = selectedBehaviors(formData);
-  console.log(selections);
 
   const { none } = selections;
-  const { work, health, other } = selections;
-  const somethingSelected = [work, health, other].some(
-    selection => selection === true,
-  );
+  const { workBehaviors, healthBehaviors, otherBehaviors } = selections;
+  const somethingSelected = [
+    workBehaviors,
+    healthBehaviors,
+    otherBehaviors,
+  ].some(selection => selection === true);
 
-  console.log("none", none);
-  console.log("something", somethingSelected);
-
-  // when a user has selected options and opted out
   if (none && somethingSelected) {
     return true;
   }
   return false;
-};
+}
 
 /**
  * Validates that a required selection is made and that the 'none' checkbox is not selected if behaviors are also selected
@@ -147,10 +144,19 @@ export function conflictingSelections(formData) {  // when a user has selected o
  */
 
 export function validateBehaviorSelections(errors, formData) {
-  const isConflicting = conflictingSelections(formData);
+  const isConflicting = showConflictingAlert(formData);
+  const selections = selectedBehaviors(formData);
 
   if (isConflicting === true) {
-    errors['view:optOut'].addError('Conflicting');
-    errors.workBehaviors.addError('Conflicting');
+    errors['view:noneCheckbox'].addError('Conflicting error message');
+    if (selections.workBehaviors === true) {
+      errors.workBehaviors.addError('Conflicting error message');
+    }
+    if (selections.healthBehaviors === true) {
+      errors.healthBehaviors.addError('Conflicting error message');
+    }
+    if (selections.otherBehaviors === true) {
+      errors.otherBehaviors.addError('Conflicting error message');
+    }
   }
 }
