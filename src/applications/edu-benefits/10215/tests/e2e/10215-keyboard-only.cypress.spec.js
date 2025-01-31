@@ -2,7 +2,7 @@ import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
 
 describe('22-10215 Edu Benefits Form', () => {
-  beforeEach(() => {
+  beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
   });
   it('should be keyboard-only navigable', () => {
