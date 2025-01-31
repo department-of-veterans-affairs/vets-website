@@ -78,30 +78,33 @@ const minimalHeaderScrollAndFocus = () => {
 };
 
 /**
- * Default form config options for minimal header pattern.
+ * minimalHeaderFormConfigOptions
  *
- * Requires corresponding minimalHeader to be set in content-build for the form.
+ * Add this to your formConfig to enable the minimal header pattern.
+ * Requires minimalHeader to be set in content-build
  *
- * Usage:
+ * Usage simple:
  *
  * ```js
  * const formConfig = {
- *   // simple - auto detect breadcrumbs on excluded pages
  *   ...minimalHeaderFormConfigProps(),
+ * };
+ * ```
  *
- *   // customize breadcrumbs on excluded pages
+ * Usage with breadcrumb overrides:
+ * ```js
+ * const formConfig = {
  *   ...minimalHeaderFormConfigProps({
  *     breadcrumbList: [
  *       {
  *         href: '/',
- *         label: 'Home',
+ *         label: 'VA.gov home',
  *       },
  *       {
  *         href: '/mock-form-minimal-header',
  *         label: 'Mock form minimal header',
  *       },
  *     ],
- *     homeVeteransAffairs: true,
  *   }),
  * };
  * ```
