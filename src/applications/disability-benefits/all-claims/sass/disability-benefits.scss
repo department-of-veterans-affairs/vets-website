@@ -347,3 +347,25 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
     margin-top: 0;
   }
 }
+
+// Intended to be used with summary page cards. Truncates text to specified
+// number of lines, ensuring no overflow or disruption of the card layout.
+.multiline-ellipsis-4 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.multiline-ellipsis-2 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}

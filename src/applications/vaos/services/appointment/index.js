@@ -67,6 +67,7 @@ function apptRequestSort(a, b) {
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
  * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
+ * @param {Boolean} includeEPS Boolean to include EPS appointments
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
@@ -74,16 +75,18 @@ export async function fetchAppointments({
   endDate,
   avs = false,
   fetchClaimStatus = false,
+  includeEPS = false,
 }) {
   try {
     const appointments = [];
-    const allAppointments = await getAppointments(
+    const allAppointments = await getAppointments({
       startDate,
       endDate,
-      ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
       avs,
       fetchClaimStatus,
-    );
+      includeEPS,
+    });
 
     const filteredAppointments = allAppointments.data.filter(appt => {
       // Filter out appointments that are not VA or CC appointments
@@ -114,14 +117,21 @@ export async function fetchAppointments({
  * @async
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
+ * @param {Boolean} includeEPS Boolean to include EPS appointments
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
-export async function getAppointmentRequests({ startDate, endDate }) {
+export async function getAppointmentRequests({
+  startDate,
+  endDate,
+  includeEPS = false,
+}) {
   try {
-    const appointments = await getAppointments(startDate, endDate, [
-      'proposed',
-      'cancelled',
-    ]);
+    const appointments = await getAppointments({
+      startDate,
+      endDate,
+      statuses: ['proposed', 'cancelled'],
+      includeEPS,
+    });
 
     const requestsWithoutAppointments = appointments.data.filter(appt => {
       // Filter out appointments that are not requests
