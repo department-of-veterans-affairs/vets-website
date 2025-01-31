@@ -18,6 +18,7 @@ import {
   generateMedicationsPDF,
   generateTextFile,
   getErrorTypeFromFormat,
+  pharmacyPhoneNumber,
 } from '../util/helpers';
 import PrintDownload from '../components/shared/PrintDownload';
 import NonVaPrescription from '../components/PrescriptionDetails/NonVaPrescription';
@@ -318,6 +319,64 @@ const PrescriptionDetails = () => {
   );
   const hasPrintError =
     prescription && !prescriptionsApiError && !allergiesError;
+
+  const pendingMedAlert = () => {
+    const { orderedDate } = prescription;
+    const { pendingMed } = prescription;
+    const orderedMoreThanSevenDaysAgo = () => {
+      const today = new Date();
+      const eightDaysLater = new Date(orderedDate);
+      eightDaysLater.setDate(eightDaysLater.getDate() + 8);
+
+      return today > eightDaysLater;
+    };
+    return (
+      <>
+        <va-alert
+          visible={pendingMed}
+          id="pending-med"
+          status={`${orderedMoreThanSevenDaysAgo() ? 'warning' : 'info'}`}
+          setFocus
+          uswds
+          class={
+            pendingMed
+              ? 'vads-u-margin-y--1 vads-u-margin-bottom--3'
+              : 'vads-u-margin-bottom--3'
+          }
+        >
+          <h2
+            className="vads-u-margin-y--0 vads-u-font-size--h3"
+            data-testid="pending-med-alert"
+          >
+            {orderedMoreThanSevenDaysAgo()
+              ? 'Your VA pharmacy is still reviewing this prescription'
+              : 'Your VA pharmacy is reviewing this prescription'}
+          </h2>
+          <p>
+            {orderedMoreThanSevenDaysAgo()
+              ? 'This pharmacy review is taking longer than expected.'
+              : 'It may take 24-72 hours to review. And the prescription details may change. Check back for updates.'}
+          </p>
+          <p>
+            If you need this prescription now, call your VA pharmacy
+            {pharmacyPhoneNumber(prescription) && (
+              <>
+                {' '}
+                at{' '}
+                <va-telephone
+                  contact={pharmacyPhoneNumber(prescription)}
+                  not-clickable
+                />{' '}
+                (<va-telephone tty contact="711" not-clickable />)
+              </>
+            )}
+            .
+          </p>
+        </va-alert>
+      </>
+    );
+  };
+
   const content = () => {
     if (prescription || prescriptionsApiError) {
       return (
@@ -347,6 +406,7 @@ const PrescriptionDetails = () => {
                 >
                   {filledEnteredDate()}
                 </p>
+                {prescription.prescriptionSource === 'PD' && pendingMedAlert()}
                 {isErrorNotificationVisible && (
                   <ApiErrorNotification
                     errorType={getErrorTypeFromFormat(

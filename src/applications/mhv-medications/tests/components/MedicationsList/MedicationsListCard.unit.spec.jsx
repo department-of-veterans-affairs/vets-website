@@ -36,6 +36,7 @@ describe('Medication card component', () => {
       expect(screen.getByText(prescriptionsListItem.dispStatus)).to.exist;
     }
   });
+
   it('does not show Unknown when status is unknown', () => {
     const rxWithUnknownStatus = {
       ...prescriptionsListItem,
@@ -44,6 +45,7 @@ describe('Medication card component', () => {
     const screen = setup(rxWithUnknownStatus);
     expect(screen.queryByText(rxWithUnknownStatus.dispStatus)).to.not.exist;
   });
+
   it('able to click on medication name', () => {
     const screen = setup({
       ...prescriptionsListItem,
@@ -55,6 +57,7 @@ describe('Medication card component', () => {
     fireEvent.click(medicationName);
     expect(screen);
   });
+
   it('fill/refill button no longer appears when refill flag is true', () => {
     const initialState = {
       featureToggles: {
@@ -69,6 +72,7 @@ describe('Medication card component', () => {
     const medicationName = screen.queryByTestId('refill-request-button');
     expect(medicationName).to.be.null;
   });
+
   it('shows shipped on information when available', () => {
     const screen = setup({
       ...prescriptionsListItem,
@@ -80,5 +84,31 @@ describe('Medication card component', () => {
     });
     const shippedOn = screen.getByText('Shipped on June 16, 2024');
     expect(shippedOn);
+  });
+
+  it('shows pending med text inside card body when the rx prescription source is PD and dispStatus is NewOrder', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      prescriptionSource: 'PD',
+      dispStatus: 'NewOrder',
+    });
+    expect(
+      screen.getByText(
+        'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.',
+      ),
+    );
+  });
+
+  it('shows pending renewal text inside card body when the rx prescription source is PD and the disp status is Renew', () => {
+    const screen = setup({
+      ...prescriptionsListItem,
+      prescriptionSource: 'PD',
+      dispStatus: 'Renew',
+    });
+    expect(
+      screen.getByText(
+        'This is a renewal you requested. Your VA pharmacy is reviewing it now. Details may change.',
+      ),
+    );
   });
 });
