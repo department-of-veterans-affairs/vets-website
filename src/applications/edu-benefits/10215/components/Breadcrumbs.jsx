@@ -4,16 +4,7 @@ import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 
 const BreadcrumbsComponent = () => {
   const location = useLocation();
-  const [pathname, setPathname] = React.useState(location.pathname);
-  React.useEffect(() => {
-    const handlePathnameChange = () => {
-      setPathname(window.location.pathname);
-    };
-    window.addEventListener('popstate', handlePathnameChange);
-    return () => {
-      window.removeEventListener('popstate', handlePathnameChange);
-    };
-  }, []);
+  const { pathname } = location;
   const crumbs = [
     {
       href: '/',
