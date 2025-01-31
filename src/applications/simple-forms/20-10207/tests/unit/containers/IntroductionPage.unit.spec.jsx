@@ -41,20 +41,20 @@ const props = {
   },
 };
 
-const mockStore = {
+const generateStore = ({ loggedIn = false, loaCurrent = 3 } = {}) => ({
   getState: () => ({
     user: {
       login: {
-        currentlyLoggedIn: false,
+        currentlyLoggedIn: loggedIn,
       },
       profile: {
         savedForms: [],
         prefillsAvailable: ['20-10207'],
         dob: '2000-01-01',
         loa: {
-          current: 3,
+          current: loaCurrent,
         },
-        verified: true,
+        verified: loaCurrent === 3,
       },
     },
     form: {
@@ -76,10 +76,11 @@ const mockStore = {
   }),
   subscribe: () => {},
   dispatch: () => {},
-};
+});
 
 describe('IntroductionPage', () => {
   it('renders successfully', () => {
+    const mockStore = generateStore();
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
@@ -89,6 +90,7 @@ describe('IntroductionPage', () => {
   });
 
   it('renders the correct title and subtitle', () => {
+    const mockStore = generateStore();
     const { getByText } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
@@ -99,26 +101,9 @@ describe('IntroductionPage', () => {
   });
 
   it('renders <LOA3 content if user is logged in and not id-verified', () => {
-    const userNotVerifiedMockStore = {
-      ...mockStore,
-      getState: () => ({
-        ...mockStore.getState(),
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            ...mockStore.getState().user.profile,
-            loa: {
-              current: 1,
-            },
-            verified: false,
-          },
-        },
-      }),
-    };
+    const mockStore = generateStore({ loggedIn: true, loaCurrent: 1 });
     const { container } = render(
-      <Provider store={userNotVerifiedMockStore}>
+      <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
@@ -127,31 +112,16 @@ describe('IntroductionPage', () => {
       '[data-testid=verifyIdAlert]',
     );
     const sipAlert = container.querySelector('va-alert[status=info]');
+    const verifyAlert = container.querySelector('va-alert-sign-in');
     expect(userNotVerifiedDiv).to.exist;
+    expect(verifyAlert).to.exist;
     expect(sipAlert).to.not.exist;
   });
 
   it('renders LOA3 content if user is logged-in and id-verified', () => {
-    const userVerifiedMockStore = {
-      ...mockStore,
-      getState: () => ({
-        ...mockStore.getState(),
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            ...mockStore.getState().user.profile,
-            loa: {
-              current: 3,
-            },
-            verified: true,
-          },
-        },
-      }),
-    };
+    const mockStore = generateStore({ loggedIn: true });
     const { container } = render(
-      <Provider store={userVerifiedMockStore}>
+      <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );

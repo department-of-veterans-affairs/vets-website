@@ -2,7 +2,7 @@ import { format, isValid, parse } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { enUS } from 'date-fns/locale';
 import React from 'react';
-import { clockIcon, starIcon, successIcon } from '../utils/helpers';
+import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
   CategoryBenefitsIssuesOutsidetheUS,
@@ -674,22 +674,31 @@ export const getVAStatusFromCRM = status => {
 };
 
 export const getVAStatusIconAndMessage = {
-  Solved: {
-    icon: successIcon,
-    message:
-      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
-  },
   New: {
     icon: starIcon,
     message: "We received your question. We'll review it soon.",
+    color: 'vads-u-border-color--primary',
   },
   'In progress': {
     icon: clockIcon,
     message: "We're reviewing your question.",
+    color: 'vads-u-border-color--grey',
+  },
+  Replied: {
+    icon: successIcon,
+    message:
+      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
+    color: 'vads-u-border-color--green',
   },
   Reopened: {
     icon: clockIcon,
     message: "We received your reply. We'll respond soon.",
+    color: 'vads-u-border-color--grey',
+  },
+  Closed: {
+    icon: folderIcon,
+    message: 'We closed this question after 60 days without any updates.',
+    color: 'vads-u-border-color--grey',
   },
 };
 

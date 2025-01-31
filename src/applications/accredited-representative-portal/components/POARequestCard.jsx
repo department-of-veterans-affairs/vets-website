@@ -20,8 +20,8 @@ const POARequestCard = ({ poaRequest, id }) => {
     <li>
       <va-card class="poa-request__card">
         <span
-          data-testid={`poa-request-card-${id}-status`}
-          className="usa-label poa-request__card-field poa-request__card-field--status"
+          data-testid={`poa-request-card-${poaRequest.id}-status`}
+          className={`usa-label poa-request__card-field poa-request__card-field--status status status--${poaStatus}`}
         >
           {formatStatus(poaStatus)}
         </span>
