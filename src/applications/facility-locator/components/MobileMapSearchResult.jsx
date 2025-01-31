@@ -1,19 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
-import { resultMapper } from '../utils/resultMapper';
+import ResultMapper from './search-results-items/common/ResultMapper';
 
 const MobileMapSearchResult = ({ mobileMapPinSelected, query }) => {
   const headerRef = useRef(null);
-
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
 
   return (
     <>
@@ -24,7 +14,12 @@ const MobileMapSearchResult = ({ mobileMapPinSelected, query }) => {
       )}
       {mobileMapPinSelected && (
         <div className="mobile-search-result">
-          {resultMapper(mobileMapPinSelected, query, 0)}
+          <ResultMapper
+            headerRef={headerRef}
+            index={0}
+            searchQuery={query}
+            result={mobileMapPinSelected}
+          />
         </div>
       )}
     </>
