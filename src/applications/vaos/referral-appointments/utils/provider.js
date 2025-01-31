@@ -110,11 +110,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -179,11 +179,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -248,11 +248,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -317,11 +317,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
