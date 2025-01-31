@@ -124,9 +124,9 @@ if (testsToVerify === null) {
       for (const dir of appsToRun) {
         const command = `LOG_LEVEL=${options[
           'log-level'
-        ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${dir.join(
-          '/',
-        )}/**/*.unit.spec.js?(x)`}"`;
+        ].toLowerCase()} ${testRunner} --max-old-space-size=4096 --config ${configFile} "${`${JSON.parse(
+          dir,
+        ).join('/')}/**/*.unit.spec.js?(x)`}"`;
 
         try {
           /* eslint-disable-next-line no-await-in-loop */
