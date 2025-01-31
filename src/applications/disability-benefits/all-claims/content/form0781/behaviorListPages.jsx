@@ -94,30 +94,51 @@ export const behaviorListValidationError = (
   </va-alert>
 );
 
-export function conflictingSelections(formData) {
-  // returns true at first checkbox selection
-  const behaviorsSelected =
-    Object.values(formData.workBehaviors || {}).some(
-      selected => selected === true,
-    ) ||
-    Object.values(formData.healthBehaviors || {}).some(
-      selected => selected === true,
-    ) ||
-    Object.values(formData.otherBehaviors || {}).some(
-      selected => selected === true,
-    );
+function selectedBehaviors(formData) {
+  const workBehaviorsSelected = Object.values(
+    formData.workBehaviors || {},
+  ).some(selected => selected === true);
 
-  // returns true if 'none' checkbox is selected
+  const healthBehaviorsSelected = Object.values(
+    formData.healthBehaviors || {},
+  ).some(selected => selected === true);
+
+  const otherBehaviorsSelected = Object.values(
+    formData.otherBehaviors || {},
+  ).some(selected => selected === true);
+
   const optedOut = Object.values(formData['view:optOut'] || {}).some(
     selected => selected === true,
   );
 
+  return {
+    work: workBehaviorsSelected,
+    health: healthBehaviorsSelected,
+    other: otherBehaviorsSelected,
+    none: optedOut,
+  };
+}
+
+export function conflictingSelections(formData) {  // when a user has selected options and opted out
+
+  const selections = selectedBehaviors(formData);
+  console.log(selections);
+
+  const { none } = selections;
+  const { work, health, other } = selections;
+  const somethingSelected = [work, health, other].some(
+    selection => selection === true,
+  );
+
+  console.log("none", none);
+  console.log("something", somethingSelected);
+
   // when a user has selected options and opted out
-  if (optedOut && behaviorsSelected) {
+  if (none && somethingSelected) {
     return true;
   }
   return false;
-}
+};
 
 /**
  * Validates that a required selection is made and that the 'none' checkbox is not selected if behaviors are also selected
@@ -130,5 +151,6 @@ export function validateBehaviorSelections(errors, formData) {
 
   if (isConflicting === true) {
     errors['view:optOut'].addError('Conflicting');
+    errors.workBehaviors.addError('Conflicting');
   }
 }
