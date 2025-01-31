@@ -20,7 +20,7 @@ export default function App({ location, children }) {
   return (
     <div className="form-22-10215-container">
       <div className="vads-u-padding-left--0">
-        <Breadcrumbs pathname={location.pathname} />
+        <Breadcrumbs />
       </div>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}

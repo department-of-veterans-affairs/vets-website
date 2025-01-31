@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import NeedHelp from './NeedHelp';
 import Breadcrumbs from './Breadcrumbs';
 
-export const CalculationInstructions = ({ props }) => {
+export const CalculationInstructions = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--4">
       <div className="desktop-lg:vads-u-padding-left--0">
-        <Breadcrumbs pathname={props?.router?.location?.pathname} />
+        <Breadcrumbs />
       </div>
       <h1 className="vads-u-margin-top--2">
         Calculation instructions for VA Form 22-10215: Statement of Assurance of
