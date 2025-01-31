@@ -84,13 +84,13 @@ export const getListWithRetry = async (
       status = STATUS_SUCCESS;
     }
     return response;
-  } catch (e) {
+  } catch (error) {
     if (error.message === TIMEOUT_ERROR) {
       status = STATUS_TIMEDOUT;
     } else {
       status = STATUS_ERROR;
     }
-    throw e;
+    throw error;
   } finally {
     const totalDuration = Math.round((Date.now() - startTime) / 1000);
     datadogRum.addAction(rumActions.INITIAL_FHIR_LOAD_DURATION, {
