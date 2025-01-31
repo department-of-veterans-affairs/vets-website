@@ -122,7 +122,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
     {
       page: 'confirm',
-      component: <ConfirmationPage />,
+      component: <ConfirmationPage appointment={appointment} />,
     },
   ];
 

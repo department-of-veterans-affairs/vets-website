@@ -58,17 +58,14 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
   );
 };
 
-export const UPLOAD_GUIDELINES = Object.freeze(
-  <fieldset>
-    <legend className="vads-u-font-weight--normal vads-u-padding-bottom--0">
-      <h3 className="vads-u-margin-bottom--3">Your file</h3>
-      <p>
-        <span className="vads-u-font-weight--bold">Note:</span> After you upload
-        your file, you’ll need to continue to the next screen to submit it. If
-        you leave before you submit it, you’ll need to upload it again.
-      </p>
-    </legend>
-  </fieldset>,
+export const UPLOAD_TITLE = 'Your file';
+
+export const UPLOAD_DESCRIPTION = Object.freeze(
+  <>
+    <span className="vads-u-font-weight--bold">Note:</span> After you upload
+    your file, you’ll need to continue to the next screen to submit it. If you
+    leave before you submit it, you’ll need to upload it again.
+  </>,
 );
 
 export const SAVE_IN_PROGRESS_CONFIG = {
