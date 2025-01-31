@@ -7,7 +7,6 @@ import {
   isClaimingIncrease,
   isClaimingNew,
   isDisabilityPtsd,
-  DISABILITY_SHARED_CONFIG,
 } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 import { NULL_CONDITION_STRING } from '../constants';
@@ -34,22 +33,12 @@ const mapDisabilityName = (disabilityName, formData, index) => {
   return <li key={`"${disabilityName}-${index}"`}>{disabilityName}</li>;
 };
 
-const getRedirectLink = formData => {
-  // Start from orientation page; assuming user has both existing & new
-  // disabilities selected
-  let destinationPath = DISABILITY_SHARED_CONFIG.orientation.path;
-
-  if (DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData)) {
-    // start from rated disabilities page
-    destinationPath = DISABILITY_SHARED_CONFIG.ratedDisabilities.path;
-  } else if (DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData)) {
-    destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
-  }
+const getRedirectLink = () => {
   return (
     <Link
       aria-label="go back and add any missing disabilities"
       to={{
-        pathname: destinationPath || '/',
+        pathname: 'claim-type',
         search: '?redirect',
       }}
     >
@@ -84,7 +73,7 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));
 
-  const showLink = getRedirectLink(formData);
+  const showLink = getRedirectLink();
 
   return (
     <>
