@@ -1,22 +1,23 @@
 import React from 'react';
-import CCProviderResult from '../components/search-results-items/CCProviderResult';
-import Covid19Result from '../components/search-results-items/Covid19Result';
-import EmergencyCareResult from '../components/search-results-items/EmergencyCareResult';
-import PharmacyResult from '../components/search-results-items/PharmacyResult';
-import UrgentCareResult from '../components/search-results-items/UrgentCareResult';
-import VaFacilityResult from '../components/search-results-items/VaFacilityResult';
+import PropTypes from 'prop-types';
+import CCProviderResult from '../CCProviderResult';
+import Covid19Result from '../Covid19Result';
+import EmergencyCareResult from '../EmergencyCareResult';
+import PharmacyResult from '../PharmacyResult';
+import UrgentCareResult from '../UrgentCareResult';
+import VaFacilityResult from '../VaFacilityResult';
 import {
   CLINIC_URGENTCARE_SERVICE,
   PHARMACY_RETAIL_SERVICE,
   LocationType,
   Covid19Vaccine,
   EMERGENCY_CARE_SERVICES,
-} from '../constants';
-import { isHealthAndHealthConnect } from './phoneNumbers';
+} from '../../../constants';
+import { isHealthAndHealthConnect } from '../../../utils/phoneNumbers';
 
 // Receives a single result and returns the
 // proper data structure / listing (e.g. VA health, VBA, Urgent care)
-export const resultMapper = (result, searchQuery, index) => {
+const ResultMapper = ({ result, searchQuery, index, headerRef = null }) => {
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
 
   switch (searchQuery.facilityType) {
@@ -25,13 +26,20 @@ export const resultMapper = (result, searchQuery, index) => {
     case 'benefits':
     case 'vet_center':
       return searchQuery.serviceType === Covid19Vaccine ? (
-        <Covid19Result location={result} key={result.id} index={index} />
-      ) : (
-        <VaFacilityResult
+        <Covid19Result
+          headerRef={headerRef}
+          index={index}
+          key={result.id}
           location={result}
           query={searchQuery}
-          key={result.id}
+        />
+      ) : (
+        <VaFacilityResult
+          headerRef={headerRef}
           index={index}
+          key={result.id}
+          location={result}
+          query={searchQuery}
           showHealthConnectNumber={showHealthConnectNumber}
         />
       );
@@ -40,9 +48,10 @@ export const resultMapper = (result, searchQuery, index) => {
       if (searchQuery.serviceType === CLINIC_URGENTCARE_SERVICE) {
         return (
           <UrgentCareResult
+            headerRef={headerRef}
+            key={result.id}
             provider={result}
             query={searchQuery}
-            key={result.id}
           />
         );
       }
@@ -50,9 +59,10 @@ export const resultMapper = (result, searchQuery, index) => {
       if (searchQuery.serviceType === PHARMACY_RETAIL_SERVICE) {
         return (
           <PharmacyResult
+            headerRef={headerRef}
+            key={result.id}
             provider={result}
             query={searchQuery}
-            key={result.id}
           />
         );
       }
@@ -60,63 +70,86 @@ export const resultMapper = (result, searchQuery, index) => {
       if (EMERGENCY_CARE_SERVICES.includes(searchQuery.serviceType)) {
         return (
           <EmergencyCareResult
+            headerRef={headerRef}
+            key={result.id}
             provider={result}
             query={searchQuery}
-            key={result.id}
           />
         );
       }
 
       return (
         <CCProviderResult
+          headerRef={headerRef}
+          key={result.id}
           provider={result}
           query={searchQuery}
-          key={result.id}
         />
       );
     case 'pharmacy':
       return (
-        <PharmacyResult provider={result} query={searchQuery} key={result.id} />
+        <PharmacyResult
+          headerRef={headerRef}
+          key={result.id}
+          provider={result}
+          query={searchQuery}
+        />
       );
     case 'emergency_care':
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <EmergencyCareResult
+            headerRef={headerRef}
+            key={result.id}
             provider={result}
             query={searchQuery}
-            key={result.id}
           />
         );
       }
 
       return (
         <VaFacilityResult
+          headerRef={headerRef}
+          index={index}
+          key={result.id}
           location={result}
           query={searchQuery}
-          key={result.id}
-          index={index}
         />
       );
     case 'urgent_care':
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <UrgentCareResult
+            headerRef={headerRef}
+            key={result.id}
             provider={result}
             query={searchQuery}
-            key={result.id}
           />
         );
       }
 
       return (
         <VaFacilityResult
+          headerRef={headerRef}
+          index={index}
+          key={result.id}
           location={result}
           query={searchQuery}
-          key={result.id}
-          index={index}
         />
       );
     default:
       return null;
   }
 };
+
+ResultMapper.propTypes = {
+  headerRef: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.shape({ current: PropTypes.object }),
+  ]),
+  index: PropTypes.number,
+  result: PropTypes.object,
+  searchQuery: PropTypes.object,
+};
+
+export default ResultMapper;

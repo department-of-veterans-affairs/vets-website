@@ -58,8 +58,14 @@ export const buildMarker = (type, values, selectMobileMapPin) => {
 
         locationElement.classList.add('active');
         recordMarkerEvents(loc);
-        document.getElementById('searchResultsContainer').scrollTop =
-          locationElement.offsetTop;
+
+        const searchResultsContainer = document.getElementById(
+          'searchResultsContainer',
+        );
+
+        if (searchResultsContainer) {
+          searchResultsContainer.scrollTop = locationElement.offsetTop;
+        }
       }
     });
 
