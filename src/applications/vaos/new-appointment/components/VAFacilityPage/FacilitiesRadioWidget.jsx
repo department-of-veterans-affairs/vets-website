@@ -115,11 +115,11 @@ export default function FacilitiesRadioWidget({
           </div>
         )}
       </>
-      <fieldset>
-        <legend className="sr-only">{options.title}</legend>
 
-        {!requestingLocationFailed &&
-          displayedOptions.map((option, i) => {
+      {!requestingLocationFailed && (
+        <fieldset>
+          <legend className="sr-only">{options.title}</legend>
+          {displayedOptions.map((option, i) => {
             const { name, address, legacyVAR } = option?.label;
             const checked = option.value === value;
             let distance;
@@ -162,25 +162,26 @@ export default function FacilitiesRadioWidget({
               </div>
             );
           })}
-        {!displayAll &&
-          !requestingLocationFailed &&
-          hiddenCount > 0 && (
-            <button
-              type="button"
-              className="additional-info-button usa-button-secondary vads-u-display--block"
-              onClick={() => {
-                setDisplayAll(!displayAll);
-              }}
-            >
-              <span className="sr-only">show</span>
-              <span>
-                {`Show ${hiddenCount} more location${
-                  hiddenCount === 1 ? '' : 's'
-                }`}
-              </span>
-            </button>
-          )}
-      </fieldset>
+        </fieldset>
+      )}
+      {!displayAll &&
+        !requestingLocationFailed &&
+        hiddenCount > 0 && (
+          <button
+            type="button"
+            className="additional-info-button usa-button-secondary vads-u-display--block"
+            onClick={() => {
+              setDisplayAll(!displayAll);
+            }}
+          >
+            <span className="sr-only">show</span>
+            <span>
+              {`Show ${hiddenCount} more location${
+                hiddenCount === 1 ? '' : 's'
+              }`}
+            </span>
+          </button>
+        )}
     </div>
   );
 }
