@@ -11,7 +11,7 @@
     "dd-trace/ci/init"
   ],
   "reporter": "progress",
-  "timeout": false,
+  "timeout": 10000,
   "slow": 0,
   "recursive": true
 }
