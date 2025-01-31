@@ -1,12 +1,14 @@
 import React from 'react';
 import {
+  titleUI,
   fileInputUI,
   fileInputSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
 import {
-  UPLOAD_GUIDELINES,
+  UPLOAD_TITLE,
+  UPLOAD_DESCRIPTION,
   FORM_UPLOAD_OCR_ALERT,
   FORM_UPLOAD_INSTRUCTION_ALERT,
 } from '../config/constants';
@@ -21,9 +23,7 @@ const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {
   uiSchema: {
-    'view:uploadGuidelines': {
-      'ui:description': UPLOAD_GUIDELINES,
-    },
+    ...titleUI(UPLOAD_TITLE, UPLOAD_DESCRIPTION),
     uploadedFile: {
       ...fileInputUI({
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
@@ -49,10 +49,6 @@ export const uploadPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:uploadGuidelines': {
-        type: 'object',
-        properties: {},
-      },
       uploadedFile: fileInputSchema,
     },
     required: ['uploadedFile'],
