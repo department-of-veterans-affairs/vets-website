@@ -3,7 +3,7 @@ import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 export default () => {
   const supportLinks = [
-    { text: 'Sign-in errors', url: '"/resources/signing-in-to-vagov/"' },
+    { text: 'Sign-in errors', url: '/resources/signing-in-to-vagov/' },
     {
       text: 'Verifying your identity',
       url: '/resources/verifying-your-identity-on-vagov/',
