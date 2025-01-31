@@ -1,6 +1,6 @@
 import React from 'react';
 import NeedHelp from './NeedHelp';
-import BreadcrumbInstructionPage from './BreadcrumbInstructionPage';
+import BreadcrumbInstructionPage from './Breadcrumbs';
 
 export const CalculationInstructions = () => {
   return (
