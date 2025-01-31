@@ -55,6 +55,15 @@ const childContent = (
         <a
           target="_blank"
           rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms-system/src/js/patterns/minimal-header/README.md"
+        >
+          Minimal header README.md for developers
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
           href="https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json#L1695-L1699"
         >
           Content build

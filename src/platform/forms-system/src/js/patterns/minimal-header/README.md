@@ -1,5 +1,14 @@
 # Minimal Header Pattern
 
+- [Minimal Header Pattern](#minimal-header-pattern)
+  - [Features](#features)
+  - [Example](#example)
+  - [Usage:](#usage)
+    - [Change 1: Add `'minimalHeader'` object to content-build registry.json](#change-1-add-minimalheader-object-to-content-build-registryjson)
+    - [Change 2: Add `minimalHeaderFormConfigOptions` to your formConfig](#change-2-add-minimalheaderformconfigoptions-to-your-formconfig)
+    - [Change 2 (alternative): Customize the breadcrumbs for excluded pages](#change-2-alternative-customize-the-breadcrumbs-for-excluded-pages)
+
+
 ## Features
 - Smaller header
 - Back link at top instead of back button at bottom
@@ -12,7 +21,7 @@ You can see an example of the minimal header pattern here: https://staging.va.go
 ## Usage:
 To use the minimal header pattern, you must make two changes. One in content-build, and one to your formConfig.
 
-### Change #1: Content-build registry.json
+### Change 1: Add `'minimalHeader'` object to content-build registry.json
 ```js
 // registry.json
   {
@@ -30,7 +39,7 @@ To use the minimal header pattern, you must make two changes. One in content-bui
     }
   },
 ```
-### Change #2: formConfig
+### Change 2: Add `minimalHeaderFormConfigOptions` to your formConfig
 ```js
 import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 
@@ -38,6 +47,8 @@ const formConfig = {
   ...minimalHeaderFormConfigOptions(),
 };
 ```
+
+### Change 2 (alternative): Customize the breadcrumbs for excluded pages
 
 If you need to customize the breadcrumbs for excluded pages, pass the breadcrumb list to the `minimalHeaderFormConfigOptions` function.
 
