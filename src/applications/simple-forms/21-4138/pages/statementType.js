@@ -24,7 +24,6 @@ export const statementTypePage = {
         errorMessages: {
           required: "Select the kind of statement you'd like to submit",
         },
-        labelHeaderLevel: 'p',
       }),
     },
     'view:additionalInfoStatementType': { 'ui:description': ESCAPE_HATCH },
