@@ -80,18 +80,6 @@ export function isRelatedToMST(formData) {
   return isCompletingForm0781(formData) && formData?.eventTypes?.mst === true;
 }
 
-/**
- * Checks if
- * 1. the option to complete the online form is selected
- * 2. the user is adding an event
- *
- * @param {object} formData
- * @returns {boolean} true if Add an event is selected, false otherwise
- */
-export function isAddingEvent(formData) {
-  return isCompletingForm0781(formData) && formData['view:addEvent'] === true;
-}
-
 /*
  * @returns
  *   TRUE
