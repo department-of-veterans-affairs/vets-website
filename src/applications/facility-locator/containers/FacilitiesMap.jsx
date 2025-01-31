@@ -445,15 +445,17 @@ const FacilitiesMap = props => {
           />
         )}
         <SearchControls
-          geolocateUser={props.geolocateUser}
           clearGeocodeError={props.clearGeocodeError}
+          clearSearchText={props.clearSearchText}
           currentQuery={currentQuery}
+          geolocateUser={props.geolocateUser}
+          isMobile={isMobile}
+          mobileMapUpdateEnabled={mobileMapUpdateEnabled}
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           selectMobileMapPin={props.selectMobileMapPin}
           suppressPPMS={props.suppressPPMS}
           suppressPharmacies={props.suppressPharmacies}
-          clearSearchText={props.clearSearchText}
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
           <VaAlert

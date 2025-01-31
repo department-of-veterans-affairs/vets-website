@@ -47,12 +47,7 @@ const Covid19Result = ({ location, index, query, headerRef = null }) => {
   );
 
   return (
-    <div
-      data-testid="covid-19-result"
-      className="facility-result"
-      id={location.id}
-      key={location.id}
-    >
+    <div className="facility-result" id={location.id} key={location.id}>
       <>
         <LocationMarker markerText={location.markerText} />
         {isVADomain(website) ? (
@@ -125,7 +120,6 @@ Covid19Result.propTypes = {
     PropTypes.shape({ current: PropTypes.object }),
   ]),
   index: PropTypes.number,
-  isMobileCard: PropTypes.bool,
   location: PropTypes.object,
   query: PropTypes.object,
 };
