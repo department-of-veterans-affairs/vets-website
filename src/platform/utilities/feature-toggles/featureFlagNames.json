@@ -73,8 +73,6 @@
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
   "facilitiesUseAddressTypeahead": "facilities_use_address_typeahead",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
-  "facilityLocatorShowCommunityCares": "facility_locator_show_community_cares",
-  "facilityLocatorShowOperationalHoursSpecialInstructions": "facility_locator_show_operational_hours_special_instructions",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
   "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
