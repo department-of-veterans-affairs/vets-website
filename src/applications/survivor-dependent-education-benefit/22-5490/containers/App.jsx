@@ -109,16 +109,11 @@ function App({
                 label: 'Home',
               },
               {
-                href: '/family-and-caregiver-benefits',
-                label: 'Family and caregiver benefits',
+                href: '/education',
+                label: 'Education and training',
               },
               {
-                href: '/family-and-caregiver-benefits/education-and-careers',
-                label: 'Education and career benefits for family members',
-              },
-              {
-                href:
-                  '/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
+                href: '/education/survivor-dependent-education-benefit-22-5490',
                 label: 'Apply for survivor dependent benefits',
               },
             ]}
