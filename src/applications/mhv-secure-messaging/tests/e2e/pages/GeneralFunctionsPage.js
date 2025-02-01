@@ -33,18 +33,19 @@ class GeneralFunctionsPage {
     };
   };
 
-  updateFeatureToggles = (name, value) => {
+  updateFeatureToggles = (...args) => {
+    const options = [];
+    for (let i = 0; i < args.length; i += 2) {
+      options.push({
+        name: args[i],
+        value: args[i + 1],
+      });
+    }
     return {
       ...mockToggles,
       data: {
         ...mockToggles.data,
-        features: [
-          ...mockToggles.data.features,
-          {
-            name,
-            value,
-          },
-        ],
+        features: [...mockToggles.data.features, ...options],
       },
     };
   };
