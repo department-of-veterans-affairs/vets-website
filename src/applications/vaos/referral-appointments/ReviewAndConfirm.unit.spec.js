@@ -6,7 +6,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createReferral, getReferralSlotKey } from './utils/referrals';
+import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as postDraftReferralAppointmentModule from '../services/referral';
@@ -48,7 +48,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   it('should not fetch provider if in redux', async () => {
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialFullState),
@@ -67,7 +67,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     );
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialEmptyState),
@@ -90,7 +90,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     };
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),
@@ -116,7 +116,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     };
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),

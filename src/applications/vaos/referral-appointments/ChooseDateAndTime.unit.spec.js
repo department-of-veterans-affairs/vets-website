@@ -6,7 +6,7 @@ import {
   createTestStore,
 } from '../tests/mocks/setup';
 import ChooseDateAndTime from './ChooseDateAndTime';
-import { createReferral } from './utils/referrals';
+import { createReferralById } from './utils/referrals';
 import { createDraftAppointmentInfo } from './utils/provider';
 import confirmedV2 from '../services/mocks/v2/confirmed.json';
 import * as postDraftReferralAppointmentModule from '../services/referral';
@@ -147,7 +147,7 @@ describe('VAOS ChoseDateAndTime component', () => {
   it('should fetch provider or appointments from store if it exists and not call API', async () => {
     renderWithStoreAndRouter(
       <ChooseDateAndTime
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialFullState),
@@ -161,7 +161,7 @@ describe('VAOS ChoseDateAndTime component', () => {
   it('should call API for provider or appointment data if not in store', async () => {
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialEmptyState),
@@ -176,7 +176,7 @@ describe('VAOS ChoseDateAndTime component', () => {
   it('should show error if any fetch fails', async () => {
     const screen = renderWithStoreAndRouter(
       <ChooseDateAndTime
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(failedState),

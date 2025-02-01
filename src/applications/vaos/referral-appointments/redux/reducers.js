@@ -20,6 +20,7 @@ const initialState = {
   draftAppointmentInfo: {},
   currentPage: null,
   referrals: [],
+  referralDetails: [],
   selectedSlot: '',
   referralsFetchStatus: FETCH_STATUS.notStarted,
   referralFetchStatus: FETCH_STATUS.notStarted,
@@ -58,7 +59,6 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         referralsFetchStatus: FETCH_STATUS.succeeded,
-        referralFetchStatus: FETCH_STATUS.succeeded,
         referrals: action.data,
       };
     case FETCH_REFERRALS_FAILED:
@@ -75,7 +75,7 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         referralFetchStatus: FETCH_STATUS.succeeded,
-        referrals: [...state.referrals, ...action.data],
+        referralDetails: [...state.referralDetails, action.data],
       };
     case FETCH_REFERRAL_FAILED:
       return {

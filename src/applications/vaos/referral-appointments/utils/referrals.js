@@ -4,6 +4,38 @@ const { addDays, addMonths, format, subMonths } = require('date-fns');
 
 const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
+
+/**
+ * Creates a referral list object relative to a start date.
+ *
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
+ * @param {String} uuid The UUID for the referral
+ * @param {String} providerId The ID for the provider
+ * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @returns {Object} Referral object
+ */
+
+const createReferralListItem = (
+  startDate,
+  uuid,
+  providerId = '111',
+  expirationDate,
+  categoryOfCare = 'Physical Therapy',
+) => {
+  const [year, month, day] = startDate.split('-');
+  const relativeDate = new Date(year, month - 1, day);
+  const mydFormat = 'yyyy-MM-dd';
+  return {
+    UUID: uuid,
+    ReferralDate: startDate,
+    CategoryOfCare: categoryOfCare,
+    numberOfAppointments: 5,
+    ReferralExpirationDate:
+      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+    providerId,
+  };
+};
+
 /**
  * Creates a referral object relative to a start date.
  *
@@ -13,7 +45,7 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
  * @returns {Object} Referral object
  */
-const createReferral = (
+const createReferralById = (
   startDate,
   uuid,
   providerId = '111',
@@ -92,7 +124,7 @@ const createReferrals = (
     const mydFormat = 'yyyy-MM-dd';
     const referralDate = format(startDate, mydFormat);
     referrals.push(
-      createReferral(
+      createReferralListItem(
         referralDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
         providerIds[i % providerIds.length],
@@ -148,7 +180,8 @@ const getAddressString = addressObject => {
 };
 
 module.exports = {
-  createReferral,
+  createReferralById,
+  createReferralListItem,
   createReferrals,
   getReferralSlotKey,
   filterReferrals,

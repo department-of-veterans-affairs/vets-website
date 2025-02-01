@@ -3,7 +3,7 @@ import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import DateAndTimeContent from './DateAndTimeContent';
-import { createReferral, getReferralSlotKey } from '../utils/referrals';
+import { createReferralById, getReferralSlotKey } from '../utils/referrals';
 import { createDraftAppointmentInfo } from '../utils/provider';
 import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 
@@ -17,7 +17,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
       selectedSlot: null,
     },
   };
-  const referral = createReferral(
+  const referral = createReferralById(
     '2024-12-05',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
   );
