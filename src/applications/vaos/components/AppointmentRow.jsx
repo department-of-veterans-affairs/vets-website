@@ -13,6 +13,7 @@ export default function AppointmentRow({
       id={id}
       className={`vads-u-display--flex vads-u-flex-direction--column ${className}`}
       style={{ ...style }}
+      data-testid="row"
       {...props}
     >
       {children}

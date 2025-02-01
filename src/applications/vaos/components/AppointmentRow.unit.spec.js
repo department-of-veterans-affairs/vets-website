@@ -28,7 +28,7 @@ describe('VAOS Component: AppointmentRow', () => {
     // Arrange
     // Act
     const screen = render(<AppointmentRow />);
-    const row = screen.getByRole('row');
+    const row = screen.queryByTestId('row');
 
     // Assert
     expect(row.classList.contains('vads-u-display--flex'));
@@ -43,7 +43,7 @@ describe('VAOS Component: AppointmentRow', () => {
         <p>This is a test</p>
       </AppointmentRow>,
     );
-    const row = screen.getByRole('row');
+    const row = screen.queryByTestId('row');
 
     // Assert
     expect(row.childElementCount).to.equal(1);
@@ -53,7 +53,7 @@ describe('VAOS Component: AppointmentRow', () => {
     // Arrange
     // Act
     const screen = render(<AppointmentRow className="class1" />);
-    const row = screen.getByRole('row');
+    const row = screen.queryByTestId('row');
 
     // Assert
     expect(row.classList.contains('vads-u-display--flex'));
@@ -65,7 +65,7 @@ describe('VAOS Component: AppointmentRow', () => {
     // Arrange
     // Act
     const screen = render(<AppointmentRow style={{ margin: 0 }} />);
-    const row = screen.getByRole('row');
+    const row = screen.queryByTestId('row');
 
     // Assert
     expect(assertTextDecoration(row, 'margin', '0px'));
