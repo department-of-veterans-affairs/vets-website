@@ -5,7 +5,8 @@ import { kebabCase } from 'lodash';
 
 import { vitalTypeDisplayNames } from '../../util/constants';
 import {
-  formatDateInLocalTimezone,
+  dateFormatWithoutTime,
+  formatDate,
   sendDataDogAction,
 } from '../../util/helpers';
 
@@ -114,8 +115,8 @@ const VitalListItem = props => {
             <span className="vads-u-font-weight--bold">Date: </span>
             <span data-testid={dataTestIds.dateTimestamp}>
               {isAccelerating
-                ? formatDateInLocalTimezone(record.effectiveDateTime)
-                : record.date}
+                ? formatDate(record.effectiveDateTime)
+                : dateFormatWithoutTime(record.date)}
             </span>
           </div>
 
