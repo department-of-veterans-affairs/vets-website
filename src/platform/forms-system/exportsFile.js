@@ -15,6 +15,11 @@ export {
 export { default as SchemaForm } from './src/js/components/SchemaForm';
 
 export {
+  PersonalInformation,
+  personalInformationPage,
+} from './src/js/components/PersonalInformation';
+
+export {
   directDepositDescription,
   directDepositAlert,
   bankInfoHelpText,
