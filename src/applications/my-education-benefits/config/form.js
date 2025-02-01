@@ -14,7 +14,6 @@ import mailingAddress33 from './chapters/33/contactInfo/mailingAddress';
 import contactMethod33 from './chapters/33/contactInfo/contactMethod';
 import newContactMethod33 from './chapters/33/contactInfo/newContactMethod';
 import serviceHistory33 from './chapters/33/serviceHistory/serviceHistory';
-import benefitSelection33 from './chapters/33/benefitSelection/benefitSelectionLegacy';
 import additionalConsiderations33 from './chapters/33/additionalConsiderations/additionalConsiderations';
 import directDeposit33 from './chapters/33/bankAccountInfo/directDeposit';
 import preFilledDirectDeposit33 from './chapters/33/bankAccountInfo/preFilledDirectDeposit';
@@ -156,37 +155,6 @@ const formConfig = {
           title: 'Service history',
           uiSchema: serviceHistory33.uiSchema,
           schema: serviceHistory33.schema,
-        },
-      },
-    },
-    benefitSelectionLegacyChapter: {
-      title: 'Legacy Benefit selection',
-      pages: {
-        [formPages.benefitSelectionLegacy]: {
-          path: 'benefit-selection-legacy',
-          title: 'Legacy Benefit selection',
-          subTitle: 'You’re applying for the Post-9/11 GI Bill®',
-          depends: formData => {
-            // If the dgiRudisillHideBenefitsSelectionStep feature flag is turned on, hide the page
-            if (formData.dgiRudisillHideBenefitsSelectionStep) {
-              return false;
-            }
-
-            // If the meb160630Automation feature flag is turned on, hide the page
-            if (formData?.meb160630Automation) {
-              return false;
-            }
-
-            // If the showMebEnhancements09 feature flag is turned on, show the page
-            if (formData.showMebEnhancements09) {
-              return true;
-            }
-
-            // If the feature flag is not turned on, check the eligibility length
-            return Boolean(formData.eligibility?.length);
-          },
-          uiSchema: benefitSelection33.uiSchema,
-          schema: benefitSelection33.schema,
         },
       },
     },
