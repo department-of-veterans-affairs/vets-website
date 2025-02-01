@@ -9,6 +9,7 @@ import './upload';
 import './keyboardNavigation';
 import './injectAxeThenAxeCheck';
 import './viewportPreset';
+import './getMany';
 import './hasCount';
 import './testStatus';
 import 'cy-mobile-commands';

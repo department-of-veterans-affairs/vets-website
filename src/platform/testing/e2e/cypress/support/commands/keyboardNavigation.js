@@ -242,6 +242,40 @@ Cypress.Commands.add('setCheckboxFromData', (selector, isChecked = false) => {
 });
 
 /**
+ * @callback selectDropdownFromData
+ * @param {String} selector - The element selector
+ * @param {String} value - the option value to select
+ */
+/**
+ * This command will find and select a dropdown option if the data is true
+ * @param {String} name - Name of the new command
+ * @param {selectDropdownFromData} callbackFunction - The callback that handles focusing & checking or unchecking a checkbox based on the checkbox state
+ */
+Cypress.Commands.add('selectDropdownFromData', (selector, value) => {
+  if (value) {
+    cy.tabToElement(selector);
+    cy.chooseSelectOptionUsingValue(value);
+  }
+});
+
+/**
+ * @callback selectRadioFromData
+ * @param {String} selector - The element selector
+ * @param {String} value - the input value to select
+ */
+/**
+ * This command will find and select a radio option if the data is true
+ * @param {String} name - Name of the new command
+ * @param {selectRadioFromData} callbackFunction - The callback that handles focusing & checking or unchecking a checkbox based on the checkbox state
+ */
+Cypress.Commands.add('selectRadioFromData', (selector, value) => {
+  if (value) {
+    cy.tabToElement(selector);
+    cy.chooseRadio(value);
+  }
+});
+
+/**
  * FullName
  * @typedef {Object}
  * @property {String} prefix - Prefix
@@ -261,17 +295,17 @@ Cypress.Commands.add('setCheckboxFromData', (selector, isChecked = false) => {
  * @param {typeInFullName} callbackFunction - The callback that handles moving the focus to an element and then select or type in the text
  */
 Cypress.Commands.add('typeInFullName', (fieldName, data) => {
-  const name = removeLeadingHash(fieldName);
-  if (data.prefix) {
-    cy.tabToElement(`#${name}prefix`);
-    cy.chooseSelectOptionByTyping(data.prefix);
-  }
-  cy.typeInIfDataExists(`#${name}first`, data.first);
-  cy.typeInIfDataExists(`#${name}middle`, data.middle);
-  cy.typeInIfDataExists(`#${name}last`, data.last);
-  if (data.suffix) {
-    cy.tabToElement(`#${name}suffix`);
-    cy.chooseSelectOptionByTyping(data.suffix);
+  if (data) {
+    const name = removeLeadingHash(fieldName);
+    if (data.prefix) {
+      cy.selectDropdownFromData(`[name="${name}_prefix"]`, data.prefix);
+    }
+    cy.typeInIfDataExists(`[name="${name}_first"]`, data.first);
+    cy.typeInIfDataExists(`[name="${name}_middle"]`, data.middle);
+    cy.typeInIfDataExists(`[name="${name}_last"]`, data.last);
+    if (data.suffix) {
+      cy.selectDropdownFromData(`[name="${name}_suffix"]`, data.suffix);
+    }
   }
 });
 
@@ -286,13 +320,52 @@ Cypress.Commands.add('typeInFullName', (fieldName, data) => {
  * @param {typeInDate} callbackFunction - The callback that handles making the month & day selections and typing in the year
  */
 Cypress.Commands.add('typeInDate', (fieldName, dateString) => {
-  // Remove leading zeros
-  const date = dateString.split('-').map(v => parseInt(v, 10).toString());
-  const name = removeLeadingHash(fieldName);
-  cy.tabToElement(`#${name}Month`);
-  cy.chooseSelectOptionUsingValue(date[1]);
-  cy.tabToElement(`#${name}Day`);
-  cy.chooseSelectOptionUsingValue(date[2]);
-  cy.tabToElement(`input[name="${name}Year"]`);
-  cy.typeInFocused(date[0]);
+  if (dateString) {
+    const [year, month, day] = dateString
+      .split('-')
+      .map(v => parseInt(v, 10).toString());
+    const name = removeLeadingHash(fieldName);
+    cy.selectDropdownFromData(`[name="${name}Month"]`, month);
+    // eslint-disable-next-line no-restricted-globals
+    if (!isNaN(day)) {
+      cy.selectDropdownFromData(`[name="${name}Day"]`, day);
+    }
+    cy.typeInIfDataExists(`[name="${name}Year"]`, year);
+  }
+});
+
+/**
+ * Address
+ * @typedef {Object}
+ * @property {String} country - Country
+ * @property {String} street - Street
+ * @property {String} street2 - Street 2
+ * @property {String} street3 - Street 3
+ * @property {String} city - City
+ * @property {String} state - State
+ * @property {String} postalCode - Postal Code
+ */
+/**
+ * @callback typeInAddress
+ * @param {String} fieldName - The group of elements ID prefix
+ * @param {Address} data - Address object
+ */
+/**
+ * This command will check if the data portion of the value is truthy, before tabbing to the name part. If found, it will then select or type in the address part
+ * @param {String} address - Name of the new command
+ * @param {typeInAddress} callbackFunction - The callback that handles moving the focus to an element and then select or type in the text
+ */
+Cypress.Commands.add('typeInAddress', (fieldName, data) => {
+  if (data) {
+    const name = removeLeadingHash(fieldName);
+    if (data.country) {
+      cy.selectDropdownFromData(`[name="${name}_country"]`, data.country);
+    }
+    cy.typeInIfDataExists(`[name="${name}_street"]`, data.street);
+    cy.typeInIfDataExists(`[name="${name}_street2"]`, data.street2);
+    cy.typeInIfDataExists(`[name="${name}_street3"]`, data.street3);
+    cy.typeInIfDataExists(`[name="${name}_city"]`, data.city);
+    cy.selectDropdownFromData(`[name="${name}_state"]`, data.state);
+    cy.typeInIfDataExists(`[name="${name}_postalCode"]`, data.postalCode);
+  }
 });
