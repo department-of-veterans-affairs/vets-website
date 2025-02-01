@@ -228,11 +228,11 @@ const VitalDetails = props => {
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
 
-    const { title, subject, subtitles } = generateVitalsIntro(
+    const { subject, subtitles } = generateVitalsIntro(
       records,
       lastUpdatedText,
     );
-    const scaffold = generatePdfScaffold(user, title, subject);
+    const scaffold = generatePdfScaffold(user, subject);
     const pdfData = {
       ...scaffold,
       subtitles,
@@ -250,7 +250,7 @@ ${vitalTypeDisplayNames[records[0].type]}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Showing ${records.length} from newest to oldest
+Showing ${records.length} records from newest to oldest
 ${records
       .map(
         vital => `${txtLine}\n\n
