@@ -41,8 +41,10 @@ export const getListWithRetryRecursively = async (
     throw new Error(TIMEOUT_ERROR);
   }
 
+  let isInitial = false;
   let response = await getList();
   if (response?.status === 202) {
+    isInitial = true;
     dispatch({
       type: Actions.Refresh.SET_INITIAL_FHIR_LOAD,
       payload: new Date(now),
@@ -55,7 +57,7 @@ export const getListWithRetryRecursively = async (
       endTime,
     );
   }
-  return response;
+  return { isInitial, response };
 };
 
 /**
@@ -70,13 +72,19 @@ export const getListWithRetry = async (
 ) => {
   const startTime = Date.now();
   let status = null;
+  let isInitial = false;
   try {
-    const response = await getListWithRetryRecursively(
+    const {
+      isInitial: isInitialFlag,
+      response,
+    } = await getListWithRetryRecursively(
       dispatch,
       getList,
       retryInterval,
       endTimeParam,
     );
+    isInitial = isInitialFlag;
+
     if (response?.id) {
       // All successful FHIR calls should have an id, so this indicates a successful response, and we
       // clear the initialFhirLoad.
@@ -85,17 +93,14 @@ export const getListWithRetry = async (
     }
     return response;
   } catch (error) {
-    if (error.message === TIMEOUT_ERROR) {
-      status = STATUS_TIMEDOUT;
-    } else {
-      status = STATUS_ERROR;
-    }
+    status = error.message === TIMEOUT_ERROR ? STATUS_TIMEDOUT : STATUS_ERROR;
     throw error;
   } finally {
     const totalDuration = Math.round((Date.now() - startTime) / 1000);
     datadogRum.addAction(rumActions.INITIAL_FHIR_LOAD_DURATION, {
       duration: totalDuration,
       status,
+      isInitial,
     });
   }
 };
