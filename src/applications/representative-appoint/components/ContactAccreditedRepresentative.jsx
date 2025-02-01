@@ -33,7 +33,7 @@ const ContactAccreditedRepresentative = props => {
 
   const handleGoBack = () => {
     if (isReviewPage) {
-      goToPath('/representative-select?review=true');
+      goToPath('/representative');
     } else {
       goBack(formData);
     }
@@ -46,7 +46,7 @@ const ContactAccreditedRepresentative = props => {
         return;
       }
       if (orgSelectionRequired) {
-        goToPath('/representative-organization?review=true');
+        goToPath('/representative-organization');
       } else {
         goToPath('/review-and-submit');
       }
