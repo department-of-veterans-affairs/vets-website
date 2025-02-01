@@ -12,7 +12,7 @@ function DownshiftCaret({
     return null;
   }
   return (
-    <div id={`downshift-caret-holder-${inputId}`}>
+    <div id={`downshift-caret-holder-${inputId}`} data-testid="down-caret">
       <button
         id={`downshift-caret-${inputId}`}
         aria-label={isOpen ? 'close dropdown' : 'open dropdown'}

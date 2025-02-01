@@ -21,6 +21,7 @@ function AutosuggestOption({
         role: 'option',
         'aria-selected': index === highlightedIndex,
       })}
+      data-testid={`autosuggest-option-${item.id}`}
     >
       {itemToString(item)}
     </div>

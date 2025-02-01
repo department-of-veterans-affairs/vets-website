@@ -21,11 +21,11 @@ function AutosuggestOptions({
     () => {
       if (isLoading) {
         setOptionsToShow([
-          { id: '', disabled: true, toDisplay: loadingMessage },
+          { id: 'loading', disabled: true, toDisplay: loadingMessage },
         ]);
       } else if (!options?.length && shouldShowNoResults) {
         setOptionsToShow([
-          { id: '', disabled: true, toDisplay: noItemsMessage },
+          { id: 'no-items', disabled: true, toDisplay: noItemsMessage },
         ]);
       } else {
         setOptionsToShow(options);
@@ -38,7 +38,8 @@ function AutosuggestOptions({
     <div
       className="dropdown"
       {...getMenuProps()}
-      style={{ display: isShown && optionsToShow?.length ? 'block' : 'none' }}
+      style={{ display: !isShown || !optionsToShow?.length ? 'none' : 'block' }}
+      data-testid="autosuggest-options"
     >
       {optionsToShow.map((item, index) => (
         <AutosuggestOptionComponent

@@ -38,6 +38,7 @@ function InputWithClear({
         <input
           className="input-with-clear vads-u-width--full"
           {...getInputProps({ ...downshiftInputProps })}
+          data-testid="input-with-clear"
         />
         <InputControlsContainer
           isOpen={isOpen}

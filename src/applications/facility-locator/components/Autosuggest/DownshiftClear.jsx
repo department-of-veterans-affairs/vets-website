@@ -13,6 +13,7 @@ function DownshiftClear({ showClearButton, onClearClick, inputId }) {
       id={`clear-${inputId}`}
       aria-label="Clear input"
       onClick={onClearClick}
+      data-testid="clear-button"
     >
       <va-icon icon="close" size="3" />
     </button>
