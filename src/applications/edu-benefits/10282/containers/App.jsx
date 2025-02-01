@@ -6,7 +6,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function App({ location, children }) {
   return (
-    <div className="form-22-10282-container">
+    <div className="form-22-10282-container row">
       <Breadcrumbs />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
