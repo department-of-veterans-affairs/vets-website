@@ -263,7 +263,9 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(window.location.replace.called).to.be.true;
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.true;
+    });
   });
 
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
