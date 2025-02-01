@@ -268,6 +268,15 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
+      #address-typeahead-label-container {
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: $small-desktop-screen) {
+          flex-direction: row;
+        }
+      }
+
       .typeahead + input[type="submit"] {
         margin-bottom: 30px;
       }
@@ -291,11 +300,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         color: var(--vads-color-link);
         font-weight: normal;
         padding: 0;
-        margin: 0 0 0 20px;
+        margin: 1em 0;
+        text-align: left;
 
-        @media (max-width: $small-desktop-screen) {
-          margin: 1em 0;
-          text-align: left;
+        @media (min-width: $small-desktop-screen) {
+          margin: 0;
         }
       }
 

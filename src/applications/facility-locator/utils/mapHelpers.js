@@ -1,5 +1,10 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import { mapboxClient } from 'platform/utilities/facilities-and-mapbox';
+import {
+  MAPBOX_QUERY_TYPES,
+  CountriesList,
+  mapboxClient,
+  isPostcode,
+} from 'platform/utilities/facilities-and-mapbox';
 
 import { BOUNDING_RADIUS } from '../constants';
 
@@ -118,4 +123,27 @@ export const searchCriteraFromCoords = async (longitude, latitude) => {
     searchString: placeName,
     position: { longitude, latitude },
   };
+};
+
+export const searchAddresses = async addressTerm => {
+  let types = MAPBOX_QUERY_TYPES;
+  if (isPostcode(addressTerm?.trim() || '')) {
+    types = ['postcode'];
+  }
+
+  const response = await mbxClient
+    .forwardGeocode({
+      countries: CountriesList,
+      types,
+      autocomplete: true,
+      query: addressTerm,
+      proximity: 'ip',
+    })
+    .send();
+  // TODO: display error message if geolocation fails?
+  // .catch(error => error);
+  if (!response?.body?.features) {
+    return [];
+  }
+  return response.body.features;
 };

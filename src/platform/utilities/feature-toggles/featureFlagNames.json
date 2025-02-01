@@ -71,6 +71,7 @@
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
+  "facilitiesUseAddressTypeahead": "facilities_use_address_typeahead",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
