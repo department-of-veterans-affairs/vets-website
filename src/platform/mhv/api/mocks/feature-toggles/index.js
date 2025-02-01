@@ -22,6 +22,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvSecureMessagingEditContactList = true,
     mhvSecureMessagingTriageGroupPlainLanguage = false,
     mhvSecureMessagingRecipientOptGroups = true,
+    mhvSecureMessagingRemoveLandingPage = true,
     mhvAcceleratedDeliveryEnabled = false,
     mhvAcceleratedDeliveryAllergiesEnabled = false,
     mhvAcceleratedDeliveryVitalSignsEnabled = false,
@@ -137,6 +138,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_secure_messaging_recipient_opt_groups',
           value: mhvSecureMessagingRecipientOptGroups,
+        },
+        {
+          name: 'mhv_secure_messaging_remove_landing_page',
+          value: mhvSecureMessagingRemoveLandingPage,
         },
       ],
     },
