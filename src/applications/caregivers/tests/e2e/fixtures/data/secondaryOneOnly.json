@@ -26,7 +26,7 @@
     "last": "Goofus",
     "suffix": "II"
   },
-  "secondaryOneSignature": "George G Goofus",
+  "secondaryOneSignature": "George Geef Goofus II",
   "secondaryOneDateOfBirth": "1932-05-12",
   "secondaryOneGender": "M",
   "view:hasSecondaryCaregiverOne": true,
@@ -48,8 +48,6 @@
   "veteranSsnOrTin": "788775458",
   "veteranDateOfBirth": "1948-11-18",
   "veteranGender": "M",
-  "secondaryTwoFullName": {},
-  "secondaryTwoAddress": {},
   "AGREED": false
 }
   
