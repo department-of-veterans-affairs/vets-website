@@ -77,6 +77,65 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 }
 
 /**
+ * @param {string} resource - The URL to fetch. If it starts with a leading "/"
+ * it will be appended to the baseUrl. Otherwise, it will be used as an absolute
+ * URL.
+ * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
+ * the fetch request. Will be mixed with, and potentially override, the
+ * defaultSettings.
+ * @returns {Promise<Response>} A promise that resolves with a response.
+ */
+export function apiRequestWithResponse(resource, optionalSettings) {
+  const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
+  const baseUrl = `${environment.API_URL}/${apiVersion}`;
+  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
+  const csrfTokenStored = localStorage.getItem('csrfToken');
+
+  const defaultSettings = {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
+      'X-CSRF-Token': csrfTokenStored,
+    },
+  };
+  const settings = merge(defaultSettings, optionalSettings);
+
+  return fetchAndUpdateSessionExpiration(url, settings)
+    .catch(err => {
+      Sentry.withScope(scope => {
+        scope.setExtra('error', err);
+        scope.setFingerprint(['{{default}}', scope._tags?.source]);
+        Sentry.captureMessage(`vets_client_error: ${err.message}`);
+      });
+
+      return Promise.reject(err);
+    })
+    .then(response => {
+      // Get CSRF Token from API header
+      const csrfToken = response.headers.get('X-CSRF-Token');
+      if (csrfToken && csrfToken !== csrfTokenStored) {
+        localStorage.setItem('csrfToken', csrfToken);
+      }
+
+      if (environment.isProduction()) {
+        const shouldRedirectToSessionExpired =
+          response.status === 401 &&
+          !window.location.pathname.includes('auth/login/callback') &&
+          sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
+
+        if (shouldRedirectToSessionExpired) {
+          sessionStorage.removeItem('shouldRedirectExpiredSession');
+          window.location = '/?next=loginModal&status=session_expired';
+        }
+      }
+
+      return response;
+    });
+}
+
+/**
  *
  * @param {string} resource - The URL to fetch. If it starts with a leading "/"
  * it will be appended to the baseUrl. Otherwise, it will be used as an absolute
