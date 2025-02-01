@@ -3,12 +3,58 @@ name: Continuous Deploy Production
 on:
   repository_dispatch:
     types: [cd-production-deploy]
+  workflow_dispatch:
+    inputs:
+      entry_names:
+        description: apps deploying
+        required: false
+        default: ''
+      github_message:
+        description: Commit message
+        required: false
+      github_sha:
+        description: Deploy specific commit
+        required: false
+      github_ref:
+        description: Github Ref
+        required: false
+        default: 'refs/heads/main'
+
+run-name: "Triggered by: ${{ github.event.client_payload.github_message }}"
 
 jobs:
+  notify-pending-deployment:
+    name: Notify of Pending Deployment
+    if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify application team in Slack
+        if: github.event.client_payload.entry_names != ''
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "A deployment for ${{ github.event.client_payload.entry_names }} is awaiting approval on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/frontend-deployment-changes-2025|documentation> on deployments."}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Notify Slack
+        if: github.event.client_payload.entry_names == ''
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+
   deploy:
     name: Deploy
     if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
+    environment: production-cd
 
     steps:
       - name: Checkout
@@ -59,14 +105,14 @@ jobs:
           role_duration: 900
           session_name: vsp-frontendteam-githubaction
         
-      - name: Deploy
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        run: ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+      # - name: Deploy
+      #   if: steps.check-deployability.outputs.is_deployable == 'true'
+      #   run: ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
 
-        env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha }}/vagovprod.tar.bz2
-          DEST: s3://www.va.gov
-          ASSET_DEST: s3://prod-va-gov-assets
+      #   env:
+      #     SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha }}/vagovprod.tar.bz2
+      #     DEST: s3://www.va.gov
+      #     ASSET_DEST: s3://prod-va-gov-assets
 
   notify-failure:
     name: Notify Failure
