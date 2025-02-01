@@ -25,4 +25,5 @@ export const getAppData = state => ({
     state?.featureToggles?.toeLightHouseDGIDirectDeposit,
   toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
+  mebDpoAddressOptionEnabled: state?.featureToggles?.mebDpoAddressOptionEnabled,
 });

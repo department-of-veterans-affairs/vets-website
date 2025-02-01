@@ -12,6 +12,7 @@ export const getAppData = state => ({
   duplicatePhone: state.data?.duplicatePhone,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
+  mebDpoAddressOptionEnabled: state.featureToggles.mebDpoAddressOptionEnabled,
   savedForms: state?.user?.profile?.savedForms,
   showMeb5490MaintenanceAlert:
     state?.featureToggles?.showMeb5490MaintenanceAlert,
