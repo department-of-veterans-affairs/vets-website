@@ -241,6 +241,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
+  const handleDownloadCCD = e => {
+    e.preventDefault();
+    dispatch(
+      genAndDownloadCCD(
+        userProfile?.userFullName?.first,
+        userProfile?.userFullName?.last,
+      ),
+    );
+    sendDataDogAction('Download Continuity of Care Document xml Link');
+  };
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -343,18 +354,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             <va-link
               download
               href="#"
-              onClick={e => {
-                e.preventDefault();
-                dispatch(
-                  genAndDownloadCCD(
-                    userProfile.userFullName.first,
-                    userProfile.userFullName.last,
-                  ),
-                );
-                sendDataDogAction(
-                  'Download Continuity of Care Document xml Link',
-                );
-              }}
+              onClick={handleDownloadCCD}
               text="Download .xml file"
               data-testid="generateCcdButton"
             />

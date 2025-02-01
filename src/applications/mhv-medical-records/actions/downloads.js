@@ -4,8 +4,17 @@ import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
-export const genAndDownloadCCD = (firstName, lastName) => async dispatch => {
+const MAX_BACKOFF = 30000; // 30 seconds
+const INITIAL_BACKOFF = 1000; // 1 second
+const BACKOFF_FACTOR = 1.05; // 5% increase
+
+export const genAndDownloadCCD = (
+  firstName,
+  lastName,
+  backoff = INITIAL_BACKOFF,
+) => async dispatch => {
   dispatch({ type: Actions.Downloads.GENERATE_CCD });
+
   try {
     // GET LIST OF CCDs
     const generate = await generateCCD();
@@ -17,7 +26,7 @@ export const genAndDownloadCCD = (firstName, lastName) => async dispatch => {
       const timestampDate = new Date(timestamp);
       const fileName = `VA-Continuity-of-care-document-${
         firstName ? `${firstName}-` : ''
-      }${lastName}-${format(timestampDate, 'M-d-u_hhmmssaaa')}`;
+      }${lastName}-${format(timestampDate, 'M-d-yyyy_hhmmssaaa')}`;
 
       // get the xml data from the api
       const response = await downloadCCD(timestamp);
@@ -33,21 +42,25 @@ export const genAndDownloadCCD = (firstName, lastName) => async dispatch => {
       a.click();
       window.URL.revokeObjectURL(url);
       a.remove();
+    }
 
-      // ERROR IN GENERATION (API SIDE)
-    } else if (generate[0]?.status === 'ERROR') {
+    // ERROR IN GENERATION (API SIDE)
+    else if (generate[0]?.status === 'ERROR') {
       const timestamp = generate[0].dateGenerated;
       localStorage.setItem('lastCCDError', timestamp);
       dispatch({
         type: Actions.Downloads.CCD_GENERATION_ERROR,
         response: timestamp,
       });
-
-      // RECURSIVELY LOOP
-    } else {
-      dispatch(genAndDownloadCCD(firstName, lastName));
     }
-    // ERROR HANDLING
+
+    // RETRY WITH BACKOFF
+    else {
+      const nextBackoff = Math.min(backoff * BACKOFF_FACTOR, MAX_BACKOFF);
+      setTimeout(() => {
+        dispatch(genAndDownloadCCD(firstName, lastName, nextBackoff));
+      }, backoff);
+    }
   } catch (error) {
     dispatch({ type: Actions.Downloads.CANCEL_CCD });
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
