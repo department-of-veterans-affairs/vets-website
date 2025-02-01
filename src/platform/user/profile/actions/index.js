@@ -4,6 +4,7 @@ import { removeFormApi } from 'platform/forms/save-in-progress/api';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { teardownProfileSession } from '../utilities';
 
@@ -17,6 +18,7 @@ export const PROFILE_ERROR = 'PROFILE_ERROR';
 export * from './mhv';
 
 const baseUrl = '/user';
+const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 export function updateProfileFields(payload) {
   return {
@@ -64,6 +66,19 @@ export const extractProfileErrors = dataPayload => {
   return `${metaDescriptions || ''}${mainErrors || ''}`;
 };
 
+/**
+ * Get message signature from user preferences.
+ * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
+ */
+export const getMessagingSignature = () => {
+  return apiRequest(`${apiBasePath}/messaging/messages/signature`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  });
+};
+
 export function refreshProfile(
   forceCacheClear = false,
   localQuery = { local: 'none' },
@@ -76,6 +91,11 @@ export function refreshProfile(
   return async dispatch => {
     const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
     const payload = await apiRequest(url);
+
+    const messagingSignature = await getMessagingSignature();
+
+    payload.data.attributes.messagingSignature =
+      messagingSignature.data || null;
 
     if (!payload.errors) {
       sessionStorage.setItem(

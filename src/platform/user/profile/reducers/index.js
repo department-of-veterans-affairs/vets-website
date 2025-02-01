@@ -48,6 +48,7 @@ const initialState = {
   session: {},
   mhvTransitionEligible: false,
   errors: false,
+  messagingSignature: null,
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>

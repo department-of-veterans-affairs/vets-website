@@ -55,6 +55,7 @@ export function mapRawUserDataToState(json) {
         vet360ContactInformation,
         veteranStatus,
         session,
+        messagingSignature,
       },
     },
     meta,
@@ -87,6 +88,7 @@ export function mapRawUserDataToState(json) {
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
+    messagingSignature,
   };
 
   if (meta && veteranStatus === null) {
