@@ -47,6 +47,8 @@ const Compose = () => {
     [dispatch, draftId, location.pathname],
   );
 
+  // testing RI configs
+
   useEffect(
     () => {
       if (!signature) {
