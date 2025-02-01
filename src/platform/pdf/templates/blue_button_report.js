@@ -24,8 +24,8 @@ const config = {
   margins: {
     top: 40,
     bottom: 40,
-    left: 30,
-    right: 30,
+    left: 16,
+    right: 16,
   },
   indents: {
     one: 45,
