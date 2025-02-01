@@ -29,7 +29,7 @@ export default function ConfirmationPage() {
 
   return (
     <>
-      <va-alert status="success" class="vads-u-margin-bottom--4" uswds>
+      <va-alert status="success" class="vads-u-margin-bottom--4">
         <h3>Form submission started on {dateSubmitted}</h3>
         <p className="vads-u-margin-y--0">Your submission is in progress.</p>
         <p>
