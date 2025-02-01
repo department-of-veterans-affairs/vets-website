@@ -17,6 +17,7 @@ export default function prefillTransformer(pages, formData, metadata) {
         vaFileLastFour: veteranVaFileNumberLastFour,
       },
       useV2: true,
+      daysTillExpires: 365,
     },
     metadata,
   };

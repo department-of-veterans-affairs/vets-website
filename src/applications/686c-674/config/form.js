@@ -144,11 +144,17 @@ export const formConfig = {
   formId: VA_FORM_IDS.FORM_21_686CV2,
   saveInProgress: {
     messages: {
-      inProgress: 'Your dependent status application (21-686c) is in progress.',
+      inProgress: 'Your application is in progress',
       expired:
-        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, start a new application.',
-      saved: 'Your dependent status application has been saved.',
+        'Your saved application has expired. If you want to apply for dependent status, start a new application.',
+      saved: 'Your application has been saved',
     },
+  },
+  savedFormMessages: {
+    notFound:
+      'Start your application to add or remove a dependent on your VA benefits.',
+    noAuth:
+      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   version: migrations.length,
   v3SegmentedProgressBar: true,
@@ -167,12 +173,6 @@ export const formConfig = {
       externalServices.vaProfile,
       externalServices.vbms,
     ],
-  },
-  savedFormMessages: {
-    notFound:
-      'Start your application to add or remove a dependent on your VA benefits.',
-    noAuth:
-      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   title: 'Add or remove a dependent on VA benefits',
   subTitle: 'VA Forms 21-686c and 21-674',

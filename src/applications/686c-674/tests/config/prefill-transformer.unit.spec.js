@@ -5,6 +5,7 @@ const buildData = ({
   ssnLastFour = '',
   vaFileLastFour = '',
   useV2 = true,
+  daysTillExpires = 365,
 }) => ({
   prefill: {
     data: {},
@@ -15,6 +16,7 @@ const buildData = ({
   },
   result: {
     useV2,
+    daysTillExpires,
     veteranInformation: {
       ssnLastFour,
       vaFileLastFour,
