@@ -6,10 +6,24 @@ import sinon from 'sinon';
 import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
 import ProofOfVeteranStatusNew from './ProofOfVeteranStatusNew';
 
-const eligibleServiceHistoryItem = {
+const serviceHistoryItemOlder = {
   branchOfService: 'Air Force',
-  beginDate: '2009-04-12',
-  endDate: '2013-04-11',
+  beginDate: '2000-01-01',
+  endDate: '2001-01-01',
+  personnelCategoryTypeCode: 'V',
+  characterOfDischargeCode: 'A',
+};
+const serviceHistoryItemMiddle = {
+  branchOfService: 'Air Force',
+  beginDate: '2010-01-01',
+  endDate: '2011-01-01',
+  personnelCategoryTypeCode: 'V',
+  characterOfDischargeCode: 'A',
+};
+const serviceHistoryItemNewer = {
+  branchOfService: 'Air Force',
+  beginDate: '2020-01-01',
+  endDate: '2021-01-01',
   personnelCategoryTypeCode: 'V',
   characterOfDischargeCode: 'A',
 };
@@ -90,7 +104,7 @@ function createBasicInitialState(
 describe('ProofOfVeteranStatusNew', () => {
   describe('when it exists', () => {
     const initialState = createBasicInitialState(
-      [eligibleServiceHistoryItem],
+      [serviceHistoryItemMiddle],
       confirmedEligibility,
     );
 
@@ -126,7 +140,8 @@ describe('ProofOfVeteranStatusNew', () => {
   describe('should fetch verification status on render', () => {
     let apiRequestStub;
     let initialState = createBasicInitialState(
-      [eligibleServiceHistoryItem],
+      [serviceHistoryItemMiddle],
+
       confirmedEligibility,
       true,
     );
@@ -301,7 +316,9 @@ describe('ProofOfVeteranStatusNew', () => {
   describe('when eligible', () => {
     const initialState = createBasicInitialState(
       [
-        eligibleServiceHistoryItem,
+        serviceHistoryItemOlder,
+        serviceHistoryItemMiddle,
+        serviceHistoryItemNewer,
         ineligibleServiceHistoryItem,
         neutralServiceHistoryItem,
       ],
@@ -316,6 +333,23 @@ describe('ProofOfVeteranStatusNew', () => {
       expect(
         view.queryByText(/This status doesn’t entitle you to any VA benefits./),
       ).to.exist;
+    });
+
+    it('should render the latest service item', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+      expect(view.queryByText(/United States Air Force • 2020–2021/)).to.exist;
+    });
+
+    it('should render the print button', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+      const link = view.container.querySelector('va-link');
+      expect(link.getAttribute('text')).to.equal(
+        'Print your Proof of Veteran status (PDF)',
+      );
     });
   });
 
@@ -341,7 +375,7 @@ describe('ProofOfVeteranStatusNew', () => {
   describe('when there is no veteran full name', () => {
     const initialState = createBasicInitialState(
       [
-        eligibleServiceHistoryItem,
+        serviceHistoryItemMiddle,
         ineligibleServiceHistoryItem,
         neutralServiceHistoryItem,
       ],

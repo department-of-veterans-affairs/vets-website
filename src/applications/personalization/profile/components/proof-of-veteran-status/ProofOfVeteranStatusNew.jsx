@@ -44,20 +44,33 @@ const ProofOfVeteranStatusNew = ({
     suffix,
   });
 
-  const latestServiceItem = serviceHistory.length ? serviceHistory.at(0) : {};
-  const serviceStartYear = latestServiceItem.beginDate
-    ? latestServiceItem.beginDate.substring(0, 4)
-    : '';
-  const serviceEndYear = latestServiceItem.endDate
-    ? latestServiceItem.endDate.substring(0, 4)
-    : '';
-  const latestServiceDateRange =
-    serviceStartYear.length || serviceEndYear.length
-      ? `${serviceStartYear}–${serviceEndYear}`
-      : '';
-  const latestService = `${getServiceBranchDisplayName(
-    latestServiceItem.branchOfService,
-  )} • ${latestServiceDateRange}`;
+  const getLatestService = () => {
+    if (serviceHistory.length) {
+      const latestServiceItem = serviceHistory.length
+        ? serviceHistory.reduce((latest, current) => {
+            return new Date(current.endDate) > new Date(latest.endDate)
+              ? current
+              : latest;
+          })
+        : null;
+      const serviceStartYear = latestServiceItem.beginDate
+        ? latestServiceItem.beginDate.substring(0, 4)
+        : '';
+      const serviceEndYear = latestServiceItem.endDate
+        ? latestServiceItem.endDate.substring(0, 4)
+        : '';
+      const latestServiceDateRange =
+        serviceStartYear.length || serviceEndYear.length
+          ? `${serviceStartYear}–${serviceEndYear}`
+          : '';
+      return `${getServiceBranchDisplayName(
+        latestServiceItem.branchOfService,
+      )} • ${latestServiceDateRange}`;
+    }
+    return null;
+  };
+
+  const latestService = getLatestService();
 
   const userHasRequiredCardData = !!(
     serviceHistory.length && formattedFullName
@@ -67,12 +80,7 @@ const ProofOfVeteranStatusNew = ({
     title: `Veteran status card for ${formattedFullName}`,
     details: {
       fullName: formattedFullName,
-      serviceHistory: serviceHistory.map(item => {
-        return {
-          ...item,
-          branchOfService: getServiceBranchDisplayName(item.branchOfService),
-        };
-      }),
+      latestService,
       totalDisabilityRating,
       edipi,
       image: {
@@ -136,7 +144,7 @@ const ProofOfVeteranStatusNew = ({
 
     try {
       await generatePdf(
-        'veteranStatus',
+        'veteranStatusNew',
         'Veteran status card',
         pdfData,
         !isMobile,
@@ -290,12 +298,12 @@ const ProofOfVeteranStatusNew = ({
                     </div>
                     <div className="vads-u-font-size--md">
                       <va-link
-                        download
+                        active
                         filetype="PDF"
                         // exception to eslint: the url is a dynamically generated blob url
                         // eslint-disable-next-line no-script-url
                         href="javascript:void(0)"
-                        text="Download and print your Veteran status card"
+                        text="Print your Proof of Veteran status (PDF)"
                         onClick={createPdf}
                       />
                     </div>
@@ -344,12 +352,12 @@ const ProofOfVeteranStatusNew = ({
                     </div>
                     <div className="vads-u-font-size--md">
                       <va-link
-                        download
+                        active
                         filetype="PDF"
                         // exception to eslint: the url is a dynamically generated blob url
                         // eslint-disable-next-line no-script-url
                         href="javascript:void(0)"
-                        text="Download and print your Veteran status card"
+                        text="Print your Proof of Veteran status (PDF)"
                         onClick={createPdf}
                       />
                     </div>
