@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { checkboxGroupSchema } from '@department-of-veterans-affairs/platform-forms-system/web-component-patterns';
+import EditReviewSupplies from '../components/EditReviewSupplies';
 
 import {
   numberOfSuppliesPhrase,
@@ -35,6 +36,7 @@ Description.propTypes = {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
+    'ui:objectViewField': EditReviewSupplies,
     'ui:description': Description,
     chosenSupplies: suppliesUi({
       title: 'Select available supplies for reorder',
