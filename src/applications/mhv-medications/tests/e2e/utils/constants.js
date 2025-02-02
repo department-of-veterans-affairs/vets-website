@@ -37,6 +37,8 @@ export const Data = {
     'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.',
   PENDING_ALERT_TEXT: 'Your VA pharmacy is still reviewing this prescription',
   PENDING_RENEW_TEXT: 'This is a renewal you requested.',
+  PENDING_ALERT_WITHIN_SEVEN_DAYS:
+    'Your VA pharmacy is reviewing this prescription',
 };
 export const Paths = {
   LANDING_LIST:

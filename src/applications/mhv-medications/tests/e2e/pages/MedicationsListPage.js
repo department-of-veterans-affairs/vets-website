@@ -853,6 +853,27 @@ class MedicationsListPage {
       .should('be.visible')
       .and('contain', text);
   };
+
+  updatedOrderDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newOrderedDate = new Date(currentDate);
+        newOrderedDate.setDate(currentDate.getDate());
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            orderedDate:
+              item.attributes.orderedDate != null
+                ? newOrderedDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
 }
 
 export default MedicationsListPage;

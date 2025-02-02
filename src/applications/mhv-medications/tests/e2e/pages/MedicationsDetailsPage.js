@@ -578,6 +578,10 @@ class MedicationsDetailsPage {
   verifyPendingRenewalStatusDescriptionOnDetailsPage = text => {
     cy.get('[data-testid="pending-renewal-status"]').should('contain', text);
   };
+
+  verifyPendingTextAlertForLessThanSevenDays = text => {
+    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+  };
 }
 
 export default MedicationsDetailsPage;
