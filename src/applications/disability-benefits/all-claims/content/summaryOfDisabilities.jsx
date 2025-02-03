@@ -47,6 +47,7 @@ const getRedirectLink = formData => {
   return (
     <Link
       aria-label="go back and add any missing disabilities"
+      data-testid={`redirect-link-${destinationPath}`}
       to={{
         pathname: destinationPath,
         search: '?redirect',
@@ -83,7 +84,7 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));
 
-  const showLink = getRedirectLink();
+  const showLink = getRedirectLink(formData);
 
   return (
     <>
