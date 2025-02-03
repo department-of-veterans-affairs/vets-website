@@ -40,7 +40,6 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  onFormLoaded,
   showAdditionalFormsChapter,
   showPtsdCombat,
   showPtsdNonCombat,
@@ -195,7 +194,6 @@ const formConfig = {
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
-  onFormLoaded,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>

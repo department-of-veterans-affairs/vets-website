@@ -854,19 +854,3 @@ export const formatFullName = (fullName = {}) => {
 
   return res.trim();
 };
-
-/**
- * TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
- * Remove this function when there are no more save in progress forms remaining on the 'new-disabilities/add-3' page.
- * @param {String} returnUrl - URL of last saved page
- * @param {Object} router - React router
- */
-export const onFormLoaded = props => {
-  const { returnUrl, router } = props;
-
-  if (returnUrl === '/new-disabilities/add-3') {
-    router?.push('/new-disabilities/add');
-  } else {
-    router?.push(returnUrl);
-  }
-};
