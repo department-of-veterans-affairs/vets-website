@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import AppointmentDetails from '../../AppointmentDetails';
+import { selectAppointment } from '../../../redux/selectors';
 
-const IntroductionPage = ({ appointment, error, isLoading, onStart }) => {
+const IntroductionPage = ({ onStart }) => {
+  const { data, error, isLoading } = useSelector(selectAppointment);
+
   return (
     <div>
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>
@@ -18,7 +21,7 @@ const IntroductionPage = ({ appointment, error, isLoading, onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {appointment && <AppointmentDetails appointment={appointment} />}
+      {data && <AppointmentDetails appointment={data} />}
 
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
@@ -92,20 +95,7 @@ const IntroductionPage = ({ appointment, error, isLoading, onStart }) => {
 };
 
 IntroductionPage.propTypes = {
-  appointment: PropTypes.object,
-  error: PropTypes.object,
-  isLoading: PropTypes.bool,
   onStart: PropTypes.func,
 };
 
-function mapStateToProps(state) {
-  return {
-    appointment: state.travelPay.appointment.data,
-    error: state.travelPay.appointment.error,
-    isLoading: state.travelPay.appointment.isLoading,
-  };
-}
-
-export default connect(mapStateToProps)(IntroductionPage);
-
-// export default IntroductionPage;
+export default IntroductionPage;

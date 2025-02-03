@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import {
   VaCheckbox,
@@ -14,9 +14,9 @@ import {
 
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
+import { selectAppointment } from '../../../redux/selectors';
 
 const ReviewPage = ({
-  appointment,
   address,
   onSubmit,
   setPageIndex,
@@ -29,9 +29,9 @@ const ReviewPage = ({
     scrollToTop('topScrollElement');
   }, []);
 
-  const [formattedDate, formattedTime] = formatDateTime(
-    appointment.localStartTime,
-  );
+  const { data } = useSelector(selectAppointment);
+
+  const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
     setYesNo({
@@ -54,10 +54,10 @@ const ReviewPage = ({
       </h3>
       <p className="vads-u-margin-y--0">
         Mileage-only reimbursement for your appointment at{' '}
-        {appointment.location.attributes.name}{' '}
-        {appointment.practitioners
-          ? `with ${appointment.practitioners[0].name.given.join(' ')} ${
-              appointment.practitioners[0].name.family
+        {data.location.attributes.name}{' '}
+        {data.practitioners
+          ? `with ${data.practitioners[0].name.given.join(' ')} ${
+              data.practitioners[0].name.family
             }`
           : ''}{' '}
         on {formattedDate}, {formattedTime}.
@@ -138,7 +138,6 @@ const ReviewPage = ({
 
 ReviewPage.propTypes = {
   address: PropTypes.object,
-  appointment: PropTypes.object,
   isAgreementChecked: PropTypes.bool,
   setIsAgreementChecked: PropTypes.func,
   setPageIndex: PropTypes.func,
@@ -150,11 +149,8 @@ function mapStateToProps(state) {
   const homeAddress = selectVAPResidentialAddress(state);
   const mailingAddress = selectVAPMailingAddress(state);
   return {
-    appointment: state.travelPay.appointment.data,
     address: homeAddress || mailingAddress,
   };
 }
 
 export default connect(mapStateToProps)(ReviewPage);
-
-// export default ReviewPage;

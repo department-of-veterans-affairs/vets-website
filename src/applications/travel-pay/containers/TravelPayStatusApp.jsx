@@ -101,9 +101,6 @@ export default function TravelPayStatusApp({ children }) {
     );
   };
 
-  // useEffect(
-  //   () => {
-  //     if (travelClaims.data.length > 0) {
   switch (orderClaimsBy) {
     case 'mostRecent':
       travelClaims.data.sort((a, b) => compareClaimsDate(a, b));
@@ -114,10 +111,6 @@ export default function TravelPayStatusApp({ children }) {
     default:
       break;
   }
-  // }
-  //   },
-  //   [orderClaimsBy, travelClaims.data],
-  // );
 
   const resetSearch = () => {
     setAppliedStatusFilters([]);
@@ -173,11 +166,7 @@ export default function TravelPayStatusApp({ children }) {
 
   useEffect(
     () => {
-      if (
-        // !travelClaims.error &&
-        travelClaims.data.length === 0 &&
-        !hasFetchedClaims
-      ) {
+      if (travelClaims.data.length === 0 && !hasFetchedClaims) {
         dispatch(getTravelClaims());
         setHasFetchedClaims(true);
       }
@@ -333,7 +322,6 @@ export default function TravelPayStatusApp({ children }) {
               message="Loading Travel Claims..."
             />
           )}
-          {/* {travelClaims.error && <p>Error fetching travel claims.</p>} */}
           {!travelClaims.isLoading &&
             travelClaims.data.length > 0 && (
               <>
@@ -410,7 +398,7 @@ export default function TravelPayStatusApp({ children }) {
             )}
           {!travelClaims.isLoading &&
             !travelClaims.error &&
-            travelClaims.length === 0 && <p>No travel claims to show.</p>}
+            travelClaims.data.length === 0 && <p>No travel claims to show.</p>}
           <VaBackToTop />
         </div>
       </article>
