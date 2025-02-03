@@ -6,6 +6,7 @@ import {
   buildSearchFilters,
 } from './filters';
 import { managePushHistory, setDocumentTitle } from '../utils/helpers';
+import { TabsEnum } from '../utils/enums';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
@@ -52,10 +53,18 @@ export const updateUrlParams = (
       ? { ...buildSearchFilters(filters), excludedSchoolTypes: clonedFilters }
       : buildSearchFilters(filters);
 
-  const url = appendQuery('/', {
+  let url = appendQuery('/', {
     ...queryParams,
     ...ClonedBuildSearchFilters,
   });
+
+  if (
+    tab === TabsEnum.schoolAndEmployerPrograms ||
+    tab === TabsEnum.schoolAndEmployerName
+  ) {
+    queryParams.name = searchQuery.name;
+    url = `${history.location.pathname}${url}`;
+  }
 
   managePushHistory(history, url);
   setDocumentTitle();
