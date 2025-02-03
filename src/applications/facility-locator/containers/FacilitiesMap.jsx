@@ -10,6 +10,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { SegmentedControl } from '../components/SegmentedControl';
 import {
   clearSearchText,
   clearSearchResults,
@@ -61,6 +62,8 @@ const FacilitiesMap = props => {
   const searchResultMessageRef = useRef();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
+
+  const [selectedTab, setSelectedTab] = useState(0);
 
   /**
    * Search when the component renders with a sharable url
@@ -324,6 +327,13 @@ const FacilitiesMap = props => {
     }, 10);
   };
 
+  const segmentOnChange = tab => {
+    setSelectedTab(tab);
+    setTimeout(function() {
+      setMap(setupMap());
+    }, 10);
+  };
+
   const shouldRenderSearchArea = () => {
     return props.currentQuery?.mapMoved;
   };
@@ -477,6 +487,49 @@ const FacilitiesMap = props => {
 
         {isMobile ? (
           <div className="columns small-12">
+            <SegmentedControl
+              a11yHints={[
+                'Accessibility hint for label 1',
+                'Accessibility hint for label 2',
+              ]}
+              a11yLabels={['Accessibility label override for label 1']}
+              labels={['View List', 'View Map']}
+              onChange={segmentOnChange}
+              selected={selectedTab}
+            />
+            <>
+              {selectedTab === 0 ? (
+                <>
+                  <div className="facility-search-results">{resultsList()}</div>
+                  {paginationWrapper()}{' '}
+                </>
+              ) : (
+                <>
+                  {renderMap(true, results)}
+                  {currentQuery.searchStarted &&
+                    !results.length && (
+                      <NoResultsMessage
+                        resultRef={searchResultMessageRef}
+                        resultsFound={false}
+                        searchStarted
+                      />
+                    )}
+                  {selectedResult && (
+                    <div className="mobile-search-result">
+                      {currentQuery.serviceType === Covid19Vaccine ? (
+                        <Covid19Result location={selectedResult} />
+                      ) : (
+                        <SearchResult
+                          result={selectedResult}
+                          query={currentQuery}
+                        />
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+            </>
+
             <Tabs>
               <TabList>
                 <Tab className="small-6 tab">View List</Tab>

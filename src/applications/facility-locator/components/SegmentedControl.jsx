@@ -1,0 +1,60 @@
+import React from 'react';
+
+export const SegmentedControl = ({
+  labels,
+  onChange,
+  selected,
+  a11yLabels,
+  testIDs,
+}) => {
+  const activeBgColor = 'rgb(255, 255, 255)';
+  const inactiveBgColor = 'rgb(223, 225, 226)';
+
+  const buildSegment = (label, index) => {
+    const isSelected = selected === index;
+    const widthPct = `${100 / labels.length}%`;
+
+    const accessibilityLabel = a11yLabels?.[index] || label;
+
+    return (
+      <button
+        key={index}
+        className={`segment ${isSelected ? 'segment--selected' : ''}`}
+        onClick={() => {
+          onChange(index);
+        }}
+        style={{
+          width: widthPct,
+          backgroundColor: isSelected ? activeBgColor : inactiveBgColor,
+        }}
+        aria-label={accessibilityLabel}
+        // aria-valuetext={a11yListPosition}
+        // aria-hint={a11yHints?.[index]}
+        role="tab"
+        aria-selected={isSelected}
+        data-testid={testIDs?.[index]}
+        // text={label}
+      >
+        <span
+          className={`segment-text ${
+            isSelected ? 'segment-text--selected' : ''
+          }`}
+        >
+          {label}
+        </span>
+      </button>
+    );
+  };
+
+  return (
+    <div
+      className={`segment-wrapper ${
+        selected === 0 ? 'segment-wrapper-list' : ''
+      }`}
+    >
+      <div className="segmented-control-container" role="tablist">
+        {labels.map((label, index) => buildSegment(label, index))}
+      </div>
+    </div>
+  );
+};
