@@ -16,7 +16,6 @@ import {
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
-  ADD_DISABILITIES_ENHANCEMENT_DATA,
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
   HOMELESSNESS_TYPES,
@@ -605,9 +604,6 @@ export const isUploadingSTR = formData =>
     false,
   );
 
-export const getAddDisabilitiesEnhancement = formData =>
-  formData[ADD_DISABILITIES_ENHANCEMENT_DATA];
-
 export const DISABILITY_SHARED_CONFIG = {
   orientation: {
     path: 'disabilities/orientation',
@@ -618,18 +614,9 @@ export const DISABILITY_SHARED_CONFIG = {
     path: 'disabilities/rated-disabilities',
     depends: formData => isClaimingIncrease(formData),
   },
-  // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
-  // When remove allClaimsAddDisabilitiesEnhancement FF, move the content of '/add-3' to '/add'
-  // The 3 in the temporary URL '/add-3' is a reference to this new content being the 3rd major version of this page
-  addDisabilitiesPrevious: {
-    path: 'new-disabilities/add',
-    depends: formData =>
-      isClaimingNew(formData) && !getAddDisabilitiesEnhancement(formData),
-  },
   addDisabilities: {
-    path: 'new-disabilities/add-3',
-    depends: formData =>
-      isClaimingNew(formData) && getAddDisabilitiesEnhancement(formData),
+    path: 'new-disabilities/add',
+    depends: isClaimingNew,
   },
 };
 
@@ -870,24 +857,14 @@ export const formatFullName = (fullName = {}) => {
 
 /**
  * TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
- * When remove allClaimsAddDisabilitiesEnhancement, update this function to route users from '/new-disabilities/add-3' to '/new-disabilities/add'
- * Remove this function completely when there are no more save in progress forms remaining on the 'new-disabilities/add-3' page.
- * @param {Object} formData - Form data from save-in-progress
+ * Remove this function when there are no more save in progress forms remaining on the 'new-disabilities/add-3' page.
  * @param {String} returnUrl - URL of last saved page
  * @param {Object} router - React router
  */
 export const onFormLoaded = props => {
-  const { formData, returnUrl, router } = props;
+  const { returnUrl, router } = props;
 
-  if (
-    getAddDisabilitiesEnhancement(formData) &&
-    returnUrl === '/new-disabilities/add'
-  ) {
-    router?.push('/new-disabilities/add-3');
-  } else if (
-    !getAddDisabilitiesEnhancement(formData) &&
-    returnUrl === '/new-disabilities/add-3'
-  ) {
+  if (returnUrl === '/new-disabilities/add-3') {
     router?.push('/new-disabilities/add');
   } else {
     router?.push(returnUrl);
