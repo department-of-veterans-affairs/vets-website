@@ -20,7 +20,10 @@ export const ConfirmationPage = ({ router, route }) => {
     <div>
       <Alert router={router} />
 
-      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
+      <h2
+        className="vads-u-font-size--h3 vads-u-margin-bottom--2"
+        data-testid="confirmation-header"
+      >
         To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
         below
       </h2>
@@ -36,6 +39,7 @@ export const ConfirmationPage = ({ router, route }) => {
       <va-link
         onClick={goBack}
         class="screen-only vads-u-margin-top--1 vads-u-font-weight--bold"
+        data-testid="back-button"
         text="Back"
         href="#"
       />
