@@ -141,8 +141,14 @@ describe('summaryOfDisabilitiesDescription', () => {
     expect(tree.queryByText('Diabites Mellitus1')).to.be.null;
   });
 
-  it('renders link to rated disabilities page when both new and increase are selected', () => {
+  it('renders link with claim type path when has rated disabilities', () => {
     const formData = {
+      ratedDisabilities: [
+        {
+          'view:selected': true,
+          name: 'condition 1',
+        },
+      ],
       'view:claimType': {
         'view:claimingNew': true,
         'view:claimingIncrease': true,
@@ -156,28 +162,13 @@ describe('summaryOfDisabilitiesDescription', () => {
       'go back and add any missing disabilities',
     );
     expect(link.getAttribute('data-testid')).to.equal(
-      `redirect-link-${DISABILITY_SHARED_CONFIG.ratedDisabilities.path}`,
+      `redirect-link-claim-type`,
     );
   });
 
-  it('renders link to rated disabilities page when only increase is selected', () => {
+  it('renders link with add disabilities path when does not have rated disabilities', () => {
     const formData = {
-      'view:claimType': {
-        'view:claimingNew': false,
-        'view:claimingIncrease': true,
-      },
-    };
-
-    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
-
-    const link = tree.getByText('go back and add it');
-    expect(link.getAttribute('data-testid')).to.equal(
-      `redirect-link-${DISABILITY_SHARED_CONFIG.ratedDisabilities.path}`,
-    );
-  });
-
-  it('renders link to add disabilities page when only new is selected', () => {
-    const formData = {
+      ratedDisabilities: [],
       'view:claimType': {
         'view:claimingNew': true,
         'view:claimingIncrease': false,
