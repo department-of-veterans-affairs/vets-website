@@ -40,7 +40,7 @@ const AppointmentDetails = ({ appointment }) => {
 };
 
 AppointmentDetails.prototypes = {
-  appointment: PropTypes.object.isRequired,
+  appointment: PropTypes.object,
 };
 
 export default AppointmentDetails;
