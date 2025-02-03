@@ -76,7 +76,6 @@ describe('VAOS Component: StatusAlert', () => {
         path: `/${mockAppointment.id}`,
       },
     );
-    screen.debug();
     expect(screen.baseElement).to.contain.text(
       'Call your facility to finish scheduling',
     );
