@@ -71,7 +71,7 @@ export const ConfirmationPage = () => {
         <p className="vads-u-margin-y--0 dd-privacy-mask">
           {fullName ? (
             <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
+              {fullName.first} {fullName.middle} {fullName.last}
               {fullName.suffix ? `, ${fullName.suffix}` : null}
             </span>
           ) : null}
