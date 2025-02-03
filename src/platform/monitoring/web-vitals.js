@@ -20,9 +20,9 @@ const recordWebVitalsEvent = event => {
   recordEvent(webVitalsEvent);
 };
 
-const trackWebVitals = () => {
-  // Sample ~1% of events from production.
-  if (environment.isProduction()) {
+const trackWebVitals = ({ sampleEvents = false }) => {
+  if (sampleEvents) {
+    // Sample ~1% of events.
     return Math.random() < 0.01;
   }
 
@@ -30,11 +30,11 @@ const trackWebVitals = () => {
   return environment.BASE_URL.indexOf('localhost') < 0;
 };
 
-if (trackWebVitals) {
+if (trackWebVitals({ sampleEvents: environment.isProduction() })) {
   onCLS(recordWebVitalsEvent);
   onINP(recordWebVitalsEvent);
   onLCP(recordWebVitalsEvent);
   onTTFB(recordWebVitalsEvent);
 }
 
-export { recordWebVitalsEvent };
+export { recordWebVitalsEvent, trackWebVitals };
