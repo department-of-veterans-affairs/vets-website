@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 
 import {
   capitalizeEachWord,
+  DISABILITY_SHARED_CONFIG,
+  hasRatedDisabilities,
   isClaimingIncrease,
   isClaimingNew,
   isDisabilityPtsd,
-  DISABILITY_SHARED_CONFIG,
 } from '../utils';
 import { ptsdTypeEnum } from './ptsdTypeInfo';
 import { NULL_CONDITION_STRING } from '../constants';
@@ -34,30 +35,12 @@ const mapDisabilityName = (disabilityName, formData, index) => {
   return <li key={`"${disabilityName}-${index}"`}>{disabilityName}</li>;
 };
 
-const getRedirectLink = formData => {
-  // Start from orientation page; assuming user has both existing & new
-  // disabilities selected
-  let destinationPath = DISABILITY_SHARED_CONFIG.orientation.path;
-
-  if (DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData)) {
-    // start from rated disabilities page
-    destinationPath = DISABILITY_SHARED_CONFIG.ratedDisabilities.path;
-  } else if (DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData)) {
-    destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
+const getRedirectLinkPath = formData => {
+  if (hasRatedDisabilities(formData)) {
+    return 'claim-type';
   }
 
-  return (
-    <Link
-      aria-label="go back and add any missing disabilities"
-      data-testid={`redirect-link-${destinationPath}`}
-      to={{
-        pathname: destinationPath || '/',
-        search: '?redirect',
-      }}
-    >
-      go back and add it
-    </Link>
-  );
+  return DISABILITY_SHARED_CONFIG.addDisabilities.path;
 };
 
 export const SummaryOfDisabilitiesDescription = ({ formData }) => {
@@ -86,13 +69,24 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
     .concat(newDisabilityNames)
     .map((name, i) => mapDisabilityName(name, formData, i));
 
-  const showLink = getRedirectLink(formData);
+  const redirectLinkPath = getRedirectLinkPath(formData);
 
   return (
     <>
       <p>
         This is a list of the conditions you’re claiming in this application. If
-        a condition is missing, please {showLink}.
+        a condition is missing, please{' '}
+        <Link
+          aria-label="go back and add any missing disabilities"
+          data-testid={`redirect-link-${redirectLinkPath}`}
+          to={{
+            pathname: redirectLinkPath,
+            search: '?redirect',
+          }}
+        >
+          go back and add it
+        </Link>
+        .
       </p>
       <ul>{selectedDisabilitiesList}</ul>
     </>
