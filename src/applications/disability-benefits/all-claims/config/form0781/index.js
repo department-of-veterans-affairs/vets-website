@@ -32,8 +32,7 @@ export const form0781PagesConfig = {
     schema: workflowChoicePage.schema,
   },
   manualUploadPage: {
-    path:
-      'disability/file-disability-claim-form-21-526ez/mental-health-form-0781/upload',
+    path: 'mental-health-form-0781/upload',
     uiSchema: manualUploadPage.uiSchema,
     depends: formData => showManualUpload0781Page(formData),
     schema: manualUploadPage.schema,
