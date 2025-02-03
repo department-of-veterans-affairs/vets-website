@@ -13,7 +13,11 @@ import LetterPageWrapper from './containers/LetterPageWrapper';
 const letterPageFeatureFlagWrapper = (
   <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
     {toggleValue =>
-      toggleValue ? <LetterPage /> : <Navigate to="confirm-address" replace />
+      toggleValue ? (
+        <Navigate to="letter-page" replace />
+      ) : (
+        <Navigate to="confirm-address" replace />
+      )
     }
   </Toggler.Hoc>
 );
@@ -21,15 +25,16 @@ const letterPageFeatureFlagWrapper = (
 const routes = (
   <Routes>
     <Route path="/" element={<App />}>
-      <Route element={<LetterPageWrapper />}>
-        <Route element={<Main />}>
-          <Route index element={letterPageFeatureFlagWrapper} />
-        </Route>
-      </Route>
+      <Route index element={letterPageFeatureFlagWrapper} />
       <Route element={<DownloadLetters />}>
         <Route element={<AddressSection />} path="confirm-address" />
         <Route element={<Main />}>
           <Route element={<LetterList />} path="letter-list" />
+        </Route>
+      </Route>
+      <Route element={<LetterPageWrapper />}>
+        <Route element={<Main />}>
+          <Route element={<LetterPage />} path="letter-page" />
         </Route>
       </Route>
     </Route>
