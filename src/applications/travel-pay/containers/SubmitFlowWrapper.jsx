@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
@@ -14,16 +13,17 @@ import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
+import { selectAppointment } from '../redux/selectors';
 
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 import { getAppointmentData } from '../redux/actions';
 
-const SubmitFlowWrapper = ({ appointment }) => {
+const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const { apptId } = useParams();
 
-  const { isLoading, error, data } = appointment;
+  const { data, error, isLoading } = useSelector(selectAppointment);
 
   const {
     useToggleValue,
@@ -180,14 +180,4 @@ const SubmitFlowWrapper = ({ appointment }) => {
   );
 };
 
-SubmitFlowWrapper.propTypes = {
-  appointment: PropTypes.object,
-};
-
-function mapStateToProps(state) {
-  return {
-    appointment: state.travelPay.appointment,
-  };
-}
-
-export default connect(mapStateToProps)(SubmitFlowWrapper);
+export default SubmitFlowWrapper;
