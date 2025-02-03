@@ -48,7 +48,7 @@ const LocationHours = ({ location }) => {
 
   return (
     <div id="hours-op">
-      <h3 className="highlight">Hours of operation</h3>
+      <h3>Hours of operation</h3>
       {renderHoursByDay()}
       {isVetCenter && (
         <p>
