@@ -84,3 +84,38 @@ export function getRoute(routes, location) {
     return null;
   }
 }
+
+/**
+ * @param {string} pathname e.g. `'/my-form/introduction'`
+ * @returns {{ label: string, href: string}[]} for `va-breadcrumbs` `breadcrumbList` prop
+ */
+export function createBreadcrumbListFromPath(pathname) {
+  function breadcrumbItem(label, href) {
+    return { label, href };
+  }
+
+  const breadcrumbList = [breadcrumbItem('VA.gov home', '/')];
+
+  try {
+    // pathname = '/my-form/introduction'
+    const pathParts = pathname.split('/').filter(Boolean);
+    // pathParts = ['my-form', 'introduction']
+    pathParts.pop();
+    // pathParts = ['my-form']
+
+    const otherBreadcrumbList = pathParts.map((part, index) => {
+      // part = 'my-form'
+      let label = part.charAt(0).toUpperCase() + part.slice(1);
+      // label = 'My-form'
+      label = label.replace(/-/g, ' ');
+      // label = 'My form'
+      const href = `/${pathParts.slice(0, index + 1).join('/')}`;
+      return breadcrumbItem(label, href);
+    });
+    breadcrumbList.push(...otherBreadcrumbList);
+  } catch (error) {
+    // suppress error - Just use Home breadcrumb
+  }
+
+  return breadcrumbList;
+}
