@@ -264,7 +264,7 @@ describe('Radiology details component', () => {
   });
 
   it('should display the test name', () => {
-    const header = screen.getByText('KNEE 4 OR MORE VIEWS (LEFT)', {
+    const header = screen.getByText('DEXA, PERIPHERAL STUDY', {
       exact: true,
       selector: 'h1',
     });
