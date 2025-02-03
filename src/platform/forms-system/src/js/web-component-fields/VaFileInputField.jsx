@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import vaFileInputFieldMapping from './vaFileInputFieldMapping';
 import { getFileSize, uploadScannedForm } from './vaFileInputFieldHelpers';
 
-let file = null;
-
 /**
  * Usage uiSchema:
  * ```
@@ -54,7 +52,6 @@ const VaFileInputField = props => {
         errorMessage,
       } = uploadedFile;
       setError(errorMessage);
-      file = uploadedFile.file;
       props.childrenProps.onChange({
         confirmationCode,
         isEncrypted,
@@ -68,17 +65,8 @@ const VaFileInputField = props => {
   const handleVaChange = e => {
     const fileFromEvent = e.detail.files[0];
     if (!fileFromEvent) {
-      file = null;
       setError(mappedProps.error);
       props.childrenProps.onChange({});
-      return;
-    }
-
-    if (
-      file?.lastModified === fileFromEvent.lastModified &&
-      file?.size === fileFromEvent.size
-    ) {
-      // This guard clause protects against infinite looping/updating if the localFile and fileFromEvent are identical
       return;
     }
 
@@ -104,7 +92,7 @@ const VaFileInputField = props => {
     <VaFileInput
       {...mappedProps}
       error={error}
-      value={file}
+      uploadedFile={mappedProps.uploadedFile}
       onVaChange={handleVaChange}
     />
   );

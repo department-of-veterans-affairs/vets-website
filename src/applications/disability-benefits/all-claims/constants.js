@@ -422,6 +422,14 @@ export const OFFICIAL_REPORT_TYPES = Object.freeze({
   none: 'No report',
 });
 
+export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
+  work: 'Behavioral changes related to work',
+  health: 'Behavioral changes related to health',
+  other: 'Other behavioral changes',
+  unlisted: 'Other behavioral changes not listed here:',
+  none: 'None',
+});
+
 export const BEHAVIOR_CHANGES_WORK = Object.freeze({
   reassignment:
     'Request for a change in occupational series or duty assignment',
