@@ -39,7 +39,7 @@ const AppointmentDetails = ({ appointment }) => {
   );
 };
 
-AppointmentDetails.prototypes = {
+AppointmentDetails.propTypes = {
   appointment: PropTypes.object,
 };
 
