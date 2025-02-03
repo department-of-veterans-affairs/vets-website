@@ -311,5 +311,6 @@
   "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
-  "toggleGiProgramsFlag": "toggle_gi_programs_flag"
+  "toggleGiProgramsFlag": "toggle_gi_programs_flag",
+  "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update"
 }

@@ -28,12 +28,10 @@ export const SegmentedControl = ({
           backgroundColor: isSelected ? activeBgColor : inactiveBgColor,
         }}
         aria-label={accessibilityLabel}
-        // aria-valuetext={a11yListPosition}
-        // aria-hint={a11yHints?.[index]}
         role="tab"
         aria-selected={isSelected}
         data-testid={testIDs?.[index]}
-        // text={label}
+        type="button"
       >
         <span
           className={`segment-text ${

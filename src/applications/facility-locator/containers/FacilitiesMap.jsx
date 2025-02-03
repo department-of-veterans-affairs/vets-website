@@ -10,6 +10,8 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { SegmentedControl } from '../components/SegmentedControl';
 import {
   clearSearchText,
@@ -62,7 +64,6 @@ const FacilitiesMap = props => {
   const searchResultMessageRef = useRef();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSearching, setIsSearching] = useState(false);
-
   const [selectedTab, setSelectedTab] = useState(0);
 
   /**
@@ -487,24 +488,62 @@ const FacilitiesMap = props => {
 
         {isMobile ? (
           <div className="columns small-12">
-            <SegmentedControl
-              a11yHints={[
-                'Accessibility hint for label 1',
-                'Accessibility hint for label 2',
-              ]}
-              a11yLabels={['Accessibility label override for label 1']}
-              labels={['View List', 'View Map']}
-              onChange={segmentOnChange}
-              selected={selectedTab}
-            />
-            <>
-              {selectedTab === 0 ? (
+            {props.facilityLocatorMobileMapUpdate ? (
+              <>
+                <SegmentedControl
+                  a11yLabels={['View List', 'View Map']}
+                  labels={['View List', 'View Map']}
+                  onChange={segmentOnChange}
+                  selected={selectedTab}
+                />
                 <>
-                  <div className="facility-search-results">{resultsList()}</div>
-                  {paginationWrapper()}{' '}
+                  {selectedTab === 0 ? (
+                    <>
+                      <div className="facility-search-results">
+                        {resultsList()}
+                      </div>
+                      {paginationWrapper()}{' '}
+                    </>
+                  ) : (
+                    <>
+                      {renderMap(true, results)}
+                      {currentQuery.searchStarted &&
+                        !results.length && (
+                          <NoResultsMessage
+                            resultRef={searchResultMessageRef}
+                            resultsFound={false}
+                            searchStarted
+                          />
+                        )}
+                      {selectedResult && (
+                        <div className="mobile-search-result">
+                          {currentQuery.serviceType === Covid19Vaccine ? (
+                            <Covid19Result location={selectedResult} />
+                          ) : (
+                            <SearchResult
+                              result={selectedResult}
+                              query={currentQuery}
+                            />
+                          )}
+                        </div>
+                      )}
+                    </>
+                  )}
                 </>
-              ) : (
-                <>
+              </>
+            ) : (
+              <Tabs>
+                <TabList>
+                  <Tab className="small-6 tab">View List</Tab>
+                  <Tab onClick={setMapResize} className="small-6 tab">
+                    View Map
+                  </Tab>
+                </TabList>
+                <TabPanel>
+                  <div className="facility-search-results">{resultsList()}</div>
+                  {paginationWrapper()}
+                </TabPanel>
+                <TabPanel>
                   {renderMap(true, results)}
                   {currentQuery.searchStarted &&
                     !results.length && (
@@ -526,45 +565,9 @@ const FacilitiesMap = props => {
                       )}
                     </div>
                   )}
-                </>
-              )}
-            </>
-
-            <Tabs>
-              <TabList>
-                <Tab className="small-6 tab">View List</Tab>
-                <Tab onClick={setMapResize} className="small-6 tab">
-                  View Map
-                </Tab>
-              </TabList>
-              <TabPanel>
-                <div className="facility-search-results">{resultsList()}</div>
-                {paginationWrapper()}
-              </TabPanel>
-              <TabPanel>
-                {renderMap(true, results)}
-                {currentQuery.searchStarted &&
-                  !results.length && (
-                    <NoResultsMessage
-                      resultRef={searchResultMessageRef}
-                      resultsFound={false}
-                      searchStarted
-                    />
-                  )}
-                {selectedResult && (
-                  <div className="mobile-search-result">
-                    {currentQuery.serviceType === Covid19Vaccine ? (
-                      <Covid19Result location={selectedResult} />
-                    ) : (
-                      <SearchResult
-                        result={selectedResult}
-                        query={currentQuery}
-                      />
-                    )}
-                  </div>
-                )}
-              </TabPanel>
-            </Tabs>
+                </TabPanel>
+              </Tabs>
+            )}
           </div>
         ) : (
           <>
@@ -740,6 +743,9 @@ const FacilitiesMap = props => {
 };
 
 const mapStateToProps = state => ({
+  facilityLocatorMobileMapUpdate: toggleValues(state)[
+    FEATURE_FLAG_NAMES.facilityLocatorMobileMapUpdate
+  ],
   currentQuery: state.searchQuery,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
