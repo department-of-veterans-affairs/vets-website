@@ -18,6 +18,7 @@ class FacilityInfo extends Component {
     } = facility.attributes;
 
     const isVBA = facilityType === FacilityType.VA_BENEFITS_FACILITY;
+    const isCemetery = facilityType === FacilityType.VA_CEMETERY;
 
     return (
       <div>
@@ -29,16 +30,15 @@ class FacilityInfo extends Component {
           <LocationAddress location={facility} />
         </div>
         <div>
-          <LocationPhoneLink location={facility} from="FacilityDetail" />
+          <LocationPhoneLink location={facility} />
         </div>
         {website &&
           website !== 'NULL' && (
             <p className="vads-u-margin--0">
-              <va-icon icon="language" size="3" />
               <va-link
                 class="vads-u-margin-left--0p5"
                 href={website}
-                text="Website"
+                text="Visit our website"
               />
             </p>
           )}
@@ -48,11 +48,20 @@ class FacilityInfo extends Component {
         {phone &&
           phone.main &&
           !isVBA && (
-            <p className="p1">
+            <p>
               Planning to visit? Please call first as information on this page
               may change.
             </p>
           )}
+        {isCemetery && (
+          <div>
+            <h2 className="vads-u-font-size--h3">Burial space</h2>
+            <p>
+              <strong>[Status will go here]</strong>
+              <p>[Standard definition of status will go here]</p>
+            </p>
+          </div>
+        )}
       </div>
     );
   }
