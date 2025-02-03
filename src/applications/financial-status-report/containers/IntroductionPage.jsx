@@ -43,6 +43,14 @@ const IntroductionPage = ({ route, formId }) => {
         unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
         hideUnauthedStartLink
       />
+      <p>
+        You can use this form to request these types of help with your VA debt:
+      </p>
+      <ul>
+        <li>Waiver (debt forgiveness)</li>
+        <li>Compromise offer</li>
+        <li>Payment plan (if you need longer than 5 years to repay)</li>
+      </ul>
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help
       </h2>
