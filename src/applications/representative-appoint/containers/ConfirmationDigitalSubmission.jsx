@@ -90,6 +90,13 @@ export default function ConfirmationDigitalSubmission() {
         <strong>Note:</strong> Don’t submit another request before we email you.
         If you submit another request, you’ll cancel your current one.
       </p>
+
+      <VaLinkAction
+        text="Go back to VA.gov"
+        label="Go back to VA.gov"
+        href="/"
+        type="secondary"
+      />
     </>
   );
 }
