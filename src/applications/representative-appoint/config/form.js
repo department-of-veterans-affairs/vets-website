@@ -5,7 +5,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationContainer from '../containers/ConfirmationContainer';
 import { generatePDF } from '../api/generatePDF';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
@@ -65,7 +65,7 @@ const formConfig = {
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ConfirmationContainer,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   formId: '21-22',
