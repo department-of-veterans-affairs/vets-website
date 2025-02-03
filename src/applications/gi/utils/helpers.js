@@ -17,6 +17,7 @@ import {
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
   ERROR_MESSAGES,
+  lacpCategoryList,
 } from '../constants';
 
 /**
@@ -529,19 +530,50 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
+export function capitalizeFirstLetter(string, customExceptions = []) {
+  if (!string) return null;
+
+  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and', ...customExceptions];
+
+  return string
+    .split(' ')
+    .map(word => {
+      if (exceptions.includes(word)) {
+        return word;
+      }
+
+      if (word === 'OF') {
+        return 'of';
+      }
+      if (word === 'AND') {
+        return 'and';
+      }
+
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
 export const filterSuggestions = (
   results,
   nameInput,
-  typeFilter,
+  categoryFilters, // account for mutliple types
   stateFilter,
 ) => {
-  if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
+  if (
+    categoryFilters.includes('all') &&
+    stateFilter === 'all' &&
+    nameInput === ''
+  )
     return results;
 
   return results.filter(result => {
     let allowContinue = true;
 
-    if (typeFilter !== 'all' && typeFilter !== result.eduLacTypeNm)
+    if (
+      categoryFilters !== 'all' &&
+      !categoryFilters.includes(result.eduLacTypeNm)
+    )
       return false;
     if (
       stateFilter !== 'all' &&
@@ -575,20 +607,26 @@ export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
 
   const nameParam = searchParams.get('name') ?? '';
-  const categoryParam = searchParams.get('category') ?? 'all';
+  const categoryParams = searchParams.getAll('category') ?? 'all';
   const stateParam = searchParams.get('state') ?? 'all';
 
-  return { nameParam, categoryParam, stateParam };
+  return { nameParam, categoryParams, stateParam };
 };
 
 export const handleLcResultsSearch = (
   history,
-  category,
+  categories,
   name,
   state = 'all',
 ) => {
+  let categoryParams = '';
+
+  categories.forEach(category => {
+    categoryParams = categoryParams.concat('', `category=${category}`);
+  });
+
   return history.push(
-    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
+    `/lc-search/results?name=${name}&state=${state}&`.concat(categoryParams),
   );
 };
 
@@ -601,30 +639,6 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
     itemsPerPage}  `;
 };
-
-export function capitalizeFirstLetter(string) {
-  if (!string) return null;
-
-  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and'];
-
-  return string
-    .split(' ')
-    .map(word => {
-      if (exceptions.includes(word)) {
-        return word;
-      }
-
-      if (word === 'OF') {
-        return 'of';
-      }
-      if (word === 'AND') {
-        return 'and';
-      }
-
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    })
-    .join(' ');
-}
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states)
   .map(state => {
@@ -651,25 +665,22 @@ export const mappedStates = Object.entries(ADDRESS_DATA.states)
     return true;
   });
 
-export const updateCategoryDropdown = (category = 'all') => {
+export const updateCategoryDropdown = (
+  category = 'all',
+  categoryList = lacpCategoryList,
+) => {
   return {
     label: 'category',
-    options: [
-      { optionValue: 'all', optionLabel: 'All' },
-      { optionValue: 'License', optionLabel: 'License' },
-      {
-        optionValue: 'Certification',
-        optionLabel: 'Certification',
-      },
-      {
-        optionValue: 'Prep Course',
-        optionLabel: 'Prep Course',
-      },
-    ],
+    options: categoryList.map(_category => {
+      return {
+        optionValue: _category,
+        optionLabel: capitalizeFirstLetter(_category, ['course']),
+      };
+    }),
     alt: 'category type',
     current: {
       optionValue: category,
-      optionLabel: capitalizeFirstLetter(category),
+      optionLabel: capitalizeFirstLetter(category, ['course']),
     },
   };
 };

@@ -95,11 +95,11 @@ export default function LicenseCertificationSearchPage({ flag }) {
 
   const handleSearch = (category, name) => {
     const newParams = {
-      category,
+      categories: [category],
       name,
     };
     updateQueryParam(history, location, newParams);
-    handleLcResultsSearch(history, category, name);
+    handleLcResultsSearch(history, newParams.categories, name);
   };
 
   const handleReset = callback => {

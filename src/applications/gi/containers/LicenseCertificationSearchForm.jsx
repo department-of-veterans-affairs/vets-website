@@ -31,22 +31,23 @@ export default function LicenseCertificationSearchForm({
   useLcpFilter({
     flag,
     name,
-    categoryValue: dropdown.current.optionValue,
-    locationValue: 'all', // determine best way to apply all by default
+    categoryValues: dropdown.current.optionValue,
   });
 
   // If available, use url query params to assign initial dropdown values
-  useEffect(
-    () => {
+  useEffect(() => {
+    if (categoryParam) {
       setDropdown(updateCategoryDropdown(categoryParam));
+    }
+
+    if (nameParam) {
       setName(nameParam);
-    },
-    [categoryParam],
-  );
+    }
+  }, []);
 
   const handleChange = e => {
+    // console.log('category dropdown updated 🟢');
     setDropdown(updateCategoryDropdown(e.target.value));
-    // update category type dropdown
   };
 
   const onSelection = selection => {

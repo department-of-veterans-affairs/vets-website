@@ -17,7 +17,6 @@ export default function LicenseCertificationFilterAccordion({
   headerClass,
   ariaDescribedBy,
   expanded,
-  // dispatchFocusSearch,
 }) {
   const [isExpanded, setExpanded] = useState(expanded);
 
@@ -54,7 +53,8 @@ export default function LicenseCertificationFilterAccordion({
       </h2>
     );
   };
-  const updateResultsButtonsWarper = classNames(
+
+  const updateResultsButtonsWrapper = classNames(
     'vads-u-height--auto',
     'vads-u-display--flex',
     'vads-u-flex-direction--column',
@@ -93,7 +93,7 @@ export default function LicenseCertificationFilterAccordion({
         {isExpanded ? children : null}
       </div>
       {isExpanded && (
-        <div className={updateResultsButtonsWarper}>
+        <div className={updateResultsButtonsWrapper}>
           <VaButton
             className={`update-results-button-after ${updateResultsButton}`}
             onClick={buttonOnClick}
