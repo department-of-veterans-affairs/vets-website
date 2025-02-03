@@ -13,7 +13,7 @@ describe('Medications List Page Pending New Rx', () => {
     site.login();
     landingPage.visitLandingPageURL();
     landingPage.visitMedicationsListPage(pendingPrescriptions);
-    listPage.verifyPendingRxInfoTextOnMedicationCardOnListPage(
+    listPage.verifyPendingNewRxInfoTextOnMedicationCardOnListPage(
       Data.PENDING_RX_CARD_INFO,
     );
     listPage.verifyPrecriptionNumberForPendingRxOnMedicationCard(

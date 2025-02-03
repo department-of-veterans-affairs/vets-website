@@ -841,8 +841,8 @@ class MedicationsListPage {
       .should('contain', prescriptionNumber);
   };
 
-  verifyPendingRxInfoTextOnMedicationCardOnListPage = text => {
-    cy.get('[data-testid="pendingRx-Info"]')
+  verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
       .first()
       .should('be.visible')
       .and('have.text', text);
