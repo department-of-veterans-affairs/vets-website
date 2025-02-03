@@ -4,14 +4,15 @@ import { Actions } from '../util/actionTypes';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
 
-const MAX_BACKOFF = 30000; // 30 seconds
 const INITIAL_BACKOFF = 1000; // 1 second
 const BACKOFF_FACTOR = 1.05; // 5% increase
+const MAX_DURATION = 60000; // 1 minute total
 
 export const genAndDownloadCCD = (
   firstName,
   lastName,
   backoff = INITIAL_BACKOFF,
+  startTime = Date.now(),
 ) => async dispatch => {
   dispatch({ type: Actions.Downloads.GENERATE_CCD });
 
@@ -56,9 +57,18 @@ export const genAndDownloadCCD = (
 
     // RETRY WITH BACKOFF
     else {
-      const nextBackoff = Math.min(backoff * BACKOFF_FACTOR, MAX_BACKOFF);
+      const elapsed = Date.now() - startTime;
+
+      // if we have exceeded 1 minute, throw an error
+      if (elapsed >= MAX_DURATION) {
+        throw new Error('CCD generation timed out.');
+      }
+
+      const nextBackoff = backoff * BACKOFF_FACTOR;
       setTimeout(() => {
-        dispatch(genAndDownloadCCD(firstName, lastName, nextBackoff));
+        dispatch(
+          genAndDownloadCCD(firstName, lastName, nextBackoff, startTime),
+        );
       }, backoff);
     }
   } catch (error) {
