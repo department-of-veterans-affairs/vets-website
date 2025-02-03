@@ -152,15 +152,17 @@ ${record.results} \n`;
           </HeaderSection>
         </div>
         <div className="test-results-container">
-          <HeaderSection
-            header={record.results}
-            label="Results"
-            value={<InfoAlert fullState={fullState} />}
-            data-testid="pathology-report"
-            className="monospace"
-            data-dd-privacy="mask"
-            data-dd-action-name="[lab and tests - pathology results]"
-          />
+          <HeaderSection header="Results" className="test-results-header">
+            <InfoAlert fullState={fullState} />
+            <p
+              data-testid="pathology-report"
+              className="monospace"
+              data-dd-privacy="mask"
+              data-dd-action-name="[lab and tests - pathology results]"
+            >
+              {record.results}
+            </p>
+          </HeaderSection>
         </div>
       </HeaderSection>
     </div>

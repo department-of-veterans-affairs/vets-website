@@ -169,24 +169,23 @@ Lab comments: ${entry.labComments}\n`,
         </div>
         {/*         RESULTS CARDS            */}
         <div className="test-results-container">
-          <HeaderSection header="test-results-header">Results</HeaderSection>
-          value= <InfoAlert highLowResults fullState={fullState} />
-          <InfoAlert highLowResults fullState={fullState} />
-          <div className="print-only">
-            <p>
-              Your provider will review your results and explain what they mean
-              for your health. To ask a question now, send a secure message to
-              your care team.
-            </p>
-            <LabelValue label="Standard range" />
-            <p className="vads-u-margin-top--0">
-              The standard range is one tool your providers use to understand
-              your results. If your results are outside the standard range, this
-              doesn’t automatically mean you have a health problem. Your
-              provider will explain what your results mean for your health.
-            </p>
-          </div>
-          <ChemHemResults results={record.results} />
+          <HeaderSection header="Results" className="test-results-header">
+            <InfoAlert highLowResults fullState={fullState} />
+            <div className="print-only">
+              <p>
+                Your provider will review your results and explain what they
+                mean for your health. To ask a question now, send a secure
+                message to your care team.
+              </p>
+              <LabelValue label="Standard range">
+                The standard range is one tool your providers use to understand
+                your results. If your results are outside the standard range,
+                this doesn’t automatically mean you have a health problem. Your
+                provider will explain what your results mean for your health.
+              </LabelValue>
+            </div>
+            <ChemHemResults results={record.results} />
+          </HeaderSection>
         </div>
       </HeaderSection>
     </div>

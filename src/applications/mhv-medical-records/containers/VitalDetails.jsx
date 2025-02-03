@@ -379,12 +379,13 @@ Provider notes: ${vital.notes}\n\n`,
         </div>
 
         {/* print view start */}
-        <HeaderSection
-          header={`Vitals: ${vitalTypeDisplayNames[records[0].type]}`}
+        <h1
           className="vads-u-font-size--h1 vads-u-margin-bottom--1 print-only"
           data-dd-privacy="mask"
           data-dd-action-name="[vitals detail - name - Print]"
-        />
+        >
+          Vitals: {vitalTypeDisplayNames[records[0].type]}
+        </h1>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
           {records?.length > 0 &&
             records?.map((vital, idx) => (
@@ -400,31 +401,42 @@ Provider notes: ${vital.notes}\n\n`,
                 >
                   {vital.date}
                 </h3>
-
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <LabelValue
-                    label="Measurement: "
-                    value={vital.measurement}
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
+                    Measurement:{' '}
+                  </h4>
+                  <p
                     className="vads-u-display--inline"
-                    actionName="[vitals detail - measurement - Print]"
-                  />
+                    data-dd-privacy="mask"
+                    data-dd-action-name="[vitals detail - measurement - Print]"
+                  >
+                    {vital.measurement}
+                  </p>
                 </div>
                 <div className="vads-u-margin-bottom--0p5 vads-u-margin-left--1p5">
-                  <LabelValue
-                    label="Location: "
-                    value={vital.location}
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
+                    Location:{' '}
+                  </h4>
+                  <p
                     className="vads-u-display--inline"
-                    actionName="[vitals detail - location - Print]"
-                  />
+                    data-dd-privacy="mask"
+                    data-dd-action-name="[vitals detail - location - Print]"
+                  >
+                    {vital.location}
+                  </p>
                 </div>
                 <div className="vads-u-margin-left--1p5">
-                  <LabelValue
-                    label="Provider notes: "
-                    value={vital.notes}
+                  <h4 className="vads-u-display--inline vads-u-font-size--md vads-u-font-family--sans">
+                    Provider notes:{' '}
+                  </h4>
+                  <p
                     className="vads-u-display--inline"
+                    data-dd-privacy="mask"
                     style={{ whiteSpace: 'pre-line' }}
-                    actionName="[vitals detail - notes - Print]"
-                  />
+                    data-dd-action-name="[vitals detail - notes - Print]"
+                  >
+                    {vital.notes}
+                  </p>
                 </div>
               </li>
             ))}

@@ -435,18 +435,14 @@ ${record.results}`;
 
             {!phase0p5Flag && (
               <>
-                <LabelValue
-                  label="Images"
-                  value={
-                    <p data-testid="radiology-image" className="no-print">
-                      Images are not yet available in this new medical records
-                      tool. To get images, you’ll need to request them in the
-                      previous version of medical records on the My HealtheVet
-                      website.
-                    </p>
-                  }
-                />
-
+                <LabelValue label="Images">
+                  <p data-testid="radiology-image" className="no-print">
+                    Images are not yet available in this new medical records
+                    tool. To get images, you’ll need to request them in the
+                    previous version of medical records on the My HealtheVet
+                    website.
+                  </p>
+                </LabelValue>
                 <va-link
                   href={mhvUrl(
                     isAuthenticatedWithSSOe(fullState),
@@ -464,15 +460,17 @@ ${record.results}`;
         </div>
 
         <div className="test-results-container">
-          <HeaderSection
-            header={record.results}
-            fullState={fullState}
-            valur={<InfoAlert fullState={fullState} />}
-            data-testid="radiology-record-results"
-            className="monospace"
-            data-dd-privacy="mask"
-            data-dd-action-name="[lab and tests - radiology results]"
-          />
+          <HeaderSection header="Results" className="test-results-header">
+            <InfoAlert fullState={fullState} />
+            <p
+              data-testid="radiology-record-results"
+              className="monospace"
+              data-dd-privacy="mask"
+              data-dd-action-name="[lab and tests - radiology results]"
+            >
+              {record.results}
+            </p>
+          </HeaderSection>
         </div>
 
         {phase0p5Flag && (

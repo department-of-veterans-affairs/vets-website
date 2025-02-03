@@ -175,14 +175,16 @@ ${record.results}`;
         </div>
 
         <div className="test-results-container">
-          <HeaderSection
-            header={record.results}
-            label="Results"
-            value={<InfoAlert fullState={fullState} />}
-            className="vads-u-font-size--base monospace vads-u-line-height--3"
-            data-dd-privacy="mask"
-            data-dd-action-name="[lab and tests - microbio results]"
-          />
+          <HeaderSection header="Results" className="test-results-header">
+            <InfoAlert fullState={fullState} />
+            <p
+              className="vads-u-font-size--base monospace vads-u-line-height--3"
+              data-dd-privacy="mask"
+              data-dd-action-name="[lab and tests - microbio results]"
+            >
+              {record.results}
+            </p>
+          </HeaderSection>
         </div>
       </HeaderSection>
     </div>
