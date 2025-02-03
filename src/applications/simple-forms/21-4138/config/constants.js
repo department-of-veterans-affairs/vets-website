@@ -56,7 +56,8 @@ export const STATEMENT_TYPES = Object.freeze({
 });
 
 export const STATEMENT_TYPE_LABELS = Object.freeze({
-  [STATEMENT_TYPES.NEW_EVIDENCE]: 'I have new evidence to submit.',
+  [STATEMENT_TYPES.NEW_EVIDENCE]:
+    'I have new evidence to submit for an open claim.',
   [STATEMENT_TYPES.DECISION_REVIEW]:
     "I disagree with VA's decision on my benefit or claim, and I'd like to request a decision review.",
   [STATEMENT_TYPES.BUDDY_STATEMENT]:
@@ -78,6 +79,12 @@ export const STATEMENT_TYPE_DESCRIPTIONS = Object.freeze({
   [STATEMENT_TYPES.PERSONAL_RECORDS]:
     'You can request your DD214, benefit records, and more.',
   [STATEMENT_TYPES.NOT_LISTED]: '',
+});
+
+export const STATEMENT_TYPE_PAGE = Object.freeze({
+  title: 'What would you like to do?',
+  description:
+    "We’ve improved how we process certain types of statements and requests. Before you continue with VA Form 21-4138, tell us what you’re trying to do and we'll check if there's a quicker way to help you.",
 });
 
 export const DECISION_REVIEW_TYPES = Object.freeze({

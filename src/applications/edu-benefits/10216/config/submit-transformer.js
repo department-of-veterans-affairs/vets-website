@@ -11,6 +11,10 @@ export function transform(formConfig, form) {
       ...clonedData,
       studentRatioCalcChapter: {
         ...clonedData.studentRatioCalcChapter,
+        beneficiaryStudent: Number(
+          clonedData.studentRatioCalcChapter.beneficiaryStudent,
+        ),
+        numOfStudent: Number(clonedData.studentRatioCalcChapter.numOfStudent),
         VABeneficiaryStudentsPercentage: calculatedPercentage(clonedData),
       },
     };
@@ -23,6 +27,7 @@ export function transform(formConfig, form) {
     (formData, transformer) => transformer(formData),
     form.data,
   );
+
   return JSON.stringify({
     educationBenefitsClaim: {
       form: transformedData,
