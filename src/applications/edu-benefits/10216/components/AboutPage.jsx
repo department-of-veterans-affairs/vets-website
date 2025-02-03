@@ -7,6 +7,7 @@ import BreadcrumbAboutPage from './BreadcrumbAboutPage';
 const AboutPage = ({ aboutProps }) => {
   const goToIntroduction = event => {
     event.preventDefault();
+    localStorage.removeItem('isAccredited');
     aboutProps?.router.push('/introduction');
   };
 
