@@ -136,7 +136,7 @@ const SubmitFlowWrapper = () => {
     },
     {
       page: 'confirm',
-      component: <ConfirmationPage appointment={data} />,
+      component: <ConfirmationPage />,
     },
   ];
 
