@@ -120,10 +120,11 @@ const IntroductionPage = ({ route, formId }) => {
             </li>
           </ul>
           <p>
-            If you need help with your request,{' '}
-            <a href="https://www.va.gov/vso/">
-              contact a local Veterans Service Organization (VSO).
-            </a>
+            <va-link
+              download
+              text="Download a reference guide to determine what counts as income and expenses (PDF, 5 pages)"
+              href="https://www.va.gov/healthbenefits/resources/publications/IB10-454_Reference_Guide_Income_and_Expenses.pdf"
+            />
           </p>
           <va-alert status="info" visible>
             <p className="vads-u-margin-top--0p25">
