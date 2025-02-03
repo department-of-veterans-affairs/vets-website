@@ -42,11 +42,13 @@ const IntroductionPage = ({ onStart }) => {
             If you’re only claiming mileage, you can file online right now.
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
-          <va-link-action
-            onClick={e => onStart(e)}
-            href="javascript0:void"
-            text="File a mileage only claim"
-          />
+          {!error && (
+            <va-link-action
+              onClick={e => onStart(e)}
+              href="javascript0:void"
+              text="File a mileage only claim"
+            />
+          )}
 
           <p>
             If you’re claiming other expenses, like lodging, meals, or tolls,
