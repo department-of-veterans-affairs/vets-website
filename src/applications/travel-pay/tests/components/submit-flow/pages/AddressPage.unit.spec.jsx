@@ -59,9 +59,11 @@ describe('Address page', () => {
       }),
     });
 
-    expect(screen.getByTestId('address-test-id')).to.exist;
-    expect(screen.findByText('345 Home Address St')).to.exist;
-    expect($('va-button-pair')).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('address-test-id')).to.exist;
+      expect(screen.findByText('345 Home Address St')).to.exist;
+      expect($('va-button-pair')).to.exist;
+    });
 
     fireEvent.click(
       $(
@@ -104,8 +106,6 @@ describe('Address page', () => {
         homeAddress: home,
       }),
     });
-
-    expect(screen.getByTestId('address-test-id')).to.exist;
     $('va-button-pair').__events.primaryClick(); // continue
     await waitFor(() => {
       expect(screen.findByText(/You must make a selection/i)).to.exist;

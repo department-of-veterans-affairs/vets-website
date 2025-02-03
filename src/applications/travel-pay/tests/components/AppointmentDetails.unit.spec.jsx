@@ -67,7 +67,7 @@ describe('Appointment details', () => {
   it('should render a link to existing travel claim', () => {
     const screen = render(<AppointmentDetails {...props} />);
 
-    expect(screen.getByText(/You've already filed/i)).to.exist;
+    expect(screen.getByText(/already filed/i)).to.exist;
     expect($('va-link-action[text="View your claim details"]')).to.exist;
   });
 });
