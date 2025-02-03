@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 
-const Alert = () => {
-  const pathname = useSelector(state => state?.navigation?.route?.path);
+const Alert = ({ router }) => {
+  const pathname = router?.location?.pathname;
   const isAccredited = localStorage.getItem('isAccredited') === 'true';
 
   return (
@@ -21,7 +20,7 @@ const Alert = () => {
         <p className="vads-u-margin-y--0" id="additional-form-needed-alert">
           {!isAccredited ? (
             <span>
-              {!pathname.includes('/confirmation')
+              {!pathname?.includes('/confirmation')
                 ? `Your school facility code indicates the school is not accredited.
               In addition to completing VA Form 22-10216, you’ll also need to
               complete and submit VA Form 22-10215. You will be directed to that
@@ -44,6 +43,11 @@ const Alert = () => {
 
 Alert.propTypes = {
   isAccredited: PropTypes.bool,
+  router: PropTypes.shape({
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
+  }),
 };
 
 export default Alert;

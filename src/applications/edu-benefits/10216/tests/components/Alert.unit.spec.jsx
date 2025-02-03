@@ -1,16 +1,11 @@
-import { render } from '@testing-library/react';
 import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
-import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import Alert from '../../components/Alert';
 
-const defaultStore = createCommonStore();
-
-describe('Alert', () => {
+describe('Alert component', () => {
   const localStorageMock = {
     getItem: sinon.stub(),
     setItem: sinon.stub(),
@@ -20,60 +15,45 @@ describe('Alert', () => {
   global.localStorage = localStorageMock;
   it('renders without issues', () => {
     const { container } = render(
-      <Provider store={defaultStore}>
-        <Alert />{' '}
-      </Provider>,
+      <MemoryRouter initialEntries={['/some-path']}>
+        <Alert router={{ location: { pathname: '/some-path' } }} />
+      </MemoryRouter>,
+    );
+    expect(container).to.exist;
+  });
+  it('should display warning message when school is not accredited', () => {
+    localStorage.setItem('isAccredited', 'false');
+    const { getByText } = render(
+      <MemoryRouter initialEntries={['/some-path']}>
+        <Alert router={{ location: { pathname: '/some-path' } }} />
+      </MemoryRouter>,
     );
 
-    expect(container).to.exist;
-    expect(container.querySelector('va-alert')).to.exist;
+    expect(getByText('Additional form needed')).to.exist;
+    expect(
+      getByText(
+        /Your school facility code indicates the school is not accredited/,
+      ),
+    ).to.exist;
   });
-  //   it('renders with a warning status', () => {
-  //     const { container } = render(
-  //       <Provider store={defaultStore}>
-  //         <Alert />{' '}
-  //       </Provider>,
-  //     );
-  //     expect(container.querySelector('va-alert').getAttribute('status')).to.equal(
-  //       'warning',
-  //     );
-  //   });
-  //   it('renders with an info status', () => {
-  //     localStorage.setItem('isAccredited', 'true');
-  //     const { container } = render(
-  //       <Provider store={defaultStore}>
-  //         <Alert />{' '}
-  //       </Provider>,
-  //     );
-  //     expect(container.querySelector('va-alert').getAttribute('status')).to.equal(
-  //       'info',
-  //     );
-  //   });
-  //   it('renders with the correct headline', () => {
-  //     localStorage.setItem('isAccredited', 'true');
-  //     const { container } = render(
-  //       <Provider store={defaultStore}>
-  //         <Alert />{' '}
-  //       </Provider>,
-  //     );
-  //     expect(container.querySelector('h2').textContent).to.equal(
-  //       'Complete all submission steps',
-  //     );
-  //   });
-  //   it('renders with the correct alert message when its not confirmation page', () => {
-  //     localStorage.setItem('isAccredited', false);
-  //     const { container } = render(
-  //       <Provider
-  //         store={mockStore({ navigation: { route: { path: '/somepath' } } })}
-  //       >
-  //         <Alert />{' '}
-  //       </Provider>,
-  //     );
-  //     expect(container.querySelector('p').textContent).to.equal(
-  //       `Your school facility code indicates the school is not accredited.
-  //               In addition to completing VA Form 22-10216, you’ll also need to
-  //               complete and submit VA Form 22-10215. You will be directed to that
-  //               form after completing this one.`,
-  //     );
-  //   });
+  it('should display info message when school is accredited', () => {
+    localStorage.setItem('isAccredited', 'true');
+    const { container, getByText } = render(
+      <MemoryRouter initialEntries={['/confirmation']}>
+        <Alert
+          router={{ router: { location: { pathname: '/confirmation' } } }}
+        />
+      </MemoryRouter>,
+    );
+
+    expect(getByText('Complete all submission steps')).to.exist;
+    expect(
+      getByText(
+        /This form requires additional steps for successful submission/,
+      ),
+    ).to.exist;
+    expect(container.querySelector('p').textContent).to.equal(
+      `This form requires additional steps for successful submission. Follow the instructions below carefully to ensure your form is submitted correctly.`,
+    );
+  });
 });

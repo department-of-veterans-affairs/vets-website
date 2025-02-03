@@ -15,7 +15,7 @@ const ProcessList = ({ isAccredited }) => {
             <VaProcessListItem header="Download and save both forms">
               <p>
                 First, complete and save your VA Form 22-10216 as a PDF.
-                <span className="vads-u-margin-y--2">
+                <span className="vads-u-margin-y--2 vads-u-display--inline-block">
                   <VaLink
                     download
                     filetype="PDF"
@@ -24,12 +24,14 @@ const ProcessList = ({ isAccredited }) => {
                     text="Download VA Form 22-10216"
                   />
                 </span>
-                Then, navigate to{' '}
-                <VaLink
-                  external
-                  text="VA Form 22-10215"
-                  href="/education/apply-for-education-benefits/application/10215"
-                />{' '}
+                <span className="vads-u-display--inline-block">
+                  Then, navigate to{' '}
+                  <VaLink
+                    external
+                    text="VA Form 22-10215"
+                    href="/education/apply-for-education-benefits/application/10215"
+                  />{' '}
+                </span>{' '}
                 to fill it out. Once completed, save it as a PDF on your device.
               </p>
             </VaProcessListItem>
@@ -57,7 +59,7 @@ const ProcessList = ({ isAccredited }) => {
               <p>
                 Make sure that your completed form is saved as a PDF on your
                 device.
-                <span className="vads-u-margin-y--2">
+                <span className="vads-u-margin-y--2 vads-u-display--inline-block">
                   <va-link
                     download
                     filetype="PDF"
