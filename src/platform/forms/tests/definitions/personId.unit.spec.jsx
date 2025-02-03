@@ -27,7 +27,7 @@ describe('Edu personId', () => {
     expect(inputs.length).to.equal(2);
   });
 
-  it('should conditionally require SSN or file number', () => {
+  it('should conditionally require SSN or file number', async () => {
     const form = render(
       <DefinitionTester
         formData={{}}
@@ -40,7 +40,7 @@ describe('Edu personId', () => {
     const submitButton = form.getByRole('button', { name: 'Submit' });
     fireEvent(submitButton, mouseClick);
 
-    waitFor(() => {
+    await waitFor(() => {
       // VA file number input is not visible; error is shown for empty SSN input
       const ssnError = form.container.querySelector(
         '.usa-input-error #root_veteranSocialSecurityNumber',
@@ -54,12 +54,11 @@ describe('Edu personId', () => {
     const checkbox = form.getByLabelText(
       /I don’t have a Social Security number/,
     );
+    fireEvent.click(checkbox);
 
-    fireEvent.change(checkbox, { target: { checked: true } });
-
-    waitFor(() => {
+    await waitFor(() => {
       const rootVetSSn = form.container.querySelector(
-        '#.usa-input-error #root_veteranSocialSecurityNumber',
+        '.usa-input-error #root_veteranSocialSecurityNumber',
       );
       expect(rootVetSSn).to.be.null;
       const rootVaFileNumber = form.container.querySelector(

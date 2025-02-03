@@ -38,8 +38,7 @@ describe('Edu personId', () => {
     );
 
     const submitButton = form.getByRole('button', { name: 'Submit' });
-
-    fireEvent(submitButton, mouseClick);
+    fireEvent.click(submitButton);
 
     await waitFor(() => {
       const ssnError = form.container.querySelector(
@@ -52,8 +51,7 @@ describe('Edu personId', () => {
     const checkbox = form.getByLabelText(
       /I don’t have a Social Security number/,
     );
-
-    fireEvent.change(checkbox, { target: { checked: true } });
+    fireEvent.click(checkbox);
 
     await waitFor(() => {
       const rootVetSSn = form.container.querySelector(
