@@ -6,13 +6,7 @@
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 $surface-secondary: rgba(240, 240, 240, 1);
-$foreground-default: rgba(223, 225, 226, 1);
 $text-color: rgba(27, 27, 27, 1);
-
-$typography-body-large: 1rem;
-$spacing-xs: 0.5rem;
-$spacing-2xs: 0.25rem;
-$segmented-control-surface-selected: rgba(255, 255, 255, 1);
 
 .facility-locator {
   @media (max-width: $large-screen) {
@@ -599,21 +593,8 @@ canvas.mapboxgl-canvas:focus {
   border-radius: 8px;
   padding: 2px;
   display: flex;
-  // gap: 2px;
   width: 100%;
   list-style: none;
-  // margin: 0px;
-  // min-width: 0px;
-  // padding: 0px;
-  // position: relative;
-  // box-sizing: border-box;
-  // // border: 10px solid transparent !important;
-  // border-radius: 8px;
-  // flex-flow: wrap;
-  // justify-content: space-between;
-  // padding: 2px;
-  // align-self: stretch;
-  // background-color: rgb(61, 69, 81);
 }
 
 .segment {
