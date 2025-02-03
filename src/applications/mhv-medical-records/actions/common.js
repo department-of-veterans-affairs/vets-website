@@ -73,6 +73,7 @@ export const getListWithRetry = async (
   const startTime = Date.now();
   let status = null;
   let isInitial = false;
+  let recordCount = null;
   try {
     const {
       isInitial: isInitialFlag,
@@ -91,6 +92,9 @@ export const getListWithRetry = async (
       dispatch({ type: Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD });
       status = STATUS_SUCCESS;
     }
+    if (Array.isArray(response?.entry)) {
+      recordCount = response.entry.length;
+    }
     return response;
   } catch (error) {
     status = error.message === TIMEOUT_ERROR ? STATUS_TIMEDOUT : STATUS_ERROR;
@@ -101,6 +105,7 @@ export const getListWithRetry = async (
       duration: totalDuration,
       status,
       isInitial,
+      recordCount,
     });
   }
 };
