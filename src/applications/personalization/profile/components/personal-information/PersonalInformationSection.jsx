@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import GenderIdentityDescription from './GenderIdentityDescription';
 import LegalName from './LegalName';
@@ -29,6 +30,11 @@ const LegalNameDescription = () => (
 );
 
 const PersonalInformationSection = ({ dob }) => {
+  const messagingSignatureEnabled = useSelector(
+    state => state.featureToggles.mhv_secure_messaging_signature_settings,
+  );
+  const userServices = useSelector(state => state.user.profile.services);
+
   const cardFields = [
     {
       title: 'Legal name',
@@ -64,6 +70,23 @@ const PersonalInformationSection = ({ dob }) => {
       value: <DisabilityRating />,
     },
   ];
+
+  if (
+    messagingSignatureEnabled &&
+    userServices.includes(backendServices.MESSAGING)
+  ) {
+    cardFields.push({
+      title: 'Messaging signature',
+      description:
+        'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
+      id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
+      value: (
+        <ProfileInformationFieldController
+          fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
+        />
+      ),
+    });
+  }
 
   return (
     <div className="vads-u-margin-bottom--6">
@@ -119,6 +142,7 @@ const mapStateToProps = state => ({
   pronouns: state.vaProfile?.personalInformation?.pronouns,
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
+  messagingSignature: state.user?.profile?.messagingSignature,
 });
 
 export default connect(mapStateToProps)(PersonalInformationSection);
