@@ -214,7 +214,7 @@ const ProgramsList = ({ match }) => {
             <>
               {`Showing ${startIndex}-${endIndex} of ${
                 filteredPrograms.length
-              } programs`}
+              } ${filteredPrograms.length === 1 ? 'program' : 'programs'}`}
             </>
           )}
         </p>

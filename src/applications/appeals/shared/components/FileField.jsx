@@ -644,7 +644,9 @@ const FileField = props => {
       showButtons && (
         <div
           id="upload-wrap"
-          className={showUpload ? '' : 'vads-u-display--none'}
+          className={
+            showUpload ? 'vads-u-margin-bottom--2' : 'vads-u-display--none'
+          }
         >
           {/* eslint-disable jsx-a11y/label-has-associated-control */}
           <label

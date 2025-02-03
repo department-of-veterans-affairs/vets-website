@@ -18,7 +18,7 @@ const IntroductionPage = ({ router }) => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title="35% exemption of the routine reporting" />
+      <FormTitle title="Request exemption from the 85/15 Rule reporting requirements" />
       <p className="vads-u-margin-y--2">
         35% exemption request from 85/15 Rule reporting requirement (VA Form
         22-10216)

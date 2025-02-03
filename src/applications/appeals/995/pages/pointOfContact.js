@@ -17,7 +17,10 @@ export default {
       'ui:description': pointOfContactTitle,
     },
     pointOfContactName: textUI(pointOfContactNameLabel),
-    pointOfContactPhone: phoneUI(pointOfContactPhoneLabel),
+    pointOfContactPhone: phoneUI({
+      title: pointOfContactPhoneLabel,
+      classNames: 'vads-u-margin-bottom--4',
+    }),
   },
   schema: {
     type: 'object',
