@@ -7,6 +7,23 @@ const AppointmentDetails = ({ appointment }) => {
   const [formattedDate] = formatDateTime(appointment.localStartTime);
   const daysLeft = getDaysLeft(appointment.localStartTime);
 
+  if (appointment.travelPayClaim.claim) {
+    return (
+      <>
+        <p>
+          You’ve already filed a travel reimbursement claim for this
+          appointment.
+        </p>
+        <va-link-action
+          text="View your claim details"
+          href={`/my-health/travel-pay/claims/${
+            appointment.travelPayClaim.claim.id
+          }`}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <p>
