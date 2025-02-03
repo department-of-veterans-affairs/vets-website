@@ -41,23 +41,23 @@ export const getListWithRetryRecursively = async (
     throw new Error(TIMEOUT_ERROR);
   }
 
-  let isInitial = false;
-  let response = await getList();
+  const response = await getList();
+  let nestedReturn = { isInitial: false, response };
   if (response?.status === 202) {
-    isInitial = true;
     dispatch({
       type: Actions.Refresh.SET_INITIAL_FHIR_LOAD,
       payload: new Date(now),
     });
     await delay(retryInterval);
-    response = await getListWithRetryRecursively(
+    nestedReturn = await getListWithRetryRecursively(
       dispatch,
       getList,
       retryInterval,
       endTime,
     );
+    nestedReturn.isInitial = true;
   }
-  return { isInitial, response };
+  return { isInitial: nestedReturn.isInitial, response: nestedReturn.response };
 };
 
 /**
