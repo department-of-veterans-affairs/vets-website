@@ -61,4 +61,48 @@ describe('MessageListItem component', () => {
     const highlightedText = await screen.getAllByTestId('highlighted-text');
     expect(highlightedText.length).to.equal(6);
   });
+
+  it('does not style unread messages in sent folder', async () => {
+    const sent = {
+      folderId: -1,
+      name: 'Sent',
+      count: 49,
+      unreadCount: 35,
+      systemFolder: true,
+    };
+
+    const customProps = {
+      ...props,
+      readReceipt: 'UNREAD',
+      activeFolder: sent,
+    };
+
+    const customState = {
+      ...initialState,
+      sm: {
+        ...initialState.sm,
+        search: {
+          ...initialState.sm.search,
+          folder: sent,
+        },
+      },
+    };
+
+    const screen = renderWithStoreAndRouter(
+      <MessageListItem {...customProps} />,
+      {
+        customState,
+        reducers: reducer,
+        path: `/sent`,
+      },
+    );
+
+    const unreadIcon = screen.queryByTestId('unread-message-icon');
+    expect(unreadIcon).to.not.exist;
+
+    const fromText = screen.getByText('From:');
+    expect(fromText.parentNode.className).to.not.contain(
+      'vads-u-font-weight--bold',
+    );
+  });
 });
