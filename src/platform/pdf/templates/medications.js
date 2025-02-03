@@ -171,7 +171,7 @@ const generateResultsMedicationListContent = async (
       }
     }
 
-    doc.moveDown(0.5);
+    doc.moveDown(0.75);
   }
 
   // horizontal line
@@ -183,7 +183,7 @@ const generateResultsMedicationListContent = async (
 };
 
 const generateResultsContent = async (doc, parent, data) => {
-  for (const resultItem of data.results) {
+  for (const [i, resultItem] of data.results.entries()) {
     const results = doc.struct('Sect', {
       title: resultItem.header || 'Results',
     });
@@ -227,6 +227,18 @@ const generateResultsContent = async (doc, parent, data) => {
         results,
         hasHorizontalRule,
         listItem.sectionSeperatorOptions,
+      );
+    }
+
+    // horizontal line at the end of results (typically before allergies)
+    if (i < data.results.length - 1) {
+      addHorizontalRule(
+        doc,
+        ...Object.values({
+          spaceFromEdge: 16,
+          linesAbove: 1,
+          linesBelow: 1,
+        }),
       );
     }
 
