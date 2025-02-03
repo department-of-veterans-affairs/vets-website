@@ -126,7 +126,10 @@ export default function ProviderList({
           )}
           {currentlyShownProvidersList.length > 0 && (
             <fieldset>
-              <legend className="sr-only">{typeOfCareName} providers</legend>
+              <legend className="sr-only">
+                Choose {/^[aeiou]/i.test(typeOfCareName) ? 'an' : 'a'}{' '}
+                {typeOfCareName} provider
+              </legend>
 
               {currentlyShownProvidersList.map((provider, providerIndex) => {
                 const { name } = provider;
