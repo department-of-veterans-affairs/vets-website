@@ -20,11 +20,15 @@ const recordWebVitalsEvent = event => {
   recordEvent(webVitalsEvent);
 };
 
-const trackWebVitals =
-  // Exclude production for now.
-  !environment.isProduction() &&
+const trackWebVitals = () => {
+  // Sample ~1% of events from production.
+  if (environment.isProduction()) {
+    return Math.random() < 0.01;
+  }
+
   // Exclude cypress containers and localhost from tracking web vitals.
-  environment.BASE_URL.indexOf('localhost') < 0;
+  return environment.BASE_URL.indexOf('localhost') < 0;
+};
 
 if (trackWebVitals) {
   onCLS(recordWebVitalsEvent);
