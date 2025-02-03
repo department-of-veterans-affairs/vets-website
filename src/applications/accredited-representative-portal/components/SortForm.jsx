@@ -47,7 +47,7 @@ const SortForm = ({ asc, desc, ascOption, descOption }) => {
         className="usa-button-secondary poa-request__apply"
         onClick={handleSorting}
       >
-        Apply
+        Sort
       </button>
     </Form>
   );

@@ -7,7 +7,10 @@ export const content = {
     'If you want to limit what we can request from your non-VA medical provider(s), describe the limitation (for example, you want your doctor to release only treatment dates or certain types of disabilities)',
 
   info: (
-    <va-additional-info trigger="What does &quot;limiting consent&quot; mean?">
+    <va-additional-info
+      class="vads-u-margin-bottom--4"
+      trigger="What does &quot;limiting consent&quot; mean?"
+    >
       <p>
         If you choose to limit consent, you’re limiting the type or amount of
         information that your doctor or medical facility can release to us. It

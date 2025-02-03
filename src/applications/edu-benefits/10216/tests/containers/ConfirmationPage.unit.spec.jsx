@@ -32,17 +32,23 @@ describe('<ConfirmationPage>', () => {
   const mockStore = configureStore(middleware);
 
   it('should render with data', () => {
+    const router = {
+      push: () => {},
+    };
     const { container } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage router={router} />
       </Provider>,
     );
     expect(container).to.exist;
   });
   it('should show Alert if school is not accredited', () => {
+    const router = {
+      push: () => {},
+    };
     const { container } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage isAccredited={false} />
+        <ConfirmationPage isAccredited={false} router={router} />
       </Provider>,
     );
     expect($('#additional-form-needed-alert', container)).to.exist;
