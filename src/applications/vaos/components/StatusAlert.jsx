@@ -45,11 +45,14 @@ export default function StatusAlert({ appointment, facility }) {
 
   const facilityPhone = getFacilityPhone(facility);
   const today = new Date().toISOString();
-  let businessDays = 0;
+  // let businessDays = 0;
 
   if (APPOINTMENT_STATUS.proposed === status && isValidDate) {
     const createdDate = format(new Date(created), 'MMMM dd, yyyy');
-    businessDays = differenceInBusinessDays(new Date(today), new Date(created));
+    const businessDays = differenceInBusinessDays(
+      new Date(today),
+      new Date(created),
+    );
     if (businessDays >= PASS_DUE) {
       return (
         <InfoAlert
