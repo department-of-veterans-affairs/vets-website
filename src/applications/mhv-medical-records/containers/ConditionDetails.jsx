@@ -111,8 +111,8 @@ ${record.name} \n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date}\n
 ${txtLine}\n
+Date entered: ${record.date}\n
 Provider: ${record.provider}\n
 Location: ${record.facility}\n
 Provider Notes: ${processList(record.comments)}\n`;
