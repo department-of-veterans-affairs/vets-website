@@ -223,6 +223,7 @@ export default function InstitutionProfile({
               href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
               text="Find out if you qualify for the Yellow Ribbon Program"
               className="vads-u-margin-bottom--2"
+              data-testid="yellow-ribbon-program-link"
             />
             {institution.yellowRibbonPrograms.length > 0 ? (
               <YellowRibbonSelector
