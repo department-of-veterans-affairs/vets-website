@@ -13,10 +13,10 @@ export default function ConfirmationDigitalSubmission() {
 
   const { submission, data: formData } = form;
 
-  const dateSubmitted = moment(submission?.timestamp).format('MM-DD-YYYY');
-  const expirationDate = submission?.timestamp
+  const dateSubmitted = moment(submission?.timestamp).format('MMMM D, YYYY');
+  const expirationDate = moment(submission?.timestamp)
     .add(60, 'days')
-    .format('MM-DD-YYYY');
+    .format('MMMM D, YYYY');
 
   return (
     <>
@@ -80,7 +80,7 @@ export default function ConfirmationDigitalSubmission() {
       <h2>What to expect next</h2>
       <p>
         The Veteran Service Organization (VSO) is reviewing your request. Your
-        request will expire on {expirationDate}
+        request will expire on {expirationDate}.
       </p>
       <p>
         After the VSO reviews your request, we’ll send you an email with their
