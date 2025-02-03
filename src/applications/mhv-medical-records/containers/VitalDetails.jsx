@@ -228,11 +228,11 @@ const VitalDetails = props => {
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
 
-    const { subject, subtitles } = generateVitalsIntro(
+    const { title, subject, subtitles } = generateVitalsIntro(
       records,
       lastUpdatedText,
     );
-    const scaffold = generatePdfScaffold(user, subject);
+    const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = {
       ...scaffold,
       subtitles,
@@ -388,7 +388,7 @@ Provider notes: ${vital.notes}\n\n`,
           data-dd-privacy="mask"
           data-dd-action-name="[vitals detail - name - Print]"
         >
-          Vitals: {vitalTypeDisplayNames[records[0].type]}
+          {vitalTypeDisplayNames[records[0].type]}
         </h1>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
           {records?.length > 0 &&
