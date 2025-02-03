@@ -41,7 +41,7 @@ export const stepchild = {
       title => `Child’s biological parent’s ${title}`,
     ),
     biologicalParentSsn: {
-      ...ssnUI('this child’s biological parent’s Social Security number'),
+      ...ssnUI('This child’s biological parent’s Social Security number'),
       'ui:required': required,
     },
     biologicalParentDob: currentOrPastDateUI({

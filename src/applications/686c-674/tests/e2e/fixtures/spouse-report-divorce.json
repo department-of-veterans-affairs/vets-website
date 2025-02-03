@@ -112,6 +112,12 @@
       "addSpouse": true,
       "reportDivorce": true
     },
+    "view:addDependentOptions": {
+      "addSpouse": true
+    },
+    "view:removeDependentOptions": {
+      "reportDivorce": true
+    },
     "reportDivorce": {
       "fullName": {
         "first": "john",

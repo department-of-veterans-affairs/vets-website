@@ -151,6 +151,11 @@
       "addSpouse": true,
       "addChild": true
     },
+    "view:addDependentOptions": {
+      "addSpouse": true,
+      "addChild": true
+    },
+    "view:removeDependentOptions": {},
     "view:additionalEvidenceDescription": {},
     "studentNameAndSsn": {
       "view:674Information": {},

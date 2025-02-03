@@ -80,9 +80,10 @@ export const addStudentsOptions = {
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
     (item?.typeOfProgramOrBenefit &&
-      Object.values(item.typeOfProgramOrBenefit).includes(true) &&
-      !item?.benefitPaymentDate) ||
-    (item?.typeOfProgramOrBenefit?.other && item?.otherProgramOrBenefit),
+      ['ch35', 'fry', 'feca'].some(
+        key => item?.typeOfProgramOrBenefit?.[key] === true,
+      ) &&
+      !item?.benefitPaymentDate),
   maxItems: 20,
   text: {
     summaryTitle: 'Review your students',
@@ -308,16 +309,7 @@ export const studentEducationBenefitsStartDatePage = {
       ...currentOrPastDateUI(
         'When did the student start receiving education benefit payments?',
       ),
-      'ui:required': (formData, index) => {
-        const addMode =
-          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
-        const editMode = formData?.typeOfProgramOrBenefit;
-
-        return (
-          (addMode && Object.values(addMode).includes(true)) ||
-          (editMode && Object.values(editMode).includes(true))
-        );
-      },
+      'ui:required': () => true,
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.studentInformation?.[index];

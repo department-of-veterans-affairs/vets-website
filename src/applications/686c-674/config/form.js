@@ -570,9 +570,11 @@ export const formConfig = {
             depends: (formData, index) =>
               isChapterFieldRequired(formData, TASK_KEYS.report674) &&
               formData?.['view:addOrRemoveDependents']?.add &&
-              Object.values(
-                formData?.studentInformation?.[index]?.typeOfProgramOrBenefit,
-              ).includes(true),
+              ['ch35', 'fry', 'feca'].some(
+                key =>
+                  formData?.studentInformation?.[index]
+                    ?.typeOfProgramOrBenefit?.[key] === true,
+              ),
           }),
           addStudentsPartNine: pageBuilder.itemPage({
             title: 'Add one or more students between ages 18 and 23',

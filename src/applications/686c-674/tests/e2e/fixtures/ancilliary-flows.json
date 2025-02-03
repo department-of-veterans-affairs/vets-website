@@ -98,6 +98,13 @@
       "reportMarriageOfChildUnder18": true,
       "reportChild18OrOlderIsNotAttendingSchool": true
     },
+    "view:addDependentOptions": {},
+    "view:removeDependentOptions": {
+      "reportStepchildNotInHousehold": true,
+      "reportDeath": true,
+      "reportMarriageOfChildUnder18": true,
+      "reportChild18OrOlderIsNotAttendingSchool": true
+    },
     "spouseInformation": { "fullName": {} },
     "currentMarriageInformation": {
       "location": { "isOutsideUs": false },

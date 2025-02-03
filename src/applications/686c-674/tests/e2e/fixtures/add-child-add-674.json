@@ -6,6 +6,11 @@
     "addChild": true,
     "report674": true
   },
+  "view:addDependentOptions": {
+    "addChild": true,
+    "report674": true
+  },
+  "view:removeDependentOptions": {},
   "veteranContactInformation": {
     "phoneNumber": "4324324322",
     "emailAddress": "test@test.com",
