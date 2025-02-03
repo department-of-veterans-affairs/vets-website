@@ -23,16 +23,23 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     cy.visit('education/gi-bill-comparison-tool/institution/31800132/');
     cy.wait('@featureToggles');
   });
+
   it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('a[href="#yellow-ribbon-program-information"]')
+    cy.get('va-link[data-testid="yellow-ribbon-link"]')
+      .shadow()
+      .find('a[href="#yellow-ribbon-program-information"]')
       .should('exist')
       .and('contain', 'Yellow Ribbon Program information');
-    cy.get('a[href="#yellow-ribbon-program-information"]').click();
+    cy.get('va-link[data-testid="yellow-ribbon-link"]')
+      .shadow()
+      .find('a[href="#yellow-ribbon-program-information"]')
+      .click();
     cy.get('#yellow-ribbon-program-information')
       .should('exist')
       .and('be.visible');
   });
+
   it('should display the "Yellow Ribbon Program information" label and section', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#yellow-ribbon-program-information').should('exist');
@@ -45,6 +52,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
       ).should('exist');
     });
   });
+
   it('should navigate when the Yellow Ribbon Program link is clicked', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('va-link[data-testid="yellow-ribbon-program-link"]')
@@ -70,6 +78,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
         });
       });
   });
+
   it('filters results when a user selects a degree level and clicks "Display Results"', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
@@ -88,6 +97,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
       cy.wrap(card).should('contain', 'College or professional school');
     });
   });
+
   it('filters results when a user selects a degree level and clicks "Display Results"', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
@@ -106,6 +116,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
       cy.wrap(card).should('contain', 'College or professional school');
     });
   });
+
   it('each program card for "Doctoral" shows correct text and numeric values', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
@@ -140,6 +151,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
       });
     });
   });
+
   it('filters results when a user selects a Doctoral degree level and clicks "Display Results"', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
