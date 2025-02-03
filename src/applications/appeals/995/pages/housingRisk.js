@@ -11,6 +11,7 @@ export default {
   uiSchema: {
     housingRisk: yesNoUI({
       title: housingRiskTitle,
+      classNames: 'vads-u-margin-bottom--4',
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: {
