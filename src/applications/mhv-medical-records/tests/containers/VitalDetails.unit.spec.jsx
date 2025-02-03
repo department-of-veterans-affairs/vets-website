@@ -43,7 +43,7 @@ describe('Vital details container', () => {
       selector: 'h1',
     });
 
-    expect(vitalNames).to.have.lengthOf(1);
+    expect(vitalNames).to.have.lengthOf(2);
   });
 
   it('displays a print button', () => {
