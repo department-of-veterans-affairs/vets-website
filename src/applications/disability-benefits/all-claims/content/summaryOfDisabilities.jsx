@@ -49,6 +49,7 @@ const getRedirectLink = formData => {
   return (
     <Link
       aria-label="go back and add any missing disabilities"
+      data-testid={`redirect-link-${destinationPath}`}
       to={{
         pathname: destinationPath || '/',
         search: '?redirect',
