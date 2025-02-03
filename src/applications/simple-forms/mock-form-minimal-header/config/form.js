@@ -1,30 +1,11 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { focusByOrder, scrollTo } from 'platform/utilities/ui';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import exampleRadio from '../pages/exampleRadio';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { CustomTopContent } from '../components/breadcrumbs';
 import { employersPages } from '../pages/employers';
-
-/** @type {FormConfig} */
-const minimalFlowProps = {
-  v3SegmentedProgressBar: {
-    useDiv: true,
-  },
-  CustomTopContent,
-  showSaveLinkAfterButtons: true,
-  useTopBackLink: true,
-  hideFormTitle: true,
-  useCustomScrollAndFocus: true,
-  scrollAndFocusTarget: () => {
-    setTimeout(() => {
-      scrollTo('header-minimal');
-      focusByOrder(['h1', 'va-segmented-progress-bar']);
-    }, 200);
-  },
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -33,7 +14,7 @@ const formConfig = {
   dev: {
     showNavLinks: false,
   },
-  ...minimalFlowProps,
+  ...minimalHeaderFormConfigOptions(),
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
