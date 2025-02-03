@@ -32,7 +32,7 @@ const AboutPage = ({ props }) => {
         </p>
         <p className="vads-u-margin-top--1p5">
           <strong>Form last updated: </strong>
-          November 2021
+          March 2024
         </p>
       </div>
       <h2 className="vads-u-margin-top--7"> When to use this form</h2>
