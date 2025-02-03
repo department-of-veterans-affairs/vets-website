@@ -80,8 +80,8 @@ const IntroductionPage = ({ route, formId }) => {
               details you’ll need on a recent pay stub or statement.
             </li>
             <li>
-              <strong>Assets.</strong> This includes available cash (not in a
-              bank).
+              <strong>Assets.</strong>
+              This includes cash in hand and in a checking or savings account.
             </li>
           </ul>
           <p>
@@ -90,9 +90,8 @@ const IntroductionPage = ({ route, formId }) => {
           </p>
           <ul>
             <li>
-              <strong>Additional assets.</strong> This includes cash in a
-              checking or savings account, stocks and bonds, real estate, cars,
-              jewelry, and other items of value.
+              <strong>Additional assets.</strong> This includes stocks and
+              bonds, real estate, cars, jewelry, and other items of value.
             </li>
             <li>
               <strong>Monthly living expenses.</strong> These include housing,
