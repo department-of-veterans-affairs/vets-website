@@ -35,7 +35,7 @@ const MedicationsListCard = ({ rx }) => {
   };
 
   const cardBodyContent = () => {
-    if (pendingRenewal) {
+    if (pendingRenewal || pendingMed) {
       return (
         <>
           <div className="vads-u-display--flex vads-u-margin-top--2">
@@ -46,26 +46,17 @@ const MedicationsListCard = ({ rx }) => {
               className="vads-u-margin-left--2 vads-u-flex--1"
               data-testid="pending-renewal-rx"
             >
-              This is a renewal you requested. Your VA pharmacy is reviewing it
-              now. Details may change.
-            </p>
-          </div>
-        </>
-      );
-    }
-    if (pendingMed) {
-      return (
-        <>
-          <div className="vads-u-display--flex vads-u-margin-top--2">
-            <span className="vads-u-flex--auto vads-u-padding-top--1">
-              <va-icon icon="info" size={3} aria-hidden="true" />
-            </span>
-            <p
-              className="vads-u-margin-left--2 vads-u-flex--1"
-              data-testid="pendingRx-Info"
-            >
-              This is a new prescription from your provider. Your VA pharmacy is
-              reviewing it now. Details may change.
+              {pendingRenewal ? (
+                <>
+                  This is a renewal you requested. Your VA pharmacy is reviewing
+                  it now. Details may change.
+                </>
+              ) : (
+                <>
+                  This is a new prescription from your provider. Your VA
+                  pharmacy is reviewing it now. Details may change.
+                </>
+              )}
             </p>
           </div>
         </>
