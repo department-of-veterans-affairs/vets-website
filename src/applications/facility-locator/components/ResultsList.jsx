@@ -102,6 +102,7 @@ export const ResultsList = ({
                 key={result.id}
                 index={index}
                 showHealthConnectNumber={showHealthConnectNumber}
+                isCemetery={searchQuery.facilityType === 'cemetery'}
               />
             );
           break;

@@ -17,6 +17,7 @@ const VaFacilityResult = ({
   query,
   index,
   showHealthConnectNumber,
+  isCemetery = false,
 }) => {
   const { name, website, operatingStatus } = location.attributes;
 
@@ -65,6 +66,9 @@ const VaFacilityResult = ({
           query={query}
           showHealthConnectNumber={showHealthConnectNumber}
         />
+        {isCemetery && (
+          <va-link href={website} text="Learn more about burial status" />
+        )}
       </>
     </div>
   );
@@ -78,6 +82,7 @@ VaFacilityResult.propTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
+  isCemetery: PropTypes.bool,
 };
 
 export default VaFacilityResult;

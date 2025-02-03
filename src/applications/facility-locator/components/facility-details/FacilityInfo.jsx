@@ -5,6 +5,7 @@ import OperationStatus from './OperationStatus';
 import LocationAddress from '../search-results-items/common/LocationAddress';
 import LocationPhoneLink from '../search-results-items/common/LocationPhoneLink';
 import LocationDirectionsLink from '../search-results-items/common/LocationDirectionsLink';
+import BurialStatus from './BurialStatus';
 
 class FacilityInfo extends Component {
   render() {
@@ -35,11 +36,7 @@ class FacilityInfo extends Component {
         {website &&
           website !== 'NULL' && (
             <p className="vads-u-margin--0">
-              <va-link
-                class="vads-u-margin-left--0p5"
-                href={website}
-                text="Visit our website"
-              />
+              <va-link href={website} text="Visit our website" />
             </p>
           )}
         <div>
@@ -53,15 +50,7 @@ class FacilityInfo extends Component {
               may change.
             </p>
           )}
-        {isCemetery && (
-          <div>
-            <h2 className="vads-u-font-size--h3">Burial space</h2>
-            <p>
-              <strong>[Status will go here]</strong>
-              <p>[Standard definition of status will go here]</p>
-            </p>
-          </div>
-        )}
+        {isCemetery && <BurialStatus facility={facility} />}
       </div>
     );
   }
