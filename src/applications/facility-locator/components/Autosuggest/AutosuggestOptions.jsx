@@ -43,7 +43,7 @@ function AutosuggestOptions({
     >
       {optionsToShow.map((item, index) => (
         <AutosuggestOptionComponent
-          key={item.id}
+          key={item.id || `${item}-${index}`}
           item={item}
           index={index}
           getItemProps={getItemProps}

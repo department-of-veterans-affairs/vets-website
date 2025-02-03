@@ -14,14 +14,13 @@ function AutosuggestOption({
 }) {
   return (
     <div
-      key={`${item.id}-${index}`}
       {...getItemProps({
         item,
         className: optionClasses(index === highlightedIndex),
         role: 'option',
         'aria-selected': index === highlightedIndex,
       })}
-      data-testid={`autosuggest-option-${item.id}`}
+      data-testid={`autosuggest-option-${item.id || `${item}-${index}`}`}
     >
       {itemToString(item)}
     </div>

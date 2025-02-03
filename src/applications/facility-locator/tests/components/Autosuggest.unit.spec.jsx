@@ -1,7 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { render, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Autosuggest from '../../components/Autosuggest';
+import AutosuggestTestComponent from './AutosuggestTestComponent';
 
 describe('<Autosuggest inputId="any">', () => {
   it('Autosuggest should render.', () => {
@@ -53,5 +56,25 @@ describe('<Autosuggest inputId="any">', () => {
     const sibling = wrapper.find('div').at(1);
     expect(sibling.text()).to.equal('any sibling');
     wrapper.unmount();
+  });
+  it('Autosuggest should clear on blur.', async () => {
+    const screen = render(<AutosuggestTestComponent />);
+    const input = await screen.findByRole('combobox');
+    expect(input).to.be.displayed;
+    userEvent.clear(input);
+    userEvent.type(input, 'any input');
+    userEvent.tab();
+    fireEvent.blur(input);
+    expect(input).to.have.value(''); // clear on tab
+  });
+  it('Autosuggest should keep data on blur.', async () => {
+    const screen = render(<AutosuggestTestComponent keepDataOnBlur />);
+    const input = await screen.findByRole('combobox');
+    expect(input).to.be.displayed;
+    userEvent.clear(input);
+    userEvent.type(input, 'any input');
+    userEvent.tab();
+    fireEvent.blur(input);
+    expect(input).to.have.value('any input'); // clear on tab
   });
 });
