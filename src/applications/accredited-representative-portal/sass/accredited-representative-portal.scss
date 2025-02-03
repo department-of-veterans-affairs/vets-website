@@ -1,5 +1,37 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
+.arp-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: $units-5 auto;
+  padding: 0 10px;
+
+  @media (min-width: $small-desktop-screen) {
+    padding: 0;
+  }
+}
+
+.status {
+  color: $vads-color-base;
+
+  &--processing {
+    background-color: $vads-color-gray-light-alt;
+    border: 1px solid $vads-color-base-dark;
+  }
+  &--declination,
+  &--expiration {
+    background-color: $vads-color-error-lighter;
+    border: 1px solid $vads-color-error;
+  }
+  &--pending {
+    background-color: $vads-color-warning-lighter;
+    border: 1px solid $vads-color-warning-darker;
+  }
+  &--acceptance {
+    background-color: $vads-color-success-lighter;
+    border: 1px solid $vads-color-success;
+  }
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -25,7 +57,7 @@
   &__look-and-feel {
     background: linear-gradient(
       to left,
-      var(--vads-color-primary-alt)10%,
+      var(--vads-color-primary-alt) 10%,
       var(--vads-color-primary-alt-dark) 40%,
       var(--vads-color-primary-alt-darkest)
     );
