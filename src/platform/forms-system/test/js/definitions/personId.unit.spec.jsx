@@ -48,7 +48,6 @@ describe('Edu personId', () => {
       const vaFileNumber = form.container.querySelector('#root_vaFileNumber');
       expect(vaFileNumber).to.be.null;
     });
-
     const checkbox = form.getByLabelText(
       /I don’t have a Social Security number/,
     );
