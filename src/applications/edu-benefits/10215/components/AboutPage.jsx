@@ -58,8 +58,8 @@ const AboutPage = ({ props }) => {
       <div className="vads-u-margin-bottom--4">
         <va-link
           download
-          href=" https://www.vba.va.gov/pubs/forms/vba-22-10216-are.pdf"
-          text="Download VA form 22-10216"
+          href="https://www.vba.va.gov/pubs/forms/vba-22-10215-are.pdf"
+          text="Download VA Form 22-10215"
         />
       </div>
     </div>
