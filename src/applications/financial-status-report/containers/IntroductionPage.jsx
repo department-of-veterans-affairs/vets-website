@@ -29,20 +29,6 @@ const IntroductionPage = ({ route, formId }) => {
         title="Request help with VA debt for overpayments and copay bills"
         subTitle="Financial Status Report (VA Form 5655)"
       />
-      <SaveInProgressIntro
-        startText="Start your request now"
-        unauthStartText="Sign in or create an account"
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        formConfig={formConfig}
-        formId={formId}
-        retentionPeriod="60 days"
-        downtime={route.formConfig.downtime}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
-        unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
-        hideUnauthedStartLink
-      />
       <p>
         You can use this form to request these types of help with your VA debt:
       </p>
@@ -175,14 +161,17 @@ const IntroductionPage = ({ route, formId }) => {
       </va-process-list>
 
       <SaveInProgressIntro
-        buttonOnly
         startText="Start your request now"
         unauthStartText="Sign in or create an account"
-        pageList={route.pageList}
         messages={route.formConfig.savedFormMessages}
+        pageList={route.pageList}
         formConfig={formConfig}
         formId={formId}
+        retentionPeriod="60 days"
+        downtime={route.formConfig.downtime}
         prefillEnabled={route.formConfig.prefillEnabled}
+        verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
+        unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
         hideUnauthedStartLink
       />
 
