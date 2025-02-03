@@ -29,6 +29,7 @@ import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_SEI_ERROR,
+  ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -204,7 +205,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   );
 
   const accessErrors = () => {
-    // CCD Access Error
+    // CCD generation Error
     if (CCDRetryTimestamp) {
       return (
         <AccessTroubleAlertBox
@@ -270,7 +271,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           on {lastSuccessfulUpdate.date}
         </va-card>
       )}
-
       {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.DOCUMENT}
@@ -278,15 +278,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           className="vads-u-margin-bottom--1"
         />
       )}
-
-      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-
       {successfulBBDownload === true && (
         <>
           <MissingRecordsError
@@ -294,19 +285,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             recordTypes={getFailedDomainList(
               failedBBDomains,
               BB_DOMAIN_DISPLAY_MAP,
-            )}
-          />
-          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
-        </>
-      )}
-
-      {successfulSeiDownload === true && (
-        <>
-          <MissingRecordsError
-            documentType="Self-entered health information report"
-            recordTypes={getFailedDomainList(
-              failedSeiDomains,
-              SEI_DOMAIN_DISPLAY_MAP,
             )}
           />
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
@@ -327,7 +305,37 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         data-testid="go-to-download-all"
       />
       <h2>Other reports you can download</h2>
+
       {accessErrors()}
+
+      {/* redux action/server errors */}
+      {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.CCD}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+
+      {successfulSeiDownload === true && (
+        <>
+          <MissingRecordsError
+            documentType="Self-entered health information report"
+            recordTypes={getFailedDomainList(
+              failedSeiDomains,
+              SEI_DOMAIN_DISPLAY_MAP,
+            )}
+          />
+          <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
+        </>
+      )}
       <va-accordion bordered>
         <va-accordion-item bordered data-testid="ccdAccordionItem">
           <h3 slot="headline">

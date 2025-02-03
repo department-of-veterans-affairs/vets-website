@@ -73,8 +73,7 @@ export const genAndDownloadCCD = (
     }
   } catch (error) {
     dispatch({ type: Actions.Downloads.CANCEL_CCD });
-    dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
-    throw error;
+    dispatch(addAlert(Constants.ALERT_TYPE_CCD_ERROR, error));
   }
 };
 
