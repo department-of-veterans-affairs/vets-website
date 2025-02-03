@@ -9,8 +9,7 @@ The default alert content matches the global versions of sign-in alerts that wil
   - Custom content is defined under a child element with the `static-widget-content` class (see sample in Template section below). This allows the static content maintainers to update or change the content as needed. 
   - If there is no content specified then simply nothing is displayed. This allows this widget to be used with or without content. 
   - For security, custom content HTML is sanitized before being displayed.
-- The default alert header level is `2`. To overwrite the header level, static content maintainers may include a different level on the `data-heading-level` attribute
-- Alert heading will include the service description when one is provided on the `data-service-description` attribute
+- The default alert header level is `3`. To overwrite the header level, static content maintainers may include a different value on the `data-heading-level` attribute
 
 ## Template for Static Pages
 The template follows the existing established [template defined in vets-website](https://github.com/department-of-veterans-affairs/vets-website/blob/cb8e27a144d78ab2b6f7d378468b6d14da4fcb5e/src/platform/landing-pages/dev-template.ejs#L195) and already used in other static pages like the [secure messaging static page](https://staging.va.gov/health-care/secure-messaging/).

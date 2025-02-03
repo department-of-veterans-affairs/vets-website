@@ -16,7 +16,7 @@ import classNames from 'classnames';
  */
 const CustomAlert = ({
   children,
-  headerLevel = 2,
+  headerLevel = 3,
   headline,
   recordEvent,
   status = 'info',

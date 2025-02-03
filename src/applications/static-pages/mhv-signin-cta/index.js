@@ -28,7 +28,7 @@ export const MhvSigninCallToAction = ({
   userIsLoggedIn = false,
   userIsVerified = false,
 }) => {
-  const headerLevel = parseInt(headingLevel, 10) || 2;
+  const headerLevel = parseInt(headingLevel, 10) || 3;
 
   if (!userIsLoggedIn) {
     return (
