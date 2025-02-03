@@ -19,6 +19,7 @@ export default {
     [EVIDENCE_VA]: yesNoUI({
       title: requestVaRecordsTitleOld,
       enableAnalytics: true,
+      classNames: 'vads-u-margin-bottom--4',
       labelHeaderLevel: '3',
       labels: {
         Y: 'Yes',

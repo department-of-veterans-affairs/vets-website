@@ -81,7 +81,7 @@ livingSituationReviewField.propTypes = {
 export const domesticViolenceInfo = (
   <va-additional-info
     trigger="Are you experiencing domestic violence?"
-    class="vads-u-margin-bottom--4"
+    class="vads-u-margin-y--4"
   >
     If you need help because of domestic violence, call the National Domestic
     Violence hotline <va-telephone contact="8007997233" /> (
