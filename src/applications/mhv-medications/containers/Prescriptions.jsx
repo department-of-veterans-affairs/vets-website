@@ -492,7 +492,6 @@ const Prescriptions = () => {
           )
             .then(response => {
               const list = response.data.map(rx => ({ ...rx.attributes }));
-              // temporary plug until those sources are ready at va.gov
               setPrescriptionsFullList(list);
               setHasFullListDownloadError(false);
             })

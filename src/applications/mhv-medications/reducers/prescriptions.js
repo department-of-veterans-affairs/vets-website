@@ -74,7 +74,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
         ...state,
         prescriptionsList: action.response.data.map(rx => {
           return { ...rx.attributes };
-          // temporary plug until those sources are ready at va.gov
         }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
@@ -85,7 +84,6 @@ export const prescriptionsReducer = (state = initialState, action) => {
         ...state,
         prescriptionsFilteredList: action.response.data.map(rx => {
           return { ...rx.attributes };
-          // temporary plug until those sources are ready at va.gov
         }),
         prescriptionsFilteredPagination: action.response.meta.pagination,
         filterCount: action.response.meta.filterCount,
