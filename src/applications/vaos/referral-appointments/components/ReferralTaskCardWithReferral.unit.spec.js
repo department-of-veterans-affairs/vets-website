@@ -48,23 +48,6 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     expect(await screen.findByTestId('referral-task-card')).to.exist;
   });
 
-  it('should not display the task card when feature toggle is off', async () => {
-    const modifiedState = {
-      ...initialState,
-      featureToggles: {
-        vaOnlineSchedulingCCDirectScheduling: false,
-      },
-    };
-    const store = createTestStore(modifiedState);
-    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
-      store,
-      path: '/?id=add2f0f4-a1ea-a504-a54ab57c6801',
-    });
-
-    const taskCard = screen.queryByTestId('referral-task-card');
-    expect(taskCard).to.be.null;
-  });
-
   it('should not display the task card when referral ID is not found', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {

@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { getReferral } from '../redux/selectors';
 import { fetchReferralById } from '../redux/actions';
-import { FETCH_STATUS } from '../../utils/constants';
 import { useIsInCCPilot } from './useIsInCCPilot';
 
 const useGetReferralById = id => {
@@ -14,12 +13,7 @@ const useGetReferralById = id => {
   );
   useEffect(
     () => {
-      if (
-        id &&
-        isInCCPilot &&
-        !referral &&
-        referralFetchStatus === FETCH_STATUS.notStarted
-      ) {
+      if (id && isInCCPilot && !referral) {
         dispatch(fetchReferralById(id));
       }
     },

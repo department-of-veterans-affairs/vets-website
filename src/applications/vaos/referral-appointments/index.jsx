@@ -41,12 +41,13 @@ export default function ReferralAppointments() {
     return <Redirect from={basePath.url} to="/" />;
   }
 
-  if (referralFetchStatus === FETCH_STATUS.failed) {
+  if (!referral && referralFetchStatus === FETCH_STATUS.failed) {
     // Referral Layout shows the error component is apiFailure is true
     return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
 
   if (
+    !referral ||
     referralFetchStatus === FETCH_STATUS.loading ||
     referralFetchStatus === FETCH_STATUS.notStarted
   ) {

@@ -25,8 +25,9 @@ export default function ReferralTaskCardWithReferral() {
   const { referral, referralFetchStatus } = useGetReferralById(id);
 
   if (
-    referralFetchStatus === FETCH_STATUS.loading ||
-    referralFetchStatus === FETCH_STATUS.notStarted
+    id &&
+    (referralFetchStatus === FETCH_STATUS.loading ||
+      referralFetchStatus === FETCH_STATUS.notStarted)
   ) {
     return <va-loading-indicator set-focus message="Loading your data..." />;
   }
