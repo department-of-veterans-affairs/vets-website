@@ -26,15 +26,22 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
 
   it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('va-link[data-testid="yellow-ribbon-link"]')
-      .shadow()
-      .find('a[href="#yellow-ribbon-program-information"]')
-      .should('exist')
-      .and('contain', 'Yellow Ribbon Program information');
-    cy.get('va-link[data-testid="yellow-ribbon-link"]')
-      .shadow()
-      .find('a[href="#yellow-ribbon-program-information"]')
-      .click();
+
+    // Ensure the shadow DOM component is available
+    cy.get('va-link') // Find the va-link component
+      .should('exist') // Ensure it exists
+      .shadow() // Interact with shadow DOM
+      .find('a[href="#yellow-ribbon-program-information"]') // Find the anchor tag
+      .should('exist') // Check if the link exists inside the shadow DOM
+      .and('contain', 'Yellow Ribbon Program information'); // Ensure the text is correct
+
+    // Click the link and navigate
+    cy.get('va-link') // Find the va-link component
+      .shadow() // Interact with shadow DOM
+      .find('a[href="#yellow-ribbon-program-information"]') // Find the anchor tag
+      .click(); // Click the link
+
+    // Verify that the Yellow Ribbon Program section is visible after navigation
     cy.get('#yellow-ribbon-program-information')
       .should('exist')
       .and('be.visible');
