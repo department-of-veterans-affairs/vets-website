@@ -45,7 +45,6 @@ import * as instructionalPart3 from './instructionalPart3';
 import * as medals from './medals';
 import * as medicalCare from './medicalCare';
 import * as mentalHealthChanges from './mentalHealthChanges';
-import * as mentalHealthConditions from './mentalHealth/mentalHealthConditions';
 import * as militaryDutyImpact from './militaryDutyImpact';
 import * as militaryHistory from './militaryHistory';
 import * as newDisabilityFollowUp from './newDisabilityFollowUp';
@@ -166,7 +165,6 @@ export {
   medals,
   medicalCare,
   mentalHealthChanges,
-  mentalHealthConditions,
   militaryDutyImpact,
   militaryHistory,
   newDisabilityFollowUp,
