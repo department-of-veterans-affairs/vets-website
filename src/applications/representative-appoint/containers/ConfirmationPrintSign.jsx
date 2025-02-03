@@ -9,7 +9,7 @@ import { getFormNumber, getFormName } from '../utilities/helpers';
 
 import GetFormHelp from '../components/GetFormHelp';
 
-export default function ConfirmationPage({ router }) {
+export default function ConfirmationPrintSign({ router }) {
   const checkboxRef = useRef(null);
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
@@ -106,6 +106,6 @@ export default function ConfirmationPage({ router }) {
   );
 }
 
-ConfirmationPage.propTypes = {
+ConfirmationPrintSign.propTypes = {
   router: PropTypes.object,
 };
