@@ -45,7 +45,6 @@ export default function StatusAlert({ appointment, facility }) {
 
   const facilityPhone = getFacilityPhone(facility);
   const today = new Date().toISOString();
-  // let businessDays = 0;
 
   if (APPOINTMENT_STATUS.proposed === status && isValidDate) {
     const createdDate = format(new Date(created), 'MMMM dd, yyyy');
