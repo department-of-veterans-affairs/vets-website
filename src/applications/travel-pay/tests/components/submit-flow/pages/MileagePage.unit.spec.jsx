@@ -8,7 +8,28 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import MileagePage from '../../../../components/submit-flow/pages/MileagePage';
 import reducer from '../../../../redux/reducer';
 
-const appointment = require('../../../fixtures/appointment.json');
+const mockAppt = {
+  practitioners: [
+    {
+      name: {
+        family: 'BERNARDO',
+        given: ['KENNETH J'],
+      },
+    },
+  ],
+  start: '2024-12-30T14:00:00Z',
+  localStartTime: '2024-12-30T08:00:00.000-06:00',
+  location: {
+    id: '983',
+    type: 'appointments',
+    attributes: {
+      name: 'Cheyenne VA Medical Center',
+    },
+  },
+  facilityData: {
+    name: 'Cheyenne VA Medical Center',
+  },
+};
 
 const setPageIndexSpy = sinon.spy();
 // TODO: figure out a way to test this set state call
@@ -35,7 +56,7 @@ describe('Mileage page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: appointment.data,
+            data: mockAppt,
           },
         },
       },
@@ -73,7 +94,7 @@ describe('Mileage page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: appointment.data,
+            data: mockAppt,
           },
         },
       },
@@ -96,7 +117,7 @@ describe('Mileage page', () => {
             appointment: {
               isLoading: false,
               error: null,
-              data: appointment.data,
+              data: mockAppt,
             },
           },
         },
