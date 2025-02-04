@@ -2803,22 +2803,22 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@^48.4.0":
-  version "48.4.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-48.4.0.tgz#138390fbb904746550d950ecb9c5104ad852abe2"
-  integrity sha512-ApUpW3nysBSqGkGNjPTzKserqRdKIHktj5xnihmF+dXyjgneegcyKohBqn1QmjgPD2VK/51mmMkAON12cTCb5w==
+"@department-of-veterans-affairs/component-library@^49.1.0":
+  version "49.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-49.1.0.tgz#cfc30c36311f64f2345a2559ef07e994757348ed"
+  integrity sha512-+0KUkRYXC4aPiuRvf0sTsLl+2bVf2jBx81RcuvCkaCH/hpjuxqmGhzI8ljkl7IVQBt6Ccu5G+6fuvYvpT81sLg==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "16.4.0"
+    "@department-of-veterans-affairs/web-components" "17.1.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.17.0":
-  version "0.17.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.17.0.tgz#4959408ddb593201256b13386ab43853bc21dbb6"
-  integrity sha512-dH+JMPL7qio6/rBxYPB6wXL21WkYHE9+wab1BJ0x+8pdu1nap1ZEkBS5oTu6VmizaFsaTa1t3LKv3fGPNSRD+Q==
+"@department-of-veterans-affairs/css-library@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.18.0.tgz#2872e955c7c26e6105468d12c4914e7492eb12f0"
+  integrity sha512-tlejTp9YwF9yH7QgKMAypdm/imp66JkKSKTbHtJaYjez7ddeyJ8q10sukkbrRt3t2YxYIpGSURVIOVIZUpwfzA==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.9.0"
@@ -2903,10 +2903,10 @@
     classnames "^2.3.1"
     intersection-observer "^0.12.0"
 
-"@department-of-veterans-affairs/web-components@16.4.0":
-  version "16.4.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-16.4.0.tgz#77e6a56f51e2c283da02da7b9ca6814daf182282"
-  integrity sha512-fPYEtKryL8kcHyisBdgnrhVac5+joEbhMQLmtGbxTyJkZmtPHGmyIHLCMzISzJac2zT6YDBcbIAJI4qvpqkxsA==
+"@department-of-veterans-affairs/web-components@17.1.0":
+  version "17.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-17.1.0.tgz#640dca13b4f432388814b27d72d99e5df5198693"
+  integrity sha512-VDGMpB/FgBkuv5Teaow7OyskCl1gT+GxHJOpLkR5UUTxRcrbxuW3qxQRv5yGTi+Qhdm2WZkwBUsnjmo8VIyAqQ==
   dependencies:
     "@stencil/core" "4.20.0"
     aria-hidden "^1.1.3"
