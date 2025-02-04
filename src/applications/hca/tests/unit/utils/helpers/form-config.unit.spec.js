@@ -384,11 +384,6 @@ describe('hca form config helpers', () => {
       veteranDateOfBirth,
     });
 
-    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
-      const formData = getData({ included: true, enabled: false });
-      expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
-    });
-
     it('should return `true` when Veteran birthdate is before `Jan 1, 1966`', () => {
       const formData = getData({ veteranDateOfBirth: '1960-01-01' });
       expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
@@ -532,11 +527,6 @@ describe('hca form config helpers', () => {
     const getData = ({ veteranDateOfBirth = null, included = true }) => ({
       hasTeraResponse: included,
       veteranDateOfBirth,
-    });
-
-    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
-      const formData = getData({ included: true, enabled: false });
-      expect(includeAgentOrangeExposure(formData)).to.be.true;
     });
 
     it('should return `true` when Veteran birthdate is before `Aug 1, 1965`', () => {
