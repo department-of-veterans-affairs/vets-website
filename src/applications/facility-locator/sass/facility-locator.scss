@@ -464,8 +464,8 @@ $text-color: rgba(27, 27, 27, 1);
   height: 1.5rem;
 
   &#active-pin {
-    height: 40px;
-    width: 40px;
+    height: 38.5px;
+    width: 38.5px;
     border-radius: 50%;
     border: 16px;
     background-color: var(--vads-color-link);
@@ -476,9 +476,9 @@ $text-color: rgba(27, 27, 27, 1);
     content: "";
     width: 0;
     height: 0;
-    bottom: -3px;
-    left: 8px;
-    border: 12px solid var(--vads-color-link);
+    bottom: -4px;
+    left: 9.5px;
+    border: 10.45px solid var(--vads-color-link);
     transform: rotate(45deg);
     z-index: -1;
   }
