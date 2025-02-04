@@ -8,12 +8,13 @@ const formUploadForms = ['21-0779', '21-509', '21P-0518-1', '21P-0516-1'];
 const config = formConfig();
 
 const routes = formUploadForms.map(formId => {
+  const lowerCaseFormId = formId.toLowerCase();
   return {
-    path: `/${formId.toLowerCase()}`,
+    path: `/${lowerCaseFormId}`,
     component: App,
     indexRoute: {
       onEnter: (nextState, replace) =>
-        replace(`/${formId.toLowerCase()}/introduction`),
+        replace(`/${lowerCaseFormId}/introduction`),
     },
     childRoutes: createRoutesWithSaveInProgress(config),
   };
