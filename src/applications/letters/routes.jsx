@@ -10,28 +10,10 @@ import Main from './containers/Main';
 import { LetterPage } from './containers/LetterPage';
 import LetterPageWrapper from './containers/LetterPageWrapper';
 
-const letterPageFeatureFlagWrapper = (
-  <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
-    {toggleValue =>
-      toggleValue ? (
-        <Navigate to="letter-page" replace />
-      ) : (
-        <Navigate to="confirm-address" replace />
-      )
-    }
-  </Toggler.Hoc>
-);
-
-const routes = (
+const newRoutes = (
   <Routes>
     <Route path="/" element={<App />}>
-      <Route index element={letterPageFeatureFlagWrapper} />
-      <Route element={<DownloadLetters />}>
-        <Route element={<AddressSection />} path="confirm-address" />
-        <Route element={<Main />}>
-          <Route element={<LetterList />} path="letter-list" />
-        </Route>
-      </Route>
+      <Route index element={<Navigate to="letter-page" replace />} />
       <Route element={<LetterPageWrapper />}>
         <Route element={<Main />}>
           <Route element={<LetterPage />} path="letter-page" />
@@ -39,6 +21,25 @@ const routes = (
       </Route>
     </Route>
   </Routes>
+);
+const oldRoutes = (
+  <Routes>
+    <Route path="/" element={<App />}>
+      <Route index element={<Navigate to="confirm-address" replace />} />
+      <Route element={<DownloadLetters />}>
+        <Route element={<AddressSection />} path="confirm-address" />
+        <Route element={<Main />}>
+          <Route element={<LetterList />} path="letter-list" />
+        </Route>
+      </Route>
+    </Route>
+  </Routes>
+);
+
+const routes = (
+  <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+    {toggleValue => (toggleValue ? newRoutes : oldRoutes)}
+  </Toggler.Hoc>
 );
 
 export default routes;
