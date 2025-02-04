@@ -30,8 +30,8 @@ describe('transform function', () => {
               startDate: '2024-01-01',
             },
             studentRatioCalcChapter: {
-              numOfStudent: '100',
-              beneficiaryStudent: '75',
+              numOfStudent: 100,
+              beneficiaryStudent: 75,
               VABeneficiaryStudentsPercentage: '75.0%',
             },
           }),

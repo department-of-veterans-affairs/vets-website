@@ -118,6 +118,12 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
       <va-link-action href={APPLY_URL} text="Apply for VA health care" />
     );
 
+    const handlePrint = () => {
+      if (window.print) {
+        window.print();
+      }
+    };
+
     return (
       <>
         <h1>Your income limits for {year || currentYear}</h1>
@@ -251,11 +257,16 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           </va-accordion-item>
         </va-accordion>
         <va-button
+          class="il-print vads-u-margin-top--3"
+          data-testid="il-print"
+          onClick={handlePrint}
+          text="Print this page"
+        />
+        <va-button
           back
           class="vads-u-margin-top--3"
           data-testid="il-results-back"
           onClick={() => router.push(ROUTES.REVIEW)}
-          uswds
         />
         <h2>More helpful information</h2>
         <ul className="il-results-more-info">
