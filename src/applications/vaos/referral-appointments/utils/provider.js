@@ -387,7 +387,10 @@ const draftAppointments = {
  * @param {String} referralId The ID for the referral
  * @returns {Object} draftAppointmentInfo object
  */
-const createDraftAppointmentInfo = (numberOfSlots, referralId) => {
+const createDraftAppointmentInfo = (
+  numberOfSlots,
+  referralId = 'add2f0f4-a1ea-4dea-a504-a54ab57c6800',
+) => {
   const draftAppointmentInfo = draftAppointments[referralId];
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
   draftAppointmentInfo.slots = { count: numberOfSlots, slots: [] };

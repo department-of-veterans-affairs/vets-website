@@ -18,10 +18,7 @@ import * as flow from './flow';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
   const sandbox = sinon.createSandbox();
-  const draftAppointmentInfo = createDraftAppointmentInfo(
-    1,
-    'add2f0f4-a1ea-4dea-a504-a54ab57c6800',
-  );
+  const draftAppointmentInfo = createDraftAppointmentInfo(1);
   draftAppointmentInfo.slots.slots[0].start = '2024-09-09T16:00:00.000Z';
   const initialFullState = {
     featureToggles: {
