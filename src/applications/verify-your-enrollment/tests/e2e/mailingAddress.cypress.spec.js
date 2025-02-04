@@ -124,9 +124,10 @@ describe('Contact information', () => {
     cy.get('va-button')
       .last()
       .click({ force: true });
-    cy.contains(
+    cy.get('[class="usa-checkbox__label"]').should(
+      'contain',
       'I live on a United States military base outside of the U.S.',
-    ).should('be.visible');
+    );
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
     cy.injectAxeThenAxeCheck();

@@ -24,6 +24,7 @@ const RecordList = props => {
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
+    sendDataDogAction(`Pagination - ${type}`);
     const newURL = `${history.location.pathname}?page=${page}`;
     history.push(newURL);
     setCurrentRecords(paginatedRecords.current[page - 1]);
@@ -110,9 +111,6 @@ const RecordList = props => {
         (paginatedRecords.current.length > 1 ? (
           <div className="vads-u-margin-bottom--2 no-print">
             <VaPagination
-              onClick={() => {
-                sendDataDogAction(`Pagination - ${type}`);
-              }}
               onPageSelect={e => onPageChange(e.detail.page)}
               page={currentPage}
               pages={paginatedRecords.current.length}

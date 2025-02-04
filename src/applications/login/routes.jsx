@@ -2,8 +2,8 @@ import environment from 'platform/utilities/environment';
 import SignInApp from './containers/SignInApp';
 import SignInWrapper from './components/SignInWrapper';
 import MockAuth from './containers/MockAuth';
-import MhvSignIn from './containers/MhvSignIn';
-import MhvAccess from './containers/MhvAccess';
+import MhvProdTestAccess from './containers/MhvProdTestAccess';
+import MhvTemporaryAccess from './containers/MhvTemporaryAccess';
 
 const routes = {
   path: '/',
@@ -18,21 +18,21 @@ const routes = {
           },
           {
             path: 'access-myhealthevet-test-account',
-            component: MhvSignIn,
+            component: MhvProdTestAccess,
           },
           {
             path: 'mhv',
-            component: MhvAccess,
+            component: MhvTemporaryAccess,
           },
         ]
       : [
           {
             path: 'access-myhealthevet-test-account',
-            component: MhvSignIn,
+            component: MhvProdTestAccess,
           },
           {
             path: 'mhv',
-            component: MhvAccess,
+            component: MhvTemporaryAccess,
           },
         ],
 };
