@@ -70,8 +70,8 @@ export function useTransformForReview(formData) {
         {veteran.street ? <p>{veteran.street}</p> : null}
         {veteran.street2 ? <p>{veteran.street2} </p> : null}
         <p>
-          {veteran.city ? veteran.city : null},{' '}
-          {veteran.state ? veteran.state : null}{' '}
+          {veteran.city ? veteran.city : null}
+          {veteran.state ? `, ${veteran.state}` : null}{' '}
           {veteran.postalCode ? veteran.postalCode : null}
         </p>
       </>
@@ -102,9 +102,9 @@ export function useTransformForReview(formData) {
           ) : null}
 
           <p>
-            {representative.city ? `${representative.city},` : null},{' '}
-            {representative.stateCode ? `${representative.stateCode},` : null}{' '}
-            {representative.zipCode ? `${representative.zipCode},` : null}
+            {representative.city ? representative.city : null}{' '}
+            {representative.stateCode ? `, ${representative.stateCode}` : null}{' '}
+            {representative.zipCode ? representative.zipCode : null}
           </p>
 
           {renderField('Phone number', representative?.phone)}
@@ -127,9 +127,9 @@ export function useTransformForReview(formData) {
           {claimant.street2 && <p>{claimant.street2}</p>}
 
           <p>
-            {representative.city ? `${representative.city},` : null},{' '}
-            {representative.state ? `${representative.state},` : null}{' '}
-            {representative.postalCode ? `${representative.postalCode},` : null}
+            {representative.city ? representative.city : null}{' '}
+            {representative.state ? `, ${representative.state}` : null}{' '}
+            {representative.postalCode ? representative.postalCode : null}
           </p>
 
           {!applicantIsVeteran && renderVeteranForNonVeteranClaimant()}
