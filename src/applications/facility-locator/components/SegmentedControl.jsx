@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export const SegmentedControl = ({
+const SegmentedControl = ({
   labels,
   onChange,
   selected,
@@ -56,3 +57,13 @@ export const SegmentedControl = ({
     </div>
   );
 };
+
+SegmentedControl.propTypes = {
+  labels: PropTypes.array.isRequired,
+  a11yLabels: PropTypes.array,
+  selected: PropTypes.number,
+  testIDs: PropTypes.array,
+  onChange: PropTypes.func,
+};
+
+export default SegmentedControl;

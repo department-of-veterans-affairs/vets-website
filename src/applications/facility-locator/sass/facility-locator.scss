@@ -5,7 +5,7 @@
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
-$surface-secondary: rgba(240, 240, 240, 1);
+$surface-secondary: rgba(223, 225, 226,1);
 $text-color: rgba(27, 27, 27, 1);
 
 .facility-locator {
@@ -89,7 +89,7 @@ $text-color: rgba(27, 27, 27, 1);
   }
 
   @media screen and (max-width: $small-screen) {
-    .facility-result+.facility-result {
+    .facility-result + .facility-result {
       border-top: solid 1px var(--vads-color-base-light);
     }
   }

@@ -12,7 +12,7 @@ import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { SegmentedControl } from '../components/SegmentedControl';
+import SegmentedControl from '../components/SegmentedControl';
 import {
   clearSearchText,
   clearSearchResults,
