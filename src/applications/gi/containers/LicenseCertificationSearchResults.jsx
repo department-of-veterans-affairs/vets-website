@@ -27,6 +27,31 @@ import Dropdown from '../components/Dropdown';
 import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
 import { lacpCategoryList } from '../constants';
 
+const checkboxMap = (categories, checkedList) => {
+  return [
+    {
+      name: categories[0],
+      checked: checkedList.includes(categories[0]),
+      label: capitalizeFirstLetter(categories[0]),
+    },
+    {
+      name: categories[1],
+      checked: checkedList.includes(categories[1]),
+      label: capitalizeFirstLetter(categories[1]),
+    },
+    {
+      name: categories[2],
+      checked: checkedList.includes(categories[2]),
+      label: capitalizeFirstLetter(categories[2]),
+    },
+    {
+      name: categories[3],
+      checked: checkedList.includes(categories[3]),
+      label: capitalizeFirstLetter(categories[3]),
+    },
+  ];
+};
+
 export default function LicenseCertificationSearchResults({
   // error,
   flag,
@@ -38,15 +63,16 @@ export default function LicenseCertificationSearchResults({
 
   const { nameParam, categoryParams, stateParam } = showLcParams(location);
 
-  // const [checkedCategories, setCheckedCategories] = useState(categoryParams);
-  const [checkedCategories] = useState(categoryParams);
+  const [categoryCheckboxes, setCategoryCheckboxes] = useState(
+    checkboxMap(lacpCategoryList, categoryParams),
+  );
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
 
   // category list is an array, useMemo to maintain referential equality
-  const categoryArray = useMemo(() => categoryParams, []);
+  const categoryArray = useMemo(() => categoryParams, [categoryCheckboxes]); // ??
 
   const handleSearch = (categories, name, state) => {
     const newParams = {
@@ -54,6 +80,7 @@ export default function LicenseCertificationSearchResults({
       name,
       state,
     };
+
     updateQueryParam(history, location, newParams);
     handleLcResultsSearch(history, categories, name, state);
   };
@@ -104,12 +131,19 @@ export default function LicenseCertificationSearchResults({
   };
 
   const handleCheckboxGroupChange = e => {
-    // console.log('handleCheckboxClick', {
-    //   name: e.target.name,
-    //   checked: e.target.checked,
-    // });
+    const { name, checked } = e.target;
 
-    return e;
+    const updatedCheckboxes = categoryCheckboxes.map(categoryCheckbox => {
+      if (categoryCheckbox.label.toLowerCase() !== name) {
+        return categoryCheckbox;
+      }
+      return {
+        ...categoryCheckbox,
+        checked,
+      };
+    });
+
+    setCategoryCheckboxes(updatedCheckboxes);
   };
 
   // TODO
@@ -130,31 +164,9 @@ export default function LicenseCertificationSearchResults({
     );
   };
 
-  const categoryTypeFilter = categories => {
+  const categoryTypeFilter = options => {
     // on mount make checked state of each option reflect filter options from current page
     // on checkbox click make reflect updated options in filter logic
-    const options = [
-      {
-        name: categories[0],
-        checked: checkedCategories.includes(categories[0]),
-        label: capitalizeFirstLetter(categories[0]),
-      },
-      {
-        name: categories[1],
-        checked: checkedCategories.includes(categories[1]),
-        label: capitalizeFirstLetter(categories[1]),
-      },
-      {
-        name: categories[2],
-        checked: checkedCategories.includes(categories[2]),
-        label: capitalizeFirstLetter(categories[2]),
-      },
-      {
-        name: categories[3],
-        checked: checkedCategories.includes(categories[3]),
-        label: capitalizeFirstLetter(categories[3]),
-      },
-    ];
 
     return (
       <>
@@ -192,7 +204,7 @@ export default function LicenseCertificationSearchResults({
   const renderSearchInfo = () => {
     return (
       <>
-        {checkedCategories.map((category, index) => {
+        {categoryParams.map((category, index) => {
           return (
             <span className="info-option vads-u-padding-right--0p5" key={index}>
               "
@@ -212,10 +224,11 @@ export default function LicenseCertificationSearchResults({
 
   const filterControls = (
     <div>
-      {categoryTypeFilter(lacpCategoryList)}
+      {categoryTypeFilter(categoryCheckboxes)}
       {renderLocation()}
     </div>
   );
+
   return (
     <div>
       {fetchingLc && (
@@ -272,7 +285,13 @@ export default function LicenseCertificationSearchResults({
                       results"
                           expanded={!smallScreen}
                           buttonOnClick={() =>
-                            handleSearch(nameParam, dropdown[0].current)
+                            handleSearch(
+                              categoryCheckboxes
+                                .filter(checkbox => checkbox.checked === true)
+                                .map(category => category.name),
+                              nameParam,
+                              dropdown.current.optionValue,
+                            )
                           }
                         >
                           {filterControls}

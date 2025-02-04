@@ -593,6 +593,7 @@ export const filterSuggestions = (
 
 export const updateQueryParam = (history, location, newParams) => {
   const searchParams = new URLSearchParams(location.search);
+
   Object.entries(newParams).forEach(([key, value]) => {
     searchParams.set(key, value);
   });
@@ -605,9 +606,10 @@ export const updateQueryParam = (history, location, newParams) => {
 
 export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
+  const categories = searchParams.getAll('category');
 
   const nameParam = searchParams.get('name') ?? '';
-  const categoryParams = searchParams.getAll('category') ?? 'all';
+  const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
 
   return { nameParam, categoryParams, stateParam };
@@ -621,8 +623,13 @@ export const handleLcResultsSearch = (
 ) => {
   let categoryParams = '';
 
-  categories.forEach(category => {
-    categoryParams = categoryParams.concat('', `category=${category}`);
+  categories.forEach((category, index) => {
+    categoryParams = categoryParams.concat(
+      '',
+      index === categories.length - 1
+        ? `category=${category}`
+        : `category=${category}&`,
+    );
   });
 
   return history.push(
