@@ -101,15 +101,6 @@ export function isRegOnlyEnabled(formData) {
 }
 
 /**
- * Helper that determines if the feature flag status for the gender identity question
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the form data is `true`
- */
-export function isSigiEnabled(formData) {
-  return formData['view:isSigiEnabled'];
-}
-
-/**
  * Helper that determines if the Veteran's home and mailing address are the same
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the viewfield is set to `false`
