@@ -18,6 +18,10 @@ export default function SelectProviderPage() {
 
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
+  const singleProviderTitle = 'Your nutrition and food provider';
+  const pageHeader =
+    patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
+
   useEffect(
     () => {
       document.title = `${pageTitle} | Veterans Affairs`;
@@ -37,10 +41,6 @@ export default function SelectProviderPage() {
       </div>
     );
   }
-
-  const singleProviderTitle = 'Your nutrition and food provider';
-  const pageHeader =
-    patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
 
   return (
     <div>
