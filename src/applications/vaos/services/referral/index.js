@@ -33,19 +33,17 @@ export async function postReferralAppointment({
   slotId,
   draftApppointmentId,
 }) {
-  const response = await apiRequestWithUrl(
-    `/vaos/v2/epsApi/appointments/${referralId}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        slotId,
-        draftApppointmentId,
-      }),
+  const response = await apiRequestWithUrl(`/vaos/v2/epsApi/appointments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify({
+      referralId,
+      slotId,
+      draftApppointmentId,
+    }),
+  });
   return response.data;
 }
 
