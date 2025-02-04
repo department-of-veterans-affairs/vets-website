@@ -1,6 +1,7 @@
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  textUI,
+  currentOrPastMonthYearDateSchema,
+  currentOrPastMonthYearDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { createItemName } from './utils';
@@ -9,22 +10,19 @@ import { createItemName } from './utils';
 const datePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `Date of ${createItemName(formData)}`,
+      ({ formData }) => `Start date of ${createItemName(formData)}`,
     ),
-    date: textUI({
-      title:
-        'What is the approximate date this condition began? If you’re having trouble remembering the exact date you can provide a year.',
-      hint: 'For example: January 2004 or 2004',
-      charcount: true,
+    // TODO: Can we make just year required?
+    // Could use month-optional https://design.va.gov/storybook/?path=/story/components-va-date--month-optional
+    // TODO: Why is there the empty option when both are required?
+    date: currentOrPastMonthYearDateUI({
+      title: 'What’s the approximate date your condition started?',
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      date: {
-        type: 'string',
-        maxLength: 25,
-      },
+      date: currentOrPastMonthYearDateSchema,
     },
     required: ['date'],
   },

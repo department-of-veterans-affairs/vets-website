@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   updatePageTitle,
   generatePdfScaffold,
@@ -19,6 +18,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  formatUserDob,
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import {
@@ -38,6 +38,8 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import HeaderSection from '../components/shared/HeaderSection';
+import LabelValue from '../components/shared/LabelValue';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -78,9 +80,7 @@ const ConditionDetails = props => {
     () => {
       if (record?.name) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(
-          `${record.name} - ${pageTitles.HEALTH_CONDITIONS_PAGE_TITLE}`,
-        );
+        updatePageTitle(pageTitles.HEALTH_CONDITIONS_DETAILS_PAGE_TITLE);
       }
     },
     [record],
@@ -95,7 +95,7 @@ const ConditionDetails = props => {
 
   const generateConditionDetailsPdf = async () => {
     setDownloadStarted(true);
-    const title = `Health conditions: ${record.name}`;
+    const title = `${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
@@ -109,10 +109,10 @@ const ConditionDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name} \n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date}\n
 ${txtLine}\n
+Date entered: ${record.date}\n
 Provider: ${record.provider}\n
 Location: ${record.facility}\n
 Provider Notes: ${processList(record.comments)}\n`;
@@ -142,56 +142,56 @@ Provider Notes: ${processList(record.comments)}\n`;
       return (
         <>
           <PrintHeader />
-          <h1
+          <HeaderSection
+            header={`${record.name}`}
             className="vads-u-margin-bottom--0"
             aria-describedby="condition-date"
             data-dd-privacy="mask"
+            data-dd-action-name="[condition details - name]"
           >
-            {`Health conditions: ${record.name}`}
-          </h1>
-          <DateSubheading
-            date={record.date}
-            id="condition-date"
-            label="Date entered"
-          />
-
-          {downloadStarted && <DownloadSuccessAlert />}
-          <PrintDownload
-            downloadPdf={generateConditionDetailsPdf}
-            allowTxtDownloads={allowTxtDownloads}
-            downloadTxt={generateConditionTxt}
-          />
-          <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
-
-          <div className="max-80">
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-              Provider
-            </h2>
-            <p data-dd-privacy="mask" data-testid="condition-provider">
-              {record.provider}
-            </p>
-            <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-              Location
-            </h2>
-            <p data-dd-privacy="mask" data-testid="condition-location">
-              {record.facility || 'There is no facility reported at this time'}
-            </p>
-            <h2 className="vads-u-margin-bottom--0 vads-u-font-size--md vads-u-font-family--sans">
-              Provider notes
-            </h2>
-            <ItemList
-              data-testid="condition-provider-notes"
-              list={record.comments}
+            <DateSubheading
+              date={record.date}
+              id="condition-date"
+              label="Date entered"
             />
-            {containsSctOrIcd(record.name) && (
-              <>
-                <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-                  About the code in this condition name
-                </h2>
-                <p
-                  data-dd-privacy="mask"
-                  data-testid="about-the-condition-code"
+
+            {downloadStarted && <DownloadSuccessAlert />}
+            <PrintDownload
+              description="Health Conditions Detail"
+              downloadPdf={generateConditionDetailsPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateConditionTxt}
+            />
+            <DownloadingRecordsInfo
+              description="Health Conditions Detail"
+              allowTxtDownloads={allowTxtDownloads}
+            />
+            <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
+
+            <div className="max-80">
+              <LabelValue
+                label="Provider"
+                value={record.provider}
+                testId="condition-provider"
+                actionName="[condition details - provider]"
+              />
+              <LabelValue
+                label="Location"
+                value={record.facility}
+                ifEmpty="There is no facility reported at this time"
+                testId="condition-location"
+                actionName="[condition details - location]"
+              />
+              <LabelValue label="Provider notes">
+                <ItemList
+                  data-testid="condition-provider-notes"
+                  list={record.comments}
+                />
+              </LabelValue>
+              {containsSctOrIcd(record.name) && (
+                <LabelValue
+                  label="About the code in this condition name"
+                  testId="about-the-condition-code"
                 >
                   Some of your health conditions may have diagnosis codes in the
                   name that start with SCT or ICD. Providers use these codes to
@@ -199,10 +199,10 @@ Provider Notes: ${processList(record.comments)}\n`;
                   providers about your care. If you have a question about these
                   codes or a health condition, ask your provider at your next
                   appointment.
-                </p>
-              </>
-            )}
-          </div>
+                </LabelValue>
+              )}
+            </div>
+          </HeaderSection>
         </>
       );
     }

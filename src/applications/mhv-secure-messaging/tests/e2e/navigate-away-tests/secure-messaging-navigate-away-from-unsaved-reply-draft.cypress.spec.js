@@ -1,23 +1,26 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
-import mockMessages from '../fixtures/messages-response.json';
+import singleThreadResponse from '../fixtures/thread-response-new-api.json';
 import PatientInboxPage from '../pages/PatientInboxPage';
-import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import { Alerts, AXE_CONTEXT, Data } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import PatientReplyPage from '../pages/PatientReplyPage';
+import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 
 describe('SM NAVIGATE AWAY FROM UNSAVED REPLY DRAFT', () => {
+  const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+    singleThreadResponse,
+  );
+
   beforeEach(() => {
     SecureMessagingSite.login();
-    const testMessage = PatientInboxPage.getNewMessageDetails();
-    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
-    PatientMessageDetailsPage.loadMessageDetails(testMessage);
-    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
+
+    PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
+    PatientInterstitialPage.getContinueButton().click();
   });
 
   it('navigate away with no data', () => {

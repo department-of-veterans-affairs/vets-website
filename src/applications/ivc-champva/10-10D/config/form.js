@@ -50,7 +50,7 @@ import {
   certifierNameValidation,
   certifierAddressValidation,
 } from '../helpers/validations';
-import { ADDITIONAL_FILES_HINT } from './constants';
+import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
 import { sponsorNameDobConfig } from '../pages/Sponsor/sponsorInfoConfig';
 import { acceptableFiles } from '../components/Sponsor/sponsorFileUploads';
@@ -223,7 +223,7 @@ const formConfig = {
         page2: {
           // initialData: mockData.data,
           path: 'signer-info',
-          title: 'Certification',
+          title: 'Your name',
           uiSchema: {
             ...titleUI('Your name'),
             certifierName: fullNameUI(),
@@ -240,7 +240,7 @@ const formConfig = {
         },
         page3: {
           path: 'signer-mailing-address',
-          title: 'Certification',
+          title: 'Your mailing address',
           uiSchema: {
             ...titleUI(
               'Your mailing address',
@@ -260,14 +260,14 @@ const formConfig = {
         },
         page4: {
           path: 'signer-contact-info',
-          title: 'Certification',
+          title: 'Your contact information',
           CustomPage: SignerContactInfoPage,
           CustomPageReview: null,
           ...signerContactInfoPage,
         },
         page5: {
           path: 'signer-relationship',
-          title: 'Certification',
+          title: 'Your relationship to applicant',
           depends: formData => get('certifierRole', formData) === 'other',
           uiSchema: {
             ...titleUI('Your relationship to the applicant'),
@@ -422,12 +422,13 @@ const formConfig = {
             sponsorInfoTitle: titleUI('Sponsor status details'),
             sponsorDOD: dateOfDeathUI('When did the sponsor die?'),
             sponsorDeathConditions: yesNoUI({
-              title: 'Did sponsor die during active military service?',
+              title: 'Did the sponsor die during active military service?',
               hint: ADDITIONAL_FILES_HINT,
               labels: {
-                yes: 'Yes, sponsor passed away during active military service',
+                yes:
+                  'Yes, the sponsor passed away during active military service',
                 no:
-                  'No, sponsor did not pass away during active military service',
+                  'No, the sponsor did not pass away during active military service',
               },
             }),
           },
@@ -440,6 +441,35 @@ const formConfig = {
               sponsorDeathConditions: yesNoSchema,
             },
           },
+        },
+        page10b0: {
+          path: 'sponsor-mailing-same',
+          title: formData => `${sponsorWording(formData)} address selection`,
+          // Only show if we have addresses to pull from:
+          depends: formData =>
+            !get('sponsorIsDeceased', formData) &&
+            get('certifierRole', formData) !== 'sponsor' &&
+            get('street', formData?.certifierAddress),
+          CustomPage: props => {
+            const extraProps = {
+              ...props,
+              customAddressKey: 'sponsorAddress',
+              customTitle: `${sponsorWording(props.data)} address selection`,
+              customDescription:
+                'We’ll send any important information about this form to this address.',
+              customSelectText: `Does ${sponsorWording(
+                props.data,
+                false,
+                false,
+              )} live at a previously entered address?`,
+              positivePrefix: 'Yes, their address is',
+              negativePrefix: 'No, they have a different address',
+            };
+            return ApplicantAddressCopyPage(extraProps);
+          },
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
         },
         page10b1: {
           path: 'sponsor-mailing-address',
@@ -569,7 +599,7 @@ const formConfig = {
                     undefined,
                     false,
                   )}. This includes social security number, mailing address, 
-                          contact information, relationship to sponsor, and health 
+                          contact information, relationship to the sponsor, and health 
                           insurance information.`,
                 ),
               },
@@ -741,7 +771,8 @@ const formConfig = {
           path: 'applicant-relationship/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} relationship to sponsor`,
+          title: item =>
+            `${applicantWording(item)} relationship to the sponsor`,
           CustomPage: ApplicantRelationshipPage,
           CustomPageReview: ApplicantRelationshipReviewPage,
           schema: applicantListSchema([], {
@@ -1168,7 +1199,8 @@ const formConfig = {
           path: 'applicant-other-insurance-status/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance status`,
           CustomPage: ApplicantOhiStatusPage,
           CustomPageReview: ApplicantOhiStatusReviewPage,
           schema: applicantListSchema([], {
@@ -1190,7 +1222,8 @@ const formConfig = {
           path: 'applicant-other-insurance-upload/:index',
           arrayPath: 'applicants',
           showPagePerItem: true,
-          title: item => `${applicantWording(item)} other health insurance`,
+          title: item =>
+            `${applicantWording(item)} other health insurance upload`,
           depends: (formData, index) => {
             if (index === undefined) return true;
             return (

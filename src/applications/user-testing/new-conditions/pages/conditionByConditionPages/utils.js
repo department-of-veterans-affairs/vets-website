@@ -2,7 +2,7 @@ import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/a
 
 import { conditionObjects } from '../../content/conditionOptions';
 
-export const createTitle = (defaultTitle, editTitle) => {
+export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   const search = getArrayUrlSearchParams();
   const isEdit = search.get('edit');
 
@@ -10,18 +10,6 @@ export const createTitle = (defaultTitle, editTitle) => {
     return editTitle;
   }
   return defaultTitle;
-};
-
-export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.conditionByCondition
-    ? formData.conditionByCondition[index]?.condition
-    : formData.condition;
-
-  const conditionObject = conditionObjects.find(
-    conditionObj => conditionObj.option === condition,
-  );
-
-  return conditionObject ? conditionObject.sideOfBody : false;
 };
 
 const createCauseDescriptions = item => {
@@ -70,10 +58,24 @@ export const arrayBuilderOptions = {
     !item?.condition ||
     !item?.date ||
     !item?.cause ||
-    (causeFollowUpChecks[item.cause] && causeFollowUpChecks[item.cause](item)),
+    causeFollowUpChecks[item.cause](item),
   maxItems: 100,
   text: {
     getItemName: item => createItemName(item, true),
     cardDescription: item => createCauseDescriptions(item)[(item?.cause)],
   },
+};
+
+// TODO: [Fix the formData prop on edit so that it contains all form data](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/689)
+// formData contains all form data on add and only item data on edit which results in the need for the conditional below
+export const hasSideOfBody = (formData, index) => {
+  const condition = formData?.[arrayBuilderOptions.arrayPath]
+    ? formData?.[arrayBuilderOptions.arrayPath][index]?.condition
+    : formData.condition;
+
+  const conditionObject = conditionObjects.find(
+    conditionObj => conditionObj.option === condition,
+  );
+
+  return conditionObject ? conditionObject.sideOfBody : false;
 };

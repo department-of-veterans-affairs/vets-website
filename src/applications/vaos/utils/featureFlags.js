@@ -1,5 +1,4 @@
 module.exports = [
-  { name: 'facilityLocatorShowCommunityCares', value: true },
   { name: 'profile_show_profile_2.0', value: false },
   { name: 'vaOnlineScheduling', value: true },
   { name: 'vaOnlineSchedulingCancel', value: true },
@@ -11,7 +10,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceRequests', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
-  { name: 'vaOnlineSchedulingFacilitiesServiceV2', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
   { name: 'vaOnlineSchedulingStatusImprovement', value: true },
   { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
@@ -21,8 +19,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingBreadcrumbUrlUpdate', value: true },
   { name: 'vaOnlineSchedulingBookingExclusion', value: false },
   { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
-  { name: 'vaOnlineSchedulingAfterVisitSummary', value: true },
-  { name: 'vaOnlineSchedulingStartSchedulingLink', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
   { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },

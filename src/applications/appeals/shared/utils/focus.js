@@ -128,7 +128,7 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio, va-checkbox-group');
+  const radio = $('va-radio, va-checkbox-group, va-textarea');
   if (radio) {
     const target = radio.getAttribute('error') ? '[role="alert"]' : 'h3';
     // va-radio content doesn't immediately render

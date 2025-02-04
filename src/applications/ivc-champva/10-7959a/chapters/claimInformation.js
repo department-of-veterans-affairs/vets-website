@@ -21,7 +21,7 @@ function FileFieldWrapped(props) {
 
 const additionalNotesClaims = (
   <va-additional-info
-    trigger="Additional notes regarding claims"
+    trigger="Other helpful information about submitting claims"
     class="vads-u-margin-bottom--4"
   >
     <ul>
@@ -58,7 +58,7 @@ export const claimTypeSchema = {
 
 export const claimWorkSchema = {
   uiSchema: {
-    ...titleUI('Claim relation to work'),
+    ...titleUI('Claim relationship to work'),
     claimIsWorkRelated: yesNoUI({
       title: 'Is this a claim for a work-related injury or condition?',
       updateUiSchema: formData => {
@@ -87,10 +87,10 @@ export const claimWorkSchema = {
 
 export const claimAutoSchema = {
   uiSchema: {
-    ...titleUI('Claim relation to an auto-related accident'),
+    ...titleUI('Claim relationship to a car accident'),
     claimIsAutoRelated: yesNoUI({
       title:
-        'Is this a claim for an injury or condition caused by an auto-related accident?',
+        'Is this a claim for an injury or condition caused by car accident?',
       updateUiSchema: formData => {
         return {
           'ui:options': {
@@ -99,7 +99,7 @@ export const claimAutoSchema = {
               true,
               false,
               true,
-            )} auto insurance provider to determine if they paid any amount for this care.`,
+            )} car insurance provider to determine if they paid any amount for this care.`,
           },
         };
       },
@@ -265,7 +265,6 @@ export const eobUploadSchema = isPrimary => {
   };
 };
 
-// TODO: Pharmacy upload page
 export const pharmacyClaimUploadSchema = {
   CustomPage: FileFieldWrapped,
   CustomPageReview: null,

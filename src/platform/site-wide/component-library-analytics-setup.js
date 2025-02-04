@@ -4,7 +4,6 @@
  * to translate component library actions into analytics dataLayer events.
  */
 import _recordEvent from 'platform/monitoring/record-event';
-import { getSectionLabel } from 'applications/static-pages/subscription-creators/subscribeAccordionEvents';
 
 const analyticsEvents = {
   Modal: [{ action: 'show', event: 'int-modal-show', prefix: 'modal' }],
@@ -105,6 +104,13 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-file-input-change',
       prefix: 'file-input',
+    },
+  ],
+  'va-language-toggle': [
+    {
+      action: 'linkClick',
+      event: 'nav-language-toggle-click',
+      prefix: 'language-toggle',
     },
   ],
   'va-link': [
@@ -288,6 +294,20 @@ const analyticsEvents = {
       prefix: 'textarea',
     },
   ],
+};
+
+// This function assumes an accordion element in a <section> tag
+// which has a data-label attribute set.
+const getSectionLabel = node => {
+  let currentNode = node;
+  while (
+    currentNode &&
+    currentNode.tagName &&
+    currentNode.nodeName.toUpperCase() !== 'SECTION'
+  ) {
+    currentNode = currentNode.parentNode;
+  }
+  return currentNode?.dataset?.label;
 };
 
 export function subscribeComponentAnalyticsEvents(

@@ -1,29 +1,24 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
 import FinancialConfirmation from '../../../../components/FormPages/FinancialConfirmation';
 
 describe('hca Financial Confirmation page', () => {
-  const getData = () => ({
-    props: { data: {}, goBack: () => {}, goForward: () => {} },
-  });
-
-  context('when the component renders', () => {
-    const { props } = getData();
-
-    it('should render `va-alert` with correct status', () => {
-      const { container } = render(<FinancialConfirmation {...props} />);
-      const selector = container.querySelector('va-alert');
-      expect(selector).to.exist;
-      expect(selector).to.have.attr('status', 'info');
+  const subject = () => {
+    const props = { data: {}, goBack: () => {}, goForward: () => {} };
+    const { container } = render(<FinancialConfirmation {...props} />);
+    const selectors = () => ({
+      vaAlert: container.querySelector('va-alert'),
+      navBtns: container.querySelectorAll('.hca-button-progress'),
     });
+    return { container, selectors };
+  };
 
-    it('should render navigation buttons', () => {
-      const { container } = render(<FinancialConfirmation {...props} />);
-      expect(
-        container.querySelectorAll('.hca-button-progress'),
-      ).to.have.lengthOf(2);
-    });
+  it('should render the page with content and navigation buttons', () => {
+    const { selectors } = subject();
+    const { vaAlert, navBtns } = selectors();
+    expect(vaAlert).to.exist;
+    expect(vaAlert).to.have.attr('status', 'info');
+    expect(navBtns).to.have.lengthOf(2);
   });
 });

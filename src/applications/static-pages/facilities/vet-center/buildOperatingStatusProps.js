@@ -1,9 +1,9 @@
 export const buildOperatingStatusProps = attrs => {
   const { opStatus, opStatusExtra } = attrs;
   let statusLabel;
-  let iconType;
   let statusType;
 
+  // opStatus here is not from lighthouse so it is lowercase
   if (opStatus === 'normal') {
     return;
   }
@@ -11,22 +11,31 @@ export const buildOperatingStatusProps = attrs => {
   switch (opStatus) {
     case 'limited':
       statusLabel = 'Limited services and hours';
-      iconType = 'info-circle';
-      statusType = 'warning';
+      statusType = 'info';
       break;
     case 'closed':
       statusLabel = 'Facility closed';
-      iconType = 'exclamation-circle';
-      statusType = 'error';
+      statusType = 'warning';
       break;
-    case 'notice':
-      statusLabel = 'Facility notice';
-      iconType = 'exclamation-circle';
-      statusType = 'info';
+    case 'coming_soon':
+      statusLabel = 'Coming soon';
+      statusType = 'warning';
+      break;
+    case 'temporary_closure':
+      statusLabel = 'Temporary facility closure';
+      statusType = 'warning';
+      break;
+    case 'temporary_location':
+      statusLabel = 'Temporary location';
+      statusType = 'warning';
+      break;
+    case 'virtual_care':
+      statusLabel = 'Virtual care only';
+      statusType = 'warning';
       break;
     default:
-      statusLabel = 'Facility status';
-      iconType = 'exclamation-triangle';
+      // ex: notice
+      statusLabel = 'Facility notice';
       statusType = 'info';
   }
 
@@ -34,7 +43,6 @@ export const buildOperatingStatusProps = attrs => {
   return {
     operatingStatusFacility: opStatus,
     statusLabel,
-    iconType,
     extraInfo: opStatusExtra,
     statusType,
   };

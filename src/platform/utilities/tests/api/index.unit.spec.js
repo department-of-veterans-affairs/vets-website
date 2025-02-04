@@ -44,7 +44,7 @@ describe('test wrapper', () => {
       expect(mockEnv.isProduction.called).to.be.true;
     });
 
-    it('should redirect to /session-expired if in production and session expired (401)', async () => {
+    it('should redirect to LoginModal if in production and session expired (401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
           res(
@@ -74,7 +74,9 @@ describe('test wrapper', () => {
         );
       } catch (error) {
         expect(mockEnv.isProduction.called).to.be.true;
-        expect(window.location).to.eql('/session-expired');
+        expect(window.location).to.eql(
+          '/?next=loginModal&status=session_expired',
+        );
       }
     });
 

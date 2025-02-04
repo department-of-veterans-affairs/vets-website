@@ -4,21 +4,24 @@ import {
   findMatchingCvixReport,
   findMatchingPhrAndCvixStudies,
   parseRadiologyReport,
+  radiologyRecordHash,
   radiologyReportsMatch,
 } from '../../util/radiologyUtil';
 
 describe('parseRadiologyReport', () => {
   it('parses a radiology report', () => {
     const report =
-      "1^KNEE 4 OR MORE VIEWS (LEFT)^PATIENTLAST,JOHN\r\nGroup ID# 2487450\r\n_______________________________________________________________________________\r\nPATIENTLAST,JOHN      521-45-2884    DOB-DEC 25, 1934 M   \r\nExm Date: APR 04, 2024@17:03\r\nReq Phys: PHYSLASTNAME,BOB               Pat Loc: NHM/CARDIOLOGY/CASEY (Req'g Lo\r\n                                         Img Loc: WOR/X-RAY\r\n                                         Service: Unknown\r\n\r\n                                     WORCESTER CBOC\r\n                                     WORCESTER, MA 01605\r\n                                            \r\n \r\n\r\n(Case 93 CALLED F)   KNEE 4 OR MORE VIEWS (LEFT)      (RAD  Detailed) CPT:73564\r\n     Reason for Study: Test data number2 Todd\r\n\r\n    Clinical History:\r\n\r\n    Report Status: Verified                   Date Reported: APR 05, 2024\r\n                                              Date Verified: APR 05, 2024\r\n    Verifier E-Sig:\r\n\r\n    Report:\r\n      For providers and interpreters, identification of normal bony\r\n      anatomical landmarks is important. On the AP view the adductor\r\n      tubercle, the site of the attachment of the adductor magnus\r\n      tendon, can be seen as a bony protrusion just above the medi al\r\n      border of the medial femoral condyle and a groove in the lateral\r\n      profile of the lateral femoral condyle is formed by the popliteus\r\n      sulcus [4].  \r\n\r\n    Impression:\r\n      1. Degenerative arthritis of left knee which has shown\r\n      progression since 1980.  2. Advanced degenerative changes of\r\n      right knee with evidence of previous patellectomy.  Not much\r\n      change is seen since the last exam of 6-21-89.  \r\n\r\n    Primary Diagnostic Code: MINOR ABNORMALITY\r\n\r\nPrimary Interpreting Staff:\r\n  JANE J LASTNAME, RADIOLOGIST\r\n          Verified by transcriptionist for JANE J LASTNAME\r\n/DP\r\n\r\n\r\n** END REPORT Nov 06, 2024 11:04:23 am **";
+      "1^CT THORAX W/CONT^PATIENTLAST,JOHN\r\nGroup ID# 2487448\r\n_______________________________________________________________________________\r\nPATIENTLAST,JOHN      521-45-2884    DOB-DEC 25, 1934 M   \r\nExm Date: APR 04, 2024@16:54\r\nReq Phys: PHYSLAST,MARK                  Pat Loc: NHM/CARDIOLOGY/CASEY (Req'g Lo\r\n                                         Img Loc: NHM/CT\r\n                                         Service: Unknown\r\n\r\n                                       IPO TEST 2\r\n                                          ,  \r\n                                            \r\n \r\n\r\n(Case 92 CALLED F)   CT THORAX W/CONT                 (CT   Detailed) CPT:71260\r\n     Reason for Study: Test data Todd\r\n\r\n    Clinical History:\r\n\r\n    Additional Clinical History:\r\n      Test data for Todd CT 16 bit \r\n\r\n    Report Status: Verified                   Date Reported: APR 05, 2024\r\n                                              Date Verified: APR 05, 2024\r\n    Verifier E-Sig:\r\n\r\n    Report:\r\n       CT SCAN OF THE ABDOMEN:  Bolus injection of 150 cc of non-ionic\r\n      contrast material was administered during the scan.  \r\n       \r\n      The liver, spleen, pancreas and kidneys appear normal.  Both the\r\n      colon and small bowel appear normal throughout the abdominal\r\n      cavity.  There is no evidence of adenopathy.  \r\n       \r\n      The lung bases appear clear.  \r\n\r\n    Impression:\r\n       IMPRESSION:  Normal CT scan of the abdomen.  \r\n\r\n    Primary Diagnostic Code: NORMAL\r\n\r\nPrimary Interpreting Staff:\r\n  JANE J INTERPRETER, RADIOLOGIST\r\n          Verified by transcriptionist for JANE J INTERPRETER\r\n/DP\r\n\r\n\r\n** END REPORT Nov 06, 2024 11:04:23 am **";
     const parsedReport = parseRadiologyReport(report);
-    expect(parsedReport['Exm Date']).to.eq('APR 04, 2024@17:03');
-    expect(parsedReport['Req Phys']).to.eq('PHYSLASTNAME,BOB');
-    expect(parsedReport['Reason for Study']).to.eq('Test data number2 Todd');
+    expect(parsedReport['Exm Date']).to.eq('APR 04, 2024@16:54');
+    expect(parsedReport['Req Phys']).to.eq('PHYSLAST,MARK');
+    expect(parsedReport['Reason for Study']).to.eq('Test data Todd');
     expect(parsedReport['Report Status']).to.eq('Verified');
-    expect(parsedReport['Clinical History']).to.eq('');
-    expect(parsedReport.Report.length).to.eq(391);
-    expect(parsedReport.Impression.length).to.eq(266);
+    expect(parsedReport['Clinical History']).to.eq(
+      'Additional Clinical History:\nTest data for Todd CT 16 bit',
+    );
+    expect(parsedReport.Report.length).to.eq(315);
+    expect(parsedReport.Impression.length).to.eq(75);
   });
 });
 
@@ -230,7 +233,7 @@ describe('findMatchingPhrAndCvixStudies', () => {
     const cvixResponse = [{ id: 'YYYYY', performedDatePrecise: 1700000000000 }];
 
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-00000000',
+      'rXXXXX-e4fae142',
       phrResponse,
       cvixResponse,
     );
@@ -265,7 +268,7 @@ describe('findMatchingPhrAndCvixStudies', () => {
     const cvixResponse = [{ id: '12345', performedDatePrecise: 1712264604902 }];
 
     const record = await findMatchingPhrAndCvixStudies(
-      'rXXXXX-00000000',
+      'rXXXXX-4ec8b4e4',
       null,
       cvixResponse,
     );
@@ -313,5 +316,47 @@ describe('findMatchingPhrAndCvixStudies', () => {
     );
     expect(record.phrDetails).to.be.null;
     expect(record.cvixDetails).to.be.null;
+  });
+});
+
+describe('radiologyRecordHash', () => {
+  const record = {
+    procedureName: 'CT THORAX W/O CONT',
+    radiologist: 'JOHNSON,JOHN',
+    stationNumber: '660',
+  };
+
+  it('returns the different hashes for timestamps on different days', () => {
+    const record1 = {
+      ...record,
+      performedDatePrecise: 1296052117949, // January 26, 2011 9:28:37.949 AM ET
+    };
+
+    const record2 = {
+      ...record,
+      performedDatePrecise: 1296138517949, // January 27, 2011 9:28:37.949 AM ET (one day later)
+    };
+
+    const hash1 = radiologyRecordHash(record1);
+    const hash2 = radiologyRecordHash(record2);
+
+    expect(hash1).to.not.eq(hash2); // Assert that the hashes are different.
+  });
+
+  it('returns the same hash for slightly differing timestamps', () => {
+    const record1 = {
+      ...record,
+      performedDatePrecise: 1296052117949, // January 26, 2011 9:28:37.949 AM ET
+    };
+
+    const record2 = {
+      ...record,
+      performedDatePrecise: 1296052177949, // January 26, 2011 9:29:37.949 AM ET (one minute later)
+    };
+
+    const hash1 = radiologyRecordHash(record1);
+    const hash2 = radiologyRecordHash(record2);
+
+    expect(hash1).to.eq(hash2); // Assert that the hashes are the same.
   });
 });

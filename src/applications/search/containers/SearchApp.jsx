@@ -376,15 +376,8 @@ const SearchApp = ({
   // 1. Search.gov errors during their maintenance windows (Tues & Thurs 3-6pm EST)
   // 2. Sitewide team using the search_gov_maintenance feature flipper
   //    when Search.gov is experiencing major outages
-  const searchGovIssuesWithinMaintenanceWindow =
-    isWithinMaintenanceWindow() &&
-    results &&
-    results.length === 0 &&
-    !hasErrors &&
-    !searchIsLoading;
-
   const shouldShowMaintenanceBanner =
-    searchGovIssuesWithinMaintenanceWindow || searchGovMaintenance;
+    isWithinMaintenanceWindow() || searchGovMaintenance;
 
   return (
     <div className="search-app" data-e2e-id="search-app">
@@ -402,15 +395,14 @@ const SearchApp = ({
             appTitle="Search App"
             dependencies={[externalServices.search]}
           >
-            {// Search API returned errors OR errors with user input before
-            //  submitting AND the maintenance banner is NOT going to be displayed
-            shouldShowErrorMessage &&
-              !shouldShowMaintenanceBanner && <Errors userInput={userInput} />}
             {// Search API is either within the maintenance window AND has returned
             //  no results OR the search_gov_maintenance Flipper has been enabled
             shouldShowMaintenanceBanner && (
               <SearchMaintenance unexpectedMaintenance={searchGovMaintenance} />
             )}
+            {// Search API returned errors OR errors with user input before
+            //  submitting AND the maintenance banner is NOT going to be displayed
+            shouldShowErrorMessage && <Errors userInput={userInput} />}
             <div className="vads-u-background-color--gray-lightest vads-u-padding-x--3 vads-u-padding-bottom--3 vads-u-padding-top--1p5 vads-u-margin-bottom--4">
               <p className="vads-u-margin-top--0">
                 Enter a keyword, phrase, or question

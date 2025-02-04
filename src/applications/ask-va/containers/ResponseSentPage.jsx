@@ -2,6 +2,7 @@ import { focusElement } from 'platform/utilities/ui';
 import React, { useEffect, useRef } from 'react';
 import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
+import manifest from '../manifest.json';
 
 const ResponseSentPage = () => {
   const alertRef = useRef(null);
@@ -22,7 +23,7 @@ const ResponseSentPage = () => {
         <h1 className="vads-u-font-family--serif vads-u-margin-bottom--5">
           Response sent
         </h1>
-        <va-alert status="success" visible ref={alertRef}>
+        <va-alert status="success" visible ref={alertRef} slim>
           <p className="vads-u-margin-y--0">
             Your response was submitted successfully.
           </p>
@@ -37,8 +38,8 @@ const ResponseSentPage = () => {
         </p>
         <div className="vads-u-margin-bottom--7 vads-u-margin-top--6">
           <va-link-action
-            href="/contact-us/ask-va-too"
-            text="Return to Ask VA"
+            href={`${manifest.rootUrl}`}
+            text="Return to Ask VA Inbox"
             type="secondary"
           />
         </div>

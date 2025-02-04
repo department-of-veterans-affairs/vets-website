@@ -1,10 +1,23 @@
-import { EVIDENCE_VA, EVIDENCE_PRIVATE, EVIDENCE_OTHER } from '../constants';
+import {
+  EVIDENCE_VA,
+  EVIDENCE_PRIVATE,
+  EVIDENCE_LIMIT,
+  EVIDENCE_OTHER,
+} from '../constants';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
 import { showScNewForm } from './toggle';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
+export const hasPrivateLimitation = formData =>
+  showScNewForm(formData) &&
+  hasPrivateEvidence(formData) &&
+  formData?.[EVIDENCE_LIMIT] !== false;
+export const hasNewPrivateLimitation = formData =>
+  showScNewForm(formData) && hasPrivateEvidence(formData);
+export const hasOriginalPrivateLimitation = formData =>
+  !showScNewForm(formData) && hasPrivateEvidence(formData);
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
 
 export const getVAEvidence = formData =>
@@ -99,6 +112,6 @@ export const onFormLoaded = props => {
       return location;
     });
   }
-  router.push(returnUrl);
+  router?.push(returnUrl);
   // return formData; // for testing only
 };

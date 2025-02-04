@@ -13,9 +13,14 @@ import {
 export const getPrescriptionsPaginatedSortedList = (
   pageNumber,
   sortEndpoint,
+  perPage,
 ) => async dispatch => {
   try {
-    const response = await getPaginatedSortedList(pageNumber, sortEndpoint);
+    const response = await getPaginatedSortedList(
+      pageNumber,
+      sortEndpoint,
+      perPage,
+    );
     dispatch({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
       response,
@@ -33,12 +38,14 @@ export const getPaginatedFilteredList = (
   pageNumber,
   filterOption,
   sortEndpoint,
+  perPage,
 ) => async dispatch => {
   try {
     const response = await getFilteredList(
       pageNumber,
       filterOption,
       sortEndpoint,
+      perPage,
     );
     dispatch({
       type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,

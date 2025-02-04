@@ -1,4 +1,4 @@
-import { SEARCH_QUERY_UPDATED } from '../../utils/actionTypes';
+import { SEARCH_QUERY_UPDATED } from '../actionTypes';
 
 /**
  * Sync form state with Redux state.

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { isBefore } from 'date-fns';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
 import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
@@ -9,10 +9,7 @@ import {
   calculateTotalDebts,
   calculateTotalBills,
 } from '../utils/balance-helpers';
-import {
-  GenericDisasterAlert,
-  SpecialHurricaneAlert,
-} from '../components/DisasterAlert';
+import { GenericDisasterAlert } from '../components/DisasterAlert';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
@@ -40,11 +37,6 @@ const OverviewPage = () => {
   const bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
-  const specialHurricaneAlertDisplay = isBefore(
-    new Date(),
-    new Date('2024/12/09'),
-  );
-
   return (
     <>
       <VaBreadcrumbs
@@ -70,11 +62,7 @@ const OverviewPage = () => {
           charges from VA health care facilities. Find out how to make payments
           or request financial help.
         </p>
-        {specialHurricaneAlertDisplay ? (
-          <SpecialHurricaneAlert />
-        ) : (
-          <GenericDisasterAlert />
-        )}
+        <GenericDisasterAlert />
         {bothError || bothZero ? (
           <ComboAlerts
             alertType={bothError ? ALERT_TYPES.ERROR : ALERT_TYPES.ZERO}
@@ -87,7 +75,7 @@ const OverviewPage = () => {
             <h3>Questions about benefit debt</h3>
             <p>
               Call the Debt Management Center (DMC) at{' '}
-              <va-telephone contact="8008270648" /> (
+              <va-telephone contact={CONTACTS.DMC} /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>

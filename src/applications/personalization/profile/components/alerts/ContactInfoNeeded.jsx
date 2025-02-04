@@ -27,14 +27,17 @@ export const ContactInfoNeeded = () => {
   return contactInfoIsNeeded ? (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.veteranOnboardingContactInfoFlow}>
       <Toggler.Enabled>
-        <div className="vads-u-margin-bottom--4">
+        <div className="vads-u-margin-top--4 vads-u-margin-bottom--4">
           <VaAlert data-testid="account-blocked-alert" status="info" uswds>
             <h2 slot="headline">We need your contact information</h2>
             <p>
               Add your contact information to your profile so that we can
               contact you about your VA benefits and services.
             </p>
-            <VaLinkAction href="" text="Add your contact information" />
+            <VaLinkAction
+              href="/my-va/welcome-va-setup/contact-information"
+              text="Add your contact information"
+            />
           </VaAlert>
         </div>
       </Toggler.Enabled>

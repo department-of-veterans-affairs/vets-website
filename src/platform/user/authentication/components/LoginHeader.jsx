@@ -2,22 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LogoutAlert from './LogoutAlert';
 import DowntimeBanners from './DowntimeBanner';
+import SessionTimeoutAlert from './SessionTimeoutAlert';
 
 export default function LoginHeader({ loggedOut }) {
-  // Used to get around Cypress E2E lookup of va-modal's sign-in modal h1
-  // const HeadingTag =
-  //   (window?.cypress ||
-  //     (typeof Cypress !== 'undefined' && Cypress.env('CI'))) &&
-  //   !isUnifiedSignIn
-  //     ? `h2`
-  //     : `h1`;
-
+  const queryParams = new URLSearchParams(window.location.search);
+  const isSessionExpired = queryParams.get('status') === 'session_expired';
+  const displayLogoutAlert = loggedOut && !isSessionExpired;
   return (
     <>
       <div className="row">
-        {loggedOut && <LogoutAlert />}
+        {displayLogoutAlert && <LogoutAlert />}
+        <SessionTimeoutAlert />
         <div className="columns small-12">
-          <h1 id="signin-signup-modal-title">Sign in or create an account</h1>
+          <h1 id="signin-signup-modal-title" className="vads-u-margin-top--1">
+            Sign in or create an account
+          </h1>
         </div>
       </div>
       <DowntimeBanners />

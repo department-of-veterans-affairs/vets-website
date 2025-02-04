@@ -7,11 +7,8 @@
  */
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import {
-  BASE_URL,
-  CONTESTABLE_ISSUES_API,
-  CONTACT_INFO_PATH,
-} from '../constants';
+import { BASE_URL, CONTACT_INFO_PATH } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import cypressSetup from '../../shared/tests/cypress.setup';
@@ -29,7 +26,7 @@ describe('HLR contact info loop', () => {
     window.dataLayer = [];
     setStoredSubTask({ benefitType: 'compensation' });
 
-    cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, []).as(
+    cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, []).as(
       'getIssues',
     );
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockV2Data);

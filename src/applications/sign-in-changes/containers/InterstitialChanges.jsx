@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  VaAlert,
   VaLink,
   VaLoadingIndicator,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -10,14 +9,14 @@ import CreateAccount from '../components/CreateAccount';
 import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
-  document.title =
-    'You’ll need to sign in with a different account after January 31, 2025';
-
   const [userEmails, setUserEmails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    document.title =
+      'You’ll need to sign in with a different account after January 31, 2025 | Veterans Affairs';
+
     apiRequest('/user/credential_emails', {
       credentials: 'include',
       headers: {
@@ -40,14 +39,9 @@ export default function InterstitialChanges() {
   if (isLoading) {
     return <VaLoadingIndicator />;
   }
+
   if (error) {
-    return (
-      <div>
-        <VaAlert status="error" closeable={false} showIcon uswds>
-          <h1 slot="headline">401: Not authorized</h1>
-        </VaAlert>
-      </div>
-    );
+    window.location = '/';
   }
 
   return (
@@ -56,7 +50,7 @@ export default function InterstitialChanges() {
         id="interstitialH1"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
       >
-        You’ll need to sign in with a different account after January 31, 2025
+        You’ll need to sign in with a different account after March 4, 2025
       </h1>
       <p
         className="vads-u-font-size--base section-content vads-u-measure--5"
@@ -73,8 +67,8 @@ export default function InterstitialChanges() {
       )}
       <h2 id="interstitialH2">Or continue using your old account</h2>
       <p className="vads-u-font-size--base" id="interstitialMhvP">
-        You’ll can use your <strong>My HealtheVet</strong> account to sign in
-        until <strong>January 31, 2025</strong>.
+        You can use your <strong>My HealtheVet</strong> account to sign in until
+        March 4, 2025.
       </p>
       <VaLink
         text="Continue with your My HealtheVet account for now"

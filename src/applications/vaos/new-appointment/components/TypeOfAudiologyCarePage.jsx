@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -13,6 +14,9 @@ import {
   routeToPreviousAppointmentPage,
   updateFormData,
 } from '../redux/actions';
+
+const pageKey = 'audiologyCareType';
+const pageTitle = 'Which type of audiology care do you need?';
 
 const initialSchema = {
   type: 'object',
@@ -27,44 +31,32 @@ const initialSchema = {
 
 const uiSchema = {
   audiologyType: {
-    'ui:widget': 'radio',
+    'ui:title': pageTitle,
+    'ui:widget': 'radio', // Required
+    'ui:webComponentField': VaRadioField,
     'ui:options': {
-      hideLabelText: true,
+      classNames: 'vads-u-margin-top--neg2',
+      labelHeaderLevel: '1',
       labels: {
-        CCAUDRTNE: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Routine hearing exam
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              This includes an office visit for a hearing exam and an evaluation
-              using non-invasive tests to check your hearing and inner ear
-              health. A routine exam is not meant for any new or sudden changes
-              with your hearing or ears.
-            </span>
-          </>
-        ),
-        CCAUDHEAR: (
-          <>
-            <span className="vads-u-display--block vads-u-font-size--lg vads-u-font-weight--bold">
-              Hearing aid support
-            </span>
-            <span className="vads-u-display--block vads-u-font-size--sm">
-              This includes an office visit for Veterans who already have a
-              hearing aid and need assistance with this device. This visit is
-              for troubleshooting or adjusting a hearing aid to improve
-              performance. A hearing aid support visit is not for initial
-              evaluation to obtain a hearing aid.
-            </span>
-          </>
-        ),
+        CCAUDRTNE: 'Routine hearing exam',
+        CCAUDHEAR: 'Hearing aid support',
+      },
+      descriptions: {
+        CCAUDRTNE:
+          'This includes an office visit for a hearing exam and an evaluation ' +
+          'using non-invasive tests to check your hearing and inner ear ' +
+          'health. A routine exam is not meant for any new or sudden changes ' +
+          'with your hearing or ears.',
+        CCAUDHEAR:
+          'This includes an office visit for Veterans who already have a ' +
+          'hearing aid and need assistance with this device. This visit is ' +
+          'for troubleshooting or adjusting a hearing aid to improve ' +
+          'performance. A hearing aid support visit is not for initial ' +
+          'evaluation to obtain a hearing aid.',
       },
     },
   },
 };
-
-const pageKey = 'audiologyCareType';
-const pageTitle = 'Choose the type of audiology care you need';
 
 export default function TypeOfAudiologyCarePage({ changeCrumb }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -87,8 +79,7 @@ export default function TypeOfAudiologyCarePage({ changeCrumb }) {
   }, []);
 
   return (
-    <div className="vaos-form__detailed-radio">
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+    <div className="vaos-form__radio-field-descriptive">
       {!!schema && (
         <SchemaForm
           name="Type of appointment"

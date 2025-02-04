@@ -4,10 +4,12 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { getEntityAddressAsObject } from '../utilities/helpers';
+import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 import AddressEmailPhone from './AddressEmailPhone';
 
 const ContactAccreditedRepresentative = props => {
+  const v2IsEnabled = useV2FeatureToggle();
   const { formData, goBack, goForward, goToPath } = props;
   const rep = props?.formData?.['view:selectedRepresentative'];
   const repAttributes = rep?.attributes;
@@ -26,6 +28,9 @@ const ContactAccreditedRepresentative = props => {
     ) &&
     representative.attributes?.accreditedOrganizations?.data?.length > 1;
 
+  // will need to update this when we can determine submission methods
+  const submissionMethodRequired = orgSelectionRequired && v2IsEnabled;
+
   const handleGoBack = () => {
     if (isReviewPage) {
       goToPath('/representative-select?review=true');
@@ -36,6 +41,10 @@ const ContactAccreditedRepresentative = props => {
 
   const handleGoForward = () => {
     if (isReviewPage) {
+      if (submissionMethodRequired) {
+        goToPath('/representative-submission-method?review=true');
+        return;
+      }
       if (orgSelectionRequired) {
         goToPath('/representative-organization?review=true');
       } else {
@@ -129,7 +138,7 @@ ContactAccreditedRepresentative.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
 
 export default connect(

@@ -24,6 +24,6 @@ describe('Medications details Page Back Browser', () => {
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     cy.go('back');
-    site.verifyPaginationPrescriptionsDisplayed(21, 29, threadLength);
+    site.verifyPaginationPrescriptionsDisplayed(11, 20, threadLength);
   });
 });

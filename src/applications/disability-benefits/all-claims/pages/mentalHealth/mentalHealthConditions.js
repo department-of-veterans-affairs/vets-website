@@ -1,6 +1,5 @@
 import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  traumaticEventsInfo,
   conditionsPageTitle,
   conditionsQuestion,
   examplesHint,
@@ -8,6 +7,7 @@ import {
   makeMHConditionsUISchema,
   validateMHConditions,
 } from '../../content/mentalHealth';
+import { traumaticEventsExamples } from '../../content/form0781';
 import { formTitle, makeConditionsUI } from '../../utils';
 
 export const uiSchema = {
@@ -21,7 +21,7 @@ export const uiSchema = {
     }),
   },
   'view:traumaticEventsInfo': {
-    'ui:description': traumaticEventsInfo,
+    'ui:description': traumaticEventsExamples,
   },
   'ui:validations': [validateMHConditions],
 };

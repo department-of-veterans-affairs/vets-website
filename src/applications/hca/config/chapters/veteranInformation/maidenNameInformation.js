@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import set from 'platform/utilities/data/set';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
-const { mothersMaidenName } = fullSchemaHca.properties;
+const { mothersMaidenName } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

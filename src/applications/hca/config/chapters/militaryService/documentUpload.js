@@ -1,10 +1,7 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import DischargePapersDescription from '../../../components/FormDescriptions/DischargePapersDescription';
-import {
-  createPayload,
-  parseResponse,
-} from '../../../utils/helpers/file-attachments';
+import { createPayload, parseResponse } from '../../../utils/helpers';
 import { attachmentsSchema } from '../../../definitions/attachments';
 
 export default {

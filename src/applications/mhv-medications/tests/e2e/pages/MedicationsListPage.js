@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-import filterRx from '../fixtures/filter-prescriptions.json';
+
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
 
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
@@ -13,7 +13,7 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
-    cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
+    cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -33,7 +33,7 @@ class MedicationsListPage {
 
   clickGotoMedicationsLinkForListPageAPICallFail = () => {
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+
     cy.intercept('GET', Paths.MED_LIST, { forceNetworkError: true }).as(
       'medicationsList',
     );
@@ -326,22 +326,19 @@ class MedicationsListPage {
       .and('be.visible');
   };
 
-  verifyInformationBasedOnStatusActiveRefillInProcess = () => {
+  verifyInformationBasedOnStatusActiveRefillInProcess = text => {
     cy.get('[data-testid="rx-refillinprocess-info"]')
       .should('exist')
       .and('be.visible')
-      .and('contain', 'We expect to fill it on');
+      .and('contain', text);
   };
 
-  verifyInformationBasedOnStatusNonVAPrescription = () => {
+  verifyInformationBasedOnStatusNonVAPrescription = text => {
     cy.get('[data-testid="rx-last-filled-info"]').should('be.visible');
 
     cy.get('[data-testid="non-VA-prescription"]')
       .should('be.visible')
-      .and(
-        'contain',
-        'This isn’t a prescription that you filled through a VA pharmacy. You can’t manage this medication in this online tool.',
-      );
+      .and('contain', text);
   };
 
   verifyInformationBasedOnStatusActiveParked = () => {
@@ -602,13 +599,11 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[1].attributes).to.include({
-          cmopNdcNumber: null,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[1].attributes).to.include({
+        cmopNdcNumber: null,
       });
+    });
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
@@ -647,16 +642,14 @@ class MedicationsListPage {
     frontImprint,
     backImprint,
   ) => {
-    cy.get('@medicationsList')
-      .its('response')
-      .then(res => {
-        expect(res.body.data[19].attributes).to.include({
-          shape,
-          color,
-          frontImprint,
-          backImprint,
-        });
+    cy.wait('@medicationsList').then(interception => {
+      expect(interception.response.body.data[19].attributes).to.include({
+        shape,
+        color,
+        frontImprint,
+        backImprint,
       });
+    });
   };
 
   verifyPrintThisPageOptionFromDropDownMenuOnListPage = () => {
@@ -760,7 +753,7 @@ class MedicationsListPage {
       .and('have.text', 'Apply filter');
   };
 
-  clickFilterButtonOnAccordion = url => {
+  clickFilterButtonOnAccordion = (url, filterRx) => {
     cy.intercept('GET', `${url}`, filterRx);
     cy.get('[data-testid="filter-button"]')
       .shadow()
@@ -776,6 +769,12 @@ class MedicationsListPage {
 
   verifyAllMedicationsRadioButtonIsChecked = () => {
     cy.contains('All medications').should('be.visible');
+    cy.get('[data-testid="filter-button"]')
+      .shadow()
+      .find('[type="button"],[value="ALL Medications"],[aria-checked="true"]', {
+        force: true,
+      })
+      .should('exist');
   };
 
   verifyFocusOnPaginationTextInformationOnListPage = text => {
@@ -785,14 +784,50 @@ class MedicationsListPage {
   };
 
   verifyFilterCollapsedOnListPage = () => {
-    cy.get('[data-testid="filter-button"]')
-      .shadow()
-      .find('[type="button"]')
-      .should('not.exist');
-    cy.get('[data-testid="filter-option"]')
-      .shadow()
-      .find('[class="usa-legend"]', { force: true })
-      .should('not.exist');
+    cy.get('[data-testid="filter-button"]').should('not.be.visible');
+    cy.get('[data-testid="filter-option"]').should('not.be.visible');
+  };
+
+  visitMedicationsListPageURL = medication => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/medical_records/allergies',
+      allergies,
+    ).as('allergies');
+    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
+  };
+
+  verifyEmptyMedicationsListAlertOnListPage = text => {
+    cy.get('[data-testid="empty-medList-alert"]').should('have.text', text);
+  };
+
+  verifyMessageForZeroFilterResultsOnListPage = text => {
+    cy.get('[data-testid="zero-filter-results"]')
+      .should('have.text', text)
+      .and('be.focused');
+  };
+
+  clickResetFilterButtonOnFilterAccordionDropDown = () => {
+    cy.get('[data-testid="filter-reset-button"]').should('exist');
+    cy.get('[data-testid="filter-reset-button"]').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickBackToTopButtonOnListPage = () => {
+    cy.get('[data-testid="rx-back-to-top"]')
+      .should('exist')
+      .and('be.visible');
+    cy.get('[data-testid="rx-back-to-top"]', { includeShadowDom: true })
+      .find('[class ="text"]')
+      .click({ force: true });
+  };
+
+  verifyMedicationsListPageTitleIsFocused = () => {
+    cy.get('[data-testid="list-page-title"]')
+      .should('be.visible')
+      .and('be.focused');
   };
 }
 

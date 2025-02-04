@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from 'react';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { datadogRum } from '@datadog/browser-rum';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
@@ -14,6 +16,7 @@ import {
   SESSION_RX_FILTER_OPEN_BY_DEFAULT,
   SESSION_SELECTED_FILTER_OPTION,
 } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption, filterCount } = props;
@@ -53,7 +56,24 @@ const MedicationsListFilter = props => {
   };
 
   const handleFilterSubmit = () => {
+    // Submit analytics event
+    recordEvent({
+      event: 'form_radio_button_submit',
+      action: 'click',
+      // eslint-disable-next-line camelcase
+      form_field_type: 'radio button',
+      // eslint-disable-next-line camelcase
+      form_field_label: 'Select a filter',
+      // eslint-disable-next-line camelcase
+      form_field_option_label: filterOption,
+    });
     updateFilter(filterOption);
+    focusElement(document.getElementById('showingRx'));
+  };
+
+  const handleFilterReset = () => {
+    setFilterOption(ALL_MEDICATIONS_FILTER_KEY);
+    updateFilter(ALL_MEDICATIONS_FILTER_KEY);
     focusElement(document.getElementById('showingRx'));
   };
 
@@ -66,6 +86,9 @@ const MedicationsListFilter = props => {
             ALL_MEDICATIONS_FILTER_KEY,
         );
       }
+      datadogRum.addAction(
+        dataDogActionNames.medicationsListPage.FILTER_LIST_ACCORDION,
+      );
     }
   };
 
@@ -85,6 +108,7 @@ const MedicationsListFilter = props => {
         id="filter"
         data-testid="rx-filter"
         ref={ref}
+        level={3}
         uswds
       >
         <span slot="icon">
@@ -95,6 +119,7 @@ const MedicationsListFilter = props => {
           data-testid="filter-option"
           onVaValueChange={handleFilterOptionChange}
           className="vads-u-margin-top--0"
+          enableAnalytics
         >
           {filterOptionsArray.map(option => (
             <VaRadioOption
@@ -110,14 +135,31 @@ const MedicationsListFilter = props => {
               value={option}
               description={filterOptions[option].description}
               checked={filterOption === option}
+              data-dd-action-name={
+                dataDogActionNames.medicationsListPage[option]
+              }
             />
           ))}
         </VaRadio>
         <VaButton
-          className="vads-u-width--full tablet:vads-u-width--auto filter-submit-btn vads-u-margin-top--3"
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
           onClick={handleFilterSubmit}
           text="Apply filter"
           data-testid="filter-button"
+          disableAnalytics
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.APPLY_FILTER_BUTTON
+          }
+        />
+        <VaButton
+          className="vads-u-width--full tablet:vads-u-width--auto vads-u-margin-top--3"
+          secondary
+          onClick={handleFilterReset}
+          text="Reset filter"
+          data-testid="filter-reset-button"
+          data-dd-action-name={
+            dataDogActionNames.medicationsListPage.RESET_FILTER_BUTTON
+          }
         />
       </VaAccordionItem>
     </VaAccordion>

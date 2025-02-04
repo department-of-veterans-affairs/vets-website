@@ -11,13 +11,13 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 
 import {
   cernerFacilitiesPropType,
   ehrDataByVhaIdPropType,
   otherFacilitiesPropType,
 } from '../../propTypes';
-import widgetTypes from '../../../widgetTypes';
 
 function ListItem({ facilities, ehrDataByVhaId }) {
   return facilities.map(facility => {

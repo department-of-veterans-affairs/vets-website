@@ -152,7 +152,10 @@ export const createExternalApplicationUrl = () => {
       URL = sanitizeOracleHealth({ application });
       break;
     case EXTERNAL_APPS.ARP:
-      URL = sanitizeUrl(`${externalRedirectUrl}`);
+      URL = sanitizeUrl(externalRedirectUrl, to);
+      break;
+    case EXTERNAL_APPS.SMHD:
+      URL = `${sanitizeUrl(`${externalRedirectUrl}`)}/`;
       break;
     default:
       break;
@@ -272,6 +275,7 @@ export function sessionTypeUrl({
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
         ...(scope && { scope }),
+        ...(queryParams.operation && { operation: queryParams.operation }),
       },
       passedOptions: {
         isSignup,
@@ -336,7 +340,7 @@ export function redirect(redirectUrl, clickedEvent, type = '') {
 export async function mockLogin({
   clickedEvent = AUTH_EVENTS.MOCK_LOGIN,
   type = '',
-}) {
+} = {}) {
   if (!type) {
     throw new Error('Attempted to call mockLogin without a type');
   }
@@ -344,9 +348,7 @@ export async function mockLogin({
     clientId: 'vamock',
     type,
   });
-  if (!isExternalRedirect()) {
-    setLoginAttempted();
-  }
+
   return redirect(url, clickedEvent);
 }
 
@@ -371,13 +373,17 @@ export function mfa(version = API_VERSION) {
 }
 
 export async function verify({
-  policy = '',
+  policy,
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.VERIFY,
   isLink = false,
   useOAuth = false,
   acr = null,
+  queryParams = {},
 }) {
+  if (!policy) {
+    throw new Error('`policy` must be provided');
+  }
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
     type,
@@ -385,6 +391,7 @@ export async function verify({
     useOauth: useOAuth,
     ...(!useOAuth && { allowVerification: true }),
     acr,
+    queryParams,
   });
 
   return isLink ? url : redirect(url, `${type}-${clickedEvent}`);

@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import RadiationCleanupDescription from '../../../components/FormDescriptions/RadiationCleanupDescription';
 
-const { radiationCleanupEfforts } = fullSchemaHca.properties;
+const { radiationCleanupEfforts } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

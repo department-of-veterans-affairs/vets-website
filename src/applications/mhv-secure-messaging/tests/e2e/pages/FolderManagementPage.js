@@ -57,88 +57,6 @@ class FolderManagementPage {
     cy.wait('@customFolderMessages');
   };
 
-  loadCustomFolderMessageDetails = (
-    mockParentMessageDetails,
-    mockThread = defaultMockThread,
-    previousMessageIndex = 1,
-    mockPreviousMessageDetails = mockCustomResponse,
-  ) => {
-    this.currentThread = mockThread;
-
-    this.currentThread.data.at(0).id =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.messageId =
-      mockParentMessageDetails.data.attributes.messageId;
-    this.currentThread.data.at(0).attributes.subject =
-      mockParentMessageDetails.data.attributes.subject;
-    this.currentThread.data.at(0).attributes.body =
-      mockParentMessageDetails.data.attributes.body;
-    this.currentThread.data.at(0).attributes.category =
-      mockParentMessageDetails.data.attributes.category;
-    this.currentThread.data.at(0).attributes.recipientId =
-      mockParentMessageDetails.data.attributes.recipientId;
-    this.currentThread.data.at(0).attributes.senderName =
-      mockParentMessageDetails.data.attributes.senderName;
-    this.currentThread.data.at(0).attributes.recipientName =
-      mockParentMessageDetails.data.attributes.recipientName;
-
-    cy.log(
-      `loading parent message details.${
-        this.currentThread.data.at(0).attributes.messageId
-      }`,
-    );
-    if (this.currentThread.data.lenghth > 1) {
-      this.currentThread.data.at(previousMessageIndex).attributes.sentDate =
-        mockPreviousMessageDetails.data.attributes.sentDate;
-      this.currentThread.data.at(previousMessageIndex).id =
-        mockPreviousMessageDetails.data.attributes.messageId;
-      this.currentThread.data.at(previousMessageIndex).attributes.messageId =
-        mockPreviousMessageDetails.data.attributes.messageId;
-      this.currentThread.data.at(previousMessageIndex).attributes.subject =
-        mockPreviousMessageDetails.data.attributes.subject;
-      this.currentThread.data.at(previousMessageIndex).attributes.body =
-        mockPreviousMessageDetails.data.attributes.body;
-      this.currentThread.data.at(previousMessageIndex).attributes.category =
-        mockPreviousMessageDetails.data.attributes.category;
-      this.currentThread.data.at(previousMessageIndex).attributes.recipientId =
-        mockPreviousMessageDetails.data.attributes.recipientId;
-      this.currentThread.data.at(previousMessageIndex).attributes.senderName =
-        mockPreviousMessageDetails.data.attributes.senderName;
-      this.currentThread.data.at(
-        previousMessageIndex,
-      ).attributes.recipientName =
-        mockPreviousMessageDetails.data.attributes.recipientName;
-      this.currentThread.data.at(
-        previousMessageIndex,
-      ).attributes.triageGroupName =
-        mockPreviousMessageDetails.data.attributes.triageGroupName;
-    }
-    cy.log(
-      `message thread  = ${JSON.stringify(
-        mockParentMessageDetails.data.attributes.messageId,
-      )}`,
-    );
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        this.currentThread.data.at(0).attributes.messageId
-      }`,
-      mockParentMessageDetails,
-    ).as('message1');
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGES}/${
-        mockParentMessageDetails.data.attributes.messageId
-      }/thread`,
-      this.currentThread,
-    ).as('full-thread');
-
-    cy.contains(mockParentMessageDetails.data.attributes.subject).click();
-    cy.wait('@message1', { timeout: 10000 });
-    // cy.wait('@full-thread');
-  };
-
   folderConfirmation = () => {
     return cy.get('[data-testid="alert-text"]');
   };
@@ -180,12 +98,14 @@ class FolderManagementPage {
     cy.get(`#radiobutton-${folderName}`).click();
   };
 
-  moveMessageToFolder = (folderId = `-3`) => {
+  confirmMovingMessageToFolder = (
+    mockResponse = mockCustomResponse,
+    folderId = `-3`,
+  ) => {
     cy.intercept(
       'PATCH',
       `${Paths.INTERCEPT.MESSAGE_THREADS +
-        mockCustomResponse.data.attributes
-          .threadId}/move?folder_id=${folderId}`,
+        mockResponse.data.attributes.threadId}/move?folder_id=${folderId}`,
       { statusCode: 204 },
     ).as('threadNoContent');
     cy.get(Locators.ALERTS.MOVE_MODAL)

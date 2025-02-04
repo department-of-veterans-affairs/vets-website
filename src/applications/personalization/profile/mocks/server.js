@@ -22,6 +22,7 @@ const mockDisabilityCompensations = require('./endpoints/disability-compensation
 const directDeposits = require('./endpoints/direct-deposits');
 const bankAccounts = require('./endpoints/bank-accounts');
 const serviceHistory = require('./endpoints/service-history');
+const vetVerificationStatus = require('./endpoints/vet-verification-status');
 const fullName = require('./endpoints/full-name');
 const {
   baseUserTransitionAvailabilities,
@@ -106,6 +107,8 @@ const responses = {
             profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
             veteranOnboardingContactInfoFlow: true,
+            veteranStatusCardUseLighthouse: true,
+            veteranStatusCardUseLighthouseFrontend: true,
           }),
         ),
       secondsOfDelay,
@@ -234,6 +237,11 @@ const responses = {
     // return res
     //   .status(200)
     //   .json(serviceHistory.generateServiceHistoryError('403'));
+  },
+  'GET /v0/profile/vet_verification_status': (_req, res) => {
+    return res.status(200).json(vetVerificationStatus.confirmed);
+    // return res.status(200).json(vetVerificationStatus.notConfirmedProblem);
+    // return res.status(200).json(vetVerificationStatus.notConfirmedIneligible);
   },
   'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
     // return res.status(200).json(ratingInfo.success.serviceConnected0);

@@ -636,3 +636,28 @@ div[data-widget-type="events"] {
   }
 }
 /* ^^^ DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
+
+/* ~~~~~ DO NOT REMOVE w/o DS REVIEW: Temporary fixes to enable core.scss swap ~~~~~~ */
+.va-flex {
+  display: flex;
+}
+.va-header-logo > img {
+  height: 59px;
+  width: 264px;
+}
+/* ~~~ Used on some static pages such as /search */
+.highlight,
+.va-h-ruled {
+  border-bottom: 3px solid $color-primary;
+  padding-bottom: 0.25em;
+  font-weight: 700;
+}
+
+// foundation/global.scss sets display and vertical align on img tags. This is most obviously seen in the footer image
+// in content-build
+img {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}

@@ -23,9 +23,17 @@ export function createPayload(file, _formId, password) {
 }
 
 export function findAndFocusLastSelect() {
-  const lastSelect = [...document.querySelectorAll('select')].slice(-1);
+  const lastSelect = [...document.querySelectorAll('va-select')].slice(-1);
   if (lastSelect.length) {
     focusElement(lastSelect[0]);
+  } else {
+    // focus on upload button as a fallback
+    focusElement(
+      // including `#upload-button` because RTL can't access the shadowRoot
+      'button, #upload-button',
+      {},
+      document.querySelector(`#upload-button`)?.shadowRoot,
+    );
   }
   return lastSelect;
 }
@@ -48,7 +56,7 @@ export const fileUploadUi = content => {
     parseResponse: (response, file) => {
       setTimeout(() => {
         findAndFocusLastSelect();
-      });
+      }, 500);
       return {
         name: file.name,
         confirmationCode: response.data.attributes.confirmationCode,

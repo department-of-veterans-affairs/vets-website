@@ -77,7 +77,7 @@ export const buildPrescriptionsTXT = prescriptions => {
     result += `
 ${rx.prescriptionName}
 
-Last filled on: ${dateFormat(rx.dispensedDate, 'MMMM D, YYYY')}
+Last filled on: ${dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}
 
 Status: ${validateField(rx.dispStatus)}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
@@ -184,12 +184,11 @@ ${prescription?.prescriptionName ||
 About your prescription
 
 
-Last filled on: ${dateFormat(
-    (prescription.rxRfRecords?.length &&
-      prescription.rxRfRecords?.[0]?.dispensedDate) ||
-      prescription.dispensedDate,
-    'MMMM D, YYYY',
-  )}
+Last filled on: ${
+    prescription?.sortedDispensedDate
+      ? dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')
+      : 'Not filled yet'
+  }
 
 Status: ${validateField(prescription.dispStatus)}
 ${(
@@ -238,6 +237,7 @@ Refill history
     const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
     const { shape, color, backImprint, frontImprint } = entry;
     const hasValidDesc = shape?.trim() && color?.trim() && frontImprint?.trim();
+    const index = refillHistory.length - i - 1;
     const description = hasValidDesc
       ? `
 Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
@@ -250,17 +250,13 @@ Note: If the medication you’re taking doesn’t match this description, call $
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
       : createNoDescriptionText(phone);
     result += `
-${i === 0 ? 'First fill' : `Refill ${i}`}
+${index === 0 ? 'First fill' : `Refill ${index}`}
 
 Filled by pharmacy on: ${
       entry?.dispensedDate ? dateFormat(entry.dispensedDate) : 'None noted'
     }
 
-Shipped on: ${
-      entry?.trackingList?.[0]?.completeDateTime
-        ? dateFormat(entry.trackingList[0].completeDateTime)
-        : 'None noted'
-    }
+Shipped on: ${dateFormat(prescription?.trackingList?.[0]?.completeDateTime)}
 
 Description: ${description}
 

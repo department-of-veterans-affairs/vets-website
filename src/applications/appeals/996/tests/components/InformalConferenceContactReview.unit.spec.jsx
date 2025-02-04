@@ -9,7 +9,7 @@ import {
   informalConferenceContactTitle,
   informalConferenceContactLabel,
   informalConferenceContactOptions,
-  newEditButtonLabel,
+  editButtonLabel,
 } from '../../content/InformalConferenceContact';
 
 describe('<InformalConferenceReview>', () => {
@@ -25,17 +25,17 @@ describe('<InformalConferenceReview>', () => {
     screen.getByText(informalConferenceContactLabel);
     screen.getByText(informalConferenceContactOptions.rep);
     expect($('va-button', screen.container).getAttribute('label')).to.eq(
-      newEditButtonLabel,
+      editButtonLabel,
     );
   });
 
-  it.skip('should render original informalConference Veteran data', () => {
+  it('should render original informalConference Veteran data', () => {
     const screen = setup({ informalConference: 'me' });
     screen.getByText(informalConferenceContactTitle);
     screen.getByText(informalConferenceContactLabel);
     screen.getByText(informalConferenceContactOptions.me);
     expect($('va-button', screen.container).getAttribute('label')).to.eq(
-      newEditButtonLabel,
+      editButtonLabel,
     );
   });
 });

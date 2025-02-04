@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { MedicaidDescription } from '../../../components/FormDescriptions';
 
-const { isMedicaidEligible } = fullSchemaHca.properties;
+const { isMedicaidEligible } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

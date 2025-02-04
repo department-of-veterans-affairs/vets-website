@@ -47,7 +47,7 @@ describe('Accessibility', () => {
     );
     // Tab to 'Upload files to VA' section
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Education File upload portal');
+    cy.focused().should('contain.text', 'Education File Upload Portal');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Expand all +');
     cy.realPress('Enter');
@@ -73,7 +73,7 @@ describe('Accessibility', () => {
     cy.realPress('Enter');
     cy.focused().should('contain.text', 'Collapse all -');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Enrollment manager');
+    cy.focused().should('contain.text', 'Enrollment Manager');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Launch VA Education Platform Portal');
     cy.repeatKey('Tab', 8);

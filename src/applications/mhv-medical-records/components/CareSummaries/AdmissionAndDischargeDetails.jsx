@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
@@ -20,6 +19,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatUserDob,
 } from '../../util/helpers';
 import { pageTitles, dischargeSummarySortFields } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -28,6 +28,8 @@ import {
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import HeaderSection from '../shared/HeaderSection';
+import LabelValue from '../shared/LabelValue';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -43,9 +45,6 @@ const AdmissionAndDischargeDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.CARE_SUMMARIES_AND_NOTES_PAGE_TITLE}`,
-      );
     },
     [record],
   );
@@ -59,9 +58,13 @@ const AdmissionAndDischargeDetails = props => {
 
   const generateCareNotesPDF = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateNotesIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateDischargeSummaryContent(record) };
+    const { title, subject, subtitles } = generateNotesIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateDischargeSummaryContent(record),
+    };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Admission/discharge details', runningUnitTest);
   };
@@ -72,13 +75,13 @@ const AdmissionAndDischargeDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n
 ${txtLine}\n\n
 Details\n
-Location: ${record.location}\n
 Date admitted: ${record.admissionDate}\n
+Location: ${record.location}\n
 Date discharged: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
@@ -114,77 +117,80 @@ ${record.summary}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1
+
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="admission-discharge-date"
         data-testid="admission-discharge-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[admission discharge summary - name]"
       >
-        {record.name}
-      </h1>
+        {displayHeaderDate(record)}
 
-      {displayHeaderDate(record)}
-
-      <p className="vads-u-margin-bottom--0">
-        Review a summary of your stay at a hospital or other health facility
-        (called an admission and discharge summary).
-      </p>
-
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        downloadPdf={generateCareNotesPDF}
-        downloadTxt={generateCareNotesTxt}
-        allowTxtDownloads={allowTxtDownloads}
-      />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-
-      <div className="test-details-container max-80">
-        <h2>Details</h2>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Location
-        </h3>
-        <p data-testid="note-record-location" data-dd-privacy="mask">
-          {record.location}
+        <p className="vads-u-margin-bottom--0">
+          Review a summary of your stay at a hospital or other health facility
+          (called an admission and discharge summary).
         </p>
-        {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
-          record.sortByField !== null && (
-            <>
-              <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-                Date admitted
-              </h3>
-              <p data-testid="note-admission-date" data-dd-privacy="mask">
-                {record.admissionDate}
-              </p>
-            </>
-          )}
-        {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
-          <>
-            <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-              Date discharged
-            </h3>
-            <p data-testid="note-discharge-date" data-dd-privacy="mask">
-              {record.dischargeDate}
-            </p>
-          </>
-        )}
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Discharged by
-        </h3>
-        <p data-testid="note-discharged-by" data-dd-privacy="mask">
-          {record.dischargedBy}
-        </p>
-      </div>
 
-      <div className="test-results-container">
-        <h2>Summary</h2>
-        <p
-          data-testid="note-summary"
-          className="monospace vads-u-line-height--6"
-          data-dd-privacy="mask"
-        >
-          {record.summary}
-        </p>
-      </div>
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="CS&N Detail"
+          downloadPdf={generateCareNotesPDF}
+          downloadTxt={generateCareNotesTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo
+          description="CS&N Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
+
+        <div className="test-details-container max-80">
+          <HeaderSection header="Details">
+            <LabelValue
+              label="Location"
+              value={record.location}
+              testId="note-record-location"
+              actionName="[admission discharge summary - location]"
+            />
+            {record.sortByField !== dischargeSummarySortFields.ADMISSION_DATE &&
+              record.sortByField !== null && (
+                <LabelValue
+                  label="Date admitted"
+                  value={record.admissionDate}
+                  testId="note-admission-date"
+                  actionName="[admission discharge summary - admission date]"
+                />
+              )}
+            {record.sortByField !==
+              dischargeSummarySortFields.DISCHARGE_DATE && (
+              <LabelValue
+                label="Date discharged"
+                value={record.dischargeDate}
+                testId="note-discharge-date"
+                actionName="[admission discharge summary - discharge date]"
+              />
+            )}
+            <LabelValue
+              label="Discharged by"
+              value={record.dischargedBy}
+              testId="note-discharged-by"
+              actionName="[admission discharge summary - discharged by]"
+            />
+          </HeaderSection>
+        </div>
+
+        <div className="test-results-container">
+          <LabelValue
+            label="Summary"
+            value={record.summary}
+            headerClass="test-results-header"
+            testId="note-summary"
+            actionName="[admission discharge summary - Summary]"
+            monospace
+          />
+        </div>
+      </HeaderSection>
     </div>
   );
 };

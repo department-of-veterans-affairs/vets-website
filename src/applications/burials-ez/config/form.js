@@ -1,6 +1,6 @@
 import React from 'react';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import { externalServices } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
@@ -41,10 +41,12 @@ import transportationExpenses from './chapters/04-benefits-selection/transportat
 import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
+import deathCertificateV2 from './chapters/05-additional-information/deathCertificateV2';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
 
-import { submit } from '../utils/helpers';
+import { showUploadDocuments } from '../utils/helpers';
+import { submit } from './submit';
 import manifest from '../manifest.json';
 import migrations from '../migrations';
 
@@ -66,12 +68,13 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  formId: VA_FORM_IDS.FORM_21P_530V2,
+  formId: VA_FORM_IDS.FORM_21P_530EZ,
   saveInProgress: {
     messages: {
-      inProgress: 'Your burial benefits application (21-530) is in progress.',
+      inProgress:
+        'Your burial benefits application (21P-530EZ) is in progress.',
       expired:
-        'Your saved burial benefits application (21-530) has expired. If you want to apply for a Veterans burial allowance and transportation benefits, please start a new application.',
+        'Your saved burial benefits application (21P-530EZ) has expired. If you want to apply for a Veterans burial allowance and transportation benefits, please start a new application.',
       saved: 'Your burial benefits application has been saved.',
     },
   },
@@ -112,9 +115,9 @@ const formConfig = {
         relationshipToVeteran: {
           title: 'Relationship to Veteran',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Relationship to Veteran</h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              Relationship to Veteran
+            </span>
           ),
           path: 'claimant-information/relationship-to-veteran',
           uiSchema: relationshipToVeteran.uiSchema,
@@ -123,9 +126,7 @@ const formConfig = {
         personalInformation: {
           title: 'Personal information',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Personal Information</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Personal Information</span>
           ),
           path: 'claimant-information/personal-information',
           uiSchema: personalInformation.uiSchema,
@@ -134,9 +135,7 @@ const formConfig = {
         mailingAddress: {
           title: 'Mailing address',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Mailing address</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Mailing address</span>
           ),
           path: 'claimant-information/mailing-address',
           uiSchema: mailingAddress.uiSchema,
@@ -145,9 +144,7 @@ const formConfig = {
         contactInformation: {
           title: 'Contact information',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Contact information</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Contact information</span>
           ),
           path: 'claimant-information/contact-information',
           uiSchema: contactInformation.uiSchema,
@@ -161,11 +158,9 @@ const formConfig = {
         veteranInformation: {
           title: 'Deceased Veteran information',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">
-                Deceased Veteran information
-              </h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              Deceased Veteran information
+            </span>
           ),
           path: 'veteran-information',
           uiSchema: veteranInformation.uiSchema,
@@ -175,9 +170,7 @@ const formConfig = {
           title: 'Burial dates',
           path: 'veteran-information/burial',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Burial dates</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Burial dates</span>
           ),
           uiSchema: burialInformation.uiSchema,
           schema: burialInformation.schema,
@@ -185,9 +178,7 @@ const formConfig = {
         locationOfDeath: {
           title: 'Veteran death location',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Veteran death location</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Veteran death location</span>
           ),
           path: 'veteran-information/location-of-death',
           uiSchema: locationOfDeath.uiSchema,
@@ -201,11 +192,9 @@ const formConfig = {
         separationDocuments: {
           title: 'DD214 or other separation documents',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">
-                DD214 or other separation documents
-              </h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              DD214 or other separation documents
+            </span>
           ),
           path: 'military-history/separation-documents',
           uiSchema: separationDocuments.uiSchema,
@@ -214,9 +203,7 @@ const formConfig = {
         uploadDD214: {
           title: 'Veteran’s DD214',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Veteran’s DD214</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Veteran’s DD214</span>
           ),
           path: 'military-history/separation-documents/upload',
           depends: form => get('view:separationDocuments', form),
@@ -226,9 +213,7 @@ const formConfig = {
         servicePeriods: {
           title: 'Service periods',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Service periods</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Service periods</span>
           ),
           path: 'military-history/service-periods',
           depends: form => !get('view:separationDocuments', form),
@@ -238,9 +223,9 @@ const formConfig = {
         previousNamesQuestion: {
           title: 'Veteran’s previous names',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Veteran’s previous names</h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              Veteran’s previous names
+            </span>
           ),
           path: 'military-history/previous-names',
           uiSchema: previousNamesQuestion.uiSchema,
@@ -262,9 +247,7 @@ const formConfig = {
         benefitsSelection: {
           title: 'Benefits selection',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Benefits selection</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Benefits selection</span>
           ),
           path: 'benefits/selection',
           uiSchema: benefitsSelection.uiSchema,
@@ -273,9 +256,7 @@ const formConfig = {
         burialAllowancePartOne: {
           title: 'Burial allowance',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Burial allowance</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Burial allowance</span>
           ),
           path: 'benefits/burial-allowance/additional-information',
           depends: form => get('view:claimedBenefits.burialAllowance', form),
@@ -311,9 +292,7 @@ const formConfig = {
         finalRestingPlace: {
           title: 'Final resting place',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Final resting place</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Final resting place</span>
           ),
           path: 'benefits/final-resting-place',
           depends: form => get('view:claimedBenefits.plotAllowance', form),
@@ -323,9 +302,7 @@ const formConfig = {
         nationalOrFederalCemetery: {
           title: 'Cemetery location',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Cemetery location</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Cemetery location</span>
           ),
           path: 'benefits/cemetery-type',
           depends: form => get('view:claimedBenefits.plotAllowance', form),
@@ -365,11 +342,9 @@ const formConfig = {
         plotAllowancePartOne: {
           title: 'Plot or interment allowance',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">
-                Plot or interment allowance
-              </h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              Plot or interment allowance
+            </span>
           ),
           path: 'benefits/plot-allowance/contributions',
           depends: form => get('view:claimedBenefits.plotAllowance', form),
@@ -387,9 +362,9 @@ const formConfig = {
         transportationExpenses: {
           title: 'Transportation allowance',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Transportation allowance</h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              Transportation allowance
+            </span>
           ),
           path: 'benefits/transportation-allowance',
           depends: form => get('view:claimedBenefits.transportation', form),
@@ -404,9 +379,7 @@ const formConfig = {
         supportingDocuments: {
           title: 'Supporting Documents',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Supporting Documents</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Supporting Documents</span>
           ),
           path: 'additional-information/supporting-documents',
           uiSchema: supportingDocuments.uiSchema,
@@ -415,20 +388,29 @@ const formConfig = {
         deathCertificate: {
           title: 'Death certificate',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Death certificate</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Death certificate</span>
           ),
           path: 'additional-information/death-certificate',
+          depends: () => !showUploadDocuments(),
           uiSchema: deathCertificate.uiSchema,
           schema: deathCertificate.schema,
+        },
+        deathCertificateV2: {
+          title: 'Death certificate',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">Death certificate</span>
+          ),
+          path: 'additional-information/upload-death-certificate',
+          depends: () => showUploadDocuments(),
+          uiSchema: deathCertificateV2.uiSchema,
+          schema: deathCertificateV2.schema,
         },
         transportationReceipts: {
           title: 'Transportation receipts',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Transportation receipts</h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              Transportation receipts
+            </span>
           ),
           path: 'additional-information/transportation-receipts',
           depends: form => get('transportationExpenses', form),
@@ -438,9 +420,7 @@ const formConfig = {
         additionalEvidence: {
           title: 'Additional evidence',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Additional evidence</h4>
-            </div>
+            <span className="vads-u-font-size--h3">Additional evidence</span>
           ),
           path: 'additional-information/additional-evidence',
           uiSchema: additionalEvidence.uiSchema,
@@ -449,9 +429,9 @@ const formConfig = {
         fasterClaimProcessing: {
           title: 'Faster claim processing',
           reviewTitle: () => (
-            <div>
-              <h4 className="vads-u-font-size--h3">Faster claim processing</h4>
-            </div>
+            <span className="vads-u-font-size--h3">
+              Faster claim processing
+            </span>
           ),
           path: 'additional-information/fdc-program',
           uiSchema: fasterClaimProcessing.uiSchema,

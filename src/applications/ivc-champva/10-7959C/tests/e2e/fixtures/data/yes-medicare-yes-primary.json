@@ -39,6 +39,7 @@
     "primaryAdditionalComments": "Additional primary comment",
     "consentToMailMissingRequiredFiles": true,
     "certifierRole": "other",
+    "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones"
   }
 }

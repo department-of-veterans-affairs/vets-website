@@ -8,8 +8,8 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
+import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchText,
   clearSearchResults,
@@ -24,7 +24,6 @@ import {
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
-  facilitiesPpmsSuppressCommunityCare,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
@@ -443,7 +442,6 @@ const FacilitiesMap = props => {
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           suppressPPMS={props.suppressPPMS}
-          suppressCCP={props.suppressCCP}
           suppressPharmacies={props.suppressPharmacies}
           clearSearchText={props.clearSearchText}
         />
@@ -692,7 +690,6 @@ const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
-  suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,

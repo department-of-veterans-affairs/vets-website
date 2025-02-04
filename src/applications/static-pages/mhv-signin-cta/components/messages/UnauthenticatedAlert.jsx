@@ -8,22 +8,28 @@ export const headingPrefix = 'Sign in with a verified account';
 
 /**
  * Alert to show a user that is not logged in.
+ * @property {number} headerLevel the heading level
  * @property {*} recordEvent the function to record the event
  * @property {string} serviceDescription the description of the service that requires verification
  */
-const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
+const UnauthenticatedAlert = ({
+  headerLevel,
+  recordEvent,
+  serviceDescription,
+}) => {
   const headline = serviceDescription
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
 
   const dispatch = useDispatch();
   const handleSignIn = () => {
-    dispatch(toggleLoginModal(true, 'mhv-signin-cta'));
+    dispatch(toggleLoginModal(true, 'mhv-signin-cta', true));
   };
 
   return (
     <div data-testid="mhv-unauthenticated-alert">
       <CustomAlert
+        headerLevel={headerLevel}
         headline={headline}
         icon="lock"
         status="info"
@@ -52,12 +58,10 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
               text="Sign in or create an account"
             />
           </p>
-          <p>
-            <va-link
-              href="/resources/creating-an-account-for-vagov/"
-              text="Learn about creating an account"
-            />
-          </p>
+          <va-link
+            href="/resources/creating-an-account-for-vagov/"
+            text="Learn about creating an account"
+          />
         </div>
       </CustomAlert>
     </div>
@@ -65,6 +69,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
 };
 
 UnauthenticatedAlert.propTypes = {
+  headerLevel: PropTypes.number,
   recordEvent: PropTypes.func,
   serviceDescription: PropTypes.string,
 };

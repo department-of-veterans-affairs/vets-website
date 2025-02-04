@@ -386,7 +386,6 @@
       },
       "additionalComments":   "dfsasfdas"
     },
-    "view:enhancedFinancialStatusReport": true,
     "view:streamlinedWaiver": true,
     "view:streamlinedWaiverAssetUpdate": true,
     "view:reviewPageNavigationToggle": true,

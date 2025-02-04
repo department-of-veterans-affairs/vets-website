@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Requesting to link to VA.gov from another website
+  - action: click
+    target: call-to-action

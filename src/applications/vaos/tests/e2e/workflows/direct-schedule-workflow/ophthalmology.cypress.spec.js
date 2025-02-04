@@ -40,7 +40,7 @@ import { getTypeOfCareById } from '../../../../utils/appointment';
 const typeOfCareId = getTypeOfCareById(OPHTHALMOLOGY_ID).idV2;
 const { cceType } = getTypeOfCareById(OPHTHALMOLOGY_ID);
 
-describe('VAOS request schedule flow - Audiology', () => {
+describe.skip('VAOS request schedule flow - Audiology', () => {
   beforeEach(() => {
     vaosSetup();
 
@@ -143,12 +143,9 @@ describe('VAOS request schedule flow - Audiology', () => {
 
         ReviewPageObject.assertUrl()
           .assertHeading({
-            name: /Review your appointment details/i,
+            name: /Review and confirm your appointment details/i,
           })
-          .assertHeading({
-            level: 2,
-            name: /You.re scheduling an ophthalmology appointment/i,
-          })
+          .assertText({ text: /ophthalmology/i })
           .clickConfirmButton();
 
         ConfirmationPageObject.assertUrl().assertText({

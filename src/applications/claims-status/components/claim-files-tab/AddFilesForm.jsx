@@ -5,7 +5,6 @@ import {
   VaModal,
   VaSelect,
   VaTextInput,
-  VaCheckbox,
   VaButton,
   VaFileInputMultiple,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -50,8 +49,6 @@ class AddFilesForm extends React.Component {
     super(props);
     this.state = {
       errorMessage: null,
-      checked: false,
-      errorMessageCheckbox: null,
       canShowUploadModal: false,
       showRemoveFileModal: false,
       removeFileIndex: null,
@@ -189,21 +186,9 @@ class AddFilesForm extends React.Component {
     );
 
     if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
-      // This nested state prevents VoiceOver from accouncing an
-      // unchecked checkbox if the file is missing.
-      const { checked } = this.state;
-
-      this.setState({
-        errorMessageCheckbox: checked
-          ? null
-          : 'Please confirm these documents apply to this claim only',
-      });
-
       this.setState({ canShowUploadModal: true });
-      if (this.state.checked) {
-        this.props.onSubmit();
-        return;
-      }
+      this.props.onSubmit();
+      return;
     }
 
     this.props.onDirtyFields();
@@ -232,84 +217,84 @@ class AddFilesForm extends React.Component {
         </va-select>
       </div>
     );
-    const additionalFormInputsContent = (
-      <>
-        {this.props.files.map(
-          ({ file, docType, isEncrypted, password }, index) => (
-            <div key={index} className="document-item-container">
-              <Element name={`documentScroll${index}`} />
-              <div>
-                <div className="document-title-row">
-                  <div className="document-title-text-container">
-                    <div>
-                      <span
-                        className="document-title"
-                        data-dd-privacy="mask"
-                        data-dd-action-name="document title"
-                      >
-                        {file.name}
-                      </span>
-                    </div>
-                    <div>{displayFileSize(file.size)}</div>
-                  </div>
-                  <div className="remove-document-button">
-                    <va-button
-                      secondary
-                      text="Remove"
-                      onClick={() => {
-                        this.removeFileConfirmation(index, file.name);
-                      }}
-                    />
-                  </div>
-                </div>
-                {isEncrypted && (
-                  <>
-                    <p className="clearfix">
-                      This is an encrypted PDF document. In order for us to be
-                      able to view the document, we will need the password to
-                      decrypt it.
-                    </p>
-                    <VaTextInput
-                      required
-                      error={
-                        validateIfDirty(password, isNotBlank)
-                          ? undefined
-                          : 'Please provide a password to decrypt this file'
-                      }
-                      label="PDF password"
-                      name="password"
-                      onInput={e =>
-                        this.handlePasswordChange(e.target.value, index)
-                      }
-                    />
-                  </>
-                )}
-                <VaSelect
-                  required
-                  error={
-                    validateIfDirty(docType, isNotBlank)
-                      ? undefined
-                      : 'Please provide a response'
-                  }
-                  name="docType"
-                  label="What type of document is this?"
-                  value={docType}
-                  onVaSelect={e =>
-                    this.handleDocTypeChange(e.detail.value, index)
-                  }
-                >
-                  {DOC_TYPES.map(doc => (
-                    <option key={doc.value} value={doc.value}>
-                      {doc.label}
-                    </option>
-                  ))}
-                </VaSelect>
-              </div>
-            </div>
-          ),
-        )}
-      </>
-    );
+    // const additionalFormInputsContent = (
+    //   <>
+    //     {this.props.files.map(
+    //       ({ file, docType, isEncrypted, password }, index) => (
+    //         <div key={index} className="document-item-container">
+    //           <Element name={`documentScroll${index}`} />
+    //           <div>
+    //             <div className="document-title-row">
+    //               <div className="document-title-text-container">
+    //                 <div>
+    //                   <span
+    //                     className="document-title"
+    //                     data-dd-privacy="mask"
+    //                     data-dd-action-name="document title"
+    //                   >
+    //                     {file.name}
+    //                   </span>
+    //                 </div>
+    //                 <div>{displayFileSize(file.size)}</div>
+    //               </div>
+    //               <div className="remove-document-button">
+    //                 <va-button
+    //                   secondary
+    //                   text="Remove"
+    //                   onClick={() => {
+    //                     this.removeFileConfirmation(index, file.name);
+    //                   }}
+    //                 />
+    //               </div>
+    //             </div>
+    //             {isEncrypted && (
+    //               <>
+    //                 <p className="clearfix">
+    //                   This is an encrypted PDF document. In order for us to be
+    //                   able to view the document, we will need the password to
+    //                   decrypt it.
+    //                 </p>
+    //                 <VaTextInput
+    //                   required
+    //                   error={
+    //                     validateIfDirty(password, isNotBlank)
+    //                       ? undefined
+    //                       : 'Please provide a password to decrypt this file'
+    //                   }
+    //                   label="PDF password"
+    //                   name="password"
+    //                   onInput={e =>
+    //                     this.handlePasswordChange(e.target.value, index)
+    //                   }
+    //                 />
+    //               </>
+    //             )}
+    //             <VaSelect
+    //               required
+    //               error={
+    //                 validateIfDirty(docType, isNotBlank)
+    //                   ? undefined
+    //                   : 'Please provide a response'
+    //               }
+    //               name="docType"
+    //               label="What type of document is this?"
+    //               value={docType}
+    //               onVaSelect={e =>
+    //                 this.handleDocTypeChange(e.detail.value, index)
+    //               }
+    //             >
+    //               {DOC_TYPES.map(doc => (
+    //                 <option key={doc.value} value={doc.value}>
+    //                   {doc.label}
+    //                 </option>
+    //               ))}
+    //             </VaSelect>
+    //           </div>
+    //         </div>
+    //       ),
+    //     )}
+    //   </>
+    // );
     return (
       <>
         <div className="add-files-form">
@@ -352,16 +337,6 @@ class AddFilesForm extends React.Component {
             {testContent}
           </VaFileInputMultiple>
         </div>
-        <VaCheckbox
-          label="The files I uploaded support this claim only."
-          className="vads-u-margin-y--3"
-          required
-          checked={this.state.checked}
-          error={this.state.errorMessageCheckbox}
-          onVaChange={event => {
-            this.setState({ checked: event.detail.checked });
-          }}
-        />
         <VaButton
           id="submit"
           text="Submit files for review"

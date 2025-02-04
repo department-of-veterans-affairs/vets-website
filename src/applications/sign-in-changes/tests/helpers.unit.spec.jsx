@@ -1,23 +1,41 @@
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { maskEmail } from '../helpers';
 
 describe('maskEmail', () => {
-  it('should mask the email name after the second character with *', () => {
-    const result = maskEmail('johndo@example.com');
-    expect(result).to.equal('joh***@example.com');
+  it('masks the email name after the second character with *', () => {
+    const screen = render(maskEmail('johndo@example.com', 'masked-email'));
+    const span = screen.getByTestId('masked-email');
+    expect(span).to.have.text('joh***@example.com');
+    expect(span).to.have.attribute(
+      'aria-label',
+      'Email address starting with joh at example.com',
+    );
   });
 
-  it('should not mask the name if it has less than three characters', () => {
-    const threeChar = 'abc@example.com';
-    const twoChar = 'ab@example.com';
-    const oneChar = 'a@example.com';
-    expect(maskEmail(threeChar)).to.equal('abc@example.com');
-    expect(maskEmail(twoChar)).to.equal('ab@example.com');
-    expect(maskEmail(oneChar)).to.equal('a@example.com');
+  it('does not mask the name if it three characters', () => {
+    const screen = render(maskEmail('abc@example.com', 'masked-email-1'));
+    const span = screen.getByTestId('masked-email-1');
+    expect(span).to.have.text('abc@example.com');
+    expect(span).to.have.attribute(
+      'aria-label',
+      'Email address starting with abc at example.com',
+    );
   });
 
-  it('should return the same if email is an empty string', () => {
-    const result = maskEmail('');
-    expect(result).to.equal('');
+  it('does not mask the name if it has less than three characters', () => {
+    const screen = render(maskEmail('a@example.com', 'masked-email-3'));
+    const span = screen.getByTestId('masked-email-3');
+    expect(span).to.have.text('a@example.com');
+    expect(span).to.have.attribute(
+      'aria-label',
+      'Email address starting with a at example.com',
+    );
+  });
+
+  it('returns a span with an appropriate aria-label if email is an empty string', () => {
+    const screen = render(maskEmail('', 'masked-email-empty'));
+    const span = screen.getByTestId('masked-email-empty');
+    expect(span).to.have.text('No email provided');
   });
 });

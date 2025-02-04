@@ -1,12 +1,8 @@
-import {
-  txtLine,
-  txtLineDotted,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { txtLineDotted } from '@department-of-veterans-affairs/mhv/exports';
 
-export const parseHealthConditions = records => {
+export const parseHealthConditions = (records, index = 5) => {
   return `
-${txtLine}
-5) Health conditions
+${index}) Health conditions
 
 This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.
 ${records

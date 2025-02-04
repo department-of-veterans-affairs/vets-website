@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Veterans’ Educational Assistance Program (Chapter 32)
+  - action: click
+    target: call-to-action

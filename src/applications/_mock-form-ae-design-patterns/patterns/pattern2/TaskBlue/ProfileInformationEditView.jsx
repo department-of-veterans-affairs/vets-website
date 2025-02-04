@@ -346,7 +346,7 @@ export class ProfileInformationEditView extends Component {
                     <va-button
                       data-testid="cancel-edit-button"
                       secondary
-                      class="vads-u-margin--0 vads-u-margin-top--0 vads-u-width--full mobile-lg:vads-u-width--auto"
+                      class="vads-u-margin--0 vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
                       text={cancelButtonText || 'Cancel'}
                     />

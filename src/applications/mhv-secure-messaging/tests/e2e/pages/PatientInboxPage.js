@@ -332,10 +332,6 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
-  verifyMoveMessageWithAttachmentSuccessMessage = () => {
-    cy.get('p').contains('Message conversation was successfully moved');
-  };
-
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
@@ -361,7 +357,7 @@ class PatientInboxPage {
   };
 
   navigateToComposePageByKeyboard = () => {
-    cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.tabToElement(Locators.BUTTONS.CONTINUE);
     cy.realPress(['Enter']);
@@ -427,13 +423,6 @@ class PatientInboxPage {
       .select('Medication');
   };
 
-  clickSubmitSearchButton = () => {
-    cy.get(Locators.BUTTONS.FILTER).click({
-      waitForAnimations: true,
-      force: true,
-    });
-  };
-
   composeMessage = () => {
     cy.get('#recipient-dropdown')
       .shadow()
@@ -466,7 +455,7 @@ class PatientInboxPage {
   clickFilterMessagesButton = mockFilterResponse => {
     cy.intercept(
       'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
       mockFilterResponse,
     ).as('filterResult');
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
@@ -725,7 +714,7 @@ class PatientInboxPage {
     });
   };
 
-  verifyFilterdateRangeDropdown = data => {
+  verifyFilterDateRangeDropdown = data => {
     cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
       cy.wrap(option)
         .invoke('text')

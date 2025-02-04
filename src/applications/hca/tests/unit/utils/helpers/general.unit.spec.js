@@ -6,7 +6,7 @@ import {
   maskSSN,
   normalizeFullName,
   replaceStrValues,
-} from '../../../../utils/helpers/general';
+} from '../../../../utils/helpers';
 
 describe('hca `createLiteralMap` method', () => {
   it('should create an object with correct properties based on array data', () => {

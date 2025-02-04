@@ -1,8 +1,7 @@
 import { shallowEqual, useSelector } from 'react-redux';
 import { getFacilityPageV2Info } from '../redux/selectors';
 import { selectFeatureOHDirectSchedule } from '../../redux/selectors';
-
-const OH_DIRECT_SCHEDULE_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
+import { OH_ENABLED_TYPES_OF_CARE } from '../../utils/constants';
 
 export function useOHDirectScheduling() {
   const featureOHDirectSchedule = useSelector(selectFeatureOHDirectSchedule);
@@ -14,6 +13,6 @@ export function useOHDirectScheduling() {
 
   return (
     featureOHDirectSchedule &&
-    OH_DIRECT_SCHEDULE_ENABLED_TYPES_OF_CARE.includes(typeOfCare.idV2)
+    OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare.idV2)
   );
 }

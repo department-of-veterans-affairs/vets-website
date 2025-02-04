@@ -5,7 +5,7 @@ import prefill from '../../../mocks/endpoints/in-progress-forms/22-1990';
 
 describe('Prefill pattern - Orange Task', () => {
   beforeEach(() => {
-    cy.login(loa3User);
+    cy.intercept('GET', '/v0/user', loa3User).as('mockUser');
 
     cy.intercept('/v0/in_progress_forms/22-1990', {
       statusCode: 200,

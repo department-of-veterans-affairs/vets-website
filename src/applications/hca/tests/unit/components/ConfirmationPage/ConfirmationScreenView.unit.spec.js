@@ -2,9 +2,8 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
 import ConfirmationScreenView from '../../../../components/ConfirmationPage/ConfirmationScreenView';
-import { normalizeFullName } from '../../../../utils/helpers/general';
+import { normalizeFullName } from '../../../../utils/helpers';
 
 describe('hca <ConfirmationScreenView>', () => {
   const getData = ({ timestamp = undefined }) => ({

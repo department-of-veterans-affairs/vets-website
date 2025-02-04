@@ -19,10 +19,12 @@ const store = ({ signInChangesEnabled = true } = {}) => ({
 
 describe('InterstitialChanges', () => {
   const server = setupServer();
+  const oldLocation = global.window.location;
 
   before(() => server.listen());
   afterEach(() => {
     cleanup();
+    global.window.location = oldLocation;
     server.resetHandlers();
   });
   after(() => server.close());
@@ -46,7 +48,7 @@ describe('InterstitialChanges', () => {
     await waitFor(() => {
       expect(
         screen.getByRole('heading', {
-          name: /You’ll need to sign in with a different account after January 31, 2025/i,
+          name: /You’ll need to sign in with a different account after March 4, 2025/i,
         }),
       ).to.exist;
       expect(screen.getByText(/After this date, we'll remove/i)).to.exist;
@@ -78,9 +80,10 @@ describe('InterstitialChanges', () => {
     );
     await waitFor(() => {
       expect(screen.getByText(/Start using your/i)).to.exist;
-      expect(screen.getByText(/log\*{5}@test\.com/i)).to.exist;
+      expect(screen.getByTestId('logingovemail')).to.exist;
     });
   });
+
   it('renders AccountSwitch when user has ID.me account', async () => {
     const mockStore = store();
     server.use(
@@ -100,7 +103,7 @@ describe('InterstitialChanges', () => {
       expect(
         screen.getAllByRole('heading', { level: 2 })[0].textContent,
       ).to.match(/Start using your/i);
-      expect(screen.getByText(/idm\*@test\.com/i)).to.exist;
+      expect(screen.getByTestId('idmeemail')).to.exist;
     });
   });
 
@@ -134,6 +137,30 @@ describe('InterstitialChanges', () => {
         ),
       ).to.have.attribute('href', expectedReturnUrl);
       sessionStorage.clear();
+    });
+  });
+
+  it('redirects user to homepage on errors', async () => {
+    global.window.location = '/sign-in-changes-reminder';
+
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/v0/user/credential_emails`,
+        (_, res, ctx) => {
+          return res(ctx.status(400));
+        },
+      ),
+    );
+    const mockStore = store();
+    const expectedLocation = '/';
+    render(
+      <Provider store={mockStore}>
+        <InterstitialChanges />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.window.location).to.eql(expectedLocation);
     });
   });
 });

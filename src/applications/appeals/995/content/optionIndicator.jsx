@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const optionIndicatorDescription = (
   <>
@@ -52,4 +53,21 @@ export const optionIndicatorChoices = {
   revoke:
     'I gave permission in the past, but I want to revoke (or cancel) my permission',
   notEnrolled: 'I’m not enrolled or registered in VA health care',
+};
+
+export const OptionIndicatorReviewField = ({ children }) => (
+  <div className="review-row">
+    <dt>{optionIndicatorLabel}</dt>
+    <dd>
+      {optionIndicatorChoices[(children.props?.formData)] || 'Not answered'}
+    </dd>
+  </div>
+);
+
+OptionIndicatorReviewField.propTypes = {
+  children: PropTypes.shape({
+    props: PropTypes.shape({
+      formData: PropTypes.string,
+    }),
+  }),
 };

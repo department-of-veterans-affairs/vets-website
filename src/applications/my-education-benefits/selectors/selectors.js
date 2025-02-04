@@ -7,7 +7,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
   benefitEffectiveDate: state?.form?.data?.benefitEffectiveDate,
-  eligibility: state.data?.eligibility,
   duplicateEmail: state.data?.duplicateEmail,
   duplicatePhone: state.data?.duplicatePhone,
   email: state?.form?.data?.email?.email,
@@ -18,7 +17,6 @@ export const getAppData = state => ({
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,
-  isEligibilityCallComplete: state.data?.eligibilityFetchComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
@@ -42,9 +40,6 @@ export const getAppData = state => ({
   ],
   showMebEnhancements09: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements09
-  ],
-  showMebServiceHistoryCategorizeDisagreement: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebServiceHistoryCategorizeDisagreement
   ],
   mebExclusionPeriodEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled

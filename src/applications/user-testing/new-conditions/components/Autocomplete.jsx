@@ -28,11 +28,11 @@ const Autocomplete = ({
 
   // Delays screen reader result count reading to avoid interruption by input content reading
   const debouncedSetAriaLiveText = useRef(
-    debounce((resultCount, freeTextResult) => {
+    debounce((resultCount, inputValue) => {
       const makePlural = resultCount > 1 ? 's' : '';
 
       setAriaLiveText(
-        `${resultCount} result${makePlural}. ${freeTextResult}, (1 of ${resultCount})`,
+        `${resultCount} result${makePlural}. ${inputValue}, (1 of ${resultCount})`,
       );
     }, 700),
   ).current;
@@ -48,7 +48,7 @@ const Autocomplete = ({
       setResults(updatedResults);
       setActiveIndex(0);
 
-      debouncedSetAriaLiveText(updatedResults.length, freeTextResult);
+      debouncedSetAriaLiveText(updatedResults.length, inputValue);
     }, debounceDelay),
   ).current;
 
@@ -81,7 +81,9 @@ const Autocomplete = ({
     const activeResult = resultsRef.current[index];
     activeResult?.scrollIntoView({
       block: 'nearest',
+      behavior: 'instant',
     });
+
     activeResult?.focus();
   };
 
@@ -161,6 +163,7 @@ const Autocomplete = ({
   return (
     <div className="cc-autocomplete" ref={containerRef}>
       <VaTextInput
+        autocomplete="off"
         data-testid="autocomplete-input"
         id={id}
         label={label}
@@ -179,6 +182,7 @@ const Autocomplete = ({
           data-testid="autocomplete-list"
           role="listbox"
           tabIndex={-1}
+          aria-label="List of matching conditions"
         >
           {results.map((result, index) => (
             <li
@@ -195,7 +199,11 @@ const Autocomplete = ({
               tabIndex={-1}
               onClick={() => selectResult(result)}
               onKeyDown={handleKeyDown} // Keydown is handled on the input; this is never fired and prevents eslint error
-              onMouseEnter={() => activateScrollToAndFocus(index)}
+              onMouseMove={() => {
+                if (index !== activeIndex) {
+                  activateScrollToAndFocus(index);
+                }
+              }}
             >
               {result}
             </li>

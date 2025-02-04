@@ -14,17 +14,17 @@ class MedicationsSite {
     this.mockVamcEhr();
 
     if (isMedicationsUser) {
-      cy.login(mockUser);
-      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
-      // window.localStorage.setItem('isLoggedIn', true);
-      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
-
       cy.intercept(
         'GET',
         '/my_health/v1/prescriptions?page=1&per_page=999',
         prescriptions,
       ).as('prescriptions');
       cy.intercept('GET', '/health-care/refill-track-prescriptions');
+
+      // src/platform/testing/e2e/cypress/support/commands/login.js handles the next two lines
+      // window.localStorage.setItem('isLoggedIn', true);
+      // cy.intercept('GET', '/v0/user', mockUser).as('mockUser');
+      cy.login(mockUser);
     } else {
       // cy.login();
       window.localStorage.setItem('isLoggedIn', false);
@@ -36,18 +36,18 @@ class MedicationsSite {
     }
   };
 
-  cernerLogin = (isMedicationsUser = true) => {
-    if (isMedicationsUser) {
-      cy.login(cernerUser);
-      this.mockFeatureToggles();
-      this.mockVamcEhr();
+  cernerLogin = user => {
+    // if (isMedicationsUser) {
+    cy.login(user);
+    this.mockFeatureToggles();
+    this.mockVamcEhr();
 
-      cy.intercept(
-        'GET',
-        '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-        emptyPrescriptionsList,
-      ).as('emptyPrescriptionsList');
-    }
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
+    // }
   };
 
   cernerLoginPrescriptionListError = (isMedicationsUser = true) => {

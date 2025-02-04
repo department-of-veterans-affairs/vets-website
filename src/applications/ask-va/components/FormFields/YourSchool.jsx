@@ -13,8 +13,10 @@ const YourSchool = props => {
     : 'No school name found';
   return (
     <div>
-      <p>This is the school facility we have in your profile.</p>
-      <p className="vads-u-border-left--4px">
+      <p className="vads-u-margin-top--0">
+        This is the school facility we have in your profile.
+      </p>
+      <p className="school-info-bar">
         <span className="vads-u-margin-left--2p5">{`${facilityCode} - ${facilityName}`}</span>
       </p>
     </div>

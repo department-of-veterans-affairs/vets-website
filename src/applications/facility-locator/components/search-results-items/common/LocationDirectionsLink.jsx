@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { buildAddressArray } from '../../../utils/facilityAddress';
+import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
 
 function LocationDirectionsLink({ location, from }) {
   let address = buildAddressArray(location);
@@ -17,6 +17,7 @@ function LocationDirectionsLink({ location, from }) {
     <p>
       {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
       <va-link
+        class={from === 'FacilityDetail' ? 'vads-u-margin-left--0p5' : ''}
         href={`https://maps.google.com?saddr=${
           location.searchString
         }&daddr=${address}`}

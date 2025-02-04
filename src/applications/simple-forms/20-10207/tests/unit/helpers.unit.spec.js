@@ -22,8 +22,8 @@ import {
   powConfinementDateRangeValidation,
   powConfinement2DateRangeValidation,
   statementOfTruthFullNamePath,
-  getSubmitterName,
   evidenceConfinementHintUpdateUiSchema,
+  getPhoneAndEmailPageEmailHint,
 } from '../../helpers';
 
 describe('getMockData', () => {
@@ -404,6 +404,31 @@ describe('getPhoneAndEmailPageTitle()', () => {
   });
 });
 
+describe('getPhoneAndEmailPageEmailHint', () => {
+  it('returns correct hint for preparerType', () => {
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.VETERAN,
+      }),
+    ).to.include('send you notifications about your');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.NON_VETERAN,
+      }),
+    ).to.include('send you notifications about your');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
+      }),
+    ).to.include('send you or the Veteran notifications about the');
+    expect(
+      getPhoneAndEmailPageEmailHint({
+        preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
+      }),
+    ).to.include('send you or the claimant notifications about the');
+  });
+});
+
 describe('createPayload()', () => {
   let mockFile;
   let formId;
@@ -609,35 +634,6 @@ describe('statementOfTruthFullNamePath()', () => {
         formData: { preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN },
       }),
     ).to.equal('thirdPartyFullName');
-  });
-});
-
-describe('getSubmitterName()', () => {
-  it('returns correct name for preparerType', () => {
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.VETERAN,
-        veteranFullName: 'veteranName',
-      }),
-    ).to.equal('veteranName');
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.NON_VETERAN,
-        nonVeteranFullName: 'nonVeteranName',
-      }),
-    ).to.equal('nonVeteranName');
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
-        thirdPartyFullName: 'thirdPartyName',
-      }),
-    ).to.equal('thirdPartyName');
-    expect(
-      getSubmitterName({
-        preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
-        thirdPartyFullName: 'thirdPartyName',
-      }),
-    ).to.equal('thirdPartyName');
   });
 });
 

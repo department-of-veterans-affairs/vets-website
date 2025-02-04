@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import CONSTANTS from 'vets-json-schema/dist/constants.json'; // For countries
 import { formatDateShort } from 'platform/utilities/date';
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { concatStreets } from '../../shared/utilities';
@@ -10,6 +11,21 @@ function stringifyAddress(addr) {
         addr.state
       }\n${addr.postalCode}`
     : '';
+}
+
+/**
+ * Converts country codes to full country names and returns updated address.
+ * e.g., {country: 'USA'} => {country: 'United States'}
+ * @param {object} addr Standard address object provided by the addressUI component.
+ * @returns Updated address object with country value replaced or left alone depending on presence of matching country label in the CONSTANTS file.
+ */
+function getCountryLabel(addr) {
+  const tmpAdr = addr;
+  // Find country label that matches country code in `addr`
+  tmpAdr.country =
+    CONSTANTS.countries.filter(c => c.value === tmpAdr.country)[0]?.label ??
+    tmpAdr.country; // leave untouched if no match found
+  return tmpAdr;
 }
 
 export default function transformForSubmit(formConfig, form) {
@@ -37,11 +53,8 @@ export default function transformForSubmit(formConfig, form) {
         state: 'NA',
         postalCode: 'NA',
       },
-      ssn: transformedData?.veteranSocialSecurityNumber?.ssn || '',
-      // file_number:
-      //   transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
-      va_claim_number:
-        transformedData?.veteranSocialSecurityNumber?.vaFileNumber || '',
+      ssn: transformedData?.veteranSocialSecurityNumber?.ssn,
+      vaClaimNumber: transformedData?.veteranSocialSecurityNumber?.vaFileNumber,
       phone_number: transformedData.veteranPhoneNumber || '',
       email_address: transformedData.veteranEmailAddress || '',
     },
@@ -62,6 +75,14 @@ export default function transformForSubmit(formConfig, form) {
     dataPostTransform.veteran.physical_address,
   );
   dataPostTransform.veteran.mailingAddressString = stringifyAddress(
+    dataPostTransform.veteran.mailing_address,
+  );
+
+  // Replace country code with full name:
+  dataPostTransform.veteran.physical_address = getCountryLabel(
+    dataPostTransform.veteran.physical_address,
+  );
+  dataPostTransform.veteran.mailing_address = getCountryLabel(
     dataPostTransform.veteran.mailing_address,
   );
 

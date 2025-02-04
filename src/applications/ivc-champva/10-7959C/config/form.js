@@ -6,7 +6,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import transformForSubmit from './submitTransformer';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -44,9 +44,11 @@ import {
   applicantInsuranceCardSchema,
 } from '../chapters/healthInsuranceInformation';
 
-import { formSignatureSchema } from '../chapters/formSignature';
+import {
+  formSignatureSchema,
+  applicationEmailSchema,
+} from '../chapters/formSignature';
 import CustomAttestation from '../components/CustomAttestation';
-import { UPLOADS_COMPLETE_PATH } from './constants';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
@@ -126,13 +128,31 @@ const formConfig = {
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {
+    formSignature: {
+      title: 'Signer information',
+      pages: {
+        formSignature: {
+          // initialData: mockdata.data,
+          path: 'form-signature',
+          title: 'Form signature',
+          ...formSignatureSchema,
+        },
+        signerEmail: {
+          path: 'signer-email',
+          title: 'Your email address',
+          ...applicationEmailSchema,
+        },
+      },
+    },
     applicantInformation: {
       title: 'Beneficiary information',
       pages: {
         applicantNameDob: {
-          // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Beneficiary’s name',
+          title: formData =>
+            `${
+              formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+            } name`,
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
@@ -467,16 +487,6 @@ const formConfig = {
             },
           },
           schema: blankSchema,
-        },
-      },
-    },
-    formSignature: {
-      title: 'Form signature',
-      pages: {
-        formSignature: {
-          path: UPLOADS_COMPLETE_PATH,
-          title: 'Form signature',
-          ...formSignatureSchema,
         },
       },
     },

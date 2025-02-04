@@ -36,6 +36,10 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'medical-release-4142-',
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: true,
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {

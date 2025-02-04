@@ -3,9 +3,9 @@ import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import ReactDOM from 'react-dom';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import createMhvSigninCallToAction from '../createMhvSigninCTA';
-import widgetTypes from '../../widgetTypes';
 
 describe('create MHV Signin Call To Action widget', () => {
   const mockStore = createMockStore([]);

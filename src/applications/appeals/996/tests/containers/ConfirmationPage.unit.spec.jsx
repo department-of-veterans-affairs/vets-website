@@ -17,7 +17,7 @@ import {
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import maximalData from '../fixtures/data/maximal-test-v2.5.json';
+import maximalData from '../fixtures/data/maximal-test-v2.json';
 
 import { FORMAT_READABLE_DATE_FNS, SELECTED } from '../../../shared/constants';
 import { parseDate } from '../../../shared/utils/dates';
@@ -197,7 +197,7 @@ describe('Confirmation page', () => {
         <ConfirmationPage />
       </Provider>,
     );
-    expect($$('ul', container).length).to.eq(4);
+    expect($$('ul', container).length).to.eq(3);
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
     ).to.eq(17);

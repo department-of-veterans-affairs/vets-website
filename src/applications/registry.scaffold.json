@@ -14,7 +14,7 @@
     "rootUrl": "/find-forms",
     "widgetType": "find-va-forms",
     "productDirectory": {
-      "filePath": "src/applications/find-forms",
+      "filePath": "src/applications/static-pages/find-forms",
       "productId": 206,
       "entryName": "find-va-forms"
     }
@@ -123,14 +123,14 @@
     "rootUrl": "/health-care/order-hearing-aid-or-CPAP-supplies-form"
   },
   {
-    "appName": "Find a VA Accredited Representative or VSO",
-    "rootUrl": "/get-help-from-accredited-representative",
-    "widgetType": "find-a-rep-landing-content"
-  },
-  {
     "appName": "Representative Status",
     "rootUrl": "/representative-status",
     "widgetType": "representative-status"
+  },
+  {
+    "appName": "Appoint a VA Accredited Representative or VSO",
+    "rootUrl": "/get-help-from-accredited-representative",
+    "widgetType": "appoint-a-rep-landing-content"
   },
   {
     "appName": "Verify Your Enrollment Widget",

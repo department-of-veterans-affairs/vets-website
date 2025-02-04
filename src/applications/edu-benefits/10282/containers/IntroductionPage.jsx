@@ -39,8 +39,7 @@ const IntroductionPage = ({ router }) => {
         </li>
         <li>
           After you submit your form, you can print the confirmation page for
-          your records. You can also download a copy of your completed form as a
-          PDF.
+          your records.
         </li>
         <li>
           After we review your form, we’ll email you a decision. If we need more

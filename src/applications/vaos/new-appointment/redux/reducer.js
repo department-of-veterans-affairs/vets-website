@@ -49,6 +49,9 @@ import {
   FORM_REQUESTED_PROVIDERS,
   FORM_REQUESTED_PROVIDERS_SUCCEEDED,
   FORM_REQUESTED_PROVIDERS_FAILED,
+  FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
+  FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
+  FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED,
 } from './actions';
 
 import {
@@ -68,9 +71,7 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  request: 'Add any details you’d like to share with your provider.',
-  direct:
-    'Please provide any additional details you’d like to share with your provider about this appointment.',
+  va: 'Add any details you’d like to share with your provider.',
   ccRequest:
     'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
 };
@@ -87,6 +88,8 @@ const initialState = {
   facilityDetails: {},
   clinics: {},
   eligibility: {},
+  patientProviderRelationships: [],
+  patientProviderRelationshipsStatus: FETCH_STATUS.notStarted,
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
@@ -135,6 +138,10 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
 
     if (newData.vaFacility) {
       newData = unset('vaFacility', newData);
+    }
+
+    if (newData.isSingleVaFacility) {
+      newData = unset('isSingleVaFacility', newData);
     }
 
     // reset community care provider if type of care changes
@@ -273,8 +280,6 @@ export default function formReducer(state = initialState, action) {
         data: {
           ...state.data,
           facilityType: action.facilityType,
-          isSingleVaFacility:
-            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
         },
       };
     }
@@ -296,6 +301,10 @@ export default function formReducer(state = initialState, action) {
       const sortMethod = hasResidentialCoordinates
         ? FACILITY_SORT_METHODS.distanceFromResidential
         : FACILITY_SORT_METHODS.alphabetical;
+
+      facilities = facilities.filter(
+        facility => !!facility.address?.city && !!facility.address?.state,
+      );
 
       if (hasResidentialCoordinates && facilities.length) {
         facilities = facilities
@@ -420,6 +429,10 @@ export default function formReducer(state = initialState, action) {
       if (location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
+
+        facilities = facilities.filter(
+          facility => !!facility.address?.city && !!facility.address?.state,
+        );
 
         if (latitude && longitude) {
           facilities = facilities.map(facility => {
@@ -585,6 +598,22 @@ export default function formReducer(state = initialState, action) {
         },
         flowType: FLOW_TYPES.REQUEST,
       };
+    case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS:
+      return {
+        ...state,
+        patientProviderRelationshipsStatus: FETCH_STATUS.loading,
+      };
+    case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED:
+      return {
+        ...state,
+        patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
+        patientProviderRelationships: action.patientProviderRelationships,
+      };
+    case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
+      return {
+        ...state,
+        patientProviderRelationshipsStatus: FETCH_STATUS.failed,
+      };
     case FORM_FETCH_FACILITY_DETAILS:
       return {
         ...state,
@@ -634,10 +663,7 @@ export default function formReducer(state = initialState, action) {
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
       if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
-        additionalInfoTitle =
-          state.flowType === FLOW_TYPES.DIRECT
-            ? REASON_ADDITIONAL_INFO_TITLES.direct
-            : REASON_ADDITIONAL_INFO_TITLES.request;
+        additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.va;
       } else {
         delete formData.reasonForAppointment;
       }

@@ -7,6 +7,7 @@ import {
   arrayBuilderYesNoUI,
   radioUI,
   radioSchema,
+  textUI,
   textareaUI,
   textareaSchema,
   textSchema,
@@ -21,7 +22,6 @@ import {
   otherRecipientRelationshipExplanationRequired,
   otherGeneratedIncomeTypeExplanationRequired,
   recipientNameRequired,
-  showRecipientName,
 } from '../../../helpers';
 import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
@@ -147,26 +147,34 @@ const royaltyRecipientPage = {
           'royaltiesAndOtherProperties',
         ),
     },
-    recipientName: {
-      'ui:title': 'Tell us the income recipient’s name',
-      'ui:webComponentField': VaTextInputField,
-      'ui:options': {
-        hint: 'Only needed if child, parent, custodian of child, or other',
-        expandUnder: 'recipientRelationship',
-        expandUnderCondition: showRecipientName,
-      },
-      'ui:required': (formData, index) =>
-        recipientNameRequired(formData, index, 'royaltiesAndOtherProperties'),
-    },
   },
   schema: {
     type: 'object',
     properties: {
       recipientRelationship: radioSchema(Object.keys(relationshipLabels)),
       otherRecipientRelationshipType: { type: 'string' },
-      recipientName: textSchema,
     },
     required: ['recipientRelationship'],
+  },
+};
+
+/** @returns {PageSchema} */
+const recipientNamePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Income and net worth associated with royalties and other properties',
+    ),
+    recipientName: textUI({
+      title: 'Tell us the income recipient’s name',
+      hint: 'Only needed if child, parent, custodian of child, or other',
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      recipientName: textSchema,
+    },
+    required: ['recipientName'],
   },
 };
 
@@ -246,6 +254,14 @@ export const royaltiesAndOtherPropertyPages = arrayBuilderPages(
       path: 'royalties-and-other-properties/:index/income-recipient',
       uiSchema: royaltyRecipientPage.uiSchema,
       schema: royaltyRecipientPage.schema,
+    }),
+    royaltyRecipientNamePage: pageBuilder.itemPage({
+      title: 'Royalties and other properties recipient name',
+      path: 'royalties-and-other-properties/:index/recipient-name',
+      depends: (formData, index) =>
+        recipientNameRequired(formData, index, 'royaltiesAndOtherProperties'),
+      uiSchema: recipientNamePage.uiSchema,
+      schema: recipientNamePage.schema,
     }),
     generatedIncomeTypePage: pageBuilder.itemPage({
       title: 'Royalties and other properties type',

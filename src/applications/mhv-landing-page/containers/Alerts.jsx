@@ -6,19 +6,26 @@ import {
   AlertMhvRegistration,
   AlertUnregistered,
   AlertVerifyAndRegister,
+  AlertAccountApiAlert,
 } from '../components/alerts';
 
 import {
+  apiAccountStatusEnabled,
   hasMhvAccount,
   hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
   isLOA3,
   isVAPatient,
+  mhvAccountStatusLoading,
+  mhvAccountStatusUserError,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusErrorsSorted,
   showVerifyAndRegisterAlert,
   signInServiceName,
 } from '../selectors';
 
 const Alerts = () => {
+  const isAccountStatusApiEnabled = useSelector(apiAccountStatusEnabled);
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
@@ -28,8 +35,15 @@ const Alerts = () => {
   const cspId = useSelector(signInServiceName);
   const ssoe = useSelector(isAuthenticatedWithSSOe);
 
+  const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
+  const mhvAccountStatusSuccess = useSelector(mhvAccountStatusUsersuccess);
+  const mhvAccountStatusIsLoading = useSelector(mhvAccountStatusLoading);
+  const mhvAccountStatusSortedErrors = useSelector(
+    mhvAccountStatusErrorsSorted,
+  );
+
   if (userHasMhvBasicAccount) {
-    return <AlertMhvBasicAccount ssoe={ssoe} />;
+    return <AlertMhvBasicAccount />;
   }
 
   if (renderVerifyAndRegisterAlert) {
@@ -40,7 +54,21 @@ const Alerts = () => {
     return <AlertUnregistered />;
   }
 
-  if (userRegistered && !userHasMhvAccount) {
+  if (mhvAccountStatusSortedErrors.length > 0 && isAccountStatusApiEnabled) {
+    return (
+      <AlertAccountApiAlert
+        userActionable={mhvAccountStatusUserErrors.length > 0}
+        errorCode={mhvAccountStatusSortedErrors[0].code}
+      />
+    );
+  }
+
+  if (
+    userRegistered &&
+    !userHasMhvAccount &&
+    !mhvAccountStatusIsLoading &&
+    !mhvAccountStatusSuccess
+  ) {
     return <AlertMhvRegistration ssoe={ssoe} />;
   }
 

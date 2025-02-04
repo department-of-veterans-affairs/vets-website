@@ -1,12 +1,12 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import { ServiceDateRangeDescription } from '../../../components/FormDescriptions';
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateGulfWarDates } from '../../../utils/validation';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { emptyObjectSchema } from '../../../definitions';
 
-const { gulfWarStartDate, gulfWarEndDate } = fullSchemaHca.properties;
+const { gulfWarStartDate, gulfWarEndDate } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

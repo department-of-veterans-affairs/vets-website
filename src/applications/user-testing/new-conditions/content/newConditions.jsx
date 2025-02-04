@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { createItemName } from '../pages/conditionsFirstPages/utils';
-
 export const conditionInstructions = (
   <>
     <p>Add a condition below. You can add more conditions later.</p>
@@ -22,12 +20,6 @@ export const conditionInstructions = (
     </ul>
     <h4>Add a new condition</h4>
   </>
-);
-
-export const disabilityNameTitle = ({ formData }) => (
-  <legend className="schemaform-block-title schemaform-title-underline">
-    {createItemName(formData, true)}
-  </legend>
 );
 
 export const ServiceConnectedDisabilityDescription = () => (

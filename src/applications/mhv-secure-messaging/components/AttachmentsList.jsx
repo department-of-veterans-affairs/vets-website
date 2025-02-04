@@ -23,6 +23,7 @@ const AttachmentsList = props => {
     setAttachFileSuccess,
     forPrint,
     attachmentScanError,
+    setAttachFileError,
   } = props;
   const dispatch = useDispatch();
   const attachmentReference = useRef(null);
@@ -48,7 +49,7 @@ const AttachmentsList = props => {
         );
       }
     },
-    [attachmentScanError],
+    [attachmentScanError, attachments.length],
   );
 
   const getSize = num => {
@@ -105,6 +106,7 @@ const AttachmentsList = props => {
     setAttachments(newAttArr);
     setIsAttachmentRemoved(true);
     setAttachFileSuccess(false);
+    setAttachFileError(null);
 
     if (newAttArr.some(item => item.name !== file.name)) {
       setRecentlyRemovedFile(true);
@@ -123,7 +125,7 @@ const AttachmentsList = props => {
 
   const handleRemoveAllAttachments = () => {
     setAttachments([]);
-    dispatch(closeAlert()).then(() =>
+    dispatch(closeAlert()).then(() => {
       setTimeout(
         () =>
           setFocusedElement(
@@ -132,8 +134,9 @@ const AttachmentsList = props => {
               .shadowRoot.querySelector('button'),
           ),
         400,
-      ),
-    );
+      );
+      setAttachFileError(null);
+    });
   };
 
   const handleSuccessAlertClose = () => {
@@ -209,7 +212,7 @@ const AttachmentsList = props => {
         (attachments.length > 1 ? (
           <VaAlert
             data-testid="attachment-virus-alert"
-            aria-label={Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            aria-label={Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL}
             background-only
             className="file-attached-success vads-u-margin-top--2"
             disable-analytics
@@ -221,8 +224,7 @@ const AttachmentsList = props => {
               aria-live="assertive"
               className="vads-u-margin--0 vads-u-margin-bottom--1"
             >
-              Your message failed to send. One or more of your files failed our
-              scan. Try sending your message without any attachments.
+              {Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL}
             </p>
             <va-button
               text="Remove all attachments"
@@ -388,6 +390,7 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
+  attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   compose: PropTypes.bool,
   draftSequence: PropTypes.number,
@@ -398,7 +401,6 @@ AttachmentsList.propTypes = {
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,
   setNavigationError: PropTypes.func,
-  attachmentScanError: PropTypes.bool,
 };
 
 export default AttachmentsList;

@@ -23,7 +23,7 @@ describe('efsr-fsr transform helper functions', () => {
       expect(monthYearFormatter('2004-10-XX')).to.equal('10/2004');
     });
     it('should return undefined if input is falsy', () => {
-      expect(monthYearFormatter('')).to.equal(undefined);
+      expect(monthYearFormatter('')).to.equal('');
     });
   });
 
@@ -167,7 +167,6 @@ describe('efsr-fsr transform helper functions', () => {
   describe('efsr-getMonthlyExpenses helper', () => {
     it('should calculate the sum of total monthly expenses for enhanced financial status report', () => {
       const expenses = {
-        'view:enhancedFinancialStatusReport': true,
         expenses: {
           expenseRecords: [{ name: 'Rent', amount: '100' }],
         },
@@ -240,7 +239,6 @@ describe('efsr-fsr transform helper functions', () => {
 
     it('should return a spouses employment history', () => {
       const history = {
-        'view:enhancedFinancialStatusReport': true,
         questions: {
           spouseIsEmployed: true,
           vetIsEmployed: false,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
 import {
@@ -107,7 +108,7 @@ describe('<EvidenceVaRecords>', () => {
 
   const getErrorElements = container =>
     $$(
-      'va-text-input[error], va-checkbox-group[error], va-memorable-date[error]',
+      'va-text-input[error], va-checkbox-group[error], va-date[error], va-memorable-date[error]',
       container,
     );
 
@@ -406,9 +407,9 @@ describe('<EvidenceVaRecords>', () => {
 
   // *** EMPTY PAGE ***
   describe('empty page navigation', () => {
-    const getAndTestAllErrors = container => {
+    const getAndTestAllErrors = async container => {
       const errors = errorMessages.evidence;
-      const errorEls = getErrorElements(container);
+      const errorEls = await getErrorElements(container);
       expect(errorEls[0].error).to.eq(errors.locationMissing);
       expect(errorEls[1].error).to.eq(errors.issuesMissing);
 
@@ -435,6 +436,7 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
+      }).then(() => {
         getAndTestAllErrors(container);
       });
     });
@@ -460,6 +462,7 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
+      }).then(() => {
         getAndTestAllErrors(container);
       });
     });
@@ -527,6 +530,7 @@ describe('<EvidenceVaRecords>', () => {
       await waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
+      }).then(() => {
         getAndTestAllErrors(container);
       });
     });
@@ -552,15 +556,16 @@ describe('<EvidenceVaRecords>', () => {
   describe('partial/invalid data navigation', () => {
     const testAndCloseModal = async (container, event) => {
       // modal visible
-      await waitFor(() => {
+      waitFor(() => {
         expect($('va-modal[visible="true"]', container)).to.exist;
-      });
-
-      // close modal
-      $('va-modal').__events[event]();
-      await waitFor(() => {
-        expect($('va-modal[visible="false"]', container)).to.exist;
-      });
+      })
+        .then(() => {
+          // close modal
+          $('va-modal').__events[event]();
+        })
+        .finally(() => {
+          expect($('va-modal[visible="false"]', container)).to.exist;
+        });
     };
 
     it('should not navigate, but will show errors after continuing', async () => {
@@ -580,9 +585,9 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // continue
-      clickContinue(container);
+      await clickContinue(container);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(3);
         expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
@@ -609,16 +614,14 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // back
-      clickBack(container);
+      await clickBack(container);
 
       // This check is super-flaky in CI
-      await waitFor(() => {
+      waitFor(() => {
         expect(getErrorElements(container).length).to.eq(3);
       });
 
-      await testAndCloseModal(container, 'secondaryButtonClick');
-
-      await waitFor(() => {
+      testAndCloseModal(container, 'secondaryButtonClick').then(() => {
         expect(setDataSpy.called).to.be.true;
         expect(setDataSpy.lastCall.args[0].locations.length).to.eq(2);
         expect(goSpy.called).to.be.true;
@@ -644,17 +647,15 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // back
-      clickBack(container);
+      await clickBack(container);
 
       // This check is super-flaky in CI
-      await waitFor(() => {
+      waitFor(() => {
         expect(getErrorElements(container).length).to.eq(3);
       });
 
       // keep partial entry
-      await testAndCloseModal(container, 'primaryButtonClick');
-
-      await waitFor(() => {
+      testAndCloseModal(container, 'primaryButtonClick').then(() => {
         expect(setDataSpy.called).to.be.false; // no data change
         expect(goSpy.called).to.be.true;
         expect(goSpy.calledWith(`/${EVIDENCE_VA_PATH}?index=${index - 1}`)).to
@@ -678,9 +679,9 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // add
-      clickAddAnother(container);
+      await clickAddAnother(container);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(goSpy.called).to.be.false;
         expect(getErrorElements(container).length).to.eq(3);
         expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
@@ -705,10 +706,10 @@ describe('<EvidenceVaRecords>', () => {
       const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      const input = $('va-text-input', container);
-      fireEvent.blur(input);
+      const input = await $('va-text-input', container);
+      await fireEvent.blur(input);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(input.error).to.contain(
           errorMessages.evidence.locationMaxLength,
         );
@@ -726,10 +727,10 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // blur date from input
-      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
-      await waitFor(() => {
-        const dateFrom = $('va-memorable-date', container);
+      waitFor(async () => {
+        const dateFrom = await $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
         expect(dateFrom.invalidMonth).to.be.false;
         expect(dateFrom.invalidDay).to.be.false;
@@ -748,10 +749,10 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // blur date to input
-      $('va-memorable-date').__events.dateBlur(toBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
-      await waitFor(() => {
-        const dateTo = $$('va-memorable-date', container)[1];
+      waitFor(async () => {
+        const dateTo = await $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
         expect(dateTo.invalidMonth).to.be.false;
         expect(dateTo.invalidDay).to.be.false;
@@ -770,10 +771,10 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // blur date from input
-      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
-      await waitFor(() => {
-        const dateFrom = $('va-memorable-date', container);
+      waitFor(async () => {
+        const dateFrom = await $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
         expect(dateFrom.invalidMonth).to.be.false;
         expect(dateFrom.invalidDay).to.be.false;
@@ -792,10 +793,10 @@ describe('<EvidenceVaRecords>', () => {
       const { container } = render(page);
 
       // blur date to input
-      $('va-memorable-date').__events.dateBlur(toBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
-      await waitFor(() => {
-        const dateTo = $$('va-memorable-date', container)[1];
+      waitFor(async () => {
+        const dateTo = await $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
         expect(dateTo.invalidMonth).to.be.false;
         expect(dateTo.invalidDay).to.be.false;
@@ -814,11 +815,11 @@ describe('<EvidenceVaRecords>', () => {
       const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      const dateTo = $$('va-memorable-date', container)[1];
+      const dateTo = await $$('va-memorable-date', container)[1];
       // blur date to input
-      $('va-memorable-date').__events.dateBlur(toBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(dateTo.error).to.contain(sharedErrorMessage.endDateBeforeStart);
       });
     });
@@ -832,10 +833,10 @@ describe('<EvidenceVaRecords>', () => {
       const page = setup({ index: 1, data });
       const { container } = render(page);
 
-      const input = $('va-text-input', container);
-      fireEvent.blur(input);
+      const input = await $('va-text-input', container);
+      await fireEvent.blur(input);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(input.error).to.contain(errorMessages.evidence.uniqueVA);
       });
     });
@@ -846,6 +847,40 @@ describe('<EvidenceVaRecords>', () => {
       expect($('va-checkbox-group', container).textContent).to.contain(
         NO_ISSUES_SELECTED,
       );
+    });
+
+    it('should not move focus after submitting & blurring first input', async () => {
+      const goSpy = sinon.spy();
+      const index = 1;
+      const data = {
+        ...mockData,
+        showScNewForm: true,
+        [EVIDENCE_VA]: true,
+        locations: [mockLocation, {}, mockLocation2],
+      };
+      const page = setup({
+        index,
+        goForward: goSpy,
+        goToPath: goSpy,
+        data,
+      });
+      const { container } = render(page);
+
+      // continue
+      clickContinue(container);
+
+      const input = await $('va-text-input', container);
+      await fireEvent.blur(input);
+      await userEvent.tab(); // ensure focus is not trapped; see #98137
+
+      waitFor(() => {
+        expect(getErrorElements(container).length).to.eq(3);
+        expect(goSpy.called).to.be.false;
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
+        expect(document.activeElement).to.not.eq(input);
+        // focus called one additional time when focus shifts back to the error
+        expect(focusElementSpy.args.length).to.be.lessThan(3);
+      });
     });
   });
 });

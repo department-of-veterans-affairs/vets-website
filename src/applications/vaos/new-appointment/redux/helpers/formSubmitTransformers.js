@@ -1,238 +1,167 @@
-import moment from 'moment';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { getTimezoneByFacilityId } from '../../../utils/timezone';
-import {
-  PURPOSE_TEXT_V2,
-  TYPE_OF_VISIT,
-  LANGUAGES,
-} from '../../../utils/constants';
+import moment from '../../../lib/moment-tz';
+import { LANGUAGES } from '../../../utils/constants';
 import {
   getTypeOfCare,
   getFormData,
-  getChosenClinicInfo,
-  getChosenFacilityInfo,
-  getSiteIdForChosenFacility,
   getChosenCCSystemById,
+  getChosenClinicInfo,
   getChosenSlot,
 } from '../selectors';
-import { getClinicId, getSiteCode } from '../../../services/healthcare-service';
+import { getClinicId } from '../../../services/healthcare-service';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
+import { getReasonCode } from './getReasonCode';
 
-const CC_PURPOSE = 'other';
-
-function getUserMessage(data) {
-  const label = PURPOSE_TEXT_V2.find(
-    purpose => purpose.id === data.reasonForAppointment,
-  ).short;
-
-  return `${label}: ${data.reasonAdditionalInfo}`;
-}
-
-function getTestFacilityName(id, name) {
-  if (!environment.isProduction() && id.startsWith('983')) {
-    return `CHYSHR-${name}`;
-  }
-
-  if (!environment.isProduction() && id.startsWith('984')) {
-    // The extra space here is intentional, that appears to be how it is named
-    // in CDW
-    return `DAYTSHR -${name}`;
-  }
-
-  return name;
-}
-
-function getRequestedDates(data) {
-  return data.selectedDates.reduce(
-    (acc, date, index) => ({
-      ...acc,
-      [`optionDate${index + 1}`]: moment(date).format('MM/DD/YYYY'),
-      [`optionTime${index + 1}`]: moment(date).hour() >= 12 ? 'PM' : 'AM',
-    }),
-    {
-      optionDate1: 'No Date Selected',
-      optionDate2: 'No Date Selected',
-      optionDate3: 'No Date Selected',
-      optionTime1: 'No Time Selected',
-      optionTime2: 'No Time Selected',
-      optionTime3: 'No Time Selected',
-    },
-  );
-}
-
-export function transformFormToVARequest(state) {
-  const facility = getChosenFacilityInfo(state);
-  const data = getFormData(state);
-  const typeOfCare = getTypeOfCare(data);
-  const siteId = getSiteIdForChosenFacility(state);
-  const facilityId = facility.id;
-  const facilityName = getTestFacilityName(facilityId, facility.name);
-
-  return {
-    typeOfCare: typeOfCare.id,
-    typeOfCareId: typeOfCare.id,
-    appointmentType: typeOfCare.name,
-    facility: {
-      name: facilityName,
-      facilityCode: facilityId,
-      parentSiteCode: siteId,
-    },
-    purposeOfVisit: PURPOSE_TEXT_V2.find(
-      purpose => purpose.id === data.reasonForAppointment,
-    )?.serviceName,
-    otherPurposeOfVisit:
-      data.reasonForAppointment === 'other'
-        ? 'See additional information'
-        : null,
-    visitType: TYPE_OF_VISIT.find(type => type.id === data.visitType)
-      ?.serviceName,
-    phoneNumber: data.phoneNumber,
-    verifyPhoneNumber: data.phoneNumber,
-    ...getRequestedDates(data),
-    // The bad camel casing here is intentional, to match downstream
-    // system
-    bestTimetoCall: Object.entries(data.bestTimeToCall)
-      .filter(item => item[1])
-      .map(item => titleCase(item[0])),
-    emailPreferences: {
-      emailAddress: data.email,
-      // defaulted values
-      notificationFrequency: 'Each new message',
-      emailAllowed: true,
-      textMsgAllowed: false,
-      textMsgPhNumber: '',
-    },
-    email: data.email,
-    // defaulted values
-    status: 'Submitted',
-    schedulingMethod: 'clerk',
-    requestedPhoneCall: false,
-    providerId: '0',
-    providerOption: '',
-  };
-}
-
-export function transformFormToCCRequest(state) {
+export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
   const provider = data.communityCareProvider;
-  let preferredProviders = [];
+  const residentialAddress = selectVAPResidentialAddress(state);
+  const parentFacility = getChosenCCSystemById(state);
+  let practitioners = [];
 
-  if (
-    !!data.communityCareProvider &&
-    Object.keys(data.communityCareProvider).length
-  ) {
-    preferredProviders = [
+  if (provider?.identifier) {
+    practitioners = [
       {
+        identifier: [
+          {
+            system: 'http://hl7.org/fhir/sid/us-npi',
+            value: data.communityCareProvider.identifier.find(
+              item => item.system === 'PPMS',
+            )?.value,
+          },
+        ],
         address: {
-          street: provider.address.line.join(', '),
+          line: provider.address.line,
           city: provider.address.city,
           state: provider.address.state,
-          zipCode: provider.address.postalCode,
+          postalCode: provider.address.postalCode,
         },
-        practiceName: provider.name,
       },
     ];
   }
 
-  const residentialAddress = selectVAPResidentialAddress(state);
-  const organization = getChosenCCSystemById(state);
-  let cityState;
+  let preferredLocation;
 
   if (
     residentialAddress &&
-    residentialAddress.addressType !== 'MILITARY OVERSEAS'
+    residentialAddress.addressType !== 'OVERSEAS MILITARY'
   ) {
-    cityState = {
-      preferredCity: residentialAddress.city,
-      preferredState: residentialAddress.stateCode,
+    preferredLocation = {
+      city: residentialAddress.city,
+      state: residentialAddress.stateCode,
     };
-  } else {
-    cityState = {
-      preferredCity: organization.address?.city,
-      preferredState: organization.address?.state,
+  } else if (parentFacility.address) {
+    preferredLocation = {
+      city: parentFacility.address.city,
+      state: parentFacility.address.state,
     };
   }
 
   const typeOfCare = getTypeOfCare(data);
-
+  const facilityTimezone = getTimezoneByFacilityId(data.communityCareSystemId);
   return {
-    typeOfCare: typeOfCare.ccId,
-    typeOfCareId: typeOfCare.ccId,
-    appointmentType: typeOfCare.name,
-    facility: {
-      name: organization.name,
-      facilityCode: organization.id,
-      parentSiteCode: organization.vistaId,
+    kind: 'cc',
+    status: 'proposed',
+    locationId: data.communityCareSystemId,
+    serviceType: typeOfCare.idV2 || typeOfCare.ccId,
+    // comment: data.reasonAdditionalInfo,
+    reasonCode: getReasonCode({
+      data,
+      isCC: true,
+      isDS: false,
+    }),
+    contact: {
+      telecom: [
+        {
+          type: 'phone',
+          value: data.phoneNumber,
+        },
+        {
+          type: 'email',
+          value: data.email,
+        },
+      ],
     },
-    purposeOfVisit: CC_PURPOSE,
-    phoneNumber: data.phoneNumber,
-    verifyPhoneNumber: data.phoneNumber,
-    // The bad camel casing here is intentional, to match downstream
-    // system
-    bestTimetoCall: Object.entries(data.bestTimeToCall)
+    requestedPeriods: data.selectedDates.map(date => ({
+      start: moment
+        .tz(date, facilityTimezone)
+        .utc()
+        .format(),
+      end: moment
+        .tz(date, facilityTimezone)
+        .utc()
+        .add(12, 'hours')
+        .subtract(1, 'minute')
+        .format(),
+    })),
+    // These four fields aren't in the current schema, but probably should be
+    preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall || {})
       .filter(item => item[1])
       .map(item => titleCase(item[0])),
-    preferredProviders,
-    newMessage: data.reasonAdditionalInfo,
     preferredLanguage: LANGUAGES.find(
       lang => lang.id === data.preferredLanguage,
     )?.value,
-    ...getRequestedDates(data),
-    ...cityState,
-    // defaulted values
-    visitType: 'Office Visit',
-    requestedPhoneCall: false,
-    email: data.email,
-    officeHours: [],
-    reasonForVisit: '',
-    distanceWillingToTravel: 40,
-    secondRequest: false,
-    secondRequestSubmitted: false,
-    inpatient: false,
-    status: 'Submitted',
-    providerId: '0',
-    providerOption: '',
+    preferredLocation,
+    practitioners,
   };
 }
 
-export function transformFormToAppointment(state) {
+export function transformFormToVAOSVARequest(state) {
+  const data = getFormData(state);
+  const typeOfCare = getTypeOfCare(data);
+
+  return {
+    kind: data.visitType,
+    status: 'proposed',
+    locationId: data.vaFacility,
+    // This may need to change when we get the new service type ids
+    serviceType: typeOfCare.idV2,
+    reasonCode: getReasonCode({
+      data,
+      isCC: false,
+      isDS: false,
+    }),
+    // comment: data.reasonAdditionalInfo,
+    requestedPeriods: [
+      {
+        start: moment.utc(data.selectedDates[0]).format(),
+        end: moment
+          .utc(data.selectedDates[0])
+          .add(12, 'hours')
+          .subtract(1, 'minute')
+          .format(),
+      },
+    ],
+    // This field isn't in the schema yet
+    preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall || {})
+      .filter(item => item[1])
+      .map(item => titleCase(item[0])),
+  };
+}
+
+export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
   const clinic = getChosenClinicInfo(state);
-  const timezone = getTimezoneByFacilityId(data.vaFacility);
-
   const slot = getChosenSlot(state);
-  const purpose = getUserMessage(data);
-  const appointmentLength = moment(slot.end).diff(slot.start, 'minutes');
-  return {
-    appointmentType: getTypeOfCare(data).name,
-    clinic: {
-      siteCode: getSiteCode(clinic),
-      clinicId: getClinicId(clinic),
-      clinicName: clinic.serviceName,
-      clinicFriendlyLocationName: clinic.serviceName,
-      institutionName: clinic.stationName,
-      institutionCode: clinic.stationId,
-    },
 
-    // These times are a lie, they're actually in local time, but the upstream
-    // service expects the 0 offset.
-    desiredDate: `${data.preferredDate}T00:00:00+00:00`,
-    dateTime: `${slot.start}+00:00`,
-    duration: appointmentLength,
-    bookingNotes: purpose,
-    preferredEmail: data.email,
-    timeZone: timezone,
-    // defaulted values
-    apptType: 'P',
-    purpose: '9',
-    lvl: '1',
-    ekg: '',
-    lab: '',
-    xRay: '',
-    schedulingRequestType: 'NEXT_AVAILABLE_APPT',
-    type: 'REGULAR',
-    appointmentKind: 'TRADITIONAL',
-    schedulingMethod: 'direct',
+  // slot start and end times are not allowed on a booked va appointment.
+  delete slot.start;
+  delete slot.end;
+
+  return {
+    kind: 'clinic',
+    status: 'booked',
+    clinic: getClinicId(clinic),
+    slot,
+    extension: {
+      desiredDate: `${data.preferredDate}T00:00:00+00:00`,
+    },
+    locationId: data.vaFacility,
+    reasonCode: getReasonCode({
+      data,
+      isCC: false,
+      isDS: true,
+    }),
   };
 }

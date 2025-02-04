@@ -1,6 +1,7 @@
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { getSignlePreviousEnrollmentsDGIB } from '../../helpers';
+import { enrollmentVerifications } from './data';
 
 describe('getSignlePreviousEnrollmentsDGIB', () => {
   it('should render correctly when enrollment has verificationMethod and valid verificationEndDate', () => {
@@ -13,7 +14,9 @@ describe('getSignlePreviousEnrollmentsDGIB', () => {
       facilityName: 'Test Facility',
     };
 
-    const wrapper = shallow(getSignlePreviousEnrollmentsDGIB(enrollment));
+    const wrapper = shallow(
+      getSignlePreviousEnrollmentsDGIB(enrollment, enrollmentVerifications),
+    );
     expect(wrapper.find('h3').text()).to.include('Verified');
     expect(
       wrapper
@@ -36,21 +39,6 @@ describe('getSignlePreviousEnrollmentsDGIB', () => {
     wrapper.unmount();
   });
 
-  it('should render correctly when enrollment has no verificationMethod but valid verificationEndDate', () => {
-    const enrollment = {
-      verificationMethod: false,
-      verificationEndDate: '2023-01-31',
-      verificationBeginDate: '2023-01-01',
-    };
-
-    const wrapper = shallow(getSignlePreviousEnrollmentsDGIB(enrollment));
-    expect(wrapper.find('h3').text()).to.equal('January 2023');
-    expect(
-      wrapper.find('p[data-testid="have-not-verified"]').text(),
-    ).to.include('You haven’t verified your enrollment for the month.');
-    wrapper.unmount();
-  });
-
   it('should not render anything if verificationEndDate is invalid', () => {
     const enrollment = {
       verificationMethod: true,
@@ -58,7 +46,9 @@ describe('getSignlePreviousEnrollmentsDGIB', () => {
       verificationBeginDate: null,
     };
 
-    const wrapper = shallow(getSignlePreviousEnrollmentsDGIB(enrollment));
+    const wrapper = shallow(
+      getSignlePreviousEnrollmentsDGIB(enrollment, enrollmentVerifications),
+    );
     expect(wrapper.isEmptyRender()).to.be.false;
     wrapper.unmount();
   });

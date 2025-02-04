@@ -74,6 +74,7 @@ const MessageReply = () => {
         isEditing={isEditing}
         setIsEditing={setIsEditing}
         setIsSending={setIsSending}
+        threadId={replyMessage.threadId}
       />
     );
   };

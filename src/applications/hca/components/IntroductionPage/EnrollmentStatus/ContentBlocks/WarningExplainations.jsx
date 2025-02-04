@@ -1,5 +1,5 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { CONTACTS } from '../../../../utils/imports';
 
 // Declare content blocks for export
 const explainBlock1 = (

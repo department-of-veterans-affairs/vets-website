@@ -17,7 +17,7 @@
   "footerRight": "Page %PAGE_NUMBER% of %TOTAL_PAGES%",
   "title": "Lab and test results: Microbiology on August 3, 1995",
   "subject": "VA Medical Record",
-  "preface": "If you have questions about these results, send a secure message to your care team.",
+  "subtitles": ["If you have questions about these results, send a secure message to your care team."],
   "details": {
       "header": "Details about this test",
       "sectionSeparators": true,

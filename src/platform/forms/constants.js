@@ -33,7 +33,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_21P_0969: '21P-0969',
   FORM_21P_527EZ: '21P-527EZ',
   FORM_21P_530: '21P-530',
-  FORM_21P_530V2: '21P-530V2',
+  FORM_21P_530EZ: '21P-530EZ',
   FORM_22_0994: '22-0994',
   FORM_22_10203: '22-10203',
   FORM_22_10215: '22-10215',
@@ -74,6 +74,9 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION:
     'WELCOME_VA_SETUP_REVIEW_INFORMATION',
   FORM_21_4140: '21-4140',
+  FORM_DISPUTE_DEBT: 'DISPUTE-DEBT',
+  FORM_1330M2: '1330M2',
+  FORM_1330M: '1330M',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -113,6 +116,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_10_7959A]: `${tryGetAppUrl('10-7959a')}/`,
     [VA_FORM_IDS.FORM_10_7959C]: `${tryGetAppUrl('10-7959C')}/`,
     [VA_FORM_IDS.FORM_10_7959F_1]: `${tryGetAppUrl('10-7959f-1-FMP')}/`,
+    [VA_FORM_IDS.FORM_10_7959F_2]: `${tryGetAppUrl('fmp-cover-sheet')}/`,
     [VA_FORM_IDS.FORM_10182]: `${tryGetAppUrl('10182-board-appeal')}/`,
     [VA_FORM_IDS.FORM_20_0995]: `${tryGetAppUrl('995-supplemental-claim')}/`,
     [VA_FORM_IDS.FORM_20_0996]: `${tryGetAppUrl('0996-higher-level-review')}/`,
@@ -135,7 +139,7 @@ export const getAllFormLinks = getAppUrlImpl => {
       '21P-0847-substitute-claimant',
     )}/`,
     [VA_FORM_IDS.FORM_21P_527EZ]: `${tryGetAppUrl('pensions')}/`,
-    [VA_FORM_IDS.FORM_21P_530V2]: `${tryGetAppUrl('burials-ez')}/`,
+    [VA_FORM_IDS.FORM_21P_530EZ]: `${tryGetAppUrl('burials-ez')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${tryGetAppUrl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${tryGetAppUrl('10203-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990]: `${tryGetAppUrl('1990-edu-benefits')}/`,
@@ -155,6 +159,9 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION]: `${tryGetAppUrl(
       'welcome-va-setup-review-information',
     )}/`,
+    [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
+    [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
+    [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
   };
 };
 
@@ -273,7 +280,7 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'pensions-527EZ-',
   },
   {
-    id: VA_FORM_IDS.FORM_21P_530V2,
+    id: VA_FORM_IDS.FORM_21P_530EZ,
     benefit: 'burial benefits',
     title: 'burial benefits (21P-530EZ)',
     description: 'burial benefits application (21P-530EZ)',
@@ -424,6 +431,13 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '10-7959f-1-FMP-',
   },
   {
+    id: VA_FORM_IDS.FORM_10_7959F_2,
+    benefit: `Foreign Medical Program (FMP) cover sheet`,
+    title: `Foreign Medical Program (FMP) cover sheet (10-7959f-2)`,
+    description: '',
+    trackingPrefix: 'fmp-cover-sheet-',
+  },
+  {
     id: VA_FORM_IDS.FORM_10_7959C,
     benefit: `other health insurance certification`,
     title: `other health insurance certification (10-7959C)`,
@@ -452,11 +466,25 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: '',
   },
   {
-    id: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
-    benefit: 'welcome va setup review information form',
-    title: 'Welcome VA Setup Review Information Form',
-    description: 'welcome va setup review information form',
-    trackingPrefix: 'welcome-va-setup-review-information-',
+    id: VA_FORM_IDS.FORM_DISPUTE_DEBT,
+    benefit: 'digital dispute for debts',
+    title: 'Dispute your VA debt',
+    description: 'digital dispute for debts',
+    trackingPrefix: 'dispute-debt',
+  },
+  {
+    id: VA_FORM_IDS.FORM_1330M2,
+    benefit: 'Memorials benefits',
+    title: '1330M2 Apply for a medallion in a private cemetery',
+    description: 'Memorials benefits',
+    trackingPrefix: 'memorials-1330m2',
+  },
+  {
+    id: VA_FORM_IDS.FORM_1330M,
+    benefit: 'Memorials benefits',
+    title: '1330M Apply for a medallion in a private cemetery',
+    description: 'Memorials benefits',
+    trackingPrefix: 'memorials-1330m',
   },
 ];
 

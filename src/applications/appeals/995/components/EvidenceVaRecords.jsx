@@ -15,7 +15,7 @@ import {
   isEmptyVaEntry,
 } from '../validations/evidence';
 
-import { focusEvidence, focusFirstError } from '../../shared/utils/focus';
+import { focusEvidence } from '../../shared/utils/focus';
 import {
   HeaderAndModal,
   IssueAndDates,
@@ -184,9 +184,6 @@ const EvidenceVaRecords = ({
         // event.detail from testing
         const fieldName = event.target?.getAttribute('name') || event.detail;
         updateState({ dirty: { ...currentState.dirty, [fieldName]: true } });
-        if (hasErrors(errors)) {
-          focusFirstError();
-        }
       }
     },
     onChange: event => {

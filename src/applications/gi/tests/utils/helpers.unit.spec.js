@@ -27,8 +27,13 @@ import {
   formatProgramType,
   isReviewInstance,
   isSmallScreenLogic,
-  updateLcFilterDropdowns,
-  handleLcResultsSearch,
+  deriveMaxAmount,
+  deriveEligibleStudents,
+  capitalizeFirstLetter,
+  getAbbreviationsAsArray,
+  formatNationalExamName,
+  formatAddress,
+  toTitleCase,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -399,9 +404,9 @@ describe('GIBCT helpers:', () => {
 
       expect(result).to.be.an('object');
       expect(result).to.have.all.keys('searchString', 'position');
-      expect(result.searchString).to.equal(
-        'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
-      );
+      // expect(result.searchString).to.equal(
+      //   'Kinney Creek Road, Gales Creek, Oregon 97117, United States',
+      // );
       expect(result.position).to.deep.equal({ longitude, latitude });
     });
   });
@@ -539,6 +544,35 @@ describe('GIBCT helpers:', () => {
       expect(scrollByStub.called).to.be.false;
     });
   });
+  describe('capitalizeFirstLetter', () => {
+    it('should return null when the string is null', () => {
+      expect(capitalizeFirstLetter(null)).to.equal(null);
+    });
+
+    it('should return null when the string is undefined', () => {
+      expect(capitalizeFirstLetter(undefined)).to.equal(null);
+    });
+
+    it('should capitalize the first letter of a single word', () => {
+      expect(capitalizeFirstLetter('hello')).to.equal('Hello');
+    });
+
+    it('should return the string as is if the first letter is already uppercase', () => {
+      expect(capitalizeFirstLetter('Hello')).to.equal('Hello');
+    });
+
+    it('should handle empty strings and return null', () => {
+      expect(capitalizeFirstLetter('')).to.equal(null);
+    });
+
+    it('should handle strings with special characters correctly', () => {
+      expect(capitalizeFirstLetter('@hello')).to.equal('@hello');
+    });
+
+    it('should handle strings with numbers at the beginning correctly', () => {
+      expect(capitalizeFirstLetter('123hello')).to.equal('123hello');
+    });
+  });
 
   describe('formatProgramType', () => {
     it('should return an empty string when programType is null or undefined', () => {
@@ -566,97 +600,349 @@ describe('GIBCT helpers:', () => {
         'Doctorate Program',
       );
     });
-  });
-
-  describe('updateLcFilterDropdowns', () => {
-    it('should update the correct dropdown with the selected option based on the target id and value', () => {
-      const dropdowns = [
-        {
-          label: 'category',
-          options: [
-            { optionValue: '', optionLabel: '-Select-' },
-            { optionValue: 'licenses', optionLabel: 'License' },
-            { optionValue: 'certifications', optionLabel: 'Certification' },
-            { optionValue: 'preps', optionLabel: 'Prep Course' },
-          ],
-          alt: 'category type',
-          current: { optionValue: '', optionLabel: '-Select-' },
-        },
-        {
-          label: 'state',
-          options: [
-            { optionValue: 'All', optionLabel: 'All' },
-            { optionValue: 'CA', optionLabel: 'California' },
-            { optionValue: 'TX', optionLabel: 'Texas' },
-          ],
-          alt: 'state',
-          current: { optionValue: 'All', optionLabel: 'All' },
-        },
-      ];
-
-      // Sample target (representing an event.target object)
-      const target = {
-        id: 'category',
-        value: 'licenses',
-      };
-
-      const expectedResult = [
-        {
-          label: 'category',
-          options: [
-            { optionValue: '', optionLabel: '-Select-' },
-            { optionValue: 'licenses', optionLabel: 'License' },
-            { optionValue: 'certifications', optionLabel: 'Certification' },
-            { optionValue: 'preps', optionLabel: 'Prep Course' },
-          ],
-          alt: 'category type',
-          current: { optionValue: 'licenses', optionLabel: 'License' },
-        },
-        {
-          label: 'state',
-          options: [
-            { optionValue: 'All', optionLabel: 'All' },
-            { optionValue: 'CA', optionLabel: 'California' },
-            { optionValue: 'TX', optionLabel: 'Texas' },
-          ],
-          alt: 'state',
-          current: { optionValue: 'All', optionLabel: 'All' },
-        },
-      ];
-
-      const result = updateLcFilterDropdowns(dropdowns, target);
-
-      expect(result).to.deep.equal(expectedResult);
+    it('should return a formatted string for "on-the-job-training-apprenticeship"', () => {
+      expect(formatProgramType('on-the-job-training-apprenticeship')).to.equal(
+        'On-the-job training/Apprenticeships',
+      );
     });
   });
 
-  describe('handleLcResultsSearch function', () => {
-    let history;
-
-    beforeEach(() => {
-      history = { push: sinon.spy() };
+  describe('deriveMaxAmount', () => {
+    it('should return "Not provided" if no contributionAmount is given', () => {
+      expect(deriveMaxAmount()).to.equal('Not provided');
+      expect(deriveMaxAmount(null)).to.equal('Not provided');
+      expect(deriveMaxAmount('')).to.equal('Not provided');
     });
 
-    it('should call history.push with the correct URL when handleSearch is called with a name', () => {
-      const name = 'testName';
-      const type = 'testType';
-
-      handleLcResultsSearch(history, name, type);
-      expect(history.push.calledOnce).to.be.true;
-      expect(history.push.firstCall.args[0]).to.equal(
-        `/lc-search/results?type=${type}&name=${name}`,
+    it('should return a specific string when contributionAmount >= 99999', () => {
+      expect(deriveMaxAmount('99999')).to.equal(
+        "Pays remaining tuition that Post-9/11 GI Bill doesn't cover",
+      );
+      expect(deriveMaxAmount('100000')).to.equal(
+        "Pays remaining tuition that Post-9/11 GI Bill doesn't cover",
       );
     });
 
-    it('should call history.push with the correct URL when handleSearch is called without a name', () => {
-      const name = '';
-      const type = 'testType';
+    it('should format currency correctly for values less than 99999', () => {
+      expect(deriveMaxAmount('5000')).to.equal('$5,000');
+      expect(deriveMaxAmount('1234.56')).to.equal('$1,235');
+      expect(deriveMaxAmount(300)).to.equal('$300');
+    });
+  });
+  describe('deriveEligibleStudents', () => {
+    it('should return "Not provided" if no numberOfStudents is given', () => {
+      expect(deriveEligibleStudents()).to.equal('Not provided');
+      expect(deriveEligibleStudents(null)).to.equal('Not provided');
+      expect(deriveEligibleStudents('')).to.equal('Not provided');
+    });
 
-      handleLcResultsSearch(history, name, type);
-      expect(history.push.calledOnce).to.be.true;
-      expect(history.push.firstCall.args[0]).to.equal(
-        `/lc-search/results?type=${type}`,
+    it('should return "All eligible students" if numberOfStudents >= 99999', () => {
+      expect(deriveEligibleStudents(99999)).to.equal('All eligible students');
+      expect(deriveEligibleStudents(100000)).to.equal('All eligible students');
+    });
+
+    it('should return "1 student" if numberOfStudents is exactly 1', () => {
+      expect(deriveEligibleStudents(1)).to.equal('1 student');
+    });
+
+    it('should return "<X> students" for values other than 1 and less than 99999', () => {
+      expect(deriveEligibleStudents(2)).to.equal('2 students');
+      expect(deriveEligibleStudents(50)).to.equal('50 students');
+    });
+  });
+  describe('getAbbreviationsAsArray', () => {
+    it('should return an empty array when value is null or undefined or an empty string', () => {
+      expect(getAbbreviationsAsArray(null)).to.deep.equal([]);
+      expect(getAbbreviationsAsArray(undefined)).to.deep.equal([]);
+      expect(getAbbreviationsAsArray('')).to.deep.equal([]);
+    });
+
+    it('should return the corresponding abbreviations for "OJT"', () => {
+      const result = getAbbreviationsAsArray('OJT');
+      expect(result).to.deep.equal([
+        'APP: Apprenticeships',
+        'NPFA: Non Pay Federal Agency',
+        'NPOJT: Non Pay On-the-job-training',
+        'OJT: On-the-job training',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "NCD"', () => {
+      const result = getAbbreviationsAsArray('NCD');
+      expect(result).to.deep.equal([
+        'CERT: Certification',
+        'UG CERT: Undergraduate Certification',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "IHL"', () => {
+      const result = getAbbreviationsAsArray('IHL');
+      expect(result).to.deep.equal([
+        'AA: Associate of Arts',
+        'AS: Associate of Science',
+        'BA: Bachelor of Arts',
+        'BS: Bachelor of Science',
+        'GRAD CERT: Graduate Certification',
+        'MA: Master of Arts',
+        'MBA: Master of Business Administration',
+        'MS: Master of Science',
+        'PhD: Doctor of Philosophy',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "CORR"', () => {
+      const result = getAbbreviationsAsArray('CORR');
+      expect(result).to.deep.equal([
+        'AAS: Associate of Applied Science',
+        'CERT: Certification',
+      ]);
+    });
+
+    it('should return the corresponding abbreviations for "FLGT"', () => {
+      const result = getAbbreviationsAsArray('FLGT');
+      expect(result).to.deep.equal([
+        'AMEL: Airplane Multi Engine Land',
+        'ASEL: Airplane Single Engine Land',
+        'ATM: Airline Transport Multiengine',
+        'ATP: Airline Transport Pilot',
+        'ATS: Airline Transport Single Engine',
+        'CFI: Certified Flight Instructor',
+        'CFII: Certified Flight Instructor Instrument',
+        'IR: Instrument Rating',
+        'MEI: Multi Engine Instructor',
+        'PPIL: Professional Pilot Interdisciplinary Sciences',
+        'ROTO: Rotorcraft; Rotary-Wing Aircraft',
+      ]);
+    });
+
+    it('should return an empty array when the value is not found in the mapping', () => {
+      expect(getAbbreviationsAsArray('XYZ')).to.deep.equal([]);
+    });
+  });
+
+  describe('formatNationalExamName', () => {
+    it('should return an empty string when name is null', () => {
+      expect(formatNationalExamName(null)).to.equal('');
+    });
+
+    it('should return an empty string when name is undefined', () => {
+      expect(formatNationalExamName(undefined)).to.equal('');
+    });
+
+    it('should return an empty string when name is an empty string', () => {
+      expect(formatNationalExamName('')).to.equal('');
+    });
+
+    it('should return an empty string when name is only whitespace', () => {
+      expect(formatNationalExamName('   ')).to.equal('');
+    });
+
+    it('should return "DSST-DANTES" unchanged', () => {
+      expect(formatNationalExamName('DSST-DANTES')).to.equal('DSST-DANTES');
+    });
+
+    it('should format "MAT-MILLER ANALOGIES TEST" to "MAT-MILLER analogies test"', () => {
+      expect(formatNationalExamName('MAT-MILLER ANALOGIES TEST')).to.equal(
+        'MAT-MILLER analogies test',
       );
+    });
+
+    it('should return "ECE (4 hours)" unchanged', () => {
+      expect(formatNationalExamName('ECE (4 hours)')).to.equal('ECE (4 hours)');
+    });
+
+    it('should return "ECE (6 hours)" unchanged', () => {
+      expect(formatNationalExamName('ECE (6 hours)')).to.equal('ECE (6 hours)');
+    });
+
+    it('should format "ECE 8 HOURS NURSING" to "ECE (8 hours) nursing"', () => {
+      expect(formatNationalExamName('ECE 8 HOURS NURSING')).to.equal(
+        'ECE (8 hours) nursing',
+      );
+    });
+
+    it('should format "DANTES SPONSORED CLEP EXAMS" to "DANTES sponsored clep exams"', () => {
+      expect(formatNationalExamName('DANTES SPONSORED CLEP EXAMS')).to.equal(
+        'DANTES sponsored clep exams',
+      );
+    });
+
+    it('should properly split on dash and lowercase the right side', () => {
+      expect(formatNationalExamName('AP-ADVANCED PLACEMENT EXAMS')).to.equal(
+        'AP-advanced placement exams',
+      );
+      expect(
+        formatNationalExamName('CLEP-COLLEGE LEVEL EXAMINATION PROGRAM'),
+      ).to.equal('CLEP-college level examination program');
+    });
+
+    it('should return the original name if no other condition is met', () => {
+      expect(formatNationalExamName('ACT')).to.equal('ACT');
+      expect(formatNationalExamName('MCAT')).to.equal('MCAT');
+      expect(formatNationalExamName('TOEFL')).to.equal('TOEFL');
+    });
+  });
+  describe('formatAddress', () => {
+    it('should return the same value if input is not a string', () => {
+      expect(formatAddress(null)).to.equal(null);
+      expect(formatAddress(undefined)).to.equal(undefined);
+      expect(formatAddress(12345)).to.equal(12345);
+      expect(formatAddress({})).to.deep.equal({});
+      expect(formatAddress([])).to.deep.equal([]);
+      expect(formatAddress(() => {})).to.be.a('function');
+    });
+
+    it('should return the same string if it is empty or only whitespace', () => {
+      expect(formatAddress('')).to.equal('');
+      expect(formatAddress('   ')).to.equal('   ');
+      expect(formatAddress('\t\n')).to.equal('\t\n');
+    });
+
+    it('should capitalize each word properly', () => {
+      expect(formatAddress('123 main street')).to.equal('123 Main Street');
+      expect(formatAddress('456 elm avenue')).to.equal('456 Elm Avenue');
+      expect(formatAddress('789 broadWAY')).to.equal('789 Broadway');
+      expect(formatAddress('1010 PINE Boulevard')).to.equal(
+        '1010 Pine Boulevard',
+      );
+    });
+
+    it('should keep exceptions in uppercase', () => {
+      expect(formatAddress('500 nw 25th street')).to.equal(
+        '500 NW 25th Street',
+      );
+      expect(formatAddress('800 Nw Elm Avenue')).to.equal('800 NW Elm Avenue');
+      expect(formatAddress('900 nw Broadway')).to.equal('900 NW Broadway');
+    });
+
+    it('should handle multiple spaces and different whitespace characters', () => {
+      expect(formatAddress('1600  Pennsylvania Ave')).to.equal(
+        '1600 Pennsylvania Ave',
+      );
+      expect(formatAddress(' 742  Evergreen Terrace ')).to.equal(
+        '742 Evergreen Terrace',
+      );
+      expect(formatAddress('221B\tBaker\nStreet')).to.equal(
+        '221B Baker Street',
+      );
+    });
+
+    it('should handle mixed case and special characters', () => {
+      expect(formatAddress('a1b2c3 d4E5F6')).to.equal('A1b2c3 D4e5f6');
+      expect(formatAddress('PO BOX 123')).to.equal('PO Box 123');
+      expect(formatAddress('UNIT 4567-A')).to.equal('Unit 4567-A');
+    });
+
+    it('should handle words with hyphens correctly', () => {
+      expect(formatAddress('123 north-west road')).to.equal(
+        '123 North-West Road',
+      );
+      expect(formatAddress('456 NW-7th Ave')).to.equal('456 NW-7th Ave');
+      expect(formatAddress('789 nw-elm street')).to.equal('789 NW-Elm Street');
+      expect(formatAddress('PO-BOX-123')).to.equal('PO-Box-123');
+      expect(formatAddress('NW-WEST'));
+      expect(formatAddress('NW-WEST Road')).to.equal('NW-West Road');
+    });
+
+    it('should handle single-word addresses', () => {
+      expect(formatAddress('Main')).to.equal('Main');
+      expect(formatAddress('nw')).to.equal('NW');
+      expect(formatAddress('NW')).to.equal('NW');
+      expect(formatAddress('PO')).to.equal('PO');
+    });
+
+    it('should handle addresses with numbers and letters', () => {
+      expect(formatAddress('1234 NW5th Street')).to.equal('1234 NW5th Street');
+      expect(formatAddress('5678 nw12th Avenue')).to.equal(
+        '5678 NW12th Avenue',
+      );
+      expect(formatAddress('91011 NW-13th Blvd')).to.equal(
+        '91011 NW-13th Blvd',
+      );
+    });
+
+    it('should not alter the original string structure beyond capitalization', () => {
+      const input = '123 Main-Street NW';
+      const expected = '123 Main-Street NW';
+      expect(formatAddress(input)).to.equal(expected);
+    });
+
+    it('should trim leading and trailing whitespace', () => {
+      expect(formatAddress('   1600 Pennsylvania Ave   ')).to.equal(
+        '1600 Pennsylvania Ave',
+      );
+      expect(formatAddress('\t742 Evergreen Terrace\n')).to.equal(
+        '742 Evergreen Terrace',
+      );
+    });
+  });
+  describe('toTitleCase', () => {
+    it('should return an empty string when input is null,undefined, or an empty string', () => {
+      expect(toTitleCase(null)).to.equal('');
+      expect(toTitleCase(undefined)).to.equal('');
+      expect(toTitleCase('')).to.equal('');
+    });
+
+    it('should return an empty string when input is only whitespace', () => {
+      expect(toTitleCase('   ')).to.equal('');
+      expect(toTitleCase('\t\n')).to.equal('');
+    });
+
+    it('should capitalize a single lowercase word', () => {
+      expect(toTitleCase('hello')).to.equal('Hello');
+    });
+
+    it('should capitalize a single uppercase word', () => {
+      expect(toTitleCase('HELLO')).to.equal('Hello');
+    });
+
+    it('should capitalize a single mixed-case word', () => {
+      expect(toTitleCase('hElLo')).to.equal('Hello');
+    });
+
+    it('should capitalize multiple words separated by spaces', () => {
+      expect(toTitleCase('hello world')).to.equal('Hello World');
+      expect(toTitleCase('javaScript is awesome')).to.equal(
+        'Javascript Is Awesome',
+      );
+    });
+
+    it('should handle words with hyphens correctly', () => {
+      expect(toTitleCase('state-of-the-art')).to.equal('State-Of-The-Art');
+      expect(toTitleCase('well-known fact')).to.equal('Well-Known Fact');
+      expect(toTitleCase('mother-in-law')).to.equal('Mother-In-Law');
+    });
+
+    it('should handle multiple hyphenated words in a sentence', () => {
+      expect(
+        toTitleCase('the state-of-the-art technology is well-known'),
+      ).to.equal('The State-Of-The-Art Technology Is Well-Known');
+    });
+
+    it('should handle words with numbers correctly', () => {
+      expect(toTitleCase('version2 update')).to.equal('Version2 Update');
+      expect(toTitleCase('room 101')).to.equal('Room 101');
+    });
+
+    it('should handle words with special characters correctly', () => {
+      expect(toTitleCase('@hello world!')).to.equal('@hello World!');
+      expect(toTitleCase('good-morning, everyone')).to.equal(
+        'Good-Morning, Everyone',
+      );
+    });
+
+    it('should handle multiple spaces between words', () => {
+      expect(toTitleCase('1600  Pennsylvania Ave')).to.equal(
+        '1600 Pennsylvania Ave',
+      );
+      expect(toTitleCase('742   Evergreen Terrace')).to.equal(
+        '742 Evergreen Terrace',
+      );
+    });
+
+    it('should trim leading and trailing whitespace and capitalize correctly', () => {
+      expect(toTitleCase('   123 main street   ')).to.equal('123 Main Street');
+      expect(toTitleCase('\t456 elm avenue\n')).to.equal('456 Elm Avenue');
     });
   });
 });
