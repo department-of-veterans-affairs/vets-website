@@ -17,7 +17,7 @@ const useGetReferralById = id => {
         dispatch(fetchReferralById(id));
       }
     },
-    [dispatch, isInCCPilot, id, referralFetchStatus, referral],
+    [dispatch, isInCCPilot, id, referral],
   );
   return {
     referral,

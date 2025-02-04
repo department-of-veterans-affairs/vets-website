@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-
+import { waitFor } from '@testing-library/dom';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -92,17 +92,13 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
   });
 
   it('should display the error alert when fetch fails', async () => {
-    const store = createTestStore({
-      ...initialState,
-      referral: {
-        referralDetails: [],
-        referralFetchStatus: FETCH_STATUS.failed,
-      },
-    });
+    const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
       path: '/?id=error',
     });
-    expect(await screen.getByTestId('referral-error')).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('referral-error')).to.exist;
+    });
   });
 });
