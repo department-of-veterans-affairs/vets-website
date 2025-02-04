@@ -7,6 +7,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
+import { allContacts, noAddressContacts } from '../../pages/contactInformation';
 
 // TO DO - update this unit test!
 
@@ -32,5 +33,18 @@ describe('contact information page', () => {
   it('should have ui:required return true', () => {
     // code coverage
     expect(uiSchema['ui:required']()).to.be.true;
+  });
+
+  it('should update schema when housingRisk value is true', () => {
+    const formData = { housingRisk: true };
+    const resultSchema = uiSchema['ui:options'].updateSchema(formData, schema);
+    expect(resultSchema.properties.veteran.required).to.deep.equal(
+      noAddressContacts,
+    );
+  });
+
+  it('should not update schema when housingRisk value is false', () => {
+    const resultSchema = uiSchema['ui:options'].updateSchema(undefined, schema);
+    expect(resultSchema.properties.veteran.required).to.deep.equal(allContacts);
   });
 });
