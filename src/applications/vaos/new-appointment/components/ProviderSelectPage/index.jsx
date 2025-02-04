@@ -4,16 +4,17 @@ import ErrorMessage from '../../../components/ErrorMessage';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
-
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
 import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
 
 const pageKey = 'selectProvider';
 
 export default function SelectProviderPage() {
-  // const dispatch = useDispatch();
-
-  const { loading, patientRelationshipsError } = useGetPatientRelationships();
+  const {
+    loading,
+    patientRelationshipsError,
+    patientProviderRelationships,
+  } = useGetPatientRelationships();
 
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
@@ -37,18 +38,9 @@ export default function SelectProviderPage() {
     );
   }
 
-  // const {
-  //   // patientProviderRelationships,
-  //   patientProviderRelationshipsStatus,
-  // } = useSelector(selectPatientProviderRelationships, shallowEqual);
-
-  const patientProviderRelationships = [];
-
-  // const singleProviderTitle = 'Your nutrition and food provider';
-  // const pageHeader =
-  //   patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
-
-  const pageHeader = 'Your nutrition and food provider';
+  const singleProviderTitle = 'Your nutrition and food provider';
+  const pageHeader =
+    patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
 
   return (
     <div>
