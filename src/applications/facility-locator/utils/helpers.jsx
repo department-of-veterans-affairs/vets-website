@@ -37,7 +37,14 @@ export const buildMarker = (type, values, selectMobileMapPin) => {
     markerElement.textContent = attrs.letter;
     markerElement.className = `i-pin-card-map pin-${attrs.letter}`;
 
-    markerElement.addEventListener('click', () => {
+    markerElement.addEventListener('click', function() {
+      const activePin = document.getElementById('active-pin');
+
+      if (activePin) {
+        activePin.removeAttribute('id');
+      }
+
+      this.id = 'active-pin';
       const locationElement = document.getElementById(loc.id);
 
       selectMobileMapPin({

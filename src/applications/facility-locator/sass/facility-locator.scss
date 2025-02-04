@@ -459,8 +459,29 @@ $text-color: rgba(27, 27, 27, 1);
   align-content: center;
   display: inline-flex;
   font-size: 0.9375rem;
+  font-weight: bold;
   width: 1.5rem;
   height: 1.5rem;
+
+  &#active-pin {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 16px;
+    background-color: var(--vads-color-link);
+  }
+
+  &#active-pin::after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    bottom: -3px;
+    left: 8px;
+    border: 12px solid var(--vads-color-link);
+    transform: rotate(45deg);
+    z-index: -1;
+  }
 }
 
 .notice-marg-pad {
