@@ -95,11 +95,14 @@ export default function LicenseCertificationSearchPage({ flag }) {
 
   const handleSearch = (category, name) => {
     const newParams = {
-      categories: [category],
+      category: [category],
       name,
     };
+
+    // preserves category filter option in case user navigates back to this page
     updateQueryParam(history, location, newParams);
-    handleLcResultsSearch(history, newParams.categories, name);
+
+    handleLcResultsSearch(history, newParams.category, name);
   };
 
   const handleReset = callback => {

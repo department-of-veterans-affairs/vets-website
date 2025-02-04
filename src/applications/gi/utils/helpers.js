@@ -571,10 +571,11 @@ export const filterSuggestions = (
     let allowContinue = true;
 
     if (
-      categoryFilters !== 'all' &&
-      !categoryFilters.includes(result.eduLacTypeNm)
-    )
+      !categoryFilters.includes('all') &&
+      !categoryFilters.includes(result.eduLacTypeNm.toLowerCase())
+    ) {
       return false;
+    }
     if (
       stateFilter !== 'all' &&
       stateFilter !== result.state &&

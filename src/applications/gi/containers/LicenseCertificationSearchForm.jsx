@@ -26,7 +26,7 @@ export default function LicenseCertificationSearchForm({
     state => state.licenseCertificationSearch,
   );
 
-  const { nameParam, categoryParam } = showLcParams(location);
+  const { nameParam, categoryParams } = showLcParams(location);
 
   useLcpFilter({
     flag,
@@ -36,8 +36,8 @@ export default function LicenseCertificationSearchForm({
 
   // If available, use url query params to assign initial dropdown values
   useEffect(() => {
-    if (categoryParam) {
-      setDropdown(updateCategoryDropdown(categoryParam));
+    if (categoryParams) {
+      setDropdown(updateCategoryDropdown(categoryParams[0]));
     }
 
     if (nameParam) {
@@ -46,7 +46,6 @@ export default function LicenseCertificationSearchForm({
   }, []);
 
   const handleChange = e => {
-    // console.log('category dropdown updated 🟢');
     setDropdown(updateCategoryDropdown(e.target.value));
   };
 

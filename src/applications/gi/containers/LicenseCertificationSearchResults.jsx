@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ADDRESS_DATA from 'platform/forms/address/data';
 
@@ -10,6 +10,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
+import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
 import {
   capitalizeFirstLetter,
   formatResultCount,
@@ -17,10 +18,9 @@ import {
   isSmallScreen,
   showLcParams,
   showMultipleNames,
-  updateQueryParam,
   updateStateDropdown,
 } from '../utils/helpers';
-import { useLcpFilter } from '../utils/useLcpFilter';
+// import { useLcpFilter } from '../utils/useLcpFilter';
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 import Dropdown from '../components/Dropdown';
 // import SearchAccordion from '../components/SearchAccordion';
@@ -52,49 +52,69 @@ const checkboxMap = (categories, checkedList) => {
   ];
 };
 
-export default function LicenseCertificationSearchResults({
-  // error,
-  flag,
-}) {
+// export default function LicenseCertificationSearchResults({ flag }) {
+export default function LicenseCertificationSearchResults() {
   const location = useLocation();
   const history = useHistory();
+  // const { nameParam, categoryParams, stateParam } = showLcParams(location);
+  const { nameParam, categoryParams } = showLcParams(location);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
-
-  const { nameParam, categoryParams, stateParam } = showLcParams(location);
-
+  const [allowUpdate, setAllowUpdate] = useState(false);
+  const [activeCategories, setActiveCategories] = useState(categoryParams);
   const [categoryCheckboxes, setCategoryCheckboxes] = useState(
     checkboxMap(lacpCategoryList, categoryParams),
   );
+
+  const dispatch = useDispatch();
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
 
-  // category list is an array, useMemo to maintain referential equality
-  const categoryArray = useMemo(() => categoryParams, [categoryCheckboxes]); // ??
-
   const handleSearch = (categories, name, state) => {
     const newParams = {
-      categories,
+      category: categories,
       name,
       state,
     };
 
-    updateQueryParam(history, location, newParams);
-    handleLcResultsSearch(history, categories, name, state);
+    setAllowUpdate(true);
+    setActiveCategories(categories);
+    handleLcResultsSearch(history, newParams.category, name, state);
   };
 
   const [dropdown, setDropdown] = useState(
     updateStateDropdown(showMultipleNames(filteredResults, nameParam)),
   );
 
-  useLcpFilter({
-    flag,
-    name: nameParam,
-    categoryValues: categoryArray,
-    locationValue: stateParam,
-  });
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      dispatch(fetchLicenseCertificationResults());
+    }
+  }, []);
+
+  useEffect(
+    () => {
+      if (allowUpdate) {
+        dispatch(filterLcResults('', categoryParams, 'all'));
+        // dispatch(filterLcResults(nameParam, categoryParams, locationValue));
+      }
+
+      return () => {
+        setAllowUpdate(false);
+      };
+    },
+    [categoryParams, allowUpdate],
+  );
+
+  // useLcpFilter({
+  //   flag,
+  //   name: nameParam,
+  //   categoryValues: activeCategories,
+  //   locationValue: stateParam,
+  // });
 
   const itemsPerPage = 10;
 
@@ -151,16 +171,19 @@ export default function LicenseCertificationSearchResults({
 
   const renderStateFilter = () => {
     return (
-      <Dropdown
-        label="Applies to only license and prep course category type. Certifications are available nationwide."
-        name={dropdown.label}
-        alt="Filter results by state"
-        options={dropdown.options}
-        value={dropdown.current.optionLabel}
-        onChange={handleChange}
-        className="state-dropdown"
-        visible
-      />
+      <>
+        <h3 className="vads-u-margin-bottom--0">State</h3>
+        <Dropdown
+          label="Applies to only license and prep course category type. Certifications are available nationwide."
+          name={dropdown.label}
+          alt="Filter results by state"
+          options={dropdown.options}
+          value={dropdown.current.optionLabel}
+          onChange={handleChange}
+          className="state-dropdown"
+          visible
+        />
+      </>
     );
   };
 
@@ -192,15 +215,6 @@ export default function LicenseCertificationSearchResults({
     );
   };
 
-  const renderLocation = () => {
-    return (
-      <>
-        <h3 className="vads-u-margin-bottom--0">State</h3>
-        {renderStateFilter()}
-      </>
-    );
-  };
-
   const renderSearchInfo = () => {
     return (
       <>
@@ -225,7 +239,7 @@ export default function LicenseCertificationSearchResults({
   const filterControls = (
     <div>
       {categoryTypeFilter(categoryCheckboxes)}
-      {renderLocation()}
+      {renderStateFilter()}
     </div>
   );
 
@@ -288,7 +302,7 @@ export default function LicenseCertificationSearchResults({
                             handleSearch(
                               categoryCheckboxes
                                 .filter(checkbox => checkbox.checked === true)
-                                .map(category => category.name),
+                                .map(option => option.name),
                               nameParam,
                               dropdown.current.optionValue,
                             )
@@ -298,47 +312,60 @@ export default function LicenseCertificationSearchResults({
                         </LicenseCertificationFilterAccordion>
                       </div>
                     </div>
-                    <ul
-                      className={
-                        !smallScreen
-                          ? 'column small-8 vads-u-padding--0 vads-u-padding-left--2 lc-result-cards-wrapper vads-u-margin-top--0 '
-                          : 'column small-12 vads-u-padding--0 lc-result-cards-wrapper vads-u-margin-top--0'
-                      }
-                    >
-                      {currentResults.map((result, index) => {
-                        if (index === 0) return null;
-                        return (
-                          <li className="vads-u-padding-bottom--2" key={index}>
-                            <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">
-                              <h3 className="vads-u-margin--0">
-                                {result.lacNm}
-                              </h3>
-                              <h4 className="lc-card-subheader vads-u-margin-top--1p5">
-                                {result.eduLacTypeNm}
-                              </h4>
-                              {result.eduLacTypeNm !== 'Certification' && (
-                                <p className="state vads-u-margin-y--1">
-                                  {ADDRESS_DATA.states[result.state]}
-                                </p>
-                              )}
-                              <va-link
-                                href={`/lc-search/results/${result.enrichedId}`}
-                                text={`View test amount details for ${
-                                  result.lacNm
-                                }`}
-                                type="secondary"
-                                onClick={handleRouteChange(result.enrichedId)}
-                              />
-                            </va-card>
-                          </li>
-                        );
-                      })}
-                    </ul>
+
+                    {activeCategories.length > 0 ? (
+                      <ul
+                        className={
+                          !smallScreen
+                            ? 'column small-8 vads-u-padding--0 vads-u-padding-left--2 lc-result-cards-wrapper vads-u-margin-top--0 '
+                            : 'column small-12 vads-u-padding--0 lc-result-cards-wrapper vads-u-margin-top--0'
+                        }
+                      >
+                        {currentResults.map((result, index) => {
+                          if (index === 0) return null;
+                          return (
+                            <li
+                              className="vads-u-padding-bottom--2"
+                              key={index}
+                            >
+                              <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">
+                                <h3 className="vads-u-margin--0">
+                                  {result.lacNm}
+                                </h3>
+                                <h4 className="lc-card-subheader vads-u-margin-top--1p5">
+                                  {result.eduLacTypeNm}
+                                </h4>
+                                {result.eduLacTypeNm !== 'Certification' && (
+                                  <p className="state vads-u-margin-y--1">
+                                    {ADDRESS_DATA.states[result.state]}
+                                  </p>
+                                )}
+                                <va-link
+                                  href={`/lc-search/results/${
+                                    result.enrichedId
+                                  }`}
+                                  text={`View test amount details for ${
+                                    result.lacNm
+                                  }`}
+                                  type="secondary"
+                                  onClick={handleRouteChange(result.enrichedId)}
+                                />
+                              </va-card>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <p className="vads-u-margin-top--0">
+                        We didn't find results based on the selected criteria.
+                        Please go back to search and try again.
+                      </p>
+                    )}
                   </div>
                 </>
               ) : (
                 <div className="row">
-                  <p className=" vads-u-margin-top--0">
+                  <p className="vads-u-margin-top--0">
                     We didn't find results based on the selected criteria.
                     Please go back to search and try again.
                   </p>
