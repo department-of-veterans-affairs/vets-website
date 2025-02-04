@@ -101,8 +101,8 @@ export const getInitialFormValues = options => {
 
     if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
       return {
-        signatureName: data.messagingSignature.signatureName,
-        signatureTitle: data.messagingSignature.signatureTitle,
+        signatureName: data?.messagingSignature.signatureName,
+        signatureTitle: data?.messagingSignature.signatureTitle,
       };
     }
 

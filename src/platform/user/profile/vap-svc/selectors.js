@@ -168,7 +168,7 @@ export const hasBadAddress = state =>
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue =
     fieldName === FIELD_NAMES.MESSAGING_SIGNATURE
-      ? state?.user?.profile?.[fieldName]
+      ? state?.user?.profile?.mhvAccount?.[fieldName]
       : state?.vaProfile?.personalInformation?.[fieldName];
 
   const notListedKeySuffix = 'NotListedText';

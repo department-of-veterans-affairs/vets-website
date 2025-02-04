@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import { getMessagingSignature } from 'platform/user/profile/actions';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import GenderIdentityDescription from './GenderIdentityDescription';
 import LegalName from './LegalName';
@@ -30,63 +31,86 @@ const LegalNameDescription = () => (
 );
 
 const PersonalInformationSection = ({ dob }) => {
+  const dispatch = useDispatch();
   const messagingSignatureEnabled = useSelector(
     state => state.featureToggles.mhv_secure_messaging_signature_settings,
   );
   const userServices = useSelector(state => state.user.profile.services);
 
-  const cardFields = [
-    {
-      title: 'Legal name',
-      description: <LegalNameDescription />,
-      value: <LegalName />,
-    },
-    { title: 'Date of birth', value: renderDOB(dob) },
-    {
-      title: 'Preferred name',
-      description:
-        "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
-      id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
-      value: (
-        <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.PREFERRED_NAME}
-          isDeleteDisabled
-        />
-      ),
-    },
-    {
-      title: 'Gender identity',
-      description: <GenderIdentityDescription />,
-      id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
-      value: (
-        <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.GENDER_IDENTITY}
-          isDeleteDisabled
-        />
-      ),
-    },
-    {
-      title: 'Disability rating',
-      value: <DisabilityRating />,
-    },
-  ];
+  const messagingSignature = useSelector(
+    state => state.user.profile.mhvAccount.messagingSignature,
+  );
 
-  if (
-    messagingSignatureEnabled &&
-    userServices.includes(backendServices.MESSAGING)
-  ) {
-    cardFields.push({
-      title: 'Messaging signature',
-      description:
-        'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
-      id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
-      value: (
-        <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
-        />
-      ),
-    });
-  }
+  useEffect(
+    () => {
+      dispatch(getMessagingSignature());
+    },
+    [dispatch],
+  );
+
+  const updatedCardFields = useMemo(
+    () => {
+      const cardFields = [
+        {
+          title: 'Legal name',
+          description: <LegalNameDescription />,
+          value: <LegalName />,
+        },
+        { title: 'Date of birth', value: renderDOB(dob) },
+        {
+          title: 'Preferred name',
+          description:
+            "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
+          id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
+          value: (
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.PREFERRED_NAME}
+              isDeleteDisabled
+            />
+          ),
+        },
+        {
+          title: 'Gender identity',
+          description: <GenderIdentityDescription />,
+          id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
+          value: (
+            <ProfileInformationFieldController
+              fieldName={FIELD_NAMES.GENDER_IDENTITY}
+              isDeleteDisabled
+            />
+          ),
+        },
+        {
+          title: 'Disability rating',
+          value: <DisabilityRating />,
+        },
+      ];
+
+      if (
+        messagingSignature?.signatureName &&
+        messagingSignature?.signatureTitle &&
+        messagingSignatureEnabled &&
+        userServices.includes(backendServices.MESSAGING)
+      ) {
+        return [
+          ...cardFields,
+          {
+            title: 'Messaging signature',
+            description:
+              'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
+            id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
+            value: (
+              <ProfileInformationFieldController
+                fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
+              />
+            ),
+          },
+        ];
+      }
+      return cardFields;
+    },
+    [dob, messagingSignature, messagingSignatureEnabled, userServices],
+  );
 
   return (
     <div className="vads-u-margin-bottom--6">
@@ -126,7 +150,7 @@ const PersonalInformationSection = ({ dob }) => {
           </div>
         </va-additional-info>
       </div>
-      <ProfileInfoCard data={cardFields} level={1} />
+      <ProfileInfoCard data={updatedCardFields} level={1} />
     </div>
   );
 };
@@ -142,7 +166,7 @@ const mapStateToProps = state => ({
   pronouns: state.vaProfile?.personalInformation?.pronouns,
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
-  messagingSignature: state.user?.profile?.messagingSignature,
+  messagingSignature: state.user?.profile?.mhvAccount?.messagingSignature,
 });
 
 export default connect(mapStateToProps)(PersonalInformationSection);

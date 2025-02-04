@@ -11,6 +11,7 @@ import {
   FETCH_MHV_ACCOUNT_SUCCESS,
   REMOVING_SAVED_FORM_SUCCESS,
   PROFILE_ERROR,
+  FETCH_MESSAGING_SIGNATURE,
 } from '../actions';
 
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
     errors: null,
     loading: false,
     termsAndConditionsAccepted: false,
+    messagingSignature: null,
   },
   vapContactInfo: {},
   savedForms: [],
@@ -48,7 +50,6 @@ const initialState = {
   session: {},
   mhvTransitionEligible: false,
   errors: false,
-  messagingSignature: null,
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>
@@ -102,6 +103,19 @@ function profileInformation(state = initialState, action) {
 
     case PROFILE_ERROR:
       return set('errors', true, state);
+
+    case FETCH_MESSAGING_SIGNATURE: {
+      return updateMhvAccountState(state, {
+        messagingSignature: action.payload,
+      });
+    }
+
+    // case FETCH_MESSAGING_SIGNATURE_ERROR: {
+    //   return updateMhvAccountState(state, {
+    //     messagingSignature:
+    //       action.payload || 'Failed to retrieve messaging signature',
+    //   });
+    // }
 
     default:
       return state;
