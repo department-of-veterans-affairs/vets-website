@@ -6,8 +6,7 @@ import { getPatientRelationships } from '../redux/actions';
 import { selectPatientProviderRelationships } from '../redux/selectors';
 
 export function useGetPatientRelationships() {
-  // const [loading, setLoading] = useState(true);
-  const [loading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [patientRelationshipsError, setPatientRelationshipsError] = useState(
     false,
   );
@@ -24,18 +23,23 @@ export function useGetPatientRelationships() {
 
   useEffect(
     () => {
-      // if (
-      //   featureOHDirectSchedule &&
-      //   !patientProviderRelationships.length &&
-      //   patientProviderRelationshipsStatus === FETCH_STATUS.notStarted
-      // ) {
       if (
         featureOHDirectSchedule &&
         patientProviderRelationshipsStatus === FETCH_STATUS.notStarted
       ) {
         dispatch(getPatientRelationships());
       }
-      setPatientRelationshipsError(false);
+
+      if (
+        patientProviderRelationshipsStatus === FETCH_STATUS.succeeded ||
+        patientProviderRelationshipsStatus === FETCH_STATUS.failed
+      ) {
+        setLoading(false);
+      }
+
+      if (patientProviderRelationshipsStatus === FETCH_STATUS.failed) {
+        setPatientRelationshipsError(true);
+      }
     },
     [
       dispatch,
