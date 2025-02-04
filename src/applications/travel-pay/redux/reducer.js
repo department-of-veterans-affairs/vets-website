@@ -34,7 +34,7 @@ function travelPayReducer(state = initialState, action) {
       return {
         ...state,
         travelClaims: {
-          ...state.travelClaims,
+          error: null,
           isLoading: false,
           data: action.payload,
         },
@@ -60,7 +60,7 @@ function travelPayReducer(state = initialState, action) {
       return {
         ...state,
         appointment: {
-          ...state.appointment,
+          error: null,
           isLoading: false,
           data: action.payload,
         },
