@@ -38,20 +38,15 @@ const formConfig = (pathname = null) => {
     rootUrl: manifest.rootUrl,
     urlPrefix: `/${formNumber}/`,
     submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
-    dev: {
-      collapsibleNavLinks: true,
-      showNavLinks: !window.Cypress,
-    },
+    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
     trackingPrefix: 'form-upload-flow-',
     confirmation: ConfirmationPage,
     CustomTopContent,
     CustomReviewTopContent,
-    customText: {
-      appType: 'form',
-    },
+    customText: { appType: 'form' },
     hideReviewChapters: true,
     introduction: IntroductionPage,
-    formId: 'FORM-UPLOAD-FLOW',
+    formId: `${formNumber.toUpperCase()}-UPLOAD`,
     saveInProgress: SAVE_IN_PROGRESS_CONFIG,
     version: 0,
     prefillEnabled: true,
@@ -64,9 +59,7 @@ const formConfig = (pathname = null) => {
     title,
     subTitle,
     defaultDefinitions: {},
-    v3SegmentedProgressBar: {
-      useDiv: false,
-    },
+    v3SegmentedProgressBar: { useDiv: false },
     chapters: {
       personalInformationChapter: {
         title: 'Veteran information',
