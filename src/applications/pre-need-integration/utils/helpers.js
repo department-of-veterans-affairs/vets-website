@@ -1390,13 +1390,14 @@ export const formatSuggestedAddress = address => {
   return '';
 };
 
-export const shouldShowSuggestedAddress = (suggestedAddress, userAddress) => {
-  if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
-  return !(
-    userAddress.street === suggestedAddress.addressLine1 &&
-    userAddress.city === suggestedAddress.city &&
-    userAddress.state === suggestedAddress.stateCode &&
-    userAddress.postalCode === suggestedAddress.zipCode &&
-    userAddress.country === suggestedAddress.countryCodeIso3
-  );
-};
+/* eslint-disable camelcase */
+export const prepareAddressForAPI = address => ({
+  address_line1: address.street,
+  address_line2: address.street2,
+  address_pou: 'RESIDENCE',
+  address_type: 'DOMESTIC',
+  city: address.city,
+  country_code_iso3: address.country,
+  state_code: address.state,
+  zip_code: address.postalCode,
+});
