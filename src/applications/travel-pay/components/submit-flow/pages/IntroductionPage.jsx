@@ -1,25 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { HelpTextManage } from '../../HelpText';
-import { formatDateTime, getDaysLeft } from '../../../util/dates';
+import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
+import AppointmentDetails from '../../AppointmentDetails';
+import { selectAppointment } from '../../../redux/selectors';
 
-const IntroductionPage = ({ appointment, onStart }) => {
-  const [formattedDate] = formatDateTime(appointment.vaos.apiData.start);
-  const daysLeft = getDaysLeft(appointment.vaos.apiData.start);
+const IntroductionPage = ({ onStart }) => {
+  const { data, error, isLoading } = useSelector(selectAppointment);
 
   return (
     <div>
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>
-      <p>
-        You have{' '}
-        <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
-        to file for your appointment on{' '}
-        <strong>
-          {formattedDate} at {appointment.vaos.apiData.location.attributes.name}
-        </strong>
-        .
-      </p>
+      {isLoading && (
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          data-testid="travel-pay-loading-indicator"
+        />
+      )}
+      {error && <AppointmentErrorAlert />}
+      {data && <AppointmentDetails appointment={data} />}
 
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
@@ -40,11 +42,13 @@ const IntroductionPage = ({ appointment, onStart }) => {
             If you’re only claiming mileage, you can file online right now.
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
-          <va-link-action
-            onClick={e => onStart(e)}
-            href="javascript0:void"
-            text="File a mileage only claim"
-          />
+          {!error && (
+            <va-link-action
+              onClick={e => onStart(e)}
+              href="javascript0:void"
+              text="File a mileage only claim"
+            />
+          )}
 
           <p>
             If you’re claiming other expenses, like lodging, meals, or tolls,
@@ -93,7 +97,6 @@ const IntroductionPage = ({ appointment, onStart }) => {
 };
 
 IntroductionPage.propTypes = {
-  appointment: PropTypes.object,
   onStart: PropTypes.func,
 };
 

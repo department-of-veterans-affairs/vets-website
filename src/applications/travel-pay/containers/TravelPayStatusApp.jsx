@@ -35,9 +35,10 @@ export default function TravelPayStatusApp({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims, error } = useSelector(
-    state => state.travelPay,
+  const { isLoading, data, error } = useSelector(
+    state => state.travelPay.travelClaims,
   );
+
   const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
@@ -52,11 +53,11 @@ export default function TravelPayStatusApp({ children }) {
   const [selectedDateFilter, setSelectedDateFilter] = useState('all');
   const [appliedDateFilter, setAppliedDateFilter] = useState('all');
 
-  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+  if (data.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
 
     const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
-    const availableStatuses = new Set(travelClaims.map(c => c.claimStatus));
+    const availableStatuses = new Set(data.map(c => c.claimStatus));
 
     const availableTopStatuses = intersection(
       Array.from(topStatuses),
@@ -76,10 +77,10 @@ export default function TravelPayStatusApp({ children }) {
 
   const dateFilters = getDateFilters();
 
-  if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
+  if (data.length > 0 && datesToFilterBy.length === 0) {
     // Sets initial date filters after travelClaims load
     const initialDateFilters = dateFilters.filter(filter =>
-      travelClaims.some(claim =>
+      data.some(claim =>
         isWithinInterval(new Date(claim.appointmentDateTime), {
           start: filter.start,
           end: filter.end,
@@ -102,10 +103,10 @@ export default function TravelPayStatusApp({ children }) {
 
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort((a, b) => compareClaimsDate(a, b));
+      data.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort((a, b) => compareClaimsDate(b, a));
+      data.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
@@ -165,12 +166,12 @@ export default function TravelPayStatusApp({ children }) {
 
   useEffect(
     () => {
-      if (!hasFetchedClaims && travelClaims.length === 0) {
+      if (data.length === 0 && !hasFetchedClaims) {
         dispatch(getTravelClaims());
         setHasFetchedClaims(true);
       }
     },
-    [dispatch, travelClaims, hasFetchedClaims],
+    [dispatch, data, error, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -179,7 +180,7 @@ export default function TravelPayStatusApp({ children }) {
     filter => filter.label === appliedDateFilter,
   );
 
-  let displayedClaims = travelClaims.filter(claim => {
+  let displayedClaims = data.filter(claim => {
     const statusFilterIncludesClaim =
       appliedStatusFilters.length === 0 ||
       appliedStatusFilters.includes(claim.claimStatus);
@@ -322,7 +323,7 @@ export default function TravelPayStatusApp({ children }) {
             />
           )}
           {!isLoading &&
-            travelClaims.length > 0 && (
+            data.length > 0 && (
               <>
                 <div className="btsss-claims-sort-and-filter-container">
                   <h2 className="vads-u-font-size--h4">Your travel claims</h2>
@@ -397,7 +398,7 @@ export default function TravelPayStatusApp({ children }) {
             )}
           {!isLoading &&
             !error &&
-            travelClaims.length === 0 && <p>No travel claims to show.</p>}
+            data.length === 0 && <p>No travel claims to show.</p>}
           <VaBackToTop />
         </div>
       </article>

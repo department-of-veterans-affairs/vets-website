@@ -1,24 +1,32 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import IntroductionPage from '../../../../components/submit-flow/pages/IntroductionPage';
+import reducer from '../../../../redux/reducer';
 
-const appointment = require('../../../fixtures/appointment.json');
-
-it('should render with link to file a claim', () => {
+describe('Introduction page', () => {
   const props = {
-    appointment,
-    onNext: () => {},
+    onStart: () => {},
   };
-  const screen = render(<IntroductionPage {...props} />);
 
-  expect(screen.getByText('File a travel reimbursement claim')).to.exist;
-  expect(
-    screen.getByText(
-      /Monday, December 30, 2024 at Cheyenne VA Medical Center/i,
-    ),
-  ).to.exist;
-  expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
+  it('should render with link to file a claim', () => {
+    const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: null,
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(screen.getByText('File a travel reimbursement claim')).to.exist;
+    expect(screen.getByTestId('travel-pay-loading-indicator')).to.exist;
+    expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
+  });
 });

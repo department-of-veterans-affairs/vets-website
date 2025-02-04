@@ -2,6 +2,8 @@ const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
+// const appointment = require('./vaos-appointment.json');
+const appointmentNoclaim = require('./vaos-appointment-no-claim.json');
 const user = require('./user.json');
 // const noAddressUser = require('./user-no-address.json');
 
@@ -65,5 +67,20 @@ const responses = {
       modifiedOn: '2024-05-31T16:40:45.781Z',
     });
   },
+  'GET /vaos/v2/appointment/:id': (req, res) => {
+    return res.json(appointmentNoclaim);
+  },
+  // 'GET /vaos/v2/appointment/:id': (req, res) => {
+  //   return res.status(503).json({
+  //     errors: [
+  //       {
+  //         title: 'Service unavailable',
+  //         status: 503,
+  //         detail: 'An unknown error has occured.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
 };
 module.exports = delay(responses, 1000);

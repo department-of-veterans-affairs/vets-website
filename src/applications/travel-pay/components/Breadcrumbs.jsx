@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation, useHistory, useParams } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 
 export default function BreadCrumbs() {
   const { pathname } = useLocation();
@@ -13,7 +14,6 @@ export default function BreadCrumbs() {
 
   // TODO: this might need work - it works for now, but we might need a regex like the isDetailsPage
   const isSubmitWrapper = pathname.includes(`/file-new-claim/${apptId}`);
-  const isFileClaimExplainerPage = pathname.includes('/file-new-claim');
 
   const breadcrumbList = [
     {
@@ -37,14 +37,6 @@ export default function BreadCrumbs() {
     breadcrumbList.push({
       href: '/help',
       label: 'Help: Claim Status Meanings',
-      isRouterLink: true,
-    });
-  }
-
-  if (isFileClaimExplainerPage) {
-    breadcrumbList.push({
-      href: '/file-new-claim',
-      label: 'How to file a travel reimbursement claim',
       isRouterLink: true,
     });
   }
