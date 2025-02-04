@@ -52,11 +52,12 @@ const AuthorizedRoutes = () => {
   );
 
   if (removeLandingPage && location.pathname === `/`) {
-    window.location.replace(
-      cernerPilotSmFeatureFlag
+    const basePath =
+      cernerPilotSmFeatureFlag && window.location.pathname.includes('pilot')
         ? `/my-health/secure-messages-pilot${Paths.INBOX}`
-        : `/my-health/secure-messages${Paths.INBOX}`,
-    );
+        : `/my-health/secure-messages${Paths.INBOX}`;
+
+    window.location.replace(basePath);
     return <></>;
   }
 
