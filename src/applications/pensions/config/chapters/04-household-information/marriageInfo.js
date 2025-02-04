@@ -14,7 +14,7 @@ export default {
       'ui:widget': ArrayCountWidget,
       'ui:field': 'StringField',
       'ui:options': {
-        showFieldLabel: true,
+        showFieldLabel: 'label',
         keepInPageOnReview: true,
         useDlWrap: true,
         classNames: 'vads-u-margin-top--3',
