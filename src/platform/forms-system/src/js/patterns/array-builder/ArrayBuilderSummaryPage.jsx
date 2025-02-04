@@ -8,6 +8,7 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import get from '~/platform/utilities/data/get';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from '~/platform/forms-system/src/js/actions';
+import { isMinimalHeaderPath } from '~/platform/forms-system/src/js/patterns/minimal-header';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import ArrayBuilderCards from './ArrayBuilderCards';
 import ArrayBuilderSummaryReviewPage from './ArrayBuilderSummaryReviewPage';
@@ -62,6 +63,20 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
   return error?.message;
 }
 
+const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
+  const isMinimalHeader = useRef(null);
+  if (isMinimalHeader.current === null) {
+    // only check once
+    isMinimalHeader.current = isMinimalHeaderPath();
+  }
+  const headingLevel =
+    userHeaderLevel || (isMinimalHeader.current && !isReviewPage ? '1' : '3');
+  const headingStyle =
+    isMinimalHeader.current && !isReviewPage ? ' vads-u-font-size--h2' : '';
+
+  return { headingLevel, headingStyle };
+};
+
 /**
  * @param {{
  *   arrayPath: string,
@@ -94,7 +109,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     nounPlural,
     nounSingular,
     required,
-    titleHeaderLevel = '3',
+    titleHeaderLevel,
     useLinkInsteadOfYesNo,
     useButtonInsteadOfYesNo,
   } = arrayBuilderOptions;
@@ -120,7 +135,11 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     const removedAlertRef = useRef(null);
     const reviewErrorAlertRef = useRef(null);
     const { uiSchema, schema } = props;
-    const Heading = `h${titleHeaderLevel}`;
+    const { headingLevel, headingStyle } = useHeadingLevels(
+      titleHeaderLevel,
+      isReviewPage,
+    );
+    const Heading = `h${headingLevel}`;
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
@@ -306,14 +325,18 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       }
     }
 
-    const Title = ({ textType }) => (
-      <Heading
-        className="vads-u-color--gray-dark vads-u-margin-top--0"
-        data-title-for-noun-singular={nounSingular}
-      >
-        {getText(textType, updatedItemData, props.data)}
-      </Heading>
-    );
+    const Title = ({ textType }) => {
+      const text = getText(textType, updatedItemData, props.data);
+
+      return text ? (
+        <Heading
+          className={`vads-u-color--gray-dark vads-u-margin-top--0${headingStyle}`}
+          data-title-for-noun-singular={nounSingular}
+        >
+          {text}
+        </Heading>
+      ) : null;
+    };
 
     const UpdatedAlert = ({ show }) => {
       return (
@@ -393,6 +416,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           onRemove={onRemoveItem}
           isReview={isReviewPage}
           forceRerender={forceRerender}
+          titleHeaderLevel={headingLevel}
         />
       </div>
     );
@@ -416,6 +440,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     let newSchema = schema;
     let title;
     let descriptionWithCards;
+    const NavButtons = props.NavButtons || FormNavButtons;
 
     if (arrayData?.length > 0) {
       title = (
@@ -468,6 +493,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           customPageProps={props}
           arrayBuilderOptions={arrayBuilderOptions}
           addAnotherItemButtonClick={addAnotherItemButtonClick}
+          NavButtons={NavButtons}
         />
       );
     }
@@ -490,7 +516,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
           {/* contentBeforeButtons = save-in-progress links */}
           {props.pageContentBeforeButtons}
           {props.contentBeforeButtons}
-          <FormNavButtons
+          <NavButtons
             goBack={props.goBack}
             goForward={props.onContinue}
             submitToContinue
@@ -524,6 +550,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
+    NavButtons: PropTypes.func,
   };
 
   const mapStateToProps = state => ({

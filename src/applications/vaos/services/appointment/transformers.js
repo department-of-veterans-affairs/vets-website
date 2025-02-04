@@ -154,8 +154,7 @@ export function transformVAOSAppointment(appt) {
   let requestFields = {};
 
   if (isRequest) {
-    const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
-    const { requestedPeriods } = appt;
+    const { requestedPeriods, created } = appt;
     const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
       // preventing the local time zone conversion from occuring

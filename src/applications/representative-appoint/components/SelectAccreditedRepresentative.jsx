@@ -138,6 +138,7 @@ const SelectAccreditedRepresentative = props => {
         //   go backwards to select an attorney, and then our state variables
         //   say an attorney was selected with a non-null organization id
         selectedAccreditedOrganizationId: null,
+        representativeSubmissionMethod: null,
       };
 
       setFormData({

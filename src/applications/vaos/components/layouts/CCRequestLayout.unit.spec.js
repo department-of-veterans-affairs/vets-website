@@ -6,8 +6,11 @@ import {
 } from '../../tests/mocks/setup';
 import CCRequestLayout from './CCRequestLayout';
 
-describe('VAOS Component: VARequestLayout', () => {
+describe('VAOS Component: CCRequestLayout', () => {
   const initialState = {
+    featureToggles: {
+      vaOnlineSchedulingVAOSServiceCCAppointments: true,
+    },
     appointments: {
       facilityData: {
         '983': {
@@ -35,6 +38,7 @@ describe('VAOS Component: VARequestLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         patientComments: 'This is a test:Additional information',
+        created: new Date().toISOString(),
         contact: {
           telecom: [
             {
@@ -52,6 +56,7 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        preferredProviderName: { providerName: 'Clinic 1' },
         preferredDates: [],
         videoData: {},
         vaos: {
@@ -176,6 +181,12 @@ describe('VAOS Component: VARequestLayout', () => {
       expect(window.dataLayer).not.to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
       });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-provider',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-provider',
+      });
     });
   });
 
@@ -185,6 +196,7 @@ describe('VAOS Component: VARequestLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         patientComments: 'This is a test:Additional information',
+        created: new Date().toISOString(),
         contact: {
           telecom: [
             {

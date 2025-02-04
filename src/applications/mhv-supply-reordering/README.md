@@ -36,6 +36,15 @@ Run Cypress from command line:
 - Run all `yarn cy:run --spec "src/applications/mhv-supply-reordering/**/**/*"`
 - Specify browser `-b electron`
 
+### Test coverage
+
+```bash
+$ yarn test:unit --app-folder mhv-supply-reordering --coverage --coverage-html
+$ cd ./coverage
+$ npx http-server
+$ open http://localhost:8080
+```
+
 ## VA Forms - Web Component Fields and Patterns
 
 [[docs](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-web-component-fields-and-patterns)]

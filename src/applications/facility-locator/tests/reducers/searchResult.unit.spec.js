@@ -5,7 +5,7 @@ import {
   FETCH_LOCATIONS,
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
-} from '../../utils/actionTypes';
+} from '../../actions/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {

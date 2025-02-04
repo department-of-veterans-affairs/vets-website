@@ -44,37 +44,43 @@ const ProofOfVeteranStatusNew = ({
     suffix,
   });
 
-  const latestServiceItem = serviceHistory.length ? serviceHistory.at(0) : {};
-  const serviceStartYear = latestServiceItem.beginDate
-    ? latestServiceItem.beginDate.substring(0, 4)
-    : '';
-  const serviceEndYear = latestServiceItem.endDate
-    ? latestServiceItem.endDate.substring(0, 4)
-    : '';
-  const latestServiceDateRange =
-    serviceStartYear.length || serviceEndYear.length
-      ? `${serviceStartYear}–${serviceEndYear}`
-      : '';
-  const latestService = `${getServiceBranchDisplayName(
-    latestServiceItem.branchOfService,
-  )} • ${latestServiceDateRange}`;
+  const getLatestService = () => {
+    if (serviceHistory.length) {
+      const latestServiceItem = serviceHistory.length
+        ? serviceHistory.reduce((latest, current) => {
+            return new Date(current.endDate) > new Date(latest.endDate)
+              ? current
+              : latest;
+          })
+        : null;
+      const serviceStartYear = latestServiceItem.beginDate
+        ? latestServiceItem.beginDate.substring(0, 4)
+        : '';
+      const serviceEndYear = latestServiceItem.endDate
+        ? latestServiceItem.endDate.substring(0, 4)
+        : '';
+      const latestServiceDateRange =
+        serviceStartYear.length || serviceEndYear.length
+          ? `${serviceStartYear}–${serviceEndYear}`
+          : '';
+      return `${getServiceBranchDisplayName(
+        latestServiceItem.branchOfService,
+      )} • ${latestServiceDateRange}`;
+    }
+    return null;
+  };
+
+  const latestService = getLatestService();
 
   const userHasRequiredCardData = !!(
     serviceHistory.length && formattedFullName
   );
-
   const hasConfirmationData = !!(data && data.attributes);
-
   const pdfData = {
     title: `Veteran status card for ${formattedFullName}`,
     details: {
       fullName: formattedFullName,
-      serviceHistory: serviceHistory.map(item => {
-        return {
-          ...item,
-          branchOfService: getServiceBranchDisplayName(item.branchOfService),
-        };
-      }),
+      latestService,
       totalDisabilityRating,
       edipi,
       image: {
@@ -138,7 +144,7 @@ const ProofOfVeteranStatusNew = ({
 
     try {
       await generatePdf(
-        'veteranStatus',
+        'veteranStatusNew',
         'Veteran status card',
         pdfData,
         !isMobile,
@@ -151,7 +157,39 @@ const ProofOfVeteranStatusNew = ({
     }
   };
 
-  const componentizedMessage = vetStatusEligibility.message.map(item => {
+  const isVetStatusEligibilityPopulated =
+    Object.keys(vetStatusEligibility).length !== 0;
+
+  const componentizedMessage = isVetStatusEligibilityPopulated
+    ? vetStatusEligibility?.message.map(item => {
+        const contactNumber = `${CONTACTS.DS_LOGON.slice(
+          0,
+          3,
+        )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
+        const startIndex = item.indexOf(contactNumber);
+
+        if (startIndex === -1) {
+          return item;
+        }
+
+        const before = item.slice(0, startIndex);
+        const telephone = item.slice(
+          startIndex,
+          startIndex + contactNumber.length + 11,
+        );
+        const after = item.slice(startIndex + telephone.length);
+
+        return (
+          <>
+            {before}
+            <va-telephone contact={contactNumber} /> (
+            <va-telephone contact={CONTACTS[711]} tty />){after}
+          </>
+        );
+      })
+    : null;
+
+  const contactInfoElements = data?.message?.map(item => {
     const contactNumber = `${CONTACTS.DS_LOGON.slice(
       0,
       3,
@@ -178,32 +216,52 @@ const ProofOfVeteranStatusNew = ({
     );
   });
 
-  const contactInfoElements = data?.attributes?.message?.map(item => {
-    const contactNumber = `${CONTACTS.DS_LOGON.slice(
-      0,
-      3,
-    )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
-    const startIndex = item.indexOf(contactNumber);
+  const systemErrrorAlert = (
+    <va-alert close-btn-aria-label="Close notification" status="error" visible>
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+        We’re sorry. There’s a problem with our system. We can’t show your
+        Veteran status card right now. Try again later.
+      </p>
+    </va-alert>
+  );
 
-    if (startIndex === -1) {
-      return item;
-    }
+  const lighthouseApiErrorMessage = (
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+    >
+      {contactInfoElements?.map((message, i) => {
+        if (i === 0) {
+          return (
+            <p key={i} className="vads-u-margin-top--0">
+              {message}
+            </p>
+          );
+        }
+        return <p key={i}>{message}</p>;
+      })}
+    </va-alert>
+  );
 
-    const before = item.slice(0, startIndex);
-    const telephone = item.slice(
-      startIndex,
-      startIndex + contactNumber.length + 11,
-    );
-    const after = item.slice(startIndex + telephone.length);
-
-    return (
-      <>
-        {before}
-        <va-telephone contact={contactNumber} /> (
-        <va-telephone contact={CONTACTS[711]} tty />){after}
-      </>
-    );
-  });
+  const profileApiErrorMessage = (
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+    >
+      {componentizedMessage.map((message, i) => {
+        if (i === 0) {
+          return (
+            <p key={i} className="vads-u-margin-top--0">
+              {message}
+            </p>
+          );
+        }
+        return <p key={i}>{message}</p>;
+      })}
+    </va-alert>
+  );
 
   return (
     <>
@@ -240,12 +298,12 @@ const ProofOfVeteranStatusNew = ({
                     </div>
                     <div className="vads-u-font-size--md">
                       <va-link
-                        download
+                        active
                         filetype="PDF"
                         // exception to eslint: the url is a dynamically generated blob url
                         // eslint-disable-next-line no-script-url
                         href="javascript:void(0)"
-                        text="Download and print your Veteran status card"
+                        text="Print your Proof of Veteran status (PDF)"
                         onClick={createPdf}
                       />
                     </div>
@@ -266,26 +324,7 @@ const ProofOfVeteranStatusNew = ({
                 ) : null}
                 {!vetStatusEligibility.confirmed &&
                 vetStatusEligibility.message.length > 0 ? (
-                  <>
-                    <div>
-                      <va-alert
-                        close-btn-aria-label="Close notification"
-                        status="warning"
-                        visible
-                      >
-                        {componentizedMessage.map((message, i) => {
-                          if (i === 0) {
-                            return (
-                              <p key={i} className="vads-u-margin-top--0">
-                                {message}
-                              </p>
-                            );
-                          }
-                          return <p key={i}>{message}</p>;
-                        })}
-                      </va-alert>
-                    </div>
-                  </>
+                  <>{profileApiErrorMessage}</>
                 ) : null}
               </>
             ) : null}
@@ -313,12 +352,12 @@ const ProofOfVeteranStatusNew = ({
                     </div>
                     <div className="vads-u-font-size--md">
                       <va-link
-                        download
+                        active
                         filetype="PDF"
                         // exception to eslint: the url is a dynamically generated blob url
                         // eslint-disable-next-line no-script-url
                         href="javascript:void(0)"
-                        text="Download and print your Veteran status card"
+                        text="Print your Proof of Veteran status (PDF)"
                         onClick={createPdf}
                       />
                     </div>
@@ -338,57 +377,35 @@ const ProofOfVeteranStatusNew = ({
                   </>
                 ) : null}
 
-                {data?.attributes?.veteranStatus !== 'confirmed' &&
-                data?.attributes?.message.length > 0 ? (
-                  <>
-                    <div>
-                      <va-alert
-                        close-btn-aria-label="Close notification"
-                        status="warning"
-                        visible
-                      >
-                        {contactInfoElements.map((message, i) => {
-                          if (i === 0) {
-                            return (
-                              <p key={i} className="vads-u-margin-top--0">
-                                {message}
-                              </p>
-                            );
-                          }
-                          return <p key={i}>{message}</p>;
-                        })}
-                      </va-alert>
-                    </div>
-                  </>
+                {isVetStatusEligibilityPopulated &&
+                data?.attributes?.veteranStatus !== 'confirmed' &&
+                data?.message?.length > 0 ? (
+                  <>{lighthouseApiErrorMessage}</>
                 ) : null}
               </>
             ) : null}
 
             {useLighthouseApi && !hasConfirmationData ? (
-              <va-alert
-                close-btn-aria-label="Close notification"
-                status="error"
-                visible
-              >
-                <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  We’re sorry. There’s a problem with our system. We can’t show
-                  your Veteran status card right now. Try again later.
-                </p>
-              </va-alert>
+              <>{systemErrrorAlert}</>
             ) : null}
           </>
-        ) : (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="error"
-            visible
-          >
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              We’re sorry. There’s a problem with our system. We can’t show your
-              Veteran status card right now. Try again later.
-            </p>
-          </va-alert>
-        )}
+        ) : null}
+
+        {!userHasRequiredCardData ? (
+          <>
+            {!useLighthouseApi ? <>{systemErrrorAlert}</> : null}
+
+            {useLighthouseApi ? (
+              <>
+                {data?.attributes?.veteranStatus === 'confirmed' ? (
+                  <>{profileApiErrorMessage}</>
+                ) : (
+                  <>{lighthouseApiErrorMessage}</>
+                )}
+              </>
+            ) : null}
+          </>
+        ) : null}
       </div>
     </>
   );

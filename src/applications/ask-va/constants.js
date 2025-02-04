@@ -4,10 +4,18 @@ export const envUrl = environment.API_URL;
 
 export const baseURL = '/ask_va_api/v0';
 
+export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
+
 export const URL = {
-  GET_CATEGORIES: `${baseURL}/contents?type=category`, // &user_mock_data=true
-  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%`, // &user_mock_data=true
-  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%`, // &user_mock_data=true
+  GET_CATEGORIES: `${baseURL}/contents?type=category${
+    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+  }`,
+  GET_TOPICS: `${baseURL}/contents?type=topic&parent_id=%PARENT_ID%${
+    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+  }`,
+  GET_SUBTOPICS: `${baseURL}/contents?type=subtopic&parent_id=%PARENT_ID%${
+    mockTestingFlagforAPI ? '&user_mock_data=true' : ''
+  }`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
@@ -599,7 +607,7 @@ export const contactUsBreadcrumbs = [
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const questionDetailsBreadcrumbs = [

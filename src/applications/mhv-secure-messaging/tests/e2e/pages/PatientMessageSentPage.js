@@ -128,10 +128,6 @@ class PatientMessageSentPage {
       });
   };
 
-  verifyFolderHeaderText = text => {
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
-  };
-
   verifyResponseBodyLength = (responseData = mockSentMessages) => {
     cy.get(Locators.THREADS).should(
       'have.length',

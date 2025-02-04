@@ -7,9 +7,13 @@ import {
 } from '../../util/pdfHelpers/labsAndTests';
 
 const GenerateRadiologyPdf = async (record, user, runningUnitTest) => {
-  const { title, subject, preface } = generateLabsIntro(record);
-  const scaffold = generatePdfScaffold(user, title, subject, preface);
-  const pdfData = { ...scaffold, ...generateRadiologyContent(record) };
+  const { title, subject, subtitles } = generateLabsIntro(record);
+  const scaffold = generatePdfScaffold(user, title, subject);
+  const pdfData = {
+    ...scaffold,
+    subtitles,
+    ...generateRadiologyContent(record),
+  };
   const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
   makePdf(pdfName, pdfData, 'Radiology details', runningUnitTest);
 };

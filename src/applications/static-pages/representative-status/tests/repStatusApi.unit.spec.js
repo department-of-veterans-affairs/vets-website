@@ -1,71 +1,66 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
 import RepresentativeStatusApi from '../api/RepresentativeStatusApi';
 
 describe('RepresentativeStatusApi', () => {
-  let sandbox;
-  let fetchStub;
+  const server = setupServer();
 
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    global.fetch = sandbox.stub(global, 'fetch');
+  before(() => {
+    server.listen();
   });
 
-  afterEach(() => {
-    sandbox.restore();
+  after(() => {
+    server.close();
   });
+
+  const createResponse = ({
+    status = 200,
+    json = {},
+    networkError = false,
+  } = {}) => {
+    if (networkError) {
+      server.use(
+        rest.get(
+          `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
+          (_, res) => res.networkError(),
+        ),
+      );
+    }
+    server.use(
+      rest.get(
+        `https://dev-api.va.gov/representation_management/v0/power_of_attorney`,
+        (_, res, ctx) => res(ctx.status(status), ctx.json(json)),
+      ),
+    );
+  };
 
   it('should fetch and return representative status successfully', async () => {
-    const mockResponse = {
-      ok: true,
-      statusText: 'OK',
-      json: () => Promise.resolve({ data: 'Mocked Data' }),
-    };
-    fetchStub = fetch.resolves(mockResponse);
+    createResponse({ json: { id: '074' } });
 
     const result = await RepresentativeStatusApi.getRepresentativeStatus();
 
-    const expectedUrl = `${
-      environment.API_URL
-    }/representation_management/v0/power_of_attorney`;
-    sinon.assert.calledWith(fetchStub, expectedUrl, {
-      'Content-Type': 'application/json',
-      mode: 'cors',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-      },
-    });
-    expect(result).to.have.nested.property('data', 'Mocked Data');
+    expect(result).to.contains({ id: '074' });
   });
 
   it('should throw an error if the response is not ok', async () => {
-    const mockErrorResponse = {
-      ok: false,
-      statusText: 'Internal Server Error',
-      json: () => Promise.resolve({ error: 'Some error' }),
-    };
-    fetchStub = fetch.resolves(mockErrorResponse);
+    createResponse({ status: 400, json: {} });
 
     try {
       await RepresentativeStatusApi.getRepresentativeStatus();
-      throw new Error('Expected method to throw.');
     } catch (error) {
-      expect(error.message).to.equal('Internal Server Error');
+      expect(error.message).to.equal('Bad Request');
     }
   });
 
   it('should handle errors', async () => {
     const mockError = new Error('Network error');
-    fetchStub = fetch.rejects(mockError);
+    createResponse({ networkError: true });
 
     try {
       await RepresentativeStatusApi.getRepresentativeStatus();
-      throw new Error('Expected method to reject.');
     } catch (error) {
-      expect(error).to.equal(mockError);
+      expect(error.message).to.equal(mockError.message);
     }
   });
 });

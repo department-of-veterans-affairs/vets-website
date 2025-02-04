@@ -72,7 +72,7 @@ export const VeteranProfileInformation = ({
   return (
     <>
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
-        <va-card className="contact-info-card gray-task">
+        <va-card class="task-gray-card">
           {/* <div className="vads-u-margin-y--3 vads-u-padding-left--2"> */}
           <dl>
             <div data-testid="ezr-veteran-fullname">
