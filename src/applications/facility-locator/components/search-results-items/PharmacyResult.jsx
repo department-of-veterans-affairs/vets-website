@@ -6,16 +6,21 @@ import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationMarker from './common/LocationMarker';
+import { MobileMapResultTypes } from '../../types';
 
-const PharmacyResult = ({ headerRef = null, provider, query }) => {
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
+const PharmacyResult = ({
+  headerHasFocus = null,
+  headerRef = null,
+  provider,
+  query,
+  setHeaderHasFocus = null,
+}) => {
+  useEffect(() => {
+    if (headerRef?.current && !headerHasFocus) {
+      focusElement(headerRef.current);
+      setHeaderHasFocus(true);
+    }
+  }, []);
 
   const { name } = provider.attributes;
 
@@ -46,10 +51,7 @@ const PharmacyResult = ({ headerRef = null, provider, query }) => {
 };
 
 PharmacyResult.propTypes = {
-  headerRef: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.shape({ current: PropTypes.object }),
-  ]),
+  ...MobileMapResultTypes,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

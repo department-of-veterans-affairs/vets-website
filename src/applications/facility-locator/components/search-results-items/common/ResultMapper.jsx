@@ -16,9 +16,20 @@ import { isHealthAndHealthConnect } from '../../../utils/phoneNumbers';
 
 // Receives a single result and returns the
 // proper data structure / listing (e.g. VA health, VBA, Urgent care)
-export const ResultMapper = (result, searchQuery, index, headerRef = null) => {
+export const ResultMapper = (
+  result,
+  searchQuery,
+  index,
+  headerRef = null,
+  headerHasFocus = null,
+  setHeaderHasFocus = null,
+) => {
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
-
+  const mobileMapProps = {
+    headerRef,
+    headerHasFocus,
+    setHeaderHasFocus,
+  };
   switch (searchQuery.facilityType) {
     case 'health':
     case 'cemetery':
@@ -26,20 +37,20 @@ export const ResultMapper = (result, searchQuery, index, headerRef = null) => {
     case 'vet_center':
       return searchQuery.serviceType === Covid19Vaccine ? (
         <Covid19Result
-          headerRef={headerRef}
           index={index}
           key={result.id}
           location={result}
           query={searchQuery}
+          {...mobileMapProps}
         />
       ) : (
         <VaFacilityResult
-          headerRef={headerRef}
           index={index}
           key={result.id}
           location={result}
           query={searchQuery}
           showHealthConnectNumber={showHealthConnectNumber}
+          {...mobileMapProps}
         />
       );
     case 'provider':
@@ -47,10 +58,10 @@ export const ResultMapper = (result, searchQuery, index, headerRef = null) => {
       if (searchQuery.serviceType === CLINIC_URGENTCARE_SERVICE) {
         return (
           <UrgentCareResult
-            headerRef={headerRef}
             key={result.id}
             provider={result}
             query={searchQuery}
+            {...mobileMapProps}
           />
         );
       }
@@ -58,10 +69,10 @@ export const ResultMapper = (result, searchQuery, index, headerRef = null) => {
       if (searchQuery.serviceType === PHARMACY_RETAIL_SERVICE) {
         return (
           <PharmacyResult
-            headerRef={headerRef}
             key={result.id}
             provider={result}
             query={searchQuery}
+            {...mobileMapProps}
           />
         );
       }
@@ -69,71 +80,71 @@ export const ResultMapper = (result, searchQuery, index, headerRef = null) => {
       if (EMERGENCY_CARE_SERVICES.includes(searchQuery.serviceType)) {
         return (
           <EmergencyCareResult
-            headerRef={headerRef}
             key={result.id}
             provider={result}
             query={searchQuery}
+            {...mobileMapProps}
           />
         );
       }
 
       return (
         <CCProviderResult
-          headerRef={headerRef}
           key={result.id}
           provider={result}
           query={searchQuery}
+          {...mobileMapProps}
         />
       );
     case 'pharmacy':
       return (
         <PharmacyResult
-          headerRef={headerRef}
           key={result.id}
           provider={result}
           query={searchQuery}
+          {...mobileMapProps}
         />
       );
     case 'emergency_care':
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <EmergencyCareResult
-            headerRef={headerRef}
             key={result.id}
             provider={result}
             query={searchQuery}
+            {...mobileMapProps}
           />
         );
       }
 
       return (
         <VaFacilityResult
-          headerRef={headerRef}
           index={index}
           key={result.id}
           location={result}
           query={searchQuery}
+          {...mobileMapProps}
         />
       );
     case 'urgent_care':
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <UrgentCareResult
-            headerRef={headerRef}
             key={result.id}
             provider={result}
             query={searchQuery}
+            {...mobileMapProps}
           />
         );
       }
 
       return (
         <VaFacilityResult
-          headerRef={headerRef}
           index={index}
           key={result.id}
           location={result}
           query={searchQuery}
+          {...mobileMapProps}
         />
       );
     default:

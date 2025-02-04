@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+import { MobileMapResultTypes } from '../../types';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
@@ -9,15 +10,19 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import ProviderTraining from './common/ProviderTraining';
 
-const CCProviderResult = ({ headerRef = null, provider, query }) => {
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
+const CCProviderResult = ({
+  headerHasFocus = null,
+  headerRef = null,
+  provider,
+  query,
+  setHeaderHasFocus = null,
+}) => {
+  useEffect(() => {
+    if (headerRef?.current && !headerHasFocus) {
+      focusElement(headerRef.current);
+      setHeaderHasFocus(true);
+    }
+  }, []);
 
   const { name } = provider.attributes;
 
@@ -49,10 +54,7 @@ const CCProviderResult = ({ headerRef = null, provider, query }) => {
 };
 
 CCProviderResult.propTypes = {
-  headerRef: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.shape({ current: PropTypes.object }),
-  ]),
+  ...MobileMapResultTypes,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

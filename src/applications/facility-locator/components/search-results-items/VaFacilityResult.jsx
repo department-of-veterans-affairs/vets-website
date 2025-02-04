@@ -12,22 +12,23 @@ import LocationDistance from './common/LocationDistance';
 import LocationMarker from './common/LocationMarker';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationPhoneLink from './common/LocationPhoneLink';
+import { MobileMapResultTypes } from '../../types';
 
 const VaFacilityResult = ({
+  headerHasFocus = null,
   headerRef = null,
   index,
   location,
   query,
+  setHeaderHasFocus = null,
   showHealthConnectNumber,
 }) => {
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
+  useEffect(() => {
+    if (headerRef?.current && !headerHasFocus) {
+      focusElement(headerRef.current);
+      setHeaderHasFocus(true);
+    }
+  }, []);
 
   const { name, website, operatingStatus } = location.attributes;
 
@@ -88,12 +89,9 @@ const VaFacilityResult = ({
 };
 
 VaFacilityResult.propTypes = {
-  headerRef: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.shape({ current: PropTypes.object }),
-  ]),
   index: PropTypes.number,
   location: PropTypes.object,
+  ...MobileMapResultTypes,
   query: PropTypes.object,
   showHealthConnectNumber: PropTypes.oneOfType([
     PropTypes.string,

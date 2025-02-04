@@ -246,3 +246,12 @@ export const SearchAreaControlTypes = {
   }),
   selectMobileMapPin: PropTypes.func,
 };
+
+export const MobileMapResultTypes = {
+  headerHasFocus: PropTypes.bool,
+  headerRef: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.shape({ current: PropTypes.object }),
+  ]),
+  setHeaderHasFocus: PropTypes.func,
+};

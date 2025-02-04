@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ResultMapper } from './search-results-items/common/ResultMapper';
 import NoResultsMessage from './NoResultsMessage';
@@ -9,6 +9,7 @@ const MobileMapSearchResult = ({
   searchResultMessageRef,
 }) => {
   const headerRef = useRef(null);
+  const [headerHasFocus, setHeaderHasFocus] = useState(false);
   const validSearch = !!query?.searchString;
 
   if (!validSearch) {
@@ -28,7 +29,14 @@ const MobileMapSearchResult = ({
         </p>
       ) : (
         <div className="mobile-search-result">
-          {ResultMapper(mobileMapPinSelected, query, 0, headerRef)}
+          {ResultMapper(
+            mobileMapPinSelected,
+            query,
+            0,
+            headerRef,
+            headerHasFocus,
+            setHeaderHasFocus,
+          )}
         </div>
       )}
     </>

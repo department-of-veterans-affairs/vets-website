@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
+import { MobileMapResultTypes } from '../../types';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
@@ -8,15 +9,19 @@ import LocationMarker from './common/LocationMarker';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderTraining from './common/ProviderTraining';
 
-const EmergencyCareResult = ({ headerRef = null, provider, query }) => {
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
+const EmergencyCareResult = ({
+  headerHasFocus = null,
+  headerRef = null,
+  provider,
+  query,
+  setHeaderHasFocus = null,
+}) => {
+  useEffect(() => {
+    if (headerRef?.current && !headerHasFocus) {
+      focusElement(headerRef.current);
+      setHeaderHasFocus(true);
+    }
+  }, []);
 
   const { name } = provider.attributes;
 
@@ -63,11 +68,9 @@ const EmergencyCareResult = ({ headerRef = null, provider, query }) => {
     </div>
   );
 };
+
 EmergencyCareResult.propTypes = {
-  headerRef: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.shape({ current: PropTypes.object }),
-  ]),
+  ...MobileMapResultTypes,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

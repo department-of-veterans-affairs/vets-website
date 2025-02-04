@@ -7,16 +7,21 @@ import LocationDistance from './common/LocationDistance';
 import LocationMarker from './common/LocationMarker';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderTraining from './common/ProviderTraining';
+import { MobileMapResultTypes } from '../../types';
 
-const UrgentCareResult = ({ headerRef = null, provider, query }) => {
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
+const UrgentCareResult = ({
+  headerHasFocus = null,
+  headerRef = null,
+  provider,
+  query,
+  setHeaderHasFocus = null,
+}) => {
+  useEffect(() => {
+    if (headerRef?.current && !headerHasFocus) {
+      focusElement(headerRef.current);
+      setHeaderHasFocus(true);
+    }
+  }, []);
 
   const { name } = provider.attributes;
 
@@ -62,11 +67,9 @@ const UrgentCareResult = ({ headerRef = null, provider, query }) => {
     </div>
   );
 };
+
 UrgentCareResult.propTypes = {
-  headerRef: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.shape({ current: PropTypes.object }),
-  ]),
+  ...MobileMapResultTypes,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { focusElement } from 'platform/utilities/ui';
+import { MobileMapResultTypes } from '../../types';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
@@ -13,15 +14,20 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({ location, index, query, headerRef = null }) => {
-  useEffect(
-    () => {
-      if (headerRef?.current) {
-        focusElement(headerRef.current);
-      }
-    },
-    [headerRef],
-  );
+const Covid19Result = ({
+  headerHasFocus = null,
+  headerRef = null,
+  index,
+  location,
+  query,
+  setHeaderHasFocus = null,
+}) => {
+  useEffect(() => {
+    if (headerRef?.current && !headerHasFocus) {
+      focusElement(headerRef.current);
+      setHeaderHasFocus(true);
+    }
+  }, []);
 
   const {
     name,
@@ -115,13 +121,11 @@ const Covid19Result = ({ location, index, query, headerRef = null }) => {
 };
 
 Covid19Result.propTypes = {
-  headerRef: PropTypes.oneOfType([
-    PropTypes.object,
-    PropTypes.shape({ current: PropTypes.object }),
-  ]),
   index: PropTypes.number,
   location: PropTypes.object,
+  ...MobileMapResultTypes,
   query: PropTypes.object,
+  setHeaderHasFocus: PropTypes.func,
 };
 
 export default Covid19Result;
