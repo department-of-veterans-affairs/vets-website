@@ -45,8 +45,6 @@ const SubmitFlowWrapper = () => {
     [dispatch, data, apptId, error],
   );
 
-  const appIsAvailable = !toggleIsLoading && canSubmitMileage;
-
   // This will actually be handled by the redux action, but for now it lives here
   const [isSubmissionError, setIsSubmissionError] = useState(false);
 
@@ -172,7 +170,6 @@ const SubmitFlowWrapper = () => {
           {isSubmissionError && <SubmissionErrorPage />}
           {!isUnsupportedClaimType &&
             !isSubmissionError &&
-            appIsAvailable &&
             pageList[pageIndex].component}
         </div>
       </article>
