@@ -48,7 +48,11 @@ export const SpouseAdditionalEvidence = () => {
                   <strong>, and</strong>
                 </li>
                 <li>
-                  <a href="/find-forms/about-form-21-4170" target="_blank">
+                  <a
+                    href="/find-forms/about-form-21-4170"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
                     Get VA Form 21-4170 to download (opens in new tab)
                   </a>
                 </li>
@@ -58,7 +62,11 @@ export const SpouseAdditionalEvidence = () => {
                   marriage
                 </li>
                 <li>
-                  <a href="/find-forms/about-form-21-4171" target="_blank">
+                  <a
+                    href="/find-forms/about-form-21p-4171"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
                     Get VA Form 21-4171 to download (opens in new tab)
                   </a>
                 </li>
