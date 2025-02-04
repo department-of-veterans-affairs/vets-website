@@ -26,7 +26,7 @@ describe('YourSchool Component', () => {
     );
   };
 
-  xit('should render with school data', () => {
+  it('should render with school data', () => {
     const school = {
       schoolFacilityCode: '12345',
       schoolName: 'Test School',
@@ -35,11 +35,5 @@ describe('YourSchool Component', () => {
     const { getByText } = renderComponent(school);
 
     expect(getByText('12345 - Test School')).to.exist;
-  });
-
-  xit('should render fallback text when school is not defined', () => {
-    const { getByText } = renderComponent(null);
-
-    expect(getByText('No school code found - No school name found')).to.exist;
   });
 });
