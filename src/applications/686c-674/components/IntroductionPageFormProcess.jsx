@@ -101,7 +101,7 @@ export const IntroductionPageFormProcess = () => (
           text="Get help filing your claim"
         />
       </va-process-list-item>
-      <va-process-list-item header="Start your dependency claim">
+      <va-process-list-item header="Start your request">
         <p>
           We’ll take you through each step of the process. It should take about
           30 minutes.
