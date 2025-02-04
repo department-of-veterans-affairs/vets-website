@@ -315,7 +315,7 @@ export function selectChosenFacilityInfo(state) {
   );
 }
 
-export function getPatientProviderRelationships(state) {
+export function selectPatientProviderRelationships(state) {
   return {
     patientProviderRelationships: state.patientProviderRelationships,
     patientProviderRelationshipsStatus:
