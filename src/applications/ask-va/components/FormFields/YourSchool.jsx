@@ -3,14 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 const YourSchool = props => {
-  const { school } = props;
+  const { formData } = props;
+  const { schoolInfo } = formData;
 
-  const facilityCode = school?.schoolFacilityCode
-    ? school.schoolFacilityCode
-    : 'No school code found';
-  const facilityName = school?.schoolName
-    ? school.schoolName
-    : 'No school name found';
+  const facilityCode = schoolInfo?.schoolFacilityCode;
+  const facilityName = schoolInfo?.schoolName;
   return (
     <div>
       <p className="vads-u-margin-top--0">
