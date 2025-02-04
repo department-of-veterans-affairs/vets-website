@@ -26,7 +26,7 @@ const formMappings = {
 export const getFormNumber = (pathname = null) => {
   const path = pathname || window?.location?.pathname;
   const regex = /upload\/([^/]+)/;
-  const match = path.match(regex)?.[1];
+  const match = path.match(regex)?.[1].toUpperCase();
   if (formMappings[match]) {
     return match;
   }
