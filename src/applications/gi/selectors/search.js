@@ -6,7 +6,7 @@ import {
   buildSearchFilters,
 } from './filters';
 import { managePushHistory, setDocumentTitle } from '../utils/helpers';
-import { TabsEnum } from '../utils/enums';
+import { TABS } from '../constants';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
@@ -67,8 +67,8 @@ export const updateUrlParams = (
   });
 
   if (
-    tab === TabsEnum.schoolAndEmployerPrograms ||
-    tab === TabsEnum.schoolAndEmployerName
+    tab === TABS.schoolAndEmployerPrograms ||
+    tab === TABS.schoolAndEmployerName
   ) {
     const pathName = getCleanPathName(history);
     url = `${pathName}${url}`;

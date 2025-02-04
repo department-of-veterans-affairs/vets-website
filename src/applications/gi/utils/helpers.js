@@ -17,8 +17,8 @@ import {
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
   ERROR_MESSAGES,
+  TABS,
 } from '../constants';
-import { TabsEnum } from './enums';
 
 /**
  * Snake-cases field names
@@ -1023,9 +1023,9 @@ export const toTitleCase = str => {
 export const convertSchoolsAndEmployersTabIndexToText = tabIndex => {
   switch (tabIndex) {
     case 0:
-      return TabsEnum.schoolAndEmployerName;
+      return TABS.schoolAndEmployerName;
     case 1:
-      return TabsEnum.schoolAndEmployerPrograms;
+      return TABS.schoolAndEmployerPrograms;
     default:
       return tabIndex.toString();
   }
