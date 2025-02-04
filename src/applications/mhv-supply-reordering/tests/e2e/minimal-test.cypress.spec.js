@@ -32,7 +32,7 @@ describe(`${appName} -- minimal test`, () => {
 
     // review
     cy.injectAxeThenAxeCheck();
-    cy.findByText(/^Submit order$/).click();
+    cy.findByText(/^Submit$/).click();
 
     // confirmation
     cy.injectAxeThenAxeCheck();

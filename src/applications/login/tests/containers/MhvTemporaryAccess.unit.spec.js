@@ -2,11 +2,11 @@ import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
 import { fireEvent } from '@testing-library/react';
-import MhvAccess from '../../containers/MhvAccess';
+import MhvTemporaryAccess from '../../containers/MhvTemporaryAccess';
 
-describe('MhvAccess', () => {
+describe('MhvTemporaryAccess', () => {
   it('renders main title', () => {
-    const screen = renderInReduxProvider(<MhvAccess />);
+    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const mainTitle = screen.getByRole('heading', {
       name: /access the my healthevet sign-in option/i,
     });
@@ -14,7 +14,7 @@ describe('MhvAccess', () => {
   });
 
   it('renders information paragraph', () => {
-    const screen = renderInReduxProvider(<MhvAccess />);
+    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const description = screen.getByText(
       /get temporary access to the my healthevet sign-in option/i,
     );
@@ -22,7 +22,7 @@ describe('MhvAccess', () => {
   });
 
   it('renders button', () => {
-    const screen = renderInReduxProvider(<MhvAccess />);
+    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const signInHeading = screen.getByText(/sign in/i);
     expect(signInHeading).to.exist;
     const accessButton = screen.getByTestId('accessMhvBtn');
@@ -31,7 +31,7 @@ describe('MhvAccess', () => {
   });
 
   it('renders having trouble section', () => {
-    const screen = renderInReduxProvider(<MhvAccess />);
+    const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const troubleHeading = screen.getByRole('heading', {
       name: /having trouble signing in/i,
     });
