@@ -30,6 +30,9 @@ const ReviewPage = ({
   }, []);
 
   const { data } = useSelector(selectAppointment);
+  const { isSubmitting } = useSelector(
+    state => state.travelPay.claimSubmission,
+  );
 
   const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
@@ -125,13 +128,23 @@ const ReviewPage = ({
         />
       </va-card>
 
-      <VaButtonPair
-        class="vads-u-margin-top--2"
-        leftButtonText="File claim"
-        rightButtonText="Start over"
-        onPrimaryClick={onSubmit}
-        onSecondaryClick={onBack}
-      />
+      {!isSubmitting ? (
+        <VaButtonPair
+          class="vads-u-margin-top--2"
+          leftButtonText="File claim"
+          rightButtonText="Start over"
+          onPrimaryClick={onSubmit}
+          onSecondaryClick={onBack}
+        />
+      ) : (
+        <div className="vads-u-margin-top--2">
+          <va-loading-indicator
+            label="Loading"
+            message="Submitting your claim..."
+            data-testid="travel-pay-loading-indicator"
+          />
+        </div>
+      )}
     </div>
   );
 };

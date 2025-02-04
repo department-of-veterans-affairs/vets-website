@@ -67,6 +67,23 @@ const responses = {
       modifiedOn: '2024-05-31T16:40:45.781Z',
     });
   },
+
+  // Submitting a new claim
+  'POST /travel_pay/v0/claims': { data: { claimId: '12345' } },
+  // 'POST /travel_pay/v0/claims': (req, res) => {
+  //   return res.status(502).json({
+  //     errors: [
+  //       {
+  //         title: 'Service unavailable',
+  //         status: 503,
+  //         detail: 'An unknown error has occured.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
+
+  // Get travel-pay appointment
   'GET /vaos/v2/appointment/:id': (req, res) => {
     return res.json(appointmentNoclaim);
   },
