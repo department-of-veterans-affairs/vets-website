@@ -4,8 +4,8 @@ import set from 'platform/utilities/data/set';
 
 import { contactInfo995Validation } from '../../shared/validations/contactInfo';
 
-const allContacts = ['mobilePhone', 'homePhone', 'address', 'email'];
-const noAddressContacts = ['mobilePhone', 'homePhone', 'email'];
+export const allContacts = ['mobilePhone', 'homePhone', 'address', 'email'];
+export const noAddressContacts = ['mobilePhone', 'homePhone', 'email'];
 
 export default profileContactInfo({
   content: getContent('appeal'),
