@@ -5,6 +5,8 @@
  * @param {string} [status='draft'] - The status of the appointment. Defaults to 'draft'.
  * @returns {Object} The referral appointment object.
  */
-export const createReferralAppointment = (id, status = 'draft') => {
+const createReferralAppointment = (id, status = 'draft') => {
   return { appointment: { id, status } };
 };
+
+module.exports = { createReferralAppointment };

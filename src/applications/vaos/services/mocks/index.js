@@ -30,8 +30,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
-const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment')
-  .default;
+const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
