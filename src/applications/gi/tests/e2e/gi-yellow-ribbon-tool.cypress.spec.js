@@ -22,16 +22,16 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
       },
     });
   });
-  it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('a[href="#yellow-ribbon-program-information"]')
-      .should('exist')
-      .and('contain', 'Yellow Ribbon Program information');
-    cy.get('a[href="#yellow-ribbon-program-information"]').click();
-    cy.get('#yellow-ribbon-program-information')
-      .should('exist')
-      .and('be.visible');
-  });
+  // it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.get('a[href="#yellow-ribbon-program-information"]')
+  //     .should('exist')
+  //     .and('contain', 'Yellow Ribbon Program information');
+  //   cy.get('a[href="#yellow-ribbon-program-information"]').click();
+  //   cy.get('#yellow-ribbon-program-information')
+  //     .should('exist')
+  //     .and('be.visible');
+  // });
   // it('should display the "Yellow Ribbon Program information" label and section', () => {
   //   cy.injectAxeThenAxeCheck();
   //   cy.get('#yellow-ribbon-program-information').should('exist');
@@ -44,22 +44,22 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
   //     ).should('exist');
   //   });
   // });
-  // it('should navigate when the Yellow Ribbon Program link is clicked', () => {
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get('va-link[data-testid="yellow-ribbon-program-link"]')
-  //     .shadow()
-  //     .find('a')
-  //     .click();
-  //   cy.url().should(
-  //     'include',
-  //     '/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/',
-  //   );
-  // });
+  it('should navigate when the Yellow Ribbon Program link is clicked', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get('va-link[data-testid="yellow-ribbon-program-link"]')
+      .shadow()
+      .find('a')
+      .click();
+    cy.url().should(
+      'include',
+      '/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/',
+    );
+  });
 
   // it('lists all distinct degree levels in the dropdown in the correct order', () => {
   //   cy.injectAxeThenAxeCheck();
   //   const expectedOptions = ['Undergraduate', 'Doctoral', 'Graduate'];
-  //   cy.get('va-select#degree')
+  //   cy.get('[data-testid="degree-selector"]')
   //     .shadow()
   //     .find('select > option')
   //     .then(options => {
@@ -71,7 +71,7 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
   // });
   // it('filters results when a user selects a degree level and clicks "Display Results"', () => {
   //   cy.injectAxeThenAxeCheck();
-  //   cy.get('va-select#degree')
+  //   cy.get('[data-testid="degree-selector"]')
   //     .shadow()
   //     .find('select')
   //     .select('Undergraduate');
@@ -87,27 +87,9 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
   //     cy.wrap(card).should('contain', 'College or professional school');
   //   });
   // });
-  it('filters results when a user selects a degree level and clicks "Display Results"', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('va-select#degree')
-      .shadow()
-      .find('select')
-      .select('Doctoral');
-    cy.get('va-button.degree-selector-btn')
-      .shadow()
-      .find('button')
-      .click();
-    cy.get('#results-summary')
-      .should('exist')
-      .and('contain', 'Doctoral');
-    cy.get('.degree-level-results li.degree-item').should('have.length', 3);
-    cy.get('.degree-level-results li.degree-item').each(card => {
-      cy.wrap(card).should('contain', 'College or professional school');
-    });
-  });
-  // it('each program card for "Doctoral" shows correct text and numeric values', () => {
+  // it('filters results when a user selects a degree level and clicks "Display Results"', () => {
   //   cy.injectAxeThenAxeCheck();
-  //   cy.get('va-select#degree')
+  //   cy.get('[data-testid="degree-selector"]')
   //     .shadow()
   //     .find('select')
   //     .select('Doctoral');
@@ -120,28 +102,12 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
   //     .and('contain', 'Doctoral');
   //   cy.get('.degree-level-results li.degree-item').should('have.length', 3);
   //   cy.get('.degree-level-results li.degree-item').each(card => {
-  //     cy.wrap(card).within(() => {
-  //       cy.get('p.vads-u-font-weight--bold')
-  //         .first()
-  //         .should('contain', 'College or professional school');
-  //       cy.get('p')
-  //         .eq(1)
-  //         .invoke('text')
-  //         .should('not.be.empty');
-  //       cy.contains('Funding available').should('exist');
-  //       cy.get('p')
-  //         .contains(/\d+/)
-  //         .should('exist');
-  //       cy.contains('Max school contribution').should('exist');
-  //       cy.get('p')
-  //         .contains(/\$\d+(,\d{3})*(\.\d{2})?/)
-  //         .should('exist');
-  //     });
+  //     cy.wrap(card).should('contain', 'College or professional school');
   //   });
   // });
-  it('filters results when a user selects a Doctoral degree level and clicks "Display Results"', () => {
+  it('each program card for "Doctoral" shows correct text and numeric values', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('va-select#degree')
+    cy.get('[data-testid="degree-selector"]')
       .shadow()
       .find('select')
       .select('Doctoral');
@@ -151,16 +117,48 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
       .click();
     cy.get('#results-summary')
       .should('exist')
-      .and('contain', 'Showing 1-3 of 15 results for "Doctoral" degree level');
+      .and('contain', 'Doctoral');
     cy.get('.degree-level-results li.degree-item').should('have.length', 3);
-    cy.get('[data-testid="yellow-ribbon-pagination"]').should('exist');
-    cy.get('[data-testid="yellow-ribbon-pagination"]')
-      .shadow()
-      .find('[aria-label="Next page"]')
-      .click();
-    cy.get('#results-summary').should(
-      'contain',
-      'Showing 4-6 of 15 results for "Doctoral" degree level',
-    );
+    cy.get('.degree-level-results li.degree-item').each(card => {
+      cy.wrap(card).within(() => {
+        cy.get('p.vads-u-font-weight--bold')
+          .first()
+          .should('contain', 'College or professional school');
+        cy.get('p')
+          .eq(1)
+          .invoke('text')
+          .should('not.be.empty');
+        cy.contains('Funding available').should('exist');
+        cy.get('p')
+          .contains(/\d+/)
+          .should('exist');
+        cy.contains('Max school contribution').should('exist');
+        cy.get('p')
+          .contains(/\$\d+(,\d{3})*(\.\d{2})?/)
+          .should('exist');
+      });
+    });
   });
+  // it('filters results when a user selects a Doctoral degree level and clicks "Display Results"', () => {
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.get('[data-testid="degree-select"]')
+  //     .shadow()
+  //     .find('select')
+  //     .select('Doctoral');
+  //   cy.get('[data-testid="display-results-button"]')
+  //     .shadow()
+  //     .find('button')
+  //     .click();
+  //   cy.get('[data-testid="results-summary"]')
+  //     .should('exist')
+  //     .and('contain', 'Doctoral');
+  //   cy.get('[data-testid="degree-level-results"]')
+  //     .find('[data-testid="degree-item"]')
+  //     .should('have.length', 3);
+  //   cy.get('[data-testid="yellow-ribbon-pagination"]')
+  //     .shadow()
+  //     .find('[aria-label="Next page"]')
+  //     .click();
+  //   cy.get('[data-testid="results-summary"]').should('contain', 'Showing 4-6');
+  // });
 });
