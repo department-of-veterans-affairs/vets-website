@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-// import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
+import ErrorMessage from '../../../components/ErrorMessage';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-
-// import { selectPatientProviderRelationships } from '../../redux/selectors';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
-import InfoAlert from '../../../components/InfoAlert';
 
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
 import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
@@ -30,17 +26,7 @@ export default function SelectProviderPage() {
   );
 
   if (patientRelationshipsError) {
-    return (
-      <InfoAlert
-        status="error"
-        headline="We’re sorry. We’ve run into a problem"
-      >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt molestias
-        dolorem ullam repellendus harum nam quia unde neque! Quia voluptatum
-        laudantium sunt eligendi numquam soluta tempore incidunt voluptate
-        repudiandae nobis.
-      </InfoAlert>
-    );
+    return <ErrorMessage level={1} />;
   }
 
   if (loading) {
