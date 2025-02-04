@@ -1,28 +1,23 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+// import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+
+// import { selectPatientProviderRelationships } from '../../redux/selectors';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
+import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
 
 const pageKey = 'selectProvider';
 
-export default function SelectProviderPage({
-  providers = [
-    {
-      name: 'Sarah Bennett, RD',
-      lastAppointment: '9/12/2024',
-    },
-    {
-      name: 'Julie Carson, RD',
-      lastAppointment: '7/12/2024',
-    },
-  ],
-}) {
+export default function SelectProviderPage() {
+  // const dispatch = useDispatch();
+
+  const { loading } = useGetPatientRelationships();
+
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
-  const singleProviderTitle = 'Your nutrition and food provider';
-  const pageHeader = providers.length > 1 ? pageTitle : singleProviderTitle;
 
   useEffect(
     () => {
@@ -32,6 +27,27 @@ export default function SelectProviderPage({
     [pageTitle],
   );
 
+  if (loading) {
+    return (
+      <div className="vads-u-margin-y--8" data-testid="loading-indicator">
+        <va-loading-indicator message="Loading the list of providers..." />
+      </div>
+    );
+  }
+
+  // const {
+  //   // patientProviderRelationships,
+  //   patientProviderRelationshipsStatus,
+  // } = useSelector(selectPatientProviderRelationships, shallowEqual);
+
+  const patientProviderRelationships = [];
+
+  // const singleProviderTitle = 'Your nutrition and food provider';
+  // const pageHeader =
+  //   patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
+
+  const pageHeader = 'Your nutrition and food provider';
+
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageHeader}</h1>
@@ -40,7 +56,7 @@ export default function SelectProviderPage({
         <strong>Facility:</strong> Grove City VA Clinic
       </div>
 
-      {providers.map((provider, index) => (
+      {patientProviderRelationships.map((provider, index) => (
         <ProviderCard key={index} provider={provider} />
       ))}
 
@@ -48,7 +64,3 @@ export default function SelectProviderPage({
     </div>
   );
 }
-
-SelectProviderPage.propTypes = {
-  providers: PropTypes.array,
-};
