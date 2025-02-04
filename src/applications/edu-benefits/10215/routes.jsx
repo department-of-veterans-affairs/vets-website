@@ -12,7 +12,7 @@ const route = [
   },
   {
     path: '/',
-    component: props => <AboutPage props={props} />,
+    component: props => <AboutPage aboutProps={props} />,
   },
   {
     path: '/',
