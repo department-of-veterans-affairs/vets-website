@@ -26,8 +26,6 @@ export const MOBILE_MAP_TAB = '#react-tabs-2';
 
 export const MOBILE_MAP_RESULT_CONTAINER = '.mobile-search-result';
 
-// export const FIRST_PIN = '.i-pin-card-map'.at(0);
-
 export const typeInCityStateInput = value =>
   cy.get(CITY_STATE_ZIP_INPUT).type(value);
 

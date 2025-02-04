@@ -1,9 +1,24 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { ResultMapper } from './search-results-items/common/ResultMapper';
+import NoResultsMessage from './NoResultsMessage';
 
-const MobileMapSearchResult = ({ mobileMapPinSelected, query }) => {
+const MobileMapSearchResult = ({
+  mobileMapPinSelected,
+  query,
+  searchResultMessageRef,
+}) => {
   const headerRef = useRef(null);
+  const validSearch = !!query?.searchString;
+
+  if (!validSearch) {
+    return (
+      <NoResultsMessage
+        isMobileListView={false}
+        resultRef={searchResultMessageRef}
+      />
+    );
+  }
 
   return (
     <>
@@ -23,6 +38,7 @@ const MobileMapSearchResult = ({ mobileMapPinSelected, query }) => {
 MobileMapSearchResult.propTypes = {
   mobileMapPinSelected: PropTypes.object,
   query: PropTypes.object,
+  searchResultMessageRef: PropTypes.object,
 };
 
 export default MobileMapSearchResult;

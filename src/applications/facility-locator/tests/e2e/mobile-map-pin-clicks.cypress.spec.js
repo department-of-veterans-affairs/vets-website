@@ -37,7 +37,7 @@ describe('mobile map behavior', () => {
       cy.injectAxeThenAxeCheck();
       h.selectMobileMapTab();
       h.awaitMapRender();
-      h.verifyElement(h.MOBILE_MAP_PIN_SELECT_HELP_TEXT);
+      h.verifyElement(h.MOBILE_MAP_NO_RESULTS_TEXT);
     });
   });
 
@@ -103,6 +103,7 @@ describe('mobile map behavior', () => {
 
       h.selectMobileMapTab();
       h.awaitMapRender();
+      h.verifyElement(h.MOBILE_MAP_PIN_SELECT_HELP_TEXT);
       h.selectMobileMapPin(2);
 
       // Verify clicked map pin item
