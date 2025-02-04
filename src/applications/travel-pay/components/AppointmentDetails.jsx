@@ -25,17 +25,15 @@ const AppointmentDetails = ({ appointment }) => {
   }
 
   return (
-    <>
-      <p>
-        You have{' '}
-        <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
-        to file for your appointment on{' '}
-        <strong>
-          {formattedDate} at {appointment.location.attributes.name}
-        </strong>
-        .
-      </p>
-    </>
+    <p>
+      You have{' '}
+      <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
+      to file for your appointment on{' '}
+      <strong>
+        {formattedDate} at {appointment.location.attributes.name}
+      </strong>
+      .
+    </p>
   );
 };
 
