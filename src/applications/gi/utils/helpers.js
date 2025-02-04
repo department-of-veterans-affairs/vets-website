@@ -18,6 +18,7 @@ import {
   filterKeys,
   ERROR_MESSAGES,
 } from '../constants';
+import { TabsEnum } from './enums';
 
 /**
  * Snake-cases field names
@@ -1017,4 +1018,15 @@ export const toTitleCase = str => {
   });
 
   return titled.join(' ');
+};
+
+export const convertSchoolsAndEmployersTabIndexToText = tabIndex => {
+  switch (tabIndex) {
+    case 0:
+      return TabsEnum.schoolAndEmployerName;
+    case 1:
+      return TabsEnum.schoolAndEmployerPrograms;
+    default:
+      return tabIndex.toString();
+  }
 };

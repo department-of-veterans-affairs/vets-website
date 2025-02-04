@@ -8,7 +8,7 @@ import SearchByName from './SearchByName';
 import SearchByProgram from './SearchByProgram';
 import { changeSearchTab } from '../../actions';
 import { updateUrlParams } from '../../selectors/search';
-import { TabsEnum } from '../../utils/enums';
+import { convertSchoolsAndEmployersTabIndexToText } from '../../utils/helpers';
 
 const SchoolAndEmployers = ({
   dispatchChangeSearchTab,
@@ -27,19 +27,10 @@ const SchoolAndEmployers = ({
   const { version } = preview;
   const history = useHistory();
 
-  const convertTabIndexToText = tabIndex => {
-    switch (tabIndex) {
-      case 0:
-        return TabsEnum.schoolAndEmployerName;
-      case 1:
-        return TabsEnum.schoolAndEmployerPrograms;
-      default:
-        return tabIndex.toString();
-    }
-  };
-
   const tabChange = selectedTab => {
-    const selectedTabText = convertTabIndexToText(selectedTab);
+    const selectedTabText = convertSchoolsAndEmployersTabIndexToText(
+      selectedTab,
+    );
     recordEvent({
       event: 'nav-tab-click',
       'tab-text': `Search by ${selectedTab}`,

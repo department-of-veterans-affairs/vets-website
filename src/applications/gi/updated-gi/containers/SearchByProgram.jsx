@@ -16,6 +16,7 @@ import { UseMyLocation } from '../components/school-and-employers/UseMyLocation'
 import { UseMyLocationModal } from '../components/school-and-employers/UseMyLocationModal';
 import { updateUrlParams } from '../../selectors/search';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
+import { convertSchoolsAndEmployersTabIndexToText } from '../../utils/helpers';
 
 const SearchByProgram = () => {
   const locationRef = useRef(null);
@@ -49,6 +50,7 @@ const SearchByProgram = () => {
   };
 
   const doSearch = value => {
+    const currentTab = convertSchoolsAndEmployersTabIndexToText(search.tab);
     const searchName = value || search.query.name;
     dispatch(fetchSearchByNameResults(searchName, 1, filters, version));
     const clonedFilters = filters;
@@ -58,7 +60,7 @@ const SearchByProgram = () => {
 
     updateUrlParams(
       history,
-      search.tab,
+      currentTab,
       {
         ...search.query,
         name: searchName,

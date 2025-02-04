@@ -12,6 +12,14 @@ export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
 };
 
+const getCleanPathName = history => {
+  if (history && history.location && history.location.pathname) {
+    const { pathname } = history.location;
+    return pathname.replace(/\/$/, '');
+  }
+  return '';
+};
+
 export const updateUrlParams = (
   history,
   tab,
@@ -62,8 +70,8 @@ export const updateUrlParams = (
     tab === TabsEnum.schoolAndEmployerPrograms ||
     tab === TabsEnum.schoolAndEmployerName
   ) {
-    queryParams.name = searchQuery.name;
-    url = `${history.location.pathname}${url}`;
+    const pathName = getCleanPathName(history);
+    url = `${pathName}${url}`;
   }
 
   managePushHistory(history, url);
