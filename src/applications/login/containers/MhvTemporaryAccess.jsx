@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { login } from 'platform/user/authentication/utilities';
 
-export default function MhvAccess() {
+export default function MhvTemporaryAccess() {
   useEffect(() => {
     document.title = 'Access the My HealtheVet sign-in option';
   });
