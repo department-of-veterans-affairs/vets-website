@@ -30,11 +30,11 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
     >
       {variant === 'name-and-zip-code' ? (
         <h3 slot="headline">
-          Veteran’s name and postal code must match your pdf
+          Veteran’s name and postal code must match your PDF
         </h3>
       ) : (
         <h3 slot="headline">
-          Veteran’s identification information must match your pdf
+          Veteran’s identification information must match your PDF
         </h3>
       )}
       {isLoa3 ? (
@@ -46,29 +46,26 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       {variant === 'name-and-zip-code' ? (
         <p>
           If the Veteran’s name and postal code here don’t match your uploaded
-          pdf, it will cause processing delays.
+          PDF, it will cause processing delays.
         </p>
       ) : (
         <p>
           If the Veteran’s identification information you enter here doesn’t
-          match your uploaded pdf, it will cause processing delays.
+          match your uploaded PDF, it will cause processing delays.
         </p>
       )}
     </VaAlert>
   );
 };
 
-export const UPLOAD_GUIDELINES = Object.freeze(
-  <fieldset>
-    <legend className="vads-u-font-weight--normal vads-u-padding-bottom--0">
-      <h3 className="vads-u-margin-bottom--3">Your file</h3>
-      <p>
-        <span className="vads-u-font-weight--bold">Note:</span> After you upload
-        your file, you’ll need to continue to the next screen to submit it. If
-        you leave before you submit it, you’ll need to upload it again.
-      </p>
-    </legend>
-  </fieldset>,
+export const UPLOAD_TITLE = 'Your file';
+
+export const UPLOAD_DESCRIPTION = Object.freeze(
+  <>
+    <span className="vads-u-font-weight--bold">Note:</span> After you upload
+    your file, you’ll need to continue to the next screen to submit it. If you
+    leave before you submit it, you’ll need to upload it again.
+  </>,
 );
 
 export const SAVE_IN_PROGRESS_CONFIG = {
