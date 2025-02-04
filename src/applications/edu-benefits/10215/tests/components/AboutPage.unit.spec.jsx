@@ -16,7 +16,7 @@ describe('<AboutPage>', () => {
   it('should navigate to introduction on goToIntroduction call', () => {
     const mockPush = sinon.spy();
     const wrapper = shallow(
-      <AboutPage props={{ router: { push: mockPush } }} />,
+      <AboutPage aboutProps={{ router: { push: mockPush } }} />,
     );
     const event = { preventDefault: sinon.spy() };
     wrapper.find('va-link-action').simulate('click', event);
