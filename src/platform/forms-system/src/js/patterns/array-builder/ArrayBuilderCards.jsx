@@ -108,6 +108,8 @@ const ArrayBuilderCards = ({
           return;
         }
         focusElement(
+          'button',
+          null,
           `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
         );
       });

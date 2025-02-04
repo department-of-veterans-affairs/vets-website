@@ -8,6 +8,7 @@ import {
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
   initGetText,
+  defaultSummaryPageScrollAndFocusTarget,
   defaultItemPageScrollAndFocusTarget,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
@@ -522,7 +523,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         isReviewPage: false,
         ...summaryPageProps,
       }),
-      scrollAndFocusTarget: 'form.rjsf h1, form.rjsf h3',
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget ||
+        defaultSummaryPageScrollAndFocusTarget,
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,

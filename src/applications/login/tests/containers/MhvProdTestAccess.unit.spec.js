@@ -2,11 +2,11 @@ import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import MhvSignIn from '../../containers/MhvSignIn';
+import MhvProdTestAccess from '../../containers/MhvProdTestAccess';
 
-describe('MhvSignIn Component', () => {
+describe('MhvProdTestAccess Component', () => {
   it('renders the heading and description', () => {
-    const screen = renderInReduxProvider(<MhvSignIn />);
+    const screen = renderInReduxProvider(<MhvProdTestAccess />);
     expect(
       screen.getByRole('heading', {
         name: /Access My HealtheVet test account/i,
@@ -20,7 +20,7 @@ describe('MhvSignIn Component', () => {
   });
 
   it('renders email input and validates email with allowed domains', async () => {
-    const screen = render(<MhvSignIn />);
+    const screen = render(<MhvProdTestAccess />);
     const emailInput = screen.getByTestId('mvhemailinput');
 
     emailInput.value = 'test@va.gov';
@@ -38,7 +38,7 @@ describe('MhvSignIn Component', () => {
   });
 
   it('renders the login button and calls handleButtonClick', () => {
-    const screen = renderInReduxProvider(<MhvSignIn />);
+    const screen = renderInReduxProvider(<MhvProdTestAccess />);
     const emailInput = screen.getByTestId('mvhemailinput');
     const loginButton = screen.getByTestId('accessMhvBtn');
 
@@ -50,7 +50,7 @@ describe('MhvSignIn Component', () => {
   });
 
   it('disables the login button for invalid email', () => {
-    const screen = renderInReduxProvider(<MhvSignIn />);
+    const screen = renderInReduxProvider(<MhvProdTestAccess />);
     const emailInput = screen.getByTestId('mvhemailinput');
     const loginButton = screen.getByTestId('accessMhvBtn');
 
@@ -60,7 +60,7 @@ describe('MhvSignIn Component', () => {
   });
 
   it('renders the "Having trouble signing in?" section', () => {
-    const screen = renderInReduxProvider(<MhvSignIn />);
+    const screen = renderInReduxProvider(<MhvProdTestAccess />);
     expect(
       screen.getByRole('heading', { name: /Having trouble signing in\?/i }),
     ).to.exist;

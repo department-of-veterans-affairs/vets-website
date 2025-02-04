@@ -30,6 +30,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
+const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -38,6 +39,7 @@ const features = require('../../utils/featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
+const draftReferralPollCount = {};
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -363,22 +365,47 @@ const responses = {
       data: providerUtils.createProviderDetails(5, req.params.providerId),
     });
   },
-  'POST /vaos/v2/epsApi/draftReferralAppointment/:referralId': (req, res) => {
+  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
+    const { referralId } = req.body;
+
     // Provider 3 throws error
-    if (req.params.referralId === '3') {
+    if (referralId === '3') {
       return res.status(500).json({ error: true });
     }
+
     // Provider 0 has no available slots
-    if (req.params.referralId === '0') {
+    if (referralId === '0') {
       return res.json({
-        data: providerUtils.createDraftAppointmentInfo(
-          0,
-          req.params.referralId,
-        ),
+        data: providerUtils.createDraftAppointmentInfo(0, referralId),
       });
     }
+
     return res.json({
-      data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
+      data: providerUtils.createDraftAppointmentInfo(5, referralId),
+    });
+  },
+  'POST /vaos/v2/epsApi/appointments': (req, res) => {
+    const { slotId, draftApppointmentId, referralId } = req.body;
+
+    if (!referralId || !slotId || !draftApppointmentId) {
+      return res.status(400).json({ error: true });
+    }
+
+    const count = draftReferralPollCount[draftApppointmentId] || 0;
+    let status = 'draft';
+
+    if (count < 5) {
+      draftReferralPollCount[draftApppointmentId] = count + 1;
+    } else {
+      status = 'confirmed';
+      draftReferralPollCount[draftApppointmentId] = 0;
+    }
+
+    return res.status(201).json({
+      data: ccDirectAppointmentUtils.createReferralAppointment(
+        draftApppointmentId,
+        status,
+      ),
     });
   },
   // Required v0 APIs

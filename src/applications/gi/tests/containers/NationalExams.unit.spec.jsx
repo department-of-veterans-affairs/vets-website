@@ -131,7 +131,7 @@ describe('NationalExamsList', () => {
   });
   it('should render the GI Bill reimbursement link correctly', () => {
     const wrapper = mountComponent();
-    const link = wrapper.find('va-link');
+    const link = wrapper.find('va-link').at(0);
     expect(link.prop('href')).to.equal(
       'https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/',
     );

@@ -1,5 +1,8 @@
 import {
   SET_FORM_CURRENT_PAGE,
+  CREATE_REFERRAL_APPOINTMENT,
+  CREATE_REFERRAL_APPOINTMENT_FAILED,
+  CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
   CREATE_DRAFT_REFERRAL_APPOINTMENT,
   CREATE_DRAFT_REFERRAL_APPOINTMENT_FAILED,
   CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED,
@@ -24,6 +27,8 @@ const initialState = {
   referralsFetchStatus: FETCH_STATUS.notStarted,
   referralFetchStatus: FETCH_STATUS.notStarted,
   draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
+  appointmentCreateStatus: FETCH_STATUS.notStarted,
+  postAppointmentStartTime: null,
 };
 
 function ccAppointmentReducer(state = initialState, action) {
@@ -32,6 +37,24 @@ function ccAppointmentReducer(state = initialState, action) {
       return {
         ...state,
         currentPage: action.payload,
+      };
+    case CREATE_REFERRAL_APPOINTMENT:
+      return {
+        ...state,
+        appointmentCreateStatus: FETCH_STATUS.loading,
+        postAppointmentStartTime: action.payload.postAppointmentStartTime,
+      };
+    case CREATE_REFERRAL_APPOINTMENT_SUCCEEDED:
+      return {
+        ...state,
+        appointmentCreateStatus: FETCH_STATUS.succeeded,
+        postAppointmentStartTime: null,
+      };
+    case CREATE_REFERRAL_APPOINTMENT_FAILED:
+      return {
+        ...state,
+        appointmentCreateStatus: FETCH_STATUS.failed,
+        postAppointmentStartTime: null,
       };
     case CREATE_DRAFT_REFERRAL_APPOINTMENT:
       return {
