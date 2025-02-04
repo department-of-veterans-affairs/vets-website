@@ -186,5 +186,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(AddressPage);
-
-// export default AddressPage;
