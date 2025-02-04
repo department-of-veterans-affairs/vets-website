@@ -1,30 +1,46 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import ReviewPage from '../../../../components/submit-flow/pages/ReviewPage';
+import reducer from '../../../../redux/reducer';
 
-const appointment = require('../../../fixtures/appointment.json');
-
-const homeAddress = {
+const home = {
   addressLine1: '345 Home Address St.',
-  addressLine2: 'Apt. 3B',
-  addressLine3: null,
   addressPou: 'RESIDENCE/CHOICE',
   addressType: 'DOMESTIC',
   city: 'San Francisco',
   countryName: 'United States',
   countryCodeIso2: 'US',
   countryCodeIso3: 'USA',
-  countryCodeFips: null,
-  countyCode: null,
-  countyName: null,
-  internationalPostalCode: null,
-  sourceSystemUser: null,
   stateCode: 'CA',
   zipCode: '94118',
+};
+
+const mockAppt = {
+  practitioners: [
+    {
+      name: {
+        family: 'BERNARDO',
+        given: ['KENNETH J'],
+      },
+    },
+  ],
+  start: '2024-12-30T14:00:00Z',
+  localStartTime: '2024-12-30T08:00:00.000-06:00',
+  location: {
+    id: '983',
+    type: 'appointments',
+    attributes: {
+      name: 'Cheyenne VA Medical Center',
+    },
+  },
+  facilityData: {
+    name: 'Cheyenne VA Medical Center',
+  },
 };
 
 const onSubmitSpy = sinon.spy();
@@ -33,9 +49,27 @@ const setPageIndexSpy = sinon.spy();
 const setYesNoSpy = sinon.spy();
 
 describe('Revew page', () => {
+  const getData = ({ homeAddress = home } = {}) => {
+    return {
+      user: {
+        profile: {
+          vapContactInfo: {
+            residentialAddress: homeAddress,
+            mailingAddress: null,
+          },
+        },
+      },
+      travelPay: {
+        appointment: {
+          isLoading: false,
+          error: null,
+          data: mockAppt,
+        },
+      },
+    };
+  };
+
   const props = {
-    address: homeAddress,
-    appointment,
     onSubmit: () => onSubmitSpy(),
     isAgreementChecked: false,
     setIsAgreementChecked: () => setIsAgreementCheckedSpy(),
@@ -44,7 +78,10 @@ describe('Revew page', () => {
   };
 
   it('should render properly with all data', async () => {
-    const screen = render(<ReviewPage {...props} />);
+    const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
+      initialState: getData(),
+      reducers: reducer,
+    });
 
     expect(screen.getByText('Review your travel claim')).to.exist;
     expect(screen.findByText(/What you’re claiming/i)).to.exist;
@@ -72,7 +109,10 @@ describe('Revew page', () => {
   });
 
   it('should reset page index and answers when start over is pressed', async () => {
-    const screen = render(<ReviewPage {...props} />);
+    const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
+      initialState: getData(),
+      reducers: reducer,
+    });
 
     expect(screen.getByText('Review your travel claim')).to.exist;
 
@@ -84,7 +124,13 @@ describe('Revew page', () => {
   });
 
   it('should not show the error message if the travel agreement is checked', () => {
-    const screen = render(<ReviewPage {...props} isAgreementChecked />);
+    const screen = renderWithStoreAndRouter(
+      <ReviewPage {...props} isAgreementChecked />,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
 
     expect($('va-checkbox[name="accept-agreement"]')).to.have.attribute(
       'checked',
