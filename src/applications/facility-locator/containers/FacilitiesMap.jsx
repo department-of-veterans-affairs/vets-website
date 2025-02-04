@@ -9,7 +9,6 @@ import { isEmpty } from 'lodash';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   clearSearchText,
   clearSearchResults,
@@ -25,6 +24,7 @@ import {
 import {
   facilitiesPpmsSuppressAll,
   facilitiesPpmsSuppressPharmacies,
+  facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
 import NoResultsMessage from '../components/NoResultsMessage';
@@ -49,6 +49,8 @@ import { otherToolsLink } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
+import EmergencyCareAlert from '../components/EmergencyCareAlert';
+import ControlResultsHolder from '../components/ControlResultsHolder';
 
 let lastZoom = 3;
 
@@ -60,6 +62,12 @@ const FacilitiesMap = props => {
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
+  const [isSmallDesktop, setIsSmallDesktop] = useState(
+    window.innerWidth >= 1024,
+  );
+  const [, setIsTablet] = useState(
+    window.innerWidth > 481 && window.innerWidth <= 1023,
+  );
   const [isSearching, setIsSearching] = useState(false);
 
   /**
@@ -382,6 +390,7 @@ const FacilitiesMap = props => {
       results,
       pagination,
       searchError,
+      useProgressiveDisclosure,
     } = props;
 
     const currentPage = pagination ? pagination.currentPage : 1;
@@ -389,7 +398,7 @@ const FacilitiesMap = props => {
     const { facilityType, serviceType } = currentQuery;
     const queryContext = currentQuery.context;
     const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
-    const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
+    const isCcpEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
       serviceType,
     );
 
@@ -435,47 +444,51 @@ const FacilitiesMap = props => {
             description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
           />
         )}
-        <SearchControls
-          geolocateUser={props.geolocateUser}
-          clearGeocodeError={props.clearGeocodeError}
-          currentQuery={currentQuery}
-          onChange={props.updateSearchQuery}
-          onSubmit={handleSearch}
-          suppressPPMS={props.suppressPPMS}
-          suppressPharmacies={props.suppressPharmacies}
-          clearSearchText={props.clearSearchText}
-        />
-        {(isEmergencyCareType || isCppEmergencyCareTypes) && (
-          <VaAlert
-            slim
-            uswds
-            fullWidth
-            status="info"
-            className="vads-u-margin-top--1"
-            data-testid="emergency-care-info-note"
-            id="emergency-care-info-note"
-          >
-            <strong>Note:</strong> If you think your life or health is in
-            danger, call <va-telephone contact="911" /> or go to the nearest
-            emergency department right away.
-          </VaAlert>
-        )}
-        <div id="search-results-title" ref={searchResultTitleRef}>
-          {!searchError && (
-            <SearchResultsHeader
-              results={results}
-              facilityType={facilityType}
-              serviceType={serviceType}
-              context={queryContext}
-              specialtyMap={props.specialties}
-              inProgress={currentQuery.inProgress}
-              pagination={pagination}
-            />
+        <ControlResultsHolder
+          isSmallDesktop={isSmallDesktop && useProgressiveDisclosure}
+        >
+          <SearchControls
+            geolocateUser={props.geolocateUser}
+            clearGeocodeError={props.clearGeocodeError}
+            currentQuery={currentQuery}
+            onChange={props.updateSearchQuery}
+            onSubmit={handleSearch}
+            suppressPPMS={props.suppressPPMS}
+            suppressPharmacies={props.suppressPharmacies}
+            clearSearchText={props.clearSearchText}
+          />
+          <EmergencyCareAlert
+            shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
+          />
+          <div id="search-results-title" ref={searchResultTitleRef}>
+            {!searchError && (
+              <SearchResultsHeader
+                results={results}
+                facilityType={facilityType}
+                serviceType={serviceType}
+                context={queryContext}
+                specialtyMap={props.specialties}
+                inProgress={currentQuery.inProgress}
+                pagination={pagination}
+              />
+            )}
+            {searchError && <p />}
+          </div>
+          {!isMobile && (
+            <>
+              <div
+                className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-4 small-12"
+                id="searchResultsContainer"
+              >
+                <div className="facility-search-results">{resultsList()}</div>
+              </div>
+              {renderMap(false, results)}
+              {paginationWrapper()}
+            </>
           )}
-          {searchError && <p />}
-        </div>
+        </ControlResultsHolder>
 
-        {isMobile ? (
+        {isMobile && (
           <div className="columns small-12">
             <Tabs>
               <TabList>
@@ -513,17 +526,6 @@ const FacilitiesMap = props => {
               </TabPanel>
             </Tabs>
           </div>
-        ) : (
-          <>
-            <div
-              className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-4 small-12"
-              id="searchResultsContainer"
-            >
-              <div className="facility-search-results">{resultsList()}</div>
-            </div>
-            {renderMap(false, results)}
-            {paginationWrapper()}
-          </>
         )}
       </div>
     );
@@ -552,13 +554,15 @@ const FacilitiesMap = props => {
   };
 
   const setUpResizeEventListener = () => {
-    const setMobile = () => {
+    const setBreakpoints = () => {
       setIsMobile(window.innerWidth <= 481);
+      setIsSmallDesktop(window.innerWidth >= 1024);
+      setIsTablet(window.innerWidth > 481 && window.innerWidth <= 1023);
     };
 
     searchWithUrl();
 
-    const debouncedResize = vaDebounce(250, setMobile);
+    const debouncedResize = vaDebounce(250, setBreakpoints);
     window.addEventListener('resize', debouncedResize);
     return () => {
       window.removeEventListener('resize', debouncedResize);
@@ -691,6 +695,7 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
+  useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,
   resultTime: state.searchResult.resultTime,

@@ -95,14 +95,17 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SPECIALTIES:
       return {
         ...state,
-        error: false,
+        fetchSvcsError: null,
         fetchSvcsInProgress: true,
+        specialties: {},
+        fetchSvcsRawData: [],
       };
     case FETCH_SPECIALTIES_DONE:
       return {
         ...state,
-        error: false,
+        fetchSvcsError: null,
         fetchSvcsInProgress: false,
+        fetchSvcsRawData: action.data,
         specialties: action.data
           ? action.data.reduce((acc, cur) => {
               acc[cur.specialtyCode] = cur.name;
@@ -113,8 +116,11 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SPECIALTIES_FAILED:
       return {
         ...state,
-        error: true,
+        error: true, // can be removed, never gets used
         fetchSvcsInProgress: false,
+        fetchSvcsError: action.error || true,
+        facilityType: '', // resets facility type to the Choose a facility
+        isValid: true,
       };
     case SEARCH_FAILED:
       return {

@@ -72,6 +72,7 @@
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
+  "facilitiesUseFlProgressiveDisclosure": "facilities_use_fl_progressive_disclosure",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
   "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
