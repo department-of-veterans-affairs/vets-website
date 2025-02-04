@@ -1,5 +1,8 @@
+import { formatISO, differenceInMilliseconds } from 'date-fns';
+
 import { captureError } from '../../utils/error';
 import {
+  postReferralAppointment,
   postDraftReferralAppointment,
   getProviderById,
   getPatientReferrals,
@@ -8,6 +11,11 @@ import {
 import { filterReferrals } from '../utils/referrals';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
+export const CREATE_REFERRAL_APPOINTMENT = 'CREATE_REFERRAL_APPOINTMENT';
+export const CREATE_REFERRAL_APPOINTMENT_SUCCEEDED =
+  'CREATE_REFERRAL_APPOINTMENT_SUCCEEDED';
+export const CREATE_REFERRAL_APPOINTMENT_FAILED =
+  'CREATE_REFERRAL_APPOINTMENT_FAILED';
 export const CREATE_DRAFT_REFERRAL_APPOINTMENT =
   'CREATE_DRAFT_REFERRAL_APPOINTMENT';
 export const CREATE_DRAFT_REFERRAL_APPOINTMENT_SUCCEEDED =
@@ -31,6 +39,90 @@ export function setFormCurrentPage(currentPage) {
   return {
     type: SET_FORM_CURRENT_PAGE,
     payload: currentPage,
+  };
+}
+
+export function createReferralAppointment({
+  referralId,
+  slotId,
+  draftApppointmentId,
+  timeOut = 30000,
+  retryCount = 0,
+}) {
+  const retryDelay = 1000; // 1 second
+  return async (dispatch, getState) => {
+    try {
+      // Get the time the request started
+      const postAppointmentStartTime =
+        getState().referral.postAppointmentStartTime || formatISO(new Date());
+      // If the request has been running for more than 30 seconds, stop it
+      if (
+        differenceInMilliseconds(
+          new Date(),
+          new Date(postAppointmentStartTime),
+        ) > timeOut
+      ) {
+        dispatch({
+          type: CREATE_REFERRAL_APPOINTMENT_FAILED,
+        });
+        return captureError(new Error('Request timed out'));
+      }
+
+      dispatch({
+        type: CREATE_REFERRAL_APPOINTMENT,
+        payload: { postAppointmentStartTime },
+      });
+      // Try to create the appointment
+      const appointmentInfo = await postReferralAppointment({
+        referralId,
+        slotId,
+        draftApppointmentId,
+      });
+
+      // If the appointment is still in draft status, retry the request in 1 second to avoid spamming the api with requests
+      if (appointmentInfo.appointment.status === 'draft') {
+        setTimeout(() => {
+          dispatch(
+            createReferralAppointment({
+              referralId,
+              slotId,
+              draftApppointmentId,
+              timeOut,
+              retryCount: retryCount + 1,
+            }),
+          );
+        }, retryDelay);
+
+        return {};
+      }
+      dispatch({
+        type: CREATE_REFERRAL_APPOINTMENT_SUCCEEDED,
+      });
+
+      return appointmentInfo;
+    } catch (error) {
+      // If the request fails, retry the request up to 3 times
+      if (retryCount < 3) {
+        setTimeout(() => {
+          dispatch(
+            createReferralAppointment({
+              referralId,
+              slotId,
+              draftApppointmentId,
+              timeOut,
+              retryCount: retryCount + 1,
+            }),
+          );
+        }, retryDelay);
+
+        return {};
+      }
+
+      dispatch({
+        type: CREATE_REFERRAL_APPOINTMENT_FAILED,
+      });
+      return captureError(error);
+    }
   };
 }
 
