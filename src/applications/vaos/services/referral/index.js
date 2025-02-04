@@ -27,3 +27,13 @@ export async function getProviderById(providerId) {
   );
   return response.data;
 }
+
+export async function postDraftReferralAppointment(referralId) {
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/draftReferralAppointment/${referralId}`,
+    {
+      method: 'POST',
+    },
+  );
+  return response.data;
+}

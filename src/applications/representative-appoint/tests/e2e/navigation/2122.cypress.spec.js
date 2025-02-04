@@ -17,6 +17,10 @@ describe('Authenticated', () => {
         data: {
           features: [
             { name: 'appoint_a_representative_enable_frontend', value: true },
+            {
+              name: 'appoint_a_representative_enable_v2_features',
+              value: false,
+            },
           ],
         },
       });

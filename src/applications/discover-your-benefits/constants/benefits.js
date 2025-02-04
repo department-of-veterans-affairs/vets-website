@@ -92,28 +92,19 @@ export const separationTypeLabels = Object.freeze({
   OVER_3_YEARS: '3+ years',
 });
 
+// TODO: When PTEMSVT-411 passes staging remove logic in favor of the object with a DENIED key
 export const disabilityTypes = Object.freeze({
   APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  DENIED: 'DENIED',
   STARTED: 'STARTED',
   NOT_APPLIED: 'NOT_APPLIED',
 });
 
 export const disabilityTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received a disability rating.",
-  STARTED: "I've started the process but haven't received a rating.",
-  NOT_APPLIED: "I haven't applied for a disability rating.",
-});
-
-export const giBillTypes = Object.freeze({
-  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
-  STARTED: 'STARTED',
-  NOT_APPLIED: 'NOT_APPLIED',
-});
-
-export const giBillTypeLabels = Object.freeze({
-  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits.",
-  STARTED: "I've started the process but haven't received GI Bill benefits.",
-  NOT_APPLIED: "I haven't applied for GI Bill benefits.",
+  APPLIED_AND_RECEIVED: "I've filed a disability claim and received a rating.",
+  DENIED: "I've filed a disability claim, but my claim was denied.",
+  STARTED: "I've filed a disability claim, but haven't received a rating yet.",
+  NOT_APPLIED: "I haven't filed a disability claim.",
 });
 
 export const characterOfDischargeTypes = Object.freeze({
@@ -124,6 +115,7 @@ export const characterOfDischargeTypes = Object.freeze({
   BAD_CONDUCT: 'BAD_CONDUCT',
   DISHONORABLE: 'DISHONORABLE',
   UNCHARACTERIZED: 'UNCHARACTERIZED',
+  STILL_SERVING: 'STILL_SERVING',
   NOT_SURE: 'NOT_SURE',
 });
 
@@ -135,6 +127,7 @@ export const characterOfDischargeTypeLabels = Object.freeze({
   BAD_CONDUCT: 'Bad Conduct',
   DISHONORABLE: 'Dishonorable',
   UNCHARACTERIZED: 'Uncharacterized',
+  STILL_SERVING: "I'm still serving",
   NOT_SURE: "I'm not sure",
 });
 
@@ -147,7 +140,6 @@ export const mappingTypes = {
   SEPARATION: 'separation',
   CHARACTER_OF_DISCHARGE: 'characterOfDischarge',
   DISABILITY_RATING: 'disabilityRating',
-  GI_BILL: 'giBillStatus',
 };
 
 export const BENEFITS_LIST = [
@@ -167,10 +159,10 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
     applyNowURL: 'https://www.va.gov/education/how-to-apply/',
@@ -192,10 +184,10 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://skillbridge.osd.mil/program-overview.htm',
     applyNowURL: '',
@@ -232,10 +224,10 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     extraConditions: {
       oneIsNotBlank: [
@@ -265,10 +257,10 @@ export const BENEFITS_LIST = [
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.opm.gov/fedshirevets/',
     applyNowURL: '',
@@ -289,7 +281,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/careers-employment/veteran-owned-business-support/',
@@ -311,7 +302,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.dodtap.mil/dodtap/app/home',
     applyNowURL: '',
@@ -335,13 +325,13 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
         disabilityTypes.STARTED,
       ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/careers-employment/vocational-rehabilitation/',
@@ -371,10 +361,10 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
     applyNowURL: '',
@@ -403,12 +393,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.APPLIED_AND_RECEIVED,
-        disabilityTypes.STARTED,
-      ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/housing-assistance/disability-housing-grants/',
@@ -445,9 +432,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/pension/eligibility/',
     applyNowURL: 'https://www.va.gov/pension/how-to-apply/',
@@ -457,7 +444,7 @@ export const BENEFITS_LIST = [
     category: categories.HEALTH_CARE,
     id: 'MHC',
     description:
-      'VA has a variety of mental health resources, information, treatment options and more — all accessible to Veterans, Veterans’ supporters and the general public. Select Learn More below to learn more about a specific mental health topic or to find information specifically tailored to your needs.',
+      'Find out how to access VA mental health services for posttraumatic stress disorder (PTSD), psychological effects of military sexual trauma (MST), depression, grief, anxiety, and other needs. You can use some services even if you’re not enrolled in VA health care.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [goalTypes.HEALTH, goalTypes.UNDERSTAND],
@@ -472,9 +459,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/health-care/health-needs-conditions/mental-health/',
@@ -500,12 +487,12 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.APPLIED_AND_RECEIVED,
         disabilityTypes.STARTED,
       ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/health-care/foreign-medical-program/',
     applyNowURL:
@@ -532,7 +519,6 @@ export const BENEFITS_LIST = [
       ],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/life-insurance/options-eligibility/vgli',
     applyNowURL: '',
@@ -558,12 +544,12 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
         characterOfDischargeTypes.UNCHARACTERIZED,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [
         disabilityTypes.STARTED,
         disabilityTypes.APPLIED_AND_RECEIVED,
       ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/life-insurance/options-eligibility/valife',
@@ -595,12 +581,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
-      [mappingTypes.DISABILITY_RATING]: [
-        disabilityTypes.STARTED,
-        disabilityTypes.NOT_APPLIED,
-      ],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/disability/',
     applyNowURL:
@@ -633,9 +616,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/housing-assistance/home-loans/',
     applyNowURL:
@@ -666,9 +649,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/health-care/',
     applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
@@ -694,9 +677,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/burials-memorials/eligibility/',
     applyNowURL: 'https://www.va.gov/burials-memorials/pre-need-eligibility/',
@@ -717,9 +700,9 @@ export const BENEFITS_LIST = [
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
       'https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/',
@@ -744,9 +727,9 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.BAD_CONDUCT,
         characterOfDischargeTypes.DISHONORABLE,
         characterOfDischargeTypes.NOT_SURE,
+        characterOfDischargeTypes.STILL_SERVING,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/discharge-upgrade-instructions/',
     applyNowURL: '',

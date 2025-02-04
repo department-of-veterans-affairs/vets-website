@@ -1,12 +1,29 @@
 import React from 'react';
 import { expect } from 'chai';
+import * as api from '~/platform/utilities/api';
+import { waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
 import ProofOfVeteranStatusNew from './ProofOfVeteranStatusNew';
 
-const eligibleServiceHistoryItem = {
+const serviceHistoryItemOlder = {
   branchOfService: 'Air Force',
-  beginDate: '2009-04-12',
-  endDate: '2013-04-11',
+  beginDate: '2000-01-01',
+  endDate: '2001-01-01',
+  personnelCategoryTypeCode: 'V',
+  characterOfDischargeCode: 'A',
+};
+const serviceHistoryItemMiddle = {
+  branchOfService: 'Air Force',
+  beginDate: '2010-01-01',
+  endDate: '2011-01-01',
+  personnelCategoryTypeCode: 'V',
+  characterOfDischargeCode: 'A',
+};
+const serviceHistoryItemNewer = {
+  branchOfService: 'Air Force',
+  beginDate: '2020-01-01',
+  endDate: '2021-01-01',
   personnelCategoryTypeCode: 'V',
   characterOfDischargeCode: 'A',
 };
@@ -43,8 +60,17 @@ const nonEligibility = {
   ],
 };
 
-function createBasicInitialState(serviceHistory, eligibility) {
+function createBasicInitialState(
+  serviceHistory,
+  eligibility,
+  enableToggle = false,
+) {
   return {
+    featureToggles: {
+      loading: false,
+      // eslint-disable-next-line camelcase
+      veteran_status_card_use_lighthouse_frontend: enableToggle,
+    },
     user: {
       profile: {
         veteranStatus: {
@@ -78,7 +104,7 @@ function createBasicInitialState(serviceHistory, eligibility) {
 describe('ProofOfVeteranStatusNew', () => {
   describe('when it exists', () => {
     const initialState = createBasicInitialState(
-      [eligibleServiceHistoryItem],
+      [serviceHistoryItemMiddle],
       confirmedEligibility,
     );
 
@@ -111,10 +137,188 @@ describe('ProofOfVeteranStatusNew', () => {
     });
   });
 
+  describe('should fetch verification status on render', () => {
+    let apiRequestStub;
+    let initialState = createBasicInitialState(
+      [serviceHistoryItemMiddle],
+
+      confirmedEligibility,
+      true,
+    );
+
+    beforeEach(() => {
+      apiRequestStub = sinon.stub(api, 'apiRequest');
+    });
+
+    afterEach(() => {
+      apiRequestStub.restore();
+    });
+
+    it('displays the card successfully', async () => {
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: { veteranStatus: 'confirmed' },
+        },
+      };
+
+      apiRequestStub.resolves(mockData);
+
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      sinon.assert.calledWith(
+        apiRequestStub,
+        '/profile/vet_verification_status',
+      );
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /Get proof of Veteran status on your mobile device/i,
+          ),
+        ).to.exist;
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.not.exist;
+      });
+    });
+
+    it('displays the returned not confirmed message', async () => {
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: {
+            veteranStatus: 'not confirmed',
+            notConfirmedReason: 'PERSON_NOT_FOUND',
+          },
+          message: problematicEligibility.message,
+        },
+      };
+
+      apiRequestStub.resolves(mockData);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /Get proof of Veteran Status on your mobile device/i,
+          ),
+        ).to.not.exist;
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('handles empty API response', async () => {
+      const mockData = {
+        data: {},
+      };
+      apiRequestStub.resolves(mockData);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('handles API error', async () => {
+      apiRequestStub.rejects(new Error('API Error'));
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.getByText(
+            'We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later.',
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('displays not confirmed message if confirmed with no service history', async () => {
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: { veteranStatus: 'confirmed' },
+        },
+      };
+      apiRequestStub.resolves(mockData);
+
+      initialState = createBasicInitialState([], problematicEligibility, true);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      sinon.assert.calledWith(
+        apiRequestStub,
+        '/profile/vet_verification_status',
+      );
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('displays not confirmed message if not confirmed and no service history', async () => {
+      const mockData = {
+        data: {
+          id: '',
+          type: 'veteran_status_confirmations',
+          attributes: {
+            veteranStatus: 'not confirmed',
+            notConfirmedReason: 'PERSON_NOT_FOUND',
+          },
+          message: problematicEligibility.message,
+        },
+      };
+      apiRequestStub.resolves(mockData);
+      initialState = createBasicInitialState([], problematicEligibility, true);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /Get proof of Veteran Status on your mobile device/i,
+          ),
+        ).to.not.exist;
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.exist;
+      });
+    });
+  });
+
   describe('when eligible', () => {
     const initialState = createBasicInitialState(
       [
-        eligibleServiceHistoryItem,
+        serviceHistoryItemOlder,
+        serviceHistoryItemMiddle,
+        serviceHistoryItemNewer,
         ineligibleServiceHistoryItem,
         neutralServiceHistoryItem,
       ],
@@ -129,6 +333,23 @@ describe('ProofOfVeteranStatusNew', () => {
       expect(
         view.queryByText(/This status doesn’t entitle you to any VA benefits./),
       ).to.exist;
+    });
+
+    it('should render the latest service item', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+      expect(view.queryByText(/United States Air Force • 2020–2021/)).to.exist;
+    });
+
+    it('should render the print button', () => {
+      const view = renderWithProfileReducers(<ProofOfVeteranStatusNew />, {
+        initialState,
+      });
+      const link = view.container.querySelector('va-link');
+      expect(link.getAttribute('text')).to.equal(
+        'Print your Proof of Veteran status (PDF)',
+      );
     });
   });
 
@@ -154,7 +375,7 @@ describe('ProofOfVeteranStatusNew', () => {
   describe('when there is no veteran full name', () => {
     const initialState = createBasicInitialState(
       [
-        eligibleServiceHistoryItem,
+        serviceHistoryItemMiddle,
         ineligibleServiceHistoryItem,
         neutralServiceHistoryItem,
       ],

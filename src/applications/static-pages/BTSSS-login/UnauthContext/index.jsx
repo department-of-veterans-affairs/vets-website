@@ -12,33 +12,20 @@ const UnauthContext = () => {
   };
 
   return (
-    <va-alert
+    <va-alert-sign-in
       data-testid="btsss-login-alert"
-      close-btn-aria-label="Close notification"
-      status="continue"
+      variant="signInRequired"
+      heading-level={3}
       visible
-      uswds
     >
-      <h3 id="track-your-status-on-mobile" slot="headline">
-        Sign in to file a travel pay claim
-      </h3>
-      <div>
-        <p className="vads-u-margin-top--0">
-          Sign in with your existing <strong>Login.gov</strong>,{' '}
-          <strong>ID.me</strong>, <strong>DS Logon</strong>, or{' '}
-          <strong>My HealtheVet</strong> account. If you don’t have any of these
-          accounts, you can create a free <strong>Login.gov</strong> or{' '}
-          <strong>ID.me</strong> account now.
-        </p>
+      <span slot="SignInButton">
         <va-button
           data-testid="btsss-login-button"
           onClick={handleSigninClick}
-          primary-alternate
           text="Sign in or create an account"
-          uswds
         />
-      </div>
-    </va-alert>
+      </span>
+    </va-alert-sign-in>
   );
 };
 

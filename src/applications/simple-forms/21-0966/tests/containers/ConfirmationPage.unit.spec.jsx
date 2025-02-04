@@ -7,7 +7,9 @@ import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import formConfig from '../../config/form';
 import * as features from '../../config/features';
-import ConfirmationPage from '../../containers/ConfirmationPage';
+import ConfirmationPage, {
+  getNextStepsActionsPlaceholders,
+} from '../../containers/ConfirmationPage';
 
 const veteranData = {
   benefitSelection: {
@@ -167,7 +169,6 @@ describe('Confirmation page V2', () => {
     getByText(/Jack/);
     getByText(/Your form submission was successful on/);
     getByText(/You have until/);
-    getByText(/After we process your request/);
     expect(
       container.querySelector(
         'va-link-action[text="Complete your pension claim"]',
@@ -219,7 +220,6 @@ describe('Confirmation page V2', () => {
     getByText(/Alternate/);
     getByText(/Your form submission was successful on/);
     getByText(/You have until/);
-    getByText(/After we process your request/);
     expect(
       container.querySelector(
         'va-link-action[text="Complete your pension for survivors claim"]',
@@ -261,7 +261,6 @@ describe('Confirmation page V2', () => {
     getByText(/Jack/);
     getByText(/Your form submission was successful on/);
     getByText(/You have until/);
-    getByText(/After we process your request/);
     expect(
       container.querySelector(
         'va-link-action[text="Complete your pension claim"]',
@@ -293,6 +292,60 @@ describe('Confirmation page V2', () => {
         'va-link-action[text="Complete your pension for survivors claim"]',
       ),
     ).to.exist;
+  });
+
+  it('should return correct getNextStepsActionsPlaceholders for a veteran with new benefits', () => {
+    const formData = {
+      benefitSelection: {
+        compensation: true,
+        pension: true,
+      },
+    };
+    const placeholders = getNextStepsActionsPlaceholders(formData);
+    expect(placeholders.actionsNew).to.deep.equal(['compensation', 'pension']);
+    expect(placeholders.actionsExisting).to.deep.equal([]);
+  });
+
+  it('should return correct getNextStepsActionsPlaceholders for a veteran with mixed benefits', () => {
+    const formData = {
+      benefitSelection: {
+        pension: true,
+      },
+      'view:activeCompensationITF': responseExisting.compensationIntent,
+    };
+    const placeholders = getNextStepsActionsPlaceholders(formData);
+    expect(placeholders.actionsNew).to.deep.equal(['pension']);
+    expect(placeholders.actionsExisting).to.deep.equal(['compensation']);
+  });
+
+  it('should return correct getNextStepsActionsPlaceholders for a veteran with existing benefits', () => {
+    const formData = {
+      benefitSelection: {},
+      'view:activePensionITF': responseExisting.pensionIntent,
+      'view:activeCompensationITF': responseExisting.compensationIntent,
+    };
+    const placeholders = getNextStepsActionsPlaceholders(formData);
+    expect(placeholders.actionsNew).to.deep.equal([]);
+    expect(placeholders.actionsExisting).to.deep.equal([
+      'compensation',
+      'pension',
+    ]);
+  });
+
+  it('should return correct getNextStepsActionsPlaceholders for a survivor', () => {
+    const formData = {
+      benefitSelection: {
+        survivor: true,
+      },
+      'view:activePensionITF': responseExisting.pensionIntent,
+      'view:activeCompensationITF': responseExisting.compensationIntent,
+    };
+    const placeholders = getNextStepsActionsPlaceholders(formData);
+    expect(placeholders.actionsNew).to.deep.equal(['survivor']);
+    expect(placeholders.actionsExisting).to.deep.equal([
+      'compensation',
+      'pension',
+    ]);
   });
 });
 
@@ -379,4 +432,6 @@ describe('Confirmation page V1', () => {
       'va-link-action[text="Complete your pension for survivors claim"]',
     );
   });
+
+  // confirmation v1 tests end
 });

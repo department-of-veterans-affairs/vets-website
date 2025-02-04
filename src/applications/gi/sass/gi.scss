@@ -310,30 +310,74 @@
   padding-left: 0;
 }
 
-.lc-dropdown-filter {
-  max-width: 30rem;
+.lc-page-wrapper {
+  .faq-answer {
+    display: inline;
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $units-1;
+    margin: inherit;
+    padding: $units-1 0;
+
+    @media (min-width: $mobile-lg) {
+      flex-direction: row;
+      gap: 0;
+      padding: $units-6 0;
+    }
+
+    .va-button {
+      @media (min-width: $mobile-lg) {
+        margin-right: $units-2;
+      }
+    }
+  }
 }
 
-.lc-card-subheader {
-  text-transform: capitalize;
+.lc-form-wrapper {
+  $input-width: 30rem;
+
+  .dropdown-filter {
+    max-width: $input-width;
+  }
+
+  .input-container {
+    display: flex;
+    border: 1px solid $color-gray-dark;
+    margin: 6px 0px;
+    height: 2.625rem;
+    max-width: $input-width;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-icon {
+      padding: 0 3px;
+    }
+  }
+
+  .additional-info-wrapper {
+    max-width: $input-width;
+    padding-top: 3px;
+  }
 }
 
-// .input-container {
-//   display: flex;
-//   border: 1px solid $color-gray-dark;
-//   margin: 6px 0px;
-//   height: 2.625rem;
-//   max-width: 30rem;
+.lc-result-cards-wrapper {
+  list-style: none;
+  padding-left: 0;
+}
 
-//   input {
-//     border: none;
-//     height: unset;
-//   }
-
-//   .clear-icon {
-//     padding: 0 3px;
-//   }
-// }
+.lc-result-info-wrapper {
+  .back-link {
+    @media (max-width: $mobile-lg) {
+      display: none;
+    }
+  }
+}
 
 .inst-remove-btn::part(button) {
   background-color: transparent;
@@ -380,6 +424,10 @@
       }
     }
   }
+  #results-summary,
+  #no-results-message {
+    width: fit-content;
+  }
 }
 
 .national-exams-container {
@@ -411,7 +459,10 @@
     align-items: flex-end;
     .degree-selector {
       width: 100%;
-      max-width: 267px;
+      max-width: 18rem;
+    }
+    va-select::part(label) {
+      margin-top: 1rem;
     }
     .degree-selector-btn {
       white-space: nowrap;
@@ -420,7 +471,7 @@
       flex-direction: column;
       .degree-selector {
         max-width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
       }
       .degree-selector-btn {
         width: 100%;
@@ -428,10 +479,13 @@
       }
     }
   }
+  #results-summary {
+    width: fit-content;
+  }
   .degree-level-results {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 1.25rem;
     list-style: none;
     padding: 0;
     .degree-item {
@@ -439,7 +493,7 @@
       height: auto;
       display: flex;
       width: 100%;
-      max-width: 305px;
+      max-width: 19.0625rem;
       .degree-level-card {
         flex: 1;
         width: 100%;

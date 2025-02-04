@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  isProfileLoading,
-  isLoggedIn,
-} from '@department-of-veterans-affairs/platform-user/selectors';
 import { parseISO, isWithinInterval } from 'date-fns';
 import {
   VaBackToTop,
@@ -17,18 +13,16 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { focusElement } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 import { scrollTo } from 'platform/utilities/ui/scroll';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import BreadCrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
+import ErrorAlert from '../components/alerts/ErrorAlert';
 
-export default function App({ children }) {
+export default function TravelPayStatusApp({ children }) {
   const dispatch = useDispatch();
-  const profileLoading = useSelector(state => isProfileLoading(state));
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
 
   const filterInfoRef = useRef();
 
@@ -171,12 +165,12 @@ export default function App({ children }) {
 
   useEffect(
     () => {
-      if (userLoggedIn && !hasFetchedClaims && travelClaims.length === 0) {
+      if (!hasFetchedClaims && travelClaims.length === 0) {
         dispatch(getTravelClaims());
         setHasFetchedClaims(true);
       }
     },
-    [dispatch, userLoggedIn, travelClaims, hasFetchedClaims],
+    [dispatch, travelClaims, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -255,7 +249,7 @@ export default function App({ children }) {
     [setCurrentPage],
   );
 
-  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
+  if (toggleIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -272,6 +266,27 @@ export default function App({ children }) {
     return null;
   }
 
+  if (error) {
+    return (
+      <Element name="topScrollElement">
+        <article className="usa-grid-full vads-u-padding-bottom--0">
+          <BreadCrumbs />
+          <h1 tabIndex="-1" data-testid="header">
+            Check your travel reimbursement claim status
+          </h1>
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
+              You can use this tool to check the status of your VA travel
+              claims.
+            </h2>
+            <ErrorAlert errorStatus={error.errors[0].status} />
+            <VaBackToTop />
+          </div>
+        </article>
+      </Element>
+    );
+  }
+
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
@@ -283,19 +298,22 @@ export default function App({ children }) {
           <h2 className="vads-u-font-size--h4">
             You can use this tool to check the status of your VA travel claims.
           </h2>
-          <va-additional-info
-            class="vads-u-margin-y--3"
-            trigger="How to manage your claims or get more information"
-          >
-            <>
-              <HelpTextManage />
-              <va-link
-                data-testid="status-explainer-link"
-                href="/my-health/travel-pay/help"
-                text="What does my claim status mean?"
-              />
-            </>
-          </va-additional-info>
+          {!error &&
+            !isLoading && (
+              <va-additional-info
+                class="vads-u-margin-y--3"
+                trigger="How to manage your claims or get more information"
+              >
+                <>
+                  <HelpTextManage />
+                  <va-link
+                    data-testid="status-explainer-link"
+                    href="/my-health/travel-pay/help"
+                    text="What does my claim status mean?"
+                  />
+                </>
+              </va-additional-info>
+            )}
 
           {isLoading && (
             <va-loading-indicator
@@ -303,18 +321,7 @@ export default function App({ children }) {
               message="Loading Travel Claims..."
             />
           )}
-          {!userLoggedIn && (
-            <>
-              <p>Log in to view your travel claims</p>
-              <va-button
-                text="Sign in"
-                onClick={() => dispatch(toggleLoginModal(true))}
-              />
-            </>
-          )}
-          {error && <p>Error fetching travel claims.</p>}
-          {userLoggedIn &&
-            !isLoading &&
+          {!isLoading &&
             travelClaims.length > 0 && (
               <>
                 <div className="btsss-claims-sort-and-filter-container">
@@ -388,8 +395,7 @@ export default function App({ children }) {
                 )}
               </>
             )}
-          {userLoggedIn &&
-            !isLoading &&
+          {!isLoading &&
             !error &&
             travelClaims.length === 0 && <p>No travel claims to show.</p>}
           <VaBackToTop />
@@ -401,7 +407,7 @@ export default function App({ children }) {
   );
 }
 
-App.propTypes = {
+TravelPayStatusApp.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

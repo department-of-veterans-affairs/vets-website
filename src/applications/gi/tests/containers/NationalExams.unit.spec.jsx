@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NationalExamsList from '../../containers/NationalExamsList';
+import { formatNationalExamName } from '../../utils/helpers';
 
 const mockExams = [
   {
@@ -130,7 +131,7 @@ describe('NationalExamsList', () => {
   });
   it('should render the GI Bill reimbursement link correctly', () => {
     const wrapper = mountComponent();
-    const link = wrapper.find('va-link');
+    const link = wrapper.find('va-link').at(0);
     expect(link.prop('href')).to.equal(
       'https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/',
     );
@@ -167,28 +168,22 @@ describe('NationalExamsList', () => {
     const newPage = 2;
     const itemsPerPage = 10;
 
-    // Trigger a page change to the second page
     wrapper.find('VaPagination').prop('onPageSelect')({
       detail: { page: newPage },
     });
     wrapper.update();
-
-    // Wait a tick for asynchronous updates
     await new Promise(resolve => setTimeout(resolve, 0));
-
-    // Determine which exam names we expect on page 2
     const expectedItems = initialState.nationalExams.nationalExams
       .slice((newPage - 1) * itemsPerPage, newPage * itemsPerPage)
       .map(exam => exam.name);
-
-    // Grab the displayed exam names from the UI
+    const expectedItemsFormatted = expectedItems.map(name =>
+      formatNationalExamName(name),
+    );
     const displayedItems = wrapper.find('li h3').map(node => node.text());
-
-    // Confirm that the displayed items match what we expect
-    expect(displayedItems).to.deep.equal(expectedItems);
-
+    expect(displayedItems).to.deep.equal(expectedItemsFormatted);
     wrapper.unmount();
   });
+
   it('displays the loading indicator when loading is true', () => {
     // Mount the component with loading state set to true
     store = mockStore({
@@ -210,7 +205,7 @@ describe('NationalExamsList', () => {
     expect(loadingIndicator.exists()).to.be.true;
     expect(loadingIndicator.prop('label')).to.equal('Loading');
     expect(loadingIndicator.prop('message')).to.equal(
-      'Loading your National exams...',
+      'Loading your national exams...',
     );
     wrapper.unmount();
   });
@@ -264,7 +259,7 @@ describe('NationalExamsList', () => {
     expect(alert.exists()).to.be.true;
     expect(alert.prop('status')).to.equal('error');
     expect(alert.find('h2[slot="headline"]').text()).to.equal(
-      'We can’t load the National exams list right now',
+      'We can’t load the national exams list right now',
     );
     expect(alert.find('p').text()).to.include(
       'We’re sorry. There’s a problem with our system. Try again later.',

@@ -1,7 +1,7 @@
 export default {
   DOWNLOAD_1095B_CTA: 'download-1095b',
   APPOINT_A_REP_LANDING_CONTENT: 'appoint-a-rep-landing-content',
-  ASK_VA: 'ask-va',
+  ASK_VA: 'ask-va-widget',
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
   BURIAL_HOW_DO_I_APPLY_WIDGET: 'burial-how-do-i-apply-widget',

@@ -3,65 +3,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
+const submissionAlertContent = (
+  <p>
+    If you change your mind and want us to stop releasing your personal
+    information, you can contact us online through{' '}
+    <a href="https://ask.va.gov" target="_blank" rel="noopener noreferrer">
+      Ask VA
+      <va-icon icon="launch" srtext="opens in a new window" />
+    </a>
+    or call us at{' '}
+    <a href="tel:+18008271000" aria-label="1. 8 0 0. 8 2 7. 1 0 0 0.">
+      1-800-827-1000
+    </a>
+    . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+  </p>
+);
 
-const content = {
-  headlineText: 'Thank you for submitting your authorization',
-  nextStepsText: (
-    <>
-      <p>
-        If you change your mind and do not want VA to give out your personal
-        benefit or claim information, you may notify us in writing, or by
-        telephone at{' '}
-        <a href="tel:+18008271000" aria-label="1. 8 0 0. 8 2 7. 1 0 0 0.">
-          1-800-827-1000
-        </a>{' '}
-        or contact VA online at{' '}
-        <a href="https://ask.va.gov" target="_blank" rel="noopener noreferrer">
-          Ask VA
-          <va-icon icon="launch" srtext="opens in a new window" />
-        </a>
-        .
-      </p>
-      <p>
-        Upon notification from you VA will no longer give out benefit or claim
-        information (except for the information VA has already given out based
-        on your permission).
-      </p>
-    </>
-  ),
-};
-
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
-  const fullName = form.data?.veteranFullName;
-  const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const submitDate = submission?.timestamp;
+  const confirmationNumber = submission?.response?.confirmationNumber;
 
   return (
-    <ConfirmationPageView
-      formType="authorization"
-      submitterHeader="Submitter"
-      submitterName={fullName}
+    <ConfirmationView
+      formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      content={content}
-    />
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    >
+      <ConfirmationView.SubmissionAlert
+        content={submissionAlertContent}
+        // actions={<></>}
+      />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string.isRequired,
-        middle: PropTypes.string,
-        last: PropTypes.string.isRequired,
-        suffix: PropTypes.string,
-      },
-    }),
+    data: PropTypes.object,
     formId: PropTypes.string,
     submission: PropTypes.shape({
       response: PropTypes.shape({
@@ -69,10 +62,13 @@ ConfirmationPage.propTypes = {
           confirmationNumber: PropTypes.string.isRequired,
         }).isRequired,
       }).isRequired,
-      timestamp: PropTypes.string.isRequired,
+      timestamp: PropTypes.string,
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };
 
 function mapStateToProps(state) {

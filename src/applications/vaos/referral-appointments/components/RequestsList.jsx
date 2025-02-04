@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import RequestAppointmentLayout from '../../components/RequestAppointmentLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import InfoAlert from '../../components/InfoAlert';
+// eslint-disable-next-line import/no-restricted-paths
 import ScheduleAppointmentLink from '../../appointment-list/components/ScheduleAppointmentLink';
 
 const RequestList = ({ appointments, requestsError }) => {

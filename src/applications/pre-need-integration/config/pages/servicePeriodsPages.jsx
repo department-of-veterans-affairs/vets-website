@@ -19,6 +19,112 @@ import {
 import rankEnums from '../../utils/rankEnums';
 import { rankLabels } from '../../utils/rankLabels';
 
+export function handleGetItemName(item) {
+  return item?.serviceBranch ? serviceLabels[item.serviceBranch] : null;
+}
+
+export function handleAlertMaxItems() {
+  return 'You have added the maximum number of allowed service periods for this application. You may edit or delete a service period or choose to continue the application.';
+}
+
+export function handleCardDescription(item) {
+  const dateRangeFrom = item?.dateRange?.from;
+  const dateRangeTo = item?.dateRange?.to;
+
+  let range = '';
+
+  if (dateRangeFrom) {
+    range += formatReviewDate(dateRangeFrom);
+  }
+
+  if (dateRangeFrom && dateRangeTo) {
+    range += ' - ';
+  }
+
+  if (dateRangeTo) {
+    range += formatReviewDate(dateRangeTo);
+  }
+
+  return range;
+}
+
+export function handleCancelAddTitle(props) {
+  const servicePeriodName = props.getItemName(props.itemData);
+
+  if (servicePeriodName === null) {
+    return `Cancel adding this service period`;
+  }
+  return `Cancel adding ${servicePeriodName} service period`;
+}
+
+export function handleCancelAddNo() {
+  return 'No, keep this';
+}
+
+export function handleDeleteTitle(props) {
+  const servicePeriodName = props.getItemName(props.itemData);
+
+  return `Are you sure you want to remove this ${servicePeriodName} service period?`;
+}
+
+export function handleDeleteDescription(props) {
+  const servicePeriodName = props.getItemName(props.itemData);
+
+  return `This will remove ${servicePeriodName} and all the information from the service period records.`;
+}
+
+export function handleDeleteNeedAtLeastOneDescription() {
+  return 'If you remove this service period, we’ll take you to a screen where you can add another service period. You’ll need to list at least one service period for us to process this form.';
+}
+
+export function handleDeleteYes() {
+  return 'Yes, remove this';
+}
+
+export function handleDeleteNo() {
+  return 'No, keep this';
+}
+
+export function handleCancelEditTitle(props) {
+  const servicePeriodName = props.getItemName(props.itemData);
+
+  return `Cancel editing ${servicePeriodName} service period?`;
+}
+
+export function handleCancelEditDescription() {
+  return 'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.';
+}
+
+export function handleCancelEditYes() {
+  return 'Yes, cancel';
+}
+
+export function handleCancelEditNo() {
+  return 'No, keep this';
+}
+
+export function handleSummaryTitle(formData) {
+  return hasServiceRecord(formData)
+    ? 'Veteran’s service period(s)'
+    : 'Review service period records';
+}
+
+export function handleVeteranDepends(formData) {
+  return isVeteran(formData) && !isAuthorizedAgent(formData);
+}
+
+export function handlePreparerVeteranDepends(formData) {
+  return isVeteran(formData) && isAuthorizedAgent(formData);
+}
+
+export function handleNonVeteranDepends(formData) {
+  return !isVeteran(formData) && !isAuthorizedAgent(formData);
+}
+
+export function handlePreparerNonVeteranDepends(formData) {
+  return !isVeteran(formData) && isAuthorizedAgent(formData);
+}
+
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'serviceRecords',
@@ -28,67 +134,21 @@ const options = {
   isItemIncomplete: item => !item?.serviceBranch, // include all required fields here
   maxItems: 3,
   text: {
-    getItemName: item => {
-      return item?.serviceBranch ? serviceLabels[item.serviceBranch] : null;
-    },
-    alertMaxItems: () =>
-      'You have added the maximum number of allowed service periods for this application. You may edit or delete a service period or choose to continue the application.',
-    cardDescription: item => {
-      const dateRangeFrom = item?.dateRange?.from;
-      const dateRangeTo = item?.dateRange?.to;
-
-      let range = '';
-
-      if (dateRangeFrom) {
-        range += formatReviewDate(dateRangeFrom);
-      }
-
-      if (dateRangeFrom && dateRangeTo) {
-        range += ' - ';
-      }
-
-      if (dateRangeTo) {
-        range += formatReviewDate(dateRangeTo);
-      }
-
-      return range;
-    },
-    cancelAddTitle: props => {
-      const servicePeriodName = props.getItemName(props.itemData);
-
-      if (servicePeriodName === null) {
-        return `Cancel adding this service period`;
-      }
-      return `Cancel adding ${servicePeriodName} service period`;
-    },
-    cancelAddNo: () => 'No, keep this',
-    deleteTitle: props => {
-      const servicePeriodName = props.getItemName(props.itemData);
-
-      return `Are you sure you want to remove this ${servicePeriodName} service period?`;
-    },
-    deleteDescription: props => {
-      const servicePeriodName = props.getItemName(props.itemData);
-
-      return `This will remove ${servicePeriodName} and all the information from the service period records.`;
-    },
-    deleteNeedAtLeastOneDescription: () =>
-      'If you remove this service period, we’ll take you to a screen where you can add another service period. You’ll need to list at least one service period for us to process this form.',
-    deleteYes: () => 'Yes, remove this',
-    deleteNo: () => 'No, keep this',
-    cancelEditTitle: props => {
-      const servicePeriodName = props.getItemName(props.itemData);
-
-      return `Cancel editing ${servicePeriodName} service period?`;
-    },
-    cancelEditDescription: () =>
-      'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.',
-    cancelEditYes: () => 'Yes, cancel',
-    cancelEditNo: () => 'No, keep this',
-    summaryTitle: formData =>
-      hasServiceRecord(formData)
-        ? 'Veteran’s service period(s)'
-        : 'Review service period records',
+    getItemName: handleGetItemName,
+    alertMaxItems: handleAlertMaxItems,
+    cardDescription: handleCardDescription,
+    cancelAddTitle: handleCancelAddTitle,
+    cancelAddNo: handleCancelAddNo,
+    deleteTitle: handleDeleteTitle,
+    deleteDescription: handleDeleteDescription,
+    deleteNeedAtLeastOneDescription: handleDeleteNeedAtLeastOneDescription,
+    deleteYes: handleDeleteYes,
+    deleteNo: handleDeleteNo,
+    cancelEditTitle: handleCancelEditTitle,
+    cancelEditDescription: handleCancelEditDescription,
+    cancelEditYes: handleCancelEditYes,
+    cancelEditNo: handleCancelEditNo,
+    summaryTitle: handleSummaryTitle,
   },
 };
 
@@ -136,7 +196,7 @@ function handleTitle(isVet, isPrep, vetTitle, sponsorTitle, prepTitle) {
 }
 
 /** @returns {PageSchema} */
-function servicePeriodInformationPage(isVet, isPrep) {
+export function servicePeriodInformationPage(isVet, isPrep) {
   return {
     uiSchema: {
       ...arrayBuilderItemFirstPageTitleUI({
@@ -469,21 +529,21 @@ export const servicePeriodsPagesVeteran = arrayBuilderPages(
       path: 'service-periods-veteran',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
-      depends: formData => isVeteran(formData) && !isAuthorizedAgent(formData),
+      depends: formData => handleVeteranDepends(formData),
     }),
     servicePeriodsSummaryVeteran: pageBuilder.summaryPage({
       title: 'Your service period(s)',
       path: 'service-periods-summary-veteran',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
-      depends: formData => isVeteran(formData) && !isAuthorizedAgent(formData),
+      depends: formData => handleVeteranDepends(formData),
     }),
     servicePeriodInformationPageVeteran: pageBuilder.itemPage({
       title: 'Service period',
       path: 'service-periods-veteran/:index/service-period',
       uiSchema: servicePeriodInformationPageVeteran.uiSchema,
       schema: servicePeriodInformationPageVeteran.schema,
-      depends: formData => isVeteran(formData) && !isAuthorizedAgent(formData),
+      depends: formData => handleVeteranDepends(formData),
     }),
   }),
 );
@@ -496,21 +556,21 @@ export const servicePeriodsPagesPreparerVeteran = arrayBuilderPages(
       path: 'service-periods-preparer-veteran',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
-      depends: formData => isVeteran(formData) && isAuthorizedAgent(formData),
+      depends: formData => handlePreparerVeteranDepends(formData),
     }),
     servicePeriodsSummaryPreparerVeteran: pageBuilder.summaryPage({
       title: 'Applicant’s service period(s)',
       path: 'service-periods-summary-preparer-veteran',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
-      depends: formData => isVeteran(formData) && isAuthorizedAgent(formData),
+      depends: formData => handlePreparerVeteranDepends(formData),
     }),
     servicePeriodInformationPagePreparerVeteran: pageBuilder.itemPage({
       title: 'Service period',
       path: 'service-periods-preparer-veteran/:index/service-period',
       uiSchema: servicePeriodInformationPagePreparerVeteran.uiSchema,
       schema: servicePeriodInformationPagePreparerVeteran.schema,
-      depends: formData => isVeteran(formData) && isAuthorizedAgent(formData),
+      depends: formData => handlePreparerVeteranDepends(formData),
     }),
   }),
 );
@@ -523,21 +583,21 @@ export const servicePeriodsPagesNonVeteran = arrayBuilderPages(
       path: 'service-periods-nonveteran',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
-      depends: formData => !isVeteran(formData) && !isAuthorizedAgent(formData),
+      depends: formData => handleNonVeteranDepends(formData),
     }),
     servicePeriodsSummaryNonVeteran: pageBuilder.summaryPage({
       title: 'Sponsor’s service period(s)',
       path: 'service-periods-summary-nonveteran',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
-      depends: formData => !isVeteran(formData) && !isAuthorizedAgent(formData),
+      depends: formData => handleNonVeteranDepends(formData),
     }),
     servicePeriodInformationPageNonVeteran: pageBuilder.itemPage({
       title: 'Service period',
       path: 'service-periods-nonveteran/:index/service-period',
       uiSchema: servicePeriodInformationPageNonVeteran.uiSchema,
       schema: servicePeriodInformationPageNonVeteran.schema,
-      depends: formData => !isVeteran(formData) && !isAuthorizedAgent(formData),
+      depends: formData => handleNonVeteranDepends(formData),
     }),
   }),
 );
@@ -550,21 +610,21 @@ export const servicePeriodsPagesPreparerNonVeteran = arrayBuilderPages(
       path: 'service-periods-preparer-nonveteran',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
-      depends: formData => !isVeteran(formData) && isAuthorizedAgent(formData),
+      depends: formData => handlePreparerNonVeteranDepends(formData),
     }),
     servicePeriodsSummaryPreparerNonVeteran: pageBuilder.summaryPage({
       title: 'Applicant’s service period(s)',
       path: 'service-periods-summary-preparer-nonveteran',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
-      depends: formData => !isVeteran(formData) && isAuthorizedAgent(formData),
+      depends: formData => handlePreparerNonVeteranDepends(formData),
     }),
     servicePeriodInformationPagePreparerNonVeteran: pageBuilder.itemPage({
       title: 'Service period',
       path: 'service-periods-preparer-nonveteran/:index/service-period',
       uiSchema: servicePeriodInformationPagePreparerNonVeteran.uiSchema,
       schema: servicePeriodInformationPagePreparerNonVeteran.schema,
-      depends: formData => !isVeteran(formData) && isAuthorizedAgent(formData),
+      depends: formData => handlePreparerNonVeteranDepends(formData),
     }),
   }),
 );

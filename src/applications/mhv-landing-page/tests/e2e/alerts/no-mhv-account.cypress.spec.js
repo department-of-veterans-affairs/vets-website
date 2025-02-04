@@ -64,8 +64,6 @@ describe(`${appName} - MHV Registration Alert - `, () => {
     });
 
     it('should reference a specific error', () => {
-      'Tell the representative that you received';
-
       cy.injectAxeThenAxeCheck();
       cy.findByText('Tell the representative that you received', {
         exact: false,

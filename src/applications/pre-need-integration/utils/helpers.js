@@ -14,6 +14,7 @@ import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fie
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { countries } from 'platform/forms/address';
 
 import {
   stringifyFormReplacer,
@@ -288,7 +289,7 @@ export const nonVeteranApplicantDetailsDescriptionPreparer =
 export const applicantContactInfoAddressTitle = 'Your mailing address';
 
 export const applicantContactInfoPreparerAddressTitle =
-  'Applicant’s mailing address';
+  'Applicant mailing address';
 
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">
@@ -1364,3 +1365,38 @@ export function MailingAddressStateTitle(props) {
   }
   return 'State or territory';
 }
+
+export const formatSuggestedAddress = address => {
+  if (address) {
+    let displayAddress = '';
+    const street = address.street || address.addressLine1;
+    const street2 = address.street2 || address.addressLine2;
+    const { city } = address;
+    const state = address.state || address.stateCode;
+    const zip = address.postalCode || address.zipCode;
+    const country = address.country || address.countryCodeIso3;
+
+    if (street) displayAddress += street;
+    if (street2) displayAddress += `, ${street2}`;
+    if (city) displayAddress += `, ${city}`;
+    if (state) displayAddress += `, ${state}`;
+    if (zip) displayAddress += ` ${zip}`;
+    if (country && country !== 'USA')
+      displayAddress += `, ${countries.find(c => c.value === country).label ||
+        country}`;
+
+    return displayAddress.trim();
+  }
+  return '';
+};
+
+export const shouldShowSuggestedAddress = (suggestedAddress, userAddress) => {
+  if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
+  return !(
+    userAddress.street === suggestedAddress.addressLine1 &&
+    userAddress.city === suggestedAddress.city &&
+    userAddress.state === suggestedAddress.stateCode &&
+    userAddress.postalCode === suggestedAddress.zipCode &&
+    userAddress.country === suggestedAddress.countryCodeIso3
+  );
+};

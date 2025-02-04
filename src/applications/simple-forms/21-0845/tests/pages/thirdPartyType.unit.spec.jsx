@@ -1,6 +1,6 @@
 import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfFields,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
@@ -11,8 +11,8 @@ const {
 
 const pageTitle = 'Third-party type';
 
-const expectedNumberOfFields = 2;
-testNumberOfFields(
+const expectedNumberOfFields = 1;
+testNumberOfWebComponentFields(
   formConfig,
   schema,
   uiSchema,
@@ -21,7 +21,7 @@ testNumberOfFields(
 );
 
 const expectedNumberOfErrors = 1;
-testNumberOfErrorsOnSubmit(
+testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
   uiSchema,

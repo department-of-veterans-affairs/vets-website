@@ -20,7 +20,7 @@
 
 // describe('22-10282 Edu form', () => {
 //   beforeEach(() => {
-//     cy.visit('/education/apply-for-education-benefits/10282/');
+//     cy.visit('/education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282');
 //   });
 
 //   it('should show form title', () => {

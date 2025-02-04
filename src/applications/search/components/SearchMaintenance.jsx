@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getDay, getHours, setHours, setMinutes, setSeconds } from 'date-fns';
+import {
+  add,
+  getDay,
+  getHours,
+  setHours,
+  setMinutes,
+  setSeconds,
+} from 'date-fns';
 import { utcToZonedTime, format as tzFormat } from 'date-fns-tz';
 
 const maintenanceDays = [2, 4]; // Days: 2 for Tuesday, 4 for Thursday
@@ -29,11 +36,7 @@ const calculateCurrentMaintenanceWindow = () => {
   start = setSeconds(start, 0);
 
   // Calculate end time by adding the duration to the start time
-  let end = new Date(
-    start.getTime() + maintenanceDurationHours * 60 * 60 * 1000,
-  );
-
-  end = utcToZonedTime(end, maintenanceTimezone); // Ensure the end time is also adjusted to the specified timezone
+  const end = add(start, { hours: maintenanceDurationHours });
 
   // Format start and end dates to include timezone offset correctly
   const startFormatted = tzFormat(start, "EEE MMM d yyyy HH:mm:ss 'GMT'XXXX", {

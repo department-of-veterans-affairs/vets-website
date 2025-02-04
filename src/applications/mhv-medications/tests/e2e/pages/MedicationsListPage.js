@@ -814,6 +814,21 @@ class MedicationsListPage {
       waitForAnimations: true,
     });
   };
+
+  clickBackToTopButtonOnListPage = () => {
+    cy.get('[data-testid="rx-back-to-top"]')
+      .should('exist')
+      .and('be.visible');
+    cy.get('[data-testid="rx-back-to-top"]', { includeShadowDom: true })
+      .find('[class ="text"]')
+      .click({ force: true });
+  };
+
+  verifyMedicationsListPageTitleIsFocused = () => {
+    cy.get('[data-testid="list-page-title"]')
+      .should('be.visible')
+      .and('be.focused');
+  };
 }
 
 export default MedicationsListPage;

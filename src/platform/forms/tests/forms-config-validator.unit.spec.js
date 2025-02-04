@@ -50,6 +50,8 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_1919,
   VA_FORM_IDS.FORM_22_8794,
   VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
+  VA_FORM_IDS.FORM_1330M2,
+  VA_FORM_IDS.FORM_1330M,
 ];
 
 const remapFormId = {
@@ -67,6 +69,7 @@ const formConfigKeys = [
   'CustomTopContent',
   'defaultDefinitions',
   'dev',
+  'disableSave',
   'downtime',
   'errorText',
   'footerContent',
@@ -279,6 +282,7 @@ const validateForm = async formConfigParam => {
   const optionalProps = {
     ariaDescribedBySubmit: 'string',
     dev: 'object',
+    disableSave: 'boolean',
     introduction: 'component',
     prefillEnabled: 'boolean',
     prefillTransformer: 'function',

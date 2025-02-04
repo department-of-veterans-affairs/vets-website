@@ -17,7 +17,6 @@ import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/
 import {
   apiAccountStatusEnabled,
   personalizationEnabled,
-  mrPhase1Enabled,
 } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
@@ -48,7 +47,6 @@ export {
   mhvAccountStatusUserError,
   mhvAccountStatusErrorsSorted,
   mhvAccountStatusNonUserError,
-  mrPhase1Enabled,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,

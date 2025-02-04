@@ -45,21 +45,34 @@ export const uiSchema = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where you were married',
+            required: 'Enter the city where this occurred',
           },
           'ui:webComponentField': VaTextInputField,
         },
         state: {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
-          'ui:required': formData =>
-            !formData?.reportDivorce?.divorceLocation?.outsideUsa,
           'ui:errorMessages': {
             required: 'Select a state',
           },
+          'ui:required': formData =>
+            !formData?.reportDivorce?.divorceLocation?.outsideUsa,
           'ui:options': {
             hideIf: formData =>
               formData?.reportDivorce?.divorceLocation?.outsideUsa,
+          },
+        },
+        country: {
+          'ui:title': 'Country',
+          'ui:webComponentField': VaSelectField,
+          'ui:errorMessages': {
+            required: 'Select a country',
+          },
+          'ui:required': formData =>
+            formData?.reportDivorce?.divorceLocation?.outsideUsa,
+          'ui:options': {
+            hideIf: formData =>
+              !formData?.reportDivorce?.divorceLocation?.outsideUsa,
           },
         },
       },
