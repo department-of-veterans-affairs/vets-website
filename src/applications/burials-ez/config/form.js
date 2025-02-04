@@ -201,7 +201,7 @@ const formConfig = {
           schema: locationOfDeathV2.schema,
         },
         nursingHomeUnpaid: {
-          title: 'Veteran death facility information',
+          title: 'Veteran death location information',
           path: 'veteran-information/location-of-death/nursing-home-unpaid',
           depends: form =>
             showLocationOfDeath() &&
@@ -212,7 +212,7 @@ const formConfig = {
           ),
         },
         nursingHomePaid: {
-          title: 'Veteran death facility information',
+          title: 'Veteran death location information',
           path: 'veteran-information/location-of-death/nursing-home-paid',
           depends: form =>
             showLocationOfDeath() &&
@@ -223,7 +223,7 @@ const formConfig = {
           ),
         },
         vaMedicalCenter: {
-          title: 'Veteran death facility information',
+          title: 'Veteran death location information',
           path: 'veteran-information/location-of-death/va-medical-center',
           depends: form =>
             showLocationOfDeath() &&
@@ -234,7 +234,7 @@ const formConfig = {
           ),
         },
         stateVeteransHome: {
-          title: 'Veteran death facility information',
+          title: 'Veteran death location information',
           path: 'veteran-information/location-of-death/state-veterans-home',
           depends: form =>
             showLocationOfDeath() &&
