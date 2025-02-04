@@ -33,22 +33,29 @@ const AccessGuardWrapper = ({ children }) => {
   }
   return children;
 };
+AccessGuardWrapper.displayName = 'MedicalRecordsAccessGuard';
+
+const baseName = '/my-medical-records';
 
 const routes = (
   <AccessGuardWrapper>
     <Switch>
-      <AppRoute exact path="/" key="Medical Records Home">
+      <AppRoute exact path={[`${baseName}`]} key="Medical Records Home">
         <LandingPage />
       </AppRoute>
-      <AppRoute exact path="/allergies" key="Allergies">
+      <AppRoute exact path={[`${baseName}/allergies`]} key="Allergies">
         <Allergies />
       </AppRoute>
-      <AppRoute exact path="/allergies/:allergyId" key="AllergyDetails">
+      <AppRoute
+        exact
+        path={[`${baseName}/allergies/:allergyId`]}
+        key="AllergyDetails"
+      >
         <AllergyDetails />
       </AppRoute>
       <FeatureFlagRoute
         exact
-        path="/vaccines"
+        path={[`${baseName}/vaccines`]}
         key="Vaccines"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
       >
@@ -56,7 +63,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/vaccines/:vaccineId"
+        path={[`${baseName}/vaccines/:vaccineId`]}
         key="Vaccine"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVaccines}
       >
@@ -64,7 +71,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/summaries-and-notes"
+        path={[`${baseName}/summaries-and-notes`]}
         key="CareSummariesAndNotes"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
       >
@@ -72,7 +79,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/summaries-and-notes/:summaryId"
+        path={[`${baseName}/summaries-and-notes/:summaryId`]}
         key="CareSummaryAndNotesDetails"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayNotes}
       >
@@ -80,7 +87,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/conditions"
+        path={[`${baseName}/conditions`]}
         key="Health Conditions"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
       >
@@ -88,7 +95,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/conditions/:conditionId"
+        path={[`${baseName}/conditions/:conditionId`]}
         key="Condition Details"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayConditions}
       >
@@ -96,7 +103,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/vitals"
+        path={[`${baseName}/vitals`]}
         key="Vitals"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
       >
@@ -104,7 +111,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/vitals/:vitalType-history"
+        path={[`${baseName}/vitals/:vitalType-history`]}
         key="VitalDetails"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayVitals}
       >
@@ -112,7 +119,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/labs-and-tests"
+        path={[`${baseName}/labs-and-tests`]}
         key="LabsAndTests"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
       >
@@ -120,7 +127,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/labs-and-tests/:labId"
+        path={[`${baseName}/labs-and-tests/:labId`]}
         key="LabAndTestDetails"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
       >
@@ -128,7 +135,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/labs-and-tests/:labId/images"
+        path={[`${baseName}/labs-and-tests/:labId/images`]}
         key="RadiologyImagesList"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
       >
@@ -136,7 +143,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/labs-and-tests/:labId/images/:imageId"
+        path={[`${baseName}/labs-and-tests/:labId/images/:imageId`]}
         key="RadiologySingleImage"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplayLabsAndTests}
       >
@@ -144,7 +151,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/settings"
+        path={[`${baseName}/settings`]}
         key="Settings"
         featureFlag={FEATURE_FLAG_NAMES.mhvMedicalRecordsDisplaySettingsPage}
       >
@@ -152,7 +159,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/download"
+        path={[`${baseName}/download`]}
         key="Download"
         featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
       >
@@ -160,7 +167,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/download/date-range"
+        path={[`${baseName}/download/date-range`]}
         key="Download-date-range"
         featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
       >
@@ -168,7 +175,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/download/record-type"
+        path={[`${baseName}/download/record-type`]}
         key="Download-record-type"
         featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
       >
@@ -176,7 +183,7 @@ const routes = (
       </FeatureFlagRoute>
       <FeatureFlagRoute
         exact
-        path="/download/file-type"
+        path={[`${baseName}/download/file-type`]}
         key="Download-file-type"
         featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
       >

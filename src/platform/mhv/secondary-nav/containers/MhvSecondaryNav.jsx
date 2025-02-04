@@ -1,20 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
-
-const medicalRecordsLink = {
-  title: 'Records',
-  actionName: `${actionPrefix} - Records`,
-  icon: 'note_add',
-  href: `/medical-records`,
-};
-
-const transitionalMedicalRecordsLink = {
-  ...medicalRecordsLink,
-  href: '/records',
-};
 
 /**
  * MHV secondary navigation items. Note the first item is the home link.
@@ -32,7 +19,7 @@ export const mhvSecNavItems = [
     abbreviation: 'Appts',
     ariaLabel: 'Appointments',
     icon: 'calendar_today',
-    href: `/appointments`,
+    href: `/my-appointments`,
   },
   {
     title: 'Messages',
@@ -48,6 +35,12 @@ export const mhvSecNavItems = [
     href: '/my-medications/about',
     appRootUrl: '/my-medications',
   },
+  {
+    title: 'Records',
+    actionName: `${actionPrefix} - Records`,
+    icon: 'note_add',
+    href: `/my-medical-records`,
+  },
 ];
 
 /**
@@ -56,25 +49,6 @@ export const mhvSecNavItems = [
  */
 const MhvSecondaryNav = () => {
   const items = [...mhvSecNavItems];
-  const {
-    loading,
-    mhvTransitionalMedicalRecordsLandingPage = false,
-    mhvIntegrationMedicalRecordsToPhase1 = false,
-  } = useSelector(state => state.featureToggles);
-
-  if (loading) return <></>;
-
-  // Unified Mhv SPA - skip Medical Records
-  // eslint-disable-next-line sonarjs/no-all-duplicated-branches
-  if (
-    mhvTransitionalMedicalRecordsLandingPage &&
-    !mhvIntegrationMedicalRecordsToPhase1
-  ) {
-    items.push(transitionalMedicalRecordsLink);
-  } else {
-    // items.push(medicalRecordsLink);
-    items.push(transitionalMedicalRecordsLink);
-  }
 
   return <MhvSecondaryNavMenu items={items} />;
 };

@@ -56,7 +56,7 @@ const App = ({ children }) => {
   );
 
   const statusPollBeginDate = useSelector(
-    state => state.mr.refresh.statusPollBeginDate,
+    state => state?.mr?.refresh?.statusPollBeginDate,
   );
 
   useEffect(
