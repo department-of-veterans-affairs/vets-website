@@ -58,32 +58,35 @@ const IntroductionPage = props => {
     return null;
   };
 
+  const SIP_COMPONENT = (
+    <SaveInProgressIntro
+      {...props}
+      hideUnauthedStartLink
+      verifiedPrefillAlert={VerifiedAlert}
+      prefillEnabled={props.route.formConfig.prefillEnabled}
+      messages={props.route.formConfig.savedFormMessages}
+      downtime={props.route.formConfig.downtime}
+      pageList={props.route.pageList}
+      startText="Add or remove a dependent"
+      headingLevel={2}
+    >
+      <p className="vads-u-margin-bottom--4">
+        You should also know that we updated our online form.{' '}
+        <strong>If you started applying online before {V2_LAUNCH_DATE},</strong>{' '}
+        you’ll need to review the information in your application.Select
+        Continue your application to use our updated form.
+      </p>
+    </SaveInProgressIntro>
+  );
+
   return getStatus() !== '' && hasSession() ? (
     renderLoadingOrError(getStatus())
   ) : (
     <div className="schemaform-intro">
       <IntroductionPageHeader />
-      <SaveInProgressIntro
-        {...props}
-        hideUnauthedStartLink
-        verifiedPrefillAlert={VerifiedAlert}
-        prefillEnabled={props.route.formConfig.prefillEnabled}
-        messages={props.route.formConfig.savedFormMessages}
-        downtime={props.route.formConfig.downtime}
-        pageList={props.route.pageList}
-        startText="Add or remove a dependent"
-        headingLevel={2}
-      >
-        <p className="vads-u-margin-bottom--4">
-          You should also know that we updated our online form.{' '}
-          <strong>
-            If you started applying online before {V2_LAUNCH_DATE},
-          </strong>{' '}
-          you’ll need to review the information in your application. Select
-          Continue your application to use our updated form.
-        </p>
-      </SaveInProgressIntro>
+      {hasSession() ? SIP_COMPONENT : <></>}
       <IntroductionPageFormProcess />
+      {!hasSession() ? SIP_COMPONENT : <></>}
       <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-top--2">
         <va-omb-info
           res-burden={30}
