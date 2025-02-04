@@ -7,6 +7,8 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 // import { selectPatientProviderRelationships } from '../../redux/selectors';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
+import InfoAlert from '../../../components/InfoAlert';
+
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
 import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
 
@@ -15,7 +17,7 @@ const pageKey = 'selectProvider';
 export default function SelectProviderPage() {
   // const dispatch = useDispatch();
 
-  const { loading } = useGetPatientRelationships();
+  const { loading, patientRelationshipsError } = useGetPatientRelationships();
 
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
 
@@ -26,6 +28,20 @@ export default function SelectProviderPage() {
     },
     [pageTitle],
   );
+
+  if (patientRelationshipsError) {
+    return (
+      <InfoAlert
+        status="error"
+        headline="We’re sorry. We’ve run into a problem"
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt molestias
+        dolorem ullam repellendus harum nam quia unde neque! Quia voluptatum
+        laudantium sunt eligendi numquam soluta tempore incidunt voluptate
+        repudiandae nobis.
+      </InfoAlert>
+    );
+  }
 
   if (loading) {
     return (

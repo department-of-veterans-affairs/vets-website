@@ -8,7 +8,9 @@ import { selectPatientProviderRelationships } from '../redux/selectors';
 export function useGetPatientRelationships() {
   // const [loading, setLoading] = useState(true);
   const [loading] = useState(true);
-
+  const [patientRelationshipsError, setPatientRelationshipsError] = useState(
+    false,
+  );
   const dispatch = useDispatch();
   const featureOHDirectSchedule = useOHDirectScheduling();
 
@@ -33,6 +35,7 @@ export function useGetPatientRelationships() {
       ) {
         dispatch(getPatientRelationships());
       }
+      setPatientRelationshipsError(false);
     },
     [
       dispatch,
@@ -41,8 +44,10 @@ export function useGetPatientRelationships() {
       patientProviderRelationships,
     ],
   );
+
   return {
     loading,
+    patientRelationshipsError,
     patientProviderRelationships,
     patientProviderRelationshipsStatus,
   };
