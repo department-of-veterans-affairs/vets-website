@@ -26,7 +26,7 @@ const SubmitFlowWrapper = () => {
   const { data: appointmentData, error, isLoading } = useSelector(
     selectAppointment,
   );
-  const { data: claimData, error: submissionError } = useSelector(
+  const { error: submissionError } = useSelector(
     state => state.travelPay.claimSubmission,
   );
 
@@ -69,13 +69,7 @@ const SubmitFlowWrapper = () => {
       return;
     }
     dispatch(submitMileageOnlyClaim(appointmentData.start));
-    // Placeholder until actual submit is hooked up
-
-    // Uncomment to simulate successful submission
-    // setPageIndex(pageIndex + 1);
-
-    // Uncomment to simulate an error
-    // setIsSubmissionError(true);
+    setPageIndex(pageIndex + 1);
   };
 
   const pageList = [
@@ -138,10 +132,10 @@ const SubmitFlowWrapper = () => {
         />
       ),
     },
-    // {
-    //   page: 'confirm',
-    //   component: <ConfirmationPage />,
-    // },
+    {
+      page: 'confirm',
+      component: <ConfirmationPage />,
+    },
   ];
 
   if (toggleIsLoading || isLoading) {
@@ -173,10 +167,8 @@ const SubmitFlowWrapper = () => {
               setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
-          {claimData && <ConfirmationPage />}
           {submissionError && <SubmissionErrorPage />}
           {!isUnsupportedClaimType &&
-            !claimData &&
             !submissionError &&
             pageList[pageIndex].component}
         </div>
