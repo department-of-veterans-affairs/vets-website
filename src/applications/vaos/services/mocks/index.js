@@ -30,6 +30,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
+const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -38,6 +39,7 @@ const features = require('../../utils/featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
+const draftReferralPollCount = {};
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -379,6 +381,30 @@ const responses = {
     }
     return res.json({
       data: providerUtils.createDraftAppointmentInfo(5, req.params.referralId),
+    });
+  },
+  'POST /vaos/v2/epsApi/appointments': (req, res) => {
+    const { slotId, draftApppointmentId, referralId } = req.body;
+
+    if (!referralId || !slotId || !draftApppointmentId) {
+      return res.status(400).json({ error: true });
+    }
+
+    const count = draftReferralPollCount[draftApppointmentId] || 0;
+    let status = 'draft';
+
+    if (count < 5) {
+      draftReferralPollCount[draftApppointmentId] = count + 1;
+    } else {
+      status = 'confirmed';
+      draftReferralPollCount[draftApppointmentId] = 0;
+    }
+
+    return res.status(201).json({
+      data: ccDirectAppointmentUtils.createReferralAppointment(
+        draftApppointmentId,
+        status,
+      ),
     });
   },
   // Required v0 APIs
