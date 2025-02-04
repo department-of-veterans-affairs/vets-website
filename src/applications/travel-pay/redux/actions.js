@@ -51,7 +51,7 @@ export function getAppointmentData(apptId) {
         environment.API_URL
       }/vaos/v2/appointment/${apptId}?_include=facilities,claims`;
       const response = await apiRequest(apptUrl);
-      dispatch(fetchAppointmentSuccess(response.data));
+      dispatch(fetchAppointmentSuccess(response.data.attributes));
     } catch (error) {
       dispatch(fetchAppointmentFailure(error));
     }
