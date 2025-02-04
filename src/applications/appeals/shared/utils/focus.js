@@ -138,6 +138,17 @@ export const focusRadioH3 = () => {
   }
 };
 
+// Focus on alert (without header) if visible, or radio h3
+export const focusAlertOrRadio = () => {
+  const alert = $('va-alert');
+  if (alert) {
+    scrollTo('topContentElement');
+    focusElement('va-alert');
+  } else {
+    focusRadioH3();
+  }
+};
+
 // Testing focus on role="alert" inside web components
 export const focusH3OrRadioError = (_index, root) => {
   scrollTo('topContentElement');

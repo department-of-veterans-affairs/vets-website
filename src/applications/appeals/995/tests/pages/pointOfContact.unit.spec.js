@@ -9,7 +9,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('Supplemental Claims point of contact page', () => {
-  const { schema, uiSchema } = formConfig.chapters.housing.pages.contact;
+  const { schema, uiSchema } = formConfig.chapters.infoPages.pages.contact;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
