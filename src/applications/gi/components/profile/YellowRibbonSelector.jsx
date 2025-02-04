@@ -234,6 +234,7 @@ const YellowRibbonSelector = ({ programs }) => {
             showLastPage
             onPageSelect={e => handlePageChange(e.detail.page)}
             className="vads-u-border-top--0 vads-u-padding-y--0 vads-u-margin-bottom--0"
+            data-testid="yellow-ribbon-pagination"
           />
         )}
         {currentPrograms.length > 0 && (
