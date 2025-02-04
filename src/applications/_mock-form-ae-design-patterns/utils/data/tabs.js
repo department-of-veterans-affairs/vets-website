@@ -60,6 +60,15 @@ export const tabsConfig = {
       textColor: '--vads-color-white',
     },
   ],
+  pattern3: [
+    {
+      name: 'Service List Demo',
+      path: '/3/service-list-demo',
+      description: 'Pattern 3 - Service List Demo',
+      bgColor: '--vads-color-success-dark',
+      textColor: '--vads-color-white',
+    },
+  ],
 };
 
 export const getTabs = location => {

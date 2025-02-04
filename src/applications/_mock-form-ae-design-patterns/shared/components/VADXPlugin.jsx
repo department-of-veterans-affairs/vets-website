@@ -40,6 +40,14 @@ export const VADXPlugin = () => {
           </li>
         </ul>
       </div>
+      <div>
+        <Link to="/3">Pattern 3</Link>
+        <ul>
+          <li>
+            <Link to="/3/service-list-demo">Service List Demo</Link>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };
