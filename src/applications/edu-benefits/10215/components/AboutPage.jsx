@@ -4,10 +4,10 @@ import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Breadcrumbs from './Breadcrumbs';
 
-const AboutPage = ({ props }) => {
+const AboutPage = ({ aboutProps }) => {
   const goToIntroduction = event => {
     event.preventDefault();
-    props?.router.push('/introduction');
+    aboutProps?.router.push('/introduction');
   };
 
   useEffect(() => {
@@ -16,8 +16,8 @@ const AboutPage = ({ props }) => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--4">
-      <div className="vads-u-margin-top--neg2p5">
+    <div className="form-22-10215-container row">
+      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
         <Breadcrumbs />
       </div>
       <h1>About VA Form 22-10215</h1>
@@ -65,8 +65,9 @@ const AboutPage = ({ props }) => {
     </div>
   );
 };
+
 AboutPage.propTypes = {
-  props: PropTypes.shape({
+  aboutProps: PropTypes.shape({
     location: PropTypes.shape({
       pathname: PropTypes.string.isRequired,
     }).isRequired,
