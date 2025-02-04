@@ -28,6 +28,25 @@ export async function getProviderById(providerId) {
   return response.data;
 }
 
+export async function postReferralAppointment({
+  referralId,
+  slotId,
+  draftApppointmentId,
+}) {
+  const response = await apiRequestWithUrl(`/vaos/v2/epsApi/appointments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      referralId,
+      slotId,
+      draftApppointmentId,
+    }),
+  });
+  return response.data;
+}
+
 export async function postDraftReferralAppointment(referralId) {
   const response = await apiRequestWithUrl(
     `/vaos/v2/epsApi/draftReferralAppointment/${referralId}`,
