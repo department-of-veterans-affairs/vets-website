@@ -204,7 +204,7 @@ export default function InstitutionProfile({
             label="Yellow Ribbon Program information"
             id="yellow-ribbon-program-information"
           >
-            <p>
+            <p data-testid="yellow-ribbon-section">
               The Yellow Ribbon Program can help reduce your out-of-pocket
               tuition and fee costs at participating colleges and universities.
               By enrolling, you'll benefit from a contribution made by the
