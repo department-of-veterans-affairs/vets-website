@@ -8,6 +8,10 @@ export function getProviderInfo(state) {
   };
 }
 
+export function getAppointmentCreateStatus(state) {
+  return state.referral.appointmentCreateStatus;
+}
+
 export function getDraftAppointmentInfo(state) {
   return {
     draftAppointmentInfo: state.referral.draftAppointmentInfo,

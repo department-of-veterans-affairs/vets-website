@@ -111,11 +111,7 @@ export const SpouseAdditionalEvidence = () => {
       </va-accordion>
       <h3>Submit your files online</h3>
       <p>You can upload your files now.</p>
-      <va-additional-info
-        trigger="Document upload instructions"
-        disable-border
-        uswds
-      >
+      <va-additional-info trigger="Document upload instructions" disable-border>
         <div>
           <ul>
             <li>File types you can upload: JPEG, JPG, PNG or PDF</li>

@@ -125,7 +125,7 @@ const NationalExamsList = () => {
           {currentExams.map(exam => (
             <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
               <va-card background>
-                <h3 className="vads-u-margin--0">
+                <h3 className="vads-u-margin--0 vads-u-margin-bottom--1">
                   {formatNationalExamName(exam.name)}
                 </h3>
                 <VaLink

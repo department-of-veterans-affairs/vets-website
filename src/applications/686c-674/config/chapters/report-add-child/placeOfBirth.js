@@ -9,12 +9,8 @@ import {
 
 export const placeOfBirth = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Where was this child born?'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
     birthLocation: {
-      'ui:title': '',
-      'ui:options': {
-        labelHeaderLevel: '4',
-      },
       outsideUsa: {
         'ui:title': 'They were born outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
