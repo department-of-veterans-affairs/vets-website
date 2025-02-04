@@ -51,7 +51,7 @@ describe('SM PILOT FEATURE FLAG', () => {
     // TODO text of expanded accordion TBD later. Test could be adjusted accordingly
   });
 
-  it('redirect to pilot inbox page', () => {
+  it('redirect to pilot inbox page visiting sm-pilot', () => {
     const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
       'mhv_secure_messaging_cerner_pilot',
       true,
@@ -64,6 +64,20 @@ describe('SM PILOT FEATURE FLAG', () => {
       Paths.UI_PILOT,
     );
     cy.url().should(`include`, `/secure-messages-pilot/inbox`);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('redirect to inbox page visiting sm', () => {
+    const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
+      'mhv_secure_messaging_cerner_pilot',
+      true,
+      'mhv_secure_messaging_remove_landing_page',
+      true,
+    );
+    SecureMessagingSite.login();
+    SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
+    cy.url().should(`include`, `/secure-messages/inbox`);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
