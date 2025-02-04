@@ -10,9 +10,9 @@ describe('Add Spouse Chapter', () => {
     };
 
     const chapter = formConfig.chapters.addSpouse;
-    const addSpouseBullshit = Object.entries(chapter.pages);
+    const addSpouseData = Object.entries(chapter.pages);
 
-    addSpouseBullshit.forEach(([_key, page]) => {
+    addSpouseData.forEach(([_key, page]) => {
       const expected = page.depends(formDataWithAdd);
       if (!expected || expected !== true) {
         return;
@@ -34,9 +34,9 @@ describe('Add Spouse Chapter', () => {
     };
 
     const chapter = formConfig.chapters.addSpouse;
-    const addSpouseBullshit = Object.entries(chapter.pages);
+    const addSpouseData = Object.entries(chapter.pages);
 
-    addSpouseBullshit.forEach(([_key, page]) => {
+    addSpouseData.forEach(([_key, page]) => {
       const expected = page.depends(formDataWithAdd, 0);
       if (!expected || expected !== true) {
         return;

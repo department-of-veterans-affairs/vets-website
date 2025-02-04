@@ -18,11 +18,11 @@ describe('Add Child Chapter', () => {
     const addChildMarriageDetails = Object.entries(chapter.pages).filter(
       ([key]) => key === 'addChildMarriageEndDetails',
     );
-    const theRest = Object.entries(chapter.pages).filter(
+    const remainder = Object.entries(chapter.pages).filter(
       ([key]) => key !== 'addChildMarriageEndDetails',
     );
 
-    theRest.forEach(([_key, page]) => {
+    remainder.forEach(([_key, page]) => {
       expect(page.depends(formDataWithAdd)).to.be.true;
       expect(page.depends(formDataWithoutAdd)).to.be.false;
     });
