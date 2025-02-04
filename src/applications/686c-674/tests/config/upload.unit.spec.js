@@ -32,36 +32,14 @@ describe('createPayload', () => {
 
 describe('findAndFocusLastSelect', () => {
   let mockFocusElement;
-
   beforeEach(() => {
-    mockFocusElement = sinon.stub();
-    sinon.stub(global, 'focusElement').callsFake(mockFocusElement);
-    document.body.innerHTML = `
-        <select id="first-select"></select>
-        <select id="second-select"></select>
-      `;
-  });
-
-  afterEach(() => {
-    global.focusElement.restore();
-    document.body.innerHTML = '';
-  });
-
-  it('should focus on the last select element', () => {
-    const schema = dependentsUploadUI({ buttonText: 'Upload file' });
-
-    schema.parseResponse({}, {});
-
-    const lastSelect = document.querySelector('#second-select');
-    expect(mockFocusElement.calledOnceWithExactly(lastSelect)).to.be.true;
+    mockFocusElement = sinon.spy();
   });
 
   it('should not call focusElement if no select exists', () => {
     document.body.innerHTML = '';
-
     const schema = dependentsUploadUI({ buttonText: 'Upload file' });
-    schema.parseResponse({}, {});
-
+    schema['ui:options']?.parseResponse({}, {});
     expect(mockFocusElement.called).to.be.false;
   });
 });

@@ -15,11 +15,44 @@ describe('Add Child Chapter', () => {
       'view:selectable686Options': { addChild: true },
     };
 
+    const addChildMarriageDetails = Object.entries(chapter.pages).filter(
+      ([key]) => key === 'addChildMarriageEndDetails',
+    );
+    const theRest = Object.entries(chapter.pages).filter(
+      ([key]) => key !== 'addChildMarriageEndDetails',
+    );
+
+    theRest.forEach(([_key, page]) => {
+      expect(page.depends(formDataWithAdd)).to.be.true;
+      expect(page.depends(formDataWithoutAdd)).to.be.false;
+    });
+    addChildMarriageDetails.forEach(([_key, page]) => {
+      expect(
+        page.depends({
+          'view:addOrRemoveDependents': { add: true },
+          'view:selectable686Options': { addChild: false },
+        }),
+      ).to.be.false;
+    });
+  });
+
+  it('should use proper depends', () => {
+    const formDataWithAdd = {
+      'view:addOrRemoveDependents': { add: true },
+      'view:addDependentsOptions': { addChild: true },
+      'view:selectable686Options': { addChild: true },
+      childrenToAdd: [
+        {
+          relationshipToChild: { stepchild: true },
+          doesChildLiveWithYou: false,
+          hasChildEverBeenMarried: true,
+        },
+      ],
+    };
+
     Object.entries(chapter.pages).forEach(([_key, page]) => {
       if (page.depends) {
-        expect(page.depends(formDataWithAdd)).to.be.true;
-
-        expect(page.depends(formDataWithoutAdd)).to.be.false;
+        expect(page.depends(formDataWithAdd, 0)).to.be.true;
       }
     });
   });

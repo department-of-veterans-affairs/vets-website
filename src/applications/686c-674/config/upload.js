@@ -50,7 +50,7 @@ export const dependentsUploadUI = (content, options = {}) => {
         attachmentId: '',
       };
     },
-    attachmentSchema: (/* { fileId, index } */) => ({
+    attachmentSchema: () => ({
       'ui:title': 'Document type',
       'ui:disabled': false,
       'ui:webComponentField': VaSelectField,
