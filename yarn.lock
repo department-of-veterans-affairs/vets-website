@@ -2851,7 +2851,7 @@
 
 "@department-of-veterans-affairs/react-components@28.1.0":
   version "28.1.0"
-  resolved "http://localhost:4873/@department-of-veterans-affairs%2freact-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs%2freact-components/-/react-components-28.1.0.tgz#dd7bd0d334ec80b9efb3debb08203431dfdc0d41"
   integrity sha512-If25Cmvnt9R/9mG9MXKPLgmpkCI07mCRXZUilBJsIxty6k5Y5GKfEtyXESJgwsD+e2uSEJwFveHpzL7uD/wS7w==
   dependencies:
     classnames "^2.2.6"
