@@ -8,7 +8,11 @@ import SearchByName from './SearchByName';
 import SearchByProgram from './SearchByProgram';
 import { changeSearchTab } from '../../actions';
 import { updateUrlParams } from '../../selectors/search';
-import { convertSchoolsAndEmployersTabIndexToText } from '../../utils/helpers';
+import {
+  convertSchoolsAndEmployersTabIndexToText,
+  isSmallScreen,
+} from '../../utils/helpers';
+import NameSearchResults from '../components/school-and-employers/NameSearchResults';
 
 const SchoolAndEmployers = ({
   dispatchChangeSearchTab,
@@ -26,6 +30,8 @@ const SchoolAndEmployers = ({
   const inactiveTabText = 'vads-u-color--gray-dark vads-u-margin--0';
   const { version } = preview;
   const history = useHistory();
+  const { error } = search;
+  const [smallScreen /* , setSmallScreen */] = useState(isSmallScreen());
 
   const tabChange = selectedTab => {
     const selectedTabText = convertSchoolsAndEmployersTabIndexToText(
@@ -93,6 +99,10 @@ const SchoolAndEmployers = ({
             <SearchByProgram />
           </TabPanel>
         </Tabs>
+      </div>
+      <div className="search-box">
+        {!error &&
+          !smallScreen && <NameSearchResults smallScreen={smallScreen} />}
       </div>
     </div>
   );

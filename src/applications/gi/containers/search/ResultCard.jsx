@@ -241,8 +241,27 @@ export function ResultCard({
     return <span>{formatCurrency(lesserVal)}</span>;
   };
 
-  const tuition = estimateTuition(estimated.tuition);
-  const housing = estimateHousing(estimated.housing);
+  const getEstimateTuitionForField = (
+    estimatedObject,
+    fieldName,
+    appliedFunction,
+  ) => {
+    if (estimatedObject && estimatedObject[fieldName]) {
+      return appliedFunction(estimatedObject[fieldName]);
+    }
+    return 0;
+  };
+
+  const tuition = getEstimateTuitionForField(
+    estimated,
+    'tuition',
+    estimateTuition,
+  );
+  const housing = getEstimateTuitionForField(
+    estimated,
+    'housing',
+    estimateHousing,
+  );
 
   const tuitionAndEligibility = (
     <>
