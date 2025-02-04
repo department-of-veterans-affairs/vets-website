@@ -12,7 +12,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: [
-      // 'ancilliary-flows',
+      'ancilliary-flows',
       'add-child-report-divorce',
       'spouse-report-divorce',
     ],
@@ -30,7 +30,13 @@ const testConfig = createTestConfig(
           ],
         },
       });
-      cy.intercept('POST', '/v0/claim_attachments');
+      cy.intercept('POST', '/v0/claim_attachments', {
+        data: {
+          attributes: {
+            confirmationCode: '5',
+          },
+        },
+      });
       cy.intercept(
         'GET',
         '/v0/profile/valid_va_file_number',

@@ -5,9 +5,9 @@ import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaS
 
 // Modified version of the file upload from applications/appeals/995
 
-const uploadUrl = `${environment.API_URL}/v0/claim_attachments`;
+export const uploadUrl = `${environment.API_URL}/v0/claim_attachments`;
 
-function createPayload(file, _formId, password) {
+export function createPayload(file, _formId, password) {
   const payload = new FormData();
   payload.append('file', file);
   payload.append('form_id', _formId);
@@ -45,8 +45,8 @@ export const dependentsUploadUI = (content, options = {}) => {
         findAndFocusLastSelect();
       });
       return {
-        name: file.name,
-        confirmationCode: response.data.attributes.confirmationCode,
+        name: file?.name,
+        confirmationCode: response?.data?.attributes?.confirmationCode,
         attachmentId: '',
       };
     },
