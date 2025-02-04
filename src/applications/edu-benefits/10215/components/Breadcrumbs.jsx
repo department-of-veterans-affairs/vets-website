@@ -43,7 +43,7 @@ const Breadcrumbs = () => {
   ];
   return (
     <div className="row">
-      <VaBreadcrumbs uswds breadcrumbList={crumbs} />
+      <VaBreadcrumbs uswds breadcrumbList={crumbs} data-testid="breadcrumbs" />
     </div>
   );
 };
