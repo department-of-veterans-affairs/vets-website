@@ -10,7 +10,27 @@ function createInitialState(
     hasUnsavedEdits: false,
     toggles: {},
   },
+  messagingSignatureDetails = null,
 ) {
+  const services = [
+    'facilities',
+    'hca',
+    'edu-benefits',
+    'form-save-in-progress',
+    'form-prefill',
+    'form526',
+    'user-profile',
+    'appeals-status',
+    'id-card',
+    'identity-proofed',
+    'vet360',
+    'lighthouse',
+  ];
+
+  if (messagingSignatureDetails?.service) {
+    services.push(messagingSignatureDetails.service);
+  }
+
   return {
     featureToggles: {
       ...{
@@ -49,20 +69,10 @@ function createInitialState(
         signIn: {
           serviceName: 'idme',
         },
-        services: [
-          'facilities',
-          'hca',
-          'edu-benefits',
-          'form-save-in-progress',
-          'form-prefill',
-          'form526',
-          'user-profile',
-          'appeals-status',
-          'id-card',
-          'identity-proofed',
-          'vet360',
-          'lighthouse',
-        ],
+        services,
+        mhvAccount: {
+          messagingSignature: messagingSignatureDetails,
+        },
       },
     },
     vapService: {
@@ -113,10 +123,13 @@ const defaultOptions = {
   hasUnsavedEdits: false,
 };
 
-const setup = (options = defaultOptions) => {
+const setup = (options = defaultOptions, messagingSignatureDetails) => {
   const optionsWithDefaults = { ...defaultOptions, ...options };
   return renderWithProfileReducersAndRouter(<PersonalInformation />, {
-    initialState: createInitialState(optionsWithDefaults),
+    initialState: createInitialState(
+      optionsWithDefaults,
+      messagingSignatureDetails,
+    ),
     path: optionsWithDefaults.path,
   });
 };
@@ -132,5 +145,50 @@ describe('<PersonalInformation />', () => {
       path: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-preferred-name`,
     });
     expect(getByText('Personal information', { selector: 'h1' })).to.exist;
+  });
+
+  it('renders Messaging signature section if messagingSignature is not null', () => {
+    const defaultMessagingSignature = {
+      signatureName: 'Abraham Lincoln',
+      signatureTitle: 'Veteran',
+    };
+
+    const featureToggles = {};
+
+    // eslint-disable-next-line dot-notation
+    featureToggles['mhv_secure_messaging_signature_settings'] = true;
+
+    const screen = setup(
+      { toggles: { ...featureToggles } },
+      { ...defaultMessagingSignature, service: 'messaging' },
+    );
+    screen.debug(undefined, 10000);
+    const messagingSignatureSection = screen.getByTestId('messagingSignature');
+
+    expect(messagingSignatureSection.innerHTML).to.contain('Abraham Lincoln');
+    expect(messagingSignatureSection.innerHTML).to.contain('Veteran');
+  });
+
+  it('does not render Messaging signature section if messaging service is not enabled', () => {
+    const defaultMessagingSignature = {
+      signatureName: 'Abraham Lincoln',
+      signatureTitle: 'Veteran',
+    };
+
+    const featureToggles = {};
+
+    // eslint-disable-next-line dot-notation
+    featureToggles['mhv_secure_messaging_signature_settings'] = true;
+
+    const screen = setup(
+      { toggles: { ...featureToggles } },
+      defaultMessagingSignature,
+    );
+    screen.debug(undefined, 10000);
+    const messagingSignatureSection = screen.queryByTestId(
+      'messagingSignature',
+    );
+
+    expect(messagingSignatureSection).to.not.exist;
   });
 });

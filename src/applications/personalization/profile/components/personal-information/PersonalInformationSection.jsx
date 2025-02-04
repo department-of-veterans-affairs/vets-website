@@ -38,7 +38,7 @@ const PersonalInformationSection = ({ dob }) => {
   const userServices = useSelector(state => state.user.profile.services);
 
   const messagingSignature = useSelector(
-    state => state.user.profile.mhvAccount.messagingSignature,
+    state => state.user?.profile?.mhvAccount?.messagingSignature,
   );
 
   useEffect(
