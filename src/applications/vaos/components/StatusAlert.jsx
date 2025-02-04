@@ -107,9 +107,8 @@ export default function StatusAlert({ appointment, facility }) {
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
-          <strong>{who} canceled this appointment. </strong>
-          If you want to reschedule, call us or schedule a new appointment
-          online.
+          {who} canceled this appointment. If you want to reschedule, call us or
+          schedule a new appointment online.
           <br />
           <br />
           <va-link
