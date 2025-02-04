@@ -119,7 +119,12 @@ function selectedBehaviors(formData) {
   };
 }
 
-// when a user has selected options and selected 'none'
+/**
+ * Returns true if 'none' checkbox and other behaviors are selected
+ * @param {object} formData
+ * @returns {boolean}
+ */
+
 export function showConflictingAlert(formData) {
   const selections = selectedBehaviors(formData);
 
@@ -131,14 +136,11 @@ export function showConflictingAlert(formData) {
     otherBehaviors,
   ].some(selection => selection === true);
 
-  if (none && somethingSelected) {
-    return true;
-  }
-  return false;
+  return !!(none && somethingSelected);
 }
 
 /**
- * Validates that a required selection is made and that the 'none' checkbox is not selected if behaviors are also selected
+ * Validates that the 'none' checkbox is not selected if behaviors are also selected
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
@@ -148,15 +150,15 @@ export function validateBehaviorSelections(errors, formData) {
   const selections = selectedBehaviors(formData);
 
   if (isConflicting === true) {
-    errors['view:noneCheckbox'].addError('Conflicting error message');
+    errors['view:noneCheckbox'].addError(' ');
     if (selections.workBehaviors === true) {
-      errors.workBehaviors.addError('Conflicting error message');
+      errors.workBehaviors.addError(' ');
     }
     if (selections.healthBehaviors === true) {
-      errors.healthBehaviors.addError('Conflicting error message');
+      errors.healthBehaviors.addError(' ');
     }
     if (selections.otherBehaviors === true) {
-      errors.otherBehaviors.addError('Conflicting error message');
+      errors.otherBehaviors.addError(' ');
     }
   }
 }
