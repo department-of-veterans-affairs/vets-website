@@ -6,7 +6,7 @@ const HomePage = () => {
     <div className="vads-u-margin-bottom--8">
       <h1 data-testid="comparison-tool-title">GI Bill® Comparison Tool</h1>
       <p
-        className="vads-u-color--gray-dark vads-u-font-family--serif vads-u-margin-bottom--4"
+        className="medium-8 vads-u-color--gray-dark vads-u-font-family--serif vads-u-margin-bottom--4"
         data-testid="comparison-tool-description"
       >
         Discover how your GI Bill benefits can support your education. Search
