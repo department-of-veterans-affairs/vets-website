@@ -146,7 +146,7 @@ export default function LicenseCertificationSearchResults() {
 
   const handleSearch = (categories, name, state) => {
     const newParams = {
-      category: categories,
+      category: categories.length > 0 ? categories : [null],
       name,
       state,
     };
@@ -333,7 +333,13 @@ export default function LicenseCertificationSearchResults() {
 
               <div className="lc-result-info-wrapper row">
                 <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                  {filteredResults.length - 1 > 0 ? (
+                  {filteredResults.length - 1 <= 0 ? (
+                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
+                      {activeCategories.length >= 1
+                        ? `There is no ${activeCategories} available in the state of ${stateParam}`
+                        : `Please update the filter options to show results.`}
+                    </p>
+                  ) : (
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
                       Showing{' '}
                       <>
@@ -344,12 +350,6 @@ export default function LicenseCertificationSearchResults() {
                         )} of ${filteredResults.length - 1} results for: `}
                         {renderSearchInfo()}
                       </>
-                    </p>
-                  ) : (
-                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
-                      {activeCategories.length > 1
-                        ? `There is no ${activeCategories} available in the state of ${stateParam}`
-                        : `Please update the filter options to show results.`}
                     </p>
                   )}
                 </div>

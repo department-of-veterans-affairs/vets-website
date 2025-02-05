@@ -624,18 +624,14 @@ export const handleLcResultsSearch = (
 ) => {
   let categoryParams = '';
 
-  if (categories.length > 1) {
-    categories.forEach((category, index) => {
-      categoryParams = categoryParams.concat(
-        '',
-        index === categories.length - 1
-          ? `category=${category}`
-          : `category=${category}&`,
-      );
-    });
-  } else {
-    categoryParams = 'category=null';
-  }
+  categories.forEach((category, index) => {
+    categoryParams = categoryParams.concat(
+      '',
+      index === categories.length - 1
+        ? `category=${category}`
+        : `category=${category}&`,
+    );
+  });
 
   history.push(
     `/lc-search/results?name=${name}&state=${state}&`.concat(categoryParams),
