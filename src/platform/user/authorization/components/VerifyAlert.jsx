@@ -9,7 +9,11 @@ import {
   VerifyLogingovButton,
 } from '~/platform/user/authentication/components/VerifyButton';
 
-export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
+export default function VerifyAlert({
+  headingLevel = 2,
+  dataTestId,
+  alertRef = null,
+}) {
   const csp = useSelector(signInServiceName);
 
   if (csp === CSP_IDS.DS_LOGON) {
@@ -19,6 +23,7 @@ export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
   if (csp === CSP_IDS.MHV) {
     return (
       <VaAlertSignIn
+        ref={alertRef}
         variant="signInEither"
         visible
         headingLevel={headingLevel}
@@ -48,6 +53,7 @@ export default function VerifyAlert({ headingLevel = 2, dataTestId }) {
 
   return (
     <VaAlertSignIn
+      ref={alertRef}
       variant={variant}
       visible
       headingLevel={headingLevel}
