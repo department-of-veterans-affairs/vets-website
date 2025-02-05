@@ -2,17 +2,19 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import { recordWebVitalsEvent } from '../web-vitals';
+import { recordWebVitalsEvent, trackWebVitals } from '../web-vitals';
+
+const sandbox = sinon.createSandbox();
 
 describe('recordWebVitalsEvent', () => {
   let recordEventStub;
 
   beforeEach(() => {
-    recordEventStub = sinon.stub(recordEventModule, 'default');
+    recordEventStub = sandbox.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
-    recordEventStub.restore();
+    sandbox.restore();
   });
 
   it('should record a web vitals event with correct properties for CLS', () => {
@@ -69,5 +71,21 @@ describe('recordWebVitalsEvent', () => {
       app_name: 'testApp',
     });
     delete window.appName;
+  });
+});
+
+describe('trackWebVitals', () => {
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('should return true 1% of the time when sampling events', () => {
+    sandbox.stub(Math, 'random').returns(0.005);
+    expect(trackWebVitals({ sampleEvents: true })).to.be.true;
+  });
+
+  it('should return false 99% of the time when sampling events', () => {
+    sandbox.stub(Math, 'random').returns(0.02);
+    expect(trackWebVitals({ sampleEvents: true })).to.be.false;
   });
 });

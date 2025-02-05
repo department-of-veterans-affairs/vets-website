@@ -4,6 +4,7 @@ import {
   mockMultipleApiRequests,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import {
   updateReportRecordType,
   updateReportDateRange,
@@ -65,18 +66,24 @@ describe('Download Actions', () => {
       const firstName = 'first';
       const lastName = 'last';
       const dateGenerated = '2024-10-30T10:00:40.000-0400';
-      const completeRequest = {
+      const inProcessRequest = {
         shouldResolve: true,
         response: [{ status: 'IN_PROCESS', dateGenerated }],
       };
+      const completeRequest = {
+        shouldResolve: true,
+        response: [{ status: 'COMPLETE', dateGenerated }],
+      };
 
-      mockMultipleApiRequests([completeRequest]);
+      mockMultipleApiRequests([inProcessRequest, completeRequest]);
       await genAndDownloadCCD(firstName, lastName)(dispatch);
-      expect(dispatch.callCount).to.be.equal(2);
-      expect(dispatch.calledWith({ type: Actions.Downloads.GENERATE_CCD })).to
-        .be.true;
-      // expect dispatch to be called with a function
-      expect(dispatch.secondCall.args[0]).to.be.a('function');
+      waitFor(() => {
+        expect(dispatch.callCount).to.be.equal(2);
+        expect(dispatch.calledWith({ type: Actions.Downloads.GENERATE_CCD })).to
+          .be.true;
+        // expect dispatch to be called with a function
+        expect(dispatch.secondCall.args[0]).to.be.a('function');
+      });
     });
   });
 
