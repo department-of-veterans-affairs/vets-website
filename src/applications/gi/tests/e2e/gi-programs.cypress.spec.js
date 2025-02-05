@@ -575,11 +575,9 @@ describe('GI Bill Comparison Tool - Programs List', () => {
         },
       },
     }).as('institutionPrograms');
-
     cy.visit(
       'education/gi-bill-comparison-tool/institution/31800132/non-college-degree',
     );
-
     cy.wait('@institutionPrograms');
     cy.wait('@featureToggles');
   });
@@ -610,19 +608,16 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .should('be.focused');
     cy.get('[data-testid="program-list-item"]').should('have.length', 20);
   });
-  // it('should display relevant results when a user searches for "ACCOUNTING"', () => {
-  //   cy.injectAxeThenAxeCheck();
-  //   cy.get('#search-input')
-  //     .shadow()
-  //     .find('input')
-  //     .type('ACCOUNTING');
-  //   cy.contains('button', 'Search').click();
-  //   cy.get('#results-summary').should('contain', 'ACCOUNTING');
-  //   cy.get('[data-testid="program-list-item"]').should('have.length', 4);
-  //   cy.get('[data-testid="program-list-item"]')
-  //     .first()
-  //     .should('contain', 'ACCOUNTING-CPA TRACK-BS');
-  // });
+  it('should display relevant results when a user searches for "ALTERNATIVE"', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.get('#search-input')
+      .shadow()
+      .find('input')
+      .type('ALTERNATIVE');
+    cy.contains('button', 'Search').click();
+    cy.get('#results-summary').should('contain', 'ALTERNATIVE');
+    cy.get('[data-testid="program-list-item"]').should('have.length', 11);
+  });
   it('displays an error if the user tries to search with an empty input', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
