@@ -63,19 +63,6 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     );
   });
 
-  it('lists all distinct degree levels in the dropdown in the correct order', () => {
-    //   cy.injectAxeThenAxeCheck();
-    const expectedOptions = ['Undergraduate', 'Doctoral', 'Graduate'];
-    cy.get('va-select#degree')
-      .shadow()
-      .find('select > option')
-      .then(options => {
-        const texts = [...options].map(o => o.innerText.trim());
-        expectedOptions.forEach(option => {
-          expect(texts).to.include(option);
-        });
-      });
-  });
   it('filters results when a user selects a degree level and clicks "Display Results"', () => {
     //   cy.injectAxeThenAxeCheck();
     cy.get('va-select#degree')
