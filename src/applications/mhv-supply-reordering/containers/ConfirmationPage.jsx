@@ -82,9 +82,8 @@ export const ConfirmationPage = () => {
 
         <h4 className="vads-u-margin-top--1">Supplies ordered</h4>
         <ul className="vads-u-margin-top--0">
-          {productNames.map(name => (
-            // eslint-disable-next-line react/jsx-key
-            <li>{name}</li>
+          {productNames.map((name, i) => (
+            <li key={`${i}-${name}`}>{name}</li>
           ))}
         </ul>
 
