@@ -24,7 +24,7 @@ class ApiInitializer {
 
   initializeAppointment = {
     happyPath: () => {
-      cy.intercept('GET', '/vaos/v2/appointment/*', {
+      cy.intercept('GET', '/vaos/v2/appointments/*', {
         fixture: 'applications/travel-pay/tests/fixtures/appointment.json',
       }).as('appointment');
     },

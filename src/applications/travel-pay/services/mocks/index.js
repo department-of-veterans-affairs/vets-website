@@ -67,10 +67,10 @@ const responses = {
       modifiedOn: '2024-05-31T16:40:45.781Z',
     });
   },
-  'GET /vaos/v2/appointment/:id': (req, res) => {
+  'GET /vaos/v2/appointments/:id': (req, res) => {
     return res.json(appointmentNoclaim);
   },
-  // 'GET /vaos/v2/appointment/:id': (req, res) => {
+  // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
   //     errors: [
   //       {
