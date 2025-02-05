@@ -92,8 +92,7 @@ function UserNav({ profile }) {
           srText="toggle menu"
           dropdownClass="nav__full-width"
           className="nav__btn"
-          closeMenu
-          secondaryIcon="close"
+          closeIcon="close"
         >
           <UserHelpLinks />
         </NavDropdown>

@@ -83,8 +83,9 @@
       border-bottom: 4px solid $vads-color-white;
       padding: 12px 0;
 
-      &:last-child {
+      &:first-child {
         border: none;
+        margin-bottom: 0;
       }
     }
 
@@ -101,6 +102,7 @@
     width: max-content;
     &-icon {
       margin-left: 8px;
+      visibility: visible;
     }
   }
 
@@ -142,6 +144,13 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    &.is--open {
+      margin-bottom: 0;
+      padding-bottom: 8.4px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
     &:visited {
       color: $vads-color-white;
     }
@@ -156,9 +165,10 @@
       &:hover {
         background-color: transparent !important;
 
-        // .user-nav__chevron {
-        //   transform: rotate(90deg);
-        // }
+        @media (min-width: $medium-screen) {
+          background-color: $vads-color-primary !important;
+          color: $vads-color-white !important;
+        }
       }
 
       &:focus {
@@ -166,18 +176,19 @@
           transform: rotate(90deg);
         }
       }
-    }
 
-    &-name {
-      margin: 0 4px;
-      > span {
-        text-transform: lowercase;
-        display: inline-block;
-        &:first-letter {
-          text-transform: uppercase;
+      &-name {
+        margin: 0 4px;
+        > span {
+          text-transform: lowercase;
+          display: inline-block;
+          &:first-letter {
+            text-transform: uppercase;
+          }
         }
       }
     }
+
     .nav__container-primary & {
       &:hover {
         background-color: $vads-color-primary;
@@ -207,7 +218,6 @@
     &--desktop {
       height: auto;
       width: 428px;
-      // margin: 16px 5px 16px 0;
     }
 
     &-text {
