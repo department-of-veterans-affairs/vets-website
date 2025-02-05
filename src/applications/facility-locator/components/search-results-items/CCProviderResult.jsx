@@ -10,19 +10,12 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import ProviderTraining from './common/ProviderTraining';
 
-const CCProviderResult = ({
-  headerHasFocus = false,
-  headerRef = null,
-  provider,
-  query,
-  setHeaderHasFocus,
-}) => {
+const CCProviderResult = ({ headerRef = null, provider, query }) => {
   const { name } = provider.attributes;
 
   useEffect(() => {
-    if (headerRef?.current && !headerHasFocus) {
+    if (headerRef?.current) {
       focusElement(headerRef.current);
-      setHeaderHasFocus(true);
     }
   }, []);
 
