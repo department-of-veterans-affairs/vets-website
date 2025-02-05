@@ -12,6 +12,7 @@ export default function BurialsApp({ location, children }) {
     loading: isLoadingFeatures,
     burialFormEnabled,
     burialDocumentUploadUpdate,
+    burialLocationOfDeathUpdate,
     burialModuleEnabled,
   } = useSelector(state => state?.featureToggles);
 
@@ -26,12 +27,20 @@ export default function BurialsApp({ location, children }) {
     () => {
       if (!isLoadingFeatures) {
         window.sessionStorage.setItem(
+          'showLocationOfDeath',
+          !!burialLocationOfDeathUpdate,
+        );
+        window.sessionStorage.setItem(
           'showUploadDocuments',
           !!burialDocumentUploadUpdate,
         );
       }
     },
-    [isLoadingFeatures, burialDocumentUploadUpdate],
+    [
+      isLoadingFeatures,
+      burialLocationOfDeathUpdate,
+      burialDocumentUploadUpdate,
+    ],
   );
 
   if (isLoadingFeatures) {
