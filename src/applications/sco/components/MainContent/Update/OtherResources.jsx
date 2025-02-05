@@ -162,10 +162,6 @@ const OtherResources = () => {
               href="https://benefits.va.gov/GIBILL/85_15/supported_non_supported_students.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Restricted aid"
-              href="https://benefits.va.gov/GIBILL/85_15/restricted_aid.asp"
-            />
-            <LiSpanAndVaLink
               hrefText="Suspension and review"
               href="https://benefits.va.gov/GIBILL/85_15/Suspension_and_Review.asp"
             />

@@ -378,7 +378,7 @@ const ProofOfVeteranStatusNew = ({
                 ) : null}
 
                 {isVetStatusEligibilityPopulated &&
-                data?.attributes?.veteranStatus !== 'confirmed' &&
+                data?.attributes?.veteranStatus === 'not confirmed' &&
                 data?.message?.length > 0 ? (
                   <>{lighthouseApiErrorMessage}</>
                 ) : null}
@@ -397,11 +397,22 @@ const ProofOfVeteranStatusNew = ({
 
             {useLighthouseApi ? (
               <>
+                {errors?.length > 0 ? (
+                  <>
+                    <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                      <va-alert status="error" uswds>
+                        {errors[0]}
+                      </va-alert>
+                    </div>
+                  </>
+                ) : null}
+
                 {data?.attributes?.veteranStatus === 'confirmed' ? (
                   <>{profileApiErrorMessage}</>
-                ) : (
+                ) : null}
+                {data?.attributes?.veteranStatus === 'not confirmed' ? (
                   <>{lighthouseApiErrorMessage}</>
-                )}
+                ) : null}
               </>
             ) : null}
           </>
