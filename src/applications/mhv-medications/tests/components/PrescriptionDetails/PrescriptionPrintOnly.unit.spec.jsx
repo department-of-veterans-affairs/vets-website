@@ -60,7 +60,7 @@ describe('Prescription print only container', () => {
   it('should render h2 tag', () => {
     const screen = setup({ isDetailsRx: true, va: true });
     const nameElement = screen.getByText('ONDANSETRON 8 MG TAB');
-    const detailsHeaderElement = screen.getByText('About your prescription');
+    const detailsHeaderElement = screen.getByText('Most recent prescription');
     expect(nameElement.tagName).to.equal('H2');
     expect(detailsHeaderElement.tagName).to.equal('H3');
   });
