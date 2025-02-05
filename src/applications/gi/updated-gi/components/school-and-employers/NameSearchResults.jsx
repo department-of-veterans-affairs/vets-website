@@ -16,6 +16,7 @@ import TuitionAndHousingEstimates from '../../../containers/TuitionAndHousingEst
 import { updateUrlParams } from '../../../selectors/search';
 import { getFiltersChanged } from '../../../selectors/filters';
 import MobileFilterControls from '../../../components/MobileFilterControls';
+import { convertSchoolsAndEmployersTabIndexToText } from '../../../utils/helpers';
 
 export function NameSearchResults({
   dispatchFetchSearchByNameResults,
@@ -94,10 +95,11 @@ export function NameSearchResults({
 
   const fetchPage = e => {
     const { page } = e.detail;
+    const selectedTabText = convertSchoolsAndEmployersTabIndexToText(tab);
     dispatchFetchSearchByNameResults(name, page, filters, version);
     updateUrlParams(
       history,
-      tab,
+      selectedTabText,
       {
         ...search.query,
         name,

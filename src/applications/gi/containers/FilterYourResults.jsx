@@ -21,6 +21,7 @@ import {
   validateSearchTermSubmit,
   isShowVetTec,
   isEmptyCheckboxFilters,
+  convertSchoolsAndEmployersTabIndexToText,
 } from '../utils/helpers';
 import { showModal, filterChange, setError, focusSearch } from '../actions';
 import {
@@ -239,6 +240,9 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
+    const selectedTabText = convertSchoolsAndEmployersTabIndexToText(
+      search.tab,
+    );
     if (
       validateSearchTermSubmit(
         nameValue,
@@ -249,7 +253,7 @@ export function FilterYourResults({
       )
     ) {
       updateInstitutionFilters('search', true);
-      updateUrlParams(history, search.tab, search.query, filters, version);
+      updateUrlParams(history, selectedTabText, search.query, filters, version);
     }
   };
 
