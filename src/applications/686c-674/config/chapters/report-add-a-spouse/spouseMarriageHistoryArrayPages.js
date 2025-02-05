@@ -198,7 +198,7 @@ export const formerMarriageEndDatePage = {
 
             if (end < start) {
               errors.addError(
-                'Marriage end date must be the on or after the marriage start date',
+                'Marriage end date must be on or after the marriage start date',
               );
             }
           },

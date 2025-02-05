@@ -4,13 +4,9 @@ export const FORM_LOADING_SUCCEEDED = 'FORM_RENDERER/FORM_LOADING_SUCCEEDED';
 export const FORM_LOADING_FAILED = 'FORM_RENDERER/FORM_LOADING_FAILED';
 
 import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
-import ENVIRONMENTS from 'site/constants/environments';
-import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
 import environment from 'platform/utilities/environment';
 import mockForms from '../../config/formConfig';
 import { createFormConfig } from '../../utils/formConfig';
-
-const PROD_ENV = ENVIRONMENT_CONFIGURATIONS[ENVIRONMENTS.VAGOVPROD];
 
 export const formLoadingInitiated = formId => {
   return {
@@ -34,7 +30,7 @@ export const formLoadingFailed = error => {
 };
 
 export const fetchDrupalDigitalForms = () =>
-  fetchDrupalStaticDataFile(DIGITAL_FORMS_FILENAME, PROD_ENV.BASE_URL);
+  fetchDrupalStaticDataFile(DIGITAL_FORMS_FILENAME, environment.BASE_URL);
 
 /**
  * Mocks a fetch of content-build forms data.

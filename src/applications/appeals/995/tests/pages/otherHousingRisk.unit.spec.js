@@ -13,7 +13,7 @@ describe('Supplemental Claims other housing risks page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.housing.pages.otherHousingRisk;
+  } = formConfig.chapters.infoPages.pages.otherHousingRisk;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {

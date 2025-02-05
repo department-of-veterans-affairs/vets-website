@@ -115,7 +115,6 @@ describe('isRelatedToMST', () => {
           mst: true,
         },
       };
-
       expect(isRelatedToMST(formData)).to.eq(true);
     });
   });
@@ -148,7 +147,6 @@ describe('showBehaviorIntroCombatPage', () => {
           nonMst: false,
         },
       };
-
       expect(showBehaviorIntroCombatPage(formData)).to.eq(true);
     });
   });
@@ -164,7 +162,6 @@ describe('showBehaviorIntroCombatPage', () => {
           nonMst: true,
         },
       };
-
       expect(showBehaviorIntroCombatPage(formData)).to.eq(false);
     });
   });
@@ -180,7 +177,6 @@ describe('showBehaviorIntroCombatPage', () => {
           nonMst: true,
         },
       };
-
       expect(showBehaviorIntroCombatPage(formData)).to.eq(false);
     });
   });
