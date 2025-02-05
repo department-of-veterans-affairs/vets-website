@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -46,7 +47,9 @@ export default function FacilitiesRadioWidget({
   );
 
   return (
-    <div>
+    <fieldset>
+      <legend className="sr-only">{options.title}</legend>
+
       {displayedOptions.map((option, i) => {
         const { name, legacyVAR } = option?.label;
         const checked = option.value === value;
@@ -104,6 +107,14 @@ export default function FacilitiesRadioWidget({
             </span>
           </button>
         )}
-    </div>
+    </fieldset>
   );
 }
+
+FacilitiesRadioWidget.propTypes = {
+  formContext: PropTypes.object,
+  id: PropTypes.string,
+  options: PropTypes.object,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
