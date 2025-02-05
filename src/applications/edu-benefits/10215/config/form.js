@@ -11,6 +11,8 @@ import { getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
+import StatementOfTruth from '../components/StatementOfTruth';
+import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
@@ -53,6 +55,10 @@ const formConfig = {
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    required: true,
+    CustomComponent: StatementOfTruth,
+  },
   customText: {
     submitButtonText: 'Continue',
   },
@@ -108,6 +114,23 @@ const formConfig = {
           schema: programInfo.schema,
         }),
       })),
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
     },
   },
 };

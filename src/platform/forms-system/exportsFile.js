@@ -15,6 +15,11 @@ export {
 export { default as SchemaForm } from './src/js/components/SchemaForm';
 
 export {
+  PersonalInformation,
+  personalInformationPage,
+} from './src/js/components/PersonalInformation';
+
+export {
   directDepositDescription,
   directDepositAlert,
   bankInfoHelpText,
@@ -243,8 +248,9 @@ export {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
-  createRoutes,
 } from './src/js/routing';
+
+export { createRoutes } from './src/js/routing/createRoutes';
 
 export {
   transformErrors,

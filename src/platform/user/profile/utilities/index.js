@@ -156,6 +156,7 @@ export function teardownProfileSession() {
   [
     'hasSession',
     'userFirstName',
+    'preferredName',
     'sessionExpiration',
     'hasSessionSSO',
     'sessionExpirationSSO',

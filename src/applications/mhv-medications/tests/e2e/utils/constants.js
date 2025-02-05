@@ -27,6 +27,12 @@ export const Data = {
   ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
   SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
   SINGLE_PREVIOUS_RX_INFO: 'Showing 1 prescription',
+  SINGLE_CERNER_FACILITY_USER:
+    'Some of your medications may be in a different portal. To view or manage medications at VA Spokane health care, go to My VA Health.',
+  CERNER_FACILITY_ONE: 'VA Spokane health care',
+  CERNER_FACILITY_TWO: 'VA Roseburg health care',
+  MULTIPLE_CERNER_TEXT_ALERT:
+    'Some of your medications may be in a different portal. To view or manage medications at these facilities, go to My VA Health',
 };
 export const Paths = {
   LANDING_LIST:

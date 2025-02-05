@@ -70,7 +70,6 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   formId: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
-  disableSave: true,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your welcome va setup review information form application (00-0000) is in progress.',
@@ -79,7 +78,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound:
       'Please start over to apply for welcome va setup review information form.',

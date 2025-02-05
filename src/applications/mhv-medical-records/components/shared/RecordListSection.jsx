@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AccessTroubleAlertBox from './AccessTroubleAlertBox';
 import NoRecordsMessage from './NoRecordsMessage';
+import useInitialFhirLoadTimeout from '../../hooks/useInitialFhirLoadTimeout';
 
 const RecordListSection = ({
   children,
@@ -12,7 +13,9 @@ const RecordListSection = ({
   listCurrentAsOf,
   initialFhirLoad,
 }) => {
-  if (accessAlert) {
+  const initialFhirLoadTimedOut = useInitialFhirLoadTimeout(initialFhirLoad);
+
+  if (accessAlert || initialFhirLoadTimedOut) {
     return (
       <AccessTroubleAlertBox
         alertType={accessAlertType}
@@ -25,7 +28,7 @@ const RecordListSection = ({
       <div className="vads-u-margin-y--8">
         <va-loading-indicator
           class="hydrated initial-fhir-load"
-          message="We're loading your records for the first time. This can take up to 2 minutes. Stay on this page until your records load."
+          message="We're loading your records for the first time. This can take up to 2 minutes."
           setFocus
           data-testid="initial-fhir-loading-indicator"
         />
@@ -55,7 +58,7 @@ RecordListSection.propTypes = {
   accessAlert: PropTypes.bool,
   accessAlertType: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  initialFhirLoad: PropTypes.bool,
+  initialFhirLoad: PropTypes.instanceOf(Date),
   listCurrentAsOf: PropTypes.instanceOf(Date),
   recordCount: PropTypes.number,
   recordType: PropTypes.string,
