@@ -1,15 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
+import { waitFor } from '@testing-library/dom';
+
 import ReviewAndConfirm from './ReviewAndConfirm';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createReferral, getReferralSlotKey } from './utils/referrals';
+import { createReferralAppointment } from './utils/appointment';
+import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
 import * as postDraftReferralAppointmentModule from '../services/referral';
+import * as flow from './flow';
 
 describe('VAOS Component: ReviewAndConfirm', () => {
   const sandbox = sinon.createSandbox();
@@ -24,6 +29,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       draftAppointmentCreateStatus: FETCH_STATUS.succeeded,
       selectedSlot: '0',
       currentPage: 'reviewAndConfirm',
+      appointmentCreateStatus: FETCH_STATUS.notStarted,
+      postAppointmentStartTime: null,
     },
   };
   const initialEmptyState = {
@@ -33,6 +40,8 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     referral: {
       draftAppointmentInfo: {},
       draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
+      appointmentCreateStatus: FETCH_STATUS.notStarted,
+      postAppointmentStartTime: null,
     },
   };
   beforeEach(() => {
@@ -48,7 +57,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   it('should not fetch provider if in redux', async () => {
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialFullState),
@@ -67,7 +76,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     );
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(initialEmptyState),
@@ -90,7 +99,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     };
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),
@@ -116,7 +125,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     };
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
-        currentReferral={createReferral('2024-09-09', 'UUID')}
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),
@@ -128,5 +137,77 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     );
     expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
       .true;
+  });
+  it('should poll for appointment creation when "continue" is pressed', async () => {
+    const clock = sinon.useFakeTimers({
+      shouldAdvanceTime: false,
+      now: new Date().getTime(),
+      toFake: ['setTimeout', 'nextTick'],
+    });
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+      .onFirstCall()
+      .resolves(
+        createReferralAppointment(draftAppointmentInfo.appointment.id, 'draft'),
+      )
+      .onSecondCall()
+      .resolves(
+        createReferralAppointment(
+          draftAppointmentInfo.appointment.id,
+          'confirmed',
+        ),
+      );
+
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store: createTestStore(initialFullState),
+      },
+    );
+    expect(screen.queryByTestId('continue-button')).to.exist;
+    userEvent.click(screen.queryByTestId('continue-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('loading')).to.exist;
+    });
+
+    // advance the clock
+    clock.runAll();
+    sandbox.assert.calledTwice(
+      postDraftReferralAppointmentModule.postReferralAppointment,
+    );
+  });
+  it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
+    sandbox.stub(flow, 'routeToNextReferralPage');
+
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+      .resolves(
+        createReferralAppointment(
+          draftAppointmentInfo.appointment.id,
+          'confirmed',
+        ),
+      );
+
+    const screen = renderWithStoreAndRouter(
+      <ReviewAndConfirm
+        currentReferral={createReferralById('2024-09-09', 'UUID')}
+      />,
+      {
+        store: createTestStore(initialFullState),
+      },
+    );
+    expect(screen.queryByTestId('continue-button')).to.exist;
+    userEvent.click(screen.queryByTestId('continue-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('loading')).to.exist;
+    });
+
+    sandbox.assert.calledOnce(
+      postDraftReferralAppointmentModule.postReferralAppointment,
+    );
+
+    sandbox.assert.calledOnce(flow.routeToNextReferralPage);
   });
 });

@@ -19,9 +19,9 @@ export const HelpTextManage = () => {
         .
       </p>
       <p className="vads-u-margin-top--2">
-        Or call the BTSSS call center at <va-telephone contact="8555747292" />{' '}
-        Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Have your claim number
-        ready to share when you call.
+        Or call the BTSSS call center at <va-telephone contact="8555747292" /> (
+        <va-telephone tty contact="711" />) Monday through Friday, 8:00 a.m. to
+        8:00 p.m. ET. Have your claim number ready to share when you call.
       </p>
     </div>
   );
@@ -31,8 +31,9 @@ export const HelpTextGeneral = () => {
   return (
     <div>
       <p>
-        Call the BTSSS call center at <va-telephone contact="8555747292" />.
-        We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        Call the BTSSS call center at <va-telephone contact="8555747292" /> (
+        <va-telephone tty contact="711" />
+        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--2">
         Or call your VA health facility’s Beneficiary Travel contact.
