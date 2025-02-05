@@ -3,8 +3,8 @@ import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import DateAndTimeContent from './DateAndTimeContent';
-import { createReferral, getReferralSlotKey } from '../utils/referrals';
-import { createProviderDetails } from '../utils/provider';
+import { createReferralById, getReferralSlotKey } from '../utils/referrals';
+import { createDraftAppointmentInfo } from '../utils/provider';
 import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 
 describe('VAOS Component: DateAndTimeContent', () => {
@@ -17,7 +17,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
       selectedSlot: null,
     },
   };
-  const referral = createReferral(
+  const referral = createReferralById(
     '2024-12-05',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
   );
@@ -58,7 +58,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={createProviderDetails(1)}
+        draftAppointmentInfo={createDraftAppointmentInfo(1)}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -71,7 +71,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={createProviderDetails(1)}
+        draftAppointmentInfo={createDraftAppointmentInfo(1)}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -90,22 +90,26 @@ describe('VAOS Component: DateAndTimeContent', () => {
   });
   it('should show error if conflicting appointment', async () => {
     const selectedSlotKey = getReferralSlotKey(referral.UUID);
-    sessionStorage.setItem(selectedSlotKey, '0');
+    sessionStorage.setItem(
+      selectedSlotKey,
+      '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
+    );
     const initialStateWithSelect = {
       featureToggles: {
         vaOnlineSchedulingCCDirectScheduling: true,
       },
       referral: {
-        selectedSlot: '0',
+        selectedSlot:
+          '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
         currentPage: 'scheduleAppointment',
       },
     };
-    const provider = createProviderDetails(1);
-    provider.slots[0].start = '2024-12-06T15:00:00-05:00';
+    const draftAppointmentInfo = createDraftAppointmentInfo(1);
+    draftAppointmentInfo.slots.slots[0].start = '2024-12-06T15:00:00-05:00';
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={provider}
+        draftAppointmentInfo={draftAppointmentInfo}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -124,11 +128,14 @@ describe('VAOS Component: DateAndTimeContent', () => {
   });
   it('should select date if value in session storage', async () => {
     const selectedSlotKey = getReferralSlotKey(referral.UUID);
-    sessionStorage.setItem(selectedSlotKey, '1');
+    sessionStorage.setItem(
+      selectedSlotKey,
+      '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov1',
+    );
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={createProviderDetails(2)}
+        draftAppointmentInfo={createDraftAppointmentInfo(2)}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {
@@ -147,7 +154,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     const screen = renderWithStoreAndRouter(
       <DateAndTimeContent
         currentReferral={referral}
-        provider={createProviderDetails(0)}
+        draftAppointmentInfo={createDraftAppointmentInfo(0)}
         appointmentsByMonth={appointmentsByMonth}
       />,
       {

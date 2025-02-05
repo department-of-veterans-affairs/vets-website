@@ -33,13 +33,28 @@ const testPagination = () => {
     .shadow()
     .findByText(/Next/i)
     .click();
-  cy.findByText(/Displaying 7 - 9 of 9/i).should('exist');
+  cy.findByText(/Displaying 7 - 12 of 36/i).should('exist');
   // Paginate back to the previous set of payments
   cy.get('va-pagination')
     .shadow()
     .findByText(/Prev/i)
     .click();
-  cy.findByText(/Displaying 1 - 6 of 9/i).should('exist');
+  cy.findByText(/Displaying 1 - 6 of 36/i).should('exist');
+};
+
+const testPaginationResize = () => {
+  cy.intercept('GET', PAYMENTS_API_ENDPOINT, mockPayments).as('mockPayments');
+  testLoadingState();
+  cy.wait('@mockPayments');
+  cy.viewport('iphone-x'); // 375x812. Will trigger useResizeObserver.
+  cy.get('va-pagination')
+    .first()
+    .shadow()
+    .find('li.usa-pagination__item')
+    .should($lis => {
+      expect($lis).to.have.length(7);
+    });
+  testAxe();
 };
 
 const testNoPayments = () => {
@@ -128,5 +143,8 @@ describe('View payment history', () => {
   });
   it('C3921 - Should display an alert when a user receives a 4xx error', () => {
     testApiError('400');
+  });
+  it('C3922 - Should resize the pagination correctly for small or zoomed screens', () => {
+    testPaginationResize();
   });
 });

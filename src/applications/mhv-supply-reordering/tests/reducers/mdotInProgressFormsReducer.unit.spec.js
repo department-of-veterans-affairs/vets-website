@@ -6,7 +6,7 @@ import {
   GET_MDOT_IN_PROGRESS_FORM_FAILED,
 } from '../../actions/mdotInProgressForm';
 import { mdotInProgressFormReducer as reducer } from '../../reducers/mdotInProgressFormReducer';
-import { internalServerError } from '../../mocks/in-progress-forms/mdot/errors';
+import { internalServerError } from '../../mocks/errors';
 import mockEndpoints from '../../mocks';
 
 const inProgressFormBody = mockEndpoints['GET /v0/in_progress_forms/MDOT'];

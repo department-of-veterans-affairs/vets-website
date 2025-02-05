@@ -312,12 +312,12 @@ export const ctaWidgetsLookup = {
   },
   [CTA_WIDGET_TYPES.VIEW_APPOINTMENTS]: {
     id: CTA_WIDGET_TYPES.VIEW_APPOINTMENTS,
-    deriveToolUrlDetails: authenticatedWithSSOe => ({
-      url: mhvUrl(authenticatedWithSSOe, 'appointments'),
+    deriveToolUrlDetails: () => ({
+      url: '/my-health/appointments',
       redirect: false,
     }),
-    hasRequiredMhvAccount: accountLevel => accountLevel === 'Premium',
-    isHealthTool: true,
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
     mhvToolName: 'VA Appointments',
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',

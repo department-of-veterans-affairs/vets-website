@@ -5,10 +5,13 @@ import { useLocation } from 'react-router-dom';
 import ReferralLayout from './components/ReferralLayout';
 // eslint-disable-next-line import/no-restricted-paths
 import { getUpcomingAppointmentListInfo } from '../appointment-list/redux/selectors';
-import { setFormCurrentPage, fetchProviderDetails } from './redux/actions';
+import {
+  setFormCurrentPage,
+  createDraftReferralAppointment,
+} from './redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import { fetchFutureAppointments } from '../appointment-list/redux/actions';
-import { getProviderInfo } from './redux/selectors';
+import { getDraftAppointmentInfo } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import DateAndTimeContent from './components/DateAndTimeContent';
@@ -18,8 +21,8 @@ export const ChooseDateAndTime = props => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const { provider, providerFetchStatus } = useSelector(
-    state => getProviderInfo(state),
+  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
+    state => getDraftAppointmentInfo(state),
     shallowEqual,
   );
   const { futureStatus, appointmentsByMonth } = useSelector(
@@ -32,23 +35,23 @@ export const ChooseDateAndTime = props => {
   useEffect(
     () => {
       if (
-        providerFetchStatus === FETCH_STATUS.notStarted ||
+        draftAppointmentCreateStatus === FETCH_STATUS.notStarted ||
         futureStatus === FETCH_STATUS.notStarted
       ) {
-        if (providerFetchStatus === FETCH_STATUS.notStarted) {
-          dispatch(fetchProviderDetails(currentReferral.providerId));
+        if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
+          dispatch(createDraftReferralAppointment(currentReferral.UUID));
         }
         if (futureStatus === FETCH_STATUS.notStarted) {
           dispatch(fetchFutureAppointments({ includeRequests: false }));
         }
       } else if (
-        providerFetchStatus === FETCH_STATUS.succeeded &&
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded &&
         futureStatus === FETCH_STATUS.succeeded
       ) {
         setLoading(false);
         scrollAndFocus('h1');
       } else if (
-        providerFetchStatus === FETCH_STATUS.failed ||
+        draftAppointmentCreateStatus === FETCH_STATUS.failed ||
         futureStatus === FETCH_STATUS.failed
       ) {
         setLoading(false);
@@ -56,7 +59,12 @@ export const ChooseDateAndTime = props => {
         scrollAndFocus('h1');
       }
     },
-    [currentReferral.providerId, dispatch, providerFetchStatus, futureStatus],
+    [
+      currentReferral.UUID,
+      dispatch,
+      draftAppointmentCreateStatus,
+      futureStatus,
+    ],
   );
   useEffect(
     () => {
@@ -80,7 +88,7 @@ export const ChooseDateAndTime = props => {
       heading="Schedule an appointment with your provider"
     >
       <DateAndTimeContent
-        provider={provider}
+        draftAppointmentInfo={draftAppointmentInfo}
         currentReferral={currentReferral}
         appointmentsByMonth={appointmentsByMonth}
       />

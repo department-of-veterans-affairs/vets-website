@@ -286,7 +286,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/Select a VA facility/i);
+      await screen.findAllByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -345,7 +345,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/Select a VA facility/i);
+      await screen.findAllByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -399,7 +399,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/Select a VA facility/i);
+      await screen.findAllByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -451,7 +451,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/Select a VA facility/i);
+      await screen.findAllByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -495,7 +495,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/Select a VA facility/i);
+      await screen.findAllByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
@@ -533,7 +533,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         store,
       });
 
-      await screen.findByText(/Select a VA facility/i);
+      await screen.findAllByText(/Select a VA facility/i);
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));

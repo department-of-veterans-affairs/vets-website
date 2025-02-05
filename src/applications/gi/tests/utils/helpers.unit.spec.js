@@ -686,6 +686,7 @@ describe('GIBCT helpers:', () => {
         'MA: Master of Arts',
         'MBA: Master of Business Administration',
         'MS: Master of Science',
+        'PhD: Doctor of Philosophy',
       ]);
     });
 
@@ -709,6 +710,7 @@ describe('GIBCT helpers:', () => {
         'CFII: Certified Flight Instructor Instrument',
         'IR: Instrument Rating',
         'MEI: Multi Engine Instructor',
+        'PPIL: Professional Pilot Interdisciplinary Sciences',
         'ROTO: Rotorcraft; Rotary-Wing Aircraft',
       ]);
     });
