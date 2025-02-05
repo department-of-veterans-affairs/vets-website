@@ -6,7 +6,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createReferral, getReferralSlotKey } from './utils/referrals';
+import { createReferralById, getReferralSlotKey } from './utils/referrals';
 
 describe('VAOS Component: ScheduleReferral', () => {
   afterEach(() => {
@@ -14,7 +14,7 @@ describe('VAOS Component: ScheduleReferral', () => {
   });
   const referralDate = '2024-09-09';
   it('should display the subtitle correctly given different numbers of appointments', async () => {
-    const referralOne = createReferral(referralDate, '111');
+    const referralOne = createReferralById(referralDate, '111');
     const store = createTestStore();
     const screen = renderWithStoreAndRouter(
       <ScheduleReferral currentReferral={referralOne} />,
@@ -26,7 +26,7 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(subtitle).to.contain.text('1 appointment');
   });
   it('should display the subtitle correctly given 2 appointments', async () => {
-    const referralTwo = createReferral(referralDate, '222');
+    const referralTwo = createReferralById(referralDate, '222');
     const store = createTestStore();
     referralTwo.numberOfAppointments = 2;
     const screen = renderWithStoreAndRouter(
@@ -40,7 +40,7 @@ describe('VAOS Component: ScheduleReferral', () => {
   });
 
   it('should render with default data', async () => {
-    const referral = createReferral(referralDate, '111');
+    const referral = createReferralById(referralDate, '111');
 
     const store = createTestStore();
 
@@ -71,7 +71,7 @@ describe('VAOS Component: ScheduleReferral', () => {
     expect(facility).to.exist;
   });
   it('should reset slot selection', async () => {
-    const referral = createReferral(referralDate, '222');
+    const referral = createReferralById(referralDate, '222');
     const selectedSlotKey = getReferralSlotKey(referral.UUID);
     sessionStorage.setItem(selectedSlotKey, '0');
     const initialState = {

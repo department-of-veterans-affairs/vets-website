@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -25,18 +25,7 @@ export default function ReferralAppointments() {
   const { search } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
-  const {
-    currentReferral,
-    referralNotFound,
-    referralFetchStatus,
-  } = useGetReferralById(id);
-  const [referral, setReferral] = useState(currentReferral);
-  useEffect(
-    () => {
-      setReferral(currentReferral);
-    },
-    [currentReferral],
-  );
+  const { referral, referralFetchStatus } = useGetReferralById(id);
   useEffect(
     () => {
       if (referralFetchStatus === FETCH_STATUS.succeeded) {
@@ -48,16 +37,20 @@ export default function ReferralAppointments() {
     [referralFetchStatus],
   );
 
-  if (referralNotFound || !isInCCPilot) {
+  if (!isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
 
-  if (referralFetchStatus === FETCH_STATUS.failed) {
+  if (!referral && referralFetchStatus === FETCH_STATUS.failed) {
     // Referral Layout shows the error component is apiFailure is true
     return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
 
-  if (!referral && referralFetchStatus !== FETCH_STATUS.failed) {
+  if (
+    !referral ||
+    referralFetchStatus === FETCH_STATUS.loading ||
+    referralFetchStatus === FETCH_STATUS.notStarted
+  ) {
     // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">

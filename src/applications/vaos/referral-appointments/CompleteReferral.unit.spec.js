@@ -10,7 +10,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createReferral, getReferralSlotKey } from './utils/referrals';
+import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createProviderDetails } from './utils/provider';
 import * as getProviderByIdModule from '../services/referral';
@@ -48,7 +48,7 @@ describe('CompleteReferral', () => {
     it('should render review and schedule links', () => {
       const { getByTestId } = renderWithStoreAndRouter(
         <CompleteReferral
-          currentReferral={createReferral('2024-11-29', 'UUID', '111')}
+          currentReferral={createReferralById('2024-11-29', 'UUID', '111')}
         />,
         {
           store: createTestStore(initialState),
@@ -63,7 +63,7 @@ describe('CompleteReferral', () => {
 
       const { getByTestId } = renderWithStoreAndRouter(
         <CompleteReferral
-          currentReferral={createReferral('2024-11-29', 'UUID', '111')}
+          currentReferral={createReferralById('2024-11-29', 'UUID', '111')}
         />,
         {
           store: createTestStore(initialState),
@@ -79,7 +79,7 @@ describe('CompleteReferral', () => {
   it('should render error alert when provider loading fails', () => {
     const { getByTestId } = renderWithStoreAndRouter(
       <CompleteReferral
-        currentReferral={createReferral('2024-11-29', 'UUID', '111')}
+        currentReferral={createReferralById('2024-11-29', 'UUID', '111')}
       />,
       {
         store: createTestStore({
@@ -102,7 +102,7 @@ describe('CompleteReferral', () => {
 
     const { history } = renderWithStoreAndRouter(
       <CompleteReferral
-        currentReferral={createReferral('2024-11-29', 'UUID', '111')}
+        currentReferral={createReferralById('2024-11-29', 'UUID', '111')}
       />,
       {
         store: createTestStore(initialState),
@@ -118,7 +118,7 @@ describe('CompleteReferral', () => {
     providerDetails.slots[0].start = '2024-11-29T16:00:00.000Z';
     const { getByTestId } = renderWithStoreAndRouter(
       <CompleteReferral
-        currentReferral={createReferral('2024-11-29', 'UUID', '111')}
+        currentReferral={createReferralById('2024-11-29', 'UUID', '111')}
       />,
       {
         store: createTestStore({
@@ -159,7 +159,7 @@ describe('CompleteReferral', () => {
     };
     const { history } = renderWithStoreAndRouter(
       <CompleteReferral
-        currentReferral={createReferral('2024-11-29', 'UUID')}
+        currentReferral={createReferralById('2024-11-29', 'UUID')}
       />,
       {
         store: createTestStore(noSelectState),

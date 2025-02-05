@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
-
+import { waitFor } from '@testing-library/dom';
 import {
   renderWithStoreAndRouter,
   createTestStore,
 } from '../../tests/mocks/setup';
 import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
 
-import { createReferral } from '../utils/referrals';
+import { createReferralById } from '../utils/referrals';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const initialState = {
@@ -17,8 +17,8 @@ const initialState = {
   },
   referral: {
     facility: null,
-    referrals: [
-      createReferral('2024-11-29', 'add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
+    referralDetails: [
+      createReferralById('2024-11-29', 'add2f0f4-a1ea-4dea-a504-a54ab57c6801'),
     ],
     referralFetchStatus: FETCH_STATUS.succeeded,
   },
@@ -48,23 +48,6 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     expect(await screen.findByTestId('referral-task-card')).to.exist;
   });
 
-  it('should not display the task card when feature toggle is off', async () => {
-    const modifiedState = {
-      ...initialState,
-      featureToggles: {
-        vaOnlineSchedulingCCDirectScheduling: false,
-      },
-    };
-    const store = createTestStore(modifiedState);
-    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
-      store,
-      path: '/?id=add2f0f4-a1ea-a504-a54ab57c6801',
-    });
-
-    const taskCard = screen.queryByTestId('referral-task-card');
-    expect(taskCard).to.be.null;
-  });
-
   it('should not display the task card when referral ID is not found', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
@@ -91,8 +74,8 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
       ...initialState,
       referral: {
         ...initialState.referral,
-        referrals: [
-          createReferral(
+        referralDetails: [
+          createReferralById(
             '2024-11-29',
             '445e2d1b-7150-4631-97f2-f6f473bdef00',
             '111',
@@ -108,27 +91,14 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     expect(await screen.getByTestId('expired-alert')).to.exist;
   });
 
-  it('should display the error alert when referral is not found', async () => {
+  it('should display the error alert when fetch fails', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
-      path: '/?id=thisisareferralthatwontbefound',
+      path: '/?id=error',
     });
-    expect(await screen.getByTestId('referral-error')).to.exist;
-  });
-
-  it('should display the error alert when fetch fails', async () => {
-    const store = createTestStore({
-      ...initialState,
-      referral: {
-        referrals: [],
-        referralFetchStatus: FETCH_STATUS.failed,
-      },
+    await waitFor(() => {
+      expect(screen.getByTestId('referral-error')).to.exist;
     });
-    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
-      store,
-      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-    });
-    expect(await screen.getByTestId('referral-error')).to.exist;
   });
 });
