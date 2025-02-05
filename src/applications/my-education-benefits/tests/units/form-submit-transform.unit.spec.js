@@ -285,6 +285,7 @@ describe('form submit transform', () => {
         loanPayment: 'yes',
         activeDutyKicker: 'no',
         selectedReserveKicker: 'yes',
+        sixHundredDollarBuyUp: undefined,
       };
       const transformed = createAdditionalConsiderations(
         ExclusionPeriodsFormSubmission,
@@ -298,6 +299,7 @@ describe('form submit transform', () => {
           'YES - Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
         activeDutyKicker: 'NO',
         reserveKicker: 'YES',
+        sixHundredDollarBuyUp: 'N/A',
       });
     });
   });
