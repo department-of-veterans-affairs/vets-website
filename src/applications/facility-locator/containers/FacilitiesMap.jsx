@@ -487,7 +487,7 @@ const FacilitiesMap = props => {
 
         {isMobile ? (
           <div className="columns small-12">
-            {!props.facilityLocatorMobileMapUpdate ? (
+            {props.facilityLocatorMobileMapUpdate ? (
               <>
                 <SegmentedControl
                   a11yLabels={['View List', 'View Map']}
