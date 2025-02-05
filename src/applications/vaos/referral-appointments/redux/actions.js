@@ -198,12 +198,12 @@ export function fetchReferralById(id) {
       type: FETCH_REFERRAL,
     });
     try {
-      const referrals = await getPatientReferralById(id);
+      const referral = await getPatientReferralById(id);
       dispatch({
         type: FETCH_REFERRAL_SUCCEEDED,
-        data: [referrals],
+        data: referral,
       });
-      return referrals;
+      return referral;
     } catch (error) {
       dispatch({
         type: FETCH_REFERRAL_FAILED,
