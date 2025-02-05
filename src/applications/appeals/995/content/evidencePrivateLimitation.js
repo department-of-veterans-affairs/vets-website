@@ -30,7 +30,6 @@ export const content = {
   update: 'Update page',
 
   // New form content
-  nameYn: 'do you want to limit information', // edit aria-label
   ynTitle: 'Do you want to limit consent for the information requested?',
   errorMessage: 'You must enter a limitation',
 
