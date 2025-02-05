@@ -57,6 +57,7 @@ describe('<Autosuggest inputId="any">', () => {
     expect(sibling.text()).to.equal('any sibling');
     wrapper.unmount();
   });
+
   it('Autosuggest should clear on blur.', async () => {
     const screen = render(<AutosuggestTestComponent />);
     const input = await screen.findByRole('combobox');
@@ -67,6 +68,7 @@ describe('<Autosuggest inputId="any">', () => {
     fireEvent.blur(input);
     expect(input).to.have.value(''); // clear on tab
   });
+
   it('Autosuggest should keep data on blur.', async () => {
     const screen = render(<AutosuggestTestComponent keepDataOnBlur />);
     const input = await screen.findByRole('combobox');

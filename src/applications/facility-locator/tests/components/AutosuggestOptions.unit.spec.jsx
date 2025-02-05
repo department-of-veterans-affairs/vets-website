@@ -42,6 +42,7 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
     expect(screen.getByTestId('autosuggest-option-1')).to.exist;
     expect(screen.getByText('one')).to.exist;
   });
+
   it('AutosuggestOptions should render with no options but loading.', async () => {
     const screen = render(
       <AutosuggestOptions
@@ -62,6 +63,7 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
     expect(screen.getByTestId('autosuggest-option-loading')).to.exist;
     expect(screen.getByText('Searching...')).to.exist; // as defined above
   });
+
   it('AutosuggestOptions should render with no options but loading.', async () => {
     const screen = render(
       <AutosuggestOptions
@@ -82,6 +84,7 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
     expect(screen.getByTestId('autosuggest-option-no-items')).to.exist;
     expect(screen.getByText('No items found')).to.exist; // as defined above
   });
+
   it('AutosuggestOptions should render with no children - since isShown but no items', async () => {
     const screen = render(
       <AutosuggestOptions
@@ -121,6 +124,7 @@ describe('<AutosuggestOptions getMenuProps={emptyObj} getItemProps={emptyObj} >'
     expect(screen.getByTestId('autosuggest-option-1')).to.exist;
     expect(screen.getByTestId('autosuggest-options')).to.not.be.displayed;
   });
+
   it('AutosuggestOptions should render if options are strings not objects with id and toDisplay.', async () => {
     const screen = render(
       <AutosuggestOptions

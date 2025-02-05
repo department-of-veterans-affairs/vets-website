@@ -10,6 +10,7 @@ describe('<Autosuggest inputId="any">', () => {
     );
     expect(screen.getByTestId('down-caret')).to.be.displayed;
   });
+
   it('Autosuggest should render with input without down caret.', () => {
     const screen = render(
       <Autosuggest

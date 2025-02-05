@@ -32,13 +32,16 @@ describe('Facility Locator Address Autosuggest provides correct results from map
     cy.get('#downshift-0-item-1').should('have.class', 'selected');
     cy.get('#street-city-state-zip').type('{enter}');
     cy.axeCheck(); // check with menu open
+
     cy.get('#street-city-state-zip').should(
       'have.value',
       'Port Hueneme, California, United States',
     );
-    cy.axeCheck(); // check with menu open
+    cy.axeCheck(); // check with menu open and value set
+
     cy.get('#clear-street-city-state-zip').click();
-    cy.axeCheck(); // check with menu open
+    cy.axeCheck(); // check with menu open and cleared
+
     cy.get('#street-city-state-zip').should('have.value', '');
     cy.get('#street-city-state-zip-autosuggest-container').should(
       'have.class',
