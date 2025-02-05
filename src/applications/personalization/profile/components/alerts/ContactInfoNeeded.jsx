@@ -35,7 +35,7 @@ export const ContactInfoNeeded = () => {
               contact you about your VA benefits and services.
             </p>
             <VaLinkAction
-              href="/my-va/welcome-va-setup/contact-information"
+              href="/my-va/welcome-va-setup"
               text="Add your contact information"
             />
           </VaAlert>
