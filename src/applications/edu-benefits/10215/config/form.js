@@ -1,9 +1,18 @@
 import React from 'react';
+
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import FormFooter from 'platform/forms/components/FormFooter';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
 import manifest from '../manifest.json';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
+
+// Components
+import GetFormHelp from '../components/GetFormHelp';
+import StatementOfTruth from '../components/StatementOfTruth';
+import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
 import IntroductionPage from '../containers/IntroductionPage';
@@ -46,6 +55,10 @@ const formConfig = {
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    required: true,
+    CustomComponent: StatementOfTruth,
+  },
   customText: {
     submitButtonText: 'Continue',
   },
@@ -61,6 +74,8 @@ const formConfig = {
       22-10215)
     </p>
   ),
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
   },
@@ -99,6 +114,23 @@ const formConfig = {
           schema: programInfo.schema,
         }),
       })),
+    },
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
+      hideOnReviewPage: true,
+      pages: {
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
+          uiSchema: {
+            'ui:description': SubmissionInstructions,
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
     },
   },
 };

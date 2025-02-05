@@ -16,7 +16,9 @@ export default function ReviewRequestInfo({
 
   return (
     <div>
-      <h1 className="vaos-review__header vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos-review__header vaos__dynamic-font-size--h2">
+        {pageTitle}
+      </h1>
       <TypeOfAppointmentSection data={data} />
       <hr aria-hidden="true" className="vads-u-margin-y--2" />
       {isCommunityCare && (

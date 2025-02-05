@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import GetFormHelp from '../components/GetFormHelp';
 
 const childContent = (
   <div>
@@ -90,7 +91,7 @@ export const ConfirmationPage = props => {
       pdfUrl={submission?.response?.pdfUrl}
     >
       {childContent}
-      <ConfirmationView.NeedHelp />
+      <ConfirmationView.NeedHelp content={<GetFormHelp />} />
     </ConfirmationView>
   );
 };

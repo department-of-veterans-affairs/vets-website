@@ -1,0 +1,9 @@
+{
+  "watch": [
+    "src/applications/_mock-form-ae-design-patterns/vadx/server/**/*.js",
+    "src/applications/_mock-form-ae-design-patterns/mocks/**/*.js"
+  ],
+  "ignore": ["*.spec.js"],
+  "ext": "js,json",
+  "delay": "1000"
+}

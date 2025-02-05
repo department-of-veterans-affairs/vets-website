@@ -44,7 +44,7 @@ describe('<StatementOfTruth>', () => {
       };
       const result = signatureValidator(signatureName, formData);
       expect(result).equal(
-        'Please enter your full name exactly as entered on the form:',
+        'Please enter your full name exactly as entered on the form: John  Doe',
       );
     });
   });
@@ -54,7 +54,7 @@ describe('<StatementOfTruth>', () => {
     const formData = { veteranFullName: { first: '', last: '' } };
     const result = signatureValidator(signatureName, formData);
     expect(result).equal(
-      'Please enter your full name exactly as entered on the form:',
+      'Please enter your full name exactly as entered on the form:   ',
     );
   });
 });

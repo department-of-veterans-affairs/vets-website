@@ -6,6 +6,12 @@ import {
 } from '../content/EvidenceUpload';
 
 import {
+  NEW_API,
+  EVIDENCE_UPLOAD_API,
+  EVIDENCE_UPLOAD_API_NEW,
+} from '../constants/apis';
+
+import {
   SUPPORTED_UPLOAD_TYPES,
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_MB,
@@ -15,7 +21,7 @@ import { createPayload, parseResponse } from '../../shared/utils/upload';
 
 export const evidenceUploadUI = {
   ...fileUiSchema(EvidenceUploadLabel, {
-    fileUploadUrl: `${environment.API_URL}/v1/decision_review_evidence`,
+    fileUploadUrl: `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     maxSizeText: `${MAX_FILE_SIZE_MB}MB`,
@@ -26,6 +32,13 @@ export const evidenceUploadUI = {
     keepInPageOnReview: true,
     attachmentName: false,
     classNames: '',
+    updateUiSchema: formData => ({
+      'ui:options': {
+        fileUploadUrl: `${environment.API_URL}${
+          formData[NEW_API] ? EVIDENCE_UPLOAD_API_NEW : EVIDENCE_UPLOAD_API
+        }`,
+      },
+    }),
   }),
   'ui:field': FileField,
   'ui:description': EvidenceUploadDescription,

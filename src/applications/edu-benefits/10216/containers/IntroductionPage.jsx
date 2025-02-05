@@ -18,7 +18,7 @@ const IntroductionPage = ({ router }) => {
 
   return (
     <article className="schemaform-intro">
-      <FormTitle title="35% exemption of the routine reporting" />
+      <FormTitle title="Request exemption from the 85/15 Rule reporting requirements" />
       <p className="vads-u-margin-y--2">
         35% exemption request from 85/15 Rule reporting requirement (VA Form
         22-10216)
@@ -130,7 +130,7 @@ const IntroductionPage = ({ router }) => {
             />{' '}
             of jurisdiction.
           </p>
-          <p>
+          <div>
             <strong>Note:</strong> The numbers on the instructions match the
             item numbers on the form. Items not shown are self-explanatory.
             <ul>
@@ -141,7 +141,7 @@ const IntroductionPage = ({ router }) => {
               </li>
               <li>Provide your institution’s VA assigned facility code.</li>
             </ul>
-          </p>
+          </div>
           <p>
             <strong>Note:</strong> Separate exemption requests (and
             calculations) are required for the main campus and any branch

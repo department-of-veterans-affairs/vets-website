@@ -8,9 +8,11 @@ import ProfilePage from './containers/ProfilePage';
 import ProgramsList from './containers/ProgramsList';
 import LicenseCertificationSearchResults from './containers/LicenseCertificationSearchResults';
 import LicenseCertificationSearchResult from './containers/LicenseCertificationSearchResult';
-import LicenseCertificationSearchPage from './containers/LicenseCertificationSearchPage';
+import LicenseCertificationSearchPage from './components/LicenseCertificationSearchPage';
 import NationalExamsList from './containers/NationalExamsList';
+import NationalExamDetails from './containers/NationalExamDetails';
 import NewGiApp from './updated-gi/containers/NewGiApp';
+import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
 import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
@@ -19,6 +21,10 @@ const BuildRoutes = () => {
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
+  const toggleGiProgramsFlag = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
+  );
+
   return (
     <>
       {!toggleValue ? (
@@ -28,10 +34,12 @@ const BuildRoutes = () => {
               from="/profile/:facilityCode"
               to="/institution/:facilityCode"
             />
-            <Route
-              path="/institution/:facilityCode/:programType"
-              render={({ match }) => <ProgramsList match={match} />}
-            />
+            {toggleGiProgramsFlag && (
+              <Route
+                path="/institution/:facilityCode/:programType"
+                render={({ match }) => <ProgramsList match={match} />}
+              />
+            )}
             <Route
               path="/institution/:facilityCode"
               render={({ match }) => <ProfilePage match={match} />}
@@ -41,19 +49,33 @@ const BuildRoutes = () => {
                 <Route
                   exact
                   path="/lc-search"
-                  component={LicenseCertificationSearchPage}
+                  render={({ match }) => (
+                    <LicenseCertificationSearchPage
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
                 />
                 <Route
                   exact
                   path="/lc-search/results"
-                  component={LicenseCertificationSearchResults}
+                  render={({ match }) => (
+                    <LicenseCertificationSearchResults
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
                 />
                 <Route
-                  path="/lc-search/results/:type/:id"
+                  path="/lc-search/results/:id"
                   component={LicenseCertificationSearchResult}
                 />
               </>
             )}
+            <Route
+              path="/national-exams/:examId"
+              component={NationalExamDetails}
+            />
             <Route path="/national-exams" component={NationalExamsList} />
             <Route
               path="/compare"
@@ -68,11 +90,12 @@ const BuildRoutes = () => {
       ) : (
         <NewGiApp>
           <Switch>
-            <Route
-              path="/"
-              exact
-              render={({ match }) => <HomePage match={match} />}
-            />
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route path="/schools-and-employers">
+              <SchoolsAndEmployers />
+            </Route>
           </Switch>
         </NewGiApp>
       )}

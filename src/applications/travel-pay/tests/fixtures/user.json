@@ -40,9 +40,7 @@
         "birthDate": "19320205",
         "familyName": "Allen",
         "gender": "M",
-        "givenNames": [
-          "Hector"
-        ],
+        "givenNames": ["Hector"],
         "isCernerPatient": false,
         "facilities": [
           {
@@ -94,7 +92,40 @@
       ],
       "vet360ContactInformation": {
         "email": null,
-        "residentialAddress": null,
+        "residentialAddress": {
+          "addressLine1": "345 Home Address St.",
+          "addressLine2": null,
+          "addressLine3": null,
+          "addressPou": "RESIDENCE/CHOICE",
+          "addressType": "DOMESTIC",
+          "city": "San Francisco",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": null,
+          "createdAt": "2022-03-21T21:26:35.000Z",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2022-03-23T19:11:51.000Z",
+          "geocodeDate": "2022-03-23T19:11:51.000Z",
+          "geocodePrecision": null,
+          "id": 312003,
+          "internationalPostalCode": null,
+          "latitude": 37.781,
+          "longitude": -122.4605,
+          "province": null,
+          "sourceDate": "2022-03-23T19:11:51.000Z",
+          "sourceSystemUser": null,
+          "stateCode": "CA",
+          "transactionId": "c5adb989-3b87-47b6-afe3-dc18800cedc3",
+          "updatedAt": "2022-03-23T19:11:52.000Z",
+          "validationKey": null,
+          "vet360Id": "1273766",
+          "zipCode": "94118",
+          "zipCodeSuffix": null,
+          "badAddress": null
+        },
         "mailingAddress": null,
         "mobilePhone": null,
         "homePhone": {

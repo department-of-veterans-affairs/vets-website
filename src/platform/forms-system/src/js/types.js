@@ -22,6 +22,7 @@
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
  * @property {string} [ariaDescribedBySubmit]
+ * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
@@ -304,6 +305,7 @@
  * @property {boolean} [hideTitle] For arrays.
  * @property {boolean} [hideOnReview] Used to hide a field on review page
  * @property {string} [hint] The hint text for the field. For web components.
+ * @property {UIOptions} [ifMinimalHeader] An object of options that will override existing options if minimal header is applicable.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
  * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.
@@ -463,4 +465,10 @@
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
  * @property {boolean} [useLinkInsteadOfYesNo]
  * @property {boolean} [useButtonInsteadOfYesNo]
+ */
+
+/**
+ * @typedef {Object} ReplacerOptions
+ * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
+ * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
  */

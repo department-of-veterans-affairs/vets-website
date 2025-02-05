@@ -5,12 +5,13 @@ import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
-import { handleDataDogAction } from '../util/helpers';
+import { handleDataDogAction, removeTrailingSlash } from '../util/helpers';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
+
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
   const phase0p5Flag = useSelector(
@@ -27,9 +28,11 @@ const MrBreadcrumbs = () => {
   );
 
   const textContent = document.querySelector('h1')?.textContent;
-  const searchIndex = new URLSearchParams(window.location.search);
+  const searchIndex = new URLSearchParams(location.search);
   const page = searchIndex.get('page');
   const { labId, vaccineId, summaryId, allergyId, conditionId } = useParams();
+
+  const urlVitalsDate = searchIndex.get('timeFrame');
 
   useEffect(
     () => {
@@ -56,12 +59,19 @@ const MrBreadcrumbs = () => {
         if (pageNumber) {
           backToPageNumCrumb = {
             ...Breadcrumbs[feature],
-            href: `${Breadcrumbs[feature].href.slice(
-              0,
-              -1,
+            href: `${removeTrailingSlash(
+              Breadcrumbs[feature].href,
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
+        } else if (urlVitalsDate) {
+          const backToVitalsDateCrumb = {
+            ...Breadcrumbs[feature],
+            href: `${removeTrailingSlash(
+              Breadcrumbs[feature].href,
+            )}?timeFrame=${urlVitalsDate}`,
+          };
+          dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
@@ -69,7 +79,14 @@ const MrBreadcrumbs = () => {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
     },
-    [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
+    [
+      dispatch,
+      locationBasePath,
+      locationChildPath,
+      textContent,
+      pageNumber,
+      urlVitalsDate,
+    ],
   );
 
   const handleRouteChange = ({ detail }) => {

@@ -9,6 +9,7 @@ class ApiInitializer {
           features: [
             { name: 'travel_pay_power_switch', value: true },
             { name: 'travel_pay_view_claim_details', value: true },
+            { name: 'travel_pay_submit_mileage_expense', value: true },
           ],
         },
       }).as('featureToggles');
@@ -18,6 +19,14 @@ class ApiInitializer {
   initializeClaims = {
     happyPath: () => {
       cy.intercept('GET', '/travel_pay/v0/claims', claims).as('sm');
+    },
+  };
+
+  initializeAppointment = {
+    happyPath: () => {
+      cy.intercept('GET', '/vaos/v2/appointment/*', {
+        fixture: 'applications/travel-pay/tests/fixtures/appointment.json',
+      }).as('appointment');
     },
   };
 }

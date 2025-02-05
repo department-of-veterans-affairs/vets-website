@@ -3,7 +3,8 @@ export const QUESTION_MAP = Object.freeze({
   SERVICE_BRANCH: 'What was your branch of service?',
   DISCHARGE_YEAR: 'What year were you discharged from the military?',
   DISCHARGE_MONTH: 'What month were you discharged?',
-  REASON: 'Tell us why you want to change your discharge paperwork.',
+  REASON:
+    "Which of the following best describes why you want to change your discharge paperwork? Choose the one that's closest to your situation.",
   DISCHARGE_TYPE: "What's your character of discharge?",
   INTENTION:
     'Do you want to change your name, discharge date, or something written in the "other remarks" section of your DD214?',

@@ -1,7 +1,7 @@
 import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
-const { pciuStates: PCIU_STATES } = constants;
+const { formProfileStates: FORM_PROFILE_STATES } = constants;
 
 import {
   VA_FORM_IDS,
@@ -38,10 +38,10 @@ export const RESERVE_GUARD_TYPES = {
   reserve: 'Reserve',
 };
 
-export { PCIU_STATES };
+export { FORM_PROFILE_STATES };
 
-export const STATE_LABELS = PCIU_STATES.map(state => state.label);
-export const STATE_VALUES = PCIU_STATES.map(state => state.value);
+export const STATE_LABELS = FORM_PROFILE_STATES.map(state => state.label);
+export const STATE_VALUES = FORM_PROFILE_STATES.map(state => state.value);
 
 export const MILITARY_STATE_VALUES = ['AA', 'AE', 'AP'];
 export const MILITARY_STATE_LABELS = [
@@ -299,6 +299,11 @@ export const FORM_STATUS_BDD = 'formStatusBdd';
 
 export const SHOW_8940_4192 = 'showSubforms';
 
+export const ADD_DISABILITIES_ENHANCEMENT_TOGGLE =
+  'all_claims_add_disabilities_enhancement';
+export const ADD_DISABILITIES_ENHANCEMENT_DATA =
+  'showAddDisabilitiesEnhancement';
+
 export const SERVICE_BRANCHES = 'militaryServiceBranches';
 
 // sessionStorage key used for the user entered separation date in the wizard
@@ -337,8 +342,6 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
-export const SHOW_ADD_DISABILITIES_ENHANCEMENT =
-  'showAddDisabilitiesEnhancement';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
@@ -410,4 +413,45 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
     'Traumatic events related to sexual assault or harassment (also known as military sexual trauma or MST)',
   nonMst: 'Traumatic events related to other personal interactions',
   other: 'Other traumatic events',
+});
+
+export const OFFICIAL_REPORT_TYPES = Object.freeze({
+  restricted: 'Restricted report',
+  unrestricted: 'Unrestricted report',
+  police: 'Police report',
+  none: 'No report',
+});
+
+export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
+  work: 'Behavioral changes related to work',
+  health: 'Behavioral changes related to health',
+  other: 'Other behavioral changes',
+  unlisted: 'Other behavioral changes not listed here:',
+  none: 'None',
+});
+
+export const BEHAVIOR_CHANGES_WORK = Object.freeze({
+  reassignment:
+    'Request for a change in occupational series or duty assignment',
+  absences: 'Increased or decreased use of leave',
+  performance: 'Changes in performance or performance evaluations',
+});
+
+export const BEHAVIOR_CHANGES_HEALTH = Object.freeze({
+  consultations:
+    'Increased or decreased visits to a healthcare professional, counselor, or treatment facility',
+  episodes: 'Episodes of depression, panic attacks, or anxiety',
+  medications: 'Increased or decreased use of prescription medications',
+  selfMedication: 'Increased or decreased use of over-the-counter medications',
+  substances: 'Increased or decreased use of alcohol or drugs',
+  appetite:
+    'Changes in eating habits, such as overeating or undereating, or significant changes in weight',
+  pregnancy: 'Pregnancy tests around the time of the traumatic experiences',
+  screenings: 'Tests for sexually transmitted infections',
+});
+
+export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
+  socialEconomic: 'Economic or social behavioral changes',
+  relationships: 'Changes in or breakup of a significant relationship',
+  misconduct: 'Disciplinary or legal difficulties',
 });

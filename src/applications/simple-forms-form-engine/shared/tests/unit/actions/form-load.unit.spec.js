@@ -2,13 +2,17 @@ import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DATA_FILES_PATH } from 'platform/site-wide/drupal-static-data/constants';
-import { normalizedForm } from '../../../_config/formConfig';
+import environment from 'platform/utilities/environment';
+import {
+  employmentQuestionnaire,
+  normalizedForm,
+} from '../../../config/formConfig';
 import {
   DIGITAL_FORMS_FILENAME,
   FORM_LOADING_SUCCEEDED,
-  INTEGRATION_DEPLOYMENT,
   fetchDrupalDigitalForms,
   fetchAndBuildFormConfig,
+  filterForms,
   findFormByFormId,
 } from '../../../actions/form-load';
 
@@ -33,7 +37,9 @@ describe('form-load actions', () => {
         .expects('fetch')
         .once()
         .withArgs(
-          `${INTEGRATION_DEPLOYMENT}/${DATA_FILES_PATH}/${DIGITAL_FORMS_FILENAME}`,
+          `${
+            environment.BASE_URL
+          }/${DATA_FILES_PATH}/${DIGITAL_FORMS_FILENAME}`,
         );
 
       await fetchDrupalDigitalForms();
@@ -87,6 +93,34 @@ describe('form-load actions', () => {
       // Testing for `formId` to ensure the returned formConfig is constructed
       // from the passed-in normalized data.
       expect(successAction.formConfig.formId).to.eq('2121212');
+    });
+  });
+
+  describe('filterForms', () => {
+    const forms = [normalizedForm, employmentQuestionnaire];
+
+    context('when onlyPublished is true', () => {
+      const onlyPublished = true;
+
+      it('only returns published forms', () => {
+        const filteredForms = filterForms(forms, onlyPublished);
+
+        expect(filteredForms.length).to.eq(1);
+        expect(filteredForms[0].formId).to.eq(employmentQuestionnaire.formId);
+      });
+    });
+
+    context('when onlyPublished is false', () => {
+      const onlyPublished = false;
+
+      it('returns both published and draft forms', () => {
+        const filteredForms = filterForms(forms, onlyPublished);
+
+        expect(filteredForms.length).to.eq(forms.length);
+        expect(
+          filteredForms.some(form => form.moderationState === 'draft'),
+        ).to.eq(true);
+      });
     });
   });
 

@@ -39,13 +39,21 @@ const FacilitySearch = props => {
 
   const ariaLiveMessage = () => {
     if (newFacilitiesCount === 0) return '';
-    if (newFacilitiesCount === 1)
-      return content['facilities-aria-live-message'];
 
-    return replaceStrValues(
-      content['facilities-aria-live-message-multiple'],
-      newFacilitiesCount,
+    const newFacilitiesLoadedText =
+      newFacilitiesCount === 1
+        ? content['facilities-aria-live-message-single']
+        : replaceStrValues(
+            content['facilities-aria-live-message-multiple'],
+            newFacilitiesCount,
+          );
+
+    const totalFacilitiesLoadedText = replaceStrValues(
+      content['facilities-aria-live-message-total'],
+      facilities?.length,
     );
+
+    return `${newFacilitiesLoadedText} ${totalFacilitiesLoadedText}`;
   };
 
   const isReviewPage = () => {
@@ -293,7 +301,7 @@ const FacilitySearch = props => {
         </h3>
         <p>
           You’ll need to find and select the VA medical center or clinic where
-          the Veteran receives or plans to recieve care.
+          the Veteran receives or plans to receive care.
         </p>
         <p>
           The VA medical center or clinic may be in a different city, state, or

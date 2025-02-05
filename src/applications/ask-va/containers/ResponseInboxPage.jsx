@@ -18,22 +18,20 @@ import FileUpload from '../components/FileUpload';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import {
   convertDateForInquirySubheader,
+  DownloadLink,
   formatDate,
   getFiles,
   getVAStatusFromCRM,
   ServerErrorAlert,
 } from '../config/helpers';
-import { envUrl, RESPONSE_PAGE, URL } from '../constants';
+import {
+  envUrl,
+  mockTestingFlagforAPI,
+  RESPONSE_PAGE,
+  URL,
+} from '../constants';
+import manifest from '../manifest.json';
 import { mockInquiryResponse } from '../utils/mockData';
-
-// Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = false;
-
-const emptyMessage = message => (
-  <p className="vads-u-background-color--gray-light-alt empty-message">
-    {message}
-  </p>
-);
 
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
@@ -75,7 +73,7 @@ const ResponseInboxPage = ({ router }) => {
 
       setLoading(true);
 
-      if (mockTestingFlag) {
+      if (mockTestingFlagforAPI) {
         // Simulate API delay
         return new Promise(resolve => {
           setTimeout(() => {
@@ -121,7 +119,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (mockTestingFlag) {
+    if (mockTestingFlagforAPI) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -146,46 +144,6 @@ const ResponseInboxPage = ({ router }) => {
   const handleRetry = () => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
   };
-
-  // const handleFileUpload = event => {
-  //   const errors = [];
-  //   const fileEntries = event.detail;
-
-  //   fileEntries.forEach(fileEntry => {
-  //     if (fileEntry) {
-  //       let fileError;
-
-  //       if (fileEntry.size > 25 * 1024 * 1024) {
-  //         fileError = `File is ${
-  //           fileEntry.size
-  //         } MB. Please include files less than 25 MB`;
-  //       }
-
-  //       if (fileError) errors.push(fileError);
-  //     }
-  //   });
-  //   console.log(errors);
-
-  //   setFileUploadError(errors);
-  //   console.log(event.detail);
-  //   const reader = new FileReader();
-  //   reader.onload = e => {
-  //     setSendReply({
-  //       ...sendReply,
-  //       attachments: [
-  //         ...sendReply.attachments,
-  //         {
-  //           name: file.name,
-  //           file: e.target.result.split(',')[1],
-  //         },
-  //       ],
-  //     });
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-
-  // { 'reply' => 'this is my reply', 'files' => [{ 'file_name' => nil, 'file_content' => nil }] }
-  // reference submit tranformer
 
   useEffect(
     () => {
@@ -348,7 +306,9 @@ const ResponseInboxPage = ({ router }) => {
         <div className="vads-u-border-color--gray-lighter vads-u-margin-top--3 vads-u-padding-top--3 vads-u-border-top--1px vads-u-margin-bottom--4 vads-u-padding-bottom--6 vads-u-border-bottom--1px">
           {filteredCorrespondences.length === 0 ? (
             <div className="no-messages">
-              {emptyMessage(RESPONSE_PAGE.EMPTY_INBOX)}
+              <p className="vads-u-background-color--gray-light-alt empty-message">
+                {RESPONSE_PAGE.EMPTY_INBOX}
+              </p>
             </div>
           ) : (
             <va-accordion openSingle={filteredCorrespondences.length === 1}>
@@ -392,30 +352,30 @@ const ResponseInboxPage = ({ router }) => {
                     {correspondence.attributes.attachments &&
                       correspondence.attributes.attachments.length > 0 &&
                       correspondence.attributes.attachments.map(
-                        (attachment, index, array) => (
-                          <div
-                            key={attachment.id}
-                            className={`vads-u-margin-bottom--2 ${
-                              index === array.length - 1
-                                ? 'vads-u-margin-bottom--0'
-                                : ''
-                            }`}
-                          >
-                            <va-link
-                              href={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
-                                attachment.id
+                        (file, index, array) => {
+                          return (
+                            <div
+                              key={file.id}
+                              className={`vads-u-margin-bottom--2 ${
+                                index === array.length - 1
+                                  ? 'vads-u-margin-bottom--0'
+                                  : ''
                               }`}
-                              text={`${attachment.name}
-                          ${
-                            attachment.fileSize
-                              ? `(${attachment.fileSize} kb)`
-                              : ''
-                          }`}
-                              icon-name="attach_file"
-                              icon-size={3}
-                            />
-                          </div>
-                        ),
+                            >
+                              <va-icon
+                                icon="attach_file"
+                                size={3}
+                                className="vads-u-margin--right-1p5"
+                              />
+                              <DownloadLink
+                                fileUrl={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
+                                  file.id
+                                }`}
+                                fileName={file.name}
+                              />
+                            </div>
+                          );
+                        },
                       )}
                   </div>
                 </va-accordion-item>
@@ -424,50 +384,62 @@ const ResponseInboxPage = ({ router }) => {
           )}
         </div>
 
-        <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--4">
-          {RESPONSE_PAGE.SEND_REPLY}
-        </h2>
-        <form
-          className="vads-u-margin-bottom--5 vads-u-margin-top--0"
-          onSubmit={handleSubmitReply}
-        >
-          <fieldset>
-            <VaTextarea
-              className="resize-y"
-              error={replyTextError}
-              label={RESPONSE_PAGE.YOUR_MESSAGE}
-              name="reply message"
-              onInput={handleInputChange}
-              value={sendReply.reply}
-              required
-            />
+        {inquiryData.attributes?.allowReplies ? (
+          <>
+            <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--4">
+              {RESPONSE_PAGE.SEND_REPLY}
+            </h2>
+            <form
+              className="vads-u-margin-bottom--5 vads-u-margin-top--0"
+              onSubmit={handleSubmitReply}
+            >
+              <fieldset>
+                <VaTextarea
+                  className="resize-y"
+                  error={replyTextError}
+                  label={RESPONSE_PAGE.YOUR_MESSAGE}
+                  name="reply message"
+                  onInput={handleInputChange}
+                  value={sendReply.reply}
+                  required
+                />
 
-            {/* <VaFileInputMultiple
-              accept={null}
-              className=""
-              label="Select optional files to upload"
-              hint="You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size"
-              name="my-file-input-multiple"
-              onVaMultipleChange={handleFileUpload}
-              error={fileUploadError}
-              errors={fileUploadError}
-              value={null}
-            />
-            {fileUploadError.length > 0 && (
-              <VaAlert status="error">{fileUploadError}</VaAlert>
-            )} */}
+                {inquiryData.attributes?.allowAttachments && <FileUpload />}
 
-            <FileUpload />
+                <VaButton
+                  onClick={handleSubmitReply}
+                  primary
+                  className="vads-u-margin-top--3"
+                  text={RESPONSE_PAGE.SUBMIT_MESSAGE}
+                  aria-label="Submit reply"
+                />
+              </fieldset>
+            </form>
+          </>
+        ) : (
+          <div className="vads-u-margin-top--6 vads-u-margin-bottom--7">
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="info"
+              visible
+            >
+              <h3 id="track-your-status-on-mobile" slot="headline">
+                Send a reply
+              </h3>
+              <p className="vads-u-margin-y--0">
+                To send a reply,{' '}
+                <a
+                  className="usa-link"
+                  href={`${manifest.rootUrl}/introduction`}
+                >
+                  please ask a new question
+                </a>
+                .
+              </p>
+            </va-alert>
+          </div>
+        )}
 
-            <VaButton
-              onClick={handleSubmitReply}
-              primary
-              className="vads-u-margin-top--3"
-              text={RESPONSE_PAGE.SUBMIT_MESSAGE}
-              aria-label="Submit reply"
-            />
-          </fieldset>
-        </form>
         <NeedHelpFooter />
       </div>
     </div>

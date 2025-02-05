@@ -67,7 +67,7 @@ describe('Cerner Facility Alert', () => {
     expect(
       screen.getByTestId('single-cerner-facility-text').textContent,
     ).to.contain(
-      'To manage medications at VA Spokane health care, go to My VA Health.',
+      'Some of your medications may be in a different portal. To view or manage medications at VA Spokane health care, go to My VA Health.',
     );
   });
 });

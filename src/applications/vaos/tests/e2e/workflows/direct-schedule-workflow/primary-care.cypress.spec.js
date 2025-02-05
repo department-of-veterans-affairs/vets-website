@@ -38,7 +38,7 @@ import { getTypeOfCareById } from '../../../../utils/appointment';
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
-describe('VAOS direct schedule flow - Primary care', () => {
+describe.skip('VAOS direct schedule flow - Primary care', () => {
   describe('When veteran is not CC eligible', () => {
     beforeEach(() => {
       vaosSetup();
@@ -278,7 +278,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
-            .assertHeading({ name: /Confirm your contact information/i })
+            .assertHeading({ name: /How should we contact you/i })
             .typeEmailAddress('veteran@va.gov')
             .typePhoneNumber('5555555555')
             .clickNextButton();

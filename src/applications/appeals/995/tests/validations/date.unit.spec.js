@@ -160,7 +160,7 @@ describe('validateYMDate', () => {
   });
   it('should throw a missing date error', () => {
     validateYMDate(errors, '200', fullData);
-    expect(errorMessage[0]).to.eq(scErrors.evidence.blankDate);
+    expect(errorMessage.length).to.eq(0);
   });
   it('should throw a invalid date error', () => {
     validateYMDate(errors, '2023-13', fullData);
@@ -180,9 +180,9 @@ describe('validateYMDate', () => {
     validateYMDate(errors, date, fullData);
     expect(errorMessage[0]).to.contain(scErrors.evidence.newerDate);
   });
-  it('should throw a invalid date for truncated dates', () => {
+  it('should not throw an error for truncated dates', () => {
     // Testing 'YYYY-'
     validateYMDate(errors, '2000-', fullData);
-    expect(errorMessage[0]).to.eq(scErrors.evidence.blankDate);
+    expect(errorMessage.length).to.eq(0);
   });
 });

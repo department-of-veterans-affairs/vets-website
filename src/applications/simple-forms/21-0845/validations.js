@@ -1,5 +1,3 @@
-import React from 'react';
-
 import moment from 'moment';
 
 export const releaseEndDateValidation = (errors = {}, fieldData, formData) => {
@@ -12,12 +10,7 @@ export const releaseEndDateValidation = (errors = {}, fieldData, formData) => {
 
   if (endDate.isBefore(endOfToday)) {
     errors.addError(
-      <>
-        Please provide a future date{' '}
-        <span className="vads-u-font-weight--normal">
-          [{earliestValidEndDateString} or later]
-        </span>
-      </>,
+      `Please provide a future date: ${earliestValidEndDateString} or later`,
     );
   }
 };

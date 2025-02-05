@@ -22,7 +22,6 @@ import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import ClaimsListItem from '../components/ClaimsListItem';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
-import ClosedClaimMessage from '../components/ClosedClaimMessage';
 import FeaturesWarning from '../components/FeaturesWarning';
 import NoClaims from '../components/NoClaims';
 import StemClaimListItem from '../components/StemClaimListItem';
@@ -47,15 +46,9 @@ class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    this.hide30DayNotice = this.hide30DayNotice.bind(this);
-
-    if (!sessionStorage.getItem('show30DayNotice')) {
-      sessionStorage.setItem('show30DayNotice', true);
-    }
 
     this.state = {
       page: YourClaimsPageV2.getPageFromURL(props),
-      show30DayNotice: sessionStorage.getItem('show30DayNotice') === 'true',
     };
   }
 
@@ -122,11 +115,6 @@ class YourClaimsPageV2 extends React.Component {
     this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
-  }
-
-  hide30DayNotice() {
-    this.setState({ show30DayNotice: false });
-    sessionStorage.setItem('show30DayNotice', false);
   }
 
   renderListItem(claim) {
@@ -221,12 +209,6 @@ class YourClaimsPageV2 extends React.Component {
 
       content = (
         <>
-          {this.state.show30DayNotice && (
-            <ClosedClaimMessage
-              claims={pageItems}
-              onClose={this.hide30DayNotice}
-            />
-          )}
           {pageInfo}
           <div className="claim-list">
             {atLeastOneRequestLoading && (

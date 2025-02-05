@@ -13,11 +13,8 @@ import {
   formatDate,
   getVAStatusFromCRM,
 } from '../config/helpers';
-import { URL, envUrl } from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-
-// Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = false;
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);
@@ -38,37 +35,44 @@ const DashboardCards = () => {
       card => card.attributes.levelOfAuthentication === 'Business',
     );
 
+  const transformInquiriesData = data => {
+    const transformedInquiries = data.map(inquiry => ({
+      ...inquiry,
+      attributes: {
+        ...inquiry.attributes,
+        status: getVAStatusFromCRM(inquiry.attributes.status),
+      },
+    }));
+
+    const uniqueCategories = [
+      ...new Set(
+        transformedInquiries.map(item => item.attributes.categoryName),
+      ),
+    ];
+
+    return { transformedInquiries, uniqueCategories };
+  };
+
   const getApiData = url => {
-    if (mockTestingFlag) {
-      const res = mockInquiries;
+    setLoading(true);
 
-      const transformedInquiries = res.data.map(inquiry => ({
-        ...inquiry,
-        attributes: {
-          ...inquiry.attributes,
-          status: getVAStatusFromCRM(inquiry.attributes.status),
-        },
-      }));
-
+    const processData = data => {
+      const { transformedInquiries, uniqueCategories } = transformInquiriesData(
+        data,
+      );
       setInquiries(transformedInquiries);
-      const uniqueCategories = [
-        ...new Set(
-          transformedInquiries.map(item => item.attributes.categoryName),
-        ),
-      ];
       setCategories(uniqueCategories);
       setLoading(false);
+    };
+
+    if (mockTestingFlagforAPI) {
+      processData(mockInquiries.data);
       return Promise.resolve();
     }
-    setLoading(true);
+
     return apiRequest(url)
       .then(res => {
-        setInquiries(res.data);
-        const uniqueCategories = [
-          ...new Set(res.data.map(item => item.attributes.categoryName)),
-        ];
-        setCategories(uniqueCategories);
-        setLoading(false);
+        processData(res.data);
       })
       .catch(() => {
         setLoading(false);
@@ -154,14 +158,14 @@ const DashboardCards = () => {
             <li key={card.id} className="dashboard-card-list">
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <div className="vads-u-margin-bottom--1p5">
+                  <dl className="vads-u-margin-bottom--1p5">
                     <dt className="sr-only">Status</dt>
                     <dd>
                       <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
                         {getVAStatusFromCRM(card.attributes.status)}
                       </span>
                     </dd>
-                  </div>
+                  </dl>
                   <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
@@ -253,7 +257,7 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full vads-u-margin-bottom--5">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
         Your questions
       </h2>
       {inquiries.length > 0 ? (

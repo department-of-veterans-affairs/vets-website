@@ -7,6 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import { deceasedDependentOptions } from '../../../../config/chapters/report-dependent-death/deceasedDependentArrayPages';
 import formConfig from '../../../../config/form';
+import { relationshipLabels } from '../../../../config/chapters/report-dependent-death/helpers';
 
 const defaultStore = createCommonStore();
 
@@ -27,9 +28,10 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
           location: { city: 'Some City' },
+          outsideUsa: false,
         },
         dependentDeathDate: '1991-01-19',
       };
@@ -42,9 +44,10 @@ describe('deceasedDependentOptions', () => {
         fullName: { first: 'John', last: 'Doe' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
-          location: { city: 'Some City' },
+          location: { city: 'Some City', state: 'Some State' },
+          outsideUsa: false,
         },
         dependentDeathDate: '1991-01-19',
       };
@@ -52,15 +55,15 @@ describe('deceasedDependentOptions', () => {
         .false;
     });
 
-    it('should return true if state is missing and outsideUsa is false', () => {
+    it('should return true if "outsideUsa" is true but "country" is missing', () => {
       const incompleteItem = {
         fullName: { first: 'John', last: 'Doe' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
           location: { city: 'Some City' },
-          outsideUsa: false,
+          outsideUsa: true,
         },
         dependentDeathDate: '1991-01-19',
       };
@@ -68,73 +71,71 @@ describe('deceasedDependentOptions', () => {
         .true;
     });
 
-    it('should return false if state is missing but outsideUsa is true', () => {
-      const completeItemWithoutState = {
+    it('should return false if "outsideUsa" is true and "country" is present', () => {
+      const completeItem = {
         fullName: { first: 'John', last: 'Doe' },
         ssn: '333445555',
         birthDate: '1991-02-19',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         dependentDeathLocation: {
-          location: { city: 'Some City' },
+          location: { city: 'Some City', country: 'Some Country' },
           outsideUsa: true,
         },
         dependentDeathDate: '1991-01-19',
       };
-      expect(
-        deceasedDependentOptions.isItemIncomplete(completeItemWithoutState),
-      ).to.be.false;
+      expect(deceasedDependentOptions.isItemIncomplete(completeItem)).to.be
+        .false;
     });
   });
 
   describe('text.getItemName', () => {
-    it('should return the full name of the item', () => {
-      const item = {
-        fullName: { first: 'John', last: 'Doe' },
-      };
+    it('should return the relationship label if dependentType is valid', () => {
+      const item = { dependentType: 'SPOUSE' };
       expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
-        'John Doe',
+        relationshipLabels.SPOUSE,
       );
     });
 
-    it('should return an empty string if first or last name is missing', () => {
-      const incompleteItem = { fullName: { first: 'John' } };
-      expect(
-        deceasedDependentOptions.text.getItemName(incompleteItem),
-      ).to.equal('John ');
+    it('should return "Unknown" if dependentType is missing', () => {
+      const item = {};
+      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
+        'Unknown',
+      );
+    });
 
-      const missingBoth = { fullName: {} };
-      expect(deceasedDependentOptions.text.getItemName(missingBoth)).to.equal(
-        ' ',
+    it('should return "Unknown" if dependentType is invalid', () => {
+      const item = { dependentType: 'invalidType' };
+      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
+        'Unknown',
       );
     });
   });
 
   describe('text.cardDescription', () => {
-    it('should return formatted birth and death dates', () => {
+    it('should return a formatted full name with capitalized first and last names', () => {
       const item = {
-        birthDate: '1991-02-19',
-        dependentDeathDate: '1991-01-19',
+        fullName: { first: 'john', last: 'doe' },
       };
       expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
-        '02/19/1991 - 01/19/1991',
+        'John Doe',
       );
     });
 
-    it('should return "Unknown" if birth or death date is missing', () => {
-      const missingBirthDate = { dependentDeathDate: '1991-01-19' };
+    it('should handle missing first or last name gracefully', () => {
+      const missingLastName = { fullName: { first: 'John' } };
       expect(
-        deceasedDependentOptions.text.cardDescription(missingBirthDate),
-      ).to.equal('Unknown - 01/19/1991');
+        deceasedDependentOptions.text.cardDescription(missingLastName),
+      ).to.equal('John');
 
-      const missingDeathDate = { birthDate: '1991-02-19' };
+      const missingFirstName = { fullName: { last: 'Doe' } };
       expect(
-        deceasedDependentOptions.text.cardDescription(missingDeathDate),
-      ).to.equal('02/19/1991 - Unknown');
+        deceasedDependentOptions.text.cardDescription(missingFirstName),
+      ).to.equal('Doe');
 
-      const missingBoth = {};
+      const missingBoth = { fullName: {} };
       expect(
         deceasedDependentOptions.text.cardDescription(missingBoth),
-      ).to.equal('Unknown - Unknown');
+      ).to.equal('');
     });
   });
 });
@@ -149,7 +150,7 @@ const formData = (state = 'CA') => {
     deaths: [
       {
         dependentDeathDate: '2023-04-17',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         fullName: {
           first: 'John',
           last: 'Doe',
@@ -166,7 +167,7 @@ const formData = (state = 'CA') => {
       },
       {
         dependentDeathDate: '2000-12-14',
-        dependentType: 'spouse',
+        dependentType: 'SPOUSE',
         ssn: '333445555',
         birthDate: '1991-02-19',
         dependentDeathLocation: {
@@ -179,7 +180,7 @@ const formData = (state = 'CA') => {
       },
       {
         dependentDeathDate: '2012-10-31',
-        dependentType: 'child',
+        dependentType: 'CHILD',
         ssn: '333445555',
         birthDate: '2010-02-19',
         fullName: {

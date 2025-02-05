@@ -30,6 +30,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
+const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -38,6 +39,7 @@ const features = require('../../utils/featureFlags');
 
 const mockAppts = [];
 let currentMockId = 1;
+const draftReferralPollCount = {};
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -322,18 +324,41 @@ const responses = {
   },
 
   // EPS api
-  'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
+  'GET /vaos/v2/epsApi/referrals': (req, res) => {
     return res.json({
       data: referralUtils.createReferrals(4, '2024-12-02'),
     });
   },
-  'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
-    const referrals = referralUtils.createReferrals(3, '2024-12-02');
-    const singleReferral = referrals.find(
-      referral => referral?.UUID === req.params.referralId,
+  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
+    if (req.params.referralId === 'error') {
+      return res.status(500).json({ error: true });
+    }
+
+    if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
+      const yesterday = moment()
+        .subtract(1, 'days')
+        .format('YYYY-MM-DD');
+      const expiredReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        '111',
+        yesterday,
+      );
+      return res.json({
+        data: expiredReferral,
+      });
+    }
+    const tomorrow = moment()
+      .add(1, 'days')
+      .format('YYYY-MM-DD');
+    const referral = referralUtils.createReferralById(
+      '2024-12-02',
+      req.params.referralId,
+      '111',
+      tomorrow,
     );
     return res.json({
-      data: singleReferral ?? {},
+      data: referral,
     });
   },
   'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
@@ -349,6 +374,49 @@ const responses = {
     }
     return res.json({
       data: providerUtils.createProviderDetails(5, req.params.providerId),
+    });
+  },
+  'POST /vaos/v2/epsApi/draftReferralAppointment': (req, res) => {
+    const { referralId } = req.body;
+
+    // Provider 3 throws error
+    if (referralId === '3') {
+      return res.status(500).json({ error: true });
+    }
+
+    // Provider 0 has no available slots
+    if (referralId === '0') {
+      return res.json({
+        data: providerUtils.createDraftAppointmentInfo(0, referralId),
+      });
+    }
+
+    return res.json({
+      data: providerUtils.createDraftAppointmentInfo(5, referralId),
+    });
+  },
+  'POST /vaos/v2/epsApi/appointments': (req, res) => {
+    const { slotId, draftApppointmentId, referralId } = req.body;
+
+    if (!referralId || !slotId || !draftApppointmentId) {
+      return res.status(400).json({ error: true });
+    }
+
+    const count = draftReferralPollCount[draftApppointmentId] || 0;
+    let status = 'draft';
+
+    if (count < 5) {
+      draftReferralPollCount[draftApppointmentId] = count + 1;
+    } else {
+      status = 'confirmed';
+      draftReferralPollCount[draftApppointmentId] = 0;
+    }
+
+    return res.status(201).json({
+      data: ccDirectAppointmentUtils.createReferralAppointment(
+        draftApppointmentId,
+        status,
+      ),
     });
   },
   // Required v0 APIs
@@ -405,6 +473,10 @@ const responses = {
             {
               facility_id: '983',
               is_cerner: false,
+            },
+            {
+              facility_id: '692',
+              is_cerner: true,
             },
           ],
         },

@@ -1361,16 +1361,30 @@ export const mockInquiries = {
   ],
 };
 
-// Based on Wed Dec 18 for User 119 staging response when clicking 'Review Conversation' for inquiryNumber: 'A-20241210-308784',
+// Based on Tue Jan 29th 2025  searching for reference number A-20250106-308944',
+export const mockInquiryStatusResponse = {
+  data: {
+    id: null,
+    type: 'inquiry_status',
+    attributes: {
+      status: 'New',
+    },
+  },
+};
+
+// Based on Tue Jan 21st 2025 for User 119 staging response when clicking 'Review Conversation' for inquiryNumber: 'A-20241210-308784',
 export const mockInquiryResponse = {
   data: {
-    id: '37d37e1b-36b7-ef11-b8e9-001dd809b958',
+    id: 'a79c4e2c-a9b8-ef11-b8e9-001dd809b958',
     type: 'inquiry',
     attributes: {
-      inquiryNumber: 'A-20241210-308784',
+      inquiryNumber: 'A-20241212-308810',
+      allowAttachments: true,
+      allowReplies: true,
+      hasAttachments: false,
       attachments: null,
-      categoryName: 'Veteran Readiness and Employment',
-      createdOn: '12/10/2024 8:34:12 PM',
+      categoryName: 'Education benefits and work study',
+      createdOn: '12/12/2024 4:50:26 PM',
       correspondences: {
         data: [
           {
@@ -1401,13 +1415,27 @@ export const mockInquiryResponse = {
             },
           },
           {
-            id: '21f69e12-b2b8-ef11-b8e9-001dd804fa0e',
+            id: 'ef3e580b-b0b8-ef11-b8e9-001dd805523c',
+            type: 'correspondence',
+            attributes: {
+              messageType: 'ResponseFromVA',
+              createdOn: '12/12/2024 5:39:38 PM',
+              modifiedOn: '12/12/2024 5:43:36 PM',
+              statusReason: 'Completed',
+              description:
+                'Dear  Glen,<br /><br /><div data-wrapper="true" dir="ltr" style="font-family:\'Times\',\'Times New Roman\',Georgia-serif; font-size:12pt">This is a test response from Tyler 12/12.&nbsp;<strong>This is formatted in bold.&nbsp;</strong>This is a <a href="https://ask.va.gov">link</a>. This is also a link:&nbsp;<a href="https://ask.va.gov">https://ask.va.gov</a>.<br><br>Now I\'ll add a list:<ul><li style="list-style-position: inside;">List item 1</li><li style="list-style-position: inside;">List item 2</li><li style="list-style-position: inside;">List item 3</li></ul>\n<div style="list-style-position:inside"><span style="color:#e74c3c">This text is in red</span>. <span style="color:#ffffff"><span style="background-color:#2980b9">This text is in white with a blue background.</span></span><br>&nbsp;</div></div>Now I\'ll copy a standard text that an agent might use:<br><br>Due to security concerns, we cannot send a copy of your (Name of document) as an attachment to this inquiry. Please complete and submit VA Form 20-10206, you can find the form here https://www.vba.va.gov/pubs/forms/VBA-20-10206-ARE.pdf.<br /><br />Thank you for submitting your Inquiry to the U.S. Department of Veterans Affairs. <br /><br />If you have additional questions or need to provide follow-up information, you may close this window and click ‘Send VA a Message’ to enter additional information. Please note that the opportunity to update an issue is only available for several days after a response is posted. For updates after that period and for any NEW issues, please submit a new Inquiry.<br /><br />It is our commitment to provide an excellent customer service experience to all Veterans and members of our Veteran community. To all who have served or continue to serve, we thank you for your service. <br /><br />If you are in immediate danger, please call 911. Please do not use the Ask VA inquiry for urgent needs or medical emergencies.<br /><br />For immediate help in dealing with a suicidal crisis, please call 988 and Press 1, chat online at VeteransCrisisLine.net/Chat (https://www.veteranscrisisline.net/get-help/chat/) or text 838255.<br />',
+              enableReply: true,
+              attachments: null,
+            },
+          },
+          {
+            id: 'aefa679d-b0b8-ef11-b8e9-001dd805523c',
             type: 'correspondence',
             attributes: {
               messageType: 'Notification',
-              createdOn: '12/12/2024 5:54:10 PM',
-              modifiedOn: '12/12/2024 5:54:16 PM',
-              statusReason: 'PendingSend',
+              createdOn: '12/12/2024 5:43:39 PM',
+              modifiedOn: '1/14/2025 5:49:16 PM',
+              statusReason: 'Sent',
               description:
                 '<p>Dear Glen,</p>\n<p>A new message has been posted to your Ask VA (AVA) inbox.&nbsp; To view your message please log in to https://Ask.VA.gov</p>\n<p>Please DO NOT reply to this email as it is system generated.</p>\n<p>If you are in immediate danger, please call 911. Please do not use the Ask VA inquiry for urgent needs or medical emergencies.</p>\n<p>For immediate help in dealing with a suicidal crisis, please call 988 and Press 1, chat online at VeteransCrisisLine.net/Chat  (https://www.veteranscrisisline.net/get-help/chat/) or text 838255. "</p>',
               enableReply: true,
@@ -1415,24 +1443,28 @@ export const mockInquiryResponse = {
             },
           },
           {
-            id: 'b8816670-b1b8-ef11-b8e9-001dd805523c',
+            id: 'a931a8d7-d9cb-ef11-b8e9-001dd805523c',
             type: 'correspondence',
             attributes: {
-              messageType: 'ResponseFromVA',
-              createdOn: '12/12/2024 5:49:37 PM',
-              modifiedOn: '12/12/2024 5:54:08 PM',
-              statusReason: 'Completed',
+              messageType: 'ReplyToVA',
+              createdOn: '1/6/2025 2:56:43 AM',
+              modifiedOn: '1/6/2025 2:56:55 AM',
+              statusReason: 'Draft',
               description:
-                'Dear  Glen,<br /><br /><div data-wrapper="true" dir="ltr" style="font-family:\'Times\',\'Times New Roman\',Georgia-serif; font-size:12pt">This is a test response from Tyler 12/12. I\'m going to copy a standard text that the Education team uses without changing their formatting.</div><br>FOR DOCUMENT SUBMISSION ONLY<br>If you’re only submitting documents for VA Education claims, you should submit directly to Centralized Mail Portal via QuickSubmit for better customer service. It’s quick, easy, and ensures the documents get into file quickly. To log in to QuickSubmit, a VA PIV Card or an ID.me account is required. Access QuickSubmit via AccessVA at https://eauth.va.gov/accessva/?cspSelectFor=quicksubmit<br>• Users must complete First Name, Last Name, File Number/SSN and Zip Code<br>• Select Education for both “Organization” and “Benefit Claim Type”<br>• “Emergent Indicator” must be left blank<br>Once the fields are completed, you may select the PDF file to attach, or drag and drop the file into the appropriate area. After documents are attached, select Submit.<br /><br />Thank you for submitting your Inquiry to the U.S. Department of Veterans Affairs. <br /><br />If you have additional questions or need to provide follow-up information, you may close this window and click ‘Send VA a Message’ to enter additional information. Please note that the opportunity to update an issue is only available for several days after a response is posted. For updates after that period and for any NEW issues, please submit a new Inquiry.<br /><br />It is our commitment to provide an excellent customer service experience to all Veterans and members of our Veteran community. To all who have served or continue to serve, we thank you for your service. <br /><br />If you are in immediate danger, please call 911. Please do not use the Ask VA inquiry for urgent needs or medical emergencies.<br /><br />For immediate help in dealing with a suicidal crisis, please call 988 and Press 1, chat online at VeteransCrisisLine.net/Chat (https://www.veteranscrisisline.net/get-help/chat/) or text 838255.<br />',
+                'Thank you for the response. I\'m testing this "Send a reply" to see if this flow works. Additionally, I\'m attaching a test upload PDF, JPG, and PNG to see if the attachments also work',
               enableReply: true,
               attachments: [
                 {
-                  id: '4ec11cee-2ebe-ef11-b8e9-001dd809b958',
-                  name: 'test1_attachment.jpg',
+                  id: 'b1b0c9dd-d9cb-ef11-b8e9-001dd805523c',
+                  name: 'test-upload-pdf.pdf',
                 },
                 {
-                  id: '4ec11cee-2ebe-ef11-b8e9-001dd809b957',
-                  name: 'test2_attachment.jpg',
+                  id: 'bfb0c9dd-d9cb-ef11-b8e9-001dd805523c',
+                  name: 'test-upload-jpg.jpg',
+                },
+                {
+                  id: 'd2b0c9dd-d9cb-ef11-b8e9-001dd805523c',
+                  name: 'test-upload-png.png',
                 },
               ],
             },
@@ -1440,13 +1472,14 @@ export const mockInquiryResponse = {
         ],
       },
       hasBeenSplit: false,
-      inquiryTopic: 'Financial issues',
+      inquiryTopic: 'Work study',
       levelOfAuthentication: 'Personal',
       lastUpdate: '12/12/2024 12:00:00 AM',
-      queueId: '807de9d5-1b6b-eb11-b0b0-001dd8309f34',
-      queueName: 'VBA Pittsburgh RO-VR&E',
+      queueId: '4e7de9d5-1b6b-eb11-b0b0-001dd8309f34',
+      queueName: 'Muskogee Work Study',
       status: 'InProgress',
-      submitterQuestion: 'Demo test',
+      submitterQuestion:
+        'This is a test question for the devs to see formatted replies',
       schoolFacilityCode: null,
       veteranRelationship: null,
     },

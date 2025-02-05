@@ -1,7 +1,13 @@
 const prefillTransformer = (pages, formData, metadata, state) => {
   const { veteran = {} } = formData;
-  const { fullName, idNumber, address = {}, phoneNumber, email } = veteran;
-  const { ssn, vaFileNumber } = idNumber;
+  const {
+    fullName,
+    ssn,
+    vaFileNumber,
+    address = {},
+    phoneNumber,
+    email,
+  } = veteran;
   const { profile } = state.user;
   const {
     loa,

@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import BreadcrumbAboutPage from './BreadcrumbAboutPage';
 
-const AboutPage = ({ props }) => {
+const AboutPage = ({ aboutProps }) => {
   const goToIntroduction = event => {
     event.preventDefault();
-    props?.router.push('/introduction');
+    localStorage.removeItem('isAccredited');
+    aboutProps?.router.push('/introduction');
   };
 
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop();
+  }, []);
+
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--4">
+    <div className="form-22-10216-container row">
+      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
+        <BreadcrumbAboutPage />
+      </div>
       <h1>About VA Form 22-10216</h1>
       <p>
         35% Exemption Request from 85/15 Reporting Requirement (VA Form
@@ -46,7 +58,7 @@ const AboutPage = ({ props }) => {
       </p>
       <h3 className="vads-u-margin-top--6">Online tool</h3>
       <p className="vads-u-margin-bottom--0">
-        You can submit your request online instead of filling out and sending us
+        You can submit your request online instead of filling out and sending
         the paper form.
       </p>
       <va-link-action
@@ -65,11 +77,13 @@ const AboutPage = ({ props }) => {
     </div>
   );
 };
+
 AboutPage.propTypes = {
-  props: PropTypes.shape({
+  aboutProps: PropTypes.shape({
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
   }).isRequired,
 };
+
 export default AboutPage;

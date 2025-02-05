@@ -28,7 +28,7 @@ const downtimeTesting = ({
     beforeEach(() => {
       setStoredSubTask({ benefitType: 'compensation' }); // HLR & SC
 
-      cy.intercept('GET', `${contestableApi}compensation`, {
+      cy.intercept('GET', `${contestableApi}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.intercept('PUT', `/v0/in_progress_forms/${formId}`, mockInProgress);
@@ -37,7 +37,7 @@ const downtimeTesting = ({
         `/v0/in_progress_forms/${formId}`,
         inProgressMock({ data }),
       );
-      cy.intercept('GET', `/${ITF_API.join('')}`, fetchItf()); // 995 only
+      cy.intercept('GET', ITF_API, fetchItf()); // 995 only
       cy.intercept('GET', '/data/cms/vamc-ehr.json', {});
       cy.intercept('GET', '/v0/feature_toggles*', {});
 

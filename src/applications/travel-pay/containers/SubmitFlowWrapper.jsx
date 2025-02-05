@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
 import MileagePage from '../components/submit-flow/pages/MileagePage';
@@ -10,73 +13,17 @@ import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import BreadCrumbs from '../components/Breadcrumbs';
+import { selectAppointment } from '../redux/selectors';
 
-import CantFilePage from '../components/submit-flow/pages/CantFilePage';
+import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
+import { getAppointmentData } from '../redux/actions';
 
 const SubmitFlowWrapper = () => {
-  const [cantFile, setCantFile] = useState(false);
+  const dispatch = useDispatch();
+  const { apptId } = useParams();
 
-  // This will actually be handled by the redux action, but for now it lives here
-  const [isSubmissionError, setIsSubmissionError] = useState(false);
-
-  const [pageIndex, setPageIndex] = useState(0);
-
-  const handlers = {
-    onNext: e => {
-      e.preventDefault();
-
-      setPageIndex(pageIndex + 1);
-    },
-    onBack: e => {
-      e.preventDefault();
-      setPageIndex(pageIndex - 1);
-    },
-    onSubmit: e => {
-      e.preventDefault();
-      // Placeholder until actual submit is hooked up
-
-      // Uncomment to simulate successful submission
-      // setPageIndex(pageIndex + 1);
-
-      // Uncomment to simulate an error
-      setIsSubmissionError(true);
-    },
-  };
-
-  const pageList = [
-    {
-      page: 'intro',
-      component: (
-        <IntroductionPage
-          onNext={e => {
-            e.preventDefault();
-            setPageIndex(pageIndex + 1);
-          }}
-        />
-      ),
-    },
-    {
-      page: 'mileage',
-      component: <MileagePage handlers={handlers} />,
-    },
-    {
-      page: 'vehicle',
-      component: <VehiclePage handlers={handlers} />,
-    },
-    {
-      page: 'address',
-      component: <AddressPage handlers={handlers} />,
-    },
-    {
-      page: 'review',
-      component: <ReviewPage handlers={handlers} />,
-    },
-    {
-      page: 'confirm',
-      component: <ConfirmationPage />,
-    },
-  ];
+  const { data, error, isLoading } = useSelector(selectAppointment);
 
   const {
     useToggleValue,
@@ -89,7 +36,109 @@ const SubmitFlowWrapper = () => {
     TOGGLE_NAMES.travelPaySubmitMileageExpense,
   );
 
-  if (toggleIsLoading) {
+  useEffect(
+    () => {
+      if (apptId && !data && !error) {
+        dispatch(getAppointmentData(apptId));
+      }
+    },
+    [dispatch, data, apptId, error],
+  );
+
+  // This will actually be handled by the redux action, but for now it lives here
+  const [isSubmissionError, setIsSubmissionError] = useState(false);
+
+  const [yesNo, setYesNo] = useState({
+    mileage: '',
+    vehicle: '',
+    address: '',
+  });
+
+  const [pageIndex, setPageIndex] = useState(0);
+  const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
+  const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+
+  const onSubmit = () => {
+    if (!isAgreementChecked) {
+      scrollToFirstError();
+      return;
+    }
+    // Placeholder until actual submit is hooked up
+
+    // Uncomment to simulate successful submission
+    // setPageIndex(pageIndex + 1);
+
+    // Uncomment to simulate an error
+    setIsSubmissionError(true);
+  };
+
+  const pageList = [
+    {
+      page: 'intro',
+      component: (
+        <IntroductionPage
+          onStart={e => {
+            e.preventDefault();
+            setPageIndex(pageIndex + 1);
+          }}
+        />
+      ),
+    },
+    {
+      page: 'mileage',
+      component: (
+        <MileagePage
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          setYesNo={setYesNo}
+          yesNo={yesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+        />
+      ),
+    },
+    {
+      page: 'vehicle',
+      component: (
+        <VehiclePage
+          setYesNo={setYesNo}
+          yesNo={yesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+        />
+      ),
+    },
+    {
+      page: 'address',
+      component: (
+        <AddressPage
+          yesNo={yesNo}
+          setYesNo={setYesNo}
+          setIsUnsupportedClaimType={setIsUnsupportedClaimType}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+        />
+      ),
+    },
+    {
+      page: 'review',
+      component: (
+        <ReviewPage
+          onSubmit={onSubmit}
+          setYesNo={setYesNo}
+          setPageIndex={setPageIndex}
+          isAgreementChecked={isAgreementChecked}
+          setIsAgreementChecked={setIsAgreementChecked}
+        />
+      ),
+    },
+    {
+      page: 'confirm',
+      component: <ConfirmationPage />,
+    },
+  ];
+
+  if (toggleIsLoading || isLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -111,15 +160,17 @@ const SubmitFlowWrapper = () => {
       <article className="usa-grid-full vads-u-margin-bottom--3">
         <BreadCrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-          {cantFile && (
-            <CantFilePage
+          {isUnsupportedClaimType && (
+            <UnsupportedClaimTypePage
               pageIndex={pageIndex}
               setPageIndex={setPageIndex}
-              setCantFile={setCantFile}
+              setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
           {isSubmissionError && <SubmissionErrorPage />}
-          {!cantFile && !isSubmissionError && pageList[pageIndex].component}
+          {!isUnsupportedClaimType &&
+            !isSubmissionError &&
+            pageList[pageIndex].component}
         </div>
       </article>
     </Element>

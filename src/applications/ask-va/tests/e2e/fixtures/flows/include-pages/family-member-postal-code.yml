@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Family member's postal code
+  - action: typeTextInput
+    target: FAMILY_POSTAL_CODE
+    value:  36064
+  - action: click
+    target: call-to-action

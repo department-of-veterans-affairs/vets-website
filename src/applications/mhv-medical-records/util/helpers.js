@@ -27,6 +27,10 @@ export const dateFormat = (timestamp, format = null) => {
     .format(format || 'MMMM D, YYYY, h:mm a z');
 };
 
+export const dateFormatWithoutTime = str => {
+  return str.replace(/,? \d{1,2}:\d{2} (a\.m\.|p\.m\.)$/, '');
+};
+
 /**
  * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
  * @param {*} format defaults to 'MMMM d, yyyy, h:mm a', momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
@@ -701,4 +705,15 @@ export const focusOnErrorField = () => {
 
 export const formatUserDob = userProfile => {
   return userProfile?.dob ? formatDateLong(userProfile.dob) : 'Not found';
+};
+
+/**
+ * Removes the trailing slash from a path
+ *
+ * @param {string} path path to remove trailing slash from
+ * @returns {string} path without trailing slash
+ */
+export const removeTrailingSlash = path => {
+  if (!path) return path;
+  return path.replace(/\/$/, '');
 };

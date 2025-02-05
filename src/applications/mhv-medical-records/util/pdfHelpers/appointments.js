@@ -1,13 +1,10 @@
 export const generateAppointmentsContent = records => ({
   results: {
     preface: `Showing ${records.length} appointments, sorted by date`,
-    prefaceIndent: 20,
     sectionSeparators: false,
     items: records.map(item => ({
       header: item.date,
-      headerIndent: 40,
       headerType: 'H4',
-      itemsIndent: 40,
       items: [
         {
           title: 'Appointment type',
@@ -65,16 +62,18 @@ export const generateAppointmentsContent = records => ({
         {
           title: 'Details you shared with your provider',
           isRich: true,
-          paragraphGap: 4,
+          paragraphGap: 2,
           lineGap: 4,
           value: [
             {
               title: 'Reason',
               value: item.detailsShared.reason,
+              paragraphGap: 2,
             },
             {
               title: 'Other details',
               value: item.detailsShared.otherDetails,
+              paragraphGap: 2,
             },
           ],
         },

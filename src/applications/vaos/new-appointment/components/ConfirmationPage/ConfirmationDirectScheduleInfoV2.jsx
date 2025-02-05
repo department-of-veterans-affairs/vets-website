@@ -46,7 +46,7 @@ export default function ConfirmationDirectScheduleInfoV2({
   const typeOfCareName = getTypeOfCareById(data.typeOfCareId)?.name;
   return (
     <>
-      <h1 className="vads-u-font-size--h2">
+      <h1 className="vaos__dynamic-font-size--h2">
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
         {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>

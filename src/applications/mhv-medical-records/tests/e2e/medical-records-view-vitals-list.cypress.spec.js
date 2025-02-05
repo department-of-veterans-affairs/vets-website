@@ -23,7 +23,7 @@ describe('Medical Records View Vitals', () => {
       }`,
       moment
         .parseZone(defaultVitals.entry[0].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+        .format('MMMM D, YYYY'),
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -32,7 +32,7 @@ describe('Medical Records View Vitals', () => {
       `${defaultVitals.entry[4].resource.valueQuantity.value} beats per minute`,
       moment
         .parseZone(defaultVitals.entry[4].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+        .format('MMMM D, YYYY'),
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -43,7 +43,7 @@ describe('Medical Records View Vitals', () => {
       } breaths per minute`,
       moment
         .parseZone(defaultVitals.entry[7].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+        .format('MMMM D, YYYY'),
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -52,7 +52,7 @@ describe('Medical Records View Vitals', () => {
       `${defaultVitals.entry[6].resource.valueQuantity.value}%`,
       moment
         .parseZone(defaultVitals.entry[6].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+        .format('MMMM D, YYYY'),
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -61,7 +61,7 @@ describe('Medical Records View Vitals', () => {
       `${defaultVitals.entry[8].resource.valueQuantity.value} °F`,
       moment
         .parseZone(defaultVitals.entry[8].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+        .format('MMMM D, YYYY'),
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -70,7 +70,7 @@ describe('Medical Records View Vitals', () => {
       `${defaultVitals.entry[9].resource.valueQuantity.value} pounds`,
       moment
         .parseZone(defaultVitals.entry[9].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+        .format('MMMM D, YYYY'),
     );
 
     VitalsListPage.verifyVitalOnListPage(
@@ -79,7 +79,7 @@ describe('Medical Records View Vitals', () => {
       `${defaultVitals.entry[3].resource.valueQuantity.value} inches`,
       moment
         .parseZone(defaultVitals.entry[3].resource.effectiveDateTime)
-        .format('MMMM D, YYYY, h:mm'),
+        .format('MMMM D, YYYY'),
     );
 
     // Axe check

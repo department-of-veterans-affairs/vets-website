@@ -433,7 +433,7 @@ export const App = ({
                 label: 'Education and training',
               },
               {
-                href: '/education/apply-for-benefits-form-22-1990',
+                href: '/education/apply-for-gi-bill-form-22-1990',
                 label: 'Apply for education benefits',
               },
             ]}

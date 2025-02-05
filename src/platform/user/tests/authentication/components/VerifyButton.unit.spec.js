@@ -1,128 +1,185 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
-import * as OAuthUtils from 'platform/utilities/oauth/utilities';
+import { Provider } from 'react-redux';
 import {
   VerifyButton,
   VerifyIdmeButton,
   VerifyLogingovButton,
   verifyHandler,
 } from 'platform/user/authentication/components/VerifyButton';
+import * as OAuthUtils from 'platform/utilities/oauth/utilities';
+import * as AuthUtils from 'platform/user/authentication/utilities';
 
-const { logingov, idme } = SERVICE_PROVIDERS;
-
-const sharedStore = ({ authBroker = 'iam' } = {}) => ({
-  getState: () => ({ user: { profile: { session: { authBroker } } } }),
+const sharedStore = () => ({
+  getState: () => ({}),
   dispatch: () => {},
   subscribe: () => {},
 });
 
-describe('VerifyIdmeButton', () => {
-  it('should render the updated ID.me component (identity-verification)', () => {
-    const store = sharedStore();
-    const { container } = render(
-      <Provider store={store}>
-        <VerifyIdmeButton />
-      </Provider>,
-    );
-    const button = $('.idme-verify-button', container);
-    fireEvent.click(button);
-    expect(button).to.exist;
-  });
-});
+describe('Verify Buttons', () => {
+  let sandbox;
 
-describe('VerifyLogingovButton', () => {
-  it('should render the updated Login.gov component (identity-verification)', () => {
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    sandbox.spy(AuthUtils, 'verify');
+    sandbox.spy(OAuthUtils, 'updateStateAndVerifier');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  const buttonTests = [
+    {
+      component: VerifyIdmeButton,
+      className: '.idme-verify-button',
+      policy: 'idme',
+    },
+    {
+      component: VerifyLogingovButton,
+      className: '.logingov-verify-button',
+      policy: 'logingov',
+    },
+  ];
+
+  buttonTests.forEach(({ component: ButtonComponent, className, policy }) => {
+    it(`should render the ${policy} button and call verifyHandler with correct parameters`, () => {
+      const store = sharedStore();
+      const queryParams = { operation: `${policy}_verification` };
+      const useOAuth = true;
+
+      const { container } = render(
+        <Provider store={store}>
+          <ButtonComponent queryParams={queryParams} useOAuth={useOAuth} />
+        </Provider>,
+      );
+
+      const button = container.querySelector(className);
+      expect(button).to.exist;
+
+      fireEvent.click(button);
+
+      // Verify that `verify` was called with correct parameters
+      sinon.assert.calledOnce(AuthUtils.verify);
+      sinon.assert.calledWith(AuthUtils.verify, {
+        policy,
+        acr: sinon.match.string,
+        queryParams,
+        useOAuth,
+      });
+
+      // Verify that `updateStateAndVerifier` was called if `useOAuth` is true
+      if (useOAuth) {
+        sinon.assert.calledOnce(OAuthUtils.updateStateAndVerifier);
+        sinon.assert.calledWith(OAuthUtils.updateStateAndVerifier, policy);
+      }
+    });
+  });
+
+  it('should not call updateStateAndVerifier if useOAuth is false', () => {
     const store = sharedStore();
+    const queryParams = { operation: 'idme_verification' };
+    const useOAuth = false;
+
     const { container } = render(
       <Provider store={store}>
-        <VerifyLogingovButton />
+        <VerifyIdmeButton queryParams={queryParams} useOAuth={useOAuth} />
       </Provider>,
     );
-    const button = $('.logingov-verify-button', container);
-    fireEvent.click(button);
+
+    const button = container.querySelector('.idme-verify-button');
     expect(button).to.exist;
+
+    fireEvent.click(button);
+
+    sinon.assert.calledOnce(AuthUtils.verify);
+    sinon.assert.neverCalledWith(OAuthUtils.updateStateAndVerifier);
   });
 });
 
 describe('VerifyButton', () => {
-  const store = sharedStore();
+  it('should render and call verifyHandler with correct parameters', () => {
+    const store = sharedStore();
+    const queryParams = { operation: 'generic_verification' };
+    const useOAuth = true;
+    const csp = 'logingov';
 
-  [logingov, idme].forEach(({ policy }) => {
-    it(`should render correctly for ${policy}`, () => {
-      const { container } = render(
-        <Provider store={store}>
-          <VerifyButton csp={policy} key={policy} />
-        </Provider>,
-      );
-      expect($(`.${policy}-verify-buttons`, container)).to.exist;
-    });
+    const verifyHandlerSpy = sinon.spy(verifyHandler);
 
-    it(`should call the 'verifyHandler' ${policy} function on click`, () => {
-      const verifyHandlerSpy = sinon.spy(verifyHandler);
-      const { container } = render(
-        <Provider store={store}>
-          <VerifyButton csp={policy} onClick={verifyHandlerSpy} />
-        </Provider>,
-      );
+    const { container } = render(
+      <Provider store={store}>
+        <VerifyButton
+          csp={csp}
+          onClick={verifyHandlerSpy}
+          queryParams={queryParams}
+          useOAuth={useOAuth}
+        />
+      </Provider>,
+    );
 
-      const button = $(`.${policy}-verify-buttons`, container);
-      fireEvent.click(button);
-      expect(verifyHandlerSpy.called).to.be.true;
-      verifyHandlerSpy.reset();
-    });
+    const button = container.querySelector(`.${csp}-verify-buttons`);
+    expect(button).to.exist;
 
-    it('should include `queryParams` if required', () => {
-      const verifyHandlerSpy = sinon.spy(verifyHandler);
-      const { container } = render(
-        <Provider store={store}>
-          <VerifyButton
-            csp={policy}
-            onClick={verifyHandlerSpy}
-            queryParams={{ operation: 'interstitial_signup' }}
-          />
-        </Provider>,
-      );
+    fireEvent.click(button);
 
-      const button = $(`.${policy}-verify-buttons`, container);
-      fireEvent.click(button);
-      expect(verifyHandlerSpy.called).to.be.true;
-      expect(
-        verifyHandlerSpy.calledWith({
-          policy,
-          useOAuth: false,
-          queryParams: { operation: 'interstitial_signup' },
-        }),
-      ).to.be.true;
-
-      verifyHandlerSpy.reset();
+    sinon.assert.calledOnce(verifyHandlerSpy);
+    sinon.assert.calledWith(verifyHandlerSpy, {
+      policy: csp,
+      queryParams,
+      useOAuth,
     });
   });
 });
 
 describe('verifyHandler', () => {
-  const mockOAuthUpdateStateAndVerifier = sinon.spy(
-    OAuthUtils,
-    'updateStateAndVerifier',
-  );
+  let sandbox;
 
   beforeEach(() => {
-    mockOAuthUpdateStateAndVerifier.reset();
-    localStorage.clear();
+    sandbox = sinon.createSandbox();
+    sandbox.spy(AuthUtils, 'verify');
+    sandbox.spy(OAuthUtils, 'updateStateAndVerifier');
   });
 
-  it('should not call updateStateAndVerifier if useOAuth is false', () => {
-    verifyHandler({ useOAuth: false, policy: 'logingov' });
-    expect(mockOAuthUpdateStateAndVerifier.called).to.be.false;
+  afterEach(() => {
+    sandbox.restore();
   });
 
-  it('should call updateStateAndVerifier if useOAuth is present', () => {
-    verifyHandler({ useOAuth: true, policy: 'logingov' });
-    expect(mockOAuthUpdateStateAndVerifier.called).to.be.true;
-    expect(mockOAuthUpdateStateAndVerifier.calledWith('logingov')).to.be.true;
+  it('should call verify and updateStateAndVerifier correctly when useOAuth is true', () => {
+    const queryParams = { operation: 'test_operation' };
+    const useOAuth = true;
+    const policy = 'logingov';
+
+    verifyHandler({ policy, queryParams, useOAuth });
+
+    sinon.assert.calledOnce(AuthUtils.verify);
+    sinon.assert.calledWith(AuthUtils.verify, {
+      policy,
+      acr: sinon.match.string,
+      queryParams,
+      useOAuth,
+    });
+
+    sinon.assert.calledOnce(OAuthUtils.updateStateAndVerifier);
+    sinon.assert.calledWith(OAuthUtils.updateStateAndVerifier, policy);
+  });
+
+  it('should not call updateStateAndVerifier when useOAuth is false', () => {
+    const queryParams = { operation: 'test_operation' };
+    const useOAuth = false;
+    const policy = 'logingov';
+
+    verifyHandler({ policy, queryParams, useOAuth });
+
+    sinon.assert.calledOnce(AuthUtils.verify);
+    sinon.assert.calledWith(AuthUtils.verify, {
+      policy,
+      acr: sinon.match.string,
+      queryParams,
+      useOAuth,
+    });
+
+    sinon.assert.notCalled(OAuthUtils.updateStateAndVerifier);
   });
 });

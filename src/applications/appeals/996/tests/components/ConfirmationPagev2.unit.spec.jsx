@@ -11,7 +11,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ConfirmationPageV2 from '../../components/ConfirmationPageV2';
-import maxData from '../fixtures/data/maximal-test-v2.5.json';
+import maxData from '../fixtures/data/maximal-test-v2.json';
 
 import { getReadableDate } from '../../../shared/utils/dates';
 
@@ -89,7 +89,7 @@ describe('ConfirmationPageV2', () => {
     expect(h2s.map(el => el.textContent)).to.deep.equal([
       // `You submitted your Board Appeal request on ${date}`,
       'Request a Higher-Level Review', // print only header
-      'We’ve received your request for a Higher-Level Review',
+      'Your Higher Level Review request submission is in progress',
       'What to expect next',
       'How to contact us if you have questions',
       'Your Higher-Level Review request',
@@ -119,7 +119,7 @@ describe('ConfirmationPageV2', () => {
       '●●●–●●–8765V A file number ending with 8 7 6 5',
       'February 3, 1990',
       'No',
-      '<va-telephone contact="5558001111" not-clickable="true"></va-telephone>',
+      '<va-telephone contact="5558001111" extension="2345" not-clickable="true"></va-telephone>',
       'user@example.com',
       '123 Main StNew York, NY 30012',
       'tinnitusDecision date: Disagree with the service connection, the effective date of award, your evaluation of my condition, and this is tinnitus entry',

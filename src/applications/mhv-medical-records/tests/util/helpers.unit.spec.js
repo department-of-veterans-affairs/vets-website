@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
+  dateFormatWithoutTime,
   dateFormatWithoutTimezone,
   dispatchDetails,
   extractContainedByRecourceType,
@@ -20,6 +21,7 @@ import {
   getMonthFromSelectedDate,
   formatDateInLocalTimezone,
   handleDataDogAction,
+  removeTrailingSlash,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -46,6 +48,12 @@ describe('Date formatter', () => {
 });
 
 describe('Date formatter with no timezone', () => {
+  it('removes the time from a dateTime', () => {
+    const dateTime = 'October 27, 2023, 10:00 a.m.';
+    const formattedDate = dateFormatWithoutTime(dateTime);
+    expect(formattedDate).to.eq('October 27, 2023');
+  });
+
   it('formats a date in the original time without a timezone', () => {
     const timeStamp = '2023-09-29T11:04:31.316-04:00';
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
@@ -718,5 +726,28 @@ describe('formatDateInLocalTimezone', () => {
     const formattedDate = formatDateInLocalTimezone(dateString);
     const expectedDate = 'October 3, 2023 12:00 a.m. UTC';
     expect(formattedDate).to.equal(expectedDate);
+  });
+});
+
+describe('removeTrailingSlash', () => {
+  it('should remove the trailing slash from a string', () => {
+    const string = 'https://example.com/';
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal('https://example.com');
+  });
+  it('should return the string if there is no trailing slash', () => {
+    const string = 'https://example.com';
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal(string);
+  });
+  it('should return the string if the string is empty', () => {
+    const string = '';
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal(string);
+  });
+  it('should return the string if the string is null', () => {
+    const string = null;
+    const result = removeTrailingSlash(string);
+    expect(result).to.equal(string);
   });
 });

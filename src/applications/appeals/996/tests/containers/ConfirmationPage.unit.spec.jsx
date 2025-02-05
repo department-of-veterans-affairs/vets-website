@@ -17,7 +17,7 @@ import {
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
-import maximalData from '../fixtures/data/maximal-test-v2.5.json';
+import maximalData from '../fixtures/data/maximal-test-v2.json';
 
 import { FORMAT_READABLE_DATE_FNS, SELECTED } from '../../../shared/constants';
 import { parseDate } from '../../../shared/utils/dates';

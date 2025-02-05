@@ -2,7 +2,7 @@ import {
   FETCH_LOCATION_DETAIL,
   SEARCH_STARTED,
   SEARCH_FAILED,
-} from '../../utils/actionTypes';
+} from '../actionTypes';
 import LocatorApi from '../../api';
 
 /**

@@ -28,7 +28,7 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(form, formConfig, apiPath = '/v0/burial_claims') {
+export function submit(form, formConfig) {
   const headers = { 'Content-Type': 'application/json' };
 
   const body = transform(formConfig, form);
@@ -56,7 +56,10 @@ export function submit(form, formConfig, apiPath = '/v0/burial_claims') {
     return Promise.reject(respOrError);
   };
 
-  return apiRequest(`${environment.API_URL}${apiPath}`, apiRequestOptions)
+  return apiRequest(
+    `${environment.API_URL}${formConfig.submitUrl ?? '/v0/burial_claims'}`,
+    apiRequestOptions,
+  )
     .then(onSuccess)
     .catch(onFailure);
 }

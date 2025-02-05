@@ -20,6 +20,7 @@ const preventMaxSelections = ({
   describe('Max selections alert shows', () => {
     beforeEach(() => {
       setStoredSubTask({ benefitType: 'compensation' }); // HLR & SC
+      cypressSetup();
 
       cy.intercept('GET', contestableApi, {
         data: [],

@@ -186,3 +186,24 @@ export function getObjectsWithAttachmentId(obj) {
 
   return objectsWithAttachmentId;
 }
+
+/**
+ * Tests whether a string meets regex requirements and, if not, provides
+ * a clear message to be presented to users filling out text fields.
+ *
+ * @param {String} value The string to test against the regex
+ * @returns {String | null} Error messsage explaining invalid characters or null
+ * if no violations detected
+ */
+export function validateText(value) {
+  const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
+  const matches = value.match(invalidCharsPattern);
+
+  let retVal = null;
+  if (matches) {
+    const uniqueInvalidChars = [...new Set(matches)].join(', ');
+    const staticText = 'You entered a character we can’t accept. Try removing';
+    retVal = `${staticText} ${uniqueInvalidChars}`;
+  }
+  return retVal;
+}
