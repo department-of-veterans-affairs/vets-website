@@ -4,6 +4,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
+import * as reactScroll from 'react-scroll';
 
 import AcceptTermsPrompt from '../../../authorization/components/AcceptTermsPrompt';
 import { axeCheck } from '../../helpers';
@@ -17,9 +18,15 @@ const defaultProps = {
 };
 
 describe('<AcceptTermsPrompt>', () => {
-  before(() => {
+  let scrollToStub;
+
+  beforeEach(() => {
     window.dataLayer = [];
-    window.scrollTo = () => {};
+    scrollToStub = sinon.stub(reactScroll.scroller, 'scrollTo');
+  });
+
+  afterEach(() => {
+    scrollToStub.restore();
   });
 
   it('should be an empty div if there is no content', () => {
