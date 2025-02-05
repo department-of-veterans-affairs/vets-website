@@ -19,7 +19,8 @@ describe('GI Bill Comparison Tool - Programs List', () => {
           },
         ],
       },
-    }).as('featureToggles');
+    });
+    // .as('featureToggles');
     // cy.intercept('GET', '**/v1/gi/institutions/318Z0032*', {
     //   statusCode: 200,
     //   body: {
@@ -396,11 +397,8 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     //   },
     // }).as('institutionData');
 
-    cy.visit(
-      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
-    );
     // cy.wait('@institutionData');
-    cy.wait('@featureToggles');
+    // cy.wait('@featureToggles');
 
     // cy.get('a[data-testid="program-link"]', {
     //   timeout: 10000,
@@ -410,6 +408,9 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     //   .click();
   });
   it('should show a "no results" message when an invalid program name is searched', () => {
+    cy.visit(
+      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
+    );
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -421,6 +422,9 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .and('contain', 'We didn’t find any results for');
   });
   it('should clear the search query and display all programs when "Reset search" is clicked', () => {
+    cy.visit(
+      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
+    );
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -436,6 +440,9 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.get('[data-testid="program-list-item"]').should('have.length', 20);
   });
   it('should display relevant results when a user searches for "ACCOUNTING"', () => {
+    cy.visit(
+      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
+    );
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -449,6 +456,9 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .should('contain', 'ACCOUNTING-CPA TRACK-BS');
   });
   it('displays an error if the user tries to search with an empty input', () => {
+    cy.visit(
+      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
+    );
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -463,6 +473,9 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .should('exist');
   });
   it('paginates correctly when there are more than 20 programs', () => {
+    cy.visit(
+      'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
+    );
     cy.injectAxeThenAxeCheck();
     cy.get('va-pagination').should('exist');
     cy.get('#results-summary').should('contain', 'Showing 1-20');
