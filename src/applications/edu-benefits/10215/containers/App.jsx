@@ -18,7 +18,7 @@ export default function App({ location, children }) {
   });
 
   return (
-    <div className="form-22-10215-container">
+    <div className="form-22-10215-container row">
       <div className="vads-u-padding-left--0">
         <Breadcrumbs />
       </div>
