@@ -166,6 +166,7 @@ const YellowRibbonSelector = ({ programs }) => {
     return (
       <p
         id="results-summary"
+        data-testid="results-summary"
         ref={resultsSummaryRef}
         tabIndex="-1"
         className="vads-u-margin-top--3 vads-u-margin-bottom--3"
@@ -189,6 +190,8 @@ const YellowRibbonSelector = ({ programs }) => {
               className="degree-selector"
               id="degree"
               name="degree"
+              data-testid="degree-selector"
+              message-aria-describedby="Degree level selector"
               label="Degree level"
               value={selectedOption}
               onVaSelect={handleSelectionChange}
@@ -234,6 +237,7 @@ const YellowRibbonSelector = ({ programs }) => {
             showLastPage
             onPageSelect={e => handlePageChange(e.detail.page)}
             className="vads-u-border-top--0 vads-u-padding-y--0 vads-u-margin-bottom--0"
+            data-testid="yellow-ribbon-pagination"
           />
         )}
         {currentPrograms.length > 0 && (
