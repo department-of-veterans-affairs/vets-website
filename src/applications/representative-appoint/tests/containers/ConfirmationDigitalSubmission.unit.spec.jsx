@@ -15,50 +15,46 @@ const mockStore = state => ({
 });
 
 describe('<ConfirmationDigitalSubmission>', () => {
-  const getProps = () => {
-    return {
-      props: {
-        formData: {
-          submission: {
-            timestamp: moment()
-              .subtract(5, 'days')
-              .toISOString(),
-          },
-          data: mockFormData,
-        },
-      },
-      mockFormStore: mockStore({
-        form: {
-          submission: {
-            timestamp: moment()
-              .subtract(5, 'days')
-              .toISOString(),
-          },
-          data: mockFormData,
-        },
-      }),
-    };
-  };
+  let props;
+  let mockFormStore;
+  let container;
 
-  const renderContainer = (props, mockFormStore) => {
-    return render(
+  beforeEach(() => {
+    props = {
+      formData: {
+        submission: {
+          timestamp: moment()
+            .subtract(5, 'days')
+            .toISOString(),
+        },
+        data: mockFormData,
+      },
+    };
+    mockFormStore = mockStore({
+      form: {
+        submission: {
+          timestamp: moment()
+            .subtract(5, 'days')
+            .toISOString(),
+        },
+        data: mockFormData,
+      },
+    });
+
+    const renderResult = render(
       <Provider store={mockFormStore}>
         <ConfirmationDigitalSubmission {...props} />
       </Provider>,
     );
-  };
+
+    container = renderResult.container;
+  });
 
   it('should render the component', () => {
-    const { props, mockFormStore } = getProps();
-    const { container } = renderContainer(props, mockFormStore);
-
     expect(container).to.exist;
   });
 
   it('should display submission date correctly', () => {
-    const { props, mockFormStore } = getProps();
-    const { container } = renderContainer(props, mockFormStore);
-
     const dateSubmitted = moment(props.formData.submission.timestamp).format(
       'MMMM D, YYYY',
     );
@@ -71,8 +67,6 @@ describe('<ConfirmationDigitalSubmission>', () => {
   context('when print button is clicked', () => {
     it('should call window.print', () => {
       const printSpy = sinon.spy(window, 'print');
-      const { props, mockFormStore } = getProps();
-      const { container } = renderContainer(props, mockFormStore);
 
       const printButton = container.querySelector('va-button');
       fireEvent.click(printButton);
