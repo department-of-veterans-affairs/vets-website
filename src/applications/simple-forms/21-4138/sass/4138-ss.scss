@@ -5,18 +5,3 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
-
-.breadcrumbs-container {
-    // match form body style
-    padding-top: 1.5em;
-    padding-bottom: 2em;
-
-    @media (max-width: 767px) {
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-    }
-    @media (min-width: 768px) and (max-width: 1201px) {
-        padding-left: 1em;
-        padding-right: 1em;
-    }
-}

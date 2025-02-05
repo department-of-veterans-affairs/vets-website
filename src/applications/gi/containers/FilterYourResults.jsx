@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
+
 import {
   VaLoadingIndicator,
   VaButton,
@@ -33,6 +34,7 @@ import {
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
+import AboutYellowRibbonProgram from '../components/AboutYellowRibbonProgram';
 
 const vetTecCheckbox = (
   vettec,
@@ -315,11 +317,14 @@ export function FilterYourResults({
     ];
 
     return (
-      <CheckboxGroup
-        label={<h3>About the school</h3>}
-        onChange={onChangeCheckbox}
-        options={options}
-      />
+      <>
+        <CheckboxGroup
+          label={<h3>About the school</h3>}
+          onChange={onChangeCheckbox}
+          options={options}
+        />
+        <AboutYellowRibbonProgram />
+      </>
     );
   };
 

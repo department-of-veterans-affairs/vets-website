@@ -1,8 +1,8 @@
 import workflowChoicePage from '../../pages/form0781/workflowChoicePage';
 import * as manualUploadPage from '../../pages/form0781/manualUploadPage';
 import * as mentalHealthSupport from '../../pages/form0781/mentalHealthSupport';
-import * as traumaticEventsIntro from '../../pages/form0781/traumaticEventsIntro';
-import * as eventType from '../../pages/form0781/traumaticEventTypes';
+import eventsIntro from '../../pages/form0781/traumaticEventsIntro';
+import eventTypes from '../../pages/form0781/traumaticEventTypes';
 import { traumaticEventsPages } from '../../pages/form0781/traumaticEventsPages';
 import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
@@ -47,14 +47,14 @@ export const form0781PagesConfig = {
   eventsIntro: {
     path: 'additional-forms/mental-health-statement/events',
     depends: formData => isCompletingForm0781(formData),
-    uiSchema: traumaticEventsIntro.uiSchema,
-    schema: traumaticEventsIntro.schema,
+    uiSchema: eventsIntro.uiSchema,
+    schema: eventsIntro.schema,
   },
-  eventType: {
+  eventTypes: {
     path: 'additional-forms/mental-health-statement/events-type',
     depends: formData => isCompletingForm0781(formData),
-    uiSchema: eventType.uiSchema,
-    schema: eventType.schema,
+    uiSchema: eventTypes.uiSchema,
+    schema: eventTypes.schema,
   },
   ...traumaticEventsPages,
   // Behavioral Changes Pages
