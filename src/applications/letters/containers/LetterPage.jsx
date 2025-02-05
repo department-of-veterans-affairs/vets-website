@@ -1,9 +1,12 @@
 import React from 'react';
+import VAProfileWrapper from './VAProfileWrapper';
+import LetterList from './LetterList';
 
 export function LetterPage() {
   return (
     <div className="usa-width-three-fourths letters">
-      <h1>New Letter page</h1>
+      <VAProfileWrapper />
+      <LetterList />
     </div>
   );
 }
