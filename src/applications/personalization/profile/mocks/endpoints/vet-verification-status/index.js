@@ -38,8 +38,20 @@ const notConfirmedIneligible = {
   },
 };
 
+const apiError = {
+  errors: [
+    {
+      title: 'Gateway Timeout',
+      detail: 'Did not receive a timely response from an upstream server.',
+      code: '504',
+      status: '504',
+    },
+  ],
+};
+
 module.exports = {
   confirmed,
   notConfirmedProblem,
   notConfirmedIneligible,
+  apiError,
 };

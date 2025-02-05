@@ -1,50 +1,45 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import AddressPage from '../../../../components/submit-flow/pages/AddressPage';
 
-const homeAddress = {
+const home = {
   addressLine1: '345 Home Address St.',
-  addressLine2: null,
-  addressLine3: null,
   addressPou: 'RESIDENCE/CHOICE',
   addressType: 'DOMESTIC',
   city: 'San Francisco',
   countryName: 'United States',
   countryCodeIso2: 'US',
   countryCodeIso3: 'USA',
-  countryCodeFips: null,
-  countyCode: null,
-  countyName: null,
-  internationalPostalCode: null,
-  sourceSystemUser: null,
   stateCode: 'CA',
   zipCode: '94118',
 };
 
-const mailingAddress = {
+const mailing = {
+  ...home,
   addressLine1: '123 Mailing Address St.',
-  addressLine2: null,
-  addressLine3: null,
+  addressLine2: 'Ste. B',
   addressPou: 'CORRESPONDENCE',
-  addressType: 'DOMESTIC',
-  city: 'San Francisco',
-  countryName: 'United States',
-  countryCodeIso2: 'US',
-  countryCodeIso3: 'USA',
-  countryCodeFips: null,
-  countyCode: null,
-  countyName: null,
-  internationalPostalCode: null,
-  sourceSystemUser: null,
-  stateCode: 'CA',
-  zipCode: '94118',
 };
 
 describe('Address page', () => {
+  const getData = ({ homeAddress, mailingAddress } = {}) => {
+    return {
+      user: {
+        profile: {
+          vapContactInfo: {
+            residentialAddress: homeAddress,
+            mailingAddress,
+          },
+        },
+      },
+    };
+  };
+
   const props = {
     pageIndex: 3,
     setPageIndex: () => {},
@@ -58,11 +53,17 @@ describe('Address page', () => {
   };
 
   it('should render with user home address', async () => {
-    const screen = render(<AddressPage {...props} address={homeAddress} />);
+    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
+      initialState: getData({
+        homeAddress: home,
+      }),
+    });
 
-    expect(screen.getByTestId('address-test-id')).to.exist;
-    expect(screen.findByText('345 Home Address St')).to.exist;
-    expect($('va-button-pair')).to.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('address-test-id')).to.exist;
+      expect(screen.findByText('345 Home Address St')).to.exist;
+      expect($('va-button-pair')).to.exist;
+    });
 
     fireEvent.click(
       $(
@@ -76,15 +77,22 @@ describe('Address page', () => {
   });
 
   it('should render with mail address if no home address', () => {
-    const screen = render(<AddressPage {...props} address={mailingAddress} />);
+    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
+      initialState: getData({
+        mailingAddress: mailing,
+      }),
+    });
 
     expect(screen.getByTestId('address-test-id')).to.exist;
     expect(screen.findByText('123 Mailing Address St')).to.exist;
+    expect(screen.findByText('Ste. B')).to.exist;
     expect($('va-button-pair')).to.exist;
   });
 
   it('should show an alert if no address', () => {
-    const screen = render(<AddressPage {...props} address={null} />);
+    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
+      initialState: getData(),
+    });
 
     expect(screen.queryByTestId('address-test-id')).to.not.exist;
     expect($('va-button-pair')).to.not.exist;
@@ -93,9 +101,11 @@ describe('Address page', () => {
   });
 
   it('should render an error if no selection made', async () => {
-    const screen = render(<AddressPage {...props} address={homeAddress} />);
-
-    expect(screen.getByTestId('address-test-id')).to.exist;
+    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
+      initialState: getData({
+        homeAddress: home,
+      }),
+    });
     $('va-button-pair').__events.primaryClick(); // continue
     await waitFor(() => {
       expect(screen.findByText(/You must make a selection/i)).to.exist;

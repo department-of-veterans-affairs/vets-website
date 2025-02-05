@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import {
   VaButtonPair,
@@ -9,9 +10,9 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { formatDateTime } from '../../../util/dates';
 import { BTSSS_PORTAL_URL } from '../../../constants';
+import { selectAppointment } from '../../../redux/selectors';
 
 const MileagePage = ({
-  appointment,
   pageIndex,
   setPageIndex,
   yesNo,
@@ -23,9 +24,9 @@ const MileagePage = ({
     scrollToTop('topScrollElement');
   }, []);
 
-  const [formattedDate, formattedTime] = formatDateTime(
-    appointment.vaos.apiData.start,
-  );
+  const { data } = useSelector(selectAppointment);
+
+  const [formattedDate, formattedTime] = formatDateTime(data.start);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -65,13 +66,13 @@ const MileagePage = ({
         <div slot="form-description">
           <hr className="vads-u-margin-y--0" />
           <p>
-            {' '}
+            For your appointment on{' '}
             <strong>
-              {formattedDate} {formattedTime} at{' '}
-              {appointment.vaos.apiData.location.attributes.name}
-            </strong>
+              {formattedDate} {formattedTime}
+            </strong>{' '}
+            at <strong>{data.location.attributes.name}</strong>
           </p>
-          <p>{appointment.vaos.apiData.reasonForAppointment}</p>
+          <p>{data.reasonForAppointment}</p>
           <hr className="vads-u-margin-y--0" />
         </div>
         <va-radio-option
@@ -139,7 +140,6 @@ const MileagePage = ({
 };
 
 MileagePage.propTypes = {
-  appointment: PropTypes.object,
   pageIndex: PropTypes.number,
   setIsUnsupportedClaimType: PropTypes.func,
   setPageIndex: PropTypes.func,
