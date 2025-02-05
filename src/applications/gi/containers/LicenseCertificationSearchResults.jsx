@@ -4,10 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import ADDRESS_DATA from 'platform/forms/address/data';
 
-import {
-  VaCheckboxGroup,
-  VaPagination,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import PropTypes from 'prop-types';
 import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
@@ -16,16 +13,16 @@ import {
   formatResultCount,
   handleLcResultsSearch,
   isSmallScreen,
+  mappedStates,
   showLcParams,
   showMultipleNames,
   updateStateDropdown,
 } from '../utils/helpers';
-// import { useLcpFilter } from '../utils/useLcpFilter';
-import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
-import Dropdown from '../components/Dropdown';
-// import SearchAccordion from '../components/SearchAccordion';
-import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
 import { lacpCategoryList } from '../constants';
+
+import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
+import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
+import FilterControls from '../components/FilterControls';
 
 const checkboxMap = (categories, checkedList) => {
   return [
@@ -51,13 +48,18 @@ const checkboxMap = (categories, checkedList) => {
     },
   ];
 };
-
 // export default function LicenseCertificationSearchResults({ flag }) {
 export default function LicenseCertificationSearchResults() {
   const location = useLocation();
   const history = useHistory();
-  // const { nameParam, categoryParams, stateParam } = showLcParams(location);
-  const { nameParam, categoryParams } = showLcParams(location);
+
+  const { nameParam, categoryParams, stateParam } = showLcParams(location);
+
+  const dispatch = useDispatch();
+
+  const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
+    state => state.licenseCertificationSearch,
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
@@ -66,11 +68,58 @@ export default function LicenseCertificationSearchResults() {
   const [categoryCheckboxes, setCategoryCheckboxes] = useState(
     checkboxMap(lacpCategoryList, categoryParams),
   );
+  const [filterLocation, setFilterLocation] = useState(stateParam);
+  const [dropdown, setDropdown] = useState(() => {
+    return updateStateDropdown(
+      showMultipleNames([], nameParam), // Initial empty results
+      filterLocation, // Use URL param as initial value
+    );
+  });
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      dispatch(fetchLicenseCertificationResults());
+    }
+  }, []);
 
-  const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
-    state => state.licenseCertificationSearch,
+  useEffect(
+    () => {
+      if (allowUpdate) {
+        dispatch(
+          filterLcResults(
+            nameParam ?? '',
+            categoryParams,
+            dropdown.current.optionValue,
+          ),
+        );
+        // dispatch(filterLcResults(nameParam, categoryParams, locationValue));
+      }
+
+      return () => {
+        setAllowUpdate(false);
+      };
+    },
+    [categoryParams, allowUpdate],
+  );
+
+  useEffect(
+    () => {
+      const newDropdowns = updateStateDropdown(
+        showMultipleNames(filteredResults, nameParam),
+        filterLocation,
+      );
+
+      setDropdown(newDropdowns);
+    },
+    [filterLocation, filteredResults, nameParam],
+  );
+
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+  const currentResults = filteredResults.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
   );
 
   const handleSearch = (categories, name, state) => {
@@ -85,47 +134,8 @@ export default function LicenseCertificationSearchResults() {
     handleLcResultsSearch(history, newParams.category, name, state);
   };
 
-  const [dropdown, setDropdown] = useState(
-    updateStateDropdown(showMultipleNames(filteredResults, nameParam)),
-  );
-
-  useEffect(() => {
-    if (!hasFetchedOnce) {
-      dispatch(fetchLicenseCertificationResults());
-    }
-  }, []);
-
-  useEffect(
-    () => {
-      if (allowUpdate) {
-        dispatch(filterLcResults('', categoryParams, 'all'));
-        // dispatch(filterLcResults(nameParam, categoryParams, locationValue));
-      }
-
-      return () => {
-        setAllowUpdate(false);
-      };
-    },
-    [categoryParams, allowUpdate],
-  );
-
-  // useLcpFilter({
-  //   flag,
-  //   name: nameParam,
-  //   categoryValues: activeCategories,
-  //   locationValue: stateParam,
-  // });
-
-  const itemsPerPage = 10;
-
-  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
-  const currentResults = filteredResults.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
   const handleChange = e => {
-    setDropdown(updateStateDropdown(e.target.value));
+    setFilterLocation(e.target.value);
   };
 
   useEffect(() => {
@@ -169,52 +179,6 @@ export default function LicenseCertificationSearchResults() {
   // TODO
   // add separate loading spinners for both results and filter containers
 
-  const renderStateFilter = () => {
-    return (
-      <>
-        <h3 className="vads-u-margin-bottom--0">State</h3>
-        <Dropdown
-          label="Applies to only license and prep course category type. Certifications are available nationwide."
-          name={dropdown.label}
-          alt="Filter results by state"
-          options={dropdown.options}
-          value={dropdown.current.optionLabel}
-          onChange={handleChange}
-          className="state-dropdown"
-          visible
-        />
-      </>
-    );
-  };
-
-  const categoryTypeFilter = options => {
-    // on mount make checked state of each option reflect filter options from current page
-    // on checkbox click make reflect updated options in filter logic
-
-    return (
-      <>
-        <VaCheckboxGroup
-          onVaChange={e => handleCheckboxGroupChange(e)}
-          options={options}
-          label="Category"
-          label-header-level="3"
-          class="vads-u-margin-top--0"
-        >
-          {options.map((option, index) => {
-            return (
-              <va-checkbox
-                key={index}
-                label={option.label}
-                name={option.name}
-                checked={option.checked}
-              />
-            );
-          })}
-        </VaCheckboxGroup>
-      </>
-    );
-  };
-
   const renderSearchInfo = () => {
     return (
       <>
@@ -230,18 +194,22 @@ export default function LicenseCertificationSearchResults() {
           );
         })}
         <span className="info-option">
-          "<strong>{nameParam}</strong>"{' '}
+          "<strong>{nameParam}</strong>
+          ",{' '}
+        </span>
+        <span className="info-option">
+          "
+          <strong>
+            {
+              mappedStates.find(state => stateParam === state.optionValue)
+                .optionLabel
+            }
+          </strong>
+          "{' '}
         </span>
       </>
     );
   };
-
-  const filterControls = (
-    <div>
-      {categoryTypeFilter(categoryCheckboxes)}
-      {renderStateFilter()}
-    </div>
-  );
 
   return (
     <div>
@@ -254,7 +222,12 @@ export default function LicenseCertificationSearchResults() {
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
         {error && (
           <div className="row">
-            <LicesnseCertificationServiceError />
+            <LicesnseCertificationServiceError
+              categoryCheckboxes={categoryCheckboxes}
+              handleCheckboxGroupChange={handleCheckboxGroupChange}
+              dropdown={dropdown}
+              handleDropdownChange={handleChange}
+            />
           </div>
         )}
         {!fetchingLc &&
@@ -308,7 +281,15 @@ export default function LicenseCertificationSearchResults() {
                             )
                           }
                         >
-                          {filterControls}
+                          <FilterControls
+                            categoryCheckboxes={categoryCheckboxes}
+                            handleCheckboxGroupChange={
+                              handleCheckboxGroupChange
+                            }
+                            dropdown={dropdown}
+                            handleDropdownChange={handleChange}
+                            filterLocation={filterLocation}
+                          />
                         </LicenseCertificationFilterAccordion>
                       </div>
                     </div>

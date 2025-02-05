@@ -693,7 +693,7 @@ export const updateCategoryDropdown = (
   };
 };
 
-export const updateStateDropdown = (multiples = []) => {
+export const updateStateDropdown = (multiples = [], selected = 'all') => {
   return {
     label: 'State',
     options:
@@ -708,18 +708,23 @@ export const updateStateDropdown = (multiples = []) => {
             ),
           ],
     alt: 'state',
-    current: { optionValue: 'all', optionLabel: 'All' },
+    current:
+      selected === 'all'
+        ? { optionValue: 'all', optionLabel: 'All' }
+        : {
+            ...mappedStates.find(state => state.optionValue === selected),
+          },
   };
 };
 
 export const showMultipleNames = (suggestions, nameInput) => {
-  if (suggestions) {
+  if (suggestions && nameInput) {
     return suggestions.filter(
       suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
     );
   }
 
-  return null;
+  return [];
 };
 
 export const categoryCheck = type => {

@@ -109,6 +109,7 @@ export default function LicenseCertificationSearchForm({
                 onClick={() =>
                   handleReset(() => {
                     setName('');
+                    setDropdown(updateCategoryDropdown());
                   })
                 }
               />
