@@ -9,17 +9,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'gi_comparison_tool_programs_toggle_flag',
-            value: true,
-          },
-        ],
-      },
-    });
+
     // .as('featureToggles');
     cy.intercept(
       'GET',
@@ -450,6 +440,17 @@ describe('GI Bill Comparison Tool - Programs List', () => {
         ],
       },
     );
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'gi_comparison_tool_programs_toggle_flag',
+            value: true,
+          },
+        ],
+      },
+    });
     // .as('institutionPrograms');
 
     // cy.visit(
