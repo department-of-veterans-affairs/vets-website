@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes, { number } from 'prop-types';
 import React from 'react';
 
 import {
@@ -131,7 +131,6 @@ class AddFilesForm extends React.Component {
         errorMessage: `The file you selected is larger than the ${maxSize}MB maximum file size and could not be added.`,
       });
     } else if (isEmptyFileSize(file)) {
-
       this.setState({
         errorMessage:
           'The file you selected is empty. Files uploaded must be larger than 0B.',
@@ -139,43 +138,53 @@ class AddFilesForm extends React.Component {
     }
   };
 
-  changeFiles = async files => {
-    // Find changed file - only one file will have changed set to true
-    const filesDeleted =
-      files.length < this.props.files.length || files.length === 0;
+  conditionalMarkupArray = () => {
+    return this.props.files
+      .map(({ isEncrypted }, index) => {
+        if (isEncrypted) {
+          return index;
+        }
+        return undefined;
+      })
+      .filter(x => typeof x === 'number');
+  };
 
-    let changedFile = null;
+  changeFileEvent = async event => {
     let componentFiles = [];
     let propFiles = [];
+    const noFiles = event.state.length === 0;
 
-    if (files.length > 0) {
-      changedFile = files.find(file => file.changed);
-      componentFiles = files.map((x, index) => {
-        return { index: index, name: x.file.name };
+    if (event.state.length > 0) {
+      // changedFile = event.state.find(file => file.changed);
+      componentFiles = event.state.map((x, index) => {
+        return { index, name: x.file.name };
       });
+
       propFiles = this.props.files.map((x, index) => {
-        return { index: index, name: x.file.name };
+        return { index, name: x.file.name };
       });
     }
 
-    if (!filesDeleted && changedFile.changed) {
-      // add changed file
-      const file = changedFile.file;
-      await this.validateFile(file);
-    } else if (filesDeleted && files.length === 0) {
-      // file is deleted and there was only one file
-      this.props.onRemoveFile(0);
-    } else {
-      // file is deleted and there are other files, find the diff and delete
-      // files [file1, file3]
-      // prop.files [file1, file2, file3]
-      // loop through propFiles and find difference
-      const fileToDelete = propFiles.filter(x => !componentFiles.includes(x));
+    if (event.action === 'FILE_ADDED') {
+      await this.validateFile(event.file);
+    }
 
-      //TODO due to bug with vaChange running 2x, fileToDelete can return more then one item, so we have to loop
-      fileToDelete.forEach(file => {
-        this.props.onRemoveFile(file.index);
-      });
+    if (event.action === 'FILE_UPDATED' || event.action === 'FILE_REMOVED') {
+      if (event.action === 'FILE_REMOVED' && noFiles) {
+        this.props.onRemoveFile(0);
+      } else {
+        const fileToDelete = propFiles.filter(propFile => {
+          return componentFiles.some(
+            componentFile => propFile.name !== componentFile.name,
+          );
+        });
+
+        this.props.onRemoveFile(fileToDelete[0].index);
+        if (event.action === 'FILE_UPDATED') {
+          // add new file
+          await this.validateFile(event.file);
+        }
+      }
     }
   };
 
@@ -202,11 +211,95 @@ class AddFilesForm extends React.Component {
     });
   };
 
+  additionalFormInputsContent = () => {
+    console.log('test', this.props.files);
+    return (
+      <>
+        {this.props.files.map(
+          ({ file, docType, isEncrypted, password }, index) => (
+            <div key={index} className="document-item-container">
+              <Element name={`documentScroll${index}`} />
+              <div>
+                <div className="document-title-row">
+                  <div className="document-title-text-container">
+                    <div>
+                      <span
+                        className="document-title"
+                        data-dd-privacy="mask"
+                        data-dd-action-name="document title"
+                      >
+                        {file.name}
+                      </span>
+                    </div>
+                    <div>{displayFileSize(file.size)}</div>
+                  </div>
+                  <div className="remove-document-button">
+                    <va-button
+                      secondary
+                      text="Remove"
+                      onClick={() => {
+                        this.removeFileConfirmation(index, file.name);
+                      }}
+                    />
+                  </div>
+                </div>
+                {isEncrypted && (
+                  <>
+                    <p className="clearfix">
+                      This is an encrypted PDF document. In order for us to be
+                      able to view the document, we will need the password to
+                      decrypt it.
+                    </p>
+                    <VaTextInput
+                      required
+                      error={
+                        validateIfDirty(password, isNotBlank)
+                          ? undefined
+                          : 'Please provide a password to decrypt this file'
+                      }
+                      label="PDF password"
+                      name="password"
+                      onInput={e =>
+                        this.handlePasswordChange(e.target.value, index)
+                      }
+                    />
+                  </>
+                )}
+                <VaSelect
+                  required
+                  error={
+                    validateIfDirty(docType, isNotBlank)
+                      ? undefined
+                      : 'Please provide a response'
+                  }
+                  name="docType"
+                  label="What type of document is this?"
+                  value={docType}
+                  onVaSelect={e =>
+                    this.handleDocTypeChange(e.detail.value, index)
+                  }
+                >
+                  {DOC_TYPES.map(doc => (
+                    <option key={doc.value} value={doc.value}>
+                      {doc.label}
+                    </option>
+                  ))}
+                </VaSelect>
+              </div>
+            </div>
+          ),
+        )}
+      </>
+    );
+  };
+
   render() {
+    const slotIndex = JSON.stringify(this.conditionalMarkupArray());
+    console.log({ slotIndex });
     const showUploadModal =
       this.props.uploading && this.state.canShowUploadModal;
     const testContent = (
-      <div>
+      <div id="peri-rocks">
         <va-select label="What kind of file is this?" required>
           <option key="1" value="1">
             Public Document
@@ -329,12 +422,88 @@ class AddFilesForm extends React.Component {
             label="Upload additional evidence"
             hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
             accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-            onVaMultipleChange={e => this.changeFiles(e.detail)}
+            onVaMultipleChange={e => this.changeFileEvent(e.detail)}
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
+            slotFieldIndexes={slotIndex}
           >
-            {testContent}
+            <>
+              {this.props.files.map(
+                ({ file, docType, isEncrypted, password }, index) => (
+                  <div key={index} className="document-item-container">
+                    <Element name={`documentScroll${index}`} />
+                    <div>
+                      <div className="document-title-row">
+                        <div className="document-title-text-container">
+                          <div>
+                            <span
+                              className="document-title"
+                              data-dd-privacy="mask"
+                              data-dd-action-name="document title"
+                            >
+                              {file.name}
+                            </span>
+                          </div>
+                          <div>{displayFileSize(file.size)}</div>
+                        </div>
+                        <div className="remove-document-button">
+                          <va-button
+                            secondary
+                            text="Remove"
+                            onClick={() => {
+                              this.removeFileConfirmation(index, file.name);
+                            }}
+                          />
+                        </div>
+                      </div>
+                      {isEncrypted && (
+                        <>
+                          <p className="clearfix">
+                            This is an encrypted PDF document. In order for us
+                            to be able to view the document, we will need the
+                            password to decrypt it.
+                          </p>
+                          <VaTextInput
+                            required
+                            error={
+                              validateIfDirty(password, isNotBlank)
+                                ? undefined
+                                : 'Please provide a password to decrypt this file'
+                            }
+                            label="PDF password"
+                            name="password"
+                            onInput={e =>
+                              this.handlePasswordChange(e.target.value, index)
+                            }
+                          />
+                        </>
+                      )}
+                      <VaSelect
+                        required
+                        error={
+                          validateIfDirty(docType, isNotBlank)
+                            ? undefined
+                            : 'Please provide a response'
+                        }
+                        name="docType"
+                        label="What type of document is this?"
+                        value={docType}
+                        onVaSelect={e =>
+                          this.handleDocTypeChange(e.detail.value, index)
+                        }
+                      >
+                        {DOC_TYPES.map(doc => (
+                          <option key={doc.value} value={doc.value}>
+                            {doc.label}
+                          </option>
+                        ))}
+                      </VaSelect>
+                    </div>
+                  </div>
+                ),
+              )}
+            </>
           </VaFileInputMultiple>
         </div>
         <VaButton

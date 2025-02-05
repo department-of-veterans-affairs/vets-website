@@ -6,7 +6,7 @@
     "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
   },
   "dependencies": {
-    "@department-of-veterans-affairs/component-library": "^48.0.2"
+    "@department-of-veterans-affairs/component-library": "^49.1.1"
   },
   "peerDependencies": {
     "react": "*",
