@@ -4,6 +4,9 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
 export const FETCH_TRAVEL_CLAIMS_FAILURE = 'FETCH_TRAVEL_CLAIMS_FAILURE';
+export const FETCH_APPOINTMENT_STARTED = 'FETCH_APPOINTMENT_STARTED';
+export const FETCH_APPOINTMENT_SUCCESS = 'FETCH_APPOINTMENT_SUCCESS';
+export const FETCH_APPOINTMENT_FAILURE = 'FETCH_APPOINTMENT_FAILURE';
 
 const fetchTravelClaimsStart = () => ({ type: FETCH_TRAVEL_CLAIMS_STARTED });
 const fetchTravelClaimsSuccess = data => ({
@@ -26,6 +29,31 @@ export function getTravelClaims() {
       dispatch(fetchTravelClaimsSuccess(response.data));
     } catch (error) {
       dispatch(fetchTravelClaimsFailure(error));
+    }
+  };
+}
+
+const fetchAppointmentStart = () => ({ type: FETCH_APPOINTMENT_STARTED });
+const fetchAppointmentSuccess = data => ({
+  type: FETCH_APPOINTMENT_SUCCESS,
+  payload: data,
+});
+const fetchAppointmentFailure = error => ({
+  type: FETCH_APPOINTMENT_FAILURE,
+  error,
+});
+
+export function getAppointmentData(apptId) {
+  return async dispatch => {
+    dispatch(fetchAppointmentStart());
+    try {
+      const apptUrl = `${
+        environment.API_URL
+      }/vaos/v2/appointment/${apptId}?_include=facilities,travel_pay_claims`;
+      const response = await apiRequest(apptUrl);
+      dispatch(fetchAppointmentSuccess(response.data.attributes));
+    } catch (error) {
+      dispatch(fetchAppointmentFailure(error));
     }
   };
 }

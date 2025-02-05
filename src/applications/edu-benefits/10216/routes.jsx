@@ -7,7 +7,7 @@ import AboutPage from './components/AboutPage';
 const route = [
   {
     path: '/',
-    component: props => <AboutPage props={props} />,
+    component: props => <AboutPage aboutProps={props} />,
   },
   {
     path: '/',

@@ -20,3 +20,8 @@ export const PRODUCT_GROUPS = freeze({
   BATTERIES: 'batteries',
   APNEA: 'apnea',
 });
+
+export const PAGE_PATH = freeze({
+  CONTACT_INFORMATION: '/contact-information',
+  REVIEW_AND_SUBMIT: '/review-and-submit',
+});

@@ -1,46 +1,114 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import UnsavedFieldNote from './UnsavedFieldNote';
+import { PAGE_PATH } from '../constants';
 
-const EditEmail = ({ data, goToPath, setFormData }) => {
-  const [email, setEmail] = useState(data.emailAddress || '');
+/** @type {CustomPageType} */
+const EditEmail = props => {
+  const {
+    data,
+    formContext,
+    goToPath,
+    name,
+    onSubmit,
+    onReviewPage,
+    setFormData,
+    title,
+    updatePage,
+    uiSchema,
+    schema,
+  } = props;
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    setFormData({ ...data, emailAddress: email });
-    goToPath('/contact-information');
+  const [localData, setLocalData] = useState({
+    emailAddress: data.emailAddress,
+  });
+
+  const handlers = {
+    onUpdateReview: () => {
+      if (!document.querySelector('va-text-input[error]')) {
+        setFormData({ ...data, ...localData });
+        updatePage();
+      }
+    },
+    onCancelReview: () => {
+      updatePage();
+    },
+    onCancel: () => {
+      goToPath(PAGE_PATH.CONTACT_INFORMATION);
+    },
+    onChange: formData => {
+      setLocalData({ ...localData, ...formData });
+    },
+    onSubmit: () => {
+      setFormData({ ...data, ...localData });
+      onSubmit({ formData: { ...data, ...localData } });
+    },
   };
-
   return (
     <div>
-      <h2>Order medical supplies</h2>
-      <h3>Contact information</h3>
       <UnsavedFieldNote fieldName="email address" />
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email-input">Edit email address (Required)</label>
-        <input
-          id="email-input"
-          type="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          required
-        />
-        <div>
-          <va-button
-            text="Update"
-            onClick={handleSubmit}
-            type="submit"
-            className="usa-button"
-          />
-          <va-button
-            text="Cancel"
-            type="button"
-            className="usa-button-secondary"
-            onClick={() => goToPath('/contact-information')}
-          />
+      <SchemaForm
+        name={name}
+        title={title}
+        data={localData}
+        uiSchema={uiSchema}
+        schema={schema}
+        formContext={formContext}
+        onSubmit={handlers.onSubmit}
+        onChange={handlers.onChange}
+      >
+        <div className="vads-u-margin-y--2">
+          {onReviewPage ? (
+            <>
+              <va-button
+                text="Update Page"
+                onClick={handlers.onUpdateReview}
+                class="vads-u-width--full vads-u-margin-bottom--2"
+              />
+              <va-button
+                text="Cancel"
+                onClick={handlers.onCancelReview}
+                secondary
+                class="vads-u-width--full vads-u-margin-bottom--2"
+              />
+            </>
+          ) : (
+            <>
+              <va-button
+                text="Update"
+                submit="prevent"
+                class="vads-u-width--full vads-u-margin-bottom--2"
+              />
+              <va-button
+                text="Cancel"
+                onClick={handlers.onCancel}
+                secondary
+                class="vads-u-width--full vads-u-margin-bottom--2"
+              />
+            </>
+          )}
         </div>
-      </form>
+      </SchemaForm>
     </div>
   );
+};
+
+EditEmail.propTypes = {
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  appStateData: PropTypes.object,
+  data: PropTypes.object,
+  defaultEditButton: PropTypes.func,
+  formContext: PropTypes.object,
+  goToPath: PropTypes.func,
+  name: PropTypes.string,
+  setFormData: PropTypes.func,
+  title: PropTypes.string,
+  trackingPrefix: PropTypes.string,
+  updatePage: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+  onSubmit: PropTypes.func,
 };
 
 export default EditEmail;

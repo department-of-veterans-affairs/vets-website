@@ -158,7 +158,6 @@
   "mhvSecureMessagingRecipientCombobox": "mhv_secure_messaging_recipient_combobox",
   "mhvSecureMessagingRemoveLandingPage": "mhv_secure_messaging_remove_landing_page",
   "mhvSecureMessagingSignatureSettings": "mhv_secure_messaging_signature_settings",
-  "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "militaryBenefitEstimates": "military_benefit_estimates",
   "myVaEnableMhvLink": "my_va_enable_mhv_link",
@@ -308,5 +307,6 @@
   "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
-  "toggleGiProgramsFlag": "toggle_gi_programs_flag"
+  "toggleGiProgramsFlag": "toggle_gi_programs_flag",
+  "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
 }

@@ -4,11 +4,15 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { housingRiskTitle } from '../content/livingSituation';
+import { UpdatedPagesAlert } from '../content/formMessages';
 
 import { isOnReviewPage } from '../../shared/utils/helpers';
 
 export default {
   uiSchema: {
+    'view:housingRisk': {
+      'ui:description': UpdatedPagesAlert,
+    },
     housingRisk: yesNoUI({
       title: housingRiskTitle,
       classNames: 'vads-u-margin-bottom--4',
@@ -28,6 +32,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:housingRisk': {
+        type: 'object',
+        properties: {},
+      },
       housingRisk: yesNoSchema,
     },
   },
