@@ -92,6 +92,14 @@ describe('useTransformForReview', () => {
         last: 'Doe',
       };
 
+      const renderResult = render(
+        <Provider store={mockStore}>
+          <TestComponent {...props} />
+        </Provider>,
+      );
+
+      container = renderResult.container;
+
       const content = container.querySelector('div');
       expect(content.textContent).to.contain('Your informationFirst nameJane');
       expect(content.textContent).to.contain('123-45-6789');
