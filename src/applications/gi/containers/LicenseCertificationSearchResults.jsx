@@ -25,25 +25,37 @@ import LicenseCertificationFilterAccordion from '../components/LicenseCertificat
 import FilterControls from '../components/FilterControls';
 
 const checkboxMap = (categories, checkedList) => {
+  const valuesToCheck = ['license', 'certification', 'prep course'];
+
+  const allValuesIncluded = valuesToCheck.every(value =>
+    checkedList.includes(value),
+  );
+
   return [
     {
       name: categories[0],
-      checked: checkedList.includes(categories[0]),
+      checked: checkedList.includes(categories[0]) || allValuesIncluded,
       label: capitalizeFirstLetter(categories[0]),
     },
     {
       name: categories[1],
-      checked: checkedList.includes(categories[1]),
+      checked:
+        checkedList.includes(categories[1]) ||
+        checkedList.includes(categories[0]),
       label: capitalizeFirstLetter(categories[1]),
     },
     {
       name: categories[2],
-      checked: checkedList.includes(categories[2]),
+      checked:
+        checkedList.includes(categories[2]) ||
+        checkedList.includes(categories[0]),
       label: capitalizeFirstLetter(categories[2]),
     },
     {
       name: categories[3],
-      checked: checkedList.includes(categories[3]),
+      checked:
+        checkedList.includes(categories[3]) ||
+        checkedList.includes(categories[0]),
       label: capitalizeFirstLetter(categories[3]),
     },
   ];
@@ -87,14 +99,7 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       if (hasFetchedOnce) {
-        dispatch(
-          filterLcResults(
-            nameParam ?? '',
-            categoryParams,
-            stateParam,
-            // dropdown.current.optionValue,
-          ),
-        );
+        dispatch(filterLcResults(nameParam ?? '', categoryParams, stateParam));
       }
     },
     [hasFetchedOnce, stateParam],
@@ -181,6 +186,13 @@ export default function LicenseCertificationSearchResults() {
     const { name, checked } = e.target;
 
     const updatedCheckboxes = categoryCheckboxes.map(categoryCheckbox => {
+      if (name === 'all' && checked) {
+        return {
+          ...categoryCheckbox,
+          checked,
+        };
+      }
+
       if (categoryCheckbox.label.toLowerCase() !== name) {
         return categoryCheckbox;
       }
@@ -193,20 +205,41 @@ export default function LicenseCertificationSearchResults() {
     setCategoryCheckboxes(updatedCheckboxes);
   };
 
+  const handleResetSearch = () => {
+    setCategoryCheckboxes(checkboxMap(lacpCategoryList, 'all'));
+    setFilterLocation('all');
+  };
+
   const renderSearchInfo = () => {
+    const valuesToCheck = ['license', 'certification', 'prep course'];
+
+    const allValuesIncluded = valuesToCheck.every(value =>
+      categoryParams.includes(value),
+    );
+
     return (
       <>
-        {categoryParams.map((category, index) => {
-          return (
-            <span className="info-option vads-u-padding-right--0p5" key={index}>
-              "
-              <strong key={index}>
-                {capitalizeFirstLetter(category, ['course'])}
-              </strong>
-              ",
-            </span>
-          );
-        })}
+        {allValuesIncluded ? (
+          <span className="info-option vads-u-padding-right--0p5">
+            "<strong>All</strong>
+            ",
+          </span>
+        ) : (
+          categoryParams.map((category, index) => {
+            return (
+              <span
+                className="info-option vads-u-padding-right--0p5"
+                key={index}
+              >
+                "
+                <strong key={index}>
+                  {capitalizeFirstLetter(category, ['course'])}
+                </strong>
+                ",
+              </span>
+            );
+          })
+        )}
         <span className="info-option">
           "<strong>{nameParam}</strong>
           ",{' '}
@@ -314,7 +347,9 @@ export default function LicenseCertificationSearchResults() {
                     </p>
                   ) : (
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
-                      {`There is no ${activeCategories} available in the state of ${stateParam}`}
+                      {activeCategories.length > 1
+                        ? `There is no ${activeCategories} available in the state of ${stateParam}`
+                        : `Please update the filter options to show results.`}
                     </p>
                   )}
                 </div>
@@ -331,8 +366,8 @@ export default function LicenseCertificationSearchResults() {
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
-                        button="Filter your results"
-                        buttonLabel="Filter your results"
+                        button="Update Search"
+                        buttonLabel="Update Search"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
                           handleSearch(
@@ -343,6 +378,7 @@ export default function LicenseCertificationSearchResults() {
                             dropdown.current.optionValue,
                           )
                         }
+                        resetSearch={handleResetSearch}
                       >
                         <FilterControls
                           categoryCheckboxes={categoryCheckboxes}

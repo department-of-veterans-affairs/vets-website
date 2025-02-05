@@ -17,6 +17,7 @@ export default function LicenseCertificationFilterAccordion({
   headerClass,
   ariaDescribedBy,
   expanded,
+  resetSearch,
 }) {
   const [isExpanded, setExpanded] = useState(expanded);
 
@@ -99,10 +100,9 @@ export default function LicenseCertificationFilterAccordion({
             onClick={buttonOnClick}
             aria-describedby={ariaDescribedBy}
             text={buttonLabel}
-            data-testid="update-estimates"
           />
           <ClearFiltersBtn
-            // onClick={() => console.log('reset filters')}
+            onClick={resetSearch}
             className={`clear-filters-button-after ${clearFiltersButton}`}
           />
         </div>
