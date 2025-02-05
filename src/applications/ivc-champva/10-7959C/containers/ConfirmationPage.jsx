@@ -52,14 +52,13 @@ const optionalWarningHeading = (
 
 const mailPreamble = (
   <>
-    <a
+    <va-link
       rel="noreferrer"
       href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your"
-      target="_blank"
-    >
-      Learn more about the supporting documents you need to submit (opens in a
-      new tab)
-    </a>
+      external
+      text="Learn more about the supporting documents you need to submit (opens in a
+      new tab)"
+    />
 
     <p>
       Write the sponsor’s first and last name and last four digits of their
