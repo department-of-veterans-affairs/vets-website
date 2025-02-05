@@ -1,5 +1,6 @@
 import React from 'react';
 
+// intro page
 export const behaviorPageTitle = 'Behavioral changes';
 
 export const behaviorIntroDescription = (
@@ -36,6 +37,22 @@ export const behaviorIntroDescription = (
   </>
 );
 
+// combat-only intro page
+export const behaviorIntroCombatDescription = (
+  <>
+    <p>
+      The next few questions are about behavioral changes you experienced after
+      your traumatic experiences
+    </p>
+    <p>
+      Since you said your traumatic experiences were related to combat only,
+      these questions are optional. You don’t need to answer them. If we need
+      more information, we’ll contact you after you submit your claim.
+    </p>
+  </>
+);
+
+// behavior list page
 export const behaviorListPageTitle = 'Types of behavioral changes';
 
 export const behaviorListDescription = (
@@ -47,23 +64,6 @@ export const behaviorListDescription = (
     <p>
       It’s also okay if you don’t report any behavioral changes. You can skip
       this question if you don’t feel comfortable answering.
-    </p>
-  </>
-);
-
-export const behaviorListNoneLabel =
-  'I didn’t experience any of these behavioral changes.';
-
-export const behaviorIntroCombatDescription = (
-  <>
-    <p>
-      The next few questions are about behavioral changes you experienced after
-      your traumatic experiences
-    </p>
-    <p>
-      Since you said your traumatic experiences were related to combat only,
-      these questions are optional. You don’t need to answer them. If we need
-      more information, we’ll contact you after you submit your claim.
     </p>
   </>
 );
@@ -83,6 +83,9 @@ export const behaviorListAdditionalInformation = (
     </div>
   </va-additional-info>
 );
+
+export const behaviorListNoneLabel =
+  'I didn’t experience any of these behavioral changes.';
 
 export const behaviorListValidationError = (
   <va-alert status="error" uswds>
@@ -161,3 +164,17 @@ export function validateBehaviorSelections(errors, formData) {
     }
   }
 }
+
+// behavior description pages
+export const behaviorDescriptionPageDescription =
+  'Describe the behavioral change you experienced. (Optional)';
+export const otherDescriptionPageDescription =
+  'Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided';
+
+export const behaviorDescriptionPageHint =
+  'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
+
+export const reassignmentPageTitle =
+  'Request for a change in occupational series or duty assignment';
+
+export const otherPageTitle = 'Other behavioral changes';
