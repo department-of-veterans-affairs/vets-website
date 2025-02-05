@@ -324,30 +324,41 @@ const responses = {
   },
 
   // EPS api
-  'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
+  'GET /vaos/v2/epsApi/referrals': (req, res) => {
     return res.json({
       data: referralUtils.createReferrals(4, '2024-12-02'),
     });
   },
-  'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
-    let expiredReferrals = 0;
+  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
     if (req.params.referralId === 'error') {
       return res.status(500).json({ error: true });
     }
 
     if (req.params.referralId?.startsWith(referralUtils.expiredUUIDBase)) {
-      expiredReferrals = 1;
+      const yesterday = moment()
+        .subtract(1, 'days')
+        .format('YYYY-MM-DD');
+      const expiredReferral = referralUtils.createReferralById(
+        '2024-12-02',
+        req.params.referralId,
+        '111',
+        yesterday,
+      );
+      return res.json({
+        data: expiredReferral,
+      });
     }
-    const referrals = referralUtils.createReferrals(
-      3,
+    const tomorrow = moment()
+      .add(1, 'days')
+      .format('YYYY-MM-DD');
+    const referral = referralUtils.createReferralById(
       '2024-12-02',
-      expiredReferrals,
-    );
-    const singleReferral = referrals.find(
-      referral => referral?.UUID === req.params.referralId,
+      req.params.referralId,
+      '111',
+      tomorrow,
     );
     return res.json({
-      data: singleReferral ?? {},
+      data: referral,
     });
   },
   'GET /vaos/v2/epsApi/providerDetails/:providerId': (req, res) => {
