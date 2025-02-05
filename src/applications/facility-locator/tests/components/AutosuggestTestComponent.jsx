@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import Autosuggest from '../../components/Autosuggest';
 
 export default function AutosuggestTestComponent({ keepDataOnBlur = false }) {
-  const [iv, setIv] = useState('beginning input');
+  const [value, setValue] = useState('beginning input');
   const handleInputChange = e => {
-    setIv(e.inputValue);
+    setValue(e.inputValue);
   };
 
   return (
     <Autosuggest
       inputId="any"
-      inputValue={iv}
+      inputValue={value}
       onInputValueChange={handleInputChange}
       handleOnSelect={() => {}}
       label={<div>any label</div>}

@@ -105,8 +105,6 @@ export const searchCriteraFromCoords = async (longitude, latitude) => {
       types: ['address'],
     })
     .send();
-  // TODO: display error message if geolocation fails?
-  // .catch(error => error);
 
   const { features } = response.body;
   const placeName = features[0].place_name;
