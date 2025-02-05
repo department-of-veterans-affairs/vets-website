@@ -3,6 +3,7 @@ import { expect } from 'chai';
 
 import { renderWithProfileReducersAndRouter } from '@@profile/tests/unit-test-helpers';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { PROFILE_PATHS } from '../../../constants';
 
 function createInitialState(
@@ -157,12 +158,10 @@ describe('<PersonalInformation />', () => {
 
     // eslint-disable-next-line dot-notation
     featureToggles['mhv_secure_messaging_signature_settings'] = true;
-
     const screen = setup(
       { toggles: { ...featureToggles } },
       { ...defaultMessagingSignature, service: 'messaging' },
     );
-    screen.debug(undefined, 10000);
     const messagingSignatureSection = screen.getByTestId('messagingSignature');
 
     expect(messagingSignatureSection.innerHTML).to.contain('Abraham Lincoln');
@@ -180,11 +179,19 @@ describe('<PersonalInformation />', () => {
     // eslint-disable-next-line dot-notation
     featureToggles['mhv_secure_messaging_signature_settings'] = true;
 
+    mockApiRequest({
+      data: {
+        attributes: {
+          signatureName: 'Abraham Lincoln',
+          signatureTitle: 'Veteran',
+          includeSignature: true,
+        },
+      },
+    });
     const screen = setup(
       { toggles: { ...featureToggles } },
       defaultMessagingSignature,
     );
-    screen.debug(undefined, 10000);
     const messagingSignatureSection = screen.queryByTestId(
       'messagingSignature',
     );

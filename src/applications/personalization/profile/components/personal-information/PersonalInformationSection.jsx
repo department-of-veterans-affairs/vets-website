@@ -36,6 +36,9 @@ const PersonalInformationSection = ({ dob }) => {
     state => state.featureToggles.mhv_secure_messaging_signature_settings,
   );
   const userServices = useSelector(state => state.user.profile.services);
+  const isMessagingServiceEnabled = userServices.includes(
+    backendServices.MESSAGING,
+  );
 
   const messagingSignature = useSelector(
     state => state.user?.profile?.mhvAccount?.messagingSignature,
@@ -43,9 +46,10 @@ const PersonalInformationSection = ({ dob }) => {
 
   useEffect(
     () => {
-      dispatch(getMessagingSignature());
+      if (isMessagingServiceEnabled && messagingSignature === undefined)
+        dispatch(getMessagingSignature());
     },
-    [dispatch],
+    [dispatch, isMessagingServiceEnabled, messagingSignature],
   );
 
   const updatedCardFields = useMemo(
@@ -87,10 +91,10 @@ const PersonalInformationSection = ({ dob }) => {
       ];
 
       if (
-        messagingSignature?.signatureName &&
-        messagingSignature?.signatureTitle &&
         messagingSignatureEnabled &&
-        userServices.includes(backendServices.MESSAGING)
+        isMessagingServiceEnabled &&
+        messagingSignature?.signatureName &&
+        messagingSignature?.signatureTitle
       ) {
         return [
           ...cardFields,
