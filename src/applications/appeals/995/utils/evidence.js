@@ -98,18 +98,22 @@ export const onFormLoaded = props => {
   let { returnUrl } = props;
   const { formData, router } = props;
   const { locations = [] } = formData;
+
+  // New SC form data flow
   if (showScNewForm(formData)) {
+    // Redirect Veteran to housing-risk page (second page in the flow), if
+    // needed
     returnUrl = checkRedirect(formData, returnUrl);
 
+    // Convert in progress VA location evidenceDates (YYYY-MM-DD) to
+    // treatmentDate (YYYY-MM), or set the no date checkbox if the evidence
+    // "from" date is undefined
     if (locations.length) {
       formData.locations = locations.map(location => {
         if (!location.treatmentDate) {
           const from = location.evidenceDates?.from || '';
-          const treatmentDate = (from || '').substring(
-            0,
-            from.lastIndexOf('-'),
-          );
-          const noDate = !treatmentDate;
+          const treatmentDate = from.substring(0, from.lastIndexOf('-')).trim();
+          const noDate = treatmentDate === '';
           return {
             ...location,
             treatmentDate,
@@ -121,5 +125,4 @@ export const onFormLoaded = props => {
     }
   }
   router?.push(returnUrl);
-  // return formData; // for testing only
 };
