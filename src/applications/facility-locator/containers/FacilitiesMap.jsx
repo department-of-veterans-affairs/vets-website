@@ -10,8 +10,6 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import SegmentedControl from '../components/SegmentedControl';
 import {
   clearSearchText,
@@ -29,6 +27,7 @@ import {
   facilitiesPpmsSuppressAll,
   facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
+  facilityLocatorMobileMapUpdate,
 } from '../utils/featureFlagSelectors';
 import NoResultsMessage from '../components/NoResultsMessage';
 import ResultsList from '../components/ResultsList';
@@ -743,9 +742,7 @@ const FacilitiesMap = props => {
 };
 
 const mapStateToProps = state => ({
-  facilityLocatorMobileMapUpdate: toggleValues(state)[
-    FEATURE_FLAG_NAMES.facilityLocatorMobileMapUpdate
-  ],
+  facilityLocatorMobileMapUpdate: facilityLocatorMobileMapUpdate(state),
   currentQuery: state.searchQuery,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
