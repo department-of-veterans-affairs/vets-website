@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/no-identical-expressions */
+
 import React, { useMemo } from 'react';
 import { convertRepType } from '../utilities/helpers';
 
@@ -62,17 +64,15 @@ export function useTransformForReview(formData) {
         {renderField('VA file number', veteran.vaFileNumber)}
         {renderField('Date of birth', veteran.dateOfBirth)}
         {renderField('Relationship', veteran.relationship)}
-
         {renderField('Primary number', veteran.phone)}
         {renderField('Email address', veteran.email)}
-
         <p className="light-gray">Mailing address</p>
-        {veteran.street ? <p>{veteran.street}</p> : null}
-        {veteran.street2 ? <p>{veteran.street2} </p> : null}
+        {veteran.street && <p>{veteran.street}</p>}
+        {veteran.street2 && <p>{veteran.street2} </p>}
         <p>
-          {veteran.city ? veteran.city : null}
-          {veteran.state ? `, ${veteran.state}` : null}{' '}
-          {veteran.postalCode ? veteran.postalCode : null}
+          {veteran.city && veteran.city}
+          {veteran.state && `, ${veteran.state}`}{' '}
+          {veteran.postalCode && veteran.postalCode}
         </p>
       </>
     );
@@ -89,27 +89,17 @@ export function useTransformForReview(formData) {
             'Type',
             convertRepType(formData?.['view:selectedRepresentative']?.type),
           )}
-
           <p className="light-gray">Mailing address</p>
-          {representative?.addressLine1 ? (
-            <p>{representative.addressLine1}</p>
-          ) : null}
-          {representative?.addressLine2 ? (
-            <p>{representative.addressLine2}</p>
-          ) : null}
-          {representative?.addressLine3 ? (
-            <p>{representative.addressLine3}</p>
-          ) : null}
-
+          {representative?.addressLine1 && <p>{representative.addressLine1}</p>}
+          {representative?.addressLine2 && <p>{representative.addressLine2}</p>}
+          {representative?.addressLine3 && <p>{representative.addressLine3}</p>}
           <p>
-            {representative.city ? representative.city : null}{' '}
-            {representative.stateCode ? `, ${representative.stateCode}` : null}{' '}
-            {representative.zipCode ? representative.zipCode : null}
+            {representative.city && representative.city}
+            {representative.stateCode && `, ${representative.stateCode}`}{' '}
+            {representative.zipCode && representative.zipCode}
           </p>
-
           {renderField('Phone number', representative?.phone)}
           {renderField('Email address', representative?.email)}
-
           <h3>Your information</h3>
           {renderField('First name', claimant.firstName)}
           {renderField('Middle name', claimant.middleName)}
@@ -118,22 +108,17 @@ export function useTransformForReview(formData) {
           {renderField('VA file number', claimant.vaFileNumber)}
           {renderField('Date of birth', claimant.dateOfBirth)}
           {renderField('Relationship', claimant.relationship)}
-
           {renderField('Primary number', claimant.phone)}
           {renderField('Email address', claimant.email)}
-
           <p className="light-gray">Mailing address</p>
           {claimant.street && <p>{claimant.street}</p>}
           {claimant.street2 && <p>{claimant.street2}</p>}
-
           <p>
-            {representative.city ? representative.city : null}{' '}
-            {representative.state ? `, ${representative.state}` : null}{' '}
-            {representative.postalCode ? representative.postalCode : null}
+            {representative.city && representative.city}{' '}
+            {representative.state && `, ${representative.state}`}{' '}
+            {representative.postalCode && representative.postalCode}
           </p>
-
           {!applicantIsVeteran && renderVeteranForNonVeteranClaimant()}
-
           <h3>Accredited representative authorizations</h3>
           {renderField(
             'Do you authorize this accredited VSO to access your medical records?',
