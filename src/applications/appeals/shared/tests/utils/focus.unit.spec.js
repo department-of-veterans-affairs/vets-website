@@ -263,13 +263,13 @@ describe('focusAlertOrRadio', () => {
     it('should focus on va-alert (no header inside) when found', async () => {
       render(
         <div id="main">
-          <va-alert>Test</va-alert>
+          <va-alert status="info">Test</va-alert>
         </div>,
       );
 
       await focusAlertOrRadio();
       expect(focusElementSpy.called).to.be.true;
-      expect(focusElementSpy.args[0][0]).to.eq('va-alert');
+      expect(focusElementSpy.args[0][0]).to.eq('va-alert[status="info"]');
     });
   });
 
