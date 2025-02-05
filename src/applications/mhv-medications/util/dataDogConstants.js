@@ -70,6 +70,8 @@ export const dataDogActionNames = {
     }`,
     RX_DOCUMENTATION_LINK: `Rx Documentation Link - ${pageType.DETAILS}`,
     FILL_THIS_PRESCRIPTION: `Fill this prescription - ${pageType.DETAILS}`,
+    GROUPING_ACCORDIAN: 'Grouping Accordion',
+    GROUPING_PAGINATION: 'Grouping Pagination',
   },
   refillPage: {
     GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK: `Go To Your Medications List Action Link - ${

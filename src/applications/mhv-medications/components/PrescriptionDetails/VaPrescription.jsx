@@ -4,6 +4,11 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
+  VaAccordion,
+  VaAccordionItem,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
+import {
   validateField,
   getImageUri,
   dateFormat,
@@ -41,6 +46,13 @@ const VaPrescription = prescription => {
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+
+  const handleAccordionItemToggle = ({ target }) => {
+    if (target) {
+      datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_ACCORDIAN);
+    }
+  };
+
   const content = () => {
     if (prescription) {
       const dispStatus = prescription.dispStatus?.toString();
@@ -454,17 +466,18 @@ const VaPrescription = prescription => {
                       refillHistory.length > 1 ? 's, from newest to oldest' : ''
                     }`}
                   </p>
-                  <va-accordion
+                  <VaAccordion
                     bordered
                     data-testid="refill-history-accordion"
                     uswds
+                    onAccordionItemToggled={handleAccordionItemToggle}
                   >
                     {refillHistory.map((entry, i) => {
                       const { shape, color, backImprint, frontImprint } = entry;
                       const refillPosition = refillHistory.length - i - 1;
                       const refillLabelId = `rx-refill-${refillPosition}`;
                       return (
-                        <va-accordion-item
+                        <VaAccordionItem
                           bordered="true"
                           key={i}
                           subHeader={`Filled on ${dateFormat(
@@ -590,10 +603,10 @@ const VaPrescription = prescription => {
                               </>
                             )}
                           </div>
-                        </va-accordion-item>
+                        </VaAccordionItem>
                       );
                     })}
-                  </va-accordion>
+                  </VaAccordion>
                 </>
               )}
             {refillHistory?.length <= 1 &&
