@@ -9,7 +9,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 
 import { ADDITIONAL_FILES_HINT } from '../../constants';
-import { applicantWording } from '../../utilities';
+import { applicantWording, validateText } from '../../utilities';
 
 /*
 Overriding these allows us to set custom property titles.
@@ -199,6 +199,14 @@ export default function ApplicantRelationshipPage({
       if (checkValue[primary] === 'other' && !checkValue[secondary]) {
         setInputError('This field is required');
         isValid = false;
+      } else if (checkValue[primary] === 'other' && checkValue[secondary]) {
+        const errMsg = validateText(checkValue[secondary]);
+        if (errMsg) {
+          setInputError(errMsg);
+          isValid = false;
+        } else {
+          setInputError(null);
+        }
       } else {
         setInputError(null);
       }
