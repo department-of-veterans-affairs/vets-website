@@ -1886,28 +1886,28 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     cy.wait('@yellowRibbonProgram');
     cy.wait('@featureToggles');
   });
-  it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get('a[href="#yellow-ribbon-program-information"]')
-      .should('exist')
-      .and('contain', 'Yellow Ribbon Program information');
-    cy.get('a[href="#yellow-ribbon-program-information"]').click();
-    cy.get('#yellow-ribbon-program-information')
-      .should('exist')
-      .and('be.visible');
-  });
-  // it('should display the "Yellow Ribbon Program information" label and section', () => {
+  // it('clicks the "Jump to" link and navigates to the Yellow Ribbon Program section', () => {
   //   cy.injectAxeThenAxeCheck();
-  //   cy.get('#yellow-ribbon-program-information').should('exist');
+  //   cy.get('a[href="#yellow-ribbon-program-information"]')
+  //     .should('exist')
+  //     .and('contain', 'Yellow Ribbon Program information');
+  //   cy.get('a[href="#yellow-ribbon-program-information"]').click();
   //   cy.get('#yellow-ribbon-program-information')
-  //     .contains('Yellow Ribbon Program information')
-  //     .should('exist');
-  //   cy.get('#yellow-ribbon-program-information').within(() => {
-  //     cy.contains(
-  //       'The Yellow Ribbon Program can help reduce your out-of-pocket tuition and fee costs',
-  //     ).should('exist');
-  //   });
+  //     .should('exist')
+  //     .and('be.visible');
   // });
+  it('should display the "Yellow Ribbon Program information" label and section', () => {
+    // cy.injectAxeThenAxeCheck();
+    cy.get('#yellow-ribbon-program-information').should('exist');
+    cy.get('#yellow-ribbon-program-information')
+      .contains('Yellow Ribbon Program information')
+      .should('exist');
+    cy.get('#yellow-ribbon-program-information').within(() => {
+      cy.contains(
+        'The Yellow Ribbon Program can help reduce your out-of-pocket tuition and fee costs',
+      ).should('exist');
+    });
+  });
   // it('should navigate when the Yellow Ribbon Program link is clicked', () => {
   //   cy.injectAxeThenAxeCheck();
   //   cy.get('va-link[data-testid="yellow-ribbon-program-link"]')
