@@ -29,6 +29,7 @@ class FacilityInfo extends Component {
         <OperationStatus {...{ operatingStatus, website, facilityType }} />
         <div className="p1">
           <LocationAddress location={facility} />
+          <LocationDirectionsLink location={facility} />
         </div>
         <div>
           <LocationPhoneLink location={facility} />
@@ -39,9 +40,6 @@ class FacilityInfo extends Component {
               <va-link href={website} text="Visit our website" />
             </p>
           )}
-        <div>
-          <LocationDirectionsLink location={facility} />
-        </div>
         {phone &&
           phone.main &&
           !isVBA && (
