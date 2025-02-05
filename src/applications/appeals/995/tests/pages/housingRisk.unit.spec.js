@@ -8,7 +8,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 describe('Supplemental Claims housing risk page', () => {
-  const { schema, uiSchema } = formConfig.chapters.housing.pages.housingRisk;
+  const { schema, uiSchema } = formConfig.chapters.infoPages.pages.housingRisk;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
