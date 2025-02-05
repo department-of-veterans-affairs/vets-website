@@ -27,14 +27,15 @@ function AddressAutosuggest({
 
   const inputClearClick = useCallback(
     () => {
+      onClearClick(); // clears searchString in redux
+      onChange({ searchString: '' });
       setInputValue('');
       // setting to null causes the the searchString to be used, because of a useEffect below
       // so we set it to a non-existent object
       setSelectedItem(null);
       setOptions([]);
-      onClearClick?.(); // clears searchString in redux
     },
-    [onClearClick],
+    [onClearClick, onChange],
   );
 
   const handleOnSelect = item => {
@@ -62,7 +63,7 @@ function AddressAutosuggest({
     if (trimmedTerm === searchString?.trim()) {
       return; // already have the values
     }
-    if (trimmedTerm.length > MIN_SEARCH_CHARS) {
+    if (trimmedTerm.length >= MIN_SEARCH_CHARS) {
       // fetch results and set options
       setIsGeocoding(true);
       searchAddresses(trimmedTerm)
@@ -88,7 +89,6 @@ function AddressAutosuggest({
     recordEvent({
       event: 'fl-get-geolocation',
     });
-    onChange({ searchString: '' });
     geolocateUser();
   };
 
@@ -102,17 +102,16 @@ function AddressAutosuggest({
   };
 
   const handleInputChange = e => {
-    // This way no Downshift odd input changes when selecting an address from the options
-    const { inputValue: iv } = e;
-    setInputValue(iv);
+    const { inputValue: value } = e;
+    setInputValue(value);
     setIsTouched(true);
 
-    if (!iv?.trim()) {
+    if (!value?.trim()) {
       onClearClick();
       return;
     }
 
-    debouncedUpdateSearch(iv);
+    debouncedUpdateSearch(value);
   };
 
   useEffect(
@@ -136,12 +135,11 @@ function AddressAutosuggest({
 
   useEffect(
     () => {
-      // Sets the inputValue on load to the searchString if there is one
-      if (inputValue === null && searchString) {
+      if (searchString && !geolocationInProgress) {
         setInputValue(searchString);
       }
     },
-    [searchString, inputValue],
+    [searchString, geolocationInProgress],
   );
 
   return (

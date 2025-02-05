@@ -58,13 +58,10 @@ div[id$="-autosuggest-container"] {
       }
 
       .dropdown-option {
-        // border-bottom: solid 1px var(--vads-color-black);
         z-index: 1011;
         border: 2px solid var(--vads-color-white);
 
         &.selected {
-          color: var(--vads-color-white);
-          // background-color: var(--vads-color-primary-dark);
           color: var(--vads-color-black);
           border: 2px solid var(--vads-color-black);
         }

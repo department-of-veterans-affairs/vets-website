@@ -13,7 +13,7 @@ function AutosuggestOption({
   itemToString,
 }) {
   return (
-    <div
+    <p
       {...getItemProps({
         item,
         className: optionClasses(index === highlightedIndex),
@@ -23,7 +23,7 @@ function AutosuggestOption({
       data-testid={`autosuggest-option-${item.id || `${item}-${index}`}`}
     >
       {itemToString(item)}
-    </div>
+    </p>
   );
 }
 

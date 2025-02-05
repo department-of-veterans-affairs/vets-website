@@ -268,15 +268,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
-      #address-typeahead-label-container {
-        display: flex;
-        flex-direction: column;
-
-        @media (min-width: $small-desktop-screen) {
-          flex-direction: row;
-        }
-      }
-
       .typeahead + input[type="submit"] {
         margin-bottom: 30px;
       }
