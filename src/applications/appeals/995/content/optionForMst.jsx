@@ -7,7 +7,10 @@ export const optionForMstHint =
   'This option is for an indicator on your health record and will not affect the status or decision for your claim.';
 
 export const supportInfo = (
-  <va-additional-info trigger="How can I find support?">
+  <va-additional-info
+    trigger="How can I find support?"
+    class="vads-u-margin-bottom--4"
+  >
     <div>
       <p className="vads-u-margin-top--0">
         <va-link

@@ -64,6 +64,7 @@ export const addStudentsOptions = {
     !item?.address?.city ||
     !item?.address?.state ||
     !item?.address?.postalCode ||
+    (item?.wasMarried === true && !item?.marriageDate) ||
     !item?.schoolInformation?.name ||
     (item?.schoolInformation?.studentIsEnrolledFullTime === true &&
       !item?.schoolInformation?.studentIsEnrolledFullTime) ||
@@ -222,6 +223,23 @@ export const studentMaritalStatusPage = {
 };
 
 /** @returns {PageSchema} */
+export const studentMarriageDatePage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(() => 'Student’s marital status'),
+    marriageDate: currentOrPastDateUI({
+      title: 'Date of marriage',
+    }),
+  },
+  schema: {
+    type: 'object',
+    required: ['marriageDate'],
+    properties: {
+      marriageDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
 export const studentEducationBenefitsPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -237,10 +255,11 @@ export const studentEducationBenefitsPage = {
       }),
     },
     tuitionIsPaidByGovAgency: {
-      ...yesNoUI(
-        'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
-      ),
-      'ui:required': () => true,
+      ...yesNoUI({
+        title:
+          'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
+        required: () => true,
+      }),
     },
     'view:programExamples': {
       'ui:description': ProgramExamples,
@@ -272,16 +291,6 @@ export const studentEducationBenefitsStartDatePage = {
       ...currentOrPastDateUI(
         'When did the student start receiving education benefit payments?',
       ),
-      'ui:required': (formData, index) => {
-        const addMode =
-          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
-        const editMode = formData?.typeOfProgramOrBenefit;
-
-        return (
-          (addMode && Object.values(addMode).includes(true)) ||
-          (editMode && Object.values(editMode).includes(true))
-        );
-      },
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.studentInformation?.[index];
@@ -301,6 +310,7 @@ export const studentEducationBenefitsStartDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['benefitPaymentDate'],
     properties: {
       benefitPaymentDate: currentOrPastDateSchema,
     },
@@ -463,6 +473,10 @@ export const studentTermDatesPage = {
           'ui:webComponentField': VaMemorableDateField,
           'ui:required': () => true,
           'ui:validations': [validateCurrentOrFutureDate],
+          'ui:errorMessages': {
+            required: 'Enter a valid current or future date',
+            pattern: 'Enter a valid current or future date',
+          },
         },
       },
     },
@@ -536,27 +550,9 @@ export const previousTermDatesPage = {
         },
         termBegin: {
           ...currentOrPastDateUI('When did the previous school term start?'),
-          'ui:required': (formData, index) => {
-            const addMode =
-              formData?.studentInformation?.[index]?.schoolInformation
-                ?.studentDidAttendSchoolLastTerm;
-            const editMode =
-              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-            return addMode || editMode;
-          },
         },
         dateTermEnded: {
           ...currentOrPastDateUI('When did the previous school term end?'),
-          'ui:required': (formData, index) => {
-            const addMode =
-              formData?.studentInformation?.[index]?.schoolInformation
-                ?.studentDidAttendSchoolLastTerm;
-            const editMode =
-              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-            return addMode || editMode;
-          },
         },
       },
     },
@@ -568,6 +564,7 @@ export const previousTermDatesPage = {
         type: 'object',
         properties: {
           lastTermSchoolInformation: {
+            required: ['termBegin', 'dateTermEnded'],
             type: 'object',
             properties: {
               termBegin: currentOrPastDateSchema,
@@ -692,7 +689,7 @@ export const studentAssetsPage = {
         ),
       },
       otherAssets: textUI('All other assets'),
-      totalValue: textUI('All other assets'),
+      totalValue: textUI('Total value'),
     },
   },
   schema: {

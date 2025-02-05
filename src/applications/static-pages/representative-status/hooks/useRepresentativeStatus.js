@@ -23,7 +23,7 @@ export function useRepresentativeStatus() {
             contact,
             extension,
             vcfUrl,
-          } = formatContactInfo(poaData.attributes);
+          } = await formatContactInfo(poaData.attributes);
 
           setRepresentative({
             id: poaData.id,
