@@ -51,9 +51,17 @@ function PreparerSuggestedAddress({ formData }) {
         );
 
         if (res?.addresses && res?.addresses.length > 0) {
-          setSuggestedAddress(res?.addresses[0]?.address);
+          const suggested = res?.addresses[0]?.address;
+          setSuggestedAddress({
+            addressLine1: suggested.address_line1,
+            addressLine2: suggested.address_line2 || '',
+            city: suggested.city,
+            country: suggested.country_code_iso3,
+            state: suggested.state_code,
+            zipCode: suggested.zip_code,
+          });
           setShowSuggestions(
-            res?.addresses[0]?.addressMetaData?.confidenceScore !== 100,
+            res?.addresses[0]?.address_meta_data?.confidence_score !== 100,
           );
         } else {
           setShowSuggestions(false);
@@ -75,14 +83,14 @@ function PreparerSuggestedAddress({ formData }) {
     setSelectedAddress(selected);
 
     let newAddress;
-    if ('addressLine1' in selected) {
+    if ('address_line1' in selected) {
       newAddress = {
-        street: selected.addressLine1,
-        street2: selected.addressLine2,
+        street: selected.address_line1,
+        street2: selected.address_line2 || '',
         city: selected.city,
-        country: selected.countryCodeIso3,
-        state: selected.stateCode,
-        postalCode: selected.zipCode,
+        country: selected.country_code_iso3,
+        state: selected.state_code,
+        postalCode: selected.zip_code,
       };
     } else {
       newAddress = selected;

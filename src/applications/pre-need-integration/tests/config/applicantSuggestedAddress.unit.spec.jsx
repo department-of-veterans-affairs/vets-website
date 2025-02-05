@@ -4,8 +4,9 @@ import configureMockStore from 'redux-mock-store';
 import { expect } from 'chai';
 import { act } from 'react-dom/test-utils';
 import { mount } from 'enzyme';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import thunk from 'redux-thunk';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import formConfig from '../../config/form';
 
 const mockStore = configureMockStore([thunk]);
@@ -22,19 +23,11 @@ const payload = {
   },
 };
 
-const createStore = confirmedSuggestions =>
+const createStore = () =>
   mockStore({
     form: {
       data: {
         application: payload,
-      },
-    },
-    vapService: {
-      addressValidation: {
-        confirmedSuggestions,
-        addressFromUser: {
-          addressLine1: '123 Test',
-        },
       },
     },
   });
@@ -45,20 +38,17 @@ const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 // Reusable test setup function
 const renderComponent = async store => {
   let wrapper;
-
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.applicantInformation.pages.applicantSuggestedAddress;
   await act(async () => {
     wrapper = mount(
       <Provider store={store}>
         <DefinitionTester
-          schema={
-            formConfig.chapters.applicantInformation.pages
-              .applicantSuggestedAddress.schema
-          }
+          schema={schema}
           definitions={formConfig.defaultDefinitions}
-          uiSchema={
-            formConfig.chapters.applicantInformation.pages
-              .applicantSuggestedAddress.uiSchema
-          }
+          uiSchema={uiSchema}
         />
       </Provider>,
     );
@@ -68,25 +58,50 @@ const renderComponent = async store => {
   await act(async () => {
     await flushPromises();
   });
-
-  // Trigger a re-render
   wrapper.update();
 
   return wrapper;
 };
 
+/* eslint-disable camelcase */
+const invalid_address_response = {
+  addresses: [
+    {
+      address: {
+        address_line1: '456 Mock Street',
+        city: 'Mock City',
+        state_code: 'MC',
+        zip_code: '28226',
+        country_code_iso3: 'USA',
+      },
+      address_meta_data: {
+        confidence_score: 90,
+      },
+    },
+  ],
+};
+
+const valid_address_response = {
+  addresses: [
+    {
+      address: {
+        address_line1: '456 Mock Street',
+        city: 'Mock City',
+        state_code: 'MC',
+        zip_code: '28226',
+        country_code_iso3: 'USA',
+      },
+      address_meta_data: {
+        confidence_score: 100,
+      },
+    },
+  ],
+};
+
 describe('Applicant Suggested Address', () => {
   it('should render suggested address radio if given a suggested address', async () => {
-    const store = createStore([
-      {
-        addressLine1: '123 Mock St',
-        city: 'Mock City',
-        stateCode: 'MC',
-        zipCode: '12345',
-        countryCodeIso3: 'USA',
-      },
-    ]);
-
+    mockApiRequest(invalid_address_response);
+    const store = createStore();
     const wrapper = await renderComponent(store);
 
     expect(wrapper.find('va-loading-indicator').length).to.equal(0);
@@ -97,8 +112,8 @@ describe('Applicant Suggested Address', () => {
   });
 
   it('should render confirm address if NOT given a suggested address', async () => {
-    const store = createStore([]);
-
+    mockApiRequest(valid_address_response);
+    const store = createStore();
     const wrapper = await renderComponent(store);
 
     expect(wrapper.find('va-loading-indicator').length).to.equal(0);
