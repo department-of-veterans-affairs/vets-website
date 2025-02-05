@@ -44,15 +44,12 @@ describe('gulfWar1990Details', () => {
             data={formData}
           />,
         );
-
         getByText(gulfWar1990PageTitle);
         getByText(dateRangeDescriptionWithLocation);
 
-        expect(
-          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
-        ).to.exist;
-        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-          .to.exist;
+        expect($(`va-date[label="${startDateApproximate}"]`, container)).to
+          .exist;
+        expect($(`va-date[label="${endDateApproximate}"]`, container)).to.exist;
 
         expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
           .exist;
@@ -98,8 +95,8 @@ describe('gulfWar1990Details', () => {
         const data = JSON.parse(JSON.stringify(formData));
         data.toxicExposure.gulfWar1990Details = {};
         data.toxicExposure.gulfWar1990Details[locationId] = {
-          startDate: '1990-01-01',
-          endDate: '1995-02-28',
+          startDate: '1990-01',
+          endDate: '1995-02',
         };
 
         pageSubmitTest(
@@ -118,7 +115,7 @@ describe('gulfWar1990Details', () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       bahrain: {
-        startDate: '1990-01-01',
+        startDate: '1990-01',
       },
     };
 
@@ -129,7 +126,7 @@ describe('gulfWar1990Details', () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       egypt: {
-        endDate: '1970-04-02',
+        endDate: '1970-04',
       },
     };
 
@@ -140,8 +137,8 @@ describe('gulfWar1990Details', () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       saudiarabia: {
-        startDate: '1991-06-03',
-        endDate: '1992-07-04',
+        startDate: '1991-06',
+        endDate: '1992-07',
         'view:notSure': true,
       },
     };
@@ -149,44 +146,34 @@ describe('gulfWar1990Details', () => {
     pageSubmitTest(schemas['gulf-war-1990-location-saudiarabia'], data, true);
   });
 
-  it(`should not submit when empty month`, () => {
+  it(`should submit when empty month`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       jordan: {
-        startDate: '1990-XX-05',
+        startDate: '1990-XX',
       },
     };
 
-    pageSubmitTest(schemas['gulf-war-1990-location-jordan'], data, false);
+    pageSubmitTest(schemas['gulf-war-1990-location-jordan'], data, true);
   });
 
-  it(`should not submit when empty day`, () => {
-    const data = JSON.parse(JSON.stringify(formData));
-    data.toxicExposure.gulfWar1990Details = {
-      kuwait: {
-        startDate: '1990-01-XX',
-      },
-    };
-
-    pageSubmitTest(schemas['gulf-war-1990-location-kuwait'], data, false);
-  });
-
-  it(`should not submit when empty year`, () => {
+  it(`submits when month only`, () => {
+    // todo: should we add validation to prevent this
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       neutralzone: {
-        startDate: 'XXXX-01-01',
+        startDate: 'XXXX-01',
       },
     };
 
-    pageSubmitTest(schemas['gulf-war-1990-location-neutralzone'], data, false);
+    pageSubmitTest(schemas['gulf-war-1990-location-neutralzone'], data, true);
   });
 
   it(`should not submit when non numeric chars`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       oman: {
-        startDate: 'abcd-xy-yz',
+        startDate: 'abcd-xy',
       },
     };
 
@@ -197,7 +184,7 @@ describe('gulfWar1990Details', () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       qatar: {
-        startDate: '77-05-20',
+        startDate: '77-05',
       },
     };
 
@@ -208,7 +195,7 @@ describe('gulfWar1990Details', () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       uae: {
-        startDate: '2030-08-22',
+        startDate: '2030-08',
       },
     };
 
@@ -219,7 +206,7 @@ describe('gulfWar1990Details', () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {
       turkey: {
-        startDate: '1800-09-25',
+        startDate: '1800-09',
       },
     };
 

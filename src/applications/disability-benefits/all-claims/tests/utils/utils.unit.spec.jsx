@@ -1377,18 +1377,22 @@ describe('formatMonthYearDate', () => {
   });
 
   it('should return appropriate month and year when date provided', () => {
-    expect(formatMonthYearDate('2000-01-01')).to.equal('January 2000');
-    expect(formatMonthYearDate('2001-02-01')).to.equal('February 2001');
-    expect(formatMonthYearDate('2002-03-01')).to.equal('March 2002');
-    expect(formatMonthYearDate('2003-04-01')).to.equal('April 2003');
-    expect(formatMonthYearDate('2004-05-01')).to.equal('May 2004');
-    expect(formatMonthYearDate('2005-06-01')).to.equal('June 2005');
-    expect(formatMonthYearDate('2006-07-01')).to.equal('July 2006');
-    expect(formatMonthYearDate('2007-08-01')).to.equal('August 2007');
-    expect(formatMonthYearDate('2008-09-01')).to.equal('September 2008');
-    expect(formatMonthYearDate('2009-10-01')).to.equal('October 2009');
-    expect(formatMonthYearDate('2010-11-01')).to.equal('November 2010');
-    expect(formatMonthYearDate('1970-12-01')).to.equal('December 1970');
+    expect(formatMonthYearDate('2000-01')).to.equal('January 2000');
+    expect(formatMonthYearDate('2001-02')).to.equal('February 2001');
+    expect(formatMonthYearDate('2002-03')).to.equal('March 2002');
+    expect(formatMonthYearDate('2003-04')).to.equal('April 2003');
+    expect(formatMonthYearDate('2004-05')).to.equal('May 2004');
+    expect(formatMonthYearDate('2005-06')).to.equal('June 2005');
+    expect(formatMonthYearDate('2006-07')).to.equal('July 2006');
+    expect(formatMonthYearDate('2007-08')).to.equal('August 2007');
+    expect(formatMonthYearDate('2008-09')).to.equal('September 2008');
+    expect(formatMonthYearDate('2009-10')).to.equal('October 2009');
+    expect(formatMonthYearDate('2010-11')).to.equal('November 2010');
+    expect(formatMonthYearDate('1970-12')).to.equal('December 1970');
+  });
+
+  it('should return appropriate year when only year provided', () => {
+    expect(formatMonthYearDate('2024-XX')).to.equal('2024');
   });
 });
 

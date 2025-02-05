@@ -762,21 +762,31 @@ export const formSubtitle = subtitle => (
 );
 
 /**
- * Formats a raw date using month and year only. For example: 'January 2000'
+ * Formats a raw date using month and year only. For example:
+ *   '2000-01' -> 'January 2000'
+ *   '2000-XX' -> '2000'
  *
- * @param {string} rawDate - Assuming a date in the format 'YYYY-MM-DD'
+ * @param {string} rawDate - Assuming a date in the format 'YYYY-MM'
  * @returns {string} A friendly date string if a valid date. Empty string otherwise.
+
  */
 export const formatMonthYearDate = (rawDate = '') => {
-  const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
-    'en-US',
-    {
-      year: 'numeric',
-      month: 'long',
-    },
-  );
-
-  return date === 'Invalid Date' ? '' : date;
+  // if year only, return year
+  if (rawDate.match('^(\\d{4})-XX')) {
+    return rawDate.substring(0, 4);
+  }
+  // if year-month
+  if (rawDate.match('^(\\d{4})-\\d{2}')) {
+    const date = new Date(rawDate.split('-').join('/')).toLocaleDateString(
+      'en-US',
+      {
+        year: 'numeric',
+        month: 'long',
+      },
+    );
+    return date === 'Invalid Date' ? '' : date;
+  }
+  return '';
 };
 
 /**
