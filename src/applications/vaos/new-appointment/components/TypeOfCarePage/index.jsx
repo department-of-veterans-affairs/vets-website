@@ -23,6 +23,7 @@ import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
+import TypeOfCareRadioWidget from '../VAFacilityPage/TypeOfCareRadioWidget';
 
 const pageKey = 'typeOfCare';
 
@@ -93,7 +94,8 @@ export default function TypeOfCarePage() {
     },
     uiSchema: {
       typeOfCareId: {
-        'ui:widget': 'radio',
+        'ui:title': pageTitle,
+        'ui:widget': TypeOfCareRadioWidget,
         'ui:options': {
           classNames: 'vads-u-margin-top--neg2',
           hideLabelText: true,

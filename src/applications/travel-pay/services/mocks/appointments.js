@@ -186,6 +186,13 @@ export const appointment1 = {
           },
         },
       },
+      travelPayClaim: {
+        metadata: {
+          status: 200,
+          success: true,
+          message: 'Data retrieved successfully',
+        },
+      },
     },
     timeZone: 'America/Denver',
     facilityData: {
@@ -375,8 +382,21 @@ export const appointment = {
           ],
         },
       },
-      claim: {
-        message: 'No claim for this appointment',
+      travelPayClaim: {
+        metadata: {
+          status: 200,
+          success: true,
+          message: 'Data retrieved successfully',
+        },
+        claim: {
+          id: '16cbc3d0-56de-4d86-abf3-ed0f6908ee53',
+          claimNumber: '5b550fe7-6985-4a69-953a-472d5cf85921',
+          claimStatus: 'In Process',
+          appointmentDateTime: '2023-02-23T22:22:52.549Z',
+          facilityName: 'Tomah VA Medical Center',
+          createdOn: '2023-02-24T22:22:52.549Z',
+          modifiedOn: '2023-02-26T22:22:52.549Z',
+        },
       },
     },
     timeZone: 'Asia/Manila',
