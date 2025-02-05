@@ -32,19 +32,20 @@ const NavDropdown = ({
   btnText,
   icon,
   className,
-  name,
+  firstName,
+  lastName,
   iconClassName,
   secondaryIcon,
   srText,
   children,
-  dataTestId,
+  dropdownClass,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const dropdownRef = useMouseDownOutside(() => setIsDropdownOpen(false));
 
   return (
-    <div className="va-dropdown" ref={dropdownRef}>
+    <div className={`va-dropdown ${dropdownClass}`} ref={dropdownRef}>
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
       <button
         data-testid={`${icon}-toggle-dropdown`}
@@ -54,14 +55,16 @@ const NavDropdown = ({
         onClick={toggleDropdown}
         type="button"
       >
-        {btnText}
+        isDropdownOpen && {btnText}
         <va-icon
           icon={icon}
           size={2}
           srtext={srText}
           class="nav__user-btn-icon"
         />
-        <span data-testid={dataTestId}>{name}</span>
+        <p className="nav__btn--user-name">
+          <span>{firstName}</span> <span>{lastName}</span>
+        </p>
         {secondaryIcon && (
           <va-icon
             icon={secondaryIcon}
@@ -87,9 +90,11 @@ NavDropdown.propTypes = {
   dataTestId: PropTypes.string,
   icon: PropTypes.string,
   iconClassName: PropTypes.string,
-  name: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
   secondaryIcon: PropTypes.string,
   srText: PropTypes.string,
+  dropdownClass: PropTypes.string,
 };
 
 export default NavDropdown;
