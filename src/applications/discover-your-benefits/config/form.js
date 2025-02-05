@@ -3,7 +3,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
@@ -20,7 +19,6 @@ import militaryService from '../pages/militaryService';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
-import giBillStatus from '../pages/giBillStatus';
 import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -33,30 +31,6 @@ export const isOnConfirmationPage = currentLocation => {
   return currentLocation?.pathname.includes('/confirmation');
 };
 
-// TODO: When PTEMSVY-396 STAGING is complete, remove the conditional logic
-let chapter6 = {
-  title: '',
-  pages: {},
-};
-let stepLabels = '';
-
-if (environment.isProduction()) {
-  stepLabels = 'Goals;Service;Separation;Discharge;Disability;GI Bill;Review';
-  chapter6 = {
-    title: 'GI Bill Status',
-    pages: {
-      giBillStatus: {
-        path: 'gi-bill',
-        title: 'GI Bill Status',
-        uiSchema: giBillStatus.uiSchema,
-        schema: giBillStatus.schema,
-      },
-    },
-  };
-} else {
-  stepLabels = 'Goals;Service;Separation;Discharge;Disability;Review';
-}
-
 export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -65,7 +39,7 @@ export const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels,
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;Review',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -179,7 +153,6 @@ export const formConfig = {
         },
       },
     },
-    chapter6,
   },
   footerContent,
   getHelp,
