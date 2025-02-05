@@ -129,6 +129,7 @@ const FacilitiesMap = props => {
       'currentPos',
       null,
       props.selectMobileMapPin,
+      mobileMapUpdateEnabled,
     );
     new mapboxgl.Marker(markerElement)
       .setLngLat([searchCoords.lng, searchCoords.lat])
@@ -151,6 +152,7 @@ const FacilitiesMap = props => {
         'location',
         { loc, attrs },
         props.selectMobileMapPin,
+        mobileMapUpdateEnabled,
       );
       new mapboxgl.Marker(markerElement)
         .setLngLat([loc.attributes.long, loc.attributes.lat])

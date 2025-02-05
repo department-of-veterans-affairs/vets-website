@@ -169,7 +169,7 @@ export const verifyMobileMapItem = details => {
 
 export const awaitMapRender = () =>
   // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(2000);
+  cy.wait(3000);
 
 export const verifyElement = element =>
   cy

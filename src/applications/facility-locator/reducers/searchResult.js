@@ -6,7 +6,7 @@ import {
   SEARCH_FAILED,
 } from '../actions/actionTypes';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   mobileMapPinSelected: null,
   results: [],
   selectedResult: null,

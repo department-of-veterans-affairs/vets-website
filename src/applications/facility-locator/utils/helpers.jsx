@@ -28,7 +28,12 @@ export const clearLocationMarkers = () => {
   );
 };
 
-export const buildMarker = (type, values, selectMobileMapPin) => {
+export const buildMarker = (
+  type,
+  values,
+  selectMobileMapPin,
+  facilityLocatorMobileMapUpdate,
+) => {
   if (type === 'location') {
     const { loc, attrs } = values;
     const markerElement = document.createElement('span');
@@ -38,23 +43,28 @@ export const buildMarker = (type, values, selectMobileMapPin) => {
     markerElement.className = `i-pin-card-map pin-${attrs.letter}`;
 
     markerElement.addEventListener('click', function() {
-      const activePin = document.getElementById('active-pin');
+      if (facilityLocatorMobileMapUpdate) {
+        const activePin = document.getElementById('active-pin');
 
-      if (activePin) {
-        activePin.removeAttribute('id');
+        if (activePin) {
+          activePin.removeAttribute('id');
+        }
+
+        this.id = 'active-pin';
+
+        markerElement.style.fontWeight = 'bold';
+
+        selectMobileMapPin({
+          ...loc,
+          markerText: attrs.letter,
+          attributes: {
+            ...loc.attributes,
+            distance: loc.distance,
+          },
+        });
       }
 
-      this.id = 'active-pin';
       const locationElement = document.getElementById(loc.id);
-
-      selectMobileMapPin({
-        ...loc,
-        markerText: attrs.letter,
-        attributes: {
-          ...loc.attributes,
-          distance: loc.distance,
-        },
-      });
 
       if (locationElement) {
         Array.from(document.getElementsByClassName('facility-result')).forEach(
