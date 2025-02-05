@@ -110,7 +110,12 @@ describe('VAOS Page: TypeOfCarePage', () => {
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
-    expect(await screen.findByText('What type of care do you need?')).to.exist;
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /What type of care do you need/,
+      }),
+    ).to.exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
@@ -143,7 +148,12 @@ describe('VAOS Page: TypeOfCarePage', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('What type of care do you need?')).to.exist;
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /What type of care do you need/,
+      }),
+    ).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));

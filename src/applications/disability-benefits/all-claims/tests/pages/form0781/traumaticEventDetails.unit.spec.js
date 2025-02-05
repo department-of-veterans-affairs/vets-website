@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
-import * as eventDetails from '../../../pages/form0781/traumaticEventDetails';
+import eventDetails from '../../../pages/form0781/traumaticEventDetails';
 import {
   eventDetailsPageTitle,
   eventDetailsPrompt,
@@ -14,18 +14,17 @@ import {
 } from '../../../content/traumaticEventDetails';
 
 describe('Event details', () => {
-  const index = 1;
   const { schema, uiSchema } = {
-    schema: eventDetails.schema(index),
-    uiSchema: eventDetails.uiSchema(index),
+    schema: eventDetails.schema,
+    uiSchema: eventDetails.uiSchema,
   };
 
-  it('should define a uiSchema function', () => {
-    expect(eventDetails.uiSchema).to.be.a('function');
+  it('should define a uiSchema object', () => {
+    expect(eventDetails.uiSchema).to.be.a('object');
   });
 
-  it('should define a schema function', () => {
-    expect(eventDetails.schema).to.be.a('function');
+  it('should define a schema object', () => {
+    expect(eventDetails.schema).to.be.a('object');
   });
 
   it('displays event details, location, and timing fields', () => {

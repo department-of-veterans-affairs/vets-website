@@ -108,6 +108,8 @@ const ArrayBuilderCards = ({
           return;
         }
         focusElement(
+          'button',
+          null,
           `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
         );
       });
@@ -173,7 +175,7 @@ const ArrayBuilderCards = ({
                   <Card index={index}>
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
-                      <CardHeading className="vads-u-margin-top--0">
+                      <CardHeading className="vads-u-margin-top--0 vads-u-font-size--h3">
                         {itemName}
                       </CardHeading>
                       {itemDescription}
@@ -279,7 +281,7 @@ ArrayBuilderCards.propTypes = {
     PropTypes.node,
     PropTypes.string,
   ]),
-  titleHeaderLevel: PropTypes.func,
+  titleHeaderLevel: PropTypes.string,
 };
 
 export default connect(

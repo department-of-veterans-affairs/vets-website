@@ -69,6 +69,40 @@ describe('VAOS pending appointment flow', () => {
       // Assert
       cy.findByText(/Pending \(1\)/i).should('be.ok');
       cy.findByText(/Pending primary care appointment/i).should('be.ok');
+      cy.findByText(/You requested this appointment/i).should('be.ok');
+
+      cy.axeCheckBestPractice();
+    });
+
+    it('should display pending appointment pass due alert', () => {
+      // Arrange
+      const past = moment().subtract(7, 'day');
+      const appt = new MockAppointmentResponse({
+        localStartTime: moment(),
+        serviceType: 'primaryCare',
+        status: APPOINTMENT_STATUS.proposed,
+        created: past,
+      });
+
+      mockAppointmentsGetApi({ response: [appt] });
+
+      // Act
+      cy.login(new MockUser());
+
+      PendingAppointmentListPageObject.visit().assertAppointmentList({
+        numberOfAppointments: 1,
+      });
+      cy.findByText(/Primary care/i).click({ waitForAnimations: true });
+
+      // Assert
+      cy.findByText(/Pending \(1\)/i).should('be.ok');
+      cy.findByText(/Pending primary care appointment/i).should('be.ok');
+      cy.get('va-alert[status=warning]')
+        .as('alert')
+        .shadow();
+      cy.get('@alert').contains(
+        /We're having trouble scheduling this appointment/i,
+      );
 
       cy.axeCheckBestPractice();
     });

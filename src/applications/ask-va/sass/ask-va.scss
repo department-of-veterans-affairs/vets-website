@@ -506,3 +506,29 @@ va-radio-option#facility-not-listed
     border-left: none;
   }
 }
+
+div.form-review-array > div[name="fileUpload"] {
+  display: none;
+}
+
+div.form-review-array:has(> div[name="fileUpload"]) {
+  margin-top: 0;
+}
+
+dl.review-row:has(> div.review-page-attachments) {
+  flex-direction: column;
+}
+
+.review-page-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+// fix cancel button in edit mode - reveiw page
+div.vads-u-display--flex > button#cancel {
+  @include media($medium-screen) {
+    margin: 26px 9px 9px 0;
+  }
+}
