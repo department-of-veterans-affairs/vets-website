@@ -24,12 +24,13 @@ import {
 
 describe('Behavior List Page', () => {
   const { schema, uiSchema } = behaviorListPage;
+
   it('should define a uiSchema object', () => {
-    expect(behaviorListPage.uiSchema).to.be.an('object');
+    expect(uiSchema).to.be.an('object');
   });
 
   it('should define a schema object', () => {
-    expect(behaviorListPage.schema).to.be.an('object');
+    expect(schema).to.be.an('object');
   });
 
   it('should submit without making a selection', () => {
@@ -122,13 +123,13 @@ describe('validating selections', () => {
 
       validateBehaviorSelections(errors, formData);
 
-      // add errors to each selected section
+      // errors
       expect(errors.workBehaviors.addError.called).to.be.true;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.true;
       expect(errors['view:noneCheckbox'].addError.called).to.be.true;
 
-      // show alert
+      // alert
       expect(showConflictingAlert(formData)).to.be.true;
     });
   });
@@ -154,13 +155,13 @@ describe('validating selections', () => {
 
       validateBehaviorSelections(errors, formData);
 
-      // add errors to each selected section
+      // errors
       expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
       expect(errors['view:noneCheckbox'].addError.called).to.be.false;
 
-      // show alert
+      // alert
       expect(showConflictingAlert(formData)).to.be.false;
     });
 
@@ -176,13 +177,13 @@ describe('validating selections', () => {
 
       validateBehaviorSelections(errors, formData);
 
-      // add errors to each selected section
+      // errors
       expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
       expect(errors['view:noneCheckbox'].addError.called).to.be.false;
 
-      // show alert
+      // alert
       expect(showConflictingAlert(formData)).to.be.false;
     });
   });

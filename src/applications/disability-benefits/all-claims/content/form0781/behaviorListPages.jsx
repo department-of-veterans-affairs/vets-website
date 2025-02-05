@@ -89,7 +89,7 @@ export const behaviorListValidationError = (
     <p className="vads-u-font-size--base">
       You selected one or more behavioral changes. You also selected "I didn’t
       experience any behavioral changes." Revise your selection so they don’t
-      don’t conflict to continue.
+      conflict to continue.
     </p>
   </va-alert>
 );
@@ -127,9 +127,7 @@ function selectedBehaviors(formData) {
 
 export function showConflictingAlert(formData) {
   const selections = selectedBehaviors(formData);
-
-  const { none } = selections;
-  const { workBehaviors, healthBehaviors, otherBehaviors } = selections;
+  const { none, workBehaviors, healthBehaviors, otherBehaviors } = selections;
   const somethingSelected = [
     workBehaviors,
     healthBehaviors,
