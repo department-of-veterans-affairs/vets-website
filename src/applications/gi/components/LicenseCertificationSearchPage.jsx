@@ -32,7 +32,7 @@ const faqs = [
       <>
         <va-link
           text="Find out how to get reimbursed for licenses, certifications and prep courses"
-          href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
+          href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/" // check link structure
         />
         <br />
         <br />

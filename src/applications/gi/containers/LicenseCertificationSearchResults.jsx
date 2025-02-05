@@ -53,6 +53,8 @@ export default function LicenseCertificationSearchResults() {
   const location = useLocation();
   const history = useHistory();
 
+  const previousRoute = history.location.state?.path;
+
   const { nameParam, categoryParams, stateParam } = showLcParams(location);
 
   const dispatch = useDispatch();
@@ -71,8 +73,8 @@ export default function LicenseCertificationSearchResults() {
   const [filterLocation, setFilterLocation] = useState(stateParam);
   const [dropdown, setDropdown] = useState(() => {
     return updateStateDropdown(
-      showMultipleNames([], nameParam), // Initial empty results
-      filterLocation, // Use URL param as initial value
+      showMultipleNames(filteredResults, nameParam),
+      filterLocation,
     );
   });
 
@@ -84,6 +86,22 @@ export default function LicenseCertificationSearchResults() {
 
   useEffect(
     () => {
+      if (hasFetchedOnce) {
+        dispatch(
+          filterLcResults(
+            nameParam ?? '',
+            categoryParams,
+            stateParam,
+            // dropdown.current.optionValue,
+          ),
+        );
+      }
+    },
+    [hasFetchedOnce, stateParam],
+  );
+
+  useEffect(
+    () => {
       if (allowUpdate) {
         dispatch(
           filterLcResults(
@@ -92,7 +110,6 @@ export default function LicenseCertificationSearchResults() {
             dropdown.current.optionValue,
           ),
         );
-        // dispatch(filterLcResults(nameParam, categoryParams, locationValue));
       }
 
       return () => {
@@ -155,8 +172,8 @@ export default function LicenseCertificationSearchResults() {
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
 
-  const handleRouteChange = id => event => {
-    event.preventDefault();
+  const handleRouteChange = (e, id) => {
+    e.preventDefault();
     history.push(`/lc-search/results/${id}`);
   };
 
@@ -175,9 +192,6 @@ export default function LicenseCertificationSearchResults() {
 
     setCategoryCheckboxes(updatedCheckboxes);
   };
-
-  // TODO
-  // add separate loading spinners for both results and filter containers
 
   const renderSearchInfo = () => {
     return (
@@ -200,10 +214,10 @@ export default function LicenseCertificationSearchResults() {
         <span className="info-option">
           "
           <strong>
-            {
-              mappedStates.find(state => stateParam === state.optionValue)
-                .optionLabel
-            }
+            {stateParam === 'all'
+              ? 'All'
+              : mappedStates.find(state => stateParam === state.optionValue)
+                  .optionLabel}
           </strong>
           "{' '}
         </span>
@@ -211,25 +225,70 @@ export default function LicenseCertificationSearchResults() {
     );
   };
 
+  if (fetchingLc) {
+    return (
+      <va-loading-indicator
+        // data-testid="loading-indicator"
+        message="Loading..."
+      />
+    );
+  }
+
+  if (error) {
+    <div className="row">
+      <LicesnseCertificationServiceError
+        categoryCheckboxes={categoryCheckboxes}
+        handleCheckboxGroupChange={handleCheckboxGroupChange}
+        dropdown={dropdown}
+        handleDropdownChange={handleChange}
+      />
+    </div>;
+  }
+
+  if (
+    !fetchingLc &&
+    hasFetchedOnce &&
+    filteredResults.length - 1 <= 0 &&
+    previousRoute === '/lc-search'
+  ) {
+    return (
+      <>
+        <div className="row">
+          <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
+            Search Results
+          </h1>
+        </div>
+        <div className="row">
+          <p className="vads-u-margin-top--0">
+            We didn't find any results for “insert term user typed into
+            license/certification name here.” Please{' '}
+            <va-link
+              href="./" // check link structure
+              text="go back to search and try
+              using different words or checking the spelling of the words you’re
+              using."
+            />
+            <p className="">
+              If you don’t see a test or prep course listed, it may be a valid
+              test that’s not yet approved. We encourage you to submit an
+              application for reimbursement. If approved, we’ll prorate the
+              entitlement charges based on the actual amount of the fee charged
+              for the test.
+              <va-link
+                href="../../find-forms/about-form-22-0803/" // check link structure
+                text="Find out how to get reimbursed for
+                licenses, certifications and prep courses."
+              />
+            </p>
+          </p>
+        </div>
+      </>
+    );
+  }
+
   return (
     <div>
-      {fetchingLc && (
-        <va-loading-indicator
-          // data-testid="loading-indicator"
-          message="Loading..."
-        />
-      )}
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        {error && (
-          <div className="row">
-            <LicesnseCertificationServiceError
-              categoryCheckboxes={categoryCheckboxes}
-              handleCheckboxGroupChange={handleCheckboxGroupChange}
-              dropdown={dropdown}
-              handleDropdownChange={handleChange}
-            />
-          </div>
-        )}
         {!fetchingLc &&
           hasFetchedOnce && (
             <>
@@ -239,128 +298,114 @@ export default function LicenseCertificationSearchResults() {
                 </h1>
               </div>
 
-              {filteredResults.length - 1 > 0 ? (
-                <>
-                  <div className="lc-result-info-wrapper row">
-                    <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                      <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
-                        Showing{' '}
-                        <>
-                          {`${formatResultCount(
-                            filteredResults,
-                            currentPage,
-                            itemsPerPage,
-                          )} of ${filteredResults.length - 1} results for: `}
-                          {renderSearchInfo()}
-                        </>
-                      </p>
-                    </div>
-                  </div>
+              <div className="lc-result-info-wrapper row">
+                <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
+                  {filteredResults.length - 1 > 0 ? (
+                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
+                      Showing{' '}
+                      <>
+                        {`${formatResultCount(
+                          filteredResults,
+                          currentPage,
+                          itemsPerPage,
+                        )} of ${filteredResults.length - 1} results for: `}
+                        {renderSearchInfo()}
+                      </>
+                    </p>
+                  ) : (
+                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
+                      {`There is no ${activeCategories} available in the state of ${stateParam}`}
+                    </p>
+                  )}
+                </div>
+              </div>
 
-                  <div className="row lc-results-wrapper">
-                    <div
-                      className={
-                        !smallScreen
-                          ? 'column small-4 vads-u-padding--0'
-                          : 'column small-12 vads-u-padding--0'
-                      }
-                    >
-                      <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
-                        <LicenseCertificationFilterAccordion
-                          button="Filter your results"
-                          buttonLabel="Filter your
-                      results"
-                          expanded={!smallScreen}
-                          buttonOnClick={() =>
-                            handleSearch(
-                              categoryCheckboxes
-                                .filter(checkbox => checkbox.checked === true)
-                                .map(option => option.name),
-                              nameParam,
-                              dropdown.current.optionValue,
-                            )
-                          }
-                        >
-                          <FilterControls
-                            categoryCheckboxes={categoryCheckboxes}
-                            handleCheckboxGroupChange={
-                              handleCheckboxGroupChange
-                            }
-                            dropdown={dropdown}
-                            handleDropdownChange={handleChange}
-                            filterLocation={filterLocation}
-                          />
-                        </LicenseCertificationFilterAccordion>
-                      </div>
-                    </div>
-
-                    {activeCategories.length > 0 ? (
-                      <ul
-                        className={
-                          !smallScreen
-                            ? 'column small-8 vads-u-padding--0 vads-u-padding-left--2 lc-result-cards-wrapper vads-u-margin-top--0 '
-                            : 'column small-12 vads-u-padding--0 lc-result-cards-wrapper vads-u-margin-top--0'
+              <>
+                <div className="row lc-results-wrapper">
+                  <div
+                    className={
+                      !smallScreen
+                        ? 'column small-4 vads-u-padding--0'
+                        : 'column small-12 vads-u-padding--0'
+                    }
+                  >
+                    <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
+                      <LicenseCertificationFilterAccordion
+                        button="Filter your results"
+                        buttonLabel="Filter your results"
+                        expanded={!smallScreen}
+                        buttonOnClick={() =>
+                          handleSearch(
+                            categoryCheckboxes
+                              .filter(checkbox => checkbox.checked === true)
+                              .map(option => option.name),
+                            nameParam,
+                            dropdown.current.optionValue,
+                          )
                         }
                       >
-                        {currentResults.map((result, index) => {
-                          if (index === 0) return null;
-                          return (
-                            <li
-                              className="vads-u-padding-bottom--2"
-                              key={index}
-                            >
-                              <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">
-                                <h3 className="vads-u-margin--0">
-                                  {result.lacNm}
-                                </h3>
-                                <h4 className="lc-card-subheader vads-u-margin-top--1p5">
-                                  {result.eduLacTypeNm}
-                                </h4>
-                                {result.eduLacTypeNm !== 'Certification' && (
-                                  <p className="state vads-u-margin-y--1">
-                                    {ADDRESS_DATA.states[result.state]}
-                                  </p>
-                                )}
-                                <va-link
-                                  href={`/lc-search/results/${
-                                    result.enrichedId
-                                  }`}
-                                  text={`View test amount details for ${
-                                    result.lacNm
-                                  }`}
-                                  type="secondary"
-                                  onClick={handleRouteChange(result.enrichedId)}
-                                />
-                              </va-card>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    ) : (
-                      <p className="vads-u-margin-top--0">
-                        We didn't find results based on the selected criteria.
-                        Please go back to search and try again.
-                      </p>
-                    )}
+                        <FilterControls
+                          categoryCheckboxes={categoryCheckboxes}
+                          handleCheckboxGroupChange={handleCheckboxGroupChange}
+                          dropdown={dropdown}
+                          handleDropdownChange={handleChange}
+                          filterLocation={filterLocation}
+                        />
+                      </LicenseCertificationFilterAccordion>
+                    </div>
                   </div>
-                </>
-              ) : (
-                <div className="row">
-                  <p className="vads-u-margin-top--0">
-                    We didn't find results based on the selected criteria.
-                    Please go back to search and try again.
-                  </p>
-                </div>
-              )}
 
-              {filteredResults.length > itemsPerPage && (
-                <VaPagination
-                  page={currentPage}
-                  pages={totalPages}
-                  maxPageListLength={itemsPerPage}
-                  onPageSelect={e => handlePageChange(e.detail.page)}
-                />
-              )}
+                  {filteredResults.length - 1 > 0 && (
+                    <ul
+                      className={
+                        !smallScreen
+                          ? 'column small-8 vads-u-padding--0 vads-u-padding-left--2 lc-result-cards-wrapper vads-u-margin-top--0 '
+                          : 'column small-12 vads-u-padding--0 lc-result-cards-wrapper vads-u-margin-top--0'
+                      }
+                    >
+                      {currentResults.map((result, index) => {
+                        if (index === 0) return null;
+                        return (
+                          <li className="vads-u-padding-bottom--2" key={index}>
+                            <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">
+                              <h3 className="vads-u-margin--0">
+                                {result.lacNm}
+                              </h3>
+                              <h4 className="lc-card-subheader vads-u-margin-top--1p5">
+                                {result.eduLacTypeNm}
+                              </h4>
+                              {result.eduLacTypeNm !== 'Certification' && (
+                                <p className="state vads-u-margin-y--1">
+                                  {ADDRESS_DATA.states[result.state]}
+                                </p>
+                              )}
+                              <va-link
+                                href={`/lc-search/results/${result.enrichedId}`}
+                                text={`View test amount details for ${
+                                  result.lacNm
+                                }`}
+                                type="secondary"
+                                onClick={e =>
+                                  handleRouteChange(e, result.enrichedId)
+                                }
+                              />
+                            </va-card>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+
+                {filteredResults.length > itemsPerPage && (
+                  <VaPagination
+                    page={currentPage}
+                    pages={totalPages}
+                    maxPageListLength={itemsPerPage}
+                    onPageSelect={e => handlePageChange(e.detail.page)}
+                  />
+                )}
+              </>
             </>
           )}
       </section>

@@ -633,8 +633,11 @@ export const handleLcResultsSearch = (
     );
   });
 
-  return history.push(
+  history.push(
     `/lc-search/results?name=${name}&state=${state}&`.concat(categoryParams),
+    {
+      path: history.location.pathname,
+    },
   );
 };
 
@@ -719,8 +722,8 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
 
 export const showMultipleNames = (suggestions, nameInput) => {
   if (suggestions && nameInput) {
-    return suggestions.filter(
-      suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
+    return suggestions.filter(suggestion =>
+      suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
     );
   }
 
