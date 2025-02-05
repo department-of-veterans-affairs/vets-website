@@ -30,7 +30,11 @@ const SortForm = ({ asc, desc, ascOption, descOption }) => {
   };
 
   return (
-    <Form id="search-form" role="search" className="poa-request__sort-by">
+    <Form
+      id="search-form"
+      role="search"
+      className="poa-request__sort-by vads-u-display--none"
+    >
       <VaSelect
         onVaSelect={handleChange}
         label="Sort by"
