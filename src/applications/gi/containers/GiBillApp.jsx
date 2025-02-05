@@ -77,6 +77,7 @@ export function GiBillApp({
   const onProfilePage = location.pathname.includes('/institution');
   const onComparePage = location.pathname.includes('/compare');
   const showDisclaimer = onComparePage || !compare.open;
+  const onProgramPage = /\/institution\/[^/]+\/[^/]+$/.test(location.pathname);
 
   return (
     <div className="gi-app" role="application">
@@ -107,7 +108,8 @@ export function GiBillApp({
               </>
             </div>
           )}
-          {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
+          {!onComparePage &&
+            !onProgramPage && <CompareDrawer alwaysDisplay={onProfilePage} />}
           <Modals />
         </div>
       </div>

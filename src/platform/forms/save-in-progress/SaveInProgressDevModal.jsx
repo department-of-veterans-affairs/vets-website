@@ -8,7 +8,6 @@ import {
 import environment from 'platform/utilities/environment';
 import { getActivePages } from 'platform/forms-system/src/js/helpers';
 import localStorage from 'platform/utilities/storage/localStorage';
-import '@department-of-veterans-affairs/component-library/i18n-setup';
 
 const docsPage =
   'https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-use-the-save-in-progress-m';

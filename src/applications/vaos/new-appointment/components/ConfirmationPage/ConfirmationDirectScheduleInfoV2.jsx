@@ -46,7 +46,7 @@ export default function ConfirmationDirectScheduleInfoV2({
   const typeOfCareName = getTypeOfCareById(data.typeOfCareId)?.name;
   return (
     <>
-      <h1 className="vads-u-font-size--h2">
+      <h1 className="vaos__dynamic-font-size--h2">
         {momentDate.format('dddd, MMMM D, YYYY [at] h:mm a')}
         {` ${getTimezoneAbbrByFacilityId(data.vaFacility)}`}
       </h1>
@@ -76,7 +76,7 @@ export default function ConfirmationDirectScheduleInfoV2({
       </InfoAlert>
       {typeOfCareName && (
         <>
-          <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
+          <h2 className="vads-u-margin-bottom--0 vads-u-display--inline-block">
             Type of care:
           </h2>
           <div className="vads-u-display--inline"> {typeOfCareName}</div>
@@ -85,7 +85,7 @@ export default function ConfirmationDirectScheduleInfoV2({
       <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
         <div className="vads-u-flex--1 vads-u-margin-right--1 vaos-u-word-break--break-word">
           <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+            className="vads-u-margin-bottom--0"
             data-cy="va-appointment-details-header"
           >
             VA Appointment
@@ -98,7 +98,7 @@ export default function ConfirmationDirectScheduleInfoV2({
           />
         </div>
         <div className="vads-u-flex--1 vaos-u-word-break--break-word">
-          <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+          <h3 className="vads-u-margin-bottom--0">
             Your reason for your visit
           </h3>
           <div data-dd-privacy="mask">

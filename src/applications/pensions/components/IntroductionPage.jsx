@@ -18,7 +18,7 @@ const IntroductionPage = props => {
 
   useEffect(
     () => {
-      focusElement('.va-nav-breadcrumbs-list');
+      focusElement('va-breadcrumbs');
     },
     [props],
   );

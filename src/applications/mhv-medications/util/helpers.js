@@ -280,6 +280,9 @@ export const getErrorTypeFromFormat = format => {
 };
 
 export const pharmacyPhoneNumber = prescription => {
+  if (!prescription) {
+    return null;
+  }
   if (prescription.cmopDivisionPhone) {
     return prescription.cmopDivisionPhone;
   }

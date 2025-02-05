@@ -69,7 +69,7 @@ _Note: This field is mandatory for UI changes (non-component work should NOT hav
 - [ ] Linting warnings have been addressed
 - [ ] Documentation has been updated ([link to documentation](#) \*if necessary)
 - [ ] Screenshot of the developed feature is added
-- [ ] [Accessibility testing](https://depo-platform-documentation.scrollhelp.site/developer-docs/wcag-2-1-success-criteria-and-foundational-testing) has been performed
+- [ ] [Accessibility testing](https://depo-platform-documentation.scrollhelp.site/collaboration-cycle/prepare-for-an-accessibility-staging-review) has been performed
 
 ### Error Handling
 

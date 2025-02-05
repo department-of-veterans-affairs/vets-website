@@ -31,9 +31,9 @@ export default function IntroductionPage(props) {
       </h2>
       <ul>
         <li>
-          You must file your claim within 1 year of when you got the care. And
-          if you stayed at a hospital for care, you must file your claim within
-          1 year of when you left the hospital.
+          You must file your claim within <b>1 year</b> of when you got the
+          care. And if you stayed at a hospital for care, you must file your
+          claim within <b>1 year</b> of when you left the hospital.
         </li>
         <li>
           Each claim needs its own {appType}. If you need to submit more than

@@ -12,6 +12,7 @@ import applicantInformation33 from './chapters/33/applicantInfo/applicantInfo';
 import contactInfo33 from './chapters/33/contactInfo/contactInfo';
 import mailingAddress33 from './chapters/33/contactInfo/mailingAddress';
 import contactMethod33 from './chapters/33/contactInfo/contactMethod';
+import newContactMethod33 from './chapters/33/contactInfo/newContactMethod';
 import serviceHistory33 from './chapters/33/serviceHistory/serviceHistory';
 import benefitSelection33 from './chapters/33/benefitSelection/benefitSelectionLegacy';
 import additionalConsiderations33 from './chapters/33/additionalConsiderations/additionalConsiderations';
@@ -132,10 +133,18 @@ const formConfig = {
           schema: mailingAddress33.schema,
         },
         [formPages.contactInformation.preferredContactMethod]: {
+          depends: formData => !formData?.meb160630Automation,
           title: 'Contact preferences',
           path: 'contact-information/contact-preferences',
           uiSchema: contactMethod33.uiSchema,
           schema: contactMethod33.schema,
+        },
+        [formPages.contactInformation.newPreferredContactMethod]: {
+          depends: formData => formData?.meb160630Automation,
+          title: 'Contact preferences',
+          path: 'contact-information/contact-preference-selection',
+          uiSchema: newContactMethod33.uiSchema,
+          schema: newContactMethod33.schema,
         },
       },
     },

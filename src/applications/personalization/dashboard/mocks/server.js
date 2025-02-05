@@ -26,7 +26,6 @@ const responses = {
       authExpVbaDowntimeMessage: false,
       myVaUseExperimental: false,
       veteranOnboardingBetaFlow: false,
-      myVaFormSubmissionStatuses: true,
       veteranOnboardingShowWelcomeMessageToNewUsers: true,
     },
     true,

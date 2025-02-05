@@ -95,7 +95,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   });
   it('should display closest city question when user has multiple supported sites', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -106,7 +106,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Trigger provider list loading
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
     expect(await screen.findByText(/Displaying 5 of 16 providers/i)).to.be.ok;
     expect(screen.getAllByRole('radio').length).to.equal(5);
@@ -157,7 +159,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
   it('should display list of providers when choose a provider clicked', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -168,7 +170,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Trigger provider list loading
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
 
     expect(await screen.findByText(/Displaying 5 of 16 providers/i)).to.be.ok;
@@ -211,7 +215,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Change Provider
     userEvent.click(
-      await screen.findByRole('button', { name: /change provider/i }),
+      await screen.container.querySelector('va-button[text="Change provider"]'),
     );
     userEvent.click(await screen.findByText(/OH, JANICE/i));
     userEvent.click(
@@ -222,7 +226,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Cancel Selection (not clearing of a selected provider)
     userEvent.click(
-      await screen.findByRole('button', { name: /change provider/i }),
+      await screen.container.querySelector('va-button[text="Change provider"]'),
     );
     expect(await screen.findByText(/displaying 5 of 16 providers/i)).to.exist;
     userEvent.click(await screen.findByRole('button', { name: /cancel/i }));
@@ -231,7 +235,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
   it('should display Select provider when remove provider clicked', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     const screen = renderWithStoreAndRouter(
       <CommunityCareProviderSelectionPage />,
@@ -242,7 +246,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Choose Provider that is buried 2 clicks deep
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
     userEvent.click(await screen.findByText(/more providers$/i));
     userEvent.click(await screen.findByText(/more providers$/i));
@@ -252,12 +258,18 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     // Remove Provider
-    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
+    userEvent.click(
+      await screen.container.querySelector('va-button[text="Remove"]'),
+    );
     expect(await screen.findByTestId('removeProviderModal')).to.exist;
     userEvent.click(
       await screen.findByRole('button', { name: /Remove provider/i }),
     );
-    expect(await screen.findByRole('button', { name: /Find a provider/i }));
+    expect(
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
+    );
     expect(screen.baseElement).not.to.contain.text(
       'AJADI, ADEDIWURAWASHINGTON, DC',
     );
@@ -296,7 +308,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     // Facility 983 is the 2nd of three options so the expectation is
@@ -311,9 +323,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     // When the user tries to choose a provider
     // Trigger provider list loading
     userEvent.click(
-      await screen.findByText(/Find a provider/i, {
-        selector: 'button',
-      }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
 
     expect(await screen.findByTestId('providersSelect')).to.exist;
@@ -329,17 +341,23 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     expect(screen.baseElement).to.contain.text('OH, JANICEANNANDALE, VA');
 
     // Remove Provider
-    userEvent.click(await screen.findByRole('button', { name: /remove/i }));
+    userEvent.click(
+      await screen.container.querySelector('va-button[text="Remove"]'),
+    );
     expect(await screen.findByTestId('removeProviderModal')).to.exist;
     userEvent.click(
       await screen.findByRole('button', { name: /Remove provider/i }),
     );
-    expect(await screen.findByRole('button', { name: /Find a provider/i }));
+    expect(
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
+    );
   });
 
   it('should display an error when choose a provider clicked and provider fetch error', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
@@ -361,7 +379,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Trigger provider list loading
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
     expect(
       await screen.findByRole('heading', {
@@ -377,7 +397,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
   it('should display an alert when no providers are available', async () => {
     const store = createTestStore(initialState);
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
@@ -398,7 +418,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
 
     // Trigger provider list loading
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
     expect(await screen.findByText(/To request this appointment, you can/i)).to
       .exist;
@@ -432,7 +454,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       // true,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
@@ -441,10 +463,13 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         store,
       },
     );
+    await screen.findByText(/Continue/i);
 
     // Choose Provider
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
     // await waitFor(async () => {
     expect(await screen.findByText(/Displaying 5 of/i)).to.be.ok;
@@ -485,7 +510,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
@@ -494,10 +519,13 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         store,
       },
     );
+    await screen.findByText(/Continue/i);
 
     // Choose Provider based on home address
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
     userEvent.click(await screen.findByText(/Show 5 more providers$/i));
     userEvent.click(await screen.findByText(/Show 5 more providers$/i));
@@ -538,7 +566,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
@@ -547,10 +575,13 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         store,
       },
     );
+    await screen.findByText(/Continue/i);
 
     // Choose Provider based on home address
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
 
     // Choose Provider based on current location
@@ -601,7 +632,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       careType: 'Podiatry',
     });
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     let screen = renderWithStoreAndRouter(
@@ -610,10 +641,13 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         store,
       },
     );
+    await screen.findByText(/Continue/i);
 
     // Choose Provider based on home address
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
 
     userEvent.click(await screen.findByLabelText(/OH, JANICE/i));
@@ -622,7 +656,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
     );
 
     // make sure it saves successfully
-    await screen.findByRole('button', { name: /remove/i });
+    await screen.container.querySelector('va-button[text="Remove"]');
 
     // remove the page and change the type of care
     await cleanup();
@@ -637,15 +671,19 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    await setTypeOfCare(store, 'tbd-podiatry'); // podiatry
+    await setTypeOfCare(store, /podiatry/i);
 
     screen = renderWithStoreAndRouter(<CommunityCareProviderSelectionPage />, {
       store,
     });
+    await screen.findByText(/Continue/i);
 
     // the provider should no longer be set
-    expect(await screen.findByRole('button', { name: /Find a provider/i })).to
-      .exist;
+    expect(
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
+    ).to.exist;
     expect(screen.queryByText(/OH, JANICE/i)).to.not.exist;
   });
 
@@ -665,7 +703,7 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       CC_PROVIDERS_DATA,
     );
 
-    await setTypeOfCare(store, '323'); // primary care
+    await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, 'communityCare');
 
     const screen = renderWithStoreAndRouter(
@@ -674,10 +712,13 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
         store,
       },
     );
+    await screen.findByText(/Continue/i);
 
     // Choose Provider
     userEvent.click(
-      await screen.findByRole('button', { name: /Find a provider/i }),
+      await screen.container.querySelector(
+        'va-button[text="Choose a provider"]',
+      ),
     );
     await waitFor(() =>
       expect(screen.getAllByRole('radio').length).to.equal(5),

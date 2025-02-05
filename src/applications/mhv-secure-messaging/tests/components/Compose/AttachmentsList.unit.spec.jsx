@@ -253,11 +253,8 @@ describe('Attachments List component', () => {
     );
 
     expect(screen.findByTestId('attachment-virus-alert')).to.exist;
-    expect(
-      screen.getByText(
-        'Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.',
-      ),
-    ).to.exist;
+    expect(screen.getByText(Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL)).to
+      .exist;
 
     const removeAllAttachments = await screen.findByTestId(
       'remove-all-attachments-button',

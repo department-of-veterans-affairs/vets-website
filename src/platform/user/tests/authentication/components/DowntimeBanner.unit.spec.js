@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
 
 import environment from '~/platform/utilities/environment';
@@ -75,8 +75,8 @@ describe('DowntimeBanner', () => {
 
   it('should NOT display banner if statuses are active', () => {
     server.use(
-      rest.get(STATUSES_URL, (_, res, ctx) => {
-        return res(ctx.json(generateMockResponse()));
+      http.get(STATUSES_URL, () => {
+        return HttpResponse.json(generateMockResponse());
       }),
     );
 
@@ -92,8 +92,8 @@ describe('DowntimeBanner', () => {
   downtimeBannersWithoutMultipleOrMaint.forEach(key => {
     it(`should display banner if ${key} service is down`, async () => {
       server.use(
-        rest.get(STATUSES_URL, (_, res, ctx) => {
-          return res(ctx.json(generateMockResponse(true, key)));
+        http.get(STATUSES_URL, () => {
+          return HttpResponse.json(generateMockResponse(true, key));
         }),
       );
       const { findByText } = renderInReduxProvider(<DowntimeBanners />);
@@ -106,8 +106,8 @@ describe('DowntimeBanner', () => {
 
   it('should display banner if multipleServices are down', async () => {
     server.use(
-      rest.get(STATUSES_URL, (_, res, ctx) => {
-        return res(ctx.json(generateMockResponse(false, 'mvi', true)));
+      http.get(STATUSES_URL, () => {
+        return HttpResponse.json(generateMockResponse(false, 'mvi', true));
       }),
     );
     const { findByText } = renderInReduxProvider(<DowntimeBanners />);

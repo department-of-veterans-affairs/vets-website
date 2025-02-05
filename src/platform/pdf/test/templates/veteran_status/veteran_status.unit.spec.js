@@ -5,7 +5,7 @@ describe('Veteran Status PDF template', () => {
   const template = require('../../../templates/veteran_status');
 
   describe('PDF Semantics', () => {
-    it('places the name in an H1', async () => {
+    it('places the page title in an H1', async () => {
       const data = require('./fixtures/veteran_status.json');
       const { pdf } = await generateAndParsePdf({ data, template });
 
@@ -15,9 +15,7 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       expect(content.items.filter(item => item.tag === 'H1').length).to.eq(1);
-      expect(content.items[3].str).to.eq(data.details.fullName);
-      // H1 in this case is set to 14 px
-      expect(content.items[3].height).to.eq(10.5);
+      expect(content.items[3].str).to.eq(data.details.title);
     });
 
     it('All sections are contained by a root level Document element', async () => {
@@ -37,7 +35,7 @@ describe('Veteran Status PDF template', () => {
   });
 
   describe('Document section customization', () => {
-    it('Shows service details', async () => {
+    it('Shows latest service details', async () => {
       const data = require('./fixtures/veteran_status.json');
       const { pdf } = await generateAndParsePdf({ data, template });
 
@@ -47,12 +45,11 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       const listContent = content.items.filter(
-        item => item.str === 'Period of service',
+        item => item.str === 'Latest period of service',
       );
       expect(listContent.length).to.eq(1);
       const airForceText = content.items.filter(
-        item =>
-          item.str === `${data.details.serviceHistory[0].branchOfService}`,
+        item => item.str === 'United States Air Force • 2009–2013',
       );
       expect(airForceText.length).to.eq(1);
       const armyText = content.items.filter(
@@ -92,13 +89,12 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       const ratingText = content.items.filter(
-        item => item.str === 'Disability rating:',
+        item => item.str === 'VA disability rating',
       );
       expect(ratingText.length).to.eq(1);
       const ratingContent = content.items.filter(
         item =>
-          item.str ===
-          `${data.details.totalDisabilityRating.toString()}% service connected`,
+          item.str === `${data.details.totalDisabilityRating.toString()}%`,
       );
       expect(ratingContent.length).to.eq(1);
     });
@@ -113,7 +109,7 @@ describe('Veteran Status PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
       const dodIdTitle = content.items.filter(
-        item => item.str === 'DoD ID Number:',
+        item => item.str === 'DoD ID Number',
       );
       expect(dodIdTitle.length).to.eq(1);
       const dodId = content.items.filter(

@@ -51,5 +51,19 @@ export const OPTIONAL_FILES = {
     'Proof of Legal Separation from Marriage Or Legal Union to Other',
 };
 
-export const ADDITIONAL_FILES_HINT =
-  'Depending on your response, you may need to submit additional documents with this application.';
+// The backend needs this list so that it can properly match the attachmentId
+// on a per applicant basis to the temporary cache files that have been uploaded
+// See: https://github.com/department-of-veterans-affairs/va.gov-team/issues/96358
+export const FILE_UPLOAD_ORDER = [
+  'applicantBirthCertOrSocialSecCard',
+  'applicantAdoptionPapers',
+  'applicantStepMarriageCert',
+  'applicantSchoolCert',
+  'applicantHelplessCert',
+  'applicantRemarriageCert',
+  'applicantMedicarePartAPartBCard',
+  'applicantMedicarePartDCard',
+  'applicantMedicareIneligibleProof',
+  'applicantOhiCard',
+  'applicantOtherInsuranceCertification',
+];

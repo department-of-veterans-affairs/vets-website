@@ -69,7 +69,7 @@ export default class PageObject {
     return this;
   }
 
-  assertNexButton({ isEnabled = true, label = 'Continue' } = {}) {
+  assertNextButton({ isEnabled = true, label = 'Continue' } = {}) {
     cy.contains('button', label)
       .as('button')
       .should(isEnabled ? 'be.enabled' : 'be.disabled');
@@ -149,6 +149,16 @@ export default class PageObject {
   selectRadioButton(label) {
     cy.findByLabelText(label).as('radio');
     cy.get('@radio').check();
+
+    return this;
+  }
+
+  selectRadioButtonShadow(label) {
+    cy.get('va-radio')
+      .shadow()
+      .get('va-radio-option')
+      .contains(label)
+      .click();
 
     return this;
   }

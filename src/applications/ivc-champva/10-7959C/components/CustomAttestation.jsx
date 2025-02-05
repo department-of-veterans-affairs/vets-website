@@ -1,7 +1,7 @@
 import React from 'react';
 import FormSignature from 'platform/forms-system/src/js/components/FormSignature';
 import get from 'platform/utilities/data/get';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 
 /*
 Custom attestation/signature/statement of truth component.

@@ -1,18 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import FormTitle from '~/platform/forms-system/src/js/components/FormTitle';
-import { focusElement } from '~/platform/utilities/ui';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { focusElement } from 'platform/utilities/ui';
 import {
   DowntimeNotification,
   externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
-
-import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
+} from 'platform/monitoring/DowntimeNotification';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+import { selectAuthStatus, selectEnrollmentStatus } from '../utils/selectors';
 import GetStarted from '../components/IntroductionPage/GetStarted';
-import { selectAuthStatus } from '../utils/selectors/auth-status';
-import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import content from '../locales/en/content.json';
 
 const IntroductionPage = ({ route }) => {
@@ -43,7 +40,7 @@ const IntroductionPage = ({ route }) => {
             />
 
             {isUserLOA1 ? (
-              <IdentityVerificationAlert />
+              <VerifyAlert headingLevel={3} dataTestId="hca-identity-alert" />
             ) : (
               <GetStarted route={route} />
             )}

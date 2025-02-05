@@ -11,13 +11,9 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "idNumber": { "ssn": "234232345", "vaFileNumber": "456454567" },
-    "uploadedFile": {
-      "confirmationCode": "03d52b41-bc92-4830-beda-dfc3c2669af4",
-      "name": "Mock File",
-      "size": 161111,
-      "isEncrypted": true,
-      "warnings": []
-    }
+    "phoneNumber": "1231231234",
+    "email": "john@veteran.com",
+    "ssn": "234232345",
+    "vaFileNumber": "456454567"
   }
 }

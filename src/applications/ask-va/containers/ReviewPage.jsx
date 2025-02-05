@@ -16,18 +16,23 @@ import {
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import {
   closeReviewChapter,
   openReviewChapter,
   setUpdatedInReview,
 } from '../actions';
+import FileUpload from '../components/FileUpload';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
+import { DownloadLink } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
-import { URL, envUrl } from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
+import { mockSubmitResponse } from '../utils/mockData';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
@@ -39,6 +44,9 @@ const { scroller } = Scroll;
 const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [attachments, setAttachments] = useState([]);
+  const [editAttachments, setEditAttachments] = useState(false);
+
   const dispatch = useDispatch();
 
   const scrollToChapter = chapterKey => {
@@ -61,7 +69,28 @@ const ReviewPage = props => {
     }
   };
 
+  const getUploadedFiles = () => {
+    const storedFile = localStorage.getItem('askVAFiles');
+    if (storedFile?.length > 0) {
+      const files = JSON.parse(storedFile);
+      setAttachments(files);
+    }
+  };
+
+  const deleteFile = fileID => {
+    const uploadedFiles = localStorage.getItem('askVAFiles');
+    const parseFiles = JSON.parse(uploadedFiles);
+    const removedFile = parseFiles.filter(file => file.fileID !== fileID);
+    localStorage.askVAFiles = JSON.stringify(removedFile);
+    setAttachments(attachments.filter(file => file.fileID !== fileID));
+  };
+
   const handleEdit = (pageKey, editing, index = null) => {
+    if (pageKey === 'question') {
+      setEditAttachments(editing);
+      getUploadedFiles();
+    }
+
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;
     if (editing) {
       props.setViewedPages([fullPageKey]);
@@ -88,18 +117,40 @@ const ReviewPage = props => {
       },
     };
 
+    if (mockTestingFlagforAPI) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          setIsDisabled(false);
+          resolve(mockSubmitResponse);
+          const inquiryNumber = 'A-20230622-306458';
+          const contactPreference = props.formData.contactPreference || 'Email';
+          localStorage.removeItem('askVAFiles');
+          props.router.push({
+            pathname: '/confirmation',
+            state: { contactPreference, inquiryNumber },
+          });
+        }, 500);
+      });
+    }
+
     return apiRequest(url, options)
-      .then(() => {
+      .then(response => {
         setIsDisabled(false);
-        // clear localStorage after post
+        const { inquiryNumber } = response;
+        const contactPreference = props.formData.contactPreference || 'Email';
         localStorage.removeItem('askVAFiles');
-        props.goForward('/confirmation');
+        props.router.push({
+          pathname: '/confirmation',
+          state: { contactPreference, inquiryNumber },
+        });
       })
-      .catch(() => {
+      .catch(error => {
         setIsDisabled(false);
         localStorage.removeItem('askVAFiles');
-        // need an error page or message/alert
-        props.goForward('/confirmation');
+        // TODO - need error modal instead of forwarding to confirmation per final design
+        // Temporary alert dialog for testing
+        alert(error.error);
       });
   };
 
@@ -119,6 +170,47 @@ const ReviewPage = props => {
       postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
     }
   };
+
+  const nonEditAttachmentsMode = hasAttachments => {
+    if (hasAttachments === 0) {
+      return (
+        <div>
+          <h4 className="vads-u-margin-top--0">
+            Select optional files to upload
+          </h4>
+          <va-button
+            onClick={() => handleEdit('question', true)}
+            text="Upload files"
+          />
+        </div>
+      );
+    }
+
+    return (
+      <div className="vads-u-display--flex vads-u-justify-content--space-between">
+        <dt className="vads-u-margin-right--2">Attachments</dt>
+        <div>
+          {attachments.map(file => (
+            <dd
+              className="vads-u-margin-bottom--2 vads-u-color--link-default"
+              key={`${file.fileID}-${file.fileName}`}
+            >
+              <va-icon icon="attach_file" size={3} />
+              <DownloadLink
+                fileUrl={file.base64}
+                fileName={file.fileName}
+                fileSize={file.fileSize}
+              />
+            </dd>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    getUploadedFiles();
+  }, []);
 
   return (
     <article className="vads-u-padding-x--2p5 vads-u-padding-bottom--7">
@@ -177,6 +269,53 @@ const ReviewPage = props => {
                   viewedPages={new Set(getPageKeysForReview(formConfig))}
                   hasUnviewedPages={chapter.hasUnviewedPages}
                 />
+                {props.formData.allowAttachments && (
+                  <div
+                    className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
+                    aria-hidden="false"
+                  >
+                    <div className="form-review-panel-page vads-u-margin-bottom--0">
+                      <div name="questionScrollElement" />
+                      <form className="rjsf">
+                        <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+                          <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                            <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              {!editAttachments ? (
+                                nonEditAttachmentsMode(attachments.length)
+                              ) : (
+                                <>
+                                  {attachments.map(file => (
+                                    <div
+                                      key={`${file.fileID}-${
+                                        file.fileName
+                                      }-edit`}
+                                      className="review-page-attachments"
+                                    >
+                                      <dt className="form-review-panel-page-header">
+                                        {`${file.fileName} (${file.fileSize})`}
+                                      </dt>
+                                      <dd className="vads-u-margin-right--0">
+                                        <va-button-icon
+                                          button-type="delete"
+                                          onClick={() =>
+                                            deleteFile(file.fileID)
+                                          }
+                                        />
+                                      </dd>
+                                    </div>
+                                  ))}
+                                  <div className="vads-u-margin-y--2">
+                                    <FileUpload />
+                                  </div>
+                                </>
+                              )}
+                            </dl>
+                          </dl>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
               </VaAccordionItem>
             );
           })}
@@ -479,6 +618,16 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
+ReviewPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  loggedIn: PropTypes.bool,
+};
+
 const mapDispatchToProps = {
   setData,
   setEditMode,
@@ -489,4 +638,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ReviewPage);
+)(withRouter(ReviewPage));

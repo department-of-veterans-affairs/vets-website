@@ -10,10 +10,17 @@ import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
+import maximalData from '../fixtures/data/maximal-test-v2.json';
+
 import { FORMAT_READABLE_DATE_FNS, SELECTED } from '../../../shared/constants';
 import { parseDate } from '../../../shared/utils/dates';
 
-const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  scConfirmationUpdate = false,
+  data,
+} = {}) => ({
   user: {
     profile: {
       userFullName: renderName
@@ -21,12 +28,18 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
         : {},
     },
   },
+  featureToggles: {
+    loading: false,
+    scConfirmationUpdate,
+    // eslint-disable-next-line camelcase
+    sc_confirmation_update: scConfirmationUpdate,
+  },
   form: {
     formId: formConfig.formId,
     submission: {
       response: Date.now(),
     },
-    data: {
+    data: data || {
       contestedIssues: [
         {
           [SELECTED]: true,
@@ -134,5 +147,22 @@ describe('Confirmation page', () => {
     await waitFor(() => {
       expect(document.activeElement).to.eq(h2);
     });
+  });
+
+  it('should render confirmation page v2', () => {
+    const data = getData({
+      scConfirmationUpdate: true,
+      data: maximalData.data,
+    });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+
+    expect($$('ul', container).length).to.eq(7);
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(37);
   });
 });

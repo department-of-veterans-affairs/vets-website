@@ -4,12 +4,11 @@ import { useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
-import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
+import { useIsInCCPilot } from '../hooks/useIsInCCPilot';
 import { routeToNextReferralPage } from '../flow';
 import { selectCurrentPage } from '../redux/selectors';
-import { referral } from '../temp-data/referral';
 
-function ReferralAppLinkComponent({ linkText }) {
+function ReferralAppLinkComponent({ linkText, id }) {
   const currentPage = useSelector(selectCurrentPage);
   const history = useHistory();
 
@@ -19,15 +18,12 @@ function ReferralAppLinkComponent({ linkText }) {
       recordEvent({
         event: `${GA_PREFIX}-review-upcoming-link`,
       });
-      routeToNextReferralPage(history, currentPage, referral.id);
+      routeToNextReferralPage(history, currentPage, id);
     };
   };
+  const { isInCCPilot } = useIsInCCPilot();
 
-  const featureCCDirectScheduling = useSelector(
-    selectFeatureCCDirectScheduling,
-  );
-
-  return featureCCDirectScheduling ? (
+  return isInCCPilot ? (
     // eslint-disable-next-line jsx-a11y/anchor-is-valid
     <a
       className="vads-c-action-link--green vaos-hide-for-print"
@@ -51,9 +47,10 @@ function ReferralAppLinkComponent({ linkText }) {
 }
 
 ReferralAppLinkComponent.propTypes = {
+  id: PropTypes.string.isRequired,
   linkText: PropTypes.string.isRequired,
 };
-export default function ReferralAppLink({ linkText }) {
+export default function ReferralAppLink({ linkText, id }) {
   const location = useLocation();
   // Only display on upcoming appointments page
   if (
@@ -62,9 +59,10 @@ export default function ReferralAppLink({ linkText }) {
   ) {
     return null;
   }
-  return <ReferralAppLinkComponent linkText={linkText} />;
+  return <ReferralAppLinkComponent linkText={linkText} id={id} />;
 }
 
 ReferralAppLink.propTypes = {
+  id: PropTypes.string.isRequired,
   linkText: PropTypes.string.isRequired,
 };

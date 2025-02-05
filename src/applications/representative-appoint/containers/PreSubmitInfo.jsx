@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   VaCheckboxGroup,
   VaCheckbox,
+  VaPrivacyAgreement,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -21,6 +22,8 @@ export const PreSubmitInfo = ({
   const [formReplacementChecked, setFormReplacementChecked] = useState(false);
   const [termsAndConditionsError, setTermsAndConditionsError] = useState(false);
   const [formReplacementError, setFormReplacementError] = useState(false);
+  const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
+  const [privacyPolicyError, setPrivacyPolicyError] = useState(false);
 
   const applicantFullName = getApplicantName(formData);
 
@@ -29,7 +32,11 @@ export const PreSubmitInfo = ({
 
   useEffect(
     () => {
-      if (termsAndConditionsChecked && formReplacementChecked) {
+      if (
+        termsAndConditionsChecked &&
+        formReplacementChecked &&
+        privacyPolicyChecked
+      ) {
         onSectionComplete(true);
       }
       return () => {
@@ -37,7 +44,7 @@ export const PreSubmitInfo = ({
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [termsAndConditionsChecked, formReplacementChecked],
+    [termsAndConditionsChecked, formReplacementChecked, privacyPolicyChecked],
   );
 
   useEffect(
@@ -45,9 +52,16 @@ export const PreSubmitInfo = ({
       if (showError && !hasSubmit) {
         setTermsAndConditionsError(!termsAndConditionsChecked);
         setFormReplacementError(!formReplacementChecked);
+        setPrivacyPolicyError(!privacyPolicyChecked);
       }
     },
-    [showError, hasSubmit, termsAndConditionsChecked, formReplacementChecked],
+    [
+      showError,
+      hasSubmit,
+      termsAndConditionsChecked,
+      formReplacementChecked,
+      privacyPolicyChecked,
+    ],
   );
 
   if (isSubmitPending) {
@@ -98,6 +112,12 @@ export const PreSubmitInfo = ({
           </p>
         </va-accordion-item>
       </va-accordion>
+      <p className="vads-u-margin-top--3">
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information. (See 18
+        U.S.C. 1001)
+      </p>
       <div className="vads-u-margin-top--neg4">
         <VaCheckboxGroup>
           {' '}
@@ -111,7 +131,7 @@ export const PreSubmitInfo = ({
               setTermsAndConditionsChecked(value.detail.checked)
             }
             error={termsAndConditionsError ? 'This field is mandatory' : null}
-            enable-analytics
+            data-testid="terms-and-conditions"
           />
           <VaCheckbox
             label="I accept that this form will replace all my other VA Forms 21-22 and 21-22a"
@@ -123,13 +143,22 @@ export const PreSubmitInfo = ({
               setFormReplacementChecked(value.detail.checked)
             }
             error={formReplacementError ? 'This field is mandatory' : null}
-            enable-analytics
+            data-testid="form-replacement"
           />
+          <div className="vads-u-margin-top--3">
+            <VaPrivacyAgreement
+              enable-analytics
+              onVaChange={value =>
+                setPrivacyPolicyChecked(value.detail.checked)
+              }
+              showError={privacyPolicyError}
+            />
+          </div>
         </VaCheckboxGroup>
       </div>
       <p>
-        <strong>Note:</strong> After continuing to the next step, you will not
-        be able to edit the information on your form.
+        <strong>Note:</strong> You can’t edit the information for your form
+        after this step.
       </p>
     </>
   );

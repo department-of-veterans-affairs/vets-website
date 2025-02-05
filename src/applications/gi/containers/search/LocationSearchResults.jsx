@@ -485,7 +485,7 @@ function LocationSearchResults({
    */
   const searchArea = e => {
     if (e) {
-      e.preventDefault();
+      e?.preventDefault();
     }
     updateMapState();
     recordEvent({

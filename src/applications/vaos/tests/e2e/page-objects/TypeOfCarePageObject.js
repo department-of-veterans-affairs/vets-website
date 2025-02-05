@@ -27,12 +27,7 @@ export class TypeOfCarePageObject extends PageObject {
   }
 
   selectTypeOfCare(label) {
-    cy.get('va-radio')
-      .shadow()
-      .get('va-radio-option')
-      .contains(label)
-      .click();
-
+    this.selectRadioButton(label);
     return this;
   }
 }

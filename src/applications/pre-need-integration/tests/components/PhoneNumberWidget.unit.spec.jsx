@@ -37,4 +37,19 @@ describe('Pre-need Schemaform <PhoneNumberWidget>', () => {
     tree.subTree('TextWidget').props.onChange('');
     expect(onChange.calledWith(undefined)).to.be.true;
   });
+
+  it('should handle componentDidUpdate correctly', () => {
+    const onChange = sinon.spy();
+    const tree = SkinDeep.shallowRender(
+      <PhoneNumberWidget value="1234567890" onChange={onChange} />,
+    );
+
+    expect(tree.getMountedInstance().state.firstUpdate).to.be.true;
+
+    tree.getMountedInstance().componentDidUpdate({ value: '1234567890' });
+
+    expect(tree.getMountedInstance().state.firstUpdate).to.be.true;
+
+    expect(onChange.calledWith('1234567890')).to.be.false;
+  });
 });

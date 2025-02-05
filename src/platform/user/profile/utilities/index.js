@@ -34,6 +34,7 @@ export function mapRawUserDataToState(json) {
         inProgressForms: savedForms,
         prefillsAvailable,
         profile: {
+          initialSignIn,
           signIn,
           birthDate: dob,
           email,
@@ -47,6 +48,7 @@ export function mapRawUserDataToState(json) {
           verified,
           claims,
           edipi,
+          preferredName,
         },
         services,
         vaProfile,
@@ -61,6 +63,7 @@ export function mapRawUserDataToState(json) {
   const userState = {
     accountType: loa.current,
     accountUuid,
+    initialSignIn,
     dob,
     email,
     gender,
@@ -77,6 +80,7 @@ export function mapRawUserDataToState(json) {
       middle,
       last,
     },
+    preferredName,
     verified,
     claims,
     edipi,
@@ -132,7 +136,7 @@ export const hasSessionSSO = () =>
   JSON.parse(localStorage.getItem('hasSessionSSO'));
 
 export function setupProfileSession(userProfile) {
-  const { firstName, signIn } = userProfile;
+  const { firstName, signIn, preferredName } = userProfile;
   const loginType = signIn?.serviceName || null;
   localStorage.setItem('hasSession', true);
   if (signIn?.ssoe) {
@@ -142,6 +146,7 @@ export function setupProfileSession(userProfile) {
   // Since localStorage coerces everything into String,
   // this avoids setting the first name to the string 'null'.
   if (firstName) localStorage.setItem('userFirstName', firstName);
+  if (preferredName) localStorage.setItem('preferredName', preferredName);
 
   // Set Sentry Tag so we can associate errors with the login policy
   setSentryLoginType(loginType);
@@ -151,6 +156,7 @@ export function teardownProfileSession() {
   [
     'hasSession',
     'userFirstName',
+    'preferredName',
     'sessionExpiration',
     'hasSessionSSO',
     'sessionExpirationSSO',

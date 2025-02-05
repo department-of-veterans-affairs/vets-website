@@ -3,16 +3,14 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 
 const Breadcrumbs = () => (
   <VaBreadcrumbs
-    class="vads-u-padding--0"
     label="Breadcrumbs"
-    uswds
     breadcrumbList={[
       {
         href: '/',
         label: 'Home',
       },
       {
-        href: '/discharge-upgrade-instructions',
+        href: '/discharge-upgrade-instructions/introduction',
         label: 'How to apply for a discharge upgrade',
       },
     ]}

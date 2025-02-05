@@ -1,5 +1,3 @@
-// formFlowHelper.test.js
-
 import { expect } from 'chai';
 import { flowPages } from '../../../config/schema-helpers/formFlowHelper';
 
@@ -30,15 +28,5 @@ describe('flowPages', () => {
     const result = flowPages(testPages, testList, testPath);
     expect(result.page1_testpath.path).to.equal('test-path-1');
     expect(result.page2_testpath.path).to.equal('test-path-2');
-  });
-
-  it('sets onNavForward handler', () => {
-    const result = flowPages(testPages, testList, testPath);
-    expect(result.page2_testpath.onNavForward).to.be.a('function');
-  });
-
-  it('sets onNavBack handler', () => {
-    const result = flowPages(testPages, testList, testPath);
-    expect(result.page1_testpath.onNavBack).to.be.a('function');
   });
 });

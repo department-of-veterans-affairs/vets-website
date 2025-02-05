@@ -16,11 +16,10 @@ import { focusElement } from 'platform/utilities/ui';
 import { createArrayBuilderItemEditPath } from './helpers';
 
 const EditLink = ({ to, srText }) => (
-  <Link to={to} data-action="edit">
+  <Link to={to} data-action="edit" aria-label={srText}>
     <span className="vads-u-display--flex vads-u-align-items--center vads-u-font-size--md">
       Edit
       <va-icon size={3} icon="chevron_right" aria-hidden="true" />
-      <span className="sr-only">{srText}</span>
     </span>
   </Link>
 );
@@ -51,7 +50,7 @@ const IncompleteLabel = () => (
 /**
  * @param {{
  *   arrayPath: string,
- *   editItemPathUrl: string,
+ *   getEditItemPathUrl: (formData: any, index: number) => string,
  *   formData: any,
  *   isIncomplete: (itemData: any) => boolean,
  *   nounSingular: string,
@@ -65,7 +64,7 @@ const IncompleteLabel = () => (
 const ArrayBuilderCards = ({
   arrayPath,
   isIncomplete = () => false,
-  editItemPathUrl,
+  getEditItemPathUrl,
   setFormData,
   formData,
   nounSingular,
@@ -84,9 +83,8 @@ const ArrayBuilderCards = ({
   const isMounted = useRef(true);
 
   useEffect(() => {
+    isMounted.current = true;
     return () => {
-      // notice this is in the return of the useEffect
-      // which is the cleanup function
       isMounted.current = false;
     };
   }, []);
@@ -110,6 +108,8 @@ const ArrayBuilderCards = ({
           return;
         }
         focusElement(
+          'button',
+          null,
           `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
         );
       });
@@ -158,27 +158,42 @@ const ArrayBuilderCards = ({
         {arrayData?.length && (
           <ul className="vads-u-margin-top--2 vads-u-padding--0">
             {arrayData.map((itemData, index) => {
-              const itemName = getText('getItemName', itemData);
-              const itemDescription = getText('cardDescription', itemData);
+              const itemName = getText(
+                'getItemName',
+                itemData,
+                formData,
+                index,
+              );
+              const itemDescription = getText(
+                'cardDescription',
+                itemData,
+                formData,
+                index,
+              );
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
-                      <CardHeading className="vads-u-margin-top--0">
+                      <CardHeading className="vads-u-margin-top--0 vads-u-font-size--h3">
                         {itemName}
                       </CardHeading>
                       {itemDescription}
                       {isIncomplete(itemData) && (
                         <MissingInformationAlert>
-                          {getText('cardItemMissingInformation', itemData)}
+                          {getText(
+                            'cardItemMissingInformation',
+                            itemData,
+                            formData,
+                            index,
+                          )}
                         </MissingInformationAlert>
                       )}
                     </div>
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          path: editItemPathUrl,
+                          path: getEditItemPathUrl(formData, index),
                           index,
                           isReview,
                         })}
@@ -199,9 +214,19 @@ const ArrayBuilderCards = ({
       <VaModal
         clickToClose
         status="warning"
-        modalTitle={getText('deleteTitle', currentItem)}
-        primaryButtonText={getText('deleteYes', currentItem)}
-        secondaryButtonText={getText('deleteNo', currentItem)}
+        modalTitle={getText('deleteTitle', currentItem, formData, currentIndex)}
+        primaryButtonText={getText(
+          'deleteYes',
+          currentItem,
+          formData,
+          currentIndex,
+        )}
+        secondaryButtonText={getText(
+          'deleteNo',
+          currentItem,
+          formData,
+          currentIndex,
+        )}
         onCloseEvent={() =>
           hideRemoveConfirmationModal({
             focusRemoveButton: true,
@@ -217,8 +242,13 @@ const ArrayBuilderCards = ({
         uswds
       >
         {required(formData) && arrayData?.length === 1
-          ? getText('deleteNeedAtLeastOneDescription', currentItem)
-          : getText('deleteDescription', currentItem)}
+          ? getText(
+              'deleteNeedAtLeastOneDescription',
+              currentItem,
+              formData,
+              currentIndex,
+            )
+          : getText('deleteDescription', currentItem, formData, currentIndex)}
       </VaModal>
     </div>
   );
@@ -235,14 +265,9 @@ const mapDispatchToProps = {
 
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  cardDescription: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.node,
-    PropTypes.string,
-  ]),
-  editItemPathUrl: PropTypes.string.isRequired,
   forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
+  getEditItemPathUrl: PropTypes.func.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
   isReview: PropTypes.bool.isRequired,
@@ -251,7 +276,12 @@ ArrayBuilderCards.propTypes = {
   setFormData: PropTypes.func.isRequired,
   onRemove: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
-  titleHeaderLevel: PropTypes.func,
+  cardDescription: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.string,
+  ]),
+  titleHeaderLevel: PropTypes.string,
 };
 
 export default connect(

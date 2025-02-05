@@ -7,15 +7,7 @@
         "value": true
       },
       {
-        "name": "facilityLocatorShowCommunityCares",
-        "value": true
-      },
-      {
         "name": "facilitiesPpmsSuppressPharmacies",
-        "value": true
-      },
-      {
-        "name": "facilitiesPpmsSuppressCommunityCare",
         "value": true
       },
       {

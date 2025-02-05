@@ -10,6 +10,7 @@
         "title": "Lab and test results…………………………………………",
         "subtitle": "Review lab and test results in your VA medical records."
       },
+      "selected": true,
       "records": [
         {
           "title": "POTASSIUM:SCNC:PT:SER/PLAS:QN:, SODIUM:SCNC:PT:SER/PLAS:QN: on January 21, 2021",
@@ -679,6 +680,7 @@
         "title": "Care summaries and notes………………………………",
         "subtitle": "Review notes from your VA providers about your health and health care."
       },
+      "selected": true,
       "records": [
         {
           "title": "Progress note",
@@ -847,6 +849,7 @@
         "title": "Vaccines……………………………………………………………",
         "subtitle": "Review a list of all vaccines (immunizations) in your VA medical records."
       },
+      "selected": true,
       "records": {
         "results": {
           "items": [
@@ -964,6 +967,7 @@
         "title": "Allergies…………………………………………………………",
         "subtitle": "Review a list of all allergies, reactions, and side effects in your VA medical records."
       },
+      "selected": true,
       "records": {
         "results": {
           "items": [
@@ -1155,6 +1159,7 @@
         "title": "Health conditions……………………………………………",
         "subtitle": "Review a list of all health conditions in your VA medical records."
       },
+      "selected": true,
       "records": [
         {
           "title": "Back pain (SCT 161891005)",
@@ -1312,6 +1317,7 @@
         "title": "Vitals…………………………………………………………………",
         "subtitle": "Review a list of vitals and other basic health numbers your providers check at your appointments. This includes your blood pressure, breathing rate, heart rate, height, temperature, pain level, and weight."
       },
+      "selected": true,
       "records": [
         {
           "results": {
@@ -1503,5 +1509,6 @@
   "title": "Blue Button report",
   "subject": "VA Medical Record",
   "name": "null",
-  "dob": "Invalid date"
+  "dob": "Invalid date",
+  "lastUpdated": "Last updated at 10:34 a.m. EST on January 25, 2024"
 }

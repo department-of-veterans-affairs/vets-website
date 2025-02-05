@@ -51,11 +51,4 @@ describe('<Alerts /> container', () => {
     getByTestId('mhv-alert--unregistered');
     expect(getAllByTestId(/^mhv-alert--/).length).to.eq(1);
   });
-
-  it('renders <AlertMhvRegistration />', () => {
-    const initialState = stateFn({ loa: 3, mhvAccountState: 'NONE' });
-    const { getAllByTestId, getByTestId } = setup({ initialState });
-    getByTestId('mhv-alert--mhv-registration');
-    expect(getAllByTestId(/^mhv-alert--/).length).to.eq(1);
-  });
 });

@@ -2,7 +2,10 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
+import { render } from '@testing-library/react';
+import { MemoryRouter, Route } from 'react-router-dom';
 import RecordListItem from '../../components/RecordList/RecordListItem';
+import VitalListItem from '../../components/RecordList/VitalListItem';
 import reducer from '../../reducers';
 import vitals from '../fixtures/vitals.json';
 import { recordType, vitalTypes } from '../../util/constants';
@@ -47,7 +50,7 @@ describe('Vital list item component', () => {
   });
 
   it('should contain the date of the record', () => {
-    const recordDate = screen.getByText('October 27, 2023, 10:00 a.m.', {
+    const recordDate = screen.getByText('October 27, 2023', {
       exact: true,
     });
     expect(recordDate).to.exist;
@@ -119,5 +122,24 @@ describe('Vital list item component for a type with no records', () => {
       'Review blood pressure over time',
     );
     expect(recordDetailsLink, screen.container).to.not.exist;
+  });
+});
+
+describe('Vital List item for OH work', () => {
+  it('should render the link should include a timeframe', () => {
+    const BLOOD_PRESSURE = vitals.entry[0].resource;
+    const record = convertVital(BLOOD_PRESSURE);
+    const options = { isAccelerating: true, timeFrame: '2024-01' };
+    const { getByTestId } = render(
+      <MemoryRouter initialEntries={[`/vitals?timeFrame=2024-02`]}>
+        <Route path="/vitals">
+          <VitalListItem record={record} options={options} />,
+        </Route>
+      </MemoryRouter>,
+    );
+    expect(getByTestId('vital-blood-pressure-review-over-time')).to.exist;
+    expect(
+      getByTestId('vital-blood-pressure-review-over-time').href,
+    ).to.contain('/vitals/blood-pressure-history?timeFrame=2024-01');
   });
 });

@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import SearchControls from '../../../components/search/SearchControls';
 
-const mockStore = configureStore([]);
+export const mockStore = configureStore([]);
 
 describe('SearchControls Component', () => {
   let store;
@@ -79,9 +79,9 @@ describe('SearchControls Component', () => {
       </Provider>,
     );
 
-    wrapper
-      .find('input#facility-search')
-      .simulate('click', { preventDefault() {} });
+    const input = wrapper.find('input#street-city-state-zip');
+    input.simulate('change', { target: { value: 'New York' } });
+    wrapper.find('#facility-search').simulate('click', { preventDefault() {} });
 
     expect(mockOnSubmit.calledOnce).to.be.true;
     wrapper.unmount();
@@ -135,7 +135,7 @@ describe('SearchControls Component', () => {
 
     expect(wrapper.find('span.usa-input-error-message')).to.have.lengthOf(1);
     expect(wrapper.find('span.usa-input-error-message').text()).to.contain(
-      'Please fill in a city or postal code.',
+      'Please fill in a city or facility name',
     );
     wrapper.unmount();
   });

@@ -1,8 +1,10 @@
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
 import {
   ssnUI,
+  ssnSchema,
   vaFileNumberUI,
+  vaFileNumberSchema,
   dateOfBirthUI,
+  dateOfBirthSchema,
   fullNameSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { AltReviewRowView } from '../../../components/ReviewRowView';
@@ -11,12 +13,6 @@ import {
   generateHelpText,
   generateTitle,
 } from '../../../utils/helpers';
-
-const {
-  veteranSocialSecurityNumber,
-  vaFileNumber,
-  veteranDateOfBirth,
-} = fullSchemaBurials.properties;
 
 export default {
   uiSchema: {
@@ -30,7 +26,10 @@ export default {
       ),
       'ui:reviewField': AltReviewRowView,
     },
-    veteranDateOfBirth: dateOfBirthUI('Veteran’s date of birth'),
+    veteranDateOfBirth: dateOfBirthUI({
+      title: 'Veteran’s date of birth',
+      dataDogHidden: true,
+    }),
   },
   schema: {
     type: 'object',
@@ -41,9 +40,9 @@ export default {
     ],
     properties: {
       veteranFullName: fullNameSchema,
-      veteranSocialSecurityNumber,
-      vaFileNumber,
-      veteranDateOfBirth,
+      veteranSocialSecurityNumber: ssnSchema,
+      vaFileNumber: vaFileNumberSchema,
+      veteranDateOfBirth: dateOfBirthSchema,
     },
   },
 };

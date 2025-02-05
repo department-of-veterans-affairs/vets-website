@@ -47,6 +47,7 @@
       "last": "Jones"
     },
     "sponsorDob": "1950-01-01",
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": false,

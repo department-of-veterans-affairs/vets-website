@@ -1,5 +1,4 @@
-import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import {
   fullNameUI,
   ssnUI,
@@ -12,7 +11,6 @@ const {
   claimantFullName,
   claimantSocialSecurityNumber,
   claimantDateOfBirth,
-  formV2,
 } = fullSchemaBurials.properties;
 
 export default {
@@ -28,24 +26,12 @@ export default {
         form?.relationshipToVeteran !== 'otherFamily',
     },
     claimantDateOfBirth: {
-      ...dateOfBirthUI('Date of birth'),
+      ...dateOfBirthUI({ title: 'Date of birth', dataDogHidden: true }),
       'ui:required': form =>
         form?.relationshipToVeteran !== 'executor' &&
         form?.relationshipToVeteran !== 'funeralDirector' &&
         form?.relationshipToVeteran !== 'otherFamily',
     },
-
-    // <------ Needed for version control on the backend ------>
-    // TODO: Once Burials V2 is 100% rolled out, we can remove this and remove the def from vets-json-schema
-    formV2: {
-      'ui:title': 'Form version 2',
-      'ui:widget': <div className="vads-u-display--none" />,
-      'ui:reviewField': () => <div className="vads-u-display--none" />,
-      'ui:options': {
-        classNames: 'vads-u-display--none',
-      },
-    },
-    // <-------------------------------------------------------->
   },
   schema: {
     type: 'object',
@@ -54,7 +40,6 @@ export default {
       claimantFullName,
       claimantSocialSecurityNumber,
       claimantDateOfBirth,
-      formV2,
     },
   },
 };

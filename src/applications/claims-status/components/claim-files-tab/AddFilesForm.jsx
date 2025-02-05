@@ -6,7 +6,6 @@ import {
   VaModal,
   VaSelect,
   VaTextInput,
-  VaCheckbox,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -50,8 +49,6 @@ class AddFilesForm extends React.Component {
     super(props);
     this.state = {
       errorMessage: null,
-      checked: false,
-      errorMessageCheckbox: null,
       canShowUploadModal: false,
       showRemoveFileModal: false,
       removeFileIndex: null,
@@ -108,6 +105,9 @@ class AddFilesForm extends React.Component {
       }
 
       this.setState({ errorMessage: null });
+      // Note that the lighthouse api changes the file type to a pdf and the name is then updated as well.
+      // After submitting a file you will see this change in the Documents Filed section.
+      // EX: test.jpg ->> test.pdf
       onAddFile([file], extraData);
       setTimeout(() => {
         scrollToFile(this.props.files.length - 1);
@@ -141,21 +141,9 @@ class AddFilesForm extends React.Component {
     );
 
     if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
-      // This nested state prevents VoiceOver from accouncing an
-      // unchecked checkbox if the file is missing.
-      const { checked } = this.state;
-
-      this.setState({
-        errorMessageCheckbox: checked
-          ? null
-          : 'Please confirm these documents apply to this claim only',
-      });
-
       this.setState({ canShowUploadModal: true });
-      if (this.state.checked) {
-        this.props.onSubmit();
-        return;
-      }
+      this.props.onSubmit();
+      return;
     }
 
     this.props.onDirtyFields();
@@ -176,18 +164,6 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <p className="files-form-information vads-u-margin-top--3 vads-u-margin-bottom--3">
-            Please only submit evidence that supports this claim. To submit
-            supporting documents for a new disability claim, please visit our{' '}
-            <a
-              id="how-to-file-claim"
-              href="/disability/how-to-file-claim"
-              target="_blank"
-            >
-              How to File a Claim page (opens in a new tab)
-            </a>{' '}
-            .
-          </p>
           <VaFileInput
             id="file-upload"
             className="vads-u-margin-bottom--3"
@@ -275,16 +251,6 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
-        <VaCheckbox
-          label="The files I uploaded support this claim only."
-          className="vads-u-margin-y--3"
-          required
-          checked={this.state.checked}
-          error={this.state.errorMessageCheckbox}
-          onVaChange={event => {
-            this.setState({ checked: event.detail.checked });
-          }}
-        />
         <VaButton
           id="submit"
           text="Submit files for review"

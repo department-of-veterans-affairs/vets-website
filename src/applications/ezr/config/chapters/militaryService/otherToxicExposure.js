@@ -1,6 +1,7 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import content from '../../../locales/en/content.json';
+import { OtherExposureDescription } from '../../../components/FormDescriptions/OtherToxicExposureDescription';
 
 const {
   exposureToAirPollutants,
@@ -19,7 +20,7 @@ export default {
   uiSchema: {
     ...titleUI(
       content['military-service-other-toxic-exposure-title'],
-      content['military-service-other-toxic-exposure-descriptions'],
+      OtherExposureDescription,
     ),
     'view:otherToxicExposures': {
       exposureToAirPollutants: {

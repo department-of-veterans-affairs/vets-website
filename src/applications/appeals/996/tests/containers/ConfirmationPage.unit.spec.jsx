@@ -17,10 +17,17 @@ import {
 import formConfig from '../../config/form';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
+import maximalData from '../fixtures/data/maximal-test-v2.json';
+
 import { FORMAT_READABLE_DATE_FNS, SELECTED } from '../../../shared/constants';
 import { parseDate } from '../../../shared/utils/dates';
 
-const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
+const getData = ({
+  renderName = true,
+  suffix = 'Esq.',
+  hlrConfirmationUpdate = false,
+  data,
+} = {}) => ({
   user: {
     profile: {
       userFullName: renderName
@@ -28,12 +35,18 @@ const getData = ({ renderName = true, suffix = 'Esq.' } = {}) => ({
         : {},
     },
   },
+  featureToggles: {
+    loading: false,
+    hlrConfirmationUpdate,
+    // eslint-disable-next-line camelcase
+    hlr_confirmation_update: hlrConfirmationUpdate,
+  },
   form: {
     formId: formConfig.formId,
     submission: {
       response: Date.now(),
     },
-    data: {
+    data: data || {
       contestedIssues: [
         {
           [SELECTED]: true,
@@ -172,5 +185,21 @@ describe('Confirmation page', () => {
       </Provider>,
     );
     expect(container.textContent).to.contain('We’ve received your');
+  });
+
+  it('should render confirmation page v2', () => {
+    const data = getData({
+      hlrConfirmationUpdate: true,
+      data: maximalData.data,
+    });
+    const { container } = render(
+      <Provider store={mockStore(data)}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+    expect($$('ul', container).length).to.eq(3);
+    expect(
+      $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.eq(17);
   });
 });

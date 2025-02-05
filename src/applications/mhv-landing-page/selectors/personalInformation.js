@@ -1,17 +1,9 @@
-import _ from 'lodash';
+import { startCase, toLower } from 'lodash';
 
 export const selectGreetingName = state => {
-  const result =
-    state?.myHealth?.personalInformation?.data?.preferredName ||
-    state?.user?.profile?.userFullName?.first ||
-    null;
-
-  if (!!result && result === result.toUpperCase()) {
-    return _.capitalize(result);
-  }
-
-  return result;
+  return (
+    state?.user?.profile?.preferredName ||
+    startCase(toLower(state?.user?.profile?.userFullName?.first)) ||
+    null
+  );
 };
-
-export const selectPersonalInformation = state =>
-  state?.myHealth?.personalInformation || {};

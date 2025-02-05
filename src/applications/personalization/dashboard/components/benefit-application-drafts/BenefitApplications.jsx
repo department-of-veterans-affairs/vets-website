@@ -1,11 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-
 import { filterOutExpiredForms } from '~/applications/personalization/dashboard/helpers';
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/platform/user/profile/actions/hca';
@@ -19,10 +17,6 @@ const BenefitApplications = ({
   shouldGetESRStatus,
 }) => {
   const sectionRef = useRef(null);
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isFormSubmissionStatusWork = useToggleValue(
-    TOGGLE_NAMES.myVaFormSubmissionStatuses,
-  );
 
   useEffect(
     () => {
@@ -35,18 +29,22 @@ const BenefitApplications = ({
 
   useEffect(
     () => {
-      if (isFormSubmissionStatusWork) {
-        getFormStatuses();
-      }
+      getFormStatuses();
     },
-    [getFormStatuses, isFormSubmissionStatusWork],
+    [getFormStatuses],
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleAnchorLink = () => {
       if (document.location.hash === '#benefit-applications') {
         const elt = sectionRef.current;
-        elt?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const sectionPosition =
+          elt?.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: sectionPosition,
+          behavior: 'smooth',
+        });
+        elt?.focus();
       }
     };
 
@@ -58,12 +56,9 @@ const BenefitApplications = ({
       data-testid="dashboard-section-benefit-application-drafts"
       id="benefit-applications"
       ref={sectionRef}
+      tabIndex={-1}
     >
-      <h2>
-        {isFormSubmissionStatusWork
-          ? 'Benefit applications and forms'
-          : 'Benefit application drafts'}
-      </h2>
+      <h2>Benefit applications and forms</h2>
       <ApplicationsInProgress hideH3 />
     </div>
   );

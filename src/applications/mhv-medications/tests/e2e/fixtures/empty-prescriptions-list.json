@@ -14,6 +14,13 @@
             "dispensedDate": "DESC",
             "prescriptionName": "ASC"
         },
+        "filterCount": {
+            "allMedications": 0,
+            "active": 0,
+            "recentlyRequested": 0,
+            "renewal": 0,
+            "nonActive": 0
+        },
         "pagination": {
             "currentPage": 1,
             "perPage": 20,

@@ -69,7 +69,7 @@ describe('<Main>', () => {
     });
 
     it('should open the login modal if there is a redirect URL and there is no active session', () => {
-      global.window.location.search = { next: '/account' };
+      global.window.location.search = '?next=account';
       const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');
       expect(props.updateLoggedInStatus.calledOnce).to.be.true;
@@ -80,7 +80,7 @@ describe('<Main>', () => {
     });
 
     it('should open the login modal if there is a ?next=loginModal Param and there is no active session', () => {
-      global.window.location.search = { next: 'loginModal' };
+      global.window.location.search = '?next=loginModal';
       const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');
       expect(props.updateLoggedInStatus.calledOnce).to.be.true;
@@ -91,8 +91,8 @@ describe('<Main>', () => {
     });
 
     it('should attempt to initialize profile if there is an active session', () => {
-      const wrapper = shallow(<Main {...props} />);
       localStorage.setItem('hasSession', true);
+      const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');
       expect(props.initializeProfile.calledOnce).to.be.true;
       expect(props.updateLoggedInStatus.called).to.be.false;
@@ -113,27 +113,23 @@ describe('<Main>', () => {
 
   it('should ignore any storage changes if the user is already logged out', () => {
     const wrapper = shallow(<Main {...props} />);
-    global.window.simulate('storage', {
-      key: 'hasSession',
-      newValue: null,
-    });
-    expect(props.updateLoggedInStatus.called).to.be.false;
+    localStorage.setItem('hasSession', null);
+    expect(props.updateLoggedInStatus.calledOnce).to.be.true;
+    expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
+    expect(props.toggleLoginModal.called).to.be.false;
     wrapper.unmount();
   });
 
   it('should update logged in status if a logged in user has their session terminated', () => {
     const wrapper = shallow(<Main {...props} currentlyLoggedIn />);
-    global.window.simulate('storage', {
-      key: 'hasSession',
-      newValue: null,
-    });
+    localStorage.setItem('hasSession', null);
     expect(props.updateLoggedInStatus.calledOnce).to.be.true;
     expect(props.updateLoggedInStatus.calledWith(false)).to.be.true;
     wrapper.unmount();
   });
 
   it('should redirect if the user is determined to be logged in', () => {
-    global.window.location.search = { next: 'account' };
+    global.window.location.search = '?next=account';
     global.window.location.replace = sinon.spy();
     const wrapper = shallow(<Main {...props} />);
     wrapper.setProps({ currentlyLoggedIn: true });

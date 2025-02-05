@@ -137,7 +137,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
           items: [
             {
               title: 'Last filled on',
-              value: dateFormat(rx.dispensedDate, 'MMMM D, YYYY'),
+              value: dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY'),
               inline: true,
             },
             {
@@ -337,12 +337,9 @@ export const buildVAPrescriptionPDFList = prescription => {
           items: [
             {
               title: 'Last filled on',
-              value: dateFormat(
-                (prescription.rxRfRecords?.length &&
-                  prescription.rxRfRecords[0].dispensedDate) ||
-                  prescription.dispensedDate,
-                'MMMM D, YYYY',
-              ),
+              value: prescription.sortedDispensedDate
+                ? dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')
+                : 'Not filled yet',
               inline: true,
             },
             {
@@ -497,9 +494,9 @@ ${backImprint ? `* Back marking: ${backImprint}` : ''}`
                 },
                 {
                   title: `Shipped on`,
-                  value: entry?.trackingList?.[0]?.completeDateTime
-                    ? dateFormat(entry.trackingList[0].completeDateTime)
-                    : 'None noted',
+                  value: dateFormat(
+                    prescription?.trackingList?.[0]?.completeDateTime,
+                  ),
                   inline: true,
                 },
               ];

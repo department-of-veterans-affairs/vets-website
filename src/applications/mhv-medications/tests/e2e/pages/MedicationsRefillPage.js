@@ -1,16 +1,17 @@
 import medicationsList from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import { medicationsUrls } from '../../../util/constants';
+import { Paths } from '../utils/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
-    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
       prescriptions,
     ).as('refillList');
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.visit(medicationsUrls.MEDICATIONS_REFILL);
   };
 
   loadRefillPageForApiCallFailure = () => {
@@ -67,17 +68,13 @@ class MedicationsRefillPage {
     cy.get('[data-testid="learn-to-renew-prescriptions-link"]')
       .first()
       .click({ waitForAnimations: true });
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
   };
 
   clickGoToMedicationsListPage = () => {
     cy.intercept(
       'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      'my_health/v1/prescriptions?page=1&per_page=20All%20medications',
       medicationsList,
     ).as('medicationsList');
     cy.intercept(
@@ -86,6 +83,7 @@ class MedicationsRefillPage {
       medicationsList,
     );
     cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.get('[data-testid="medications-page-link"]').should('exist');
     cy.get('[data-testid="medications-page-link"]')
       .first()
@@ -93,11 +91,7 @@ class MedicationsRefillPage {
   };
 
   clickBackToMedicationsBreadcrumbOnRefillPage = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -147,10 +141,10 @@ class MedicationsRefillPage {
   };
 
   verifyTotalRefillablePrescriptionsCount = count => {
-    cy.get('[data-testid="refill-page-list-count"]').should(
-      'contain',
-      `You have ${count} prescriptions ready to refill.`,
-    );
+    cy.get('[data-testid="refill-checkbox-group"]', { includeShadowDom: true })
+      .shadow()
+      .find('[class="usa-legend"]', { force: true })
+      .should('contain', `You have ${count} prescriptions ready to refill.`);
   };
 
   verifyActiveRxWithRefillsRemainingIsRefillableOnRefillPage = checkBox => {
@@ -375,10 +369,10 @@ class MedicationsRefillPage {
   };
 
   verifyErrorMessageWhenRefillRequestWithoutSelectingPrescription = () => {
-    cy.get('[data-testid="select-rx-error-message"]').should(
-      'contain',
-      'Select at least one prescription',
-    );
+    cy.get('[data-testid="refill-checkbox-group"]', { includeShadowDom: true })
+      .shadow()
+      .find('[id="checkbox-error-message"]')
+      .should('contain', 'Select at least one prescription');
   };
 
   verifyRefillRequestSuccessConfirmationMessage = () => {
@@ -440,11 +434,7 @@ class MedicationsRefillPage {
   };
 
   clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage = () => {
-    cy.intercept(
-      'GET',
-      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
-      medicationsList,
-    ).as('medicationsList');
+    cy.intercept('GET', Paths.MED_LIST, medicationsList).as('medicationsList');
     cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
@@ -483,6 +473,10 @@ class MedicationsRefillPage {
     cy.get('[data-testid="failed-message-description"]')
       .should('have.text', text)
       .and('not.be.visible');
+  };
+
+  verifyCernerUserMyVAHealthAlertOnRefillsPage = text => {
+    cy.get('[data-testid="cerner-facilities-alert"]').should('contain', text);
   };
 }
 

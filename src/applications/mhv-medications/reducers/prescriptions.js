@@ -24,6 +24,10 @@ export const initialState = {
    */
   prescriptionsPagination: undefined,
   /**
+   * Pagination received form meta object in prescriptionsList payload
+   */
+  prescriptionsFilteredPagination: undefined,
+  /**
    * Sort option used for sorting the prescriptions list
    */
   selectedSortOption: defaultSelectedSortOption,
@@ -91,7 +95,8 @@ export const prescriptionsReducer = (state = initialState, action) => {
           .filter(rx => {
             return !sourcesToHide.includes(rx.prescriptionSource);
           }),
-        prescriptionsPagination: action.response.meta.pagination,
+        prescriptionsFilteredPagination: action.response.meta.pagination,
+        filterCount: action.response.meta.filterCount,
         apiError: false,
       };
     }

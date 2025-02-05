@@ -8,7 +8,7 @@ import os from 'os';
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import chaiDOM from 'chai-dom';
-import { JSDOM, ResourceLoader } from 'jsdom';
+import { Window } from 'happy-dom';
 import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
@@ -54,10 +54,7 @@ function resetFetch() {
   }
 }
 
-/**
- * Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
- */
-function setupJSDom() {
+function initHappyDom() {
   // Prevent warnings from displaying
   /* eslint-disable no-console */
   if (process.env.LOG_LEVEL === 'debug') {
@@ -77,26 +74,17 @@ function setupJSDom() {
     console.error = () => {};
     console.warn = () => {};
   }
-  /* eslint-enable no-console */
-
-  // set up resource loader
-  const loader = new ResourceLoader({
-    userAgent: 'Node.js',
-  });
-
-  // setup the simplest document possible
-  const dom = new JSDOM('<!doctype html><html><body></body></html>', {
+  const window = new Window({
     url: 'http://localhost',
-    resources: loader,
   });
+  const { document } = window;
 
-  const { window } = dom;
-
-  /* sets up `global` for testing */
-  global.dom = dom;
   global.window = window;
-  global.document = window.document;
-  // global.navigator = { userAgent: 'node.js' };
+  global.document = document;
+  // global.navigator = {
+  //   userAgent: 'node.js'
+  // }
+
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -104,28 +92,6 @@ function setupJSDom() {
     clearTimeout(id);
   };
   global.Blob = window.Blob;
-
-  /* Overwrites JSDOM global defaults from read-only to configurable */
-  Object.defineProperty(global, 'window', {
-    value: global.window,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
-
-  Object.defineProperty(global, 'sessionStorage', {
-    value: window.sessionStorage,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
-
-  Object.defineProperty(global, 'localStorage', {
-    value: window.localStorage,
-    configurable: true,
-    enumerable: true,
-    writable: true,
-  });
 
   /* sets up `window` for testing */
   const scroll = { duration: 0, delay: 0, smooth: false };
@@ -142,17 +108,10 @@ function setupJSDom() {
   window.Mocha = true;
 
   copyProps(window, global);
-
-  // Object.defineProperty(window, 'location', {
-  //   value: window.location,
-  //   configurable: true,
-  //   enumerable: true,
-  //   writable: true,
-  // });
 }
-/* eslint-disable no-console */
 
-setupJSDom();
+initHappyDom();
+
 const checkAllowList = testContext => {
   const file = testContext.currentTest.file.slice(
     testContext.currentTest.file.indexOf('src'),
@@ -178,16 +137,18 @@ function flushPromises() {
 
 export const mochaHooks = {
   beforeEach() {
-    setupJSDom();
+    initHappyDom();
     resetFetch();
     cleanupStorage();
     if (isStressTest == 'false') {
       checkAllowList(this);
     }
-    console.log(
-      'running: ',
-      this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
-    );
+    if (process.env.CI || ['trace', 'debug'].includes(process.env.LOG_LEVEL)) {
+      console.log(
+        'running: ',
+        this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
+      );
+    }
   },
   afterEach() {
     cleanupStorage();

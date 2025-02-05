@@ -13,5 +13,6 @@
   "reporter": "progress",
   "timeout": 10000,
   "slow": 0,
-  "recursive": true
+  "recursive": true,
+  "exit": true
 }

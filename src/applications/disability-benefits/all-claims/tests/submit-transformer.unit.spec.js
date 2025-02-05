@@ -36,7 +36,7 @@ describe('transform', () => {
           fs.readFileSync(path.join(dataDir, fileName), 'utf8'),
         );
 
-        // special logic for unreleased pages. set the indicator, otherwise the test considers TE pages as inactive
+        // special logic for 2022 forms. this comes from prefill on the BE and is not something the user inputs
         if (fileName === 'maximal-toxic-exposure-test.json') {
           rawData.data.startedFormVersion = '2022';
         }

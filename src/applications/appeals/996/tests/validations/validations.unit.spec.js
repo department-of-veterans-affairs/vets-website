@@ -12,41 +12,33 @@ import { errorMessages } from '../../constants';
 import sharedErrorMessages from '../../../shared/content/errorMessages';
 
 describe('validateConferenceChoice', () => {
-  const setVal = ({ conf, choice, toggle = false } = {}) => ({
-    informalConference: conf,
+  const setVal = choice => ({
     informalConferenceChoice: choice,
-    hlrUpdatedContent: toggle,
   });
   it('should not log error if errors function is missing', () => {
     const errors = { addError: sinon.spy() };
     validateConferenceChoice(null, '', setVal());
     expect(errors.addError.notCalled).to.be.true;
   });
-  it('should not add error if set to "rep"', () => {
-    const errors = { addError: sinon.spy() };
-    validateConferenceChoice(errors, '', setVal({ conf: 'rep' }));
-    expect(errors.addError.notCalled).to.be.true;
-  });
   it('should add error if value is empty', () => {
     const errors = { addError: sinon.spy() };
     validateConferenceChoice(errors, '', setVal());
-    expect(
-      errors.addError.calledWith(errorMessages.informalConferenceContactChoice),
-    ).to.be.true;
+    expect(errors.addError.args[0][0]).to.eq(sharedErrorMessages.requiredYesNo);
   });
-  it('should add error if set to "yes" (hlr update value)', () => {
+  it('should add error if value is a non-valid string', () => {
     const errors = { addError: sinon.spy() };
-    validateConferenceChoice(errors, '', setVal({ conf: 'yes' }));
-    expect(
-      errors.addError.calledWith(errorMessages.informalConferenceContactChoice),
-    ).to.be.true;
+    validateConferenceChoice(errors, '', setVal('test'));
+    expect(errors.addError.args[0][0]).to.eq(sharedErrorMessages.requiredYesNo);
   });
-
-  it('should add HLR update error if value is empty', () => {
+  it('should not add error if set to "yes"', () => {
     const errors = { addError: sinon.spy() };
-    validateConferenceChoice(errors, '', setVal({ conf: '', toggle: true }));
-    expect(errors.addError.calledWith(sharedErrorMessages.requiredYesNo)).to.be
-      .true;
+    validateConferenceChoice(errors, '', setVal('yes'));
+    expect(errors.addError.notCalled).to.be.true;
+  });
+  it('should not add error if set to "no"', () => {
+    const errors = { addError: sinon.spy() };
+    validateConferenceChoice(errors, '', setVal('no'));
+    expect(errors.addError.notCalled).to.be.true;
   });
 });
 
@@ -55,8 +47,9 @@ describe('Informal conference time validation', () => {
   it('should show an error if no times are selected', () => {
     const errors = { addError: sinon.spy() };
     checkConferenceTimes(errors, '', mockFormData);
-    expect(errors.addError.calledWith(errorMessages.informalConferenceTimes)).to
-      .be.true;
+    expect(errors.addError.args[0][0]).to.eq(
+      errorMessages.informalConferenceTimes,
+    );
   });
 
   it('should not show an error if a single time is selected', () => {
@@ -76,6 +69,11 @@ describe('Informal conference time validation', () => {
 
 describe('validatePhone', () => {
   const phoneError = errorMessages.informalConferenceContactPhonePattern;
+  it('should show an error for a null value', () => {
+    const errors = { addError: sinon.spy() };
+    validatePhone(errors, null);
+    expect(errors.addError.calledWith(phoneError)).to.be.true;
+  });
   it('should show an error for an empty string', () => {
     const errors = { addError: sinon.spy() };
     validatePhone(errors, '');

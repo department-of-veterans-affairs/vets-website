@@ -27,6 +27,11 @@ export const FinancialHelp = () => (
             <strong>Waiver.</strong> This means you ask us to forgive (or
             “waive”) part or all of the debt. If we approve your request, you
             won’t have to pay the amount waived.
+            <span className="vads-u-padding-top--0p5 vads-u-display--block">
+              <strong>Note:</strong> The time limit to request a waiver (debt
+              forgiveness) has changed. You now have <strong>1 year</strong>{' '}
+              from the date you received your statement to request a waiver.
+            </span>
           </li>
         </ul>
         <p>

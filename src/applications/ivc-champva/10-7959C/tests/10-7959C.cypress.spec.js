@@ -27,7 +27,6 @@ const testConfig = createTestConfig(
     // Rename and modify the test data as needed.
     /* 
     1. test-data: standard run-through of the form
-    2. no-secondary: no secondary insurance (skips all secondary ins pages) 
     The rest of the tests are described by their filenames and are just
     variations designed to trigger the conditionals in the form/follow different paths. 
     */

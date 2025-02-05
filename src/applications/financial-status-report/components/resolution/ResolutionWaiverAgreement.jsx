@@ -61,11 +61,11 @@ const ResolutionWaiverAgreement = ({ formContext }) => {
       have.`;
 
   return (
-    <div>
+    <>
       <p>
         You selected: <span className="vads-u-font-weight--bold">Waiver</span>
       </p>
-      <p className="vads-u-margin-top--3">
+      <p className="vads-u-margin-top--2">
         If we approve your request, we’ll stop collection on and waive the debt.
       </p>
       <VaCheckbox
@@ -77,7 +77,7 @@ const ResolutionWaiverAgreement = ({ formContext }) => {
         onVaChange={onWaiverChecked}
         required
       />
-    </div>
+    </>
   );
 };
 

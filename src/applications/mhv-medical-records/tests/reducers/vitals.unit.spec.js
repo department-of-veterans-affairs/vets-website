@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { extractLocation, vitalReducer } from '../../reducers/vitals';
+import {
+  extractLocation,
+  vitalReducer,
+  getMeasurement,
+} from '../../reducers/vitals';
 import { EMPTY_FIELD } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
 
@@ -48,6 +52,62 @@ describe('extractLocation function', () => {
     };
 
     expect(extractLocation(vital)).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return the organization display name if performer references organizations', () => {
+    const vital = {
+      performer: [
+        {
+          reference: 'https://example.org/r4/Practitioner/1',
+        },
+        {
+          reference: 'https://example.org/r4/Organization/1',
+          display: 'Organization One',
+        },
+      ],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal('Organization One');
+  });
+
+  it('should return multiple organization display names joined by a comma', () => {
+    const vital = {
+      performer: [
+        {
+          reference: 'https://example.org/r4/Organization/1',
+          display: 'Organization One',
+        },
+        {
+          reference: 'https://example.org/r4/Practitioner/1',
+        },
+        {
+          reference: 'https://example.org/r4/Organization/2',
+          display: 'Organization Two',
+        },
+      ],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal('Organization One, Organization Two');
+  });
+
+  it('should return EMPTY_FIELD if performer has no extension or organization references', () => {
+    const vital = {
+      performer: [
+        {
+          reference: 'https://example.org/r4/Practitioner/1',
+        },
+      ],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD if performer is not an array or is empty', () => {
+    const vital = {
+      performer: [],
+    };
+    const location = extractLocation(vital);
+    expect(location).to.equal(EMPTY_FIELD);
   });
 });
 
@@ -110,5 +170,55 @@ describe('vitalReducer', () => {
     );
     expect(newState.vitalsList.length).to.equal(1);
     expect(newState.updatedList).to.equal(undefined);
+  });
+});
+
+describe('getMeasurement', () => {
+  it('should return the correct measurement for a given type', () => {
+    const record = {
+      component: [
+        {
+          code: {
+            coding: [
+              {
+                system: 'http://loinc.org',
+                code: '8867-4',
+                display: 'Heart rate',
+              },
+            ],
+          },
+        },
+      ],
+      valueQuantity: {
+        value: 72,
+        code: 'beats per minute',
+      },
+    };
+    const type = 'HEART_RATE';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('72 beats per minute');
+  });
+
+  it('should return the correct measurement for a given type when there are multiple codes', () => {
+    const record = require('../fixtures/vitalOhBloodPressure.json').resource;
+    const type = 'BLOOD_PRESSURE';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.equal('125/79');
+  });
+
+  it('should return EMPTY_FIELD if the record is empty', () => {
+    const record = {};
+    const type = 'HEART_RATE';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.eq(EMPTY_FIELD);
+  });
+
+  it('should return EMPTY_FIELD if the component array is empty', () => {
+    const record = {
+      component: [],
+    };
+    const type = 'HEART_RATE';
+    const measurement = getMeasurement(record, type);
+    expect(measurement).to.eq(EMPTY_FIELD);
   });
 });

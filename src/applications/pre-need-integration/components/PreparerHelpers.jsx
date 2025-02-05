@@ -12,10 +12,10 @@ export function ContactDetailsTitle() {
   );
 }
 
-export function ValidateAddressTitle() {
+export function ValidateAddressTitle({ title }) {
   return (
     <div className="validate-address-title">
-      <h3 className="vads-u-font-size--h5">Validate Address</h3>
+      <h3 className="vads-u-font-size--h5">{title}</h3>
     </div>
   );
 }

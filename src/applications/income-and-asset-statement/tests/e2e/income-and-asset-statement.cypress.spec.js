@@ -23,7 +23,11 @@ let addedAssociatedIncomeItem = false;
 let addedOwnedAssetItem = false;
 let addedRoyaltiesItem = false;
 let addedAssetTransferItem = false;
+let addedTrustItem = false;
 let addedAnnuityItem = false;
+let addedUnreportedAssetItem = false;
+let addedDiscontinuedIncomeItem = false;
+let addedIncomeReceiptWaiverItem = false;
 
 const testConfig = createTestConfig(
   {
@@ -259,6 +263,40 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'trusts-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingTrusts = data['view:isAddingTrusts'];
+            if (addedTrustItem) {
+              isAddingTrusts = false;
+              addedTrustItem = false;
+            }
+
+            selectYesNoWebComponent('view:isAddingTrusts', isAddingTrusts);
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'trusts/0/added-funds': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { trusts } = data;
+            const { addedFundsDate, addedFundsAmount } = trusts[0];
+
+            fillDateWebComponentPattern('addedFundsDate', addedFundsDate);
+            fillStandardTextInput('addedFundsAmount', addedFundsAmount);
+
+            addedTrustItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
       'annuities-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -283,12 +321,126 @@ const testConfig = createTestConfig(
         afterHook(() => {
           cy.get('@testData').then(data => {
             const { annuities } = data;
-            const { addedFundsDate, addedFunds } = annuities[0];
+            const { addedFundsDate, addedFundsAmount } = annuities[0];
 
             fillDateWebComponentPattern('addedFundsDate', addedFundsDate);
-            fillStandardTextInput('addedFunds', addedFunds);
+            fillStandardTextInput('addedFundsAmount', addedFundsAmount);
 
             addedAnnuityItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'unreported-assets-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingUnreportedAssets =
+              data['view:isAddingUnreportedAssets'];
+            if (addedUnreportedAssetItem) {
+              isAddingUnreportedAssets = false;
+              addedUnreportedAssetItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingUnreportedAssets',
+              isAddingUnreportedAssets,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'unreported-assets/0/asset-type': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { unreportedAssets } = data;
+            const {
+              assetType,
+              ownedPortionValue,
+              assetLocation,
+            } = unreportedAssets[0];
+
+            fillStandardTextInput('assetType', assetType);
+            fillStandardTextInput('ownedPortionValue', ownedPortionValue);
+            fillStandardTextInput('assetLocation', assetLocation);
+
+            addedUnreportedAssetItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'discontinued-incomes-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingDiscontinuedIncomes =
+              data['view:isAddingDiscontinuedIncomes'];
+            if (addedDiscontinuedIncomeItem) {
+              isAddingDiscontinuedIncomes = false;
+              addedDiscontinuedIncomeItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingDiscontinuedIncomes',
+              isAddingDiscontinuedIncomes,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'discontinued-incomes/0/amount': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const { discontinuedIncomes } = data;
+            const { grossAnnualAmount } = discontinuedIncomes[0];
+
+            fillStandardTextInput('grossAnnualAmount', grossAnnualAmount);
+
+            addedDiscontinuedIncomeItem = true;
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'income-receipt-waivers-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            let isAddingIncomeReceiptWaivers =
+              data['view:isAddingIncomeReceiptWaivers'];
+            if (addedIncomeReceiptWaiverItem) {
+              isAddingIncomeReceiptWaivers = false;
+              addedIncomeReceiptWaiverItem = false;
+            }
+
+            selectYesNoWebComponent(
+              'view:isAddingIncomeReceiptWaivers',
+              isAddingIncomeReceiptWaivers,
+            );
+
+            cy.findAllByText(/^Continue/, { selector: 'button' })
+              .last()
+              .click();
+          });
+        });
+      },
+      'income-receipt-waivers/0/payments': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            selectYesNoWebComponent('view:paymentsWillResume', false);
+
+            addedIncomeReceiptWaiverItem = true;
 
             cy.findAllByText(/^Continue/, { selector: 'button' })
               .last()

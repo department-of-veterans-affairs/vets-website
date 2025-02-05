@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 
-const eduForms = new Set([VA_FORM_IDS.FORM_22_0993]);
+const eduForms = new Set();
 
 export default function createOptOutApplicationStatus(store, widgetType) {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);

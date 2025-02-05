@@ -1,6 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { expect } from 'chai';
 import sinon from 'sinon';
+import MockDate from 'mockdate';
 import {
   mockFetch,
   setFetchJSONFailure,
@@ -700,8 +701,9 @@ describe('VAOS Services: Appointment ', () => {
 
   //--------
 
-  const now = moment();
   describe('isUpcomingAppointmentOrRequest', () => {
+    MockDate.reset();
+    const now = moment();
     it('should filter future requests', () => {
       const apptRequests = [
         // canceled past - should filter out

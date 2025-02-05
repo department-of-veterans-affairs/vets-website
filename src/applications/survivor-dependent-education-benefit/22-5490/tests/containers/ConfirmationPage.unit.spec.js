@@ -13,7 +13,7 @@ describe('<ConfirmationPage>', () => {
         form: {
           formId,
           data: {
-            fullName: {
+            claimantFullName: {
               first: fullName.first || 'Jane',
               middle: fullName.middle || 'A',
               last: fullName.last || 'Doe',
@@ -43,11 +43,15 @@ describe('<ConfirmationPage>', () => {
     const { mockStore } = getData({ chosenBenefit: 'fry' });
     const { getByText } = renderComponent({ mockStore });
 
-    // Check for specific text indicating the Fry Scholarship component is rendered
+    // Use a regex matcher to find "FRY, Chapter 33" and other text
+    expect(getByText(/Fry Scholarship \(Chapter 33\)/i)).to.exist;
+
+    // Check for the received application title text
+    expect(getByText(/We’ve received your application/i)).to.exist;
+
+    // Check for the application form title
     expect(
-      getByText(
-        'We’ll review your eligibility for the Fry Scholarship (Chapter 33).',
-      ),
+      getByText(/Application for VA Education Benefits \(VA Form 22-5490\)/i),
     ).to.exist;
 
     // Check for the presence of the new "FRY, Chapter 33" title
@@ -65,22 +69,23 @@ describe('<ConfirmationPage>', () => {
     const { mockStore } = getData({ chosenBenefit: 'dea' });
     const { getByText } = renderComponent({ mockStore });
 
-    // Check for specific text indicating DEA Chapter 35 component is rendered
+    // Use a regex matcher to find "DEA, Chapter 35" and other text
     expect(
       getByText(
-        "We’ll review your eligibility for the Survivors' and Dependents' Educational Assistance (Chapter 35).",
+        /Survivors' and Dependents' Educational Assistance \(Chapter 35\)/i,
       ),
+    ).to.exist;
+
+    // Check for the received application title text
+    expect(getByText(/We’ve received your application/i)).to.exist;
+
+    // Check for the application form title
+    expect(
+      getByText(/Application for VA Education Benefits \(VA Form 22-5490\)/i),
     ).to.exist;
 
     // Check for the presence of the new "DEA, Chapter 35" title
     expect(getByText('DEA, Chapter 35')).to.exist;
-
-    // Check for the received application title text
-    expect(getByText('We’ve received your application')).to.exist;
-
-    // Check for the application form title
-    expect(getByText('Application for VA Education Benefits (VA Form 22-5490)'))
-      .to.exist;
   });
 
   it('should render nothing if chosenBenefit is neither "fry" nor "dea"', () => {

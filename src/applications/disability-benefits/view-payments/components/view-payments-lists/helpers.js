@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { format, isValid, parseISO } from 'date-fns';
 
 export const isValidDate = dateString => {
@@ -158,4 +158,47 @@ export const reformatPaymentDates = payments => {
       ),
     };
   });
+};
+
+export const alertMessage = (
+  <va-alert close-btn-aria-label="Close notification" status="warning" visible>
+    <h3 slot="headline">We’re working to improve what we display here</h3>
+    <p className="vads-u-margin-y--0">
+      If you receive education benefits, we’ll be removing information about
+      payments we send directly to your school. After making this update, your
+      list of payments will only include payments sent to you.
+    </p>
+    <p className="vads-u-margin-y--1">
+      Some education benefit payments may appear as "C&P Hardship" or something
+      similar. We’re working to fix this.
+    </p>
+  </va-alert>
+);
+
+export const useResizeObserver = callbackFn => {
+  const ref = useRef(null);
+
+  useLayoutEffect(
+    () => {
+      const element = ref?.current;
+
+      if (!window.ResizeObserver && element) return;
+
+      const observer = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          callbackFn(element, entry);
+        }
+      });
+
+      observer.observe(element);
+
+      /* eslint-disable-next-line consistent-return */
+      return () => {
+        observer.disconnect();
+      };
+    },
+    [callbackFn, ref],
+  );
+
+  return ref;
 };

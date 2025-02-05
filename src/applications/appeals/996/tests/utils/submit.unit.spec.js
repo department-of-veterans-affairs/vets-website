@@ -50,6 +50,18 @@ describe('getRep', () => {
       },
     });
   });
+
+  it('should not throw an error with an empty phone object', () => {
+    const data = getDataV2({ extension: '', email: '' });
+    data.informalConferenceRep.phone = null;
+    expect(getRep(data)).to.deep.equal({
+      firstName: 'James',
+      lastName: 'Sullivan',
+      phone: {
+        countryCode: '1',
+      },
+    });
+  });
 });
 
 describe('getConferenceTime', () => {

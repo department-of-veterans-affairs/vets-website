@@ -34,7 +34,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.certifierInformation.pages.page5.schema,
   formConfig.chapters.certifierInformation.pages.page5.uiSchema,
-  7,
+  6,
   'Signer relationship',
   {
     certifierRelationship: {
@@ -178,7 +178,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page18c.schema,
   formConfig.chapters.applicantInformation.pages.page18c.uiSchema,
   0,
-  'Applicant - relationship to sponsor',
+  'Applicant - relationship to the sponsor',
   { ...mockData.data },
 );
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -9,7 +9,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import {
   fetchPersonalInformation,
-  fetchEligibility,
   fetchExclusionPeriods,
   fetchDuplicateContactInfo,
   fetchDirectDeposit,
@@ -23,13 +22,11 @@ export const App = ({
   children,
   claimantInfo,
   dgiRudisillHideBenefitsSelectionStep,
-  eligibility,
   exclusionPeriods,
   featureTogglesLoaded,
   firstName,
   formData,
   getDirectDeposit,
-  getEligibility,
   getExclusionPeriods,
   getPersonalInfo,
   getDuplicateContactInfo,
@@ -44,7 +41,6 @@ export const App = ({
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
-  showMebServiceHistoryCategorizeDisagreement,
   mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
@@ -54,9 +50,9 @@ export const App = ({
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
-  const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
+  const previousChosenBenefit = useRef();
 
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
@@ -103,7 +99,9 @@ export const App = ({
           meb160630Automation &&
           formData?.chosenBenefit) ||
         (!fetchedContactInfo &&
-          (meb160630Automation && formData?.chosenBenefit))
+          (meb160630Automation && formData?.chosenBenefit)) ||
+        (meb160630Automation &&
+          formData?.chosenBenefit !== previousChosenBenefit.current)
       ) {
         setFetchedPersonalInfo(true);
         setFetchedContactInfo(true);
@@ -130,6 +128,7 @@ export const App = ({
       isLoggedIn,
       setFormData,
       meb160630Automation,
+      formData?.chosenBenefit,
     ],
   );
 
@@ -137,21 +136,6 @@ export const App = ({
     () => {
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
         return;
-      }
-
-      // the firstName check ensures that eligibility only gets called after we have obtained claimant info
-      // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (firstName && !fetchedEligibility) {
-        const chosenBenefit = meb160630Automation
-          ? formData?.chosenBenefit
-          : 'Chapter33';
-        setFetchedEligibility(true);
-        getEligibility(chosenBenefit);
-      } else if (eligibility && !formData.eligibility) {
-        setFormData({
-          ...formData,
-          eligibility,
-        });
       }
 
       const { toursOfDuty } = formData;
@@ -178,12 +162,9 @@ export const App = ({
       }
     },
     [
-      eligibility,
       featureTogglesLoaded,
-      fetchedEligibility,
       firstName,
       formData,
-      getEligibility,
       isLOA3,
       isLoggedIn,
       setFormData,
@@ -197,11 +178,28 @@ export const App = ({
       }
       // the firstName check ensures that exclusion periods only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (mebExclusionPeriodEnabled && firstName && !fetchedExclusionPeriods) {
+      if (firstName && !fetchedExclusionPeriods && !meb160630Automation) {
         const chosenBenefit = meb160630Automation
           ? formData?.chosenBenefit
           : 'Chapter33';
 
+        setFetchedExclusionPeriods(true);
+        getExclusionPeriods(chosenBenefit);
+      }
+
+      if (
+        (firstName &&
+          !fetchedExclusionPeriods &&
+          formData?.chosenBenefit &&
+          meb160630Automation) ||
+        (formData?.chosenBenefit !== previousChosenBenefit.current &&
+          meb160630Automation)
+      ) {
+        const chosenBenefit = meb160630Automation
+          ? formData?.chosenBenefit
+          : 'Chapter33';
+
+        previousChosenBenefit.current = formData?.chosenBenefit;
         setFetchedExclusionPeriods(true);
         getExclusionPeriods(chosenBenefit);
       }
@@ -225,6 +223,7 @@ export const App = ({
       isLoggedIn,
       featureTogglesLoaded,
       isLOA3,
+      meb160630Automation,
     ],
   );
 
@@ -334,16 +333,6 @@ export const App = ({
         });
       }
 
-      if (
-        showMebServiceHistoryCategorizeDisagreement !==
-        formData.showMebServiceHistoryCategorizeDisagreement
-      ) {
-        setFormData({
-          ...formData,
-          showMebServiceHistoryCategorizeDisagreement,
-        });
-      }
-
       if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
         setFormData({
           ...formData,
@@ -369,7 +358,6 @@ export const App = ({
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
-      showMebServiceHistoryCategorizeDisagreement,
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
@@ -453,7 +441,7 @@ export const App = ({
                 label: 'Education and training',
               },
               {
-                href: '/education/apply-for-benefits-form-22-1990',
+                href: '/education/apply-for-gi-bill-form-22-1990',
                 label: 'Apply for education benefits',
               },
             ]}
@@ -474,7 +462,6 @@ App.propTypes = {
   dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
-  eligibility: PropTypes.arrayOf(PropTypes.string),
   email: PropTypes.string,
   exclusionPeriods: PropTypes.arrayOf(PropTypes.string),
   featureTogglesLoaded: PropTypes.bool,
@@ -482,12 +469,13 @@ App.propTypes = {
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
-  getEligibility: PropTypes.func,
   getExclusionPeriods: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
+  meb160630Automation: PropTypes.bool,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
@@ -497,9 +485,6 @@ App.propTypes = {
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
-  showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
-  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
-  meb160630Automation: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -522,7 +507,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
-  getEligibility: fetchEligibility,
   getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,
   getPersonalInfo: fetchPersonalInformation,

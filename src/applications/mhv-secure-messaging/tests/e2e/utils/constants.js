@@ -58,8 +58,6 @@ export const Locators = {
   HEADER_FOLDER: '[data-testid*=folder-header]',
   ATTACH_FILE_INPUT: '[data-testid="attach-file-input"]',
   ATTACHMENT_COUNT: '[data-testid="attachments-count"]',
-  MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
-  MESSAGES_BODY: '[data-testid="message-body-field"]',
   MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
@@ -83,7 +81,8 @@ export const Locators = {
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
-  BACK_TO: '.sm-breadcrumb-list-item',
+  BACK_TO: '.sm-breadcrumb-list-item > a',
+  FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -107,6 +106,8 @@ export const Locators = {
     ADDITIONAL_FILTER: `.va-accordion__header`,
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
+    // check if below are duplicates
+    REPLY_BTN: '#reply-button',
     REPLY: '[data-testid="reply-button-body"]',
     CONTINUE: '[data-testid="continue-button"]',
     TEST2: '[data-testid=radiobutton-TEST2]',
@@ -189,7 +190,6 @@ export const Locators = {
     EDIT_DRAFT: '#edit-draft-button',
     WELCOME_MESSAGE: '.welcome-message',
     BACK_TOP: 'va-back-to-top',
-    ACC_ITEM: '[data-testid="faq-accordion-item"]',
     CERNER_ALERT: '[data-testid="cerner-facilities-alert"]',
     BLOCKED_GROUP: '[data-testid="blocked-triage-group-alert"]',
     RECIP_SELECT: '[data-testid="compose-recipient-select"]',
@@ -204,19 +204,21 @@ export const Locators = {
     CANCEL: '[text="Cancel"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     ES_ALERT: '[data-testid="quit-compose-double-dare"]',
+    ALERT_MODAL: `[data-testid="navigation-warning-modal"]`,
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
     CL_SAVE: `[data-testid="sm-route-navigation-guard-confirm-button"]`,
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
     VA_ALERT: `va-alert`,
+    FIELD_ERROR: `#input-error-message`,
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
+    OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
     SUBJECT: '#inputField',
     MESSAGE: '#textarea',
-    MESS_SUBJECT: '#message-subject',
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
     DATE_RANGE_DROPDOWN: '#date-range-dropdown',
@@ -226,6 +228,9 @@ export const Locators = {
     SEARCH_MESSAGE: '[data-testid="search-messages"] [aria-live="polite"]',
     FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
     NOT_FOR_PRINT_HEADER: '[data-testid="not-for-print-header"]',
+    EL_SIGN: `[message-aria-describedby="Electronic signature"]`,
+    MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
+    MESSAGE_BODY: `[data-testid="message-body-field"]`,
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
@@ -234,6 +239,8 @@ export const Locators = {
   },
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
+    FILTER_START_DATE: `[data-testid="date-start"]`,
+    FILTER_END_DATE: `[data-testid="date-end"]`,
   },
   CHECKBOX: {
     CL_ALL: '[data-testid*="select-all"]',
@@ -246,7 +253,8 @@ export const Locators = {
     NUMBER_OF_THREADS: `[data-testid="displaying-number-of-threads"]`,
   },
   DROPDOWN: {
-    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    RECIPIENTS: `select#options`,
+    ADD_INFO: `va-additional-info[trigger^="If you"]`,
     SORT: '#sort-order-dropdown',
   },
   ICONS: {
@@ -288,8 +296,16 @@ export const Alerts = {
     ACTIVE: `Maintenance on My HealtheVet`,
     UPCOMING: `Upcoming maintenance on My HealtheVet`,
   },
+  DATE_FILTER: {
+    EMPTY_START_DATE: `Error Please enter a start date.`,
+    EMPTY_END_DATE: `Error Please enter an end date.`,
+    INVALID_START_DATE: `Start date must be on or before end date.`,
+    INVALID_END_DATE: `End date must be on or after start date.`,
+  },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
-  OLD_MSG: 'This conversation is too old for new replies',
+  OLD_MSG_HEAD: 'This conversation is too old for new replies',
+  OLD_MSG_SUBHEAD:
+    "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
   PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,
@@ -298,8 +314,10 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
-  VIRUS_ATTCH: `Your message failed to send. Your file failed our scan. Try sending your message without any attachments.`,
-  VIRUS_MULTI_ATTCH: `Your message failed to send. One or more of your files failed our scan. Try sending your message without any attachments.`,
+  VIRUS_ATTCH: `Our file scanner found a problem with your attachment. To send your message, remove this attachment.`,
+  VIRUS_MULTI_ATTCH: `Our file scanner found a problem with your attachments. To send your message, remove the attachments.`,
+  SAVE_DRAFT: `Do you want to save your draft message?`,
+  SAVE_CHANGES: `Do you want to save your changes to this draft?`,
 };
 
 export const Data = {
@@ -314,6 +332,7 @@ export const Data = {
   SAMPLE_XLS: 'sample_XLS.xls',
   SAMPLE_IMG: 'test_image.gif',
   START_NEW_MSG: 'Start a new message',
+  EDIT_DRAFT: 'Edit draft',
   GO_YOUR_INBOX: 'Go to your inbox',
   BACK_TO_MSG: 'Back to messages',
   FOLDER_NAME_CANNOT_BLANK: 'Folder name cannot be blank',
@@ -360,8 +379,35 @@ export const Data = {
     EDIT_DRAFT_REPLY: `Edit draft reply`,
     DELETE_DRAFT: `Delete draft`,
     GO_BACK: `Go back`,
+    SAVE_CHANGES: 'Save changes',
+    DELETE_CHANGES: 'Delete changes',
+    KEEP_EDITING: 'Keep editing',
+    SAVE_DRAFT_WO_ATTCH: `Save draft without attachments`,
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
+  URL: {
+    LANDING_PAGE: `http://localhost:3001/my-health/secure-messages/`,
+  },
+  FAQ_LINK: {
+    URL: {
+      SEND: `/find-locations/`,
+      EMRG: `tel:911`,
+      SETTINGS: `/mhv-portal-web/preferences`,
+      PAY: `/health-care/pay-copay-bill/dispute-charges/`,
+    },
+    TEXT: {
+      SEND: `Find your nearest VA health facility`,
+      EMRG_BTN: `Connect with the Veterans Crisis Line`,
+      EMRG: `911`,
+      SETTINGS: `My HealtheVet (opens in new tab)`,
+      PAY: `Learn how to dispute your VA copay charges`,
+    },
+  },
+  DATE_RANGE: {
+    THREE_MONTHS: `Last 3 months`,
+    SIX_MONTHS: `Last 6 months`,
+    TWELVE_MONTHS: `Last 12 months`,
+  },
 };
 export const Assertions = {
   MESSAGES: 'Messages',

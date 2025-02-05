@@ -5,15 +5,24 @@ import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from '~/platform/user/authentication/constants';
-
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
-  const headline = 'Verify and register your account to access My HealtheVet';
+  const headline = 'Verify your identity';
   const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
+  const verifyServiceButton =
+    cspId === CSP_IDS.LOGIN_GOV ? (
+      <VerifyLogingovButton />
+    ) : (
+      <VerifyIdmeButton />
+    );
 
   useEffect(
     () => {
@@ -32,28 +41,20 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--2">
-          We need you to verify your identity and register your account before
-          you can access My HealtheVet. These steps help us keep your health
-          information safe and prevent fraud and identity theft.
+          We need you to verify your identity for your{' '}
+          <strong>{serviceProviderLabel}</strong> account. This step helps us
+          protect all Veterans’ information and prevent scammers from stealing
+          your benefits.
         </p>
-        <ul>
-          <li>
-            Verify your identity for your {serviceProviderLabel} account. This
-            one-time process often takes about 10 minutes. You’ll need to
-            provide certain personal information and identification.
-          </li>
-          <li>
-            Then we’ll ask you to register with My HealtheVet by confirming your
-            personal information and relationship with VA health care. You’ll
-            need to register before you can access your messages, medications,
-            and medical records.
-          </li>
-        </ul>
         <p>
-          <a href="/verify" className="vads-c-action-link--green">
-            Verify your identity with {serviceProviderLabel}
-          </a>
+          This one-time process often takes about 10 minutes. You’ll need to
+          provide certain personal information and identification.
         </p>
+        <p>{verifyServiceButton}</p>
+        <va-link
+          href="/resources/verifying-your-identity-on-vagov/"
+          text="Learn more about verifying your identity"
+        />
       </div>
     </VaAlert>
   );

@@ -16,13 +16,7 @@ export class ClosestCityStatePageObject extends PageObject {
   }
 
   selectFacility({ label }) {
-    cy.get('va-radio')
-      .shadow()
-      .get('va-radio-option')
-      .findByText(label)
-      .click();
-
-    return this;
+    return super.selectRadioButtonShadow(label);
   }
 }
 

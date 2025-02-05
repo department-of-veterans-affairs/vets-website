@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../test-helpers';
 import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
@@ -21,6 +22,7 @@ describe('CG <FacilitySearch>', () => {
     container,
     value,
     selector = 'va-search-input',
+    submit = true,
   ) => {
     const vaTextInput = $(selector, container);
     vaTextInput.value = value;
@@ -31,8 +33,10 @@ describe('CG <FacilitySearch>', () => {
     });
     vaTextInput.dispatchEvent(event);
 
-    const submitEvent = new CustomEvent('submit', { bubbles: true });
-    fireEvent(vaTextInput, submitEvent);
+    if (submit) {
+      const submitEvent = new CustomEvent('submit', { bubbles: true });
+      fireEvent(vaTextInput, submitEvent);
+    }
   };
 
   const onChange = sinon.spy();
@@ -74,7 +78,10 @@ describe('CG <FacilitySearch>', () => {
       loader: container.querySelector('va-loading-indicator'),
       radioList: container.querySelector('va-radio'),
       searchInputError: queryByRole('alert'),
-      moreFacilities: queryByText('Load more facilities'),
+      moreFacilities: container.vaButtonGetByText(
+        content['form-facilities-load-more-button'],
+      ),
+      ariaLiveStatus: queryByRole('status'),
       formNavButtons: {
         back: getByText('Back'),
         forward: getByText('Continue'),
@@ -97,8 +104,9 @@ describe('CG <FacilitySearch>', () => {
       expect(selectors().input).to.exist;
       expect(selectors().radioList).not.to.exist;
       expect(selectors().moreFacilities).not.to.exist;
+      expect(selectors().ariaLiveStatus).not.to.exist;
       expect(queryByText(content['form-facilities-search-label'])).to.exist;
-      expect(queryByText('(*Required)')).to.exist;
+      expect(queryByText(content['validation-required-label'])).to.exist;
     });
   });
 
@@ -135,6 +143,7 @@ describe('CG <FacilitySearch>', () => {
       await waitFor(() => {
         expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
+        expect(selectors().ariaLiveStatus.textContent).to.eq('');
         expect(selectors().input).to.not.have.attr('error');
         sinon.assert.calledWith(mapboxStub, 'Tampa');
         sinon.assert.calledWith(facilitiesStub, {
@@ -379,7 +388,7 @@ describe('CG <FacilitySearch>', () => {
     });
 
     context('more facilities buttons', () => {
-      it('successfully loads more facilities on click', async () => {
+      it('successfully loads 1 more facility on click', async () => {
         const { props, mockStore } = getData({});
         const { selectors, getByText, container } = subject({
           props,
@@ -402,12 +411,14 @@ describe('CG <FacilitySearch>', () => {
           expect(selectors().loader).to.not.exist;
           expect(selectors().input).to.not.have.attr('error');
           expect(getByText(/Showing 1-1 of 1 facilities for/)).to.exist;
+          expect(selectors().ariaLiveStatus.textContent).to.eq('');
         });
 
         await waitFor(() => {
           userEvent.click(selectors().moreFacilities);
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.exist;
+          expect(selectors().ariaLiveStatus.textContent).to.eq('');
         });
 
         await waitFor(() => {
@@ -415,6 +426,68 @@ describe('CG <FacilitySearch>', () => {
           expect(selectors().loader).to.not.exist;
           expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
           expect(selectors().input).to.not.have.attr('error');
+          expect(selectors().ariaLiveStatus.textContent).to.eq(
+            '1 new facility loaded. Showing 2 facilities matching your search criteria.',
+          );
+        });
+
+        await waitFor(() => {
+          sinon.assert.calledWith(mapboxStub, 'Tampa');
+          sinon.assert.calledWith(facilitiesStub, {
+            lat,
+            long,
+            perPage,
+            radius,
+            page: 2,
+          });
+          expect(mapboxStub.callCount).to.equal(1);
+          // This is 3 because there is an existing bug that using submit with the va-search-input component triggers two requests
+          // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3117
+          expect(facilitiesStub.callCount).to.equal(3);
+        });
+      });
+
+      it('successfully loads 2 more facilities on click', async () => {
+        const { props, mockStore } = getData({});
+        const { selectors, getByText, container } = subject({
+          props,
+          mockStore,
+        });
+
+        mapboxStub.resolves(mapBoxSuccessResponse);
+        facilitiesStub
+          .onFirstCall()
+          .resolves(mockFetchChildFacilityWithCaregiverSupportResponse);
+        facilitiesStub.onSecondCall().resolves(mockFetchFacilitiesResponse);
+
+        await waitFor(() => {
+          inputVaSearchInput(container, 'Tampa', selectors().input);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(selectors().input).to.not.have.attr('error');
+          expect(getByText(/Showing 1-1 of 1 facilities for/)).to.exist;
+          expect(selectors().ariaLiveStatus.textContent).to.eq('');
+        });
+
+        await waitFor(() => {
+          userEvent.click(selectors().moreFacilities);
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.exist;
+          expect(selectors().ariaLiveStatus.textContent).to.eq('');
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(getByText(/Showing 1-3 of 3 facilities for/)).to.exist;
+          expect(selectors().input).to.not.have.attr('error');
+          expect(selectors().ariaLiveStatus.textContent).to.eq(
+            '2 new facilities loaded. Showing 3 facilities matching your search criteria.',
+          );
         });
 
         await waitFor(() => {
@@ -610,18 +683,38 @@ describe('CG <FacilitySearch>', () => {
         expect(goForward.calledOnce).to.be.true;
       });
 
-      it('renders error when trying to click goForward when no facilities are rendered', () => {
-        const { props, mockStore } = getData({});
-        const { selectors, getByText } = subject({ props, mockStore });
-        userEvent.click(selectors().formNavButtons.forward);
-        expect(goForward.calledOnce).to.be.false;
-        expect(selectors().searchInputError.textContent).to.eq(
-          `Error${content['validation-facilities--default-required']}`,
-        );
-        expect(selectors().searchInputError.parentElement).to.have.class(
-          'caregiver-facilities-search-input-error',
-        );
-        expect(getByText('(*Required)')).to.exist;
+      context('facility is not set', () => {
+        it('renders error when trying to click goForward without submitting search', () => {
+          const { props, mockStore } = getData({});
+          const { container, selectors, getByText } = subject({
+            props,
+            mockStore,
+          });
+          inputVaSearchInput(container, 'Tampa', selectors().input, false);
+          userEvent.click(selectors().formNavButtons.forward);
+          expect(goForward.calledOnce).to.be.false;
+          expect(selectors().searchInputError.textContent).to.eq(
+            `Error${content['validation-facilities--submit-search-required']}`,
+          );
+          expect(selectors().searchInputError.parentElement).to.have.class(
+            'caregiver-facilities-search-input-error',
+          );
+          expect(getByText(content['validation-required-label'])).to.exist;
+        });
+
+        it('renders error when trying to click goForward when no search value is present', () => {
+          const { props, mockStore } = getData({});
+          const { selectors, getByText } = subject({ props, mockStore });
+          userEvent.click(selectors().formNavButtons.forward);
+          expect(goForward.calledOnce).to.be.false;
+          expect(selectors().searchInputError.textContent).to.eq(
+            `Error${content['validation-facilities--search-required']}`,
+          );
+          expect(selectors().searchInputError.parentElement).to.have.class(
+            'caregiver-facilities-search-input-error',
+          );
+          expect(getByText(content['validation-required-label'])).to.exist;
+        });
       });
     });
 

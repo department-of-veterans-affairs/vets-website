@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import constants from 'vets-json-schema/dist/constants.json';
 import { usePrevious } from 'platform/utilities/react-hooks';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
+import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
 import { STATES_WITHOUT_MEDICAL } from '../../utils/constants';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
+
+// expose React binding for web components
+const { VaSelect } = REACT_BINDINGS;
 
 const apiRequestWithUrl = `${
   environment.API_URL
@@ -114,48 +116,54 @@ const VaMedicalCenter = props => {
   // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
-      const { 'view:facilityState': facilityState } = localData;
-      if (facilityState) {
-        isLoading(true);
-        apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
-          .then(res => {
-            return res.map(location => ({
-              id: location.id,
-              name: location.name,
-            }));
-          })
-          .then(data => {
-            if (
+      const isStateChanged =
+        localDataFacilityState &&
+        localDataFacilityState !== previousFacilityState;
+
+      if (!isStateChanged) return;
+
+      isLoading(true);
+      setFacilities([]);
+      apiRequest(`${apiRequestWithUrl}&state=${localDataFacilityState}`, {})
+        .then(res => {
+          const data = res.map(location => ({
+            id: location.id,
+            name: location.name,
+          }));
+
+          setLocalData(prevLocalData => {
+            const shouldClearFacility =
               previousFacilityState &&
-              previousFacilityState !== facilityState
-            ) {
-              setLocalData({ ...localData, vaMedicalFacility: undefined });
+              previousFacilityState !== localDataFacilityState;
+
+            if (shouldClearFacility) {
+              return { ...prevLocalData, vaMedicalFacility: undefined };
             }
-            setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
-            isLoading(false);
-          })
-          .catch(err => {
-            isLoading(false);
-            hasError(true);
-            Sentry.withScope(scope => {
-              scope.setExtra('state', facilityState);
-              scope.setExtra('error', err);
-              Sentry.captureMessage('Health care facilities failed to load');
-            });
-            focusElement('.server-error-message');
+
+            return prevLocalData;
           });
-      } else {
-        setFacilities([]);
-        isLoading(false);
-      }
+
+          setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
+          isLoading(false);
+          hasError(false);
+        })
+        .catch(err => {
+          isLoading(false);
+          hasError(true);
+          Sentry.withScope(scope => {
+            scope.setExtra('state', localDataFacilityState);
+            scope.setExtra('error', err);
+            Sentry.captureMessage('Health care facilities failed to load');
+          });
+          focusElement('.server-error-message');
+        });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [localDataFacilityState, previousFacilityState],
   );
 
   // render the static facility name on review page
   if (reviewMode) {
-    const stateLabel = constants.states.USA.find(
+    const stateLabel = STATES_USA.find(
       state => state.value === localData['view:facilityState'],
     )?.label;
     return (
@@ -177,16 +185,13 @@ const VaMedicalCenter = props => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="server-error-message vads-u-margin-top--4">
-        <ServerErrorAlert />
-      </div>
-    );
-  }
-
   return (
     <>
+      {error && (
+        <div className="server-error-message vads-u-margin-top--4">
+          <ServerErrorAlert />
+        </div>
+      )}
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}
@@ -197,7 +202,7 @@ const VaMedicalCenter = props => {
         onBlur={handleBlur}
         required
       >
-        {constants.states.USA.map(s => {
+        {STATES_USA.map(s => {
           return !STATES_WITHOUT_MEDICAL.includes(s.value) ? (
             <option key={s.value} value={s.value}>
               {s.label}

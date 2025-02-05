@@ -11,6 +11,7 @@ import reducers from 'platform/forms-system/src/js/state/reducers';
 import PreSubmitSection from 'platform/forms/components/review/PreSubmitSection';
 
 const createForm = options => ({
+  formId: 'test',
   submission: {
     hasAttemptedSubmit: false,
     status: false,
@@ -27,6 +28,9 @@ const createForm = options => ({
     },
   },
   data: {},
+  savedStatus: 'not-attempted',
+  trackingPrefix: '',
+  version: 1,
   ...options,
 });
 
@@ -86,7 +90,10 @@ describe('Review PreSubmitSection component', () => {
 
     const { container } = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -110,7 +117,10 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -118,6 +128,7 @@ describe('Review PreSubmitSection component', () => {
 
     tree.unmount();
   });
+
   it('should render a custom save link', () => {
     const form = createForm();
     const formConfig = {
@@ -139,7 +150,10 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -174,7 +188,10 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
@@ -203,7 +220,11 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} showPreSubmitError />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+          showPreSubmitError
+        />
       </Provider>,
     );
 
@@ -242,14 +263,14 @@ describe('Review PreSubmitSection component', () => {
 
     const tree = render(
       <Provider store={store}>
-        <PreSubmitSection formConfig={formConfig} />
+        <PreSubmitSection
+          formConfig={formConfig}
+          location={{ pathname: '/review-and-submit' }}
+        />
       </Provider>,
     );
 
-    expect(tree.container.querySelector('h3').innerHTML).to.equal(
-      'Statement of truth',
-    );
-
+    expect(tree.container.querySelector('va-statement-of-truth')).to.exist;
     tree.unmount();
   });
 });

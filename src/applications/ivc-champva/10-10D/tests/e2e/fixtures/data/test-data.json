@@ -42,6 +42,7 @@
       "first": "Joe",
       "last": "Johnson"
     },
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": true,

@@ -11,7 +11,7 @@ import backendServices from '../../../profile/constants/backendServices';
 import { MHVApp } from '../../../authorization/containers/MHVApp';
 
 describe('<MHVApp>', () => {
-  let oldLocation;
+  const oldLocation = global.window.location;
 
   const props = {
     location: { pathname: '/health-care/prescriptions', query: {} },
@@ -31,11 +31,7 @@ describe('<MHVApp>', () => {
   };
 
   const setup = () => {
-    oldLocation = global.window.location;
-    delete global.window.location;
-    global.window.location = {
-      replace: sinon.spy(),
-    };
+    global.window.location.replace = sinon.spy();
     props.fetchMHVAccount.reset();
   };
 

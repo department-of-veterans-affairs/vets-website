@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import userEvent from '@testing-library/user-event';
 
 import sinon from 'sinon';
 
@@ -43,21 +44,47 @@ describe('<AddFilesForm>', () => {
       onDirtyFields: () => {},
     };
 
+    const file = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+    const file2 = {
+      file: new File(['hello2'], 'hello2.jpg', {
+        name: 'hello2.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '', dirty: false },
+      isEncrypted: false,
+    };
+    const fileWithPassword = {
+      file: new File(['hello'], 'hello.jpg', {
+        name: 'hello.jpg',
+        type: fileTypeSignatures.jpg.mime,
+        size: 9999,
+      }),
+      docType: { value: 'L029', dirty: true },
+      password: { value: '1234', dirty: true },
+      isEncrypted: true,
+    };
+
     it('should render component', () => {
-      const { container } = render(<AddFilesForm {...fileFormProps} />);
+      const { container, getAllByRole } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
 
       expect($('.add-files-form', container)).to.exist;
-      const checkbox = $('va-checkbox', container);
-      expect(checkbox).to.exist;
-      expect(checkbox.label).to.equal(
-        'The files I uploaded support this claim only.',
-      );
-      expect(checkbox.required).to.be.true;
-      const link = $('#how-to-file-claim', container);
-      expect(link.text).to.equal(
-        'How to File a Claim page (opens in a new tab)',
-      );
-      expect($('.files-form-information', container)).to.exist;
+      getAllByRole('link', {
+        text: 'How to File a Claim page (opens in a new tab)',
+      });
+      expect($('#file-upload', container)).to.exist;
     });
 
     it('uploading modal should not be visible', () => {
@@ -73,9 +100,20 @@ describe('<AddFilesForm>', () => {
     });
 
     it('should include mail info additional info', () => {
-      const { container } = render(<AddFilesForm {...fileFormProps} />);
-
-      expect($('va-additional-info', container)).to.exist;
+      const { getByText, getAllByRole } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
+      getByText(
+        /Please upload your documents online here to help us process your claim quickly./i,
+      );
+      getByText(/If you can’t upload documents:/i);
+      getAllByRole('listitem', { text: 'Make copies of the documents.' });
+      getAllByRole('listitem', {
+        text: 'Make sure you write your name and claim number on every page.',
+      });
+      getAllByRole('listitem', {
+        text: 'Mail them to the VA Claims Intake Center (opens in a new tab).',
+      });
     });
 
     it('should not submit if files empty', () => {
@@ -96,31 +134,6 @@ describe('<AddFilesForm>', () => {
       expect(onDirtyFields.called).to.be.true;
     });
 
-    it('should not submit if files are valid and checkbox is not checked', () => {
-      const files = [
-        {
-          file: {
-            size: 20,
-            name: 'something.jpeg',
-          },
-          docType: 'L501',
-        },
-      ];
-      const onSubmit = sinon.spy();
-      const onDirtyFields = sinon.spy();
-      const { container } = render(
-        <AddFilesForm
-          {...fileFormProps}
-          files={files}
-          onSubmit={onSubmit}
-          onDirtyFields={onDirtyFields}
-        />,
-      );
-      fireEvent.click($('#submit', container));
-      expect(onSubmit.called).to.be.false;
-      expect(onDirtyFields.called).to.be.true;
-    });
-
     it('should add a valid file and submit', async () => {
       const onSubmit = sinon.spy();
       const onDirtyFields = sinon.spy();
@@ -133,23 +146,7 @@ describe('<AddFilesForm>', () => {
         />,
       );
 
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
-
       // Rerender component with new props and submit the file upload
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '', dirty: false },
-        isEncrypted: false,
-      };
-
       rerender(
         <AddFilesForm
           {...fileFormProps}
@@ -182,27 +179,11 @@ describe('<AddFilesForm>', () => {
         />,
       );
 
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
-
       // Rerender component with new props and submit the file upload
-      const file = {
-        file: new File(['hello'], 'hello.jpg', {
-          name: 'hello.jpg',
-          type: fileTypeSignatures.jpg.mime,
-          size: 9999,
-        }),
-        docType: { value: 'L029', dirty: true },
-        password: { value: '1234', dirty: true },
-        isEncrypted: true,
-      };
-
       rerender(
         <AddFilesForm
           {...fileFormProps}
-          files={[file]}
+          files={[fileWithPassword]}
           onSubmit={onSubmit}
           onDirtyFields={onDirtyFields}
           uploading
@@ -224,6 +205,69 @@ describe('<AddFilesForm>', () => {
       fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.true;
       expect($('#upload-status', container).visible).to.be.true;
+    });
+
+    it('should mask filenames from Datadog (no PII)', () => {
+      const { container } = render(
+        <AddFilesForm {...fileFormProps} files={[file]} />,
+      );
+      expect(
+        $('.document-title', container).getAttribute('data-dd-privacy'),
+      ).to.equal('mask');
+    });
+
+    it('should add a valid file', () => {
+      const { container, rerender, getByText } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
+      const fileInput = $('#file-upload', container);
+
+      // Add a file to the va-file-input component
+      userEvent.upload(fileInput, file);
+      expect(fileInput.files[0]).to.equal(file);
+      expect(fileInput.files.length).to.equal(1);
+      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
+      getByText('hello.jpg');
+    });
+
+    it('should add a valid file and change it', () => {
+      const { container, rerender, getByText } = render(
+        <AddFilesForm {...fileFormProps} />,
+      );
+
+      const fileInput = $('#file-upload', container);
+
+      // Add a file to the va-file-input component
+      userEvent.upload(fileInput, file);
+      expect(fileInput.files[0]).to.equal(file);
+      expect(fileInput.files.length).to.equal(1);
+      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
+      getByText('hello.jpg');
+      // Change the file
+      userEvent.upload(fileInput, file2);
+      expect(fileInput.files[0]).to.equal(file2);
+      expect(fileInput.files.length).to.equal(1);
+      rerender(<AddFilesForm {...fileFormProps} files={[file2]} uploading />);
+      getByText('hello2.jpg');
+    });
+
+    it('should add multiple valid files', () => {
+      const files = [];
+      const { container, getByText, rerender } = render(
+        <AddFilesForm {...fileFormProps} files={files} />,
+      );
+      const fileInput = $('#file-upload', container);
+
+      // Add multiple files to the va-file-input component
+      userEvent.upload(fileInput, [file, file2]);
+      expect(fileInput.files[0].length).to.equal(2);
+      expect(fileInput.files[0][0]).to.equal(file);
+      expect(fileInput.files[0][1]).to.equal(file2);
+      rerender(
+        <AddFilesForm {...fileFormProps} files={[file, file2]} uploading />,
+      );
+      getByText('hello.jpg');
+      getByText('hello2.jpg');
     });
   });
 
@@ -594,42 +638,5 @@ describe('<AddFilesForm>', () => {
 
     // VaTextInput has a name prop set to 'password'
     expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
-  });
-
-  it('should mask filenames from Datadog (no PII)', () => {
-    const fileFormProps = {
-      field: { value: '', dirty: false },
-      files: [
-        {
-          file: {
-            size: 20,
-            name: 'something.jpeg',
-          },
-          docType: 'L501',
-        },
-      ],
-      onSubmit: () => {},
-      onAddFile: () => {},
-      onRemoveFile: () => {},
-      onFieldChange: () => {},
-      onCancel: () => {},
-      removeFile: () => {},
-      onDirtyFields: () => {},
-    };
-    const files = [
-      {
-        file: {
-          size: 20,
-          name: 'something.jpeg',
-        },
-        docType: 'L501',
-      },
-    ];
-    const { container } = render(
-      <AddFilesForm {...fileFormProps} files={files} />,
-    );
-    expect(
-      $('.document-title', container).getAttribute('data-dd-privacy'),
-    ).to.equal('mask');
   });
 });

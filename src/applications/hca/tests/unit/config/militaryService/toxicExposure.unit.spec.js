@@ -4,8 +4,7 @@ import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
 import { simulateInputChange } from '../../../helpers';
 

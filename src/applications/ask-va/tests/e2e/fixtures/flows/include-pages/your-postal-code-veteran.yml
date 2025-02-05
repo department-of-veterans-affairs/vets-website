@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your postal code
+  - action: typeTextInput
+    target: VETERAN_POSTAL_CODE
+    value:  36064
+  - action: click
+    target: call-to-action

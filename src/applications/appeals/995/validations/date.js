@@ -53,3 +53,24 @@ export const isValidDate = dateString => {
   validateDate(errors, dateString);
   return isValid;
 };
+
+export const validateYMDate = (errors, rawDateString = '') => {
+  if (!rawDateString || rawDateString.length < 7) {
+    return; // VA date is not required
+  }
+
+  // Add "-01" (day) to the YYYY-MM date for processing
+  const date = createDateObject(`${rawDateString}-01`);
+  const error = errorMessages.evidence;
+
+  if (date.isInvalid) {
+    errors.addError(error.blankDate);
+  } else if (date.hasErrors) {
+    errors.addError(sharedErrorMessages.invalidDate);
+  } else if (date.isTodayOrInFuture) {
+    // Lighthouse won't accept same day (as submission) decision date
+    errors.addError(error.pastDate);
+  } else if (isBefore(date.dateObj, minDate)) {
+    errors.addError(error.newerDate);
+  }
+};

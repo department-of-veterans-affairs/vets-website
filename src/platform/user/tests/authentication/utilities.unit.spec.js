@@ -444,7 +444,7 @@ describe('Authentication Utilities', () => {
     afterEach(() => cleanup());
     it('should redirect to the provided redirectUrl in its simplest use case', () => {
       authUtilities.redirect(base);
-      expect(global.window.location).to.equal(base);
+      expect(global.window.location.origin).to.equal(base);
     });
 
     it('should set sessionStorage `authReturnUrl` correctly based on internal or external authentication', () => {
@@ -481,16 +481,14 @@ describe('Authentication Utilities', () => {
   });
 
   describe('mockLogin', () => {
+    beforeEach(() => setup({}));
     afterEach(() => cleanup());
     it('should redirect to proper mockLogin url', async () => {
-      Object.values(CSP_IDS).forEach(async policy => {
-        setup({});
-        await authUtilities.mockLogin({}, policy);
-        expect(global.window.location).to.include(
-          `v0/sign_in/authorize?type=${policy}&client_id=vamock`,
-        );
-        setup({});
-      });
+      await authUtilities.mockLogin({ type: 'idme' });
+      expect(global.window.location.href).to.include(`client_id=vamock`);
+    });
+    it('should throw an error when no `type` is provided', () => {
+      expect(authUtilities.mockLogin()).to.throw;
     });
   });
 
@@ -551,22 +549,74 @@ describe('Authentication Utilities', () => {
     it('should redirect to the mfa session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.mfa();
-      expect(global.window.location).to.equal(
+      expect(global.window.location.href).to.equal(
         API_SESSION_URL({ type: POLICY_TYPES.MFA }),
       );
     });
   });
 
   describe('verify', () => {
+    beforeEach(() => setup({ path: nonUsipPath }));
     afterEach(() => cleanup());
-    it.skip('should redirect to the verify session url', async () => {
-      setup({ path: nonUsipPath });
-      await authUtilities.verify({ policy: CSP_IDS.LOGIN_GOV });
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({
-          type: `${SIGNUP_TYPES[CSP_IDS.LOGIN_GOV]}_verified`,
-        }),
+    it('should throw an error when no policy provided', () => {
+      expect(authUtilities.verify({ isLink: false })).to.throw;
+    });
+    it('should generate a verify link (SAML)', async () => {
+      const link = await authUtilities.verify({
+        policy: 'logingov',
+        isLink: true,
+      });
+      expect(link).to.include('logingov_signup_verified');
+      expect(typeof link).to.eql('string');
+    });
+    it('should generate a verify link (OAuth)', async () => {
+      const link = await authUtilities.verify({
+        policy: 'logingov',
+        isLink: true,
+        useOAuth: true,
+        acr: 'ial2',
+      });
+      expect(link).to.include('type=logingov');
+      expect(link).to.include('acr=ial2');
+      expect(typeof link).to.eql('string');
+    });
+    it('should kickoff identity-verification (SAML)', async () => {
+      await authUtilities.verify({ policy: 'idme' });
+      expect(global.window.location.href).to.include('idme_signup_verified');
+    });
+    it('should kickoff identity-verification (OAuth)', async () => {
+      await authUtilities.verify({
+        policy: 'logingov',
+        useOAuth: true,
+        acr: 'ial2',
+      });
+      expect(global.window.location.href).to.include('type=logingov');
+      expect(global.window.location.href).to.include('acr=ial2');
+    });
+    it('should pass along query parameters', async () => {
+      const samlLink = await authUtilities.verify({
+        policy: 'idme',
+        isLink: true,
+        queryParams: {
+          operation: 'test_operation',
+          gaClientId: 'id',
+          scope: 'email',
+        },
+      });
+      expect(samlLink).to.include(
+        '?operation=test_operation&gaClientId=id&scope=email',
       );
+      const oauthLink = await authUtilities.verify({
+        policy: 'idme',
+        isLink: true,
+        useOAuth: true,
+        acr: 'loa3',
+        queryParams: {
+          operation: 'test_operation',
+        },
+      });
+      expect(oauthLink).to.include('acr=loa3');
+      expect(oauthLink).to.include('&operation=test_operation');
     });
   });
 
@@ -587,7 +637,7 @@ describe('Authentication Utilities', () => {
 
       it(`should generate the default URL link and redirect for signup '${policy}_signup'`, async () => {
         await authUtilities.signupOrVerify({ policy });
-        expect(global.window.location).contain(
+        expect(global.window.location.href).contain(
           API_SESSION_URL({
             type: SIGNUP_TYPES[policy],
           }),
@@ -610,7 +660,7 @@ describe('Authentication Utilities', () => {
     it('should redirect to the logout session url', () => {
       setup({ path: nonUsipPath });
       authUtilities.logout();
-      expect(global.window.location).to.equal(
+      expect(global.window.location.href).to.equal(
         API_SESSION_URL({ type: POLICY_TYPES.SLO }),
       );
     });
@@ -623,7 +673,7 @@ describe('Authentication Utilities', () => {
         clickedEvent: AUTH_EVENTS.LOGOUT,
         queryParams: params,
       });
-      expect(global.window.location).to.equal(
+      expect(global.window.location.href).to.equal(
         appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
       );
     });
@@ -636,9 +686,17 @@ describe('Authentication Utilities', () => {
         clickedEvent: AUTH_EVENTS.LOGOUT,
         queryParams: params,
       });
-      expect(global.window.location).to.eql(
+      expect(global.window.location.href).to.eql(
         appendQuery(API_SESSION_URL({ type: POLICY_TYPES.SLO }), params),
       );
+    });
+  });
+
+  describe('logoutUrl', () => {
+    it('should generate the SAML logout URL', async () => {
+      setup({ path: nonUsipPath });
+      expect(authUtilities.logoutUrl()).to.include('sessions/slo/new');
+      cleanup();
     });
   });
 

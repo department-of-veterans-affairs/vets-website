@@ -5,9 +5,10 @@ import { recordNotificationEvent, fireLinkClickEvent } from '../helpers';
 const NoHonorableDischargeSM = () => {
   recordNotificationEvent('ineligibility - received a dishonorable discharge');
   return (
-    <div
+    <va-card
+      background
       id={serviceMemberPathPageNames.noHonorableDischargeSM}
-      className="feature vads-u-background-color--gray-lightest"
+      class="vads-u-margin-bottom--3"
       aria-live="polite"
       aria-atomic="true"
     >
@@ -22,7 +23,7 @@ const NoHonorableDischargeSM = () => {
       >
         Learn more about how to apply for a discharge upgrade
       </a>
-    </div>
+    </va-card>
   );
 };
 

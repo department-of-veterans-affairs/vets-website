@@ -18,15 +18,10 @@ export class ClinicChoicePageObject extends PageObject {
       cy.findByText(/Choose a clinic/i, { selector: 'h1' });
       cy.findByLabelText(selection).as('radio');
       cy.get('@radio').check();
-    } else {
-      cy.get('va-radio')
-        .shadow()
-        .get('va-radio-option')
-        .contains(selection)
-        .click();
-    }
 
-    return this;
+      return this;
+    }
+    return super.selectRadioButtonShadow(selection);
   }
 }
 

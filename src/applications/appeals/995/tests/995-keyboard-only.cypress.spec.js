@@ -1,10 +1,11 @@
 import path from 'path';
 
 import formConfig from '../config/form';
+import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API } from '../constants';
+import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import { fetchItf } from './995.cypress.helpers';
 
 import { CONTACT_INFO_PATH } from '../../shared/constants';
@@ -19,16 +20,17 @@ describe('Supplemental Claim keyboard only navigation', () => {
       'testData',
     );
 
-    cy.intercept('PUT', 'v0/in_progress_forms/995', mockInProgress);
+    cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
+    cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
-    cy.intercept('GET', '/v0/intent_to_file', fetchItf());
+    cy.intercept('GET', ITF_API, fetchItf());
   });
 
   it('navigates through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
 
-      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
+      cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       });
       cy.visit(
@@ -250,8 +252,18 @@ describe('Supplemental Claim keyboard only navigation', () => {
         'include',
         chapters.evidence.pages.evidencePrivateLimitation.path,
       );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.tabToElement('textarea');
-      cy.realType(data.limitedConsent);
+      // Without this waitUntil, only the first letter is entered into the
+      // textarea
+      cy.waitUntil(() =>
+        cy
+          .realType(data.limitedConsent)
+          .then(() =>
+            cy.get(':focus').then($el => $el[0].value === data.limitedConsent),
+          ),
+      );
       cy.tabToSubmitForm();
 
       // *** Upload evidence (y/n) - skipping since we can't test uploads

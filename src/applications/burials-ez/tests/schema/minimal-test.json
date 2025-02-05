@@ -87,7 +87,7 @@
   },
   "claimantSocialSecurityNumber": "333445555",
   "claimantDateOfBirth": "1991-07-21",
-  "formV2": true,
+  "claimantEmail": "user@example.com",
   "relationshipToVeteran": "otherFamily",
   "burialAllowanceRequested": {},
   "view:allowanceStatement": {

@@ -7,7 +7,6 @@ import { rest } from 'msw';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import TermsOfUse from '../containers/TermsOfUse';
-import { errorMessages } from '../constants';
 
 const store = ({
   termsOfUseEnabled = true,
@@ -325,9 +324,10 @@ describe('TermsOfUse', () => {
     });
   });
 
-  it('should show an error state if there is a network error | non-modal', async () => {
-    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=idme`;
-    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}`;
+  it('should pass along `skip_mhv_account_creation` to API', async () => {
+    const redirectUrl = `https://dev.va.gov/auth/login/callback/?type=logingov`;
+    const skipMhvAccountCreation = true;
+    global.window.location = `https://dev.va.gov/terms-of-use/?redirect_url=${redirectUrl}&skip_mhv_account_creation=${skipMhvAccountCreation}`;
 
     const mockStore = store();
     server.use(
@@ -337,7 +337,12 @@ describe('TermsOfUse', () => {
       ),
       rest.post(
         `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept`,
-        (_, res) => res.networkError(),
+        (req, res, ctx) => {
+          expect(req.url.searchParams.get('skip_mhv_account_creation')).to.eql(
+            skipMhvAccountCreation,
+          );
+          return res(ctx.status(200), ctx.json(touResponse200));
+        },
       ),
     );
     const { queryAllByTestId } = render(
@@ -346,15 +351,11 @@ describe('TermsOfUse', () => {
       </Provider>,
     );
 
-    const accept = queryAllByTestId('accept')[0];
-    expect(accept).to.exist;
-
-    fireEvent.click(accept);
-
     await waitFor(() => {
-      const nonModalErrorState = queryAllByTestId('error-non-modal')[0];
-      expect(nonModalErrorState).to.exist;
-      expect(nonModalErrorState.textContent).to.eql(errorMessages.network);
+      const acceptButton = queryAllByTestId('accept')[0];
+      expect(acceptButton).to.exist;
+      fireEvent.click(acceptButton);
+      expect(global.window.location).to.not.eql(redirectUrl);
     });
   });
 
