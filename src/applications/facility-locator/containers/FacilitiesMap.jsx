@@ -456,6 +456,7 @@ const FacilitiesMap = props => {
             suppressPPMS={props.suppressPPMS}
             suppressPharmacies={props.suppressPharmacies}
             clearSearchText={props.clearSearchText}
+            useProgressiveDisclosure={useProgressiveDisclosure}
           />
           <EmergencyCareAlert
             shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
@@ -632,6 +633,7 @@ const FacilitiesMap = props => {
   useEffect(() => {
     setMap(setupMap());
     setUpResizeEventListener();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // <-- empty array means 'run once'
 
   useEffect(
