@@ -19,8 +19,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
           },
         ],
       },
-    });
-    // .as('featureToggles');
+    }).as('featureToggles');
     // cy.intercept('GET', '**/v1/gi/institutions/318Z0032*', {
     //   statusCode: 200,
     //   body: {
@@ -398,7 +397,6 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     // }).as('institutionData');
 
     // cy.wait('@institutionData');
-    // cy.wait('@featureToggles');
 
     // cy.get('a[data-testid="program-link"]', {
     //   timeout: 10000,
@@ -411,6 +409,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.visit(
       'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
     );
+    cy.wait('@featureToggles');
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -425,6 +424,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.visit(
       'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
     );
+    cy.wait('@featureToggles');
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -443,6 +443,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.visit(
       'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
     );
+    cy.wait('@featureToggles');
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -459,6 +460,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.visit(
       'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
     );
+    cy.wait('@featureToggles');
     cy.injectAxeThenAxeCheck();
     cy.get('#search-input')
       .shadow()
@@ -476,6 +478,7 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.visit(
       'education/gi-bill-comparison-tool/institution/318Z0032/institution-of-higher-learning',
     );
+    cy.wait('@featureToggles');
     cy.injectAxeThenAxeCheck();
     cy.get('va-pagination').should('exist');
     cy.get('#results-summary').should('contain', 'Showing 1-20');
