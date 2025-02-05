@@ -45,19 +45,18 @@ function SponsorSuggestedAddress({ formData }) {
           `${envUrl}/v0/profile/address_validation`,
           options,
         );
-
         if (res?.addresses && res?.addresses.length > 0) {
           const suggested = res?.addresses[0]?.address;
           setSuggestedAddress({
-            addressLine1: suggested.address_line1,
-            addressLine2: suggested.address_line2 || '',
+            addressLine1: suggested.addressLine1,
+            addressLine2: suggested.addressLine2,
             city: suggested.city,
-            country: suggested.country_code_iso3,
-            state: suggested.state_code,
-            zipCode: suggested.zip_code,
+            country: suggested.countryCodeIso3,
+            state: suggested.stateCode,
+            zipCode: suggested.zipCode,
           });
           setShowSuggestions(
-            res?.addresses[0]?.address_meta_data?.confidence_score !== 100,
+            res?.addresses[0]?.addressMetaData?.confidenceScore !== 100,
           );
         } else {
           setShowSuggestions(false);
@@ -78,14 +77,14 @@ function SponsorSuggestedAddress({ formData }) {
     const selected = JSON.parse(event.detail.value);
     setSelectedAddress(selected);
     let newAddress;
-    if ('address_line1' in selected) {
+    if ('addressLine1' in selected) {
       newAddress = {
-        street: selected.address_line1,
-        street2: selected.address_line2 || '',
+        street: selected.addressLine1,
+        street2: selected.addressLine2,
         city: selected.city,
-        country: selected.country_code_iso3,
-        state: selected.state_code,
-        postalCode: selected.zip_code,
+        country: selected.country,
+        state: selected.state,
+        postalCode: selected.zipCode,
       };
     } else {
       newAddress = selected;

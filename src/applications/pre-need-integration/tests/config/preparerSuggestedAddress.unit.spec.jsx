@@ -65,36 +65,35 @@ const renderComponent = async store => {
   return wrapper;
 };
 
-/* eslint-disable camelcase */
-const invalid_address_response = {
+const invalidAddressResponse = {
   addresses: [
     {
       address: {
-        address_line1: '456 Mock Street',
+        addressLine1: '456 Mock Street',
         city: 'Mock City',
-        state_code: 'MC',
-        zip_code: '28226',
-        country_code_iso3: 'USA',
+        stateCode: 'MC',
+        zipCode: '28226',
+        countryCodeIso3: 'USA',
       },
-      address_meta_data: {
-        confidence_score: 90,
+      addressMetaData: {
+        confidenceScore: 90,
       },
     },
   ],
 };
 
-const valid_address_response = {
+const validAddressResponse = {
   addresses: [
     {
       address: {
-        address_line1: '456 Mock Street',
+        addressLine1: '456 Mock Street',
         city: 'Mock City',
-        state_code: 'MC',
-        zip_code: '28226',
-        country_code_iso3: 'USA',
+        stateCode: 'MC',
+        zipCode: '28226',
+        countryCodeIso3: 'USA',
       },
-      address_meta_data: {
-        confidence_score: 100,
+      addressMetaData: {
+        confidenceScore: 100,
       },
     },
   ],
@@ -102,7 +101,7 @@ const valid_address_response = {
 
 describe('Preparer Suggested Address', () => {
   it('should render suggested address radio if given a suggested address', async () => {
-    mockApiRequest(invalid_address_response);
+    mockApiRequest(invalidAddressResponse);
     const store = createStore();
     const wrapper = await renderComponent(store);
 
@@ -114,7 +113,7 @@ describe('Preparer Suggested Address', () => {
   });
 
   it('should render confirm address if NOT given a suggested address', async () => {
-    mockApiRequest(valid_address_response);
+    mockApiRequest(validAddressResponse);
     const store = createStore();
     const wrapper = await renderComponent(store);
 
