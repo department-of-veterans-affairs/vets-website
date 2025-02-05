@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const saveInProgress = {
   messages: {
     inProgress:
@@ -17,11 +15,3 @@ export const savedFormMessages = {
   noAuth:
     'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
 };
-
-export const UpdatedPagesAlert = (
-  <va-alert status="info">
-    We updated the Supplemental Claim with new questions. Your previous
-    responses have been saved. You’ll need to review your application in order
-    to submit.
-  </va-alert>
-);
