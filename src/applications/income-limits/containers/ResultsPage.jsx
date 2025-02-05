@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -23,6 +23,8 @@ import { getPreviousYear, redirectIfFormIncomplete } from '../utilities/utils';
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
   const APPLY_URL = '/health-care/apply-for-health-care-form-10-10ez/';
   const currentYear = new Date().getFullYear();
+
+  const [linkText, setLinkText] = useState('Apply for VA health care');
 
   useEffect(
     () => {
@@ -114,14 +116,14 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
       </p>
     );
 
-    const applyUrl = (
-      <va-link-action href={APPLY_URL} text="Apply for VA health care" />
-    );
+    const applyUrl = <va-link-action href={APPLY_URL} text={linkText} />;
 
     const handlePrint = () => {
-      if (window.print) {
+      setLinkText(`Apply for VA health care (https://va.gov${APPLY_URL})`);
+      setTimeout(() => {
         window.print();
-      }
+        setTimeout(() => setLinkText('Apply for VA health care'), 500); // Restore text after printing
+      }, 100);
     };
 
     return (
