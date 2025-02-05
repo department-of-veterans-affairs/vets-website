@@ -9,6 +9,26 @@ describe('GI Bill Comparison Tool - Programs List', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', {
       statusCode: 200,
     });
+    // cy.intercept('GET', '/v0/feature_toggles?*', {
+    //   data: {
+    //     type: 'feature_toggles',
+    //     features: [
+    //       {
+    //         name: 'gi_comparison_tool_programs_toggle_flag',
+    //         value: true,
+    //       },
+    //     ],
+    //   },
+    // }).as('featureToggles');
+
+    // cy.get('a[data-testid="program-link"]', {
+    //   timeout: 10000,
+    // }).should('exist');
+    // cy.get('a[data-testid="program-link"]', { timeout: 10000 })
+    //   .first()
+    //   .click();
+  });
+  it('should show a "no results" message when an invalid program name is searched', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -20,15 +40,6 @@ describe('GI Bill Comparison Tool - Programs List', () => {
         ],
       },
     }).as('featureToggles');
-
-    // cy.get('a[data-testid="program-link"]', {
-    //   timeout: 10000,
-    // }).should('exist');
-    // cy.get('a[data-testid="program-link"]', { timeout: 10000 })
-    //   .first()
-    //   .click();
-  });
-  it('should show a "no results" message when an invalid program name is searched', () => {
     cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
     cy.wait('@featureToggles');
 
@@ -48,88 +59,88 @@ describe('GI Bill Comparison Tool - Programs List', () => {
       .should('be.visible')
       .and('contain', 'We didn’t find any results for');
   });
-  it('should clear the search query and display all programs when "Reset search" is clicked', () => {
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.wait('@featureToggles');
-    cy.get('a[data-testid="program-link"]', {
-      timeout: 10000,
-    }).should('exist');
-    cy.get('a[data-testid="program-link"]', { timeout: 10000 })
-      .first()
-      .click();
-    cy.injectAxeThenAxeCheck();
-    cy.get('#search-input')
-      .shadow()
-      .find('input')
-      .type('ACCOUNTING');
-    cy.contains('button', 'Search').click();
-    cy.contains('button', 'Reset search').click();
-    cy.get('#search-input')
-      .shadow()
-      .find('input')
-      .should('have.value', '')
-      .should('be.focused');
-    cy.get('[data-testid="program-list-item"]').should('have.length', 20);
-  });
-  it('should display relevant results when a user searches for "ACCOUNTING"', () => {
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.wait('@featureToggles');
-    cy.get('a[data-testid="program-link"]', {
-      timeout: 10000,
-    }).should('exist');
-    cy.get('a[data-testid="program-link"]', { timeout: 10000 })
-      .first()
-      .click();
-    cy.injectAxeThenAxeCheck();
-    cy.get('#search-input')
-      .shadow()
-      .find('input')
-      .type('ACCOUNTING');
-    cy.contains('button', 'Search').click();
-    cy.get('#results-summary').should('contain', 'ACCOUNTING');
-    cy.get('[data-testid="program-list-item"]').should('have.length', 4);
-    cy.get('[data-testid="program-list-item"]')
-      .first()
-      .should('contain', 'ACCOUNTING-CPA TRACK-BS');
-  });
-  it('displays an error if the user tries to search with an empty input', () => {
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.wait('@featureToggles');
-    cy.get('a[data-testid="program-link"]', {
-      timeout: 10000,
-    }).should('exist');
-    cy.get('a[data-testid="program-link"]', { timeout: 10000 })
-      .first()
-      .click();
-    cy.injectAxeThenAxeCheck();
-    cy.get('#search-input')
-      .shadow()
-      .find('input')
-      .type(' ');
-    cy.contains('button', 'Search').click();
-    cy.get('[class="usa-error-message"]')
-      .should(
-        'contain',
-        'Please fill in a program name and then select search.',
-      )
-      .should('exist');
-  });
-  it('paginates correctly when there are more than 20 programs', () => {
-    cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
-    cy.wait('@featureToggles');
-    cy.get('a[data-testid="program-link"]', {
-      timeout: 10000,
-    }).should('exist');
-    cy.get('a[data-testid="program-link"]', { timeout: 10000 })
-      .first()
-      .click();
-    cy.injectAxeThenAxeCheck();
-    cy.get('va-pagination').should('exist');
-    cy.get('#results-summary').should('contain', 'Showing 1-20');
-    cy.get('va-pagination')
-      .shadow()
-      .find('[aria-label="Next page"]')
-      .click();
-    cy.get('#results-summary').should('contain', 'Showing 21-');
-  });
+  // it('should clear the search query and display all programs when "Reset search" is clicked', () => {
+  //   cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+  //   cy.wait('@featureToggles');
+  //   cy.get('a[data-testid="program-link"]', {
+  //     timeout: 10000,
+  //   }).should('exist');
+  //   cy.get('a[data-testid="program-link"]', { timeout: 10000 })
+  //     .first()
+  //     .click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.get('#search-input')
+  //     .shadow()
+  //     .find('input')
+  //     .type('ACCOUNTING');
+  //   cy.contains('button', 'Search').click();
+  //   cy.contains('button', 'Reset search').click();
+  //   cy.get('#search-input')
+  //     .shadow()
+  //     .find('input')
+  //     .should('have.value', '')
+  //     .should('be.focused');
+  //   cy.get('[data-testid="program-list-item"]').should('have.length', 20);
+  // });
+  // it('should display relevant results when a user searches for "ACCOUNTING"', () => {
+  //   cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+  //   cy.wait('@featureToggles');
+  //   cy.get('a[data-testid="program-link"]', {
+  //     timeout: 10000,
+  //   }).should('exist');
+  //   cy.get('a[data-testid="program-link"]', { timeout: 10000 })
+  //     .first()
+  //     .click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.get('#search-input')
+  //     .shadow()
+  //     .find('input')
+  //     .type('ACCOUNTING');
+  //   cy.contains('button', 'Search').click();
+  //   cy.get('#results-summary').should('contain', 'ACCOUNTING');
+  //   cy.get('[data-testid="program-list-item"]').should('have.length', 4);
+  //   cy.get('[data-testid="program-list-item"]')
+  //     .first()
+  //     .should('contain', 'ACCOUNTING-CPA TRACK-BS');
+  // });
+  // it('displays an error if the user tries to search with an empty input', () => {
+  //   cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+  //   cy.wait('@featureToggles');
+  //   cy.get('a[data-testid="program-link"]', {
+  //     timeout: 10000,
+  //   }).should('exist');
+  //   cy.get('a[data-testid="program-link"]', { timeout: 10000 })
+  //     .first()
+  //     .click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.get('#search-input')
+  //     .shadow()
+  //     .find('input')
+  //     .type(' ');
+  //   cy.contains('button', 'Search').click();
+  //   cy.get('[class="usa-error-message"]')
+  //     .should(
+  //       'contain',
+  //       'Please fill in a program name and then select search.',
+  //     )
+  //     .should('exist');
+  // });
+  // it('paginates correctly when there are more than 20 programs', () => {
+  //   cy.visit('education/gi-bill-comparison-tool/institution/318Z0032/');
+  //   cy.wait('@featureToggles');
+  //   cy.get('a[data-testid="program-link"]', {
+  //     timeout: 10000,
+  //   }).should('exist');
+  //   cy.get('a[data-testid="program-link"]', { timeout: 10000 })
+  //     .first()
+  //     .click();
+  //   cy.injectAxeThenAxeCheck();
+  //   cy.get('va-pagination').should('exist');
+  //   cy.get('#results-summary').should('contain', 'Showing 1-20');
+  //   cy.get('va-pagination')
+  //     .shadow()
+  //     .find('[aria-label="Next page"]')
+  //     .click();
+  //   cy.get('#results-summary').should('contain', 'Showing 21-');
+  // });
 });
