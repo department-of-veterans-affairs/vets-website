@@ -14,6 +14,8 @@ export default function SelectProviderPage() {
     loading,
     patientRelationshipsError,
     patientProviderRelationships,
+    typeOfCare,
+    selectedFacility,
   } = useGetPatientRelationships();
 
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
@@ -46,8 +48,9 @@ export default function SelectProviderPage() {
     <div>
       <h1 className="vads-u-font-size--h2">{pageHeader}</h1>
       <div>
-        <strong>Type of care:</strong> Nutrition and Food <br />
-        <strong>Facility:</strong> Grove City VA Clinic
+        <strong>Type of care:</strong> {typeOfCare?.name}
+        <br />
+        <strong>Facility:</strong> {selectedFacility?.name}
       </div>
 
       {patientProviderRelationships.map((provider, index) => (

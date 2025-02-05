@@ -3,7 +3,10 @@ import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { FETCH_STATUS } from '../../utils/constants';
 import { useOHDirectScheduling } from './useOHDirectScheduling';
 import { getPatientRelationships } from '../redux/actions';
-import { selectPatientProviderRelationships } from '../redux/selectors';
+import {
+  selectPatientProviderRelationships,
+  getFacilityPageV2Info,
+} from '../redux/selectors';
 
 export function useGetPatientRelationships() {
   const [loading, setLoading] = useState(true);
@@ -18,6 +21,10 @@ export function useGetPatientRelationships() {
     patientProviderRelationshipsStatus,
   } = useSelector(
     state => selectPatientProviderRelationships(state),
+    shallowEqual,
+  );
+  const { typeOfCare, selectedFacility } = useSelector(
+    state => getFacilityPageV2Info(state),
     shallowEqual,
   );
 
@@ -54,5 +61,7 @@ export function useGetPatientRelationships() {
     patientRelationshipsError,
     patientProviderRelationships,
     patientProviderRelationshipsStatus,
+    typeOfCare,
+    selectedFacility,
   };
 }
