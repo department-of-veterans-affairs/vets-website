@@ -119,6 +119,20 @@ export function showBehaviorListPage(formData) {
   );
 }
 
+export function showReassignmentDescriptionPage(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.workBehaviors?.reassignment === true
+  );
+}
+
+export function showOtherDescriptionPage(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.otherBehaviors?.unlisted === true
+  );
+}
+
 /**
  * Dynamically generates the title for an event page in the array builder pattern.
  *
