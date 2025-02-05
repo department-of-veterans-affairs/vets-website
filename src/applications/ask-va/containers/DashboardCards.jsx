@@ -43,10 +43,13 @@ const DashboardCards = () => {
         status: getVAStatusFromCRM(inquiry.attributes.status),
       },
     }));
-
     const uniqueCategories = [
       ...new Set(
-        transformedInquiries.map(item => item.attributes.categoryName),
+        transformedInquiries
+          .filter(
+            item => item.attributes.levelOfAuthentication !== 'Unauthenticated',
+          )
+          .map(item => item.attributes.categoryName),
       ),
     ];
 
