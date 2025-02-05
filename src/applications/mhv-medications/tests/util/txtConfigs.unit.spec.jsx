@@ -73,15 +73,10 @@ describe('VA prescription Config', () => {
   it('should create "Most recent prescription" section', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
     expect(txt).to.include('Most recent prescription');
+    expect(txt).to.include('Quantity: 30');
     expect(txt).to.include(
       prescriptionDetails.data.attributes.prescriptionName,
     );
-  });
-
-  it('should create "About this medication or supply" section', () => {
-    const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
-    expect(txt).to.include('About this medication or supply');
-    expect(txt).to.include('Quantity: 30');
   });
 
   it('should show refill information', () => {
