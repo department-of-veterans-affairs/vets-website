@@ -5,7 +5,7 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { format, addDays, differenceInDays, parseISO } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -155,19 +155,3 @@ export const TIME_TEXT = {
   PM: 'in the afternoon',
   'No Time Selected': '',
 };
-
-/**
- * Function to get the time remaining to file a travel claim
- * @param {String} appointmentStart - Appointment start date
- * @returns {String} - Duration of time in days to file a claim
- */
-
-export function getDaysRemainingToFileClaim(appointmentStart) {
-  const today = new Date();
-  const deadline = addDays(parseISO(appointmentStart), 30);
-  const days = differenceInDays(deadline, today);
-  if (days < 0) {
-    return 0;
-  }
-  return days;
-}
