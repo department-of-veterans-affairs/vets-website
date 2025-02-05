@@ -77,7 +77,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for focus on header
       cy.tabToElement('[value="home"]');
-      cy.realPress('Space');
+      cy.chooseRadion('home'); // make sure we're choosing home (either is fine)
       cy.tabToContinueForm();
 
       // *** Issues for review (sorted by random decision date) - only selecting
@@ -138,7 +138,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100);
       cy.tabToElement('[name="root_view:hasVaEvidence"]'); // Yes radio
-      cy.realPress('Space');
+      cy.chooseRadio('Y'); // make sure we're choosing yes
       cy.tabToSubmitForm();
 
       // *** VA evidence location
@@ -186,7 +186,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
         chapters.evidence.pages.evidencePrivateRecordsRequest.path,
       );
       cy.tabToElement('[name="private"]'); // Yes radio
-      cy.realPress('Space');
+      cy.chooseRadio('y'); // make sure we're choosing yes
       cy.tabToSubmitForm();
 
       // *** Private evidence authorization
@@ -272,7 +272,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
         chapters.evidence.pages.evidenceWillUpload.path,
       );
       cy.tabToElement('[name="root_view:hasOtherEvidence"]'); // No radio
-      cy.realPress('ArrowDown');
+      cy.chooseRadio('N'); // make sure we're choosing no
       cy.tabToSubmitForm();
 
       // *** Evidence summary
