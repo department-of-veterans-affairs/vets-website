@@ -44,15 +44,12 @@ const getRedirectLink = formData => {
     destinationPath = DISABILITY_SHARED_CONFIG.ratedDisabilities.path;
   } else if (DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData)) {
     destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
-  } else if (
-    DISABILITY_SHARED_CONFIG.addDisabilitiesPrevious.depends(formData)
-  ) {
-    destinationPath = DISABILITY_SHARED_CONFIG.addDisabilitiesPrevious.path;
   }
 
   return (
     <Link
       aria-label="go back and add any missing disabilities"
+      data-testid={`redirect-link-${destinationPath}`}
       to={{
         pathname: destinationPath || '/',
         search: '?redirect',
