@@ -140,10 +140,11 @@ export const focusRadioH3 = () => {
 
 // Focus on alert (without header) if visible, or radio h3
 export const focusAlertOrRadio = () => {
-  const alert = $('va-alert');
+  const alertSelector = 'va-alert[status="info"]';
+  const alert = $(alertSelector);
   if (alert) {
     scrollTo('topContentElement');
-    focusElement('va-alert');
+    focusElement(alertSelector);
   } else {
     focusRadioH3();
   }
