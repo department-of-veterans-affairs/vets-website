@@ -15,12 +15,12 @@ import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
 const Covid19Result = ({
-  headerHasFocus = null,
+  headerHasFocus = false,
   headerRef = null,
   index,
   location,
   query,
-  setHeaderHasFocus = null,
+  setHeaderHasFocus,
 }) => {
   useEffect(() => {
     if (headerRef?.current && !headerHasFocus) {

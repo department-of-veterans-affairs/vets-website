@@ -11,20 +11,20 @@ import ProviderServiceDescription from '../ProviderServiceDescription';
 import ProviderTraining from './common/ProviderTraining';
 
 const CCProviderResult = ({
-  headerHasFocus = null,
+  headerHasFocus = false,
   headerRef = null,
   provider,
   query,
-  setHeaderHasFocus = null,
+  setHeaderHasFocus,
 }) => {
+  const { name } = provider.attributes;
+
   useEffect(() => {
     if (headerRef?.current && !headerHasFocus) {
       focusElement(headerRef.current);
       setHeaderHasFocus(true);
     }
   }, []);
-
-  const { name } = provider.attributes;
 
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
@@ -54,9 +54,11 @@ const CCProviderResult = ({
 };
 
 CCProviderResult.propTypes = {
+  index: PropTypes.number,
+  location: PropTypes.object,
   ...MobileMapResultTypes,
-  provider: PropTypes.object,
   query: PropTypes.object,
+  setHeaderHasFocus: PropTypes.func,
 };
 
 export default CCProviderResult;

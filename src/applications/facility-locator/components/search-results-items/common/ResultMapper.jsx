@@ -21,7 +21,7 @@ export const ResultMapper = (
   searchQuery,
   index,
   headerRef = null,
-  headerHasFocus = null,
+  headerHasFocus = false,
   setHeaderHasFocus = null,
 ) => {
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
@@ -30,6 +30,7 @@ export const ResultMapper = (
     headerHasFocus,
     setHeaderHasFocus,
   };
+
   switch (searchQuery.facilityType) {
     case 'health':
     case 'cemetery':

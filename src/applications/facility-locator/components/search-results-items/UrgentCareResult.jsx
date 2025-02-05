@@ -10,11 +10,11 @@ import ProviderTraining from './common/ProviderTraining';
 import { MobileMapResultTypes } from '../../types';
 
 const UrgentCareResult = ({
-  headerHasFocus = null,
+  headerHasFocus = false,
   headerRef = null,
   provider,
   query,
-  setHeaderHasFocus = null,
+  setHeaderHasFocus,
 }) => {
   useEffect(() => {
     if (headerRef?.current && !headerHasFocus) {

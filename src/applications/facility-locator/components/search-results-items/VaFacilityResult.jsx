@@ -15,12 +15,12 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import { MobileMapResultTypes } from '../../types';
 
 const VaFacilityResult = ({
-  headerHasFocus = null,
+  headerHasFocus = false,
   headerRef = null,
   index,
   location,
   query,
-  setHeaderHasFocus = null,
+  setHeaderHasFocus,
   showHealthConnectNumber,
 }) => {
   useEffect(() => {

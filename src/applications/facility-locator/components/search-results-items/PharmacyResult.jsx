@@ -9,11 +9,11 @@ import LocationMarker from './common/LocationMarker';
 import { MobileMapResultTypes } from '../../types';
 
 const PharmacyResult = ({
-  headerHasFocus = null,
+  headerHasFocus = false,
   headerRef = null,
   provider,
   query,
-  setHeaderHasFocus = null,
+  setHeaderHasFocus,
 }) => {
   useEffect(() => {
     if (headerRef?.current && !headerHasFocus) {

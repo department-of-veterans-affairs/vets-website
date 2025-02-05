@@ -10,11 +10,11 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderTraining from './common/ProviderTraining';
 
 const EmergencyCareResult = ({
-  headerHasFocus = null,
+  headerHasFocus = false,
   headerRef = null,
   provider,
   query,
-  setHeaderHasFocus = null,
+  setHeaderHasFocus,
 }) => {
   useEffect(() => {
     if (headerRef?.current && !headerHasFocus) {
