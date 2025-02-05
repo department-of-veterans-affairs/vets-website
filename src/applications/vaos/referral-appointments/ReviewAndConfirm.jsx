@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { getDraftAppointmentInfo, getSelectedSlot } from './redux/selectors';
+import {
+  getAppointmentCreateStatus,
+  getDraftAppointmentInfo,
+  getSelectedSlot,
+} from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
 import {
+  createReferralAppointment,
   createDraftReferralAppointment,
   setFormCurrentPage,
   setSelectedSlot,
@@ -34,6 +39,8 @@ const ReviewAndConfirm = props => {
     state => getDraftAppointmentInfo(state),
     shallowEqual,
   );
+
+  const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const slotDetails = getSlotById(
@@ -64,7 +71,7 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
-        dispatch(createDraftReferralAppointment(currentReferral.id));
+        dispatch(createDraftReferralAppointment(currentReferral.UUID));
       } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
         scrollAndFocus('h1');
@@ -74,8 +81,11 @@ const ReviewAndConfirm = props => {
         scrollAndFocus('h2');
       }
     },
-    [currentReferral.id, dispatch, draftAppointmentCreateStatus],
+    [currentReferral.UUID, dispatch, draftAppointmentCreateStatus],
   );
+
+  const loadingCreateAppointment =
+    appointmentCreateStatus === FETCH_STATUS.loading;
 
   useEffect(
     () => {
@@ -113,10 +123,29 @@ const ReviewAndConfirm = props => {
     );
   };
 
-  if (loading) {
+  useEffect(
+    () => {
+      if (appointmentCreateStatus === FETCH_STATUS.succeeded) {
+        routeToNextReferralPage(
+          history,
+          'reviewAndConfirm',
+          currentReferral.UUID,
+        );
+      }
+    },
+    [appointmentCreateStatus, currentReferral.UUID, history],
+  );
+
+  if (loading || loadingCreateAppointment) {
     return (
       <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator message="Loading schedule referral review..." />
+        <va-loading-indicator
+          message={
+            loadingCreateAppointment
+              ? 'Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page.'
+              : 'Loading schedule referral review...'
+          }
+        />
       </div>
     );
   }
@@ -202,17 +231,19 @@ const ReviewAndConfirm = props => {
             }}
           />
           <va-button
+            data-testid="continue-button"
             class="vads-u-margin-left--2"
             label="Continue"
             text="Continue"
             uswds
             onClick={e => {
               e.preventDefault();
-              // TODO: submit the referral here and poll for status
-              routeToNextReferralPage(
-                history,
-                'reviewAndConfirm',
-                currentReferral.UUID,
+              dispatch(
+                createReferralAppointment({
+                  referralId: currentReferral.UUID,
+                  slotId: selectedSlot,
+                  draftApppointmentId: draftAppointmentInfo.appointment.id,
+                }),
               );
             }}
           />
