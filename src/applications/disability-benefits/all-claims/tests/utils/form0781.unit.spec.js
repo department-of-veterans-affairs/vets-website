@@ -110,11 +110,9 @@ describe('isRelatedToMST', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            mst: true,
-          },
+        eventTypes: {
+          combat: true,
+          mst: true,
         },
       };
 
@@ -127,11 +125,9 @@ describe('isRelatedToMST', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            mst: false,
-          },
+        eventTypes: {
+          combat: true,
+          mst: false,
         },
       };
       expect(isRelatedToMST(formData)).to.eq(false);
@@ -147,11 +143,9 @@ describe('showBehaviorIntroCombatPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            nonMst: false,
-          },
+        eventTypes: {
+          combat: true,
+          nonMst: false,
         },
       };
 
@@ -165,11 +159,9 @@ describe('showBehaviorIntroCombatPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            nonMst: true,
-          },
+        eventTypes: {
+          combat: true,
+          nonMst: true,
         },
       };
 
@@ -183,11 +175,9 @@ describe('showBehaviorIntroCombatPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: false,
-            nonMst: true,
-          },
+        eventTypes: {
+          combat: false,
+          nonMst: true,
         },
       };
 
@@ -203,11 +193,9 @@ describe('showBehaviorIntroPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            nonMst: true,
-          },
+        eventTypes: {
+          combat: true,
+          nonMst: true,
         },
       };
       expect(showBehaviorIntroPage(formData)).to.eq(true);
@@ -220,11 +208,9 @@ describe('showBehaviorIntroPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            nonMst: false,
-          },
+        eventTypes: {
+          combat: true,
+          nonMst: false,
         },
       };
       expect(showBehaviorIntroPage(formData)).to.eq(false);
@@ -240,11 +226,9 @@ describe('showBehaviorListPage', () => {
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
         'view:answerCombatBehaviorQuestions': 'true',
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            nonMst: false,
-          },
+        eventTypes: {
+          combat: true,
+          nonMst: false,
         },
       };
       expect(showBehaviorListPage(formData)).to.eq(true);
@@ -257,11 +241,9 @@ describe('showBehaviorListPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        mentalHealth: {
-          eventTypes: {
-            combat: true,
-            nonMst: true,
-          },
+        eventTypes: {
+          combat: true,
+          nonMst: true,
         },
       };
       expect(showBehaviorListPage(formData)).to.eq(true);
