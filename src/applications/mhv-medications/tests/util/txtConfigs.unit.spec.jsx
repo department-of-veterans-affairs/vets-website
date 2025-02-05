@@ -70,9 +70,9 @@ describe('Allergies List Config', () => {
 });
 
 describe('VA prescription Config', () => {
-  it('should create "About your prescription" section', () => {
+  it('should create "Most recent prescription" section', () => {
     const txt = buildVAPrescriptionTXT(prescriptionDetails.data.attributes);
-    expect(txt).to.include('About your prescription');
+    expect(txt).to.include('Most recent prescription');
     expect(txt).to.include(
       prescriptionDetails.data.attributes.prescriptionName,
     );

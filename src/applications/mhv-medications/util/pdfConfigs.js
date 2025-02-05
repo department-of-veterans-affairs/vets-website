@@ -25,7 +25,7 @@ import {
  * @property {boolean | undefined} inline // false by default
  * @property {boolean | undefined} isRich // false by default; must be set to true if value is an array
  * @property {boolean | undefined} disablePageSplit // false by default
- * @property {boolean | undefined} noIndentation // false by default
+ * @property {number | undefined} indent // 16 by default
  */
 
 /**
@@ -33,6 +33,7 @@ import {
  * @property {string | undefined} header
  * @property {Array<Item>} items
  * @property {string | undefined} headerSize // 'H4' by default
+ * @property {number | undefined} indent // 16 by default
  */
 
 /**
@@ -41,6 +42,8 @@ import {
  * @property {boolean | undefined} sectionSeparators // false by default
  * @property {Object | undefined} sectionSeperatorOptions
  * @property {Array<Section>} sections
+ * @property {number | undefined} indent // 16 by default
+ * @property {string | undefined} headerSize // 'H3' by default
  */
 
 /**
@@ -135,6 +138,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
       sections: [
         {
           header: 'About your prescription',
+          indent: 32,
           items: [
             {
               title: 'Last filled on',
@@ -142,62 +146,74 @@ export const buildPrescriptionsPDFList = prescriptions => {
                 ? dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')
                 : 'Not filled yet',
               inline: true,
+              indent: 32,
             },
             {
               title: 'Prescription number',
               value: rx.prescriptionNumber,
               inline: true,
+              indent: 32,
             },
             {
               title: 'Status',
               value: validateField(rx.dispStatus),
               inline: true,
+              indent: 32,
             },
             {
               isRich: true,
               value:
                 pdfStatusDefinitions[rx.refillStatus] ||
                 pdfDefaultStatusDefinition,
+              indent: 32,
             },
             {
               title: 'Refills left',
               value: validateField(rx.refillRemaining),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Request refills by this prescription expiration date',
               value: dateFormat(rx.expirationDate, 'MMMM D, YYYY'),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Facility',
               value: validateField(rx.facilityName),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Pharmacy phone number',
               value: validateField(rx.phoneNumber),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Instructions',
               value: validateField(rx.sig),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Reason for use',
               value: validateField(rx.indicationForUse),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Quantity',
               value: validateField(rx.quantity),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Prescribed on',
               value: dateFormat(rx.orderedDate, 'MMMM D, YYYY'),
               inline: true,
+              indent: 32,
             },
             {
               title: 'Prescribed by',
@@ -205,6 +221,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
                 ? `${rx.providerLastName}, ${rx.providerFirstName || ''}`
                 : 'None noted',
               inline: true,
+              indent: 32,
             },
             rx.groupedMedications?.length > 0 && {
               title: 'Previous prescriptions associated with this medication',
@@ -214,6 +231,7 @@ export const buildPrescriptionsPDFList = prescriptions => {
                 })
                 .join(', '),
               inline: true,
+              indent: 32,
             },
           ],
         },
@@ -263,7 +281,6 @@ export const buildMedicationInformationPDF = list => {
           return [
             {
               value: subItem.text,
-              noIndentation: true,
               disablePageSplit: true,
             },
           ];
@@ -272,7 +289,6 @@ export const buildMedicationInformationPDF = list => {
       }),
   ];
   return {
-    sectionSeparators: false,
     sections,
   };
 };
@@ -286,7 +302,6 @@ export const buildAllergiesPDFList = allergies => {
   return allergies.map(item => {
     return {
       header: item.name,
-      sectionSeparators: false,
       sections: [
         {
           items: [
@@ -340,7 +355,6 @@ export const buildVAPrescriptionPDFList = prescription => {
   const VAPrescriptionPDFList = [
     {
       header: 'Most recent prescription',
-      sectionSeparators: false,
       sections: [
         {
           items: [
@@ -413,7 +427,7 @@ export const buildVAPrescriptionPDFList = prescription => {
                 ? `${
                     prescription.providerLastName
                   }, ${prescription.providerFirstName || ''}`
-                : 'None noted',
+                : EMPTY_FIELD,
               inline: true,
             },
           ],
@@ -422,123 +436,147 @@ export const buildVAPrescriptionPDFList = prescription => {
     },
     {
       header: 'Refill history',
-      sectionSeparators: false,
-      sections: refillHistory
-        .map((entry, i) => {
-          const { shape, color, backImprint, frontImprint } = entry;
-          const index = refillHistory.length - i - 1;
-          const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
-          const hasValidDesc =
-            shape?.trim() && color?.trim() && frontImprint?.trim();
-          const description = hasValidDesc
-            ? `* Shape: ${shape[0].toUpperCase()}${shape.slice(1).toLowerCase()}
+      indent: 32,
+      headerSize: 'H4',
+      sections: [
+        {
+          items: [
+            {
+              value: `Showing ${refillHistory.length} refill${
+                refillHistory.length > 1 ? 's, from newest to oldest' : ''
+              }`,
+              indent: 32,
+            },
+          ],
+        },
+        ...refillHistory
+          .map((entry, i) => {
+            const { shape, color, backImprint, frontImprint } = entry;
+            const index = refillHistory.length - i - 1;
+            const phone =
+              entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
+            const hasValidDesc =
+              shape?.trim() && color?.trim() && frontImprint?.trim();
+            const description = hasValidDesc
+              ? `* Shape: ${shape[0].toUpperCase()}${shape
+                  .slice(1)
+                  .toLowerCase()}
 * Color: ${color[0].toUpperCase()}${color.slice(1).toLowerCase()}
 * Front marking: ${frontImprint}
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
-            : createNoDescriptionText(phone);
-          return {
-            items: [
-              {
-                value: [
-                  {
-                    value: `${index === 0 ? 'First fill' : `Refill ${index}`}`,
-                    weight: 'bold',
-                    font: 'Bitter-Bold',
-                    paragraphGap: 4.75,
-                  },
-                ],
-                isRich: true,
-              },
-              {
-                title: 'Medication description',
-                inline: false,
-              },
-              ...(hasValidDesc
-                ? [
-                    {
-                      title: 'Note',
-                      value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
-                        phone,
-                      )}.`,
-                      inline: true,
-                    },
-                  ]
-                : []),
-              {
-                value: description,
-              },
-              {
-                title: `Filled by pharmacy on`,
-                value: entry?.dispensedDate
-                  ? dateFormat(entry.dispensedDate)
-                  : 'None noted',
-                inline: true,
-              },
-              {
-                title: `Shipped on`,
-                value: dateFormat(
-                  prescription?.trackingList?.[0]?.completeDateTime,
-                ),
-                inline: true,
-              },
-            ],
-          };
-        })
-        .flat(),
+              : createNoDescriptionText(phone);
+            return {
+              header: `${
+                index === 0 ? 'Original fill' : `Refill`
+              }: ${dateFormat(entry.dispensedDate)}`,
+              indent: 32,
+              headerSize: 'H5',
+              items: [
+                ...(i === 0
+                  ? [
+                      {
+                        title: `Shipped on`,
+                        value: dateFormat(
+                          prescription?.trackingList?.[0]?.completeDateTime,
+                        ),
+                        inline: true,
+                        indent: 32,
+                      },
+                    ]
+                  : []),
+                {
+                  title: 'Medication description',
+                  inline: false,
+                  indent: 32,
+                },
+                ...(hasValidDesc
+                  ? [
+                      {
+                        title: 'Note',
+                        value: `If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
+                          phone,
+                        )}.`,
+                        inline: true,
+                        indent: 32,
+                      },
+                    ]
+                  : []),
+                {
+                  value: description,
+                  indent: 32,
+                },
+              ],
+            };
+          })
+          .flat(),
+      ],
     },
   ];
 
   if (prescription?.groupedMedications?.length > 0) {
     VAPrescriptionPDFList.push({
       header: 'Previous prescriptions',
-      sectionSeparators: false,
-      sections: prescription.groupedMedications.map(previousPrescription => {
-        return {
+      sections: [
+        {
           items: [
             {
-              value: [
-                {
-                  value: `Prescription number: ${
-                    previousPrescription.prescriptionNumber
-                  }`,
-                  weight: 'bold',
-                  font: 'Bitter-Bold',
-                  paragraphGap: 4.75,
-                },
-              ],
-              isRich: true,
-            },
-            {
-              title: 'Last filled',
-              value: prescription.sortedDispensedDate
-                ? dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')
-                : 'Not filled yet',
-              inline: true,
-            },
-            {
-              title: 'Quantity',
-              value: validateField(previousPrescription.quantity),
-              inline: true,
-            },
-            {
-              title: 'Prescribed on',
-              value: dateFormat(
-                previousPrescription.orderedDate,
-                'MMMM D, YYYY',
-              ),
-              inline: true,
-            },
-            {
-              title: 'Prescribed by',
-              value:
-                (previousPrescription.providerFirstName &&
-                  previousPrescription.providerLastName) ||
-                EMPTY_FIELD,
-              inline: true,
+              value: `Showing ${
+                prescription.groupedMedications.length
+              } prescription${
+                prescription.groupedMedications.length > 1
+                  ? 's, from newest to oldest'
+                  : ''
+              }`,
+              indent: 32,
             },
           ],
-        };
-      }),
+        },
+        ...prescription.groupedMedications.map(previousPrescription => {
+          return {
+            header: `Prescription number: ${
+              previousPrescription.prescriptionNumber
+            }`,
+            indent: 32,
+            items: [
+              {
+                title: 'Last filled',
+                value: previousPrescription.sortedDispensedDate
+                  ? dateFormat(
+                      previousPrescription.sortedDispensedDate,
+                      'MMMM D, YYYY',
+                    )
+                  : 'Not filled yet',
+                inline: true,
+                indent: 32,
+              },
+              {
+                title: 'Quantity',
+                value: validateField(previousPrescription.quantity),
+                inline: true,
+                indent: 32,
+              },
+              {
+                title: 'Prescribed on',
+                value: dateFormat(
+                  previousPrescription.orderedDate,
+                  'MMMM D, YYYY',
+                ),
+                inline: true,
+                indent: 32,
+              },
+              {
+                title: 'Prescribed by',
+                value:
+                  (previousPrescription.providerFirstName &&
+                    previousPrescription.providerLastName) ||
+                  EMPTY_FIELD,
+                inline: true,
+                indent: 32,
+              },
+            ],
+          };
+        }),
+      ],
     });
   }
 

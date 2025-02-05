@@ -43,9 +43,9 @@ describe('Allergies List Config', () => {
 });
 
 describe('VA prescription Config', () => {
-  it('should create "About your prescription" section', () => {
+  it('should create "Most recent prescription" section', () => {
     const pdfGen = buildVAPrescriptionPDFList(prescriptionDetails);
-    expect(pdfGen[0].header).to.equal('About your prescription');
+    expect(pdfGen[0].header).to.equal('Most recent prescription');
   });
 
   it('should create "About this medication or supply" section', () => {
