@@ -4,7 +4,6 @@ import { removeFormApi } from 'platform/forms/save-in-progress/api';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { teardownProfileSession } from '../utilities';
 
@@ -14,14 +13,10 @@ export const REMOVING_SAVED_FORM = 'REMOVING_SAVED_FORM';
 export const REMOVING_SAVED_FORM_SUCCESS = 'REMOVING_SAVED_FORM_SUCCESS';
 export const REMOVING_SAVED_FORM_FAILURE = 'REMOVING_SAVED_FORM_FAILURE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
-export const FETCH_MESSAGING_SIGNATURE = 'FETCH_MESSAGING_SIGNATURE';
-// export const FETCH_MESSAGING_SIGNATURE_ERROR =
-//   'FETCH_MESSAGING_SIGNATURE_ERROR';
 
 export * from './mhv';
 
 const baseUrl = '/user';
-const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
 export function updateProfileFields(payload) {
   return {
@@ -67,38 +62,6 @@ export const extractProfileErrors = dataPayload => {
   }
 
   return `${metaDescriptions || ''}${mainErrors || ''}`;
-};
-
-/**
- * Get message signature from user preferences.
- * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
- */
-export const getMessagingSignature = () => {
-  return async dispatch => {
-    try {
-      const response = await apiRequest(
-        `${apiBasePath}/messaging/messages/signature`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-        },
-      );
-
-      dispatch({
-        type: FETCH_MESSAGING_SIGNATURE,
-        payload: response.data,
-      });
-    } catch (error) {
-      dispatch({
-        type: FETCH_MESSAGING_SIGNATURE,
-        payload: {
-          message: error.message || 'Failed to retrieve messaging signature',
-        },
-      });
-    }
-  };
 };
 
 export function refreshProfile(

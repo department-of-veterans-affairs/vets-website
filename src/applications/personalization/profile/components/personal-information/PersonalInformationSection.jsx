@@ -46,10 +46,19 @@ const PersonalInformationSection = ({ dob }) => {
 
   useEffect(
     () => {
-      if (isMessagingServiceEnabled && messagingSignature === undefined)
+      if (
+        messagingSignatureEnabled &&
+        isMessagingServiceEnabled &&
+        messagingSignature == null
+      )
         dispatch(getMessagingSignature());
     },
-    [dispatch, isMessagingServiceEnabled, messagingSignature],
+    [
+      dispatch,
+      isMessagingServiceEnabled,
+      messagingSignature,
+      messagingSignatureEnabled,
+    ],
   );
 
   const updatedCardFields = useMemo(
