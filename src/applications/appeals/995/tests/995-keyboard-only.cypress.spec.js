@@ -1,5 +1,3 @@
-import path from 'path';
-
 import formConfig from '../config/form';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -7,27 +5,24 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 
 import { CONTESTABLE_ISSUES_API, ITF_API } from '../constants/apis';
 import { fetchItf } from './995.cypress.helpers';
+import mockData from './fixtures/data/keyboard-test.json';
 
 import { CONTACT_INFO_PATH } from '../../shared/constants';
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Supplemental Claim keyboard only navigation', () => {
-  before(() => {
+  it('navigates through a maximal form', () => {
     cypressSetup();
 
-    cy.fixture(path.join(__dirname, 'fixtures/data/keyboard-test.json')).as(
-      'testData',
-    );
+    cy.wrap(mockData.data).as('testData');
 
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockInProgress);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     cy.intercept('GET', ITF_API, fetchItf());
-  });
 
-  it('navigates through a maximal form', () => {
-    cy.get('@testData').then(({ data }) => {
+    cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
       cy.intercept('GET', `${CONTESTABLE_ISSUES_API}/compensation`, {
@@ -77,7 +72,7 @@ describe('Supplemental Claim keyboard only navigation', () => {
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(100); // wait for focus on header
       cy.tabToElement('[value="home"]');
-      cy.chooseRadion('home'); // make sure we're choosing home (either is fine)
+      cy.chooseRadio('home'); // make sure we're choosing home (either is fine)
       cy.tabToContinueForm();
 
       // *** Issues for review (sorted by random decision date) - only selecting
