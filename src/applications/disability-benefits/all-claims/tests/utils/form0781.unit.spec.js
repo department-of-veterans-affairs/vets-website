@@ -8,7 +8,7 @@ import {
   isCompletingForm0781,
   isRelatedToMST,
 } from '../../utils/form0781';
-import { form0781WorkflowChoices } from '../../content/form0781';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
 describe('showForm0781Pages', () => {
   describe('when the flipper is on and a user is claiming a new condition', () => {
@@ -127,13 +127,12 @@ describe('isRelatedToMST', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            mst: true,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          mst: true,
         },
       };
-
       expect(isRelatedToMST(formData)).to.eq(true);
     });
   });
@@ -147,10 +146,10 @@ describe('isRelatedToMST', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            mst: false,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          mst: false,
         },
       };
       expect(isRelatedToMST(formData)).to.eq(false);
@@ -170,13 +169,12 @@ describe('showBehaviorIntroCombatPage', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            nonMst: false,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          nonMst: false,
         },
       };
-
       expect(showBehaviorIntroCombatPage(formData)).to.eq(true);
     });
   });
@@ -191,13 +189,12 @@ describe('showBehaviorIntroCombatPage', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            nonMst: true,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          nonMst: true,
         },
       };
-
       expect(showBehaviorIntroCombatPage(formData)).to.eq(false);
     });
   });
@@ -212,13 +209,12 @@ describe('showBehaviorIntroCombatPage', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: false,
-            nonMst: true,
-          },
+        },
+        eventTypes: {
+          combat: false,
+          nonMst: true,
         },
       };
-
       expect(showBehaviorIntroCombatPage(formData)).to.eq(false);
     });
   });
@@ -235,10 +231,10 @@ describe('showBehaviorIntroPage', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            nonMst: true,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          nonMst: true,
         },
       };
       expect(showBehaviorIntroPage(formData)).to.eq(true);
@@ -255,10 +251,10 @@ describe('showBehaviorIntroPage', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            nonMst: false,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          nonMst: false,
         },
       };
       expect(showBehaviorIntroPage(formData)).to.eq(false);
@@ -278,10 +274,10 @@ describe('showBehaviorListPage', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            nonMst: false,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          nonMst: false,
         },
       };
       expect(showBehaviorListPage(formData)).to.eq(true);
@@ -298,10 +294,10 @@ describe('showBehaviorListPage', () => {
           conditions: {
             someCondition: true,
           },
-          eventTypes: {
-            combat: true,
-            nonMst: true,
-          },
+        },
+        eventTypes: {
+          combat: true,
+          nonMst: true,
         },
       };
       expect(showBehaviorListPage(formData)).to.eq(true);

@@ -549,6 +549,7 @@ describe('actionCreators', () => {
           10,
           { filter1: 'value1', excludedSchoolTypes: 'value2' },
           'version',
+          null,
         )(mockDispatch)
         .then(() => {
           expect(

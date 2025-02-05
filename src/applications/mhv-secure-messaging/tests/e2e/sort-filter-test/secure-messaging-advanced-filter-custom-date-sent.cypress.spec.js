@@ -104,6 +104,7 @@ describe('SM SENT ADVANCED CUSTOM DATE RANGE SEARCH', () => {
 
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
+    cy.get(`.unread-icon`).should(`not.exist`);
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(2);
     PatientSearchPage.verifySearchMessageLabel(

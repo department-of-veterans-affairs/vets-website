@@ -133,7 +133,10 @@ const VaPrescription = prescription => {
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
               <>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  data-dd-privacy="mask"
+                >
                   Prescription number
                 </h3>
                 <p data-testid="prescription-number" data-dd-privacy="mask">

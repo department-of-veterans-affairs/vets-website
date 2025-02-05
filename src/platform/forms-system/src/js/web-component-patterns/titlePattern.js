@@ -1,14 +1,40 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useRef } from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
+import { isMinimalHeaderPath } from '../patterns/minimal-header';
+
+const useHeadingLevels = (userHeaderLevel, userHeaderStyleLevel) => {
+  const isMinimalHeader = useRef(null);
+  if (isMinimalHeader.current === null) {
+    // only call once
+    isMinimalHeader.current = isMinimalHeaderPath();
+  }
+  const headerLevel = userHeaderLevel || (isMinimalHeader.current ? 1 : 3);
+  // Arbitrary decision with design:
+  // When using titleUI with minimal header and we are now using h1s,
+  // the styling is a bit too large for a page title (before it was h3),
+  // so we'll bump the style down to h2
+  const headerStyleLevel =
+    userHeaderStyleLevel || (isMinimalHeader.current ? 2 : undefined);
+
+  return {
+    headerLevel,
+    headerStyleLevel,
+  };
+};
 
 export const Title = ({
   title,
   description,
-  headerLevel = 3,
-  headerStyleLevel,
+  headerLevel: userHeaderLevel,
+  headerStyleLevel: userHeaderStyleLevel,
   classNames,
 }) => {
+  const { headerLevel, headerStyleLevel } = useHeadingLevels(
+    userHeaderLevel,
+    userHeaderStyleLevel,
+  );
+
   const CustomHeader = `h${headerLevel}`;
   const style = headerStyleLevel
     ? ` mobile-lg:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(

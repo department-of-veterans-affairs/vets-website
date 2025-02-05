@@ -1,5 +1,5 @@
 import {
-  Title,
+  titleUI,
   textUI,
   arrayBuilderYesNoUI,
   arrayBuilderYesNoSchema,
@@ -48,7 +48,7 @@ export const policyPage = options => ({
       }),
     },
     'view:policyNumberOrGroupCode': {
-      'ui:title': Title({
+      ...titleUI({
         title: PolicyOrGroupTitle,
         headerLevel: 4,
         classNames: 'vads-u-margin-top--3',

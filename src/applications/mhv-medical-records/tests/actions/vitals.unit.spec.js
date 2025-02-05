@@ -22,8 +22,9 @@ describe('Get vitals action', () => {
         Actions.Vitals.UPDATE_LIST_STATE,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(
-        Actions.Vitals.GET_LIST,
+        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
       );
+      expect(dispatch.thirdCall.args[0].type).to.equal(Actions.Vitals.GET_LIST);
     });
   });
 
