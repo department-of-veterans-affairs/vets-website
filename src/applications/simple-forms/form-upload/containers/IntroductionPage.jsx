@@ -35,7 +35,7 @@ const IntroductionPage = ({ route }) => {
         <VaProcessListItem header="Download the form">
           <p>Download the official VA Form {formNumber} from VA.gov.</p>
           <VaLink
-            download
+            external
             filetype="PDF"
             href={pdfDownloadUrl}
             text={`Download VA Form ${formNumber}`}

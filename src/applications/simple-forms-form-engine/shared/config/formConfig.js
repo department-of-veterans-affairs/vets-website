@@ -38,6 +38,7 @@
 export const normalizedForm = {
   cmsId: 71160,
   formId: '2121212',
+  moderationState: 'draft',
   title: 'Form with Two Steps',
   ombInfo: {
     expDate: '8/29/2025',
@@ -98,6 +99,7 @@ export const normalizedForm = {
 export const employmentQuestionnaire = {
   cmsId: 10001,
   formId: '21-4140',
+  moderationState: 'published',
   title: 'Employment Questionnaire',
   ombInfo: {
     expDate: '7/31/2024',

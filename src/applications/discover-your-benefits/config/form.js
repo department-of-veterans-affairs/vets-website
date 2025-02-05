@@ -19,7 +19,6 @@ import militaryService from '../pages/militaryService';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
-import giBillStatus from '../pages/giBillStatus';
 import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -35,13 +34,12 @@ export const isOnConfirmationPage = currentLocation => {
 export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
   submit: submitHandler,
   trackingPrefix: 'discover-your-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill;Review',
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;Review',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -152,17 +150,6 @@ export const formConfig = {
           title: 'Disability Rating',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
-        },
-      },
-    },
-    chapter6: {
-      title: 'GI Bill Status',
-      pages: {
-        giBillStatus: {
-          path: 'gi-bill',
-          title: 'GI Bill Status',
-          uiSchema: giBillStatus.uiSchema,
-          schema: giBillStatus.schema,
         },
       },
     },

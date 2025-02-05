@@ -1,5 +1,5 @@
 import {
-  VaAlert,
+  VaAlertSignIn,
   VaButton,
   VaSearchInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -18,12 +18,12 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
-import { envUrl } from '../constants';
 import {
-  inProgressOrReopenedIcon,
-  newIcon,
-  successIcon,
-} from '../utils/helpers';
+  getVAStatusFromCRM,
+  getVAStatusIconAndMessage,
+} from '../config/helpers';
+import { envUrl, mockTestingFlagforAPI } from '../constants';
+import { mockInquiryStatusResponse } from '../utils/mockData';
 import DashboardCards from './DashboardCards';
 
 const VerifiedAlert = (
@@ -48,7 +48,7 @@ const IntroductionPage = props => {
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
   const showSignInModal = () => {
-    toggleLoginModal(true);
+    toggleLoginModal(true, 'ask-va', true);
   };
 
   useEffect(() => {
@@ -76,6 +76,18 @@ const IntroductionPage = props => {
   );
 
   const getApiData = url => {
+    setHasError(false);
+
+    // Mocking the API response for testing when searching for reference number
+    // A-20250106-308944
+    if (
+      mockTestingFlagforAPI &&
+      searchReferenceNumber === 'A-20250106-308944'
+    ) {
+      setInquiryData(mockInquiryStatusResponse.data);
+      return Promise.resolve();
+    }
+
     return apiRequest(url)
       .then(res => {
         setInquiryData(res.data);
@@ -89,6 +101,8 @@ const IntroductionPage = props => {
   };
 
   const handleSearchInputChange = async e => {
+    setHasError(false);
+    setInquiryData(false);
     const searchInputValue = e.target.value;
     setSearchReferenceNumber(searchInputValue);
   };
@@ -96,7 +110,7 @@ const IntroductionPage = props => {
   const questionStatus = () => {
     if (hasError) {
       return (
-        <>
+        <div className="vads-u-margin-y--3">
           <p>
             We didn’t find a question with reference number "
             <span className="vads-u-font-weight--bold">
@@ -108,12 +122,16 @@ const IntroductionPage = props => {
             If it still doesn’t work, ask the same question again and include
             your original reference number.
           </p>
-        </>
+        </div>
       );
     }
 
     if (inquiryData?.attributes?.status) {
       const { status } = inquiryData.attributes;
+      const AskVAStatus = getVAStatusFromCRM(status);
+      const classes = `vads-u-border-left--5px vads-u-padding--0p5 ${
+        getVAStatusIconAndMessage[AskVAStatus]?.color
+      }`;
       return (
         <>
           <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
@@ -124,33 +142,14 @@ const IntroductionPage = props => {
             "
           </h3>
           <p>
-            <span className="vads-u-font-weight--bold">Status: </span> {status}{' '}
-            {status === 'Solved' && successIcon}
-            {status === 'New' && newIcon}
-            {status === 'In progress' && inProgressOrReopenedIcon}
-            {status === 'Reopened' && inProgressOrReopenedIcon}
+            <span className="vads-u-font-weight--bold">Status: </span>{' '}
+            {AskVAStatus}
+            {getVAStatusIconAndMessage[AskVAStatus]?.icon}
           </p>
-          <div className="vads-u-border-left--5px vads-u-border-color--green-light vads-u-padding--0p5">
-            {status === 'Solved' && (
+          <div className={classes}>
+            {getVAStatusIconAndMessage[AskVAStatus]?.message && (
               <p className="vads-u-margin-left--2">
-                We either answered your question or didn’t have enough
-                information to answer your question. If you need more help, ask
-                a new question.
-              </p>
-            )}
-            {status === 'New' && (
-              <p className="vads-u-margin-left--2">
-                We received your question. We’ll review it soon.
-              </p>
-            )}
-            {status === 'In progress' && (
-              <p className="vads-u-margin-left--2">
-                We’re reviewing your question.
-              </p>
-            )}
-            {status === 'Reopened' && (
-              <p className="vads-u-margin-left--2">
-                We received your reply. We’ll respond soon.
+                {getVAStatusIconAndMessage[AskVAStatus].message}
               </p>
             )}
           </div>
@@ -181,29 +180,14 @@ const IntroductionPage = props => {
         when it’s ready.
       </p>
 
-      <VaAlert
-        close-btn-aria-label="Close notification"
-        status="continue"
-        visible
-        uswds
-      >
-        <h4 slot="headline">Sign in to ask a question</h4>
-        <div>
-          <p className="vads-u-margin-top--0">
-            You’ll need to sign in with a verified{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account or a
-            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            account. If you don’t have any of those accounts, you can create a
-            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
-            <span className="vads-u-font-weight--bold">ID.me</span> account now.
-          </p>
+      <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+        <span slot="SignInButton">
           <VaButton
             text="Sign in or create an account"
             onClick={showSignInModal}
           />
-        </div>
-      </VaAlert>
+        </span>
+      </VaAlertSignIn>
 
       <h3 className="vads-u-margin-top--6">If you need general information</h3>
       <p className="vads-u-margin-bottom--1">
@@ -243,22 +227,23 @@ const IntroductionPage = props => {
       </ul>
 
       <h2>Check the status of your question</h2>
-      <p className="vads-u-margin--0">Enter your reference number</p>
+      <p className="vads-u-margin--0">Reference number</p>
       <VaSearchInput
+        big
+        buttonText="Search"
         label="Reference number"
-        value={searchReferenceNumber}
         onInput={handleSearchInputChange}
         onSubmit={handleSearchByReferenceNumber}
-        uswds
+        value={searchReferenceNumber}
       />
-      {questionStatus()}
+      <div className="vads-u-margin-bottom--7">{questionStatus()}</div>
     </>
   );
 
   const authenticatedUI = (
     <>
       <p>This form takes about 2 to 15 minutes to complete.</p>
-      <div className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+      <div className="vads-u-margin-top--2 vads-u-margin-bottom--3">
         <va-additional-info trigger="When to use Ask VA">
           <div>
             <p>
@@ -296,7 +281,6 @@ const IntroductionPage = props => {
         </va-additional-info>
       </div>
       <SaveInProgressIntro
-        // continueMsg="If you're on a public computer, please sign out of your account before you leave so your information is secure."
         formConfig={formConfig}
         messages={route.formConfig.savedFormMessages}
         prefillEnabled={formConfig.prefillEnabled}

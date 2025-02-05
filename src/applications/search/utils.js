@@ -1,7 +1,5 @@
 export function formatResponseString(string, stripAll = false) {
   const decodedString = string
-    .replace(/\ue000/g, '<strong>')
-    .replace(/\ue001/g, '</strong>')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
@@ -12,7 +10,9 @@ export function formatResponseString(string, stripAll = false) {
     return decodedString.replace(/[\ue000\ue001]/g, '');
   }
 
-  return decodedString;
+  return decodedString
+    .replace(/\ue000/g, '<strong>')
+    .replace(/\ue001/g, '</strong>');
 }
 
 export function truncateResponseString(string, maxLength) {
