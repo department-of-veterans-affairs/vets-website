@@ -14,10 +14,6 @@ export const filterByOptions = [
     label: 'Custom date range',
     value: 'custom-date-range',
   },
-  {
-    label: 'Past events',
-    value: 'past',
-  },
 ];
 
 export const deriveDefaultSelectedOption = () => {
