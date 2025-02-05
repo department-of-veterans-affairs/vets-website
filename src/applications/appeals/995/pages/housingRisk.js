@@ -4,7 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { housingRiskTitle } from '../content/livingSituation';
-import { UpdatedPagesAlert } from '../content/formMessages';
+import { UpdatedPagesAlert } from '../utils/toggle';
 
 import { isOnReviewPage } from '../../shared/utils/helpers';
 

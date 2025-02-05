@@ -21,6 +21,7 @@ import {
   EVIDENCE_LIMIT,
   EVIDENCE_OTHER,
   SC_NEW_FORM_DATA,
+  HAS_REDIRECTED,
 } from '../../constants';
 
 import { SELECTED } from '../../../shared/constants';
@@ -242,6 +243,10 @@ describe('evidenceNeedsUpdating', () => {
     expect(evidenceNeedsUpdating({ ...evidence, providerFacility: null })).to.be
       .false;
   });
+  it('should return false if provider facility evidence undefined', () => {
+    expect(evidenceNeedsUpdating({ [EVIDENCE_VA]: true, locations: [{}] })).to
+      .be.false;
+  });
   it('should return false if no updates needed', () => {
     const evidence = getEvidence();
     expect(evidenceNeedsUpdating(evidence)).to.be.false;
@@ -295,6 +300,10 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
   });
 
   const expected = getData();
+  it('should return empty template with empty form data', () => {
+    const result = removeNonSelectedIssuesFromEvidence();
+    expect(result).to.deep.eq({ locations: [], providerFacility: [] });
+  });
   it('should return un-modified evidence issues', () => {
     const data = getData('', '');
     const result = removeNonSelectedIssuesFromEvidence(data);
@@ -323,8 +332,13 @@ describe('onFormLoaded', () => {
     treatmentDate,
     noDate: !treatmentDate,
   });
-  const getData = ({ toggle = false, locations = [] } = {}) => ({
+  const getData = ({
+    toggle = false,
+    locations = [],
+    redirected = true,
+  } = {}) => ({
     [SC_NEW_FORM_DATA]: toggle,
+    [HAS_REDIRECTED]: redirected,
     locations,
   });
   const returnUrl = '/test';
@@ -334,6 +348,14 @@ describe('onFormLoaded', () => {
     const formData = getData();
     onFormLoaded({ formData, returnUrl, router });
     expect(formData).to.deep.equal(getData());
+    expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should do nothing when locations is an empty array when feature toggle is set', () => {
+    const router = [];
+    const formData = getData({ toggle: true });
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal(getData({ toggle: true }));
     expect(router[0]).to.eq(returnUrl);
   });
 
@@ -385,5 +407,19 @@ describe('onFormLoaded', () => {
       locations: [{ noDate: true, treatmentDate: '' }],
     });
     expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should redirect when redirect flag is not set & feature toggle is set', () => {
+    sessionStorage.setItem(HAS_REDIRECTED, 'true');
+    const router = [];
+    const props = { toggle: true, locations: [{}], redirected: false };
+    const formData = getData(props);
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal({
+      ...getData(props),
+      locations: [{ noDate: true, treatmentDate: '' }],
+    });
+    expect(router[0]).to.eq('/housing-risk');
+    expect(sessionStorage.getItem(HAS_REDIRECTED)).to.eq('true');
   });
 });
