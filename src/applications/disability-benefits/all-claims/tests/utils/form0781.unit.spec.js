@@ -5,6 +5,7 @@ import {
   showBehaviorIntroPage,
   showBehaviorIntroCombatPage,
   showBehaviorListPage,
+  showBehaviorSummaryPage,
   isCompletingForm0781,
   isRelatedToMST,
 } from '../../utils/form0781';
@@ -243,6 +244,82 @@ describe('showBehaviorListPage', () => {
         },
       };
       expect(showBehaviorListPage(formData)).to.eq(true);
+    });
+  });
+});
+
+describe('showBehaviorSummaryPage', () => {
+  describe('when a user has selected behavior changes', () => {
+    it('should return true', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice':
+          form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+        workBehaviors: {
+          reassignment: false,
+          absences: true,
+          performance: false,
+        },
+        otherBehaviors: {
+          socialEconomic: false,
+          relationships: true,
+          misconduct: false,
+          unlisted: true,
+        },
+        'view:noneCheckbox': { none: false },
+      };
+      expect(showBehaviorSummaryPage(formData)).to.eq(true);
+    });
+  });
+
+  describe('when a user has skipped the page, not selecting any behavior changes', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice':
+          form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+      };
+      expect(showBehaviorSummaryPage(formData)).to.eq(false);
+    });
+  });
+
+  describe('when a user has unselected any behavior changes', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice':
+          form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+        workBehaviors: {
+          reassignment: false,
+          absences: false,
+          performance: false,
+        },
+        healthBehaviors: {
+          consultations: false,
+          episodes: false,
+        },
+        otherBehaviors: {
+          socialEconomic: false,
+          relationships: false,
+          misconduct: false,
+          unlisted: false,
+        },
+        'view:noneCheckbox': { none: false },
+      };
+
+      expect(showBehaviorSummaryPage(formData)).to.eq(false);
+    });
+  });
+
+  describe('when a user has selected "none" for behavior changes', () => {
+    it('should return false', () => {
+      const formData = {
+        syncModern0781Flow: true,
+        'view:mentalHealthWorkflowChoice':
+          form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+        'view:noneCheckbox': { none: true },
+      };
+      expect(showBehaviorSummaryPage(formData)).to.eq(false);
     });
   });
 });
