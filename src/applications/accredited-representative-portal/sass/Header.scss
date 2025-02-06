@@ -6,11 +6,11 @@
 
   &__govt-site {
     width: 100%;
-    padding: 8px;
+    padding: 8px 16px;
     max-width: 1000px;
     @media (min-width: $medium-screen) {
       margin: 0 auto;
-      padding: 4px;
+      padding: 4px 16px;
       align-items: center;
     }
 
@@ -21,7 +21,7 @@
 
       @media (min-width: $medium-screen) {
         flex-direction: row;
-        margin: 4px;
+        margin: 4px 0 4px 8px;
       }
 
       &-sub-text {
@@ -37,7 +37,7 @@
     height: 16px;
     margin-right: 8px;
     @media (min-width: $medium-screen) {
-      margin: 4px 12px 4px;
+      margin: 4px 0;
     }
   }
 }
@@ -53,14 +53,13 @@
   }
 }
 .nav {
-  // padding: 8px;
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
 
   &__container-primary {
-    padding: 8px;
+    padding: 8px 16px;
     @media (min-width: $medium-screen) {
-      padding: 20px;
+      padding: 20px 16px;
     }
   }
   &__container-secondary {
