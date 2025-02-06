@@ -279,13 +279,13 @@ describe('form submit transform', () => {
   describe('createAdditionalConsiderations', () => {
     it('should correctly transform and set considerations with exclusion messages', () => {
       const ExclusionPeriodsFormSubmission = {
-        mebExclusionPeriodEnabled: true,
         exclusionPeriods: ['Academy', 'ROTC', 'LRP'], // Make sure 'LRP' is included
         federallySponsoredAcademy: 'yes',
         seniorRotcCommission: 'no',
         loanPayment: 'yes',
         activeDutyKicker: 'no',
         selectedReserveKicker: 'yes',
+        sixHundredDollarBuyUp: undefined,
       };
       const transformed = createAdditionalConsiderations(
         ExclusionPeriodsFormSubmission,
@@ -299,25 +299,7 @@ describe('form submit transform', () => {
           'YES - Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
         activeDutyKicker: 'NO',
         reserveKicker: 'YES',
-      });
-    });
-    it('should handle cases without mebExclusionPeriodEnabled', () => {
-      const NoExclusionPeriodsFormSubmission = {
-        federallySponsoredAcademy: 'no',
-        seniorRotcCommission: 'yes',
-        loanPayment: 'no',
-        activeDutyKicker: 'yes',
-        selectedReserveKicker: 'no',
-      };
-      const transformed = createAdditionalConsiderations(
-        NoExclusionPeriodsFormSubmission,
-      );
-      expect(transformed).to.deep.equal({
-        academyRotcScholarship: 'NO',
-        seniorRotcScholarship: 'YES',
-        activeDutyDodRepayLoan: 'NO',
-        activeDutyKicker: 'YES',
-        reserveKicker: 'NO',
+        sixHundredDollarBuyUp: 'N/A',
       });
     });
   });

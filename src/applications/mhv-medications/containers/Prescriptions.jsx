@@ -40,7 +40,6 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
   SESSION_SELECTED_PAGE_NUMBER,
-  sourcesToHide,
   filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
 } from '../util/constants';
@@ -492,12 +491,7 @@ const Prescriptions = () => {
             false,
           )
             .then(response => {
-              const list = response.data
-                .map(rx => ({ ...rx.attributes }))
-                // temporary plug until those sources are ready at va.gov
-                .filter(rx => {
-                  return !sourcesToHide.includes(rx.prescriptionSource);
-                });
+              const list = response.data.map(rx => ({ ...rx.attributes }));
               setPrescriptionsFullList(list);
               setHasFullListDownloadError(false);
             })
