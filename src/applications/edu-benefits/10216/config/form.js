@@ -27,7 +27,6 @@ const subTitle = () => (
   </p>
 );
 
-let isAccredited = false;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -40,7 +39,9 @@ const formConfig = {
   },
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
-  confirmation: () => <ConfirmationPage isAccredited={isAccredited} />,
+  confirmation: ({ router, route }) => (
+    <ConfirmationPage router={router} route={route} />
+  ),
   formId: '22-10216',
   saveInProgress: {
     // messages: {
@@ -73,7 +74,8 @@ const formConfig = {
           path: 'institution-details',
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
-            isAccredited = await validateFacilityCode(formData);
+            const isAccredited = await validateFacilityCode(formData);
+            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
             if (isAccredited) {
               goPath('/student-ratio-calculation');
             } else {
@@ -103,6 +105,9 @@ const formConfig = {
           uiSchema: studentRatioCalc.uiSchema,
           schema: studentRatioCalc.schema,
           onNavBack: ({ goPath }) => {
+            const isAccredited = JSON.parse(
+              localStorage.getItem('isAccredited'),
+            );
             if (isAccredited !== true) {
               goPath('/additional-form');
             } else {

@@ -1,11 +1,13 @@
 import { vitalTypeDisplayNames } from '../constants';
 
-export const generateVitalsIntro = (records, lastUpdatedIndicator) => {
+export const generateVitalsIntro = (records, lastUpdated) => {
   return {
-    title: `Vitals: ${vitalTypeDisplayNames[records[0].type]}`,
-    preface: `VA Medical Record\n\n${lastUpdatedIndicator}\n\nShowing ${
-      records.length
-    } records from newest to oldest`,
+    title: vitalTypeDisplayNames[records[0].type],
+    subject: 'VA Medical Record',
+    subtitles: [
+      lastUpdated,
+      `Showing ${records.length} records from newest to oldest`,
+    ],
   };
 };
 
@@ -30,6 +32,16 @@ export const generateVitalsItem = record => ({
   ],
 });
 
+// used for vital details page
+export const generateVitalContent = records => ({
+  results: {
+    items: records.map(record => ({
+      ...generateVitalsItem(record),
+    })),
+  },
+});
+
+// used for Blue Button
 export const generateVitalsContent = records => ({
   results: {
     header: records[0].name,

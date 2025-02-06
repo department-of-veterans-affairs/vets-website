@@ -22,14 +22,17 @@ export default function ReferralTaskCardWithReferral() {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const { currentReferral, referralFetchStatus } = useGetReferralById(id);
+  const { referral, referralFetchStatus } = useGetReferralById(id);
 
   if (
     id &&
-    !currentReferral &&
-    (referralFetchStatus === FETCH_STATUS.succeeded ||
-      referralFetchStatus === FETCH_STATUS.failed)
+    (referralFetchStatus === FETCH_STATUS.loading ||
+      referralFetchStatus === FETCH_STATUS.notStarted)
   ) {
+    return <va-loading-indicator set-focus message="Loading your data..." />;
+  }
+
+  if (id && referralFetchStatus === FETCH_STATUS.failed) {
     return (
       <va-alert
         data-testid="referral-error"
@@ -45,7 +48,7 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  if (isExpired(currentReferral)) {
+  if (isExpired(referral)) {
     return (
       <va-alert-expandable
         status="warning"
@@ -68,5 +71,5 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  return <ReferralTaskCard data={currentReferral} />;
+  return <ReferralTaskCard data={referral} />;
 }

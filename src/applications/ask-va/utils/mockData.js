@@ -1361,6 +1361,17 @@ export const mockInquiries = {
   ],
 };
 
+// Based on Tue Jan 29th 2025  searching for reference number A-20250106-308944',
+export const mockInquiryStatusResponse = {
+  data: {
+    id: null,
+    type: 'inquiry_status',
+    attributes: {
+      status: 'New',
+    },
+  },
+};
+
 // Based on Tue Jan 21st 2025 for User 119 staging response when clicking 'Review Conversation' for inquiryNumber: 'A-20241210-308784',
 export const mockInquiryResponse = {
   data: {
