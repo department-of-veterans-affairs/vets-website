@@ -28,15 +28,15 @@ describe('Gulf War 1990 Summary', () => {
         },
         gulfWar1990Details: {
           airspace: {
-            startDate: '2023-10-01',
+            startDate: '2023-10',
           },
           afghanistan: {},
           qatar: {
-            endDate: '2023-09-05',
+            endDate: '2023-09',
           },
           waters: {
-            startDate: '2000-01-01',
-            endDate: '2004-01-01',
+            startDate: '2000-01',
+            endDate: '2004-01',
           },
         },
       },
@@ -72,11 +72,11 @@ describe('Gulf War 1990 Summary', () => {
         },
         gulfWar1990Details: {
           airspace: {
-            startDate: '2023-10-01',
+            startDate: '2023-10',
           },
           waters: {
-            startDate: '2000-01-01',
-            endDate: '2004-01-01',
+            startDate: '2000-01',
+            endDate: '2004-01',
           },
         },
       },
