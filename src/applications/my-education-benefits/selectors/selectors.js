@@ -71,4 +71,7 @@ export const getAppData = state => ({
   meb160630Automation: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.meb160630Automation
   ],
+  mebDpoAddressOptionEnabled: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled
+  ],
 });

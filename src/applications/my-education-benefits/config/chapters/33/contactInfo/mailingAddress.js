@@ -9,12 +9,6 @@ import LearnMoreAboutMilitaryBaseTooltip from '../../../../components/LearnMoreA
 import MailingAddressViewField from '../../../../components/MailingAddressViewField';
 import YesNoReviewField from '../../../../components/YesNoReviewField';
 
-// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-// const {
-//   usaPhone,
-//   email,
-// } = commonDefinitions;
-
 import { formFields } from '../../../../constants';
 
 function isOnlyWhitespace(str) {
@@ -72,14 +66,59 @@ const mailingAddress33 = {
       },
       [formFields.address]: {
         ...address.uiSchema('', false, null, true),
+        'ui:options': {
+          updateSchema: (formData, addressSchema) => {
+            const livesOnMilitaryBase =
+              formData['view:mailingAddress']?.livesOnMilitaryBase;
+            const country =
+              formData['view:mailingAddress']?.address?.country || 'USA';
+            if (livesOnMilitaryBase) {
+              return {
+                ...addressSchema,
+                properties: {
+                  ...addressSchema.properties,
+                  state: {
+                    type: 'string',
+                    title: 'AE/AA/AP',
+                    enum: ['AE', 'AA', 'AP'],
+                    enumNames: [
+                      'AE - APO/DPO/FPO',
+                      'AA - APO/DPO/FPO',
+                      'AP - APO/DPO/FPO',
+                    ],
+                  },
+                },
+              };
+            }
+
+            let stateSchema = {
+              type: 'string',
+              title: 'State/County/Province',
+            };
+
+            if (country === 'USA') {
+              stateSchema = {
+                ...stateSchema,
+                enum: constants.states.USA.map(state => state.value),
+                enumNames: constants.states.USA.map(state => state.label),
+              };
+            }
+            return {
+              ...addressSchema,
+              properties: {
+                ...addressSchema.properties,
+                state: stateSchema,
+              },
+            };
+          },
+        },
         country: {
           'ui:title': 'Country',
+          // If you live on a military base, it's not required; otherwise it is
           'ui:required': formData =>
-            !formData.showMebDgi40Features ||
-            (formData.showMebDgi40Features &&
-              !formData['view:mailingAddress'].livesOnMilitaryBase),
+            !formData['view:mailingAddress'].livesOnMilitaryBase,
+          // If you live on a military base, the country field is disabled
           'ui:disabled': formData =>
-            formData.showMebDgi40Features &&
             formData['view:mailingAddress'].livesOnMilitaryBase,
           'ui:options': {
             updateSchema: (formData, schema, uiSchema) => {
@@ -92,7 +131,8 @@ const mailingAddress33 = {
                 ['view:mailingAddress', 'livesOnMilitaryBase'],
                 formData,
               );
-              if (formData.showMebDgi40Features && livesOnMilitaryBase) {
+
+              if (livesOnMilitaryBase) {
                 countryUI['ui:disabled'] = true;
                 const USA = {
                   value: 'USA',
@@ -107,7 +147,6 @@ const mailingAddress33 = {
               }
 
               countryUI['ui:disabled'] = false;
-
               return {
                 type: 'string',
                 enum: constants.countries.map(country => country.value),
@@ -186,14 +225,27 @@ const mailingAddress33 = {
           ],
           'ui:options': {
             replaceSchema: formData => {
-              if (formData['view:mailingAddress']?.livesOnMilitaryBase) {
+              const livesOnMilitaryBase =
+                formData['view:mailingAddress']?.livesOnMilitaryBase;
+
+              if (livesOnMilitaryBase) {
+                // Always have APO/FPO
+                const baseEnum = ['APO', 'FPO'];
+                // Conditionally add DPO if feature toggle is enabled
+                if (formData?.mebDpoAddressOptionEnabled) {
+                  baseEnum.push('DPO');
+                }
+
                 return {
                   type: 'string',
-                  title: 'APO/FPO',
-                  enum: ['APO', 'FPO'],
+                  title: formData?.mebDpoAddressOptionEnabled
+                    ? 'APO/FPO/DPO'
+                    : 'APO/FPO',
+                  enum: baseEnum,
                 };
               }
 
+              // If not on a military base, show a normal City field
               return {
                 type: 'string',
                 title: 'City',
@@ -202,7 +254,6 @@ const mailingAddress33 = {
           },
         },
         state: {
-          'ui:title': 'State/County/Province',
           'ui:validations': [
             (errors, field) => {
               if (field?.length === 1) {
@@ -212,12 +263,9 @@ const mailingAddress33 = {
               }
             },
           ],
-          'ui:required': formData => {
-            return (
-              formData['view:mailingAddress']?.livesOnMilitaryBase ||
-              formData['view:mailingAddress']?.address?.country === 'USA'
-            );
-          },
+          'ui:required': formData =>
+            formData['view:mailingAddress']?.livesOnMilitaryBase ||
+            formData['view:mailingAddress']?.address?.country === 'USA',
         },
         postalCode: {
           'ui:options': {
