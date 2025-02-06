@@ -70,7 +70,7 @@ function initHappyDom() {
       }
     };
     console.warn = () => {};
-  } else if (process.env.LOG_LEVEL === 'log') { 
+  } else if (process.env.LOG_LEVEL === 'log') {
     console.error = () => {};
     console.warn = () => {};
   }
@@ -153,5 +153,18 @@ export const mochaHooks = {
   afterEach() {
     cleanupStorage();
     flushPromises();
+  },
+
+  afterAll(done) {
+    flushPromises()
+      .then(() => {
+        done();
+        setTimeout(() => {
+          process.exit(0);
+        });
+      })
+      .catch(error => {
+        done(error);
+      });
   },
 };

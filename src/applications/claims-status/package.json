@@ -10,14 +10,14 @@
     "@department-of-veterans-affairs/css-library": "0.15.0"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-redux": "*",
-    "prop-types": "*",
-    "moment": "*",
     "@sentry/browser": "*",
     "chai": "*",
-    "sinon": "*",
-    "enzyme": "*"
+    "enzyme": "*",
+    "moment": "*",
+    "prop-types": "*",
+    "react": "*",
+    "react-redux": "*",
+    "sinon": "*"
   },
   "license": "MIT",
   "private": true

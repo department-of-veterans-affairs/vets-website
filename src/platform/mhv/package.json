@@ -9,14 +9,14 @@
     "./downtime/MHVDown": "./downtime/components/MHVDown.jsx"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-redux": "*",
-    "prop-types": "*",
-    "moment": "*",
     "@sentry/browser": "*",
     "chai": "*",
-    "sinon": "*",
-    "enzyme": "*"
+    "enzyme": "*",
+    "moment": "*",
+    "prop-types": "*",
+    "react": "*",
+    "react-redux": "*",
+    "sinon": "*"
   },
   "license": "MIT",
   "private": true

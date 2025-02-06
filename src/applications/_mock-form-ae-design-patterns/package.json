@@ -7,7 +7,6 @@
         "vadx:dev": "nodemon vadx/server/index.js"
     },
     "licence": "MIT",
-    "dependencies": {},
     "devDependencies": {
         "@testing-library/dom": "^7.26.6",
         "@testing-library/react": "^11.1.2",
