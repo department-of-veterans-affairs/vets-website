@@ -7,7 +7,6 @@ import fixTreatedDisabilityNamesKey from './06-fix-treatedDisabilityNames';
 import mapServiceBranches from './07-map-service-branches';
 import reorderHousingIllnessRemoveFdc from './08-paper-sync';
 import addDisabilitiesRedirect from './09-addDisabilities-redirect';
-import addDisabilitiesRedirectAdd3 from './10-addDisabilities-redirect-add-3';
 
 // We launched at version 1 and not version 0, so the first _real_ migration is at
 //  migrations[1]
@@ -25,7 +24,6 @@ const migrations = [
   mapServiceBranches,
   reorderHousingIllnessRemoveFdc,
   addDisabilitiesRedirect,
-  addDisabilitiesRedirectAdd3,
 ];
 
 export default migrations;
