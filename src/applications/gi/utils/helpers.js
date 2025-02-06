@@ -612,8 +612,9 @@ export const showLcParams = location => {
   const nameParam = searchParams.get('name') ?? '';
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
+  const initialCategoryParam = searchParams.get('initial') ?? 'all';
 
-  return { nameParam, categoryParams, stateParam };
+  return { nameParam, categoryParams, stateParam, initialCategoryParam };
 };
 
 export const handleLcResultsSearch = (
@@ -621,6 +622,7 @@ export const handleLcResultsSearch = (
   categories,
   name,
   state = 'all',
+  initialCategory = 'all',
 ) => {
   let categoryParams = '';
 
@@ -634,7 +636,9 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&`.concat(categoryParams),
+    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&`.concat(
+      categoryParams,
+    ),
     {
       path: history.location.pathname,
     },
@@ -700,7 +704,7 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
   return {
     label: 'State',
     options:
-      multiples.length === 0
+      multiples.length - 1 <= 0
         ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
         : [
             { optionValue: 'all', optionLabel: 'All' },

@@ -67,7 +67,12 @@ export default function LicenseCertificationSearchResults() {
 
   const previousRoute = history.location.state?.path;
 
-  const { nameParam, categoryParams, stateParam } = showLcParams(location);
+  const {
+    nameParam,
+    categoryParams,
+    stateParam,
+    initialCategoryParam,
+  } = showLcParams(location);
 
   const dispatch = useDispatch();
 
@@ -109,11 +114,7 @@ export default function LicenseCertificationSearchResults() {
     () => {
       if (allowUpdate) {
         dispatch(
-          filterLcResults(
-            nameParam ?? '',
-            categoryParams,
-            dropdown.current.optionValue,
-          ),
+          filterLcResults(nameParam ?? '', activeCategories, filterLocation),
         );
       }
 
@@ -136,30 +137,6 @@ export default function LicenseCertificationSearchResults() {
     [filterLocation, filteredResults, nameParam],
   );
 
-  const itemsPerPage = 10;
-
-  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
-  const currentResults = filteredResults.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
-  const handleSearch = (categories, name, state) => {
-    const newParams = {
-      category: categories.length > 0 ? categories : [null],
-      name,
-      state,
-    };
-
-    setAllowUpdate(true);
-    setActiveCategories(categories);
-    handleLcResultsSearch(history, newParams.category, name, state);
-  };
-
-  const handleChange = e => {
-    setFilterLocation(e.target.value);
-  };
-
   useEffect(() => {
     window.scrollTo(0, 0);
 
@@ -171,6 +148,36 @@ export default function LicenseCertificationSearchResults() {
 
     return () => window.removeEventListener('resize', checkScreen);
   }, []);
+
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+  const currentResults = filteredResults.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
+  const handleSearch = (categoryNames, name, state) => {
+    const newParams = {
+      category: categoryNames.length > 0 ? categoryNames : [null],
+      name,
+      state,
+    };
+
+    setAllowUpdate(true);
+    setActiveCategories(categoryNames);
+    handleLcResultsSearch(
+      history,
+      newParams.category,
+      name,
+      state,
+      initialCategoryParam,
+    );
+  };
+
+  const handleChange = e => {
+    setFilterLocation(e.target.value);
+  };
 
   const handlePageChange = page => {
     setCurrentPage(page);
@@ -206,15 +213,27 @@ export default function LicenseCertificationSearchResults() {
   };
 
   const handleResetSearch = () => {
-    setCategoryCheckboxes(checkboxMap(lacpCategoryList, 'all'));
+    setAllowUpdate(true);
+    setActiveCategories([initialCategoryParam]);
+    setCategoryCheckboxes(
+      checkboxMap(lacpCategoryList, [initialCategoryParam]),
+    );
+    // setDropdown(updateStateDropdown());
     setFilterLocation('all');
+    handleLcResultsSearch(
+      history,
+      [initialCategoryParam],
+      nameParam,
+      'all',
+      initialCategoryParam,
+    );
   };
 
   const renderSearchInfo = () => {
     const valuesToCheck = ['license', 'certification', 'prep course'];
 
     const allValuesIncluded = valuesToCheck.every(value =>
-      categoryParams.includes(value),
+      activeCategories.includes(value),
     );
 
     return (
@@ -225,7 +244,7 @@ export default function LicenseCertificationSearchResults() {
             ",
           </span>
         ) : (
-          categoryParams.map((category, index) => {
+          activeCategories.map((category, index) => {
             return (
               <span
                 className="info-option vads-u-padding-right--0p5"
@@ -235,46 +254,38 @@ export default function LicenseCertificationSearchResults() {
                 <strong key={index}>
                   {capitalizeFirstLetter(category, ['course'])}
                 </strong>
-                ",
+                "{index === activeCategories.length - 1 && <>,</>}
               </span>
             );
           })
         )}
         <span className="info-option">
-          "<strong>{nameParam}</strong>
-          ",{' '}
+          "<strong>{nameParam}</strong>"
+          {previousRoute !== '/lc-search' && <>,</>}{' '}
         </span>
-        <span className="info-option">
-          "
-          <strong>
-            {stateParam === 'all'
-              ? 'All'
-              : mappedStates.find(state => stateParam === state.optionValue)
-                  .optionLabel}
-          </strong>
-          "{' '}
-        </span>
+        {previousRoute !== '/lc-search' && (
+          <span className="info-option">
+            "
+            <strong>
+              {stateParam === 'all'
+                ? 'All'
+                : mappedStates.find(state => stateParam === state.optionValue)
+                    .optionLabel}
+            </strong>
+            "{' '}
+          </span>
+        )}
       </>
     );
   };
 
   if (fetchingLc) {
-    return (
-      <va-loading-indicator
-        // data-testid="loading-indicator"
-        message="Loading..."
-      />
-    );
+    return <va-loading-indicator message="Loading..." />;
   }
 
   if (error) {
     <div className="row">
-      <LicesnseCertificationServiceError
-        categoryCheckboxes={categoryCheckboxes}
-        handleCheckboxGroupChange={handleCheckboxGroupChange}
-        dropdown={dropdown}
-        handleDropdownChange={handleChange}
-      />
+      <LicesnseCertificationServiceError />
     </div>;
   }
 
@@ -337,7 +348,7 @@ export default function LicenseCertificationSearchResults() {
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
                       {activeCategories.length >= 1
                         ? `There is no ${activeCategories} available in the state of ${stateParam}`
-                        : `Please update the filter options to show results.`}
+                        : `Please update the filter options to see results.`}
                     </p>
                   ) : (
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
@@ -347,7 +358,7 @@ export default function LicenseCertificationSearchResults() {
                           filteredResults,
                           currentPage,
                           itemsPerPage,
-                        )} of ${filteredResults.length - 1} results for: `}
+                        )} of ${filteredResults.length - 1} results for `}
                         {renderSearchInfo()}
                       </>
                     </p>

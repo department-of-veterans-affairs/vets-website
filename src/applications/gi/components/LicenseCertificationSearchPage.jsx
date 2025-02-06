@@ -102,7 +102,7 @@ export default function LicenseCertificationSearchPage({ flag }) {
     // preserves category filter option in case user navigates back to this page
     updateQueryParam(history, location, newParams);
 
-    handleLcResultsSearch(history, newParams.category, name);
+    handleLcResultsSearch(history, newParams.category, name, 'all', category);
   };
 
   const handleReset = callback => {
