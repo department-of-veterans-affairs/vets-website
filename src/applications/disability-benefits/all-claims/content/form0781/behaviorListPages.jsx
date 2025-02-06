@@ -97,6 +97,22 @@ export const behaviorListValidationError = (
   </va-alert>
 );
 
+/**
+ * Returns true if 'none' selected, false otherwise
+ * @param {object} formData
+ * @returns {boolean}
+ */
+function hasSelectedNoneCheckbox(formData) {
+  return Object.values(formData['view:noneCheckbox'] || {}).some(
+    selected => selected === true,
+  );
+}
+
+/**
+ * Returns an object with behavior section properties and boolean value if selections present
+ * @param {object} formData
+ * @returns {object}
+ */
 function selectedBehaviors(formData) {
   const workBehaviorsSelected = Object.values(
     formData.workBehaviors || {},
@@ -110,9 +126,7 @@ function selectedBehaviors(formData) {
     formData.otherBehaviors || {},
   ).some(selected => selected === true);
 
-  const noneSelected = Object.values(formData['view:noneCheckbox'] || {}).some(
-    selected => selected === true,
-  );
+  const noneSelected = hasSelectedNoneCheckbox(formData);
 
   return {
     workBehaviors: workBehaviorsSelected,
@@ -123,21 +137,29 @@ function selectedBehaviors(formData) {
 }
 
 /**
+ * Returns true if any selections, false otherwise
+ * @param {object} formData
+ * @returns {boolean}
+ */
+export function hasSelectedBehaviors(formData) {
+  const selections = selectedBehaviors(formData);
+  const { workBehaviors, healthBehaviors, otherBehaviors } = selections;
+  return [workBehaviors, healthBehaviors, otherBehaviors].some(
+    selection => selection === true,
+  );
+}
+
+/**
  * Returns true if 'none' checkbox and other behaviors are selected
  * @param {object} formData
  * @returns {boolean}
  */
 
 export function showConflictingAlert(formData) {
-  const selections = selectedBehaviors(formData);
-  const { none, workBehaviors, healthBehaviors, otherBehaviors } = selections;
-  const somethingSelected = [
-    workBehaviors,
-    healthBehaviors,
-    otherBehaviors,
-  ].some(selection => selection === true);
+  const noneSelected = hasSelectedNoneCheckbox(formData);
+  const somethingSelected = hasSelectedBehaviors(formData);
 
-  return !!(none && somethingSelected);
+  return !!(noneSelected && somethingSelected);
 }
 
 /**
@@ -178,3 +200,5 @@ export const reassignmentPageTitle =
   'Request for a change in occupational series or duty assignment';
 
 export const otherPageTitle = 'Other behavioral changes';
+
+export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
