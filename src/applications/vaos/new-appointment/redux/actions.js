@@ -3,6 +3,8 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import { format, utcToZonedTime } from 'date-fns-tz';
+
 import { createAppointment } from '../../services/appointment';
 import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -630,16 +632,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           // for the correct day.
           .map(slot => {
             if (featureVAOSServiceVAAppointments) {
-              // The moment.tz() function will parse a given time with offset
-              // and convert it to the time zone provided.
-              //
-              // NOTE: Stripping off the timezone information 'Z' so that it will
-              // not be used during formatting elsewhere. Including the 'Z' would
-              // result in the formatted string using the local timezone.
-              const time = moment
-                .tz(slot.start, timezone)
-                .format('YYYY-MM-DDTHH:mm:ss');
-
+              const zonedDate = utcToZonedTime(slot.start, timezone);
+              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+                timeZone: timezone,
+              });
               return { ...slot, start: time };
             }
             return slot;
