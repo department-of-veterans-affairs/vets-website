@@ -1,5 +1,5 @@
 import environment from '~/platform/utilities/environment';
-import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
+import fileUiSchema from './file';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import { createPayload, parseResponse } from './helpers';
