@@ -49,7 +49,7 @@ export function getAppointmentData(apptId) {
     try {
       const apptUrl = `${
         environment.API_URL
-      }/vaos/v2/appointment/${apptId}?_include=facilities,travel_pay_claims`;
+      }/vaos/v2/appointments/${apptId}?_include=facilities,travel_pay_claims`;
       const response = await apiRequest(apptUrl);
       dispatch(fetchAppointmentSuccess(response.data.attributes));
     } catch (error) {

@@ -299,11 +299,6 @@ export const FORM_STATUS_BDD = 'formStatusBdd';
 
 export const SHOW_8940_4192 = 'showSubforms';
 
-export const ADD_DISABILITIES_ENHANCEMENT_TOGGLE =
-  'all_claims_add_disabilities_enhancement';
-export const ADD_DISABILITIES_ENHANCEMENT_DATA =
-  'showAddDisabilitiesEnhancement';
-
 export const SERVICE_BRANCHES = 'militaryServiceBranches';
 
 // sessionStorage key used for the user entered separation date in the wizard
@@ -454,4 +449,5 @@ export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
   socialEconomic: 'Economic or social behavioral changes',
   relationships: 'Changes in or breakup of a significant relationship',
   misconduct: 'Disciplinary or legal difficulties',
+  unlisted: 'I experienced other behavioral changes that were not in this list',
 });
