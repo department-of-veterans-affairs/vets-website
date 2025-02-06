@@ -123,8 +123,8 @@ describe('createMaintenanceBanner', () => {
       new Date().getTime() + 2 * 60 * 60 * 1000,
     ).toISOString(); // 2 hours later
     const banner = downtimeUtils.createMaintenanceBanner({
-      start_time: startTime,
-      end_time: endTime,
+      startTime,
+      endTime,
     });
 
     expect(banner).to.have.property('headline', 'Upcoming site maintenance');
@@ -187,10 +187,10 @@ describe('renderMaintenanceWindow', () => {
     const maintArray = [
       {
         externalService: 'global',
-        start_time: new Date(
+        startTime: new Date(
           new Date().getTime() - 1 * 60 * 60 * 1000,
         ).toISOString(),
-        end_time: new Date(
+        endTime: new Date(
           new Date().getTime() + 1 * 60 * 60 * 1000,
         ).toISOString(),
       },
@@ -207,10 +207,10 @@ describe('renderMaintenanceWindow', () => {
     const maintArray = [
       {
         externalService: 'global',
-        start_time: new Date(
+        startTime: new Date(
           new Date().getTime() - 3 * 60 * 60 * 1000,
         ).toISOString(),
-        end_time: new Date(
+        endTime: new Date(
           new Date().getTime() - 1 * 60 * 60 * 1000,
         ).toISOString(),
       },

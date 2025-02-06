@@ -110,8 +110,8 @@ export const renderDowntimeBanner = statuses => {
  * @returns An object needed to create the React-node (va-alert) maintenance banner
  */
 export const createMaintenanceBanner = ({
-  start_time: startingTime,
-  end_time: endingTime,
+  startTime: startingTime,
+  endTime: endingTime,
 }) => {
   const { headline, status } = DOWNTIME_BANNER_CONFIG.maintenance;
 
