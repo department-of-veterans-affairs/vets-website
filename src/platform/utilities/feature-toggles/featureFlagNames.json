@@ -3,7 +3,6 @@
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
-  "allClaimsAddDisabilitiesEnhancement": "all_claims_add_disabilities_enhancement",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
   "appointARepresentativeEnableV2Features": "appoint_a_representative_enable_v2_features",
   "askVaDashboardFeature": "ask_va_dashboard_feature",
@@ -159,7 +158,6 @@
   "mhvSecureMessagingRecipientCombobox": "mhv_secure_messaging_recipient_combobox",
   "mhvSecureMessagingRemoveLandingPage": "mhv_secure_messaging_remove_landing_page",
   "mhvSecureMessagingSignatureSettings": "mhv_secure_messaging_signature_settings",
-  "mhvTransitionalMedicalRecordsLandingPage": "mhv_transitional_medical_records_landing_page",
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "militaryBenefitEstimates": "military_benefit_estimates",
   "myVaEnableMhvLink": "my_va_enable_mhv_link",
@@ -199,9 +197,6 @@
   "profileShowNoValidationKeyAddressAlert": "profile_show_no_validation_key_address_alert",
   "profileUseExperimental": "profile_use_experimental",
   "pwEhrCtaUseSlo": "pw_ehr_cta_use_slo",
-  "ratedDisabilitiesDetectDiscrepancies": "rated_disabilities_detect_discrepancies",
-  "ratedDisabilitiesSortAbTest": "rated_disabilities_sort_ab_test",
-  "ratedDisabilitiesUseLighthouse": "rated_disabilities_use_lighthouse",
   "representativeStatusEnabled": "representative_status_enabled",
   "scBrowserMonitoringEnabled": "sc_browser_monitoring_enabled",
   "scConfirmationUpdate": "sc_confirmation_update",
@@ -312,5 +307,6 @@
   "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
-  "toggleGiProgramsFlag": "toggle_gi_programs_flag"
+  "toggleGiProgramsFlag": "toggle_gi_programs_flag",
+  "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
 }

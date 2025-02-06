@@ -9,7 +9,6 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayPendingMeds = true,
 
     // medical records
-    mhvTransitionalMedicalRecordsLandingPage = true,
     mhvMedicalRecordsAllowTxtDownloads = true,
     mhvMedicalRecordsDisplayConditions = true,
     mhvMedicalRecordsDisplayDomains = true,
@@ -86,10 +85,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
-        },
-        {
-          name: 'mhv_transitional_medical_records_landing_page',
-          value: mhvTransitionalMedicalRecordsLandingPage,
         },
         {
           name: 'mhv_medical_records_allow_txt_downloads',
