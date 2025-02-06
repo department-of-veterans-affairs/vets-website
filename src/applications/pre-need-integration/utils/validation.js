@@ -5,7 +5,7 @@ import omit from '~/platform/utilities/data/omit';
 import set from '~/platform/utilities/data/set';
 import unset from '~/platform/utilities/data/unset';
 
-import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
+import { isActivePage, parseISODate, minYear, maxYear } from '~/platform/forms-system/src/js/helpers';
 import {
   isValidSSN,
   isValidYear,
