@@ -38,7 +38,7 @@ import { getTypeOfCareById } from '../../../../utils/appointment';
 const { cceType } = getTypeOfCareById(PRIMARY_CARE);
 const typeOfCareId = getTypeOfCareById(PRIMARY_CARE).idV2;
 
-describe.skip('VAOS direct schedule flow - Primary care', () => {
+describe('VAOS direct schedule flow - Primary care', () => {
   describe('When veteran is not CC eligible', () => {
     beforeEach(() => {
       vaosSetup();
