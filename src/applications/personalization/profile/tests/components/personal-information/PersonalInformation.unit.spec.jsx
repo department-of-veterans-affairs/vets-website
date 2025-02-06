@@ -120,18 +120,10 @@ const defaultOptions = {
   hasUnsavedEdits: false,
 };
 
-const setup = (
-  options = defaultOptions,
-  // messagingSignatureDetails,
-  // addServices,
-) => {
+const setup = (options = defaultOptions) => {
   const optionsWithDefaults = { ...defaultOptions, ...options };
   return renderWithProfileReducersAndRouter(<PersonalInformation />, {
-    initialState: createInitialState(
-      optionsWithDefaults,
-      // messagingSignatureDetails,
-      // addServices,
-    ),
+    initialState: createInitialState(optionsWithDefaults),
     path: optionsWithDefaults.path,
   });
 };
@@ -161,15 +153,11 @@ describe('<PersonalInformation />', () => {
 
     // eslint-disable-next-line dot-notation
     featureToggles['mhv_secure_messaging_signature_settings'] = true;
-    const screen = setup(
-      {
-        toggles: { ...featureToggles },
-        optionalServices: ['messaging'],
-        mhvAccount,
-      },
-      // { ...defaultMessagingSignature },
-      // ['messaging'],
-    );
+    const screen = setup({
+      toggles: { ...featureToggles },
+      optionalServices: ['messaging'],
+      mhvAccount,
+    });
     const messagingSignatureSection = screen.getByTestId('messagingSignature');
 
     expect(messagingSignatureSection.innerHTML).to.contain('Abraham Lincoln');
@@ -177,11 +165,29 @@ describe('<PersonalInformation />', () => {
   });
 
   it('does not render Messaging signature section if messaging service is not enabled', async () => {
-    // const defaultMessagingSignature = {
-    //   signatureName: 'Abraham Lincoln',
-    //   signatureTitle: 'Veteran',
-    // };
+    const mhvAccount = {
+      messagingSignature: {
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+      },
+    };
 
+    const featureToggles = {};
+
+    // eslint-disable-next-line dot-notation
+    featureToggles['mhv_secure_messaging_signature_settings'] = true;
+
+    const screen = setup({
+      toggles: { ...featureToggles },
+      mhvAccount,
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('messagingSignature')).to.not.exist;
+    });
+  });
+
+  it('retrieves the messaging signatue from SM API if messaging is enabled but messagingSignature is not populated', async () => {
     const featureToggles = {};
 
     // eslint-disable-next-line dot-notation
