@@ -26,6 +26,17 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.login(mockUser);
       setup(cy);
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'syncModern0781Flow',
+              value: false,
+            },
+          ],
+        },
+      });
     },
 
     skip: [],
