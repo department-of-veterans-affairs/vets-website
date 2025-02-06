@@ -6,10 +6,13 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
 import { getFormNumber, getFormName } from '../utilities/helpers';
+import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 import GetFormHelp from '../components/GetFormHelp';
 
-export default function ConfirmationPrintSign({ router }) {
+import ConfirmationDigitalSubmission from './ConfirmationDigitalSubmission';
+
+export default function ConfirmationPage({ router }) {
   const checkboxRef = useRef(null);
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
@@ -25,6 +28,10 @@ export default function ConfirmationPrintSign({ router }) {
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
 
+  const isDigitalSubmission =
+    formData.representativeSubmissionMethod === 'digital';
+
+  const v2IsEnabled = useV2FeatureToggle();
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
@@ -64,6 +71,10 @@ export default function ConfirmationPrintSign({ router }) {
       }
     },
   };
+
+  if (isDigitalSubmission && v2IsEnabled) {
+    return <ConfirmationDigitalSubmission />;
+  }
 
   return (
     <>
@@ -106,6 +117,6 @@ export default function ConfirmationPrintSign({ router }) {
   );
 }
 
-ConfirmationPrintSign.propTypes = {
+ConfirmationPage.propTypes = {
   router: PropTypes.object,
 };
