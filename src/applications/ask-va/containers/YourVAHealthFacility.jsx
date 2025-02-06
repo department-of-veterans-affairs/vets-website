@@ -14,7 +14,14 @@ import { mockHealthFacilityResponse } from '../utils/mockData';
 const facilities = { data: [] };
 
 const YourVAHealthFacilityPage = props => {
-  const { data, setFormData, goBack, goForward, searchQuery } = props;
+  const {
+    data,
+    setFormData,
+    goBack,
+    goForward,
+    searchQuery,
+    currentPath,
+  } = props;
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
@@ -123,7 +130,9 @@ const YourVAHealthFacilityPage = props => {
           )}
         </div>
 
-        <FormNavButtons goBack={goBack} goForward={() => checkInput(data)} />
+        {currentPath !== '/review-then-submit' && (
+          <FormNavButtons goBack={goBack} goForward={() => checkInput(data)} />
+        )}
       </form>
     </>
   );
@@ -138,6 +147,7 @@ YourVAHealthFacilityPage.propTypes = {
 function mapStateToProps(state) {
   return {
     searchQuery: state.askVA.searchLocationInput,
+    currentPath: state.navigation.route.path,
   };
 }
 

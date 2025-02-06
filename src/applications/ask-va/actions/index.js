@@ -5,6 +5,7 @@ export const SET_UPDATED_IN_REVIEW = 'SET_UPDATED_IN_REVIEW';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 export const SET_LOCATION_SEARCH = 'SET_LOCATION_SEARCH';
+export const SET_VA_HEALTH_FACILITY = 'SET_VA_HEALTH_FACILITY';
 
 export function setCategoryID(id) {
   return { type: SET_CATEGORY_ID, payload: id };
@@ -39,4 +40,8 @@ export function openReviewChapter(openedChapter) {
 
 export function setLocationInput(searchInput) {
   return { type: SET_LOCATION_SEARCH, payload: searchInput };
+}
+
+export function setVAHealthFacility(name) {
+  return { type: SET_VA_HEALTH_FACILITY, payload: name };
 }

@@ -40,6 +40,13 @@ class ReviewCollapsibleChapter extends React.Component {
     this.id = uniqueId();
   }
 
+  showSaveCancelButtons(editing) {
+    if (this.props.showButtons) {
+      return !editing;
+    }
+    return true;
+  }
+
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
     this.scrollToPage(key);
@@ -216,7 +223,7 @@ class ReviewCollapsibleChapter extends React.Component {
           formContext={formContext}
           editModeOnReviewPage={page.editModeOnReviewPage}
         >
-          {!editing ? (
+          {this.showSaveCancelButtons(editing) ? (
             <div />
           ) : (
             <div className="vads-u-display--flex vads-u-max-width--100">
