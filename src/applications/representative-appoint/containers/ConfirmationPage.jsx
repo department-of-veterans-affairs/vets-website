@@ -6,8 +6,11 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
 import { getFormNumber, getFormName } from '../utilities/helpers';
+import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 import GetFormHelp from '../components/GetFormHelp';
+
+import ConfirmationDigitalSubmission from './ConfirmationDigitalSubmission';
 
 export default function ConfirmationPage({ router }) {
   const checkboxRef = useRef(null);
@@ -25,6 +28,10 @@ export default function ConfirmationPage({ router }) {
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
 
+  const isDigitalSubmission =
+    formData.representativeSubmissionMethod === 'digital';
+
+  const v2IsEnabled = useV2FeatureToggle();
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
@@ -64,6 +71,10 @@ export default function ConfirmationPage({ router }) {
       }
     },
   };
+
+  if (isDigitalSubmission && v2IsEnabled) {
+    return <ConfirmationDigitalSubmission />;
+  }
 
   return (
     <>

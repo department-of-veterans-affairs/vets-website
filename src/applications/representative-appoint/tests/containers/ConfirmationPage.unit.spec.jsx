@@ -6,7 +6,7 @@ import * as redux from 'react-redux';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-describe('ConfirmationPage', () => {
+describe('Confirmation Page', () => {
   let defaultProps;
   let container;
   let useSelectorStub;
