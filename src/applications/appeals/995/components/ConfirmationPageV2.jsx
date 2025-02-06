@@ -52,6 +52,86 @@ import { SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
 
 import { getReadableDate } from '../../shared/utils/dates';
 
+export const LivingSituationQuestions = ({ data } = {}) => (
+  <>
+    <li>
+      <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+        {housingRiskTitle}
+      </div>
+      <div
+        className="vads-u-margin-bottom--2 dd-privacy-hidden"
+        data-dd-action-name="has housing risk"
+      >
+        {showValueOrNotSelected(data.housingRisk)}
+      </div>
+    </li>
+    {data.housingRisk && (
+      <>
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {livingSituationTitle}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-dd-action-name="living situation"
+          >
+            {livingSituationList(data?.livingSituation) || 'None selected'}
+          </div>
+        </li>
+        {data.livingSituation?.other && (
+          <li>
+            <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+              {otherHousingRisksLabel}
+            </div>
+            <div
+              className="vads-u-margin-bottom--2 dd-privacy-hidden"
+              data-dd-action-name="other housing risks"
+            >
+              {data.otherHousingRisks || 'Nothing entered'}
+            </div>
+          </li>
+        )}
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {pointOfContactNameLabel}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-dd-action-name="point of contact full name"
+          >
+            {data.pointOfContactName || 'Nothing entered'}
+          </div>
+        </li>
+        <li>
+          <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
+            {pointOfContactPhoneLabel}
+          </div>
+          <div
+            className="vads-u-margin-bottom--2 dd-privacy-hidden"
+            data-dd-action-name="point of contact phone number"
+          >
+            {data.pointOfContactPhone ? (
+              <va-telephone contact={data.pointOfContactPhone} not-clickable />
+            ) : (
+              'Nothing entered'
+            )}
+          </div>
+        </li>
+      </>
+    )}
+  </>
+);
+
+LivingSituationQuestions.propTypes = {
+  data: PropTypes.shape({
+    housingRisk: PropTypes.bool,
+    livingSituation: PropTypes.arrayOf(PropTypes.string),
+    otherHousingRisks: PropTypes.string,
+    pointOfContactName: PropTypes.string,
+    pointOfContactPhone: PropTypes.string,
+  }),
+};
+
 export const ConfirmationPageV2 = () => {
   const form = useSelector(state => state.form || {});
   const profile = useSelector(state => selectProfile(state));
@@ -76,6 +156,10 @@ export const ConfirmationPageV2 = () => {
   const submitDate = getReadableDate(
     submission?.timestamp || new Date().toISOString(),
   );
+
+  const livingSituation = showScNewForm ? (
+    <LivingSituationQuestions data={data} />
+  ) : null;
 
   return (
     <>
@@ -151,89 +235,9 @@ export const ConfirmationPageV2 = () => {
         userFullName={profile.userFullName}
         veteran={data.veteran}
         hasHomeAndMobilePhone
-        hasLivingSituationChapter
+        livingSituation={showScNewForm ? livingSituation : null}
+        formData={data}
       />
-
-      {showScNewForm && (
-        <>
-          <h3 className={chapterHeaderClass}>Living situation</h3>
-          {/* Adding a `role="list"` to `ul` with `list-style: none` to work
-              around a problem with Safari not treating the `ul` as a list. */}
-          {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-          <ul className="remove-bullets" role="list">
-            <li>
-              <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                {housingRiskTitle}
-              </div>
-              <div
-                className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                data-dd-action-name="has housing risk"
-              >
-                {showValueOrNotSelected(data.housingRisk)}
-              </div>
-            </li>
-            {data.housingRisk && (
-              <>
-                <li>
-                  <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                    {livingSituationTitle}
-                  </div>
-                  <div
-                    className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                    data-dd-action-name="living situation"
-                  >
-                    {livingSituationList(data?.livingSituation) ||
-                      'None selected'}
-                  </div>
-                </li>
-                {data.livingSituation?.other && (
-                  <li>
-                    <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                      {otherHousingRisksLabel}
-                    </div>
-                    <div
-                      className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                      data-dd-action-name="other housing risks"
-                    >
-                      {data.otherHousingRisks || 'Nothing entered'}
-                    </div>
-                  </li>
-                )}
-                <li>
-                  <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                    {pointOfContactNameLabel}
-                  </div>
-                  <div
-                    className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                    data-dd-action-name="point of contact full name"
-                  >
-                    {data.pointOfContactName || 'Nothing entered'}
-                  </div>
-                </li>
-                <li>
-                  <div className="vads-u-margin-bottom--0p5 vads-u-color--gray vads-u-font-size--sm">
-                    {pointOfContactPhoneLabel}
-                  </div>
-                  <div
-                    className="vads-u-margin-bottom--2 dd-privacy-hidden"
-                    data-dd-action-name="point of contact phone number"
-                  >
-                    {data.pointOfContactPhone ? (
-                      <va-telephone
-                        contact={data.pointOfContactPhone}
-                        extension={data.pointOfContactPhone?.extension}
-                        not-clickable
-                      />
-                    ) : (
-                      'Nothing entered'
-                    )}
-                  </div>
-                </li>
-              </>
-            )}
-          </ul>
-        </>
-      )}
 
       <ConfirmationIssues data={data} />
 
