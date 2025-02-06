@@ -62,8 +62,8 @@ export default function StatementOfTruth(signatureProps) {
         <p className="vads-u-margin-top--1">
           <strong>Note:</strong> According to federal law, there are criminal
           penalties, including a fine and/or imprisonment for up to 5 years, for
-          withholding information or for providing incorrect information. (See
-          18 U.S.C. 1001)
+          withholding information or for providing incorrect information (See 18
+          U.S.C. 1001).
         </p>
         <h3 className="vads-u-padding-top--1">Certification statement</h3>
         {content}
