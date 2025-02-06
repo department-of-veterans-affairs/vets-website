@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import cheerio from 'cheerio';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import {
@@ -9,6 +8,8 @@ import {
   PRINT_FORMAT,
   DOWNLOAD_FORMAT,
 } from './constants';
+
+const cheerio = require('cheerio');
 
 /**
  * @param {*} timestamp
