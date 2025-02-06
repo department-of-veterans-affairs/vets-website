@@ -2,7 +2,7 @@
 import _ from 'platform/utilities/data';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { isClaimingNew } from '.';
+import { isClaimingIncrease, isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
 
@@ -27,19 +27,15 @@ function combatOnlySelection(formData) {
  * @returns
  *   TRUE if
  *     - is set on form via the backend
- *     - Veteran is claiming a new disability
- *     - Veteran has selected connected condition choices on 'screener page'
+ *     - Veteran is claiming a new disability, and not a claim for increase
  *   else
  *     - returns false
  */
 export function showForm0781Pages(formData) {
-  const conditions = formData?.mentalHealth?.conditions || {};
   return (
     formData?.syncModern0781Flow === true &&
     isClaimingNew(formData) &&
-    Object.entries(conditions).some(
-      ([key, value]) => key !== 'none' && value === true,
-    )
+    !isClaimingIncrease(formData)
   );
 }
 
