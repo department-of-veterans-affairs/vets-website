@@ -33,6 +33,7 @@ export const App = ({
   isLOA3,
   isLoggedIn,
   location,
+  mebDpoAddressOptionEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
@@ -257,6 +258,12 @@ export const App = ({
 
   useEffect(
     () => {
+      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+        setFormData({
+          ...formData,
+          mebDpoAddressOptionEnabled,
+        });
+      }
       if (
         mebKickerNotificationEnabled !== formData.mebKickerNotificationEnabled
       ) {
@@ -378,6 +385,7 @@ export const App = ({
       duplicateEmail,
       duplicatePhone,
       meb160630Automation,
+      mebDpoAddressOptionEnabled,
       mebKickerNotificationEnabled,
     ],
   );
@@ -468,6 +476,7 @@ App.propTypes = {
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   meb160630Automation: PropTypes.bool,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
   mebKickerNotificationEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
