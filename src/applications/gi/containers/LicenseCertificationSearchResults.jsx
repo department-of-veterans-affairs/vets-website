@@ -95,6 +95,14 @@ export default function LicenseCertificationSearchResults() {
     );
   });
 
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
+  const currentResults = filteredResults.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
   useEffect(() => {
     if (!hasFetchedOnce) {
       dispatch(fetchLicenseCertificationResults());
@@ -149,14 +157,6 @@ export default function LicenseCertificationSearchResults() {
     return () => window.removeEventListener('resize', checkScreen);
   }, []);
 
-  const itemsPerPage = 10;
-
-  const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
-  const currentResults = filteredResults.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage,
-  );
-
   const handleSearch = (categoryNames, name, state) => {
     const newParams = {
       category: categoryNames.length > 0 ? categoryNames : [null],
@@ -193,16 +193,28 @@ export default function LicenseCertificationSearchResults() {
     const { name, checked } = e.target;
 
     const updatedCheckboxes = categoryCheckboxes.map(categoryCheckbox => {
-      if (name === 'all' && checked) {
+      if (name === 'all') {
         return {
           ...categoryCheckbox,
           checked,
         };
       }
 
+      if (
+        name !== 'all' &&
+        !checked &&
+        categoryCheckbox.label.toLowerCase() === 'all'
+      ) {
+        return {
+          ...categoryCheckbox,
+          checked: false,
+        };
+      }
+
       if (categoryCheckbox.label.toLowerCase() !== name) {
         return categoryCheckbox;
       }
+
       return {
         ...categoryCheckbox,
         checked,
@@ -304,20 +316,19 @@ export default function LicenseCertificationSearchResults() {
         </div>
         <div className="row">
           <p className="vads-u-margin-top--0">
-            We didn't find any results for “insert term user typed into
-            license/certification name here.” Please{' '}
+            We didn't find any results for "<strong>{nameParam}</strong>" Please{' '}
             <va-link
               href="./" // check link structure
-              text="go back to search and try
-              using different words or checking the spelling of the words you’re
-              using."
-            />
+              text="go back to search"
+            />{' '}
+            and try using different words or checking the spelling of the words
+            you’re using.
             <p className="">
               If you don’t see a test or prep course listed, it may be a valid
               test that’s not yet approved. We encourage you to submit an
               application for reimbursement. If approved, we’ll prorate the
               entitlement charges based on the actual amount of the fee charged
-              for the test.
+              for the test.{' '}
               <va-link
                 href="../../find-forms/about-form-22-0803/" // check link structure
                 text="Find out how to get reimbursed for
