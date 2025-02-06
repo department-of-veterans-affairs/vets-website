@@ -15,68 +15,68 @@ describe('PACT Act', () => {
 
       // SERVICE_PERIOD -------------------------------
       h.verifyUrl(ROUTES.SERVICE_PERIOD);
-      h.verifyFormErrorNotShown(h.SERVICE_PERIOD_INPUT);
+      h.verifyFormErrorDoesNotExist(h.SERVICE_PERIOD_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.SERVICE_PERIOD_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.SERVICE_PERIOD_INPUT, 2);
-      h.verifyFormErrorNotShown(h.SERVICE_PERIOD_INPUT);
+      h.verifyFormErrorDoesNotExist(h.SERVICE_PERIOD_INPUT);
       h.clickContinue();
 
       // BURN_PIT_2_1 --------------------------------
       h.verifyUrl(ROUTES.BURN_PIT_2_1);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.BURN_PIT_2_1_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.BURN_PIT_2_1_INPUT, 2);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_INPUT);
       h.clickContinue();
 
       // BURN_PIT_2_1_1 --------------------------------
       h.verifyUrl(ROUTES.BURN_PIT_2_1_1);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_1_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_1_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.BURN_PIT_2_1_1_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.BURN_PIT_2_1_1_INPUT, 2);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_1_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_1_INPUT);
       h.clickContinue();
 
       // BURN_PIT_2_1_2 --------------------------------
       h.verifyUrl(ROUTES.BURN_PIT_2_1_2);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_2_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.BURN_PIT_2_1_2_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.BURN_PIT_2_1_2_INPUT, 2);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_2_INPUT);
       h.clickContinue();
 
       // BURN_PIT_2_1_3 --------------------------------
       h.verifyUrl(ROUTES.BURN_PIT_2_1_3);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_3_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_3_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.BURN_PIT_2_1_3_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.BURN_PIT_2_1_3_INPUT, 2);
-      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_3_INPUT);
+      h.verifyFormErrorDoesNotExist(h.BURN_PIT_2_1_3_INPUT);
       h.clickContinue();
 
       // ORANGE_2_2_A --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_A);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_A_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.ORANGE_2_2_A_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.ORANGE_2_2_A_INPUT, 0);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_A_INPUT);
       h.clickContinue();
 
       // ORANGE_2_2_B --------------------------------
@@ -92,19 +92,19 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_A --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_A);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_A_INPUT);
       h.selectRadio(h.ORANGE_2_2_A_INPUT, 2);
       h.clickContinue();
 
       // ORANGE_2_2_1_A ------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_1_A);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_1_A_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.ORANGE_2_2_1_A_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.ORANGE_2_2_1_A_INPUT, 0);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_1_A_INPUT);
       h.clickContinue();
 
       // ORANGE_2_2_1_B -----------------------------
@@ -120,24 +120,24 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_1_A ------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_1_A);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_1_A_INPUT);
       h.selectRadio(h.ORANGE_2_2_1_A_INPUT, 2);
       h.clickContinue();
 
       // ORANGE_2_2_2 ------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_2);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_2_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_2_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.ORANGE_2_2_2_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.ORANGE_2_2_2_INPUT, 2);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_2_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_2_INPUT);
       h.clickContinue();
 
       // ORANGE_2_2_3 ------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_3);
-      h.verifyFormErrorNotShown(h.ORANGE_2_2_3_INPUT);
+      h.verifyFormErrorDoesNotExist(h.ORANGE_2_2_3_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.ORANGE_2_2_3_INPUT, 'Error Select a response.');
@@ -147,7 +147,7 @@ describe('PACT Act', () => {
 
       // RADIATION_2_3_A ------------------------------
       h.verifyUrl(ROUTES.RADIATION_2_3_A);
-      h.verifyFormErrorNotShown(h.RADIATION_2_3_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.RADIATION_2_3_A_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.RADIATION_2_3_A_INPUT, 'Error Select a response.');
@@ -168,13 +168,13 @@ describe('PACT Act', () => {
 
       // RADIATION_2_3_A ------------------------------
       h.verifyUrl(ROUTES.RADIATION_2_3_A);
-      h.verifyFormErrorNotShown(h.RADIATION_2_3_A_INPUT);
+      h.verifyFormErrorDoesNotExist(h.RADIATION_2_3_A_INPUT);
       h.selectRadio(h.RADIATION_2_3_A_INPUT, 2);
       h.clickContinue();
 
       // LEJEUNE_2_4 ------------------------------
       h.verifyUrl(ROUTES.LEJEUNE_2_4);
-      h.verifyFormErrorNotShown(h.LEJEUNE_2_4_INPUT);
+      h.verifyFormErrorDoesNotExist(h.LEJEUNE_2_4_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.LEJEUNE_2_4_INPUT, 'Error Select a response.');
@@ -184,7 +184,7 @@ describe('PACT Act', () => {
 
       // MAIN_FLOW_2_5 ------------------------------
       h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
-      h.verifyFormErrorNotShown(h.MAIN_FLOW_2_5_INPUT);
+      h.verifyFormErrorDoesNotExist(h.MAIN_FLOW_2_5_INPUT);
 
       h.clickContinue();
       h.checkFormAlertText(h.MAIN_FLOW_2_5_INPUT, 'Error Select a response.');

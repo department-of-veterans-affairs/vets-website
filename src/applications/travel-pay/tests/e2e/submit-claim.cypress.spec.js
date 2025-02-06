@@ -7,8 +7,10 @@ describe('Submit Mileage Only Claims', () => {
   beforeEach(() => {
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    ApiInitializer.initializeAppointment.happyPath();
     cy.login(user);
     cy.visit(`${rootUrl}/file-new-claim/12345`);
+    cy.wait(['@featureToggles', '@appointment']);
     cy.injectAxeThenAxeCheck();
   });
 

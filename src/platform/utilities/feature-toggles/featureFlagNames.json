@@ -3,7 +3,6 @@
   "accreditedRepresentativePortalPilot": "accredited_representative_portal_pilot",
   "aedpVADX": "aedp_vadx",
   "aedpPrefill": "aedp_prefill",
-  "allClaimsAddDisabilitiesEnhancement": "all_claims_add_disabilities_enhancement",
   "appointARepresentativeEnableFrontend": "appoint_a_representative_enable_frontend",
   "appointARepresentativeEnableV2Features": "appoint_a_representative_enable_v2_features",
   "askVaDashboardFeature": "ask_va_dashboard_feature",
@@ -149,6 +148,7 @@
   "mhvMedicationsDisplayFilter": "mhv_medications_display_filter",
   "mhvMedicationsDisplayGrouping": "mhv_medications_display_grouping",
   "mhvMedicationsDisplayRefillContent": "mhv_medications_display_refill_content",
+  "mhvMedicationsDisplayPendingMeds": "mhv_medications_display_pending_meds",
   "mhvMedicationsToVaGovRelease": "mhv_medications_to_va_gov_release",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
   "mhvSecureMessagingEditContactList": "mhv_secure_messaging_edit_contact_list",
@@ -307,5 +307,6 @@
   "isUpdatedGi": "is_updated_gi",
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
-  "toggleGiProgramsFlag": "toggle_gi_programs_flag"
+  "toggleGiProgramsFlag": "toggle_gi_programs_flag",
+  "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
 }
