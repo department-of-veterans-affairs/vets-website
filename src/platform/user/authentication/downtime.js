@@ -181,9 +181,10 @@ export const renderMaintenanceWindow = maintArray => {
     return null;
   }
 
-  const maintenanceBanner = createMaintenanceBanner(
-    determineMaintenance(maintArray),
-  );
+  const bannerOptions = determineMaintenance(maintArray);
+  if (!bannerOptions) return null;
+
+  const maintenanceBanner = createMaintenanceBanner(bannerOptions);
 
   return maintenanceBanner &&
     isInMaintenanceWindow(
