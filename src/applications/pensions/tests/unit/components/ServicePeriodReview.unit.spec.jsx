@@ -24,7 +24,7 @@ describe('<ServicePeriodReview>', () => {
 
   it('should render content', () => {
     const { container } = render(setup());
-    expect($('h4', container).textContent).to.eq('Service Periods');
+    expect($('h4', container).textContent).to.eq('Service Period');
     expect($('dt', container).textContent).to.eq('Branch of service');
     expect($('dd', container).textContent).to.eq('Army, Navy');
     expect($$('dt', container)[1].textContent).to.eq(

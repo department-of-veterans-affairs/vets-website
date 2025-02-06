@@ -15,6 +15,8 @@ describe('Secure Messaging Trash Folder filter-sort checks', () => {
     PatientMessageSentPage.inputFilterDataText('test');
     PatientMessageSentPage.clickFilterMessagesButton();
     PatientMessageSentPage.verifyFilterResults('test');
+    cy.get(`.unread-icon`).should(`not.exist`);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

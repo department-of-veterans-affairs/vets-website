@@ -1,27 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  isAuthenticatedWithSSOe,
-  isAuthenticatedWithOAuth,
-} from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { Auth } from '../States/Auth';
 import { Unauth } from '../States/Unauth';
 import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
 
-export const App = ({
-  baseHeader,
-  toggleLoginModal,
-  authenticatedWithSSOe,
-  authenticatedWithOAuth,
-  verbose,
-}) => {
+export const App = ({ baseHeader, toggleLoginModal, isLoggedIn }) => {
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
 
-  const loggedIn = authenticatedWithSSOe || authenticatedWithOAuth;
+  const loggedIn = isLoggedIn;
 
   const {
     useToggleValue,
@@ -56,8 +46,7 @@ export const App = ({
         <>
           <Unauth
             toggleLoginModal={toggleLoginModal}
-            DynamicHeader={DynamicHeader}
-            verbose={verbose}
+            headingLevel={baseHeader}
           />
         </>
       )}
@@ -67,17 +56,14 @@ export const App = ({
 
 App.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
-  authenticatedWithOAuth: PropTypes.bool,
-  authenticatedWithSSOe: PropTypes.bool,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
-  verbose: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   hasRepresentative: state?.user?.login?.hasRepresentative || null,
-  authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn || false,
 });
 
 const mapDispatchToProps = dispatch => ({
