@@ -13,6 +13,7 @@ import { additionalInformationPartOne } from './additionalInformationPartOne';
 import { additionalInformationPartTwo } from './additionalInformationPartTwo';
 import { childAddressPartOne } from './childAddressPartOne';
 import { childAddressPartTwo } from './childAddressPartTwo';
+import { marriageEndDetails } from './marriageEndDetails';
 
 const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
   return {
@@ -82,6 +83,23 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/additional-information-part-one',
       uiSchema: additionalInformationPartOne.uiSchema,
       schema: additionalInformationPartOne.schema,
+    }),
+    addChildMarriageEndDetails: pages.itemPage({
+      depends: (formData, rawIndex) => {
+        if (!isChapterFieldRequired(formData, TASK_KEYS.addChild)) {
+          return false;
+        }
+
+        const index = parseInt(rawIndex, 10);
+        if (Number.isFinite(index)) {
+          return formData?.childrenToAdd?.[index]?.hasChildEverBeenMarried;
+        }
+        return false;
+      },
+      title: 'How and when marriage ended',
+      path: '686-report-add-child/:index/marriage-end-details',
+      uiSchema: marriageEndDetails.uiSchema,
+      schema: marriageEndDetails.schema,
     }),
     addChildAdditionalInformationPartTwo: pages.itemPage({
       depends: formData => isChapterFieldRequired(formData, TASK_KEYS.addChild),
