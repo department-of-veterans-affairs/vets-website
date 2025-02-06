@@ -31,6 +31,11 @@ describe('YourVAHealthFacilityPage', () => {
         facilityData: null,
         validationError: null,
       },
+      navigation: {
+        route: {
+          path: '',
+        },
+      },
     });
   });
 
@@ -45,6 +50,11 @@ describe('YourVAHealthFacilityPage', () => {
         askVA: {
           ...store.getState().askVA,
           ...customState,
+        },
+        navigation: {
+          route: {
+            path: '/test-path',
+          },
         },
       });
     }
