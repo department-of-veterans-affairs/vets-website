@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 
 import validateParameters from '../../utils/validateParameters';
 import { ERROR } from '../../utils/loadingStatus';
@@ -54,10 +53,7 @@ describe('validateParameters', () => {
 
     it('should capture exception when csrfToken is missing', () => {
       const setParamLoadingStatusFn = sandbox.spy();
-      const captureExceptionStub = sandbox.stub(
-        Sentry,
-        Sentry.captureException.name,
-      );
+
       const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
       validateParameters({
@@ -67,15 +63,6 @@ describe('validateParameters', () => {
         userUuid,
         setParamLoadingStatusFn,
       });
-
-      expect(captureExceptionStub.calledOnce).to.be.true;
-      expect(
-        captureExceptionStub.calledWith(
-          new TypeError(
-            'Virtual Agent chatbot bad start - missing required variables: {"csrfToken":null}',
-          ),
-        ),
-      );
 
       expect(logErrorToDatadogStub.calledOnce).to.be.true;
       expect(
@@ -88,10 +75,7 @@ describe('validateParameters', () => {
     });
     it('should capture exception when apiSession is missing', () => {
       const setParamLoadingStatusFn = sandbox.spy();
-      const captureExceptionStub = sandbox.stub(
-        Sentry,
-        Sentry.captureException.name,
-      );
+
       const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
       validateParameters({
@@ -101,15 +85,6 @@ describe('validateParameters', () => {
         userUuid,
         setParamLoadingStatusFn,
       });
-
-      expect(captureExceptionStub.calledOnce).to.be.true;
-      expect(
-        captureExceptionStub.calledWith(
-          new TypeError(
-            'Virtual Agent chatbot bad start - missing required variables: {"apiSession":null}',
-          ),
-        ),
-      );
 
       expect(logErrorToDatadogStub.calledOnce).to.be.true;
       expect(
@@ -122,10 +97,6 @@ describe('validateParameters', () => {
     });
     it('should capture exception when userFirstName is not a string', () => {
       const setParamLoadingStatusFn = sandbox.spy();
-      const captureExceptionStub = sandbox.stub(
-        Sentry,
-        Sentry.captureException.name,
-      );
 
       const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
@@ -136,15 +107,6 @@ describe('validateParameters', () => {
         userUuid,
         setParamLoadingStatusFn,
       });
-
-      expect(captureExceptionStub.calledOnce).to.be.true;
-      expect(
-        captureExceptionStub.calledWith(
-          new TypeError(
-            'Virtual Agent chatbot bad start - missing required variables: {"apiSession":null}',
-          ),
-        ),
-      );
 
       expect(logErrorToDatadogStub.calledOnce).to.be.true;
       expect(
@@ -157,10 +119,6 @@ describe('validateParameters', () => {
     });
     it('should capture exception when userUuid is not a string', () => {
       const setParamLoadingStatusFn = sandbox.spy();
-      const captureExceptionStub = sandbox.stub(
-        Sentry,
-        Sentry.captureException.name,
-      );
 
       const logErrorToDatadogStub = sandbox.stub(logging, 'logErrorToDatadog');
 
@@ -171,15 +129,6 @@ describe('validateParameters', () => {
         userUuid: 1,
         setParamLoadingStatusFn,
       });
-
-      expect(captureExceptionStub.calledOnce).to.be.true;
-      expect(
-        captureExceptionStub.calledWith(
-          new TypeError(
-            'Virtual Agent chatbot bad start - missing required variables: {"apiSession":null}',
-          ),
-        ),
-      );
 
       expect(logErrorToDatadogStub.calledOnce).to.be.true;
       expect(

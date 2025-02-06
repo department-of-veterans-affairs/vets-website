@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import * as Sentry from '@sentry/browser';
 import selectLoadingFeatureToggle from '../selectors/selectFeatureTogglesLoading';
 import { logErrorToDatadog } from '../utils/logging';
 import { useDatadogLogging } from './useDatadogLogging';
@@ -18,7 +17,6 @@ export function useWaitForCsrfToken(props) {
         const error = new Error(
           'Could not load feature toggles within timeout',
         );
-        Sentry.captureException(error);
         logErrorToDatadog(isDatadogLoggingEnabled, error.message, error);
       }
     }, props.timeout);

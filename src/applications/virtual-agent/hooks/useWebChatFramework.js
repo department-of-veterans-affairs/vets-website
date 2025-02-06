@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import * as Sentry from '@sentry/browser';
 import { COMPLETE, ERROR, LOADING } from '../utils/loadingStatus';
 import useLoadWebChat from './useLoadWebChat';
 import { logErrorToDatadog } from '../utils/logging';
@@ -21,7 +20,6 @@ function checkForWebchat(
       clearInterval(intervalId);
     } else if (intervalCallCount > MAX_INTERVAL_CALL_COUNT) {
       const errorMessage = new Error('Failed to load webchat framework');
-      Sentry.captureException(errorMessage);
       logErrorToDatadog(
         isDatadogLoggingEnabled,
         errorMessage.message,

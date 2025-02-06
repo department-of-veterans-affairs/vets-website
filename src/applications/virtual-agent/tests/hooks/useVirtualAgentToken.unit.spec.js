@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
-import * as Sentry from '@sentry/browser';
 import { act } from 'react-dom/test-utils';
 import { renderHook } from '@testing-library/react-hooks';
 import * as ApiModule from '@department-of-veterans-affairs/platform-utilities/api';
@@ -117,7 +116,7 @@ describe('useVirtualAgentToken', () => {
       expect(result.result.current.loadingStatus).to.equal(COMPLETE);
       expect(result.result.current.apiSession).to.equal('ghi');
     });
-    it('should call Sentry and Datadog when an exception is thrown and the Datadog feature flag is enabled', async () => {
+    it('should call Datadog when an exception is thrown and the Datadog feature flag is enabled', async () => {
       sandbox
         .stub(
           UseWaitForCsrfTokenModule,
@@ -135,11 +134,6 @@ describe('useVirtualAgentToken', () => {
         .stub(LoggingModule, 'logErrorToDatadog')
         .callsFake(logErrorToDatadogSpy);
 
-      const SentryCaptureExceptionSpy = sandbox.spy();
-      sandbox
-        .stub(Sentry, 'captureException')
-        .callsFake(SentryCaptureExceptionSpy);
-
       let result;
       await act(async () => {
         result = renderHook(() =>
@@ -156,12 +150,8 @@ describe('useVirtualAgentToken', () => {
       );
       // 'Could not retrieve virtual agent token',
       expect(logErrorToDatadogSpy.args[0][2]).to.be.an.instanceOf(Error);
-      expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
-      expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
-        'Could not retrieve virtual agent token',
-      );
     });
-    it('should call Sentry and not call Datadog when an exception is thrown and the Datadog feature flag is disabled', async () => {
+    it('should not call Datadog when an exception is thrown and the Datadog feature flag is disabled', async () => {
       sandbox
         .stub(
           UseWaitForCsrfTokenModule,
@@ -179,11 +169,6 @@ describe('useVirtualAgentToken', () => {
         .stub(LoggingModule, 'logErrorToDatadog')
         .callsFake(logErrorToDatadogSpy);
 
-      const SentryCaptureExceptionSpy = sandbox.spy();
-      sandbox
-        .stub(Sentry, 'captureException')
-        .callsFake(SentryCaptureExceptionSpy);
-
       let result;
       await act(async () => {
         result = renderHook(() =>
@@ -199,10 +184,6 @@ describe('useVirtualAgentToken', () => {
         'vets-website - useVirtualAgentToken',
       );
       expect(logErrorToDatadogSpy.args[0][2]).to.be.an.instanceOf(Error);
-      expect(SentryCaptureExceptionSpy.args[0][0]).to.be.an.instanceOf(Error);
-      expect(SentryCaptureExceptionSpy.args[0][0].message).to.equal(
-        'Could not retrieve virtual agent token',
-      );
     });
   });
 });

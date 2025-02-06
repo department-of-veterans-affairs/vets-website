@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import { ERROR } from './loadingStatus';
 
 import { logErrorToDatadog } from './logging';
@@ -53,6 +52,5 @@ export default function validateParameters({
       params,
     )}`,
   );
-  Sentry.captureException(error);
   logErrorToDatadog(isDatadogLoggingEnabled, error.message, error);
 }

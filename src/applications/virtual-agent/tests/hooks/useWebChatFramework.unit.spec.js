@@ -2,7 +2,6 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { act, renderHook } from '@testing-library/react-hooks';
 
-import * as SentryModule from '@sentry/browser';
 import useWebChatFramework from '../../hooks/useWebChatFramework';
 import { COMPLETE, ERROR, LOADING } from '../../utils/loadingStatus';
 import * as UseLoadWebChatModule from '../../hooks/useLoadWebChat';
@@ -76,12 +75,8 @@ describe('useWebChatFramework', () => {
 
       expect(logErrorToDatadogSpy.called).to.be.false;
     });
-    it('should call Sentry and return loadingStatus=ERROR if webchat fails to load in time', async () => {
+    it('should call Datadog and return loadingStatus=ERROR if webchat fails to load in time', async () => {
       sandbox.stub(UseLoadWebChatModule, 'default');
-      const captureExceptionStub = sandbox.stub(
-        SentryModule,
-        'captureException',
-      );
 
       sandbox.stub(UseDatadogLoggingModule, 'useDatadogLogging').returns(true);
 
@@ -97,7 +92,6 @@ describe('useWebChatFramework', () => {
       );
       act(() => clock.tick(4000));
 
-      expect(captureExceptionStub.calledOnce).to.be.true;
       expect(result.current.loadingStatus).to.equal(ERROR);
 
       expect(logErrorToDatadogSpy.calledOnce).to.be.true;
