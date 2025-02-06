@@ -148,11 +148,11 @@ describe('determineMaintenance', () => {
       { externalService: 'global' },
     ];
     const result = downtimeUtils.determineMaintenance(maintArray);
-    expect(result).to.deep.equal({ external_service: 'logingov' });
+    expect(result).to.deep.equal({ externalService: 'logingov' });
   });
 
   it('should return undefined if no maintenance window meets the criteria', () => {
-    const maintArray = [{ external_service: 'otherService' }];
+    const maintArray = [{ externalService: 'otherService' }];
     const result = downtimeUtils.determineMaintenance(maintArray);
     expect(result).to.be.undefined;
   });
@@ -206,7 +206,7 @@ describe('renderMaintenanceWindow', () => {
   it('should return null when outside the maintenance window', () => {
     const maintArray = [
       {
-        external_service: 'global',
+        externalService: 'global',
         start_time: new Date(
           new Date().getTime() - 3 * 60 * 60 * 1000,
         ).toISOString(),
