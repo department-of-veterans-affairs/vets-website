@@ -5,7 +5,12 @@ import omit from '~/platform/utilities/data/omit';
 import set from '~/platform/utilities/data/set';
 import unset from '~/platform/utilities/data/unset';
 
-import { isActivePage, parseISODate, minYear, maxYear } from '~/platform/forms-system/src/js/helpers';
+import {
+  isActivePage,
+  parseISODate,
+  minYear,
+  maxYear,
+} from '~/platform/forms-system/src/js/helpers';
 import {
   isValidSSN,
   isValidYear,
@@ -20,7 +25,7 @@ import {
   isValidPartialMonthYearInPast,
   isValidDate,
   isValidPartialDate,
-} from './utilities/validations';
+} from '~/platform/forms-system/src/js/utilities/validations';
 
 /*
  * This contains the code for supporting our own custom validations and messages
@@ -611,23 +616,23 @@ export function validateFileField(errors, fileList) {
   fileList.forEach((file, index) => {
     const error = getFileError(file);
 
-    if (error && !errors[index]) {
-      if (error !== 'file - size must not be greater than 20.0 MB') {
-        /* eslint-disable no-param-reassign */
-        errors[index] = {
-          __errors: [],
-          addError(msg) {
-            this.__errors.push(msg);
-          },
-        };
-        /* eslint-enable no-param-reassign */
-      }
+    if (
+      error &&
+      !errors[index] &&
+      error !== 'file - size must not be greater than 20.0 MB'
+    ) {
+      /* eslint-disable no-param-reassign */
+      errors[index] = {
+        __errors: [],
+        addError(msg) {
+          this.__errors.push(msg);
+        },
+      };
+      /* eslint-enable no-param-reassign */
     }
 
-    if (error) {
-      if (error !== 'file - size must not be greater than 20.0 MB') {
-        errors[index].addError(error);
-      }
+    if (error && error !== 'file - size must not be greater than 20.0 MB') {
+      errors[index].addError(error);
     }
   });
 }
