@@ -566,6 +566,22 @@ class MedicationsDetailsPage {
   verifyRefillHistoryDescriptionText = text => {
     cy.get('[data-testid="refill-history-info"]').should('have.text', text);
   };
+
+  verifyPendingRxWarningTextOnDetailsPage = alert => {
+    cy.get('[data-testid="pending-med-alert"]').should('have.text', alert);
+  };
+
+  verifyHeaderTextOnDetailsPage = text => {
+    cy.get('[data-testid="recent-rx"]').should('have.text', text);
+  };
+
+  verifyPendingRenewalStatusDescriptionOnDetailsPage = text => {
+    cy.get('[data-testid="pending-renewal-status"]').should('contain', text);
+  };
+
+  verifyPendingTextAlertForLessThanSevenDays = text => {
+    cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
+  };
 }
 
 export default MedicationsDetailsPage;
