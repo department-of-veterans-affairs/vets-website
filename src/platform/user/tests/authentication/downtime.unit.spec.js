@@ -144,8 +144,8 @@ describe('createMaintenanceBanner', () => {
 describe('determineMaintenance', () => {
   it('should find the first maintenance window that meets the criteria', () => {
     const maintArray = [
-      { external_service: 'logingov' },
-      { external_service: 'global' },
+      { externalService: 'logingov' },
+      { externalService: 'global' },
     ];
     const result = downtimeUtils.determineMaintenance(maintArray);
     expect(result).to.deep.equal({ external_service: 'logingov' });
@@ -186,7 +186,7 @@ describe('renderMaintenanceWindow', () => {
   it('should render the maintenance window banner when inside the maintenance window', () => {
     const maintArray = [
       {
-        external_service: 'global',
+        externalService: 'global',
         start_time: new Date(
           new Date().getTime() - 1 * 60 * 60 * 1000,
         ).toISOString(),
