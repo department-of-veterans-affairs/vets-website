@@ -42,7 +42,7 @@ const SchoolAndEmployers = ({
       'tab-text': `Search by ${selectedTab}`,
     });
     setCurrentTab(selectedTab);
-    dispatchChangeSearchTab(selectedTab);
+    dispatchChangeSearchTab(selectedTabText);
     updateUrlParams(history, selectedTabText, search.query, filters, version);
   };
 
