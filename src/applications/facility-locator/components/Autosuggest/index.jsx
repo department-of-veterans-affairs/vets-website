@@ -99,7 +99,7 @@ function Autosuggest({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           options={options}
-          isShown={isOpen && !!inputValue && inputValue.length > minCharacters}
+          isShown={isOpen && !!inputValue && inputValue.length >= minCharacters}
           itemToString={itemToString}
           noItemsMessage={noItemsMessage} // to display when no items are found - disabled item
           getMenuProps={getMenuProps}

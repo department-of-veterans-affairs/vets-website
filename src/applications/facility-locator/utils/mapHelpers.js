@@ -1,5 +1,6 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import {
+  MAPBOX_QUERY_TYPES,
   CountriesList,
   mapboxClient,
   isPostcode,
@@ -123,7 +124,7 @@ export const searchCriteraFromCoords = async (longitude, latitude) => {
 };
 
 export const searchAddresses = async addressTerm => {
-  let types = ['place', 'locality', 'postcode'];
+  let types = MAPBOX_QUERY_TYPES;
   if (isPostcode(addressTerm?.trim() || '')) {
     types = ['postcode'];
   }
