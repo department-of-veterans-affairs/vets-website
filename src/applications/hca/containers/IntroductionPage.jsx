@@ -7,8 +7,8 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import { selectAuthStatus, selectEnrollmentStatus } from '../utils/selectors';
-import IdentityVerificationAlert from '../components/FormAlerts/IdentityVerificationAlert';
 import GetStarted from '../components/IntroductionPage/GetStarted';
 import content from '../locales/en/content.json';
 
@@ -40,7 +40,7 @@ const IntroductionPage = ({ route }) => {
             />
 
             {isUserLOA1 ? (
-              <IdentityVerificationAlert />
+              <VerifyAlert headingLevel={3} dataTestId="hca-identity-alert" />
             ) : (
               <GetStarted route={route} />
             )}

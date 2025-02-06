@@ -162,5 +162,32 @@ describe('CG fetchFacilities action', () => {
         expect(apiRequestStub.callCount).to.equal(1);
       });
     });
+
+    it('should log to sentry and reset csrfToken on 403 Invalid Authenticity Token error', async () => {
+      expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+      const invalidAuthenticityTokenResponse = {
+        errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
+      };
+      apiRequestStub.rejects(invalidAuthenticityTokenResponse);
+
+      const response = await fetchFacilities({ long, lat });
+      expect(response).to.eql({
+        type: 'SEARCH_FAILED',
+        errorMessage: 'There was an error fetching the health care facilities.',
+      });
+
+      expect(sentrySpy.called).to.be.true;
+      expect(sentrySpy.firstCall.args[0]).to.equal(
+        'Error fetching Lighthouse VA facilities',
+      );
+      expect(sentrySpy.secondCall.args[0]).to.equal(
+        'Error in fetchFacilities. Clearing csrfToken in localStorage.',
+      );
+      expect(localStorage.getItem('csrfToken')).to.eql('');
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
+    });
   });
 });
