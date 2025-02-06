@@ -84,44 +84,80 @@ export const behaviorListAdditionalInformation = (
   </va-additional-info>
 );
 
+export const behaviorListValidationError = (
+  <va-alert status="error" uswds>
+    <p className="vads-u-font-size--base">
+      You selected one or more behavioral changes. You also selected "I didn’t
+      experience any behavioral changes." Revise your selection so they don’t
+      conflict to continue.
+    </p>
+  </va-alert>
+);
+
+function selectedBehaviors(formData) {
+  const workBehaviorsSelected = Object.values(
+    formData.workBehaviors || {},
+  ).some(selected => selected === true);
+
+  const healthBehaviorsSelected = Object.values(
+    formData.healthBehaviors || {},
+  ).some(selected => selected === true);
+
+  const otherBehaviorsSelected = Object.values(
+    formData.otherBehaviors || {},
+  ).some(selected => selected === true);
+
+  const noneSelected = Object.values(formData['view:noneCheckbox'] || {}).some(
+    selected => selected === true,
+  );
+
+  return {
+    workBehaviors: workBehaviorsSelected,
+    healthBehaviors: healthBehaviorsSelected,
+    otherBehaviors: otherBehaviorsSelected,
+    none: noneSelected,
+  };
+}
+
 /**
- * Validates that a required selection is made and that the 'none' checkbox is not selected if behaviors are also selected
+ * Returns true if 'none' checkbox and other behaviors are selected
+ * @param {object} formData
+ * @returns {boolean}
+ */
+
+export function showConflictingAlert(formData) {
+  const selections = selectedBehaviors(formData);
+  const { none, workBehaviors, healthBehaviors, otherBehaviors } = selections;
+  const somethingSelected = [
+    workBehaviors,
+    healthBehaviors,
+    otherBehaviors,
+  ].some(selection => selection === true);
+
+  return !!(none && somethingSelected);
+}
+
+/**
+ * Validates that the 'none' checkbox is not selected if behaviors are also selected
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
 
 export function validateBehaviorSelections(errors, formData) {
-  // returns true at first checkbox selection
-  const behaviorsSelected =
-    Object.values(formData.workBehaviors || {}).some(
-      selected => selected === true,
-    ) ||
-    Object.values(formData.healthBehaviors || {}).some(
-      selected => selected === true,
-    ) ||
-    Object.values(formData.otherBehaviors || {}).some(
-      selected => selected === true,
-    );
+  const isConflicting = showConflictingAlert(formData);
+  const selections = selectedBehaviors(formData);
 
-  // returns true if text field has any input
-  const unlistedProvided = Object.values(formData.unlistedBehaviors || {}).some(
-    entry => !!entry,
-  );
-
-  // returns true if 'none' checkbox is selected
-  const optedOut = Object.values(formData['view:optOut'] || {}).some(
-    selected => selected === true,
-  );
-
-  if (!behaviorsSelected && !unlistedProvided && !optedOut) {
-    // when a user has not selected options nor opted out
-    errors['view:optOut'].addError(
-      'PLACEHOLDER error message - selection required',
-    );
-  } else if (optedOut && (behaviorsSelected || unlistedProvided)) {
-    // when a user has selected options and opted out
-    errors['view:optOut'].addError(
-      'If you didn’t experience any of these behavioral changes, unselect the other options you selected.',
-    );
+  // add error with no message to each checked section
+  if (isConflicting === true) {
+    errors['view:noneCheckbox'].addError(' ');
+    if (selections.workBehaviors === true) {
+      errors.workBehaviors.addError(' ');
+    }
+    if (selections.healthBehaviors === true) {
+      errors.healthBehaviors.addError(' ');
+    }
+    if (selections.otherBehaviors === true) {
+      errors.otherBehaviors.addError(' ');
+    }
   }
 }

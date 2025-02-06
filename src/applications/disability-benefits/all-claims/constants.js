@@ -449,4 +449,5 @@ export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
   socialEconomic: 'Economic or social behavioral changes',
   relationships: 'Changes in or breakup of a significant relationship',
   misconduct: 'Disciplinary or legal difficulties',
+  unlisted: 'I experienced other behavioral changes that were not in this list',
 });
