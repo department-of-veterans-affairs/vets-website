@@ -153,7 +153,7 @@ export const createMaintenanceBanner = ({
  */
 export const determineMaintenance = maintArray =>
   maintArray.find(maintService =>
-    ['global', ...AUTH_DEPENDENCIES].includes(maintService.external_service),
+    ['global', ...AUTH_DEPENDENCIES].includes(maintService.externalService),
   );
 
 /**
