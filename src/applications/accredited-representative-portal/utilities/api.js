@@ -39,9 +39,9 @@ const wrapApiRequest = fn => {
 };
 
 const api = {
-  getPOARequests: wrapApiRequest(({ status }) => {
-    const query = new URLSearchParams({ status }).toString();
-    return [`/power_of_attorney_requests?${query}`];
+  getPOARequests: wrapApiRequest(query => {
+    const urlQuery = new URLSearchParams(query).toString();
+    return [`/power_of_attorney_requests?${urlQuery}`];
   }),
 
   getPOARequest: wrapApiRequest(id => {

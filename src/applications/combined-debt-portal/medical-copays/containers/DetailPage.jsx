@@ -28,9 +28,8 @@ const DetailPage = ({ match }) => {
   const isCurrentBalance = verifyCurrentBalance(
     selectedCopay?.pSStatementDateOutput,
   );
-  const acctNum = selectedCopay?.pHAccountNumber
-    ? selectedCopay?.pHAccountNumber.toString()
-    : selectedCopay?.pHCernerAccountNumber.toString();
+  const acctNum =
+    selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
 
   useHeaderPageTitle(title);
 

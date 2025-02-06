@@ -44,6 +44,7 @@ const MedicationsList = props => {
     ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
+    datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
     document.getElementById('showingRx').scrollIntoView();
     // replace terniary with true once loading spinner is added for the filter list fetch
     updateLoadingStatus(!showFilterContent, 'Loading your medications...');
@@ -133,11 +134,6 @@ const MedicationsList = props => {
           )}
       </div>
       <VaPagination
-        onClick={() => {
-          datadogRum.addAction(
-            dataDogActionNames.medicationsListPage.PAGINATION,
-          );
-        }}
         max-page-list-length={MAX_PAGE_LIST_LENGTH}
         id="pagination"
         className="pagination vads-u-justify-content--center no-print"

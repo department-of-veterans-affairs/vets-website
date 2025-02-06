@@ -474,6 +474,10 @@ class MedicationsRefillPage {
       .should('have.text', text)
       .and('not.be.visible');
   };
+
+  verifyCernerUserMyVAHealthAlertOnRefillsPage = text => {
+    cy.get('[data-testid="cerner-facilities-alert"]').should('contain', text);
+  };
 }
 
 export default MedicationsRefillPage;

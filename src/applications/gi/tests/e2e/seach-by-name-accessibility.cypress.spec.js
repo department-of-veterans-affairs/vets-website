@@ -3,6 +3,15 @@ import data from '../data/calculator-constants.json';
 describe('CT before search by name accessibility', () => {
   /* eslint-disable cypress/unsafe-to-chain-command */
   beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'show_about_yellow_ribbon_program', value: false },
+          { name: 'is_updated_gi', value: false },
+        ],
+      },
+    });
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,
       body: data,

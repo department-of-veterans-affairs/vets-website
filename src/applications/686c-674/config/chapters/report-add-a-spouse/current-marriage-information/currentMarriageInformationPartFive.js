@@ -31,7 +31,7 @@ export const uiSchema = {
       classNames: 'vads-u-margin-top--4',
     }),
     other: textUI({
-      title: 'Briefly describe why you live separately',
+      title: 'Briefly describe why you live separately from your spouse',
       required: formData =>
         formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation ===
         'OTHER',
