@@ -4,16 +4,18 @@ import { expect } from 'chai';
 import { renderWithProfileReducersAndRouter } from '@@profile/tests/unit-test-helpers';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { waitFor } from '@testing-library/dom';
 import { PROFILE_PATHS } from '../../../constants';
 
 function createInitialState(
-  { hasUnsavedEdits, toggles } = {
+  { hasUnsavedEdits, toggles, optionalServices = [], mhvAccount } = {
     hasUnsavedEdits: false,
     toggles: {},
+    mhvAccount: {},
   },
-  messagingSignatureDetails = null,
 ) {
   const services = [
+    ...optionalServices,
     'facilities',
     'hca',
     'edu-benefits',
@@ -27,10 +29,6 @@ function createInitialState(
     'vet360',
     'lighthouse',
   ];
-
-  if (messagingSignatureDetails?.service) {
-    services.push(messagingSignatureDetails.service);
-  }
 
   return {
     featureToggles: {
@@ -71,9 +69,7 @@ function createInitialState(
           serviceName: 'idme',
         },
         services,
-        mhvAccount: {
-          messagingSignature: messagingSignatureDetails,
-        },
+        mhvAccount,
       },
     },
     vapService: {
@@ -124,34 +120,41 @@ const defaultOptions = {
   hasUnsavedEdits: false,
 };
 
-const setup = (options = defaultOptions, messagingSignatureDetails) => {
+const setup = (
+  options = defaultOptions,
+  // messagingSignatureDetails,
+  // addServices,
+) => {
   const optionsWithDefaults = { ...defaultOptions, ...options };
   return renderWithProfileReducersAndRouter(<PersonalInformation />, {
     initialState: createInitialState(
       optionsWithDefaults,
-      messagingSignatureDetails,
+      // messagingSignatureDetails,
+      // addServices,
     ),
     path: optionsWithDefaults.path,
   });
 };
 
 describe('<PersonalInformation />', () => {
-  it('should render without crashing on root path', () => {
+  it('should render without crashing on root path', async () => {
     const { getByText } = setup({ hasUnsavedEdits: true });
     expect(getByText('Personal information', { selector: 'h1' })).to.exist;
   });
 
-  it('should render without crashing on edit hashed path', () => {
+  it('should render without crashing on edit hashed path', async () => {
     const { getByText } = setup({
       path: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-preferred-name`,
     });
     expect(getByText('Personal information', { selector: 'h1' })).to.exist;
   });
 
-  it('renders Messaging signature section if messagingSignature is not null', () => {
-    const defaultMessagingSignature = {
-      signatureName: 'Abraham Lincoln',
-      signatureTitle: 'Veteran',
+  it('renders Messaging signature section if messagingSignature is not null', async () => {
+    const mhvAccount = {
+      messagingSignature: {
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+      },
     };
 
     const featureToggles = {};
@@ -159,8 +162,13 @@ describe('<PersonalInformation />', () => {
     // eslint-disable-next-line dot-notation
     featureToggles['mhv_secure_messaging_signature_settings'] = true;
     const screen = setup(
-      { toggles: { ...featureToggles } },
-      { ...defaultMessagingSignature, service: 'messaging' },
+      {
+        toggles: { ...featureToggles },
+        optionalServices: ['messaging'],
+        mhvAccount,
+      },
+      // { ...defaultMessagingSignature },
+      // ['messaging'],
     );
     const messagingSignatureSection = screen.getByTestId('messagingSignature');
 
@@ -168,11 +176,11 @@ describe('<PersonalInformation />', () => {
     expect(messagingSignatureSection.innerHTML).to.contain('Veteran');
   });
 
-  it('does not render Messaging signature section if messaging service is not enabled', () => {
-    const defaultMessagingSignature = {
-      signatureName: 'Abraham Lincoln',
-      signatureTitle: 'Veteran',
-    };
+  it('does not render Messaging signature section if messaging service is not enabled', async () => {
+    // const defaultMessagingSignature = {
+    //   signatureName: 'Abraham Lincoln',
+    //   signatureTitle: 'Veteran',
+    // };
 
     const featureToggles = {};
 
@@ -181,21 +189,21 @@ describe('<PersonalInformation />', () => {
 
     mockApiRequest({
       data: {
-        attributes: {
-          signatureName: 'Abraham Lincoln',
-          signatureTitle: 'Veteran',
-          includeSignature: true,
-        },
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+        includeSignature: true,
       },
     });
-    const screen = setup(
-      { toggles: { ...featureToggles } },
-      defaultMessagingSignature,
-    );
-    const messagingSignatureSection = screen.queryByTestId(
-      'messagingSignature',
-    );
+    const screen = setup({
+      toggles: { ...featureToggles },
+      optionalServices: ['messaging'],
+    });
 
-    expect(messagingSignatureSection).to.not.exist;
+    await waitFor(() => {
+      expect(screen.getByTestId('messagingSignature')).to.exist;
+    });
+    const messagingSignatureSection = screen.getByTestId('messagingSignature');
+    expect(messagingSignatureSection.textContent).to.contain('Abraham Lincoln');
+    expect(messagingSignatureSection.textContent).to.contain('Veteran');
   });
 });
