@@ -2,9 +2,11 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 import { EMPTY_FIELD } from '../../util/constants';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
 import LastFilledInfo from '../shared/LastFilledInfo';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MAX_PAGE_LIST_LENGTH = 2;
 const MAX_GROUPED_LIST_LENGTH = 26;
@@ -34,6 +36,7 @@ const GroupedMedications = props => {
   );
 
   const onPageChange = page => {
+    datadogRum.addAction(dataDogActionNames.detailsPage.GROUPING_PAGINATION);
     setCurrentPage(page);
     waitForRenderThenFocus('#list-showing-info', document);
   };
