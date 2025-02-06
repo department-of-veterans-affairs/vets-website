@@ -21,6 +21,7 @@ export default function FacilitiesRadioWidget({
   value,
   onChange,
   formContext,
+  required,
 }) {
   const { requestLocationStatus, sortMethod, loadingEligibility } = useSelector(
     state => selectFacilitiesRadioWidget(state),
@@ -118,7 +119,9 @@ export default function FacilitiesRadioWidget({
 
       {!requestingLocationFailed && (
         <fieldset>
-          <legend className="sr-only">{options.title}</legend>
+          <legend className="sr-only">
+            {options.title} {required ? 'required' : ''}
+          </legend>
           {displayedOptions.map((option, i) => {
             const { name, address, legacyVAR } = option?.label;
             const checked = option.value === value;
@@ -189,6 +192,7 @@ FacilitiesRadioWidget.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
   options: PropTypes.object,
+  required: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };

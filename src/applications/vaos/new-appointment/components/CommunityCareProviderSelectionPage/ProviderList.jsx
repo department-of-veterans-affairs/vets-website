@@ -13,6 +13,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import LoadProvidersErrorAlert from './LoadProvidersErrorAlert';
 import NoProvidersAlert from './NoProvidersAlert';
 import ProviderSortVariant from './ProviderSortVariant';
+import { aOrAn } from '../../../utils/formatters';
 
 export default function ProviderList({
   checkedProvider,
@@ -127,8 +128,7 @@ export default function ProviderList({
           {currentlyShownProvidersList.length > 0 && (
             <fieldset>
               <legend className="sr-only">
-                Choose {/^[aeiou]/i.test(typeOfCareName) ? 'an' : 'a'}{' '}
-                {typeOfCareName} provider
+                Choose {aOrAn(typeOfCareName)} {typeOfCareName} provider
               </legend>
 
               {currentlyShownProvidersList.map((provider, providerIndex) => {
