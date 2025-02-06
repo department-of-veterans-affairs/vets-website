@@ -93,15 +93,8 @@ export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
 export const pdfStatusDefinitions = {
   active: [
     {
-      value: `This is a current prescription. If you have refills left, you can request a refill now.`,
-    },
-    {
-      continued: true,
-      value: `Note: `,
-      weight: 'bold',
-    },
-    {
-      value: `If you have no refills left, you’ll need to request a renewal instead.`,
+      value:
+        'This is a current prescription. If you have refills left, you can request a refill now. If you have no refills left, you’ll need to request a renewal instead.',
     },
   ],
   activeParked: [

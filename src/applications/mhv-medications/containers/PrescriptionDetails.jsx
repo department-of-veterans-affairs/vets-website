@@ -161,11 +161,7 @@ const PrescriptionDetails = () => {
               preface: [
                 {
                   value:
-                    'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later.',
-                },
-                {
-                  value:
-                    'If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
+                    'We couldn’t access your allergy records when you downloaded this list. We’re sorry. There was a problem with our system. Try again later. If it still doesn’t work, call us at 877-327-0022 (TTY: 711). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
                 },
               ],
             }),
@@ -488,7 +484,6 @@ const PrescriptionDetails = () => {
             }
           >
             <PrescriptionPrintOnly
-              hideLineBreak
               rx={prescription}
               refillHistory={!nonVaPrescription ? refillHistory : []}
               isDetailsRx
