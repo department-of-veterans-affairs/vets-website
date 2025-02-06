@@ -1,6 +1,6 @@
 import { format, isValid, parse } from 'date-fns';
-// import { formatInTimeZone } from 'date-fns-tz';
-// import { enUS } from 'date-fns/locale';
+import { formatInTimeZone } from 'date-fns-tz';
+import { enUS } from 'date-fns/locale';
 import React from 'react';
 import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
@@ -721,14 +721,6 @@ export const getDescriptiveTextFromCRM = status => {
   }
 };
 
-/*
-  I believe this function is no longer used, but I am not 100% sure. 
-  Commenting it out to verify that nothing breaks. Discovered while
-  beefing up our unit test coverage. If I had to guess, I would say 
-  that formatDate is its replacement.
-  
-  -- joehall-tw
-
 // Function to convert date to Response Inbox format using date-fns
 export const convertDateForInquirySubheader = dateString => {
   // Parse the input date string as UTC
@@ -758,7 +750,6 @@ export const convertDateForInquirySubheader = dateString => {
     { locale: enUS },
   ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
 };
-*/
 
 export const formatDate = (dateString, formatType = 'short') => {
   let parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
