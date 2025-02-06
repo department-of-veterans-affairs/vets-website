@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { isMinimalHeaderPath } from '../helpers';
+import { isMinimalHeaderPath } from '../patterns/minimal-header';
 
 const useConditionalMinimalHeader = uiOptions => {
   const isMinimalHeader = useRef(null);
