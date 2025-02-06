@@ -31,19 +31,29 @@ import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
-import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
+import {
+  URL,
+  envUrl,
+  mockTestingFlagforAPI,
+  pronounLabels,
+} from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
 import {
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
+  pagesToMoveConfig,
+  chapterTitles,
 } from '../utils/reviewPageHelper';
+import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
+import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 
 const { scroller } = Scroll;
 
 const ReviewPage = props => {
   const [showAlert, setShowAlert] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [editSection, setEditSection] = useState([]);
   const [attachments, setAttachments] = useState([]);
   const [editAttachments, setEditAttachments] = useState(false);
 
@@ -60,6 +70,8 @@ const ReviewPage = props => {
     );
   };
 
+  const getYesOrNoFromBool = answer => (answer ? 'Yes' : 'No');
+
   const handleToggleChapter = ({ name, open, pageKeys }) => {
     if (open) {
       dispatch(closeReviewChapter(name, pageKeys));
@@ -67,6 +79,16 @@ const ReviewPage = props => {
       dispatch(openReviewChapter(name));
       scrollToChapter(name);
     }
+  };
+
+  const getPronouns = (list = {}) => {
+    const pronounList = [];
+    Object.keys(list).forEach(item => {
+      if (list[item]) {
+        pronounList.push(` ${pronounLabels[item]}`);
+      }
+    });
+    return pronounList.toString();
   };
 
   const getUploadedFiles = () => {
@@ -97,7 +119,24 @@ const ReviewPage = props => {
       dispatch(setUpdatedInReview(''));
     }
     props.setEditMode(pageKey, editing, index);
-    if (!editing) dispatch(setUpdatedInReview(pageKey));
+    if (!editing) {
+      dispatch(setUpdatedInReview(pageKey));
+    }
+  };
+
+  const editAll = (pageKeys, title) => {
+    if (title === chapterTitles.yourContactInformation) {
+      handleEdit(pageKeys[0], true, null);
+    } else {
+      pageKeys.forEach(key => handleEdit(key, true, null));
+    }
+    setEditSection([...editSection, title]);
+  };
+
+  const closeAll = (pageKeys, title) => {
+    pageKeys.forEach(key => handleEdit(key, false));
+    const updateViewedList = editSection.filter(section => section !== title);
+    setEditSection(updateViewedList);
   };
 
   const handleSetData = (...args) => {
@@ -240,13 +279,13 @@ const ReviewPage = props => {
       </div>
       <VaAccordion>
         {props.chapters
-          .filter(chapter => chapter.name === 'yourQuestion')
+          .filter(chapter => chapter.name === 'categoryTopics')
           .map(chapter => {
             return (
               <VaAccordionItem
                 bordered
                 key={chapter.name}
-                header="Your question"
+                header="Category, topic, who your question is about"
                 level={4}
                 id={chapter.name}
                 open
@@ -340,6 +379,7 @@ const ReviewPage = props => {
                   form={props.form}
                   formContext={props.formContext}
                   onEdit={handleEdit}
+                  showButtons
                   open={chapter.open}
                   pageKeys={chapter.pageKeys}
                   pageList={getPageKeysForReview(formConfig)}
@@ -374,6 +414,7 @@ const ReviewPage = props => {
                   form={props.form}
                   formContext={props.formContext}
                   onEdit={handleEdit}
+                  showButtons
                   open={chapter.open}
                   pageKeys={chapter.pageKeys}
                   pageList={getPageKeysForReview(formConfig)}
@@ -408,6 +449,7 @@ const ReviewPage = props => {
                   form={props.form}
                   formContext={props.formContext}
                   onEdit={handleEdit}
+                  showButtons
                   open={chapter.open}
                   pageKeys={chapter.pageKeys}
                   pageList={getPageKeysForReview(formConfig)}
@@ -422,14 +464,539 @@ const ReviewPage = props => {
             );
           })}
 
+        <VaAccordionItem
+          bordered
+          header="Your information"
+          level={4}
+          id="chapter.name"
+          open
+          className="vads-u-margin-bottom--2"
+        >
+          {props.chapters
+            .filter(chapter => chapter.name === 'yourInformation')
+            .map(chapter => {
+              return (
+                <ReviewCollapsibleChapter
+                  key={chapter.name}
+                  expandedPages={chapter.expandedPages}
+                  chapterFormConfig={chapter.formConfig}
+                  chapterKey={chapter.name}
+                  form={props.form}
+                  formContext={props.formContext}
+                  onEdit={handleEdit}
+                  showButtons
+                  open={chapter.open}
+                  pageKeys={chapter.pageKeys}
+                  pageList={getPageKeysForReview(formConfig)}
+                  setData={(...args) => handleSetData(...args)}
+                  setValid={props.setValid}
+                  toggleButtonClicked={() => handleToggleChapter(chapter)}
+                  uploadFile={props.uploadFile}
+                  viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
+                />
+              );
+            })}
+
+          {props.chapters
+            .filter(chapter => chapter.name === 'yourPostalCode')
+            .map(chapter => {
+              return (
+                <>
+                  <div
+                    name={`chapter${chapterTitles.yourPostalCode}ScrollElement`}
+                  />
+                  {!editSection.includes(chapterTitles.yourPostalCode) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.yourPostalCode}
+                      editSection={editAll}
+                      keys={chapter.pageKeys}
+                      items={[
+                        {
+                          name: 'Postal code',
+                          data: props.formData.yourPostalCode,
+                          key: 'yourPostalCode',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.yourPostalCode}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            })}
+
+          {props.chapters
+            .filter(chapter => chapter.name === 'yourVAHealthFacility')
+            .map(chapter => {
+              return (
+                <>
+                  <div
+                    name={`chapter${
+                      chapterTitles.yourVAHealthFacility
+                    }ScrollElement`}
+                  />
+                  {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.yourVAHealthFacility}
+                      editSection={editAll}
+                      keys={chapter.pageKeys}
+                      items={[
+                        {
+                          name: 'Your VA health facility',
+                          data: props.askVA.vaHealthFacility,
+                          key: 'yourVAHealthFacility',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.yourVAHealthFacility}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            })}
+
+          {props.chapters
+            .filter(chapter => chapter.name === 'stateOfProperty')
+            .map(chapter => {
+              return (
+                <>
+                  <div
+                    name={`chapter${
+                      chapterTitles.stateOfProperty
+                    }ScrollElement`}
+                  />
+                  {!editSection.includes(chapterTitles.stateOfProperty) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.stateOfProperty}
+                      editSection={editAll}
+                      keys={chapter.pageKeys}
+                      items={[
+                        {
+                          name: 'State',
+                          data: props.formData.stateOfProperty,
+                          key: 'stateOfProperty',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.stateOfProperty}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            })}
+
+          {props.chapters
+            .filter(chapter => chapter.name === 'yourVREInformation')
+            .map(chapter => {
+              return (
+                <>
+                  <div
+                    name={`chapter${
+                      chapterTitles.yourVREInformation
+                    }ScrollElement`}
+                  />
+                  {!editSection.includes(chapterTitles.yourVREInformation) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.yourVREInformation}
+                      editSection={editAll}
+                      keys={chapter.pageKeys}
+                      items={[
+                        {
+                          name:
+                            'Have you every applied for Veteran Readiness & Employment benefits and services?',
+                          data: getYesOrNoFromBool(
+                            props.formData.yourVREInformation,
+                          ),
+                          key: 'yourVREInformation',
+                        },
+                        {
+                          name: 'Veteran Readiness and Employment counselor',
+                          data: props.formData.yourVRECounselor,
+                          key: 'yourVRECounselor',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.yourVREInformation}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            })}
+
+          {props.chapters
+            .filter(chapter => chapter.name === 'schoolInformation')
+            .map(chapter => {
+              return (
+                <>
+                  <div
+                    name={`chapter${
+                      chapterTitles.schoolInformation
+                    }ScrollElement`}
+                  />
+                  {!editSection.includes(chapterTitles.schoolInformation) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.schoolInformation}
+                      editSection={editAll}
+                      // use pagesToMoveConfig if combining pages
+                      keys={pagesToMoveConfig.schoolInformation}
+                      items={[
+                        {
+                          name: 'School facility',
+                          data: props.formData.school
+                            ? props.formData.school
+                            : `${
+                                props.formData.schoolInfo.schoolFacilityCode
+                              } - ${props.formData.schoolInfo.schoolName}`,
+                          key: 'searchSchools',
+                        },
+                        {
+                          name: 'State of school',
+                          data: props.formData.stateOfTheSchool,
+                          key: 'stateOfSchool',
+                        },
+                        {
+                          name: 'State of facility',
+                          data: props.formData.stateOfTheFacility,
+                          key: 'stateOfFacility',
+                        },
+                        {
+                          name: 'School state',
+                          data: props.formData.stateOrResidency.schoolState,
+                          key: 'schoolStOrResidency',
+                        },
+                        {
+                          name: 'Residency state',
+                          data: props.formData.stateOrResidency.residencyState,
+                          key: 'schoolStOrResidency',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.schoolInformation}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            })}
+
+          {props.chapters
+            .filter(chapter => chapter.name === 'yourContactInformation')
+            .map(chapter => {
+              return (
+                <>
+                  <div
+                    name={`chapter${
+                      chapterTitles.yourContactInformation
+                    }ScrollElement`}
+                  />
+                  {!editSection.includes(
+                    chapterTitles.yourContactInformation,
+                  ) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.yourContactInformation}
+                      editSection={editAll}
+                      // use chapter.pageKeys if data is collected on one page
+                      keys={chapter.pageKeys}
+                      items={[
+                        {
+                          name: 'Phone number',
+                          data: props.formData.phoneNumber,
+                          key: 'yourContactInformation',
+                        },
+                        {
+                          name: 'Email address',
+                          data: props.formData.emailAddress,
+                          key: 'yourContactInformation',
+                        },
+                        {
+                          name: 'How should we contact you?',
+                          data: props.formData.contactPreference,
+                          key: 'yourContactInformation',
+                        },
+                        {
+                          name: 'Preferred name',
+                          data: props.formData.preferredName,
+                          key: 'yourContactInformation',
+                        },
+                        {
+                          name: 'Pronouns',
+                          data: getPronouns(props.formData.pronouns),
+                          key: 'yourContactInformation',
+                        },
+                        {
+                          name:
+                            "My pronouns aren't listed, and are written here",
+                          data: props.formData.pronounsNotListedText,
+                          key: 'yourContactInformation',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys.filter(key => key)}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.yourContactInformation}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            })}
+
+          {props.chapters
+            .filter(chapter => chapter.name === 'yourMailingAddress')
+            .map(chapter => {
+              return (
+                <>
+                  <div
+                    name={`chapter${
+                      chapterTitles.yourMailingAddress
+                    }ScrollElement`}
+                  />
+                  {!editSection.includes(chapterTitles.yourMailingAddress) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.yourMailingAddress}
+                      editSection={editAll}
+                      keys={chapter.pageKeys}
+                      items={[
+                        {
+                          name: 'Country',
+                          data: props.formData.country,
+                          key: 'yourMailingAddress',
+                        },
+                        {
+                          name: 'Street address',
+                          data: props.formData.address.street,
+                          key: 'yourMailingAddress',
+                        },
+                        {
+                          name: 'Apartment or unit number',
+                          data: props.formData.address.unitNumber,
+                          key: 'yourMailingAddress',
+                        },
+                        {
+                          name: 'Street address 2',
+                          data: props.formData.address.street2,
+                          key: 'yourMailingAddress',
+                        },
+                        {
+                          name: 'Street address 3',
+                          data: props.formData.address.street3,
+                          key: 'yourMailingAddress',
+                        },
+                        {
+                          name: props.formData.onBaseOutsideUS
+                            ? 'Post office'
+                            : 'City',
+                          data: props.formData.onBaseOutsideUS
+                            ? props.formData.address.militaryAddress
+                                .militaryPostOffice
+                            : props.formData.address.city,
+                          key: 'yourMailingAddress',
+                        },
+                        {
+                          name: props.formData.onBaseOutsideUS
+                            ? 'Region'
+                            : 'State',
+                          ata: props.formData.onBaseOutsideUS
+                            ? props.formData.address.militaryAddress
+                                .militaryState
+                            : props.formData.address.state,
+                          key: 'yourMailingAddress',
+                        },
+                        {
+                          name: 'Postal code',
+                          data: props.formData.address.postalCode,
+                          key: 'yourMailingAddress',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys.filter(key => key)}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.yourMailingAddress}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
+              );
+            })}
+        </VaAccordionItem>
+
         {props.chapters
-          .filter(chapter => chapter.name === 'yourInformation')
+          .filter(chapter => chapter.name === 'yourQuestion')
           .map(chapter => {
             return (
               <VaAccordionItem
                 bordered
                 key={chapter.name}
-                header="Your information"
+                header="Your question"
                 level={4}
                 id={chapter.name}
                 open
@@ -442,6 +1009,7 @@ const ReviewPage = props => {
                   form={props.form}
                   formContext={props.formContext}
                   onEdit={handleEdit}
+                  showButtons
                   open={chapter.open}
                   pageKeys={chapter.pageKeys}
                   pageList={getPageKeysForReview(formConfig)}
@@ -477,100 +1045,25 @@ function mapStateToProps(state, ownProps) {
   const { openChapters } = askVA.reviewPageView;
   const viewedPages = getViewedPages(state);
 
-  const pagesToMoveConfig = {
-    yourQuestion: [
-      'selectCategory',
-      'selectTopic',
-      'selectSubtopic',
-      'whoIsYourQuestionAbout',
-      'question',
-    ],
-    relationshipToTheVeteran: [
-      'relationshipToVeteran',
-      'moreAboutYourRelationshipToVeteran_aboutmyselfrelationshipfamilymember',
-      'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
-      'isQuestionAboutVeteranOrSomeoneElse_aboutsomeoneelserelationshipfamilymember',
-      'theirRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'yourRole_aboutsomeoneelserelationshipconnectedthroughwork',
-      'yourRole_aboutsomeoneelserelationshipconnectedthroughworkeducation',
-    ],
-    veteransInformation: [
-      'aboutTheVeteran_aboutmyselfrelationshipfamilymember',
-      'dateOfDeath_aboutmyselfrelationshipfamilymember',
-      'aboutTheVeteran_aboutsomeoneelserelationshipconnectedthroughwork',
-      'dateOfDeath_aboutsomeoneelserelationshipconnectedthroughwork',
-      'veteransLocationOfResidence_aboutsomeoneelserelationshipconnectedthroughwork',
-      'veteransPostalCode_aboutsomeoneelserelationshipconnectedthroughwork',
-      'aboutTheVeteran_aboutsomeoneelserelationshipfamilymember',
-      'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'veteransLocationOfResidence_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'veteransPostalCode_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
-    ],
-    familyMembersInformation: [
-      'aboutYourselfRelationshipFamilyMember_aboutmyselfrelationshipfamilymember',
-      'aboutYourFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'familyMembersLocationOfResidence_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'familyMembersPostalCode_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'aboutYourFamilyMember_aboutsomeoneelserelationshipveteran',
-      'familyMembersLocationOfResidence_aboutsomeoneelserelationshipveteran',
-      'familyMembersPostalCode_aboutsomeoneelserelationshipveteran',
-    ],
-    yourInformation: [
-      'aboutYourself_aboutmyselfrelationshipveteran',
-      'yourVAHealthFacility_aboutmyselfrelationshipfamilymember',
-      'yourContactInformation_aboutmyselfrelationshipfamilymember',
-      'yourLocationOfResidence_aboutmyselfrelationshipfamilymember',
-      'yourMailingAddress_aboutmyselfrelationshipfamilymember',
-      'yourPostalCode_aboutmyselfrelationshipfamilymember',
-      'yourContactInformation_aboutmyselfrelationshipveteran',
-      'yourLocationOfResidence_aboutmyselfrelationshipveteran',
-      'yourMailingAddress_aboutmyselfrelationshipveteran',
-      'yourPostalCode_aboutmyselfrelationshipveteran',
-      'yourVAHealthFacility_aboutmyselfrelationshipveteran',
-      'aboutYourself_aboutsomeoneelserelationshipconnectedthroughwork',
-      'yourVAHealthFacility_aboutsomeoneelserelationshipconnectedthroughwork',
-      'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughwork',
-      'yourMailingAddress_aboutsomeoneelserelationshipconnectedthroughwork',
-      'aboutYourself_aboutsomeoneelserelationshipconnectedthroughworkeducation',
-      'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughworkeducation',
-      'yourVAHealthFacility_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
-      'aboutYourselfRelationshipFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'yourVAHealthFacility_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'aboutYourself_aboutsomeoneelserelationshipveteran',
-      'yourVAHealthFacility_aboutsomeoneelserelationshipveteran',
-      'yourContactInformation_aboutsomeoneelserelationshipveteran',
-      'yourMailingAddress_aboutsomeoneelserelationshipveteran',
-      'aboutYourself_aboutsomeoneelserelationshipveteranorfamilymembereducation',
-      'schoolStOrResidency_aboutsomeoneelserelationshipveteranorfamilymembereducation',
-      'yourContactInformation_aboutsomeoneelserelationshipveteranorfamilymembereducation',
-      'aboutYourselfGeneral_generalquestion',
-      'yourContactInformation_generalquestion',
-      'yourLocationOfResidence_generalquestion',
-      'yourMailingAddress_generalquestion',
-      'yourPostalCode_generalquestion',
-      'yourVAHealthFacility_generalquestion',
-    ],
-  };
-
   const { pagesByChapter, modifiedFormConfig } = createPageListByChapterAskVa(
     formConfig,
     pagesToMoveConfig,
   );
 
   const chapterNames = [
+    'categoryTopics',
     'yourQuestion',
     'relationshipToTheVeteran',
     'yourInformation',
     'veteransInformation',
     'familyMembersInformation',
+    'yourContactInformation',
+    'schoolInformation',
+    'yourVAHealthFacility',
+    'yourVREInformation',
+    'yourMailingAddress',
+    'stateOfProperty',
+    'yourPostalCode',
   ];
 
   const chapters = chapterNames

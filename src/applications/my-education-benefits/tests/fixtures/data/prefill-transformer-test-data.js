@@ -29,6 +29,10 @@ export const claimantInfo = {
             contactInfoChanged: false,
             notificationMethod: 'EMAIL',
             preferredContact: 'mail',
+
+            // Uncomment or override in tests as needed:
+            // eligibleForActiveDutyKicker: true,
+            // eligibleForReserveKicker: false,
           },
           serviceData: [
             {
