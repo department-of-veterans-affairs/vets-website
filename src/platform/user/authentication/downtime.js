@@ -3,6 +3,7 @@ import {
   subHours,
   isWithinInterval,
   parseJSON,
+  isValid,
   format,
   differenceInHours,
 } from 'date-fns';
@@ -119,6 +120,10 @@ export const createMaintenanceBanner = ({
   const endTime = parseJSON(endingTime);
   const hours = differenceInHours(endTime, startTime);
   const howLongMaintLasts = `${hours} hour${hours > 1 ? 's' : ''}`;
+
+  if (!isValid(startTime) || !isValid(endTime)) {
+    return null;
+  }
 
   const startsAt = format(startTime, `h:mm bbbb`);
   const endsAt = fmtTZ(endTime, `h:mm bbbb z`);
