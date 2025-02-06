@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { RepresentativeSubmissionMethod } from '../../../components/RepresentativeSubmissionMethod';
+import { representativeSubmissionMethod } from '../../../pages';
 import * as reviewPageHook from '../../../hooks/useReviewPage';
 
 describe('<RepresentativeSubmissionMethod>', () => {
@@ -154,6 +155,79 @@ describe('<RepresentativeSubmissionMethod>', () => {
       ).to.be.true;
 
       useReviewPageStub.restore();
+    });
+  });
+
+  context('pageDepends', () => {
+    context('when v2 is not enabled', () => {
+      it('returns false', () => {
+        const formData = {
+          v2IsEnabled: false,
+          'view:selectedRepresentative': {
+            type: 'organization',
+            attributes: { canAcceptDigitalPoaRequests: true },
+          },
+          userIsDigitalSubmitEligible: true,
+        };
+
+        const result = representativeSubmissionMethod.pageDepends(formData);
+
+        expect(result).to.be.false;
+      });
+    });
+
+    context(
+      'when the selected representative does not accept digital submission',
+      () => {
+        it('returns false', () => {
+          const formData = {
+            v2IsEnabled: true,
+            'view:selectedRepresentative': {
+              type: 'organization',
+              attributes: { canAcceptDigitalPoaRequests: false },
+            },
+            userIsDigitalSubmitEligible: true,
+          };
+
+          const result = representativeSubmissionMethod.pageDepends(formData);
+
+          expect(result).to.be.false;
+        });
+      },
+    );
+
+    context('when the user is not eligible for digital submission', () => {
+      it('returns false', () => {
+        const formData = {
+          v2IsEnabled: true,
+          'view:selectedRepresentative': {
+            type: 'organization',
+            attributes: { canAcceptDigitalPoaRequests: true },
+          },
+          userIsDigitalSubmitEligible: false,
+        };
+
+        const result = representativeSubmissionMethod.pageDepends(formData);
+
+        expect(result).to.be.false;
+      });
+    });
+
+    context('when all digital submission criteria met', () => {
+      it('returns true', () => {
+        const formData = {
+          v2IsEnabled: true,
+          'view:selectedRepresentative': {
+            type: 'organization',
+            attributes: { canAcceptDigitalPoaRequests: true },
+          },
+          userIsDigitalSubmitEligible: true,
+        };
+
+        const result = representativeSubmissionMethod.pageDepends(formData);
+
+        expect(result).to.be.true;
+      });
     });
   });
 });
