@@ -175,7 +175,7 @@ const SettingsPage = () => {
         onCloseEvent={() => {
           handleCloseModal();
           sendDataDogAction(
-            `Close opt ${isSharing ? 'Opt out - Modal' : 'Opt in - Modal'}`,
+            `Close ${isSharing ? 'Opt out - Modal' : 'Opt in - Modal'}`,
           );
         }}
         onPrimaryButtonClick={() => {
