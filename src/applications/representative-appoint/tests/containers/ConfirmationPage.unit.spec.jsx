@@ -4,9 +4,9 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as redux from 'react-redux';
 
-import ConfirmationPrintSign from '../../containers/ConfirmationPrintSign';
+import ConfirmationPage from '../../containers/ConfirmationPage';
 
-describe('ConfirmationPrintSign', () => {
+describe('Confirmation Page', () => {
   let defaultProps;
   let container;
   let useSelectorStub;
@@ -58,7 +58,7 @@ describe('ConfirmationPrintSign', () => {
       .stub(redux, 'useSelector')
       .returns({ data: mockFormData });
 
-    const result = render(<ConfirmationPrintSign {...defaultProps} />);
+    const result = render(<ConfirmationPage {...defaultProps} />);
     container = result.container;
   });
 
