@@ -625,6 +625,7 @@ describe('Components and Utility Functions', () => {
           scenarios[crmStatus],
         );
       });
+      expect(getDescriptiveTextFromCRM(null)).to.equal('error');
     });
   });
 
