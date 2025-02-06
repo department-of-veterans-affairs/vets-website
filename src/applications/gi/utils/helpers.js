@@ -710,7 +710,7 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
             { optionValue: 'all', optionLabel: 'All' },
             ...mappedStates.filter(mappedState =>
               multiples.find(
-                multiple => multiple.state === mappedState.optionValue,
+                multiple => multiple?.state === mappedState.optionValue,
               ),
             ),
           ],

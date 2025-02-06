@@ -66,6 +66,8 @@ export default function LicenseCertificationSearchResults() {
   const history = useHistory();
 
   const previousRoute = history.location.state?.path;
+  const previousRouteHome =
+    previousRoute === '/lc-search' || previousRoute === '/lc-search/';
 
   const {
     nameParam,
@@ -135,12 +137,19 @@ export default function LicenseCertificationSearchResults() {
 
   useEffect(
     () => {
-      const newDropdowns = updateStateDropdown(
+      let final = updateStateDropdown(
         showMultipleNames(filteredResults, nameParam),
         filterLocation,
       );
 
-      setDropdown(newDropdowns);
+      if (
+        categoryParams.length === 1 &&
+        categoryParams[0] === 'certification'
+      ) {
+        final = updateStateDropdown([null, null]);
+      }
+
+      setDropdown(final);
     },
     [filterLocation, filteredResults, nameParam],
   );
@@ -187,6 +196,11 @@ export default function LicenseCertificationSearchResults() {
   const handleRouteChange = (e, id) => {
     e.preventDefault();
     history.push(`/lc-search/results/${id}`);
+  };
+
+  const handleGoHome = e => {
+    e.preventDefault();
+    history.push(`/lc-search`);
   };
 
   const handleCheckboxGroupChange = e => {
@@ -272,10 +286,9 @@ export default function LicenseCertificationSearchResults() {
           })
         )}
         <span className="info-option">
-          "<strong>{nameParam}</strong>"
-          {previousRoute !== '/lc-search' && <>,</>}{' '}
+          "<strong>{nameParam}</strong>"{!previousRouteHome && <>,</>}{' '}
         </span>
-        {previousRoute !== '/lc-search' && (
+        {!previousRouteHome && (
           <span className="info-option">
             "
             <strong>
@@ -305,7 +318,7 @@ export default function LicenseCertificationSearchResults() {
     !fetchingLc &&
     hasFetchedOnce &&
     filteredResults.length - 1 <= 0 &&
-    previousRoute === '/lc-search'
+    previousRouteHome
   ) {
     return (
       <>
@@ -319,6 +332,7 @@ export default function LicenseCertificationSearchResults() {
             We didn't find any results for "<strong>{nameParam}</strong>" Please{' '}
             <va-link
               href="./" // check link structure
+              onClick={e => handleGoHome(e)}
               text="go back to search"
             />{' '}
             and try using different words or checking the spelling of the words
