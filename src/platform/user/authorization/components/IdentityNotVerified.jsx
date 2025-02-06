@@ -1,9 +1,6 @@
 import React from 'react';
-
-import { AUTH_EVENTS } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import PropTypes from 'prop-types';
-import recordEvent from '~/platform/monitoring/record-event';
-import { CSP_IDS } from '../../authentication/constants';
+import VerifyAlert from './VerifyAlert';
 
 export const HowToVerifyLink = () => (
   <p className="vads-u-margin-y--4">
@@ -37,53 +34,12 @@ const VerifyIdentityInfo = () => (
 );
 
 const IdentityNotVerified = ({
-  disableAnalytics = false,
-  headline = 'Verify your identity to access your complete profile',
   showHelpContent = true,
   showVerifyIdenityHelpInfo = false,
-  signInService,
 }) => {
-  const serviceNameMapping = {
-    [CSP_IDS.MHV]: 'Login.gov or ID.me',
-    [CSP_IDS.MHV_VERBOSE]: 'Login.gov or ID.me',
-    [CSP_IDS.DS_LOGON]: 'Login.gov or ID.me',
-    [CSP_IDS.ID_ME]: 'ID.me',
-    [CSP_IDS.LOGIN_GOV]: 'Login.gov',
-  };
-
-  const serviceName = serviceNameMapping[signInService] || '';
-
   return (
     <>
-      <va-alert
-        status="continue"
-        class="vads-u-margin-top--3 vads-u-margin-bottom--3"
-        disable-analytics={disableAnalytics}
-      >
-        <h2 slot="headline" data-testid="verify-identity-alert-headline">
-          {headline}
-        </h2>
-        <div className="vads-u-margin-bottom--1">
-          <p>
-            {`Our records show that you haven’t verified your identity for your
-            ${serviceName} account. We need you to verify your identity for this
-            account to help us keep your information safe and prevent fraud and
-            identity theft.`}
-          </p>
-          <p>
-            {serviceName || 'Your account'} will ask you for certain personal
-            information and identification. This process often takes about 10
-            minutes.
-          </p>
-          <a
-            className="vads-c-action-link--green"
-            href="/verify"
-            onClick={() => recordEvent({ event: AUTH_EVENTS.VERIFY })}
-          >
-            Verify your identity
-          </a>
-        </div>
-      </va-alert>
+      <VerifyAlert headingLevel={2} />
 
       {showHelpContent && <HowToVerifyLink />}
       {showVerifyIdenityHelpInfo && <VerifyIdentityInfo />}
@@ -92,10 +48,6 @@ const IdentityNotVerified = ({
 };
 
 IdentityNotVerified.propTypes = {
-  signInService: PropTypes.string.isRequired,
-  additionalInfoClickHandler: PropTypes.func,
-  disableAnalytics: PropTypes.bool,
-  headline: PropTypes.string,
   showHelpContent: PropTypes.bool,
   showVerifyIdenityHelpInfo: PropTypes.bool,
 };
