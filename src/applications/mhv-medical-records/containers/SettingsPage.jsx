@@ -153,7 +153,9 @@ const SettingsPage = () => {
           text={isSharing ? 'Opt out' : 'Opt in'}
           onClick={() => {
             setShowSharingModal(true);
-            sendDataDogAction(isSharing ? 'Opt out' : 'Opt in');
+            sendDataDogAction(
+              isSharing ? 'Opt out - Settings page' : 'Opt in - Settings page',
+            );
             // If you want to focus an element, you can call it here or handle it elsewhere
           }}
         />
@@ -172,7 +174,9 @@ const SettingsPage = () => {
         modalTitle={title}
         onCloseEvent={() => {
           handleCloseModal();
-          sendDataDogAction(`Close opt ${isSharing ? 'out' : 'in'} modal`);
+          sendDataDogAction(
+            `Close opt ${isSharing ? 'Opt out - Modal' : 'Opt in - Modal'}`,
+          );
         }}
         onPrimaryButtonClick={() => {
           handleUpdateSharing(isSharing);
