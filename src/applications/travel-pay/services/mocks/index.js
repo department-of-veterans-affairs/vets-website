@@ -2,8 +2,9 @@ const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
-// const appointment = require('./vaos-appointment.json');
-const appointmentNoclaim = require('./vaos-appointment-no-claim.json');
+// const appointmentClaim = require('./vaos-appointment-with-claim.json');
+// const appointmentNoclaim = require('./vaos-appointment-no-claim.json');
+const appointmentOriginal = require('./vaos-appointment-original.json');
 const user = require('./user.json');
 // const noAddressUser = require('./user-no-address.json');
 
@@ -85,7 +86,7 @@ const responses = {
 
   // Get travel-pay appointment
   'GET /vaos/v2/appointments/:id': (req, res) => {
-    return res.json(appointmentNoclaim);
+    return res.json(appointmentOriginal);
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
