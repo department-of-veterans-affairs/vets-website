@@ -1,4 +1,4 @@
-import FileField from '../fields/FileField';
+import FileField from '~/platform/forms-system/src/js/fields/FileField';
 import { validateFileField } from './validation';
 
 export default function fileUiSchema(label, userOptions = {}) {

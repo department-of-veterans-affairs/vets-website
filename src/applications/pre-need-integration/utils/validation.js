@@ -1,9 +1,9 @@
 import find from 'lodash/find';
 import { Validator } from 'jsonschema';
-import get from '../../../utilities/data/get';
-import omit from '../../../utilities/data/omit';
-import set from '../../../utilities/data/set';
-import unset from '../../../utilities/data/unset';
+import get from '~/platform/utilities/data/get';
+import omit from '~/platform/utilities/data/omit';
+import set from '~/platform/utilities/data/set';
+import unset from '~/platform/utilities/data/unset';
 
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
