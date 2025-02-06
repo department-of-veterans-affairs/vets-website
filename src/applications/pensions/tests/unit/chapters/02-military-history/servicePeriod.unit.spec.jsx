@@ -32,7 +32,7 @@ const definitions = formConfig.defaultDefinitions;
 
 const { schema, uiSchema } = servicePeriod;
 
-describe('pensions service periods page', () => {
+describe('pensions service period page', () => {
   const pageTitle = 'service period';
   const middleware = [];
   const mockStore = configureStore(middleware);

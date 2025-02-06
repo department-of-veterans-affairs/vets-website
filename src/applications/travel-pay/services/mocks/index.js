@@ -84,10 +84,10 @@ const responses = {
   // },
 
   // Get travel-pay appointment
-  'GET /vaos/v2/appointment/:id': (req, res) => {
+  'GET /vaos/v2/appointments/:id': (req, res) => {
     return res.json(appointmentNoclaim);
   },
-  // 'GET /vaos/v2/appointment/:id': (req, res) => {
+  // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({
   //     errors: [
   //       {
