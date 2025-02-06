@@ -434,7 +434,7 @@ export const App = ({
               },
               {
                 href: '/education/apply-for-gi-bill-form-22-1990',
-                label: 'Apply for education benefits',
+                label: 'Apply for VA education benefits Form 22-1990',
               },
             ]}
           />
