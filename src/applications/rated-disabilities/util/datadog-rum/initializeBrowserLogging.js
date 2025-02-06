@@ -8,7 +8,7 @@ export const canUseLogging = () => {
   const env = environment.vspEnvironment();
 
   const alreadyInitialized = Boolean(window.DD_RUM?.getInitConfiguration());
-  const inTestEnv = window.Mocha;
+  const inTestEnv = window.Cypress || window.Mocha;
   const inDisabledEnv = DISABLED_ENVIRONMENTS.includes(env);
 
   return !alreadyInitialized && !inTestEnv && !inDisabledEnv;

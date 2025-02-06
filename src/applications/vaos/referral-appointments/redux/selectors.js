@@ -8,6 +8,10 @@ export function getProviderInfo(state) {
   };
 }
 
+export function getAppointmentCreateStatus(state) {
+  return state.referral.appointmentCreateStatus;
+}
+
 export function getDraftAppointmentInfo(state) {
   return {
     draftAppointmentInfo: state.referral.draftAppointmentInfo,
@@ -22,9 +26,10 @@ export function getReferrals(state) {
   };
 }
 
-export function getReferral(state) {
+export function getReferral(state, id) {
+  const referral = state.referral.referralDetails.find(ref => ref.UUID === id);
   return {
-    referrals: state.referral.referrals,
+    referral,
     referralFetchStatus: state.referral.referralFetchStatus,
   };
 }

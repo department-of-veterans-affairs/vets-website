@@ -80,8 +80,8 @@ ${reportGeneratedBy}\n
 Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n
 ${txtLine}\n\n
 Details\n
-Location: ${record.location}\n
 Date admitted: ${record.admissionDate}\n
+Location: ${record.location}\n
 Date discharged: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
