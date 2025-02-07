@@ -36,6 +36,12 @@ export const arrayBuilderOptions = {
       const percent = getFTECalcs(item).supportedFTEPercent;
       return percent ? `${percent} supported student FTE` : null;
     },
+    summaryTitle: props =>
+      location?.pathname.includes('review-and-submit')
+        ? ''
+        : `Review your ${
+            props?.formData?.programs.length > 1 ? 'programs' : 'program'
+          }`,
   },
 };
 
@@ -60,6 +66,7 @@ const formConfig = {
     CustomComponent: StatementOfTruth,
   },
   customText: {
+    reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
   savedFormMessages: {
