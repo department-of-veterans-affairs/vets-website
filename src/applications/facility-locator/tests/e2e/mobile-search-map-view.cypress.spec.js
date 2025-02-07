@@ -37,7 +37,7 @@ describe('mobile map behavior', () => {
       cy.injectAxeThenAxeCheck();
       h.selectMobileMapTab();
       h.awaitMapRender();
-      h.verifyElement(h.MOBILE_MAP_NO_RESULTS_TEXT);
+      h.verifyElementByText(h.MOBILE_MAP_NO_RESULTS_TEXT);
     });
   });
 
@@ -57,7 +57,7 @@ describe('mobile map behavior', () => {
 
       h.selectMobileMapTab();
       h.awaitMapRender();
-      h.verifyElement(h.MOBILE_MAP_NO_RESULTS_TEXT);
+      h.verifyElementByText(h.MOBILE_MAP_NO_RESULTS_TEXT);
     });
   });
 
@@ -76,33 +76,11 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchFacilitiesVA');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(
-        {
-          index: 0,
-          pin: 1,
-          name: 'Fort McPherson VA Clinic',
-          distance: '3.8 miles',
-          addressLine1: '1701 Hardee Avenue, Southwest',
-          addressLine2: 'Atlanta, GA 30310-5110',
-          website:
-            'https://www.va.gov/atlanta-health-care/locations/fort-mcpherson-va-clinic/',
-          map:
-            'https://maps.google.com?saddr=Atlanta, GA&daddr=1701 Hardee Avenue, Southwest, Atlanta, GA 30310-5110',
-        },
-        0,
-      );
-
-      verifyStandardPhoneNumbers('404-230-5683');
-      h.verifyHealthConnectNumber('855-679-0214');
-      h.verifyMentalHealthNumber('404-321-6111, ext. 121776');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
-      h.verifyElement(h.MOBILE_MAP_PIN_SELECT_HELP_TEXT);
+      h.verifyElementByText(h.MOBILE_MAP_PIN_SELECT_HELP_TEXT);
       h.selectMobileMapPin(2);
 
-      // Verify clicked map pin item
       h.verifyMobileMapItem(
         {
           index: 0,
@@ -153,15 +131,10 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchUrgentCare');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(listItem, 0);
-      verifyStandardPhoneNumbers('813-925-1903');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
       h.selectMobileMapPin(1);
 
-      // Verify clicked map pin item
       h.verifyMobileMapItem(listItem, 0);
       verifyStandardPhoneNumbers('813-925-1903');
     });
@@ -175,18 +148,6 @@ describe('mobile map behavior', () => {
         emergencyCareSearchResults,
       ).as('searchEmergencyCare');
 
-      const listItem = {
-        index: 0,
-        pin: 1,
-        name: 'SENTARA NORFOLK GENERAL HOSPITAL',
-        distance: '1.1 miles',
-        addressLine1: '600 GRESHAM DR',
-        addressLine2: 'NORFOLK, VA 23507-1904',
-        website: null,
-        map:
-          'https://maps.google.com?saddr=Norfolk, VA&daddr=600 GRESHAM DR, NORFOLK, VA 23507-1904',
-      };
-
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -195,16 +156,25 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchEmergencyCare');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(listItem, 0);
-      verifyStandardPhoneNumbers('757-388-3000');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
       h.selectMobileMapPin(1);
 
-      // Verify clicked map pin item
-      h.verifyMobileMapItem(listItem, 0);
+      h.verifyMobileMapItem(
+        {
+          index: 0,
+          pin: 1,
+          name: 'SENTARA NORFOLK GENERAL HOSPITAL',
+          distance: '1.1 miles',
+          addressLine1: '600 GRESHAM DR',
+          addressLine2: 'NORFOLK, VA 23507-1904',
+          website: null,
+          map:
+            'https://maps.google.com?saddr=Norfolk, VA&daddr=600 GRESHAM DR, NORFOLK, VA 23507-1904',
+        },
+        0,
+      );
+
       verifyStandardPhoneNumbers('757-388-3000');
     });
   });
@@ -217,18 +187,6 @@ describe('mobile map behavior', () => {
         communityCareProviderSearchResults,
       ).as('searchCommunityProviders');
 
-      const listItem = {
-        index: 0,
-        pin: 1,
-        name: 'Pirak, Michael John',
-        distance: '1.4 miles',
-        addressLine1: '203 14th Ave E',
-        addressLine2: 'Seattle, WA 98112',
-        website: null,
-        map:
-          'https://maps.google.com?saddr=Seattle, WA&daddr=203 14th Ave E, Seattle, WA 98112',
-      };
-
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -238,16 +196,26 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchCommunityProviders');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(listItem, 0);
-      verifyStandardPhoneNumbers('206-381-3473');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
       h.selectMobileMapPin(1);
 
       // Verify clicked map pin item
-      h.verifyMobileMapItem(listItem, 0);
+      h.verifyMobileMapItem(
+        {
+          index: 0,
+          pin: 1,
+          name: 'Pirak, Michael John',
+          distance: '1.4 miles',
+          addressLine1: '203 14th Ave E',
+          addressLine2: 'Seattle, WA 98112',
+          website: null,
+          map:
+            'https://maps.google.com?saddr=Seattle, WA&daddr=203 14th Ave E, Seattle, WA 98112',
+        },
+        0,
+      );
+
       verifyStandardPhoneNumbers('206-381-3473');
     });
   });
@@ -260,18 +228,6 @@ describe('mobile map behavior', () => {
         communityPharmacySearchResults,
       ).as('searchCommunityPharmacies');
 
-      const listItem = {
-        index: 0,
-        pin: 1,
-        name: 'WALGREENS',
-        distance: '0.6 miles',
-        addressLine1: '750 N VIRGINIA ST',
-        addressLine2: 'RENO, NV 89501',
-        website: null,
-        map:
-          'https://maps.google.com?saddr=Reno, NV&daddr=750 N VIRGINIA ST, RENO, NV 89501',
-      };
-
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -280,16 +236,26 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchCommunityPharmacies');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(listItem, 0);
-      verifyStandardPhoneNumbers('775-337-8703');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
       h.selectMobileMapPin(1);
 
       // Verify clicked map pin item
-      h.verifyMobileMapItem(listItem, 0);
+      h.verifyMobileMapItem(
+        {
+          index: 0,
+          pin: 1,
+          name: 'WALGREENS',
+          distance: '0.6 miles',
+          addressLine1: '750 N VIRGINIA ST',
+          addressLine2: 'RENO, NV 89501',
+          website: null,
+          map:
+            'https://maps.google.com?saddr=Reno, NV&daddr=750 N VIRGINIA ST, RENO, NV 89501',
+        },
+        0,
+      );
+
       verifyStandardPhoneNumbers('775-337-8703');
     });
   });
@@ -300,18 +266,6 @@ describe('mobile map behavior', () => {
         'searchVBAs',
       );
 
-      const listItem = {
-        index: 0,
-        pin: 1,
-        name: 'Muskogee VA Regional Benefit Office',
-        distance: '41.9 miles',
-        addressLine1: '125 South Main Street',
-        addressLine2: 'Muskogee, OK 74401',
-        website: null,
-        map:
-          'https://maps.google.com?saddr=Tulsa, OK&daddr=125 South Main Street, Muskogee, OK 74401',
-      };
-
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -320,16 +274,26 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchVBAs');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(listItem, 0);
-      verifyStandardPhoneNumbers('800-827-1000');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
       h.selectMobileMapPin(1);
 
       // Verify clicked map pin item
-      h.verifyMobileMapItem(listItem, 0);
+      h.verifyMobileMapItem(
+        {
+          index: 0,
+          pin: 1,
+          name: 'Muskogee VA Regional Benefit Office',
+          distance: '41.9 miles',
+          addressLine1: '125 South Main Street',
+          addressLine2: 'Muskogee, OK 74401',
+          website: null,
+          map:
+            'https://maps.google.com?saddr=Tulsa, OK&daddr=125 South Main Street, Muskogee, OK 74401',
+        },
+        0,
+      );
+
       verifyStandardPhoneNumbers('800-827-1000');
     });
   });
@@ -340,18 +304,6 @@ describe('mobile map behavior', () => {
         'searchCemeteries',
       );
 
-      const listItem = {
-        index: 0,
-        pin: 1,
-        name: 'National Memorial Cemetery of the Pacific',
-        distance: '1.3 miles',
-        addressLine1: '2177 Puowaina Dr',
-        addressLine2: 'Honolulu, HI 96813-1729',
-        website: null,
-        map:
-          'https://maps.google.com?saddr=Honolulu, HI&daddr=2177 Puowaina Dr, Honolulu, HI 96813-1729',
-      };
-
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -360,16 +312,26 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchCemeteries');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(listItem, 0);
-      verifyStandardPhoneNumbers('808-532-3720');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
       h.selectMobileMapPin(1);
 
       // Verify clicked map pin item
-      h.verifyMobileMapItem(listItem, 0);
+      h.verifyMobileMapItem(
+        {
+          index: 0,
+          pin: 1,
+          name: 'National Memorial Cemetery of the Pacific',
+          distance: '1.3 miles',
+          addressLine1: '2177 Puowaina Dr',
+          addressLine2: 'Honolulu, HI 96813-1729',
+          website: null,
+          map:
+            'https://maps.google.com?saddr=Honolulu, HI&daddr=2177 Puowaina Dr, Honolulu, HI 96813-1729',
+        },
+        0,
+      );
+
       verifyStandardPhoneNumbers('808-532-3720');
     });
   });
@@ -380,18 +342,6 @@ describe('mobile map behavior', () => {
         'searchVetCenters',
       );
 
-      const listItem = {
-        index: 0,
-        pin: 1,
-        name: 'Evanston Vet Center',
-        distance: '10.1 miles',
-        addressLine1: '1901 Howard Street',
-        addressLine2: 'Evanston, IL 60202',
-        website: 'https://www.va.gov/evanston-vet-center/',
-        map:
-          'https://maps.google.com?saddr=Chicago, IL&daddr=1901 Howard Street, Evanston, IL 60202',
-      };
-
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -400,16 +350,26 @@ describe('mobile map behavior', () => {
       h.submitSearchForm();
       cy.wait('@searchVetCenters');
 
-      // Verify first item on the mobile List view (regression check)
-      h.verifyMobileListItem(listItem, 0);
-      verifyStandardPhoneNumbers('847-332-1019');
-
       h.selectMobileMapTab();
       h.awaitMapRender();
       h.selectMobileMapPin(1);
 
       // Verify clicked map pin item
-      h.verifyMobileMapItem(listItem, 0);
+      h.verifyMobileMapItem(
+        {
+          index: 0,
+          pin: 1,
+          name: 'Evanston Vet Center',
+          distance: '10.1 miles',
+          addressLine1: '1901 Howard Street',
+          addressLine2: 'Evanston, IL 60202',
+          website: 'https://www.va.gov/evanston-vet-center/',
+          map:
+            'https://maps.google.com?saddr=Chicago, IL&daddr=1901 Howard Street, Evanston, IL 60202',
+        },
+        0,
+      );
+
       verifyStandardPhoneNumbers('847-332-1019');
     });
   });

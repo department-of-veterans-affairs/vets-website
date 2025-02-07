@@ -15,6 +15,8 @@ export const VA_HEALTH_CONNECT_NUMBER = '[data-testid="VA health connect"]';
 export const MENTAL_HEALTH_NUMBER = '[data-testid="Mental health"]';
 export const TTY_NUMBER = 'va-telephone[contact="711"]';
 
+export const SEARCH_RESULTS_SUMMARY = '#search-results-subheader';
+
 export const MOBILE_MAP_PIN_SELECT_HELP_TEXT =
   'Select a number to show information about that location.';
 
@@ -171,9 +173,16 @@ export const awaitMapRender = () =>
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(3000);
 
-export const verifyElement = element =>
+export const verifyElementByText = text =>
   cy
-    .findByText(element)
+    .findByText(text)
     .eq(0)
     .should('exist')
     .and('be.visible');
+
+export const verifyElementShouldContainText = (selector, text) =>
+  cy
+    .get(selector)
+    .should('exist')
+    .and('be.visible')
+    .and('contain.text', text);
