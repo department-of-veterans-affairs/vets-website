@@ -120,9 +120,7 @@ describe('Authenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_veteranSocialSecurityNumber"]').type(
-        '658432765',
-      );
+      cy.get('input[name="root_inputVeteranSSN"]').type('658432765');
 
       h.clickContinue();
 

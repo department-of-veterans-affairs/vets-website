@@ -337,7 +337,7 @@
     "dateOfBirth": {
       "$ref": "#/definitions/date"
     },
-    "veteranSocialSecurityNumber": {
+    "inputVeteranSSN": {
       "$ref": "#/definitions/ssn"
     },
     "email": {
@@ -384,7 +384,7 @@
   "required": [
     "inputVeteranFullName",
     "dateOfBirth",
-    "veteranSocialSecurityNumber",
+    "inputVeteranSSN",
     "email",
     "privacyAgreementAccepted"
   ]

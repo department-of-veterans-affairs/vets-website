@@ -31,7 +31,7 @@
     "last": "Doe",
     "suffix": "Sr."
   },
-  "veteranSocialSecurityNumber": "333224444",
+  "inputVeteranSSN": "333224444",
   "vaClaimsHistory": true,
   "vaFileNumber": "123456789",
   "veteranDateOfBirth": "1960-01-01",

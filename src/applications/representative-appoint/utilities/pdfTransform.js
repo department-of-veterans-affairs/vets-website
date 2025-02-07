@@ -36,7 +36,7 @@ function yesNoToBoolean(field) {
 export function pdfTransform(formData) {
   const {
     inputVeteranFullName,
-    veteranSocialSecurityNumber: ssn,
+    inputVeteranSSN: ssn,
     vaFileNumber,
     veteranDateOfBirth: dateOfBirth,
     serviceNumber,

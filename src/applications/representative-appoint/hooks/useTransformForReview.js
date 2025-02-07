@@ -12,7 +12,7 @@ export function useTransformForReview(formData) {
     firstName: formData?.inputVeteranFullName?.first,
     middleName: formData?.inputVeteranFullName?.middle,
     lastName: formData?.inputVeteranFullName?.last,
-    ssn: formData.veteranSocialSecurityNumber,
+    ssn: formData.inputVeteranSSN,
     vaFileNumber: formData.veteranVAFileNumber,
     dateOfBirth: formData.veteranDateOfBirth,
     serviceNumber: formData.serviceNumber,

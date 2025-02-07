@@ -15,7 +15,7 @@ describe('prefillTransformer', () => {
         middle: 'A',
       });
       expect(result.veteranDateOfBirth).to.eql('1933-04-05');
-      expect(result.veteranSocialSecurityNumber).to.eql('796121200');
+      expect(result.inputVeteranSSN).to.eql('796121200');
       expect(result.veteranHomeAddress).to.eql({
         street: '123 avenue du Maine',
         city: 'Paris',
@@ -100,7 +100,7 @@ describe('prefillTransformer', () => {
           street: 'test',
         },
         'Branch of Service': 'test',
-        veteranSocialSecurityNumber: 'test',
+        inputVeteranSSN: 'test',
       };
 
       const result = prefillTransformer(data);
@@ -117,7 +117,7 @@ describe('prefillTransformer', () => {
         street: undefined,
       });
       expect(result['Branch of Service']).to.be.undefined;
-      expect(result.veteranSocialSecurityNumber).to.be.undefined;
+      expect(result.inputVeteranSSN).to.be.undefined;
     });
   });
 
