@@ -1,11 +1,13 @@
 name: Continuous Deploy Production Deploy Test 1
 on:
-  push
+  push:
+    branches:
+      - 'staged-cd-json-error-3'
 
 jobs:
   cd-prod-deploy:
     name: CD Production Deploy
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Run CD Production Deploy workflow
         run: |
@@ -13,5 +15,9 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d '{"event_type":"cd-production-deploy-test", "client_payload": {"ref":"staged-cd-json-error","github_sha": "'"${{ github.sha }}"'","github_ref": "'"${{ github.ref }}"'","github_message": "'"${{ github.event.head_commit.message }}"'", "entry_app": "'"${{ needs.build.outputs.entry_names }}"'"}}'
+          -d "$(jq -n --arg sha "${{ github.sha }}" \
+          --arg ref "${{ github.ref }}" \
+          --arg msg "${{ github.event.head_commit.message }}" \
+          --arg entry "disability-benefits" \
+          '{event_type: "cd-production-deploy-test", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')"
       
