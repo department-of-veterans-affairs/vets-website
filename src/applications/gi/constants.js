@@ -803,3 +803,10 @@ export const yellowRibbonDegreeLevelTypeHash = {
   'undergraduate/graduate/doctoral': ['Undergraduate', 'Graduate', 'Doctoral'],
   'undergraduate: dc': ['Undergraduate'],
 };
+
+export const lacpCategoryList = [
+  'all',
+  'license',
+  'certification',
+  'prep course',
+];

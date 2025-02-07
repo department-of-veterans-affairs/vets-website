@@ -6,6 +6,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayDocumentationContent = true,
     mhvMedicationsDisplayFilter = true,
     mhvMedicationsDisplayGrouping = true,
+    mhvMedicationsDisplayPendingMeds = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -70,6 +71,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_grouping',
           value: mhvMedicationsDisplayGrouping,
+        },
+        {
+          name: 'mhv_medications_display_pending_meds',
+          value: mhvMedicationsDisplayPendingMeds,
         },
 
         // medical records

@@ -10,6 +10,7 @@ import {
   SET_TOPIC_ID,
   SET_SUBTOPIC_ID,
   SET_UPDATED_IN_REVIEW,
+  SET_VA_HEALTH_FACILITY,
 } from '../actions';
 
 import {
@@ -28,6 +29,7 @@ const initialState = {
   currentUserLocation: '',
   getLocationError: false,
   selectedFacility: null,
+  vaHealthFacility: '',
   reviewPageView: {
     openChapters: [],
   },
@@ -104,6 +106,11 @@ export default {
         return {
           ...state,
           searchLocationInput: action.payload,
+        };
+      case SET_VA_HEALTH_FACILITY:
+        return {
+          ...state,
+          vaHealthFacility: action.payload,
         };
       default:
         return state;
