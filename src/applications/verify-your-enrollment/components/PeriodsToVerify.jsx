@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
-import { getPeriodsToVerify } from '../helpers';
+import {
+  getPeriodsToVerify,
+  getPeriodsToVerifyDGIB,
+  isVerificationDateValid,
+  isVerificationEndDateValid,
+} from '../helpers';
 import Alert from './Alert';
 
 const PeriodsToVerify = ({
@@ -12,12 +17,20 @@ const PeriodsToVerify = ({
   link,
   toggleEnrollmentSuccess,
   verifyEnrollment,
+  enrollmentVerifications,
+  claimantId,
 }) => {
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
   const idRef = useRef();
-
+  const showEnrollmentVerifications = enrollmentVerifications?.some(
+    verification =>
+      !isVerificationDateValid(
+        verification.verificationEndDate,
+        enrollmentVerifications,
+      ) && isVerificationEndDateValid(verification.verificationEndDate),
+  );
   useEffect(
     () => {
       if (
@@ -67,7 +80,27 @@ const PeriodsToVerify = ({
         />
       )}
       <div id="verifications-pending-alert">
-        {enrollmentData?.pendingVerifications?.length > 0 && (
+        {enrollmentVerifications?.length > 0 &&
+          showEnrollmentVerifications && (
+            <>
+              <va-alert
+                close-btn-aria-label="Close notification"
+                status="info"
+                visible
+              >
+                <h2
+                  id="vye-periods-to-verify-container"
+                  slot="headline"
+                  className="vads-u-font-size--h3 vads-u-font-weight--bold"
+                >
+                  You have enrollment periods to verify
+                </h2>
+                {getPeriodsToVerifyDGIB(enrollmentVerifications, true)}
+                {link && <>{link()}</>}
+              </va-alert>
+            </>
+          )}
+        {enrollmentData.pendingVerifications?.length > 0 && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="info"
@@ -87,15 +120,18 @@ const PeriodsToVerify = ({
             </div>
           </va-alert>
         )}
-
-        {enrollmentData?.pendingVerifications?.length === 0 &&
+        {(enrollmentData?.pendingVerifications?.length === 0 ||
+          !showEnrollmentVerifications) &&
           justVerified && (
             <div>
               <VerifiedSuccessStatement />
             </div>
           )}
-        {enrollmentData?.pendingVerifications?.length === 0 &&
-          enrollmentData?.verifications.length !== 0 &&
+        {((enrollmentData?.pendingVerifications?.length === 0 &&
+          enrollmentData?.verifications.length !== 0) ||
+          (!showEnrollmentVerifications &&
+            claimantId &&
+            enrollmentVerifications?.length !== 0)) &&
           !justVerified && (
             <div className="vads-u-margin-top--2">
               <UpToDateVerificationStatement />
@@ -111,7 +147,9 @@ const mapStateToProps = state => ({
 });
 
 PeriodsToVerify.propTypes = {
+  claimantId: PropTypes.number,
   enrollmentData: PropTypes.object,
+  enrollmentVerifications: PropTypes.array,
   link: PropTypes.func,
   loading: PropTypes.bool,
   toggleEnrollmentSuccess: PropTypes.bool,

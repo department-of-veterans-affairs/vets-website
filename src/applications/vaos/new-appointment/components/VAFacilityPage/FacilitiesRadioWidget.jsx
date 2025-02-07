@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
-import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
 import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
-import { useOHDirectScheduling } from '../../hooks/useOHDirectScheduling';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 /*
@@ -24,13 +21,12 @@ export default function FacilitiesRadioWidget({
   value,
   onChange,
   formContext,
+  required,
 }) {
-  const {
-    cernerSiteIds,
-    requestLocationStatus,
-    sortMethod,
-    loadingEligibility,
-  } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+  const { requestLocationStatus, sortMethod, loadingEligibility } = useSelector(
+    state => selectFacilitiesRadioWidget(state),
+    shallowEqual,
+  );
 
   const { hasUserAddress, sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
@@ -65,8 +61,6 @@ export default function FacilitiesRadioWidget({
       </option>
     );
   });
-
-  const useOHDirectSchedule = useOHDirectScheduling();
 
   useEffect(
     () => {
@@ -103,7 +97,7 @@ export default function FacilitiesRadioWidget({
             <InfoAlert
               status="warning"
               headline="Your browser is blocked from finding your current location."
-              className="vads-u-background-color--gold-lightest vads-u-font-size--base"
+              className="vads-u-background-color--gold-lightest"
               level="3"
             >
               <p>Make sure your browser’s location feature is turned on.</p>
@@ -122,57 +116,57 @@ export default function FacilitiesRadioWidget({
           </div>
         )}
       </>
-      {!requestingLocationFailed &&
-        displayedOptions.map((option, i) => {
-          const { name, address, legacyVAR } = option?.label;
-          const checked = option.value === value;
-          const isCerner = isCernerLocation(option.value, cernerSiteIds);
-          let distance;
 
-          if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
-            distance = legacyVAR?.distanceFromResidentialAddress;
-          } else if (
-            sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
-          ) {
-            distance = legacyVAR?.distanceFromCurrentLocation;
-          } else {
-            distance = legacyVAR?.distanceFromResidentialAddress;
-          }
-          const facilityPosition = i + 1;
+      {!requestingLocationFailed && (
+        <fieldset>
+          <legend className="sr-only">
+            {options.title} {required ? 'required' : ''}
+          </legend>
+          {displayedOptions.map((option, i) => {
+            const { name, address, legacyVAR } = option?.label;
+            const checked = option.value === value;
+            let distance;
 
-          return (
-            <div className="form-radio-buttons" key={option.value}>
-              <input
-                type="radio"
-                checked={checked}
-                id={`${id}_${facilityPosition}`}
-                name={`${id}`}
-                value={option.value}
-                onChange={_ => onChange(option.value)}
-                disabled={loadingEligibility}
-              />
-              <label htmlFor={`${id}_${facilityPosition}`}>
-                <span className="vads-u-display--block vads-u-font-weight--bold">
-                  {name}
-                </span>
-                <span className="vads-u-display--block vads-u-font-size--sm">
-                  {address?.city}, <State state={address?.state} />
-                </span>
-                {!!distance && (
-                  <span className="vads-u-display--block vads-u-font-size--sm">
-                    {distance} miles
+            if (sortMethod === FACILITY_SORT_METHODS.distanceFromResidential) {
+              distance = legacyVAR?.distanceFromResidentialAddress;
+            } else if (
+              sortMethod === FACILITY_SORT_METHODS.distanceFromCurrentLocation
+            ) {
+              distance = legacyVAR?.distanceFromCurrentLocation;
+            } else {
+              distance = legacyVAR?.distanceFromResidentialAddress;
+            }
+            const facilityPosition = i + 1;
+
+            return (
+              <div className="form-radio-buttons" key={option.value}>
+                <input
+                  type="radio"
+                  checked={checked}
+                  id={`${id}_${facilityPosition}`}
+                  name={`${id}`}
+                  value={option.value}
+                  onChange={_ => onChange(option.value)}
+                  disabled={loadingEligibility}
+                />
+                <label htmlFor={`${id}_${facilityPosition}`}>
+                  <span className="vads-u-display--block vads-u-font-weight--bold">
+                    {name}
                   </span>
-                )}
-                {isCerner &&
-                  !useOHDirectSchedule && (
-                    <a href={getCernerURL('/pages/scheduling/upcoming')}>
-                      Schedule online at <strong>My VA Health</strong>
-                    </a>
+                  <span className="vads-u-display--block">
+                    {address?.city}, <State state={address?.state} />
+                  </span>
+                  {!!distance && (
+                    <span className="vads-u-display--block">
+                      {distance} miles
+                    </span>
                   )}
-              </label>
-            </div>
-          );
-        })}
+                </label>
+              </div>
+            );
+          })}
+        </fieldset>
+      )}
       {!displayAll &&
         !requestingLocationFailed &&
         hiddenCount > 0 && (
@@ -198,6 +192,7 @@ FacilitiesRadioWidget.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
   options: PropTypes.object,
+  required: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };

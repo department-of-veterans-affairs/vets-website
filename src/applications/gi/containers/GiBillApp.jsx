@@ -77,13 +77,14 @@ export function GiBillApp({
   const onProfilePage = location.pathname.includes('/institution');
   const onComparePage = location.pathname.includes('/compare');
   const showDisclaimer = onComparePage || !compare.open;
+  const onProgramPage = /\/institution\/[^/]+\/[^/]+$/.test(location.pathname);
 
   return (
     <div className="gi-app" role="application">
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
-          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+          <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
             <GiBillBreadcrumbs />
           </div>
           {constants.inProgress && (
@@ -100,14 +101,15 @@ export function GiBillApp({
           )}
           {!showDisclaimer && <div style={{ height: '12px' }}>&nbsp;</div>}
           {showDisclaimer && (
-            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
+            <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
               <>
                 <AboutThisTool />
                 <Disclaimer />
               </>
             </div>
           )}
-          {!onComparePage && <CompareDrawer alwaysDisplay={onProfilePage} />}
+          {!onComparePage &&
+            !onProgramPage && <CompareDrawer alwaysDisplay={onProfilePage} />}
           <Modals />
         </div>
       </div>
@@ -117,6 +119,15 @@ export function GiBillApp({
 
 GiBillApp.propTypes = {
   children: PropTypes.element.isRequired,
+  TESTVALUE: PropTypes.bool,
+  TESTVERSION: PropTypes.bool,
+  compare: PropTypes.object,
+  constants: PropTypes.object,
+  dispatchEnterPreviewMode: PropTypes.func,
+  dispatchExitPreviewMode: PropTypes.func,
+  dispatchFetchConstants: PropTypes.func,
+  dispatchUpdateQueryParams: PropTypes.func,
+  preview: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

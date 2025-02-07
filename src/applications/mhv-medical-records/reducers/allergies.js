@@ -63,8 +63,9 @@ export const convertAllergy = allergy => {
     id: allergy.id,
     type:
       (isArrayAndHasItems(allergy.category) &&
-        allergy.category[0].charAt(0).toUpperCase() +
-          allergy.category[0].slice(1)) ||
+        allergy.category
+          .join(', ')
+          .replace(/^./, char => char.toUpperCase())) ||
       EMPTY_FIELD,
     name: allergy?.code?.text || EMPTY_FIELD,
     date: allergy?.recordedDate
@@ -75,6 +76,7 @@ export const convertAllergy = allergy => {
     observedOrReported: extractObservedReported(allergy),
     notes:
       (isArrayAndHasItems(allergy.note) && allergy.note[0].text) || EMPTY_FIELD,
+    provider: allergy.recorder?.display || EMPTY_FIELD,
   };
 };
 

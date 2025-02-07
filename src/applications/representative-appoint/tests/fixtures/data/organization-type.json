@@ -1,0 +1,23 @@
+{
+  "id": "014",
+  "type": "organization",
+  "attributes": {
+    "name": "Gold Org",
+    "addressLine1": "300 N Winston Rd Rm 445",
+    "addressLine2": null,
+    "addressLine3": null,
+    "addressType": "Domestic",
+    "city": "Anytown",
+    "countryName": "United States",
+    "countryCodeIso3": "USA",
+    "province": "Ohio",
+    "internationalPostalCode": null,
+    "stateCode": "OH",
+    "zipCode": "44562",
+    "zipSuffix": "4324",
+    "phone": "1-855-721-6546",
+    "lat": 37.234432,
+    "long": -78.756847,
+    "poaCode": "014"
+  }
+}

@@ -120,23 +120,23 @@ export function prefillTransformer(pages, formData, metadata, state) {
     contactInfo.emailAddress ||
     undefined;
   let mobilePhoneNumber;
-  // let mobilePhoneIsInternational;
+  let mobilePhoneIsInternational;
   const vapMobilePhone = vapContactInfo.mobilePhone || {};
   if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
     mobilePhoneNumber = [
       vapMobilePhone.areaCode,
       vapMobilePhone.phoneNumber,
     ].join();
-    // mobilePhoneIsInternational = vapMobilePhone.isInternational;
+    mobilePhoneIsInternational = vapMobilePhone.isInternational;
   } else {
     mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
   }
   let homePhoneNumber;
-  // let homePhoneIsInternational;
+  let homePhoneIsInternational;
   const vapHomePhone = vapContactInfo.homePhone || {};
   if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
     homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    // homePhoneIsInternational = vapHomePhone.isInternational;
+    homePhoneIsInternational = vapHomePhone.isInternational;
   } else {
     homePhoneNumber = contactInfo?.homePhoneNumber;
   }
@@ -167,17 +167,26 @@ export function prefillTransformer(pages, formData, metadata, state) {
     chosenBenefit: formData?.chosenBenefit,
     email: emailAddress,
     confirmEmail: emailAddress,
-    mobilePhone: mobilePhoneNumber?.replace(/\D/g, ''),
-    homePhone: homePhoneNumber?.replace(/\D/g, ''),
+    mobilePhone: {
+      phone: mobilePhoneNumber?.replace(/\D/g, ''),
+      isInternational: mobilePhoneIsInternational,
+    },
+    homePhone: {
+      phone: homePhoneNumber?.replace(/\D/g, ''),
+      isInternational: homePhoneIsInternational,
+    },
     mailingAddressInput: {
-      street: address?.addressLine1,
-      street2: address?.addressLine2 || undefined,
-      city: address?.city,
-      state: address?.stateCode || address?.province,
-      postalCode: address?.zipcode || address?.internationalPostalCode,
-      country: getSchemaCountryCode(
-        address?.countryCodeIso3 || address?.countryCode,
-      ),
+      address: {
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode || address?.province,
+        postalCode: address?.zipcode || address?.internationalPostalCode,
+        country: getSchemaCountryCode(
+          address?.countryCodeIso3 || address?.countryCode,
+        ),
+      },
+      livesOnMilitaryBase: address?.addressType === 'MILITARY_OVERSEAS',
     },
     notificationMethod: claimant?.notificationMethod || formData?.contactMethod,
     declineDirectDeposit: formData?.declineDirectDeposit,

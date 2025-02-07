@@ -9,7 +9,7 @@ import {
   NameAndZipCodePage,
   nameAndZipCodePage,
 } from '../pages/nameAndZipCode';
-import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
+import { SAVE_IN_PROGRESS_CONFIG } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
@@ -18,6 +18,7 @@ import {
   VeteranIdentificationInformationPage,
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
+import { phoneNumberAndEmailPage } from '../pages/phoneNumberAndEmail';
 import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
@@ -64,16 +65,15 @@ const formConfig = (pathname = null) => {
     subTitle,
     defaultDefinitions: {},
     v3SegmentedProgressBar: {
-      useDiv: true,
+      useDiv: false,
     },
-    stepLabels: PROGRESS_BAR_LABELS,
     chapters: {
       personalInformationChapter: {
-        title: 'Personal information',
+        title: 'Veteran information',
         pages: {
           nameAndZipCodePage: {
             path: 'name-and-zip-code',
-            title: 'Personal information',
+            title: 'Veteran information',
             uiSchema: nameAndZipCodePage.uiSchema,
             schema: nameAndZipCodePage.schema,
             CustomPage: NameAndZipCodePage,
@@ -88,6 +88,18 @@ const formConfig = (pathname = null) => {
             uiSchema: veteranIdentificationInformationPage.uiSchema,
             schema: veteranIdentificationInformationPage.schema,
             CustomPage: VeteranIdentificationInformationPage,
+            scrollAndFocusTarget,
+          },
+        },
+      },
+      contactInformationChapter: {
+        title: 'Your contact information',
+        pages: {
+          phoneNumberAndEmailPage: {
+            path: 'phone-number-and-email',
+            title: 'Phone and email address',
+            uiSchema: phoneNumberAndEmailPage.uiSchema,
+            schema: phoneNumberAndEmailPage.schema,
             scrollAndFocusTarget,
           },
         },

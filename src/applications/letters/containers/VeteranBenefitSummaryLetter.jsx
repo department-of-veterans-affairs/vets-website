@@ -5,15 +5,14 @@ import PropTypes from 'prop-types';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import CallVBACenter from '@department-of-veterans-affairs/platform-static-data/CallVBACenter';
-import { formatDateShort } from 'platform/utilities/date';
 
 import { updateBenefitSummaryRequestOption as updateBenefitSummaryRequestOptionAction } from '../actions/letters';
 import {
   benefitOptionsMap,
   characterOfServiceContent,
-  optionsToAlwaysDisplay,
   getBenefitOptionText,
-  stripOffTime,
+  getFormattedDate,
+  optionsToAlwaysDisplay,
 } from '../utils/helpers';
 
 /* eslint jsx-a11y/label-has-associated-control: 1 */
@@ -60,8 +59,8 @@ export class VeteranBenefitSummaryLetter extends React.Component {
             ]
           }
         </span>
-        <span>{formatDateShort(stripOffTime(service.enteredDate))}</span>
-        <span>{formatDateShort(stripOffTime(service.releasedDate))}</span>
+        <span>{getFormattedDate(service.enteredDate)}</span>
+        <span>{getFormattedDate(service.releasedDate)}</span>
       </va-table-row>
     ));
 
@@ -160,13 +159,15 @@ export class VeteranBenefitSummaryLetter extends React.Component {
       );
     } else {
       benefitSummaryContent = (
-        <div className="feature">
-          <h4>Your VA Benefit Summary letter is currently unavailable</h4>
+        <va-summary-box>
+          <h4 slot="headline">
+            Your VA Benefit Summary letter is currently unavailable
+          </h4>
           <div>
             We weren’t able to retrieve your VA Benefit Summary letter. Please{' '}
             <CallVBACenter />
           </div>
-        </div>
+        </va-summary-box>
       );
     }
 

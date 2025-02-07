@@ -1,4 +1,9 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+// Override VSDS Alert component icon to fix overlapping custom icon
+.usa-alert::before {
+  background-image: none;
+}
 
 // Match the va-alert styling.
 .mhv-c-reg-alert {

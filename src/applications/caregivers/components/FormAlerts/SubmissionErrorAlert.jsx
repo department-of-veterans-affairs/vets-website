@@ -31,10 +31,12 @@ const SubmissionErrorAlert = () => {
           <strong>
             Program of Comprehensive Assistance for Family Caregivers
           </strong>
-          <br />
-          Health Eligibility Center <br />
-          2957 Clairmont Road NE, Ste 200 <br />
-          Atlanta, GA 30329-1647 <br />
+          <br role="presentation" />
+          10-10CG Evidence Intake Center
+          <br role="presentation" />
+          PO Box 5154
+          <br role="presentation" />
+          Janesville, WI 53547-5154
         </p>
 
         <p>

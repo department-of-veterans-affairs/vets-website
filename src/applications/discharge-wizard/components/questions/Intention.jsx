@@ -1,74 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
-import { questionLabels } from '../../constants';
-
-const { Element } = Scroll;
+import { connect } from 'react-redux';
+import {
+  QUESTION_MAP,
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import RadioGroup from './shared/RadioGroup';
+import { updateIntention } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
 const Intention = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+  formResponses,
+  setIntention,
+  router,
+  viewedIntroPage,
 }) => {
-  const key = '6_intention';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.INTENTION;
+  const H1 = QUESTION_MAP[shortName];
+  const intention = formResponses[shortName];
+  const { INTENTION_YES, INTENTION_NO } = RESPONSES;
 
-  if (!formValues) {
-    return null;
-  }
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
 
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  const options = [
-    { label: `Yes, ${questionLabels[key][1]}`, value: '1' },
-    { label: `No, ${questionLabels[key][2]}`, value: '2' },
-  ];
-
-  const radioButtonProps = {
-    name: key,
-    label:
-      'Do you want to change your name, discharge date, or anything written in the “other remarks” section of your DD214?',
-    'label-header-level': '2',
-    key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    onMouseDown: scrollToLast,
-    onKeyDown: handleKeyDown,
-  };
+    [router, viewedIntroPage],
+  );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={intention}
+      H1={H1}
+      responses={[INTENTION_YES, INTENTION_NO]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-intention"
+      valueSetter={setIntention}
+    />
   );
 };
 
 Intention.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setIntention: PropTypes.func,
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default Intention;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setIntention: updateIntention,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Intention);

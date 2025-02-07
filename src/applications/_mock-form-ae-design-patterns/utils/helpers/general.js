@@ -66,3 +66,11 @@ export function parseVeteranGender(birthsex) {
 export function replaceStrValues(src, val, char = '%s') {
   return src && val ? src.toString().replace(char, val) : '';
 }
+
+/**
+ * Helper to format a phone number string into a specific format
+ * @param {String} num - the phone number string to format
+ * @returns {String} - the formatted phone number string
+ */
+export const formatPhoneNumber = num =>
+  `(${num.substring(0, 3)}) ${num.substring(3, 6)}-${num.substring(6, 10)}`;

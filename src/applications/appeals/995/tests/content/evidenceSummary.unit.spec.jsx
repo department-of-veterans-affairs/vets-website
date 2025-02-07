@@ -21,9 +21,15 @@ describe('evidenceSummary', () => {
         'action-link-click-label': 'Add more evidence',
         'action-link-icon-color': 'green',
       });
-      expect(getByRole('heading').textContent).to.contain(
-        'Are you missing evidence?',
-      );
+      const header = getByRole('heading');
+      expect(header.tagName).to.eq('H4');
+      expect(header.textContent).to.contain('Are you missing evidence?');
+    });
+
+    it('should render an h5 on the review page', () => {
+      window.location = { pathname: '/review-and-submit' };
+      const { getByRole } = render(<div>{content.addMoreLink()}</div>);
+      expect(getByRole('heading').tagName).to.eq('H5');
     });
   });
 });

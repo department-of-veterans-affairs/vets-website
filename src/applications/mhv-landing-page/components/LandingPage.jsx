@@ -20,7 +20,6 @@ import {
   isLOA3,
   isVAPatient,
   personalizationEnabled,
-  mrPhase1Enabled,
   isAuthenticatedWithSSOe,
 } from '../selectors';
 import manifest from '../manifest.json';
@@ -32,7 +31,6 @@ const LandingPage = ({ data = {} }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showLearnMore = !useSelector(mrPhase1Enabled) && userRegistered;
 
   return (
     <>
@@ -41,7 +39,7 @@ const LandingPage = ({ data = {} }) => {
         className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--5"
         data-testid="landing-page-container"
       >
-        <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+        <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
           <VaBreadcrumbs
             homeVeteransAffairs
             breadcrumbList={[
@@ -55,7 +53,6 @@ const LandingPage = ({ data = {} }) => {
           />
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
-            showLearnMore={showLearnMore}
             ssoe={ssoe}
             showMhvGoBack={userRegistered}
           />
@@ -63,7 +60,7 @@ const LandingPage = ({ data = {} }) => {
           {userRegistered && <CardLayout data={cards} />}
         </div>
         {userRegistered && (
-          <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
             <div className="vads-l-row vads-u-margin-top--3">
               <div className="vads-l-col medium-screen:vads-l-col--8">
                 <HelpdeskInfo />

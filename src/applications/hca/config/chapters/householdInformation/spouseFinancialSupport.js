@@ -1,8 +1,8 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { LAST_YEAR } from '../../../utils/constants';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { SpouseFinancialSupportDescription } from '../../../components/FormDescriptions';
 
-const { provideSupportLastYear } = fullSchemaHca.properties;
+const { provideSupportLastYear } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

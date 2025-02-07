@@ -2,14 +2,32 @@
 
 .vaos-appts__block-label {
   margin: 0;
-  margin-bottom: map-get($spacers, 0p5);
-  font-size: $base-font-size;
-  font-family: $font-sans;
+  margin-bottom: 0.25rem; // still computes to 4px
   line-height: 1.5em;
 }
 
 .vaos-form__checkbox > .schemaform-label {
   margin-top: 0;
+}
+
+.vaos-form__radio-field, .vaos-form__radio-field-descriptive {
+  va-radio {
+    max-width: none;
+  }
+  va-radio::part(legend) {
+    max-width: none;
+    margin-bottom: 0;
+  }
+}
+
+.vaos-form__radio-field-descriptive {
+  input[type="radio"] + label {
+    font-weight: bold;
+    span {
+      font-weight: normal;
+      font-size: var(--base-font-size);
+    }
+  }
 }
 
 .vaos-form__detailed-radio {

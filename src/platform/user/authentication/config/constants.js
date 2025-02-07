@@ -5,13 +5,11 @@ import { EXTERNAL_APPS } from '../constants';
 export const defaultSignInProviders = {
   logingov: true,
   idme: true,
-  dslogon: true,
-  mhv: true,
 };
 
-export const defaultSignUpProviders = {
-  logingov: true,
-  idme: true,
+export const legacySignInProviders = {
+  mhv: false,
+  dslogon: true,
 };
 
 export const defaultMobileQueryParams = {

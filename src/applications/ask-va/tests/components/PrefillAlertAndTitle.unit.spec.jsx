@@ -25,11 +25,35 @@ describe('PrefillAlertAndTitle Component', () => {
 
     expect(
       getByText(
-        'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below. Any updates you make here to your contact information will only apply to this form.',
+        'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below. Any updates you make here will only apply to this form.',
       ),
     ).to.exist;
 
     expect(getByText('Your contact information')).to.exist;
+  });
+
+  it('should render the prefill alert with a custom title', () => {
+    const store = mockStore({
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+    });
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <PrefillAlertAndTitle title="Your postal code" />
+      </Provider>,
+    );
+
+    expect(
+      getByText(
+        'We’ve prefilled some of your information from your account. If you need to correct anything, you can edit the form fields below. Any updates you make here will only apply to this form.',
+      ),
+    ).to.exist;
+
+    expect(getByText('Your postal code')).to.exist;
   });
 
   it('should only render the title when not logged in', () => {

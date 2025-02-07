@@ -24,25 +24,11 @@ export const tabsConfig = {
   ],
   pattern2: [
     {
-      name: 'Red',
-      path: '/2/task-red',
-      description: 'Pattern 2 - Red Task',
-      bgColor: '--vads-color-secondary-darkest',
-      textColor: '--vads-color-white',
-    },
-    {
-      name: 'Pink',
-      path: '/2/task-pink',
-      description: 'Pattern 2 - Pink Task',
-      bgColor: '--vads-color-secondary-light',
-      textColor: '--vads-color-black',
-    },
-    {
       name: 'Orange',
       path: '/2/task-orange',
 
       description: 'Pattern 2 - Orange Task',
-      bgColor: '--uswds-system-color-orange-40',
+      bgColor: '--vads-color-orange',
       textColor: '--vads-color-black',
     },
     {
@@ -50,6 +36,27 @@ export const tabsConfig = {
       path: '/2/task-gray',
       description: 'Pattern 2 - Gray Task',
       bgColor: '--vads-color-gray-warm-dark',
+      textColor: '--vads-color-white',
+    },
+    {
+      name: 'Blue',
+      path: '/2/task-blue',
+      description: 'Pattern 2 - Blue Task',
+      bgColor: '--vads-color-primary-dark',
+      textColor: '--vads-color-white',
+    },
+    {
+      name: 'Post Study',
+      path: '/2/post-study',
+      description: 'Pattern 2 - Post Study Review',
+      bgColor: '--vads-color-warning',
+      textColor: '--vads-color-black',
+    },
+    {
+      name: 'Personal Info Demo',
+      path: '/2/personal-information-demo',
+      description: 'Pattern 2 - Personal Information Demo',
+      bgColor: '--vads-color-secondary-darkest',
       textColor: '--vads-color-white',
     },
   ],

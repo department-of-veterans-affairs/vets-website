@@ -276,6 +276,7 @@ describe('<ContestableIssues>', () => {
     const props = getProps({
       apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
       loadedIssues: [],
+      additionalIssues: [],
     });
     const { container } = render(
       <ContestableIssues {...props} contestedIssues={[]} />,
@@ -288,12 +289,36 @@ describe('<ContestableIssues>', () => {
   });
 
   it('should show "no loaded issues" alert when none loaded', async () => {
-    const props = getProps({ loadedIssues: [] });
+    const props = getProps({ loadedIssues: [], additionalIssues: [] });
     const { container } = render(<ContestableIssues {...props} />);
     expect($$('va-alert', container).length).to.equal(1);
     expect($('va-alert', container).innerHTML).to.contain(
       'we couldn’t find any eligible issues',
     );
+  });
+
+  it('should not show an alert when api fails but there are existing additional issues', async () => {
+    const props = getProps({
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
+      loadedIssues: [],
+    });
+    const { container } = render(
+      <ContestableIssues {...props} contestedIssues={[]} />,
+    );
+
+    expect($$('va-alert', container).length).to.equal(0);
+  });
+
+  it('should not show an alert when api is successful, and after adding an additional issues', async () => {
+    const props = getProps({
+      apiLoadStatus: FETCH_CONTESTABLE_ISSUES_FAILED,
+      loadedIssues: [],
+    });
+    const { container } = render(
+      <ContestableIssues {...props} contestedIssues={[]} />,
+    );
+
+    expect($$('va-alert', container).length).to.equal(0);
   });
 
   it('should not show an alert if no issues are loaded, and after all additional issues are removed', async () => {

@@ -256,18 +256,25 @@ const DEFAULT_SCHEMA_COUNTRY_CODE =
   })?.schemaValue || 'USA';
 
 export function getLTSCountryCode(schemaCountryValue) {
+  if (!schemaCountryValue || typeof schemaCountryValue !== 'string') {
+    // Return 'ZZ' if the input is invalid
+    return 'ZZ';
+  }
+
   // Start by assuming the input is a three-character code.
   let country = countries.find(
     countryInfo => countryInfo.schemaValue === schemaCountryValue,
   );
+
   // If no match was found, and the input is a two-character code, try to match against the ltsValue.
   if (!country && schemaCountryValue.length === 2) {
     country = countries.find(
       countryInfo => countryInfo.ltsValue === schemaCountryValue,
     );
   }
+
   // If a country was found, return the two-character code. If not, return 'ZZ' for unknown.
-  return country?.ltsValue ? country.ltsValue : 'ZZ'; // 'ZZ' is the LTS code for unknown.
+  return country?.ltsValue || 'ZZ'; // 'ZZ' is the LTS code for unknown.
 }
 
 export function getSchemaCountryCode(inputSchemaValue) {
@@ -359,7 +366,10 @@ export function createMilitaryClaimant(submissionForm) {
   );
   // Construct And Return the claimant object
   return {
-    claimantId: submissionForm[formFields.claimantId],
+    claimantId:
+      submissionForm[formFields.claimantId] === 100
+        ? ''
+        : submissionForm[formFields.claimantId],
     firstName: userFullName?.first,
     middleName: userFullName?.middle,
     lastName: userFullName?.last,
@@ -415,62 +425,85 @@ function getExclusionMessage(exclusionType, exclusionPeriods) {
     ? messages[exclusionType]
     : null;
 }
+
 export function createAdditionalConsiderations(submissionForm) {
-  if (submissionForm?.mebExclusionPeriodEnabled) {
-    const exclusionPeriods = submissionForm.exclusionPeriods || [];
-    const mapping = {
-      academyRotcScholarship: {
-        formKey: 'federallySponsoredAcademy',
-        exclusionType: 'Academy',
-      },
-      seniorRotcScholarship: {
-        formKey: 'seniorRotcCommission',
-        exclusionType: 'ROTC',
-      },
-      activeDutyDodRepayLoan: {
-        formKey: 'loanPayment',
-        exclusionType: 'LRP',
-      },
-      activeDutyKicker: {
-        formKey: 'activeDutyKicker',
-        exclusionType: null,
-      },
-      reserveKicker: {
-        formKey: 'selectedReserveKicker',
-        exclusionType: null,
-      },
-    };
-    return Object.entries(mapping).reduce(
-      (acc, [key, { formKey, exclusionType }]) => {
-        const value = submissionForm[formKey];
-        const exclusionMessage = exclusionType
-          ? getExclusionMessage(exclusionType, exclusionPeriods)
-          : '';
-        acc[key] =
-          setAdditionalConsideration(value) +
-          (exclusionMessage ? ` - ${exclusionMessage}` : '');
-        return acc;
-      },
-      {},
-    );
-  }
-  return {
-    activeDutyKicker: setAdditionalConsideration(
-      submissionForm.activeDutyKicker,
-    ),
-    academyRotcScholarship: setAdditionalConsideration(
-      submissionForm.federallySponsoredAcademy,
-    ),
-    reserveKicker: setAdditionalConsideration(
-      submissionForm.selectedReserveKicker,
-    ),
-    seniorRotcScholarship: setAdditionalConsideration(
-      submissionForm.seniorRotcCommission,
-    ),
-    activeDutyDodRepayLoan: setAdditionalConsideration(
-      submissionForm.loanPayment,
-    ),
+  const exclusionPeriods = submissionForm.exclusionPeriods || [];
+
+  const mapping = {
+    academyRotcScholarship: {
+      formKey: 'federallySponsoredAcademy',
+      exclusionType: 'Academy',
+    },
+    seniorRotcScholarship: {
+      formKey: 'seniorRotcCommission',
+      exclusionType: 'ROTC',
+    },
+    activeDutyDodRepayLoan: {
+      formKey: 'loanPayment',
+      exclusionType: 'LRP',
+    },
+    activeDutyKicker: {
+      formKey: 'activeDutyKicker',
+      exclusionType: null,
+      notificationMessage:
+        'Department of Defense data shows you are potentially eligible for an active-duty kicker.',
+      eligibilityFlag: 'eligibleForActiveDutyKicker',
+    },
+    reserveKicker: {
+      formKey: 'selectedReserveKicker',
+      exclusionType: null,
+      notificationMessage:
+        'Department of Defense data shows you are potentially eligible for a reserve kicker.',
+      eligibilityFlag: 'eligibleForReserveKicker',
+    },
+    sixHundredDollarBuyUp: {
+      formKey: 'sixHundredDollarBuyUp',
+      exclusionType: null,
+    },
   };
+
+  const { mebKickerNotificationEnabled } = submissionForm;
+
+  return Object.entries(mapping).reduce(
+    (
+      acc,
+      [key, { formKey, exclusionType, notificationMessage, eligibilityFlag }],
+    ) => {
+      const value = submissionForm[formKey];
+
+      let message = setAdditionalConsideration(value);
+
+      // Append exclusion message if applicable
+      if (exclusionType) {
+        const exclusionMessage = getExclusionMessage(
+          exclusionType,
+          exclusionPeriods,
+        );
+        if (exclusionMessage) {
+          message += ` - ${exclusionMessage}`;
+        }
+      }
+
+      // Append notification message for kicker fields if:
+      // 1. Notification is enabled
+      // 2. Applicant is eligible for the kicker
+      // 3. Applicant has answered 'Yes' or 'No'
+      if (
+        notificationMessage &&
+        mebKickerNotificationEnabled &&
+        submissionForm[eligibilityFlag] === true &&
+        value &&
+        (value.toLowerCase() === 'yes' || value.toLowerCase() === 'no')
+      ) {
+        message += ` - ${notificationMessage}`;
+      }
+
+      acc[key] = message;
+
+      return acc;
+    },
+    {},
+  );
 }
 
 function getTodayDate() {
@@ -479,27 +512,55 @@ function getTodayDate() {
 }
 
 export function createComments(submissionForm) {
-  if (submissionForm['view:serviceHistory'].serviceHistoryIncorrect) {
-    if (submissionForm.incorrectServiceHistoryExplanation) {
+  const serviceHistoryIncorrect =
+    submissionForm['view:serviceHistory']?.serviceHistoryIncorrect;
+
+  if (serviceHistoryIncorrect) {
+    const explanation = submissionForm.incorrectServiceHistoryExplanation || {};
+
+    // Remove commas, newlines, and normalize excessive whitespace
+    const incorrectServiceHistoryText = explanation.incorrectServiceHistoryText
+      ? explanation.incorrectServiceHistoryText
+          .replace(/,/g, '') // Remove commas
+          .replace(/\n/g, ' ') // Replace newlines with spaces
+          .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+          .trim() // Remove leading/trailing whitespace
+      : '';
+
+    const incorrectServiceHistoryInputs =
+      explanation.incorrectServiceHistoryInputs || {};
+
+    if (
+      !incorrectServiceHistoryText &&
+      !Object.keys(incorrectServiceHistoryInputs).length
+    ) {
       return {
+        disagreeWithServicePeriod: true,
         claimantComment: {
           commentDate: getTodayDate(),
-          comments: submissionForm?.showMebServiceHistoryCategorizeDisagreement
-            ? submissionForm.incorrectServiceHistoryExplanation
-            : submissionForm.incorrectServiceHistoryExplanation
-                .incorrectServiceHistoryText,
+          comments: {
+            incorrectServiceHistoryInputs: {}, // Default empty inputs
+            incorrectServiceHistoryText: '', // Default empty text
+          },
         },
-        disagreeWithServicePeriod: true,
       };
     }
+
     return {
-      claimantComment: {},
       disagreeWithServicePeriod: true,
+      claimantComment: {
+        commentDate: getTodayDate(),
+        comments: {
+          incorrectServiceHistoryInputs,
+          incorrectServiceHistoryText,
+        },
+      },
     };
   }
+
   return {
-    claimantComment: {},
     disagreeWithServicePeriod: false,
+    claimantComment: {}, // Default empty object for no disagreement
   };
 }
 
@@ -531,18 +592,7 @@ export function createDirectDeposit(submissionForm) {
 }
 
 export function createSubmissionForm(submissionForm, formId) {
-  if (submissionForm?.meb160630Automation) {
-    return {
-      formId,
-      '@type': submissionForm?.chosenBenefit,
-      claimant: createMilitaryClaimant(submissionForm),
-      relinquishedBenefit: createRelinquishedBenefit(submissionForm),
-      additionalConsiderations: createAdditionalConsiderations(submissionForm),
-      comments: createComments(submissionForm),
-      directDeposit: createDirectDeposit(submissionForm),
-    };
-  }
-  return {
+  const submissionData = {
     formId,
     claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
@@ -550,4 +600,16 @@ export function createSubmissionForm(submissionForm, formId) {
     comments: createComments(submissionForm),
     directDeposit: createDirectDeposit(submissionForm),
   };
+  // Conditionally add the @type (chosenBenefit) only if meb160630Automation is true
+  if (submissionForm?.meb160630Automation) {
+    if (submissionForm?.chosenBenefit === 'chapter1606') {
+      submissionData['@type'] = 'Chapter1606Submission';
+    } else if (submissionForm?.chosenBenefit === 'chapter30') {
+      submissionData['@type'] = 'Chapter30Submission';
+    } else {
+      submissionData['@type'] = 'Chapter33Submission';
+    }
+  }
+
+  return submissionData;
 }

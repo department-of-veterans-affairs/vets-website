@@ -21,8 +21,18 @@ const props = {
   showClaimLettersLink: false,
 };
 
-const getStore = (cstUseClaimDetailsV2Enabled = true) =>
+const getStore = (
+  cstUseClaimDetailsV2Enabled = true,
+  decisionRequested = false,
+) =>
   createStore(() => ({
+    disability: {
+      status: {
+        claimAsk: {
+          decisionRequested, // Added since WhatYouNeedToDo section looks for this
+        },
+      },
+    },
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
@@ -190,7 +200,10 @@ describe('<ClaimStatusPage>', () => {
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
-            expect($('va-alert', container)).not.to.exist;
+            expect($('va-alert .primary-alert', container)).not.to.exist;
+            expect($('va-alert p', container).textContent).to.equal(
+              "We can't show all of the details of your claim. Please check back later.",
+            );
             expect($('.need-files-alert', container)).not.to.exist;
           });
 
@@ -246,7 +259,12 @@ describe('<ClaimStatusPage>', () => {
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');
             expect($('.recent-activity-container', container)).to.exist;
-            expect($('va-alert', container)).to.exist;
+            expect($('va-alert h4', container).textContent).to.equal(
+              claim.attributes.trackedItems[0].displayName,
+            );
+            expect($('va-alert p', container).textContent).to.equal(
+              "We can't show all of the details of your claim. Please check back later.",
+            );
           });
         },
       );

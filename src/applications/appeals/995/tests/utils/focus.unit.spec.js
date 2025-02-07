@@ -5,6 +5,7 @@ import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import * as focusUtils from 'platform/utilities/ui/focus';
+import * as focusReview from 'platform/forms-system/src/js/utilities/ui/focus-review';
 
 import { focusEvidence, focusH3AfterAlert } from '../../utils/focus';
 
@@ -39,32 +40,14 @@ describe('focusEvidence', () => {
 
 describe('focusH3AfterAlert', () => {
   let focusElementSpy;
+  let focusReviewSpy;
   beforeEach(() => {
     focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+    focusReviewSpy = sinon.stub(focusReview, 'focusReview');
   });
   afterEach(() => {
     focusElementSpy.restore();
-  });
-  // set offsets source:
-  // https://github.com/testing-library/react-testing-library/issues/353#issuecomment-510046921
-  const getOffset = name =>
-    Object.getOwnPropertyDescriptor(HTMLElement.prototype, name);
-  const setOffset = (name, value) =>
-    Object.defineProperty(HTMLElement.prototype, name, value);
-
-  const offsets = {
-    height: getOffset('offsetHeight'),
-    width: getOffset('offsetWidth'),
-  };
-  const testOffsets = { configurable: true, value: 10 };
-
-  beforeEach(() => {
-    setOffset('offsetHeight', testOffsets);
-    setOffset('offsetWidth', testOffsets);
-  });
-  afterEach(() => {
-    setOffset('offsetHeight', offsets.height);
-    setOffset('offsetWidth', offsets.width);
+    focusReviewSpy.restore();
   });
 
   const setup = () =>
@@ -97,7 +80,7 @@ describe('focusH3AfterAlert', () => {
 
     await focusH3AfterAlert({ name: 'test', onReviewPage: true });
     await waitFor(() => {
-      expect(focusElementSpy.args[0][0].id).to.eq('alert');
+      expect(focusReviewSpy.args[0]).to.deep.equal(['test', true, true]);
     });
   });
 });

@@ -3,11 +3,9 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { showNewHlrContent } from '../utils/helpers';
 import { homelessPageHeader } from '../content/homeless';
 
 import {
-  homelessTitle,
   homelessRiskTitle,
   homelessLabels,
   homelessReviewField,
@@ -21,19 +19,9 @@ export default {
     },
     homeless: {
       ...yesNoUI({
-        title: homelessTitle,
+        title: homelessRiskTitle,
         enableAnalytics: true,
-        labelHeaderLevel: '3',
         labels: homelessLabels,
-        updateUiSchema: formData => {
-          const showNew = showNewHlrContent(formData);
-          return {
-            'ui:title': showNew ? homelessRiskTitle : homelessTitle,
-            'ui:options': {
-              labelHeaderLevel: showNew ? '' : '3',
-            },
-          };
-        },
       }),
       'ui:reviewField': homelessReviewField,
     },

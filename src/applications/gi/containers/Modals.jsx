@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import recordEvent from 'platform/monitoring/record-event';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import * as actions from '../actions';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
@@ -34,7 +34,7 @@ export function Modals({ hideModal, modals, profile }) {
   const shouldDisplayModal = modal => modals.displaying === modal;
 
   const renderProfilePageModals = () => (
-    <span>
+    <>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('retention')}
@@ -169,24 +169,22 @@ export function Modals({ hideModal, modals, profile }) {
           month, we’ll prorate your housing payment for the days you train.
         </p>
       </VaModal>
-    </span>
+    </>
   );
 
   const renderProfileSchoolHeaderModals = () => (
-    <span>
-      <VaModal
-        onCloseEvent={hideModal}
-        visible={shouldDisplayModal('gibillstudents')}
-        modalTitle="GI Bill students"
-        large
-      >
-        <GiBillStudentsModalContent />
-      </VaModal>
-    </span>
+    <VaModal
+      onCloseEvent={hideModal}
+      visible={shouldDisplayModal('gibillstudents')}
+      modalTitle="GI Bill students"
+      large
+    >
+      <GiBillStudentsModalContent />
+    </VaModal>
   );
 
   const renderProfileVeteranSummaryModals = () => (
-    <span>
+    <div>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('vetgroups')}
@@ -253,26 +251,24 @@ export function Modals({ hideModal, modals, profile }) {
       >
         <div>
           <p>
-            <p>
-              Under the GI Bill you’re eligible to receive a monthly housing
-              allowance. We calculate this monthly housing allowance based on
-              where you take classes.
-            </p>
-            <p>
-              If you use Post-9/11 GI Bill benefits to take at least 1 in-person
-              class, your housing allowance is based on where you do most of
-              your coursework. If you take online courses only, your housing
-              allowance is based on 50% of the national average.
-            </p>
-            <p>
-              Through Dec. 21, 2021, current and new students can receive
-              in-person allowance rates if their school’s approved program
-              changed from in-person to online learning due to COVID-19.
-            </p>
-            <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
-              View the current housing allowance payment rates
-            </a>
+            Under the GI Bill you’re eligible to receive a monthly housing
+            allowance. We calculate this monthly housing allowance based on
+            where you take classes.
           </p>
+          <p>
+            If you use Post-9/11 GI Bill benefits to take at least 1 in-person
+            class, your housing allowance is based on where you do most of your
+            coursework. If you take online courses only, your housing allowance
+            is based on 50% of the national average.
+          </p>
+          <p>
+            Through Dec. 21, 2021, current and new students can receive
+            in-person allowance rates if their school’s approved program changed
+            from in-person to online learning due to COVID-19.
+          </p>
+          <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
+            View the current housing allowance payment rates
+          </a>
         </div>
       </VaModal>
       <VaModal
@@ -314,11 +310,11 @@ export function Modals({ hideModal, modals, profile }) {
       >
         <VeteranSuccessModalContent />
       </VaModal>
-    </span>
+    </div>
   );
 
   const renderProfileSummaryModals = () => (
-    <span>
+    <>
       <LearnMoreAccreditedContent
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('accredited')}
@@ -358,64 +354,11 @@ export function Modals({ hideModal, modals, profile }) {
       >
         <IndependentStudyModalContent />
       </VaModal>
-
-      <VaModal
-        onCloseEvent={hideModal}
-        visible={shouldDisplayModal('section103')}
-        modalTitle="Protection against late VA payments"
-        large
-      >
-        <p>
-          If VA is late making a tuition payment to a GI Bill school, the school
-          can’t prevent a GI Bill student from attending classes or accessing
-          school facilities.
-        </p>
-        <p>
-          Schools may require students to provide proof of their GI Bill
-          eligibility in the form of:
-        </p>
-        <ul>
-          <li>
-            Certificate of Eligibility (COE) <strong>or</strong>
-          </li>
-          <li>
-            Certificate of Eligibility (COE) and additional criteria like an
-            award letter or other documents the school specifies
-          </li>
-        </ul>
-        <p>
-          <strong>
-            In addition, schools can’t charge late fees or otherwise penalize GI
-            Bill students if VA is late making a tuition and/or fees payment.
-          </strong>{' '}
-          This restriction on penalties doesn’t apply if the student owes
-          additional fees to the school beyond the tuition and fees that VA
-          pays. Students are protected from these penalties for up to 90 days
-          from the beginning of the term.
-        </p>
-        <p>
-          Contact the School Certifying Official (SCO) to learn more about the
-          school’s policy.{' '}
-          <a
-            href="https://benefits.va.gov/gibill/fgib/transition_act.asp"
-            onClick={() => {
-              recordEvent({
-                event: 'gibct-modal-link-click',
-              });
-            }}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our policy on protecting students from late VA payments
-          </a>
-          .
-        </p>
-      </VaModal>
-    </span>
+    </>
   );
 
   const renderProfileHistoryModals = () => (
-    <span>
+    <>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('facilityCode')}
@@ -439,11 +382,11 @@ export function Modals({ hideModal, modals, profile }) {
       >
         <OpeCodeModalContent />
       </VaModal>
-    </span>
+    </>
   );
 
   const renderProfileCautionFlagModals = () => (
-    <span>
+    <>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('cautionInfo')}
@@ -553,7 +496,7 @@ export function Modals({ hideModal, modals, profile }) {
           page.
         </p>
       </VaModal>
-    </span>
+    </>
   );
 
   const renderProfileCalculatorModals = () => {
@@ -585,7 +528,7 @@ export function Modals({ hideModal, modals, profile }) {
       : `http://${profile.attributes.inStateTuitionInformation}`;
 
     return (
-      <span>
+      <>
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcTuition')}
@@ -634,16 +577,6 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcInStateTuition')}
-          Your
-          housing
-          allowance
-          is
-          determined
-          by
-          where
-          you
-          take
-          classes
           modalTitle="In-state tuition and fees per year"
           large
         >
@@ -815,12 +748,12 @@ export function Modals({ hideModal, modals, profile }) {
             </a>
           </p>
         </VaModal>
-      </span>
+      </>
     );
   };
 
   const renderLandingPageModals = () => (
-    <span>
+    <>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('giBillChapter')}
@@ -963,11 +896,11 @@ export function Modals({ hideModal, modals, profile }) {
           .
         </p>
       </VaModal>
-    </span>
+    </>
   );
 
   const renderVetTecSearchResultsModals = () => (
-    <span>
+    <>
       <VaModal
         onCloseEvent={hideModal}
         visible={shouldDisplayModal('preferredProvider')}
@@ -1010,12 +943,12 @@ export function Modals({ hideModal, modals, profile }) {
           .
         </p>
       </VaModal>
-    </span>
+    </>
   );
 
   const renderComparePageModals = () => {
     return (
-      <span>
+      <>
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('sizeOfInstitution')}
@@ -1036,12 +969,12 @@ export function Modals({ hideModal, modals, profile }) {
         >
           <CautionFlagsModalContent />
         </VaModal>
-      </span>
+      </>
     );
   };
 
   return (
-    <span>
+    <>
       {renderLandingPageModals()}
       {renderProfilePageModals()}
       {renderProfileSchoolHeaderModals()}
@@ -1052,7 +985,7 @@ export function Modals({ hideModal, modals, profile }) {
       {renderProfileCalculatorModals()}
       {renderVetTecSearchResultsModals()}
       {renderComparePageModals()}
-    </span>
+    </>
   );
 }
 
@@ -1066,6 +999,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(actions.showModal(null));
   },
 });
+
+Modals.propTypes = {
+  hideModal: PropTypes.func.isRequired,
+  modals: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+};
 
 export default connect(
   mapStateToProps,

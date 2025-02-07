@@ -1,18 +1,18 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import { ServiceDateRangeDescription } from '../../../components/FormDescriptions';
 import DateRangeDescription from '../../../components/FormDescriptions/DateRangeDescription';
 import { validateGulfWarDates } from '../../../utils/validation';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import { emptyObjectSchema } from '../../../definitions';
 
-const { gulfWarStartDate, gulfWarEndDate } = fullSchemaHca.properties;
+const { gulfWarStartDate, gulfWarEndDate } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
     ...titleUI(
-      'Service dates for Gulf War locations',
-      'Enter any date range you served in a Gulf War location. You don\u2019t need to have exact dates.',
+      'Service dates after August 2, 1990',
+      'Enter any date range you served in a Gulf War location on or after August 2, 1990. You don\u2019t need to have exact dates.',
     ),
     'view:gulfWarServiceDates': {
       gulfWarStartDate: {

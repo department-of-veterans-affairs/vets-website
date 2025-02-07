@@ -3,10 +3,7 @@ import { customButtonGroupContinue } from '../fixtures/helpers';
 const fillEmploymentInformation = employer => {
   // enhanced-employment-records
   // enhanced-spouse-employment-records
-  cy.get('#type')
-    .shadow()
-    .find('select')
-    .select(employer.type);
+  cy.get('va-radio-option[value="Part time"]').click();
   cy.get('#employer-name')
     .shadow()
     .find('input')
@@ -86,6 +83,7 @@ const employmentInformationLoop = employers => {
       cy.get('.vads-c-action-link--green').click();
     }
   }
+
   cy.get('va-card')
     .as('EmploymentCards')
     .should('have.length', employers.length);

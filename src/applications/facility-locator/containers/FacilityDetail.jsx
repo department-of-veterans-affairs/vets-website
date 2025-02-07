@@ -13,7 +13,6 @@ import LocationPhoneLink from '../components/search-results-items/common/Locatio
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import { FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
-import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
 
 import OperationStatus from '../components/facility-details/OperationStatus';
 
@@ -70,10 +69,14 @@ class FacilityDetail extends Component {
         </div>
         {website &&
           website !== 'NULL' && (
-            <>
+            <p className="vads-u-margin--0">
               <va-icon icon="language" size="3" />
-              <va-link href={website} text="Website" />
-            </>
+              <va-link
+                class="vads-u-margin-left--0p5"
+                href={website}
+                text="Website"
+              />
+            </p>
           )}
         <div>
           <LocationDirectionsLink location={facility} from="FacilityDetail" />
@@ -92,7 +95,7 @@ class FacilityDetail extends Component {
   }
 
   render() {
-    const { facility, currentQuery, showHoursSpecialInstructions } = this.props;
+    const { facility, currentQuery } = this.props;
 
     if (!facility) {
       return null;
@@ -111,7 +114,7 @@ class FacilityDetail extends Component {
 
     return (
       <div className="row facility-detail all-details" id="facility-detail-id">
-        <div className="usa-width-two-thirds medium-8 columns">
+        <div className="usa-width-two-thirds medium-7 columns vads-u-margin-right--2">
           <div>
             {this.renderFacilityInfo()}
             <ServicesAtFacility facility={facility} />
@@ -124,10 +127,7 @@ class FacilityDetail extends Component {
           <div>
             <LocationMap info={facility} />
             <div className="vads-u-margin-bottom--4">
-              <LocationHours
-                location={facility}
-                showHoursSpecialInstructions={showHoursSpecialInstructions}
-              />
+              <LocationHours location={facility} />
             </div>
           </div>
         </div>
@@ -144,9 +144,6 @@ function mapStateToProps(state) {
   return {
     facility: state.searchResult.selectedResult,
     currentQuery: state.searchQuery,
-    showHoursSpecialInstructions: facilityLocatorShowOperationalHoursSpecialInstructions(
-      state,
-    ),
   };
 }
 
@@ -160,5 +157,4 @@ FacilityDetail.propTypes = {
   facility: PropTypes.object,
   fetchVAFacility: PropTypes.func,
   params: PropTypes.object,
-  showHoursSpecialInstructions: PropTypes.bool,
 };

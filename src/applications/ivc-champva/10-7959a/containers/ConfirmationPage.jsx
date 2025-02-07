@@ -95,9 +95,9 @@ export class ConfirmationPage extends React.Component {
           <br />
           ATTN: APPEALS
           <br />
-          PO Box 460948
+          PO Box 600
           <br />
-          Denver, CO 80246-0948
+          Spring City, PA 19475
           <br />
         </p>
         <h2>How to contact us about CHAMPVA claims</h2>
@@ -115,9 +115,9 @@ export class ConfirmationPage extends React.Component {
             <br />
             ATTN: CHAMPVA Claims
             <br />
-            PO Box 460948
+            PO Box 500
             <br />
-            Denver, CO 80246-0948
+            Spring City, PA 19475
             <br />
           </p>
           <p>You can also contact us online through Ask VA.</p>

@@ -24,6 +24,8 @@
   "form-title": "Apply for VA health care",
   "form-subtitle": "Enrollment Application for Health Benefits (VA Form 10-10EZ)",
   "insurance-info--facility-title": "VA facility",
+  "insurance-info--facility-description": "Select your preferred VA medical facility",
+  "insurance-info--appointment-label": "Do you want VA to contact you to schedule your first appointment?",
   "insurance-info--policy-title": "Health insurance information",
   "insurance-info--array-noun-singular": "health insurance policy",
   "insurance-info--array-noun-plural": "health insurance policies",

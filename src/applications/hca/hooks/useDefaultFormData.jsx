@@ -2,9 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { selectFeatureToggles } from '../utils/selectors/feature-toggles';
-import { selectAuthStatus } from '../utils/selectors/auth-status';
-import { parseVeteranDob } from '../utils/helpers';
+import { selectAuthStatus, selectFeatureToggles } from '../utils/selectors';
+import { validateVeteranDob } from '../utils/validation';
 
 /**
  * NOTE: `veteranFullName` is included in the dependency list to reset view fields when
@@ -24,10 +23,8 @@ export const useDefaultFormData = () => {
 
   const { veteranFullName } = formData;
   const {
-    isFacilitiesApiEnabled,
     isInsuranceV2Enabled,
     isRegOnlyEnabled,
-    isSigiEnabled,
   } = featureToggles;
 
   const setFormData = dataToSet => dispatch(setData(dataToSet));
@@ -36,14 +33,16 @@ export const useDefaultFormData = () => {
     () => {
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
-        'view:isSigiEnabled': isSigiEnabled,
         'view:isRegOnlyEnabled': isRegOnlyEnabled,
         'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
-        'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
         'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
       const userData = isLoggedIn
-        ? { 'view:userDob': parseVeteranDob(veteranDob) }
+        ? {
+            'view:veteranInformation': {
+              veteranDateOfBirth: validateVeteranDob(veteranDob),
+            },
+          }
         : {};
 
       setFormData({
@@ -57,10 +56,8 @@ export const useDefaultFormData = () => {
       isLoggedIn,
       veteranDob,
       veteranFullName,
-      isSigiEnabled,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,
-      isFacilitiesApiEnabled,
       totalRating,
     ],
   );

@@ -10,7 +10,11 @@ import {
 } from '../api/SmApi';
 import { addAlert } from './alerts';
 import * as Constants from '../util/constants';
-import { getLastSentMessage, isOlderThan } from '../util/helpers';
+import {
+  getLastSentMessage,
+  isOlderThan,
+  decodeHtmlEntities,
+} from '../util/helpers';
 import { getIsPilotFromState } from '.';
 
 export const clearThread = () => async dispatch => {
@@ -86,8 +90,16 @@ export const retrieveMessageThread = messageId => async (
         threadFolderId,
         cannotReply: isOlderThan(lastSentDate, 45),
         replyToMessageId: response.data[0].attributes.messageId,
-        drafts: drafts.map(m => m.attributes),
-        messages: messages.map(m => m.attributes),
+        drafts: drafts.map(m => ({
+          ...m.attributes,
+          body: decodeHtmlEntities(m.attributes.body),
+          messageBody: decodeHtmlEntities(m.attributes.body),
+        })),
+        messages: messages.map(m => ({
+          ...m.attributes,
+          body: decodeHtmlEntities(m.attributes.body),
+          messageBody: decodeHtmlEntities(m.attributes.body),
+        })),
       },
     });
   } catch (e) {
@@ -176,7 +188,7 @@ export const sendMessage = (message, attachments) => async dispatch => {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
-          '',
+          Constants.Alerts.Headers.HIDE_ALERT,
           Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
         ),
       );
@@ -236,7 +248,7 @@ export const sendReply = (
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_ERROR,
-          '',
+          Constants.Alerts.Headers.HIDE_ALERT,
           Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
         ),
       );

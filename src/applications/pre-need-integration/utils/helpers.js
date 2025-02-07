@@ -1,6 +1,5 @@
 import React from 'react';
 import { merge } from 'lodash';
-import PropTypes from 'prop-types';
 import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
@@ -11,11 +10,11 @@ import { focusElement } from 'platform/utilities/ui';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import { countries } from 'platform/forms/address';
 
 import {
   stringifyFormReplacer,
@@ -32,7 +31,7 @@ import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
-import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
+import { rankLabels } from './rankLabels';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -290,7 +289,7 @@ export const nonVeteranApplicantDetailsDescriptionPreparer =
 export const applicantContactInfoAddressTitle = 'Your mailing address';
 
 export const applicantContactInfoPreparerAddressTitle =
-  'Applicant’s mailing address';
+  'Applicant mailing address';
 
 export const applicantContactInfoSubheader = (
   <div className="applicantContactInfoSubheader">
@@ -513,15 +512,13 @@ export const relationshipToVetPreparerOptions = getRelationshipToVetOptions(
   'Applicant is the Veteran or service member',
 );
 
-export const applicantDetailsCityTitle = 'Your birth city or county';
+export const applicantDetailsCityTitle = 'Your birth city';
 
-export const applicantDetailsStateTitle = 'Your birth state or territory';
+export const applicantDetailsStateTitle = 'Your birth state';
 
-export const applicantDetailsPreparerCityTitle =
-  'Applicant’s birth city or county';
+export const applicantDetailsPreparerCityTitle = 'Applicant’s birth city';
 
-export const applicantDetailsPreparerStateTitle =
-  'Applicant’s birth state or territory';
+export const applicantDetailsPreparerStateTitle = 'Applicant’s birth state';
 
 export const applicantDemographicsGenderTitle = 'What’s your sex?';
 
@@ -619,6 +616,12 @@ export function isAuthorizedAgent(item) {
 export function requiresSponsorInfo(item) {
   const sponsor = item['view:sponsor'];
   return sponsor === undefined || sponsor === 'Other';
+}
+
+export function hasServiceRecord(item) {
+  const serviceRecords =
+    get('serviceRecords', item) || get('formData.serviceRecords', item);
+  return !(serviceRecords === undefined || serviceRecords.length === 0);
 }
 
 export function formatName(name) {
@@ -781,39 +784,8 @@ export const preparerDateOfBirthUI = currentOrPastDateUI(
   'Applicant’s date of birth',
 );
 
-class SSNWidget extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { val: props.value };
-  }
-
-  handleChange = val => {
-    // Insert dashes if they are missing.
-    // Keep if value is valid and formatted with dashes.
-    // Set empty value to undefined.
-    const formattedSSN =
-      (val && /^\d{9}$/.test(val)
-        ? `${val.substr(0, 3)}-${val.substr(3, 2)}-${val.substr(5)}`
-        : val) || undefined;
-
-    this.setState({ val }, () => {
-      this.props.onChange(formattedSSN);
-    });
-  };
-
-  render() {
-    return (
-      <TextWidget
-        {...this.props}
-        value={this.state.val}
-        onChange={this.handleChange}
-      />
-    );
-  }
-}
-
 // Modify default uiSchema for SSN to insert any missing dashes.
-export const ssnDashesUI = merge({}, ssnUI, { 'ui:widget': SSNWidget });
+export const ssnDashesUI = ssnUI;
 
 export const preparerSsnDashesUI = merge({}, ssnDashesUI, {
   'ui:title': 'Applicant’s Social Security number',
@@ -923,18 +895,29 @@ export const veteranUI = {
       'ui:title': 'Other',
     },
     'ui:validations': [
-      // require at least one value to be true/checked
+      // require at least one value to be true/checked + custom validation to ensure that "Prefer not to answer" is not selected along with other options
       (errors, fields) => {
-        if (!Object.values(fields).some(val => val === true)) {
-          errors.addError('Please provide a response');
+        const { na, ...otherFields } = fields;
+        const otherSelected = Object.values(otherFields).some(
+          val => val === true,
+        );
+
+        if (na && otherSelected) {
+          errors.addError(
+            'When selecting Prefer not to answer, you can’t have another option.',
+          );
+        } else if (!na && !otherSelected) {
+          errors.addError('Please provide a response.');
         }
       },
     ],
     'ui:options': {
-      hint: 'You can select more than one option.',
+      hint:
+        'You can select more than one option, unless you prefer not to answer.',
       showFieldLabel: true,
     },
   },
+
   raceComment: {
     'ui:title': 'Enter the race that best describes you',
     'ui:widget': 'textarea',
@@ -1094,91 +1077,86 @@ export const preparerVeteranUI = {
   },
 };
 
-export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
-  // Map the highestRank to the corresponding Rank Description from jsonData
-  const rankMap = jsonData.reduce((map, rank) => {
-    // eslint-disable-next-line no-param-reassign
-    map[rank['Rank Code'].toUpperCase()] = rank[
-      'Rank Description'
-    ].toUpperCase();
-    return map;
-  }, {});
-
-  // Create a list of valid rank descriptions
-  const validRanks = jsonData.map(rank =>
-    rank['Rank Description'].toUpperCase(),
-  );
-
-  for (let index = 0; index < serviceRecords.length; index++) {
-    const serviceRecord = serviceRecords[index];
+export const validateMilitaryHistory = (
+  errors,
+  serviceRecords,
+  useAllFormData,
+) => {
+  if (serviceRecords !== null && serviceRecords !== undefined) {
+    const serviceRecord = serviceRecords;
 
     // Check if serviceBranch is undefined and highestRank is defined
     if (
       serviceRecord.serviceBranch === undefined &&
       serviceRecord.highestRank !== undefined
     ) {
-      if (isVeteran(formData)) {
-        if (!isAuthorizedAgent(formData)) {
+      if (isVeteran(useAllFormData)) {
+        if (!isAuthorizedAgent(useAllFormData)) {
           // Self
-          errors[index].highestRank.addError(
+          errors.highestRank.addError(
             'Select a branch of service before selecting your highest rank attained.',
           );
         } else {
           // Applicant
-          errors[index].highestRank.addError(
+          errors.highestRank.addError(
             "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
           );
         }
       } else {
         // Sponsor
-        errors[index].highestRank.addError(
+        errors.highestRank.addError(
           "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
         );
       }
     }
 
-    // Validate if highestRank is valid using Rank Description
-    const highestRank = serviceRecord.highestRank?.toUpperCase();
-    const highestRankDescription = rankMap[highestRank] || highestRank;
-
-    if (
-      highestRankDescription &&
-      !validRanks.includes(highestRankDescription)
-    ) {
-      errors[index].highestRank.addError(
-        'Enter a valid rank, or leave this field blank.',
+    if (serviceRecord.serviceBranch) {
+      const branchFilteredRanks = jsonData.filter(
+        rank => rank['Branch Of Service Code'] === serviceRecord.serviceBranch,
       );
+      if (
+        serviceRecord.highestRank &&
+        !branchFilteredRanks.some(
+          rank => rank['Rank Code'] === serviceRecord.highestRank,
+        )
+      ) {
+        errors.highestRank.addError(
+          `This is not a valid rank for ${
+            serviceLabels[serviceRecord.serviceBranch]
+          }`,
+        );
+      }
     }
 
     // Date of birth validation
     let dob;
     let errorMessage;
 
-    if (isVeteran(formData)) {
-      if (!isAuthorizedAgent(formData)) {
+    if (isVeteran(useAllFormData)) {
+      if (!isAuthorizedAgent(useAllFormData)) {
         // Self
-        dob = formData.application.claimant.dateOfBirth;
+        dob = useAllFormData?.application?.claimant?.dateOfBirth;
         errorMessage = 'Provide a valid date that is after your date of birth';
       } else {
         // Applicant
-        dob = formData.application.claimant.dateOfBirth;
+        dob = useAllFormData?.application?.claimant?.dateOfBirth;
         errorMessage =
           "Provide a valid date that is after the applicant's date of birth";
       }
     } else {
       // Sponsor
-      dob = formData.application.veteran.dateOfBirth;
+      dob = useAllFormData?.application?.veteran?.dateOfBirth;
       errorMessage =
         "Provide a valid date that is after the sponsor's date of birth";
     }
 
     // Date of birth validation against service start date and service end date
     if (serviceRecord.dateRange.from <= dob) {
-      errors[index].dateRange.from.addError(errorMessage);
+      errors.dateRange.from.addError(errorMessage);
     }
 
     if (serviceRecord.dateRange.to <= dob) {
-      errors[index].dateRange.to.addError(errorMessage);
+      errors.dateRange.to.addError(errorMessage);
     }
   }
 };
@@ -1228,14 +1206,13 @@ export const selfServiceRecordsUI = {
         },
       },
     },
-    highestRank: {
-      'ui:title': 'Highest rank attained',
-      'ui:field': HighestRankAutoSuggest,
+    highestRank: autosuggest.uiSchema('Highest rank attained', null, {
       'ui:options': {
+        labels: rankLabels,
         hint:
           'This field may clear if the branch of service or service start and end dates are updated.',
       },
-    },
+    }),
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
       'ui:options': {
@@ -1293,14 +1270,17 @@ export const preparerServiceRecordsUI = {
         },
       },
     },
-    highestRank: {
-      'ui:title': 'Applicant’s highest rank attained',
-      'ui:field': HighestRankAutoSuggest,
-      'ui:options': {
-        hint:
-          'This field may clear if the branch of service or service start and end dates are updated.',
+    highestRank: autosuggest.uiSchema(
+      'Applicant’s highest rank attained',
+      null,
+      {
+        'ui:options': {
+          labels: rankLabels,
+          hint:
+            'This field may clear if the branch of service or service start and end dates are updated.',
+        },
       },
-    },
+    ),
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
       'ui:options': {
@@ -1386,7 +1366,37 @@ export function MailingAddressStateTitle(props) {
   return 'State or territory';
 }
 
-SSNWidget.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
+export const formatSuggestedAddress = address => {
+  if (address) {
+    let displayAddress = '';
+    const street = address.street || address.addressLine1;
+    const street2 = address.street2 || address.addressLine2;
+    const { city } = address;
+    const state = address.state || address.stateCode;
+    const zip = address.postalCode || address.zipCode;
+    const country = address.country || address.countryCodeIso3;
+
+    if (street) displayAddress += street;
+    if (street2) displayAddress += `, ${street2}`;
+    if (city) displayAddress += `, ${city}`;
+    if (state) displayAddress += `, ${state}`;
+    if (zip) displayAddress += ` ${zip}`;
+    if (country && country !== 'USA')
+      displayAddress += `, ${countries.find(c => c.value === country).label ||
+        country}`;
+
+    return displayAddress.trim();
+  }
+  return '';
+};
+
+export const shouldShowSuggestedAddress = (suggestedAddress, userAddress) => {
+  if (!suggestedAddress?.addressLine1 || !userAddress?.street) return false;
+  return !(
+    userAddress.street === suggestedAddress.addressLine1 &&
+    userAddress.city === suggestedAddress.city &&
+    userAddress.state === suggestedAddress.stateCode &&
+    userAddress.postalCode === suggestedAddress.zipCode &&
+    userAddress.country === suggestedAddress.countryCodeIso3
+  );
 };

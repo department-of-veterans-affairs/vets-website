@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
-  VaSelect,
   VaTextInput,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -11,6 +10,7 @@ import {
   getJobIndex,
   getJobButton,
   jobButtonConstants,
+  jobTypeConstants,
 } from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 import ButtonGroup from '../shared/ButtonGroup';
@@ -143,6 +143,14 @@ const EmploymentRecord = props => {
       handleChange('isCurrent', value === 'true');
       setCurrentlyWorksHere(value === 'true');
     },
+    onJobTypeRadioSelect: event => {
+      const { value } = event?.detail || {};
+      if (value === undefined) {
+        setTypeError('Please select your type of work.');
+        return;
+      }
+      handleChange('type', value);
+    },
     getCancelButtonText: () => {
       if (getJobButton() === jobButtonConstants.FIRST_JOB) {
         return 'Back';
@@ -167,20 +175,38 @@ const EmploymentRecord = props => {
           </p>
         </legend>
         <div className="input-size-7">
-          <VaSelect
-            id="type"
-            name="type"
+          <VaRadio
+            class="vads-u-margin-y--2"
             label="Type of work"
+            onVaValueChange={handlers.onJobTypeRadioSelect}
             required
-            value={employmentRecord.type}
-            onVaSelect={handlers.onChange}
             error={typeError}
           >
-            <option value="Full time">Full time</option>
-            <option value="Part time">Part time</option>
-            <option value="Seasonal">Seasonal</option>
-            <option value="Temporary">Temporary</option>
-          </VaSelect>
+            <va-radio-option
+              id="full-time"
+              label={jobTypeConstants.FULL_TIME}
+              value={jobTypeConstants.FULL_TIME}
+              checked={employmentRecord.type === jobTypeConstants.FULL_TIME}
+            />
+            <va-radio-option
+              id="part-time"
+              label={jobTypeConstants.PART_TIME}
+              value={jobTypeConstants.PART_TIME}
+              checked={employmentRecord.type === jobTypeConstants.PART_TIME}
+            />
+            <va-radio-option
+              id="seasonal"
+              label={jobTypeConstants.SEASONAL}
+              value={jobTypeConstants.SEASONAL}
+              checked={employmentRecord.type === jobTypeConstants.SEASONAL}
+            />
+            <va-radio-option
+              id="temporary"
+              label={jobTypeConstants.TEMPORARY}
+              value={jobTypeConstants.TEMPORARY}
+              checked={employmentRecord.type === jobTypeConstants.TEMPORARY}
+            />
+          </VaRadio>
         </div>
         <div className="vads-u-margin-bottom--2">
           <VaTextInput

@@ -21,6 +21,9 @@ describe('translateDateIntoMonthDayYearFormat', () => {
     expect(translateDateIntoMonthDayYearFormat('2023-01-25')).to.equal(
       'January 25th, 2023',
     );
+    expect(translateDateIntoMonthDayYearFormat('1923-01-25', true)).to.equal(
+      'January 25th, 2023',
+    );
   });
   it('should return null if value passed is null or undefind or empty string', () => {
     expect(translateDateIntoMonthDayYearFormat(null)).to.be.null;

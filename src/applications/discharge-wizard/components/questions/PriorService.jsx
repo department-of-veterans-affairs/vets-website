@@ -1,90 +1,87 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-// Relative Imports
-import { shouldShowQuestion } from '../../helpers';
-
-const { Element } = Scroll;
+import { connect } from 'react-redux';
+import {
+  QUESTION_MAP,
+  RESPONSES,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import RadioGroup from './shared/RadioGroup';
+import { updatePriorService } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
 const PriorService = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+  formResponses,
+  setPriorService,
+  router,
+  viewedIntroPage,
 }) => {
-  const key = '12_priorService';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.PRIOR_SERVICE;
+  const H1 = QUESTION_MAP[shortName];
+  const priorService = formResponses[shortName];
+  const {
+    PRIOR_SERVICE_PAPERWORK_YES,
+    PRIOR_SERVICE_PAPERWORK_NO,
+    PRIOR_SERVICE_NO,
+  } = RESPONSES;
 
-  if (!formValues) {
-    return null;
-  }
-
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
-
-  // explicit override for dd214 condition
-  if (formValues['4_reason'] === '8') {
-    return null;
-  }
-
-  const options = [
-    {
-      label:
-        'Yes, I have discharge paperwork documenting a discharge that is honorable or under honorable conditions.',
-      value: '1',
+  useEffect(
+    () => {
+      pageSetup(H1);
     },
-    {
-      label:
-        'Yes, I completed a prior period of service, but I did not receive discharge paperwork from that period.',
-      value: '2',
-    },
-    {
-      label: 'No, I did not complete an earlier period of service.',
-      value: '3',
-    },
-  ];
+    [H1],
+  );
 
-  const radioButtonProps = {
-    name: key,
-    label:
-      'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
-    'label-header-level': '2',
-    key,
-    value: formValues[key],
-    onVaValueChange: e => {
-      if (e.returnValue) {
-        updateField(key, e.detail.value);
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
       }
     },
-    onMouseDown: scrollToLast,
-    onKeyDown: handleKeyDown,
-  };
+    [router, viewedIntroPage],
+  );
 
   return (
-    <div className="vads-u-margin-top--6">
-      <Element name={key} />
-      <VaRadio {...radioButtonProps} uswds>
-        {options.map((option, index) => (
-          <va-radio-option
-            key={index}
-            label={option.label}
-            name={key}
-            value={option.value}
-            checked={formValues[key] === option.value}
-          />
-        ))}
-      </VaRadio>
-    </div>
+    <RadioGroup
+      formError={formError}
+      formResponses={formResponses}
+      formValue={priorService}
+      H1={H1}
+      responses={[
+        PRIOR_SERVICE_PAPERWORK_YES,
+        PRIOR_SERVICE_PAPERWORK_NO,
+        PRIOR_SERVICE_NO,
+      ]}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-prior_service"
+      valueSetter={setPriorService}
+    />
   );
 };
 
 PriorService.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+  formResponses: PropTypes.object,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setPriorService: PropTypes.func,
+  viewedIntroPage: PropTypes.bool,
 };
 
-export default PriorService;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setPriorService: updatePriorService,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PriorService);

@@ -85,7 +85,7 @@ describe('CG `primaryHasDifferentMailingAddress` method', () => {
 });
 
 describe('CG `secondaryOneHasDifferentMailingAddress` method', () => {
-  it('should return `false` when primary caregiver is not defined', () => {
+  it('should return `false` when secondary caregiver is not defined', () => {
     const formData = { 'view:hasSecondaryCaregiverOne': false };
     expect(secondaryOneHasDifferentMailingAddress(formData)).to.be.false;
   });
@@ -108,13 +108,17 @@ describe('CG `secondaryOneHasDifferentMailingAddress` method', () => {
 });
 
 describe('CG `secondaryTwoHasDifferentMailingAddress` method', () => {
-  it('should return `false` when primary caregiver is not defined', () => {
-    const formData = { 'view:hasSecondaryCaregiverTwo': false };
+  it('should return `false` when secondary caregivers are not defined', () => {
+    const formData = {
+      'view:hasSecondaryCaregiverOne': false,
+      'view:hasSecondaryCaregiverTwo': false,
+    };
     expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.false;
   });
 
   it('should return `false` when user indicates home & mailing addresses are the same', () => {
     const formData = {
+      'view:hasSecondaryCaregiverOne': true,
       'view:hasSecondaryCaregiverTwo': true,
       'view:secondaryTwoHomeSameAsMailingAddress': true,
     };
@@ -123,6 +127,7 @@ describe('CG `secondaryTwoHasDifferentMailingAddress` method', () => {
 
   it('should return `true` when user indicates home & mailing addresses are different', () => {
     const formData = {
+      'view:hasSecondaryCaregiverOne': true,
       'view:hasSecondaryCaregiverTwo': true,
       'view:secondaryTwoHomeSameAsMailingAddress': false,
     };

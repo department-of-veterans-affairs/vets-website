@@ -54,9 +54,9 @@ describe('<PrimaryPhoneReview>', () => {
 
   it('should show an error message when the primary phone value isn’t defined', () => {
     const { container } = render(setup({ primary: '' }));
-    expect($('dt', container).textContent).to.eq(
-      errorMessages.missingPrimaryPhone,
+    expect($('dt', container).textContent).to.eq('Primary phone number');
+    expect($('dd', container).textContent).to.eq(
+      errorMessages.missingPrimaryPhoneReview,
     );
-    expect($('dd', container).textContent).to.eq('');
   });
 });

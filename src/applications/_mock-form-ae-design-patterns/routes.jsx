@@ -1,26 +1,53 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
-import redTaskConfig from './patterns/pattern2/TaskRed/form/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
-import App from './App';
-import CoeApp from './patterns/pattern2/TaskRed/form/containers/App';
-// import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
+
+import personalInfoDemoConfig from './patterns/pattern2/personal-information/config/form';
+import grayTaskConfig from './patterns/pattern2/TaskGray/form/config/form';
+
+import blueFormConfig from './patterns/pattern2/TaskBlue/config/form';
+import { formConfigForOrangeTask } from './patterns/pattern2/TaskOrange/config/form';
+
+import ReviewPage from './patterns/pattern2/post-study/ReviewPage';
+
 import { LandingPage } from './shared/components/pages/LandingPage';
+
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
-import { getPatterns, getTabs } from './utils/data/tabs';
+
+const App = lazy(() => import('./App'));
+const CoeApp = lazy(() =>
+  import('./patterns/pattern2/TaskGray/form/containers/App'),
+);
+const Form1990Entry = lazy(() =>
+  import('./patterns/pattern2/TaskOrange/Form1990App'),
+);
+
+import { plugin } from './shared/components/VADXPlugin';
+
+import { VADX } from './vadx';
+import { Debug } from './vadx/app/pages/debug/Debug';
+import { withLayout } from './vadx/app/layout/withLayout';
+import { Servers } from './vadx/app/pages/servers/Servers';
+import { FeatureToggles } from './vadx/app/pages/feature-toggles/FeatureToggles';
+
+// Higher order component to wrap routes in the PatternConfigProvider and other common components
+const routeHoc = Component => props => (
+  <PatternConfigProvider {...props}>
+    <VADX plugin={plugin} featureToggleName={Toggler.TOGGLE_NAMES.aedpVADX}>
+      <Component {...props} />
+    </VADX>
+  </PatternConfigProvider>
+);
 
 const pattern1Routes = [
   {
     path: '/1/task-green',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/task-green/introduction?loggedIn=false'),
@@ -29,11 +56,7 @@ const pattern1Routes = [
   },
   {
     path: '/1/task-yellow',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/task-yellow/introduction?loggedIn=true'),
@@ -42,11 +65,7 @@ const pattern1Routes = [
   },
   {
     path: '/1/task-purple',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/task-purple/introduction?loggedIn=true'),
@@ -55,11 +74,7 @@ const pattern1Routes = [
   },
   {
     path: '/1/ezr',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(App),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/1/ezr/introduction?loggedIn=true'),
@@ -70,56 +85,44 @@ const pattern1Routes = [
 
 const pattern2Routes = [
   {
-    path: '/2/task-red',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <CoeApp {...props} />
-      </PatternConfigProvider>
-    ),
-    indexRoute: {
-      onEnter: (nextState, replace) =>
-        replace('/2/task-red/introduction?loggedIn=true'),
-    },
-    childRoutes: createRoutesWithSaveInProgress(redTaskConfig),
-  },
-  {
-    path: '/2/task-pink',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
-    indexRoute: {
-      onEnter: (nextState, replace) =>
-        replace('/2/task-pink/introduction?loggedIn=true'),
-    },
-    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
-  },
-  {
-    path: '/2/task-orange',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
-    indexRoute: {
-      onEnter: (nextState, replace) =>
-        replace('/2/task-orange/introduction?loggedIn=true'),
-    },
-    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
-  },
-  {
     path: '/2/task-gray',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
+    component: routeHoc(CoeApp),
     indexRoute: {
       onEnter: (nextState, replace) =>
         replace('/2/task-gray/introduction?loggedIn=true'),
     },
-    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+    childRoutes: createRoutesWithSaveInProgress(grayTaskConfig),
+  },
+  {
+    path: '/2/task-orange',
+    component: routeHoc(Form1990Entry),
+    indexRoute: {
+      onEnter: (nextState, replace) =>
+        replace('/2/task-orange/introduction?loggedIn=false'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(formConfigForOrangeTask),
+  },
+  {
+    path: '/2/task-blue',
+    component: routeHoc(App),
+    indexRoute: {
+      onEnter: (nextState, replace) =>
+        replace('/2/task-blue/introduction?loggedIn=true'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(blueFormConfig),
+  },
+  {
+    path: '/2/post-study',
+    component: routeHoc(ReviewPage),
+  },
+  {
+    path: '/2/personal-information-demo',
+    component: routeHoc(App),
+    indexRoute: {
+      onEnter: (nextState, replace) =>
+        replace('/2/personal-information-demo/introduction?loggedIn=true'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(personalInfoDemoConfig),
   },
 ];
 
@@ -127,20 +130,20 @@ const routes = [
   ...pattern1Routes,
   ...pattern2Routes,
   {
+    path: '/vadx',
+    component: routeHoc(withLayout(Servers)),
+  },
+  {
+    path: '/vadx/debug',
+    component: routeHoc(withLayout(Debug)),
+  },
+  {
+    path: '/vadx/feature-toggles',
+    component: routeHoc(withLayout(FeatureToggles)),
+  },
+  {
     path: '*',
-    component: props => (
-      <div className="vads-l-grid-container">
-        <div className="vads-l-row">
-          <div className="usa-width-two-thirds medium-8 columns">
-            <LandingPage
-              {...props}
-              getTabs={getTabs}
-              getPatterns={getPatterns}
-            />
-          </div>
-        </div>
-      </div>
-    ),
+    component: routeHoc(LandingPage),
   },
 ];
 

@@ -2,12 +2,6 @@ import { expect } from 'chai';
 
 import post911GIBStatus from '../../reducers';
 
-import {
-  SET_SERVICE_AVAILABILITY,
-  SERVICE_AVAILABILITY_STATES,
-  SET_SERVICE_UPTIME_REMAINING,
-} from '../../utils/constants';
-
 const initialState = {
   enrollmentData: null,
   availability: 'awaitingResponse',
@@ -65,21 +59,12 @@ describe('post911GIBStatus reducer', () => {
     expect(state.availability).to.equal('getEnrollmentDataFailure');
   });
 
-  it('should handle setting the service availability', () => {
+  it('should handle service downtime error', () => {
     const state = post911GIBStatus.post911GIBStatus(initialState, {
-      type: SET_SERVICE_AVAILABILITY,
-      serviceAvailability: SERVICE_AVAILABILITY_STATES.up,
+      type: 'SERVICE_DOWNTIME_ERROR',
     });
 
-    expect(state.serviceAvailability).to.equal(SERVICE_AVAILABILITY_STATES.up);
-  });
-
-  it('should handle setting the uptime remaining', () => {
-    const state = post911GIBStatus.post911GIBStatus(initialState, {
-      type: SET_SERVICE_UPTIME_REMAINING,
-      uptimeRemaining: 300,
-    });
-
-    expect(state.uptimeRemaining).to.equal(300);
+    expect(state.enrollmentData).to.be.null;
+    expect(state.availability).to.equal('serviceDowntimeError');
   });
 });

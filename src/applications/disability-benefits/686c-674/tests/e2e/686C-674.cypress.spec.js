@@ -41,7 +41,7 @@ const testConfig = createTestConfig(
             .get('va-button')
             .should('exist');
           cy.get('.help-talk va-telephone:first')
-            .contains('800-827-1000')
+            .contains('800-698-2411')
             .should('have.prop', 'href');
           cy.get('.help-talk va-telephone:last')
             .contains('711')

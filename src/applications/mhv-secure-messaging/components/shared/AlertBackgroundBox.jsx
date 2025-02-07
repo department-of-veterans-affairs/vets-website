@@ -16,20 +16,14 @@
  * since in this case there are no other content on screen.
  */
 
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import useInterval from '../../hooks/use-interval';
-import { Alerts, Errors } from '../../util/constants';
+import { Alerts, Categories, Errors } from '../../util/constants';
 import { closeAlert, focusOutAlert } from '../../actions/alerts';
 import { retrieveFolder } from '../../actions/folders';
 import { formatPathName } from '../../util/helpers';
@@ -41,15 +35,9 @@ const AlertBackgroundBox = props => {
   const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
   const [activeAlert, setActiveAlert] = useState(null);
-
-  const hideAlert = useMemo(
-    () =>
-      alertList.filter(
-        alert =>
-          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
-          alert.isActive,
-      ).length > 0,
-    [alertList],
+  const [alertAriaLabel, setAlertAriaLabel] = useState('');
+  const threadMessages = useSelector(
+    state => state.sm?.threadDetails?.messages,
   );
 
   const {
@@ -63,20 +51,73 @@ const AlertBackgroundBox = props => {
   const location = useLocation();
   const SrOnlyTag = alertContent === SERVER_ERROR_503 ? 'h1' : 'span';
 
+  const lastPathName = formatPathName(location.pathname, 'Messages');
+
+  // these props check if the current page is the folder view page or thread view page
+  const foldersViewPage = /folders\/\d+/.test(location.pathname);
+  const threadViewPage = /thread\/\d+/.test(location.pathname);
+  const replyViewPage = /reply\/\d+/.test(location.pathname);
+  const contactListPage = /contact-list/.test(location.pathname);
+
   useEffect(
     () => {
       if (alertList?.length) {
+        if (foldersViewPage && !folder?.name) return;
+        if (
+          (threadViewPage || replyViewPage) &&
+          (threadMessages === undefined || threadMessages?.length < 1)
+        )
+          return;
+
         const filteredSortedAlerts = alertList
           .filter(alert => alert?.isActive)
           .sort((a, b) => {
             // Sort chronologically descending.
             return b.datestamp - a.datestamp;
           });
+
+        let categoryText = '';
+
+        if (threadViewPage || replyViewPage) {
+          categoryText =
+            threadMessages[0]?.category === 'OTHER'
+              ? Categories.OTHER
+              : threadMessages[0]?.category;
+        }
+
+        if (lastPathName === 'Folders') {
+          setAlertAriaLabel('You are in the my folders page.');
+        } else if (foldersViewPage) {
+          setAlertAriaLabel(`You are in ${folder?.name}.`);
+        } else if (threadViewPage) {
+          setAlertAriaLabel(
+            `You are in ${categoryText}: ${
+              threadMessages[0]?.subject
+            } message thread.`,
+          );
+        } else if (replyViewPage) {
+          setAlertAriaLabel(
+            `You are in ${categoryText}: ${
+              threadMessages[0]?.subject
+            } message reply.`,
+          );
+        } else {
+          setAlertAriaLabel(`You are in ${lastPathName}.`);
+        }
+
         // The activeAlert is the most recent alert marked as active.
         setActiveAlert(filteredSortedAlerts[0] || null);
       }
     },
-    [alertList],
+    [
+      alertList,
+      folder,
+      foldersViewPage,
+      lastPathName,
+      replyViewPage,
+      threadMessages,
+      threadViewPage,
+    ],
   );
 
   const handleShowIcon = () => {
@@ -89,13 +130,6 @@ const AlertBackgroundBox = props => {
     dispatch(closeAlert());
     dispatch(focusOutAlert());
   };
-
-  const lastPathName = formatPathName(location.pathname, 'Messages');
-
-  // these props check if the current page is the folder view page or thread view page
-  const foldersViewPage = /folders\/\d+/.test(location.pathname);
-  const threadViewPage = /thread\/\d+/.test(location.pathname);
-  const contactListPage = /contact-list/.test(location.pathname);
 
   // sets custom server error messages for the landing page and folder view pages
   useEffect(
@@ -119,6 +153,7 @@ const AlertBackgroundBox = props => {
       SERVER_ERROR_503,
       SERVICE_OUTAGE,
       activeAlert,
+      contactListPage,
       foldersViewPage,
       lastPathName,
       location.pathname,
@@ -150,22 +185,17 @@ const AlertBackgroundBox = props => {
     [props.focus],
   );
 
-  const alertAriaLabel = `You are in ${(lastPathName === 'Folders' &&
-    'My Folders') ||
-    (foldersViewPage && 'a custom folder view page') ||
-    lastPathName}.`;
-
   return (
     <>
       {activeAlert &&
-        !hideAlert && (
+        activeAlert.header !== Alerts.Headers.HIDE_ALERT && (
           <VaAlert
             uswds
             ref={alertRef}
             background-only
             closeable={props.closeable}
             className="vads-u-margin-bottom--1 va-alert"
-            close-btn-aria-label={`${alertContent}. ${alertAriaLabel} Close notification.`}
+            close-btn-aria-label="Close notification"
             disable-analytics="false"
             full-width="false"
             show-icon={handleShowIcon()}

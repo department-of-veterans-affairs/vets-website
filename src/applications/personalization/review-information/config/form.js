@@ -1,11 +1,59 @@
+import React from 'react';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
+import { getContent } from 'platform/forms-system/src/js/utilities/data/profile';
+import ContactInfo from 'platform/forms-system/src/js/components/ContactInfo';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { TITLE } from '../constants';
 import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import WelcomeVAContactAdditionalInfo from '../components/WelcomeVAContactAdditionalInfo';
 
 const allContactInformationKeys = ['address', 'email', 'phone'];
+const confirmContactInfoKeys = {
+  wrapper: 'veteran',
+  address: 'address',
+  mobilePhone: 'phone',
+  email: 'email',
+};
+const contactPath = 'contact-information';
+const content = getContent('form');
+const profileContactInfoPage = profileContactInfo({
+  contactPath,
+  included: allContactInformationKeys,
+  contactInfoRequiredKeys: allContactInformationKeys,
+  addressKey: 'address',
+  mobilePhoneKey: 'phone',
+  contactInfoUiSchema: {},
+  contactSectionHeadingLevel: 'h2',
+  editContactInfoHeadingLevel: 'h2',
+});
+
+content.title = '';
+content.description = null;
+
+profileContactInfoPage.confirmContactInfo.onNavForward = ({ goPath }) => {
+  goPath('confirmation');
+};
+
+profileContactInfoPage.confirmContactInfo.onNavBack = () => {
+  window.location = `${environment.BASE_URL}/my-va/`;
+};
+
+profileContactInfoPage.confirmContactInfo.CustomPage = props =>
+  ContactInfo({
+    ...props,
+    content,
+    contactPath,
+    keys: confirmContactInfoKeys,
+    requiredKeys: allContactInformationKeys,
+    contactInfoPageKey: 'confirmContactInfo',
+    disableMockContactInfo: true,
+    contactSectionHeadingLevel: 'h2',
+    editContactInfoHeadingLevel: 'h2',
+    contentBeforeButtons: WelcomeVAContactAdditionalInfo,
+  });
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -15,7 +63,7 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'welcome-va-setup-review-information-',
-  introduction: null,
+  introduction: () => <></>,
   confirmation: ConfirmationPage,
   dev: {
     showNavLinks: true,
@@ -30,7 +78,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound:
       'Please start over to apply for welcome va setup review information form.',
@@ -40,22 +88,18 @@ const formConfig = {
   title: TITLE,
   defaultDefinitions: {},
   chapters: {
-    infoPages: {
+    infoPage: {
       pages: {
-        ...profileContactInfo({
-          contactPath: 'contact-information',
-          included: allContactInformationKeys,
-          contactInfoRequiredKeys: allContactInformationKeys,
-          addressKey: 'address',
-          mobilePhoneKey: 'phone',
-          contactInfoUiSchema: {},
-          // TODO: Work on skipping review page if possible in ticket created for this work
-          // onNavForward: ({ goPath }) => {
-          //   goPath('confirmation');
-          // },
-        }),
+        ...profileContactInfoPage,
       },
     },
+  },
+  customText: {
+    finishAppLaterMessage: ' ',
+    submitButtonText: 'Finish',
+  },
+  formOptions: {
+    noTopNav: true,
   },
   // getHelp,
   footerContent,

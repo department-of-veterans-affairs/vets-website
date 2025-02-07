@@ -8,6 +8,8 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import * as focusUtils from '~/platform/utilities/ui/focus';
+
 import EvidencePrivateRecords from '../../components/EvidencePrivateRecords';
 import {
   errorMessages,
@@ -93,6 +95,7 @@ describe('<EvidencePrivateRecords>', () => {
         'va-text-input[error]',
         'va-select[error]',
         'va-checkbox-group[error]',
+        'va-date[error]',
         'va-memorable-date[error]',
       ].join(','),
       container,
@@ -236,9 +239,9 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // add
-      clickAddAnother(container);
+      await clickAddAnother(container);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index + 1}`))
           .to.be.true;
@@ -257,9 +260,9 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // add
-      clickAddAnother(container);
+      await clickAddAnother(container);
 
-      await waitFor(() => {
+      waitFor(async () => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index + 1}`))
           .to.be.true;
@@ -269,9 +272,9 @@ describe('<EvidencePrivateRecords>', () => {
 
   // *** EMPTY PAGE ***
   describe('empty page navigation', () => {
-    const getAndTestAllErrors = (container, options = {}) => {
+    const getAndTestAllErrors = async (container, options = {}) => {
       const errors = errorMessages.evidence;
-      const errorEls = getErrorElements(container);
+      const errorEls = await getErrorElements(container);
       [
         errors.facilityMissing,
         options.ignoreCountry ? null : sharedErrorMessages.country, // default set to USA
@@ -285,7 +288,7 @@ describe('<EvidencePrivateRecords>', () => {
       ]
         .filter(Boolean)
         .forEach((error, index) => {
-          expect(errorEls[index].error).to.eq(error);
+          expect(errorEls[index]?.error).to.eq(error);
           if (error === errors.blankDate) {
             expect(errorEls[index].invalidMonth).to.be.true;
             expect(errorEls[index].invalidDay).to.be.true;
@@ -305,9 +308,9 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // continue
-      clickContinue(container);
+      await clickContinue(container);
 
-      await waitFor(() => {
+      waitFor(async () => {
         expect($('va-modal[visible="false"]', container)).to.exist;
         expect(goSpy.called).to.be.false;
         getAndTestAllErrors(container, { ignoreCountry: true });
@@ -411,26 +414,34 @@ describe('<EvidencePrivateRecords>', () => {
       const event = new CustomEvent('closeEvent');
       await $('va-modal', container).__events.closeEvent(event);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect($('va-modal[visible="false"]', container)).to.exist;
       });
     });
   });
 
   describe('partial/invalid data navigation', () => {
-    const testAndCloseModal = async (container, total, event) => {
-      expect(getErrorElements(container).length).to.eq(total);
-      // modal visible
-      await waitFor(() => {
-        expect($('va-modal[visible="true"]', container)).to.exist;
-      });
+    let focusElementSpy;
+    beforeEach(() => {
+      focusElementSpy = sinon.stub(focusUtils, 'focusElement');
+    });
+    afterEach(() => {
+      focusElementSpy.restore();
+    });
 
-      // close modal
-      await $('va-modal').__events[event]();
-      return waitFor(() => {
-        expect($('va-modal[visible="false"]', container)).to.exist;
-      });
-    };
+    const testAndCloseModal = (container, total, event) =>
+      // modal visible
+      waitFor(() => {
+        expect($('va-modal[visible="true"]', container)).to.exist;
+      })
+        .then(() => {
+          expect(getErrorElements(container).length).to.eq(total);
+          // close modal
+          $('va-modal').__events[event]();
+        })
+        .finally(() => {
+          expect($('va-modal[visible="false"]', container)).to.exist;
+        });
 
     it('should not navigate, but will show errors after continuing', async () => {
       const goSpy = sinon.spy();
@@ -454,10 +465,12 @@ describe('<EvidencePrivateRecords>', () => {
       // continue
       clickContinue(container);
 
-      await waitFor(() => {
+      waitFor(() => {
         expect(goSpy.called).to.be.false;
+        expect(focusElementSpy.called).to.be.true;
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
+      }).then(() => {
         expect(getErrorElements(container).length).to.eq(8);
-        expect(document.activeElement).to.eq($('[error]', container));
       });
     });
 
@@ -484,11 +497,9 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // back
-      clickBack(container);
+      await clickBack(container);
       // Click no
-      await testAndCloseModal(container, 8, 'secondaryButtonClick');
-
-      await waitFor(() => {
+      testAndCloseModal(container, 8, 'secondaryButtonClick').then(() => {
         expect(setDataSpy.called).to.be.true;
         expect(setDataSpy.lastCall.args[0].providerFacility.length).to.eq(2);
         expect(goSpy.called).to.be.true;
@@ -517,11 +528,9 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // back
-      clickBack(container);
+      await clickBack(container);
       // Click yes to keep partial entry
-      await testAndCloseModal(container, 8, 'primaryButtonClick');
-
-      await waitFor(() => {
+      testAndCloseModal(container, 8, 'primaryButtonClick').then(() => {
         expect(setDataSpy.called).to.be.false; // no data change
         expect(goSpy.called).to.be.true;
         expect(goSpy.calledWith(`/${EVIDENCE_PRIVATE_PATH}?index=${index - 1}`))
@@ -546,10 +555,12 @@ describe('<EvidencePrivateRecords>', () => {
       // add
       clickAddAnother(container);
 
-      await waitFor(() => {
+      waitFor(async () => {
         expect(goSpy.called).to.be.false;
+        expect(focusElementSpy.called).to.be.true;
+        expect(focusElementSpy.args[0][0]).to.eq('[role="alert"]');
+      }).then(() => {
         expect(getErrorElements(container).length).to.eq(9);
-        expect(document.activeElement).to.eq($('[error]', container));
       });
     });
   });
@@ -567,11 +578,11 @@ describe('<EvidencePrivateRecords>', () => {
       const page = setup({ index: 0, data });
       const { container } = render(page);
 
-      const dateFrom = $('va-memorable-date', container);
+      const dateFrom = await $('va-memorable-date', container);
       // blur date from input
-      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
-      await waitFor(() => {
+      waitFor(async () => {
         expect(dateFrom.error).to.contain(errorMessages.evidence.pastDate);
         expect(dateFrom.invalidMonth).to.be.false;
         expect(dateFrom.invalidDay).to.be.false;
@@ -589,10 +600,10 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // blur date to input
-      $('va-memorable-date').__events.dateBlur(toBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
-      await waitFor(() => {
-        const dateTo = $$('va-memorable-date', container)[1];
+      waitFor(async () => {
+        const dateTo = await $$('va-memorable-date', container)[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.pastDate);
         expect(dateTo.invalidMonth).to.be.false;
         expect(dateTo.invalidDay).to.be.false;
@@ -610,10 +621,10 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // blur date from input
-      $('va-memorable-date').__events.dateBlur(fromBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(fromBlurEvent);
 
-      await waitFor(() => {
-        const dateFrom = $('va-memorable-date', container);
+      waitFor(async () => {
+        const dateFrom = await $('va-memorable-date', container);
         expect(dateFrom.error).to.contain(errorMessages.evidence.newerDate);
         expect(dateFrom.invalidMonth).to.be.false;
         expect(dateFrom.invalidDay).to.be.false;
@@ -631,10 +642,10 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // blur date to input
-      $('va-memorable-date').__events.dateBlur(toBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
-      await waitFor(() => {
-        const dateTo = $$('va-memorable-date', container)[1];
+      waitFor(async () => {
+        const dateTo = await $$('va-memorable-date', container)?.[1];
         expect(dateTo.error).to.contain(errorMessages.evidence.newerDate);
         expect(dateTo.invalidMonth).to.be.false;
         expect(dateTo.invalidDay).to.be.false;
@@ -653,10 +664,10 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       // blur date to input
-      $('va-memorable-date').__events.dateBlur(toBlurEvent);
+      await $('va-memorable-date').__events.dateBlur(toBlurEvent);
 
-      await waitFor(() => {
-        const dateTo = $$('va-memorable-date', container)[1];
+      waitFor(async () => {
+        const dateTo = await $$('va-memorable-date', container)?.[1];
         expect(dateTo.error).to.contain(sharedErrorMessages.endDateBeforeStart);
         expect(dateTo.invalidMonth).to.be.true;
         expect(dateTo.invalidDay).to.be.true;
@@ -673,11 +684,9 @@ describe('<EvidencePrivateRecords>', () => {
       const { container } = render(page);
 
       const input = $('va-text-input', container);
-      fireEvent.blur(input);
+      await fireEvent.blur(input);
 
-      await waitFor(() => {
-        expect(input.error).to.contain(errorMessages.evidence.uniquePrivate);
-      });
+      expect(input.error).to.contain(errorMessages.evidence.uniquePrivate);
     });
 
     it('should show no contestable issues were selected message', () => {

@@ -3,12 +3,48 @@ import {
   focusElement,
   focusByOrder,
   scrollTo,
+  scrollToFirstError,
   waitForRenderThenFocus,
   scrollAndFocus,
 } from '~/platform/utilities/ui';
+import { focusReview } from '~/platform/forms-system/src/js/utilities/ui/focus-review';
 import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
 import { LAST_ISSUE } from '../constants';
+
+export const focusFirstError = (_index, root) => {
+  const error = $('[error], .usa-input-error', root);
+  if (error) {
+    scrollToFirstError({ focusOnAlertRole: true });
+    return true;
+  }
+  return false;
+};
+
+export const focusEvidence = (index, root) => {
+  setTimeout(() => {
+    if (!focusFirstError(index, root)) {
+      scrollTo('topContentElement');
+      focusElement('#main h3', null, root);
+    }
+  });
+};
+
+export const focusH3AfterAlert = (
+  index,
+  { name, onReviewPage, root = document } = {},
+) => {
+  if (name && onReviewPage) {
+    focusReview(
+      name, // name of scroll element
+      true, // review accordion in edit mode
+      true, // reviewEditFocusOnHeaders setting from form/config.js
+    );
+  } else if (!focusFirstError(index, root)) {
+    scrollTo('topContentElement');
+    focusElement('h3#header', null, root);
+  }
+};
 
 export const focusIssue = (_index, root, value) => {
   setTimeout(() => {
@@ -31,7 +67,7 @@ export const focusIssue = (_index, root, value) => {
         focusElement('.edit-issue-link', null, card);
       }
     } else {
-      scrollTo('h3');
+      scrollTo('topContentElement');
       focusElement('h3');
     }
   });
@@ -92,38 +128,63 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio, va-checkbox-group');
+  const radio = $('va-radio, va-checkbox-group, va-textarea');
   if (radio) {
+    const target = radio.getAttribute('error') ? '[role="alert"]' : 'h3';
     // va-radio content doesn't immediately render
-    waitForRenderThenFocus('h3', radio.shadowRoot);
+    waitForRenderThenFocus(target, radio.shadowRoot);
   } else {
     focusByOrder(['#main h3', defaultFocusSelector]);
   }
 };
 
+// Focus on alert (without header) if visible, or radio h3
+export const focusAlertOrRadio = () => {
+  const alertSelector = 'va-alert[status="info"]';
+  const alert = $(alertSelector);
+  if (alert) {
+    scrollTo('topContentElement');
+    focusElement(alertSelector);
+  } else {
+    focusRadioH3();
+  }
+};
+
+// Testing focus on role="alert" inside web components
+export const focusH3OrRadioError = (_index, root) => {
+  scrollTo('topContentElement');
+  const radio = $('va-radio, va-checkbox-group', root);
+  const hasError = radio.getAttribute('error');
+  const target = hasError ? '[role="alert"]' : 'h3';
+  waitForRenderThenFocus(target, hasError ? radio.shadowRoot : root);
+};
+
 // Temporary focus function for HLR homlessness question (page header is
 // dynamic); once 100% released, change homeless form config to use
 // `scrollAndFocusTarget: focusH3`
-export const focusToggledHeader = () => {
+export const focusToggledHeader = (_index, root) => {
   scrollTo('topContentElement');
-  const radio = $('va-radio');
-  if (sessionStorage.getItem('hlrUpdated') === 'false' && radio) {
+  const radio = $('va-radio', root);
+  if ((sessionStorage.getItem('hlrUpdated') || 'false') === 'false' && radio) {
     waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
     waitForRenderThenFocus('#main h3');
   }
 };
 
-export const focusH3 = () => {
+export const focusH3 = (index, root) => {
   scrollTo('topContentElement');
-  focusElement('#main h3');
+  if (!focusFirstError(index, root)) {
+    focusElement('#main h3');
+  }
 };
 
-export const focusAlertH3 = () => {
+export const focusAlertH3 = (_index, root = document) => {
   scrollTo('topContentElement');
+  const alert = $('va-alert[visible="true"]', root);
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
-  waitForRenderThenFocus('#main h3');
+  focusElement(`#main ${alert ? 'va-alert ' : ''}h3`);
 };
 
 // Used for onContinue callback on the contestable issues page

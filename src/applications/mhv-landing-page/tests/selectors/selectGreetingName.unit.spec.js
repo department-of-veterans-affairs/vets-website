@@ -15,6 +15,7 @@ const stateFn = ({ preferredName = 'Bob', first = 'Robert' } = {}) => ({
       userFullName: {
         first,
       },
+      preferredName,
     },
   },
 });
@@ -29,16 +30,16 @@ describe(`${appName} -- selectGreetingName`, () => {
     expect(result).to.eq('Bob');
   });
 
-  it('capitalizes the first letter when name is upper case', () => {
-    state = stateFn({ preferredName: 'BOB' });
-    result = selectGreetingName(state);
-    expect(result).to.eq('Bob');
-  });
-
   it('falls back to first name, when preferred name is not present', () => {
     state = stateFn({ preferredName: null });
     result = selectGreetingName(state);
     expect(result).to.eq('Robert');
+  });
+
+  it('capitalizes first name', () => {
+    state = stateFn({ preferredName: null, first: 'KEVIN' });
+    result = selectGreetingName(state);
+    expect(result).to.eq('Kevin');
   });
 
   it('returns null, when preferredName nor first name are present', () => {

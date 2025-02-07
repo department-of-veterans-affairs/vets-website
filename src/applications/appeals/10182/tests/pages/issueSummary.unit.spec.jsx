@@ -46,7 +46,7 @@ describe('NOD selected issues summary page', () => {
     const link = form.find('Link');
 
     expect(link.length).to.equal(1);
-    expect(link.text()).to.contain('go back and add');
+    expect(link.text()).to.contain('Go back to add more issues');
     expect(link.props().to.pathname).to.equal(CONTESTABLE_ISSUES_PATH);
     expect(link.props().to.search).to.equal('?redirect');
     form.unmount();

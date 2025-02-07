@@ -1,33 +1,26 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { CHAPTER_1, URL, envUrl, requireSignInCategories } from '../constants';
+import { URL, getApiUrl } from '../constants';
 
 const CategorySelectPage = props => {
-  const { onChange, loggedIn, goBack, goToPath, formData } = props;
+  const { onChange, isLoggedIn, goToPath, formData, goBack, router } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState({ show: false, selected: '' });
-
-  const onModalNo = () => {
-    isLoading(true);
-    onChange({ ...formData, selectCategory: undefined });
-    setShowModal({ show: false, selected: '' });
-    setTimeout(() => isLoading(false), 200);
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const showError = data => {
     if (data.selectCategory) {
@@ -39,13 +32,19 @@ const CategorySelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
-    const selected = apiData.find(cat => cat.attributes.name === selectedValue);
+    const selected = apiData.find(
+      category => category.attributes.name === selectedValue,
+    );
     localStorage.removeItem('askVAFiles');
-    if (requireSignInCategories.includes(selectedValue) && !loggedIn) {
-      setShowModal({ show: true, selected: `${selectedValue}` });
+    if (selected.attributes.requiresAuthentication && !isLoggedIn) {
+      setShowModal(true);
     } else {
       dispatch(setCategoryID(selected.id));
-      onChange({ ...formData, selectCategory: selectedValue });
+      onChange({
+        ...formData,
+        selectCategory: selectedValue,
+        allowAttachments: selected.attributes.allowAttachments,
+      });
     }
   };
 
@@ -64,9 +63,9 @@ const CategorySelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
+      getApiData(getApiUrl(URL.GET_CATEGORIES));
     },
-    [loggedIn],
+    [isLoggedIn],
   );
 
   useEffect(
@@ -91,7 +90,6 @@ const CategorySelectPage = props => {
           id="root_selectCategory"
           label="Select the category that best describes your question"
           name="Select category"
-          messageAriaDescribedby={CHAPTER_1.PAGE_1.QUESTION_1}
           value={formData.selectCategory}
           onVaSelect={handleChange}
           required
@@ -109,13 +107,16 @@ const CategorySelectPage = props => {
           ))}
         </VaSelect>
 
-        <FormNavButtons goBack={goBack} goForward={() => showError(formData)} />
+        <FormNavButtons
+          goBack={() => (isLoggedIn ? goBack() : router.push('/'))}
+          goForward={() => showError(formData)}
+        />
       </form>
 
       <RequireSignInModal
-        onClose={onModalNo}
-        show={showModal.show}
-        restrictedItem={showModal.selected}
+        onClose={() => setShowModal(false)}
+        show={showModal}
+        restrictedItem="category"
       />
     </>
   ) : (
@@ -124,17 +125,21 @@ const CategorySelectPage = props => {
 };
 
 CategorySelectPage.propTypes = {
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goToPath: PropTypes.func,
   id: PropTypes.string,
-  loggedIn: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  router: PropTypes.object,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   return {
-    loggedIn: isLoggedIn(state),
+    isLoggedIn: state.user.login.currentlyLoggedIn,
     formData: state.form.data,
   };
 }
 
-export default connect(mapStateToProps)(CategorySelectPage);
+export default connect(mapStateToProps)(withRouter(CategorySelectPage));

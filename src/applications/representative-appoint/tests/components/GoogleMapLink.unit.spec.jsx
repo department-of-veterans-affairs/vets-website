@@ -18,7 +18,7 @@ describe('GoogleMapLink Component', () => {
 
   it('should render the Google Maps link with the correct href', () => {
     const { container } = render(
-      <GoogleMapLink address={address} recordClick={mockRecordClick} />,
+      <GoogleMapLink addressData={address} recordClick={mockRecordClick} />,
     );
 
     const googleMapsLink = $('a', container);
@@ -33,7 +33,7 @@ describe('GoogleMapLink Component', () => {
   it('should call recordClick when the Google Maps link is clicked', () => {
     const recordClickSpy = sinon.spy();
     const { container } = render(
-      <GoogleMapLink address={address} recordClick={recordClickSpy} />,
+      <GoogleMapLink addressData={address} recordClick={recordClickSpy} />,
     );
 
     const googleMapsLink = $('a', container);

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Element } from 'react-scroll';
 
 import {
   focusElement,
@@ -23,6 +22,8 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
+import { Element } from 'platform/utilities/scroll';
+
 import {
   setReturnState,
   getReturnState,

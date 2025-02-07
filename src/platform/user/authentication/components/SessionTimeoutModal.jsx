@@ -28,8 +28,7 @@ export class SessionTimeoutModal extends React.Component {
   }
 
   componentDidUpdate() {
-    this.serviceName =
-      this.props.serviceName === undefined ? '' : this.props.serviceName;
+    this.serviceName = this.props.serviceName;
     if (this.props.isLoggedIn && !this.expirationInterval) {
       this.clearInterval();
       this.expirationInterval = setInterval(this.checkExpiration, 1000);
@@ -139,7 +138,8 @@ export const mapStateToProps = state => {
   return {
     isLoggedIn: isLoggedIn(state),
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
-    serviceName: signInServiceNameSelector(state),
+    serviceName:
+      signInServiceNameSelector(state) || sessionStorage.getItem('ci') || '',
   };
 };
 

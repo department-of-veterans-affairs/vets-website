@@ -5,6 +5,7 @@ import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
@@ -57,6 +58,7 @@ export const SERVICE_PROVIDERS = {
     label: 'ID.me',
     link: 'https://wallet.id.me/settings',
     image: <IDMeSVG />,
+    altImage: <IDMeSVG />,
     policy: 'idme',
     className: 'idme-button',
   },
@@ -89,15 +91,7 @@ export const EXTERNAL_APPS = {
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
   ARP: 'arp',
-};
-
-export const SIGNOUT_TYPES = {
-  SLO: 'slo',
-};
-
-export const AUTH_BROKER = {
-  IAM: 'iam',
-  SIS: 'sis',
+  SMHD: 'smhdweb',
 };
 
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
@@ -115,6 +109,13 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
+  [EXTERNAL_APPS.SMHD]: `${eAuthURL}/MAP/users/v2/landing?application=vaoccmobile&redirect_uri=/smhdWeb/`,
+};
+
+export const EXTERNAL_REDIRECTS_ALT = {
+  [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
+    oracleHealthEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
 };
 
 export const GA = {
@@ -161,21 +162,6 @@ export const AUTH_PARAMS = {
   to: 'to',
   redirectUri: 'redirect_uri',
   scope: 'scope',
+  verification: 'verification',
+  operation: 'operation',
 };
-
-export const OCC_MOBILE = {
-  REGISTERED_APPS: 'registeredApps',
-  DEFAULT: 'default',
-};
-
-export const OCC_MOBILE_DSLOGON_ONLY = [
-  'ahburnpitregistry',
-  '/ahburnpitregistry/',
-  '%2Fahburnpitregistry%2F',
-  'AHburnpitregistry',
-  '/AHburnpitregistry/',
-  '%2FAHburnpitregistry%2F',
-  'AHBurnPitRegistry',
-  '/AHBurnPitRegistry/',
-  '%2FAHBurnPitRegistry%2F',
-];

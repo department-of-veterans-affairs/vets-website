@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
@@ -16,7 +14,6 @@ import {
   EMERGENCY_CARE_SERVICES,
 } from '../constants';
 
-import { setFocus } from '../utils/helpers';
 import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
@@ -31,16 +28,17 @@ import SearchResultMessage from './SearchResultMessage';
 export const ResultsList = ({
   facilityTypeName,
   inProgress,
+  isMobile,
   searchString,
   results,
   searchError,
   pagination,
   currentQuery,
   query,
+  searchResultMessageRef,
   ...props
 }) => {
   const [resultsData, setResultsData] = useState(null);
-  const searchResultTitle = useRef();
   const currentPage = pagination ? pagination.currentPage : 1;
 
   useEffect(
@@ -56,13 +54,6 @@ export const ResultsList = ({
       );
     },
     [results],
-  );
-
-  useEffect(
-    () => {
-      setFocus(searchResultTitle.current);
-    },
-    [results, inProgress, props.error],
   );
 
   useEffect(
@@ -232,33 +223,37 @@ export const ResultsList = ({
     if (searchError.type === 'mapBox') {
       return (
         <SearchResultMessage
-          facilityType={facilityTypeName}
-          resultRef={searchResultTitle}
+          resultRef={searchResultMessageRef}
           message={Error.LOCATION}
+          searchStarted={currentQuery.searchStarted}
         />
       );
     }
+
     return (
       <SearchResultMessage
-        facilityType={facilityTypeName}
-        resultRef={searchResultTitle}
-        message={Error.DEFAULT}
         error={searchError}
+        isMobile={isMobile}
+        message={Error.DEFAULT}
+        resultRef={searchResultMessageRef}
+        searchStarted={currentQuery.searchStarted}
       />
     );
   }
 
-  if (facilityTypeName && (!results || results.length < 1)) {
+  if (facilityTypeName && !results.length) {
     return (
       <SearchResultMessage
-        facilityType={facilityTypeName}
-        resultsFound={results === 0}
-        resultRef={searchResultTitle}
+        isMobile={isMobile}
+        resultsFound={false}
+        resultRef={searchResultMessageRef}
+        searchStarted={currentQuery.searchStarted}
       />
     );
   }
+
   if (!facilityTypeName || !currentQuery.facilityType) {
-    return <SearchResultMessage />;
+    return <SearchResultMessage searchStarted={currentQuery.searchStarted} />;
   }
 
   return <div>{renderResultItems(query, resultsData)}</div>;
@@ -269,10 +264,12 @@ ResultsList.propTypes = {
   error: PropTypes.object,
   facilityTypeName: PropTypes.string,
   inProgress: PropTypes.bool,
+  isMobile: PropTypes.bool,
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.string,
+  searchError: PropTypes.shape(PropTypes.any),
+  searchResultMessageRef: PropTypes.object,
   searchString: PropTypes.string,
 };
 
@@ -309,9 +306,6 @@ function mapStateToProps(state) {
     searchString,
     selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
-    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
-      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
-    ],
   };
 }
 

@@ -1,5 +1,5 @@
 {
-  "description": "Is veteran, 2 applicants, 1st applicant is spouse, 2nd applicant is child (bio), 1st applicant has Medicare A/B/D and OHI.",
+  "description": "3rd party signer, 2 applicants, 1st applicant is spouse, 2nd applicant is child (bio), 1st applicant has Medicare A/B/D and OHI.",
   "data": {
     "applicants": [
       {
@@ -113,6 +113,7 @@
         }
       }
     ],
+    "sponsorIsDeceased": false,
     "sponsorPhone": "1231231234",
     "sponsorAddress": {
       "country": "USA",
@@ -128,8 +129,28 @@
       "first": "Sponsor",
       "last": "Jones"
     },
+    "certifierRole": "other",
+    "certifierRelationship": {
+      "relationshipToVeteran": {
+        "spouse": true,
+        "child": true,
+        "thirdParty": true
+      }
+    },
+    "certifierPhone": "1231231234",
+    "certifierEmail": "certifier@email.gov",
+    "certifierAddress": {
+      "country": "USA",
+      "street": "123 Certifier Street",
+      "city": "Citytown",
+      "state": "AL",
+      "postalCode": "12312"
+    },
+    "certifierName": {
+      "first": "Certifier",
+      "last": "Jones"
+    },
     "sponsorDob": "1950-04-01",
-    "certifierRole": "sponsor",
     "consentToMailMissingRequiredFiles": true,
     "statementOfTruthSignature": "Sponsor Jones",
     "statementOfTruthCertified": true

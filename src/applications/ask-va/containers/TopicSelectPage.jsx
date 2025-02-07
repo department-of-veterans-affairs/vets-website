@@ -16,8 +16,7 @@ import { ServerErrorAlert } from '../config/helpers';
 import {
   CHAPTER_1,
   URL,
-  envUrl,
-  requireSignInTopics,
+  getApiUrl,
   requiredForSubtopicPage,
 } from '../constants';
 
@@ -37,12 +36,7 @@ const TopicSelectPage = props => {
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState({ show: false, selected: '' });
-
-  const onModalNo = () => {
-    onChange('');
-    setShowModal({ show: false, selected: '' });
-  };
+  const [showModal, setShowModal] = useState(false);
 
   const showError = data => {
     if (data.selectTopic) {
@@ -60,10 +54,13 @@ const TopicSelectPage = props => {
     const selected = apiData.find(
       topic => topic.attributes.name === selectedValue,
     );
-    dispatch(setTopicID(selected.id));
-    onChange({ ...formData, selectTopic: selectedValue });
-    if (requireSignInTopics.includes(selectedValue) && !loggedIn)
-      setShowModal({ show: true, selected: selectedValue });
+
+    if (selected.attributes.requiresAuthentication && !loggedIn) {
+      setShowModal(true);
+    } else {
+      dispatch(setTopicID(selected.id));
+      onChange({ ...formData, selectTopic: selectedValue });
+    }
   };
 
   const getApiData = url => {
@@ -81,11 +78,9 @@ const TopicSelectPage = props => {
 
   useEffect(
     () => {
-      getApiData(
-        `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
-      );
+      getApiData(getApiUrl(URL.GET_TOPICS, { PARENT_ID: categoryID }));
     },
-    [loggedIn],
+    [loggedIn, categoryID],
   );
 
   useEffect(
@@ -117,7 +112,7 @@ const TopicSelectPage = props => {
           required
           uswds
         >
-          {apiData.map(topic => (
+          {apiData?.map(topic => (
             <VaRadioOption
               key={topic.id}
               name="select_topic"
@@ -134,9 +129,9 @@ const TopicSelectPage = props => {
       </form>
 
       <RequireSignInModal
-        onClose={onModalNo}
-        show={showModal.show}
-        restrictedItem={showModal.selected}
+        onClose={() => setShowModal(false)}
+        show={showModal}
+        restrictedItem="topic"
       />
     </>
   ) : (
@@ -146,6 +141,10 @@ const TopicSelectPage = props => {
 
 TopicSelectPage.propTypes = {
   categoryID: PropTypes.string,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   id: PropTypes.string,
   loggedIn: PropTypes.bool,
   value: PropTypes.string,

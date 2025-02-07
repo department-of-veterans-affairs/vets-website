@@ -125,10 +125,10 @@ describe('<DocumentRequestPage>', () => {
         `../document-request/${trackedItem.id}`,
       );
       expect(breadcrumbs.breadcrumbList[3].label).to.equal(
-        `Request for ${trackedItem.displayName}`,
+        trackedItem.displayName,
       );
       expect(document.title).to.equal(
-        `Request for ${trackedItem.displayName} | Veterans Affairs`,
+        `${trackedItem.displayName} | Veterans Affairs`,
       );
     });
   });
@@ -368,11 +368,6 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
-
       // Create a file
       const file = {
         file: new File(['hello'], 'hello.jpg', {
@@ -420,11 +415,6 @@ describe('<DocumentRequestPage>', () => {
           ,
         </Provider>,
       );
-
-      // Check the checkbox
-      $('va-checkbox', container).__events.vaChange({
-        detail: { checked: true },
-      });
 
       // Create a file
       const file = {
@@ -475,7 +465,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      expect(document.title).to.equal('Request for Testing | Veterans Affairs');
+      expect(document.title).to.equal('Testing | Veterans Affairs');
       expect(resetUploads.called).to.be.true;
     });
 

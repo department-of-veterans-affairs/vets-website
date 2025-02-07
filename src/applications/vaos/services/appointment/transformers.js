@@ -8,26 +8,29 @@ import {
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
-import {
-  getPatientInstruction,
-  getProviderName,
-  getTypeOfCareById,
-} from '../../utils/appointment';
+import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 
-function getAppointmentType(appt) {
-  if (appt.kind === 'cc' && appt.start) {
-    return APPOINTMENT_TYPES.ccAppointment;
-  }
-  if (appt.kind === 'cc' && appt.requestedPeriods?.length) {
-    return APPOINTMENT_TYPES.ccRequest;
-  }
-  if (appt.kind !== 'cc' && appt.requestedPeriods?.length) {
+export function getAppointmentType(appt) {
+  // Cerner appointments have a different structure than VAOS appointments
+  // TODO: refactor this once logic is moved to vets-api
+  const isCerner = appt?.id?.startsWith('CERN');
+  if (isCerner && isEmpty(appt?.end)) {
     return APPOINTMENT_TYPES.request;
   }
-
+  if (isCerner && !isEmpty(appt?.end)) {
+    return APPOINTMENT_TYPES.vaAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.start) {
+    return APPOINTMENT_TYPES.ccAppointment;
+  }
+  if (appt?.kind === 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.ccRequest;
+  }
+  if (appt?.kind !== 'cc' && appt?.requestedPeriods?.length) {
+    return APPOINTMENT_TYPES.request;
+  }
   return APPOINTMENT_TYPES.vaAppointment;
 }
-
 /**
  * Gets the type of visit that matches our array of visit constant
  *
@@ -151,8 +154,7 @@ export function transformVAOSAppointment(appt) {
   let requestFields = {};
 
   if (isRequest) {
-    const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
-    const { requestedPeriods } = appt;
+    const { requestedPeriods, created } = appt;
     const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
       // preventing the local time zone conversion from occuring
@@ -205,7 +207,6 @@ export function transformVAOSAppointment(appt) {
   }
   // get reason code from appt.reasonCode?.coding for v0 appointments
   const reasonCodeV0 = appt.reasonCode?.coding;
-  let comment = null;
   const reasonForAppointment = appt.reasonForAppointment
     ? appt.reasonForAppointment
     : PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
@@ -214,13 +215,6 @@ export function transformVAOSAppointment(appt) {
           purpose.commentShort === reasonCodeV0?.[0]?.code,
       )?.short;
   const patientComments = appt.reasonCode ? appt.patientComments : null;
-  if (reasonForAppointment && patientComments) {
-    comment = `${reasonForAppointment}: ${patientComments}`;
-  } else if (reasonForAppointment) {
-    comment = reasonForAppointment;
-  } else {
-    comment = patientComments;
-  }
   return {
     resourceType: 'Appointment',
     id: appt.id,
@@ -228,6 +222,8 @@ export function transformVAOSAppointment(appt) {
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
     start: !isRequest ? start.format() : null,
+    reasonForAppointment,
+    patientComments,
     timezone: appointmentTZ,
     // This contains the vista status for v0 appointments, but
     // we don't have that for v2, so this is a made up status
@@ -246,10 +242,6 @@ export function transformVAOSAppointment(appt) {
       clinicPhoneExtension:
         appt.extension?.clinic?.phoneNumberExtension || null,
     },
-    comment:
-      isVideo && !!appt.patientInstruction
-        ? getPatientInstruction(appt)
-        : comment,
     videoData,
     communityCareProvider:
       isCC && !isRequest

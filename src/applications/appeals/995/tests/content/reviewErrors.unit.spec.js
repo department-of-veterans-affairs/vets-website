@@ -29,17 +29,10 @@ describe('reviewErrors override', () => {
     });
   });
 
-  it('should return contact info keys for contact info pages', () => {
-    expect(override('veteran')).to.be.deep.equal({
-      chapterKey: 'infoPages',
-      pageKey: 'confirmContactInfo',
-    });
-  });
-
   it('should return contact info keys for primary phone question', () => {
     expect(override(PRIMARY_PHONE)).to.be.deep.equal({
       chapterKey: 'infoPages',
-      pageKey: 'confirmContactInfo',
+      pageKey: 'choosePrimaryPhone',
     });
   });
 });

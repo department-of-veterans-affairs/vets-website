@@ -8,7 +8,9 @@ import {
   SET_CATEGORY_ID,
   SET_LOCATION_SEARCH,
   SET_TOPIC_ID,
+  SET_SUBTOPIC_ID,
   SET_UPDATED_IN_REVIEW,
+  SET_VA_HEALTH_FACILITY,
 } from '../actions';
 
 import {
@@ -20,12 +22,14 @@ import {
 const initialState = {
   categoryID: '',
   topicID: '',
+  subtopicID: '',
   updatedInReview: '',
   searchLocationInput: '',
   getLocationInProgress: false,
   currentUserLocation: '',
   getLocationError: false,
   selectedFacility: null,
+  vaHealthFacility: '',
   reviewPageView: {
     openChapters: [],
   },
@@ -45,6 +49,11 @@ export default {
         return {
           ...state,
           topicID: action.payload,
+        };
+      case SET_SUBTOPIC_ID:
+        return {
+          ...state,
+          subtopicID: action.payload,
         };
       case SET_UPDATED_IN_REVIEW:
         return {
@@ -97,6 +106,11 @@ export default {
         return {
           ...state,
           searchLocationInput: action.payload,
+        };
+      case SET_VA_HEALTH_FACILITY:
+        return {
+          ...state,
+          vaHealthFacility: action.payload,
         };
       default:
         return state;

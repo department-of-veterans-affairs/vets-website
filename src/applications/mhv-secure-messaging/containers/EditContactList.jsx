@@ -34,24 +34,18 @@ const EditContactList = () => {
   const [allTriageTeams, setAllTriageTeams] = useState(null);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
   const [checkboxError, setCheckboxError] = useState('');
-
-  const [
-    showBlockedTriageGroupAlert,
-    setShowBlockedTriageGroupAlert,
-  ] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
   const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
 
+  const activeDraftId = useSelector(
+    state => state.sm.threadDetails?.drafts?.[0]?.messageId,
+  );
+
   const recipients = useSelector(state => state.sm.recipients);
-  const {
-    allFacilities,
-    blockedFacilities,
-    blockedRecipients,
-    allRecipients,
-    error,
-  } = recipients;
+  const { allFacilities, blockedFacilities, allRecipients, error } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -81,7 +75,9 @@ const EditContactList = () => {
 
   const navigateBack = useCallback(
     () => {
-      if (previousUrl) {
+      if (previousUrl === Paths.COMPOSE && activeDraftId) {
+        history.push(`${Paths.MESSAGE_THREAD}${activeDraftId}/`);
+      } else if (previousUrl) {
         history.push(previousUrl);
       } else {
         history.push(Paths.INBOX);
@@ -92,11 +88,16 @@ const EditContactList = () => {
 
   const handleSave = async e => {
     e.preventDefault();
+    if (isSaving) return;
+    setIsSaving(true);
     if (!isMinimumSelected) {
       await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
       focusOnErrorField();
+      setIsSaving(false);
     } else {
-      dispatch(updateTriageTeamRecipients(allTriageTeams));
+      dispatch(updateTriageTeamRecipients(allTriageTeams)).finally(() => {
+        setIsSaving(false);
+      });
     }
   };
 
@@ -121,15 +122,6 @@ const EditContactList = () => {
       setAllTriageTeams(allRecipients);
     },
     [allRecipients],
-  );
-
-  useEffect(
-    () => {
-      if (blockedRecipients?.length > 0) {
-        setShowBlockedTriageGroupAlert(true);
-      }
-    },
-    [blockedRecipients],
   );
 
   useEffect(() => {
@@ -197,16 +189,22 @@ const EditContactList = () => {
       />
       <h1>Contact list</h1>
       <AlertBackgroundBox closeable focus />
-      <p
-        className={`${
-          allFacilities?.length > 1 || showBlockedTriageGroupAlert
-            ? 'vads-u-margin-bottom--4'
-            : 'vads-u-margin-bottom--0'
-        }`}
+
+      <div
+        className={`${allFacilities?.length > 1 && 'vads-u-margin-bottom--2'}`}
       >
-        Select the teams you want to show in your contact list when you start a
-        new message.{' '}
+        <BlockedTriageGroupAlert
+          alertStyle={BlockedTriageAlertStyles.ALERT}
+          parentComponent={ParentComponent.CONTACT_LIST}
+        />
+      </div>
+
+      <p className="vads-u-margin-bottom--3">
+        Select the teams you want to show in your contact list. You must select
+        at least one team
+        {allFacilities?.length > 1 ? ' from one of your facilities.' : '.'}{' '}
       </p>
+
       {error && (
         <div>
           <VaAlert
@@ -235,19 +233,6 @@ const EditContactList = () => {
       )}
       {allTriageTeams?.length > 0 && (
         <>
-          {showBlockedTriageGroupAlert && (
-            <div
-              className={`${allFacilities?.length > 1 &&
-                'vads-u-margin-bottom--4'}`}
-            >
-              <BlockedTriageGroupAlert
-                blockedTriageGroupList={blockedRecipients}
-                alertStyle={BlockedTriageAlertStyles.ALERT}
-                parentComponent={ParentComponent.CONTACT_LIST}
-              />
-            </div>
-          )}
-
           <form className="contactListForm">
             {allFacilities.map(stationNumber => {
               if (!blockedFacilities.includes(stationNumber)) {
@@ -285,17 +270,17 @@ const EditContactList = () => {
                   mobile-lg:vads-u-align-content--flex-start
                 "
             >
+              <GoBackButton />
               <va-button
                 text="Save contact list"
                 class="
-                    vads-u-margin-bottom--1
-                    mobile-lg:vads-u-margin-bottom--0
+                    vads-u-margin-y--1
+                    mobile-lg:vads-u-margin-y--0
                   "
                 onClick={e => handleSave(e)}
                 data-testid="contact-list-save"
                 data-dd-action-name="Contact List Save Button"
               />
-              <GoBackButton />
             </div>
             <GetFormHelp />
           </form>

@@ -5,7 +5,9 @@ import App from './containers/App';
 const route = {
   path: '/',
   component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/contact-information'),
+  },
   childRoutes: createRoutesWithSaveInProgress(formConfig),
 };
 

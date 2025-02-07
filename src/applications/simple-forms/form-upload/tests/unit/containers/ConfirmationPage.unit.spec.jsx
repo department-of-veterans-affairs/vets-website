@@ -26,9 +26,7 @@ const storeBase = {
       timestamp: Date.now(),
     },
     data: {
-      veteran: {
-        fullName: veteranFullName,
-      },
+      fullName: veteranFullName,
     },
   },
 };

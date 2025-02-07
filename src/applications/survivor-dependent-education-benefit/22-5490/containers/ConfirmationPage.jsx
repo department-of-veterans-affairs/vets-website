@@ -1,92 +1,87 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-// import { format, isValid } from 'date-fns';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import UnderReviewConfirmationFry from '../components/confirmation/UnderReviewConfirmationFry';
+import UnderReviewConfirmationDEAChapter35 from '../components/confirmation/UnderReviewConfirmationDEAChapter35';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
+const ConfirmationPage = ({ form, claimantFullName }) => {
+  const { formId, data } = form;
+  const { chosenBenefit } = data;
+
+  // Set a default received date to today's date if claimStatus is not available
+  const newReceivedDate = new Date().toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+  // Set up scroll and focus when the component mounts
+  useEffect(() => {
     focusElement('h2');
     scrollToTop('topScrollElement');
-  }
+  }, []);
 
-  render() {
-    const { form } = this.props;
-    const { formId, data } = form;
+  // Print page handler
+  const printPage = useCallback(() => {
+    window.print();
+  }, []);
 
-    const { fullName } = data;
+  // Create a safe user name string with fallback values for each name part
+  const userName = `${claimantFullName?.first ||
+    ''} ${claimantFullName?.middle || ''} ${claimantFullName?.last ||
+    ''} ${claimantFullName?.suffix || ''}`.trim();
 
+  // Render the appropriate component based on the chosenBenefit value
+  if (chosenBenefit === 'fry') {
     return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Survivor and Dependent Benefits 22-5490 Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {/* {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null} */}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
-      </div>
+      <UnderReviewConfirmationFry
+        user={userName}
+        dateReceived={newReceivedDate}
+        formId={formId}
+        printPage={printPage}
+      />
     );
   }
-}
+
+  if (chosenBenefit === 'dea') {
+    return (
+      <UnderReviewConfirmationDEAChapter35
+        user={userName}
+        dateReceived={newReceivedDate}
+        formId={formId}
+        printPage={printPage}
+      />
+    );
+  }
+
+  // No component rendered if chosenBenefit is not 'fry' or 'dea'
+  return null;
+};
+
+const mapStateToProps = state => ({
+  form: state.form,
+  claimantFullName: state.user?.profile?.userFullName || {}, // Provide a default empty object to avoid undefined errors
+});
 
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
+      chosenBenefit: PropTypes.string, // Prop for chosen benefit
     }),
     formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
+  }).isRequired,
+  claimantFullName: PropTypes.shape({
+    first: PropTypes.string,
+    middle: PropTypes.string,
+    last: PropTypes.string,
+    suffix: PropTypes.string,
   }),
-  name: PropTypes.string,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
+ConfirmationPage.defaultProps = {
+  claimantFullName: { first: '', middle: '', last: '', suffix: '' }, // Default values for claimantFullName parts
+};
 
 export default connect(mapStateToProps)(ConfirmationPage);

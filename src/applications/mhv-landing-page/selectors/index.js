@@ -14,16 +14,25 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { personalizationEnabled, mrPhase1Enabled } from './featureToggles';
-import { hasMhvAccount } from './hasMhvAccount';
 import {
-  selectGreetingName,
-  selectPersonalInformation,
-} from './personalInformation';
+  apiAccountStatusEnabled,
+  personalizationEnabled,
+} from './featureToggles';
+import { hasMhvAccount } from './hasMhvAccount';
+import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
 import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
+import {
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusNonUserError,
+  mhvAccountStatusErrorsSorted,
+} from './mhvAccountStatus';
+
 export {
+  apiAccountStatusEnabled,
   hasMhvAccount,
   hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
@@ -33,11 +42,14 @@ export {
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
-  mrPhase1Enabled,
+  mhvAccountStatusLoading,
+  mhvAccountStatusUsersuccess,
+  mhvAccountStatusUserError,
+  mhvAccountStatusErrorsSorted,
+  mhvAccountStatusNonUserError,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
-  selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
   signInServiceName,

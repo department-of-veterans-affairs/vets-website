@@ -1,13 +1,9 @@
-import React from 'react';
-import { findDOMNode } from 'react-dom';
+/* eslint-disable camelcase */
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import React from 'react';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
-
-import {
-  DefinitionTester,
-  submitForm,
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 import { simulateInputChange } from '../../../helpers';
 
@@ -17,52 +13,47 @@ describe('hca Toxic Exposure config', () => {
     uiSchema,
   } = formConfig.chapters.militaryService.pages.toxicExposure;
   const { defaultDefinitions: definitions } = formConfig;
+  const subject = () => {
+    const onSubmitSpy = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmitSpy}
+        uiSchema={uiSchema}
+      />,
+    );
+    const selectors = () => ({
+      submitBtn: container.querySelector('button[type="submit"]'),
+      inputs: container.querySelectorAll('input'),
+      errors: container.querySelectorAll('.usa-input-error'),
+    });
+    return { container, selectors, onSubmitSpy };
+  };
 
   it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    const { selectors } = subject();
+    expect(selectors().inputs.length).to.equal(2);
   });
 
-  it('should not submit empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+  it('should not submit empty form', async () => {
+    const { selectors, onSubmitSpy } = subject();
+    await waitFor(() => {
+      const { errors, submitBtn } = selectors();
+      fireEvent.click(submitBtn);
+      expect(errors.length).to.equal(1);
+      expect(onSubmitSpy.called).to.be.false;
+    });
   });
 
-  it('should submit with valid data', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-
-    simulateInputChange(formDOM, '#root_hasTeraResponseYes', 'Y');
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
+  it('should submit with valid data', async () => {
+    const { container, selectors, onSubmitSpy } = subject();
+    await waitFor(() => {
+      const { errors, submitBtn } = selectors();
+      simulateInputChange(container, '#root_hasTeraResponseYes', 'Y');
+      fireEvent.click(submitBtn);
+      expect(errors.length).to.equal(0);
+      expect(onSubmitSpy.called).to.be.true;
+    });
   });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 export function formatPhoneNumber(phoneNumber) {
   // Ensure we're dealing with a string of numbers.
@@ -15,16 +16,13 @@ export function formatPhoneNumber(phoneNumber) {
   const areaCode = cleanDigits.substring(0, 3);
   const prefix = cleanDigits.substring(3, 6);
   const line = cleanDigits.substring(6);
-  // Format to the desired format.
   return `(${areaCode}) ${prefix}-${line}`;
 }
-
 const ContactInformationReviewPanel = ({ data, editPage, title }) => {
   const EMAIL_ADDRESS = data?.email?.email ?? null;
   const PHONE_NUMBERS = data['view:phoneNumbers'];
   const MOBILE_PHONE = PHONE_NUMBERS?.mobilePhoneNumber?.phone ?? null;
   const HOME_PHONE = PHONE_NUMBERS?.phoneNumber?.phone ?? null;
-
   const formattedMobilePhone = MOBILE_PHONE
     ? formatPhoneNumber(MOBILE_PHONE)
     : null;
@@ -33,42 +31,49 @@ const ContactInformationReviewPanel = ({ data, editPage, title }) => {
   return (
     <>
       <div className="form-review-panel-page">
-        <div className="form-review-panel-page-header-row">
+        <div
+          className="form-review-panel-page-header-row"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '1rem',
+          }}
+        >
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
             {title}
           </h4>
-          <button
+          <VaButton
             aria-label={`Edit ${title}`}
-            className="edit-btn primary-outline"
+            secondary
+            text="Edit"
             onClick={editPage}
-            type="button"
-          >
-            Edit
-          </button>
+          />
         </div>
         <dl className="review">
           <div className="review-row">
             <dt>Mobile phone number</dt>
-            <dd>{formattedMobilePhone}</dd>
+            <dd>{formattedMobilePhone || 'Not provided'}</dd>
           </div>
           <div className="review-row">
             <dt>Home phone number</dt>
-            <dd>{formattedHomePhone}</dd>
+            <dd>{formattedHomePhone || 'Not provided'}</dd>
           </div>
           <div className="review-row">
             <dt>Email</dt>
-            <dd>{EMAIL_ADDRESS}</dd>
+            <dd>{EMAIL_ADDRESS || 'Not provided'}</dd>
           </div>
         </dl>
       </div>
+      <br />
     </>
   );
 };
 
 ContactInformationReviewPanel.propTypes = {
+  editPage: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
   data: PropTypes.object,
-  editPage: PropTypes.func,
-  title: PropTypes.string,
 };
 
 export default ContactInformationReviewPanel;

@@ -513,7 +513,13 @@ export function makeAuthRequest(
 }
 
 export function getClaimType(claim) {
-  return claim?.attributes?.claimType || 'Disability Compensation';
+  if (claim?.attributes?.claimType) {
+    const { claimType } = claim.attributes;
+    return claimType === 'Death'
+      ? 'expenses related to death or burial'
+      : claimType;
+  }
+  return 'Disability Compensation';
 }
 
 export const mockData = {
@@ -1184,10 +1190,11 @@ export const generateClaimTitle = (claim, placement, tab) => {
 };
 
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
+// It is also used to set the Document Request Page breadcrumb text
 export function setDocumentRequestPageTitle(displayName) {
   return isAutomated5103Notice(displayName)
     ? 'Review evidence list (5103 notice)'
-    : `Request for ${displayName}`;
+    : displayName;
 }
 
 // Used to set page title for the CST Tabs
@@ -1209,7 +1216,7 @@ export function setPageFocus(lastPage, loading) {
 }
 // Used to get the oldest document date
 // Logic used in getTrackedItemDateFromStatus()
-const getOldestDocumentDate = item => {
+export const getOldestDocumentDate = item => {
   const arrDocumentDates = item.documents.map(document => document.uploadDate);
   return arrDocumentDates.sort()[0]; // Tried to do Math.min() here and it was erroring out
 };
@@ -1230,16 +1237,4 @@ export const getTrackedItemDateFromStatus = item => {
     default:
       return item.requestedDate;
   }
-};
-
-// Many of the display names for tracked items provided by the API are rather
-//   esoteric, so we replace some of them to make them more user-friendly.
-const trackedItemsHumanReadableNames = new Map([
-  ['PMR Pending', 'Private Medical Record'],
-]);
-// Currently only being used by reducers/serialize, but it might need to be
-//   moved elsewhere if future application logic depends on the original
-//   `displayName` of the tracked item.
-export const getTrackedItemHumanReadableName = name => {
-  return trackedItemsHumanReadableNames.get(name) || name;
 };

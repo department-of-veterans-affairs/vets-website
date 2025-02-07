@@ -6,12 +6,14 @@ import { generatePdf } from '~/platform/pdf';
 import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { apiRequest } from '~/platform/utilities/api';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
-import { DISCHARGE_CODE_MAP } from './constants';
 
 const ProofOfVeteranStatus = ({
   serviceHistory = [],
+  vetStatusEligibility = {},
   totalDisabilityRating,
   userFullName = {
     first: '',
@@ -23,6 +25,8 @@ const ProofOfVeteranStatus = ({
   mockUserAgent,
 }) => {
   const [errors, setErrors] = useState([]);
+  const [data, setData] = useState(null);
+  const [shouldFocusError, setShouldFocusError] = useState(false);
   const { first, middle, last, suffix } = userFullName;
 
   const userAgent =
@@ -31,13 +35,6 @@ const ProofOfVeteranStatus = ({
   const isMobile =
     (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) ||
     /android/i.test(userAgent);
-
-  const eligibilityMap = serviceHistory.map(
-    service =>
-      service.characterOfDischargeCode
-        ? DISCHARGE_CODE_MAP[service.characterOfDischargeCode].indicator
-        : 'N',
-  );
 
   const pdfData = {
     title: `Veteran status card for ${formatFullName({
@@ -65,16 +62,56 @@ const ProofOfVeteranStatus = ({
         title: 'V-A logo',
         url: '/img/design/logo/logo-black-and-white.png',
       },
+      seal: {
+        title: 'V-A Seal',
+        url: '/img/design/logo/seal-black-and-white.png',
+      },
+      scissors: {
+        title: 'Scissors icon',
+        url: '/img/scissors-black.png',
+      },
     },
   };
 
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const useLighthouseApi = useToggleValue(
+    TOGGLE_NAMES.veteranStatusCardUseLighthouseFrontend,
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchVerificationStatus = async () => {
+      try {
+        const path = '/profile/vet_verification_status';
+        const response = await apiRequest(path);
+        if (isMounted) {
+          setData(response.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          setErrors([
+            "We're sorry. There's a problem with our system. We can't show your Veteran status card right now. Try again later.",
+          ]);
+          captureError(error, { eventName: 'vet-status-fetch-verification' });
+        }
+      }
+    };
+    fetchVerificationStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   useEffect(
     () => {
-      if (errors?.length > 0) {
+      if (shouldFocusError && errors?.length > 0) {
         focusElement('.vet-status-pdf-download-error');
+        setShouldFocusError(false);
       }
     },
-    [errors],
+    [shouldFocusError, errors],
   );
 
   const createPdf = async () => {
@@ -92,122 +129,253 @@ const ProofOfVeteranStatus = ({
         "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
       ]);
       captureError(error, { eventName: 'vet-status-pdf-download' });
+      setShouldFocusError(true);
     }
   };
 
+  const isVetStatusEligibilityPopulated =
+    Object.keys(vetStatusEligibility).length !== 0;
+
+  const componentizedMessage = isVetStatusEligibilityPopulated
+    ? vetStatusEligibility.message.map(item => {
+        const contactNumber = `${CONTACTS.DS_LOGON.slice(
+          0,
+          3,
+        )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
+        const startIndex = item.indexOf(contactNumber);
+
+        if (startIndex === -1) {
+          return item;
+        }
+
+        const before = item.slice(0, startIndex);
+        const telephone = item.slice(
+          startIndex,
+          startIndex + contactNumber.length + 11,
+        );
+        const after = item.slice(startIndex + telephone.length);
+
+        return (
+          <>
+            {before}
+            <va-telephone contact={contactNumber} /> (
+            <va-telephone contact={CONTACTS[711]} tty />){after}
+          </>
+        );
+      })
+    : null;
+
+  const contactInfoElements = data?.attributes?.message?.map(item => {
+    const contactNumber = `${CONTACTS.DS_LOGON.slice(
+      0,
+      3,
+    )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
+    const startIndex = item.indexOf(contactNumber);
+
+    if (startIndex === -1) {
+      return item;
+    }
+
+    const before = item.slice(0, startIndex);
+    const telephone = item.slice(
+      startIndex,
+      startIndex + contactNumber.length + 11,
+    );
+    const after = item.slice(startIndex + telephone.length);
+
+    return (
+      <>
+        {before}
+        <va-telephone contact={contactNumber} /> (
+        <va-telephone contact={CONTACTS[711]} tty />){after}
+      </>
+    );
+  });
+
   return (
     <>
-      <div id="proof-of-veteran-status">
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
-          Proof of Veteran status
-        </h2>
-        <p>
-          You can use your Veteran status card to get discounts offered to
-          Veterans at many restaurants, hotels, stores, and other businesses.
-        </p>
-        <p>
-          <strong>Note: </strong>
-          This card doesn’t entitle you to any VA benefits.
-        </p>
+      {useLighthouseApi ? (
+        <div id="proof-of-veteran-status">
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
+            Proof of Veteran status
+          </h2>
+          <p>
+            You can use your Veteran status card to get discounts offered to
+            Veterans at many restaurants, hotels, stores, and other businesses.
+          </p>
+          <p>
+            <strong>Note: </strong>
+            This card doesn’t entitle you to any VA benefits.
+          </p>
 
-        {serviceHistory.length > 0 && eligibilityMap.includes('Y') ? (
-          <>
-            <div className="vads-u-font-size--md">
-              <va-link
-                download
-                filetype="PDF"
-                // exception to eslint: the url is a dynamically generated blob url
-                // eslint-disable-next-line no-script-url
-                href="javascript:void(0)"
-                text="Download and print your Veteran status card"
-                onClick={createPdf}
-              />
-            </div>
-
-            {errors?.length > 0 ? (
-              <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                <va-alert status="error" uswds>
-                  {errors[0]}
-                </va-alert>
+          {data?.attributes?.veteranStatus === 'confirmed' ? (
+            <>
+              <div className="vads-u-font-size--md">
+                <va-link
+                  download
+                  filetype="PDF"
+                  // exception to eslint: the url is a dynamically generated blob url
+                  // eslint-disable-next-line no-script-url
+                  href="javascript:void(0)"
+                  text="Download and print your Veteran status card"
+                  onClick={createPdf}
+                />
               </div>
-            ) : null}
 
-            <div className="vads-l-grid-container--full vads-u-padding-y--2">
-              <div className="vads-l-row">
-                <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
-                  <img
-                    width="100%"
-                    src="/img/proof-of-veteran-status-card-sample.png"
-                    alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
-                  />
+              {errors?.length > 0 ? (
+                <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                  <va-alert status="error" uswds>
+                    {errors[0]}
+                  </va-alert>
+                </div>
+              ) : null}
+
+              <div className="vads-l-grid-container--full vads-u-padding-y--2">
+                <div className="vads-l-row">
+                  <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
+                    <img
+                      width="100%"
+                      src="/img/proof-of-veteran-status-card-sample.png"
+                      alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="vads-u-margin-y--4">
-              <MobileAppCallout
-                headingText="Get proof of Veteran status on your mobile device"
-                bodyText={
-                  <>
-                    You can use our mobile app to get proof of Veteran status.
-                    To get started, download the{' '}
-                    <strong> VA: Health and Benefits </strong> mobile app.
-                  </>
-                }
-              />
-            </div>
-          </>
-        ) : null}
-
-        {serviceHistory.length > 0 &&
-        !eligibilityMap.includes('Y') &&
-        eligibilityMap.includes('N') ? (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible
-          >
-            <>
-              <p className="vads-u-margin-top--0">
-                Our records show that you’re not eligible for a Veteran status
-                card. To get a Veteran status card, you must have received an
-                honorable discharge for at least one period of service.
-              </p>
-              <p>
-                If you think your discharge status is incorrect, call the
-                Defense Manpower Data Center at{' '}
-                <va-telephone contact={CONTACTS.DS_LOGON} /> (
-                <va-telephone contact={CONTACTS[711]} tty />
-                ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                ET.
-              </p>
+              <div className="vads-u-margin-y--4">
+                <MobileAppCallout
+                  headingText="Get proof of Veteran status on your mobile device"
+                  bodyText={
+                    <>
+                      You can use our mobile app to get proof of Veteran status.
+                      To get started, download the{' '}
+                      <strong> VA: Health and Benefits </strong> mobile app.
+                    </>
+                  }
+                />
+              </div>
             </>
-          </va-alert>
-        ) : null}
+          ) : null}
 
-        {serviceHistory.length === 0 ||
-        (!eligibilityMap.includes('Y') && !eligibilityMap.includes('N')) ? (
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="warning"
-            visible
-          >
+          {data?.attributes?.veteranStatus !== 'confirmed' &&
+          data?.attributes?.message.length > 0 ? (
             <>
-              <p className="vads-u-margin-top--0">
-                We’re sorry. There’s a problem with your discharge status
-                records. We can’t provide a Veteran status card for you right
-                now.
-              </p>
-              <p>
-                To fix the problem with your records, call the Defense Manpower
-                Data Center at <va-telephone contact={CONTACTS.DS_LOGON} /> (
-                <va-telephone contact={CONTACTS[711]} tty />
-                ). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                ET.
-              </p>
+              <div>
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  status="warning"
+                  visible
+                >
+                  {contactInfoElements.map((message, i) => {
+                    if (i === 0) {
+                      return (
+                        <p key={i} className="vads-u-margin-top--0">
+                          {message}
+                        </p>
+                      );
+                    }
+                    return <p key={i}>{message}</p>;
+                  })}
+                </va-alert>
+              </div>
             </>
-          </va-alert>
-        ) : null}
-      </div>
+          ) : null}
+
+          {errors?.length > 0 ? (
+            <div className="vet-status-fetch-verification-error vads-u-padding-y--2">
+              <va-alert status="error" uswds>
+                {errors[0]}
+              </va-alert>
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <div id="proof-of-veteran-status">
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1p5">
+            Proof of Veteran status
+          </h2>
+          <p>
+            You can use your Veteran status card to get discounts offered to
+            Veterans at many restaurants, hotels, stores, and other businesses.
+          </p>
+          <p>
+            <strong>Note: </strong>
+            This card doesn’t entitle you to any VA benefits.
+          </p>
+
+          {vetStatusEligibility.confirmed ? (
+            <>
+              <div className="vads-u-font-size--md">
+                <va-link
+                  download
+                  filetype="PDF"
+                  // exception to eslint: the url is a dynamically generated blob url
+                  // eslint-disable-next-line no-script-url
+                  href="javascript:void(0)"
+                  text="Download and print your Veteran status card"
+                  onClick={createPdf}
+                />
+              </div>
+
+              {errors?.length > 0 ? (
+                <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                  <va-alert status="error" uswds>
+                    {errors[0]}
+                  </va-alert>
+                </div>
+              ) : null}
+
+              <div className="vads-l-grid-container--full vads-u-padding-y--2">
+                <div className="vads-l-row">
+                  <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">
+                    <img
+                      width="100%"
+                      src="/img/proof-of-veteran-status-card-sample.png"
+                      alt="sample proof of veteran status card featuring name, date of birth, disability rating and period of service"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="vads-u-margin-y--4">
+                <MobileAppCallout
+                  headingText="Get proof of Veteran status on your mobile device"
+                  bodyText={
+                    <>
+                      You can use our mobile app to get proof of Veteran status.
+                      To get started, download the{' '}
+                      <strong> VA: Health and Benefits </strong> mobile app.
+                    </>
+                  }
+                />
+              </div>
+            </>
+          ) : null}
+
+          {isVetStatusEligibilityPopulated &&
+          !vetStatusEligibility.confirmed &&
+          vetStatusEligibility.message.length > 0 ? (
+            <>
+              <div>
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  status="warning"
+                  visible
+                >
+                  {componentizedMessage.map((message, i) => {
+                    if (i === 0) {
+                      return (
+                        <p key={i} className="vads-u-margin-top--0">
+                          {message}
+                        </p>
+                      );
+                    }
+                    return <p key={i}>{message}</p>;
+                  })}
+                </va-alert>
+              </div>
+            </>
+          ) : null}
+        </div>
+      )}
     </>
   );
 };
@@ -224,11 +392,14 @@ ProofOfVeteranStatus.propTypes = {
   ),
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
+  vetStatusEligibility: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   serviceHistory:
     state.vaProfile?.militaryInformation.serviceHistory.serviceHistory,
+  vetStatusEligibility:
+    state.vaProfile?.militaryInformation.serviceHistory.vetStatusEligibility,
   totalDisabilityRating: state.totalRating?.totalDisabilityRating,
   userFullName: state.vaProfile?.hero?.userFullName,
   edipi: state.user?.profile?.edipi,

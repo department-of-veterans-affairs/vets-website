@@ -450,6 +450,11 @@ describe('526 All Claims validations', () => {
       validateDisabilityName(err, tooLong);
       expect(err.addError.calledOnce).to.be.true;
     });
+    it('should add an error when disability is an empty string', () => {
+      const err = { addError: sinon.spy() };
+      validateDisabilityName(err, '  ');
+      expect(err.addError.calledOnce).to.be.true;
+    });
     it('should add error when duplicate names are encountered', () => {
       const _ = null;
       const err = { addError: sinon.spy() };

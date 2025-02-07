@@ -36,6 +36,7 @@ const ReplyDrafts = props => {
                 key={singleDraft.messageId}
                 open={isEditing}
                 subheader={subheader}
+                data-dd-privacy="mask"
               >
                 <ReplyDraftItem
                   cannotReply={cannotReply || showBlockedTriageGroupAlert}

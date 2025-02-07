@@ -11,6 +11,7 @@
     "postalCode": "12345"
   },
   "preparerPhone": "9876054321",
+  "preparerEmail": "arthur.k.preparer@email.com",
   "claimantIdentification": "VETERAN",
   "preparerQualifications": {
     "courtAppointedRep": true

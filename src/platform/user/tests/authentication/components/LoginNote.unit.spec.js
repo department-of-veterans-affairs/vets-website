@@ -12,9 +12,7 @@ describe('LoginNote', () => {
   afterEach(() => wrapper.unmount());
 
   it('should render', () => {
-    expect(wrapper.find('p').text()).includes(
-      'remove the My HealtheVet option',
-    );
+    expect(wrapper.find('a').text()).includes('Learn about creating');
     wrapper.unmount();
   });
 });

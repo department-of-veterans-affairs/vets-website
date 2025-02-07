@@ -22,8 +22,9 @@ export const API_SIGN_IN_SERVICE_URL = ({
   type = '',
   endpoint = OAUTH_ENDPOINTS.AUTHORIZE,
 }) =>
-  `${environment.API_URL}/${version}/sign_in/${endpoint}${type &&
-    `?type=${type}`}`;
+  `${environment.API_URL}/${version}/sign_in/${endpoint}${
+    type ? `?type=${type}` : ''
+  }`;
 
 export const CLIENT_IDS = {
   VAWEB: 'vaweb',
@@ -120,6 +121,13 @@ export const OAUTH_ERROR_RESPONSES = {
   'Refresh token is not defined': AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode,
   // Default | Unknown
   default: AUTH_ERRORS.OAUTH_DEFAULT_ERROR.errorCode,
+};
+
+export const FORCED_VERIFICATION_ACRS = {
+  idme: 'loa3',
+  mhv: 'loa3',
+  dslogon: 'loa3',
+  logingov: 'ial2',
 };
 
 export const APPROVED_OAUTH_APPS = ['arp'];

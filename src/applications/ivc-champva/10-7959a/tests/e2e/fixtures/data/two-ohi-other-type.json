@@ -15,6 +15,7 @@
     "claimType": "pharmacy",
     "hasOhi": true,
     "applicantPhone": "4105436543",
+    "applicantEmail": "app@email.gov",
     "applicantAddress": {
       "country": "USA",
       "street": "123 Beneficiary St",

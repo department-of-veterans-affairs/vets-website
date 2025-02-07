@@ -31,7 +31,7 @@ export const resetStoredSubTask = () =>
   window.sessionStorage.removeItem(SUBTASK_SESSION_STORAGE);
 
 /**
- * SubTask~desintationCallback
+ * SubTask~destinationCallback
  * @type {Function}
  * @param {Object} data - form.data object
  * @return {String} - string of page name, return falsy value to render the
@@ -44,10 +44,10 @@ export const resetStoredSubTask = () =>
  * @property {JSX} component - SubTask page component
  * @property {String} name - SubTask page name
  * @property {Function} validate - validate check to allow changing pages
- * @property {String|null|SubTask~desintationCallback} back - back button
+ * @property {String|null|SubTask~destinationCallback} back - back button
  *  destination. Set string to page name to return to when the back button is
  *  used. Using null will indicate that the button should not be rendered
- * @property {String|null|SubTask~desintationCallback} next - next button
+ * @property {String|null|SubTask~destinationCallback} next - next button
  *  destination. Set string to page name to go to next when the continue button
  *  is used. Using null will indicate that the button should not be rendered
  */
@@ -59,7 +59,7 @@ export const resetStoredSubTask = () =>
  * @returns
  */
 export const SubTask = props => {
-  const { pages = [], formData, setFormData, router } = props;
+  const { pages = [], formData, setFormData, router, focusOnAlertRole } = props;
   const [currentPage, setCurrentPage] = useState(pages[0] || {});
   const [subTaskData, setSubTaskData] = useState(getStoredSubTask());
   const [hasError, setHasError] = useState(false);
@@ -126,7 +126,9 @@ export const SubTask = props => {
       setSubmitted(true);
       if (!checkValid()) {
         // Let the browser render the error
-        window.requestAnimationFrame(scrollToFirstError);
+        window.requestAnimationFrame?.(() =>
+          scrollToFirstError({ focusOnAlertRole }),
+        );
         return false;
       }
     }
@@ -208,6 +210,7 @@ SubTask.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   setFormData: PropTypes.func.isRequired,
+  focusOnAlertRole: PropTypes.bool,
   formData: PropTypes.shape({}),
 };
 

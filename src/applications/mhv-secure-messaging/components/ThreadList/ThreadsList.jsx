@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useLocation } from 'react-router-dom';
 import ThreadListItem from './ThreadListItem';
-import { threadSortingOptions } from '../../util/constants';
+import { Paths, threadSortingOptions } from '../../util/constants';
 import ThreadListSort from './ThreadListSort';
 
 const ThreadsList = props => {
@@ -16,6 +17,8 @@ const ThreadsList = props => {
     sortOrder,
     threadsPerPage,
   } = props;
+
+  const location = useLocation();
 
   const MAX_PAGE_LIST_LENGTH = 7;
 
@@ -36,6 +39,10 @@ const ThreadsList = props => {
     },
     [pageNum, threadsPerPage, totalThreads],
   );
+  const multipleThreads = totalThreads > 1 ? 's' : '';
+  const sortedListText =
+    (location.pathname === Paths.DRAFTS ? 'draft' : 'conversation') +
+    multipleThreads;
 
   useEffect(
     () => {
@@ -43,7 +50,7 @@ const ThreadsList = props => {
       if (fromToNums && totalThreads) {
         const label = `Showing ${fromToNums.from} to ${
           fromToNums.to
-        } of ${totalThreads} conversations`;
+        } of ${totalThreads} ${sortedListText}`;
         setDisplayNums({ ...fromToNums, label });
       }
 

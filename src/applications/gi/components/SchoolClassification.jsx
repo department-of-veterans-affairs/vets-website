@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import environment from 'platform/utilities/environment';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
@@ -112,3 +113,34 @@ export default function SchoolClassification({
     </>
   );
 }
+
+SchoolClassification.propTypes = {
+  institution: PropTypes.shape({
+    menonly: PropTypes.number,
+    womenonly: PropTypes.number,
+    hbcu: PropTypes.number,
+    relaffil: PropTypes.number,
+    hsi: PropTypes.number,
+    nanti: PropTypes.number,
+    annhi: PropTypes.number,
+    aanapii: PropTypes.number,
+    pbi: PropTypes.number,
+    tribal: PropTypes.number,
+    schoolProvider: PropTypes.bool,
+    employerProvider: PropTypes.bool,
+    vetTecProvider: PropTypes.bool,
+    facilityCode: PropTypes.string,
+  }).isRequired,
+  aanapii: PropTypes.number,
+  annhi: PropTypes.number,
+  displayTraits: PropTypes.bool,
+  hbcu: PropTypes.number,
+  hsi: PropTypes.number,
+  locationResultCard: PropTypes.bool,
+  menonly: PropTypes.number,
+  nanti: PropTypes.number,
+  pbi: PropTypes.number,
+  relaffil: PropTypes.string,
+  tribal: PropTypes.number,
+  womenonly: PropTypes.number,
+};

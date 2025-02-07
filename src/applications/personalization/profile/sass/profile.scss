@@ -1,4 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
 @import "../../../../platform/forms/sass/m-schemaform";
 @import "./shared";
 @import "./profile-subnav";
@@ -9,6 +10,7 @@
 @import "./hub-cards";
 @import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
 @import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
+@import "./proof-of-veteran-status-card";
 
 [tabindex="-1"]:focus {
   outline: 0;

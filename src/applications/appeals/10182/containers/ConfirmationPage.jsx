@@ -17,6 +17,7 @@ export const ConfirmationPage = () => (
       <ConfirmationDecisionReviews
         pageTitle="Request a Board Appeal"
         alertTitle="We’ve received your Board Appeal request"
+        alertContent="When we’ve completed our review, we’ll mail you a decision packet with the details of our decision."
       >
         <h2 className="vads-u-font-size--h3">
           After you request a decision review

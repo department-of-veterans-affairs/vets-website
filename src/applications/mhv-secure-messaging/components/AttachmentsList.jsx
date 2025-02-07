@@ -23,6 +23,7 @@ const AttachmentsList = props => {
     setAttachFileSuccess,
     forPrint,
     attachmentScanError,
+    setAttachFileError,
   } = props;
   const dispatch = useDispatch();
   const attachmentReference = useRef(null);
@@ -37,14 +38,18 @@ const AttachmentsList = props => {
   useEffect(
     () => {
       if (attachmentScanError) {
-        setFocusedElement(
-          attachments.length > 1
-            ? document.querySelector('#remove-all-attachments-button')
-            : document.querySelector('remove-attachment-button'),
+        setTimeout(
+          () =>
+            setFocusedElement(
+              attachments.length > 1
+                ? document.getElementById('remove-all-attachments-button')
+                : document.querySelector('.remove-attachment-button'),
+            ),
+          400,
         );
       }
     },
-    [attachmentScanError],
+    [attachmentScanError, attachments.length],
   );
 
   const getSize = num => {
@@ -69,12 +74,13 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      if (attachFileSuccess && attachFileAlertRef?.current?.shadowRoot) {
+      const alertButton = attachFileAlertRef?.current?.shadowRoot?.querySelector(
+        '#close-success-alert-button',
+      );
+      if (attachFileSuccess && alertButton) {
         setTimeout(() => {
-          setFocusedElement(
-            document.querySelector('#close-success-alert-button'),
-          );
-        }, 300);
+          setFocusedElement(alertButton);
+        }, 400);
       }
     },
     [attachFileSuccess, attachments, attachFileAlertRef],
@@ -100,27 +106,37 @@ const AttachmentsList = props => {
     setAttachments(newAttArr);
     setIsAttachmentRemoved(true);
     setAttachFileSuccess(false);
-
-    setFocusedElement(
-      document
-        .querySelector('.attach-file-button')
-        .shadowRoot.querySelector('button'),
-    );
+    setAttachFileError(null);
 
     if (newAttArr.some(item => item.name !== file.name)) {
       setRecentlyRemovedFile(true);
     }
+
+    setTimeout(
+      () =>
+        setFocusedElement(
+          document
+            .querySelector('.attach-file-button')
+            .shadowRoot.querySelector('button'),
+        ),
+      400,
+    );
   };
 
   const handleRemoveAllAttachments = () => {
     setAttachments([]);
-    dispatch(closeAlert()).then(() =>
-      setFocusedElement(
-        document
-          .querySelector('.attach-file-button')
-          .shadowRoot.querySelector('button'),
-      ),
-    );
+    dispatch(closeAlert()).then(() => {
+      setTimeout(
+        () =>
+          setFocusedElement(
+            document
+              .querySelector('.attach-file-button')
+              .shadowRoot.querySelector('button'),
+          ),
+        400,
+      );
+      setAttachFileError(null);
+    });
   };
 
   const handleSuccessAlertClose = () => {
@@ -196,8 +212,7 @@ const AttachmentsList = props => {
         (attachments.length > 1 ? (
           <VaAlert
             data-testid="attachment-virus-alert"
-            aria-live="assertive"
-            aria-label={Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            aria-label={Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL}
             background-only
             className="file-attached-success vads-u-margin-top--2"
             disable-analytics
@@ -205,24 +220,26 @@ const AttachmentsList = props => {
             show-icon
             status="error"
           >
-            <p className="vads-u-margin--0">
-              One or more of the files you attached has a virus. You’ll need to
-              remove it to send your message.
+            <p
+              aria-live="assertive"
+              className="vads-u-margin--0 vads-u-margin-bottom--1"
+            >
+              {Alerts.Message.MULTIPLE_ATTACHMENTS_SCAN_FAIL}
             </p>
-            <button
+            <va-button
+              text="Remove all attachments"
+              secondary
               className="usa-button-secondary vads-u-margin-bottom--0 vads-u-margin-right--0"
+              id="remove-all-attachments-button"
               data-testid="remove-all-attachments-button"
               onClick={() => {
                 handleRemoveAllAttachments();
               }}
-            >
-              Remove all attachments
-            </button>
+            />
           </VaAlert>
         ) : (
           <VaAlert
             data-testid="attachment-virus-alert"
-            aria-live="assertive"
             aria-label={Alerts.Message.ATTACHMENT_SCAN_FAIL}
             background-only
             className="file-attached-success vads-u-margin-top--2"
@@ -231,7 +248,9 @@ const AttachmentsList = props => {
             show-icon
             status="error"
           >
-            {Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            <p aria-live="assertive" className="vads-u-margin--0">
+              {Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            </p>
           </VaAlert>
         ))}
 
@@ -371,6 +390,7 @@ const AttachmentsList = props => {
 
 AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
+  attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   compose: PropTypes.bool,
   draftSequence: PropTypes.number,
@@ -381,7 +401,6 @@ AttachmentsList.propTypes = {
   setAttachments: PropTypes.func,
   setIsModalVisible: PropTypes.func,
   setNavigationError: PropTypes.func,
-  attachmentScanError: PropTypes.bool,
 };
 
 export default AttachmentsList;

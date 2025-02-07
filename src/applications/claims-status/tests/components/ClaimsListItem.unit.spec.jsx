@@ -214,11 +214,8 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(
-          queryByText(
-            'Open request: Check claim to see if action is needed from you or VA.',
-          ),
-        ).to.be.null;
+        expect(queryByText('We requested more information from you:')).to.be
+          .null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 8: Initial review');
       });
@@ -243,8 +240,10 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
+        getByText('We requested more information from you:');
+        getByText('Check the claim details to learn more.');
         getByText(
-          'Open request: Check claim to see if action is needed from you or VA.',
+          'This message will go away when we finish reviewing your response.',
         );
         getByText('Step 2 of 8: Initial review');
       });
@@ -494,11 +493,8 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(
-          queryByText(
-            'Open request: Check claim to see if action is needed from you or VA.',
-          ),
-        ).to.be.null;
+        expect(queryByText('We requested more information from you:')).to.be
+          .null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 5: Initial review');
       });
@@ -523,8 +519,10 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
+        getByText('We requested more information from you:');
+        getByText('Check the claim details to learn more.');
         getByText(
-          'Open request: Check claim to see if action is needed from you or VA.',
+          'This message will go away when we finish reviewing your response.',
         );
         getByText('Step 2 of 5: Initial review');
       });
@@ -774,11 +772,8 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(
-          queryByText(
-            'Open request: Check claim to see if action is needed from you or VA.',
-          ),
-        ).to.be.null;
+        expect(queryByText('We requested more information from you:')).to.be
+          .null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 5: Initial review');
       });
@@ -803,8 +798,10 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
+        getByText('We requested more information from you:');
+        getByText('Check the claim details to learn more.');
         getByText(
-          'Open request: Check claim to see if action is needed from you or VA.',
+          'This message will go away when we finish reviewing your response.',
         );
         getByText('Step 2 of 5: Initial review');
       });

@@ -1,129 +1,17 @@
-$formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
-
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-nav-sidebar";
 
 .discharge-wizard {
-  padding-bottom: 3em;
-
-  .form-radio-buttons {
-    position: relative;
-
-    input {
-      top: -15px;
-    }
-  }
-
-  fieldset {
-    margin: 0;
-    margin-top: 2em;
-
-    &.dischargeMonth,
-    &.dischargeYear {
-      margin-top: 0;
-    }
-
-    .legend-label {
-      max-width: 100%;
-    }
-
-    label {
-      max-width: 100%;
-    }
-  }
-
-  .va-introtext {
-    p {
-      margin-top: 0;
-    }
-  }
-
-  hr {
-    margin: 0;
-  }
-
-  h4:focus {
-    outline: none;
-  }
-
-  .review-answers {
-    margin-top: 3em;
-    padding: 0 1.5em;
-  }
-
-  .vertical-list-group {
-    margin-top: 2em;
-
-    &.numbered {
-      li.list-group-item {
-        counter-increment: step-counter;
-        border-left-width: 5px;
-        border-color: var(--vads-color-base-lighter);
-        padding-bottom: 3em;
-
-        h4 {
-          clear: none;
-        }
-
-        &:before {
-          content: counter(step-counter);
-          height: 25px;
-          line-height: 25px;
-          margin-left: -35px;
-          width: 25px;
-          color: var(--vads-color-white);
-          font-weight: bold;
-          border: none;
-        }
-
-        &:last-child {
-          border-color: transparent;
-        }
-
-        & + li.list-group-item {
-          margin-top: -1.6em;
-        }
-      }
-    }
-  }
-
-  .answer-review {
-    border-top: 1px solid var(--vads-color-base-light);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 10px;
-  }
-
-  // Override styles for h2 semantic/ visual h4 headers(matches h4 visual styles)
-  va-radio::part(header) {
-    font-size: 1.0625rem;
-  }
-
-  // Override styles for h2 semantic/ visual h4 headers(matches h4 visual styles)
-  va-select::part(label) {
-    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
-      serif;
-    font-size: 1.0625rem;
-    font-weight: bold;
-  }
-
-  .converted-h4 {
-    font-size: 1.0625rem;
-  }
-}
-
-.discharge-wizard-v2 {
   va-breadcrumbs {
     padding-left: 0.9375rem;
   }
 
-  //v2 styles
   .answer-review-box {
     border-top: 1px solid var(--vads-color-base-light);
     display: flex;
     flex-direction: column;
   }
+
   .answer-review-label {
     display: flex;
     justify-content: space-between;
@@ -134,8 +22,20 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
     row-gap: 10px;
   }
 
+  .need-help-padding-top {
+    padding-top: 3rem;
+  }
+
   va-button-pair {
     margin-right: -4px;
     margin-left: -4px;
+  }
+
+  @media print {
+
+    [data-testid=duw-print],
+    [data-testid=duw-results-back] {
+      display: none;
+    }
   }
 }

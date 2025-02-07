@@ -3,12 +3,13 @@ import {
   DowntimeNotification,
   externalServices,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import WIP from '../../shared/components/WIP';
+import { useBrowserMonitoring } from '../helpers/useBrowserMonitoring';
 import { addStyleToShadowDomOnPages } from '../../shared/utilities';
 
 const breadcrumbList = [
@@ -25,9 +26,14 @@ const breadcrumbList = [
     href: `/family-and-caregiver-benefits/health-and-disability/champva`,
     label: `CHAMPVA benefits`,
   },
+  {
+    href: `#content`,
+    label: `Apply for CHAMPVA benefits`,
+  },
 ];
 
 export default function App({ location, children }) {
+  document.title = `${formConfig.title} | Veterans Affairs`;
   useEffect(() => {
     // Insert CSS to hide 'For example: January 19 2000' hint on memorable dates
     // (can't be overridden by passing 'hint' to uiOptions):
@@ -38,11 +44,14 @@ export default function App({ location, children }) {
     );
   });
 
+  // Add Datadog RUM to the app
+  useBrowserMonitoring();
+
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <Toggler toggleName={Toggler.TOGGLE_NAMES.form1010d}>
         <Toggler.Enabled>
-          <VaBreadcrumbs breadcrumbList={breadcrumbList} />
+          <VaBreadcrumbs wrapping breadcrumbList={breadcrumbList} />
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}
@@ -56,10 +65,12 @@ export default function App({ location, children }) {
           <br />
           <WIP
             content={{
+              headline: 'We’re still working on this form',
               description:
-                'We’re rolling out the CHAMPVA application (VA Form 10-10d) in stages. It’s not quite ready yet. Please check back again soon.',
-              redirectLink: '/',
-              redirectText: 'Return to VA home page',
+                'We’re working on a new online application form for CHAMPVA benefits. Check back soon. If you want to apply for CHAMPVA benefits now, you can use our PDF form.',
+              redirectLink:
+                '/family-and-caregiver-benefits/health-and-disability/champva/',
+              redirectText: 'Learn about CHAMPVA benefits and how to apply',
             }}
           />
         </Toggler.Disabled>

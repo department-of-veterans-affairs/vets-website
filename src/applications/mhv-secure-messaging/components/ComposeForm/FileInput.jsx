@@ -13,9 +13,10 @@ const FileInput = props => {
     setAttachFileSuccess,
     draftSequence,
     attachmentScanError,
+    attachFileError,
+    setAttachFileError,
   } = props;
 
-  const [error, setError] = useState();
   const fileInputRef = useRef();
   const errorRef = useRef(null);
   const [selectedFileId, setSelectedFileId] = useState(null);
@@ -36,10 +37,10 @@ const FileInput = props => {
     if (!selectedFile) return;
     const fileExtension =
       selectedFile.name && selectedFile.name.split('.').pop();
-    setError(null);
+    setAttachFileError(null);
 
     if (selectedFile.size === 0) {
-      setError({
+      setAttachFileError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_EMPTY,
       });
       fileInputRef.current.value = null;
@@ -47,7 +48,7 @@ const FileInput = props => {
     }
 
     if (!fileExtension || !acceptedFileTypes[fileExtension.toLowerCase()]) {
-      setError({
+      setAttachFileError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.INVALID_FILE_TYPE,
       });
       fileInputRef.current.value = null;
@@ -55,7 +56,7 @@ const FileInput = props => {
     }
 
     if (attachments.filter(a => a.name === selectedFile.name).length > 0) {
-      setError({
+      setAttachFileError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_DUPLICATE,
       });
       fileInputRef.current.value = null;
@@ -63,7 +64,7 @@ const FileInput = props => {
     }
 
     if (selectedFile.size > Attachments.MAX_FILE_SIZE) {
-      setError({
+      setAttachFileError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_TOO_LARGE,
       });
       fileInputRef.current.value = null;
@@ -74,7 +75,7 @@ const FileInput = props => {
       currentTotalSize + selectedFile.size >
       Attachments.TOTAL_MAX_FILE_SIZE
     ) {
-      setError({
+      setAttachFileError({
         message:
           ErrorMessages.ComposeForm.ATTACHMENTS.TOTAL_MAX_FILE_SIZE_EXCEEDED,
       });
@@ -134,12 +135,12 @@ const FileInput = props => {
         vads-u-font-weight--bold
         vads-u-color--secondary-dark
         ${
-          error
+          attachFileError
             ? 'vads-u-margin-left--neg2 vads-u-border-left--4px vads-u-border-color--secondary-dark vads-u-padding-left--2'
             : ''
         }`}
     >
-      {error && (
+      {attachFileError && (
         <label
           htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
           id={`error-${selectedFileId}`}
@@ -149,7 +150,7 @@ const FileInput = props => {
           tabIndex="-1"
           aria-live="polite"
         >
-          {error.message}
+          {attachFileError.message}
         </label>
       )}
 
@@ -195,8 +196,11 @@ const FileInput = props => {
 };
 
 FileInput.propTypes = {
+  attachFileError: PropTypes.object,
+  attachmentScanError: PropTypes.bool,
   attachments: PropTypes.array,
   draftSequence: PropTypes.number,
+  setAttachFileError: PropTypes.func,
   setAttachFileSuccess: PropTypes.func,
   setAttachments: PropTypes.func,
 };

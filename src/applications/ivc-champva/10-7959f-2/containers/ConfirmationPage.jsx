@@ -29,7 +29,9 @@ export class ConfirmationPage extends React.Component {
           />
         </div>
         <VaAlert uswds status="success">
-          <h2 className="vads-u-font-size--h3">You've submitted your claim</h2>
+          <h2 className="vads-u-font-size--h3">
+            You’ve submitted your FMP claim form
+          </h2>
         </VaAlert>
 
         <div className="inset">
@@ -38,7 +40,7 @@ export class ConfirmationPage extends React.Component {
           </h2>
           {data.statementOfTruthSignature && (
             <p>
-              <strong>This claim was submitted for</strong>
+              <strong>Who submitted this form</strong>
               <br />
               {data.statementOfTruthSignature}
               <br />
@@ -62,42 +64,56 @@ export class ConfirmationPage extends React.Component {
             onClick={window.print}
           />
         </div>
-        <h2>What to expect after you file your claim</h2>
+        <h2>What to expect next</h2>
+        <p>It will take about 90 days to process your application.</p>
         <p>
-          We'll review your documents. If we need more information, we'll
-          contact you.
+          If we have any questions or need additional information, we’ll contact
+          you.
         </p>
+        <h3>If we decide we can cover this claim under FMP</h3>
+        <p>We’ll send a U.S. Treasury check for the claim amount.</p>
         <p>
-          If we decide we can cover your claim, we'll send a U.S. Treasury check
-          for the claim amount.
+          <b>Note:</b> We’ll convert the claim amount into U.S. dollars when we
+          pay your claim. We’ll use the conversion rate from the date you
+          received care.
         </p>
-        <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#what-to-expect-after-you-file-">
-          Learn more about what to expect after you file your claim
-        </a>
-        <h3 className="vads-u-font-size--h3">
-          If we decide we can't cover your claim under FMP
-        </h3>
+        <h3>If we decide we can’t cover your claim under FMP</h3>
         <p>
           If you disagree with our decision, you can ask us to reconsider our
-          decision. We call this an appeal. You must request the appeal within 1
-          year of the original decision.
+          decision. We call this an appeal. You must request the appeal within{' '}
+          <b>1 year</b> of the original decision.
         </p>
         <p>Mail a letter requesting an appeal to this address:</p>
         <p className="va-address-block">
           VHA Office of Integrated Veteran Care
           <br />
-          Reconsiderations/Appeals
+          Appeals
           <br />
-          PO Box 460948
+          PO Box 600
           <br />
-          Denver, CO 80246-9028
+          Spring City, PA 19475
         </p>
         <p>Include any new information or documents that support your claim.</p>
-        <div>
-          <a className="vads-c-action-link--green" href="https://www.va.gov/">
-            Go back to VA.gov
-          </a>
-        </div>
+        <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#what-to-expect-after-you-file-">
+          Learn more about what to expect after you file your claim
+        </a>
+        <h2>How to contact us about FMP claims</h2>
+        <p>
+          If you have any questions about your claim, call us at{' '}
+          <va-telephone contact="8339300816" /> (TTY: 711). We’re here Monday
+          through Friday, 8:05am to 6:45pm. ET.
+        </p>
+        <va-link
+          href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#by-phone"
+          text="Learn more about how to call us toll-free"
+        />
+        <p>You can also contact us online through our Ask VA tool.</p>
+        <a href="https://ask.va.gov/">Go to Ask VA</a>
+        <br />
+        <br />
+        <a className="vads-c-action-link--green" href="https://www.va.gov/">
+          Go back to VA.gov
+        </a>
       </div>
     );
   }

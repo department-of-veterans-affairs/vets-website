@@ -5,11 +5,28 @@ import {
 } from 'platform/user/selectors';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
+/**
+ * Custom Selectors for Eligibility Flags
+ */
+
+// Eligible for Active Duty Kicker
+export const selectEligibleForActiveDutyKicker = state => {
+  return state?.data?.formData?.data?.attributes?.claimant
+    ?.eligibleForActiveDutyKicker;
+};
+
+// Eligible for Reserve Kicker
+export const selectEligibleForReserveKicker = state => {
+  return state?.data?.formData?.data?.attributes?.claimant
+    ?.eligibleForReserveKicker;
+};
+
 export const getAppData = state => ({
   benefitEffectiveDate: state?.form?.data?.benefitEffectiveDate,
-  eligibility: state.data?.eligibility,
   duplicateEmail: state.data?.duplicateEmail,
   duplicatePhone: state.data?.duplicatePhone,
+  eligibleForActiveDutyKicker: selectEligibleForActiveDutyKicker(state),
+  eligibleForReserveKicker: selectEligibleForReserveKicker(state),
   email: state?.form?.data?.email?.email,
   mobilePhone:
     state?.data?.formData?.data?.attributes?.claimant?.contactInfo
@@ -18,7 +35,6 @@ export const getAppData = state => ({
   featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,
-  isEligibilityCallComplete: state.data?.eligibilityFetchComplete,
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   isLoggedIn: state?.user?.login?.currentlyLoggedIn,
@@ -43,11 +59,8 @@ export const getAppData = state => ({
   showMebEnhancements09: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements09
   ],
-  showMebServiceHistoryCategorizeDisagreement: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebServiceHistoryCategorizeDisagreement
-  ],
-  mebExclusionPeriodEnabled: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.mebExclusionPeriodEnabled
+  mebKickerNotificationEnabled: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebKickerNotificationEnabled
   ],
   mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
@@ -57,5 +70,8 @@ export const getAppData = state => ({
   ],
   meb160630Automation: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.meb160630Automation
+  ],
+  mebDpoAddressOptionEnabled: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled
   ],
 });

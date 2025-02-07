@@ -9,12 +9,7 @@ import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import PropTypes from 'prop-types';
 import { navigateToFoldersPage } from '../util/helpers';
-import {
-  delFolder,
-  getFolders,
-  renameFolder,
-  retrieveFolder,
-} from '../actions/folders';
+import { delFolder, getFolders, renameFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
 import * as Constants from '../util/constants';
 
@@ -63,7 +58,7 @@ const ManageFolderButtons = props => {
   );
 
   const openDelModal = () => {
-    dispatch(closeAlert());
+    if (alertStatus) dispatch(closeAlert());
     if (threads.threadList.length > 0) {
       setIsEmptyWarning(true);
     } else {
@@ -107,13 +102,8 @@ const ManageFolderButtons = props => {
     } else if (folderMatch.length > 0) {
       setNameWarning(ErrorMessages.ManageFolders.FOLDER_NAME_EXISTS);
     } else if (folderName.match(/^[0-9a-zA-Z\s]+$/)) {
+      await dispatch(renameFolder(folder.folderId, folderName));
       closeRenameModal();
-      dispatch(renameFolder(folder.folderId, folderName)).then(() => {
-        // Refresh the folder name in the "My folders" page--otherwise the old name flashes on-screen for a second.
-        dispatch(getFolders());
-        // Refresh the folder name on the folder detail page.
-        dispatch(retrieveFolder(folder.folderId));
-      });
     } else {
       setNameWarning(
         ErrorMessages.ManageFolders.FOLDER_NAME_INVALID_CHARACTERS,

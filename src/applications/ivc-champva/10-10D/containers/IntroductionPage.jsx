@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro'; // '@' import not working
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 const IntroductionPage = props => {
-  const { route, isLoggedIn } = props;
+  const { route } = props;
   const { formConfig, pageList } = route;
 
   useEffect(
@@ -25,26 +24,11 @@ const IntroductionPage = props => {
       />
 
       <p>
-        If you’re the spouse or child of a Veteran with disabilities or a
-        Veteran who has died, you may be able to get health insurance through
-        the Civilian Health and Medical Program of the Department of Veterans
-        Affairs (CHAMPVA). Apply online now.
+        If you’re the spouse, dependant, or survivor of a Veteran or service
+        member who meets certain requirements, you may qualify for health
+        insurance through the Civilian Health and Medical Program of the
+        Department of Veterans Affairs (CHAMPVA).
       </p>
-
-      {!isLoggedIn && (
-        <VaAlert status="info" visible uswds>
-          <h2>Have you applied for VA health care before?</h2>
-          <SaveInProgressIntro
-            buttonOnly
-            headingLevel={2}
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={pageList}
-            unauthStartText="Sign in to check your application status"
-            hideUnauthedStartLink
-          />
-        </VaAlert>
-      )}
 
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps to apply for CHAMPVA benefits.
@@ -52,7 +36,7 @@ const IntroductionPage = props => {
       <va-process-list uswds>
         <va-process-list-item header="Check your eligibility">
           <p>
-            Make sure you meet our eligibility requirements before you apply
+            Make sure you meet our eligibility requirements before you apply.
           </p>
           <a href="https://www.va.gov/health-care/family-caregiver-benefits/champva/">
             Find out if you’re eligible for CHAMPVA benefits
@@ -77,18 +61,18 @@ const IntroductionPage = props => {
           <br />
           <br />
           You may also need to submit supporting documents, like copies of your
-          other health insurance cards or proof of school enrollment.
-          {/* Link coming soon: */}
-          {/* 
-          <br />
-          <br />
-          <VaLink text="Find out which documents you’ll need to apply for CHAMPVA" />
-          */}
+          health insurance cards or proof of school enrollment.
+          <p>
+            <va-link
+              href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your-"
+              text="Find out which documents you’ll need to apply for CHAMPVA"
+            />
+          </p>
         </va-process-list-item>
         <va-process-list-item header="Start your application">
           <p>
-            We’ll take you through each step of the process. It should take 10
-            minutes.
+            We’ll take you through each step of the process. It should take
+            about 10 minutes.
           </p>
         </va-process-list-item>
         <va-process-list-item header="After you apply">
@@ -101,6 +85,7 @@ const IntroductionPage = props => {
       <SaveInProgressIntro
         formId={formConfig.formId}
         headingLevel={2}
+        alertTitle="Sign in now to save time and save your work in progress"
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}

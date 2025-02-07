@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import DOMPurify from 'dompurify';
 import {
   DefaultFolders as Folders,
   Paths,
@@ -146,6 +147,21 @@ export const titleCase = str => {
 export const httpRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
 export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https
 
+export const decodeHtmlEntities = str => {
+  const parser = new DOMParser();
+  const decodedStr = str
+    .replace(/&quot;/g, '"') // Replace &quot; with "
+    .replace(/&#x22;/g, '"') // Replace &#x22; with "
+    .replace(/&lt;/g, '<') // Replace &lt; with <
+    .replace(/&gt;/g, '>') // Replace &gt; with >
+    .replace(/&amp;/g, '&'); // Replace &amp; with &
+
+  const sanitizedStr = DOMPurify.sanitize(decodedStr);
+
+  return parser.parseFromString(sanitizedStr, 'text/html').documentElement
+    .innerText;
+};
+
 /**
  * Comparing a timestampt to current date and time, if older than days return true
  * @param {*} timestamp
@@ -168,18 +184,39 @@ export const getLastSentMessage = messages => {
 };
 
 export const handleHeader = (folderId, folder) => {
+  let folderName;
+
   switch (folderId) {
     case Folders.INBOX.id: // Inbox
-      return Folders.INBOX.header;
+      folderName = Folders.INBOX.header;
+      break;
     case Folders.SENT.id: // Sent
-      return Folders.SENT.header;
+      folderName = Folders.SENT.header;
+      break;
     case Folders.DRAFTS.id: // Drafts
-      return Folders.DRAFTS.header;
+      folderName = Folders.DRAFTS.header;
+      break;
     case Folders.DELETED.id: // Trash
-      return Folders.DELETED.header;
+      folderName = Folders.DELETED.header;
+      break;
     default:
-      return folder.name;
+      folderName = folder.name;
   }
+
+  const isCustomFolder =
+    folderName !== Folders.INBOX.header &&
+    folderName !== Folders.SENT.header &&
+    folderName !== Folders.DRAFTS.header &&
+    folderName !== Folders.DELETED.header;
+
+  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folderName}`} h1`;
+  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+
+  return {
+    folderName,
+    ddTitle,
+    ddPrivacy,
+  };
 };
 
 export const updateMessageInThread = (thread, response) => {
@@ -230,17 +267,11 @@ export const setUnsavedNavigationError = (
     case ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
       });
       break;
     case ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR:
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        confirmButtonText: 'Continue editing',
-        cancelButtonText: 'Delete draft',
       });
       break;
     default:
@@ -321,10 +352,14 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
   );
 
   // if TG is not associated or is blocked, formattedRecipient will include status of "not associated" or "blocked"
-  if (!isAssociated) {
-    formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
-  } else if (isBlocked) {
-    formattedRecipient.status = RecipientStatus.BLOCKED;
+  if (formattedRecipient) {
+    if (!isAssociated) {
+      formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
+    } else if (isBlocked) {
+      formattedRecipient.status = RecipientStatus.BLOCKED;
+    } else {
+      formattedRecipient.status = RecipientStatus.ALLOWED;
+    }
   }
 
   return { isAssociated, isBlocked, formattedRecipient };

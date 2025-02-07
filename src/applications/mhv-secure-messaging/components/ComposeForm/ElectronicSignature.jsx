@@ -49,6 +49,7 @@ const ElectronicSignature = ({
 ElectronicSignature.propTypes = {
   checkboxError: PropTypes.string,
   checked: PropTypes.bool,
+  electronicSignature: PropTypes.string,
   nameError: PropTypes.string,
   onCheckboxCheck: PropTypes.func,
   onInput: PropTypes.func,

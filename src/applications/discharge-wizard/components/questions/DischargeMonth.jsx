@@ -1,71 +1,92 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import Scroll from 'react-scroll';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { connect } from 'react-redux';
 
-// Relative Imports
-import { months } from 'platform/static-data/options-for-select.js';
-import { shouldShowQuestion } from '../../helpers';
+import { months } from 'platform/static-data/options-for-select';
+import {
+  QUESTION_MAP,
+  SHORT_NAME_MAP,
+} from '../../constants/question-data-map';
+import { updateDischargeMonth } from '../../actions';
+import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
-const { Element } = Scroll;
+import Dropdown from './shared/Dropdown';
 
-const DischargeMonthQuestion = ({
-  formValues,
-  handleKeyDown,
-  scrollToLast,
-  updateField,
+const DischargeMonth = ({
+  formResponses,
+  router,
+  viewedIntroPage,
+  setDischargeMonth,
 }) => {
-  const key = '3_dischargeMonth';
+  const [formError, setFormError] = useState(false);
+  const shortName = SHORT_NAME_MAP.DISCHARGE_MONTH;
+  const H1 = QUESTION_MAP[shortName];
 
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
+
+  useEffect(
+    () => {
+      if (!viewedIntroPage) {
+        router.push(ROUTES.HOME);
+      }
+    },
+    [router, viewedIntroPage],
+  );
+
+  const dischargeMonth = formResponses[shortName];
   const monthOptions = months.map(month => {
     return (
-      <option key={month.value} value={month.value}>
+      <option
+        data-testid="va-select-option"
+        key={month.value}
+        value={month.value}
+      >
         {month.label}
       </option>
     );
   });
 
-  monthOptions.unshift(
-    <option key="-1" value="">
-      {' '}
-    </option>,
-  );
-
-  if (!formValues) {
-    return null;
-  }
-
-  if (!shouldShowQuestion(key, formValues.questions)) {
-    return null;
-  }
   return (
-    <div className="vads-u-margin-top--6">
-      <fieldset className="fieldset-input dischargeMonth" key={key}>
-        <Element name={key} />
-        <VaSelect
-          autocomplete="false"
-          label="What month were you discharged?"
-          name={key}
-          vaKeyDown={handleKeyDown}
-          value={{ value: formValues[key] }}
-          onVaSelect={update => {
-            updateField(key, update.detail.value);
-            scrollToLast();
-          }}
-          uswds
-        >
-          {monthOptions}
-        </VaSelect>
-      </fieldset>
-    </div>
+    <Dropdown
+      H1={H1}
+      formError={formError}
+      formResponses={formResponses}
+      formValue={dischargeMonth}
+      router={router}
+      setFormError={setFormError}
+      shortName={shortName}
+      testId="duw-discharge_month"
+      options={monthOptions}
+      valueSetter={setDischargeMonth}
+    />
   );
 };
 
-DischargeMonthQuestion.propTypes = {
-  formValues: PropTypes.object.isRequired,
-  handleKeyDown: PropTypes.func,
-  scrollToLast: PropTypes.func,
-  updateField: PropTypes.func,
+DischargeMonth.propTypes = {
+  formResponses: PropTypes.object.isRequired,
+  setDischargeMonth: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 };
 
-export default DischargeMonthQuestion;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+const mapDispatchToProps = {
+  setDischargeMonth: updateDischargeMonth,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DischargeMonth);

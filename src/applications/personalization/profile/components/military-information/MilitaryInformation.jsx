@@ -5,6 +5,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { connect } from 'react-redux';
 
 import { DevTools } from '~/applications/personalization/common/components/devtools/DevTools';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import DowntimeNotification, {
   externalServices,
@@ -12,9 +13,9 @@ import DowntimeNotification, {
 import { focusElement } from '~/platform/utilities/ui';
 import { selectVeteranStatus } from '~/platform/user/selectors';
 import ProofOfVeteranStatus from '../proof-of-veteran-status/ProofOfVeteranStatus';
+import ProofOfVeteranStatusNew from '../proof-of-veteran-status/ProofOfVeteranStatusNew';
 
 import LoadFail from '../alerts/LoadFail';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 import { transformServiceHistoryEntryIntoTableRow } from '../../helpers';
 import { ProfileInfoCard } from '../ProfileInfoCard';
@@ -214,9 +215,8 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
     <div>
       <Headline>Military information</Headline>
       <DowntimeNotification
-        appTitle="Military Information"
-        render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.vaProfile]}
+        appTitle="military information page"
+        dependencies={[externalServices.VAPRO_MILITARY_INFO]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}
@@ -224,9 +224,9 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
         />
       </DowntimeNotification>
 
-      <h3 className="vads-u-margin--0 vads-u-font-size--h2">
+      <h2 className="vads-u-margin--0">
         Request your military service records
-      </h3>
+      </h2>
 
       <p className="vads-u-margin-y--1">
         You can request a copy of your DD214 and other military service records
@@ -241,7 +241,16 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
 
       {militaryInformation?.serviceHistory?.serviceHistory && (
         <div className="vads-u-margin-y--4">
-          <ProofOfVeteranStatus />
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.veteranStatusCardUseLighthouse}
+          >
+            <Toggler.Enabled>
+              <ProofOfVeteranStatusNew />
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <ProofOfVeteranStatus />
+            </Toggler.Disabled>
+          </Toggler>
         </div>
       )}
       <DevTools devToolsData={{ militaryInformation, veteranStatus }} panel>

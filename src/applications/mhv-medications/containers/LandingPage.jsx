@@ -9,15 +9,21 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { getPrescriptionsPaginatedSortedList } from '../actions/prescriptions';
+import {
+  getPaginatedFilteredList,
+  getPrescriptionsPaginatedSortedList,
+} from '../actions/prescriptions';
 import {
   medicationsUrls,
   rxListSortingOptions,
   defaultSelectedSortOption,
   SESSION_SELECTED_PAGE_NUMBER,
+  filterOptions,
 } from '../util/constants';
 import {
   selectAllergiesFlag,
+  selectFilterFlag,
+  selectGroupingFlag,
   selectRefillContentFlag,
 } from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -32,8 +38,14 @@ const LandingPage = () => {
   const paginatedPrescriptionsList = useSelector(
     state => state.rx.prescriptions?.prescriptionsList,
   );
+  const filteredList = useSelector(
+    state => state.rx.prescriptions?.prescriptionsFilteredList,
+  );
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
+  );
+  const selectedSortOption = useSelector(
+    state => state.rx.prescriptions?.selectedSortOption,
   );
   const { featureTogglesLoading, appEnabled } = useSelector(
     state => {
@@ -47,6 +59,8 @@ const LandingPage = () => {
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
+  const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingFlag = useSelector(selectGroupingFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -84,12 +98,13 @@ const LandingPage = () => {
 
   useEffect(
     () => {
-      if (!paginatedPrescriptionsList) {
+      if (!showFilterContent && !paginatedPrescriptionsList) {
         setIsPrescriptionsLoading(true);
         dispatch(
           getPrescriptionsPaginatedSortedList(
             1,
             rxListSortingOptions[defaultSelectedSortOption].API_ENDPOINT,
+            showGroupingFlag ? 10 : 20,
           ),
         )
           .then(() => setIsPrescriptionsLoading(false))
@@ -99,14 +114,36 @@ const LandingPage = () => {
     [dispatch, paginatedPrescriptionsList],
   );
 
+  useEffect(
+    () => {
+      if (showFilterContent && !filteredList) {
+        setIsPrescriptionsLoading(true);
+        const sortOption = selectedSortOption ?? defaultSelectedSortOption;
+        const sortEndpoint = rxListSortingOptions[sortOption].API_ENDPOINT;
+        dispatch(
+          getPaginatedFilteredList(
+            1,
+            filterOptions.ALL_MEDICATIONS.url,
+            sortEndpoint,
+            showGroupingFlag ? 10 : 20,
+          ),
+        )
+          .then(() => setIsPrescriptionsLoading(false))
+          .catch(() => setIsPrescriptionsLoading(false));
+      }
+    },
+    // disabled warning: filteredList must be left of out dependency array to avoid infinite loop, and filterOption to avoid on change api fetch
+    [dispatch, showFilterContent],
+  );
+
   const content = () => {
     return (
       <>
         <div className="main-content">
-          <section className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4">
+          <section className="vads-u-margin-bottom--3 mobile-lg:vads-u-margin-bottom--4">
             <h1
               data-testid="landing-page-heading"
-              className="small-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
+              className="mobile-lg:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
@@ -123,7 +160,7 @@ const LandingPage = () => {
           ) : (
             <>
               <CernerFacilityAlert />
-              {paginatedPrescriptionsList?.length ? (
+              {paginatedPrescriptionsList?.length || filteredList?.length ? (
                 <section>
                   <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
                     {showRefillContent ? (
@@ -197,7 +234,7 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
+          <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
             <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
               What to know as you try out this tool
@@ -627,7 +664,6 @@ const LandingPage = () => {
             </section>
           </section>
         </div>
-        <va-back-to-top />
       </>
     );
   };
@@ -657,7 +693,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6">
+      <div className="landing-page mobile-lg:vads-u-margin-top--1 vads-u-margin-bottom--6">
         {content()}
       </div>
     </RequiredLoginView>

@@ -86,13 +86,13 @@ const ContestableIssues = props => {
     }))
     .concat(formData.additionalIssues || []);
 
+  const hasIssues = items.length > 0;
   const hasSelected = someSelected(items);
+  const showAlert = !hasIssues && !hasSelected && !submitted && !onReviewPage;
   const showApiFailure =
-    !submitted &&
-    !onReviewPage &&
-    apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
+    showAlert && apiLoadStatus === FETCH_CONTESTABLE_ISSUES_FAILED;
   const showNoneSelected =
-    !submitted && !onReviewPage && formData.contestedIssues?.length === 0;
+    showAlert && !showApiFailure && formData.contestedIssues?.length === 0;
   const showEditModeError =
     !showNoneSelected && !hasSelected && (onReviewPage || submitted);
 
@@ -106,7 +106,7 @@ const ContestableIssues = props => {
     [onReviewPage, showEditModeError, submitted],
   );
 
-  if (onReviewPage && inReviewMode && items.length && !hasSelected) {
+  if (onReviewPage && inReviewMode && hasIssues && !hasSelected) {
     return (
       <NoneSelectedAlert
         count={items.length}
@@ -206,7 +206,7 @@ const ContestableIssues = props => {
     <>
       <div name="eligibleScrollElement" />
       {showApiFailure && <ApiFailureAlert />}
-      {showNoneSelected && !showApiFailure && <NoEligibleIssuesAlert />}
+      {showNoneSelected && <NoEligibleIssuesAlert />}
       {showEditModeError && (
         <NoneSelectedAlert
           count={formData.contestedIssues?.length || 0}

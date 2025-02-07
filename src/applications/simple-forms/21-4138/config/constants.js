@@ -47,25 +47,44 @@ export const workInProgressContent = {
 };
 
 export const STATEMENT_TYPES = Object.freeze({
-  BUDDY_STATEMENT: 'buddy-statement',
+  NEW_EVIDENCE: 'new-evidence',
   DECISION_REVIEW: 'decision-review',
+  BUDDY_STATEMENT: 'buddy-statement',
   PRIORITY_PROCESSING: 'priority-processing',
   PERSONAL_RECORDS: 'personal-records',
-  NEW_EVIDENCE: 'new-evidence',
   NOT_LISTED: 'not-listed',
 });
 
 export const STATEMENT_TYPE_LABELS = Object.freeze({
-  [STATEMENT_TYPES.BUDDY_STATEMENT]:
-    'I want to submit a formal statement to support my claim or someone else’s claim. This is also known as a “buddy statement.”',
+  [STATEMENT_TYPES.NEW_EVIDENCE]:
+    'I have new evidence to submit for an open claim.',
   [STATEMENT_TYPES.DECISION_REVIEW]:
-    'I want to request a decision review for my claim.',
+    "I disagree with VA's decision on my benefit or claim, and I'd like to request a decision review.",
+  [STATEMENT_TYPES.BUDDY_STATEMENT]:
+    'I want to provide context or details about a claim.',
   [STATEMENT_TYPES.PRIORITY_PROCESSING]:
-    'I want to request that VA process my claim faster due to certain qualifying situations.',
+    'I want to request faster claim processing because of my situation.',
   [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
-  [STATEMENT_TYPES.NEW_EVIDENCE]: 'I have new evidence to submit.',
-  [STATEMENT_TYPES.NOT_LISTED]:
-    "The type of statement I want to submit isn't listed here.",
+  [STATEMENT_TYPES.NOT_LISTED]: "What I want to do isn't listed here.",
+});
+
+export const STATEMENT_TYPE_DESCRIPTIONS = Object.freeze({
+  [STATEMENT_TYPES.NEW_EVIDENCE]: '',
+  [STATEMENT_TYPES.DECISION_REVIEW]:
+    'In some situations, you can submit new evidence for closed claims.',
+  [STATEMENT_TYPES.BUDDY_STATEMENT]:
+    'You can do this for your claim, or as a "buddy statement" for another person\'s claim.',
+  [STATEMENT_TYPES.PRIORITY_PROCESSING]:
+    'Certain situations, like a recent job loss or homelessness, may qualify you for priority processing.',
+  [STATEMENT_TYPES.PERSONAL_RECORDS]:
+    'You can request your DD214, benefit records, and more.',
+  [STATEMENT_TYPES.NOT_LISTED]: '',
+});
+
+export const STATEMENT_TYPE_PAGE = Object.freeze({
+  title: 'What would you like to do?',
+  description:
+    "We’ve improved how we process certain types of statements and requests. Before you continue with VA Form 21-4138, tell us what you’re trying to do and we'll check if there's a quicker way to help you.",
 });
 
 export const DECISION_REVIEW_TYPES = Object.freeze({
@@ -158,7 +177,7 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
     <va-omb-info
       res-burden={10}
       omb-number="2900-0881"
-      exp-date="06/30/2024"
+      exp-date="07/31/2027"
       class="vads-u-margin-y--4"
     />
     {ESCAPE_HATCH}

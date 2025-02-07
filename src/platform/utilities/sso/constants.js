@@ -16,6 +16,13 @@ export const cernerEnvPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
+export const oracleHealthEnvPrefixes = {
+  [ENVIRONMENTS.LOCALHOST]: 'sandbox-',
+  [ENVIRONMENTS.VAGOVDEV]: 'sandbox-',
+  [ENVIRONMENTS.VAGOVSTAGING]: 'sandbox-',
+  [ENVIRONMENTS.VAGOVPROD]: '',
+};
+
 export const SKIP_DUPE = 'skip_dupe=true';
 
 export const SKIP_DUPE_QUERY = {

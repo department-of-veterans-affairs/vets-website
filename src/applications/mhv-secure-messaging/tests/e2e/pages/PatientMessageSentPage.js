@@ -21,6 +21,31 @@ class PatientMessageSentPage {
     cy.get('[data-testid="sent-inner-nav"]>a').click({ force: true });
   };
 
+  loadSingleThread = (
+    singleThreadResponse = mockThreadResponse,
+    multiThreadsResponse = mockSentMessages,
+  ) => {
+    const singleMessageResponse = { data: singleThreadResponse.data[0] };
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        multiThreadsResponse.data[0].attributes.messageId
+      }/thread*`,
+      singleThreadResponse,
+    ).as(`threadResponse`);
+
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_EXTENDED}/${
+        singleThreadResponse.data[0].attributes.messageId
+      }`,
+      singleMessageResponse,
+    ).as(`threadFirstMessageResponse`);
+    cy.get(
+      `#message-link-${multiThreadsResponse.data[0].attributes.messageId}`,
+    ).click();
+  };
+
   loadDetailedMessage = (detailedMessage = mockSingleMessageResponse) => {
     cy.intercept(
       'GET',
@@ -101,10 +126,6 @@ class PatientMessageSentPage {
             expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
           });
       });
-  };
-
-  verifyFolderHeaderText = text => {
-    cy.get(Locators.FOLDERS.FOLDER_HEADER).should('have.text', `${text}`);
   };
 
   verifyResponseBodyLength = (responseData = mockSentMessages) => {

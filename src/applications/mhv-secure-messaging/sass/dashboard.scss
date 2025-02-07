@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .dashboard {
   @media (max-width: $small-screen) {
@@ -100,7 +100,7 @@
       padding: 40px 20px 15px 33px;
       margin: 14px 0 25px 0;
       background-color: var(--vads-color-base-lightest);
-      font-weight: $font-bold;
+      font-weight: var(--font-weight-bold);
       font-size: 16px;
       .folder-link {
         padding: 0;

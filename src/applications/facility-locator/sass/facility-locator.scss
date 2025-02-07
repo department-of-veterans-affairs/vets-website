@@ -1,4 +1,5 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
 
@@ -11,19 +12,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
   @media (max-width: $small-screen) {
     margin: 0;
-  }
-
-  .title-section {
-    padding: 0.3125rem 0;
-
-    h1:first-child {
-      margin-top: 0;
-      padding: 0 0 0 0.9375rem;
-    }
-  }
-
-  .facility-introtext {
-    padding: 0 15px 15px;
   }
 
   .p1 {
@@ -52,9 +40,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .search-result-title {
-    padding: 4px;
-    margin: 4px;
-
     :focus {
       @include focus-gold-light-outline(0);
       outline-offset: 2px;
@@ -75,10 +60,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
     &.active {
       border: $focus-outline;
-    }
-
-    span.fa {
-      margin-right: 0.3125rem;
     }
 
     a {

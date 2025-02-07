@@ -2,12 +2,11 @@ import PageObject from './PageObject';
 
 export class ClinicChoicePageObject extends PageObject {
   assertSingleClinic() {
-    cy.findByText(/Would you like to make an appointment at/i);
+    cy.get('va-radio').contains('Would you like to make an appointment at');
     return this;
   }
 
   assertUrl() {
-    // cy.url().should('include', url, { timeout: 5000 });
     cy.url().should('include', '/clinic', { timeout: 5000 });
     cy.axeCheckBestPractice();
 
@@ -17,14 +16,12 @@ export class ClinicChoicePageObject extends PageObject {
   selectClinic({ selection, isCovid = false } = {}) {
     if (isCovid) {
       cy.findByText(/Choose a clinic/i, { selector: 'h1' });
-    } else {
-      cy.findByText(/Choose a VA clinic/i, { selector: 'h1' });
+      cy.findByLabelText(selection).as('radio');
+      cy.get('@radio').check();
+
+      return this;
     }
-
-    cy.findByLabelText(selection).as('radio');
-    cy.get('@radio').check();
-
-    return this;
+    return super.selectRadioButtonShadow(selection);
   }
 }
 

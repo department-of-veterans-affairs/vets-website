@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import { GA_PREFIX } from '../../utils/constants';
-import PrintButton from './ConfirmedAppointmentDetailsPage/PrintButton';
+import PrintButton from '../pages/UpcomingAppointmentsDetailsPage/PrintButton';
 
-export default function AppointmentListNavigation({ count, callback }) {
+export default function AppointmentListNavigation({
+  count,
+  callback,
+  hidePendingTab = false,
+}) {
   const location = useLocation();
 
   const isPending = location.pathname.endsWith('/pending');
@@ -38,23 +42,25 @@ export default function AppointmentListNavigation({ count, callback }) {
               Upcoming
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/pending"
-              style={{ whiteSpace: 'nowrap' }}
-              onClick={() => {
-                callback(true);
-                recordEvent({
-                  event: `${GA_PREFIX}-status-pending-link-clicked`,
-                });
-              }}
-              aria-current={
-                Boolean(isPending).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
-              }
-            >
-              {`Pending (${count})`}
-            </NavLink>
-          </li>
+          {!hidePendingTab && (
+            <li>
+              <NavLink
+                to="/pending"
+                style={{ whiteSpace: 'nowrap' }}
+                onClick={() => {
+                  callback(true);
+                  recordEvent({
+                    event: `${GA_PREFIX}-status-pending-link-clicked`,
+                  });
+                }}
+                aria-current={
+                  Boolean(isPending).toString() // eslint-disable-next-line jsx-a11y/aria-proptypes
+                }
+              >
+                {`Pending (${count})`}
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink
               to="/past"
@@ -83,4 +89,5 @@ export default function AppointmentListNavigation({ count, callback }) {
 AppointmentListNavigation.propTypes = {
   callback: PropTypes.func.isRequired,
   count: PropTypes.number.isRequired,
+  hidePendingTab: PropTypes.bool,
 };

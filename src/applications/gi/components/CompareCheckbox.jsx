@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Checkbox from './Checkbox';
 
 export default function CompareCheckbox({
@@ -22,3 +23,9 @@ export default function CompareCheckbox({
     </div>
   );
 }
+CompareCheckbox.propTypes = {
+  compareChecked: PropTypes.bool.isRequired,
+  handleCompareUpdate: PropTypes.func.isRequired,
+  institution: PropTypes.string.isRequired,
+  cityState: PropTypes.string,
+};

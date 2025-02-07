@@ -1,7 +1,6 @@
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
-  fullNameUI,
   fullNameSchema,
   ssnUI,
   ssnSchema,
@@ -14,6 +13,7 @@ import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import UnauthenticatedWarningAlert from '../../../containers/UnauthenticatedWarningAlert';
 import { isSameOrAfter } from '../../../helpers';
+import { benefitsIntakeFullNameUI } from './helpers';
 
 const { vaClaimsHistory } = fullSchemaPensions.properties;
 
@@ -54,7 +54,7 @@ export default {
     'view:warningAlert': {
       'ui:description': UnauthenticatedWarningAlert,
     },
-    veteranFullName: fullNameUI(),
+    veteranFullName: benefitsIntakeFullNameUI(),
     veteranSocialSecurityNumber: ssnUI(),
     vaClaimsHistory: yesNoUI({
       title: 'Have you ever filed a claim with VA?',

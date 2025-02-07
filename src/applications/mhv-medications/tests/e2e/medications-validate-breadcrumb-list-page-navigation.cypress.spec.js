@@ -26,15 +26,15 @@ describe('Medications Breadcrumb Navigation To List Page', () => {
 
     cy.injectAxe();
     cy.axeCheck('main');
-    listPage.clickGotoMedicationsLink(true);
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
+    listPage.clickGotoMedicationsLink();
+    site.verifyPaginationPrescriptionsDisplayed(1, 10, listLength);
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    site.verifyPaginationPrescriptionsDisplayed(21, 29, listLength);
+    site.verifyPaginationPrescriptionsDisplayed(11, 20, listLength);
     detailsPage.clickMedicationHistoryAndDetailsLink(prescriptionDetails);
     detailsPage.clickMedicationsListPageTwoBreadcrumbsOnDetailsPage();
     listPage.verifyNavigationToListPageTwoAfterClickingBreadcrumbMedications(
-      21,
-      29,
+      11,
+      20,
       listLength,
     );
   });

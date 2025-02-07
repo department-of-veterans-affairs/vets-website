@@ -8,6 +8,7 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { APP_NAMES } from '../../../utils/appConstants';
 import ExternalLink from '../../../components/ExternalLink';
+import TravelPayOMB from '../../../components/TravelPayOMB';
 
 const TravelIntro = props => {
   const { router } = props;
@@ -78,15 +79,13 @@ const TravelIntro = props => {
               <p className="vads-u-margin-top--0">
                 {t('if-youre-claiming-mileage-file-online-now')}
               </p>
-              <a
-                data-testid="file-claim-link"
-                className="vads-c-action-link--green"
+              <va-link-action
                 href="#file-travel-claim"
                 onKeyDown={fileClaimClick}
                 onClick={fileClaimClick}
-              >
-                {t('file-mileage-only-claim')}
-              </a>
+                text={t('file-mileage-only-claim')}
+                data-testid="file-claim-link"
+              />
             </va-process-list-item>
           </va-process-list>
         </div>
@@ -104,6 +103,7 @@ const TravelIntro = props => {
             {t('set-up-direct-deposit')}
           </ExternalLink>
         </va-alert>
+        <TravelPayOMB />
       </Wrapper>
     </>
   );

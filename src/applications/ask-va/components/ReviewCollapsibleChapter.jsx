@@ -21,10 +21,13 @@ import {
   focusOnChange,
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
+import { Element } from 'platform/utilities/scroll';
+
 import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';
 
-const { Element, scroller } = Scroll;
+const { scroller } = Scroll;
 const scrollOffset = -40;
 
 /*
@@ -35,6 +38,13 @@ class ReviewCollapsibleChapter extends React.Component {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
     this.id = uniqueId();
+  }
+
+  showSaveCancelButtons(editing) {
+    if (this.props.showButtons) {
+      return !editing;
+    }
+    return true;
   }
 
   handleEdit(key, editing, index = null) {
@@ -213,7 +223,7 @@ class ReviewCollapsibleChapter extends React.Component {
           formContext={formContext}
           editModeOnReviewPage={page.editModeOnReviewPage}
         >
-          {!editing ? (
+          {this.showSaveCancelButtons(editing) ? (
             <div />
           ) : (
             <div className="vads-u-display--flex vads-u-max-width--100">

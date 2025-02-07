@@ -587,4 +587,45 @@ describe('Veteran address', () => {
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
+
+  it('should display an error if the veteran enters an invalid phone number not matching 111222333 or 111-222-333', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectCheckbox(
+      form,
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
+      false,
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
+      '1600',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
+      '04102',
+    );
+    fillData(
+      form,
+      'input#root_veteranContactInformation_phoneNumber',
+      '1008005551212',
+    );
+    form.find('form').simulate('submit');
+    expect(
+      form
+        .find('#root_veteranContactInformation_phoneNumber-error-message')
+        .text(),
+    ).to.include('Enter a 10-digit phone number without dashes or spaces');
+    expect(onSubmit.called).to.be.false;
+    form.unmount();
+  });
 });

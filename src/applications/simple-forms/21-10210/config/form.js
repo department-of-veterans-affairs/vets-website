@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { scrollAndFocus } from 'platform/utilities/ui';
 
 import manifest from '../manifest.json';
@@ -127,7 +128,9 @@ const formConfig = {
           // we want req'd fields prefilled for LOCAL testing/previewing
           // one single initialData prop here will suffice for entire form
           initialData:
-            !!mockData && environment.isLocalhost() && !window.Cypress
+            !!mockData &&
+            (environment.isLocalhost() || environment.isDev()) &&
+            !environment.isTest()
               ? mockData
               : undefined,
           uiSchema: claimOwnershipPg.uiSchema,
@@ -414,6 +417,9 @@ const formConfig = {
         },
       },
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

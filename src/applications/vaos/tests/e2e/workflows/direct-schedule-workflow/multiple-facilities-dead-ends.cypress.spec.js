@@ -3,6 +3,7 @@ import MockUser from '../../fixtures/MockUser';
 import {
   mockAppointmentsGetApi,
   mockClinicsApi,
+  mockEligibilityApi,
   mockEligibilityCCApi,
   mockEligibilityDirectApi,
   mockEligibilityRequestApi,
@@ -53,8 +54,51 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .clickNextButton();
 
         VAFacilityPageObject.assertUrl().assertErrorAlert({
-          text: /We.re sorry. We.ve run into a problem/i,
+          text: /You can.t schedule an appointment online right now/i,
         });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+
+      it('should display error message - direct schedule', () => {
+        // Arrange
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+        mockEligibilityCCApi({ cceType, isEligible: false });
+
+        mockFacilitiesApi({
+          response: MockFacilityResponse.createResponses({
+            facilityIds: ['983', '984'],
+          }),
+        });
+        mockSchedulingConfigurationApi({
+          facilityIds: ['983', '984'],
+          typeOfCareId: 'primaryCare',
+          isDirect: true,
+          isRequest: false,
+        });
+        mockEligibilityApi({ responseCode: 502 });
+        mockClinicsApi({
+          locationId: '983',
+          response: [],
+        });
+        // Act
+        cy.login(mockUser);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl()
+          .selectLocation(/Facility 983/i)
+          .clickNextButton();
+
+        cy.get('[data-testid="eligibilityModal"]')
+          .contains('We’re sorry. There’s a problem with our system')
+          .should('exist');
 
         // Assert
         cy.axeCheckBestPractice();
@@ -104,7 +148,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /We couldn.t find a clinic for this type of care/i,
+            text: /You can.t schedule this appointment online/i,
           });
 
         // Assert
@@ -156,7 +200,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /You.ve reached the limit for appointment requests/i,
+            text: /You can.t schedule this appointment online/i,
           });
 
         // Assert
@@ -214,7 +258,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /We couldn.t find a recent appointment at this location/i,
+            text: /You can.t schedule an appointment online/i,
           });
 
         // Assert
@@ -272,7 +316,7 @@ describe('VAOS direct schedule flow - Multiple facilities dead ends', () => {
           .selectLocation(/Facility 983/i)
           .clickNextButton()
           .assertWarningModal({
-            text: /We can.t find a recent appointment for you/i,
+            text: /You haven’t had a recent appointment at this facility/i,
           });
 
         // Assert

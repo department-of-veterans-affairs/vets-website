@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function LearnMoreLabel({
   ariaLabel,
@@ -54,21 +56,24 @@ export default function LearnMoreLabel({
           'vads-u-font-weight--bold': bold,
         })}
       >
-        (
-        <button
+        <VaButton
+          text="(Learn more)"
           id={buttonId}
-          aria-label={ariaLabel}
-          type="button"
-          className={classNames(
-            buttonClassName,
-            'va-button-link learn-more-button vads-u-margin--0',
-          )}
+          label={ariaLabel}
+          className={`learn-more-btn ${bold ? 'learn-more-bold-text' : ''}`}
           onClick={onClick}
-        >
-          Learn more
-        </button>
-        )
+        />
       </span>
     </span>
   );
 }
+LearnMoreLabel.propTypes = {
+  ariaLabel: PropTypes.string,
+  bold: PropTypes.bool,
+  buttonClassName: PropTypes.string,
+  buttonId: PropTypes.string,
+  dataTestId: PropTypes.string,
+  labelFor: PropTypes.string,
+  text: PropTypes.any,
+  onClick: PropTypes.func,
+};

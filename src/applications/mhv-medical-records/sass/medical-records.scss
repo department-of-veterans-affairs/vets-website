@@ -1,10 +1,8 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./record-list";
-@import "./vaccine-details";
 @import "./breadcrumbs";
 @import "./vitals";
 @import "./navigation";
-@import "./conditions";
 @import "./landing-page";
 @import "./labs-and-tests";
 @import "./chem-hem";
@@ -37,9 +35,6 @@
     margin: 0px !important;
     padding: 0px !important;
   }
-  h1 {
-    font-size: 30;
-  }
   .page-title {
     border: solid 1px var(--vads-color-black);
     padding: 8px 0px;
@@ -61,6 +56,18 @@
   .print-title {
     display: flex;
     flex-wrap: wrap;
+  }
+  .left-align-print {
+    padding-left: 0px !important;
+  }
+  .print-indent {
+    padding-left: 16px !important;
+  }
+  .print-bold {
+    font-weight: 700 !important;
+  }
+  .margin-zero-print {
+    margin: 0px !important;
   }
 }
 
@@ -134,6 +141,11 @@ va-loading-indicator {
 
 #new-records-indicator va-loading-indicator {
   margin: initial;
+}
+
+#generating-ccd-indicator va-loading-indicator,
+#generating-sei-indicator va-loading-indicator {
+  margin: 0px;
 }
 
 .initial-fhir-load {

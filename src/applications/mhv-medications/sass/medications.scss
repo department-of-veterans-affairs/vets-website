@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "./prescription-details";
 @import "./print-download";
 
@@ -47,7 +47,7 @@
 }
 .main-content {
   padding: 0;
-  margin-bottom: 40px;
+  margin-bottom: 2rem !important;
 
   @media (max-width: $small-screen) {
     max-width: 480px;
@@ -182,10 +182,6 @@
     margin: 0.9375rem 0 !important;
     padding: 0;
   }
-  .line-break {
-    margin: 0.625rem 0;
-    border-bottom: 1px solid rgb(0, 0, 0);
-  }
   .no-print,
   .no-print * {
     visibility: hidden;
@@ -220,8 +216,7 @@
       word-wrap: break-word;
     }
     .print-only-rx-details-container {
-      margin: 0 auto 0.625rem auto;
-      width: 95%;
+      margin-bottom: 0.625rem;
     }
     h4 {
       margin: 0.625rem 0 0.3125rem 0;

@@ -156,6 +156,30 @@ export const fillGulfWarDateRange = () => {
   );
 };
 
+export const fillAgentOrangeDateRange = () => {
+  const { agentOrangeStartDate, agentOrangeEndDate } = testData[
+    'view:agentOrangeExposureDates'
+  ];
+  const [startYear, startMonth] = agentOrangeStartDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  const [endYear, endMonth] = agentOrangeEndDate
+    .split('-')
+    .map(dateComponent => parseInt(dateComponent, 10).toString());
+  cy.get(
+    '[name="root_view:agentOrangeExposureDates_agentOrangeStartDateMonth"]',
+  ).select(startMonth);
+  cy.get(
+    '[name="root_view:agentOrangeExposureDates_agentOrangeStartDateYear"]',
+  ).type(startYear);
+  cy.get(
+    '[name="root_view:agentOrangeExposureDates_agentOrangeEndDateMonth"]',
+  ).select(endMonth);
+  cy.get(
+    '[name="root_view:agentOrangeExposureDates_agentOrangeEndDateYear"]',
+  ).type(endYear);
+};
+
 // Keyboard-only pattern helpers
 export const fillAddressWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="root_${fieldName}_country"]`);

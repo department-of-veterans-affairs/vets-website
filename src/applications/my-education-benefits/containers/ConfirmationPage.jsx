@@ -15,6 +15,8 @@ import ConfirmationApproved from '../components/confirmation/ConfirmationApprove
 import ConfirmationDenied from '../components/confirmation/ConfirmationDenied';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
+import UnderReviewChapter30 from '../components/confirmation/UnderReviewChapter30';
+import UnderReviewChapter1606 from '../components/confirmation/UnderReviewChapter1606';
 
 import { formatReadableDate } from '../helpers';
 import { formFields } from '../constants';
@@ -28,14 +30,16 @@ export const ConfirmationPage = ({
   sendConfirmation,
   confirmationLoading,
   confirmationError,
+  chosenBenefit,
+  meb160630Automation,
 }) => {
   useEffect(
     () => {
       if (!claimStatus) {
-        getClaimStatus();
+        getClaimStatus(chosenBenefit || 'Chapter33');
       }
     },
-    [getClaimStatus, claimStatus],
+    [getClaimStatus, claimStatus, chosenBenefit],
   );
 
   const confirmationResult = claimStatus?.claimStatus;
@@ -48,6 +52,18 @@ export const ConfirmationPage = ({
   const printPage = useCallback(() => {
     window.print();
   }, []);
+
+  // Step 1: Show loading indicator if `claimStatus` is still loading
+  if (!claimStatus) {
+    return (
+      <LoadingIndicator
+        className="meb-confirmation-page meb-confirmation-page_loading vads-u-margin-bottom--6"
+        message="Loading your results"
+      />
+    );
+  }
+
+  // Step 2: Switch statement to handle various confirmation results and conditions
   switch (confirmationResult) {
     case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
       return (
@@ -79,6 +95,36 @@ export const ConfirmationPage = ({
     }
     case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
     case CLAIM_STATUS_RESPONSE_ERROR: {
+      // Additional check for Chapter 30 or 1606 with `meb160630Automation` feature flag
+      if (chosenBenefit === 'chapter30' && meb160630Automation) {
+        return (
+          <UnderReviewChapter30
+            claimantName={claimantName}
+            confirmationDate={confirmationDate}
+            confirmationError={confirmationError}
+            confirmationLoading={confirmationLoading}
+            printPage={printPage}
+            sendConfirmation={sendConfirmation}
+            userEmail={userEmail}
+            userFirstName={userFirstName}
+          />
+        );
+      }
+      if (chosenBenefit === 'chapter1606' && meb160630Automation) {
+        return (
+          <UnderReviewChapter1606
+            claimantName={claimantName}
+            confirmationDate={confirmationDate}
+            confirmationError={confirmationError}
+            confirmationLoading={confirmationLoading}
+            printPage={printPage}
+            sendConfirmation={sendConfirmation}
+            userEmail={userEmail}
+            userFirstName={userFirstName}
+          />
+        );
+      }
+      // Fallback to ConfirmationPending if conditions are not met
       return (
         <ConfirmationPending
           claimantName={claimantName}
@@ -93,6 +139,7 @@ export const ConfirmationPage = ({
       );
     }
     default: {
+      // Default loading indicator if claimStatus doesn't match any case
       return (
         <LoadingIndicator
           className="meb-confirmation-page meb-confirmation-page_loading vads-u-margin-bottom--6"
@@ -115,7 +162,10 @@ const mapStateToProps = state => ({
   confirmationError: state.confirmationError || null,
   confirmationLoading: state.confirmationLoading || false,
   confirmationSuccess: state.confirmationSuccess || false,
+  chosenBenefit: state?.form?.data?.chosenBenefit,
+  meb160630Automation: state.featureToggles?.meb160630Automation,
 });
+
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
   sendConfirmation: sendConfirmationAction,
@@ -129,6 +179,7 @@ export default connect(
 ConfirmationPage.propTypes = {
   getClaimStatus: PropTypes.func.isRequired,
   sendConfirmation: PropTypes.func.isRequired,
+  chosenBenefit: PropTypes.string,
   claimStatus: PropTypes.shape({
     claimStatus: PropTypes.string,
     receivedDate: PropTypes.string,
@@ -136,6 +187,7 @@ ConfirmationPage.propTypes = {
   confirmationError: PropTypes.object,
   confirmationLoading: PropTypes.bool,
   confirmationSuccess: PropTypes.bool,
+  meb160630Automation: PropTypes.bool,
   userEmail: PropTypes.string,
   userFirstName: PropTypes.string,
   userFullName: PropTypes.shape({

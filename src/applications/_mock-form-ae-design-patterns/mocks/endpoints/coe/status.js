@@ -8,6 +8,13 @@ const generateCoeEligibleResponse = (referenceNumber = '17923279') => ({
   },
 });
 
+const generateCoeEmptyResponse = () => ({
+  data: {
+    attributes: {},
+  },
+});
+
 module.exports = {
   generateCoeEligibleResponse,
+  generateCoeEmptyResponse,
 };

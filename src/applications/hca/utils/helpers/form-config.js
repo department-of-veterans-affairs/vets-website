@@ -1,4 +1,5 @@
 import { inRange } from 'lodash';
+import { isAfter, isBefore } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
 import { replaceStrValues } from './general';
 import content from '../../locales/en/content.json';
@@ -85,8 +86,9 @@ export function dischargePapersRequired(formData) {
  * @returns {Boolean} - true if the user is logged in and viewfield is empty
  */
 export function isMissingVeteranDob(formData) {
-  const { 'view:userDob': userDob } = formData;
-  return !isLoggedOut(formData) && !userDob;
+  const { 'view:veteranInformation': veteranInfo = {} } = formData;
+  const { veteranDateOfBirth } = veteranInfo;
+  return !isLoggedOut(formData) && !veteranDateOfBirth;
 }
 
 /**
@@ -96,15 +98,6 @@ export function isMissingVeteranDob(formData) {
  */
 export function isRegOnlyEnabled(formData) {
   return formData['view:isRegOnlyEnabled'];
-}
-
-/**
- * Helper that determines if the feature flag status for the gender identity question
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the form data is `true`
- */
-export function isSigiEnabled(formData) {
-  return formData['view:isSigiEnabled'];
 }
 
 /**
@@ -186,6 +179,36 @@ export function includeTeraInformation(formData) {
 }
 
 /**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for radiation clean-up efforts
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born before Jan 1, 1966
+ */
+export function includeRadiationCleanUpEfforts(formData) {
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isBefore(
+    new Date(veteranDateOfBirth),
+    new Date('1966-01-01'),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for gulf war service
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born before Feb 29, 1976
+ */
+export function includeGulfWarService(formData) {
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isBefore(
+    new Date(veteranDateOfBirth),
+    new Date('1976-02-29'),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
  * Helper that determines if the form data contains values that indicate the
  * user served in specific gulf war locations
  * @param {Object} formData - the current data object passed from the form
@@ -194,7 +217,57 @@ export function includeTeraInformation(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return includeTeraInformation(formData) && gulfWarService;
+  return (
+    includeTeraInformation(formData) &&
+    includeGulfWarService(formData) &&
+    gulfWarService
+  );
+}
+
+/**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for post-9/11 service
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born after Feb 28, 1976
+ */
+export function includePostSept11Service(formData) {
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isAfter(
+    new Date(veteranDateOfBirth),
+    new Date('1976-02-28'),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific post-9/11 locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * post-9/11 locations
+ */
+export function includePostSept11ServiceDates(formData) {
+  const { gulfWarService } = formData;
+  return (
+    includeTeraInformation(formData) &&
+    includePostSept11Service(formData) &&
+    gulfWarService
+  );
+}
+
+/**
+ * Helper that determines if the form data indicates the user has a birthdate that
+ * makes them eligibile for agent orange exposure
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user was born before Aug 1, 1965 or earlier
+ */
+export function includeAgentOrangeExposure(formData) {
+  const { veteranDateOfBirth } = formData;
+  const couldHaveServed = isBefore(
+    new Date(veteranDateOfBirth),
+    new Date('1965-08-01'),
+  );
+  return includeTeraInformation(formData) && couldHaveServed;
 }
 
 /**
@@ -303,24 +376,6 @@ export function includeDependentInformation(formData) {
 export function collectMedicareInformation(formData) {
   const { isEnrolledMedicarePartA } = formData;
   return notShortFormEligible(formData) && isEnrolledMedicarePartA;
-}
-
-/**
- * Helper that determines if we should display the Lighthouse facility list
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if viewfield is set to `true`
- */
-export function useLighthouseFacilityList(formData) {
-  return formData['view:isFacilitiesApiEnabled'];
-}
-
-/**
- * Helper that determines if we should display the hardcoded facility list
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if viewfield is set to `false`
- */
-export function useJsonFacilityList(formData) {
-  return !useLighthouseFacilityList(formData);
 }
 
 /**

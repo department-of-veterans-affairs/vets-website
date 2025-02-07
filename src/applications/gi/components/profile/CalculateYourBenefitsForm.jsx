@@ -293,7 +293,7 @@ function CalculateYourBenefitsForm({
   };
 
   const resetBuyUp = event => {
-    event.preventDefault();
+    event?.preventDefault();
     handleInputBlur(event);
     if (inputs.buyUpAmount > 600) {
       calculatorInputChange({
@@ -1215,7 +1215,7 @@ function CalculateYourBenefitsForm({
         'estimate-your-benefits-form',
         'medium-5',
         'columns',
-        'small-screen:vads-u-padding-right--0',
+        'mobile-lg:vads-u-padding-right--0',
       )}
     >
       <div>

@@ -9,7 +9,6 @@ import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
-import { OnThisPageDetails } from '../components/OnThisPageDetails';
 import {
   formatDate,
   verifyCurrentBalance,
@@ -29,9 +28,8 @@ const DetailPage = ({ match }) => {
   const isCurrentBalance = verifyCurrentBalance(
     selectedCopay?.pSStatementDateOutput,
   );
-  const acctNum = selectedCopay?.pHAccountNumber
-    ? selectedCopay?.pHAccountNumber.toString()
-    : selectedCopay?.pHCernerAccountNumber.toString();
+  const acctNum =
+    selectedCopay?.accountNumber || selectedCopay?.pHAccountNumber;
 
   useHeaderPageTitle(title);
 
@@ -54,7 +52,7 @@ const DetailPage = ({ match }) => {
         breadcrumbList={[
           {
             href: '/',
-            label: 'Home',
+            label: 'VA.gov Home',
           },
           {
             href: '/manage-va-debt/summary',
@@ -88,7 +86,7 @@ const DetailPage = ({ match }) => {
           . Payments after this date will not be reflected here.
         </p>
         <Alert type={alert} copay={selectedCopay} />
-        <OnThisPageDetails />
+        <va-on-this-page class="vads-u-margin-top--2 medium-screen:vads-u-margin-top--0" />
         <HTMLStatementList selectedId={selectedId} />
         <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
         <FinancialHelp />

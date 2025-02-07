@@ -17,8 +17,8 @@ const StatementCharges = ({ copay }) => {
           .replace(/[^\d.-]/g, '')}`}
       >
         <span>{item.pDTransDescOutput.replace(/&nbsp;/g, '')}</span>
-        <span>{item.pDRefNo}</span>
-        <span>
+        <span className="vads-u-width--fit">{item.pDRefNo}</span>
+        <span className="vads-u-width--fit">
           $
           {item.pDTransAmtOutput
             .replace('&nbsp', '')
@@ -30,23 +30,28 @@ const StatementCharges = ({ copay }) => {
   });
 
   return (
-    <>
+    <article className="vads-u-padding-x--0">
       <h2 data-testid="statement-charges-head" id="statement-charges">
         Statement Charges
       </h2>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         This statement shows charges you received between{' '}
-        {previousCopaysStartDate} and {today}
+        {previousCopaysStartDate} and {today}.
       </p>
-      <va-table data-testid="statement-charges-table">
+      <va-table
+        data-testid="statement-charges-table"
+        table-title="Transaction history"
+        uswds
+        table-type="bordered"
+      >
         <va-table-row slot="headers">
           <span>Description</span>
-          <span> Billing reference</span>
-          <span>Amount</span>
+          <span className="vads-u-width--fit"> Billing reference</span>
+          <span className="vads-u-width--fit">Amount</span>
         </va-table-row>
         {tableData}
       </va-table>
-    </>
+    </article>
   );
 };
 

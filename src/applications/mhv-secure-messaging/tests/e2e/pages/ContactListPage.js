@@ -151,16 +151,15 @@ class ContactListPage {
   };
 
   verifyContactListLink = () => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="contact"]`)
       .should(`be.visible`)
       .and('have.text', Data.CL_LINK_TEXT);
 
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="contact"]`)
       .click({ force: true });
 
-    cy.contains(`Delete draft`).click({ force: true });
     cy.url().should(`include`, `${Paths.UI_MAIN}/contact-list`);
   };
 

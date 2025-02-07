@@ -5,7 +5,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { focusElement } from 'platform/utilities/ui';
+import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -29,6 +29,7 @@ const AddIssue = ({
   data,
   goToPath,
   setFormData,
+  uiSchema,
   testingIndex,
 }) => {
   const { contestedIssues = [], additionalIssues = [] } = data || {};
@@ -109,6 +110,11 @@ const AddIssue = ({
       };
       setFormData({ ...data, additionalIssues: issues });
       goToPath(returnPath);
+    } else if (
+      uiSchema?.['ui:options']?.focusOnAlertRole &&
+      (showIssueNameError || invalidDate)
+    ) {
+      scrollToFirstError({ focusOnAlertRole: true });
     } else if (showIssueNameError) {
       focusElement('input', {}, $('#issue-name')?.shadowRoot);
     } else {
@@ -174,6 +180,7 @@ const AddIssue = ({
         <VaTextInput
           id="issue-name"
           name="issue-name"
+          class="vads-u-margin-bottom--4"
           type="text"
           label={content.name.label}
           required
@@ -182,12 +189,9 @@ const AddIssue = ({
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
           message-aria-describedby={content.name.hintText}
-          uswds
         >
           {content.name.hint}
         </VaTextInput>
-
-        <br role="presentation" />
 
         <VaMemorableDate
           name="decision-date"
@@ -205,7 +209,7 @@ const AddIssue = ({
           month-select={false}
           uswds
         />
-        <p>
+        <p className="vads-u-margin-top--6">
           <va-button
             id="cancel"
             secondary
@@ -233,6 +237,11 @@ AddIssue.propTypes = {
   goToPath: PropTypes.func,
   setFormData: PropTypes.func,
   testingIndex: PropTypes.number,
+  uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      focusOnAlertRole: PropTypes.bool,
+    }),
+  }),
   validations: PropTypes.shape({
     maxNameLength: PropTypes.func,
     validateDate: PropTypes.func,

@@ -1,6 +1,7 @@
 // we're not using JSON schema for this form
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import getHelp from '../../shared/components/GetFormHelp';
 
 import manifest from '../manifest.json';
@@ -567,6 +568,9 @@ const formConfig = {
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
+  },
+  downtime: {
+    dependencies: [externalServices.lighthouseBenefitsIntake],
   },
   footerContent,
   getHelp,

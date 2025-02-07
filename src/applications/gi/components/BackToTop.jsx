@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-
+import PropTypes from 'prop-types';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
@@ -121,6 +121,7 @@ export default function BackToTop({
           style={backToTopContainerStyle}
         >
           <div className="usa-content">
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               type="button"
               className="usa-button va-top-button-transition-in"
@@ -150,3 +151,11 @@ export default function BackToTop({
     </>
   );
 }
+BackToTop.propTypes = {
+  compare: PropTypes.shape({
+    open: PropTypes.bool.isRequired,
+  }).isRequired,
+  parentId: PropTypes.string.isRequired,
+  profilePageHeaderId: PropTypes.string.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+};

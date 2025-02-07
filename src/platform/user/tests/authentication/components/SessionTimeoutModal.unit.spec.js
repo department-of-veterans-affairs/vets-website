@@ -233,7 +233,49 @@ describe('SessionTimeoutModal', () => {
   });
 
   it('sets the service name to an empty string when it is undefined', () => {
-    const props = { ...defaultProps, serviceName: undefined };
+    const state = {
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+        profile: {
+          session: {
+            authBroker: 'sis',
+          },
+          signIn: {
+            serviceName: undefined,
+          },
+        },
+      },
+    };
+    const props = mapStateToProps(state);
+    const component = shallow(<SessionTimeoutModal {...props} />);
+    const instance = component.instance();
+
+    instance.componentDidUpdate();
+
+    expect(instance.serviceName).to.eql('');
+
+    component.unmount();
+  });
+
+  it('sets the service name to an empty string when it is null', () => {
+    const state = {
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+        profile: {
+          session: {
+            authBroker: 'sis',
+          },
+          signIn: {
+            serviceName: null,
+          },
+        },
+      },
+    };
+    const props = mapStateToProps(state);
     const component = shallow(<SessionTimeoutModal {...props} />);
     const instance = component.instance();
 

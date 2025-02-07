@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -315,79 +315,158 @@ va-accordion-item .service-history-details {
 	margin-left: 1em;
 }
 
-// Review Page
+/* Review Page */
 .review {
 	margin-bottom: 0;
-}
-dl.review {
-	border-bottom: 0;
-}
-.review-row {
-	margin: 0;
-}
-dl.review .review-row {
-	padding: 1em 0;
-}
-dl.review .review-row:last-child {
-	padding-bottom: 0;
-}
-@media only screen and (min-width: 40.0625em) {
-	dl.review .review-row {
-		padding-left: 1em;
-		padding-right: 1em;
-	}
-}
-dl.review .review-row > dd {
-	overflow-x: auto;
-}
+  }
 
-.form-review-panel-page form.rjsf {
+  dl.review {
+	border-bottom: 0;
+  }
+
+  /* Review Row Adjustments */
+  dl.review .review-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	padding: 1em 0;
+	margin: 0; /* Removed duplicate margin rule at the bottom */
+  }
+
+  /* Ensure the question (dt) doesn't overflow and wraps correctly */
+  dl.review .review-row > dt {
+	flex: 1 1 65%; /* Slightly reduce the space allocated to the question */
+	margin-right: 1rem; /* Space between question and answer */
+	word-break: break-word; /* Ensure long text wraps without overflow */
+	overflow-wrap: break-word; /* Handle word wrapping properly */
+	align-self: center; /* Vertically align the question to the middle */
+  }
+
+  /* Ensure the answer (dd) is aligned and responsive */
+  dl.review .review-row > dd {
+	flex: 1 1 35%; /* Increase the space allocated for the answer */
+	text-align: right; /* Align the answer to the right */
+	white-space: nowrap; /* Prevent answer from wrapping */
+	overflow: hidden; /* Ensure long text doesn't overflow */
+	text-overflow: ellipsis; /* Show ellipsis if the answer is too long */
+	align-self: center; /* Vertically align the answer to the middle */
+  }
+
+  /* Specifically target the span inside the dd for privacy-hidden answers */
+  dl.review .review-row > dd .dd-privacy-hidden {
+	display: inline-block;
+	max-width: 29em; /* Increase the maximum width for the answer span */
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis; /* Apply ellipsis to answers */
+  }
+
+  /* Adjust for smaller screens */
+  @media only screen and (max-width: 40em) {
+	dl.review .review-row > dt {
+	  flex: 1 1 100%; /* Question takes full width on small screens */
+	  margin-bottom: 0.5rem; /* Add spacing between question and answer */
+	  align-self: flex-start; /* Align to the top in smaller screens */
+	}
+
+	dl.review .review-row > dd {
+	  flex: 1 1 100%; /* Answer takes full width on small screens */
+	  text-align: left; /* Align text to the left */
+	  align-self: flex-start; /* Align to the top on smaller screens */
+	}
+  }
+
+  /* Last review row padding adjustment */
+  dl.review .review-row:last-child {
+	padding-bottom: 0;
+  }
+
+  /* Make adjustments for smaller screens */
+  @media only screen and (max-width: 40em) {
+	dl.review .review-row > dt {
+	  flex: 1 1 100%; /* Ensure the question takes the full width on smaller screens */
+	  margin-bottom: 0.5rem; /* Add spacing between question and answer */
+	}
+
+	dl.review .review-row > dd {
+	  flex: 1 1 100%; /* Ensure the answer takes the full width on smaller screens */
+	  text-align: left; /* Align text to the left on smaller screens */
+	}
+  }
+
+  /* Adjust padding for larger screens */
+  @media only screen and (min-width: 40.0625em) {
+	dl.review .review-row {
+	  padding-left: 1em;
+	  padding-right: 1em;
+	}
+  }
+
+  /* Form review panel adjustments */
+  .form-review-panel-page form.rjsf {
 	margin: 0;
-}
-.va-growable-review {
+  }
+
+  .va-growable-review {
 	margin-top: 0;
-}
-.va-growable-review .va-growable-background {
+  }
+
+  .va-growable-review .va-growable-background {
 	background-color: transparent;
 	margin-bottom: 0;
 	padding: 0;
-}
-.form-review-array .add-btn {
-	display: none;
-}
-.form-review-panel-page .input-section div:last-child fieldset {
-	margin-bottom: 0;
-}
-.form-review-panel fieldset {
-	margin-bottom: 2em;
-}
-.form-review-panel fieldset fieldset {
-	margin-bottom: 0;
-}
+  }
 
-.form-review-panel-page .additional-info-button,
-.form-review-panel-page .additional-info-content,
-.meb-review-page-only {
+  /* Hide add button in form review array */
+  .form-review-array .add-btn {
 	display: none;
-}
-.form-review-panel-page .additional-info-button.vads-u-display--block {
+  }
+
+  .form-review-panel-page .input-section div:last-child fieldset {
+	margin-bottom: 0;
+  }
+
+  .form-review-panel fieldset {
+	margin-bottom: 2em;
+  }
+
+  .form-review-panel fieldset fieldset {
+	margin-bottom: 0;
+  }
+
+  /* Additional info button and content visibility */
+  .form-review-panel-page .additional-info-button,
+  .form-review-panel-page .additional-info-content,
+  .meb-review-page-only {
+	display: none;
+  }
+
+  .form-review-panel-page .additional-info-button.vads-u-display--block {
 	display: none !important;
-}
-.form-review-panel-page .meb-review-page-only {
+  }
+
+  .form-review-panel-page .meb-review-page-only {
 	display: block;
-}
-.form-review-panel-page .meb-form-page-only {
+  }
+
+  .form-review-panel-page .meb-form-page-only {
 	display: none;
-}
-.form-review-panel-page p.meb-review-page-only {
-	margin-bottom: 0 !important; // overriding .schemaform-block-header > p
-	margin-top: .5em !important; // overriding .schemaform-block-header > p
-}
-.form-review-panel-page .usa-button-primary,
-.form-review-panel-page .schemaform-field-container .form-checkbox,
-.form-review-panel-page .schemaform-field-container .schemaform-field-template {
+  }
+
+  /* Override schemaform block header margins */
+  .form-review-panel-page p.meb-review-page-only {
+	margin-bottom: 0 !important;
+	margin-top: 0.5em !important;
+  }
+
+  /* Primary button and field container adjustments */
+  .form-review-panel-page .usa-button-primary,
+  .form-review-panel-page .schemaform-field-container .form-checkbox,
+  .form-review-panel-page .schemaform-field-container .schemaform-field-template {
 	margin-left: 0.625rem;
-}
+  }
+
 
 // This is a huge hack to not have a blue border next to text for the
 // Benefit Selection section in edit mode. Couldn't figure out a better

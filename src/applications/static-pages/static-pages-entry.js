@@ -7,14 +7,12 @@ import 'platform/polyfills';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
-import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';
+import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
-import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
-import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
-import widgetTypes from './widgetTypes';
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
@@ -32,7 +30,7 @@ import createViewDependentsCTA from './view-modify-dependents/view-dependents-ct
 import createViewPaymentHistoryCTA from './view-payment-history/createViewPaymentHistoryCTA';
 import facilityReducer from './facilities/reducers';
 // Other widgets.
-import createAskVAWidget from './ask-va';
+import createAskVAWidget from './ask-va-widget';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createBTSSSLogin from './BTSSS-login/createBTSSSLogin';
 import createCOEAccess from './coe-access/createCOEAccess';
@@ -47,12 +45,14 @@ import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
 import createFindARepLandingContent from './representative-search';
+import createAppointARepLandingContent from './representative-appoint';
 import createRepresentativeStatus from './representative-status';
 import createFindVaForms, {
   findVaFormsWidgetReducer,
-} from '../find-forms/createFindVaForms';
-import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
+} from './find-forms/createFindVaForms';
+import createFindVaFormsPDFDownloadHelper from './find-forms/download-widget';
 import createHCAPerformanceWarning from './hca-performance-warning';
+import createHomepageEmailSignup from './homepage-email-signup';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
@@ -63,6 +63,7 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
+import createSituationUpdatesBanner from './situation-updates-banner/createSituationUpdatesBanner';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
@@ -98,7 +99,6 @@ import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEn
 import create1010DAccess from './ivc-champva/10-10D/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
-import create107959F1Access from './ivc-champva/10-7959f-1/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
@@ -126,14 +126,12 @@ Sentry.withScope(scope => {
 });
 
 // Before create-widget tasks.
-subscribeAdditionalInfoEvents();
-subscribeAccordionEvents();
 alertsBuildShow();
 // See `content-build/src/site/includes/social-share.drupal.liquid
 // & `content-build/src/site/layouts/event.drupal.liquid`, respectively (per selector)
 icsCreate('#add-to-calendar-link, a.recurring-event');
 openShareLink();
-showVaAlertExpandable(store);
+connectFeatureToggle(store.dispatch);
 
 // Create widgets.
 createPensionApp(store, widgetTypes.PENSION_APP_STATUS);
@@ -173,12 +171,17 @@ createScoEventsWidget();
 createScoAnnouncementsWidget();
 createThirdPartyApps(store, widgetTypes.THIRD_PARTY_APP_DIRECTORY);
 createFindARepLandingContent(store, widgetTypes.FIND_A_REP_LANDING_CONTENT);
+createAppointARepLandingContent(
+  store,
+  widgetTypes.APPOINT_A_REP_LANDING_CONTENT,
+);
 createRepresentativeStatus(store, widgetTypes.REPRESENTATIVE_STATUS);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(
   store,
   widgetTypes.FIND_VA_FORMS_DOWNLOAD_MODAL,
 );
+createHomepageEmailSignup(store, widgetTypes.HOMEPAGE_EMAIL_SIGNUP);
 createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
@@ -199,6 +202,7 @@ createScheduleViewVAAppointmentsPage(
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createSituationUpdatesBanner(store, widgetTypes.SITUATION_UPDATES_BANNER);
 createViewTestAndLabResultsPage(
   store,
   widgetTypes.VIEW_TEST_AND_LAB_RESULTS_PAGE,
@@ -240,7 +244,6 @@ createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 create1010DAccess(store, widgetTypes.FORM_1010D);
 create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
-create107959F1Access(store, widgetTypes.FORM_107959F1);
 create107959F2Access(store, widgetTypes.FORM_107959F2);
 createMhvSigninCallToAction(store, widgetTypes.MHV_SIGNIN_CTA);
 

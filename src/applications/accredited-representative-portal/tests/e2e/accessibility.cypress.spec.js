@@ -8,8 +8,14 @@ describe('Accessibility', () => {
     });
   });
 
-  it('has accessible 21a form intro', () => {
+  it('has accessible Landing Page', () => {
     cy.visit('/representative');
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+
+  it('has accessible POA Requests page', () => {
+    cy.visit('/representative/poa-requests');
     cy.injectAxe();
     cy.axeCheck();
   });

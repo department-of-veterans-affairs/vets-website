@@ -23,6 +23,9 @@ import {
 
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 
+import DowntimeNotification, {
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
 import { LOADING_STATES } from '../../../common/constants';
 
 import LoadFail from '../alerts/LoadFail';
@@ -121,58 +124,64 @@ const NotificationSettings = ({
   return (
     <>
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
-      {shouldShowLoadingIndicator && (
-        <VaLoadingIndicator
-          data-testid="loading-indicator"
-          message="We’re loading your information."
-        />
-      )}
-      {shouldShowAPIError && <LoadFail />}
-      {showMissingContactInfoAlert && (
-        <MissingContactInfoAlert
-          missingMobilePhone={!mobilePhoneNumber}
-          missingEmailAddress={!emailAddress}
-          showEmailNotificationSettings={showEmail}
-        />
-      )}
-      {shouldShowNotificationGroups && (
-        <>
-          <FieldHasBeenUpdatedAlert />
-          <ContactInfoOnFile
-            emailAddress={emailAddress}
-            mobilePhoneNumber={mobilePhoneNumber}
+
+      <DowntimeNotification
+        appTitle="notification settings page"
+        dependencies={[externalServices.VAPRO_NOTIFICATION_SETTINGS]}
+      >
+        {shouldShowLoadingIndicator && (
+          <VaLoadingIndicator
+            data-testid="loading-indicator"
+            message="We’re loading your information."
+          />
+        )}
+        {shouldShowAPIError && <LoadFail />}
+        {showMissingContactInfoAlert && (
+          <MissingContactInfoAlert
+            missingMobilePhone={!mobilePhoneNumber}
+            missingEmailAddress={!emailAddress}
             showEmailNotificationSettings={showEmail}
           />
-          <MissingContactInfoExpandable
-            showEmailNotificationSettings={showEmail}
-          />
-          <hr aria-hidden="true" />
-          {availableGroups.map(({ id }) => {
-            // we handle the health care group a little differently
-            if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
-              return (
-                <NotificationGroup groupId={id} key={id}>
-                  <HealthCareGroupSupportingText />
-                </NotificationGroup>
-              );
-            }
-            // this will hide the Payments header when there are no items to display
-            if (
-              id === NOTIFICATION_GROUPS.PAYMENTS &&
-              !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting &&
-              !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
-              !mobilePhoneNumber
-            ) {
-              return null;
-            }
-            return <NotificationGroup groupId={id} key={id} />;
-          })}
-          <p className="vads-u-margin-bottom--0">
-            <strong>Note:</strong> We have limited notification options at this
-            time. Check back for more options in the future.
-          </p>
-        </>
-      )}
+        )}
+        {shouldShowNotificationGroups && (
+          <>
+            <FieldHasBeenUpdatedAlert />
+            <ContactInfoOnFile
+              emailAddress={emailAddress}
+              mobilePhoneNumber={mobilePhoneNumber}
+              showEmailNotificationSettings={showEmail}
+            />
+            <MissingContactInfoExpandable
+              showEmailNotificationSettings={showEmail}
+            />
+            <hr aria-hidden="true" />
+            {availableGroups.map(({ id }) => {
+              // we handle the health care group a little differently
+              if (id === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
+                return (
+                  <NotificationGroup groupId={id} key={id}>
+                    <HealthCareGroupSupportingText />
+                  </NotificationGroup>
+                );
+              }
+              // this will hide the Payments header when there are no items to display
+              if (
+                id === NOTIFICATION_GROUPS.PAYMENTS &&
+                !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting &&
+                !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
+                !mobilePhoneNumber
+              ) {
+                return null;
+              }
+              return <NotificationGroup groupId={id} key={id} />;
+            })}
+            <p className="vads-u-margin-bottom--0">
+              <strong>Note:</strong> We have limited notification options at
+              this time. Check back for more options in the future.
+            </p>
+          </>
+        )}
+      </DowntimeNotification>
     </>
   );
 };

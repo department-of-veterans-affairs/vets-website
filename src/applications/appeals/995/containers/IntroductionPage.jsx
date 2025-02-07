@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
+import { OtherBenefits } from '../../shared/content/intro';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -116,10 +118,12 @@ const IntroductionPage = props => {
             <li>
               New evidence. You can either submit new evidence (supporting
               documents) or identify new evidence you want us to gather for you.
-              <strong> Note:</strong> If you have a condition that we consider
-              presumptive under a new law or regulation (such as the PACT Act),
-              you don’t need to submit evidence to prove that your service
-              caused the condition.
+              <p>
+                <strong> Note:</strong> If you have a condition that we consider
+                presumptive under a new law or regulation (such as the PACT
+                Act), you don’t need to submit evidence to prove that your
+                service caused the condition.
+              </p>
             </li>
             <li>
               The decision date of any issue you want us to review. You can ask
@@ -176,6 +180,11 @@ const IntroductionPage = props => {
 
       <OmbInfo />
       <p />
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.scNewForm}>
+        <Toggler.Enabled>
+          <OtherBenefits />
+        </Toggler.Enabled>
+      </Toggler>
     </div>
   );
 };

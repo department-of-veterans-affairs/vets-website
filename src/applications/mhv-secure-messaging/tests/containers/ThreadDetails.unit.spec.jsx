@@ -760,4 +760,48 @@ describe('Thread Details container', () => {
       'Your account is no longer connected to SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
     );
   });
+
+  it('does not display BlockedTriageGroupAlert if recipients API call is incomplete (meaning recipient values will be undefined)', async () => {
+    const state = {
+      sm: {
+        folders: {
+          folder: inbox,
+        },
+        threadDetails,
+        recipients: {
+          allRecipients: [],
+          allowedRecipients: [],
+          blockedRecipients: [],
+          associatedTriageGroupsQty: undefined,
+          associatedBlockedTriageGroupsQty: undefined,
+          noAssociations: undefined,
+          allTriageGroupsBlocked: undefined,
+        },
+      },
+      drupalStaticData: {
+        vamcEhrData: {
+          data: {
+            ehrDataByVhaId: [
+              {
+                facilityId: '662',
+                isCerner: false,
+              },
+              {
+                facilityId: '636',
+                isCerner: false,
+              },
+            ],
+          },
+        },
+      },
+      featureToggles: {},
+    };
+
+    const screen = setup(state);
+
+    const blockedTriageGroupAlert = await screen.queryByTestId(
+      'blocked-triage-group-alert',
+    );
+    expect(blockedTriageGroupAlert).not.to.exist;
+  });
 });

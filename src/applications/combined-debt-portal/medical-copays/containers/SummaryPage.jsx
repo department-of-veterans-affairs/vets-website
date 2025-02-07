@@ -15,7 +15,6 @@ import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
-import { OnThisPageOverview } from '../components/OnThisPageOverview';
 import MCPAlerts from '../../combined/components/MCPAlerts';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
@@ -30,13 +29,12 @@ const renderAlert = (alertType, debts) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
-      {alertType === ALERT_TYPES.ALL_ERROR && (
+      {alertInfo.secondHeader ? (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
           {alertInfo.secondBody}
         </>
-      )}
+      ) : null}
       {showVAReturnLink ? (
         <va-link
           active
@@ -46,6 +44,7 @@ const renderAlert = (alertType, debts) => {
           text="Return to VA.gov"
         />
       ) : null}
+      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
     </va-alert>
   );
 };
@@ -63,7 +62,7 @@ const renderOtherVA = (debtLength, debtError) => {
           <h3 slot="headline" className="vads-u-font-size--h3">
             {alertInfo.header}
           </h3>
-          {alertInfo.body}
+          {alertInfo.secondBody}
         </va-alert>
       </>
     );
@@ -119,15 +118,15 @@ const OverviewPage = () => {
       return renderAlert(ALERT_TYPES.ZERO, debts?.length);
     }
     return (
-      <>
-        <OnThisPageOverview multiple={statements?.length > 1} />
+      <article className="vads-u-padding-x--0">
+        <va-on-this-page />
         <Balances statements={statementsByUniqueFacility} />
         {renderOtherVA(debts?.length, debtError)}
         <HowToPay isOverview />
         <FinancialHelp />
         <DisputeCharges />
         <BalanceQuestions />
-      </>
+      </article>
     );
   };
   return (

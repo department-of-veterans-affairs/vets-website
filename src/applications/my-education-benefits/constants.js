@@ -35,6 +35,7 @@ export const formFields = {
   selectedReserveKicker: 'selectedReserveKicker',
   seniorRotcCommission: 'seniorRotcCommission',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
+  sixHundredDollarBuyUp: 'sixHundredDollarBuyUp',
   toursOfDuty: 'toursOfDuty',
   userFullName: 'userFullName',
   viewBenefitSelection: 'view:benefitSelection',

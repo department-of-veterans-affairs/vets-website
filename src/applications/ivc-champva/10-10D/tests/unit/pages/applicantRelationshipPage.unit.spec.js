@@ -25,7 +25,6 @@ testComponentRender(
   <ApplicantRelationshipPage
     data={{
       ...mockData.data,
-      certifierRole: 'applicant',
     }}
     pagePerItemIndex="0"
   />,

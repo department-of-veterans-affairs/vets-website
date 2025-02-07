@@ -1,7 +1,6 @@
 import {
   SEARCH_STARTED,
   SEARCH_FAILED,
-  SEARCH_COMPLETE,
   SEARCH_QUERY_UPDATED,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
@@ -15,7 +14,7 @@ import {
   MAP_MOVED,
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
-} from '../utils/actionTypes';
+} from '../actions/actionTypes';
 
 export const INITIAL_STATE = {
   searchString: '',
@@ -36,6 +35,7 @@ export const INITIAL_STATE = {
   mapMoved: false,
   error: false,
   isValid: true,
+  searchStarted: false,
 };
 
 export const validateForm = (oldState, payload) => {
@@ -66,6 +66,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         error: false,
         inProgress: true,
         mapMoved: false,
+        searchStarted: true,
       };
     case FETCH_LOCATIONS:
       return {
@@ -84,7 +85,6 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         currentRadius: action.currentRadius,
       };
     case FETCH_LOCATION_DETAIL:
-    case SEARCH_COMPLETE:
       return {
         ...state,
         error: false,

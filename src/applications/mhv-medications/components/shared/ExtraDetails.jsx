@@ -47,7 +47,7 @@ const ExtraDetails = rx => {
               data-testid="rx-refillinprocess-info"
               className="vads-u-margin-y--0"
             >
-              We expect to fill it on{' '}
+              We expect to fill this prescription on{' '}
               {dateFormat(rx.refillDate, 'MMMM D, YYYY')}.
             </p>
             <p className="vads-u-margin-y--0" data-testid="pharmacy-phone-info">
@@ -66,11 +66,11 @@ const ExtraDetails = rx => {
           data-testid="submitted-refill-request"
         >
           <va-icon icon="fact_check" size={3} aria-hidden="true" />
-          <div className="vads-u-padding-left--2">
+          <span className="vads-u-padding-left--2">
             We got your request on{' '}
             {dateFormat(rx.refillSubmitDate, 'MMMM D, YYYY')}. Check back for
             updates.
-          </div>
+          </span>
         </p>
       )}
       {dispStatus === dispStatusObj.activeParked && (
@@ -127,8 +127,7 @@ const ExtraDetails = rx => {
       )}
       {dispStatus === dispStatusObj.nonVA && (
         <p className="vads-u-margin-y--0" data-testid="non-VA-prescription">
-          This isn’t a prescription that you filled through a VA pharmacy. You
-          can’t manage this medication in this online tool.
+          You can’t manage this medication in this online tool.
         </p>
       )}
       {dispStatus === dispStatusObj.onHold && (

@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 export const deductionCodes = Object.freeze({
   '30': 'Disability compensation and pension debt',
@@ -10,38 +11,36 @@ export const deductionCodes = Object.freeze({
   '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
 });
 
+const ContactInfo = () => (
+  <p className="vads-u-margin-bottom--0">
+    If you have questions about your VA debt, call us at{' '}
+    <va-telephone contact={CONTACTS.DMC} /> (
+    <va-telephone contact="711" tty="true" />
+    ). If you’re outside the U.S., call{' '}
+    <va-telephone contact={CONTACTS.DMC_OVERSEAS} international />. We’re here
+    Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+  </p>
+);
+
 export const renderWhyMightIHaveThisDebt = deductionCode => {
   switch (deductionCode) {
     case '30':
       return (
-        <section>
-          <p className="vads-u-margin-top--0">
-            Some reasons you have debt related to your compensation and pension
-            benefits might include:
+        <>
+          <p>
+            Here are some common reasons for debt from disability and pension
+            overpayments:
           </p>
-
-          <ul>
+          <ul className="vads-u-padding-y--2">
             <li>
               You’ve received a payment for disability compensation and military
               pay at the same time.
             </li>
-            <li>
-              You didn’t let us know of a change in your marital or dependent
-              status.
-            </li>
-            <li>
-              You’ve received two payments for the same compensation and pension
-              benefits.
-            </li>
-            <li>You didn’t let us know of additional income you might have.</li>
-            <li>
-              You didn’t let us know that you were incarcerated (sent to jail or
-              prison).
-            </li>
-            <li>There was a change in your active-duty status.</li>
-            <li>Your eligibility for a benefit has changed.</li>
+            <li>Your income changed</li>
+            <li>You received duplicate payments for the same benefit</li>
           </ul>
-        </section>
+          <ContactInfo />
+        </>
       );
     case '41':
     case '44':
@@ -50,37 +49,18 @@ export const renderWhyMightIHaveThisDebt = deductionCode => {
     case '74':
     case '75':
       return (
-        <section>
-          <p className="vads-u-margin-top--0">
-            Some reasons you have debt related to your education benefits might
-            include:
+        <>
+          <p>
+            Here are some common reasons for debt from education benefit
+            overpayments:
           </p>
-
-          <ul>
-            <li>You were suspended or put on academic probation.</li>
-            <li>
-              You made a change in your course enrollment or withdrew from a
-              class. <br />
-              <strong>Note:</strong> A change in course enrollment can cause an
-              overpayment in tuition, housing, and book and supplies.
-            </li>
-            <li>There was a change in your housing situation.</li>
-            <li>We made a duplicate payment to you.</li>
-            <li>
-              You withdrew from your college, university, or higher-education
-              program.
-            </li>
-            <li>There was a change in your active-duty status.</li>
-            <li>Your eligibility for a benefit has changed.</li>
+          <ul className="vads-u-padding-y--2">
+            <li>You were suspended or put on academic probation</li>
+            <li>You withdrew from a class or program</li>
+            <li>You received duplicate payments for the same benefit</li>
           </ul>
-
-          <p className="vads-u-margin-bottom--0">
-            <strong>Note: </strong>
-            For Post-9/11 GI Bill benefits, we make separate payments for
-            tuition, housing, and books and supplies. When there is a change in
-            one of these benefits, we’ll collect the three debts separately.
-          </p>
-        </section>
+          <ContactInfo />
+        </>
       );
     default:
       return null;

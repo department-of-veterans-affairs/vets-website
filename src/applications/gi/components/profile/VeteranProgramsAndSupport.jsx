@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   createId,
   formatCurrency,
@@ -84,6 +85,7 @@ export default function VeteranProgramsAndSupport({
         &nbsp;
         <strong>
           <LearnMoreLabel
+            bold
             text={program.text}
             onClick={() => {
               showModal(program.modal);
@@ -146,3 +148,8 @@ export default function VeteranProgramsAndSupport({
     </div>
   );
 }
+VeteranProgramsAndSupport.propTypes = {
+  constants: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired,
+};

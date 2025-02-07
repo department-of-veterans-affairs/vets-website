@@ -70,9 +70,7 @@ const Folders = () => {
   };
 
   const confirmFolderCreate = (folderName, closeNewModal) => {
-    dispatch(newFolder(folderName))
-      .then(dispatch(getFolders()))
-      .finally(closeNewModal());
+    dispatch(newFolder(folderName)).then(closeNewModal());
   };
 
   const content = () => {

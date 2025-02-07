@@ -211,16 +211,13 @@ class Profile extends Component {
       <RequiredLoginView
         serviceRequired={backendServices.USER_PROFILE}
         user={this.props.user}
+        showProfileErrorMessage
       >
         <DowntimeNotification
           appTitle="profile"
           render={this.handleDowntimeApproaching}
           loadingIndicator={<RequiredLoginLoader />}
-          dependencies={[
-            externalServices.evss,
-            externalServices.mvi,
-            externalServices.vaProfile,
-          ]}
+          dependencies={[externalServices.VAPRO_PROFILE_PAGE]}
         >
           {this.renderContent()}
         </DowntimeNotification>

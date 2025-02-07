@@ -53,7 +53,7 @@ const AddressValidationRadio = props => {
     state_code: state || militaryState,
     country_name: 'United States',
     country_code_iso3: 'USA',
-    address_pou: 'RESIDENCE/CHOICE',
+    address_pou: 'RESIDENCE',
     address_type: 'DOMESTIC',
   };
 
@@ -115,21 +115,19 @@ const AddressValidationRadio = props => {
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
         >
-          <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-bottom--0p5">
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="street address"
-            >
-              {addressStreet}
-            </span>
-            <span
-              className="dd-privacy-hidden"
-              data-dd-action-name="city, state and zip code"
-            >
-              {cityStateZip}
-            </span>
-            <span>{addressCountry}</span>
-          </div>
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="street address"
+          >
+            {addressStreet}
+          </span>
+          <span
+            className="dd-privacy-hidden vads-u-margin-left--0p5"
+            data-dd-action-name="city, state and zip code"
+          >
+            {cityStateZip}
+          </span>
+          <span>{addressCountry}</span>
         </label>
       </div>
     );
@@ -150,43 +148,46 @@ const AddressValidationRadio = props => {
   const shouldShowSuggestions =
     apiData && apiData.length > 0 && deliveryPointValidation === 'CONFIRMED';
 
+  const noRecommendationsAvailable =
+    apiData && apiData.length > 0 && deliveryPointValidation !== 'CONFIRMED';
+
   return (
     <>
       <div role="alert">
-        {shouldShowSuggestions && (
-          <VaAlert
-            className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
-            status="warning"
-            visible
-            uswds
+        <VaAlert
+          className="vads-u-margin-bottom--2 vads-u-margin-top--2 vads-u-padding-bottom--1"
+          status="warning"
+          visible={shouldShowSuggestions || noRecommendationsAvailable}
+        >
+          <h4
+            id="address-validation-alert-heading"
+            slot="headline"
+            className="vads-u-font-size--h3"
           >
-            <h4
-              id="address-validation-alert-heading"
-              slot="headline"
-              className="vads-u-font-size--h3"
-            >
-              We can’t confirm the address you entered with the U.S. Postal
-              Service
-            </h4>
-            <p className="vads-u-margin-y--0">
-              Tell us which address you’d like to use.
-            </p>
-          </VaAlert>
-        )}
+            {shouldShowSuggestions
+              ? `We can’t confirm the address you entered with the U.S. Postal
+            Service`
+              : `Confirm you address`}
+          </h4>
+          <p className="vads-u-margin-y--0">
+            {shouldShowSuggestions
+              ? 'Tell us which address you’d like to use.'
+              : "We can't confirm the address you entered with the U.S. Postal Service. Confirm that you want us to use this address as you entered it. Or go back and edit it."}
+          </p>
+        </VaAlert>
       </div>
       <div>
-        <span className="vads-u-font-weight--bold">You entered:</span>
+        <span className="vads-u-font-weight--bold">You entered</span>
         {renderAddressOption(formData.address)}
-        <span className="vads-u-font-weight--bold">
-          Suggested {apiData.length > 1 ? 'addresses' : 'address'}:
-        </span>
-        {shouldShowSuggestions ? (
+        {shouldShowSuggestions && (
+          <span className="vads-u-font-weight--bold">
+            Suggested {apiData.length > 1 ? 'addresses' : 'address'}
+          </span>
+        )}
+        {shouldShowSuggestions &&
           apiData.map((item, index) =>
             renderAddressOption(item.address, String(index)),
-          )
-        ) : (
-          <p>No recommendations available</p>
-        )}
+          )}
       </div>
     </>
   );

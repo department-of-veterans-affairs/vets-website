@@ -18,10 +18,12 @@ import {
   servicePeriodsUpdate,
   tourOfDuty,
   sponsorInfo,
+  changeAnotherBenefitPage,
 } from '../pages';
 
 import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
+import { updateApplicantInformationPage } from '../../utils/helpers';
 
 export const applicantInformationField = (automatedTest = false) => {
   if (isProductionOfTestProdEnv(automatedTest)) {
@@ -38,7 +40,7 @@ export const applicantInformationField = (automatedTest = false) => {
       }),
     };
   }
-  return {
+  const applicantInformationPage = {
     ...createApplicantInformationPage(fullSchema1995, {
       isVeteran: true,
       fields: [
@@ -58,6 +60,7 @@ export const applicantInformationField = (automatedTest = false) => {
     }),
     uiSchema: applicantInformationUpdate.uiSchema,
   };
+  return updateApplicantInformationPage(applicantInformationPage);
 };
 
 export const benefitSelectionUiSchema = (automatedTest = false) => {
@@ -181,6 +184,13 @@ export const chapters = {
         path: 'benefits/eligibility',
         uiSchema: benefitSelectionUiSchema(),
         schema: benefitSelectionSchema(),
+      },
+      changeAnotherBenefit: {
+        title: 'Education benefit selection',
+        path: 'benefits/education-benefit',
+        uiSchema: changeAnotherBenefitPage.uiSchema,
+        schema: changeAnotherBenefitPage.schema,
+        depends: formData => formData?.rudisillReview === 'No',
       },
     },
   },

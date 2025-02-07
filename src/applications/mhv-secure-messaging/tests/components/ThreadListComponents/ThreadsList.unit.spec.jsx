@@ -28,6 +28,7 @@ describe('Thread List component', () => {
     threads,
     pageNumber = pageNum,
     threadsOnPage = threadsPerPage,
+    path = Paths.INBOX,
   ) => {
     return renderWithStoreAndRouter(
       <ThreadsList
@@ -39,7 +40,7 @@ describe('Thread List component', () => {
         threadsPerPage={threadsOnPage}
       />,
       {
-        path: Paths.INBOX,
+        path,
         state: initialState,
         reducers,
       },
@@ -96,6 +97,14 @@ describe('Thread List component', () => {
       expect(document.querySelector('va-pagination[page="2"]')).to.exist;
       expect(document.querySelector('va-pagination[pages="2"]')).to.exist;
       expect(document.querySelector('va-pagination[uswds="true"]')).to.exist;
+    });
+  });
+
+  it('changes text on drafts page to say "drafts", not "conversations"', async () => {
+    const screen = setup(listOfThreads, 2, 10, Paths.DRAFTS);
+
+    await waitFor(() => {
+      expect(screen.getByText('Showing 11 to 11 of 11 drafts')).to.exist;
     });
   });
 });

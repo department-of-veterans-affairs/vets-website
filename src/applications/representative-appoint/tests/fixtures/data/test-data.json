@@ -1,13 +1,13 @@
 {
   "veteranFullName": {
     "first": "John",
-    "middle": "Edmund",
+    "middle": "E",
     "last": "Doe",
     "suffix": "Sr."
   },
   "veteranSocialSecurityNumber": "333224444",
   "vaClaimsHistory": true,
-  "vaFileNumber": "12345678",
+  "vaFileNumber": "123456789",
   "veteranDateOfBirth": "1960-01-01",
   "serviceBranch": {
     "army": true,
@@ -17,7 +17,7 @@
     "from": "2003-03-02",
     "to": "2007-03-20"
   },
-  "serviceNumber": "123456",
+  "serviceNumber": "123456789",
   "serveUnderOtherNames": true,
   "previousNames": [
     {
@@ -252,17 +252,16 @@
     "accountNumber": "001122334455",
     "routingNumber": "123123123"
   },
-  "veteranAddress": {
-    "street": "123 8th st",
-    "street2": "Apt A-3",
-    "city": "Hadley",
+  "veteranHomeAddress": {
+    "view:militaryBaseDescription": {},
     "country": "USA",
+    "street": "123 8th st",
+    "city": "Hadley",
     "state": "ME",
-    "postalCode": "01050",
-    "isMilitary": false
+    "postalCode": "01050"
   },
-  "email": "test@example.com",
-  "phone": "5551234567",
+  "veteranEmail": "test@example.com",
+  "primaryPhone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
   "view:aidAttendance": true,

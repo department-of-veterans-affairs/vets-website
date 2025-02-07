@@ -1,0 +1,15 @@
+steps:
+  - action: exists
+    target: header
+    value:  School information
+  - action: typeTextInput
+    target: CITY_OR_POSTAL_CODE
+    value:  austin
+  - action: click
+    target: search
+  - action: click
+    target: radio
+    value: "25008642 - AUSTIN'S BEAUTY COLLEGE INC TN 37040"
+  - action: click
+    target: call-to-action
+

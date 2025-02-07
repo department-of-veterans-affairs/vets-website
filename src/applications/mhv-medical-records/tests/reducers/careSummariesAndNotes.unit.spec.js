@@ -106,7 +106,7 @@ describe('extractAuthenticator', () => {
   };
 
   it('should return the authenticator', () => {
-    expect(extractAuthenticator(record)).to.equal('SMITH,JOHN');
+    expect(extractAuthenticator(record)).to.equal('JOHN SMITH');
   });
 
   it('should return null if no "name" item contains a "text" field', () => {
@@ -154,7 +154,7 @@ describe('extractAuthor', () => {
   };
 
   it('should return the author', () => {
-    expect(extractAuthor(record)).to.equal('SMITH,JANE');
+    expect(extractAuthor(record)).to.equal('JANE SMITH');
   });
 
   it('should return null if no "name" item contains a "text" field', () => {
@@ -284,7 +284,7 @@ describe('getNote', () => {
 
 describe('getDateSigned', () => {
   // This test is time-zone dependent and will fail in certain circumstances. Skipping for now.
-  it.skip('returns formatted date when extension array has an item with valueDateTime', () => {
+  it('returns formatted date when extension array has an item with valueDateTime', () => {
     const mockRecord = {
       authenticator: {
         extension: [

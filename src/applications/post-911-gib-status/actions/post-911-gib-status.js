@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/browser';
-
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 
@@ -9,9 +8,6 @@ import {
   GET_ENROLLMENT_DATA_FAILURE,
   GET_ENROLLMENT_DATA_SUCCESS,
   NO_CHAPTER33_RECORD_AVAILABLE,
-  SERVICE_AVAILABILITY_STATES,
-  SET_SERVICE_AVAILABILITY,
-  SET_SERVICE_UPTIME_REMAINING,
   SERVICE_DOWNTIME_ERROR,
 } from '../utils/constants';
 
@@ -66,38 +62,4 @@ export function getEnrollmentData(apiVersion) {
       Sentry.captureException(error);
       return dispatch({ type: GET_ENROLLMENT_DATA_FAILURE });
     });
-}
-
-export function getServiceAvailability() {
-  return dispatch => {
-    dispatch({
-      type: SET_SERVICE_AVAILABILITY,
-      serviceAvailability: SERVICE_AVAILABILITY_STATES.pending,
-    });
-
-    return apiRequest('/backend_statuses/gibs')
-      .then(response => {
-        const availability = response.data.attributes.isAvailable;
-        const uptimeRemaining =
-          response.data.attributes.uptimeRemaining || null;
-
-        dispatch({
-          type: SET_SERVICE_AVAILABILITY,
-          serviceAvailability: availability
-            ? SERVICE_AVAILABILITY_STATES.up
-            : SERVICE_AVAILABILITY_STATES.down,
-        });
-
-        dispatch({
-          type: SET_SERVICE_UPTIME_REMAINING,
-          uptimeRemaining,
-        });
-      })
-      .catch(() => {
-        dispatch({
-          type: SET_SERVICE_AVAILABILITY,
-          serviceAvailability: SERVICE_AVAILABILITY_STATES.down,
-        });
-      });
-  };
 }

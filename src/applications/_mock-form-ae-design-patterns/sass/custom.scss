@@ -1,9 +1,98 @@
 // hacky fix for address save button sizing
 [data-action="save-edit"] {
   line-height: .9;
-  padding: 0.75rem 1.25rem;
+  padding: 0.75rem 1.25rem !important;
 }
 
-.nav-tabs li{
+// form panel is only 32em wide, so we need to override the default width
+// was originally set in the shame.scss file
+.form-panel {
+  min-width: 100%;
+}
+
+.nav-tabs li {
   flex: 1 1 auto;
+}
+
+[data-location="2/task-blue/veteran-information/edit-home-phone"] {
+  .schemaform-first-field {
+    margin-top: 1.875rem !important;
+  }
+}
+
+[data-location="2/task-blue/veteran-details"], [data-location="2/task-blue/veteran-information"], [data-location="2/task-blue/veteran-information/edit-mailing-address"]{
+.schemaform-chapter-progress {
+padding-left: 0;
+}
+}
+
+.contact-info-card {
+  @include media($medium-screen) {
+    width: 18.8rem;
+    // height: 8.8rem;
+
+    &.gray-task {
+      height: unset;
+    }
+  }
+  &:nth-of-type(4) {
+    @include media($medium-screen) {
+      height: 11.4rem;
+    }
+  }
+}
+
+#form-26-1880 {
+  margin-top: 2rem;
+
+  .schemaform-chapter-progress {
+    padding-left: 0;
+  }
+}
+
+.task-gray-card {
+  width: 18.8rem;
+}
+
+[data-dd-action-name="street"] {
+  margin-bottom: 1rem;
+}
+// custom styles for the dev panel stdout
+.fade-enter {
+  opacity: 0 !important;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
+.fade-enter-done {
+  opacity: 1;
+}
+
+// fixes for pattern 2 Orange task
+[data-location="2/task-orange/applicant-information"] {
+  .schemaform-chapter-progress {
+    padding-left: 0;
+    span {
+      font-size: 18px !important;
+    }
+  }
+}
+
+// post study page
+#locked-card {
+  @include media($medium-screen) {
+    width: 21rem;
+  }
+}
+
+#gray-locked-card {
+  @include media($medium-screen) {
+  width: 23rem;
+  }
 }

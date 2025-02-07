@@ -20,7 +20,7 @@ export default function FormAlert() {
       uswds
     >
       <p className="vads-u-margin--0">Review and update your address.</p>
-      <p className="vads-u-padding-top--1 vads-u-margin-y--0 small-desktop-screen:vads-u-padding-right--5">
+      <p className="vads-u-padding-top--1 vads-u-margin-y--0 desktop:vads-u-padding-right--5">
         If your address is already correct, select{' '}
         <strong className="vads-u-font-weight--bold">Edit</strong> to review it
         again. Then select{' '}

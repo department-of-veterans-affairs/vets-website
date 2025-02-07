@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { focusElement } from 'platform/utilities/ui';
+import { scrollToFirstError } from 'platform/utilities/ui';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { EVIDENCE_VA_PATH, EVIDENCE_VA, EVIDENCE_PRIVATE } from '../constants';
@@ -58,7 +58,7 @@ const EvidencePrivateRequest = ({
     onGoForward: () => {
       if (typeof data[EVIDENCE_PRIVATE] === 'undefined') {
         setError(errorMessages.requiredYesNo);
-        focusElement('va-radio');
+        scrollToFirstError({ focusOnAlertRole: true });
       } else {
         setError(null);
         goForward(data);

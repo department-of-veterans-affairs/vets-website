@@ -81,6 +81,7 @@ describe('Appeals page test', () => {
     cy.get('a.ddl-link').click();
 
     cy.get('h1').should('contain', 'Your VA claim and appeal letters');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should show DDL link for post-decided appeal ', () => {
@@ -96,5 +97,6 @@ describe('Appeals page test', () => {
     cy.get('a.ddl-link').click();
 
     cy.get('h1').should('contain', 'Your VA claim and appeal letters');
+    cy.injectAxeThenAxeCheck();
   });
 });

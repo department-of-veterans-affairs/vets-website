@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -13,6 +12,7 @@ import {
   EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
+// import { useDatadogRum } from 'platform/user/authentication/hooks/useDatadogRum';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -27,11 +27,11 @@ import {
   handleTokenRequest,
 } from '../helpers';
 
-const REDIRECT_IGNORE_PATTERN = new RegExp(
-  ['/auth/login/callback', '/session-expired'].join('|'),
-);
+const REDIRECT_IGNORE_PATTERN = new RegExp(['/auth/login/callback'].join('|'));
 
 export default function AuthApp({ location }) {
+  // useDatadogRum();
+
   const [
     { auth, errorCode, returnUrl, loginType, state, requestId },
     setAuthState,
@@ -47,6 +47,12 @@ export default function AuthApp({ location }) {
   const [hasError, setHasError] = useState(auth === 'fail');
 
   const dispatch = useDispatch();
+  const isFeatureToggleLoading = useSelector(
+    store => store?.featureToggles?.loading,
+  );
+  const isInterstitialEnabled = useSelector(
+    store => store?.featureToggles?.mhvInterstitialEnabled,
+  );
 
   const handleAuthError = (error, codeOverride) => {
     const { errorCode: detailedErrorCode } = getAuthError(
@@ -68,15 +74,10 @@ export default function AuthApp({ location }) {
     setHasError(true);
   };
 
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isInterstital = useToggleValue(TOGGLE_NAMES.mhvInterstitialEnabled);
-
   const redirect = () => {
-    if (
-      isInterstital &&
-      (loginType === 'mhv' || loginType === 'myhealthevet')
-    ) {
+    if (isInterstitialEnabled && ['mhv', 'myhealthevet'].includes(loginType)) {
       window.location.replace('/sign-in-changes-reminder');
+      return;
     }
 
     // remove from session storage
@@ -157,10 +158,7 @@ export default function AuthApp({ location }) {
       errorCode,
     );
     const { userProfile } = authMetrics;
-    if (
-      userProfile?.signIn?.ssoe &&
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
-    ) {
+    if (returnUrl?.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])) {
       await handleProvisioning();
     }
     authMetrics.run();
@@ -181,26 +179,34 @@ export default function AuthApp({ location }) {
       });
     }
 
+    const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
+
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
+    } else if (skipToRedirect) {
+      await handleAuthSuccess({ skipToRedirect });
     } else {
       try {
-        const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
         const response = await apiRequest('/user');
-        await handleAuthSuccess({ response, skipToRedirect });
+        await handleAuthSuccess({ response, skipToRedirect: false });
       } catch (error) {
         handleAuthError(error);
       }
     }
   };
 
-  useEffect(() => {
-    if (hasError) {
-      handleAuthError();
-    } else {
-      validateSession();
-    }
-  }, []);
+  useEffect(
+    () => {
+      if (!isFeatureToggleLoading) {
+        if (hasError) {
+          handleAuthError();
+        } else {
+          validateSession();
+        }
+      }
+    },
+    [isFeatureToggleLoading],
+  );
 
   const openLoginModal = () => {
     dispatch(toggleLoginModal(true));

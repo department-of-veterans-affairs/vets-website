@@ -14,7 +14,7 @@ describe('getFormNumber', () => {
     expect(result).to.equal('21-22');
   });
 
-  it('should return "21-22" for justan organization representative', () => {
+  it('should return "21-22" for just an organization representative', () => {
     const mockFormData = {
       'view:selectedRepresentative': {
         type: 'organization',

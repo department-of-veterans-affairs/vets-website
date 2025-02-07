@@ -6,7 +6,7 @@ import {
   transformJSONSchema,
   ReviewPage,
 } from '@department-of-veterans-affairs/va-forms-system-core';
-import fullSchema from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchema from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import BenefitsSelection from './pages/BenefitsSelection';
 import BurialIntroduction from './pages/BurialIntroduction';
 import ClaimantInformation from './pages/ClaimantInformation';

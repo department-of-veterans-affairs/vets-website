@@ -32,7 +32,14 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = [], avs = false) {
+export function getAppointments({
+  startDate,
+  endDate,
+  statuses = [],
+  avs = false,
+  fetchClaimStatus = false,
+  includeEPS = false,
+}) {
   const options = {
     method: 'GET',
   };
@@ -40,23 +47,32 @@ export function getAppointments(start, end, statuses = [], avs = false) {
   if (avs) {
     includeParams.push('avs');
   }
+  if (fetchClaimStatus) {
+    includeParams.push('claims');
+  }
+  if (includeEPS) {
+    includeParams.push('eps');
+  }
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
       .map(String)
-      .join(',')}&start=${start}&end=${end}&${statuses
+      .join(',')}&start=${startDate}&end=${endDate}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id, avs = false) {
+export function getAppointment(id, avs = false, fetchClaimStatus = false) {
   const options = {
     method: 'GET',
   };
   const includeParams = ['facilities', 'clinics'];
   if (avs) {
     includeParams.push('avs');
+  }
+  if (fetchClaimStatus) {
+    includeParams.push('claims');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments/${id}?_include=${includeParams
@@ -94,6 +110,12 @@ export function getPatientEligibility(
   return apiRequestWithUrl(
     `/vaos/v2/eligibility?facility_id=${locationId}&clinical_service_id=${typeOfCareId}&type=${schedulingType}`,
   ).then(parseApiObject);
+}
+
+export function getPatientRelationships({ facilityId, typeOfCareId }) {
+  return apiRequestWithUrl(
+    `/vaos/v2/relationships?facility_id=${facilityId}&clinical_service_id=${typeOfCareId}`,
+  );
 }
 
 export function getFacilityById(id) {

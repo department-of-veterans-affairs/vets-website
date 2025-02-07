@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { getAvgCount } from '../../../utils/helpers';
 import RatingsStars from './RatingsStars';
@@ -65,7 +66,7 @@ export default function RatingsAccordion({
   useEffect(() => {
     // controls expansion of accordion block to make room for stars
     // when they move below title
-    window.addEventListener('resize', function(event) {
+    window.addEventListener('resize', event => {
       const { innerWidth } = event.target;
       if (innerWidth <= breakPoint) {
         setSubHeader(true);
@@ -102,3 +103,11 @@ export default function RatingsAccordion({
     </div>
   );
 }
+
+RatingsAccordion.propTypes = {
+  categoryRating: PropTypes.number.isRequired,
+  open: PropTypes.bool.isRequired,
+  openHandler: PropTypes.func.isRequired,
+  questionObj: PropTypes.object.isRequired,
+  title: PropTypes.string.isRequired,
+};

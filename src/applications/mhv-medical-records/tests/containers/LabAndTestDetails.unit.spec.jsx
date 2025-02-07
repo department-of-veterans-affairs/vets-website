@@ -60,7 +60,7 @@ describe('LabsAndTests details container', () => {
   });
 
   it('displays who the test was ordered by', () => {
-    expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
+    expect(screen.getByText('JANE A DOE', { exact: false })).to.exist;
   });
 
   it('displays the location', () => {
@@ -104,8 +104,13 @@ describe('LabAndTestDetails microbiology', () => {
     });
   });
 
-  it('displays microbiology label', () => {
-    expect(screen.getByText('Microbiology')).to.exist;
+  it('displays microbiology h1', () => {
+    expect(
+      screen.getByText('LR MICROBIOLOGY REPORT', {
+        exact: true,
+        selector: 'h1',
+      }),
+    ).to.exist;
   });
 });
 

@@ -87,18 +87,21 @@ describe('form submit transform', () => {
         createdSubmissionForm.additionalConsiderations.reserveKicker,
       ).to.eql('NO');
 
-      // check comments section
-      const todayDate = new Date();
-      const todayDateInYYYYmmddFormat = todayDate.toISOString().slice(0, 10);
+      // Check comments
+      const todayDate = new Date().toISOString().slice(0, 10);
       expect(createdSubmissionForm.comments.disagreeWithServicePeriod).to.eql(
         true,
       );
       expect(createdSubmissionForm.comments.claimantComment.commentDate).to.eql(
-        todayDateInYYYYmmddFormat,
+        todayDate,
       );
-      expect(createdSubmissionForm.comments.claimantComment.comments).to.eql(
-        'Service periods are missing.',
-      );
+      expect(createdSubmissionForm.comments.claimantComment.comments).to.eql({
+        incorrectServiceHistoryInputs: {
+          servicePeriodMissingForActiveDuty: true,
+          servicePeriodNotMine: true,
+        },
+        incorrectServiceHistoryText: 'Service periods are missing.',
+      });
     });
   });
 
@@ -276,13 +279,13 @@ describe('form submit transform', () => {
   describe('createAdditionalConsiderations', () => {
     it('should correctly transform and set considerations with exclusion messages', () => {
       const ExclusionPeriodsFormSubmission = {
-        mebExclusionPeriodEnabled: true,
         exclusionPeriods: ['Academy', 'ROTC', 'LRP'], // Make sure 'LRP' is included
         federallySponsoredAcademy: 'yes',
         seniorRotcCommission: 'no',
         loanPayment: 'yes',
         activeDutyKicker: 'no',
         selectedReserveKicker: 'yes',
+        sixHundredDollarBuyUp: undefined,
       };
       const transformed = createAdditionalConsiderations(
         ExclusionPeriodsFormSubmission,
@@ -296,62 +299,166 @@ describe('form submit transform', () => {
           'YES - Dept. of Defense data shows a period of active duty that the military considers as being used for purposes of repaying an Education Loan.',
         activeDutyKicker: 'NO',
         reserveKicker: 'YES',
-      });
-    });
-    it('should handle cases without mebExclusionPeriodEnabled', () => {
-      const NoExclusionPeriodsFormSubmission = {
-        federallySponsoredAcademy: 'no',
-        seniorRotcCommission: 'yes',
-        loanPayment: 'no',
-        activeDutyKicker: 'yes',
-        selectedReserveKicker: 'no',
-      };
-      const transformed = createAdditionalConsiderations(
-        NoExclusionPeriodsFormSubmission,
-      );
-      expect(transformed).to.deep.equal({
-        academyRotcScholarship: 'NO',
-        seniorRotcScholarship: 'YES',
-        activeDutyDodRepayLoan: 'NO',
-        activeDutyKicker: 'YES',
-        reserveKicker: 'NO',
+        sixHundredDollarBuyUp: 'N/A',
       });
     });
   });
   describe('has a createComments method', () => {
-    it('should return full comments section if veteran disagrees with period data', () => {
-      const comments = createComments(mockSubmissionForm);
-      const todayDate = new Date();
-      const todayDateInYYYYmmddFormat = todayDate.toISOString().slice(0, 10);
-      expect(comments.disagreeWithServicePeriod).to.eql(true);
-      expect(comments.claimantComment.commentDate).to.eql(
-        todayDateInYYYYmmddFormat,
-      );
-      expect(comments.claimantComment.comments).to.eql(
-        'Service periods are missing.',
-      );
+    beforeEach(() => {
+      mockSubmissionForm = {
+        'view:serviceHistory': { serviceHistoryIncorrect: false },
+        incorrectServiceHistoryExplanation: undefined,
+      };
     });
-    it('should return empty comments section if veteran disagrees with period data but no comments found', () => {
-      mockSubmissionForm.incorrectServiceHistoryExplanation = undefined;
+
+    it('returns full comments section with sanitized comments if veteran disagrees with period data', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText:
+          'Service periods, are missing, and incorrect.',
+        incorrectServiceHistoryInputs: {},
+      };
+
       const comments = createComments(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(comments.claimantComment).length === 0;
-      expect(objectIsEmpty).to.eql(true);
-      expect(comments.disagreeWithServicePeriod).to.eql(true);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: {
+            incorrectServiceHistoryInputs: {},
+            incorrectServiceHistoryText:
+              'Service periods are missing and incorrect.',
+          },
+        },
+      });
     });
-    it(
-      'should return an empty comment section and disagreeWithServicePeriod set to false' +
-        ' if veteran agrees with period data',
-      () => {
-        mockSubmissionForm[
-          'view:serviceHistory'
-        ].serviceHistoryIncorrect = undefined;
-        const comments = createComments(mockSubmissionForm);
-        const objectIsEmpty =
-          Object.keys(comments.claimantComment).length === 0;
-        expect(objectIsEmpty).to.eql(true);
-        expect(comments.disagreeWithServicePeriod).to.eql(false);
-      },
-    );
+
+    it('excludes claimantComment and sets disagreeWithServicePeriod to false if veteran agrees with period data', () => {
+      const comments = createComments(mockSubmissionForm);
+
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: false,
+        claimantComment: {}, // Default empty object for no disagreement
+      });
+    });
+
+    it('removes commas from incorrectServiceHistoryText before returning comments', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: 'This, is a, test, string.',
+        incorrectServiceHistoryInputs: {},
+      };
+
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: {
+            incorrectServiceHistoryInputs: {},
+            incorrectServiceHistoryText: 'This is a test string.',
+          },
+        },
+      });
+    });
+
+    it('handles empty incorrectServiceHistoryInputs gracefully', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: '',
+        incorrectServiceHistoryInputs: {},
+      };
+
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: {
+            incorrectServiceHistoryInputs: {},
+            incorrectServiceHistoryText: '',
+          },
+        },
+      });
+    });
+
+    it('removes excessive whitespace and newlines from incorrectServiceHistoryText', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: '   This   is   \n\n a    test.  ',
+        incorrectServiceHistoryInputs: {},
+      };
+
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: {
+            incorrectServiceHistoryInputs: {},
+            incorrectServiceHistoryText: 'This is a test.',
+          },
+        },
+      });
+    });
+
+    it('returns sanitized comments when incorrectServiceHistoryText is undefined and inputs are populated', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryInputs: {
+          servicePeriodMissingForActiveDuty: true,
+          servicePeriodNotMine: true,
+        },
+      };
+
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: {
+            incorrectServiceHistoryInputs: {
+              servicePeriodMissingForActiveDuty: true,
+              servicePeriodNotMine: true,
+            },
+            incorrectServiceHistoryText: '',
+          },
+        },
+      });
+    });
+
+    it('handles multiline incorrectServiceHistoryText with special characters gracefully', () => {
+      mockSubmissionForm['view:serviceHistory'].serviceHistoryIncorrect = true;
+      mockSubmissionForm.incorrectServiceHistoryExplanation = {
+        incorrectServiceHistoryText: `Line 1\nLine 2, with commas\n   and spaces.`,
+        incorrectServiceHistoryInputs: {},
+      };
+
+      const comments = createComments(mockSubmissionForm);
+      const todayDate = new Date().toISOString().slice(0, 10);
+
+      expect(comments).to.eql({
+        disagreeWithServicePeriod: true,
+        claimantComment: {
+          commentDate: todayDate,
+          comments: {
+            incorrectServiceHistoryInputs: {},
+            incorrectServiceHistoryText:
+              'Line 1 Line 2 with commas and spaces.',
+          },
+        },
+      });
+    });
   });
   describe('has a bank account capture method', () => {
     it('should return with users bank savings account number, if they decide to enroll', () => {

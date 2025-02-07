@@ -3,33 +3,23 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CurrentAccreditedRepresentative from './CurrentAccreditedRepresentative';
 import ContactCard from './ContactCard';
+import {
+  getEntityAddressAsObject,
+  getOrgName,
+  getRepType,
+} from '../utilities/helpers';
 
 const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
-
-  const currentRepresentative =
-    formData?.['view:representativeStatus']?.attributes || {};
-  const selectedRepresentative =
+  const currentRep = formData?.['view:representativeStatus'] || {};
+  const selectedRepAttributes =
     formData?.['view:selectedRepresentative']?.attributes || {};
-
-  const address = {
-    addressLine1: (selectedRepresentative.addressLine1 || '').trim(),
-    addressLine2: (selectedRepresentative.addressLine2 || '').trim(),
-    addressLine3: (selectedRepresentative.addressLine3 || '').trim(),
-    city: (selectedRepresentative.city || '').trim(),
-    stateCode: (selectedRepresentative.stateCode || '').trim(),
-    zipCode: (selectedRepresentative.zipCode || '').trim(),
-  };
-
-  // Grab attorney/claimsAgent/representative for individuals, otherwise 'organization'
-  const type =
-    currentRepresentative.attributes?.individualType || 'organization';
+  const repName = selectedRepAttributes?.fullName;
+  const orgName = getOrgName(formData);
 
   return (
     <div>
-      <h3 className="vads-u-margin-y--5 ">
-        Replace your current accredited representative
-      </h3>
+      <h3>Replace your current accredited representative</h3>
       <p>
         You’ll replace your current accredited representative with the new one
         you’ve selected.
@@ -38,40 +28,35 @@ const ReplaceAccreditedRepresentative = props => {
         You’ll replace this current accredited representative:
       </h4>
       <CurrentAccreditedRepresentative
-        representativeName={
-          currentRepresentative.name || currentRepresentative.fullName
-        }
-        type={type}
-        addressLine1={currentRepresentative.addressLine1}
-        addressLine2={currentRepresentative.addressLine2}
-        addressLine3={currentRepresentative.addressLine3}
-        city={currentRepresentative.city}
-        stateCode={currentRepresentative.stateCode}
-        zipCode={currentRepresentative.zipCode}
-        phone={currentRepresentative.phone}
-        email={currentRepresentative.email}
+        repType={getRepType(currentRep)}
+        repAttributes={currentRep.attributes}
       />
       <h4 className="vads-u-margin-y--5">
         You’ve selected this new accredited representative:
       </h4>
       <ContactCard
-        repName={selectedRepresentative.fullName}
-        orgName={selectedRepresentative.name}
-        address={address}
-        phone={selectedRepresentative.phone}
-        email={selectedRepresentative.email}
+        repName={repName}
+        orgName={orgName}
+        addressData={getEntityAddressAsObject(selectedRepAttributes)}
+        phone={selectedRepAttributes?.phone}
+        email={selectedRepAttributes?.email}
       />
     </div>
   );
 };
 
 ReplaceAccreditedRepresentative.propTypes = {
-  fetchRepresentatives: PropTypes.func,
+  formData: PropTypes.shape({
+    'view:representativeStatus': PropTypes.object,
+    'view:selectedRepresentative': PropTypes.object,
+  }),
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
+
+export { ReplaceAccreditedRepresentative }; // Named export for testing
 
 export default connect(
   mapStateToProps,

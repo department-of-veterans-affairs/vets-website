@@ -3,7 +3,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
@@ -40,6 +40,7 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
+  showAdditionalFormsChapter,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -72,6 +73,7 @@ import {
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
+  mentalHealthConditions,
   militaryHistory,
   newDisabilityFollowUp,
   newPTSDFollowUp,
@@ -108,10 +110,14 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+import * as additionalFormsChapterWrapper from '../pages/additionalFormsChapterWrapper';
+
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
+import { form0781PagesConfig } from './form0781/index';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
+import { showMentalHealthPages } from '../content/mentalHealth';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
 
@@ -130,6 +136,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import getPreSubmitInfo from '../content/preSubmitInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -185,7 +192,7 @@ const formConfig = {
   },
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
-  preSubmitInfo,
+  preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
     veteranDetails: {
@@ -543,6 +550,13 @@ const formConfig = {
             serviceInformation: state.form?.data?.serviceInformation,
           }),
         },
+        mentalHealthConditions: {
+          title: 'Mental health conditions',
+          path: `disabilities/781-screener`,
+          depends: formData => showMentalHealthPages(formData),
+          uiSchema: mentalHealthConditions.uiSchema,
+          schema: mentalHealthConditions.schema,
+        },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',
@@ -605,6 +619,19 @@ const formConfig = {
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
         },
+      },
+    },
+    additionalForms: {
+      title: 'Additional Forms',
+      pages: {
+        additionalFormsChapterWrapper: {
+          title: 'Additional forms to support your claim',
+          path: 'additional-forms',
+          depends: formData => showAdditionalFormsChapter(formData),
+          uiSchema: additionalFormsChapterWrapper.uiSchema,
+          schema: additionalFormsChapterWrapper.schema,
+        },
+        ...form0781PagesConfig,
       },
     },
     supportingEvidence: {

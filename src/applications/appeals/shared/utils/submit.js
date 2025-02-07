@@ -1,3 +1,5 @@
+import countries from 'platform/user/profile/vap-svc/constants/countries.json';
+
 import { MAX_LENGTH, SELECTED, SUBMITTED_DISAGREEMENTS } from '../constants';
 import { fixDateFormat, replaceSubmittedData } from './replace';
 import { returnUniqueIssues } from './issues';
@@ -165,4 +167,24 @@ export const getTimeZone = () => {
   return timezone.toLowerCase().includes('unknown')
     ? 'America/New_York'
     : timezone;
+};
+
+export const getIso2Country = country => {
+  // country object from profile (vet360 contact information)
+  const { addressType, countryCodeIso2, countryCodeIso3, countryName } =
+    country || {};
+  if (typeof countryCodeIso2 === 'string' && countryCodeIso2.length === 2) {
+    return countryCodeIso2;
+  }
+  const isUSA =
+    countryCodeIso3 === 'USA' ||
+    addressType === 'DOMESTIC' ||
+    (addressType || '').includes('MILITARY'); // MILITARY or "OVERSEAS MILITARY"
+  return isUSA
+    ? 'US'
+    : countries.find(
+        countryObj =>
+          countryObj.countryCodeISO3 === countryCodeIso3 ||
+          countryObj.countryName === countryName,
+      )?.countryCodeISO2 || '';
 };

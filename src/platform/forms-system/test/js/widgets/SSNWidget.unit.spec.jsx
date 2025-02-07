@@ -10,6 +10,7 @@ const props = {
   schema: {
     type: 'text',
   },
+  onBlur: () => {},
 };
 
 describe('Schemaform <SSNWidget>', () => {
@@ -20,7 +21,7 @@ describe('Schemaform <SSNWidget>', () => {
   it('should remove dashes on change', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <SSNWidget value="" onChange={onChange} />,
+      <SSNWidget value="" onChange={onChange} {...props} />,
     );
     tree.subTree('TextWidget').props.onChange('123-45-5677');
     expect(onChange.calledWith('123455677')).to.be.true;
@@ -28,7 +29,7 @@ describe('Schemaform <SSNWidget>', () => {
   it('should call onChange with undefined if the value is blank', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <SSNWidget value="123121234" onChange={onChange} />,
+      <SSNWidget value="123121234" onChange={onChange} {...props} />,
     );
     tree.subTree('TextWidget').props.onChange('');
     expect(onChange.calledWith(undefined)).to.be.true;
@@ -37,7 +38,7 @@ describe('Schemaform <SSNWidget>', () => {
   it('should call onChange with the value if available', () => {
     const onChange = sinon.spy();
     const tree = SkinDeep.shallowRender(
-      <SSNWidget value="456431098" onChange={onChange} />,
+      <SSNWidget value="456431098" onChange={onChange} {...props} />,
     );
     tree.subTree('TextWidget').props.onChange('432549877');
     expect(onChange.calledWith('432549877')).to.be.true;

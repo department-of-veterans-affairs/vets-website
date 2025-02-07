@@ -8,7 +8,6 @@ import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { pendingMessage } from '../content/confirmation-poll';
 
 import { submissionStatuses, terminalStatuses } from '../constants';
 import { isBDD } from '../utils';
@@ -20,8 +19,6 @@ export class ConfirmationPoll extends React.Component {
     this.state = {
       submissionStatus: submissionStatuses.pending,
       claimId: null,
-      failureCode: null,
-      longWait: false,
     };
   }
 
@@ -65,14 +62,10 @@ export class ConfirmationPoll extends React.Component {
               ? this.props.pollRate
               : this.props.pollRate * 2; // Seems like we don't need to poll as frequently when we get here
 
-          // Force a re-render to update the pending message if necessary
-          if (Date.now() - this.startTime >= this.props.longWaitTime) {
-            this.setState({ longWait: true });
-          }
           setTimeout(this.poll, waitTime);
         }
       })
-      .catch(response => {
+      .catch(() => {
         // Don't process the request once it comes back if the component is no longer mounted
         if (!this.__isMounted) {
           return;
@@ -84,8 +77,6 @@ export class ConfirmationPoll extends React.Component {
         } else {
           this.setState({
             submissionStatus: submissionStatuses.apiFailure,
-            // NOTE: I don't know that it'll always take this shape.
-            failureCode: get('errors[0].status', response),
           });
         }
       });
@@ -94,8 +85,12 @@ export class ConfirmationPoll extends React.Component {
   render() {
     const { submissionStatus, claimId } = this.state;
     if (submissionStatus === submissionStatuses.pending) {
-      setTimeout(() => focusElement('.loading-indicator-container'));
-      return pendingMessage(this.state.longWait);
+      return (
+        <va-loading-indicator
+          message="Preparing your submission. This may take up to 30 seconds. Please don’t refresh the page."
+          set-focus
+        />
+      );
     }
 
     const {
@@ -104,6 +99,7 @@ export class ConfirmationPoll extends React.Component {
       submittedAt,
       jobId,
       isSubmittingBDD,
+      route,
     } = this.props;
 
     setTimeout(() => focusElement('h2'));
@@ -116,6 +112,7 @@ export class ConfirmationPoll extends React.Component {
         disabilities={disabilities}
         submittedAt={submittedAt}
         isSubmittingBDD={isSubmittingBDD}
+        route={route}
       />
     );
   }
@@ -150,8 +147,10 @@ ConfirmationPoll.propTypes = {
   }),
   isSubmittingBDD: PropTypes.bool,
   jobId: PropTypes.string,
-  longWaitTime: PropTypes.number,
   pollRate: PropTypes.number,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
   submittedAt: PropTypes.object,
 };
 
@@ -159,7 +158,6 @@ ConfirmationPoll.propTypes = {
 ConfirmationPoll.defaultProps = {
   pollRate: 5000,
   delayFailure: 6000, // larger than pollRate
-  longWaitTime: 30000,
 };
 
 export default connect(mapStateToProps)(ConfirmationPoll);

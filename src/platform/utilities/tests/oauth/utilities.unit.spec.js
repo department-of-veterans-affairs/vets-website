@@ -16,9 +16,13 @@ import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
   ALL_STATE_AND_VERIFIERS,
+  OAUTH_KEYS,
+  COOKIES,
 } from '../../oauth/constants';
 import { mockCrypto } from '../../oauth/mockCrypto';
 import * as oAuthUtils from '../../oauth/utilities';
+import { infoTokenExists, getInfoToken } from '../../oauth/utilities';
+import * as oauthCrypto from '../../oauth/crypto';
 
 function generateResponse({ headers }) {
   return new Response('{}', {
@@ -30,14 +34,43 @@ function generateResponse({ headers }) {
 }
 
 describe('OAuth - Utilities', () => {
-  const globalCrypto = global.crypto;
+  let infoTokenExistsStub;
+  let getInfoTokenStub;
+  let removeInfoTokenSpy;
+  let validCookie;
 
   beforeEach(() => {
     window.crypto = mockCrypto;
+
+    document.cookie.split(';').forEach(cookie => {
+      document.cookie = cookie
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;');
+    });
+    localStorage.clear();
+    sessionStorage.clear();
+
+    infoTokenExistsStub = sinon
+      .stub(oAuthUtils, 'infoTokenExists')
+      .returns(true);
+
+    getInfoTokenStub = sinon.stub(oAuthUtils, 'getInfoToken').returns({
+      access_token_expiration: 'Wed Jun 29 2025 16:41:35 GMT-0400 (UTC)',
+      refresh_token_expiration: 'Wed Jun 29 2025 17:06:35 GMT-0400 (UTC)',
+    });
+
+    removeInfoTokenSpy = sinon.spy(oAuthUtils, 'removeInfoToken');
+
+    validCookie =
+      '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D';
   });
 
   afterEach(() => {
-    window.crypto = globalCrypto;
+    infoTokenExistsStub.restore();
+    getInfoTokenStub.restore();
+    removeInfoTokenSpy.restore();
+    localStorage.clear();
+    sessionStorage.clear();
   });
 
   describe('pkceChallengeFromVerifier', () => {
@@ -71,22 +104,78 @@ describe('OAuth - Utilities', () => {
       expect(oAuthUtils.saveStateAndVerifier()).to.not.be.null;
       window.location.search = '';
     });
+
     it('should set sessionStorage', () => {
       oAuthUtils.saveStateAndVerifier();
       expect(!!localStorage.getItem('state')).to.be.true;
       expect(!!localStorage.getItem('code_verifier')).to.be.true;
     });
+
+    it('should set localStorage correctly for sign-up type', () => {
+      const type = 'idme_signup';
+      const result = oAuthUtils.saveStateAndVerifier(type);
+      expect(result.state).to.equal(localStorage.getItem(`${type}_state`));
+      expect(result.codeVerifier).to.equal(
+        localStorage.getItem(`${type}_code_verifier`),
+      );
+      expect(localStorage.getItem(`${type}_code_verifier`)).to.not.be.null;
+      expect(localStorage.getItem(`${type}_state`)).to.not.be.null;
+    });
+
+    it('should set localStorage correctly for sign-in (default) type', () => {
+      const { state, codeVerifier } = oAuthUtils.saveStateAndVerifier();
+      expect(localStorage.getItem(OAUTH_KEYS.STATE)).to.eql(state);
+      expect(localStorage.getItem(OAUTH_KEYS.CODE_VERIFIER)).to.eql(
+        codeVerifier,
+      );
+    });
+
+    it('should handle unknown types gracefully', () => {
+      const unknownType = 'UNKNOWN_TYPE';
+      const { state, codeVerifier } = oAuthUtils.saveStateAndVerifier(
+        unknownType,
+      );
+      expect(localStorage.getItem(`${unknownType}_state`)).to.be.null;
+      expect(localStorage.getItem(`${unknownType}_code_verifier`)).to.be.null;
+      expect(localStorage.getItem(OAUTH_KEYS.STATE)).to.eql(state);
+      expect(localStorage.getItem(OAUTH_KEYS.CODE_VERIFIER)).to.eql(
+        codeVerifier,
+      );
+    });
+
     it('should return an object with state and codeVerifier', () => {
       const { state, codeVerifier } = oAuthUtils.saveStateAndVerifier();
-      expect(localStorage.getItem('state')).to.eql(state);
-      expect(localStorage.getItem('code_verifier')).to.eql(codeVerifier);
+      expect(localStorage.getItem(OAUTH_KEYS.STATE)).to.eql(state);
+      expect(localStorage.getItem(OAUTH_KEYS.CODE_VERIFIER)).to.eql(
+        codeVerifier,
+      );
+    });
+
+    it('should generate random state and codeVerifier each time', () => {
+      const result1 = oAuthUtils.saveStateAndVerifier();
+      const result2 = oAuthUtils.saveStateAndVerifier();
+      expect(result1.state).to.not.equal(result2.state);
+      expect(result1.codeVerifier).to.not.equal(result2.codeVerifier);
+    });
+
+    it('should call generateRandomString with correct lengths', () => {
+      const spyGenerateRandomString = sinon.spy(
+        oauthCrypto,
+        'generateRandomString',
+      );
+      oAuthUtils.saveStateAndVerifier();
+      expect(spyGenerateRandomString.calledWith(28)).to.be.true;
+      expect(spyGenerateRandomString.calledWith(64)).to.be.true;
+      spyGenerateRandomString.restore();
     });
   });
 
   describe('createOAuthRequest', () => {
     ['logingov', 'idme', 'dslogon', 'mhv'].forEach(csp => {
       it(`should generate the proper signin url based on ${csp} for web`, async () => {
-        const url = await oAuthUtils.createOAuthRequest({ type: csp });
+        const url = await oAuthUtils.createOAuthRequest({
+          type: csp,
+        });
         const { oAuthOptions } = externalApplicationsConfig.default;
         expect(url).to.include(`type=${csp}`);
         expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
@@ -110,7 +199,9 @@ describe('OAuth - Utilities', () => {
         const url = await oAuthUtils.createOAuthRequest({
           type: csp,
           application: 'vamobile',
-          passedQueryParams: { scope: 'custom_scope' },
+          passedQueryParams: {
+            scope: 'custom_scope',
+          },
         });
         const { oAuthOptions } = externalApplicationsConfig.vamobile;
         expect(url).to.include(`type=${csp}`);
@@ -121,7 +212,9 @@ describe('OAuth - Utilities', () => {
     });
 
     it('should append additional params', async () => {
-      const webUrl = await oAuthUtils.createOAuthRequest({ type: 'logingov' });
+      const webUrl = await oAuthUtils.createOAuthRequest({
+        type: 'logingov',
+      });
       Object.values(AUTHORIZE_KEYS_WEB).forEach(key => {
         const searchParams = new URLSearchParams(webUrl);
         expect(searchParams.has(key)).to.be.true;
@@ -148,9 +241,25 @@ describe('OAuth - Utilities', () => {
       const url = await oAuthUtils.createOAuthRequest({
         type: 'logingov',
         application: 'vamobile',
-        passedQueryParams: { scope: 'device_sso' },
+        passedQueryParams: {
+          scope: 'device_sso',
+        },
       });
       expect(url).to.include('scope=device_sso');
+    });
+
+    it('should force the identity verification', async () => {
+      const url = await oAuthUtils.createOAuthRequest({
+        type: 'logingov',
+        passedOptions: { forceVerify: 'required' },
+      });
+      const url2 = await oAuthUtils.createOAuthRequest({
+        type: 'idme',
+        passedOptions: { forceVerify: 'required' },
+      });
+
+      expect(url).to.include('acr=ial2');
+      expect(url2).to.include('acr=loa3');
     });
 
     ['idme_signup', 'logingov_signup'].forEach(csp => {
@@ -167,11 +276,52 @@ describe('OAuth - Utilities', () => {
         const expectedType = csp.slice(0, csp.indexOf('_'));
         expect(url).to.include(`type=${expectedType}`);
         expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
-        if (csp === 'idme_signup') {
-          expect(url).to.include('operation=sign_up');
-        }
+        expect(url).not.to.includes('operation=');
         expect(url).not.to.include('scope=');
       });
+
+      it(`should generate the proper signup url for ${csp} with an operation= query param to determine what we track`, async () => {
+        const { oAuthOptions } = externalApplicationsConfig.default;
+        const acr = oAuthOptions.acrSignup[csp];
+        const url = await oAuthUtils.createOAuthRequest({
+          type: csp,
+          passedQueryParams: { operation: 'signup_interstitial' },
+          passedOptions: { isSignup: true },
+          acr,
+        });
+        const expectedType = csp.slice(0, csp.indexOf('_'));
+        expect(url).to.include(`type=${expectedType}`);
+        expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
+        expect(url).to.include('operation=signup_interstitial');
+        expect(url).not.to.include('scope=');
+      });
+    });
+  });
+
+  describe('removeStateAndVerifier', () => {
+    it('should remove all state & verifiers from localStorage', () => {
+      const storage = localStorage;
+      storage.clear();
+      ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
+        storage.setItem(storageKey, 'randomValue');
+      });
+
+      oAuthUtils.removeStateAndVerifier();
+      expect(Object.keys(storage).length).to.eql(0);
+      storage.clear();
+    });
+    it('should not remove any other item from localStorage', () => {
+      const storage = localStorage;
+      storage.clear();
+      ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
+        storage.setItem(storageKey, 'randomValue');
+      });
+      storage.setItem('otherKey', 'otherValue');
+
+      oAuthUtils.removeStateAndVerifier();
+      expect(Object.keys(storage).length).to.eql(1);
+      expect(storage.getItem('otherKey')).to.eql('otherValue');
+      storage.clear();
     });
   });
 
@@ -179,7 +329,9 @@ describe('OAuth - Utilities', () => {
     it('should return null when empty', () => {
       const storage = localStorage;
       storage.clear();
-      expect(oAuthUtils.getCV()).to.eql({ codeVerifier: null });
+      expect(oAuthUtils.getCV()).to.eql({
+        codeVerifier: null,
+      });
       storage.clear();
     });
     it('should return code_verifier when in session storage', () => {
@@ -200,7 +352,9 @@ describe('OAuth - Utilities', () => {
       storage.clear();
       const btr = await oAuthUtils.buildTokenRequest();
       expect(btr).to.be.null;
-      const btr2 = oAuthUtils.buildTokenRequest({ code: 'hello' });
+      const btr2 = oAuthUtils.buildTokenRequest({
+        code: 'hello',
+      });
       expect(btr2).to.be.null;
       storage.clear();
     });
@@ -212,7 +366,9 @@ describe('OAuth - Utilities', () => {
       const tokenPath = `${
         environment.API_URL
       }/v0/sign_in/token?grant_type=authorization_code&client_id=vaweb&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
-      const btr = await oAuthUtils.buildTokenRequest({ code: 'hello' });
+      const btr = await oAuthUtils.buildTokenRequest({
+        code: 'hello',
+      });
       expect(btr.href).to.eql(tokenPath);
       expect(btr.href).includes('code=');
       expect(btr.href).includes('code_verifier=');
@@ -223,7 +379,9 @@ describe('OAuth - Utilities', () => {
   describe('requestToken', () => {
     it('should fail if url is not generated', async () => {
       localStorage.clear();
-      const req2 = await oAuthUtils.requestToken({ code: 'test' });
+      const req2 = await oAuthUtils.requestToken({
+        code: 'test',
+      });
       expect(req2).to.eql(null);
     });
     it('should POST successfully to `/token` endpoint', async () => {
@@ -233,7 +391,9 @@ describe('OAuth - Utilities', () => {
       storage.setItem('code_verifier', cvValue);
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
-      const tokenOptions = await oAuthUtils.requestToken({ code: 'success' });
+      const tokenOptions = await oAuthUtils.requestToken({
+        code: 'success',
+      });
       expect(tokenOptions).to.not.be.null;
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
@@ -259,7 +419,7 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('checkOrSetSessionExpiration', () => {
-    it('if response headers contain `X-Session-Expiration` with a valid date, set the localStorage', () => {
+    it('should set localStorage when `X-Session-Expiration` header is present and prefer it over `infoTokenExists` tokens', () => {
       const response = generateResponse({
         headers: {
           'X-Session-Expiration':
@@ -267,44 +427,178 @@ describe('OAuth - Utilities', () => {
           'Content-Type': 'application/json',
         },
       });
+
       const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
-      if (isSet) {
-        expect(localStorage.getItem('sessionExpiration')).to.eql(
-          'Wed Jun 29 2022 12:41:35 GMT-0400 (Eastern Daylight Time)',
-        );
-      }
+
+      expect(isSet).to.be.true;
+      expect(localStorage.getItem('sessionExpiration')).to.eql(
+        'Wed Jun 29 2022 12:41:35 GMT-0400 (Eastern Daylight Time)',
+      );
     });
-    it('if `infoTokenExists` results to true, set localStorage to the vagov_info_token cookie', () => {
-      document.cookie = `FLIPPER_ID=abc123; vagov_info_token={:access_token_expiration=>Wed,+29+Jun+2022+16:41:35.553488744+UTC++00:00,+:refresh_token_expiration=>Wed,+29+Jun+2022+17:06:35.504965627+UTC++00:00};FLIPPER_ID=c4pz6sj36lk7fdoya02bmq`;
+
+    it('should set localStorage from `infoTokenExists` when no `X-Session-Expiration` header is present and tokens are valid', () => {
+      infoTokenExistsStub.restore();
+      infoTokenExistsStub.returns(true);
+      getInfoTokenStub.restore();
+
+      const validEncodedToken =
+        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D';
+
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validEncodedToken};`;
+
       const response = generateResponse({
         headers: {
           'Content-Type': 'application/json',
         },
       });
+
       const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
-      if (isSet) {
-        expect(Object.keys(localStorage)).to.include('sessionExpiration');
-      }
+
+      const expectedAtExpires = new Date(
+        'Fri Mar 17 2023 15:38:06 GMT-0400',
+      ).getTime();
+      const actualAtExpires = new Date(
+        localStorage.getItem('atExpires'),
+      ).getTime();
+
+      expect(isSet).to.be.true;
+      expect(actualAtExpires).to.equal(expectedAtExpires);
+
+      const expectedSessionExpiration = new Date(
+        'Fri Mar 17 2023 16:03:06 GMT-0400',
+      ).getTime();
+      const actualSessionExpiration = new Date(
+        localStorage.getItem('sessionExpiration'),
+      ).getTime();
+
+      expect(actualSessionExpiration).to.equal(expectedSessionExpiration);
+    });
+
+    it('should not set localStorage if `infoTokenExists` returns true but token format is invalid', () => {
+      getInfoTokenStub.returns({});
+
+      const response = generateResponse({
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
+
+      expect(isSet).to.be.false;
+      expect(localStorage.getItem('sessionExpiration')).to.be.null;
+      expect(localStorage.getItem('atExpires')).to.be.null;
+    });
+
+    it('should not set localStorage and return false if both `X-Session-Expiration` header and `infoTokenExists` are absent', () => {
+      infoTokenExistsStub.returns(false);
+
+      const response = generateResponse({
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
+
+      expect(isSet).to.be.false;
+      expect(localStorage.getItem('sessionExpiration')).to.be.null;
+      expect(localStorage.getItem('atExpires')).to.be.null;
+    });
+
+    it('should set session expiration from X-Session-Expiration header', () => {
+      const response = generateResponse({
+        headers: { 'X-Session-Expiration': '2022-06-29T12:41:35Z' },
+      });
+      const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
+      expect(isSet).to.be.true;
+      expect(localStorage.getItem('sessionExpiration')).to.eql(
+        '2022-06-29T12:41:35Z',
+      );
     });
   });
 
   describe('removeInfoToken', () => {
-    it('should return null if infoTokenExists results to false', () => {
-      global.document.cookie = 'FLIPPER_ID=abc123;other_cookie=true;';
-      expect(oAuthUtils.removeInfoToken()).to.be.null;
-      global.document.cookie = '';
-    });
-    it('should update the document.cookie to remove `vagov_info_token`', () => {
-      global.document.cookie = `vagov_info_token={:access_token_expiration=>Wed,+29+Jun+2022+16:41:35.553488744+UTC++00:00,+:refresh_token_expiration=>Wed,+29+Jun+2022+17:06:35.504965627+UTC++00:00};FLIPPER_ID=c4pz6sj36lk7fdoya02bmq`;
+    it('should return null when infoToken does not exist or `infoTokenExists` returns false', () => {
+      infoTokenExistsStub.returns(false);
 
-      expect(oAuthUtils.removeInfoToken()).to.be.undefined;
+      const result = oAuthUtils.removeInfoToken();
+      expect(result).to.equal(null);
+
+      infoTokenExistsStub.restore();
+      const resultNoToken = oAuthUtils.removeInfoToken();
+      expect(resultNoToken).to.equal(null);
+    });
+
+    it('should remove INFO_TOKEN from cookies when it exists', () => {
+      document.cookie = `${
+        COOKIES.INFO_TOKEN
+      }=some_info_token_value; expires=Wed, 29 Jun 2022 16:41:35 GMT;`;
+      document.cookie = 'another_cookie=some_value;';
+
+      oAuthUtils.removeInfoToken();
+
+      const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+      const infoTokenCookie = cookies.find(cookie =>
+        cookie.startsWith(`${COOKIES.INFO_TOKEN}`),
+      );
+
+      expect(infoTokenCookie).to.be.undefined;
+      expect(document.cookie).to.include('another_cookie=some_value');
+    });
+
+    it('should not remove other cookies, whether INFO_TOKEN exists or not', () => {
+      infoTokenExistsStub.returns(true);
+      document.cookie = `sessionID=xyz456; `;
+      document.cookie = `anotherCookie=value;`;
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validCookie};`;
+      oAuthUtils.removeInfoToken();
+
+      expect(document.cookie).to.not.include(`${COOKIES.INFO_TOKEN}`);
+      expect(document.cookie).to.include('sessionID=xyz456');
+      expect(document.cookie).to.include('anotherCookie=value');
+
+      infoTokenExistsStub.restore();
+      document.cookie = 'another_cookie=some_value;';
+      document.cookie = 'third_cookie=another_value;';
+
+      oAuthUtils.removeInfoToken();
+
+      expect(document.cookie).to.include('another_cookie=some_value');
+      expect(document.cookie).to.include('third_cookie=another_value');
+    });
+
+    it('should handle the case where there are no cookies', () => {
+      document.cookie = '';
+
+      oAuthUtils.removeInfoToken();
+
+      expect(document.cookie).to.equal('');
+    });
+
+    it('should handle cookies with no values correctly', () => {
+      document.cookie = `another_cookie=; ${COOKIES.INFO_TOKEN}`;
+
+      oAuthUtils.removeInfoToken();
+
+      expect(document.cookie).to.include('another_cookie=');
+      expect(document.cookie).not.to.include(`${COOKIES.INFO_TOKEN}`);
     });
   });
 
   describe('infoTokenExists', () => {
     it('should check if cookie contains `vagov_info_token`', () => {
-      global.document.cookie = `vagov_info_token={:access_token_expiration=>Wed,+29+Jun+2022+16:41:35.553488744+UTC++00:00,+:refresh_token_expiration=>Wed,+29+Jun+2022+17:06:35.504965627+UTC++00:00};FLIPPER_ID=c4pz6sj36lk7fdoya02bmq`;
-      expect(oAuthUtils.infoTokenExists()).to.be.true;
+      document.cookie = `${COOKIES.INFO_TOKEN}=some_token_value; path=/;`;
+
+      expect(infoTokenExists()).to.be.true;
+    });
+
+    it('should return false if `vagov_info_token` is not present', () => {
+      infoTokenExistsStub.restore();
+
+      document.cookie = 'some_other_cookie=some_value';
+
+      expect(infoTokenExists()).to.be.false;
     });
   });
 
@@ -324,13 +618,51 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('getInfoToken', () => {
-    it('should return a formatted object of the access & refresh tokens', () => {
-      const unformattedCookie = decodeURIComponent(
-        '%7B%22access_token_expiration%22%3A%222023-03-17T19%3A38%3A06.654Z%22%2C%22refresh_token_expiration%22%3A%222023-03-17T20%3A03%3A06.631Z%22%7D',
-      );
-      const keys = Object.keys(oAuthUtils.formatInfoCookie(unformattedCookie));
-      expect(keys).to.include('access_token_expiration');
-      expect(keys).to.include('refresh_token_expiration');
+    it('returns null if infoToken does not exist', () => {
+      infoTokenExistsStub.restore();
+      getInfoTokenStub.restore();
+
+      const result = getInfoToken();
+
+      expect(result).to.be.null;
+    });
+
+    it('should return a formatted object of the access & refresh tokens when a valid cookie is present', () => {
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validCookie};`;
+
+      const result = getInfoToken();
+
+      expect(result).to.not.be.null;
+      expect(result).to.be.an('object');
+      expect(result).to.have.property('access_token_expiration');
+      expect(result).to.have.property('refresh_token_expiration');
+    });
+
+    it('should return a formatted object of the access & refresh tokens when a valid cookie is present', () => {
+      document.cookie = `${COOKIES.INFO_TOKEN}=${validCookie};`;
+
+      const result = getInfoToken();
+
+      expect(result).to.not.be.null;
+      expect(result).to.be.an('object');
+      expect(result).to.have.property('access_token_expiration');
+      expect(result).to.have.property('refresh_token_expiration');
+    });
+
+    it('should correctly parse the INFO_TOKEN cookie among multiple cookies', () => {
+      getInfoTokenStub.restore();
+
+      document.cookie = 'other_cookie=some_value;';
+
+      document.cookie = `${
+        COOKIES.INFO_TOKEN
+      }=${validCookie};another_cookie=another_value;`;
+
+      const result = getInfoToken();
+      expect(result).to.not.be.null;
+      expect(result).to.be.an('object');
+      expect(result).to.have.property('access_token_expiration');
+      expect(result).to.have.property('refresh_token_expiration');
     });
   });
 
@@ -382,33 +714,6 @@ describe('OAuth - Utilities', () => {
       storage.setItem('someRandomKey', 'someRandomValue');
       oAuthUtils.updateStateAndVerifier('logingov');
       expect(storage.length).to.eql(3);
-      storage.clear();
-    });
-  });
-
-  describe('removeStateAndVerifier', () => {
-    it('should remove all state & verifiers from localStorage', () => {
-      const storage = localStorage;
-      storage.clear();
-      ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
-        storage.setItem(storageKey, 'randomValue');
-      });
-
-      oAuthUtils.removeStateAndVerifier();
-      expect(Object.keys(storage).length).to.eql(0);
-      storage.clear();
-    });
-    it('should not remove any other item from localStorage', () => {
-      const storage = localStorage;
-      storage.clear();
-      ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
-        storage.setItem(storageKey, 'randomValue');
-      });
-      storage.setItem('otherKey', 'otherValue');
-
-      oAuthUtils.removeStateAndVerifier();
-      expect(Object.keys(storage).length).to.eql(1);
-      expect(storage.getItem('otherKey')).to.eql('otherValue');
       storage.clear();
     });
   });

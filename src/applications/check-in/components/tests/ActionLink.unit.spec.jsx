@@ -24,9 +24,7 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      expect(getByTestId('action-link')).to.have.text(
-        'Review your information now',
-      );
+      expect(getByTestId('review-information-button')).to.exist;
     });
     it('display the correct label for dayOf', () => {
       const { getByTestId } = render(
@@ -38,7 +36,7 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      expect(getByTestId('action-link')).to.have.text('Check in now');
+      expect(getByTestId('check-in-button')).to.exist;
     });
     it('calls action method once when clicked', () => {
       const actionSpy = sinon.spy();
@@ -65,8 +63,8 @@ describe('unified check-in experience', () => {
           />
         </CheckInProvider>,
       );
-      expect(getByTestId('action-link')).to.have.attr(
-        'aria-label',
+      expect(getByTestId('action-link')).to.have.attribute(
+        'label',
         'Check in now for appointment on Sunday, January 1 at 10:00 a.m.',
       );
     });

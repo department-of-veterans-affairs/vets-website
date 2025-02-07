@@ -8,6 +8,8 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
+  textUI,
+  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
@@ -122,6 +124,23 @@ export const employersDatesPage = {
     type: 'object',
     properties: {
       dateRange: currentOrPastDateRangeSchema,
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+export const employersOptionalPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      'Optional page',
+      'This page depends on the address state is from CA',
+    ),
+    weather: textUI('How is the weather today?'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      weather: textSchema,
     },
   },
 };

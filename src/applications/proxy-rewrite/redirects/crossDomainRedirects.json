@@ -1495,5 +1495,89 @@
     "src": "/ROOAKLAND",
     "dest": "/oakland-va-regional-benefit-office/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/houston",
+    "dest": "/houston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHOUSTON",
+    "dest": "/houston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/washington",
+    "dest": "/national-capital-region-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROWASHINGTON",
+    "dest": "/national-capital-region-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/denver",
+    "dest": "/denver-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODENVER",
+    "dest": "/denver-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/cheyenne",
+    "dest": "/cheyenne-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROCHEYENNE",
+    "dest": "/cheyenne-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/detroit",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODETROIT",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/littlerock",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROLITTLEROCK",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROBOSTON",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/boston",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

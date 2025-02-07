@@ -29,14 +29,10 @@ describe('<FilterByLocation>', () => {
         },
       },
     );
-    const FilterByLocationButton = screen.getByRole('button', {
-      name: 'Filter by location',
-    });
+    const FilterByLocationButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(FilterByLocationButton); // opens Filter by Location
 
-    const UpdateResultsButton = screen.getByRole('button', {
-      name: 'Update results',
-    });
+    const UpdateResultsButton = screen.getByTestId('update-tuition-housing');
     fireEvent.click(UpdateResultsButton); // clicks on Update Results
 
     await waitFor(() => {

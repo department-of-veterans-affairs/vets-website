@@ -4,7 +4,7 @@ import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-a
 
 describe('Prefill pattern - Green Task', () => {
   beforeEach(() => {
-    cy.login(mockUsers.loa3User72);
+    cy.intercept('GET', '/v0/user', mockUsers.loa3User).as('mockUser');
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [{ name: 'profile_use_experimental', value: true }],
@@ -114,9 +114,9 @@ describe('Prefill pattern - Green Task', () => {
 
     cy.findByText('Mitchell G Jenkins').should('exist');
 
-    cy.findByText('●●●–●●–8321').should('exist');
+    cy.findByText('●●●–●●–6789').should('exist');
 
-    cy.findByText('March 04, 1949').should('exist');
+    cy.findByText('July 10, 1956').should('exist');
 
     cy.findByText('Male').should('exist');
 
@@ -124,7 +124,7 @@ describe('Prefill pattern - Green Task', () => {
 
     cy.url().should('contain', '/confirm-mailing-address');
 
-    cy.findByText('123 Mailing Address St.').should('exist');
+    cy.findByText('125 Main St.').should('exist');
 
     cy.findByText('Fulton, NY 97063').should('exist');
 
@@ -132,7 +132,7 @@ describe('Prefill pattern - Green Task', () => {
 
     cy.url().should('contain', '/edit-mailing-address');
 
-    cy.get('va-button[text="Cancel"]').click();
+    cy.findByText('Cancel').click();
 
     cy.url().should('contain', '/confirm-mailing-address');
   });
