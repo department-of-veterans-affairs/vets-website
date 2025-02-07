@@ -298,10 +298,10 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       </p>
       <va-link-action
         href="/my-health/medical-records/download/date-range"
-        label="Select records and download"
-        text="Select records and download"
-        data-dd-action-name="Select records and download"
-        onClick={() => sendDataDogAction('Select records and download')}
+        label="Select records and download report"
+        text="Select records and download report"
+        data-dd-action-name="Select records and download report"
+        onClick={() => sendDataDogAction('Select records and download report')}
         data-testid="go-to-download-all"
       />
       <h2>Other reports you can download</h2>
