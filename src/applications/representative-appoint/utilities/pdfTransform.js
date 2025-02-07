@@ -37,7 +37,7 @@ export function pdfTransform(formData) {
   const {
     inputVeteranFullName,
     inputVeteranSSN: ssn,
-    vaFileNumber,
+    inputVeteranVAFileNumber,
     veteranDateOfBirth: dateOfBirth,
     serviceNumber,
     veteranHomeAddress: homeAddress,
@@ -75,7 +75,7 @@ export function pdfTransform(formData) {
       last: inputVeteranFullName?.last || '',
     },
     ssn,
-    vaFileNumber,
+    vaFileNumber: inputVeteranVAFileNumber,
     dateOfBirth,
     serviceNumber,
     serviceBranch: serviceBranch?.replace(/ /g, '_').toUpperCase() || null,

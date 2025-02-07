@@ -37,7 +37,7 @@ export const uiSchema = {
     ),
   },
   inputVeteranSSN: ssnUI('Social Security number'),
-  veteranVAFileNumber: vaFileNumberUI('VA file number'),
+  inputVeteranVAFileNumber: vaFileNumberUI('VA file number'),
   veteranServiceNumber: serviceNumberUI('Service Number'),
 };
 
@@ -49,7 +49,7 @@ export const schema = {
     descriptionSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
     inputVeteranSSN: ssnSchema,
-    veteranVAFileNumber: {
+    inputVeteranVAFileNumber: {
       ...vaFileNumberSchema,
       maxLength: 9,
     },

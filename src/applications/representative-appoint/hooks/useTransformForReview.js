@@ -13,7 +13,7 @@ export function useTransformForReview(formData) {
     middleName: formData?.inputVeteranFullName?.middle,
     lastName: formData?.inputVeteranFullName?.last,
     ssn: formData.inputVeteranSSN,
-    vaFileNumber: formData.veteranVAFileNumber,
+    inputVeteranVAFileNumber: formData.inputVeteranVAFileNumber,
     dateOfBirth: formData.veteranDateOfBirth,
     serviceNumber: formData.serviceNumber,
     serviceBranch: formData.serviceBranch,
@@ -61,7 +61,7 @@ export function useTransformForReview(formData) {
         {renderField('Middle name', veteran.middleName)}
         {renderField('Last name', veteran.lastName)}
         {renderField('Social security number', veteran.ssn)}
-        {renderField('VA file number', veteran.vaFileNumber)}
+        {renderField('VA file number', veteran.inputVeteranVAFileNumber)}
         {renderField('Date of birth', veteran.dateOfBirth)}
         {renderField('Relationship', veteran.relationship)}
         {renderField('Primary number', veteran.phone)}
@@ -105,7 +105,7 @@ export function useTransformForReview(formData) {
           {renderField('Middle name', claimant.middleName)}
           {renderField('Last name', claimant.lastName)}
           {renderField('Social security number', claimant.ssn)}
-          {renderField('VA file number', claimant.vaFileNumber)}
+          {renderField('VA file number', claimant.inputVeteranVAFileNumber)}
           {renderField('Date of birth', claimant.dateOfBirth)}
           {renderField('Relationship', claimant.relationship)}
           {renderField('Primary number', claimant.phone)}
