@@ -1419,7 +1419,7 @@ export const fetchSuggestedAddress = async userAddress => {
 
   try {
     const res = await apiRequest(
-      `https://staging-api.va.gov/ask_va_api/v0/address_validation`,
+      `${envUrl}/v0/profile/address_validation`,
       options,
     );
 
