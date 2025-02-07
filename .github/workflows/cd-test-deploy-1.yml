@@ -1,6 +1,8 @@
 name: Continuous Deploy Production Deploy Test 1
 on:
-  push
+  push:
+    branches:
+      - 'staged-cd-json-error-3'
 
 jobs:
   cd-prod-deploy:
