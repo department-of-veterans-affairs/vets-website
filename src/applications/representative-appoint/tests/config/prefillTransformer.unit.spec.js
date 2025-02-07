@@ -14,7 +14,7 @@ describe('prefillTransformer', () => {
         last: 'Anderson',
         middle: 'A',
       });
-      expect(result.veteranDateOfBirth).to.eql('1933-04-05');
+      expect(result.inputVeteranDOB).to.eql('1933-04-05');
       expect(result.inputVeteranSSN).to.eql('796121200');
       expect(result.veteranHomeAddress).to.eql({
         street: '123 avenue du Maine',
@@ -89,7 +89,7 @@ describe('prefillTransformer', () => {
         ...prefill,
         'view:applicantIsVeteran': 'No',
         inputVeteranFullName: 'test',
-        veteranDateOfBirth: 'test',
+        inputVeteranDOB: 'test',
         veteranEmail: 'test',
         primaryPhone: 'test',
         veteranHomeAddress: {
@@ -106,7 +106,7 @@ describe('prefillTransformer', () => {
       const result = prefillTransformer(data);
 
       expect(result.inputVeteranFullName).to.be.undefined;
-      expect(result.veteranDateOfBirth).to.be.undefined;
+      expect(result.inputVeteranDOB).to.be.undefined;
       expect(result.veteranEmail).to.be.undefined;
       expect(result.primaryPhone).to.be.undefined;
       expect(result.veteranHomeAddress).to.eql({

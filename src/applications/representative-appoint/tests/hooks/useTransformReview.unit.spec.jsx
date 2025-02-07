@@ -27,7 +27,7 @@ describe('useTransformForReview', () => {
         inputVeteranFullName: { first: 'Jane', middle: 'A', last: 'Doe' },
         inputVeteranSSN: '123-45-6789',
         inputVeteranVAFileNumber: '987654321',
-        veteranDateOfBirth: '1990-01-01',
+        inputVeteranDOB: '1990-01-01',
         serviceNumber: 'S123456789',
         serviceBranch: 'Army',
         veteranHomeAddress: {

@@ -38,7 +38,7 @@ export function pdfTransform(formData) {
     inputVeteranFullName,
     inputVeteranSSN: ssn,
     inputVeteranVAFileNumber,
-    veteranDateOfBirth: dateOfBirth,
+    inputVeteranDOB: dateOfBirth,
     serviceNumber,
     veteranHomeAddress: homeAddress,
     primaryPhone: phone,

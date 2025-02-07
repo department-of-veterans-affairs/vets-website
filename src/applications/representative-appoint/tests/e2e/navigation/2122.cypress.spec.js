@@ -79,8 +79,8 @@ describe('Authenticated', () => {
         .find('select')
         .select('January');
 
-      cy.get('input[name="root_veteranDateOfBirthDay"]').type('01');
-      cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
+      cy.get('input[name="root_inputVeteranDOBDay"]').type('01');
+      cy.get('input[name="root_inputVeteranDOBYear"]').type('1990');
 
       h.clickContinue();
 

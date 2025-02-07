@@ -11,7 +11,7 @@ export default function prefillTransformer(formData) {
       middle: formData?.personalInformation?.fullName?.middle?.substring(0, 1),
       last: formData?.personalInformation?.fullName?.last,
     };
-    newFormData.veteranDateOfBirth = formData?.personalInformation?.dateOfBirth;
+    newFormData.inputVeteranDOB = formData?.personalInformation?.dateOfBirth;
     newFormData.inputVeteranSSN = formData?.personalInformation?.ssn;
     newFormData.veteranHomeAddress = {
       city: formData?.contactInformation?.address?.city,
@@ -55,7 +55,7 @@ export default function prefillTransformer(formData) {
 
     // reset the applicant information in case of claimant type change
     newFormData.inputVeteranFullName = undefined;
-    newFormData.veteranDateOfBirth = undefined;
+    newFormData.inputVeteranDOB = undefined;
     newFormData.inputVeteranSSN = undefined;
     newFormData.veteranHomeAddress = {
       city: undefined,
