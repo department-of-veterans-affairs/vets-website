@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { focusElement } from 'platform/utilities/ui';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
@@ -12,24 +11,14 @@ import LocationDistance from './common/LocationDistance';
 import LocationMarker from './common/LocationMarker';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationPhoneLink from './common/LocationPhoneLink';
-import { MobileMapResultTypes } from '../../types';
 
 const VaFacilityResult = ({
-  headerHasFocus = false,
-  headerRef = null,
   index,
+  isMobile = false,
   location,
   query,
-  setHeaderHasFocus,
   showHealthConnectNumber,
 }) => {
-  useEffect(() => {
-    if (headerRef?.current && !headerHasFocus) {
-      focusElement(headerRef.current);
-      setHeaderHasFocus(true);
-    }
-  }, []);
-
   const { name, website, operatingStatus } = location.attributes;
 
   const clickHandler = useCallback(
@@ -50,18 +39,18 @@ const VaFacilityResult = ({
         {isVADomain(website) ? (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
-            ref={headerRef}
           >
             <va-link href={website} text={name} />
           </h3>
         ) : (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
-            ref={headerRef}
           >
             <Link to={`facility/${location.id}`}>{name}</Link>
           </h3>
@@ -90,8 +79,8 @@ const VaFacilityResult = ({
 
 VaFacilityResult.propTypes = {
   index: PropTypes.number,
+  isMobile: PropTypes.bool,
   location: PropTypes.object,
-  ...MobileMapResultTypes,
   query: PropTypes.object,
   showHealthConnectNumber: PropTypes.oneOfType([
     PropTypes.string,

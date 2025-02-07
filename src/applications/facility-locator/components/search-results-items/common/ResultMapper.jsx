@@ -16,20 +16,8 @@ import { isHealthAndHealthConnect } from '../../../utils/phoneNumbers';
 
 // Receives a single result and returns the
 // proper data structure / listing (e.g. VA health, VBA, Urgent care)
-export const ResultMapper = (
-  result,
-  searchQuery,
-  index,
-  headerRef = null,
-  headerHasFocus = false,
-  setHeaderHasFocus = null,
-) => {
+export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
-  const mobileMapProps = {
-    headerRef,
-    headerHasFocus,
-    setHeaderHasFocus,
-  };
 
   switch (searchQuery.facilityType) {
     case 'health':
@@ -39,19 +27,19 @@ export const ResultMapper = (
       return searchQuery.serviceType === Covid19Vaccine ? (
         <Covid19Result
           index={index}
+          isMobile={isMobile}
           key={result.id}
           location={result}
           query={searchQuery}
-          {...mobileMapProps}
         />
       ) : (
         <VaFacilityResult
           index={index}
+          isMobile={isMobile}
           key={result.id}
           location={result}
           query={searchQuery}
           showHealthConnectNumber={showHealthConnectNumber}
-          {...mobileMapProps}
         />
       );
     case 'provider':
@@ -59,10 +47,10 @@ export const ResultMapper = (
       if (searchQuery.serviceType === CLINIC_URGENTCARE_SERVICE) {
         return (
           <UrgentCareResult
+            isMobile={isMobile}
             key={result.id}
             provider={result}
             query={searchQuery}
-            {...mobileMapProps}
           />
         );
       }
@@ -70,10 +58,10 @@ export const ResultMapper = (
       if (searchQuery.serviceType === PHARMACY_RETAIL_SERVICE) {
         return (
           <PharmacyResult
+            isMobile={isMobile}
             key={result.id}
             provider={result}
             query={searchQuery}
-            {...mobileMapProps}
           />
         );
       }
@@ -81,39 +69,39 @@ export const ResultMapper = (
       if (EMERGENCY_CARE_SERVICES.includes(searchQuery.serviceType)) {
         return (
           <EmergencyCareResult
+            isMobile={isMobile}
             key={result.id}
             provider={result}
             query={searchQuery}
-            {...mobileMapProps}
           />
         );
       }
 
       return (
         <CCProviderResult
+          isMobile={isMobile}
           key={result.id}
           provider={result}
           query={searchQuery}
-          {...mobileMapProps}
         />
       );
     case 'pharmacy':
       return (
         <PharmacyResult
+          isMobile={isMobile}
           key={result.id}
           provider={result}
           query={searchQuery}
-          {...mobileMapProps}
         />
       );
     case 'emergency_care':
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <EmergencyCareResult
+            isMobile={isMobile}
             key={result.id}
             provider={result}
             query={searchQuery}
-            {...mobileMapProps}
           />
         );
       }
@@ -121,20 +109,20 @@ export const ResultMapper = (
       return (
         <VaFacilityResult
           index={index}
+          isMobile={isMobile}
           key={result.id}
           location={result}
           query={searchQuery}
-          {...mobileMapProps}
         />
       );
     case 'urgent_care':
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <UrgentCareResult
+            isMobile={isMobile}
             key={result.id}
             provider={result}
             query={searchQuery}
-            {...mobileMapProps}
           />
         );
       }
@@ -142,10 +130,10 @@ export const ResultMapper = (
       return (
         <VaFacilityResult
           index={index}
+          isMobile={isMobile}
           key={result.id}
           location={result}
           query={searchQuery}
-          {...mobileMapProps}
         />
       );
     default:

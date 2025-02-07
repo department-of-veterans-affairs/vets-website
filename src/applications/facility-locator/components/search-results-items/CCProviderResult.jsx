@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
-import { MobileMapResultTypes } from '../../types';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
@@ -10,21 +8,18 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import ProviderTraining from './common/ProviderTraining';
 
-const CCProviderResult = ({ headerRef = null, provider, query }) => {
+const CCProviderResult = ({ isMobile = false, provider, query }) => {
   const { name } = provider.attributes;
-
-  useEffect(() => {
-    if (headerRef?.current) {
-      focusElement(headerRef.current);
-    }
-  }, []);
 
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
         <LocationMarker markerText={provider.markerText} />
         <ProviderServiceDescription provider={provider} query={query} />
-        <h3 className="vads-u-margin-y--0" ref={headerRef}>
+        <h3
+          className="vads-u-margin-y--0"
+          id={isMobile ? 'fl-provider-name' : undefined}
+        >
           {name}
         </h3>
         {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
@@ -47,11 +42,9 @@ const CCProviderResult = ({ headerRef = null, provider, query }) => {
 };
 
 CCProviderResult.propTypes = {
-  index: PropTypes.number,
-  location: PropTypes.object,
-  ...MobileMapResultTypes,
+  isMobile: PropTypes.bool,
+  provider: PropTypes.object,
   query: PropTypes.object,
-  setHeaderHasFocus: PropTypes.func,
 };
 
 export default CCProviderResult;

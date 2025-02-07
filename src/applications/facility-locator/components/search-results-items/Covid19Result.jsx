@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { focusElement } from 'platform/utilities/ui';
-import { MobileMapResultTypes } from '../../types';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
@@ -14,21 +12,7 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({
-  headerHasFocus = false,
-  headerRef = null,
-  index,
-  location,
-  query,
-  setHeaderHasFocus,
-}) => {
-  useEffect(() => {
-    if (headerRef?.current && !headerHasFocus) {
-      focusElement(headerRef.current);
-      setHeaderHasFocus(true);
-    }
-  }, []);
-
+const Covid19Result = ({ index, isMobile = false, location, query }) => {
   const {
     name,
     website,
@@ -59,9 +43,9 @@ const Covid19Result = ({
         {isVADomain(website) ? (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
-            ref={headerRef}
             tabIndex={0}
           >
             <va-link href={website} text={name} />
@@ -69,9 +53,9 @@ const Covid19Result = ({
         ) : (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
-            ref={headerRef}
             tabIndex={0}
           >
             <Link to={`facility/${location.id}`}>{name}</Link>
@@ -122,8 +106,8 @@ const Covid19Result = ({
 
 Covid19Result.propTypes = {
   index: PropTypes.number,
+  isMobile: PropTypes.bool,
   location: PropTypes.object,
-  ...MobileMapResultTypes,
   query: PropTypes.object,
   setHeaderHasFocus: PropTypes.func,
 };

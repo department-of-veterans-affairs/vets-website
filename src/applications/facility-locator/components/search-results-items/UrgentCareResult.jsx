@@ -1,35 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { focusElement } from 'platform/utilities/ui';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
 import LocationMarker from './common/LocationMarker';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderTraining from './common/ProviderTraining';
-import { MobileMapResultTypes } from '../../types';
 
-const UrgentCareResult = ({
-  headerHasFocus = false,
-  headerRef = null,
-  provider,
-  query,
-  setHeaderHasFocus,
-}) => {
-  useEffect(() => {
-    if (headerRef?.current && !headerHasFocus) {
-      focusElement(headerRef.current);
-      setHeaderHasFocus(true);
-    }
-  }, []);
-
+const UrgentCareResult = ({ isMobile = false, provider, query }) => {
   const { name } = provider.attributes;
 
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
         <LocationMarker markerText={provider.markerText} />
-        <h3 className="vads-u-margin-y--0" ref={headerRef}>
+        <h3
+          className="vads-u-margin-y--0"
+          id={isMobile ? 'fl-provider-name' : undefined}
+        >
           {name}
         </h3>
         {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
@@ -69,7 +57,7 @@ const UrgentCareResult = ({
 };
 
 UrgentCareResult.propTypes = {
-  ...MobileMapResultTypes,
+  isMobile: PropTypes.bool,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

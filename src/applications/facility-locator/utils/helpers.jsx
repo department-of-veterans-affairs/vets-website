@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { first, includes, last, split, toLower } from 'lodash';
+import { focusElement } from 'platform/utilities/ui';
 import { recordMarkerEvents } from './analytics';
 
 // https://stackoverflow.com/a/50171440/1000622
@@ -62,6 +63,14 @@ export const buildMarker = (
             distance: loc.distance,
           },
         });
+
+        setTimeout(() => {
+          const providerName = document?.getElementById('fl-provider-name');
+
+          if (providerName !== document?.activeElement) {
+            focusElement(providerName);
+          }
+        }, 200);
       }
 
       const locationElement = document.getElementById(loc.id);
