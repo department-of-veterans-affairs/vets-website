@@ -1,3 +1,5 @@
+// import React from 'react';
+
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -5,9 +7,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import personalInfoSignedIn from '../pages/personalInfoSignedIn';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import { applicantSaveAppText } from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -44,12 +47,13 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
+      applicantSaveAppText,
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        personalInfoSignedIn: {
+          path: 'confirm-personal-information',
+          title: 'Confirm the personal information we have on file for you',
+          uiSchema: personalInfoSignedIn.uiSchema,
+          schema: personalInfoSignedIn.schema,
         },
       },
     },
