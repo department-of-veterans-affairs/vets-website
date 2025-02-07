@@ -41,6 +41,15 @@ export const updateUrlParams = (
   }
 
   if (
+    searchQuery.name !== '' &&
+    searchQuery.name !== null &&
+    searchQuery.name !== undefined &&
+    queryParams.search === TABS.schoolAndEmployerPrograms
+  ) {
+    queryParams.name = searchQuery.name;
+  }
+
+  if (
     searchQuery.location !== '' &&
     searchQuery.location !== null &&
     searchQuery.location !== undefined &&
