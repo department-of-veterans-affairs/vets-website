@@ -7,7 +7,7 @@ import { OTHER_REASONS_3RD_PTY_NON_VET } from '../config/constants';
 export default {
   uiSchema: {
     otherReasons: checkboxGroupUI({
-      title: 'Which of these descriptions are true for the Claimant?',
+      title: 'Which of these descriptions are true for the claimant?',
       hint: 'Select all that apply',
       required: true,
       labels: OTHER_REASONS_3RD_PTY_NON_VET,
