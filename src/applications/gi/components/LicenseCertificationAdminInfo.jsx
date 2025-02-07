@@ -43,7 +43,7 @@ function LicenseCertificationAdminInfo({ institution, type }) {
       <p>
         <va-link
           text="Get VA Form22-0803 to download"
-          href="../../../find-forms/about-form-22-0803/"
+          href="../../../find-forms/about-form-22-0803/" // check link structure
         />
       </p>
     </div>

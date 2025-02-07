@@ -66,12 +66,12 @@ export default function(state = INITIAL_STATE, action) {
         error: action.payload,
       };
     case FILTER_LC_RESULTS: {
-      const { name, category, location } = action.payload;
+      const { name, categories, location } = action.payload;
 
       const newSuggestions = filterSuggestions(
         newState.lcResults,
         name,
-        category,
+        categories,
         location,
       );
 

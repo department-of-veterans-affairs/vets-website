@@ -9,21 +9,16 @@ import LicesnseCertificationServiceError from '../components/LicesnseCertificati
 export default function LicenseCertificationSearchResult() {
   const { id } = useParams();
 
-  const {
-    hasFetchedResult,
-    fetchingLcResult,
-    lcResultInfo,
-    error,
-  } = useSelector(state => state.licenseCertificationSearch);
+  const { fetchingLcResult, lcResultInfo, error } = useSelector(
+    state => state.licenseCertificationSearch,
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (!hasFetchedResult) {
-      dispatch(fetchLcResult(id));
-    }
+    dispatch(fetchLcResult(id));
   }, []);
 
   const { lacNm, eduLacTypeNm, institution, tests } = lcResultInfo;
