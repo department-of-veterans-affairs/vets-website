@@ -46,18 +46,10 @@ describe('additional exposures details', () => {
         getByText(additionalExposuresPageTitle);
         getByText(dateRangeDescriptionWithHazard);
 
-        expect(
-          $(
-            `va-memorable-date[label="${exposureStartDateApproximate}"]`,
-            container,
-          ),
-        ).to.exist;
-        expect(
-          $(
-            `va-memorable-date[label="${exposureEndDateApproximate}"]`,
-            container,
-          ),
-        ).to.exist;
+        expect($(`va-date[label="${exposureStartDateApproximate}"]`, container))
+          .to.exist;
+        expect($(`va-date[label="${exposureEndDateApproximate}"]`, container))
+          .to.exist;
 
         expect($(`va-checkbox[label="${notSureHazardDetails}"]`, container)).to
           .exist;
@@ -103,8 +95,8 @@ describe('additional exposures details', () => {
         const data = JSON.parse(JSON.stringify(formData));
         data.toxicExposure.otherExposuresDetails = {};
         data.toxicExposure.otherExposuresDetails[itemId] = {
-          startDate: '2020-05-19',
-          endDate: '2021-11-30',
+          startDate: '2020-05',
+          endDate: '2021-11',
         };
 
         pageSubmitTest(schemas[`additional-exposure-${itemId}`], data, true);

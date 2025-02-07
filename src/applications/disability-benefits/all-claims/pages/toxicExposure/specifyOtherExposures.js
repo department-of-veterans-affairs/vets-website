@@ -1,5 +1,7 @@
-import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  currentOrPastMonthYearDateSchema,
+  currentOrPastMonthYearDateUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
@@ -34,10 +36,10 @@ export const uiSchema = {
 
   toxicExposure: {
     specifyOtherExposures: {
-      startDate: currentOrPastDateUI({
+      startDate: currentOrPastMonthYearDateUI({
         title: exposureStartDateApproximate,
       }),
-      endDate: currentOrPastDateUI({
+      endDate: currentOrPastMonthYearDateUI({
         title: exposureEndDateApproximate,
       }),
       'view:notSure': {
@@ -63,8 +65,8 @@ export const schema = {
         specifyOtherExposures: {
           type: 'object',
           properties: {
-            startDate: full526EZSchema.definitions.minimumYearDate,
-            endDate: full526EZSchema.definitions.minimumYearDate,
+            startDate: currentOrPastMonthYearDateSchema,
+            endDate: currentOrPastMonthYearDateSchema,
             'view:notSure': {
               type: 'boolean',
             },

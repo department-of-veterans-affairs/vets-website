@@ -47,11 +47,9 @@ describe('herbicideDetails', () => {
         getByText(herbicidePageTitle);
         getByText(dateRangeDescriptionWithLocation);
 
-        expect(
-          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
-        ).to.exist;
-        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-          .to.exist;
+        expect($(`va-date[label="${startDateApproximate}"]`, container)).to
+          .exist;
+        expect($(`va-date[label="${endDateApproximate}"]`, container)).to.exist;
 
         expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
           .exist;
@@ -97,8 +95,8 @@ describe('herbicideDetails', () => {
         const data = JSON.parse(JSON.stringify(formData));
         data.toxicExposure.herbicideDetails = {};
         data.toxicExposure.herbicideDetails[locationId] = {
-          startDate: '1975-04-02',
-          endDate: '1978-08-05',
+          startDate: '1975-04',
+          endDate: '1978-08',
         };
 
         pageSubmitTest(schemas[`herbicide-location-${locationId}`], data, true);

@@ -48,10 +48,8 @@ describe('Herbicide Other Locations', () => {
     ).to.equal(`Location 3 of 3: Test Location 1`);
     getByText(dateRangeDescriptionWithLocation);
 
-    expect($(`va-memorable-date[label="${startDateApproximate}"]`, container))
-      .to.exist;
-    expect($(`va-memorable-date[label="${endDateApproximate}"]`, container)).to
-      .exist;
+    expect($(`va-date[label="${startDateApproximate}"]`, container)).to.exist;
+    expect($(`va-date[label="${endDateApproximate}"]`, container)).to.exist;
 
     expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
       .exist;
@@ -73,8 +71,8 @@ describe('Herbicide Other Locations', () => {
 
   it('should submit with both dates', () => {
     const data = JSON.parse(JSON.stringify(formData));
-    data.toxicExposure.otherHerbicideLocations.startDate = '2021-12-22';
-    data.toxicExposure.otherHerbicideLocations.endDate = '2023-01-09';
+    data.toxicExposure.otherHerbicideLocations.startDate = '2021-12';
+    data.toxicExposure.otherHerbicideLocations.endDate = '2023-01';
 
     pageSubmitTest(
       formConfig.chapters.disabilities.pages.herbicideOtherLocations,

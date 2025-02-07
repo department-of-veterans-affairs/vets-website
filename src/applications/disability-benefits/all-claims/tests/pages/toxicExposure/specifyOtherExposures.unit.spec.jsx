@@ -22,8 +22,8 @@ const formData = {
     },
     otherExposuresDetails: {
       asbestos: {
-        startDate: '1995-02-01',
-        endDate: '1997-03-05',
+        startDate: '1995-02',
+        endDate: '1997-03',
       },
       chemical: {},
       water: {},
@@ -33,8 +33,8 @@ const formData = {
     },
     specifyOtherExposures: {
       description: 'Test Substance',
-      startDate: '2000-05-20',
-      endDate: '2001-03-01',
+      startDate: '2000-05',
+      endDate: '2001-03',
     },
   },
 };
@@ -61,15 +61,10 @@ describe('Specify Other Exposures', () => {
       ),
     ).to.equal(`Hazard 3 of 3: Test Substance`);
 
-    expect(
-      $(
-        `va-memorable-date[label="${exposureStartDateApproximate}"]`,
-        container,
-      ),
-    ).to.exist;
-    expect(
-      $(`va-memorable-date[label="${exposureEndDateApproximate}"]`, container),
-    ).to.exist;
+    expect($(`va-date[label="${exposureStartDateApproximate}"]`, container)).to
+      .exist;
+    expect($(`va-date[label="${exposureEndDateApproximate}"]`, container)).to
+      .exist;
 
     expect($(`va-checkbox[label="${notSureHazardDetails}"]`, container)).to
       .exist;

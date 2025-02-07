@@ -47,11 +47,9 @@ describe('gulfWar2001Details', () => {
         getByText(gulfWar2001PageTitle);
         getByText(dateRangeDescriptionWithLocation);
 
-        expect(
-          $(`va-memorable-date[label="${startDateApproximate}"]`, container),
-        ).to.exist;
-        expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
-          .to.exist;
+        expect($(`va-date[label="${startDateApproximate}"]`, container)).to
+          .exist;
+        expect($(`va-date[label="${endDateApproximate}"]`, container)).to.exist;
 
         expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
           .exist;
@@ -97,8 +95,8 @@ describe('gulfWar2001Details', () => {
         const data = JSON.parse(JSON.stringify(formData));
         data.toxicExposure.gulfWar2001Details = {};
         data.toxicExposure.gulfWar2001Details[locationId] = {
-          startDate: '2002-10-15',
-          endDate: '2004-03-31',
+          startDate: '2002-10',
+          endDate: '2004-03',
         };
 
         pageSubmitTest(
