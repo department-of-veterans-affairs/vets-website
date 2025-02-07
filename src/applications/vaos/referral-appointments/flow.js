@@ -61,7 +61,9 @@ export function routeToPageInFlow(history, current, action, referralId) {
   }
 
   if (nextPage?.url) {
-    history.push(nextPage.url);
+    if (current !== 'referralsAndRequests') {
+      history.push(nextPage.url);
+    }
   } else if (nextPage) {
     throw new Error(`Tried to route to a page without a url: ${nextPage}`);
   } else {
