@@ -1,0 +1,17 @@
+name: Continuous Deploy Production Deploy Test 1
+on:
+  push
+
+jobs:
+  cd-prod-deploy:
+    name: CD Production Deploy
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Run CD Production Deploy workflow
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d '{"event_type":"cd-production-deploy-test", "client_payload": {"ref":"staged-cd-json-error","github_sha": "'"${{ github.sha }}"'","github_ref": "'"${{ github.ref }}"'","github_message": "'"${{ github.event.head_commit.message }}"'", "entry_app": "'"${{ needs.build.outputs.entry_names }}"'"}}'
+      
