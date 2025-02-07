@@ -331,7 +331,7 @@
     }
   },
   "properties": {
-    "veteranFullName": {
+    "inputVeteranFullName": {
       "$ref": "#/definitions/fullName"
     },
     "dateOfBirth": {
@@ -382,7 +382,7 @@
     }
   },
   "required": [
-    "veteranFullName",
+    "inputVeteranFullName",
     "dateOfBirth",
     "veteranSocialSecurityNumber",
     "email",

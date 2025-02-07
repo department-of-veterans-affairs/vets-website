@@ -24,7 +24,7 @@ describe('useTransformForReview', () => {
         },
         selectedAccreditedOrganizationName: 'Veterans Organization',
         'view:applicantIsVeteran': 'No',
-        veteranFullName: { first: 'Jane', middle: 'A', last: 'Doe' },
+        inputVeteranFullName: { first: 'Jane', middle: 'A', last: 'Doe' },
         veteranSocialSecurityNumber: '123-45-6789',
         veteranVAFileNumber: '987654321',
         veteranDateOfBirth: '1990-01-01',

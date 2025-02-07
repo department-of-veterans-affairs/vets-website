@@ -70,9 +70,9 @@ describe('Authenticated', () => {
       // VETERAN_PERSONAL_INFORMATION;
       h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
       cy.injectAxeThenAxeCheck();
-      cy.get('input[name="root_veteranFullName_first"]').type('John');
-      cy.get('input[name="root_veteranFullName_middle"]').type('E');
-      cy.get('input[name="root_veteranFullName_last"]').type('Doe');
+      cy.get('input[name="root_inputVeteranFullName_first"]').type('John');
+      cy.get('input[name="root_inputVeteranFullName_middle"]').type('E');
+      cy.get('input[name="root_inputVeteranFullName_last"]').type('Doe');
 
       cy.get('va-select.usa-form-group--month-select')
         .shadow()

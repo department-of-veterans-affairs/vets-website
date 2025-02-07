@@ -6,7 +6,7 @@ describe('getApplicantName', () => {
     it('should return the Veteran name formatted correctly', () => {
       const mockFormData = {
         'view:applicantIsVeteran': 'Yes',
-        veteranFullName: {
+        inputVeteranFullName: {
           first: 'Bob',
           middle: 'A',
           last: 'Smith',

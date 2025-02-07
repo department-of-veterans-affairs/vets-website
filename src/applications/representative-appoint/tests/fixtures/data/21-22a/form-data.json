@@ -25,7 +25,7 @@
   "applicantName": { "first": "Bob", "last": "Tester" },
   "applicantDOB": "1990-01-01",
   "claimantRelationship": "CHILD",
-  "veteranFullName": {
+  "inputVeteranFullName": {
     "first": "John",
     "middle": "E",
     "last": "Doe",

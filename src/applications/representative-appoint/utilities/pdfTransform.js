@@ -35,7 +35,7 @@ function yesNoToBoolean(field) {
 
 export function pdfTransform(formData) {
   const {
-    veteranFullName,
+    inputVeteranFullName,
     veteranSocialSecurityNumber: ssn,
     vaFileNumber,
     veteranDateOfBirth: dateOfBirth,
@@ -70,9 +70,9 @@ export function pdfTransform(formData) {
 
   const veteran = {
     name: {
-      first: veteranFullName?.first || '',
-      middle: veteranFullName?.middle || '',
-      last: veteranFullName?.last || '',
+      first: inputVeteranFullName?.first || '',
+      middle: inputVeteranFullName?.middle || '',
+      last: inputVeteranFullName?.last || '',
     },
     ssn,
     vaFileNumber,

@@ -36,7 +36,7 @@ describe('Veteran Personal Information page', () => {
   });
 
   it('should have proper max lengths for name fields', () => {
-    const nameProps = schema.properties.veteranFullName.properties;
+    const nameProps = schema.properties.inputVeteranFullName.properties;
 
     expect(nameProps.first.maxLength).to.equal(12);
     expect(nameProps.middle.maxLength).to.equal(1);

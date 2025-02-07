@@ -25,7 +25,7 @@ export const uiSchema = {
   profileNotUpdatedNote: {
     'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
-  veteranFullName: fullNameMiddleInitialUI,
+  inputVeteranFullName: fullNameMiddleInitialUI,
   veteranDateOfBirth: dateOfBirthUI(),
 };
 
@@ -34,7 +34,7 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    veteranFullName: {
+    inputVeteranFullName: {
       type: 'object',
       required: ['first', 'last'],
       properties: {
@@ -54,5 +54,5 @@ export const schema = {
     },
     veteranDateOfBirth: dateOfBirthSchema,
   },
-  required: ['veteranDateOfBirth', 'veteranFullName'],
+  required: ['veteranDateOfBirth', 'inputVeteranFullName'],
 };

@@ -15,7 +15,7 @@ describe('<PreSubmitInfo>', () => {
     return {
       props: {
         formData: {
-          veteranFullName: {
+          inputVeteranFullName: {
             first: 'John',
             middle: 'E',
             last: 'Doe',

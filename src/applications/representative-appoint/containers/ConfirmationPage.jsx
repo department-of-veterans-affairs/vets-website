@@ -21,7 +21,8 @@ export default function ConfirmationPage({ router }) {
   const sendNextStepsEmailPayload = {
     formNumber: getFormNumber(formData),
     formName: getFormName(formData),
-    firstName: formData.applicantName?.first || formData.veteranFullName.first,
+    firstName:
+      formData.applicantName?.first || formData.inputVeteranFullName.first,
     emailAddress: formData.applicantEmail || formData.veteranEmail,
     entityId: selectedEntity.id,
     entityType:

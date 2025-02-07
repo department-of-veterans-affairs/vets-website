@@ -41,7 +41,7 @@ describe('Confirmation Page', () => {
       last: 'Doe',
       suffix: 'Sr.',
     },
-    veteranFullName: {
+    inputVeteranFullName: {
       first: 'John',
       middle: 'E',
       last: 'Doe',

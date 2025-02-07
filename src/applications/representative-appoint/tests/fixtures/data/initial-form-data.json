@@ -2,7 +2,7 @@
   "titleSchema": {},
   "profileNotUpdatedNote": {},
   "applicantName": {},
-  "veteranFullName": {
+  "inputVeteranFullName": {
     "first": "John",
     "middle": "E",
     "last": "Doe",

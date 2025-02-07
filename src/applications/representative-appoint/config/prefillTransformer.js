@@ -6,7 +6,7 @@ export default function prefillTransformer(formData) {
   };
 
   if (preparerIsVeteran({ formData })) {
-    newFormData.veteranFullName = {
+    newFormData.inputVeteranFullName = {
       first: formData?.personalInformation?.fullName?.first,
       middle: formData?.personalInformation?.fullName?.middle?.substring(0, 1),
       last: formData?.personalInformation?.fullName?.last,
@@ -55,7 +55,7 @@ export default function prefillTransformer(formData) {
     };
 
     // reset the applicant information in case of claimant type change
-    newFormData.veteranFullName = undefined;
+    newFormData.inputVeteranFullName = undefined;
     newFormData.veteranDateOfBirth = undefined;
     newFormData.veteranSocialSecurityNumber = undefined;
     newFormData.veteranHomeAddress = {

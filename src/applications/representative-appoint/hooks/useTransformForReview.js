@@ -9,9 +9,9 @@ export function useTransformForReview(formData) {
   const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
 
   const veteran = {
-    firstName: formData?.veteranFullName?.first,
-    middleName: formData?.veteranFullName?.middle,
-    lastName: formData?.veteranFullName?.last,
+    firstName: formData?.inputVeteranFullName?.first,
+    middleName: formData?.inputVeteranFullName?.middle,
+    lastName: formData?.inputVeteranFullName?.last,
     ssn: formData.veteranSocialSecurityNumber,
     vaFileNumber: formData.veteranVAFileNumber,
     dateOfBirth: formData.veteranDateOfBirth,
