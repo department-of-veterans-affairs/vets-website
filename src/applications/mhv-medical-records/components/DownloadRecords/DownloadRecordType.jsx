@@ -232,7 +232,7 @@ const DownloadRecordType = () => {
           <div className="vads-u-margin-top--3" />
           <VaCheckbox
             label="Past VA appointments"
-            checkbox-description="From last 2 years only"
+            checkbox-description="Includes appointments from the last 2 years only."
             checked={pastAppCheck}
             onVaChange={e => {
               setPastAppCheck(e.detail.checked);
