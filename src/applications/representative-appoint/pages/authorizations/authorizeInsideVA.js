@@ -37,7 +37,7 @@ export const uiSchema = {
       );
     },
   },
-  authorizeInsideVARadio: radioUI({
+  inputAuthorizationsAccessInsideVASystems: radioUI({
     title:
       'Do you authorize this accredited representative’s team to access your records through VA’s information technology systems?',
     updateUiSchema: formData => {
@@ -55,13 +55,13 @@ export const uiSchema = {
 /** @type {UISchemaOptions} */
 export const schema = {
   type: 'object',
-  required: ['authorizeInsideVARadio'],
+  required: ['inputAuthorizationsAccessInsideVASystems'],
   properties: {
     'view:insideVAAuthorizationPolicy': {
       type: 'object',
       properties: {},
     },
-    authorizeInsideVARadio: radioSchema(['Yes', 'No']),
+    inputAuthorizationsAccessInsideVASystems: radioSchema(['Yes', 'No']),
     'view:authorizationNote2': {
       type: 'object',
       properties: {},

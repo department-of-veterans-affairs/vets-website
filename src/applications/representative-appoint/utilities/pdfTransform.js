@@ -51,7 +51,7 @@ export function pdfTransform(formData) {
     homeAddress: claimantAddress,
     inputAuthorizationsMedical,
     inputAuthorizationsAddressChange,
-    authorizeInsideVARadio,
+    inputAuthorizationsAccessInsideVASystems,
     authorizeOutsideVARadio,
     authorizeNamesTextArea,
     applicantPhone,
@@ -125,7 +125,9 @@ export function pdfTransform(formData) {
     recordConsent: yesNoToBoolean(inputAuthorizationsMedical),
     consentAddressChange: yesNoToBoolean(inputAuthorizationsAddressChange),
     consentLimits: consentLimitsTransform(formData),
-    consentInsideAccess: yesNoToBoolean(authorizeInsideVARadio),
+    consentInsideAccess: yesNoToBoolean(
+      inputAuthorizationsAccessInsideVASystems,
+    ),
     consentOutsideAccess: yesNoToBoolean(authorizeOutsideVARadio),
     consentTeamMembers: authorizeNamesTextArea
       ? authorizeNamesTextArea.split(',').map(item => item.trim())

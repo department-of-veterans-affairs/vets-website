@@ -196,7 +196,7 @@ describe('Unauthenticated', () => {
       // AUTHORIZE_INSIDE_VA
       h.verifyUrl(ROUTES.AUTHORIZE_INSIDE_VA);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizeInsideVARadio', 0);
+      h.selectRadio('inputAuthorizationsAccessInsideVASystems', 0);
 
       h.clickContinue();
 
