@@ -59,7 +59,13 @@ export default function StatementOfTruth(signatureProps) {
   return (
     <div className="vads-u-margin-top--3">
       <section className="box vads-u-background-color--gray-lightest vads-u-padding--3">
-        <h3 className="vads-u-margin-top--0">Certification statement</h3>
+        <p className="vads-u-margin-top--1">
+          <strong>Note:</strong> According to federal law, there are criminal
+          penalties, including a fine and/or imprisonment for up to 5 years, for
+          withholding information or for providing incorrect information (See 18
+          U.S.C. 1001).
+        </p>
+        <h3 className="vads-u-padding-top--1">Certification statement</h3>
         {content}
         <FormSignature
           {...signatureProps}
