@@ -55,15 +55,15 @@ const IntroductionPage = props => {
       <p>One of these descriptions must be true:</p>
       <ul>
         <li>
-          You’re homeless or at risk of becoming homeless, <b>or</b>
+          You’re homeless or at risk of becoming homeless, <strong>or</strong>
         </li>
         <li>
           You’re experiencing extreme financial hardship (such as loss of your
-          job or a sudden decrease in income), <b>or</b>
+          job or a sudden decrease in income), <strong>or</strong>
         </li>
         <li>
           You have ALS (amyotrophic lateral sclerosis), also known as Lou
-          Gehrig’s disease, <b>or</b>
+          Gehrig’s disease, <strong>or</strong>
         </li>
         <li>
           You have a terminal illness (a condition that can’t be treated),{' '}
@@ -73,83 +73,144 @@ const IntroductionPage = props => {
           You have a Very Seriously Injured or Ill (VSI) or Seriously Injured or
           Ill (SI) status from the Defense Department (DOD) (this status means
           you have a disability from a military operation that will likely
-          result in your discharge from the military), <b>or</b>
+          result in your discharge from the military), <strong>or</strong>
         </li>
         <li>
           You’re age 85 or older, <b>or</b>
         </li>
         <li>
-          You’re a former prisoner of war, <b>or</b>
+          You’re a former prisoner of war, <strong>or</strong>
         </li>
         <li>You received the Medal of Honor or the Purple Heart award</li>
       </ul>
-      <p>
-        We may need supporting documents based on the situation. If you don’t
-        have supporting documents, you can still submit your request. But we’ll
-        process your request faster if you submit all of the documents that you
-        have available.
-      </p>
+
+      <va-additional-info
+        trigger="What to know if you're filling out this form on behalf of someone else"
+        uswds
+      >
+        <p>
+          We’ll need one of these forms to show that you have permission to
+          receive information about the person’s claim or to sign for the
+          person:
+        </p>
+        <ul>
+          <li>
+            <va-link
+              href="https://www.va.gov/find-forms/about-form-21-22/"
+              text="VA Form 21-22 (for an accredited VSO representative)"
+            />
+          </li>
+          <li>
+            <va-link
+              href="https://www.va.gov/find-forms/about-form-21-22a/"
+              text="VA Form 21-22a (for an accredited attorney or claims agent)"
+            />
+          </li>
+        </ul>
+        <p>
+          In this form, we’ll ask you about your relationship to the person with
+          the claim. If you’ve submitted 21-22 or 21-22a, we’ll refer to you as
+          an “accredited representative with power of attorney.”
+        </p>
+      </va-additional-info>
+
       <h2>Types of evidence to submit</h2>
-      <p>You can submit any of these types of evidence.</p>
       <p>
-        <b>Note:</b> Please don’t send original documents. Send copies instead.
-      </p>
-      <h3>For extreme financial hardship</h3>
-      <ul>
-        <li>Eviction or foreclosure notice</li>
-        <li>Notices of past-due utility bills</li>
-        <li>Collection notices from creditors</li>
-      </ul>
-      <h3>For ALS or other terminal illnesses</h3>
-      <ul>
-        <li>Medical evidence and diagnosis</li>
-      </ul>
-      <p>
-        <b>Note:</b> If you want us to get your private treatment records,
-        you’ll need to submit an authorization to release non-VA medical
-        information to us (VA Forms 21-4142 and 21-4142a).
+        We may need supporting documents as evidence of your situation. If you
+        don’t have supporting documents, you can still submit your request. But
+        we’ll process your request faster if you submit what you have available.
       </p>
       <p>
-        <a
-          href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Submit an authorization online to release non-VA medical information
-          to us (opens in new tab)
-        </a>
+        Learn more about which supporting documents to submit based on your
+        qualifying situation. You can upload your documents online as you
+        complete this form. Or you can send copies of your documents by mail.
       </p>
-      <h3>
-        For Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI)
-      </h3>
-      <ul>
-        <li>
-          Military personnel records, such as a determination from the DOD{' '}
-          <strong>and</strong>
-        </li>
-        <li>Medical evidence showing severe disability or injury</li>
-      </ul>
-      <h3>For former prisoners of war</h3>
-      <ul>
-        <li>
-          Copy of military personnel records such as DD214, Certificate of
-          Release, or Discharge from Active Duty, <strong>or</strong>
-        </li>
-        <li>
-          Information such as service number, branch and dates of service, dates
-          and location of internment, detaining power, or any other information
-          relevant to the detainment
-        </li>
-      </ul>
-      <h3>For Medal of Honor or Purple Heart award recipients</h3>
-      <ul>
-        <li>
-          Copy of military personnel records such as DD214, <strong>or</strong>
-        </li>
-        <li>
-          Information showing receipt of Medal of Honor or Purple Heart award
-        </li>
-      </ul>
+
+      <va-additional-info trigger="For extreme financial hardship" uswds>
+        <p>Submit supporting documents like these:</p>
+        <ul className="vads-u-padding-top--2">
+          <li>Eviction or foreclosure notice</li>
+          <li>Notices of past-due utility bills</li>
+          <li>Collection notices from creditors</li>
+        </ul>
+        <p className="vads-u-padding-top--2">
+          <strong>Note:</strong> This isn’t a complete list. If you have other
+          supporting documents that aren’t listed here, you can submit them.
+        </p>
+      </va-additional-info>
+
+      <va-additional-info
+        class="vads-u-padding-top--2"
+        trigger="For ALS or other terminal illnesses"
+        uswds
+      >
+        <p>
+          Submit copies of medical evidence that show an ALS diagnosis or
+          evidence of a terminal illness.
+        </p>
+        <p className="vads-u-padding-top--2">
+          <strong>Note:</strong> If you want us to get your private treatment
+          records, you’ll need to submit an authorization to release non-VA
+          medical information to us (VA Forms 21-4142 and 21-4142a).
+        </p>
+        <p className="vads-u-padding-top--2">
+          <va-link
+            href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/"
+            text="Submit an authorization online to release non-VA medical information to us"
+          />
+        </p>
+      </va-additional-info>
+
+      <va-additional-info
+        class="vads-u-padding-top--2"
+        trigger="For Very Seriously Injured or Ill (VSI) or Seriously Injured or Ill (SI)"
+        uswds
+      >
+        <p>Submit these supporting documents:</p>
+        <ul className="vads-u-padding-top--2">
+          <li>
+            Military personnel records, such as a determination from the DOD{' '}
+            <strong>and</strong>
+          </li>
+          <li>Medical evidence showing severe disability or injury</li>
+        </ul>
+      </va-additional-info>
+
+      <va-additional-info
+        class="vads-u-padding-top--2"
+        trigger="For former prisoners of war"
+        uswds
+      >
+        <p>Submit these supporting documents:</p>
+        <ul className="vads-u-padding-top--2">
+          <li>
+            Military personnel records such as DD214, Certificate of Release, or
+            Discharge from Active Duty,
+            <strong>or</strong>
+          </li>
+          <li>
+            Information such as service number, branch and dates of service,
+            dates and location of internment, detaining power, or any other
+            information relevant to the detainment
+          </li>
+        </ul>
+      </va-additional-info>
+
+      <va-additional-info
+        class="vads-u-padding-top--2"
+        trigger="For Medal of Honor or Purple Heart award recipients"
+        uswds
+      >
+        <p>Submit these supporting documents:</p>
+        <ul className="vads-u-padding-top--2">
+          <li>
+            Military personnel records, such as DD214, <strong>or</strong>
+          </li>
+          <li>
+            Information showing receipt of Medal of Honor or Purple Heart award
+          </li>
+        </ul>
+      </va-additional-info>
       <h2>How to submit supporting evidence</h2>
       <ul>
         <li>
@@ -163,7 +224,10 @@ const IntroductionPage = props => {
           Find the benefit type you’re requesting priority processing for. Then
           use the corresponding mailing address.
         </p>
-        <p />
+        <p className="vads-u-padding-top--2">
+          <strong>Note:</strong> Please don’t send original documents. Send
+          copies instead.
+        </p>
         <p className="vads-u-padding-top--2 vads-u-font-weight--bold">
           Compensation claims
         </p>
