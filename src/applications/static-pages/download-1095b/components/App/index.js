@@ -8,12 +8,11 @@ import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/u
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
 import {
   VaRadio,
   VaRadioOption,
+  VaAlertSignIn,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
 
@@ -36,6 +35,10 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     downloaded: false,
     timeStamp: '',
   });
+
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'ask-va', true);
+  };
 
   const getContent = () => {
     return apiRequest(`/form1095_bs/download_${formType}/${year}`)
@@ -102,7 +105,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     () => {
       callLastUpdated();
     },
-    [loggedIn],
+    [loggedIn, callLastUpdated],
   );
 
   const radioComponent = (
@@ -133,8 +136,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const downloadButton = (
     <p>
       <button
+        type="button"
         className="usa-button-primary va-button"
-        onClick={function() {
+        onClick={() => {
           recordEvent({
             event: 'int-radio-button-option-click',
             'radio-button-label':
@@ -208,25 +212,14 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const loggedOutComponent = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h2 slot="headline">
-        Please sign in to download your 1095-B tax document
-      </h2>
-      <div>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
-      </div>
-      <va-button
-        onClick={() => toggleLoginModal(true)}
-        primary-alternate
-        text="Sign in or create an account"
-        className="vads-u-margin-top--2"
-      />
-    </va-alert>
+    <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+      <span slot="SignInButton">
+        <VaButton
+          text="Sign in or create an account"
+          onClick={showSignInModal}
+        />
+      </span>
+    </VaAlertSignIn>
   );
 
   if (!displayToggle) {
@@ -245,8 +238,8 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool,
   displayToggle: PropTypes.bool,
 };
 
@@ -256,7 +249,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
+  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
 });
 
 export default connect(
