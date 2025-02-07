@@ -36,7 +36,7 @@ describe('useTransformForReview', () => {
           state: 'TX',
           postalCode: '12345',
         },
-        primaryPhone: '555-1234',
+        inputVeteranPrimaryPhone: '555-1234',
         veteranEmail: 'jane.doe@example.com',
         applicantName: { first: 'John', middle: 'B', last: 'Doe' },
         applicantDOB: '1990-01-01',

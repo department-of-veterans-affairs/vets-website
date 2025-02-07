@@ -41,7 +41,7 @@ export function pdfTransform(formData) {
     inputVeteranDOB: dateOfBirth,
     inputVeteranServiceNumber,
     inputVeteranHomeAddress: homeAddress,
-    primaryPhone: phone,
+    inputVeteranPrimaryPhone: phone,
     veteranEmail: email,
     'view:selectedRepresentative': selectedRep,
     applicantName,

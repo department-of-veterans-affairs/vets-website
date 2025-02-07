@@ -16,7 +16,7 @@ export const uiSchema = {
   profileNotUpdatedNote: {
     'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
-  primaryPhone: phoneUI({}),
+  inputVeteranPrimaryPhone: phoneUI({}),
   veteranEmail: emailUI(),
 };
 
@@ -26,7 +26,7 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    primaryPhone: phoneSchema,
+    inputVeteranPrimaryPhone: phoneSchema,
     veteranEmail: emailSchema,
   },
 };

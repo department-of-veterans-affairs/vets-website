@@ -241,7 +241,7 @@
     "postalCode": "01050"
   },
   "veteranEmail": "test@example.com",
-  "primaryPhone": "5551234567",
+  "inputVeteranPrimaryPhone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
   "view:aidAttendance": true,

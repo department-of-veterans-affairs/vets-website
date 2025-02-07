@@ -22,7 +22,7 @@ export function useTransformForReview(formData) {
     city: formData?.inputVeteranHomeAddress?.city,
     state: formData?.inputVeteranHomeAddress?.state,
     postalCode: formData?.inputVeteranHomeAddress?.postalCode,
-    phone: formData.primaryPhone,
+    phone: formData.inputVeteranPrimaryPhone,
     email: formData.veteranEmail,
   };
 
