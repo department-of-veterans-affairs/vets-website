@@ -233,7 +233,7 @@
     "accountNumber": "001122334455",
     "routingNumber": "123123123"
   },
-  "veteranHomeAddress": {
+  "inputVeteranHomeAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
     "street": "123 8th st",

@@ -135,20 +135,22 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('va-select[name="root_veteranHomeAddress_country"]')
+      cy.get('va-select[name="root_inputVeteranHomeAddress_country"]')
         .shadow()
         .find('select')
         .select('United States');
 
-      cy.get('input[name="root_veteranHomeAddress_street"]').type(
+      cy.get('input[name="root_inputVeteranHomeAddress_street"]').type(
         '123 Anywhere St',
       );
 
-      cy.get('input[name="root_veteranHomeAddress_city"]').type('Anytown');
+      cy.get('input[name="root_inputVeteranHomeAddress_city"]').type('Anytown');
 
-      cy.get('input[name="root_veteranHomeAddress_postalCode"]').type('43545');
+      cy.get('input[name="root_inputVeteranHomeAddress_postalCode"]').type(
+        '43545',
+      );
 
-      cy.get('va-select[name="root_veteranHomeAddress_state"]')
+      cy.get('va-select[name="root_inputVeteranHomeAddress_state"]')
         .shadow()
         .find('select')
         .select('Ohio');

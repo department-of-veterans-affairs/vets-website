@@ -13,7 +13,7 @@ export default function prefillTransformer(formData) {
     };
     newFormData.inputVeteranDOB = formData?.personalInformation?.dateOfBirth;
     newFormData.inputVeteranSSN = formData?.personalInformation?.ssn;
-    newFormData.veteranHomeAddress = {
+    newFormData.inputVeteranHomeAddress = {
       city: formData?.contactInformation?.address?.city,
       country: formData?.contactInformation?.address?.country,
       postalCode: formData?.contactInformation?.address?.postalCode,
@@ -57,7 +57,7 @@ export default function prefillTransformer(formData) {
     newFormData.inputVeteranFullName = undefined;
     newFormData.inputVeteranDOB = undefined;
     newFormData.inputVeteranSSN = undefined;
-    newFormData.veteranHomeAddress = {
+    newFormData.inputVeteranHomeAddress = {
       city: undefined,
       country: undefined,
       postalCode: undefined,

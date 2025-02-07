@@ -7,7 +7,7 @@ import {
 
 export const uiSchema = {
   ...titleUI('Veteran’s mailing address'),
-  veteranHomeAddress: addressUI({
+  inputVeteranHomeAddress: addressUI({
     labels: {
       militaryCheckbox: `This address is on a United States military base outside of the U.S.`,
     },
@@ -19,7 +19,7 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    veteranHomeAddress: {
+    inputVeteranHomeAddress: {
       ...addressSchema({ omit: ['street3'] }),
       properties: {
         ...addressSchema({ omit: ['street3'] }).properties,

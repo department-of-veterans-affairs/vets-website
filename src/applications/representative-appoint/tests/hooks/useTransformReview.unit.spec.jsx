@@ -30,7 +30,7 @@ describe('useTransformForReview', () => {
         inputVeteranDOB: '1990-01-01',
         serviceNumber: 'S123456789',
         serviceBranch: 'Army',
-        veteranHomeAddress: {
+        inputVeteranHomeAddress: {
           street: '123 Main St',
           city: 'Anytown',
           state: 'TX',

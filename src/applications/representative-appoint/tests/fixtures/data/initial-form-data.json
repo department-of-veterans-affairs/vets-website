@@ -37,7 +37,7 @@
     "to": "1973-03-02"
   },
 
-  "veteranHomeAddress": {
+  "inputVeteranHomeAddress": {
     "'view:militaryBaseDescription'": {},
     "country": "USA",
     "street": "123 8th st",
