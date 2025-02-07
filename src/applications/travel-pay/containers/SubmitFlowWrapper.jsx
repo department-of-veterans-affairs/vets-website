@@ -50,9 +50,6 @@ const SubmitFlowWrapper = () => {
     [dispatch, appointmentData, apptId, error],
   );
 
-  // This will actually be handled by the redux action, but for now it lives here
-  // const [isSubmissionError, setIsSubmissionError] = useState(false);
-
   const [yesNo, setYesNo] = useState({
     mileage: '',
     vehicle: '',
