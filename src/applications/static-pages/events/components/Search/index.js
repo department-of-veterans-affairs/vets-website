@@ -24,7 +24,6 @@ export const Search = ({ onSearch }) => {
   };
 
   // Local State =================================================
-
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
   const [startDateMonth, setStartDateMonth] = useState(
     queryParams.get('startDateMonth') || '',
@@ -59,6 +58,7 @@ export const Search = ({ onSearch }) => {
   const [endDateYearError, setEndDateYearError] = useState(false);
   const [fullDateError, setFullDateError] = useState(false);
   // End Local State =================================================
+  
   const anyDateErrorsExist =
     startDateMonthError ||
     startDateDayError ||
