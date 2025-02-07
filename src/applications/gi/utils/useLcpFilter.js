@@ -7,7 +7,12 @@ import {
   fetchLicenseCertificationResults,
 } from '../actions';
 
-export const useLcpFilter = ({ flag, name, categoryValue, locationValue }) => {
+export const useLcpFilter = ({
+  flag,
+  name,
+  categoryValues,
+  locationValue = 'all',
+}) => {
   const dispatch = useDispatch();
   const { hasFetchedOnce } = useSelector(
     state => state.licenseCertificationSearch,
@@ -26,17 +31,19 @@ export const useLcpFilter = ({ flag, name, categoryValue, locationValue }) => {
     }
   }, []);
 
-  // filter when dropdowns or input value changes
+  // filter when filters or input value changes
   useEffect(
     () => {
       if (flag === 'singleFetch') {
-        dispatch(filterLcResults(name, categoryValue, locationValue));
+        dispatch(filterLcResults(name, categoryValues, locationValue));
       }
 
       if (flag === 'serverSideFilter') {
-        dispatch(fetchAndFilterLacpResults(name, categoryValue, locationValue));
+        dispatch(
+          fetchAndFilterLacpResults(name, categoryValues, locationValue),
+        );
       }
     },
-    [flag, name, categoryValue, locationValue],
+    [flag, name, categoryValues, locationValue],
   );
 };

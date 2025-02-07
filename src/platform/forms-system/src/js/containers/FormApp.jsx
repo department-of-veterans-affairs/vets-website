@@ -11,6 +11,10 @@ import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import { isInProgress, hideFormTitle } from '../helpers';
 import { setGlobalScroll } from '../utilities/ui';
+import {
+  isMinimalHeaderApp,
+  isMinimalHeaderPath,
+} from '../patterns/minimal-header';
 
 /*
  * Primary component for a schema generated form app.
@@ -72,8 +76,12 @@ const FormApp = props => {
     formTitle = <FormTitle title={title} subTitle={subTitle} />;
   }
 
-  if (!isNonFormPage) {
-    useTopBackLink = formConfig.useTopBackLink;
+  if (formConfig.useTopBackLink) {
+    if (isMinimalHeaderApp()) {
+      useTopBackLink = isMinimalHeaderPath(currentLocation.pathname);
+    } else {
+      useTopBackLink = !isNonFormPage;
+    }
   }
 
   // Show nav only if we're not on the intro, form-saved, error, confirmation

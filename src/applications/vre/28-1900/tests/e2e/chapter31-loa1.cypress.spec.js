@@ -11,9 +11,7 @@ describe('Chapter 31 LOA1 authentication gate', () => {
 
     cy.injectAxe();
 
-    cy.findByRole('heading', {
-      name: /Verify your identity to apply for VR&E benefits/i,
-    }).should('exist');
+    cy.get('va-alert-sign-in').should('exist');
 
     cy.axeCheck();
   });

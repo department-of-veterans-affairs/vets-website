@@ -41,7 +41,7 @@ describe('Condition details container', () => {
 
   it('displays the condition name', () => {
     const conditionName = screen.getByText(
-      `Health conditions: ${initialState.mr.conditions.conditionDetails.name}`,
+      `${initialState.mr.conditions.conditionDetails.name}`,
       {
         exact: true,
         selector: 'h1',
