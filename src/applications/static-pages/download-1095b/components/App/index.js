@@ -15,6 +15,10 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 
 import {
   notFoundComponent,
@@ -26,7 +30,14 @@ import {
   formatTimeString,
 } from './utils';
 
-export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
+import { isLOA3 as isLOA3Selector} from '~/platform/user/selectors';
+import { el } from 'date-fns/locale';
+
+
+export const App = ({ loggedIn, toggleLoginModal, displayToggle, signInServiceName, isLOA1, isLOA3 }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
@@ -35,6 +46,62 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     downloaded: false,
     timeStamp: '',
   });
+
+
+//  console.log('*****************************');
+//  console.log('signInServiceName', signInServiceName);
+//  console.log('isLOA1', isLOA1);
+//   console.log('isLOA3', isLOA3);
+//  console.log('*****************************');
+
+
+ const [signInAlertVariant, setSignInAlertVariant] = useState(null);
+
+ useEffect(() => {
+
+    const getSignInAlertVariant = () => {
+      console.log('1 isLOA1', isLOA1);
+      console.log('1 isLOA3', isLOA3);
+      console.log('1 signInServiceName', signInServiceName)
+      if (isLOA1) {
+        if (signInServiceName === CSP_IDS.LOGIN_GOV) {
+          console.log('variant name is CSP_IDS.LOGIN_GOV');
+          return (
+            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
+            <span slot="LoginGovVerifyButton">
+              <VerifyLogingovButton />
+            </span>
+            </VaAlertSignIn>
+          );
+        } else if (signInServiceName === CSP_IDS.ID_ME) {
+          console.log('variant name is CSP_IDS.ID_ME');
+          return (
+            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
+              <span slot="IdMeVerifyButton">
+                <VerifyIdmeButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        } else {
+          console.log('variant name is not those. It is: ', signInServiceName);
+          return (
+            <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
+              <span slot="LoginGovSignInButton">
+                <VerifyLogingovButton />
+              </span>
+              <span slot="IdMeSignInButton">
+                <VerifyIdmeButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+      }
+      // todo: handle loa3 also?
+    };
+
+    setSignInAlertVariant(getSignInAlertVariant());
+  }, [signInServiceName, isLOA1]);
+
 
   const showSignInModal = () => {
     toggleLoginModal(true, 'ask-va', true);
@@ -53,18 +120,20 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   };
 
   const getLastUpdatedOn = () => {
-    return apiRequest('/form1095_bs/available_forms')
-      .then(response => {
-        if (response.errors || !response.availableForms.length) {
-          updateFormError({ error: true, type: 'not found' });
-        }
-        return response.availableForms[0];
-      })
-      .catch(() => updateFormError({ error: true, type: 'not found' }));
+    // return apiRequest('/form1095_bs/available_forms')
+    //   .then(response => {
+    //     if (response.errors || !response.availableForms.length) {
+    //       updateFormError({ error: true, type: 'not found' });
+    //     }
+    //     return response.availableForms[0];
+    //   })
+    //   .catch(() => updateFormError({ error: true, type: 'not found' }));
+    return { year: 2021, lastUpdated: new Date() };
   };
 
   const callLastUpdated = () => {
-    getLastUpdatedOn().then(result => {
+    //getLastUpdatedOn().then(result => {
+      const result = { year: 2021, lastUpdated: new Date() };
       if (result.lastUpdated && result.year) {
         const date = new Date(result.lastUpdated);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -74,7 +143,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       } else {
         updateFormError({ error: true, type: 'not found' });
       }
-    });
+    // });
   };
 
   const callGetContent = () => {
@@ -222,30 +291,44 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     </VaAlertSignIn>
   );
 
-  if (!displayToggle) {
-    return unavailableComponent();
-  }
-  if (loggedIn) {
-    if (formError.error) {
-      return getErrorComponent();
-    }
-    if (formDownloaded.downloaded) {
-      return successComponent;
-    }
-    return loggedInComponent;
-  }
-  return loggedOutComponent;
+  // if (!displayToggle) {
+  //   return unavailableComponent();
+  // }
+  // if (loggedIn) {
+  //   if (formError.error) {
+  //     return getErrorComponent();
+  //   }
+  //   if (formDownloaded.downloaded) {
+  //     return successComponent;
+  //   }
+  //   return loggedInComponent;
+  // }
+  //return loggedOutComponent;
+
+  //console.log('signInAlertVariant', signInAlertVariant)
+  return (
+    <>
+      { signInAlertVariant }
+    </>
+  );
 };
 
 App.propTypes = {
   toggleLoginModal: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool,
   displayToggle: PropTypes.bool,
+  isLOA1: PropTypes.bool,
+  isLOA3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
-  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
+  // loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  // displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
+  loggedIn: true,
+  displayToggle: true,
+  isLOA1: isLOA1Selector(state),
+  isLOA3: isLOA3Selector(state),
+  signInServiceName: signInServiceName(state),
 });
 
 const mapDispatchToProps = dispatch => ({

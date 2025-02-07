@@ -1614,6 +1614,13 @@ const loa1UserDSLogon = set(
   'dslogon',
 );
 
+// user that is loa1 but is a logingov user
+const loa1UserLoginGov = set(
+  cloneDeep(baseUserResponses.loa1User),
+  'data.attributes.profile.signIn.serviceName',
+  'logingov',
+);
+
 // user that is loa1 but is a mhv user
 const loa1UserMHV = set(
   cloneDeep(baseUserResponses.loa1User),
@@ -1678,6 +1685,7 @@ const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
   loa1UserDSLogon,
+  loa1UserLoginGov,
   loa1UserMHV,
   loa3UserWithNoMobilePhone,
   loa3UserWithNoEmail,
