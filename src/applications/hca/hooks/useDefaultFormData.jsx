@@ -22,10 +22,7 @@ export const useDefaultFormData = () => {
   const dispatch = useDispatch();
 
   const { veteranFullName } = formData;
-  const {
-    isInsuranceV2Enabled,
-    isRegOnlyEnabled,
-  } = featureToggles;
+  const { isInsuranceV2Enabled, isRegOnlyEnabled } = featureToggles;
 
   const setFormData = dataToSet => dispatch(setData(dataToSet));
 
