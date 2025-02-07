@@ -31,7 +31,7 @@ const testConfig = createTestConfig(
           type: 'feature_toggles',
           features: [
             {
-              name: 'syncModern0781Flow',
+              name: 'disability_compensation_sync_modern_0781_flow',
               value: false,
             },
           ],
