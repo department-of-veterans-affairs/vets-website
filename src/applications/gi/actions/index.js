@@ -202,10 +202,10 @@ export function fetchAndFilterLacpResults( // new action for ss filter
   };
 }
 
-export function filterLcResults(name, category, location) {
+export function filterLcResults(name, categories, location) {
   return {
     type: FILTER_LC_RESULTS,
-    payload: { name, category, location },
+    payload: { name, categories, location },
   };
 }
 
