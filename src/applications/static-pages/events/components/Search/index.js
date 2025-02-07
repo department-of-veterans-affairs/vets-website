@@ -24,6 +24,7 @@ export const Search = ({ onSearch }) => {
   };
 
   // Local State =================================================
+
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
   const [startDateMonth, setStartDateMonth] = useState(
     queryParams.get('startDateMonth') || '',
