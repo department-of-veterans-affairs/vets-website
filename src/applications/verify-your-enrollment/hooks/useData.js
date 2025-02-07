@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from '~/platform/user/selectors';
-import { useLocation } from 'react-router-dom-v5-compat';
 import {
   getCurrentDateFormatted,
   remainingBenefits,
@@ -15,17 +14,20 @@ export const useData = () => {
   const response = useSelector(state => state.personalInfo);
   const profile = useSelector(selectProfile);
 
-  const location = useLocation();
   useEffect(
     () => {
       const fetchData = async () => {
-        if (location.pathname === '/') {
+        if (
+          !response?.personalInfo &&
+          !response?.isLoading &&
+          !response?.error
+        ) {
           await dispatch(fetchPersonalInfo());
         }
       };
       fetchData();
     },
-    [dispatch, location.pathname],
+    [dispatch],
   );
 
   const userInfo = response?.personalInfo?.['vye::UserInfo'];

@@ -155,7 +155,7 @@ export const fetchPersonalInfo = () => {
 
     try {
       // 1) First, call the main API
-      const mainResponse = await apiRequest(API_URL, {
+      const mainResponse = await apiRequest('http://localhost:8080/vye/v1', {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -305,7 +305,7 @@ export const verifyEnrollmentAction = verifications => {
       [];
     const URL = claimantId
       ? `http://localhost:8080/dgib_verifications/verify_claimant`
-      : `${API_URL}/verify`;
+      : `http://localhost:8080/verify`;
     const newVerifications = enrollmentVerifications?.filter(
       verification =>
         !verification?.verificationMethod &&
@@ -340,6 +340,7 @@ export const verifyEnrollmentAction = verifications => {
         type: VERIFY_ENROLLMENT_SUCCESS,
         response,
       });
+      dispatch(fetchPersonalInfo());
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,
