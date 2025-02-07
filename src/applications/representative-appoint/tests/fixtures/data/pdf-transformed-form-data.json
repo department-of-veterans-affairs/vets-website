@@ -6,7 +6,7 @@
       "last": "Doe"
     },
     "ssn": "333224444",
-    "inputVeteranVAFileNumber": "123456789",
+    "vaFileNumber": "123456789",
     "dateOfBirth": "1960-01-01",
     "serviceNumber": "123456789",
     "serviceBranch": null,
