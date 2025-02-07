@@ -17,5 +17,5 @@ jobs:
           --arg ref "${{ github.ref }}" \
           --arg msg "${{ github.event.head_commit.message }}" \
           --arg entry "disability-benefits" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')"
+          '{event_type: "cd-production-deploy-test", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')"
       
