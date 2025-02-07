@@ -12,6 +12,5 @@ export const selectFeatureToggles = state => {
     isInsuranceV2Enabled: toggles[FEATURE_FLAG_NAMES.hcaInsuranceV2Enabled],
     isTeraBranchingEnabled: toggles[FEATURE_FLAG_NAMES.hcaTeraBranchingEnabled],
     isRegOnlyEnabled: toggles[FEATURE_FLAG_NAMES.hcaRegOnlyEnabled],
-    isSigiEnabled: toggles[FEATURE_FLAG_NAMES.hcaSigiEnabled],
   };
 };

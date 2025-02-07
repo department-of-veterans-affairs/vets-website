@@ -12,7 +12,6 @@ import {
   showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   isMissingVeteranDob,
-  isSigiEnabled,
   hasDifferentHomeAddress,
   includeTeraInformation,
   includeRadiationCleanUpEfforts,
@@ -202,18 +201,6 @@ describe('hca form config helpers', () => {
         },
       };
       expect(isMissingVeteranDob(formData)).to.be.false;
-    });
-  });
-
-  context('when `isSigiEnabled` executes', () => {
-    it('should return `true` when value is `true`', () => {
-      const formData = { 'view:isSigiEnabled': true };
-      expect(isSigiEnabled(formData)).to.be.true;
-    });
-
-    it('should return `false` when value is `false`', () => {
-      const formData = { 'view:isSigiEnabled': false };
-      expect(isSigiEnabled(formData)).to.be.false;
     });
   });
 
