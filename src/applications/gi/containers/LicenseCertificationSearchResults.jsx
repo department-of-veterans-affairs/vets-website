@@ -78,9 +78,13 @@ export default function LicenseCertificationSearchResults() {
 
   const dispatch = useDispatch();
 
-  const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
-    state => state.licenseCertificationSearch,
-  );
+  const {
+    hasFetchedOnce,
+    fetchingLc,
+    filteredResults,
+    lcResults,
+    error,
+  } = useSelector(state => state.licenseCertificationSearch);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
@@ -92,7 +96,7 @@ export default function LicenseCertificationSearchResults() {
   const [filterLocation, setFilterLocation] = useState(stateParam);
   const [dropdown, setDropdown] = useState(() => {
     return updateStateDropdown(
-      showMultipleNames(filteredResults, nameParam),
+      showMultipleNames(lcResults, nameParam),
       filterLocation,
     );
   });
@@ -138,7 +142,7 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       let final = updateStateDropdown(
-        showMultipleNames(filteredResults, nameParam),
+        showMultipleNames(lcResults, nameParam),
         filterLocation,
       );
 
