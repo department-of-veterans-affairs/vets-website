@@ -12,7 +12,7 @@ const specDirs = '{src,script}';
 const defaultPath = `./${specDirs}/**/*.unit.spec.@(jsx|js)`;
 
 const COMMAND_LINE_OPTIONS_DEFINITIONS = [
-  { name: 'log-level', type: String, defaultValue: 'log' },
+  { name: 'log-level', type: String, defaultValue: 'warn' },
   { name: 'app-folder', type: String, defaultValue: null },
   { name: 'coverage', type: Boolean, defaultValue: false },
   { name: 'coverage-html', type: Boolean, defaultValue: false },
