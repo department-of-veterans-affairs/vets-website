@@ -53,7 +53,7 @@ export function pdfTransform(formData) {
     inputAuthorizationsAddressChange,
     inputAuthorizationsAccessInsideVASystems,
     inputAuthorizationsAccessOutsideVASystems,
-    authorizeNamesTextArea,
+    inputAuthorizationsTeamMembers,
     applicantPhone,
     applicantEmail,
   } = formData;
@@ -131,8 +131,8 @@ export function pdfTransform(formData) {
     consentOutsideAccess: yesNoToBoolean(
       inputAuthorizationsAccessOutsideVASystems,
     ),
-    consentTeamMembers: authorizeNamesTextArea
-      ? authorizeNamesTextArea.split(',').map(item => item.trim())
+    consentTeamMembers: inputAuthorizationsTeamMembers
+      ? inputAuthorizationsTeamMembers.split(',').map(item => item.trim())
       : null,
     representative,
     ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),

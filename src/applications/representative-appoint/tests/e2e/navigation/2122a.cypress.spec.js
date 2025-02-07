@@ -209,7 +209,7 @@ describe('Unauthenticated', () => {
       // AUTHORIZE_OUTSIDE_VA_NAMES
       h.verifyUrl(ROUTES.AUTHORIZE_OUTSIDE_VA_NAMES);
       cy.injectAxeThenAxeCheck();
-      cy.get('input[name="root_authorizeNamesTextArea"]').type(
+      cy.get('input[name="root_inputAuthorizationsTeamMembers"]').type(
         'Bob Test, Tom Middleton',
       );
 

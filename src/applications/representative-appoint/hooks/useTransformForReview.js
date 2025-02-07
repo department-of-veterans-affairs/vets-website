@@ -138,7 +138,7 @@ export function useTransformForReview(formData) {
           )}
           {renderField(
             'Enter the name of each team member who can access your records outside of VA’s information technology systems',
-            formData?.authorizeNamesTextArea,
+            formData?.inputAuthorizationsTeamMembers,
           )}
         </>
       );
