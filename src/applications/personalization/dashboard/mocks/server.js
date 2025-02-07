@@ -115,4 +115,4 @@ const generateMockResponses = () => {
   return responseDelay > 0 ? delay(responses, responseDelay) : responses;
 };
 
-module.exports = generateMockResponses();
+module.exports = delay(generateMockResponses(), 2000);

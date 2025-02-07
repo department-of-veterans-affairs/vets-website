@@ -54,7 +54,7 @@ yarn mock-api --responses src/applications/personalization/dashboard/mocks/serve
 localStorage.setItem('hasSession', true)
 ```
 
-Visit [https://localhost:3001/my-va](https://localhost:3001/my-va).
+Visit [http://localhost:3001/my-va](http://localhost:3001/my-va).
 
 # Testing
 
