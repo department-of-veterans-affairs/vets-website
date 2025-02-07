@@ -23,7 +23,7 @@ export function useTransformForReview(formData) {
     state: formData?.inputVeteranHomeAddress?.state,
     postalCode: formData?.inputVeteranHomeAddress?.postalCode,
     phone: formData.inputVeteranPrimaryPhone,
-    email: formData.veteranEmail,
+    email: formData.inputVeteranEmail,
   };
 
   const claimant = applicantIsVeteran

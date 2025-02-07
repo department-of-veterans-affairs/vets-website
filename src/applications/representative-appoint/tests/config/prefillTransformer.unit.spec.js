@@ -23,7 +23,7 @@ describe('prefillTransformer', () => {
         country: 'FRA',
         postalCode: '75014',
       });
-      expect(result.veteranEmail).to.eql('test2@test1.net');
+      expect(result.inputVeteranEmail).to.eql('test2@test1.net');
       expect(result.inputVeteranPrimaryPhone).to.eql('4445551212');
       expect(result['Branch of Service']).to.eql('Army');
     });
@@ -90,7 +90,7 @@ describe('prefillTransformer', () => {
         'view:applicantIsVeteran': 'No',
         inputVeteranFullName: 'test',
         inputVeteranDOB: 'test',
-        veteranEmail: 'test',
+        inputVeteranEmail: 'test',
         inputVeteranPrimaryPhone: 'test',
         inputVeteranHomeAddress: {
           city: 'test',
@@ -107,7 +107,7 @@ describe('prefillTransformer', () => {
 
       expect(result.inputVeteranFullName).to.be.undefined;
       expect(result.inputVeteranDOB).to.be.undefined;
-      expect(result.veteranEmail).to.be.undefined;
+      expect(result.inputVeteranEmail).to.be.undefined;
       expect(result.inputVeteranPrimaryPhone).to.be.undefined;
       expect(result.inputVeteranHomeAddress).to.eql({
         city: undefined,

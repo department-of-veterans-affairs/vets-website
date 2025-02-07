@@ -20,7 +20,7 @@ export default function prefillTransformer(formData) {
       state: formData?.contactInformation?.address?.state,
       street: formData?.contactInformation?.address?.street,
     };
-    newFormData.veteranEmail = formData?.contactInformation?.email;
+    newFormData.inputVeteranEmail = formData?.contactInformation?.email;
     newFormData.inputVeteranPrimaryPhone =
       formData?.contactInformation?.primaryPhone;
     newFormData['Branch of Service'] =
@@ -65,7 +65,7 @@ export default function prefillTransformer(formData) {
       state: undefined,
       street: undefined,
     };
-    newFormData.veteranEmail = undefined;
+    newFormData.inputVeteranEmail = undefined;
     newFormData.inputVeteranPrimaryPhone = undefined;
     newFormData['Branch of Service'] = undefined;
   }

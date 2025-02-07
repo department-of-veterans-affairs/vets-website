@@ -23,7 +23,7 @@ export default function ConfirmationPage({ router }) {
     formName: getFormName(formData),
     firstName:
       formData.applicantName?.first || formData.inputVeteranFullName.first,
-    emailAddress: formData.applicantEmail || formData.veteranEmail,
+    emailAddress: formData.applicantEmail || formData.inputVeteranEmail,
     entityId: selectedEntity.id,
     entityType:
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
