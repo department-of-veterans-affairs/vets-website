@@ -7,7 +7,9 @@ describe('22-10282 Edu form', () => {
   });
   it('should be keyboard-only navigable', () => {
     // Go to application, should go to intro page
-    cy.visit('education/apply-for-education-benefits/10282/introduction');
+    cy.visit(
+      'education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282',
+    );
     cy.injectAxeThenAxeCheck();
     // Tab to and press 'Start your application'
     cy.realPress(['Tab', 'Enter']);
