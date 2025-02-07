@@ -50,7 +50,7 @@ export function pdfTransform(formData) {
     'Branch of Service': serviceBranch,
     homeAddress: claimantAddress,
     inputAuthorizationsMedical,
-    authorizeAddressRadio,
+    inputAuthorizationsAddressChange,
     authorizeInsideVARadio,
     authorizeOutsideVARadio,
     authorizeNamesTextArea,
@@ -123,7 +123,7 @@ export function pdfTransform(formData) {
   return {
     veteran,
     recordConsent: yesNoToBoolean(inputAuthorizationsMedical),
-    consentAddressChange: yesNoToBoolean(authorizeAddressRadio),
+    consentAddressChange: yesNoToBoolean(inputAuthorizationsAddressChange),
     consentLimits: consentLimitsTransform(formData),
     consentInsideAccess: yesNoToBoolean(authorizeInsideVARadio),
     consentOutsideAccess: yesNoToBoolean(authorizeOutsideVARadio),

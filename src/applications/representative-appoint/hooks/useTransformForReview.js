@@ -126,7 +126,7 @@ export function useTransformForReview(formData) {
           )}
           {renderField(
             'Do you authorize this accredited VSO Representative to change your address on VA records?',
-            formData?.authorizeAddressRadio,
+            formData?.inputAuthorizationsAddressChange,
           )}
           {renderField(
             'Do you authorize this accredited Attorney’s team to access your records through VA’s information technology systems?',

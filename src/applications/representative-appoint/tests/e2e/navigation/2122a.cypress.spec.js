@@ -189,7 +189,7 @@ describe('Unauthenticated', () => {
       // AUTHORIZE_ADDRESS
       h.verifyUrl(ROUTES.AUTHORIZE_ADDRESS);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizeAddressRadio', 0);
+      h.selectRadio('inputAuthorizationsAddressChange', 0);
 
       h.clickContinue();
 

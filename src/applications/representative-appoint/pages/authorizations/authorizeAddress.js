@@ -15,7 +15,7 @@ export const uiSchema = {
   'view:addressAuthorizationPolicy': {
     'ui:description': <AddressAuthorizationPolicy />,
   },
-  authorizeAddressRadio: radioUI({
+  inputAuthorizationsAddressChange: radioUI({
     title:
       'Do you authorize this accredited representative to change your address on VA records?',
     updateUiSchema: formData => {
@@ -33,13 +33,13 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['authorizeAddressRadio'],
+  required: ['inputAuthorizationsAddressChange'],
   properties: {
     'view:addressAuthorizationPolicy': {
       type: 'object',
       properties: {},
     },
-    authorizeAddressRadio: radioSchema([
+    inputAuthorizationsAddressChange: radioSchema([
       `Yes, they can change my address if it’s incorrect or outdated`,
       `No, they can’t change my address`,
     ]),
