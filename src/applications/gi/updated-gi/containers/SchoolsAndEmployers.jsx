@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,7 +6,15 @@ import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchByName from './SearchByName';
 import SearchByProgram from './SearchByProgram';
-import { changeSearchTab } from '../../actions';
+import {
+  changeSearchTab,
+  enterPreviewMode,
+  exitPreviewMode,
+  fetchConstants,
+  fetchSearchByNameResults,
+  filterBeforeResultFlag,
+  geolocateUser,
+} from '../../actions';
 import { updateUrlParams } from '../../selectors/search';
 import {
   convertSchoolsAndEmployersTabIndexToText,
@@ -15,7 +23,13 @@ import {
 import NameSearchResults from '../components/school-and-employers/NameSearchResults';
 
 const SchoolAndEmployers = ({
+  dispatchGeoLocateUser,
+  dispatchEnterPreviewMode,
+  dispatchExitPreviewMode,
+  dispatchFetchConstants,
+  dispatchFetchSearchByNameResults,
   dispatchChangeSearchTab,
+  dispatchShowFiltersBeforeResult,
   filters,
   preview,
   search,
@@ -31,7 +45,23 @@ const SchoolAndEmployers = ({
   const { version } = preview;
   const history = useHistory();
   const { error } = search;
+  const versionChange = version && version !== preview.version?.id;
+  const shouldExitPreviewMode = preview.display && !version;
+  const shouldEnterPreviewMode = !preview.display && versionChange;
   const [smallScreen /* , setSmallScreen */] = useState(isSmallScreen());
+
+  useEffect(
+    () => {
+      if (shouldExitPreviewMode) {
+        dispatchExitPreviewMode();
+      } else if (shouldEnterPreviewMode) {
+        dispatchEnterPreviewMode(version);
+      } else {
+        dispatchFetchConstants();
+      }
+    },
+    [shouldExitPreviewMode, shouldEnterPreviewMode],
+  );
 
   const tabChange = selectedTab => {
     const selectedTabText = convertSchoolsAndEmployersTabIndexToText(
@@ -96,7 +126,14 @@ const SchoolAndEmployers = ({
             <SearchByName />
           </TabPanel>
           <TabPanel className={currentTab === 1 ? tabPanelClassList : null}>
-            <SearchByProgram />
+            <SearchByProgram
+              dispatchGeoLocateUser={dispatchGeoLocateUser}
+              dispatchShowFiltersBeforeResult={dispatchShowFiltersBeforeResult}
+              dispatchFetchSearchByNameResults={
+                dispatchFetchSearchByNameResults
+              }
+              search={search}
+            />
           </TabPanel>
         </Tabs>
       </div>
@@ -110,6 +147,12 @@ const SchoolAndEmployers = ({
 
 SchoolAndEmployers.propTypes = {
   dispatchChangeSearchTab: PropTypes.func.isRequired,
+  dispatchEnterPreviewMode: PropTypes.func.isRequired,
+  dispatchExitPreviewMode: PropTypes.func.isRequired,
+  dispatchFetchConstants: PropTypes.func.isRequired,
+  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
+  dispatchGeoLocateUser: PropTypes.func.isRequired,
+  dispatchShowFiltersBeforeResult: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
   preview: PropTypes.object.isRequired,
   search: PropTypes.object.isRequired,
@@ -123,6 +166,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   dispatchChangeSearchTab: changeSearchTab,
+  dispatchEnterPreviewMode: enterPreviewMode,
+  dispatchExitPreviewMode: exitPreviewMode,
+  dispatchFetchConstants: fetchConstants,
+  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
+  dispatchGeoLocateUser: geolocateUser,
+  dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
 };
 
 export default connect(
