@@ -702,6 +702,25 @@ export const getVAStatusIconAndMessage = {
   },
 };
 
+export const getDescriptiveTextFromCRM = status => {
+  switch ((status ?? '').toLowerCase()) {
+    case 'new':
+      return 'Your inquiry is current in queue to be reviewed.';
+    case 'in progress':
+      return 'Your inquiry is currently being reviewed by an agent.';
+    case 'solved':
+      return 'Your inquiry has been closed. If you have additional questions please open a new inquiry.';
+    case 'reopened':
+      return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
+    case 'closed':
+      return 'Closed.';
+    case 'reference number not found':
+      return "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
+    default:
+      return 'error';
+  }
+};
+
 // Function to convert date to Response Inbox format using date-fns
 export const convertDateForInquirySubheader = dateString => {
   // Parse the input date string as UTC
