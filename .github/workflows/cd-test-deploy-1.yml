@@ -5,7 +5,7 @@ on:
 jobs:
   cd-prod-deploy:
     name: CD Production Deploy
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Run CD Production Deploy workflow
         run: |
