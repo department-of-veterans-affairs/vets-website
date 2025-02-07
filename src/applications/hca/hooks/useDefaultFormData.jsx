@@ -23,7 +23,6 @@ export const useDefaultFormData = () => {
 
   const { veteranFullName } = formData;
   const {
-    isTeraBranchingEnabled,
     isInsuranceV2Enabled,
     isRegOnlyEnabled,
   } = featureToggles;
@@ -36,7 +35,6 @@ export const useDefaultFormData = () => {
         'view:isLoggedIn': isLoggedIn,
         'view:isRegOnlyEnabled': isRegOnlyEnabled,
         'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
-        'view:isTeraBranchingEnabled': isTeraBranchingEnabled,
         'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
       const userData = isLoggedIn
@@ -60,7 +58,6 @@ export const useDefaultFormData = () => {
       veteranFullName,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,
-      isTeraBranchingEnabled,
       totalRating,
     ],
   );

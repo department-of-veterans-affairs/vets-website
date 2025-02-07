@@ -366,19 +366,9 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includeRadiationCleanUpEfforts` executes', () => {
-    const getData = ({
-      veteranDateOfBirth = null,
-      included = true,
-      enabled = true,
-    }) => ({
-      'view:isTeraBranchingEnabled': enabled,
+    const getData = ({ veteranDateOfBirth = null, included = true }) => ({
       hasTeraResponse: included,
       veteranDateOfBirth,
-    });
-
-    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
-      const formData = getData({ included: true, enabled: false });
-      expect(includeRadiationCleanUpEfforts(formData)).to.be.true;
     });
 
     it('should return `true` when Veteran birthdate is before `Jan 1, 1966`', () => {
@@ -398,12 +388,7 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includeGulfWarService` executes', () => {
-    const getData = ({
-      veteranDateOfBirth = null,
-      included = true,
-      enabled = true,
-    }) => ({
-      'view:isTeraBranchingEnabled': enabled,
+    const getData = ({ veteranDateOfBirth = null, included = true }) => ({
       hasTeraResponse: included,
       veteranDateOfBirth,
     });
@@ -434,9 +419,7 @@ describe('hca form config helpers', () => {
       veteranDateOfBirth = '1960-01-01',
       response = null,
       included = true,
-      enabled = true,
     }) => ({
-      'view:isTeraBranchingEnabled': enabled,
       hasTeraResponse: included,
       gulfWarService: response,
       veteranDateOfBirth,
@@ -469,12 +452,7 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includePostSept11Service` executes', () => {
-    const getData = ({
-      veteranDateOfBirth = null,
-      included = true,
-      enabled = true,
-    }) => ({
-      'view:isTeraBranchingEnabled': enabled,
+    const getData = ({ veteranDateOfBirth = null, included = true }) => ({
       hasTeraResponse: included,
       veteranDateOfBirth,
     });
@@ -505,9 +483,7 @@ describe('hca form config helpers', () => {
       veteranDateOfBirth = '2005-01-01',
       response = null,
       included = true,
-      enabled = true,
     }) => ({
-      'view:isTeraBranchingEnabled': enabled,
       hasTeraResponse: included,
       gulfWarService: response,
       veteranDateOfBirth,
@@ -535,19 +511,9 @@ describe('hca form config helpers', () => {
   });
 
   context('when `includeAgentOrangeExposure` executes', () => {
-    const getData = ({
-      veteranDateOfBirth = null,
-      included = true,
-      enabled = true,
-    }) => ({
-      'view:isTeraBranchingEnabled': enabled,
+    const getData = ({ veteranDateOfBirth = null, included = true }) => ({
       hasTeraResponse: included,
       veteranDateOfBirth,
-    });
-
-    it('should return `true` when TERA response is `true` and feature flag is disabled', () => {
-      const formData = getData({ included: true, enabled: false });
-      expect(includeAgentOrangeExposure(formData)).to.be.true;
     });
 
     it('should return `true` when Veteran birthdate is before `Aug 1, 1965`', () => {
