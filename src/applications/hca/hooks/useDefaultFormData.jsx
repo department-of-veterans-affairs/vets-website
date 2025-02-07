@@ -26,7 +26,6 @@ export const useDefaultFormData = () => {
     isTeraBranchingEnabled,
     isInsuranceV2Enabled,
     isRegOnlyEnabled,
-    isSigiEnabled,
   } = featureToggles;
 
   const setFormData = dataToSet => dispatch(setData(dataToSet));
@@ -35,7 +34,6 @@ export const useDefaultFormData = () => {
     () => {
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
-        'view:isSigiEnabled': isSigiEnabled,
         'view:isRegOnlyEnabled': isRegOnlyEnabled,
         'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
         'view:isTeraBranchingEnabled': isTeraBranchingEnabled,
@@ -60,7 +58,6 @@ export const useDefaultFormData = () => {
       isLoggedIn,
       veteranDob,
       veteranFullName,
-      isSigiEnabled,
       isRegOnlyEnabled,
       isInsuranceV2Enabled,
       isTeraBranchingEnabled,
