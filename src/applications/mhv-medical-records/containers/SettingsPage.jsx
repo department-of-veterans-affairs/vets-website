@@ -168,17 +168,13 @@ const SettingsPage = () => {
       isSharing ? 'out of' : 'back in to'
     } sharing your electronic health information?`;
     const primaryButtonText = isSharing ? 'Opt out - Modal' : 'Opt in - Modal';
-    const secondaryButtonText = isSharing
-      ? "Don't Opt out - Modal"
-      : "Don't Opt in - Modal";
+    const secondaryButtonText = isSharing ? "Don't opt out" : "Don't opt in";
     return (
       <VaModal
         modalTitle={title}
         onCloseEvent={() => {
           handleCloseModal();
-          sendDataDogAction(
-            `Close ${isSharing ? 'Opt out - Modal' : 'Opt in - Modal'}`,
-          );
+          sendDataDogAction(`Close opt ${isSharing ? 'out' : 'in'} modal`);
         }}
         onPrimaryButtonClick={() => {
           handleUpdateSharing(isSharing);
