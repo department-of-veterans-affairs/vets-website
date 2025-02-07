@@ -1,0 +1,8 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.download-break {
+    border-top: 1px solid var(--vads-color-base-lighter);
+    margin-bottom: 12px;
+    margin-top: 12px;
+    padding-top: 24px;
+}
