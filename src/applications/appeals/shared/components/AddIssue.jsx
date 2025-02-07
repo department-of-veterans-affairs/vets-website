@@ -180,6 +180,7 @@ const AddIssue = ({
         <VaTextInput
           id="issue-name"
           name="issue-name"
+          class="vads-u-margin-bottom--4"
           type="text"
           label={content.name.label}
           required
@@ -188,12 +189,9 @@ const AddIssue = ({
           onBlur={handlers.onInputBlur}
           error={((submitted || inputDirty) && showIssueNameError) || null}
           message-aria-describedby={content.name.hintText}
-          uswds
         >
           {content.name.hint}
         </VaTextInput>
-
-        <br role="presentation" />
 
         <VaMemorableDate
           name="decision-date"
@@ -211,7 +209,7 @@ const AddIssue = ({
           month-select={false}
           uswds
         />
-        <p>
+        <p className="vads-u-margin-top--6">
           <va-button
             id="cancel"
             secondary

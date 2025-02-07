@@ -11,26 +11,18 @@ const AllergiesPrintOnly = props => {
         {allergies?.length > 0 ? (
           <>
             <div>
-              <div>
+              <div className="vads-u-margin-bottom--1">
                 This list includes all allergies, reactions, and side effects in
                 your VA medical records. This includes medication side effects
                 (also called adverse drug reactions). If you have allergies or
                 reactions that are missing from this list, tell your care team
                 at your next appointment.
               </div>
-              <br />
               Showing {allergies.length} records from newest to oldest
             </div>
             <div>
-              {allergies?.map((allergy, index) => (
-                <div
-                  key={allergy.id}
-                  className={
-                    allergies.length - 1 !== index
-                      ? 'vads-u-border-bottom--1px'
-                      : ''
-                  }
-                >
+              {allergies?.map(allergy => (
+                <div key={allergy.id}>
                   <div className="print-only-rx-details-container">
                     <h3>{allergy.name}</h3>
                     <div className="print-only-rx-details-container">
@@ -83,7 +75,7 @@ const AllergiesPrintOnly = props => {
   };
 
   return (
-    <div className="print-only print-only-rx-container">
+    <div className="print-only print-only-rx-container vads-u-border-top--1px vads-u-border-color--black">
       <h2>Allergies</h2>
       {content()}
     </div>

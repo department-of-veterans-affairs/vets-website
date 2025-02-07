@@ -36,7 +36,6 @@ import {
   currentMarriageInformationPartFour,
   currentMarriageInformationPartFive,
   doesLiveWithSpouse,
-  marriageAdditionalEvidence,
   spouseInformation,
   spouseInformationPartTwo,
   spouseInformationPartThree,
@@ -127,6 +126,8 @@ import { householdIncome } from './chapters/household-income';
 import manifest from '../manifest.json';
 import prefillTransformer from './prefill-transformer';
 import { chapter as addChild } from './chapters/report-add-child';
+import { spouseAdditionalEvidence } from './chapters/additional-information/spouseAdditionalEvidence';
+import { childAdditionalEvidence as finalChildAdditionalEvidence } from './chapters/additional-information/childAdditionalEvidence';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
@@ -143,11 +144,17 @@ export const formConfig = {
   formId: VA_FORM_IDS.FORM_21_686CV2,
   saveInProgress: {
     messages: {
-      inProgress: 'Your dependent status application (21-686c) is in progress.',
+      inProgress: 'Your application is in progress',
       expired:
-        'Your saved dependent status application (21-686c) has expired. If you want to apply for dependent status, start a new application.',
-      saved: 'Your dependent status application has been saved.',
+        'Your saved application has expired. If you want to apply for dependent status, start a new application.',
+      saved: 'Your application has been saved',
     },
+  },
+  savedFormMessages: {
+    notFound:
+      'Start your application to add or remove a dependent on your VA benefits.',
+    noAuth:
+      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   version: migrations.length,
   v3SegmentedProgressBar: true,
@@ -166,12 +173,6 @@ export const formConfig = {
       externalServices.vaProfile,
       externalServices.vbms,
     ],
-  },
-  savedFormMessages: {
-    notFound:
-      'Start your application to add or remove a dependent on your VA benefits.',
-    noAuth:
-      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
   title: 'Add or remove a dependent on VA benefits',
   subTitle: 'VA Forms 21-686c and 21-674',
@@ -445,18 +446,6 @@ export const formConfig = {
               isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           }),
         })),
-
-        marriageAdditionalEvidence: {
-          depends: formData =>
-            typeof formData?.currentMarriageInformation?.type === 'string' &&
-            formData?.currentMarriageInformation?.type !==
-              MARRIAGE_TYPES.ceremonial &&
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Additional evidence needed to add spouse',
-          path: 'add-spouse-evidence',
-          uiSchema: marriageAdditionalEvidence.uiSchema,
-          schema: marriageAdditionalEvidence.schema,
-        },
       },
     },
 
@@ -1011,6 +1000,31 @@ export const formConfig = {
           title: 'Your net worth',
           uiSchema: householdIncome.uiSchema,
           schema: householdIncome.schema,
+        },
+      },
+    },
+
+    additionalEvidence: {
+      title: 'Additional information',
+      pages: {
+        marriageAdditionalEvidence: {
+          depends: formData =>
+            typeof formData?.currentMarriageInformation?.type === 'string' &&
+            formData?.currentMarriageInformation?.type !==
+              MARRIAGE_TYPES.ceremonial &&
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Additional evidence needed to add spouse',
+          path: 'add-spouse-evidence',
+          uiSchema: spouseAdditionalEvidence.uiSchema,
+          schema: spouseAdditionalEvidence.schema,
+        },
+        childAdditionalEvidence: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addChild),
+          title: 'Additional evidence needed to add child',
+          path: 'add-child-evidence',
+          uiSchema: finalChildAdditionalEvidence.uiSchema,
+          schema: finalChildAdditionalEvidence.schema,
         },
       },
     },

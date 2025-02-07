@@ -829,6 +829,51 @@ class MedicationsListPage {
       .should('be.visible')
       .and('be.focused');
   };
+
+  verifyPrecriptionNumberForPendingRxOnMedicationCard = (
+    prescriptionNumber,
+    cardNumber,
+  ) => {
+    cy.get(
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="rx-number"]`,
+    )
+      .first()
+      .should('contain', prescriptionNumber);
+  };
+
+  verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
+      .first()
+      .should('be.visible')
+      .and('have.text', text);
+  };
+
+  verifyPendingRenewalInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
+      .should('be.visible')
+      .and('contain', text);
+  };
+
+  updatedOrderDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newOrderedDate = new Date(currentDate);
+        newOrderedDate.setDate(currentDate.getDate());
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            orderedDate:
+              item.attributes.orderedDate != null
+                ? newOrderedDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
 }
 
 export default MedicationsListPage;

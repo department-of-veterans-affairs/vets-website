@@ -20,7 +20,6 @@ import {
   isLOA3,
   isVAPatient,
   personalizationEnabled,
-  mrPhase1Enabled,
   isAuthenticatedWithSSOe,
 } from '../selectors';
 import manifest from '../manifest.json';
@@ -32,7 +31,6 @@ const LandingPage = ({ data = {} }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showLearnMore = !useSelector(mrPhase1Enabled) && userRegistered;
 
   return (
     <>
@@ -55,7 +53,6 @@ const LandingPage = ({ data = {} }) => {
           />
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
-            showLearnMore={showLearnMore}
             ssoe={ssoe}
             showMhvGoBack={userRegistered}
           />
