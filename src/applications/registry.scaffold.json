@@ -14,7 +14,7 @@
     "rootUrl": "/find-forms",
     "widgetType": "find-va-forms",
     "productDirectory": {
-      "filePath": "src/applications/find-forms",
+      "filePath": "src/applications/static-pages/find-forms",
       "productId": 206,
       "entryName": "find-va-forms"
     }

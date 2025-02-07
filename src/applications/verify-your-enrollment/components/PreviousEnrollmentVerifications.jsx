@@ -100,15 +100,18 @@ const PreviousEnrollmentVerifications = ({
       ? pastAndCurrentAwards
       : combinedEnrollmentsObj;
     Object.values(enrollmentsToProcess).forEach(month => {
+      const verificationEndDateArr = month.filter(m =>
+        isVerificationEndDateValid(m.verificationEndDate),
+      );
       if (month.length > 1) {
         const tempGroupEnrollment = !claimantId
           ? getGroupedPreviousEnrollments(month)
-          : getGroupedPreviousEnrollmentsDGIB(month);
+          : getGroupedPreviousEnrollmentsDGIB(verificationEndDateArr);
         enrollments.push(tempGroupEnrollment);
       }
       if (month.length === 1) {
         const tempSingleEnrollment = claimantId
-          ? getSignlePreviousEnrollmentsDGIB(month[0])
+          ? getSignlePreviousEnrollmentsDGIB(month[0], enrollmentVerifications)
           : getSignlePreviousEnrollments(month[0]);
         enrollments.push(tempSingleEnrollment);
       }

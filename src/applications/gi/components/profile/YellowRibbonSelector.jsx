@@ -82,7 +82,8 @@ const YellowRibbonSelector = ({ programs }) => {
   ];
 
   const getDegreeLevels = degreeLevelKey => {
-    return yellowRibbonDegreeLevelTypeHash[degreeLevelKey] || [];
+    const lowerCaseKey = degreeLevelKey.toLowerCase();
+    return yellowRibbonDegreeLevelTypeHash[lowerCaseKey] || [];
   };
 
   const degreeLevelOptions = [
@@ -165,6 +166,7 @@ const YellowRibbonSelector = ({ programs }) => {
     return (
       <p
         id="results-summary"
+        data-testid="results-summary"
         ref={resultsSummaryRef}
         tabIndex="-1"
         className="vads-u-margin-top--3 vads-u-margin-bottom--3"
@@ -180,14 +182,16 @@ const YellowRibbonSelector = ({ programs }) => {
     <div className="yellow-ribbon-selector-container">
       {degreeLevelOptions.length > 1 && (
         <div>
-          <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">
-            Select a degree level to get started.
+          <p className="vads-u-margin-bottom--0">
+            To see participating schools select a degree.
           </p>
-          <div className="selector-wrapper vads-u-display--flex vads-u-align-items--flex-end ">
+          <div className="selector-wrapper vads-u-display--flex vads-u-align-items--flex-end vads-u-margin-top--0">
             <VaSelect
               className="degree-selector"
               id="degree"
               name="degree"
+              data-testid="degree-selector"
+              message-aria-describedby="Degree level selector"
               label="Degree level"
               value={selectedOption}
               onVaSelect={handleSelectionChange}
@@ -233,7 +237,36 @@ const YellowRibbonSelector = ({ programs }) => {
             showLastPage
             onPageSelect={e => handlePageChange(e.detail.page)}
             className="vads-u-border-top--0 vads-u-padding-y--0 vads-u-margin-bottom--0"
+            data-testid="yellow-ribbon-pagination"
           />
+        )}
+        {currentPrograms.length > 0 && (
+          <va-additional-info
+            trigger="Yellow Ribbon Program definitions"
+            class="vads-u-margin-top--2 hydrated"
+            uswds
+          >
+            <ul className="getting-started-with-benefits-li">
+              <li>
+                <strong>Degree level:</strong> Type of degree such as
+                Undergraduate, Graduate, Masters, or Doctoral
+              </li>
+              <li>
+                <strong>College or professional school:</strong> A school within
+                a college or university that has a specialized professional or
+                academic focus
+              </li>
+              <li>
+                <strong>Funding available:</strong> Total number of students
+                eligible to receive funding
+              </li>
+              <li>
+                <strong>Max school contribution:</strong> Maximum amount the IHL
+                will contribute per student each academic year toward unmet
+                tuition and fee costs
+              </li>
+            </ul>
+          </va-additional-info>
         )}
       </div>
     </div>

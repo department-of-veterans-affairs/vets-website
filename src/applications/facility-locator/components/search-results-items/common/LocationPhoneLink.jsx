@@ -32,7 +32,9 @@ export const renderPhoneNumber = (
 
   return (
     <p>
-      {from === 'FacilityDetail' && <va-icon icon="phone" size="3" />}
+      {from === 'FacilityDetail' && (
+        <va-icon class="vads-u-margin-right--0p5" icon="phone" size="3" />
+      )}
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
       {processed ? (
@@ -96,6 +98,10 @@ const LocationPhoneLink = ({
         from,
         location,
       )}
+      <p>
+        <strong>Telecommunications Relay Services (using TTY):</strong>{' '}
+        <va-telephone tty contact="711" />
+      </p>
     </div>
   );
 };

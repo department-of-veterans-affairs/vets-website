@@ -1000,4 +1000,31 @@ describe('VAOS Page: DateTimeSelectPage', () => {
     });
     expect(screen.history.push.called).to.be.false;
   });
+  it('should show required text next to page heading', async () => {
+    const preferredDate = moment();
+    const slot308Date = moment().add(6, 'days');
+
+    setDateTimeSelectMockFetches({
+      typeOfCareId: 'outpatientMentalHealth',
+      slotDatesByClinicId: {
+        '308': [slot308Date],
+      },
+    });
+
+    const store = createTestStore(initialState);
+
+    await setTypeOfCare(store, /mental health/i);
+    await setVAFacility(store, '983', 'outpatientMentalHealth');
+    await setClinic(store, '983_308');
+    await setPreferredDate(store, preferredDate);
+
+    const screen = renderWithStoreAndRouter(
+      <Route component={DateTimeSelectPage} />,
+      {
+        store,
+      },
+    );
+
+    expect(await screen.findByText(/Required/i)).to.exist;
+  });
 });

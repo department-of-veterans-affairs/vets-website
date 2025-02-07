@@ -32,6 +32,8 @@ import {
   capitalizeFirstLetter,
   getAbbreviationsAsArray,
   formatNationalExamName,
+  formatAddress,
+  toTitleCase,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -659,6 +661,8 @@ describe('GIBCT helpers:', () => {
       const result = getAbbreviationsAsArray('OJT');
       expect(result).to.deep.equal([
         'APP: Apprenticeships',
+        'NPFA: Non Pay Federal Agency',
+        'NPOJT: Non Pay On-the-job-training',
         'OJT: On-the-job training',
       ]);
     });
@@ -682,6 +686,7 @@ describe('GIBCT helpers:', () => {
         'MA: Master of Arts',
         'MBA: Master of Business Administration',
         'MS: Master of Science',
+        'PhD: Doctor of Philosophy',
       ]);
     });
 
@@ -705,6 +710,7 @@ describe('GIBCT helpers:', () => {
         'CFII: Certified Flight Instructor Instrument',
         'IR: Instrument Rating',
         'MEI: Multi Engine Instructor',
+        'PPIL: Professional Pilot Interdisciplinary Sciences',
         'ROTO: Rotorcraft; Rotary-Wing Aircraft',
       ]);
     });
@@ -774,6 +780,169 @@ describe('GIBCT helpers:', () => {
       expect(formatNationalExamName('ACT')).to.equal('ACT');
       expect(formatNationalExamName('MCAT')).to.equal('MCAT');
       expect(formatNationalExamName('TOEFL')).to.equal('TOEFL');
+    });
+  });
+  describe('formatAddress', () => {
+    it('should return the same value if input is not a string', () => {
+      expect(formatAddress(null)).to.equal(null);
+      expect(formatAddress(undefined)).to.equal(undefined);
+      expect(formatAddress(12345)).to.equal(12345);
+      expect(formatAddress({})).to.deep.equal({});
+      expect(formatAddress([])).to.deep.equal([]);
+      expect(formatAddress(() => {})).to.be.a('function');
+    });
+
+    it('should return the same string if it is empty or only whitespace', () => {
+      expect(formatAddress('')).to.equal('');
+      expect(formatAddress('   ')).to.equal('   ');
+      expect(formatAddress('\t\n')).to.equal('\t\n');
+    });
+
+    it('should capitalize each word properly', () => {
+      expect(formatAddress('123 main street')).to.equal('123 Main Street');
+      expect(formatAddress('456 elm avenue')).to.equal('456 Elm Avenue');
+      expect(formatAddress('789 broadWAY')).to.equal('789 Broadway');
+      expect(formatAddress('1010 PINE Boulevard')).to.equal(
+        '1010 Pine Boulevard',
+      );
+    });
+
+    it('should keep exceptions in uppercase', () => {
+      expect(formatAddress('500 nw 25th street')).to.equal(
+        '500 NW 25th Street',
+      );
+      expect(formatAddress('800 Nw Elm Avenue')).to.equal('800 NW Elm Avenue');
+      expect(formatAddress('900 nw Broadway')).to.equal('900 NW Broadway');
+    });
+
+    it('should handle multiple spaces and different whitespace characters', () => {
+      expect(formatAddress('1600  Pennsylvania Ave')).to.equal(
+        '1600 Pennsylvania Ave',
+      );
+      expect(formatAddress(' 742  Evergreen Terrace ')).to.equal(
+        '742 Evergreen Terrace',
+      );
+      expect(formatAddress('221B\tBaker\nStreet')).to.equal(
+        '221B Baker Street',
+      );
+    });
+
+    it('should handle mixed case and special characters', () => {
+      expect(formatAddress('a1b2c3 d4E5F6')).to.equal('A1b2c3 D4e5f6');
+      expect(formatAddress('PO BOX 123')).to.equal('PO Box 123');
+      expect(formatAddress('UNIT 4567-A')).to.equal('Unit 4567-A');
+    });
+
+    it('should handle words with hyphens correctly', () => {
+      expect(formatAddress('123 north-west road')).to.equal(
+        '123 North-West Road',
+      );
+      expect(formatAddress('456 NW-7th Ave')).to.equal('456 NW-7th Ave');
+      expect(formatAddress('789 nw-elm street')).to.equal('789 NW-Elm Street');
+      expect(formatAddress('PO-BOX-123')).to.equal('PO-Box-123');
+      expect(formatAddress('NW-WEST'));
+      expect(formatAddress('NW-WEST Road')).to.equal('NW-West Road');
+    });
+
+    it('should handle single-word addresses', () => {
+      expect(formatAddress('Main')).to.equal('Main');
+      expect(formatAddress('nw')).to.equal('NW');
+      expect(formatAddress('NW')).to.equal('NW');
+      expect(formatAddress('PO')).to.equal('PO');
+    });
+
+    it('should handle addresses with numbers and letters', () => {
+      expect(formatAddress('1234 NW5th Street')).to.equal('1234 NW5th Street');
+      expect(formatAddress('5678 nw12th Avenue')).to.equal(
+        '5678 NW12th Avenue',
+      );
+      expect(formatAddress('91011 NW-13th Blvd')).to.equal(
+        '91011 NW-13th Blvd',
+      );
+    });
+
+    it('should not alter the original string structure beyond capitalization', () => {
+      const input = '123 Main-Street NW';
+      const expected = '123 Main-Street NW';
+      expect(formatAddress(input)).to.equal(expected);
+    });
+
+    it('should trim leading and trailing whitespace', () => {
+      expect(formatAddress('   1600 Pennsylvania Ave   ')).to.equal(
+        '1600 Pennsylvania Ave',
+      );
+      expect(formatAddress('\t742 Evergreen Terrace\n')).to.equal(
+        '742 Evergreen Terrace',
+      );
+    });
+  });
+  describe('toTitleCase', () => {
+    it('should return an empty string when input is null,undefined, or an empty string', () => {
+      expect(toTitleCase(null)).to.equal('');
+      expect(toTitleCase(undefined)).to.equal('');
+      expect(toTitleCase('')).to.equal('');
+    });
+
+    it('should return an empty string when input is only whitespace', () => {
+      expect(toTitleCase('   ')).to.equal('');
+      expect(toTitleCase('\t\n')).to.equal('');
+    });
+
+    it('should capitalize a single lowercase word', () => {
+      expect(toTitleCase('hello')).to.equal('Hello');
+    });
+
+    it('should capitalize a single uppercase word', () => {
+      expect(toTitleCase('HELLO')).to.equal('Hello');
+    });
+
+    it('should capitalize a single mixed-case word', () => {
+      expect(toTitleCase('hElLo')).to.equal('Hello');
+    });
+
+    it('should capitalize multiple words separated by spaces', () => {
+      expect(toTitleCase('hello world')).to.equal('Hello World');
+      expect(toTitleCase('javaScript is awesome')).to.equal(
+        'Javascript Is Awesome',
+      );
+    });
+
+    it('should handle words with hyphens correctly', () => {
+      expect(toTitleCase('state-of-the-art')).to.equal('State-Of-The-Art');
+      expect(toTitleCase('well-known fact')).to.equal('Well-Known Fact');
+      expect(toTitleCase('mother-in-law')).to.equal('Mother-In-Law');
+    });
+
+    it('should handle multiple hyphenated words in a sentence', () => {
+      expect(
+        toTitleCase('the state-of-the-art technology is well-known'),
+      ).to.equal('The State-Of-The-Art Technology Is Well-Known');
+    });
+
+    it('should handle words with numbers correctly', () => {
+      expect(toTitleCase('version2 update')).to.equal('Version2 Update');
+      expect(toTitleCase('room 101')).to.equal('Room 101');
+    });
+
+    it('should handle words with special characters correctly', () => {
+      expect(toTitleCase('@hello world!')).to.equal('@hello World!');
+      expect(toTitleCase('good-morning, everyone')).to.equal(
+        'Good-Morning, Everyone',
+      );
+    });
+
+    it('should handle multiple spaces between words', () => {
+      expect(toTitleCase('1600  Pennsylvania Ave')).to.equal(
+        '1600 Pennsylvania Ave',
+      );
+      expect(toTitleCase('742   Evergreen Terrace')).to.equal(
+        '742 Evergreen Terrace',
+      );
+    });
+
+    it('should trim leading and trailing whitespace and capitalize correctly', () => {
+      expect(toTitleCase('   123 main street   ')).to.equal('123 Main Street');
+      expect(toTitleCase('\t456 elm avenue\n')).to.equal('456 Elm Avenue');
     });
   });
 });

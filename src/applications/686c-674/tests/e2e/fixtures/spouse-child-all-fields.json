@@ -15,8 +15,8 @@
           "city": "test city",
           "postalCode": "43242"
         },
-        "doesChildLiveWithYou": "N",
-        "hasChildEverBeenMarried": "N",
+        "doesChildLiveWithYou": false,
+        "hasChildEverBeenMarried": false,
         "isBiologicalChild": true,
         "dateEnteredHousehold": "2023-02-01",
         "biologicalParentName": {
@@ -78,7 +78,8 @@
         "startLocation": {
           "outsideUsa": true,
           "location": {
-            "city": "Foreign city"
+            "city": "Foreign city",
+            "country": "AUS"
           }
         },
         "endLocation": {
@@ -111,7 +112,7 @@
       "outsideUsa": true,
       "location": {
         "city": "Fakesville",
-        "state": "CA"
+        "country": "AUS"
       },
       "date": "2009-04-01",
       "type": "CIVIL",

@@ -1,31 +1,23 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
 import React from 'react';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
-// import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
-// import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
+import FormFooter from 'platform/forms/components/FormFooter';
+
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// pages
-import studentRatioCalc from '../pages/studentRatioCalc';
 import { validateFacilityCode } from '../utilities';
-import Alert from '../components/Alert';
-import InstitutionDetails from '../pages/institutionDetails';
 import { transform } from './submit-transformer';
+
+// Components
+import Alert from '../components/Alert';
+import GetFormHelp from '../components/GetFormHelp';
 import SubmissionInstructions from '../components/SubmissionInstructions';
-// import submitForm from './submitForm';
+
+// Pages
+import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
+import InstitutionDetails from '../pages/institutionDetails';
+import studentRatioCalc from '../pages/studentRatioCalc';
 
 const { date, dateRange } = commonDefinitions;
 
@@ -35,7 +27,6 @@ const subTitle = () => (
   </p>
 );
 
-let isAccredited = false;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -48,7 +39,9 @@ const formConfig = {
   },
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
-  confirmation: () => <ConfirmationPage isAccredited={isAccredited} />,
+  confirmation: ({ router, route }) => (
+    <ConfirmationPage router={router} route={route} />
+  ),
   formId: '22-10216',
   saveInProgress: {
     // messages: {
@@ -66,6 +59,8 @@ const formConfig = {
   },
   title: 'Request exemption from the 85/15 Rule reporting requirements',
   subTitle,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
     date,
     dateRange,
@@ -79,7 +74,8 @@ const formConfig = {
           path: 'institution-details',
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
-            isAccredited = await validateFacilityCode(formData);
+            const isAccredited = await validateFacilityCode(formData);
+            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
             if (isAccredited) {
               goPath('/student-ratio-calculation');
             } else {
@@ -109,6 +105,9 @@ const formConfig = {
           uiSchema: studentRatioCalc.uiSchema,
           schema: studentRatioCalc.schema,
           onNavBack: ({ goPath }) => {
+            const isAccredited = JSON.parse(
+              localStorage.getItem('isAccredited'),
+            );
             if (isAccredited !== true) {
               goPath('/additional-form');
             } else {

@@ -337,8 +337,6 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
-export const SHOW_ADD_DISABILITIES_ENHANCEMENT =
-  'showAddDisabilitiesEnhancement';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
@@ -412,6 +410,21 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
   other: 'Other traumatic events',
 });
 
+export const OFFICIAL_REPORT_TYPES = Object.freeze({
+  restricted: 'Restricted report',
+  unrestricted: 'Unrestricted report',
+  police: 'Police report',
+  none: 'No report',
+});
+
+export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
+  work: 'Behavioral changes related to work',
+  health: 'Behavioral changes related to health',
+  other: 'Other behavioral changes',
+  unlisted: 'Other behavioral changes not listed here:',
+  none: 'None',
+});
+
 export const BEHAVIOR_CHANGES_WORK = Object.freeze({
   reassignment:
     'Request for a change in occupational series or duty assignment',
@@ -436,4 +449,5 @@ export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
   socialEconomic: 'Economic or social behavioral changes',
   relationships: 'Changes in or breakup of a significant relationship',
   misconduct: 'Disciplinary or legal difficulties',
+  unlisted: 'I experienced other behavioral changes that were not in this list',
 });

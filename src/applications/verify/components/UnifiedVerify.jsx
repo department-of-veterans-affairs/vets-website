@@ -19,46 +19,24 @@ const Verify = () => {
   let buttonContent;
 
   if (isAuthenticated) {
-    <>
-      <VerifyLogingovButton
-        queryParams={{ operation: 'authenticated_verify_page' }}
-      />
-      <VerifyIdmeButton
-        queryParams={{ operation: 'authenticated_verify_page' }}
-      />
-    </>;
+    buttonContent = (
+      <>
+        <VerifyLogingovButton />
+        <VerifyIdmeButton />
+      </>
+    );
   } else if (isAuthenticatedOAuth) {
     // Use the loginServiceName to determine which button to show
     if (loginServiceName === 'idme') {
-      buttonContent = (
-        <VerifyIdmeButton
-          useOAuth
-          queryParams={{ operation: 'authenticated_verify_page' }}
-        />
-      );
+      buttonContent = <VerifyIdmeButton useOAuth />;
     } else if (loginServiceName === 'logingov') {
-      buttonContent = (
-        <VerifyLogingovButton
-          useOAuth
-          queryParams={{ operation: 'authenticated_verify_page' }}
-        />
-      );
+      buttonContent = <VerifyLogingovButton useOAuth />;
     }
   } else {
     buttonContent = (
       <>
-        <VerifyLogingovButton
-          useOAuth
-          queryParams={{
-            operation: 'unauthenticated_verify_page',
-          }}
-        />
-        <VerifyIdmeButton
-          useOAuth
-          queryParams={{
-            operation: 'unauthenticated_verify_page',
-          }}
-        />
+        <VerifyLogingovButton useOAuth />
+        <VerifyIdmeButton useOAuth />
       </>
     );
   }

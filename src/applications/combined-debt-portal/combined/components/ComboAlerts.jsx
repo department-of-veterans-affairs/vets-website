@@ -68,7 +68,7 @@ ComboAlert.Zero = () => {
       <ul>
         <li>
           <strong>For benefit debts</strong>, call the Debt Management Center
-          (DMC) at <va-telephone contact="8008270648" />(
+          (DMC) at <va-telephone contact={CONTACTS.DMC} /> (
           <va-telephone tty contact="711" />
           ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </li>

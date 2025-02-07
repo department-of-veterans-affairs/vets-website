@@ -112,12 +112,18 @@ const resolveLandingPageLinks = (
       ),
     },
     {
-      text: '5 Morning Routines to Reduce Stress',
-      href: mhvUrl(authdWithSSOe, 'ss20220719-start-your-day-with-mindfulness'),
+      text: 'Try the New Medical Records Tool on VA.gov',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20250102-try-new-medical-records-tool-on-va-gov',
+      ),
     },
     {
-      text: 'Give Your Immune System a Boost',
-      href: mhvUrl(authdWithSSOe, 'ss20220803-your-body-defense-system'),
+      text: '6 Healthy Eating Habits to Start This Year',
+      href: mhvUrl(
+        authdWithSSOe,
+        'ss20210423-healthy-eating-habits-to-start-now',
+      ),
     },
   ];
 

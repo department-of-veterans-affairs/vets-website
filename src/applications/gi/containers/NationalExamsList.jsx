@@ -4,9 +4,6 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaPagination,
-  VaCard,
-  VaLinkAction,
-  VaAlert,
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchNationalExams } from '../actions';
@@ -66,7 +63,7 @@ const NationalExamsList = () => {
         actual amount of the fee charged for the test. The amount covered by VA
         may differ from the actual cost of the exam.
       </p>
-      <VaLink
+      <va-link
         href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/"
         text="Find out how to get reimbursed for national tests"
         style={{ fontSize: '18px' }}
@@ -77,90 +74,97 @@ const NationalExamsList = () => {
   if (error) {
     return (
       <div className="national-exams-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <NationalExamsInfo />
-        <VaAlert
-          style={{ marginTop: '18px', marginBottom: '32px' }}
-          status="error"
-          data-e2e-id="alert-box"
-        >
-          <h2 slot="headline">
-            We can’t load the national exams list right now
-          </h2>
-          <p>
-            We’re sorry. There’s a problem with our system. Try again later.
-          </p>
-        </VaAlert>
+        <div className="usa-width-two-thirds">
+          <NationalExamsInfo />
+          <va-alert
+            style={{ marginTop: '18px', marginBottom: '32px' }}
+            status="error"
+            data-e2e-id="alert-box"
+          >
+            <h2 slot="headline">
+              We can’t load the national exams list right now
+            </h2>
+            <p>
+              We’re sorry. There’s a problem with our system. Try again later.
+            </p>
+          </va-alert>
+        </div>
       </div>
     );
   }
   if (loading) {
     return (
       <div className="national-exams-container row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <NationalExamsInfo />
-        <va-loading-indicator
-          label="Loading"
-          message="Loading your national exams..."
-        />
+        <div className="usa-width-two-thirds">
+          <NationalExamsInfo />
+          <va-loading-indicator
+            label="Loading"
+            message="Loading your national exams..."
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="national-exams-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-      <NationalExamsInfo />
-      <p
-        id="results-summary"
-        ref={resultsSummaryRef}
-        tabIndex="-1"
-        className="vads-u-margin-top--3 vads-u-margin-bottom--2"
-      >
-        {`Showing ${startIndex}-${endIndex} of ${
-          nationalExams.length
-        } national exams`}
-      </p>
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
-      <ul className="remove-bullets" role="list">
-        {currentExams.map(exam => (
-          <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
-            <VaCard background>
-              <h3 className="vads-u-margin--0">
-                {formatNationalExamName(exam.name)}
-              </h3>
-              <VaLinkAction
-                href={`national-exams/${exam.enrichedId}`}
-                text={`View test amount details for ${formatNationalExamName(
-                  exam.name,
-                )}`}
-                type="secondary"
-                message-aria-describedby={`View test amount details for ${formatNationalExamName(
-                  exam.name,
-                )}`}
-                onClick={handleRouteChange(exam.enrichedId)}
-              />
-            </VaCard>
-          </li>
-        ))}
-      </ul>
-      <VaPagination
-        page={currentPage}
-        pages={totalPages}
-        maxPageListLength={5}
-        data-testid="currentPage"
-        onPageSelect={e => handlePageChange(e.detail.page)}
-        className="vads-u-border-top--0 vads-u-margin-top--1 vads-u-padding-bottom--9"
-      />
+    <div className="national-exams-container  row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+      <div className="usa-width-two-thirds">
+        <NationalExamsInfo />
+        <p
+          id="results-summary"
+          ref={resultsSummaryRef}
+          tabIndex="-1"
+          className="vads-u-margin-top--3 vads-u-margin-bottom--2"
+        >
+          {`Showing ${startIndex}-${endIndex} of ${
+            nationalExams.length
+          } national exams`}
+        </p>
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="remove-bullets" role="list">
+          {currentExams.map(exam => (
+            <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
+              <va-card background>
+                <h3 className="vads-u-margin--0 vads-u-margin-bottom--1">
+                  {formatNationalExamName(exam.name)}
+                </h3>
+                <VaLink
+                  href={`national-exams/${exam.enrichedId}`}
+                  text={`View test amount details for ${formatNationalExamName(
+                    exam.name,
+                  )}`}
+                  type="secondary"
+                  message-aria-describedby={`View test amount details for ${formatNationalExamName(
+                    exam.name,
+                  )}`}
+                  onClick={handleRouteChange(exam.enrichedId)}
+                />
+              </va-card>
+            </li>
+          ))}
+        </ul>
+        <VaPagination
+          page={currentPage}
+          pages={totalPages}
+          maxPageListLength={5}
+          data-testid="currentPage"
+          onPageSelect={e => handlePageChange(e.detail.page)}
+          className="vads-u-border-top--0 vads-u-margin-top--1 vads-u-padding-bottom--9"
+        />
+      </div>
     </div>
   );
 };
 
-const ExamShape = PropTypes.shape({
-  enrichedId: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-});
 NationalExamsList.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.string,
-  nationalExams: PropTypes.arrayOf(ExamShape),
+  nationalExams: PropTypes.arrayOf(
+    PropTypes.shape({
+      enrichedId: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
 };
 
 export default NationalExamsList;

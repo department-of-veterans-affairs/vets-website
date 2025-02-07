@@ -10,6 +10,7 @@ import {
   pdfStatusDefinitions,
   pdfDefaultStatusDefinition,
   nonVAMedicationTypes,
+  EMPTY_FIELD,
 } from './constants';
 
 /**
@@ -77,7 +78,11 @@ export const buildPrescriptionsTXT = prescriptions => {
     result += `
 ${rx.prescriptionName}
 
+About your prescription
+
 Last filled on: ${dateFormat(rx.sortedDispensedDate, 'MMMM D, YYYY')}
+
+Prescription number: ${rx.prescriptionNumber}
 
 Status: ${validateField(rx.dispStatus)}
 ${(pdfStatusDefinitions[rx.refillStatus] || pdfDefaultStatusDefinition).reduce(
@@ -92,12 +97,6 @@ Request refills by this prescription expiration date: ${dateFormat(
       'MMMM D, YYYY',
     )}
 
-Prescription number: ${rx.prescriptionNumber}
-
-Prescribed on: ${dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
-
-Prescribed by: ${(rx.providerFirstName && rx.providerLastName) || 'None noted'}
-
 Facility: ${validateField(rx.facilityName)}
 
 Pharmacy phone number: ${validateField(rx.phoneNumber)}
@@ -108,10 +107,21 @@ Reason for use: ${validateField(rx.indicationForUse)}
 
 Quantity: ${validateField(rx.quantity)}
 
+Prescribed on: ${dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
 
----------------------------------------------------------------------------------
+Prescribed by: ${(rx.providerFirstName && rx.providerLastName) || 'None noted'}
 
-    `;
+${
+      rx.groupedMedications?.length > 0
+        ? `Previous prescriptions associated with this medication: ${rx.groupedMedications
+            .map(previousRx => {
+              return previousRx.prescriptionNumber;
+            })
+            .join(', ')}
+  
+`
+        : ``
+    }`;
   });
 
   return result;
@@ -130,6 +140,8 @@ export const buildAllergiesTXT = allergies => {
   }
 
   let result = `
+---------------------------------------------------------------------------------
+
 Allergies
 
 This list includes all allergies, reactions, and side effects in your VA medical records. This includes medication side effects (also called adverse drug reactions). If you have allergies or reactions that are missing from this list, tell your care team at your next appointment.
@@ -153,9 +165,6 @@ Location: ${validateField(item.location)}
 Observed or historical: ${validateField(item.observedOrReported)}
 
 Provider notes: ${validateField(item.notes)}
-
-
----------------------------------------------------------------------------------
 
     `;
   });
@@ -181,15 +190,16 @@ ${prescription?.prescriptionName ||
       : '')}
 
 
-About your prescription
+Most recent prescription
 
 
-Last filled on: ${dateFormat(
-    (prescription.rxRfRecords?.length &&
-      prescription.rxRfRecords?.[0]?.dispensedDate) ||
-      prescription.dispensedDate,
-    'MMMM D, YYYY',
-  )}
+Last filled on: ${
+    prescription?.sortedDispensedDate
+      ? dateFormat(prescription.sortedDispensedDate, 'MMMM D, YYYY')
+      : 'Not filled yet'
+  }
+
+Prescription number: ${prescription.prescriptionNumber}
 
 Status: ${validateField(prescription.dispStatus)}
 ${(
@@ -207,21 +217,9 @@ Request refills by this prescription expiration date: ${dateFormat(
     'MMMM D, YYYY',
   )}
 
-Prescription number: ${prescription.prescriptionNumber}
-
-Prescribed on: ${dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
-
-Prescribed by: ${(prescription.providerFirstName &&
-    prescription.providerLastName) ||
-    'None noted'}
-
 Facility: ${validateField(prescription.facilityName)}
 
 Pharmacy phone number: ${validateField(prescription.phoneNumber)}
-
-
-About this medication or supply
-
 
 Instructions: ${validateField(prescription.sig)}
 
@@ -229,8 +227,18 @@ Reason for use: ${validateField(prescription.indicationForUse)}
 
 Quantity: ${validateField(prescription.quantity)}
 
+Prescribed on: ${dateFormat(prescription.orderedDate, 'MMMM D, YYYY')}
+
+Prescribed by: ${(prescription.providerFirstName &&
+    prescription.providerLastName) ||
+    'None noted'}
+
 
 Refill history
+
+Showing ${refillHistory.length} refill${
+    refillHistory.length > 1 ? 's, from newest to oldest' : ''
+  }
 
   `;
 
@@ -238,6 +246,7 @@ Refill history
     const phone = entry.cmopDivisionPhone || entry.dialCmopDivisionPhone;
     const { shape, color, backImprint, frontImprint } = entry;
     const hasValidDesc = shape?.trim() && color?.trim() && frontImprint?.trim();
+    const index = refillHistory.length - i - 1;
     const description = hasValidDesc
       ? `
 Note: If the medication you’re taking doesn’t match this description, call ${createVAPharmacyText(
@@ -250,20 +259,51 @@ Note: If the medication you’re taking doesn’t match this description, call $
 ${backImprint ? `* Back marking: ${backImprint}` : ''}`
       : createNoDescriptionText(phone);
     result += `
-${i === 0 ? 'First fill' : `Refill ${i}`}
-
-Filled by pharmacy on: ${
-      entry?.dispensedDate ? dateFormat(entry.dispensedDate) : 'None noted'
-    }
-
+${index === 0 ? 'Original fill' : `Refill`}: ${dateFormat(entry.dispensedDate)}
+${
+      i === 0
+        ? `
 Shipped on: ${dateFormat(prescription?.trackingList?.[0]?.completeDateTime)}
-
+`
+        : ``
+    }
 Description: ${description}
-
----------------------------------------------------------------------------------
 
     `;
   });
+
+  if (prescription?.groupedMedications?.length > 0) {
+    result += `
+Previous prescriptions
+
+Showing ${prescription.groupedMedications.length} prescription${
+      prescription.groupedMedications.length > 1
+        ? 's, from newest to oldest'
+        : ''
+    }
+    `;
+
+    prescription.groupedMedications.forEach(previousPrescription => {
+      result += `
+
+Prescription number: ${previousPrescription.prescriptionNumber}
+
+Last filled: ${
+        previousPrescription.sortedDispensedDate
+          ? dateFormat(previousPrescription.sortedDispensedDate, 'MMMM D, YYYY')
+          : 'Not filled yet'
+      }
+
+Quantity: ${validateField(previousPrescription.quantity)}
+
+Prescribed on: ${dateFormat(previousPrescription.orderedDate, 'MMMM D, YYYY')}
+
+Prescribed by: ${(previousPrescription.providerFirstName &&
+        previousPrescription.providerLastName) ||
+        EMPTY_FIELD}
+      `;
+    });
+  }
 
   return result;
 };

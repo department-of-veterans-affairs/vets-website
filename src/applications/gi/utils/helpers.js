@@ -17,6 +17,7 @@ import {
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
   ERROR_MESSAGES,
+  lacpCategoryList,
 } from '../constants';
 
 /**
@@ -529,17 +530,52 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const filterLcResults = (results, nameInput, filters) => {
-  const { type: typeFilter, state: stateFilter } = filters;
+export function capitalizeFirstLetter(string, customExceptions = []) {
+  if (!string) return null;
 
-  if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
+  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and', ...customExceptions];
+
+  return string
+    .split(' ')
+    .map(word => {
+      if (exceptions.includes(word)) {
+        return word;
+      }
+
+      if (word === 'OF') {
+        return 'of';
+      }
+      if (word === 'AND') {
+        return 'and';
+      }
+
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
+export const filterSuggestions = (
+  results,
+  nameInput,
+  categoryFilters, // account for mutliple types
+  stateFilter,
+) => {
+  if (
+    categoryFilters.includes('all') &&
+    stateFilter === 'all' &&
+    nameInput === ''
+  )
     return results;
 
   return results.filter(result => {
     let allowContinue = true;
 
-    if (typeFilter !== 'all' && typeFilter !== result.eduLacTypeNm)
+    if (
+      !categoryFilters.includes('all') &&
+      !categoryFilters.includes(result.eduLacTypeNm.toLowerCase())
+    ) {
       return false;
+    }
     if (
       stateFilter !== 'all' &&
       stateFilter !== result.state &&
@@ -556,127 +592,146 @@ export const filterLcResults = (results, nameInput, filters) => {
   });
 };
 
-export const updateQueryParam = (history, location) => {
-  return keyValuePairs => {
-    const searchParams = new URLSearchParams(location.search);
-    keyValuePairs.forEach(([key, value]) => {
-      searchParams.set(key, value);
-    });
+export const updateQueryParam = (history, location, newParams) => {
+  const searchParams = new URLSearchParams(location.search);
 
-    history.push({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
-  };
+  Object.entries(newParams).forEach(([key, value]) => {
+    searchParams.set(key, value);
+  });
+
+  history.push({
+    pathname: location.pathname,
+    search: searchParams.toString(),
+  });
 };
 
 export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
+  const categories = searchParams.getAll('category');
 
   const nameParam = searchParams.get('name') ?? '';
-  const categoryParam = searchParams.get('category') ?? 'all';
+  const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
+  const initialCategoryParam = searchParams.get('initial') ?? 'all';
 
-  return { nameParam, categoryParam, stateParam };
+  return { nameParam, categoryParams, stateParam, initialCategoryParam };
 };
 
-export const handleLcResultsSearch = (history, category, name, state) => {
-  return history.push(
-    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
+export const handleLcResultsSearch = (
+  history,
+  categories,
+  name,
+  state = 'all',
+  initialCategory = 'all',
+) => {
+  let categoryParams = '';
+
+  categories.forEach((category, index) => {
+    categoryParams = categoryParams.concat(
+      '',
+      index === categories.length - 1
+        ? `category=${category}`
+        : `category=${category}&`,
+    );
+  });
+
+  history.push(
+    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&`.concat(
+      categoryParams,
+    ),
+    {
+      path: history.location.pathname,
+    },
   );
 };
 
 export const formatResultCount = (results, currentPage, itemsPerPage) => {
-  if (currentPage * itemsPerPage > results.length) {
-    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
-      results.length
-    }  `;
+  if (currentPage * itemsPerPage > results.length - 1) {
+    return `${currentPage * itemsPerPage -
+      (itemsPerPage - 1)} - ${results.length - 1}  `;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
     itemsPerPage}  `;
 };
 
-export function capitalizeFirstLetter(string) {
-  if (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+export const mappedStates = Object.entries(ADDRESS_DATA.states)
+  .map(state => {
+    return { optionValue: state[0], optionLabel: state[1] };
+  })
+  .filter(state => {
+    const exceptions = [
+      'AS',
+      'AA',
+      'AE',
+      'AP',
+      'DC',
+      'FM',
+      'GU',
+      'MH',
+      'MP',
+      'PW',
+      'PR',
+      'VI',
+    ];
 
-  return null;
-}
+    if (exceptions.includes(state.optionValue)) return false;
 
-export const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
-  return { optionValue: state[0], optionLabel: state[1] };
-});
-
-export const updateDropdowns = (
-  category = 'all',
-  location = 'all',
-  multiples = [],
-) => {
-  const initialDropdowns = [
-    {
-      label: 'category',
-      options: [
-        { optionValue: 'all', optionLabel: 'All' },
-        { optionValue: 'License', optionLabel: 'License' },
-        {
-          optionValue: 'Certification',
-          optionLabel: 'Certification',
-        },
-        {
-          optionValue: 'Prep Course',
-          optionLabel: 'Prep Course',
-        },
-      ],
-      alt: 'category type',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-    {
-      label: 'state',
-      options:
-        multiples.length === 0
-          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
-          : [
-              { optionValue: 'all', optionLabel: 'All' },
-              ...mappedStates.filter(mappedState =>
-                multiples.find(
-                  multiple => multiple.state === mappedState.optionValue,
-                ),
-              ),
-            ],
-      alt: 'state',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-  ];
-
-  return initialDropdowns.map(dropdown => {
-    if (dropdown.label === 'category') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === category,
-        ),
-      };
-    }
-
-    if (dropdown.label === 'state') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === location,
-        ) ?? { ...dropdown.current },
-      };
-    }
-
-    return dropdown;
+    return true;
   });
+
+export const updateCategoryDropdown = (
+  category = 'all',
+  categoryList = lacpCategoryList,
+) => {
+  return {
+    label: 'category',
+    options: categoryList.map(_category => {
+      return {
+        optionValue: _category,
+        optionLabel: capitalizeFirstLetter(_category, ['course']),
+      };
+    }),
+    alt: 'category type',
+    current: {
+      optionValue: category,
+      optionLabel: capitalizeFirstLetter(category, ['course']),
+    },
+  };
+};
+
+export const updateStateDropdown = (multiples = [], selected = 'all') => {
+  return {
+    label: 'State',
+    options:
+      multiples.length - 1 <= 0
+        ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+        : [
+            { optionValue: 'all', optionLabel: 'All' },
+            ...mappedStates.filter(mappedState =>
+              multiples.find(
+                multiple => multiple?.state === mappedState.optionValue,
+              ),
+            ),
+          ],
+    alt: 'state',
+    current:
+      selected === 'all'
+        ? { optionValue: 'all', optionLabel: 'All' }
+        : {
+            ...mappedStates.find(state => state.optionValue === selected),
+          },
+  };
 };
 
 export const showMultipleNames = (suggestions, nameInput) => {
-  return suggestions.filter(
-    suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
-  );
+  if (suggestions && nameInput) {
+    return suggestions.filter(suggestion =>
+      suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
+    );
+  }
+
+  return [];
 };
 
 export const categoryCheck = type => {
@@ -684,22 +739,6 @@ export const categoryCheck = type => {
     return true;
   }
   if (type === 'Prep Course') return true;
-
-  return false;
-};
-
-export const checkAlert = (type, multiples, currentLocation, newLocation) => {
-  if (multiples.length > 1 && type !== 'Certification') {
-    return true;
-  }
-
-  if (categoryCheck(type) && currentLocation !== newLocation) {
-    return true;
-  }
-
-  if (type === 'Certification' && currentLocation !== 'all') {
-    return true;
-  }
 
   return false;
 };
@@ -798,11 +837,37 @@ export const mapToAbbreviation = value => {
   return mapping[value.toLowerCase()];
 };
 
+export const mapProgramTypeToName = programType => {
+  const programTypesNames = {
+    NCD: 'Non College Degree',
+    IHL: 'Institution of Higher Learning',
+    OJT: 'On The Job Training/Apprenticeship',
+    FLGT: 'Flight',
+    CORR: 'Correspondence',
+  };
+
+  return programTypesNames[programType] || 'Unknown Program Type';
+};
+
+export const mapToDashedName = abbreviation => {
+  const reverseMapping = {
+    OJT: 'on-the-job-training-apprenticeship',
+    NCD: 'non-college-degree',
+    IHL: 'institution-of-higher-learning',
+    FLGT: 'flight',
+    CORR: 'correspondence',
+  };
+
+  return reverseMapping[abbreviation.toUpperCase()] || 'Unknown Abbreviation';
+};
+
 export const getAbbreviationsAsArray = value => {
   if (!value) return [];
   const mapping = {
     OJT: [
       { abbreviation: 'APP', description: 'Apprenticeships' },
+      { abbreviation: 'NPFA', description: 'Non Pay Federal Agency' },
+      { abbreviation: 'NPOJT', description: 'Non Pay On-the-job-training' },
       { abbreviation: 'OJT', description: 'On-the-job training' },
     ],
     NCD: [
@@ -818,6 +883,7 @@ export const getAbbreviationsAsArray = value => {
       { abbreviation: 'MA', description: 'Master of Arts' },
       { abbreviation: 'MBA', description: 'Master of Business Administration' },
       { abbreviation: 'MS', description: 'Master of Science' },
+      { abbreviation: 'PhD', description: 'Doctor of Philosophy' },
     ],
     CORR: [
       { abbreviation: 'AAS', description: 'Associate of Applied Science' },
@@ -836,6 +902,10 @@ export const getAbbreviationsAsArray = value => {
       },
       { abbreviation: 'IR', description: 'Instrument Rating' },
       { abbreviation: 'MEI', description: 'Multi Engine Instructor' },
+      {
+        abbreviation: 'PPIL',
+        description: 'Professional Pilot Interdisciplinary Sciences',
+      },
       { abbreviation: 'ROTO', description: 'Rotorcraft; Rotary-Wing Aircraft' },
     ],
   };
@@ -878,4 +948,73 @@ export const formatNationalExamName = name => {
   }
 
   return name;
+};
+
+export const formatAddress = str => {
+  if (typeof str !== 'string' || str.trim().length === 0) {
+    return str;
+  }
+
+  const exceptionsList = ['NW', 'NE', 'SW', 'SE', 'PO'];
+  const exceptions = exceptionsList.map(item => item.toUpperCase());
+
+  return str
+    .trim()
+    .split(/\s+/)
+    .map(word => {
+      const subWords = word.split('-');
+      const formattedSubWords = subWords.map(subWord => {
+        const upperSubWord = subWord.toUpperCase();
+
+        if (exceptions.includes(upperSubWord)) {
+          return upperSubWord;
+        }
+
+        const matchingException = exceptions.find(ex =>
+          upperSubWord.startsWith(ex),
+        );
+        if (matchingException) {
+          return matchingException + subWord.slice(matchingException.length);
+        }
+
+        if (/^\d+[A-Z]+$/.test(subWord)) {
+          return subWord;
+        }
+
+        const numberLetterMatch = subWord.match(/^(\d+)([a-zA-Z]+)$/);
+        if (numberLetterMatch) {
+          const numbers = numberLetterMatch[1];
+          const letters = numberLetterMatch[2];
+          return `${numbers}${letters}`;
+        }
+
+        return subWord.charAt(0).toUpperCase() + subWord.slice(1).toLowerCase();
+      });
+
+      return formattedSubWords.join('-');
+    })
+    .join(' ');
+};
+
+export const toTitleCase = str => {
+  if (typeof str !== 'string') {
+    return '';
+  }
+
+  const trimmedStr = str.trim();
+
+  if (!trimmedStr) {
+    return '';
+  }
+
+  const words = trimmedStr.split(/\s+/);
+
+  const titled = words.map(word => {
+    const parts = word.split('-').map(part => {
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+    });
+    return parts.join('-');
+  });
+
+  return titled.join(' ');
 };
