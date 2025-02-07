@@ -51,7 +51,7 @@ describe('<VeteranInformation>', () => {
         <VeteranInformation />
       </Provider>,
     );
-    expect($('.blue-bar-block', container)).to.exist;
+    expect($('va-card', container)).to.exist;
   });
 
   it('should render with empty data', () => {
@@ -61,7 +61,7 @@ describe('<VeteranInformation>', () => {
         <VeteranInformation {...props} />
       </Provider>,
     );
-    expect($('.blue-bar-block', container)).to.exist;
+    expect($('va-card', container)).to.exist;
   });
 
   it('should render profile data', () => {
@@ -73,18 +73,22 @@ describe('<VeteranInformation>', () => {
     );
 
     expect($('h3')).to.exist;
-    expect($('.name', container).textContent).to.equal('uno dos tres, suffix');
-    expect($('.ssn', container).textContent).to.contain('●●●–●●–5678');
-    expect($('.vafn', container).textContent).to.contain('●●●–●●–8765');
-    expect($('.dob', container).textContent).to.contain('January 5, 2000');
-    expect($('.gender', container).textContent).to.contain('Female');
-    expect($$('.dd-privacy-mask', container).length).to.eq(3);
-    expect($$('.dd-privacy-hidden', container).length).to.eq(2);
+    expect($('.name', container).textContent).to.equal(
+      'Name: uno dos tres, suffix',
+    );
+    expect($('.ssn', container).textContent).to.contain(
+      'Last 4 digits of Social Security number: 5678',
+    );
+    expect($('.dob', container).textContent).to.contain(
+      'Date of birth: January 5, 2000',
+    );
+    expect($$('.dd-privacy-mask', container).length).to.eq(2);
+    expect($$('.dd-privacy-hidden', container).length).to.eq(1);
     expect($$('.dd-privacy-mask[data-dd-action-name]', container).length).to.eq(
-      3,
+      2,
     );
     expect(
       $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.eq(2);
+    ).to.eq(1);
   });
 });
