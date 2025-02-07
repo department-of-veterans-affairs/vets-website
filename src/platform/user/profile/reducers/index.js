@@ -110,13 +110,6 @@ function profileInformation(state = initialState, action) {
       });
     }
 
-    // case FETCH_MESSAGING_SIGNATURE_ERROR: {
-    //   return updateMhvAccountState(state, {
-    //     messagingSignature:
-    //       action.payload || 'Failed to retrieve messaging signature',
-    //   });
-    // }
-
     default:
       return state;
   }
