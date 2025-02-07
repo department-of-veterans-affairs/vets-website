@@ -254,11 +254,17 @@ describe('Medical records PDF template', () => {
 
       const content = await page.getTextContent({ includeMarkedContent: true });
 
-      // This code represents the font in the content items
-      // It is something like g_d3_f5
-      const textFontCode = Object.keys(content.styles).find(
-        key => content.styles[key].fontFamily === 'monospace',
-      );
+      let monospaceFontCode;
+      await page.getOperatorList();
+      for (const [objId, objData] of page.commonObjs) {
+        if (
+          objData.name?.indexOf(template.defaultConfig.text.monospaceFont) > -1
+        ) {
+          // This code represents the font in the content items
+          // It is something like g_d3_f5
+          monospaceFontCode = objId;
+        }
+      }
 
       // The number of indexes is less for the this font than the monospace font test above
       // because the use of the monospace font breaks the text up into more content items.
@@ -269,7 +275,7 @@ describe('Medical records PDF template', () => {
         monospaceEndItemIndex + 1,
       );
       const allMonoSpaceItemsUseMonospaceFont = monospaceItems.every(
-        item => item.fontName === textFontCode,
+        item => item.fontName === monospaceFontCode,
       );
 
       expect(allMonoSpaceItemsUseMonospaceFont).to.eq(true);

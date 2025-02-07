@@ -44,7 +44,7 @@ describe('Blue Button report PDF template', () => {
   describe('Cover page', () => {
     it('Shows the last updated date', async () => {
       const data = require('./fixtures/all_sections.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       const pageNumber = 1;
       const page = await pdf.getPage(pageNumber);
@@ -61,7 +61,7 @@ describe('Blue Button report PDF template', () => {
 
     it('Displays the Records in this report section', async () => {
       const data = require('./fixtures/all_sections.json');
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       const pageNumber = 1;
       const page = await pdf.getPage(pageNumber);
@@ -99,7 +99,7 @@ describe('Blue Button report PDF template', () => {
       data.recordSets[0].records = [];
       data.recordSets[3].records = [];
 
-      const { pdf } = await generateAndParsePdf(data);
+      const { pdf } = await generateAndParsePdf({ data, template });
 
       const pageNumber = 1;
       const page = await pdf.getPage(pageNumber);
