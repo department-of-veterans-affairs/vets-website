@@ -58,7 +58,6 @@ export const Search = ({ onSearch }) => {
   const [endDateYearError, setEndDateYearError] = useState(false);
   const [fullDateError, setFullDateError] = useState(false);
   // End Local State =================================================
-
   const anyDateErrorsExist =
     startDateMonthError ||
     startDateDayError ||
@@ -133,6 +132,7 @@ export const Search = ({ onSearch }) => {
     setEndDateMonth('');
     setEndDateDay('');
     setEndDateYear('');
+    setStartDateFull(false);
     resetErrorState();
 
     setSelectedOption(filterByOption);
