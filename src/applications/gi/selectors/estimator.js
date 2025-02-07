@@ -1,38 +1,5 @@
 import { createSelector } from 'reselect';
 
-const stateConstantsConstants = {
-  AVEGRADRATE: 42.3,
-  AVEREPAYMENTRATE: 67.9,
-  AVERETENTIONRATE: 47.99,
-  AVESALARY: 33400,
-  AVGBAH: 1976,
-  AVGDODBAH: 2109,
-  AVGVABAH: 2355,
-  BSCAP: 1000,
-  BSOJTMONTH: 83,
-  CORRESPONDTFCAP: 14055.13,
-  DEARATEFULLTIME: 1536,
-  DEARATEOJT: 945,
-  DEARATEONEHALF: 890,
-  DEARATETHREEQUARTERS: 1214,
-  DEARATEUPTOONEHALF: 890,
-  DEARATEUPTOONEQUARTER: 384,
-  FISCALYEAR: 2024,
-  FLTTFCAP: 16535.46,
-  MGIB2YRRATE: 1978,
-  MGIB3YRRATE: 2438,
-  SRRATE: 481,
-  TFCAP: 28937.09,
-  VRE0DEPRATE: 723.56,
-  VRE0DEPRATEOJT: 632.61,
-  VRE1DEPRATE: 897.51,
-  VRE1DEPRATEOJT: 765,
-  VRE2DEPRATE: 1057.65,
-  VRE2DEPRATEOJT: 881.69,
-  VREINCRATE: 77.07,
-  VREINCRATEOJT: 57.33,
-};
-
 const getConstants = state => state.constants.constants;
 
 const getEligibilityDetails = state => state.eligibility;
@@ -282,27 +249,12 @@ function calculateBooks(constant, eligibility, institution, derived) {
 export const estimatedBenefits = createSelector(
   [getConstants, getEligibilityDetails, getRequiredAttributes],
   (constant, eligibility, attribute) => {
-    const myConstant =
-      constant === undefined ? stateConstantsConstants : constant;
-    /*
-    if (constant === undefined) {
-      constant = stateConstantsConstants;
-    } */
+    if (constant === undefined) return {};
 
-    const derived = getDerivedAttributes(myConstant, eligibility, attribute);
-    const tuition = calculateTuition(
-      myConstant,
-      eligibility,
-      attribute,
-      derived,
-    );
-    const housing = calculateHousing(
-      myConstant,
-      eligibility,
-      attribute,
-      derived,
-    );
-    const books = calculateBooks(myConstant, eligibility, attribute, derived);
+    const derived = getDerivedAttributes(constant, eligibility, attribute);
+    const tuition = calculateTuition(constant, eligibility, attribute, derived);
+    const housing = calculateHousing(constant, eligibility, attribute, derived);
+    const books = calculateBooks(constant, eligibility, attribute, derived);
 
     return {
       tuition,
