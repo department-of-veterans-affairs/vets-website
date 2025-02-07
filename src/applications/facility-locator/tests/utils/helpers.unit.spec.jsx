@@ -6,7 +6,7 @@ import { buildMarker } from '../../utils/helpers';
 describe('utils', () => {
   describe('buildMarker', () => {
     it('should correctly build the marker element for the current position', () => {
-      const marker = buildMarker('currentPos', null, null);
+      const marker = buildMarker('currentPos', null, null, true);
 
       expect(marker).to.be.an.instanceOf(HTMLElement);
       expect(marker.tagName).to.equal('DIV');
@@ -30,11 +30,11 @@ describe('utils', () => {
         loc,
       };
 
-      const marker = buildMarker('location', values, pinSpy);
+      const marker = buildMarker('location', values, pinSpy, true);
 
       expect(marker).to.be.an.instanceOf(HTMLElement);
       expect(marker.tagName).to.equal('SPAN');
-      expect(marker.className).to.equal('i-pin-card-map');
+      expect(marker.className).to.equal('i-pin-card-map pin-2');
       expect(marker.style.cursor).to.equal('pointer');
       expect(marker.textContent).to.equal('2');
 

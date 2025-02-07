@@ -33,9 +33,7 @@ describe('mobile map behavior', () => {
 
   describe('with no search results', () => {
     it('should correctly load the basic view', () => {
-      cy.intercept('POST', '/facilities_api/v2/va', noResults).as(
-        'searchFacilitiesVA',
-      );
+      cy.intercept('POST', '/facilities_api/v2/va', noResults);
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -43,7 +41,6 @@ describe('mobile map behavior', () => {
       h.typeInCityStateInput('Juneau, AK');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.HEALTH);
       h.submitSearchForm();
-      cy.wait('@searchFacilitiesVA');
 
       h.verifyElementShouldContainText(
         h.SEARCH_RESULTS_SUMMARY,
@@ -54,9 +51,7 @@ describe('mobile map behavior', () => {
 
   describe('for VA health facilities', () => {
     it('should correctly render the given results', () => {
-      cy.intercept('POST', '/facilities_api/v2/va', vaFacilitySearchResults).as(
-        'searchFacilitiesVA',
-      );
+      cy.intercept('POST', '/facilities_api/v2/va', vaFacilitySearchResults);
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -65,7 +60,6 @@ describe('mobile map behavior', () => {
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.HEALTH);
       h.selectServiceTypeInVAHealthDropdown('Gynecology');
       h.submitSearchForm();
-      cy.wait('@searchFacilitiesVA');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
@@ -96,7 +90,7 @@ describe('mobile map behavior', () => {
         'GET',
         '/facilities_api/v2/ccp/urgent_care*',
         urgentCareSearchResults,
-      ).as('searchUrgentCare');
+      );
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -104,7 +98,6 @@ describe('mobile map behavior', () => {
       h.typeInCityStateInput('Tampa, FL');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.URGENT);
       h.submitSearchForm();
-      cy.wait('@searchUrgentCare');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
@@ -132,7 +125,7 @@ describe('mobile map behavior', () => {
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
         emergencyCareSearchResults,
-      ).as('searchEmergencyCare');
+      );
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -140,7 +133,6 @@ describe('mobile map behavior', () => {
       h.typeInCityStateInput('Norfolk, VA');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.EMERGENCY);
       h.submitSearchForm();
-      cy.wait('@searchEmergencyCare');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
@@ -168,7 +160,7 @@ describe('mobile map behavior', () => {
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
         communityCareProviderSearchResults,
-      ).as('searchCommunityProviders');
+      );
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -177,7 +169,6 @@ describe('mobile map behavior', () => {
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
       h.typeAndSelectInCCPServiceTypeInput('Chiropractor');
       h.submitSearchForm();
-      cy.wait('@searchCommunityProviders');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
@@ -205,7 +196,7 @@ describe('mobile map behavior', () => {
         'GET',
         '/facilities_api/v2/ccp/pharmacy*',
         communityPharmacySearchResults,
-      ).as('searchCommunityPharmacies');
+      );
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -213,7 +204,6 @@ describe('mobile map behavior', () => {
       h.typeInCityStateInput('Reno, NV');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PHARM);
       h.submitSearchForm();
-      cy.wait('@searchCommunityPharmacies');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
@@ -237,9 +227,7 @@ describe('mobile map behavior', () => {
 
   describe('for VBAs', () => {
     it('should correctly render the given results', () => {
-      cy.intercept('POST', '/facilities_api/v2/va*', vbaSearchResults).as(
-        'searchVBAs',
-      );
+      cy.intercept('POST', '/facilities_api/v2/va*', vbaSearchResults);
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -247,7 +235,6 @@ describe('mobile map behavior', () => {
       h.typeInCityStateInput('Tulsa, OK');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.VBA);
       h.submitSearchForm();
-      cy.wait('@searchVBAs');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
@@ -271,9 +258,7 @@ describe('mobile map behavior', () => {
 
   describe('for cemeteries', () => {
     it('should correctly render the given results', () => {
-      cy.intercept('POST', '/facilities_api/v2/va*', cemeterySearchResults).as(
-        'searchCemeteries',
-      );
+      cy.intercept('POST', '/facilities_api/v2/va*', cemeterySearchResults);
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -281,7 +266,6 @@ describe('mobile map behavior', () => {
       h.typeInCityStateInput('Honolulu, HI');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CEM);
       h.submitSearchForm();
-      cy.wait('@searchCemeteries');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
@@ -305,9 +289,7 @@ describe('mobile map behavior', () => {
 
   describe('for vet centers', () => {
     it('should correctly render the given results', () => {
-      cy.intercept('POST', '/facilities_api/v2/va*', vetCenterSearchResults).as(
-        'searchVetCenters',
-      );
+      cy.intercept('POST', '/facilities_api/v2/va*', vetCenterSearchResults);
 
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
@@ -315,7 +297,6 @@ describe('mobile map behavior', () => {
       h.typeInCityStateInput('Chicago, IL');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.VET);
       h.submitSearchForm();
-      cy.wait('@searchVetCenters');
 
       // Verify first item on the mobile List view (regression check)
       h.verifyMobileListItem(
