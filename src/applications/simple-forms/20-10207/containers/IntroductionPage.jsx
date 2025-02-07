@@ -93,7 +93,7 @@ const IntroductionPage = props => {
           receive information about the person’s claim or to sign for the
           person:
         </p>
-        <ul>
+        <ul className="vads-u-padding-top--2">
           <li>
             <va-link
               href="https://www.va.gov/find-forms/about-form-21-22/"
@@ -107,7 +107,7 @@ const IntroductionPage = props => {
             />
           </li>
         </ul>
-        <p>
+        <p className="vads-u-padding-top--2">
           In this form, we’ll ask you about your relationship to the person with
           the claim. If you’ve submitted 21-22 or 21-22a, we’ll refer to you as
           an “accredited representative with power of attorney.”
