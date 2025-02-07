@@ -42,13 +42,11 @@ describe('mobile map behavior', () => {
   });
 
   describe('with no search results', () => {
-    beforeEach(() => {
+    it('should correctly load the basic view', () => {
       cy.intercept('POST', '/facilities_api/v2/va', noResults).as(
         'searchFacilitiesVA',
       );
-    });
 
-    it('should correctly load the basic view', () => {
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -64,13 +62,11 @@ describe('mobile map behavior', () => {
   });
 
   describe('for VA health facilities', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept('POST', '/facilities_api/v2/va', vaFacilitySearchResults).as(
         'searchFacilitiesVA',
       );
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       cy.visit(h.ROOT_URL);
       cy.injectAxeThenAxeCheck();
 
@@ -130,15 +126,13 @@ describe('mobile map behavior', () => {
   });
 
   describe('for urgent care facilities', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept(
         'GET',
-        '/facilities_api/v2/ccp/urgent_care?*',
+        '/facilities_api/v2/ccp/urgent_care*',
         urgentCareSearchResults,
       ).as('searchUrgentCare');
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       const listItem = {
         index: 0,
         pin: 1,
@@ -174,15 +168,13 @@ describe('mobile map behavior', () => {
   });
 
   describe('for emergency care facilities', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
         emergencyCareSearchResults,
       ).as('searchEmergencyCare');
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       const listItem = {
         index: 0,
         pin: 1,
@@ -218,15 +210,13 @@ describe('mobile map behavior', () => {
   });
 
   describe('for VA community providers', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
         communityCareProviderSearchResults,
       ).as('searchCommunityProviders');
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       const listItem = {
         index: 0,
         pin: 1,
@@ -263,15 +253,13 @@ describe('mobile map behavior', () => {
   });
 
   describe('for community pharmacies', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/pharmacy*',
         communityPharmacySearchResults,
       ).as('searchCommunityPharmacies');
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       const listItem = {
         index: 0,
         pin: 1,
@@ -307,13 +295,11 @@ describe('mobile map behavior', () => {
   });
 
   describe('for VBAs', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept('POST', '/facilities_api/v2/va*', vbaSearchResults).as(
         'searchVBAs',
       );
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       const listItem = {
         index: 0,
         pin: 1,
@@ -349,13 +335,11 @@ describe('mobile map behavior', () => {
   });
 
   describe('for cemeteries', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept('POST', '/facilities_api/v2/va*', cemeterySearchResults).as(
         'searchCemeteries',
       );
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       const listItem = {
         index: 0,
         pin: 1,
@@ -391,13 +375,11 @@ describe('mobile map behavior', () => {
   });
 
   describe('for vet centers', () => {
-    beforeEach(() => {
+    it('should correctly render results when a map pin is clicked', () => {
       cy.intercept('POST', '/facilities_api/v2/va*', vetCenterSearchResults).as(
         'searchVetCenters',
       );
-    });
 
-    it('should correctly render results when a map pin is clicked', () => {
       const listItem = {
         index: 0,
         pin: 1,
