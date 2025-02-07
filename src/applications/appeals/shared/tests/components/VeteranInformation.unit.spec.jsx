@@ -11,11 +11,10 @@ import {
 import VeteranInformation from '../../components/VeteranInformation';
 
 describe('<VeteranInformation>', () => {
-  const getData = (emptyData = true, suffix = '') => ({
+  const getData = (suffix = '') => ({
     props: {
       formData: {
         veteran: {
-          vaFileLastFour: emptyData ? '' : '8765',
           ssnLastFour: '5678',
         },
       },
@@ -31,7 +30,6 @@ describe('<VeteranInformation>', () => {
               suffix,
             },
             dob: '2000-01-05',
-            gender: 'F',
           },
         },
       }),
@@ -52,6 +50,7 @@ describe('<VeteranInformation>', () => {
       </Provider>,
     );
     expect($('va-card', container)).to.exist;
+    expect($('va-link[external]', container)).to.exist;
   });
 
   it('should render with empty data', () => {
@@ -62,10 +61,11 @@ describe('<VeteranInformation>', () => {
       </Provider>,
     );
     expect($('va-card', container)).to.exist;
+    expect($('.name', container).textContent).to.equal('Name: uno dos tres');
   });
 
   it('should render profile data', () => {
-    const { props, store } = getData(false, 'suffix');
+    const { props, store } = getData('suffix');
     const { container } = render(
       <Provider store={store}>
         <VeteranInformation {...props} />
