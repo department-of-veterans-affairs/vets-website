@@ -153,7 +153,9 @@ const SettingsPage = () => {
           text={isSharing ? 'Opt out' : 'Opt in'}
           onClick={() => {
             setShowSharingModal(true);
-            sendDataDogAction(isSharing ? 'Opt out' : 'Opt in');
+            sendDataDogAction(
+              isSharing ? 'Opt out - Settings page' : 'Opt in - Settings page',
+            );
             // If you want to focus an element, you can call it here or handle it elsewhere
           }}
         />
@@ -165,7 +167,7 @@ const SettingsPage = () => {
     const title = `Opt ${
       isSharing ? 'out of' : 'back in to'
     } sharing your electronic health information?`;
-    const primaryButtonText = isSharing ? 'Opt out' : 'Opt in';
+    const primaryButtonText = isSharing ? 'Opt out - Modal' : 'Opt in - Modal';
     const secondaryButtonText = isSharing ? "Don't opt out" : "Don't opt in";
     return (
       <VaModal
