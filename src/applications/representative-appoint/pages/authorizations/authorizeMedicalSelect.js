@@ -35,7 +35,7 @@ export const schema = {
   type: 'object',
   required: ['authorizeMedicalSelectCheckbox'],
   properties: {
-    'view:authorizeRecordsSelect': {
+    inputAuthorizationsConsentLimits: {
       type: 'object',
       properties: {},
     },

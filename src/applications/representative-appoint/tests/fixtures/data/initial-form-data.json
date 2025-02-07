@@ -55,7 +55,7 @@
   "descriptionSchema": {},
   "'view:authorizationPolicy'": {},
   "'view:authorizationNote4'": {},
-  "'view:authorizeRecordsSelect'": {},
+  "inputAuthorizationsConsentLimits": {},
   "authorizeMedicalSelectCheckbox": {},
   "'view:addressAuthorizationPolicy'": {},
   "'view:authorizationNote3'": {},
