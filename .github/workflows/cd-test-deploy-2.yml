@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Log args
         run: |
-          echo ${{ github.event.client_payload.github_message }}
-          echo ${{ github.event.client_payload.github_sha }}
-          echo ${{ github.event.client_payload.github_ref }}
-          echo ${{ github.event.client_payload.entry_app }}
+          echo "${{ github.event.client_payload.github_message }}"
+          echo "${{ github.event.client_payload.github_sha }}"
+          echo "${{ github.event.client_payload.github_ref }}"
+          echo "${{ github.event.client_payload.entry_app }}"
