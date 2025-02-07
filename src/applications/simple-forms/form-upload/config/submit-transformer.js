@@ -13,12 +13,12 @@ const transformForSubmit = (formConfig, form) => {
   return JSON.stringify({
     confirmationCode,
     formNumber,
-    formName: subTitle,
     formData: {
       idNumber,
       postalCode: address.postalCode,
       fullName,
       email,
+      formName: subTitle,
     },
   });
 };
