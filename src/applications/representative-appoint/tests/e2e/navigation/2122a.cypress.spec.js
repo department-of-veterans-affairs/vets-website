@@ -182,7 +182,7 @@ describe('Unauthenticated', () => {
       // AUTHORIZE_MEDICAL
       h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizationRadio', 0);
+      h.selectRadio('inputAuthorizationsMedical', 0);
 
       h.clickContinue();
 

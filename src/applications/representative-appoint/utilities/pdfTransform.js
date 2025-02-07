@@ -1,7 +1,7 @@
 import { getRepType } from './helpers';
 
 function consentLimitsTransform(formData) {
-  const medicalAuthorization = formData.authorizationRadio;
+  const medicalAuthorization = formData.inputAuthorizationsMedical;
   let authorizeRecords;
   if (
     medicalAuthorization ===
@@ -49,7 +49,7 @@ export function pdfTransform(formData) {
     claimantRelationship,
     'Branch of Service': serviceBranch,
     homeAddress: claimantAddress,
-    authorizationRadio,
+    inputAuthorizationsMedical,
     authorizeAddressRadio,
     authorizeInsideVARadio,
     authorizeOutsideVARadio,
@@ -122,7 +122,7 @@ export function pdfTransform(formData) {
 
   return {
     veteran,
-    recordConsent: yesNoToBoolean(authorizationRadio),
+    recordConsent: yesNoToBoolean(inputAuthorizationsMedical),
     consentAddressChange: yesNoToBoolean(authorizeAddressRadio),
     consentLimits: consentLimitsTransform(formData),
     consentInsideAccess: yesNoToBoolean(authorizeInsideVARadio),

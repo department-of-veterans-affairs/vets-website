@@ -19,9 +19,9 @@ describe('transformData', () => {
     expect(result).to.deep.equal(expectedOutput);
   });
 
-  context('when authorizationRadio is all records', () => {
+  context('when inputAuthorizationsMedical is all records', () => {
     it('should ignore the previously selected consent limitations', () => {
-      input.authorizationRadio =
+      input.inputAuthorizationsMedical =
         'Yes, they can access all of these types of records';
 
       const result = pdfTransform(input);
@@ -30,7 +30,7 @@ describe('transformData', () => {
     });
   });
 
-  context('when authorizationRadio is some records', () => {
+  context('when inputAuthorizationsMedical is some records', () => {
     it('should include the previously selected consent limitations', () => {
       const result = pdfTransform(input);
 
@@ -38,9 +38,9 @@ describe('transformData', () => {
     });
   });
 
-  context('when authorizationRadio is no records', () => {
+  context('when inputAuthorizationsMedical is no records', () => {
     it('should ignore the previously selected consent limitations', () => {
-      input.authorizationRadio =
+      input.inputAuthorizationsMedical =
         "No, they can't access any of these types of records";
 
       const result = pdfTransform(input);

@@ -144,7 +144,7 @@ describe('FormConfig depends function', () => {
       .to.be.false;
   });
 
-  it('should show authorizeMedicalSelect when authorizationRadio is yes', () => {
+  it('should show authorizeMedicalSelect when inputAuthorizationsMedical is yes', () => {
     expect(authPages.authorizeMedicalSelect.depends(mockFormData2122)).to.be
       .true;
   });

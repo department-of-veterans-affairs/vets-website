@@ -129,7 +129,7 @@ describe('Authenticated', () => {
       // AUTHORIZE_MEDICAL
       h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizationRadio', 1);
+      h.selectRadio('inputAuthorizationsMedical', 1);
 
       h.clickContinue();
 

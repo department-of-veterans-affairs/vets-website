@@ -9,7 +9,7 @@
     "drugAbuseRecords": true
   },
   "view:authorizationPolicy": {},
-  "authorizationRadio": "Yes, but they can only access some of these types of records",
+  "inputAuthorizationsMedical": "Yes, but they can only access some of these types of records",
   "view:authorizationNote4": {},
   "titleSchema": {},
   "profileNotUpdatedNote": {},

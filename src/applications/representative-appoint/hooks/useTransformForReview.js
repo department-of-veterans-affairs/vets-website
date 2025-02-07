@@ -122,7 +122,7 @@ export function useTransformForReview(formData) {
           <h3>Accredited representative authorizations</h3>
           {renderField(
             'Do you authorize this accredited VSO to access your medical records?',
-            formData?.authorizationRadio,
+            formData?.inputAuthorizationsMedical,
           )}
           {renderField(
             'Do you authorize this accredited VSO Representative to change your address on VA records?',

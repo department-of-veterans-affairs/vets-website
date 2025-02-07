@@ -300,7 +300,7 @@ const formConfig = {
           path: 'authorize-medical/select',
           depends: formData => {
             return (
-              formData?.authorizationRadio ===
+              formData?.inputAuthorizationsMedical ===
               'Yes, but they can only access some of these types of records'
             );
           },
