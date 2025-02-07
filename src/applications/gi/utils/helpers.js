@@ -572,7 +572,7 @@ export const filterSuggestions = (
 
     if (
       !categoryFilters.includes('all') &&
-      !categoryFilters.includes(result.eduLacTypeNm.toLowerCase())
+      !categoryFilters.includes(result.eduLacTypeNm?.toLowerCase())
     ) {
       return false;
     }
@@ -709,9 +709,16 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
         : [
             { optionValue: 'all', optionLabel: 'All' },
             ...mappedStates.filter(mappedState =>
-              multiples.find(
-                multiple => multiple?.state === mappedState.optionValue,
-              ),
+              multiples.find(multiple => {
+                if (
+                  multiple?.state === mappedState.optionValue &&
+                  multiple.eduLacTypeNm !== 'Certification'
+                ) {
+                  return true;
+                }
+
+                return false;
+              }),
             ),
           ],
     alt: 'state',
@@ -725,13 +732,15 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
 };
 
 export const showMultipleNames = (suggestions, nameInput) => {
+  let final = [];
+
   if (suggestions && nameInput) {
-    return suggestions.filter(suggestion =>
+    final = suggestions.filter(suggestion =>
       suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
     );
   }
 
-  return [];
+  return final;
 };
 
 export const categoryCheck = type => {
