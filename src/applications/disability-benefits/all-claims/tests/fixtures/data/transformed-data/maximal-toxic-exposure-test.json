@@ -46,12 +46,12 @@
       },
       "gulfWar1990Details": {
         "afghanistan": {
-          "startDate": "1990-01-01",
-          "endDate": "1990-12-31"
+          "startDate": "1990-01",
+          "endDate": "1990-12"
         },
         "iraq": {
-          "startDate": "1991-02-01",
-          "endDate": "1992-12-15"
+          "startDate": "1991-02",
+          "endDate": "1992-12"
         }
       },
       "gulfWar2001": {
@@ -60,7 +60,7 @@
       },
       "gulfWar2001Details": {
         "yemen": {
-          "startDate": "2002-01-01"
+          "startDate": "2002-01"
         }
       },
       "herbicide": {
@@ -70,28 +70,28 @@
       },
       "herbicideDetails": {
         "c123": {
-          "endDate": "1966-02-20"
+          "endDate": "1966-02"
         },
         "laos": {
-          "startDate": "1965-01-01"
+          "startDate": "1965-01"
         }
       },
       "otherHerbicideLocations": {
         "description": "Test location 1",
-        "endDate": "1969-01-01",
-        "startDate": "1968-01-01"
+        "endDate": "1969-01",
+        "startDate": "1968-01"
       },
       "otherExposuresDetails": {
         "radiation": {
-          "endDate": "2005-05-30"
+          "endDate": "2005-05"
         },
         "mos": {
-          "startDate": "2001-01-08"
+          "startDate": "2001-01"
         }
       },
       "specifyOtherExposures": {
-        "startDate": "2000-03-20",
-        "endDate": "2001-03-01",
+        "startDate": "2000-03",
+        "endDate": "2001-03",
         "description": "Test substance 1, Test Substance 2, Test Substance 3"
       },
       "otherExposures": {
