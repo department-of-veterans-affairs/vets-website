@@ -134,7 +134,7 @@ export function useTransformForReview(formData) {
           )}
           {renderField(
             'Do you authorize this accredited Attorney’s team to access your records outside VA’s information technology systems?',
-            formData?.authorizeOutsideVARadio,
+            formData?.inputAuthorizationsAccessOutsideVASystems,
           )}
           {renderField(
             'Enter the name of each team member who can access your records outside of VA’s information technology systems',

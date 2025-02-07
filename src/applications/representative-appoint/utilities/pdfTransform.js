@@ -52,7 +52,7 @@ export function pdfTransform(formData) {
     inputAuthorizationsMedical,
     inputAuthorizationsAddressChange,
     inputAuthorizationsAccessInsideVASystems,
-    authorizeOutsideVARadio,
+    inputAuthorizationsAccessOutsideVASystems,
     authorizeNamesTextArea,
     applicantPhone,
     applicantEmail,
@@ -128,7 +128,9 @@ export function pdfTransform(formData) {
     consentInsideAccess: yesNoToBoolean(
       inputAuthorizationsAccessInsideVASystems,
     ),
-    consentOutsideAccess: yesNoToBoolean(authorizeOutsideVARadio),
+    consentOutsideAccess: yesNoToBoolean(
+      inputAuthorizationsAccessOutsideVASystems,
+    ),
     consentTeamMembers: authorizeNamesTextArea
       ? authorizeNamesTextArea.split(',').map(item => item.trim())
       : null,

@@ -1,7 +1,7 @@
 {
   "view:addressAuthorizationPolicy": {},
   "inputAuthorizationsAddressChange": "Yes, they can change my address if it’s incorrect or outdated",
-  "authorizeOutsideVARadio": "Yes",
+  "inputAuthorizationsAccessOutsideVASystems": "Yes",
   "view:authorizationNote3": {},
   "view:authorizeRecordsSelect": {},
   "authorizeMedicalSelectCheckbox": {

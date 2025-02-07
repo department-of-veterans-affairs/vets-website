@@ -337,7 +337,7 @@ const formConfig = {
           depends: formData => {
             return (
               formIs2122A(formData) &&
-              formData.authorizeOutsideVARadio === 'Yes'
+              formData.inputAuthorizationsAccessOutsideVASystems === 'Yes'
             );
           },
           title: 'Authorization for Access Outside of VA Systems',

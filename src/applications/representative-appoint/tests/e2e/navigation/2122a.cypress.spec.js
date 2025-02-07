@@ -203,7 +203,7 @@ describe('Unauthenticated', () => {
       // AUTHORIZE_OUTSIDE_VA
       h.verifyUrl(ROUTES.AUTHORIZE_OUTSIDE_VA);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizeOutsideVARadio', 0);
+      h.selectRadio('inputAuthorizationsAccessOutsideVASystems', 0);
 
       h.clickContinue();
       // AUTHORIZE_OUTSIDE_VA_NAMES
