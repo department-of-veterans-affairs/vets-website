@@ -283,6 +283,8 @@ export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
     <va-additional-info
       trigger="What kind of evidence can I submit?"
       data-testid="financialHardshipAdditionalInfo"
+      class="vads-u-padding-bottom--4"
+      uswds
     >
       <p>Submit supporting documents like these:</p>
       <ul className="vads-u-padding-top--2">
@@ -361,17 +363,15 @@ export const ALS_DESCRIPTION = Object.freeze(
           Medical evidence showing an ALS diagnosis
         </li>
       </ul>
-      <p className="vads-u-padding-top--2">
+      <p className="vads-u-padding-top--2 vads-u-padding-bottom--2">
         <strong>Note</strong>: If you want us to access your private treatment
         records, you’ll need to submit an authorization to disclose non-VA
         medical information to us (VA Forms 21-4142 and 21-4142a).
       </p>
       <p>
         <va-link
-          download
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
           text="Go to VA Forms 21-4142 and 21-4142a"
-          external="true"
         />
       </p>
     </va-additional-info>
@@ -405,17 +405,15 @@ export const VSI_DESCRIPTION = Object.freeze(
           Medical evidence showing severe disability or injury
         </li>
       </ul>
-      <p className="vads-u-padding-top--2">
+      <p className="vads-u-padding-top--2 vads-u-padding-bottom--2">
         <strong>Note</strong>: If you want us to access your private treatment
         records, you’ll need to submit an authorization to disclose non-VA
         medical information to us (VA Forms 21-4142 and 21-4142a).
       </p>
       <p>
         <va-link
-          download
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
           text="Go to VA Forms 21-4142 and 21-4142a"
-          external="true"
         />
       </p>
     </va-additional-info>
@@ -453,8 +451,7 @@ export const POW_DESCRIPTION = Object.freeze(
       <ul>
         <li className="vads-u-margin-bottom--2">
           Military personnel records such as DD214, Certificate of Release, or
-          Discharge
-          <strong>or</strong>
+          Discharge <strong>or</strong>
         </li>
         <li>
           Information such as service number, branch and dates of service, dates
