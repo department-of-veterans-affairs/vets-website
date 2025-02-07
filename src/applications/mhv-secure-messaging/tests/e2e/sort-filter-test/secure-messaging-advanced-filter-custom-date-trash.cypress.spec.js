@@ -1,9 +1,9 @@
-import { format, subMonths } from 'date-fns';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import PatientSearchPage from '../pages/PatientSearchPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM TRASH ADVANCED CUSTOM DATE RANGE SEARCH', () => {
   beforeEach(() => {
@@ -90,16 +90,15 @@ describe('SM TRASH ADVANCED CUSTOM DATE RANGE SEARCH', () => {
       2,
       1,
     );
-    const currentYear = format(new Date(), 'yyyy');
-    const startMonth = format(subMonths(new Date(), 2), 'MMMM');
-    const endMonth = format(new Date(), 'MMMM');
 
-    PatientSearchPage.selectStartMonth(startMonth);
+    const date = GeneralFunctionsPage.getParsedDate(new Date());
+
+    PatientSearchPage.selectStartMonth(date.startMonth);
     PatientSearchPage.selectStartDay(`1`);
-    PatientSearchPage.getStartYear(currentYear - 1);
-    PatientSearchPage.selectEndMonth(endMonth);
+    PatientSearchPage.getStartYear(date.year);
+    PatientSearchPage.selectEndMonth(date.endMonth);
     PatientSearchPage.selectEndDay(`11`);
-    PatientSearchPage.getEndYear(currentYear);
+    PatientSearchPage.getEndYear(date.year);
 
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
@@ -107,7 +106,9 @@ describe('SM TRASH ADVANCED CUSTOM DATE RANGE SEARCH', () => {
     PatientSearchPage.verifyMessageDate(2);
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      `${startMonth} 1st ${currentYear - 1} to ${endMonth} 11th ${currentYear}`,
+      `${date.startMonth} 1st ${date.year} to ${date.endMonth} 11th ${
+        date.year
+      }`,
     );
 
     cy.injectAxe();
