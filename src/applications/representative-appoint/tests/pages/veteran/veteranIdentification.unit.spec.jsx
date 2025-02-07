@@ -37,6 +37,6 @@ describe('Veteran Identification page', () => {
 
   it('should have proper max lengths in schema', () => {
     expect(schema.properties.inputVeteranVAFileNumber.maxLength).to.equal(9);
-    expect(schema.properties.veteranServiceNumber.maxLength).to.equal(9);
+    expect(schema.properties.inputVeteranServiceNumber.maxLength).to.equal(9);
   });
 });

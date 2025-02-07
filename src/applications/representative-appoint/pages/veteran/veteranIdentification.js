@@ -38,7 +38,7 @@ export const uiSchema = {
   },
   inputVeteranSSN: ssnUI('Social Security number'),
   inputVeteranVAFileNumber: vaFileNumberUI('VA file number'),
-  veteranServiceNumber: serviceNumberUI('Service Number'),
+  inputVeteranServiceNumber: serviceNumberUI('Service Number'),
 };
 
 export const schema = {
@@ -53,7 +53,7 @@ export const schema = {
       ...vaFileNumberSchema,
       maxLength: 9,
     },
-    veteranServiceNumber: {
+    inputVeteranServiceNumber: {
       ...serviceNumberSchema,
       maxLength: 9,
     },
