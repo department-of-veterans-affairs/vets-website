@@ -7,6 +7,17 @@ import { VALID_ENROLLMENT_STATUSES } from '../constants';
  * @returns {Object} - enrollment status properties to use in components
  */
 export function selectEnrollmentStatus(state) {
+  // Mock enrollment status in development
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      isLoading: false,
+      isValidEnrollmentStatus: true,
+      hasPreferredFacility: true,
+      canSubmitFinancialInfo: true,
+      hasServerError: false,
+    };
+  }
+
   const {
     enrollmentStatus: {
       canSubmitFinancialInfo,

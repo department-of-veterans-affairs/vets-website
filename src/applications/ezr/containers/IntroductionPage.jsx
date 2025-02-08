@@ -18,21 +18,28 @@ import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInf
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
 
-const IntroductionPage = ({ fetchEnrollmentStatus, route, user }) => {
-  const { isLoading, hasPreferredFacility } = useSelector(
-    selectEnrollmentStatus,
-  );
+const IntroductionPage = ({
+  fetchEnrollmentStatus,
+  route,
+  user: originalUser,
+}) => {
+  const {
+    isLoading: enrollmentStatusLoading,
+    hasPreferredFacility,
+  } = useSelector(selectEnrollmentStatus);
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
 
+  // Determine if the user should be routed to a different page
+  const shouldRedirect = isUserLOA3 && !hasPreferredFacility;
   useEffect(
     () => {
-      if (isUserLOA3 && !hasPreferredFacility) {
+      if (shouldRedirect) {
         window.location.replace('/my-health');
       }
     },
-    [isUserLOA3, hasPreferredFacility],
+    [shouldRedirect],
   );
 
   useEffect(
@@ -51,21 +58,19 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route, user }) => {
         appTitle={content['form-title']}
         dependencies={[externalServices['1010ezr']]}
       >
-        {isLoading ? (
+        {enrollmentStatusLoading ? (
           <va-loading-indicator message={content['load-enrollment-status']} />
         ) : (
           <>
             <ProcessDescription />
             {!isUserLOA3 ? (
-              <div className="vads-u-margin-y--4">
-                <VerifyAlert
-                  status="info"
-                  heading="Please verify your identity to access this form"
-                  learnMoreUrl="/verify-identity"
-                  headingLevel={3}
-                  dataTestId="ezr-identity-alert"
-                />
-              </div>
+              <VerifyAlert
+                status="info"
+                heading="Please verify your identity to access this form"
+                learnMoreUrl="/verify-identity"
+                headingLevel={3}
+                dataTestId="ezr-identity-alert"
+              />
             ) : (
               <SaveInProgressInfo {...sipProps} />
             )}
@@ -76,15 +81,15 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route, user }) => {
     </div>
   );
 
+  const requiredLoginProps = {
+    verify: true,
+    authRequired: 3,
+    serviceRequired: 'identity-proofed',
+    user: originalUser,
+  };
+
   return (
-    <RequiredLoginView
-      verify
-      authRequired={3}
-      serviceRequired="id-verify"
-      user={user}
-    >
-      {pageContent}
-    </RequiredLoginView>
+    <RequiredLoginView {...requiredLoginProps}>{pageContent}</RequiredLoginView>
   );
 };
 
@@ -98,9 +103,25 @@ const mapDispatchToProps = {
   fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
-const mapStateToProps = state => ({
-  user: state.user,
-});
+const mapStateToProps = state => {
+  // Mock the state in development mode
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      user: {
+        profile: {
+          verified: true,
+          loa: { current: 3 },
+          services: ['identity-proofed'],
+          loading: false,
+        },
+        login: { currentlyLoggedIn: true },
+      },
+    };
+  }
+  return {
+    user: state.user,
+  };
+};
 
 export default connect(
   mapStateToProps,
