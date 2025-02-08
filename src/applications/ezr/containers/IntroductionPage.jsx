@@ -19,10 +19,21 @@ import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
 
 const IntroductionPage = ({ fetchEnrollmentStatus, route, user }) => {
-  const { isLoading } = useSelector(selectEnrollmentStatus);
+  const { isLoading, hasPreferredFacility } = useSelector(
+    selectEnrollmentStatus,
+  );
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
+
+  useEffect(
+    () => {
+      if (isUserLOA3 && !hasPreferredFacility) {
+        window.location.replace('/my-health');
+      }
+    },
+    [isUserLOA3, hasPreferredFacility],
+  );
 
   useEffect(
     () => {
