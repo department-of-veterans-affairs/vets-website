@@ -68,37 +68,6 @@ export const updateVerifications = verifications => ({
   payload: verifications,
 });
 
-// export const fetchClaimantId = () => {
-//   return async dispatch => {
-//     dispatch({ type: CHECK_CLAIMANT_START });
-//     const timeoutPromise = new Promise((_, reject) =>
-//       setTimeout(() => reject(new Error('Request timed out')), 5000),
-//     );
-
-//     try {
-//       const response = await Promise.race([
-//         apiRequest(`http://localhost:8080/dgib_verifications/claimant_lookup`, {
-//           method: 'GET',
-//           headers: {
-//             'Content-Type': 'application/json',
-//           },
-//         }),
-//         timeoutPromise,
-//       ]);
-//       dispatch({
-//         type: CHECK_CLAIMANT_SUCCESS,
-//         claimantId: response.claimantId,
-//       });
-//     } catch (errors) {
-//       dispatch({
-//         type: CHECK_CLAIMANT_FAIL,
-//         errors: errors.message || errors,
-//       });
-//     } finally {
-//       dispatch({ type: CHECK_CLAIMANT_END });
-//     }
-//   };
-// };
 // Action constants
 
 /**
@@ -184,65 +153,6 @@ export const fetchPersonalInfo = () => {
   };
 };
 
-// export const fetchPersonalInfo = () => {
-//   return async (dispatch, getState) => {
-//     dispatch({ type: FETCH_PERSONAL_INFO });
-//     const {
-//       checkClaimant: { claimantId },
-//     } = getState();
-//     if (claimantId) {
-//       try {
-//         const [recordResponse] = await Promise.all([
-//           // apiRequest(`${API_URL}/dgib_verifications/claimant_status`, {
-//           //   method: 'POST',
-//           //   headers: {
-//           //     'Content-Type': 'application/json',
-//           //   },
-//           //   body: JSON.stringify({ claimantId }),
-//           // }),
-//           apiRequest(
-//             `http://localhost:8080/dgib_verifications/verification_record`,
-//             {
-//               method: 'POST',
-//               headers: {
-//                 'Content-Type': 'application/json',
-//               },
-//               body: JSON.stringify({ claimantId }),
-//             },
-//           ),
-//         ]);
-//         dispatch({
-//           type: FETCH_PERSONAL_INFO_SUCCESS,
-//           response: { recordResponse },
-//         });
-//       } catch (errors) {
-//         dispatch({
-//           type: FETCH_PERSONAL_INFO_FAILED,
-//           errors,
-//         });
-//       }
-//     } else {
-//       return apiRequest(API_URL, {
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       })
-//         .then(response => {
-//           dispatch({
-//             type: FETCH_PERSONAL_INFO_SUCCESS,
-//             response,
-//           });
-//         })
-//         .catch(errors => {
-//           dispatch({
-//             type: FETCH_PERSONAL_INFO_FAILED,
-//             errors,
-//           });
-//         });
-//     }
-//     return null;
-//   };
-// };
 const customHeaders = {
   'Content-Type': 'application/json',
   'X-Key-Inflection': 'camel',
