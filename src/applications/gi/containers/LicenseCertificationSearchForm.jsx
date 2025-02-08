@@ -34,6 +34,14 @@ export default function LicenseCertificationSearchForm({
     categoryValues: dropdown.current.optionValue,
   });
 
+  const suggestions = [
+    {
+      lacNm: name,
+      type: 'all',
+    },
+    ...filteredResults,
+  ];
+
   // If available, use url query params to assign initial dropdown values
   useEffect(() => {
     if (categoryParams) {
@@ -51,12 +59,9 @@ export default function LicenseCertificationSearchForm({
 
   const onSelection = selection => {
     const { selected } = selection;
+    const { lacNm } = selected;
 
-    if (selected !== filteredResults[0]) {
-      const { lacNm } = selected;
-
-      setName(lacNm);
-    }
+    setName(lacNm);
   };
 
   const handleClearInput = () => {
@@ -89,7 +94,8 @@ export default function LicenseCertificationSearchForm({
             <div>
               <LicenseCertificationKeywordSearch
                 inputValue={name}
-                suggestions={filteredResults}
+                suggestions={suggestions}
+                // suggestions={filteredResults}
                 onSelection={onSelection}
                 handleClearInput={handleClearInput}
                 onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}

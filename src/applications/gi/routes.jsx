@@ -44,7 +44,7 @@ const BuildRoutes = () => {
               path="/institution/:facilityCode"
               render={({ match }) => <ProfilePage match={match} />}
             />
-            {lcToggleValue && [
+            {lcToggleValue && (
               <Route
                 key="lc-search"
                 exact
@@ -55,7 +55,9 @@ const BuildRoutes = () => {
                     flag="singleFetch"
                   />
                 )}
-              />,
+              />
+            )}
+            {lcToggleValue && (
               <Route
                 key="lc-search-results"
                 exact
@@ -66,13 +68,15 @@ const BuildRoutes = () => {
                     flag="singleFetch"
                   />
                 )}
-              />,
+              />
+            )}
+            {lcToggleValue && (
               <Route
                 key="lc-search-result"
                 path="/lc-search/results/:id"
                 component={LicenseCertificationSearchResult}
-              />,
-            ]}
+              />
+            )}
             <Route
               path="/national-exams/:examId"
               component={NationalExamDetails}
