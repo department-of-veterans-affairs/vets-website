@@ -11,6 +11,7 @@ import addDisabilitiesRedirect from '../../migrations/09-addDisabilities-redirec
 
 import formConfig from '../../config/form';
 import { MAX_HOUSING_STRING_LENGTH } from '../../constants';
+import trimToxicExposureDates from '../../migrations/10-toxic-exposure-dates';
 
 describe('526 v2 migrations', () => {
   const longString = (offset = 10) =>
@@ -342,6 +343,233 @@ describe('526 v2 migrations', () => {
       expect(migratedData.metadata.returnUrl).to.equal(
         '/new-disabilities/follow-up',
       );
+    });
+  });
+
+  describe('10-toxic-exposure-dates', () => {
+    it('should trim toxic exposure dates', () => {
+      const savedData = {
+        formData: {
+          toxicExposure: {
+            conditions: {
+              asthma: true,
+              heartattackmyocardialinfarction: true,
+            },
+            gulfWar1990: {
+              afghanistan: true,
+              iraq: true,
+              airspace: true,
+            },
+            gulfWar1990Details: {
+              afghanistan: {
+                startDate: '1990-01-01',
+                endDate: '1990-12-02',
+                'view:notSure': true,
+              },
+              iraq: {
+                startDate: '1991-02-XX',
+                endDate: '1992-XX-XX',
+              },
+            },
+            gulfWar2001: {
+              yemen: true,
+              airspace: false,
+            },
+            gulfWar2001Details: {
+              yemen: {
+                startDate: '2002-01-31',
+              },
+            },
+            herbicide: {
+              c123: true,
+              guam: true,
+              laos: true,
+            },
+            herbicideDetails: {
+              c123: {
+                endDate: '1966-02-21',
+              },
+              laos: {
+                startDate: '1965-01-01',
+              },
+            },
+            otherHerbicideLocations: {
+              description: 'Test location 1',
+              endDate: '1969-01-10',
+              startDate: '1968-01-11',
+            },
+            otherExposuresDetails: {
+              radiation: {
+                endDate: '2005-05-10',
+              },
+              mos: {
+                startDate: '2001-01-20',
+              },
+            },
+            specifyOtherExposures: {
+              startDate: '2000-03-15',
+              endDate: '2001-03-15',
+              description:
+                'Test substance 1, Test Substance 2, Test Substance 3',
+            },
+            otherExposures: {
+              asbestos: true,
+              mos: true,
+              radiation: true,
+              notsure: true,
+            },
+          },
+        },
+        metadata: {
+          version: 9,
+          returnUrl: '/supporting-evidence/orientation',
+        },
+      };
+
+      const migratedData = trimToxicExposureDates(savedData);
+      expect(migratedData.formData.toxicExposure).to.deep.equal({
+        conditions: {
+          asthma: true,
+          heartattackmyocardialinfarction: true,
+        },
+        gulfWar1990: {
+          afghanistan: true,
+          iraq: true,
+          airspace: true,
+        },
+        gulfWar1990Details: {
+          afghanistan: {
+            startDate: '1990-01',
+            endDate: '1990-12',
+            'view:notSure': true,
+          },
+          iraq: {
+            startDate: '1991-02',
+            endDate: '1992-XX',
+          },
+        },
+        gulfWar2001: {
+          yemen: true,
+          airspace: false,
+        },
+        gulfWar2001Details: {
+          yemen: {
+            startDate: '2002-01',
+          },
+        },
+        herbicide: {
+          c123: true,
+          guam: true,
+          laos: true,
+        },
+        herbicideDetails: {
+          c123: {
+            endDate: '1966-02',
+          },
+          laos: {
+            startDate: '1965-01',
+          },
+        },
+        otherHerbicideLocations: {
+          description: 'Test location 1',
+          endDate: '1969-01',
+          startDate: '1968-01',
+        },
+        otherExposuresDetails: {
+          radiation: {
+            endDate: '2005-05',
+          },
+          mos: {
+            startDate: '2001-01',
+          },
+        },
+        specifyOtherExposures: {
+          startDate: '2000-03',
+          endDate: '2001-03',
+          description: 'Test substance 1, Test Substance 2, Test Substance 3',
+        },
+        otherExposures: {
+          asbestos: true,
+          mos: true,
+          radiation: true,
+          notsure: true,
+        },
+      });
+      expect(migratedData.metadata.returnUrl).to.deep.equal(
+        '/supporting-evidence/orientation',
+      );
+    });
+
+    it('should not modify an empty toxic exposure object', () => {
+      const savedData = {
+        formData: {
+          toxicExposure: {
+            conditions: {},
+            gulfWar1990: {},
+            gulfWar1990Details: {
+              afghanistan: {},
+              bahrain: {},
+              egypt: {},
+              iraq: {},
+              israel: {},
+              jordan: {},
+              kuwait: {},
+              neutralzone: {},
+              oman: {},
+              qatar: {},
+              saudiarabia: {},
+              somalia: {},
+              syria: {},
+              uae: {},
+              turkey: {},
+              waters: {},
+              airspace: {},
+            },
+            'view:gulfWar1990AdditionalInfo': {},
+            gulfWar2001: {},
+            gulfWar2001Details: {
+              djibouti: {},
+              lebanon: {},
+              uzbekistan: {},
+              yemen: {},
+              airspace: {},
+            },
+            'view:gulfWar2001AdditionalInfo': {},
+            herbicide: {},
+            otherHerbicideLocations: {},
+            herbicideDetails: {
+              cambodia: {},
+              guam: {},
+              koreandemilitarizedzone: {},
+              johnston: {},
+              laos: {},
+              c123: {},
+              thailand: {},
+              vietnam: {},
+            },
+            'view:herbicideAdditionalInfo': {},
+            otherExposures: {},
+            specifyOtherExposures: {},
+            otherExposuresDetails: {
+              asbestos: {},
+              chemical: {},
+              water: {},
+              mos: {},
+              mustardgas: {},
+              radiation: {},
+            },
+            'view:otherExposuresAdditionalInfo': {},
+            'view:additionalExposuresAdditionalInfo': {},
+          },
+        },
+        metadata: {
+          version: 9,
+          returnUrl: '/test-page',
+        },
+      };
+
+      const migratedData = trimToxicExposureDates(savedData);
+      expect(migratedData).to.deep.equal(savedData);
     });
   });
 });
