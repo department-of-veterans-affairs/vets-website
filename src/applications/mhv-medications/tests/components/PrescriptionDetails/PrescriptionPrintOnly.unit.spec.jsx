@@ -11,11 +11,7 @@ describe('Prescription print only container', () => {
       ...(!params.va && { prescriptionSource: 'NV' }),
     };
     return renderWithStoreAndRouter(
-      <PrescriptionPrintOnly
-        hideLineBreak={false}
-        rx={rx}
-        isDetailsRx={params.isDetailsRx}
-      />,
+      <PrescriptionPrintOnly rx={rx} isDetailsRx={params.isDetailsRx} />,
       {
         initialState: {},
         reducers: {},
@@ -34,7 +30,7 @@ describe('Prescription print only container', () => {
   });
   it('should render VA rx details', () => {
     const screen = setup();
-    expect(screen.findByText('About your prescription')).to.exist;
+    expect(screen.findByText('Most recent prescription')).to.exist;
     expect(screen.findByText('Last filled on:')).to.exist;
     expect(screen.findByText('Status:')).to.exist;
     expect(screen.findByText('Refills left:')).to.exist;
@@ -64,7 +60,7 @@ describe('Prescription print only container', () => {
   it('should render h2 tag', () => {
     const screen = setup({ isDetailsRx: true, va: true });
     const nameElement = screen.getByText('ONDANSETRON 8 MG TAB');
-    const detailsHeaderElement = screen.getByText('About your prescription');
+    const detailsHeaderElement = screen.getByText('Most recent prescription');
     expect(nameElement.tagName).to.equal('H2');
     expect(detailsHeaderElement.tagName).to.equal('H3');
   });
