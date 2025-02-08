@@ -194,22 +194,6 @@ export const filterEvents = (
         )
         .reduce(addUniqueEventsToList, []);
     }
-    case 'past': {
-      // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
-      const sortedEvents = [...events]?.sort(
-        (event1, event2) =>
-          event2?.fieldDatetimeRangeTimezone[0]?.value -
-          event1?.fieldDatetimeRangeTimezone[0]?.value,
-      );
-
-      return sortedEvents?.filter(event =>
-        moment(
-          event?.fieldDatetimeRangeTimezone[0]
-            ? event.fieldDatetimeRangeTimezone[0].endValue * 1000
-            : event.fieldDatetimeRangeTimezone.endValue * 1000,
-        ).isBefore(now.clone()),
-      );
-    }
     case 'specific-date':
     case 'custom-date-range':
       if (!options?.startsAtUnix || !options?.endsAtUnix) return events;
