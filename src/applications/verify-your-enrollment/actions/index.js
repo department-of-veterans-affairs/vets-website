@@ -111,7 +111,7 @@ export const updateVerifications = verifications => ({
 async function doDGIBCall(dispatch) {
   // 2a) GET to local endpoint
   const claimantRes = await apiRequest(
-    `http://localhost:8080/dgib_verifications/claimant_lookup`,
+    `${API_URL}/dgib_verifications/claimant_lookup`,
     {
       method: 'GET',
       headers: {
@@ -122,7 +122,7 @@ async function doDGIBCall(dispatch) {
 
   // 2b) POST to local endpoint, using claimantId from the first call
   const verificationRecordRes = await apiRequest(
-    `http://localhost:8080/dgib_verifications/verification_record`,
+    `${API_URL}/dgib_verifications/verification_record`,
     {
       method: 'POST',
       headers: {
@@ -155,7 +155,7 @@ export const fetchPersonalInfo = () => {
 
     try {
       // 1) First, call the main API
-      const mainResponse = await apiRequest('http://localhost:8080/vye/v1', {
+      const mainResponse = await apiRequest(API_URL, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -304,8 +304,8 @@ export const verifyEnrollmentAction = verifications => {
       personalInfo?.personalInfo?.verificationRecord?.enrollmentVerifications ||
       [];
     const URL = claimantId
-      ? `http://localhost:8080/dgib_verifications/verify_claimant`
-      : `http://localhost:8080/verify`;
+      ? `${API_URL}/dgib_verifications/verify_claimant`
+      : `${API_URL}/verify`;
     const newVerifications = enrollmentVerifications?.filter(
       verification =>
         !verification?.verificationMethod &&

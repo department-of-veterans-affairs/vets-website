@@ -61,7 +61,7 @@ const IsUserLoggedIn = () => {
     ),
     [],
   );
-  if (!isUserLOA1) {
+  if (isUserLOA1) {
     return <IdentityVerificationAlert />;
   }
   if (toggleValue === undefined) {
