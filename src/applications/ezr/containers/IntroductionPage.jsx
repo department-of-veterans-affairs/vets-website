@@ -18,9 +18,9 @@ import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInf
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
 
-const IntroductionPage = ({ fetchEnrollmentStatus, route, location }) => {
+const IntroductionPage = ({ fetchEnrollmentStatus, route, user }) => {
   const { isLoading } = useSelector(selectEnrollmentStatus);
-  const { isUserLOA1, isUserLOA3 } = useSelector(selectAuthStatus);
+  const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
 
@@ -34,23 +34,6 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route, location }) => {
     [isUserLOA3, fetchEnrollmentStatus],
   );
 
-  useEffect(
-    () => {
-      // Check if we're on the protected route and user is not authenticated
-      if (
-        location.pathname.startsWith(
-          '/my-health/update-benefits-information-form-10-10ezr',
-        ) &&
-        !isUserLOA1 &&
-        !isUserLOA3
-      ) {
-        // Redirect to va.gov/my-health
-        window.location.href = 'https://www.va.gov/my-health';
-      }
-    },
-    [location.pathname, isUserLOA1, isUserLOA3],
-  );
-
   const pageContent = (
     <div className="ezr-intro schemaform-intro">
       <DowntimeNotification
@@ -62,9 +45,15 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route, location }) => {
         ) : (
           <>
             <ProcessDescription />
-            {isUserLOA1 ? (
+            {!isUserLOA3 ? (
               <div className="vads-u-margin-y--4">
-                <VerifyAlert headingLevel={3} dataTestId="ezr-identity-alert" />
+                <VerifyAlert
+                  status="info"
+                  heading="Please verify your identity to access this form"
+                  learnMoreUrl="/verify-identity"
+                  headingLevel={3}
+                  dataTestId="ezr-identity-alert"
+                />
               </div>
             ) : (
               <SaveInProgressInfo {...sipProps} />
@@ -76,33 +65,33 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route, location }) => {
     </div>
   );
 
-  // Only require login for /my-health/update-benefits-information-form-10-10ezr routes
-  if (
-    location.pathname.startsWith(
-      '/my-health/update-benefits-information-form-10-10ezr',
-    )
-  ) {
-    return (
-      <RequiredLoginView authRequired={1} serviceRequired="user-profile">
-        {pageContent}
-      </RequiredLoginView>
-    );
-  }
-
-  return pageContent;
+  return (
+    <RequiredLoginView
+      verify
+      authRequired={3}
+      serviceRequired="id-verify"
+      user={user}
+    >
+      {pageContent}
+    </RequiredLoginView>
+  );
 };
 
 IntroductionPage.propTypes = {
   fetchEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
-  location: PropTypes.object,
+  user: PropTypes.object,
 };
 
 const mapDispatchToProps = {
   fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(IntroductionPage);
