@@ -647,8 +647,9 @@ export const handleLcResultsSearch = (
 
 export const formatResultCount = (results, currentPage, itemsPerPage) => {
   if (currentPage * itemsPerPage > results.length - 1) {
-    return `${currentPage * itemsPerPage -
-      (itemsPerPage - 1)} - ${results.length - 1}  `;
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
