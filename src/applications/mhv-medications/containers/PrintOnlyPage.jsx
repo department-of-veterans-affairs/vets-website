@@ -32,11 +32,8 @@ const PrintOnlyPage = props => {
         <div>
           <p>
             We’re sorry. There’s a problem with our system. We can’t print your
-            records right now. Try again later.
-          </p>
-          <p>
-            If it still doesn’t work, call us at{' '}
-            <va-telephone not-clickable contact="8773270022" /> (
+            records right now. Try again later. If it still doesn’t work, call
+            us at <va-telephone not-clickable contact="8773270022" /> (
             <va-telephone not-clickable contact={CONTACTS[711]} tty />
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
