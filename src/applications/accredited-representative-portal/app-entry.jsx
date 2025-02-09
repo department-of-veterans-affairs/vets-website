@@ -11,11 +11,8 @@ import './sass/POARequestCard.scss';
 import './sass/POARequestDetails.scss';
 import './sass/Header.scss';
 
-import manifest from './manifest.json';
 import routes from './routes';
 import createReduxStore from './utilities/store';
-
-window.appName = manifest.entryName;
 
 const router = createBrowserRouter(routes, {
   basename: '/representative',
