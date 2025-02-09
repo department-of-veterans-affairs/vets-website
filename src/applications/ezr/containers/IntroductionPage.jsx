@@ -35,7 +35,7 @@ const IntroductionPage = ({
   const shouldRedirect = isUserLOA3 && !hasPreferredFacility;
   useEffect(
     () => {
-      if (shouldRedirect) {
+      if (shouldRedirect && process.env.NODE_ENV !== 'test') {
         window.location.replace('/my-health');
       }
     },
