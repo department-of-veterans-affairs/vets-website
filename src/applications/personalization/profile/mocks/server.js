@@ -240,7 +240,9 @@ const responses = {
   },
   'GET /v0/profile/vet_verification_status': (_req, res) => {
     return res.status(200).json(vetVerificationStatus.confirmed);
-    // return res.status(200).json(vetVerificationStatus.notConfirmed);
+    // return res.status(200).json(vetVerificationStatus.notConfirmedProblem);
+    // return res.status(200).json(vetVerificationStatus.notConfirmedIneligible);
+    // return res.status(504).json(vetVerificationStatus.apiError);
   },
   'GET /v0/disability_compensation_form/rating_info': (_req, res) => {
     // return res.status(200).json(ratingInfo.success.serviceConnected0);

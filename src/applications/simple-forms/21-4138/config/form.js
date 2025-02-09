@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import manifest from '../manifest.json';
 import transform from './submit-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -52,42 +53,8 @@ export function isLocalhost() {
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/user.json';
-import { CustomTopContent } from '../components/breadcrumbs';
-import {
-  focusByOrder,
-  scrollTo,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
 
 const mockData = testData.data;
-
-/** @type {FormConfig} */
-const minimalFlowProps = {
-  CustomTopContent,
-  hideFormTitle: true,
-  showSaveLinkAfterButtons: true,
-  useCustomScrollAndFocus: true,
-  useTopBackLink: true,
-  v3SegmentedProgressBar: {
-    useDiv: true,
-  },
-  scrollAndFocusTarget: () => {
-    setTimeout(() => {
-      scrollTo('header-minimal');
-      const radio = document.querySelector('va-radio[label-header-level]');
-      const checkboxGroup = document.querySelector(
-        'va-checkbox-group[label-header-level]',
-      );
-      if (radio) {
-        waitForRenderThenFocus('h1', radio.shadowRoot);
-      } else if (checkboxGroup) {
-        waitForRenderThenFocus('h1', checkboxGroup.shadowRoot);
-      } else {
-        focusByOrder(['h1', 'va-segmented-progress-bar']);
-      }
-    }, 200);
-  },
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -114,8 +81,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  // TODO: Change hideUnauthedStartLink to true. This form is meant to be for authenticated users only.
-  hideUnauthedStartLink: false,
+  hideUnauthedStartLink: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:
@@ -124,10 +90,23 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  ...minimalFlowProps,
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/supporting-forms-for-claims',
+        label: 'Supporting forms for VA claims',
+      },
+      {
+        href:
+          '/supporting-forms-for-claims/statement-to-support-claim-form-21-4138',
+        label: 'Submit a statement to support a claim',
+      },
+    ],
+  }),
   chapters: {
     statementTypeChapter: {
-      title: 'What kind of statement do you want to submit?',
+      title: 'What would you like to do?',
       hideFormNavProgress: true,
       hideOnReviewPage: true,
       pages: {

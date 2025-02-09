@@ -48,11 +48,16 @@ export default function CCRequestLayout({ data: appointment }) {
 
   recordAppointmentDetailsNullStates({
     [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+    [NULL_STATE_FIELD.PROVIDER]: !providerName,
   });
 
   return (
     <PageLayout isDetailPage showNeedHelp>
-      <DetailPageLayout heading={heading} data={appointment}>
+      <DetailPageLayout
+        heading={heading}
+        data={appointment}
+        facility={facility}
+      >
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((date, index) => (

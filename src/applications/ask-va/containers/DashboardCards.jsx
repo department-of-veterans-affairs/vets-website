@@ -13,11 +13,8 @@ import {
   formatDate,
   getVAStatusFromCRM,
 } from '../config/helpers';
-import { URL, envUrl } from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-
-// Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = false;
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);
@@ -46,10 +43,13 @@ const DashboardCards = () => {
         status: getVAStatusFromCRM(inquiry.attributes.status),
       },
     }));
-
     const uniqueCategories = [
       ...new Set(
-        transformedInquiries.map(item => item.attributes.categoryName),
+        transformedInquiries
+          .filter(
+            item => item.attributes.levelOfAuthentication !== 'Unauthenticated',
+          )
+          .map(item => item.attributes.categoryName),
       ),
     ];
 
@@ -68,7 +68,7 @@ const DashboardCards = () => {
       setLoading(false);
     };
 
-    if (mockTestingFlag) {
+    if (mockTestingFlagforAPI) {
       processData(mockInquiries.data);
       return Promise.resolve();
     }
@@ -161,14 +161,14 @@ const DashboardCards = () => {
             <li key={card.id} className="dashboard-card-list">
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <div className="vads-u-margin-bottom--1p5">
+                  <dl className="vads-u-margin-bottom--1p5">
                     <dt className="sr-only">Status</dt>
                     <dd>
                       <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
                         {getVAStatusFromCRM(card.attributes.status)}
                       </span>
                     </dd>
-                  </div>
+                  </dl>
                   <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
@@ -260,7 +260,7 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full vads-u-margin-bottom--5">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
         Your questions
       </h2>
       {inquiries.length > 0 ? (

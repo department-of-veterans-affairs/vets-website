@@ -1,4 +1,5 @@
 import RepresentativeSubmissionMethod from '../../components/RepresentativeSubmissionMethod';
+import { entityAcceptsDigitalPoaRequests } from '../../utilities/helpers';
 
 export const uiSchema = {
   representativeSubmissionMethod: {
@@ -22,22 +23,16 @@ export const schema = {
 };
 
 export const pageDepends = formData => {
-  const { v2IsEnabled } = formData;
-  // temporarily hardcoding these values
-  const repHasMultipleOrganizations =
-    !!formData['view:selectedRepresentative'] &&
-    ['representative', 'veteran_service_officer'].includes(
-      formData['view:selectedRepresentative'].attributes?.individualType,
-    ) &&
-    formData['view:selectedRepresentative'].attributes?.accreditedOrganizations
-      ?.data?.length > 1;
-  const userCanSubmitDigitally = true;
-  const representativeAcceptsDigitalSubmission = true;
+  const { userIsDigitalSubmitEligible, v2IsEnabled } = formData;
+  const entity = formData['view:selectedRepresentative'];
+
+  const representativeAcceptsDigitalSubmission = entityAcceptsDigitalPoaRequests(
+    entity,
+  );
 
   return (
     v2IsEnabled &&
-    repHasMultipleOrganizations &&
-    userCanSubmitDigitally &&
+    userIsDigitalSubmitEligible &&
     representativeAcceptsDigitalSubmission
   );
 };

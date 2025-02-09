@@ -19,7 +19,6 @@ export default function LicenseCertificationKeywordSearch({
   };
 
   const handleSuggestionSelected = selected => {
-    // console.log('selected', selected);
     const { name, type, state } = selected;
 
     onSelection({

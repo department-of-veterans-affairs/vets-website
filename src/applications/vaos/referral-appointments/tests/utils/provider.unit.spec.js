@@ -2,54 +2,56 @@ import { addDays, startOfDay, addHours } from 'date-fns';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 
-const providerUtil = require('../../utils/provider');
+const draftAppointmentUtil = require('../../utils/provider');
 
 describe('VAOS provider utils', () => {
   afterEach(() => {
     MockDate.reset();
   });
   const tomorrow = addDays(startOfDay(new Date()), 1);
-  describe('createProviderDetails', () => {
-    const providerObjectTwoSlots = providerUtil.createProviderDetails(2, '222');
+  describe('createDraftAppointmentInfo', () => {
+    const providerObjectTwoSlots = draftAppointmentUtil.createDraftAppointmentInfo(
+      2,
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6802',
+    );
     it('Creates a provider with specified number of slots', () => {
-      expect(providerObjectTwoSlots.slots.length).to.equal(2);
+      expect(providerObjectTwoSlots.slots.slots.length).to.equal(2);
     });
     it('Creates slots for tomorrow an hour apart starting at 12', () => {
-      expect(providerObjectTwoSlots.slots[0].start).to.equal(
+      expect(providerObjectTwoSlots.slots.slots[0].start).to.equal(
         addHours(tomorrow, 12).toISOString(),
       );
-      expect(providerObjectTwoSlots.slots[1].start).to.equal(
+      expect(providerObjectTwoSlots.slots.slots[1].start).to.equal(
         addHours(tomorrow, 13).toISOString(),
       );
     });
     it('Creates empty slots array with 0', () => {
-      const providerObjectNoSlots = providerUtil.createProviderDetails(0);
-      expect(providerObjectNoSlots.slots.length).to.equal(0);
-    });
-  });
-  describe('getAddressString', () => {
-    it('Formats the address string', () => {
-      expect(
-        providerUtil.getAddressString(providerUtil.providers['111'].orgAddress),
-      ).to.equal('111 Lori Ln., New York, New York, 10016');
+      const providerObjectNoSlots = draftAppointmentUtil.createDraftAppointmentInfo(
+        0,
+      );
+      expect(providerObjectNoSlots.slots.slots.length).to.equal(0);
     });
   });
   describe('getSlotByDate', () => {
     it('returns the correct object for a given data', () => {
-      const provider = providerUtil.createProviderDetails(2);
-      const date = provider.slots[0].start;
-      expect(providerUtil.getSlotByDate(provider.slots, date)).to.equal(
-        provider.slots[0],
+      const draftAppointment = draftAppointmentUtil.createDraftAppointmentInfo(
+        2,
       );
+      const date = draftAppointment.slots.slots[0].start;
+      expect(
+        draftAppointmentUtil.getSlotByDate(draftAppointment.slots.slots, date),
+      ).to.equal(draftAppointment.slots.slots[0]);
     });
   });
   describe('getSlotById', () => {
     it('returns the correct object for a given id', () => {
-      const provider = providerUtil.createProviderDetails(2);
-      const { id } = provider.slots[0];
-      expect(providerUtil.getSlotById(provider.slots, id)).to.equal(
-        provider.slots[0],
+      const draftAppointment = draftAppointmentUtil.createDraftAppointmentInfo(
+        2,
       );
+      const { id } = draftAppointment.slots.slots[0];
+      expect(
+        draftAppointmentUtil.getSlotById(draftAppointment.slots.slots, id),
+      ).to.equal(draftAppointment.slots.slots[0]);
     });
   });
   describe('hasConflict', () => {
@@ -66,7 +68,7 @@ describe('VAOS provider utils', () => {
     };
     it('returns false when there is no conflict', () => {
       expect(
-        providerUtil.hasConflict(
+        draftAppointmentUtil.hasConflict(
           '2024-12-06T16:00:00Z',
           appointmentsByMonth,
           tz,
@@ -75,7 +77,7 @@ describe('VAOS provider utils', () => {
     });
     it('returns true when there is no conflict', () => {
       expect(
-        providerUtil.hasConflict(
+        draftAppointmentUtil.hasConflict(
           '2024-12-06T17:00:00Z',
           appointmentsByMonth,
           tz,

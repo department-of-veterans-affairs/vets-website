@@ -24,9 +24,7 @@ class LocatorApi {
     page,
     center,
     radius,
-    allUrgentCare,
   ) {
-    const reduxStore = require('../facility-locator-entry');
     const { params, url, postParams } = resolveParamsWithUrl({
       address,
       locationType,
@@ -35,8 +33,6 @@ class LocatorApi {
       bounds,
       center,
       radius,
-      allUrgentCare,
-      reduxStore,
     });
 
     const api = getAPI();

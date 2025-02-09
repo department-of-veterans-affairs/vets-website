@@ -17,6 +17,7 @@ import {
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
   ERROR_MESSAGES,
+  lacpCategoryList,
 } from '../constants';
 
 /**
@@ -529,78 +530,10 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const filterLcResults = (results, nameInput, filters) => {
-  const { type: typeFilter, state: stateFilter } = filters;
-
-  if (typeFilter === 'all' && stateFilter === 'all' && nameInput === '')
-    return results;
-
-  return results.filter(result => {
-    let allowContinue = true;
-
-    if (typeFilter !== 'all' && typeFilter !== result.eduLacTypeNm)
-      return false;
-    if (
-      stateFilter !== 'all' &&
-      stateFilter !== result.state &&
-      result.eduLacTypeNm !== 'Certification'
-    ) {
-      allowContinue = false;
-    }
-
-    if (allowContinue) {
-      return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
-    }
-
-    return false;
-  });
-};
-
-export const updateQueryParam = (history, location) => {
-  return keyValuePairs => {
-    const searchParams = new URLSearchParams(location.search);
-    keyValuePairs.forEach(([key, value]) => {
-      searchParams.set(key, value);
-    });
-
-    history.push({
-      pathname: location.pathname,
-      search: searchParams.toString(),
-    });
-  };
-};
-
-export const showLcParams = location => {
-  const searchParams = new URLSearchParams(location.search);
-
-  const nameParam = searchParams.get('name') ?? '';
-  const categoryParam = searchParams.get('category') ?? 'all';
-  const stateParam = searchParams.get('state') ?? 'all';
-
-  return { nameParam, categoryParam, stateParam };
-};
-
-export const handleLcResultsSearch = (history, category, name, state) => {
-  return history.push(
-    `/lc-search/results?category=${category}&name=${name}&state=${state}`,
-  );
-};
-
-export const formatResultCount = (results, currentPage, itemsPerPage) => {
-  if (currentPage * itemsPerPage > results.length) {
-    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
-      results.length
-    }  `;
-  }
-
-  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
-    itemsPerPage}  `;
-};
-
-export function capitalizeFirstLetter(string) {
+export function capitalizeFirstLetter(string, customExceptions = []) {
   if (!string) return null;
 
-  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and'];
+  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and', ...customExceptions];
 
   return string
     .split(' ')
@@ -621,78 +554,194 @@ export function capitalizeFirstLetter(string) {
     .join(' ');
 }
 
-export const mappedStates = Object.entries(ADDRESS_DATA.states).map(state => {
-  return { optionValue: state[0], optionLabel: state[1] };
-});
-
-export const updateDropdowns = (
-  category = 'all',
-  location = 'all',
-  multiples = [],
+export const filterSuggestions = (
+  results,
+  nameInput,
+  categoryFilters, // account for mutliple types
+  stateFilter,
 ) => {
-  const initialDropdowns = [
-    {
-      label: 'category',
-      options: [
-        { optionValue: 'all', optionLabel: 'All' },
-        { optionValue: 'License', optionLabel: 'License' },
-        {
-          optionValue: 'Certification',
-          optionLabel: 'Certification',
-        },
-        {
-          optionValue: 'Prep Course',
-          optionLabel: 'Prep Course',
-        },
-      ],
-      alt: 'category type',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-    {
-      label: 'state',
-      options:
-        multiples.length === 0
-          ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
-          : [
-              { optionValue: 'all', optionLabel: 'All' },
-              ...mappedStates.filter(mappedState =>
-                multiples.find(
-                  multiple => multiple.state === mappedState.optionValue,
-                ),
-              ),
-            ],
-      alt: 'state',
-      current: { optionValue: 'all', optionLabel: 'All' },
-    },
-  ];
+  if (
+    categoryFilters.includes('all') &&
+    stateFilter === 'all' &&
+    nameInput === ''
+  )
+    return results;
 
-  return initialDropdowns.map(dropdown => {
-    if (dropdown.label === 'category') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === category,
-        ),
-      };
+  return results.filter(result => {
+    let allowContinue = true;
+
+    if (
+      !categoryFilters.includes('all') &&
+      !categoryFilters.includes(result.eduLacTypeNm?.toLowerCase())
+    ) {
+      return false;
+    }
+    if (
+      stateFilter !== 'all' &&
+      stateFilter !== result.state &&
+      result.eduLacTypeNm !== 'Certification'
+    ) {
+      allowContinue = false;
     }
 
-    if (dropdown.label === 'state') {
-      return {
-        ...dropdown,
-        current: dropdown.options.find(
-          option => option.optionValue === location,
-        ) ?? { ...dropdown.current },
-      };
+    if (allowContinue) {
+      return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
     }
 
-    return dropdown;
+    return false;
   });
 };
 
-export const showMultipleNames = (suggestions, nameInput) => {
-  return suggestions.filter(
-    suggestion => suggestion.lacNm.toLowerCase() === nameInput?.toLowerCase(),
+export const updateQueryParam = (history, location, newParams) => {
+  const searchParams = new URLSearchParams(location.search);
+
+  Object.entries(newParams).forEach(([key, value]) => {
+    searchParams.set(key, value);
+  });
+
+  history.push({
+    pathname: location.pathname,
+    search: searchParams.toString(),
+  });
+};
+
+export const showLcParams = location => {
+  const searchParams = new URLSearchParams(location.search);
+  const categories = searchParams.getAll('category');
+
+  const nameParam = searchParams.get('name') ?? '';
+  const categoryParams = categories.length === 0 ? ['all'] : categories;
+  const stateParam = searchParams.get('state') ?? 'all';
+  const initialCategoryParam = searchParams.get('initial') ?? 'all';
+
+  return { nameParam, categoryParams, stateParam, initialCategoryParam };
+};
+
+export const handleLcResultsSearch = (
+  history,
+  categories,
+  name,
+  state = 'all',
+  initialCategory = 'all',
+) => {
+  let categoryParams = '';
+
+  categories.forEach((category, index) => {
+    categoryParams = categoryParams.concat(
+      '',
+      index === categories.length - 1
+        ? `category=${category}`
+        : `category=${category}&`,
+    );
+  });
+
+  history.push(
+    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&`.concat(
+      categoryParams,
+    ),
+    {
+      path: history.location.pathname,
+    },
   );
+};
+
+export const formatResultCount = (results, currentPage, itemsPerPage) => {
+  if (currentPage * itemsPerPage > results.length - 1) {
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
+  }
+
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}  `;
+};
+
+export const mappedStates = Object.entries(ADDRESS_DATA.states)
+  .map(state => {
+    return { optionValue: state[0], optionLabel: state[1] };
+  })
+  .filter(state => {
+    const exceptions = [
+      'AS',
+      'AA',
+      'AE',
+      'AP',
+      'DC',
+      'FM',
+      'GU',
+      'MH',
+      'MP',
+      'PW',
+      'PR',
+      'VI',
+    ];
+
+    if (exceptions.includes(state.optionValue)) return false;
+
+    return true;
+  });
+
+export const updateCategoryDropdown = (
+  category = 'all',
+  categoryList = lacpCategoryList,
+) => {
+  return {
+    label: 'category',
+    options: categoryList.map(_category => {
+      return {
+        optionValue: _category,
+        optionLabel: capitalizeFirstLetter(_category, ['course']),
+      };
+    }),
+    alt: 'category type',
+    current: {
+      optionValue: category,
+      optionLabel: capitalizeFirstLetter(category, ['course']),
+    },
+  };
+};
+
+export const updateStateDropdown = (multiples = [], selected = 'all') => {
+  return {
+    label: 'State',
+    options:
+      multiples.length - 1 <= 0
+        ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+        : [
+            { optionValue: 'all', optionLabel: 'All' },
+            ...mappedStates.filter(mappedState =>
+              multiples.find(multiple => {
+                if (
+                  multiple?.state === mappedState.optionValue &&
+                  multiple.eduLacTypeNm !== 'Certification'
+                ) {
+                  return true;
+                }
+
+                return false;
+              }),
+            ),
+          ],
+    alt: 'state',
+    current:
+      selected === 'all'
+        ? { optionValue: 'all', optionLabel: 'All' }
+        : {
+            ...mappedStates.find(state => state.optionValue === selected),
+          },
+  };
+};
+
+export const showMultipleNames = (suggestions, nameInput) => {
+  let final = [];
+
+  if (suggestions && nameInput) {
+    final = suggestions.filter(suggestion =>
+      suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
+    );
+  }
+
+  return final;
 };
 
 export const categoryCheck = type => {
@@ -700,22 +749,6 @@ export const categoryCheck = type => {
     return true;
   }
   if (type === 'Prep Course') return true;
-
-  return false;
-};
-
-export const checkAlert = (type, multiples, currentLocation, newLocation) => {
-  if (multiples.length > 1 && type !== 'Certification') {
-    return true;
-  }
-
-  if (categoryCheck(type) && currentLocation !== newLocation) {
-    return true;
-  }
-
-  if (type === 'Certification' && currentLocation !== 'all') {
-    return true;
-  }
 
   return false;
 };
@@ -860,6 +893,7 @@ export const getAbbreviationsAsArray = value => {
       { abbreviation: 'MA', description: 'Master of Arts' },
       { abbreviation: 'MBA', description: 'Master of Business Administration' },
       { abbreviation: 'MS', description: 'Master of Science' },
+      { abbreviation: 'PhD', description: 'Doctor of Philosophy' },
     ],
     CORR: [
       { abbreviation: 'AAS', description: 'Associate of Applied Science' },
@@ -878,6 +912,10 @@ export const getAbbreviationsAsArray = value => {
       },
       { abbreviation: 'IR', description: 'Instrument Rating' },
       { abbreviation: 'MEI', description: 'Multi Engine Instructor' },
+      {
+        abbreviation: 'PPIL',
+        description: 'Professional Pilot Interdisciplinary Sciences',
+      },
       { abbreviation: 'ROTO', description: 'Rotorcraft; Rotary-Wing Aircraft' },
     ],
   };

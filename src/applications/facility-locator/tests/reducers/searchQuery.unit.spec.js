@@ -10,7 +10,7 @@ import {
   FETCH_SPECIALTIES_FAILED,
   CLEAR_SEARCH_TEXT,
   MAP_MOVED,
-} from '../../utils/actionTypes';
+} from '../../actions/actionTypes';
 import {
   SearchQueryReducer,
   INITIAL_STATE,
