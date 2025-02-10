@@ -393,6 +393,6 @@
     }
   },
   "view:representativeStatus": null,
-  "selectedAccreditedOrganizationId": "074",
+  "inputSelectedOrgId": "074",
   "selectedAccreditedOrganizationName": "Am Legion"
 }

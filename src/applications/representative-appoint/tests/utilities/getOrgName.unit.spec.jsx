@@ -29,7 +29,7 @@ describe('getOrgName', () => {
 
   it('should return the accredited organization name based on selected ID', () => {
     const mockFormData = {
-      selectedAccreditedOrganizationId: '1',
+      inputSelectedOrgId: '1',
       inputSelectedRepresentative: {
         attributes: {
           accreditedOrganizations: {
@@ -65,7 +65,7 @@ describe('getOrgName', () => {
 
   it('should return undefined when no matching accredited organization is found', () => {
     const mockFormData = {
-      selectedAccreditedOrganizationId: '2', // No match
+      inputSelectedOrgId: '2', // No match
       inputSelectedRepresentative: {
         attributes: {
           accreditedOrganizations: {

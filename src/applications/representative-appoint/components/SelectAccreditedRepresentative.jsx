@@ -137,7 +137,7 @@ const SelectAccreditedRepresentative = props => {
         //   we wouldn't want a user to select a representative, an organization,
         //   go backwards to select an attorney, and then our state variables
         //   say an attorney was selected with a non-null organization id
-        selectedAccreditedOrganizationId: null,
+        inputSelectedOrgId: null,
         representativeSubmissionMethod: null,
       };
 

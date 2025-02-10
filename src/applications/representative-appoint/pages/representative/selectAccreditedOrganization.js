@@ -1,7 +1,7 @@
 import SelectOrganization from '../../components/SelectOrganization';
 
 export const uiSchema = {
-  selectedAccreditedOrganizationId: {
+  inputSelectedOrgId: {
     'ui:title': 'Select Organization',
     'ui:widget': SelectOrganization,
     'ui:options': {
@@ -15,7 +15,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    selectedAccreditedOrganizationId: {
+    inputSelectedOrgId: {
       type: 'string',
     },
   },

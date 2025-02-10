@@ -113,8 +113,8 @@ export function pdfTransform(formData) {
   if (repType === 'Organization') {
     representative.organizationId = selectedRep?.id;
   } else if (repType === 'VSO Representative') {
-    if (formData?.selectedAccreditedOrganizationId) {
-      representative.organizationId = formData.selectedAccreditedOrganizationId;
+    if (formData?.inputSelectedOrgId) {
+      representative.organizationId = formData.inputSelectedOrgId;
     } else {
       representative.organizationId =
         selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id || null;

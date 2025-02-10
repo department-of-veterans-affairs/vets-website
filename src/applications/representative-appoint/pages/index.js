@@ -18,7 +18,7 @@ import * as veteranIdentification from './veteran/veteranIdentification';
 import * as veteranServiceInformation from './veteran/veteranServiceInformation';
 import * as selectAccreditedRepresentative from './representative/selectAccreditedRepresentative';
 import * as replaceAccreditedRepresentative from './representative/replaceAccreditedRepresentative';
-import * as selectedAccreditedOrganizationId from './representative/selectAccreditedOrganization';
+import * as inputSelectedOrgId from './representative/selectAccreditedOrganization';
 import * as contactAccreditedRepresentative from './representative/contactAccreditedRepresentative';
 import * as representativeSubmissionMethod from './representative/representativeSubmissionMethod';
 
@@ -43,7 +43,7 @@ export {
   veteranServiceInformation,
   selectAccreditedRepresentative,
   replaceAccreditedRepresentative,
-  selectedAccreditedOrganizationId,
+  inputSelectedOrgId,
   contactAccreditedRepresentative,
   representativeSubmissionMethod,
 };

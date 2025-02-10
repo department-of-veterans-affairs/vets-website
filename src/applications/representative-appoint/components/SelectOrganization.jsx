@@ -35,7 +35,7 @@ const SelectOrganization = props => {
   };
 
   const handleGoForward = () => {
-    if (!formData?.selectedAccreditedOrganizationId) {
+    if (!formData?.inputSelectedOrgId) {
       setError('You must select an accredited organization');
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
@@ -72,7 +72,7 @@ const SelectOrganization = props => {
 
     setFormData({
       ...formData,
-      selectedAccreditedOrganizationId: selectedOrgId,
+      inputSelectedOrgId: selectedOrgId,
       selectedAccreditedOrganizationName: selectedOrg?.attributes?.name || '', // Add name
     });
   };
@@ -90,7 +90,7 @@ const SelectOrganization = props => {
           name="organization"
           value={org.id}
           key={`${org.id}-${index}`}
-          checked={formData.selectedAccreditedOrganizationId === org.id}
+          checked={formData.inputSelectedOrgId === org.id}
         />
       ))}
 
@@ -102,7 +102,7 @@ const SelectOrganization = props => {
           name="organization"
           value={org.id}
           key={`${org.id}-${index}`}
-          checked={formData.selectedAccreditedOrganizationId === org.id}
+          checked={formData.inputSelectedOrgId === org.id}
         />
       ))} */}
     </VaRadio>

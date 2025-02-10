@@ -34,7 +34,7 @@ describe('Confirmation Page', () => {
         },
       },
     },
-    selectedAccreditedOrganizationId: '1',
+    inputSelectedOrgId: '1',
     inputNonVeteranClaimantName: {
       first: 'John',
       middle: 'E',

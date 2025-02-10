@@ -30,7 +30,7 @@ import {
   veteranServiceInformation,
   selectAccreditedRepresentative,
   replaceAccreditedRepresentative,
-  selectedAccreditedOrganizationId,
+  inputSelectedOrgId,
   contactAccreditedRepresentative,
   representativeSubmissionMethod,
 } from '../pages';
@@ -151,10 +151,9 @@ const formConfig = {
           title: 'Organization Select',
           hideOnReview: true,
           CustomPage: SelectOrganization,
-          depends: formData =>
-            selectedAccreditedOrganizationId.pageDepends(formData),
-          uiSchema: selectedAccreditedOrganizationId.uiSchema,
-          schema: selectedAccreditedOrganizationId.schema,
+          depends: formData => inputSelectedOrgId.pageDepends(formData),
+          uiSchema: inputSelectedOrgId.uiSchema,
+          schema: inputSelectedOrgId.schema,
         },
 
         replaceAccreditedRepresentative: {

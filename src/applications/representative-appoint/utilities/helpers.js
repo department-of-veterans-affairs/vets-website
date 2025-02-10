@@ -184,7 +184,7 @@ export const getOrgName = formData => {
       ?.data;
 
   if (orgs && orgs.length > 1) {
-    const id = formData?.selectedAccreditedOrganizationId;
+    const id = formData?.inputSelectedOrgId;
     const selectedOrg = orgs.find(org => org.id === id);
     return selectedOrg?.attributes?.name;
   }
