@@ -1,18 +1,24 @@
 import maxTestData from './fixtures/data/maximal-test.json';
 import mockFeatures from './fixtures/mocks/feature-toggles.insurance.json';
+import mockPrefill from './fixtures/mocks/prefill.inProgress.insurance.json';
+import mockUser from './fixtures/mocks/user.inProgressForm.json';
 import {
-  advanceToHealthInsurance,
   fillInsuranceInformation,
   goToNextPage,
   setupForAuth,
+  startSaveInProgressUser,
 } from './utils';
 
 const { data: testData } = maxTestData;
 
 describe('HCA-Health-Insurance-Information', () => {
   beforeEach(() => {
-    setupForAuth({ features: mockFeatures });
-    advanceToHealthInsurance(testData);
+    setupForAuth({
+      features: mockFeatures,
+      prefill: mockPrefill,
+      user: mockUser,
+    });
+    startSaveInProgressUser();
   });
 
   it('should successfully advance to facility selection when user does not have health insurance coverage', () => {
