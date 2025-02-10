@@ -33,6 +33,10 @@ const generateFeatureToggles = (toggles = {}) => {
       type: 'feature_toggles',
       features: [
         {
+          name: 'mhv_modern_cta_links',
+          value: true,
+        },
+        {
           name: 'mhv-mock-session',
           value: true,
         },

@@ -16,6 +16,10 @@ const mhvToEauthRoutes = {
   profiles: 'eauth?deeplinking=profiles',
 };
 
+const mhvToVaRoutes = {
+  'secure-messaging': '/my-health/secure-messages/inbox',
+};
+
 // An MHV URL is a function of the following parameters:
 // 1. Whether this is a production or staging environment
 // 2. Whether the current user is authenticated with SSOe
@@ -30,6 +34,13 @@ function mhvUrl(authenticatedWithSSOe, path) {
   return `https://${mhvPrefix}.myhealth.va.gov/mhv-portal-web/${normPath}`;
 }
 
+function modernUrl(authenticatedWithSSOe, path, useVaLinks = false) {
+  if (useVaLinks && mhvToVaRoutes[path]) {
+    return mhvToVaRoutes[path];
+  }
+  return mhvUrl(authenticatedWithSSOe, path);
+}
+
 // TODO: This function is NOT SSOe-aware and is a candidate for removal
 // after assessing its use in platform/utilities/environment/stagingDomains
 const mhvBaseUrl = () => {
@@ -37,4 +48,4 @@ const mhvBaseUrl = () => {
   return `https://${mhvSubdomain}.myhealth.va.gov`;
 };
 
-export { mhvUrl, mhvBaseUrl };
+export { mhvUrl, mhvBaseUrl, modernUrl };

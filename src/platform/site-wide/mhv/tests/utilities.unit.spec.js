@@ -1,6 +1,19 @@
 import { expect } from 'chai';
 
-import { mhvUrl } from '../utilities';
+import { mhvUrl, modernUrl } from '../utilities';
+
+describe('modernUrl', () => {
+  it('points to modern version of secure-messaging', () => {
+    expect(modernUrl(true, 'secure-messaging', true)).to.equal(
+      '/my-health/secure-messages/inbox',
+    );
+  });
+  it('points to old version of secure-messaging', () => {
+    expect(modernUrl(true, 'secure-messaging', false)).to.equal(
+      'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=secure_messaging',
+    );
+  });
+});
 
 describe('mhvUrl', () => {
   it('should normalize path', () => {

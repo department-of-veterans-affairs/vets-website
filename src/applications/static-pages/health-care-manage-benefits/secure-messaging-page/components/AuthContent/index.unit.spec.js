@@ -1,32 +1,68 @@
 // Dependencies.
 import React from 'react';
+import { waitFor } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 // Relative imports.
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import AuthContent from '.';
 
 describe('Secure Messaging Page <AuthContent>', () => {
-  it('renders what we expect', () => {
-    const wrapper = shallow(<AuthContent />);
+  const authContentProps = {
+    authenticatedWithSSOe: true,
+    cernerFacilities: [
+      { usesCernerMessaging: true, facilityId: '123', isCerner: true },
+    ],
+    otherFacilities: [],
+    ehrDataByVhaId: {
+      358: { ehr: '', vamcFacilityName: '', vamcSystemName: '', vhaId: '' },
+    },
+    widgetType: 'secure-messaging-page',
+  };
+  const getState = ({
+    featureTogglesAreLoading = false,
+    mhvModernCtaLinks = true,
+  } = {}) => ({
+    featureToggles: {
+      loading: featureTogglesAreLoading,
+      /* eslint-disable camelcase */
+      mhv_modern_cta_links: mhvModernCtaLinks,
+      /* eslint-enable camelcase */
+    },
+  });
 
-    const text = wrapper.text();
-    expect(text).to.include('Send or receive a secure message');
-    expect(text).to.include(
-      'How can VA secure messaging help me manage my health care?',
+  it('renders what we expect', async () => {
+    const screen = renderWithStoreAndRouter(
+      <AuthContent {...authContentProps} />,
+      {
+        initialState: { ...getState() },
+      },
     );
-    expect(text).to.include('Am I eligible to use secure messaging?');
-    expect(text).to.include('How does secure messaging work?');
-    expect(text).to.include(
-      'Can I use secure messaging for medical emergencies or urgent needs?',
-    );
-    expect(text).to.include(
-      'Can I use secure messaging with community (non-VA) providers?',
-    );
-    expect(text).to.include(
-      'Will my personal health information be protected?',
-    );
-    expect(text).to.include('What if I have more questions?');
 
-    wrapper.unmount();
+    await waitFor(() => {
+      expect(screen.queryByText('Send or receive a secure message')).to.exist;
+      expect(
+        screen.queryByText(
+          'How can VA secure messaging help me manage my health care?',
+        ),
+      ).to.exist;
+      expect(screen.queryByText('Am I eligible to use secure messaging?')).to
+        .exist;
+      expect(screen.queryByText('How does secure messaging work?')).to.exist;
+      expect(screen.queryByText('Send or receive a secure message')).to.exist;
+      expect(
+        screen.queryByText(
+          'Can I use secure messaging for medical emergencies or urgent needs?',
+        ),
+      ).to.exist;
+      expect(
+        screen.queryByText(
+          'Can I use secure messaging with community (non-VA) providers?',
+        ),
+      ).to.exist;
+      expect(
+        screen.queryByText('Will my personal health information be protected?'),
+      ).to.exist;
+      expect(screen.queryByText('What if I have more questions?')).to.exist;
+    });
   });
 });

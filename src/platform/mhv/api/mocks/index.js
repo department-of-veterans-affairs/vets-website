@@ -21,6 +21,7 @@ const categories = require('./secure-messaging/categories');
 const maintenanceWindows = require('./secure-messaging/endpoints/maintenance-windows');
 const drafts = require('./secure-messaging/drafts');
 const messages = require('./secure-messaging/messages');
+const facilities = require('./secure-messaging/facilities');
 
 // medical records
 const session = require('./medical-records/session');
@@ -109,6 +110,7 @@ const responses = {
 
   'GET /my_health/v1/messaging/messages/categories':
     categories.defaultCategories,
+  'POST /facilities_api/v2/va': facilities.defaultFacilities,
   'POST /my_health/v1/messaging/messages': drafts.sendDraft,
   'POST /my_health/v1/messaging/message_drafts': drafts.newDraft,
   'PUT /my_health/v1/messaging/message_drafts/:id': drafts.updateDraft,
