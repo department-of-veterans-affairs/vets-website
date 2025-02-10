@@ -5,6 +5,9 @@ import {
   FETCH_APPOINTMENT_STARTED,
   FETCH_APPOINTMENT_SUCCESS,
   FETCH_APPOINTMENT_FAILURE,
+  SUBMIT_CLAIM_STARTED,
+  SUBMIT_CLAIM_SUCCESS,
+  SUBMIT_CLAIM_FAILURE,
 } from './actions';
 
 const initialState = {
@@ -15,6 +18,11 @@ const initialState = {
   },
   appointment: {
     isLoading: false,
+    error: null,
+    data: null,
+  },
+  claimSubmission: {
+    isSubmitting: false,
     error: null,
     data: null,
   },
@@ -71,6 +79,32 @@ function travelPayReducer(state = initialState, action) {
         appointment: {
           ...state.appointment,
           isLoading: false,
+          error: action.error,
+        },
+      };
+    case SUBMIT_CLAIM_STARTED:
+      return {
+        ...state,
+        claimSubmission: {
+          ...state.claimSubmission,
+          isSubmitting: true,
+        },
+      };
+    case SUBMIT_CLAIM_SUCCESS:
+      return {
+        ...state,
+        claimSubmission: {
+          error: null,
+          isSubmitting: false,
+          data: action.payload,
+        },
+      };
+    case SUBMIT_CLAIM_FAILURE:
+      return {
+        ...state,
+        claimSubmission: {
+          ...state.claimSubmission,
+          isSubmitting: false,
           error: action.error,
         },
       };
