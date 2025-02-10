@@ -44,7 +44,7 @@ export function pdfTransform(formData) {
     inputVeteranPrimaryPhone: phone,
     inputVeteranEmail: email,
     'view:selectedRepresentative': selectedRep,
-    applicantName,
+    inputNonVeteranClaimantName,
     applicantDOB,
     claimantRelationship,
     'Branch of Service': serviceBranch,
@@ -90,9 +90,9 @@ export function pdfTransform(formData) {
       ? null
       : {
           name: {
-            first: applicantName?.first || '',
-            middle: applicantName?.middle || '',
-            last: applicantName?.last || '',
+            first: inputNonVeteranClaimantName?.first || '',
+            middle: inputNonVeteranClaimantName?.middle || '',
+            last: inputNonVeteranClaimantName?.last || '',
           },
           dateOfBirth: applicantDOB || '',
           relationship: claimantRelationship || '',

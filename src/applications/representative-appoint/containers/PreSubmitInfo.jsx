@@ -6,7 +6,10 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getApplicantName, getRepresentativeName } from '../utilities/helpers';
+import {
+  getinputNonVeteranClaimantName,
+  getRepresentativeName,
+} from '../utilities/helpers';
 
 export const PreSubmitInfo = ({
   formData,
@@ -25,7 +28,7 @@ export const PreSubmitInfo = ({
   const [privacyPolicyChecked, setPrivacyPolicyChecked] = useState(false);
   const [privacyPolicyError, setPrivacyPolicyError] = useState(false);
 
-  const applicantFullName = getApplicantName(formData);
+  const applicantFullName = getinputNonVeteranClaimantName(formData);
 
   // Returns org for orgs and VSO reps, otherwise full name of attorney/claims agent
   const representativeName = getRepresentativeName(formData);

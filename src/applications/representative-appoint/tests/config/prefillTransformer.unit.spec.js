@@ -32,7 +32,7 @@ describe('prefillTransformer', () => {
       const data = {
         ...prefill,
         'view:applicantIsVeteran': 'Yes',
-        applicantName: 'test',
+        inputNonVeteranClaimantName: 'test',
         applicantDOB: 'test',
         applicantEmail: 'test',
         applicantPhone: 'test',
@@ -47,7 +47,7 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(data);
 
-      expect(result.applicantName).to.be.undefined;
+      expect(result.inputNonVeteranClaimantName).to.be.undefined;
       expect(result.applicantDOB).to.be.undefined;
       expect(result.applicantEmail).to.be.undefined;
       expect(result.applicantPhone).to.be.undefined;
@@ -67,7 +67,7 @@ describe('prefillTransformer', () => {
 
       const result = prefillTransformer(data);
 
-      expect(result.applicantName).to.eql({
+      expect(result.inputNonVeteranClaimantName).to.eql({
         first: 'Greg',
         last: 'Anderson',
         middle: 'A',

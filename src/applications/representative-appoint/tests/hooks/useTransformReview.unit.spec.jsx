@@ -38,7 +38,11 @@ describe('useTransformForReview', () => {
         },
         inputVeteranPrimaryPhone: '555-1234',
         inputVeteranEmail: 'jane.doe@example.com',
-        applicantName: { first: 'John', middle: 'B', last: 'Doe' },
+        inputNonVeteranClaimantName: {
+          first: 'John',
+          middle: 'B',
+          last: 'Doe',
+        },
         applicantDOB: '1990-01-01',
         claimantRelationship: 'Spouse',
         homeAddress: {
@@ -86,7 +90,7 @@ describe('useTransformForReview', () => {
   context('when applicant is a veteran', () => {
     it('should render the veteran information', () => {
       props.formData['view:applicantIsVeteran'] = 'Yes';
-      props.formData.applicantName = {
+      props.formData.inputNonVeteranClaimantName = {
         first: 'Jane',
         middle: 'A',
         last: 'Doe',

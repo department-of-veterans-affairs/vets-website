@@ -72,9 +72,13 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.CLAIMANT_PERSONAL_INFORMATION);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_applicantName_first"]').type('Adam');
-      cy.get('input[name="root_applicantName_middle"]').type('J');
-      cy.get('input[name="root_applicantName_last"]').type('Friedman');
+      cy.get('input[name="root_inputNonVeteranClaimantName_first"]').type(
+        'Adam',
+      );
+      cy.get('input[name="root_inputNonVeteranClaimantName_middle"]').type('J');
+      cy.get('input[name="root_inputNonVeteranClaimantName_last"]').type(
+        'Friedman',
+      );
 
       cy.get('va-select.usa-form-group--month-select')
         .shadow()

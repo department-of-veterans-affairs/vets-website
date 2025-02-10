@@ -21,7 +21,7 @@ export const uiSchema = {
       <ProfileNotUpdatedNote includePhone isClaimantChapter />
     ),
   },
-  applicantName: fullNameMiddleInitialUI,
+  inputNonVeteranClaimantName: fullNameMiddleInitialUI,
   applicantDOB: dateOfBirthUI({
     required: () => true,
   }),
@@ -33,7 +33,7 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    applicantName: {
+    inputNonVeteranClaimantName: {
       ...fullNameSchema,
       properties: {
         ...fullNameSchema.properties,

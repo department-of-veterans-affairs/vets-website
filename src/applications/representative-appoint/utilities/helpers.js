@@ -216,11 +216,11 @@ export const getRepresentativeName = formData => {
     : rep.attributes.fullName;
 };
 
-export const getApplicantName = formData => {
+export const getinputNonVeteranClaimantName = formData => {
   const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
   const applicantFullName = applicantIsVeteran
     ? formData.inputVeteranFullName
-    : formData.applicantName;
+    : formData.inputNonVeteranClaimantName;
 
   return [
     applicantFullName.first,

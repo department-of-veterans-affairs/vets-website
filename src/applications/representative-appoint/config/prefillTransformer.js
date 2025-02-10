@@ -26,7 +26,7 @@ export default function prefillTransformer(formData) {
     newFormData['Branch of Service'] =
       formData?.militaryInformation?.serviceBranch;
     // reset the applicant information in case of claimant type change
-    newFormData.applicantName = undefined;
+    newFormData.inputNonVeteranClaimantName = undefined;
     newFormData.applicantDOB = undefined;
     newFormData.applicantEmail = undefined;
     newFormData.applicantPhone = undefined;
@@ -38,7 +38,7 @@ export default function prefillTransformer(formData) {
       street: undefined,
     };
   } else {
-    newFormData.applicantName = {
+    newFormData.inputNonVeteranClaimantName = {
       first: formData?.personalInformation?.fullName?.first,
       middle: formData?.personalInformation?.fullName?.middle?.substring(0, 1),
       last: formData?.personalInformation?.fullName?.last,

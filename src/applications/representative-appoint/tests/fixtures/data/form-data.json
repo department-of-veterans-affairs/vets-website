@@ -21,7 +21,7 @@
     "state": "OH",
     "postalCode": "43210"
   },
-  "applicantName": { "first": "Bob", "last": "Tester" },
+  "inputNonVeteranClaimantName": { "first": "Bob", "last": "Tester" },
   "applicantDOB": "1990-01-01",
   "claimantRelationship": "CHILD",
   "inputVeteranFullName": {

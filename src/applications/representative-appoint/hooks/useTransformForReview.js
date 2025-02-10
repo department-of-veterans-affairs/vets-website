@@ -29,9 +29,9 @@ export function useTransformForReview(formData) {
   const claimant = applicantIsVeteran
     ? veteran
     : {
-        firstName: formData?.applicantName?.first,
-        middleName: formData?.applicantName?.middle,
-        lastName: formData?.applicantName?.last,
+        firstName: formData?.inputNonVeteranClaimantName?.first,
+        middleName: formData?.inputNonVeteranClaimantName?.middle,
+        lastName: formData?.inputNonVeteranClaimantName?.last,
         dateOfBirth: formData?.applicantDOB || '',
         relationship: formData?.claimantRelationship || '',
         street: formData?.homeAddress?.street,
