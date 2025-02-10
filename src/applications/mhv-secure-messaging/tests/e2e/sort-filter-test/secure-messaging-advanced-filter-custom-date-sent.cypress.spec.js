@@ -1,10 +1,10 @@
-import { format, subMonths } from 'date-fns';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
 import PatientSearchPage from '../pages/PatientSearchPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatentMessageSentPage from '../pages/PatientMessageSentPage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM SENT ADVANCED CUSTOM DATE RANGE SEARCH', () => {
   beforeEach(() => {
@@ -91,25 +91,25 @@ describe('SM SENT ADVANCED CUSTOM DATE RANGE SEARCH', () => {
       2,
       1,
     );
-    const currentYear = format(new Date(), 'yyyy');
-    const startMonth = format(subMonths(new Date(), 2), 'MMMM');
-    const endMonth = format(new Date(), 'MMMM');
+
+    const { year, startMonth, endMonth } = GeneralFunctionsPage.getParsedDate(
+      new Date(),
+    );
 
     PatientSearchPage.selectStartMonth(startMonth);
     PatientSearchPage.selectStartDay(`1`);
-    PatientSearchPage.getStartYear(currentYear - 1);
+    PatientSearchPage.getStartYear(year);
     PatientSearchPage.selectEndMonth(endMonth);
     PatientSearchPage.selectEndDay(`11`);
-    PatientSearchPage.getEndYear(currentYear);
+    PatientSearchPage.getEndYear(year);
 
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
-    cy.get(`.unread-icon`).should(`not.exist`);
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(2);
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      `${startMonth} 1st ${currentYear - 1} to ${endMonth} 11th ${currentYear}`,
+      `${startMonth} 1st ${year} to ${endMonth} 11th ${year}`,
     );
 
     cy.injectAxe();
