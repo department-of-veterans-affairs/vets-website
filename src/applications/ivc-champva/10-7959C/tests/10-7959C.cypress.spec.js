@@ -78,6 +78,32 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [ALL_PAGES.primaryComments.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('va-textarea')
+              .shadow()
+              .get('#input-type-textarea')
+              .type(data.primaryAdditionalComments, { force: true });
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [ALL_PAGES.secondaryComments.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('va-textarea')
+              .shadow()
+              .get('#input-type-textarea')
+              .type(data.secondaryAdditionalComments, { force: true });
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
