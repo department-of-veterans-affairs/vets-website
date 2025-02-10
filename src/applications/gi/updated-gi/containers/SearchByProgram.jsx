@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -8,6 +8,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
+import { geolocateUser, fetchSearchByLocationResults } from '../../actions';
 import { UseMyLocation } from '../components/school-and-employers/UseMyLocation';
 import { UseMyLocationModal } from '../components/school-and-employers/UseMyLocationModal';
 import { DISTANCE_DROPDOWN_OPTIONS } from '../../constants';
@@ -15,11 +16,11 @@ import { updateUrlParams } from '../../selectors/search';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 
 const SearchByProgram = ({
-  dispatchGeoLocateUser,
   dispatchShowFiltersBeforeResult,
   dispatchFetchSearchByNameResults,
   search,
 }) => {
+  const dispatch = useDispatch();
   const locationRef = useRef(null);
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
@@ -40,7 +41,7 @@ const SearchByProgram = ({
     recordEvent({
       event: 'map-use-my-location',
     });
-    dispatchGeoLocateUser();
+    dispatch(geolocateUser());
   };
 
   const doSearch = value => {
@@ -74,6 +75,9 @@ const SearchByProgram = ({
     });
     dispatchShowFiltersBeforeResult();
     doSearch(programName);
+    dispatch(
+      fetchSearchByLocationResults(location, distance, null, null, programName),
+    );
   };
 
   useEffect(
@@ -150,7 +154,6 @@ const SearchByProgram = ({
 
 SearchByProgram.propTypes = {
   dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
-  dispatchGeoLocateUser: PropTypes.func.isRequired,
   dispatchShowFiltersBeforeResult: PropTypes.func.isRequired,
   search: PropTypes.object.isRequired,
 };
