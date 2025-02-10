@@ -10,6 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import { UseMyLocation } from '../components/school-and-employers/UseMyLocation';
 import { UseMyLocationModal } from '../components/school-and-employers/UseMyLocationModal';
+import { DISTANCE_DROPDOWN_OPTIONS } from '../../constants';
 import { updateUrlParams } from '../../selectors/search';
 import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 
@@ -20,17 +21,10 @@ const SearchByProgram = ({
   search,
 }) => {
   const locationRef = useRef(null);
-  const distanceDropdownOptions = [
-    { value: '5', label: 'within 5 miles' },
-    { value: '15', label: 'within 15 miles' },
-    { value: '25', label: 'within 25 miles' },
-    { value: '50', label: 'within 50 miles' },
-    { value: '75', label: 'within 75 miles' },
-  ];
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const [programName, setProgramName] = useState(null);
-  const [searchDirty /* , setSearchDirty */] = useState(false);
+  const [searchDirty, setSearchDirty] = useState(false);
   const { version } = useSelector(state => state.preview);
   const filters = useSelector(state => state.filters);
   const history = useHistory();
@@ -38,6 +32,8 @@ const SearchByProgram = ({
   const focusLocationInput = () => {
     locationRef?.current?.shadowRoot?.querySelector('input').focus();
   };
+
+  const isFormError = () => !distance || !location || !programName;
 
   const handleLocateUser = e => {
     e.preventDefault();
@@ -68,6 +64,9 @@ const SearchByProgram = ({
   };
 
   const handleSearch = () => {
+    setSearchDirty(true);
+    // API call should not be made if there is an error in the form
+    if (isFormError()) return;
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': 'nameSearch',
@@ -133,7 +132,7 @@ const SearchByProgram = ({
           required
           error={searchDirty && !distance ? 'Please select a distance' : null}
         >
-          {distanceDropdownOptions.map(option => (
+          {DISTANCE_DROPDOWN_OPTIONS.map(option => (
             <option value={option.value} key={option.value}>
               {option.label}
             </option>
