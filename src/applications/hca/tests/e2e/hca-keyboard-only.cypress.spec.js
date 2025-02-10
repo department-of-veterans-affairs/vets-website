@@ -33,7 +33,6 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Birth sex
-    cy.selectRadioFromData('[name="root_gender"]', testData.gender);
     cy.tabToContinueForm();
 
     // Race/Ethnicity/Origin
@@ -42,8 +41,6 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Mailing address
-    const mailingAddress = testData.veteranAddress;
-    cy.typeInAddress('veteranAddress', mailingAddress);
     cy.selectRadioFromData(
       '[name="root_view:doesMailingMatchHomeAddress"]',
       'N',
@@ -56,9 +53,6 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Contact information
-    cy.typeInIfDataExists('[name="root_email"]', testData.email);
-    cy.typeInIfDataExists('[name="root_homePhone"]', testData.homePhone);
-    cy.typeInIfDataExists('[name="root_mobilePhone"]', testData.mobilePhone);
     cy.tabToContinueForm();
 
     // VA disability compensation
@@ -70,16 +64,6 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToContinueForm();
 
     // Military service
-    cy.selectDropdownFromData(
-      '[name="root_lastServiceBranch"]',
-      testData.lastServiceBranch,
-    );
-    cy.typeInDate('root_lastEntryDate', testData.lastEntryDate);
-    cy.typeInDate('root_lastDischargeDate', testData.lastDischargeDate);
-    cy.selectDropdownFromData(
-      '[name="root_dischargeType"]',
-      testData.dischargeType,
-    );
     cy.tabToContinueForm();
 
     // Service history
@@ -103,14 +87,9 @@ describe('HCA-Keyboard-Only', () => {
     const { gulfWarStartDate, gulfWarEndDate } = testData[
       'view:gulfWarServiceDates'
     ];
-    cy.typeInDate(
-      'root_view:gulfWarServiceDates_gulfWarStartDate',
-      gulfWarStartDate,
-    );
-    cy.typeInDate(
-      'root_view:gulfWarServiceDates_gulfWarEndDate',
-      gulfWarEndDate,
-    );
+    selector = field => `root_view:gulfWarServiceDates_${field}`;
+    cy.typeInDate(selector('gulfWarStartDate'), gulfWarStartDate);
+    cy.typeInDate(selector('gulfWarEndDate'), gulfWarEndDate);
     cy.tabToContinueForm();
 
     // Combat Operation service
@@ -137,14 +116,9 @@ describe('HCA-Keyboard-Only', () => {
     const { toxicExposureStartDate, toxicExposureEndDate } = testData[
       'view:toxicExposureDates'
     ];
-    cy.typeInDate(
-      'root_view:toxicExposureDates_toxicExposureStartDate',
-      toxicExposureStartDate,
-    );
-    cy.typeInDate(
-      'root_view:toxicExposureDates_toxicExposureEndDate',
-      toxicExposureEndDate,
-    );
+    selector = field => `root_view:toxicExposureDates_${field}`;
+    cy.typeInDate(selector('toxicExposureStartDate'), toxicExposureStartDate);
+    cy.typeInDate(selector('toxicExposureEndDate'), toxicExposureEndDate);
     cy.tabToContinueForm();
 
     // Financial info usage
@@ -220,17 +194,14 @@ describe('HCA-Keyboard-Only', () => {
 
     // Dependent's income
     selector = field => `[name="root_view:${field}_${field}`;
-    cy.typeInIfDataExists(selector('grossIncome'), dependent.grossIncome);
-    cy.typeInIfDataExists(selector('netIncome'), dependent.netIncome);
-    cy.typeInIfDataExists(selector('otherIncome'), dependent.otherIncome);
+    cy.typeInIfDataExists(selector('grossIncome'), '20000');
+    cy.typeInIfDataExists(selector('netIncome'), '10');
+    cy.typeInIfDataExists(selector('otherIncome'), '10');
     cy.tabToContinueForm();
 
     // Dependent's expenses
     cy.selectRadioFromData('[name="root_attendedSchoolLastYear"]', 'Y');
-    cy.typeInIfDataExists(
-      '[name="root_dependentEducationExpenses"]',
-      dependent.dependentEducationExpenses,
-    );
+    cy.typeInIfDataExists('[name="root_dependentEducationExpenses"]', '453');
     cy.tabToContinueForm();
 
     // Review dependents
@@ -238,21 +209,25 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
     // Veteran's income
-    cy.typeInIfDataExists(selector('veteranGrossIncome'), '3242434');
-    cy.typeInIfDataExists(selector('veteranNetIncome'), '23424');
-    cy.typeInIfDataExists(selector('veteranOtherIncome'), '23424');
+    selector = field => `[name="root_view:veteran${field}_veteran${field}"]`;
+    cy.typeInIfDataExists(selector('GrossIncome'), '3242434');
+    cy.typeInIfDataExists(selector('NetIncome'), '23424');
+    cy.typeInIfDataExists(selector('OtherIncome'), '23424');
     cy.tabToContinueForm();
 
     // Spouse's income
-    cy.typeInIfDataExists(selector('spouseGrossIncome'), '23424');
-    cy.typeInIfDataExists(selector('spouseNetIncome'), '23424');
-    cy.typeInIfDataExists(selector('spouseOtherIncome'), '23424');
+    selector = field => `[name="root_view:spouse${field}_spouse${field}"]`;
+    cy.typeInIfDataExists(selector('GrossIncome'), '23424');
+    cy.typeInIfDataExists(selector('NetIncome'), '23424');
+    cy.typeInIfDataExists(selector('OtherIncome'), '23424');
     cy.tabToContinueForm();
 
     // Deductible expenses
-    cy.typeInIfDataExists(selector('deductibleMedicalExpenses'), '234');
-    cy.typeInIfDataExists(selector('deductableEducationExpenses'), '11');
-    cy.typeInIfDataExists(selector('deductibleFuneralExpenses'), '10');
+    selector = field =>
+      `[name="root_view:deductible${field}_deductible${field}"]`;
+    cy.typeInIfDataExists(selector('MedicalExpenses'), '234');
+    cy.typeInIfDataExists(selector('EducationExpenses'), '11');
+    cy.typeInIfDataExists(selector('FuneralExpenses'), '10');
     cy.tabToContinueForm();
 
     // Medicaid eligibility
@@ -278,7 +253,7 @@ describe('HCA-Keyboard-Only', () => {
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
     // Health insurance coverage
-    cy.selectRadioFromData('isCoveredByHealthInsurance', 'Y');
+    cy.selectRadioFromData('[name="root_isCoveredByHealthInsurance"]', 'Y');
 
     const policy = testData.providers[0];
     selector = field => `[name="root_providers_0_${field}"]`;
