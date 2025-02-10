@@ -84,8 +84,8 @@ describe('Unauthenticated', () => {
         .shadow()
         .find('select')
         .select('April');
-      cy.get('input[name="root_applicantDOBDay"]').type('01');
-      cy.get('input[name="root_applicantDOBYear"]').type('1970');
+      cy.get('input[name="root_inputNonVeteranClaimantDOBDay"]').type('01');
+      cy.get('input[name="root_inputNonVeteranClaimantDOBYear"]').type('1970');
 
       h.clickContinue();
 

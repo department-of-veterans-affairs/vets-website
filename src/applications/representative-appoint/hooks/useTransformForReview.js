@@ -32,7 +32,7 @@ export function useTransformForReview(formData) {
         firstName: formData?.inputNonVeteranClaimantName?.first,
         middleName: formData?.inputNonVeteranClaimantName?.middle,
         lastName: formData?.inputNonVeteranClaimantName?.last,
-        dateOfBirth: formData?.applicantDOB || '',
+        dateOfBirth: formData?.inputNonVeteranClaimantDOB || '',
         relationship: formData?.claimantRelationship || '',
         street: formData?.homeAddress?.street,
         street2: formData?.homeAddress?.street2,

@@ -22,14 +22,14 @@ export const uiSchema = {
     ),
   },
   inputNonVeteranClaimantName: fullNameMiddleInitialUI,
-  applicantDOB: dateOfBirthUI({
+  inputNonVeteranClaimantDOB: dateOfBirthUI({
     required: () => true,
   }),
 };
 
 export const schema = {
   type: 'object',
-  required: ['applicantDOB'],
+  required: ['inputNonVeteranClaimantDOB'],
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
@@ -51,6 +51,6 @@ export const schema = {
         },
       },
     },
-    applicantDOB: dateOfBirthSchema,
+    inputNonVeteranClaimantDOB: dateOfBirthSchema,
   },
 };

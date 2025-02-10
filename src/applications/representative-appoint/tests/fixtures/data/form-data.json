@@ -22,7 +22,7 @@
     "postalCode": "43210"
   },
   "inputNonVeteranClaimantName": { "first": "Bob", "last": "Tester" },
-  "applicantDOB": "1990-01-01",
+  "inputNonVeteranClaimantDOB": "1990-01-01",
   "claimantRelationship": "CHILD",
   "inputVeteranFullName": {
     "first": "John",
