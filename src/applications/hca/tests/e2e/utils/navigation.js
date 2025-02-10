@@ -26,31 +26,6 @@ export const advanceToVaBenefits = (testData, props = {}) => {
   cy.selectRadio('root_vaCompensationType', compensation);
 };
 
-export const advanceToHousehold = () => {
-  startAsAuthUser();
-
-  goToNextPage('/veteran-information/birth-information');
-  goToNextPage('/veteran-information/maiden-name-information');
-  goToNextPage('/veteran-information/birth-sex');
-  goToNextPage('/veteran-information/demographic-information');
-  goToNextPage('/veteran-information/veteran-address');
-  cy.selectRadio('root_view:doesMailingMatchHomeAddress', 'Y');
-
-  goToNextPage('/veteran-information/contact-information');
-  goToNextPage('/va-benefits/basic-information');
-  cy.selectRadio('root_vaCompensationType', 'none');
-
-  goToNextPage('/va-benefits/pension-information');
-  cy.selectRadio('root_vaPensionType', 'No');
-
-  goToNextPage('/military-service/service-information');
-  goToNextPage('/military-service/additional-information');
-  goToNextPage('/military-service/toxic-exposure');
-  cy.selectRadio('root_hasTeraResponse', 'N');
-
-  goToNextPage('/household-information/financial-information-use');
-};
-
 export const advanceFromHouseholdToSubmit = (testData, props = {}) => {
   const { disclosureAssertionValue = true } = props;
 
