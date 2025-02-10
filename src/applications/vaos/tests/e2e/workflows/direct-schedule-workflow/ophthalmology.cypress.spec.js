@@ -40,7 +40,7 @@ import { getTypeOfCareById } from '../../../../utils/appointment';
 const typeOfCareId = getTypeOfCareById(OPHTHALMOLOGY_ID).idV2;
 const { cceType } = getTypeOfCareById(OPHTHALMOLOGY_ID);
 
-describe.skip('VAOS request schedule flow - Audiology', () => {
+describe('VAOS request schedule flow - Audiology', () => {
   beforeEach(() => {
     vaosSetup();
 

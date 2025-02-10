@@ -108,7 +108,7 @@ import {
   appStateSelector,
 } from '../../shared/utils/issues';
 
-import { showScNewForm } from '../utils/toggle';
+import { showScNewForm, clearRedirect } from '../utils/toggle';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -186,6 +186,7 @@ const formConfig = {
           schema: housingRisk.schema,
           depends: showScNewForm,
           scrollAndFocusTarget: focusAlertOrRadio,
+          onContinue: clearRedirect,
         },
         livingSituation: {
           title: 'Living situation',

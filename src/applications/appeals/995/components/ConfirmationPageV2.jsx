@@ -111,7 +111,11 @@ export const LivingSituationQuestions = ({ data } = {}) => (
             data-dd-action-name="point of contact phone number"
           >
             {data.pointOfContactPhone ? (
-              <va-telephone contact={data.pointOfContactPhone} not-clickable />
+              <va-telephone
+                contact={data.pointOfContactPhone}
+                international={data.pointOfContactHasInternationalPhone}
+                not-clickable
+              />
             ) : (
               'Nothing entered'
             )}
@@ -129,6 +133,7 @@ LivingSituationQuestions.propTypes = {
     otherHousingRisks: PropTypes.string,
     pointOfContactName: PropTypes.string,
     pointOfContactPhone: PropTypes.string,
+    pointOfContactHasInternationalPhone: PropTypes.bool,
   }),
 };
 
