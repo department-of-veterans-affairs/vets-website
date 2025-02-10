@@ -65,7 +65,7 @@ describe('Unauthenticated', () => {
       // CLAIMANT_RELATIONSHIP
       h.verifyUrl(ROUTES.CLAIMANT_RELATIONSHIP);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('claimantRelationship', 0);
+      h.selectRadio('inputNonVeteranClaimantRelationship', 0);
       h.clickContinue();
 
       // CLAIMANT_PERSONAL_INFORMATION;

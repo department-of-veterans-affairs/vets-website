@@ -23,7 +23,7 @@
   },
   "inputNonVeteranClaimantName": { "first": "Bob", "last": "Tester" },
   "inputNonVeteranClaimantDOB": "1990-01-01",
-  "claimantRelationship": "CHILD",
+  "inputNonVeteranClaimantRelationship": "CHILD",
   "inputVeteranFullName": {
     "first": "John",
     "middle": "E",

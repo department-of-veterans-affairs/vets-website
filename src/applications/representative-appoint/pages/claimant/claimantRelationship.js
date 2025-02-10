@@ -16,7 +16,7 @@ export const uiSchema = {
       </>
     );
   },
-  claimantRelationship: radioUI({
+  inputNonVeteranClaimantRelationship: radioUI({
     title: 'What’s your relationship to the Veteran?',
     labels: claimantRelationships,
     errorMessages: {
@@ -29,7 +29,7 @@ export const uiSchema = {
     'ui:title': `Please describe your relationship to the Veteran`,
     'ui:webComponentField': VaTextInputField,
     'ui:options': {
-      expandUnder: 'claimantRelationship',
+      expandUnder: 'inputNonVeteranClaimantRelationship',
       expandUnderCondition: 'RELATIONSHIP_NOT_LISTED',
       expandedContentFocus: true,
       maxLength: 42,
@@ -43,12 +43,15 @@ export const uiSchema = {
       if (formSchema?.properties?.relationshipNotListed?.['ui:collapsed']) {
         return {
           ...formSchema,
-          required: ['claimantRelationship'],
+          required: ['inputNonVeteranClaimantRelationship'],
         };
       }
       return {
         ...formSchema,
-        required: ['claimantRelationship', 'relationshipNotListed'],
+        required: [
+          'inputNonVeteranClaimantRelationship',
+          'relationshipNotListed',
+        ],
       };
     },
   },
@@ -57,9 +60,11 @@ export const uiSchema = {
 /** @type {UISchemaOptions} */
 export const schema = {
   type: 'object',
-  required: ['claimantRelationship'],
+  required: ['inputNonVeteranClaimantRelationship'],
   properties: {
-    claimantRelationship: radioSchema(Object.keys(claimantRelationships)),
+    inputNonVeteranClaimantRelationship: radioSchema(
+      Object.keys(claimantRelationships),
+    ),
     relationshipNotListed: { type: 'string', maxLength: 42 },
   },
 };

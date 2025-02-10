@@ -44,7 +44,7 @@ describe('useTransformForReview', () => {
           last: 'Doe',
         },
         inputNonVeteranClaimantDOB: '1990-01-01',
-        claimantRelationship: 'Spouse',
+        inputNonVeteranClaimantRelationship: 'Spouse',
         homeAddress: {
           street: '456 Oak St',
           city: 'Anytown',
