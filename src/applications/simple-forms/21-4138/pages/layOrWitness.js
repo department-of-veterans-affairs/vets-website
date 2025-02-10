@@ -5,8 +5,8 @@ import { LAY_OR_WITNESS_HANDOFF } from '../config/constants';
 export const layWitnessStatementPage = {
   uiSchema: {
     ...titleUI({
-      title: "There's a better way to submit your statement to us",
-      headerLevel: 1,
+      title: "There's a better way to submit your statement",
+      headerLevel: 2,
     }),
     'view:layOrWitnessContent': {
       'ui:description': LAY_OR_WITNESS_HANDOFF,
