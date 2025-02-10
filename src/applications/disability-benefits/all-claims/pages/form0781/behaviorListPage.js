@@ -14,6 +14,8 @@ import {
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
   validateBehaviorSelections,
+  behaviorListValidationError,
+  showConflictingAlert,
 } from '../../content/form0781/behaviorListPages';
 import {
   BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
@@ -25,6 +27,12 @@ import {
 export const uiSchema = {
   'ui:title': titleWithTag(behaviorListPageTitle, form0781HeadingTag),
   'ui:description': behaviorListDescription,
+  'view:conflictingResponseAlert': {
+    'ui:description': behaviorListValidationError,
+    'ui:options': {
+      hideIf: formData => showConflictingAlert(formData) === false,
+    },
+  },
   workBehaviors: checkboxGroupUI({
     title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.work,
     labelHeaderLevel: '4',
@@ -52,7 +60,7 @@ export const uiSchema = {
   unlistedBehaviors: textUI({
     title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.unlisted,
   }),
-  'view:optOut': checkboxGroupUI({
+  'view:noneCheckbox': checkboxGroupUI({
     title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.none,
     labelHeaderLevel: '4',
     labels: {
@@ -72,13 +80,14 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    'view:conflictingResponseAlert': {
+      type: 'object',
+      properties: {},
+    },
     workBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_WORK)),
     healthBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_HEALTH)),
     otherBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_OTHER)),
-    unlistedBehaviors: {
-      type: 'string',
-    },
-    'view:optOut': checkboxGroupSchema(['none']),
+    'view:noneCheckbox': checkboxGroupSchema(['none']),
     'view:behaviorAdditionalInformation': {
       type: 'object',
       properties: {},

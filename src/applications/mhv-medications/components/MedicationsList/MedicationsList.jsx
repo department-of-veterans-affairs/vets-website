@@ -109,13 +109,7 @@ const MedicationsList = props => {
       <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="print-only vads-u-margin--0 vads-u-width--full">
         {rxList?.length > 0 &&
-          rxList.map((rx, idx) => (
-            <PrescriptionPrintOnly
-              hideLineBreak={idx === rxList.length - 1}
-              key={idx}
-              rx={rx}
-            />
-          ))}
+          rxList.map((rx, idx) => <PrescriptionPrintOnly key={idx} rx={rx} />)}
       </div>
       <div
         className="vads-u-display--block vads-u-margin-top--3"
