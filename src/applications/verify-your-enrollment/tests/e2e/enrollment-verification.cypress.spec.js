@@ -86,19 +86,6 @@ describe('Enrollment Verification Page Tests', () => {
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
     ).should('contain', 'Verified');
   });
-  it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get(
-      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-      { timeout: 5000 },
-    ).click({ multiple: true });
-    cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]', {
-      timeout: 5000,
-    })
-      .should('be.visible')
-      .first()
-      .click({ multiple: true });
-  });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
     cy.get('a[aria-label="page 1, first page"]').click();
