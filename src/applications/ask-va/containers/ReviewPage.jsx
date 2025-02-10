@@ -193,6 +193,11 @@ const ReviewPage = props => {
       });
   };
 
+  const getSchoolString = (code, name) => {
+    if (code && name) return `${code} - ${name}`;
+    return null;
+  };
+
   const handleSubmit = () => {
     const files = localStorage.getItem('askVAFiles');
     const transformedData = submitTransformer(
@@ -745,9 +750,10 @@ const ReviewPage = props => {
                           name: 'School facility',
                           data: props.formData.school
                             ? props.formData.school
-                            : `${
-                                props.formData.schoolInfo.schoolFacilityCode
-                              } - ${props.formData.schoolInfo.schoolName}`,
+                            : getSchoolString(
+                                props.formData.schoolInfo?.schoolFacilityCode,
+                                props.formData.schoolInfo?.schoolName,
+                              ),
                           key: 'searchSchools',
                         },
                         {
