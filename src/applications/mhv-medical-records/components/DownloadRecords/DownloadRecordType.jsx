@@ -16,21 +16,45 @@ import { sendDataDogAction } from '../../util/helpers';
 const DownloadRecordType = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [checkAll, setCheckAll] = useState(false);
-  const [labTestCheck, setLabTestCheck] = useState(false);
-  const [careSummariesCheck, setCareSummariesCheck] = useState(false);
-  const [vaccineCheck, setVaccineCheck] = useState(false);
-  const [allergiesCheck, setAllergiesCheck] = useState(false);
-  const [conditionsCheck, setConditionsCheck] = useState(false);
-  const [vitalsCheck, setVitalsCheck] = useState(false);
-  const [medicationsCheck, setMedicationsCheck] = useState(false);
-  const [upcomingAppCheck, setUpcomingAppCheck] = useState(false);
-  const [pastAppCheck, setPastAppCheck] = useState(false);
-  const [demoCheck, setDemoCheck] = useState(false);
-  const [milServCheck, setMilServCheck] = useState(false);
 
+  const recordFilter = useSelector(state => state.mr.downloads?.recordFilter);
   const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
+
+  const [checkAll, setCheckAll] = useState(recordFilter?.length === 11);
+  const [labTestCheck, setLabTestCheck] = useState(
+    recordFilter?.includes('labTests'),
+  );
+  const [careSummariesCheck, setCareSummariesCheck] = useState(
+    recordFilter?.includes('careSummaries'),
+  );
+  const [vaccineCheck, setVaccineCheck] = useState(
+    recordFilter?.includes('vaccines'),
+  );
+  const [allergiesCheck, setAllergiesCheck] = useState(
+    recordFilter?.includes('allergies'),
+  );
+  const [conditionsCheck, setConditionsCheck] = useState(
+    recordFilter?.includes('conditions'),
+  );
+  const [vitalsCheck, setVitalsCheck] = useState(
+    recordFilter?.includes('vitals'),
+  );
+  const [medicationsCheck, setMedicationsCheck] = useState(
+    recordFilter?.includes('medications'),
+  );
+  const [upcomingAppCheck, setUpcomingAppCheck] = useState(
+    recordFilter?.includes('upcomingAppts'),
+  );
+  const [pastAppCheck, setPastAppCheck] = useState(
+    recordFilter?.includes('pastAppts'),
+  );
+  const [demoCheck, setDemoCheck] = useState(
+    recordFilter?.includes('demographics'),
+  );
+  const [milServCheck, setMilServCheck] = useState(
+    recordFilter?.includes('militaryService'),
+  );
 
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [selectionError, setSelectionError] = useState(null);
