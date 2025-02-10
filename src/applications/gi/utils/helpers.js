@@ -613,8 +613,15 @@ export const showLcParams = location => {
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
   const initialCategoryParam = searchParams.get('initial') ?? 'all';
+  const pageParam = searchParams.get('page') ?? 1;
 
-  return { nameParam, categoryParams, stateParam, initialCategoryParam };
+  return {
+    nameParam,
+    categoryParams,
+    stateParam,
+    initialCategoryParam,
+    pageParam,
+  };
 };
 
 export const handleLcResultsSearch = (
