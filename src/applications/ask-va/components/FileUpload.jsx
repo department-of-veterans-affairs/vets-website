@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { DownloadLink } from '../config/helpers';
+import { DownloadLink, getFileSizeMB } from '../config/helpers';
 
 const idList = numberOfIDs => {
   const ids = [];
@@ -65,7 +65,7 @@ const FileUpload = props => {
     const { files } = event.detail;
     const inputID = event.srcElement['data-testid'];
 
-    if (files[0]?.size / 1048576 > 25) {
+    if (getFileSizeMB(files[0]?.size) > 25) {
       return setFileErrors([...new Set([...fileErrors, inputID])]);
     }
 

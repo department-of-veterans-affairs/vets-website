@@ -786,9 +786,11 @@ export const getFiles = files => {
   });
 };
 
+export const getFileSizeMB = size => size / 104857;
+
 export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
   const fileSizeText = fileSize
-    ? ` (${(fileSize / 1048576).toFixed(2)} MB)`
+    ? ` (${getFileSizeMB(fileSize).toFixed(2)} MB)`
     : '';
 
   return (
