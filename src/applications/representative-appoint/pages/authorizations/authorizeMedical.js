@@ -20,7 +20,7 @@ export const uiSchema = {
       'Do you authorize this accredited representative to access your medical records?',
     updateUiSchema: formData => {
       const title = `Do you authorize this accredited ${getRepType(
-        formData['view:selectedRepresentative'],
+        formData.inputSelectedRepresentative,
       )} to access your medical records?`;
       return { 'ui:title': title };
     },

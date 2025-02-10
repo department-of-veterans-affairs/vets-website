@@ -24,7 +24,7 @@ export const schema = {
 
 export const pageDepends = formData => {
   const { userIsDigitalSubmitEligible, v2IsEnabled } = formData;
-  const entity = formData['view:selectedRepresentative'];
+  const entity = formData.inputSelectedRepresentative;
 
   const representativeAcceptsDigitalSubmission = entityAcceptsDigitalPoaRequests(
     entity,

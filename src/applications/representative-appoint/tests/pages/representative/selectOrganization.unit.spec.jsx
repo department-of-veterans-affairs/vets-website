@@ -14,7 +14,7 @@ describe('<SelectOrganization>', () => {
         formContext: {
           submitted,
         },
-        formData: { 'view:selectedRepresentative': repResults[0].data },
+        formData: { inputSelectedRepresentative: repResults[0].data },
         setFormData,
         goBack: sinon.spy(),
         goForward: sinon.spy(),
@@ -23,7 +23,7 @@ describe('<SelectOrganization>', () => {
       mockStore: {
         getState: () => ({
           form: {
-            data: { 'view:selectedRepresentative': repResults[0].data },
+            data: { inputSelectedRepresentative: repResults[0].data },
           },
         }),
         subscribe: () => {},
@@ -131,7 +131,7 @@ describe('<SelectOrganization>', () => {
         .returns(true);
 
       props.formData['view:representativeStatus'] = { id: '123' };
-      props.formData['view:selectedRepresentative'] = repResults[0].data;
+      props.formData.inputSelectedRepresentative = repResults[0].data;
       props.formData.selectedAccreditedOrganizationId = '123';
 
       const { getByText } = render(
@@ -157,7 +157,7 @@ describe('<SelectOrganization>', () => {
         .stub(reviewPageHook, 'useReviewPage')
         .returns(true);
       props.formData['view:representativeStatus'] = null;
-      props.formData['view:selectedRepresentative'] = repResults[0].data;
+      props.formData.inputSelectedRepresentative = repResults[0].data;
 
       props.formData.selectedAccreditedOrganizationId = '123';
 

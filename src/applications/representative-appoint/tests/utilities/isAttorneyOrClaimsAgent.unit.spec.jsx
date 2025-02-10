@@ -4,7 +4,7 @@ import { formIs2122A } from '../../utilities/helpers';
 describe('formIs2122A', () => {
   it('should return true when the selected rep has an individualType of attorney', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           individualType: 'attorney',
         },
@@ -16,7 +16,7 @@ describe('formIs2122A', () => {
 
   it('should return true when the selected rep has an individualType of claimsAgent', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           individualType: 'claimsAgent',
         },
@@ -28,7 +28,7 @@ describe('formIs2122A', () => {
 
   it('should return true when the selected rep has an individualType of claims_agent', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           individualType: 'claims_agent',
         },
@@ -40,7 +40,7 @@ describe('formIs2122A', () => {
 
   it('should return true when the selected rep has an individualType of claim_agents', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           individualType: 'claim_agents',
         },
@@ -52,7 +52,7 @@ describe('formIs2122A', () => {
 
   it('should return false when the selected rep has an other individualType', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           individualType: 'representative',
         },
@@ -64,7 +64,7 @@ describe('formIs2122A', () => {
 
   it('should return false when the selected rep has no individualType', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {},
       },
     };

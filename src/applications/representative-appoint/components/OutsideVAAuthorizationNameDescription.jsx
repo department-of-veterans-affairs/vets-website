@@ -8,7 +8,7 @@ const OutsideVAAuthorizationNameDescription = ({ formData }) => {
       <h3>Authorization for access outside of VA’s systems</h3>
       <p className="appoint-text">
         You’ve authorized this accredited{' '}
-        {getRepType(formData['view:selectedRepresentative'])}
+        {getRepType(formData.inputSelectedRepresentative)}
         ’s team to access your records outside of VA’s information technology
         systems.
       </p>

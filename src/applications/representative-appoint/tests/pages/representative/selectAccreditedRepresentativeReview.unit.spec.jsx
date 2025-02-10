@@ -11,13 +11,13 @@ describe('<SelectAccreditedRepresentativeReview>', () => {
     return {
       props: {
         data: {
-          'view:selectedRepresentative': repResults[0].data,
+          inputSelectedRepresentative: repResults[0].data,
         },
       },
       mockStore: {
         getState: () => ({
           data: {
-            'view:selectedRepresentative': repResults[0].data,
+            inputSelectedRepresentative: repResults[0].data,
           },
         }),
         subscribe: () => {},
@@ -57,7 +57,7 @@ describe('<SelectAccreditedRepresentativeReview>', () => {
 
     const props = {
       data: {
-        'view:selectedRepresentative': orgResult,
+        inputSelectedRepresentative: orgResult,
       },
     };
 

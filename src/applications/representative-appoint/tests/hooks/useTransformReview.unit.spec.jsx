@@ -18,7 +18,7 @@ describe('useTransformForReview', () => {
   beforeEach(() => {
     props = {
       formData: {
-        'view:selectedRepresentative': {
+        inputSelectedRepresentative: {
           attributes: { fullName: 'John Doe' },
           type: 'Attorney',
         },

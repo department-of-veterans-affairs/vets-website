@@ -5,7 +5,7 @@ import { getFormName } from '../../utilities/helpers';
 describe('getFormName', () => {
   it('should return the form name "Appointment of Veterans Service Organization as Claimant\'s Representative" for an organization representative', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'organization',
       },
     };
@@ -18,7 +18,7 @@ describe('getFormName', () => {
 
   it('should return the form name "Appointment of Veterans Service Organization as Claimant\'s Representative" when individualType is representative for an organization', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'organization',
         attributes: { individualType: 'representative' },
       },
@@ -32,7 +32,7 @@ describe('getFormName', () => {
 
   it('should return the form name "Appointment of Individual As Claimant\'s Representative" for an attorney representative', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'individual',
         attributes: { individualType: 'attorney' },
       },
@@ -46,7 +46,7 @@ describe('getFormName', () => {
 
   it('should return the form name "Appointment of Individual As Claimant\'s Representative" for a claims agent representative', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'individual',
         attributes: { individualType: 'claimsAgent' },
       },

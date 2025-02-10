@@ -23,7 +23,7 @@ describe('<PreSubmitInfo>', () => {
           },
           selectedAccreditedOrganizationName: 'American Legion',
           'view:applicantIsVeteran': 'Yes',
-          'view:selectedRepresentative': repResults[0].data,
+          inputSelectedRepresentative: repResults[0].data,
         },
         showError,
         onSectionComplete: sinon.spy(),

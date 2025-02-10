@@ -365,7 +365,7 @@
     }
   ],
   "view:applicantIsVeteran": "No",
-  "view:selectedRepresentative": {
+  "inputSelectedRepresentative": {
     "id": "20087",
     "type": "representative",
     "attributes": {

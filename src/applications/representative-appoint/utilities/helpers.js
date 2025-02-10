@@ -34,7 +34,7 @@ export const formatDate = (date, format = DATE_FORMAT) => {
  * Setting subtitle based on rep type
  */
 export const getFormSubtitle = formData => {
-  const entity = formData['view:selectedRepresentative'];
+  const entity = formData.inputSelectedRepresentative;
   const entityType = entity?.type;
 
   if (entityType === 'organization') {
@@ -124,7 +124,7 @@ export const getFormNumberFromEntity = entity => {
 };
 
 export const getFormNumber = formData => {
-  const entity = formData['view:selectedRepresentative'];
+  const entity = formData.inputSelectedRepresentative;
   const entityType = entity?.type;
 
   if (
@@ -164,15 +164,15 @@ export const isVSORepresentative = rep => {
  */
 export const formIs2122A = formData =>
   ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
-    formData?.['view:selectedRepresentative']?.attributes?.individualType,
+    formData?.inputSelectedRepresentative?.attributes?.individualType,
   ) || null;
 
 const isOrg = formData =>
-  formData['view:selectedRepresentative']?.type === 'organization';
+  formData.inputSelectedRepresentative?.type === 'organization';
 
 export const getOrgName = formData => {
   if (isOrg(formData)) {
-    return formData['view:selectedRepresentative']?.attributes?.name;
+    return formData.inputSelectedRepresentative?.attributes?.name;
   }
 
   if (formIs2122A(formData)) {
@@ -180,7 +180,7 @@ export const getOrgName = formData => {
   }
 
   const orgs =
-    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+    formData.inputSelectedRepresentative?.attributes?.accreditedOrganizations
       ?.data;
 
   if (orgs && orgs.length > 1) {
@@ -201,17 +201,17 @@ export const formIs2122 = rep => {
 
 // Rep name used in Terms and Conditions agreement
 export const getRepresentativeName = formData => {
-  const rep = formData['view:selectedRepresentative'];
+  const rep = formData.inputSelectedRepresentative;
 
   if (!rep) {
     return null;
   }
 
   if (isOrg(formData)) {
-    return formData['view:selectedRepresentative']?.attributes?.name;
+    return formData.inputSelectedRepresentative?.attributes?.name;
   }
 
-  return isVSORepresentative(formData['view:selectedRepresentative'])
+  return isVSORepresentative(formData.inputSelectedRepresentative)
     ? formData.selectedAccreditedOrganizationName
     : rep.attributes.fullName;
 };

@@ -5,7 +5,7 @@ import { getOrgName } from '../../utilities/helpers';
 describe('getOrgName', () => {
   it('should return the organization name when the representative is an organization', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'organization',
         attributes: { name: 'Disabled American Veterans' },
       },
@@ -17,7 +17,7 @@ describe('getOrgName', () => {
 
   it('should return null when the representative is an attorney or claims agent', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'individual',
         attributes: { individualType: 'attorney' },
       },
@@ -30,7 +30,7 @@ describe('getOrgName', () => {
   it('should return the accredited organization name based on selected ID', () => {
     const mockFormData = {
       selectedAccreditedOrganizationId: '1',
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           accreditedOrganizations: {
             data: [
@@ -48,7 +48,7 @@ describe('getOrgName', () => {
 
   it('should return the only accredited organization name when there is one organization', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           accreditedOrganizations: {
             data: [
@@ -66,7 +66,7 @@ describe('getOrgName', () => {
   it('should return undefined when no matching accredited organization is found', () => {
     const mockFormData = {
       selectedAccreditedOrganizationId: '2', // No match
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         attributes: {
           accreditedOrganizations: {
             data: [

@@ -4,7 +4,7 @@ import { getOrgName, convertRepType } from '../utilities/helpers';
 const SelectedAccreditedRepresentativeReview = props => {
   const { data, goToPath } = props;
   const {
-    'view:selectedRepresentative': { attributes: selectedRep },
+    inputSelectedRepresentative: { attributes: selectedRep },
   } = data;
 
   const isIndividual = !!selectedRep.individualType;

@@ -12,7 +12,7 @@ describe('getRepresentativeName', () => {
 
   it('should return the name attribute for an organization', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'organization',
         attributes: {
           name: 'This is my name',
@@ -26,7 +26,7 @@ describe('getRepresentativeName', () => {
 
   it('should return selectedAccreditedOrganizationName for an individual with many organizations', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'individual',
         attributes: {
           name: 'This is my name',
@@ -42,7 +42,7 @@ describe('getRepresentativeName', () => {
 
   it('should return fullName attribute for an individual with no organizations', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         type: 'individual',
         attributes: {
           name: 'This is my name',

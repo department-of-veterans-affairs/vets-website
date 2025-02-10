@@ -41,7 +41,7 @@ export const uiSchema = {
       'Do you authorize this accredited representative’s team to access your records outside of VA’s information technology systems?',
     updateUiSchema: formData => {
       const title = `Do you authorize this accredited ${getRepType(
-        formData['view:selectedRepresentative'],
+        formData.inputSelectedRepresentative,
       )}’s team to access your records outside VA’s information technology systems?`;
       return { 'ui:title': title };
     },

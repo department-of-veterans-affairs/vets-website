@@ -10,7 +10,7 @@ const SelectOrganization = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
   const [error, setError] = useState(null);
   const organizations =
-    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+    formData.inputSelectedRepresentative?.attributes?.accreditedOrganizations
       ?.data;
 
   // // v2 feature pending availableSubmissionMethods
@@ -24,7 +24,7 @@ const SelectOrganization = props => {
 
   const isReplacingRep =
     !!formData['view:representativeStatus']?.id &&
-    !!formData['view:selectedRepresentative'];
+    !!formData.inputSelectedRepresentative;
 
   const handleGoBack = () => {
     if (isReviewPage) {

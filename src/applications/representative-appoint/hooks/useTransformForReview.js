@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { convertRepType } from '../utilities/helpers';
 
 export function useTransformForReview(formData) {
-  const representative = formData['view:selectedRepresentative'].attributes;
+  const representative = formData.inputSelectedRepresentative.attributes;
   const organization = formData.selectedAccreditedOrganizationName;
   const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
 
@@ -87,7 +87,7 @@ export function useTransformForReview(formData) {
           {renderField('Organization', organization)}
           {renderField(
             'Type',
-            convertRepType(formData?.['view:selectedRepresentative']?.type),
+            convertRepType(formData?.inputSelectedRepresentative?.type),
           )}
           <p className="light-gray">Mailing address</p>
           {representative?.addressLine1 && <p>{representative.addressLine1}</p>}

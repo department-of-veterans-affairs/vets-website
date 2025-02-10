@@ -20,7 +20,7 @@ export const uiSchema = {
       'Do you authorize this accredited representative to change your address on VA records?',
     updateUiSchema: formData => {
       const title = `Do you authorize this accredited ${getRepType(
-        formData['view:selectedRepresentative'],
+        formData.inputSelectedRepresentative,
       )} to change your address on VA records?`;
       return { 'ui:title': title };
     },

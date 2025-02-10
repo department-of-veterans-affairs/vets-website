@@ -21,7 +21,7 @@ describe('getEntityAddressAsString', () => {
 
   it('should return a correctly formatted string with missing fields', () => {
     const mockFormData = {
-      'view:selectedRepresentative': {
+      inputSelectedRepresentative: {
         addressLine1: '',
         addressLine2: '',
         addressLine3: '',

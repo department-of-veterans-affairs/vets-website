@@ -163,7 +163,7 @@ const formConfig = {
           hideOnReview: true,
           depends: formData =>
             !!formData['view:representativeStatus']?.id &&
-            !!formData['view:selectedRepresentative'],
+            !!formData.inputSelectedRepresentative,
           uiSchema: replaceAccreditedRepresentative.uiSchema,
           schema: replaceAccreditedRepresentative.schema,
         },

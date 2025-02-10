@@ -12,7 +12,7 @@ describe('Confirmation Page', () => {
   let useSelectorStub;
 
   const mockFormData = {
-    'view:selectedRepresentative': {
+    inputSelectedRepresentative: {
       type: 'individual',
       fullName: 'Brian Daniel',
       addressLine1: '400 South 18th Street',

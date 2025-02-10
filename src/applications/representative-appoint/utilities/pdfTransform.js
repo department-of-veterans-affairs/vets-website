@@ -43,7 +43,7 @@ export function pdfTransform(formData) {
     inputVeteranHomeAddress: homeAddress,
     inputVeteranPrimaryPhone: phone,
     inputVeteranEmail: email,
-    'view:selectedRepresentative': selectedRep,
+    inputSelectedRepresentative: selectedRep,
     inputNonVeteranClaimantName,
     inputNonVeteranClaimantDOB,
     inputNonVeteranClaimantRelationship,

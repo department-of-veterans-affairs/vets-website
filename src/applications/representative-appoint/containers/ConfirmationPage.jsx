@@ -17,7 +17,7 @@ export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
   const { data: formData } = useSelector(state => state.form);
-  const selectedEntity = formData['view:selectedRepresentative'];
+  const selectedEntity = formData.inputSelectedRepresentative;
   const sendNextStepsEmailPayload = {
     formNumber: getFormNumber(formData),
     formName: getFormName(formData),

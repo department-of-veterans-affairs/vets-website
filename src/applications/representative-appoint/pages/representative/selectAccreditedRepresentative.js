@@ -22,5 +22,5 @@ export const schema = {
       type: 'string',
     },
   },
-  required: ['view:selectedRepresentative'],
+  required: ['inputSelectedRepresentative'],
 };

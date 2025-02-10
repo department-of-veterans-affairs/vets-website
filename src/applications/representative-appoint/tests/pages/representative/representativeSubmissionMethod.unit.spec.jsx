@@ -163,7 +163,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
       it('returns false', () => {
         const formData = {
           v2IsEnabled: false,
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
@@ -182,7 +182,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
         it('returns false', () => {
           const formData = {
             v2IsEnabled: true,
-            'view:selectedRepresentative': {
+            inputSelectedRepresentative: {
               type: 'organization',
               attributes: { canAcceptDigitalPoaRequests: false },
             },
@@ -200,7 +200,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
       it('returns false', () => {
         const formData = {
           v2IsEnabled: true,
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
@@ -217,7 +217,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
       it('returns true', () => {
         const formData = {
           v2IsEnabled: true,
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },

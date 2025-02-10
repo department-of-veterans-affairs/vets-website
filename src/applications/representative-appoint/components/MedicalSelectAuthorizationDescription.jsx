@@ -8,7 +8,7 @@ const MedicalSelectAuthorizationDescription = ({ formData }) => {
       <h3>Authorization to access certain medical records</h3>
       <p className="vads-u-margin-bottom--3 appoint-text">
         You’ve authorized this accredited{' '}
-        {getRepType(formData['view:selectedRepresentative'])} to access some of
+        {getRepType(formData.inputSelectedRepresentative)} to access some of
         your medical records.
       </p>
     </>

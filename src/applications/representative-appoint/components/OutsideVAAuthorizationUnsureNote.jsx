@@ -10,7 +10,7 @@ const OutsideVAAuthorizationUnsureNote = props => {
     <>
       <p className="appoint-text">
         <strong>Note:</strong> If you’re not sure who to enter, ask the
-        accredited {getRepType(formData['view:selectedRepresentative'])} you’re
+        accredited {getRepType(formData.inputSelectedRepresentative)} you’re
         appointing.{' '}
       </p>
     </>

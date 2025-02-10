@@ -16,7 +16,7 @@ import {
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
-  const selectedEntity = formData['view:selectedRepresentative'];
+  const selectedEntity = formData.inputSelectedRepresentative;
   const repType = getRepType(selectedEntity);
   const entityAttributes = selectedEntity?.attributes;
   const addressData = getEntityAddressAsObject(entityAttributes);

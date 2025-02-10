@@ -23,11 +23,11 @@ export const schema = {
 
 export const pageDepends = formData => {
   return (
-    !!formData['view:selectedRepresentative'] &&
+    !!formData.inputSelectedRepresentative &&
     ['representative', 'veteran_service_officer'].includes(
-      formData['view:selectedRepresentative'].attributes?.individualType,
+      formData.inputSelectedRepresentative.attributes?.individualType,
     ) &&
-    formData['view:selectedRepresentative'].attributes?.accreditedOrganizations
+    formData.inputSelectedRepresentative.attributes?.accreditedOrganizations
       ?.data?.length > 1
   );
 };
