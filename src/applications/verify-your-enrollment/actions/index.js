@@ -78,7 +78,6 @@ export const updateVerifications = verifications => ({
  * Then dispatches FETCH_PERSONAL_INFO_SUCCESS upon success.
  */
 async function doDGIBCall(dispatch) {
-  // 2a) GET to local endpoint
   const claimantRes = await apiRequest(
     `${API_URL}/dgib_verifications/claimant_lookup`,
     {
@@ -88,8 +87,6 @@ async function doDGIBCall(dispatch) {
       },
     },
   );
-
-  // 2b) POST to local endpoint, using claimantId from the first call
   const verificationRecordRes = await apiRequest(
     `${API_URL}/dgib_verifications/verification_record`,
     {
