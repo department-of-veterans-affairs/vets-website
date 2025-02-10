@@ -356,13 +356,13 @@ export default function LicenseCertificationSearchResults() {
   ) {
     return (
       <>
-        <div className="row vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
+        <div className="row vads-u-padding-x--2p5 desktop:vads-u-padding-x--0 ">
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search Results
           </h1>
-        </div>
-        <div className="row">
-          <p className="vads-u-margin-top--0 ">
+          {/* </div> */}
+          {/* <div className="row"> */}
+          <p className="vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--7 ">
             We didn't find any results for "<strong>{nameParam}</strong>" Please{' '}
             <va-link
               href="./"
