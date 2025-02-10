@@ -32,7 +32,7 @@ const faqs = [
       <>
         <va-link
           text="Find out how to get reimbursed for licenses, certifications and prep courses"
-          href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/" // check link structure
+          href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
         />
         <br />
         <br />
@@ -45,7 +45,7 @@ const faqs = [
         <br />
         <va-link
           text="Get VA Form22-0803 to download"
-          href="../find-forms/about-form-22-0803/"
+          href="https://www.va.gov/find-forms/about-form-22-0803/"
         />
       </>
     ),

@@ -356,16 +356,16 @@ export default function LicenseCertificationSearchResults() {
   ) {
     return (
       <>
-        <div className="row">
+        <div className="row vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search Results
           </h1>
         </div>
         <div className="row">
-          <p className="vads-u-margin-top--0">
+          <p className="vads-u-margin-top--0 ">
             We didn't find any results for "<strong>{nameParam}</strong>" Please{' '}
             <va-link
-              href="./" // check link structure
+              href="./"
               onClick={e => handleGoHome(e)}
               text="go back to search"
             />{' '}
@@ -378,7 +378,7 @@ export default function LicenseCertificationSearchResults() {
               entitlement charges based on the actual amount of the fee charged
               for the test.{' '}
               <va-link
-                href="../../find-forms/about-form-22-0803/" // check link structure
+                href="https://www.va.gov/find-forms/about-form-22-0803/"
                 text="Find out how to get reimbursed for
                 licenses, certifications and prep courses."
               />

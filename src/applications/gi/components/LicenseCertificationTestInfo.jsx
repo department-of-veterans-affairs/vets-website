@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useEffect, useState } from 'react';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   formatDollarAmountWithCents,
@@ -36,6 +36,31 @@ function LcTestInfo({ tests }) {
     },
     [tests],
   );
+
+  useEffect(() => {
+    function handleResize() {
+      const isNowMobile = window.innerWidth < 481;
+      const vaTableInner = document.querySelector(
+        '.table-wrapper va-table-inner',
+      );
+      if (vaTableInner?.shadowRoot) {
+        const { shadowRoot } = vaTableInner;
+        const usaTable = shadowRoot.querySelector('.usa-table');
+        if (usaTable) {
+          if (isNowMobile) {
+            usaTable.classList.add('usa-table--bordered');
+            usaTable.classList.remove('usa-table--borderless');
+          } else {
+            usaTable.classList.remove('usa-table--bordered');
+            usaTable.classList.add('usa-table--borderless');
+          }
+        }
+      }
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const itemsPerPage = 10;
 
