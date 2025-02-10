@@ -1,0 +1,42 @@
+{
+  "exam": {
+    "enrichedId": "1@acce9",
+    "name": "AP-ADVANCED PLACEMENT EXAMS",
+    "tests": [
+      {
+        "name": "AP Exam Fee International",
+        "fee": "127",
+        "beginDate": "01-NOV-16",
+        "endDate": "30-NOV-23"
+      },
+      {
+        "name": "AP Registration Fee",
+        "fee": "97",
+        "beginDate": "01-NOV-16",
+        "endDate": "30-NOV-23"
+      }
+    ],
+    "institution": {
+      "name": "COLLEGE BOARD",
+      "physicalAddress": {
+        "address1": "PO BOX 6671",
+        "address2": null,
+        "address3": null,
+        "city": "PRINCETON",
+        "state": "NJ",
+        "zip": "08541",
+        "country": "USA"
+      },
+      "mailingAddress": {
+        "address1": "PO BOX 6671",
+        "address2": null,
+        "address3": null,
+        "city": "PRINCETON",
+        "state": "NJ",
+        "zip": "08541",
+        "country": "USA"
+      },
+      "webAddress": null
+    }
+  }
+}
