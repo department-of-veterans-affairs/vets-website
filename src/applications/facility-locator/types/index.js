@@ -220,7 +220,6 @@ export const FacilitiesMapTypes = {
   selectedResult: PropTypes.any,
   specialties: PropTypes.any,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
   usePredictiveGeolocation: PropTypes.bool,
 };
@@ -233,5 +232,4 @@ export const SearchControlsTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
 };
