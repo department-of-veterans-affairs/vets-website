@@ -36,10 +36,10 @@ const ConfirmationPage = () => {
           <h2 slot="headline">Claim submitted</h2>
           <p className="vads-u-margin-y--0">
             This claim is for your appointment at{' '}
-            {data.location.attributes.name}{' '}
-            {data.practitioners.length > 0
-              ? `with ${data.practitioners[0].name.given.join(' ')} ${
-                  data.practitioners[0].name.family
+            {data.location?.attributes?.name}{' '}
+            {data.practitioners?.length > 0
+              ? `with ${data.practitioners[0]?.name?.given?.join(' ')} ${
+                  data.practitioners[0]?.name?.family
                 }`
               : ''}{' '}
             on {formattedDate}, {formattedTime}.

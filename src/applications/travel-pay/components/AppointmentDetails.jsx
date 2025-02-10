@@ -30,7 +30,7 @@ const AppointmentDetails = ({ appointment }) => {
       <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
       to file for your appointment on{' '}
       <strong>
-        {formattedDate} at {appointment.location.attributes.name}
+        {formattedDate} at {appointment.location?.attributes?.name}
       </strong>
       .
     </p>
