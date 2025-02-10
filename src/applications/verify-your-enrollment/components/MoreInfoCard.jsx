@@ -14,9 +14,10 @@ const MoreInfoCard = ({
   const response = useSelector(state => state.personalInfo);
   if (
     response?.error?.error === 'Forbidden' ||
+    !response?.personalInfo ||
     [
-      response.personalInfo?.verificationRecord?.status,
-      response.personalInfo?.status,
+      response?.personalInfo?.verificationRecord?.status,
+      response?.personalInfo?.status,
     ].includes(204)
   )
     return null;

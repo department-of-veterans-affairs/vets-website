@@ -11,6 +11,7 @@ const CurrentBenefitsStatus = ({
 }) => {
   const response = useSelector(state => state.personalInfo);
   if (
+    !response.personalInfo ||
     response?.error?.error === 'Forbidden' ||
     [
       response.personalInfo?.verificationRecord?.status,

@@ -293,6 +293,7 @@ const PreviousEnrollmentVerifications = ({
           total={totalEnrollmentCount}
           dontHaveEnrollment={
             response?.error?.error === 'Forbidden' ||
+            !response.personalInfo ||
             [
               response.personalInfo?.verificationRecord?.status,
               response.personalInfo?.status,
