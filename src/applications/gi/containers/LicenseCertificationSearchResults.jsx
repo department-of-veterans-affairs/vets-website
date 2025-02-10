@@ -16,6 +16,7 @@ import {
   mappedStates,
   showLcParams,
   showMultipleNames,
+  updateQueryParam,
   updateStateDropdown,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
@@ -74,15 +75,20 @@ export default function LicenseCertificationSearchResults() {
     categoryParams,
     stateParam,
     initialCategoryParam,
+    pageParam,
   } = showLcParams(location);
 
   const dispatch = useDispatch();
 
-  const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
-    state => state.licenseCertificationSearch,
-  );
+  const {
+    hasFetchedOnce,
+    fetchingLc,
+    filteredResults,
+    lcResults,
+    error,
+  } = useSelector(state => state.licenseCertificationSearch);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(pageParam);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
@@ -92,11 +98,10 @@ export default function LicenseCertificationSearchResults() {
   const [filterLocation, setFilterLocation] = useState(stateParam);
   const [dropdown, setDropdown] = useState(() => {
     return updateStateDropdown(
-      showMultipleNames(filteredResults, nameParam),
+      showMultipleNames(lcResults, nameParam),
       filterLocation,
     );
   });
-
   const itemsPerPage = 10;
 
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
@@ -114,7 +119,14 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       if (hasFetchedOnce) {
-        dispatch(filterLcResults(nameParam ?? '', categoryParams, stateParam));
+        dispatch(
+          filterLcResults(
+            nameParam ?? '',
+            categoryParams,
+            stateParam,
+            filteredResults,
+          ),
+        );
       }
     },
     [hasFetchedOnce, stateParam],
@@ -124,7 +136,12 @@ export default function LicenseCertificationSearchResults() {
     () => {
       if (allowUpdate) {
         dispatch(
-          filterLcResults(nameParam ?? '', activeCategories, filterLocation),
+          filterLcResults(
+            nameParam ?? '',
+            activeCategories,
+            filterLocation,
+            filteredResults,
+          ),
         );
       }
 
@@ -138,7 +155,7 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       let final = updateStateDropdown(
-        showMultipleNames(filteredResults, nameParam),
+        showMultipleNames(lcResults, nameParam),
         filterLocation,
       );
 
@@ -171,10 +188,12 @@ export default function LicenseCertificationSearchResults() {
       category: categoryNames.length > 0 ? categoryNames : [null],
       name,
       state,
+      currentPage,
     };
 
     setAllowUpdate(true);
     setActiveCategories(categoryNames);
+    updateQueryParam(history, location, newParams);
     handleLcResultsSearch(
       history,
       newParams.category,
@@ -189,6 +208,14 @@ export default function LicenseCertificationSearchResults() {
   };
 
   const handlePageChange = page => {
+    const newParams = {
+      category: categoryParams,
+      name: nameParam,
+      state: stateParam,
+      page,
+    };
+
+    updateQueryParam(history, location, newParams);
     setCurrentPage(page);
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
@@ -280,13 +307,20 @@ export default function LicenseCertificationSearchResults() {
                 <strong key={index}>
                   {capitalizeFirstLetter(category, ['course'])}
                 </strong>
-                "{index === activeCategories.length - 1 && <>,</>}
+                "
+                {(index !== activeCategories.length - 1 || nameParam) && <>,</>}
               </span>
             );
           })
         )}
         <span className="info-option">
-          "<strong>{nameParam}</strong>"{!previousRouteHome && <>,</>}{' '}
+          {nameParam && (
+            <>
+              {' '}
+              "<strong>{nameParam}</strong>"{' '}
+            </>
+          )}
+          {!previousRouteHome && <>,</>}{' '}
         </span>
         {!previousRouteHome && (
           <span className="info-option">
@@ -317,7 +351,7 @@ export default function LicenseCertificationSearchResults() {
   if (
     !fetchingLc &&
     hasFetchedOnce &&
-    filteredResults.length - 1 <= 0 &&
+    filteredResults.length === 0 &&
     previousRouteHome
   ) {
     return (
@@ -369,7 +403,7 @@ export default function LicenseCertificationSearchResults() {
 
               <div className="lc-result-info-wrapper row">
                 <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                  {filteredResults.length - 1 <= 0 ? (
+                  {filteredResults.length === 0 ? (
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
                       {activeCategories.length >= 1
                         ? `There is no ${activeCategories} available in the state of ${stateParam}`
@@ -383,7 +417,7 @@ export default function LicenseCertificationSearchResults() {
                           filteredResults,
                           currentPage,
                           itemsPerPage,
-                        )} of ${filteredResults.length - 1} results for `}
+                        )} of ${filteredResults.length} results for `}
                         {renderSearchInfo()}
                       </>
                     </p>
@@ -402,8 +436,8 @@ export default function LicenseCertificationSearchResults() {
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
-                        button="Update Search"
-                        buttonLabel="Update Search"
+                        button="Filter your results"
+                        buttonLabel="Filter your results"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
                           handleSearch(
@@ -427,7 +461,7 @@ export default function LicenseCertificationSearchResults() {
                     </div>
                   </div>
 
-                  {filteredResults.length - 1 > 0 && (
+                  {filteredResults.length > 0 && (
                     <ul
                       className={
                         !smallScreen
@@ -436,7 +470,6 @@ export default function LicenseCertificationSearchResults() {
                       }
                     >
                       {currentResults.map((result, index) => {
-                        if (index === 0) return null;
                         return (
                           <li className="vads-u-padding-bottom--2" key={index}>
                             <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">

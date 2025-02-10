@@ -11,7 +11,6 @@ import ClearFiltersBtn from './ClearFiltersBtn';
 export default function LicenseCertificationFilterAccordion({
   children,
   buttonLabel,
-  button,
   buttonOnClick, // update results
   onClick,
   headerClass,
@@ -42,14 +41,18 @@ export default function LicenseCertificationFilterAccordion({
         <button
           // id={`${id}-button`}
           onClick={toggle}
-          className="usa-accordion-button vads-u-font-size--md"
+          className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--4"
           // aria-isExpanded={isExpanded}
           // aria-controls={id}
           data-testid="update-tuition-housing"
         >
-          <span className="vads-u-font-family--serif accordion-button-text">
-            {button}
-          </span>
+          <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
+            <span className="vads-u-font-family--serif accordion-button-text">
+              {buttonLabel}
+            </span>
+
+            <va-icon icon={isExpanded ? 'remove' : 'add'} size={3} />
+          </div>
         </button>
       </h2>
     );
@@ -112,7 +115,6 @@ export default function LicenseCertificationFilterAccordion({
 }
 
 LicenseCertificationFilterAccordion.propTypes = {
-  button: PropTypes.string.isRequired,
   buttonLabel: PropTypes.string.isRequired,
   // buttonOnClick: PropTypes.func.isRequired,
   buttonOnClick: PropTypes.func,
