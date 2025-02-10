@@ -22,7 +22,7 @@ const SearchInput = ({ formData, setFormData, error, onSubmit }) => {
             label="Enter the name of the accredited representative or Veterans Service Organization (VSO) you’d like to appoint"
             error={error}
             value={
-              formData['view:representativeQuerySubmission'] ||
+              formData.inputRepresentativeQuerySubmission ||
               formData.inputRepresentativeQueryString
             }
             onInput={handleInputChange}
