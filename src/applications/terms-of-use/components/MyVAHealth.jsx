@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -30,37 +31,45 @@ export default function MyVAHealth() {
   const url = new URL(window.location);
   const ssoeTarget = url.searchParams.get('ssoeTarget');
 
-  useEffect(
-    () => {
-      if (ssoeTarget) {
-        apiRequest(`/terms_of_use_agreements/update_provisioning`, {
+  const checkProvisioningStatus = async (retryCount = 0) => {
+    try {
+      console.log(`Checking provisioning status, attempt ${retryCount + 1}`);
+
+      const response = await apiRequest(
+        `/terms_of_use_agreements/update_provisioning`,
+        {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-        })
-          .then(response => {
-            if (response?.provisioned) {
-              window.location = parseRedirectUrl(
-                decodeURIComponent(ssoeTarget),
-              );
-            } else {
-              redirectToErrorPage(111);
-            }
-          })
-          .catch(err => {
-            const message = err?.error;
-            if (message === 'Agreement not accepted') {
-              setDisplayTerms(true);
-            } else if (message === 'Account not Provisioned') {
-              redirectToErrorPage(111);
-            } else {
-              setError({
-                isError: true,
-                message: errorMessages.network,
-              });
-              redirectToErrorPage(110);
-            }
-          });
+        },
+      );
+
+      if (response?.provisioned) {
+        console.log('Provisioning successful, redirecting...');
+        window.location = parseRedirectUrl(decodeURIComponent(ssoeTarget));
+      } else {
+        console.warn('Provisioning failed, retrying...');
+        if (retryCount < 3) {
+          setTimeout(() => checkProvisioningStatus(retryCount + 1), 1000);
+        } else {
+          redirectToErrorPage(111);
+        }
+      }
+    } catch (err) {
+      console.error('Provisioning error:', err);
+      const message = err?.error;
+      if (message === 'Agreement not accepted') {
+        setDisplayTerms(true);
+      } else {
+        setError({ isError: true, message: errorMessages.network });
+        redirectToErrorPage(110);
+      }
+    }
+  };
+  useEffect(
+    () => {
+      if (ssoeTarget) {
+        checkProvisioningStatus();
       }
     },
     [ssoeTarget],
@@ -72,6 +81,9 @@ export default function MyVAHealth() {
     try {
       setIsDisabled(true);
       setLoadingMessage(prev => ({ ...prev, isLoading: true }));
+
+      console.log(`Sending TOU action: ${cernerType}`);
+
       const response = await apiRequest(
         `/terms_of_use_agreements/v1/${cernerType}`,
         {
@@ -81,27 +93,18 @@ export default function MyVAHealth() {
         },
       );
 
-      // if the type was accept
       if (response && type === 'accept') {
-        setLoadingMessage(defaultMessage);
-        setIsDisabled(false);
-        window.location = parseRedirectUrl(decodeURIComponent(ssoeTarget));
-      }
-
-      // if the type was decline
-      if (response && type === 'decline') {
+        console.log('TOU accepted, checking provisioning...');
+        setTimeout(() => checkProvisioningStatus(), 500);
+      } else if (response && type === 'decline') {
+        console.log('TOU declined, signing out...');
         setShowDeclineModal(false);
-        setIsDisabled(false);
-        declineAndLogout({
-          termsCodeExists: false,
-          shouldRedirectToMobile: false,
-          isAuthenticatedWithSiS: false,
-        });
+        declineAndLogout({ termsCodeExists: false });
       }
     } catch (err) {
+      console.error('TOU acceptance error:', err);
       setError({ isError: true, message: errorMessages.network });
       setIsDisabled(false);
-      // fatal or network error redirect to 110 page
       redirectToErrorPage(110);
     }
   };
