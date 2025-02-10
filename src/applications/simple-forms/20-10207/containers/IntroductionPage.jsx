@@ -127,6 +127,7 @@ const IntroductionPage = props => {
       <ul>
         <li>Eviction or foreclosure notice</li>
         <li>Notices of past-due utility bills</li>
+        <li>Collection notices from creditors</li>
         <li>
           Other supporting documents you think may show evidence of your
           financial hardship
