@@ -27,7 +27,7 @@ const SelectAccreditedRepresentative = props => {
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
 
-  const queryInput = formData['view:representativeQueryInput'];
+  const queryInput = formData.inputRepresentativeQueryString;
   const querySubmission = formData['view:representativeQuerySubmission'];
   const invalidQuery = queryInput === undefined || !queryInput.trim();
 

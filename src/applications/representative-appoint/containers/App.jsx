@@ -58,7 +58,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
         ...formData,
         v2IsEnabled: v2FeatureToggle,
         'view:isLoggedIn': loggedIn,
-        'view:representativeQueryInput': '',
+        inputRepresentativeQueryString: '',
         'view:representativeSearchResults': [],
       };
       setFormData(updatedFormData);

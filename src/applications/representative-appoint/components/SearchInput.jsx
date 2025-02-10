@@ -8,7 +8,7 @@ const SearchInput = ({ formData, setFormData, error, onSubmit }) => {
   const handleInputChange = e => {
     setFormData({
       ...formData,
-      'view:representativeQueryInput': e.target.value,
+      inputRepresentativeQueryString: e.target.value,
     });
   };
 
@@ -23,7 +23,7 @@ const SearchInput = ({ formData, setFormData, error, onSubmit }) => {
             error={error}
             value={
               formData['view:representativeQuerySubmission'] ||
-              formData['view:representativeQueryInput']
+              formData.inputRepresentativeQueryString
             }
             onInput={handleInputChange}
             onKeyPress={e => {
