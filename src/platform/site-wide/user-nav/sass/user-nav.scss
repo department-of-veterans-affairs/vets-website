@@ -81,7 +81,7 @@
 
 /* OCTO Identity */
 // stylelint-disable-next-line color-no-hex
-$idme-background-green: #08833d;
+$idme-background-green: #08833D;
 .login,
 .verify {
   background: var(--vads-color-white);
@@ -276,8 +276,7 @@ button.idme-verify-button {
   }
 
   div {
-    width: 100%;
-    justify-content: center;
+    padding: 0.75rem 1.25rem;
     display: flex;
     align-self: center;
 
