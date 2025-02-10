@@ -30,7 +30,7 @@ const NeedsToVerify = () => {
     'reason-for-alert': `Not verified`,
   });
 
-  return <VerifyAlert headingLevel={2} alertRef={alertRef} />;
+  return <VerifyAlert headingLevel={2} ref={alertRef} />;
 };
 
 export default NeedsToVerify;
