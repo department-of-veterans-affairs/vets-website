@@ -313,9 +313,9 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  // loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
   // displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
-  loggedIn: true,
+  //loggedIn: true,
   displayToggle: true,
   isLOA1: isLOA1Selector(state),
   //signInServiceName: signInServiceName(state),
