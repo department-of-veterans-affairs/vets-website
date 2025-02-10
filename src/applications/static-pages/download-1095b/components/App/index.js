@@ -55,11 +55,11 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle, signInServiceNa
 //  console.log('*****************************');
 
 
- const [signInAlertVariant, setSignInAlertVariant] = useState(null);
+ const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
 
  useEffect(() => {
 
-    const getSignInAlertVariant = () => {
+    const getverifyAlertVariant = () => {
       console.log('1 isLOA1', isLOA1);
       console.log('1 isLOA3', isLOA3);
       console.log('1 signInServiceName', signInServiceName)
@@ -99,7 +99,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle, signInServiceNa
       // todo: handle loa3 also?
     };
 
-    setSignInAlertVariant(getSignInAlertVariant());
+    setverifyAlertVariant(getverifyAlertVariant());
   }, [signInServiceName, isLOA1]);
 
 
@@ -303,12 +303,12 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle, signInServiceNa
   //   }
   //   return loggedInComponent;
   // }
-  //return loggedOutComponent;
+  // return loggedOutComponent;
 
-  //console.log('signInAlertVariant', signInAlertVariant)
+  //console.log('verifyAlertVariant', verifyAlertVariant)
   return (
     <>
-      { signInAlertVariant }
+      { verifyAlertVariant }
     </>
   );
 };
