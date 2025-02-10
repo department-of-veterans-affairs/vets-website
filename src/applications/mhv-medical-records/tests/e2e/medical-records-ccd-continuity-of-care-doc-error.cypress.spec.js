@@ -20,8 +20,6 @@ describe('Medical Records download CCD page', () => {
 
     DownloadReportsPage.clickCcdDownloadXmlFileButton(responseWithNewDate);
 
-    cy.log(responseWithNewDate[1].dateGenerated);
-
     DownloadReportsPage.verifyCcdExpiredError();
 
     // Axe check
