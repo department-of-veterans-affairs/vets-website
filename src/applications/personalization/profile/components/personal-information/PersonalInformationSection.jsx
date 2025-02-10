@@ -8,6 +8,7 @@ import { renderDOB } from '@@vap-svc/util/personal-information/personalInformati
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { getMessagingSignature } from 'platform/user/profile/actions';
+import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import GenderIdentityDescription from './GenderIdentityDescription';
 import LegalName from './LegalName';
@@ -33,7 +34,10 @@ const LegalNameDescription = () => (
 const PersonalInformationSection = ({ dob }) => {
   const dispatch = useDispatch();
   const messagingSignatureEnabled = useSelector(
-    state => state.featureToggles.mhv_secure_messaging_signature_settings,
+    state =>
+      state.featureToggles[
+        featureFlagNames.mhvSecureMessagingSignatureSettings
+      ],
   );
   const userServices = useSelector(state => state.user.profile.services);
   const isMessagingServiceEnabled = userServices.includes(

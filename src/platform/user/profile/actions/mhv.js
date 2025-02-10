@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '../../../utilities/api';
+import { API_ROUTES } from '../vap-svc/constants';
 
 export const FETCHING_MHV_ACCOUNT = 'FETCHING_MHV_ACCOUNT';
 export const FETCH_MHV_ACCOUNT_FAILURE = 'FETCH_MHV_ACCOUNT_FAILURE';
@@ -29,7 +30,7 @@ export const getMessagingSignature = () => {
   return async dispatch => {
     try {
       const response = await apiRequest(
-        `${myHealthApiBasePath}/messaging/messages/signature`,
+        `${myHealthApiBasePath}${API_ROUTES.MESSAGING_SIGNATURE}`,
         {
           headers: {
             'Content-Type': 'application/json',
