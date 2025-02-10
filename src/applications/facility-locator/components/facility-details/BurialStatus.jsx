@@ -5,22 +5,22 @@ function BurialStatus({ facility }) {
   const statusMappings = {
     BURIALS_OPEN: {
       statusTitle: 'Burials open',
-      statusDescription: 'Burial space is available.',
+      statusDescription: 'Burial space is available',
     },
     BURIALS_CREMATION_ONLY: {
       statusTitle: 'Cremation only',
-      statusDescription: 'Cremation interments only.',
+      statusDescription: 'Cremation interments only',
     },
-    BURIALS_CALL_FOR_STATUS: {
-      statusTitle: 'Call for status',
-      statusDescription: 'Call for burial status.',
+    BURIALS_CLOSED: {
+      statusTitle: 'Closed',
+      statusDescription: 'Call for burial status',
     },
     BURIALS_UNDER_CONSTRUCTION: {
       statusTitle: 'Under construction',
       statusDescription: 'Cemetery is under construction.',
     },
     default: {
-      statusTitle: 'Call for availability',
+      statusTitle: 'Call for burial status',
       statusDescription: null,
     },
   };
