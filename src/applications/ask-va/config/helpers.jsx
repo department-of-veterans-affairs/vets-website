@@ -768,7 +768,9 @@ export const getFiles = files => {
 };
 
 export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
-  const fileSizeText = fileSize ? ` (${(fileSize * 0.001).toFixed(2)} MB)` : '';
+  const fileSizeText = fileSize
+    ? ` (${(fileSize / 1048576).toFixed(2)} MB)`
+    : '';
 
   return (
     <a href={fileUrl} download={fileName}>
