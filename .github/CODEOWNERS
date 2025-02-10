@@ -263,11 +263,15 @@ src/applications/virtual-agent @department-of-veterans-affairs/vfs-virtual-agent
 
 # Other
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/widget-creators @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/user-testing/new-conditions @department-of-veterans-affairs/vfs-benefits-conditions-team @department-of-veterans-affairs/va-platform-cop-frontend
 
+# NCA Forms Preneed PMC Medallions
+src/applications/medallions @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/medallions2 @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/simple-forms/40-0247 @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/pre-need @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/pre-need-integration @department-of-veterans-affairs/bah-mbs-selfserv @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Need more specific owners
 src/applications/ask-a-question @department-of-veterans-affairs/va-platform-cop-frontend
