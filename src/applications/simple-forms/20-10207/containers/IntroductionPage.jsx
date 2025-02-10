@@ -136,8 +136,8 @@ const IntroductionPage = props => {
       <h3>ALS or other terminal illnesses</h3>
       <ul>
         <li>
-          Copies of medical evidence that show an ALS diagnosis or evidence of a
-          terminal illness
+          Medical evidence that show an ALS diagnosis or evidence of a terminal
+          illness
         </li>
       </ul>
       <p>
