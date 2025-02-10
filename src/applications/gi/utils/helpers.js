@@ -572,7 +572,7 @@ export const filterSuggestions = (
 
     if (
       !categoryFilters.includes('all') &&
-      !categoryFilters.includes(result.eduLacTypeNm.toLowerCase())
+      !categoryFilters.includes(result.eduLacTypeNm?.toLowerCase())
     ) {
       return false;
     }
@@ -613,8 +613,15 @@ export const showLcParams = location => {
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
   const initialCategoryParam = searchParams.get('initial') ?? 'all';
+  const pageParam = searchParams.get('page') ?? 1;
 
-  return { nameParam, categoryParams, stateParam, initialCategoryParam };
+  return {
+    nameParam,
+    categoryParams,
+    stateParam,
+    initialCategoryParam,
+    pageParam,
+  };
 };
 
 export const handleLcResultsSearch = (
@@ -647,8 +654,9 @@ export const handleLcResultsSearch = (
 
 export const formatResultCount = (results, currentPage, itemsPerPage) => {
   if (currentPage * itemsPerPage > results.length - 1) {
-    return `${currentPage * itemsPerPage -
-      (itemsPerPage - 1)} - ${results.length - 1}  `;
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
@@ -709,9 +717,16 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
         : [
             { optionValue: 'all', optionLabel: 'All' },
             ...mappedStates.filter(mappedState =>
-              multiples.find(
-                multiple => multiple?.state === mappedState.optionValue,
-              ),
+              multiples.find(multiple => {
+                if (
+                  multiple?.state === mappedState.optionValue &&
+                  multiple.eduLacTypeNm !== 'Certification'
+                ) {
+                  return true;
+                }
+
+                return false;
+              }),
             ),
           ],
     alt: 'state',
@@ -725,13 +740,15 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
 };
 
 export const showMultipleNames = (suggestions, nameInput) => {
+  let final = [];
+
   if (suggestions && nameInput) {
-    return suggestions.filter(suggestion =>
+    final = suggestions.filter(suggestion =>
       suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
     );
   }
 
-  return [];
+  return final;
 };
 
 export const categoryCheck = type => {
