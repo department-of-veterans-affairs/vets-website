@@ -175,6 +175,15 @@ export const formatDollarAmount = value => {
   return formatCurrency(output);
 };
 
+export const formatDollarAmountWithCents = value => {
+  return parseFloat(value).toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    style: 'currency',
+  });
+};
+
 export const handleInputFocusWithPotentialOverLap = (
   fieldId1,
   fieldId2,
