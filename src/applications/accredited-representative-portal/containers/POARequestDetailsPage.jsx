@@ -49,9 +49,9 @@ const DECISION_OPTIONS = {
   ...DECLINATION_OPTIONS,
 };
 
+// processing will show up once rep accepts the request. Once it is accepted there will be a green status alert that says accepted - see decision_types above
 const BANNER_TYPES = {
   PROCESSING: 'PENDING',
-  SUCCEEDED: 'SUCCEEDED',
   FAILED: 'FAILED',
 };
 
