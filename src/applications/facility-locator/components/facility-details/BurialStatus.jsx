@@ -1,33 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { BurialStatusDisplay } from '../../constants';
 
 function BurialStatus({ facility }) {
-  const statusMappings = {
-    BURIALS_OPEN: {
-      statusTitle: 'Burials open',
-      statusDescription: 'Burial space is available',
-    },
-    BURIALS_CREMATION_ONLY: {
-      statusTitle: 'Cremation only',
-      statusDescription: 'Cremation interments only',
-    },
-    BURIALS_CLOSED: {
-      statusTitle: 'Closed',
-      statusDescription: 'Call for burial status',
-    },
-    BURIALS_UNDER_CONSTRUCTION: {
-      statusTitle: 'Under construction',
-      statusDescription: 'Cemetery is under construction.',
-    },
-    default: {
-      statusTitle: 'Call for burial status',
-      statusDescription: null,
-    },
-  };
   const facilityBurialStatus =
     facility.attributes.operatingStatus?.supplementalStatus?.[0]?.id;
   const { statusTitle, statusDescription } =
-    statusMappings[facilityBurialStatus] || statusMappings.default;
+    BurialStatusDisplay[facilityBurialStatus] || BurialStatusDisplay.default;
 
   return (
     <div>
@@ -37,6 +16,13 @@ function BurialStatus({ facility }) {
           <strong>{statusTitle}</strong>
         </p>
         {statusDescription && <p>{statusDescription}</p>}
+        <div>
+          This cemetery may have a memorial section or a memorial wall. Memorial
+          areas honor decedents whose remains are not recoverable and are not
+          available for burial. (Examples include remains that are donated to
+          science or cremated remains scattered at sea). Please contact the
+          cemetery for more information.
+        </div>
       </div>
     </div>
   );
