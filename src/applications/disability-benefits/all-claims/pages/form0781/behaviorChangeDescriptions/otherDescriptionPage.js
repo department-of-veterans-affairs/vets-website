@@ -15,7 +15,7 @@ import {
 export const uiSchema = {
   'ui:title': titleWithTag(otherPageTitle, form0781HeadingTag),
   behaviorsDetails: {
-    otherBehaviors: textareaUI({
+    unlisted: textareaUI({
       title: otherDescriptionPageDescription,
     }),
   },
@@ -30,7 +30,7 @@ export const schema = {
     behaviorsDetails: {
       type: 'object',
       properties: {
-        otherBehaviors: textareaSchema,
+        unlisted: textareaSchema,
       },
     },
     'view:mentalHealthSupportAlert': {

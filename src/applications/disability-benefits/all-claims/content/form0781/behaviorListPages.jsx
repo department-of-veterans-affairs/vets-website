@@ -1,5 +1,10 @@
 import React from 'react';
-
+import {
+  BEHAVIOR_CHANGES_WORK,
+  BEHAVIOR_CHANGES_HEALTH,
+  BEHAVIOR_CHANGES_OTHER,
+} from '../../constants';
+import { form0781PagesConfig } from '../../config/form0781/index';
 // intro page
 export const behaviorPageTitle = 'Behavioral changes';
 
@@ -196,9 +201,77 @@ export const otherDescriptionPageDescription =
 export const behaviorDescriptionPageHint =
   'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
 
-export const reassignmentPageTitle =
-  'Request for a change in occupational series or duty assignment';
+export const reassignmentPageTitle = BEHAVIOR_CHANGES_WORK.reassignment;
 
 export const otherPageTitle = 'Other behavioral changes';
 
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
+
+// export const BEHAVIOR_CHANGES_WORK = Object.freeze({
+//   reassignment:
+//     'Request for a change in occupational series or duty assignment',
+//   absences: 'Increased or decreased use of leave',
+//   performance: 'Changes in performance or performance evaluations',
+// });
+
+// allSelectedBehaviorTypes, SELECTIONS
+// allBehaviorDescriptions, - CONSTANT
+// formData.behaviorsDetails, - DETAILS
+
+function getDescriptionForBehavior(behaviors, descriptions, details) {
+  const newObj = {};
+  Object.entries(descriptions).map(([key, value]) => {
+    if (key in behaviors) {
+      newObj[key] = details[key] || 'Optional description not provided.';
+    }
+  });
+  return newObj;
+}
+
+// return 'additional-forms/mental-health-statement/behavior-changes-list'
+const behaviorAndDescriptionPair = (obj) => {
+  return (
+    <>
+      {Object.entries(obj).map(([key, value]) => (
+        <div><h4>{key}</h4><p>{value}</p></div>
+      ))
+      }
+      <va-link
+        href={form0781PagesConfig.behaviorListPage}
+        text="Edit behavioral changes"
+      />
+    </ >
+  );
+};
+
+export const summarizeBehaviors = formData => {
+  const allBehaviorDescriptions = {
+    ...BEHAVIOR_CHANGES_WORK,
+    ...BEHAVIOR_CHANGES_HEALTH,
+    ...BEHAVIOR_CHANGES_OTHER,
+  };
+
+  const allBehaviorTypes = {
+    ...formData.workBehaviors,
+    ...formData.healthBehaviors,
+    ...formData.otherBehaviors,
+  };
+
+  const allSelectedBehaviorTypes = (Object.entries(allBehaviorTypes)
+    .filter(([key, value]) => value === true)
+    .reduce((acc, [key, value]) => {
+      acc[key] = value;
+      return acc;
+    }, {}));
+
+  const selectedBehaviorsWithDetails = getDescriptionForBehavior(
+    allSelectedBehaviorTypes,
+    allBehaviorDescriptions,
+    formData.behaviorsDetails,
+  );
+
+  console.log("selectedBehaviorsWithDetails", selectedBehaviorsWithDetails);
+
+  return behaviorAndDescriptionPair(selectedBehaviorsWithDetails);
+};
+
