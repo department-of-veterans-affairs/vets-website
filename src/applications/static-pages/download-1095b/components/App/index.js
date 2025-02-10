@@ -1,5 +1,6 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
@@ -33,11 +34,9 @@ import {
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
-import { isLOA3 as isLOA3Selector} from '~/platform/user/selectors';
 import { el } from 'date-fns/locale';
 
-
-export const App = ({ loggedIn, toggleLoginModal, displayToggle, signInServiceName, isLOA1, isLOA3 }) => {
+export const App = ({ loggedIn, toggleLoginModal, displayToggle, isLOA1 }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
@@ -48,59 +47,52 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle, signInServiceNa
   });
 
 
-//  console.log('*****************************');
-//  console.log('signInServiceName', signInServiceName);
-//  console.log('isLOA1', isLOA1);
-//   console.log('isLOA3', isLOA3);
-//  console.log('*****************************');
-
+const cspId = useSelector(signInServiceName);
 
  const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
 
  useEffect(() => {
 
     const getverifyAlertVariant = () => {
-      console.log('1 isLOA1', isLOA1);
-      console.log('1 isLOA3', isLOA3);
-      console.log('1 signInServiceName', signInServiceName)
-      if (isLOA1) {
-        if (signInServiceName === CSP_IDS.LOGIN_GOV) {
-          console.log('variant name is CSP_IDS.LOGIN_GOV');
-          return (
-            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
-            <span slot="LoginGovVerifyButton">
+      console.log('1 cspId', cspId)
+      console.log('1 CSP_IDS.LOGIN_GOV', CSP_IDS.LOGIN_GOV)
+
+      if (cspId === CSP_IDS.LOGIN_GOV) {
+        console.log('variant name is CSP_IDS.LOGIN_GOV');
+        return (
+          <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
+          <span slot="LoginGovVerifyButton">
+            <VerifyLogingovButton />
+          </span>
+          </VaAlertSignIn>
+        );
+      } else if (cspId === CSP_IDS.ID_ME) {
+        console.log('variant name is CSP_IDS.ID_ME');
+        return (
+          <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
+            <span slot="IdMeVerifyButton">
+              <VerifyIdmeButton />
+            </span>
+          </VaAlertSignIn>
+        );
+      } else {
+        console.log('variant name is not those. It is: ', cspId);
+        return (
+          <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
+            <span slot="LoginGovSignInButton">
               <VerifyLogingovButton />
             </span>
-            </VaAlertSignIn>
-          );
-        } else if (signInServiceName === CSP_IDS.ID_ME) {
-          console.log('variant name is CSP_IDS.ID_ME');
-          return (
-            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
-              <span slot="IdMeVerifyButton">
-                <VerifyIdmeButton />
-              </span>
-            </VaAlertSignIn>
-          );
-        } else {
-          console.log('variant name is not those. It is: ', signInServiceName);
-          return (
-            <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
-              <span slot="LoginGovSignInButton">
-                <VerifyLogingovButton />
-              </span>
-              <span slot="IdMeSignInButton">
-                <VerifyIdmeButton />
-              </span>
-            </VaAlertSignIn>
-          );
-        }
+            <span slot="IdMeSignInButton">
+              <VerifyIdmeButton />
+            </span>
+          </VaAlertSignIn>
+        );
       }
-      // todo: handle loa3 also?
+  
     };
 
     setverifyAlertVariant(getverifyAlertVariant());
-  }, [signInServiceName, isLOA1]);
+  }, [cspId, isLOA1]);
 
 
   const showSignInModal = () => {
@@ -291,26 +283,27 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle, signInServiceNa
     </VaAlertSignIn>
   );
 
-  // if (!displayToggle) {
-  //   return unavailableComponent();
-  // }
-  // if (loggedIn) {
-  //   if (formError.error) {
-  //     return getErrorComponent();
-  //   }
-  //   if (formDownloaded.downloaded) {
-  //     return successComponent;
-  //   }
-  //   return loggedInComponent;
-  // }
-  // return loggedOutComponent;
+  console.log('RENDER!', )
+  if (loggedIn) {
+    console.log('loggedIn')
+    if (formError.error) {
+      console.log('render error')
+      return getErrorComponent()
+    } else if (formDownloaded.downloaded) {
+      console.log('render form downloaded' )
+      return successComponent
+    } else if (isLOA1) {
+      console.log('render verify', )
+      return verifyAlertVariant
+    } else {
+      console.log('render nick', )
+      return (<>Nick</>)
+    }
+  }
+  console.log('render logged out')
+  return loggedOutComponent
 
-  //console.log('verifyAlertVariant', verifyAlertVariant)
-  return (
-    <>
-      { verifyAlertVariant }
-    </>
-  );
+  
 };
 
 App.propTypes = {
@@ -318,7 +311,6 @@ App.propTypes = {
   loggedIn: PropTypes.bool,
   displayToggle: PropTypes.bool,
   isLOA1: PropTypes.bool,
-  isLOA3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -327,8 +319,8 @@ const mapStateToProps = state => ({
   loggedIn: true,
   displayToggle: true,
   isLOA1: isLOA1Selector(state),
-  isLOA3: isLOA3Selector(state),
-  signInServiceName: signInServiceName(state),
+  //signInServiceName: signInServiceName(state),
+  //signInServiceName: state.signIn?.serviceName,
 });
 
 const mapDispatchToProps = dispatch => ({
