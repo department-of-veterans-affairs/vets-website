@@ -14,5 +14,5 @@ const mockApiResponses = {
   ...user,
 };
 
-// module.exports = mockApiResponses;
-module.exports = delay(mockApiResponses, 1000);
+module.exports = mockApiResponses;
+// module.exports = delay(mockApiResponses, 1000);
