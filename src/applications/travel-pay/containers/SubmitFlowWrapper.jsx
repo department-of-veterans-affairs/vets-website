@@ -17,13 +17,18 @@ import { selectAppointment } from '../redux/selectors';
 
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
-import { getAppointmentData } from '../redux/actions';
+import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
 
 const SubmitFlowWrapper = () => {
   const dispatch = useDispatch();
   const { apptId } = useParams();
 
-  const { data, error, isLoading } = useSelector(selectAppointment);
+  const { data: appointmentData, error, isLoading } = useSelector(
+    selectAppointment,
+  );
+  const { error: submissionError } = useSelector(
+    state => state.travelPay.claimSubmission,
+  );
 
   const {
     useToggleValue,
@@ -38,15 +43,12 @@ const SubmitFlowWrapper = () => {
 
   useEffect(
     () => {
-      if (apptId && !data && !error) {
+      if (apptId && !appointmentData && !error) {
         dispatch(getAppointmentData(apptId));
       }
     },
-    [dispatch, data, apptId, error],
+    [dispatch, appointmentData, apptId, error],
   );
-
-  // This will actually be handled by the redux action, but for now it lives here
-  const [isSubmissionError, setIsSubmissionError] = useState(false);
 
   const [yesNo, setYesNo] = useState({
     mileage: '',
@@ -63,13 +65,8 @@ const SubmitFlowWrapper = () => {
       scrollToFirstError();
       return;
     }
-    // Placeholder until actual submit is hooked up
-
-    // Uncomment to simulate successful submission
-    // setPageIndex(pageIndex + 1);
-
-    // Uncomment to simulate an error
-    setIsSubmissionError(true);
+    dispatch(submitMileageOnlyClaim(appointmentData.start));
+    setPageIndex(pageIndex + 1);
   };
 
   const pageList = [
@@ -167,9 +164,9 @@ const SubmitFlowWrapper = () => {
               setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
-          {isSubmissionError && <SubmissionErrorPage />}
+          {submissionError && <SubmissionErrorPage />}
           {!isUnsupportedClaimType &&
-            !isSubmissionError &&
+            !submissionError &&
             pageList[pageIndex].component}
         </div>
       </article>

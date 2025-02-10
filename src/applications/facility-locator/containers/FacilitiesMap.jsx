@@ -24,7 +24,6 @@ import {
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
-  facilitiesPpmsSuppressPharmacies,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
 import NoResultsMessage from '../components/NoResultsMessage';
@@ -442,7 +441,6 @@ const FacilitiesMap = props => {
           onChange={props.updateSearchQuery}
           onSubmit={handleSearch}
           suppressPPMS={props.suppressPPMS}
-          suppressPharmacies={props.suppressPharmacies}
           clearSearchText={props.clearSearchText}
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
@@ -689,7 +687,6 @@ const FacilitiesMap = props => {
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
-  suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   results: state.searchResult.results,
   searchError: state.searchResult.error,
