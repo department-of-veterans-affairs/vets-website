@@ -86,6 +86,38 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
     useGetReferralByIdStub.restore();
   });
 
+  it('should display the loading component when fetch status is loading', async () => {
+    const store = createTestStore();
+    const useGetReferralByIdStub = sinon
+      .stub(useGetReferralByIdModule, 'useGetReferralById')
+      .returns({
+        referral: undefined,
+        referralFetchStatus: FETCH_STATUS.loading,
+      });
+    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
+      store,
+      path: '/?id=1234',
+    });
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+    useGetReferralByIdStub.restore();
+  });
+
+  it('should display the loading component when fetch status is notStarted', async () => {
+    const store = createTestStore();
+    const useGetReferralByIdStub = sinon
+      .stub(useGetReferralByIdModule, 'useGetReferralById')
+      .returns({
+        referral: undefined,
+        referralFetchStatus: FETCH_STATUS.notStarted,
+      });
+    const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
+      store,
+      path: '/?id=1234',
+    });
+    expect(screen.getByTestId('loading-indicator')).to.exist;
+    useGetReferralByIdStub.restore();
+  });
+
   it('should display the error alert when fetch fails', async () => {
     const store = createTestStore();
     const useGetReferralByIdStub = sinon
