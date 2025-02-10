@@ -175,7 +175,11 @@ export const BENEFITS_LIST = [
       "If you're a service member in your last 180 days of service, the DOD Skillbridge program can help you gain valuable civilian work experience through specific industry training, apprenticeships, or internships.",
     isTimeSensitive: true,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.CAREER,
+        goalTypes.UNDERSTAND,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -248,7 +252,11 @@ export const BENEFITS_LIST = [
       "Veterans' Preference gives eligible Veterans preference over other applicants in federal hiring. If you're a Veteran or transitioning service member, learn about the federal hiring process and get resources to help you find a career in the federal government.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.CAREER, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.CAREER,
+        goalTypes.UNDERSTAND,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
