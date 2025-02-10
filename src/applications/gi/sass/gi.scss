@@ -366,16 +366,21 @@
   }
 }
 
-.lc-result-cards-wrapper {
-  list-style: none;
-  padding-left: 0;
+.lc-results-wrapper {
+  @media (max-width: $small-screen) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-.lc-result-info-wrapper {
-  .back-link {
-    @media (max-width: $mobile-lg) {
-      display: none;
-    }
+.lc-result-cards-wrapper {
+  list-style: none;
+  // padding-left: 0;
+}
+
+.lc-filter-accordion-wrapper {
+  .state-dropdown label {
+    margin-top: 0.25rem;
   }
 }
 
