@@ -182,10 +182,6 @@
     margin: 0.9375rem 0 !important;
     padding: 0;
   }
-  .line-break {
-    margin: 0.625rem 0;
-    border-bottom: 1px solid rgb(0, 0, 0);
-  }
   .no-print,
   .no-print * {
     visibility: hidden;
@@ -220,8 +216,7 @@
       word-wrap: break-word;
     }
     .print-only-rx-details-container {
-      margin: 0 auto 0.625rem auto;
-      width: 95%;
+      margin-bottom: 0.625rem;
     }
     h4 {
       margin: 0.625rem 0 0.3125rem 0;

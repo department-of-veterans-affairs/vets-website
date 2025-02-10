@@ -99,7 +99,7 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   eventDetails: pageBuilder.itemPage({
     title: titleWithTag(eventDetailsPageTitle, form0781HeadingTag),
     path: 'mental-health-form-0781/:index/event-details',
-    depends: formData => isCompletingForm0781(formData) && formData.events,
+    depends: formData => isCompletingForm0781(formData),
     uiSchema: eventDetails.uiSchema,
     schema: eventDetails.schema,
   }),

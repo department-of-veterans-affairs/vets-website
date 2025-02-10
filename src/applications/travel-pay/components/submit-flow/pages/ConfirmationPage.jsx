@@ -1,36 +1,51 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { formatDateTime } from '../../../util/dates';
+import { selectAppointment } from '../../../redux/selectors';
 
-const ConfirmationPage = ({ appointment }) => {
+const ConfirmationPage = () => {
   useEffect(() => {
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 
-  const [formattedDate, formattedTime] = formatDateTime(
-    appointment.vaos.apiData.start,
+  const { data } = useSelector(selectAppointment);
+  const { data: claimData, isSubmitting } = useSelector(
+    state => state.travelPay.claimSubmission,
   );
+
+  const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   return (
     <div>
       <h1 tabIndex="-1">We’re processing your travel reimbursement claim</h1>
-      <va-alert status="success" visible>
-        <h2 slot="headline">Claim submitted</h2>
-        <p className="vads-u-margin-y--0">
-          This claim is for your appointment at{' '}
-          {appointment.vaos.apiData.location.attributes.name}{' '}
-          {appointment.vaos.apiData?.practitioners
-            ? `with ${appointment.vaos.apiData.practitioners[0].name.given.join(
-                ' ',
-              )} ${appointment.vaos.apiData.practitioners[0].name.family}`
-            : ''}{' '}
-          on {formattedDate}, {formattedTime}.
-        </p>
-      </va-alert>
+      {isSubmitting && (
+        <div className="vads-l-grid-container vads-u-padding-y--3">
+          <va-loading-indicator
+            label="Loading"
+            message="Submitting your claim..."
+            data-testid="travel-pay-loading-indicator"
+          />
+        </div>
+      )}
+      {claimData && (
+        <va-alert status="success" visible>
+          <h2 slot="headline">Claim submitted</h2>
+          <p className="vads-u-margin-y--0">
+            This claim is for your appointment at{' '}
+            {data.location.attributes.name}{' '}
+            {data.practitioners.length > 0
+              ? `with ${data.practitioners[0].name.given.join(' ')} ${
+                  data.practitioners[0].name.family
+                }`
+              : ''}{' '}
+            on {formattedDate}, {formattedTime}.
+          </p>
+        </va-alert>
+      )}
       <h2>What happens next</h2>
       <p className="vads-u-margin-y--2">
         You can check the status of your claim by going to the travel
@@ -50,10 +65,6 @@ const ConfirmationPage = ({ appointment }) => {
       />
     </div>
   );
-};
-
-ConfirmationPage.propTypes = {
-  appointment: PropTypes.object,
 };
 
 export default ConfirmationPage;
