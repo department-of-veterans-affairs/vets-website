@@ -16,13 +16,13 @@ function BurialStatus({ facility }) {
           <strong>{statusTitle}</strong>
         </p>
         {statusDescription && <p>{statusDescription}</p>}
-        <div>
+        <p>
           This cemetery may have a memorial section or a memorial wall. Memorial
           areas honor decedents whose remains are not recoverable and are not
           available for burial. (Examples include remains that are donated to
           science or cremated remains scattered at sea). Please contact the
           cemetery for more information.
-        </div>
+        </p>
       </div>
     </div>
   );
