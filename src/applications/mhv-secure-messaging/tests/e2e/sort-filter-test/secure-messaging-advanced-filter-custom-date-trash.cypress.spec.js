@@ -91,14 +91,16 @@ describe('SM TRASH ADVANCED CUSTOM DATE RANGE SEARCH', () => {
       1,
     );
 
-    const date = GeneralFunctionsPage.getParsedDate(new Date());
+    const { year, startMonth, endMonth } = GeneralFunctionsPage.getParsedDate(
+      new Date(),
+    );
 
-    PatientSearchPage.selectStartMonth(date.startMonth);
+    PatientSearchPage.selectStartMonth(startMonth);
     PatientSearchPage.selectStartDay(`1`);
-    PatientSearchPage.getStartYear(date.year);
-    PatientSearchPage.selectEndMonth(date.endMonth);
+    PatientSearchPage.getStartYear(year);
+    PatientSearchPage.selectEndMonth(endMonth);
     PatientSearchPage.selectEndDay(`11`);
-    PatientSearchPage.getEndYear(date.year);
+    PatientSearchPage.getEndYear(year);
 
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
@@ -106,9 +108,7 @@ describe('SM TRASH ADVANCED CUSTOM DATE RANGE SEARCH', () => {
     PatientSearchPage.verifyMessageDate(2);
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      `${date.startMonth} 1st ${date.year} to ${date.endMonth} 11th ${
-        date.year
-      }`,
+      `${startMonth} 1st ${year} to ${endMonth} 11th ${year}`,
     );
 
     cy.injectAxe();

@@ -1,4 +1,4 @@
-import { format, subMonths } from 'date-fns';
+import { format, subMonths, getYear } from 'date-fns';
 import mockToggles from '../fixtures/toggles-response.json';
 import { Locators } from '../utils/constants';
 
@@ -99,7 +99,7 @@ class GeneralFunctionsPage {
   };
 
   getParsedDate = date => {
-    let year = format(date, 'yyyy');
+    let year = getYear(date);
     let startMonth = format(subMonths(date, 1), 'MMMM');
     const endMonth = format(date, 'MMMM');
     if (endMonth === 'January') {
