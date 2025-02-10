@@ -52,7 +52,7 @@ function generateWebpackDevConfig(buildOptions) {
     },
     port: buildOptions.port,
     host: buildOptions.host,
-    client: { webSocketURL },
+    client: { webSocketURL, overlay: false },
     devMiddleware: {
       publicPath: '/generated/',
       stats: {
