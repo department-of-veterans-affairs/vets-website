@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
   VaLoadingIndicator,
@@ -17,14 +16,24 @@ import { updateUrlParams } from '../../../selectors/search';
 import { getFiltersChanged } from '../../../selectors/filters';
 import MobileFilterControls from '../../../components/MobileFilterControls';
 
-export function NameSearchResults({
-  dispatchFetchSearchByNameResults,
-  filters,
-  preview,
-  search,
-  smallScreen,
-  filtersChanged,
-}) {
+export function NameSearchResults() {
+  const dispatch = useDispatch();
+  const filters = useSelector(state => {
+    return state?.filters || {};
+  });
+  const preview = useSelector(state => {
+    return state?.preview || {};
+  });
+  const search = useSelector(state => {
+    return state?.search || {};
+  });
+  const smallScreen = useSelector(state => {
+    return state?.smallScreen || false;
+  });
+  const filtersChanged = useSelector(state => {
+    return getFiltersChanged(state?.filters) || false;
+  });
+
   const { version } = preview;
   const { inProgress, tab } = search;
   const { count, results } = search.name;
@@ -94,7 +103,7 @@ export function NameSearchResults({
 
   const fetchPage = e => {
     const { page } = e.detail;
-    dispatchFetchSearchByNameResults(name, page, filters, version);
+    dispatch(fetchSearchByNameResults(name, page, filters, version));
     updateUrlParams(
       history,
       tab,
@@ -203,28 +212,4 @@ export function NameSearchResults({
   );
 }
 
-const mapStateToProps = state => ({
-  eligibility: state.eligibility,
-  filters: state.filters,
-  preview: state.preview,
-  search: state.search,
-  filtersChanged: getFiltersChanged(state.filters),
-});
-
-const mapDispatchToProps = {
-  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
-};
-
-NameSearchResults.propTypes = {
-  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired,
-  filtersChanged: PropTypes.bool.isRequired,
-  preview: PropTypes.object.isRequired,
-  search: PropTypes.object.isRequired,
-  smallScreen: PropTypes.bool,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NameSearchResults);
+export default NameSearchResults;
