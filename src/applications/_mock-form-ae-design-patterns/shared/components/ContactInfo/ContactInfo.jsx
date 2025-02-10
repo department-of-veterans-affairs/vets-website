@@ -191,39 +191,33 @@ const ContactInfoBase = ({
     [contactInfo, setFormData, data, keys],
   );
 
-  useEffect(
-    () => {
-      if (editState) {
-        const [lastEdited, returnState] = editState.split(',');
-        setTimeout(() => {
-          const target =
-            returnState === 'canceled'
-              ? `#edit-${lastEdited}`
-              : `#updated-${lastEdited}`;
-          scrollTo(
-            onReviewPage
-              ? `${contactInfoPageKey}ScrollElement`
-              : `header-${lastEdited}`,
-          );
-          focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
-        });
-      }
-    },
-    [contactInfoPageKey, editState, onReviewPage],
-  );
-
-  useEffect(
-    () => {
-      if ((hasInitialized && missingInfo.length) || testContinueAlert) {
-        // page had an error flag, so we know when to show a success alert
-        setHadError(true);
-      }
+  useEffect(() => {
+    if (editState) {
+      const [lastEdited, returnState] = editState.split(',');
       setTimeout(() => {
-        setHasInitialized(true);
+        const target =
+          returnState === 'canceled'
+            ? `#edit-${lastEdited}`
+            : `#updated-${lastEdited}`;
+        scrollTo(
+          onReviewPage
+            ? `${contactInfoPageKey}ScrollElement`
+            : `header-${lastEdited}`,
+        );
+        focusElement(onReviewPage ? `#${contactInfoPageKey}Header` : target);
       });
-    },
-    [missingInfo, hasInitialized, testContinueAlert],
-  );
+    }
+  }, [contactInfoPageKey, editState, onReviewPage]);
+
+  useEffect(() => {
+    if ((hasInitialized && missingInfo.length) || testContinueAlert) {
+      // page had an error flag, so we know when to show a success alert
+      setHadError(true);
+    }
+    setTimeout(() => {
+      setHasInitialized(true);
+    });
+  }, [missingInfo, hasInitialized, testContinueAlert]);
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
@@ -515,16 +509,17 @@ ContactInfoBase.propTypes = {
   goForward: PropTypes.func,
   immediateRedirect: PropTypes.bool,
   keys: contactInfoPropTypes.keys,
+  prefillPatternEnabled: PropTypes.bool,
   requiredKeys: PropTypes.arrayOf(PropTypes.string),
   setFormData: PropTypes.func,
-  testContinueAlert: PropTypes.bool, // for unit testing only
+  testContinueAlert: PropTypes.bool,
+  // for unit testing only
   uiSchema: PropTypes.shape({
     'ui:required': PropTypes.func,
     'ui:validations': PropTypes.array,
   }),
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
-  prefillPatternEnabled: PropTypes.bool,
 };
 
 const ContactInfo = withRouter(ContactInfoBase);
