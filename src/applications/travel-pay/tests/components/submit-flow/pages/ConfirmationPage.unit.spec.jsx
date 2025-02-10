@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-// import { render } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import reducer from '../../../../redux/reducer';
 import ConfirmationPage from '../../../../components/submit-flow/pages/ConfirmationPage';
@@ -26,6 +26,11 @@ describe('Confirmation page', () => {
             isLoading: false,
             error: null,
             data: appointment,
+          },
+          claimSubmission: {
+            isSubmitting: false,
+            error: null,
+            data: { claimId: '12345' },
           },
         },
       },
@@ -59,6 +64,11 @@ describe('Confirmation page', () => {
             error: null,
             data: appointment,
           },
+          claimSubmission: {
+            isSubmitting: false,
+            error: null,
+            data: { claimId: '12345' },
+          },
         },
       },
       reducers: reducer,
@@ -72,5 +82,29 @@ describe('Confirmation page', () => {
         element.textContent.includes('with First Middle Last'),
       ),
     ).to.not.be.empty;
+  });
+
+  it('should render a loading spinner while claim is submitting', () => {
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: false,
+            error: null,
+            data: appointment,
+          },
+          claimSubmission: {
+            isSubmitting: true,
+            error: null,
+            data: null,
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(screen.getByText('We’re processing your travel reimbursement claim'))
+      .to.exist;
+    expect($('va-loading-indicator')).to.exist;
   });
 });

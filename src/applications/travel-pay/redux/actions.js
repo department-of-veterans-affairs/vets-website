@@ -7,6 +7,9 @@ export const FETCH_TRAVEL_CLAIMS_FAILURE = 'FETCH_TRAVEL_CLAIMS_FAILURE';
 export const FETCH_APPOINTMENT_STARTED = 'FETCH_APPOINTMENT_STARTED';
 export const FETCH_APPOINTMENT_SUCCESS = 'FETCH_APPOINTMENT_SUCCESS';
 export const FETCH_APPOINTMENT_FAILURE = 'FETCH_APPOINTMENT_FAILURE';
+export const SUBMIT_CLAIM_STARTED = 'SUBMIT_CLAIM_STARTED';
+export const SUBMIT_CLAIM_SUCCESS = 'SUBMIT_CLAIM_SUCCESS';
+export const SUBMIT_CLAIM_FAILURE = 'SUBMIT_CLAIM_FAILURE';
 
 const fetchTravelClaimsStart = () => ({ type: FETCH_TRAVEL_CLAIMS_STARTED });
 const fetchTravelClaimsSuccess = data => ({
@@ -54,6 +57,37 @@ export function getAppointmentData(apptId) {
       dispatch(fetchAppointmentSuccess(response.data.attributes));
     } catch (error) {
       dispatch(fetchAppointmentFailure(error));
+    }
+  };
+}
+
+const submitClaimStart = () => ({ type: SUBMIT_CLAIM_STARTED });
+const submitClaimSuccess = data => ({
+  type: SUBMIT_CLAIM_SUCCESS,
+  payload: data,
+});
+const submitClaimFailure = error => ({
+  type: SUBMIT_CLAIM_FAILURE,
+  error,
+});
+
+export function submitMileageOnlyClaim(datetime) {
+  return async dispatch => {
+    dispatch(submitClaimStart());
+    try {
+      const options = {
+        method: 'POST',
+        body: JSON.stringify({ appointmentDatetime: datetime }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const apptUrl = `${environment.API_URL}/travel_pay/v0/claims`;
+      const response = await apiRequest(apptUrl, options);
+      dispatch(submitClaimSuccess(response.data));
+    } catch (error) {
+      dispatch(submitClaimFailure(error));
     }
   };
 }

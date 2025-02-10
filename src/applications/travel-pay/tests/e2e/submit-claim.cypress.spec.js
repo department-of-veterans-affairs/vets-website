@@ -19,6 +19,8 @@ describe('Submit Mileage Only Claims', () => {
   });
 
   it('should handle validation and answering "No" and navigate through the flow', () => {
+    ApiInitializer.submitClaim.happyPath();
+
     cy.get('va-link-action[text="File a mileage only claim"]')
       .first()
       .click();
@@ -89,7 +91,60 @@ describe('Submit Mileage Only Claims', () => {
 
     cy.selectVaButtonPairPrimary();
 
-    // Submission Error page is currently the hard-coded default behavior
-    cy.get('h1').should('include.text', 'We couldn’t file your claim');
+    // Happy path
+    cy.get('h1').should(
+      'include.text',
+      `We’re processing your travel reimbursement claim`,
+    );
+  });
+
+  it('should handle a failed submission', () => {
+    ApiInitializer.submitClaim.errorPath();
+
+    cy.get('va-link-action[text="File a mileage only claim"]')
+      .first()
+      .click();
+
+    cy.get('h1').should('include.text', 'Are you claiming only mileage?');
+
+    // Answer "Yes" and continue through the rest of the flow
+    cy.get('va-radio-option[label="Yes"]')
+      .first()
+      .click();
+
+    cy.selectVaButtonPairPrimary();
+
+    cy.get('h1').should('include.text', 'Did you travel in your own vehicle?');
+
+    // Answer "Yes" and continue through the rest of the flow
+    cy.get('va-radio-option[label="Yes"]')
+      .first()
+      .click();
+
+    cy.selectVaButtonPairPrimary();
+
+    // Address question
+    cy.get('h1').should(
+      'include.text',
+      'Did you travel from your home address?',
+    );
+
+    // Answer "yes" and continue
+    cy.get('va-radio-option[label="Yes"]')
+      .first()
+      .click();
+
+    cy.selectVaButtonPairPrimary();
+
+    // Review page
+    cy.get('h1').should('include.text', 'Review your travel claim');
+
+    // Agree to travel agreement and submit
+    cy.selectVaCheckbox('accept-agreement', true);
+
+    cy.selectVaButtonPairPrimary();
+
+    // Submission error path
+    cy.get('h1').should('include.text', `We couldn’t file your claim`);
   });
 });

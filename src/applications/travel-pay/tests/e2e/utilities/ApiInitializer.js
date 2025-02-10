@@ -22,6 +22,34 @@ class ApiInitializer {
     },
   };
 
+  submitClaim = {
+    happyPath: () => {
+      cy.intercept('POST', '/travel_pay/v0/claims', {
+        statusCode: 200,
+        body: {
+          data: {
+            claimId: '12345',
+          },
+        },
+      });
+    },
+    errorPath: () => {
+      cy.intercept('POST', '/travel_pay/v0/claims', {
+        statusCode: 503,
+        body: {
+          errors: [
+            {
+              title: 'Service unavailable',
+              status: 503,
+              detail: 'An unknown error has occured.',
+              code: 'VA900',
+            },
+          ],
+        },
+      });
+    },
+  };
+
   initializeAppointment = {
     happyPath: () => {
       cy.intercept('GET', '/vaos/v2/appointments/*', {

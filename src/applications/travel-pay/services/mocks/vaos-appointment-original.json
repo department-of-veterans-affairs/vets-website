@@ -99,13 +99,6 @@
             "SpecialtyCare"
           ]
         }
-      },
-      "travelPayClaim": {
-        "metadata": {
-          "status": 200,
-          "success": true,
-          "message": "Data retrieved successfully"
-        }
       }
     }
   }

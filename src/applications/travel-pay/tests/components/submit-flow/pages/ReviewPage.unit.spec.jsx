@@ -65,6 +65,11 @@ describe('Revew page', () => {
           error: null,
           data: mockAppt,
         },
+        claimSubmission: {
+          isSubmitting: false,
+          error: null,
+          data: null,
+        },
       },
     };
   };
