@@ -36,7 +36,7 @@ export const fetchFacilities = async ({
   facilityIds = [],
   type = 'health',
 }) => {
-  await ensureValidCSRFToken();
+  await ensureValidCSRFToken('fetchFacilities');
 
   const url = `${
     environment.API_URL
