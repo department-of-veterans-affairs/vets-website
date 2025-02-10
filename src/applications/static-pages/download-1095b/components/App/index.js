@@ -55,7 +55,8 @@ const cspId = useSelector(signInServiceName);
 
     const getverifyAlertVariant = () => {
       console.log('1 cspId', cspId)
-      console.log('1 CSP_IDS.LOGIN_GOV', CSP_IDS.LOGIN_GOV)
+      console.log('1 isLOA1', isLOA1)
+      //console.log('1 CSP_IDS.LOGIN_GOV', CSP_IDS.LOGIN_GOV)
 
       if (cspId === CSP_IDS.LOGIN_GOV) {
         console.log('variant name is CSP_IDS.LOGIN_GOV');
@@ -288,22 +289,20 @@ const cspId = useSelector(signInServiceName);
     console.log('loggedIn')
     if (formError.error) {
       console.log('render error')
-      return getErrorComponent()
+      return getErrorComponent();
     } else if (formDownloaded.downloaded) {
       console.log('render form downloaded' )
-      return successComponent
+      return successComponent;
     } else if (isLOA1) {
       console.log('render verify', )
-      return verifyAlertVariant
+      return verifyAlertVariant;
     } else {
-      console.log('render nick', )
-      return (<>Nick</>)
+      console.log('render loggedInComponent', )
+      return loggedInComponent;
     }
   }
   console.log('render logged out')
   return loggedOutComponent
-
-  
 };
 
 App.propTypes = {
