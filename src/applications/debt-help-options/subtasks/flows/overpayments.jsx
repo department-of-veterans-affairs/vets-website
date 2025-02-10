@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const overpayments = {
-  steps: {
+  questions: {
     initial: {
       title: 'What do you want to do for this benefit overpayment?',
       options: [
@@ -83,7 +83,8 @@ export const overpayments = {
     },
   },
   outcomes: {
-    requestRelieOutcome: [
+    // Updated key to match the option's nextStep:
+    debtReliefOutcome: [
       {
         title: 'Yes',
         message: (
@@ -247,7 +248,7 @@ export const overpayments = {
               <li>
                 <strong>Online:</strong>{' '}
                 <va-link
-                  href="https://www.va.gov/contact-us/"
+                  href="https://va.gov/contact-us/"
                   text="Contact us through Ask VA"
                 />
               </li>
@@ -287,7 +288,7 @@ export const overpayments = {
               <li>
                 <strong>Online:</strong>{' '}
                 <va-link
-                  href="https://www.va.gov/contact-us/"
+                  href="https://va.gov/contact-us/"
                   text="Contact us through Ask VA"
                 />
               </li>

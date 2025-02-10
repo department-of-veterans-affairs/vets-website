@@ -1,9 +1,10 @@
+// ./actions/navigationActions.js
 import { browserHistory } from 'react-router';
 
 export const navigateTo = (page, outcome = null) => {
   let newUrl;
-  if (page === 'introduction') {
-    newUrl = '/manage-va-debt/debt-help-options/introduction';
+  if (page === 'intro') {
+    newUrl = '/manage-va-debt/debt-help-options/intro';
   } else if (page === 'results') {
     newUrl = '/manage-va-debt/debt-help-options/results';
   } else {

@@ -1,139 +1,157 @@
-import React, { useState } from 'react';
-import RadioOptions from './RadioOptions';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SUBTASK_FLOW } from '../subtasks';
-// import { navigateForward, navigateBackward } from '../navigation';
 
-const SubtaskFlow = () => {
-  const [pageState, setPageState] = useState({
-    currentPage: 'intro',
-    selected: null,
-  });
-  const [routeMap, setRouteMap] = useState(['intro']);
+const Subtasks = props => {
+  const { questionId } = props.params;
+  const [selectedOption, setSelectedOption] = useState(null);
 
-  const handleOptionChange = ({ detail } = {}) => {
-    const { value } = detail;
-
-    // Record the analytics event
-    // recordEvent({
-    //   event: 'subtask-formChange',
-    //   'form-field-type': 'form-radio-buttons',
-    //   'form-field-label': 'Question: ' + pageState.currentPage,
-    //   'form-field-value': value,
-    // });
-
-    let currentConfig;
-    if (pageState.currentPage === 'intro') {
-      currentConfig = SUBTASK_FLOW.intro;
-    } else {
-      currentConfig =
-        SUBTASK_FLOW.flows[pageState.currentPage]?.questions?.initial?.options;
-    }
-    if (!currentConfig) return;
-
-    const selectedOption = currentConfig.find(opt => opt.value === value);
-    if (selectedOption) {
-      setPageState({
-        currentPage: selectedOption.next,
-        selected: value,
-      });
+  const handleCustomEvent = event => {
+    if (event.target.tagName.toLowerCase() === 'va-radio') {
+      setSelectedOption(event.detail.value);
     }
   };
 
   const handleContinue = () => {
-    if (!pageState.selected) return;
-    setRouteMap(prev => [...prev, pageState.currentPage]);
+    if (selectedOption) {
+      props.router.push(selectedOption);
+    }
   };
 
   const handleBack = () => {
-    if (routeMap.length > 1) {
-      const newRouteMap = routeMap.slice(0, -1);
-      setRouteMap(newRouteMap);
-      setPageState(prev => ({
-        ...prev,
-        currentPage: newRouteMap[newRouteMap.length - 1],
-        selected: null,
-      }));
-    }
+    props.router.push('introduction');
   };
 
-  let content;
-  if (pageState.currentPage === 'intro') {
-    content = (
-      <RadioOptions
-        config={SUBTASK_FLOW.intro}
-        title="What's this debt related to?"
-        currentStep="intro"
-        selectedValues={{}}
-        onContinue={handleContinue}
-        onBack={handleBack}
-        onOptionChange={handleOptionChange}
-      />
-    );
-  } else {
-    const flowConfig = SUBTASK_FLOW.flows[pageState.currentPage];
-    if (flowConfig && flowConfig.questions && flowConfig.questions.initial) {
-      const question = flowConfig.questions.initial;
-      content = (
-        <RadioOptions
-          config={question.options}
-          title={question.title}
-          currentStep={pageState.currentPage}
-          selectedValues={{}}
-          onContinue={handleContinue}
-          onBack={handleBack}
-          onOptionChange={handleOptionChange}
-        />
-      );
-    } else if (
-      flowConfig &&
-      flowConfig.outcomes &&
-      flowConfig.outcomes[pageState.currentPage]
-    ) {
-      const outcomes = flowConfig.outcomes[pageState.currentPage];
-      content = (
-        <div>
-          {outcomes.map((item, index) => (
-            <div key={index}>
-              <h3>{item.title}</h3>
-              <div>{item.message}</div>
-            </div>
-          ))}
-          <va-button
-            onClick={() =>
-              setPageState({ currentPage: 'intro', selected: null })
-            }
-          >
-            Start Over
-          </va-button>
-        </div>
-      );
-    } else {
-      content = (
-        <div>
-          <h2>Error: Unable to determine next page.</h2>
-          <va-button onClick={handleBack}>Back</va-button>
-        </div>
-      );
+  useEffect(() => {
+    document.addEventListener('vaValueChange', handleCustomEvent);
+    return () => {
+      document.removeEventListener('vaValueChange', handleCustomEvent);
+    };
+  }, []);
+
+  useEffect(
+    () => {
+      setSelectedOption(null);
+    },
+    [questionId],
+  );
+
+  let foundQuestion = null;
+  let foundOutcome = null;
+  let parentFlowKey = null;
+
+  Object.keys(SUBTASK_FLOW.flows).some(flowKey => {
+    const flow = SUBTASK_FLOW.flows[flowKey];
+
+    if (questionId === flowKey && flow.questions && flow.questions.initial) {
+      foundQuestion = flow.questions.initial;
+      parentFlowKey = flowKey;
+      return true;
+    }
+
+    if (flow.questions && flow.questions[questionId]) {
+      foundQuestion = flow.questions[questionId];
+      parentFlowKey = flowKey;
+      return true;
+    }
+
+    if (flow.outcomes && flow.outcomes[questionId]) {
+      foundOutcome = flow.outcomes[questionId];
+      parentFlowKey = flowKey;
+      return true;
+    }
+
+    return false;
+  });
+
+  if (!foundOutcome && !foundQuestion) {
+    const flow = SUBTASK_FLOW.flows[questionId];
+    if (flow && flow.outcomes) {
+      const outcomeKeys = Object.keys(flow.outcomes);
+      if (outcomeKeys.length === 1) {
+        foundOutcome = flow.outcomes[outcomeKeys[0]];
+        parentFlowKey = questionId;
+      }
     }
   }
 
-  return (
-    <div>
-      {content}
-      <div style={{ marginTop: '1rem' }}>
-        <va-button onClick={handleBack} disabled={routeMap.length <= 1}>
-          Back
-        </va-button>
-        <va-button onClick={handleContinue} disabled={!pageState.selected}>
-          Continue
-        </va-button>
+  if (foundQuestion) {
+    return (
+      <div style={{ padding: '20px' }}>
+        {parentFlowKey && <h3>Current Flow: {parentFlowKey}</h3>}
+        <va-radio
+          label={foundQuestion.title}
+          name="navigationOptions"
+          required
+          label-header-level="2"
+          value={selectedOption}
+        >
+          {foundQuestion.options.map(option => (
+            <va-radio-option
+              key={option.value}
+              name="navigationOptions"
+              label={option.label}
+              value={option.nextStep}
+              description={option.description}
+              checked={option.nextStep === selectedOption}
+            />
+          ))}
+        </va-radio>
+
+        <div className="vads-u-margin-top--2">
+          <VaButtonPair
+            continue
+            onPrimaryClick={handleContinue}
+            onSecondaryClick={handleBack}
+            primaryDisabled={!selectedOption}
+          />
+        </div>
       </div>
-      <div>
-        {/* Debug: show routeMap */}
-        <p>Route History: {routeMap.join(' > ')}</p>
+    );
+  }
+
+  if (foundOutcome) {
+    return (
+      <div style={{ padding: '20px' }}>
+        {parentFlowKey && <h3>Current Flow: {parentFlowKey}</h3>}
+        {foundOutcome.map((item, index) => (
+          <div key={index}>
+            <h3>{item.title}</h3>
+            <div>{item.message}</div>
+          </div>
+        ))}
+        <div className="vads-u-margin-top--2">
+          <VaButtonPair
+            onSecondaryClick={handleBack}
+            secondaryText="Start Over"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h2>Error: Subtask not found.</h2>
+      <div className="vads-u-margin-top--2">
+        <VaButtonPair
+          onSecondaryClick={handleBack}
+          secondaryText="Start Over"
+        />
       </div>
     </div>
   );
 };
 
-export default SubtaskFlow;
+Subtasks.propTypes = {
+  params: PropTypes.shape({
+    questionId: PropTypes.string.isRequired,
+  }).isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default withRouter(Subtasks);

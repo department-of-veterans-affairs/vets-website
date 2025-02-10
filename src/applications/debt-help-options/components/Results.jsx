@@ -1,14 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const Results = () => {
+export default function Results(props) {
+  const outcome =
+    props.location && props.location.state && props.location.state.outcome;
+
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <h2>Results</h2>
-      <p>Outcome details would be displayed here.</p>
-      <Link to="/debt-help-options/introduction">Start Over</Link>
+      {outcome ? (
+        <div>
+          <h3>{outcome.title}</h3>
+          <div>{outcome.message}</div>
+        </div>
+      ) : (
+        <p>No outcome found.</p>
+      )}
     </div>
   );
-};
+}
 
-export default Results;
+Results.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape({
+      outcome: PropTypes.shape({
+        title: PropTypes.string,
+        message: PropTypes.string,
+      }),
+    }),
+  }),
+};

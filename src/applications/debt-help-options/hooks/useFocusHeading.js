@@ -6,13 +6,10 @@ export const useFocusHeading = ({
 } = {}) => {
   const findHeading = useCallback(
     () => {
-      // Check regular DOM first if shadowOnly is false
       if (!shadowOnly) {
         const mainH1 = document.querySelector('h1');
         if (mainH1) return mainH1;
       }
-
-      // Check shadow DOM
       return Array.from(document.querySelectorAll('va-radio'))
         .map(host => host.shadowRoot?.querySelector('h1'))
         .find(Boolean);
@@ -33,7 +30,7 @@ export const useFocusHeading = ({
       }
       return false;
     },
-    [findHeading],
+    [findHeading, tabbable],
   );
 
   useEffect(

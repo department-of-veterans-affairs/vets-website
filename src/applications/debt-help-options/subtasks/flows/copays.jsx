@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const copays = {
-  steps: {
+  questions: {
     initial: {
       title: 'What do you want to do for this copay?',
       options: [
