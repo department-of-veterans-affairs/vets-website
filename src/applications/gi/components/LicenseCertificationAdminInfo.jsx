@@ -35,7 +35,7 @@ function LicenseCertificationAdminInfo({ institution, type }) {
           </p>
         </>
       )}
-      <p className="vads-u-padding-top--1p5 vads-u-margin-bottom--1">
+      <p className="vads-u-padding-top--1p5 vads-u-margin-bottom--1 vads-l-col--12 medium-screen:vads-l-col--7">
         Print and fill out form Request for Reimbursement of Licensing or
         Certification Test Fees. Send the completed application to the Regional
         Processing Office for your region listed in the form.
