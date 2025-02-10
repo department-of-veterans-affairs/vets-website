@@ -85,7 +85,12 @@ function LcTestInfo({ tests }) {
                   return (
                     <va-table-row key={index}>
                       <span>{test.name}</span>
-                      <span>{formatDollarAmountWithCents(test.fee)}</span>
+                      <span>
+                        {formatDollarAmountWithCents(
+                          test.fee,
+                          'test fee not available',
+                        )}
+                      </span>
                     </va-table-row>
                   );
                 })}
@@ -105,7 +110,11 @@ function LcTestInfo({ tests }) {
           <h4>Test name: {tests[0].name}</h4>
           {/* <p className="fee">Fee {formatCurrency(tests[0].fee)}</p> */}
           <p className="fee">
-            Fee: {formatDollarAmountWithCents(tests[0].fee)}
+            Fee:{' '}
+            {formatDollarAmountWithCents(
+              tests[0].fee,
+              'test fee not available',
+            )}
           </p>
         </div>
       )}
