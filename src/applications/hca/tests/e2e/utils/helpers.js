@@ -29,7 +29,7 @@ export const startAsGuestUser = () => {
   cy.location('pathname').should('include', '/id-form');
 };
 
-export const startSaveInProgressUser = () => {
+export const startAsInProgressUser = () => {
   cy.get('[data-testid="continue-your-application"]')
     .first()
     .click();

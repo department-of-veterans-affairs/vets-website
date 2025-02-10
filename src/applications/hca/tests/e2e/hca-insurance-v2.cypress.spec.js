@@ -6,7 +6,7 @@ import {
   fillInsuranceInformation,
   goToNextPage,
   setupForAuth,
-  startSaveInProgressUser,
+  startAsInProgressUser,
 } from './utils';
 
 const { data: testData } = maxTestData;
@@ -18,7 +18,7 @@ describe('HCA-Health-Insurance-Information', () => {
       user: mockUser,
       prefill: mockPrefill,
     });
-    startSaveInProgressUser();
+    startAsInProgressUser();
   });
 
   it('should successfully advance to facility selection when user does not have health insurance coverage', () => {

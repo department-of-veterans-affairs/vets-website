@@ -11,7 +11,7 @@ import {
   fillVeteranIncome,
   goToNextPage,
   setupForAuth,
-  startSaveInProgressUser,
+  startAsInProgressUser,
 } from './utils';
 
 const { data: testData } = maxTestData;
@@ -19,7 +19,7 @@ const { data: testData } = maxTestData;
 describe('HCA-Household: Full disclosure', () => {
   beforeEach(() => {
     setupForAuth({ user: mockUser, prefill: mockPrefill });
-    startSaveInProgressUser();
+    startAsInProgressUser();
   });
 
   it('works with full spousal and dependent information', () => {

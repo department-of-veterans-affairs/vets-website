@@ -7,7 +7,7 @@ import {
   fillVeteranIncome,
   goToNextPage,
   setupForAuth,
-  startSaveInProgressUser,
+  startAsInProgressUser,
 } from './utils';
 
 const { data: testData } = maxTestData;
@@ -15,7 +15,7 @@ const { data: testData } = maxTestData;
 describe('HCA-Household: Non-disclosure', () => {
   beforeEach(() => {
     setupForAuth({ user: mockUser, prefill: mockPrefill });
-    startSaveInProgressUser();
+    startAsInProgressUser();
   });
 
   it('works without sharing household information', () => {
