@@ -804,6 +804,14 @@ export const yellowRibbonDegreeLevelTypeHash = {
   'undergraduate: dc': ['Undergraduate'],
 };
 
+export const DISTANCE_DROPDOWN_OPTIONS = [
+  { value: '5', label: 'within 5 miles' },
+  { value: '15', label: 'within 15 miles' },
+  { value: '25', label: 'within 25 miles' },
+  { value: '50', label: 'within 50 miles' },
+  { value: '75', label: 'within 75 miles' },
+];
+
 export const lacpCategoryList = [
   'all',
   'license',
