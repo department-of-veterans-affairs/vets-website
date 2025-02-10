@@ -12,10 +12,7 @@
   "vaClaimsHistory": true,
   "inputVeteranVAFileNumber": "123456789",
   "inputVeteranDOB": "1960-01-01",
-  "serviceBranch": {
-    "army": true,
-    "navy": true
-  },
+  "inputVeteranServiceBranch": "army",
   "activeServiceDateRange": {
     "from": "2003-03-02",
     "to": "2007-03-20"

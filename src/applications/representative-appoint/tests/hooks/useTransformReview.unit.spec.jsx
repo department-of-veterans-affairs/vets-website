@@ -28,8 +28,8 @@ describe('useTransformForReview', () => {
         inputVeteranSSN: '123-45-6789',
         inputVeteranVAFileNumber: '987654321',
         inputVeteranDOB: '1990-01-01',
-        serviceNumber: 'S123456789',
-        serviceBranch: 'Army',
+        inputVeteranServiceNumber: 'S123456789',
+        inputVeteranServiceBranch: 'Army',
         inputVeteranHomeAddress: {
           street: '123 Main St',
           city: 'Anytown',

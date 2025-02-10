@@ -25,7 +25,7 @@ describe('prefillTransformer', () => {
       });
       expect(result.inputVeteranEmail).to.eql('test2@test1.net');
       expect(result.inputVeteranPrimaryPhone).to.eql('4445551212');
-      expect(result.inputVeteranServiceBranch).to.eql('Army');
+      expect(result.inputVeteranServiceBranch).to.eql('army');
     });
 
     it('should reset the applicant attributes', () => {

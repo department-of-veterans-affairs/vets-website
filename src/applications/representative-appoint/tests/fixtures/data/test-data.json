@@ -9,7 +9,7 @@
   "vaClaimsHistory": true,
   "inputVeteranVAFileNumber": "123456789",
   "inputVeteranDOB": "1960-01-01",
-  "serviceBranch": {
+  "inputVeteranServiceBranch": {
     "army": true,
     "navy": true
   },

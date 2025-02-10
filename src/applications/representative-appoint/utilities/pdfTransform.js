@@ -47,7 +47,7 @@ export function pdfTransform(formData) {
     inputNonVeteranClaimantName,
     inputNonVeteranClaimantDOB,
     inputNonVeteranClaimantRelationship,
-    inputVeteranServiceBranch: serviceBranch,
+    inputVeteranServiceBranch,
     inputNonVeteranClaimantHomeAddress: claimantAddress,
     inputAuthorizationsMedical,
     inputAuthorizationsAddressChange,
@@ -78,7 +78,8 @@ export function pdfTransform(formData) {
     vaFileNumber: inputVeteranVAFileNumber,
     dateOfBirth,
     serviceNumber: inputVeteranServiceNumber,
-    serviceBranch: serviceBranch?.replace(/ /g, '_').toUpperCase() || null,
+    serviceBranch:
+      inputVeteranServiceBranch?.replace(/ /g, '_').toUpperCase() || null,
     address: createAddress(homeAddress),
     phone,
     email,
