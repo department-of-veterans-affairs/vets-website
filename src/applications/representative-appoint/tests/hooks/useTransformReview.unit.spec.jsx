@@ -51,7 +51,7 @@ describe('useTransformForReview', () => {
           state: 'TX',
           postalCode: '54321',
         },
-        applicantPhone: '555-5678',
+        inputNonVeteranClaimantPhone: '555-5678',
         applicantEmail: 'john.doe@example.com',
       },
     };

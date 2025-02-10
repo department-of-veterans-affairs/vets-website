@@ -29,7 +29,7 @@ export default function prefillTransformer(formData) {
     newFormData.inputNonVeteranClaimantName = undefined;
     newFormData.inputNonVeteranClaimantDOB = undefined;
     newFormData.applicantEmail = undefined;
-    newFormData.applicantPhone = undefined;
+    newFormData.inputNonVeteranClaimantPhone = undefined;
     newFormData.inputNonVeteranClaimantHomeAddress = {
       city: undefined,
       country: undefined,
@@ -46,7 +46,8 @@ export default function prefillTransformer(formData) {
     newFormData.inputNonVeteranClaimantDOB =
       formData?.personalInformation?.dateOfBirth;
     newFormData.applicantEmail = formData?.contactInformation?.email;
-    newFormData.applicantPhone = formData?.contactInformation?.primaryPhone;
+    newFormData.inputNonVeteranClaimantPhone =
+      formData?.contactInformation?.primaryPhone;
     newFormData.inputNonVeteranClaimantHomeAddress = {
       city: formData?.contactInformation?.address?.city,
       country: formData?.contactInformation?.address?.country,

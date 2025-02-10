@@ -35,7 +35,7 @@ describe('prefillTransformer', () => {
         inputNonVeteranClaimantName: 'test',
         inputNonVeteranClaimantDOB: 'test',
         applicantEmail: 'test',
-        applicantPhone: 'test',
+        inputNonVeteranClaimantPhone: 'test',
         inputNonVeteranClaimantHomeAddress: {
           city: 'test',
           country: 'test',
@@ -50,7 +50,7 @@ describe('prefillTransformer', () => {
       expect(result.inputNonVeteranClaimantName).to.be.undefined;
       expect(result.inputNonVeteranClaimantDOB).to.be.undefined;
       expect(result.applicantEmail).to.be.undefined;
-      expect(result.applicantPhone).to.be.undefined;
+      expect(result.inputNonVeteranClaimantPhone).to.be.undefined;
       expect(result.inputNonVeteranClaimantHomeAddress).to.eql({
         city: undefined,
         country: undefined,
@@ -81,7 +81,7 @@ describe('prefillTransformer', () => {
         postalCode: '75014',
       });
       expect(result.applicantEmail).to.eql('test2@test1.net');
-      expect(result.applicantPhone).to.eql('4445551212');
+      expect(result.inputNonVeteranClaimantPhone).to.eql('4445551212');
     });
 
     it('should reset the Veteran attributes', () => {

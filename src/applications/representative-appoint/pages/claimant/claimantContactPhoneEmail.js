@@ -17,7 +17,7 @@ export const uiSchema = {
       <ProfileNotUpdatedNote includePhone isClaimantChapter />
     ),
   },
-  applicantPhone: phoneUI({
+  inputNonVeteranClaimantPhone: phoneUI({
     required: true,
   }),
   applicantEmail: emailUI(),
@@ -25,11 +25,11 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['applicantPhone'],
+  required: ['inputNonVeteranClaimantPhone'],
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    applicantPhone: phoneSchema,
+    inputNonVeteranClaimantPhone: phoneSchema,
     applicantEmail: {
       ...emailSchema,
       type: 'string',

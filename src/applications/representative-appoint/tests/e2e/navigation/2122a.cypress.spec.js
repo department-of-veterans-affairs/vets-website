@@ -123,7 +123,9 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.CLAIMANT_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_applicantPhone"]').type('5436578475');
+      cy.get('input[name="root_inputNonVeteranClaimantPhone"]').type(
+        '5436578475',
+      );
 
       h.clickContinue();
 

@@ -39,7 +39,7 @@ export function useTransformForReview(formData) {
         city: formData?.inputNonVeteranClaimantHomeAddress?.city,
         state: formData?.inputNonVeteranClaimantHomeAddress?.state,
         postalCode: formData?.inputNonVeteranClaimantHomeAddress?.postalCode,
-        phone: formData?.applicantPhone || '',
+        phone: formData?.inputNonVeteranClaimantPhone || '',
         email: formData?.applicantEmail || '',
       };
 

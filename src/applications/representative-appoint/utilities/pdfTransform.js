@@ -54,7 +54,7 @@ export function pdfTransform(formData) {
     inputAuthorizationsAccessInsideVASystems,
     inputAuthorizationsAccessOutsideVASystems,
     inputAuthorizationsTeamMembers,
-    applicantPhone,
+    inputNonVeteranClaimantPhone,
     applicantEmail,
   } = formData;
 
@@ -97,7 +97,7 @@ export function pdfTransform(formData) {
           dateOfBirth: inputNonVeteranClaimantDOB || '',
           relationship: inputNonVeteranClaimantRelationship || '',
           address: createAddress(claimantAddress),
-          phone: applicantPhone || '',
+          phone: inputNonVeteranClaimantPhone || '',
           email: applicantEmail || '',
         };
 
