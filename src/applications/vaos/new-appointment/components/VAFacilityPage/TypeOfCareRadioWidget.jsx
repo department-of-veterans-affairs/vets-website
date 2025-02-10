@@ -11,13 +11,16 @@ export default function TypeOfCareRadioWidget({
   options,
   value,
   onChange,
+  required,
 }) {
   const { enumOptions } = options;
 
   return (
     <div className="vads-u-margin-top--3">
       <fieldset>
-        <legend className="sr-only">{options.title}</legend>
+        <legend className="sr-only">
+          {options.title} {required ? 'required' : ''}
+        </legend>
 
         {enumOptions.map((option, i) => {
           const checked = option.value === value;
@@ -46,6 +49,7 @@ TypeOfCareRadioWidget.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
   options: PropTypes.object,
+  required: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
 };
