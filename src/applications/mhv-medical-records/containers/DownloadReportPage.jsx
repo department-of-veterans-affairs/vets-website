@@ -363,7 +363,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               download
               href="#"
               onClick={handleDownloadCCD}
-              text="Download .xml file"
+              text="Download Continuity of Care Document (XML)"
               data-testid="generateCcdButton"
             />
           )}
@@ -398,7 +398,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                 generateSEIPdf();
                 sendDataDogAction('Self entered health information PDF link ');
               }}
-              text="Download PDF"
+              text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
           )}
