@@ -28,6 +28,7 @@ const ProofOfVeteranStatusNew = ({
   const [errors, setErrors] = useState([]);
   const [data, setData] = useState(null);
   const [shouldFocusError, setShouldFocusError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { first, middle, last, suffix } = userFullName;
 
   const userAgent =
@@ -107,6 +108,8 @@ const ProofOfVeteranStatusNew = ({
     let isMounted = true;
 
     const fetchVerificationStatus = async () => {
+      setIsLoading(true);
+
       try {
         const path = '/profile/vet_verification_status';
         const response = await apiRequest(path);
@@ -119,6 +122,10 @@ const ProofOfVeteranStatusNew = ({
             "We're sorry. There's a problem with our system. We can't show your Veteran status card right now. Try again later.",
           ]);
           captureError(error, { eventName: 'vet-status-fetch-verification' });
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
         }
       }
     };
@@ -273,150 +280,160 @@ const ProofOfVeteranStatusNew = ({
           This card identifies a Veteran of the U.S. Uniformed Services.
         </p>
 
-        {userHasRequiredCardData ? (
+        {isLoading ? (
+          <va-loading-indicator
+            setFocus
+            message="Checking your eligibility..."
+            data-testid="proof-of-status-loading-indicator"
+          />
+        ) : (
           <>
-            {!useLighthouseApi ? (
+            {userHasRequiredCardData ? (
               <>
-                {vetStatusEligibility.confirmed ? (
+                {!useLighthouseApi ? (
+                  <>
+                    {vetStatusEligibility.confirmed ? (
+                      <>
+                        {errors?.length > 0 ? (
+                          <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                            <va-alert status="error" uswds>
+                              {errors[0]}
+                            </va-alert>
+                          </div>
+                        ) : null}
+                        <div className="vads-l-grid-container--full">
+                          <div className="vads-l-row">
+                            <ProofOfVeteranStatusCard
+                              edipi={edipi}
+                              formattedFullName={formattedFullName}
+                              latestService={latestService}
+                              totalDisabilityRating={totalDisabilityRating}
+                            />
+                          </div>
+                        </div>
+                        <div className="vads-u-font-size--md">
+                          <va-link
+                            active
+                            filetype="PDF"
+                            // exception to eslint: the url is a dynamically generated blob url
+                            // eslint-disable-next-line no-script-url
+                            href="javascript:void(0)"
+                            text="Print your Proof of Veteran status (PDF)"
+                            onClick={createPdf}
+                          />
+                        </div>
+                        <div className="vads-u-margin-y--4">
+                          <MobileAppCallout
+                            headingText="Get proof of Veteran status on your mobile device"
+                            bodyText={
+                              <>
+                                You can use our mobile app to get proof of
+                                Veteran status. To get started, download the{' '}
+                                <strong> VA: Health and Benefits </strong>{' '}
+                                mobile app.
+                              </>
+                            }
+                          />
+                        </div>
+                      </>
+                    ) : null}
+                    {!vetStatusEligibility.confirmed &&
+                    vetStatusEligibility.message.length > 0 ? (
+                      <>{profileApiErrorMessage}</>
+                    ) : null}
+                  </>
+                ) : null}
+
+                {useLighthouseApi && hasConfirmationData ? (
+                  <>
+                    {data?.attributes?.veteranStatus === 'confirmed' ? (
+                      <>
+                        {errors?.length > 0 ? (
+                          <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                            <va-alert status="error" uswds>
+                              {errors[0]}
+                            </va-alert>
+                          </div>
+                        ) : null}
+                        <div className="vads-l-grid-container--full">
+                          <div className="vads-l-row">
+                            <ProofOfVeteranStatusCard
+                              edipi={edipi}
+                              formattedFullName={formattedFullName}
+                              latestService={latestService}
+                              totalDisabilityRating={totalDisabilityRating}
+                            />
+                          </div>
+                        </div>
+                        <div className="vads-u-font-size--md">
+                          <va-link
+                            active
+                            filetype="PDF"
+                            // exception to eslint: the url is a dynamically generated blob url
+                            // eslint-disable-next-line no-script-url
+                            href="javascript:void(0)"
+                            text="Print your Proof of Veteran status (PDF)"
+                            onClick={createPdf}
+                          />
+                        </div>
+                        <div className="vads-u-margin-y--4">
+                          <MobileAppCallout
+                            headingText="Get proof of Veteran status on your mobile device"
+                            bodyText={
+                              <>
+                                You can use our mobile app to get proof of
+                                Veteran status. To get started, download the{' '}
+                                <strong> VA: Health and Benefits </strong>{' '}
+                                mobile app.
+                              </>
+                            }
+                          />
+                        </div>
+                      </>
+                    ) : null}
+
+                    {isVetStatusEligibilityPopulated &&
+                    data?.attributes?.veteranStatus === 'not confirmed' &&
+                    data?.message?.length > 0 ? (
+                      <>{lighthouseApiErrorMessage}</>
+                    ) : null}
+                  </>
+                ) : null}
+
+                {useLighthouseApi && !hasConfirmationData ? (
+                  <>{systemErrrorAlert}</>
+                ) : null}
+              </>
+            ) : null}
+
+            {!userHasRequiredCardData ? (
+              <>
+                {!useLighthouseApi ? <>{systemErrrorAlert}</> : null}
+
+                {useLighthouseApi ? (
                   <>
                     {errors?.length > 0 ? (
-                      <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                        <va-alert status="error" uswds>
-                          {errors[0]}
-                        </va-alert>
-                      </div>
+                      <>
+                        <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                          <va-alert status="error" uswds>
+                            {errors[0]}
+                          </va-alert>
+                        </div>
+                      </>
                     ) : null}
-                    <div className="vads-l-grid-container--full">
-                      <div className="vads-l-row">
-                        <ProofOfVeteranStatusCard
-                          edipi={edipi}
-                          formattedFullName={formattedFullName}
-                          latestService={latestService}
-                          totalDisabilityRating={totalDisabilityRating}
-                        />
-                      </div>
-                    </div>
-                    <div className="vads-u-font-size--md">
-                      <va-link
-                        active
-                        filetype="PDF"
-                        // exception to eslint: the url is a dynamically generated blob url
-                        // eslint-disable-next-line no-script-url
-                        href="javascript:void(0)"
-                        text="Print your Proof of Veteran status (PDF)"
-                        onClick={createPdf}
-                      />
-                    </div>
-                    <div className="vads-u-margin-y--4">
-                      <MobileAppCallout
-                        headingText="Get proof of Veteran status on your mobile device"
-                        bodyText={
-                          <>
-                            You can use our mobile app to get proof of Veteran
-                            status. To get started, download the{' '}
-                            <strong> VA: Health and Benefits </strong> mobile
-                            app.
-                          </>
-                        }
-                      />
-                    </div>
-                  </>
-                ) : null}
-                {!vetStatusEligibility.confirmed &&
-                vetStatusEligibility.message.length > 0 ? (
-                  <>{profileApiErrorMessage}</>
-                ) : null}
-              </>
-            ) : null}
 
-            {useLighthouseApi && hasConfirmationData ? (
-              <>
-                {data?.attributes?.veteranStatus === 'confirmed' ? (
-                  <>
-                    {errors?.length > 0 ? (
-                      <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                        <va-alert status="error" uswds>
-                          {errors[0]}
-                        </va-alert>
-                      </div>
+                    {data?.attributes?.veteranStatus === 'confirmed' ? (
+                      <>{profileApiErrorMessage}</>
                     ) : null}
-                    <div className="vads-l-grid-container--full">
-                      <div className="vads-l-row">
-                        <ProofOfVeteranStatusCard
-                          edipi={edipi}
-                          formattedFullName={formattedFullName}
-                          latestService={latestService}
-                          totalDisabilityRating={totalDisabilityRating}
-                        />
-                      </div>
-                    </div>
-                    <div className="vads-u-font-size--md">
-                      <va-link
-                        active
-                        filetype="PDF"
-                        // exception to eslint: the url is a dynamically generated blob url
-                        // eslint-disable-next-line no-script-url
-                        href="javascript:void(0)"
-                        text="Print your Proof of Veteran status (PDF)"
-                        onClick={createPdf}
-                      />
-                    </div>
-                    <div className="vads-u-margin-y--4">
-                      <MobileAppCallout
-                        headingText="Get proof of Veteran status on your mobile device"
-                        bodyText={
-                          <>
-                            You can use our mobile app to get proof of Veteran
-                            status. To get started, download the{' '}
-                            <strong> VA: Health and Benefits </strong> mobile
-                            app.
-                          </>
-                        }
-                      />
-                    </div>
+                    {data?.attributes?.veteranStatus === 'not confirmed' ? (
+                      <>{lighthouseApiErrorMessage}</>
+                    ) : null}
                   </>
-                ) : null}
-
-                {isVetStatusEligibilityPopulated &&
-                data?.attributes?.veteranStatus === 'not confirmed' &&
-                data?.message?.length > 0 ? (
-                  <>{lighthouseApiErrorMessage}</>
-                ) : null}
-              </>
-            ) : null}
-
-            {useLighthouseApi && !hasConfirmationData ? (
-              <>{systemErrrorAlert}</>
-            ) : null}
-          </>
-        ) : null}
-
-        {!userHasRequiredCardData ? (
-          <>
-            {!useLighthouseApi ? <>{systemErrrorAlert}</> : null}
-
-            {useLighthouseApi ? (
-              <>
-                {errors?.length > 0 ? (
-                  <>
-                    <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                      <va-alert status="error" uswds>
-                        {errors[0]}
-                      </va-alert>
-                    </div>
-                  </>
-                ) : null}
-
-                {data?.attributes?.veteranStatus === 'confirmed' ? (
-                  <>{profileApiErrorMessage}</>
-                ) : null}
-                {data?.attributes?.veteranStatus === 'not confirmed' ? (
-                  <>{lighthouseApiErrorMessage}</>
                 ) : null}
               </>
             ) : null}
           </>
-        ) : null}
+        )}
       </div>
     </>
   );
