@@ -8,3 +8,6 @@ export const facilityLocatorPredictiveLocationSearch = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.facilityLocatorPredictiveLocationSearch
   ];
+
+export const facilityLocatorMobileMapUpdate = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorMobileMapUpdate];
