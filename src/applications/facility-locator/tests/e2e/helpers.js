@@ -59,8 +59,11 @@ export const selectFacilityTypeInDropdown = value =>
 export const selectServiceTypeInVAHealthDropdown = value =>
   cy.get(VA_HEALTH_SERVICE_DROPDOWN).select(value);
 
-export const submitSearchForm = () =>
+export const submitSearchForm = () => {
   cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(2000);
+};
 
 export const verifyMainNumber = number => {
   cy.get(MAIN_NUMBER)
