@@ -4,8 +4,8 @@ import { initializeApi, userMock } from './setup';
 let heading;
 
 describe(`${appName} -- editing test`, () => {
-  before(() => initializeApi());
   beforeEach(() => {
+    initializeApi();
     cy.viewportPreset('va-top-mobile-1');
     cy.login(userMock);
     cy.visit(rootUrl);
@@ -120,7 +120,7 @@ describe(`${appName} -- editing test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 2,
-      name: /^Your application has been submitted$/,
+      name: /^You’ve submitted your medical supplies order$/,
     };
     cy.findByRole('heading', heading); // .should('have.focus'); // it _should_ have focus, but does not
   });
