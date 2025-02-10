@@ -202,6 +202,7 @@ export const FacilitiesMapTypes = {
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,
+  facilityLocatorMobileMapUpdate: PropTypes.bool,
   fetchVaFacility: PropTypes.func,
   genBBoxFromAddress: PropTypes.func,
   genSearchAreaFromCenter: PropTypes.func,
