@@ -4,9 +4,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 export const facilitiesPpmsSuppressAll = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressAll];
 
-export const facilitiesPpmsSuppressPharmacies = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesPpmsSuppressPharmacies];
-
 export const facilityLocatorPredictiveLocationSearch = state =>
   toggleValues(state)[
     FEATURE_FLAG_NAMES.facilityLocatorPredictiveLocationSearch
