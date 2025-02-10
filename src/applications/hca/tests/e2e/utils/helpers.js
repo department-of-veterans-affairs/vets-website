@@ -28,3 +28,10 @@ export const startAsGuestUser = () => {
     .click();
   cy.location('pathname').should('include', '/id-form');
 };
+
+export const startAsInProgressUser = () => {
+  cy.get('[data-testid="continue-your-application"]')
+    .first()
+    .click();
+  cy.wait('@mockPrefill');
+};
