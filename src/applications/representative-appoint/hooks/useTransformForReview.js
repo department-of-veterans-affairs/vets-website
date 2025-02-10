@@ -40,7 +40,7 @@ export function useTransformForReview(formData) {
         state: formData?.inputNonVeteranClaimantHomeAddress?.state,
         postalCode: formData?.inputNonVeteranClaimantHomeAddress?.postalCode,
         phone: formData?.inputNonVeteranClaimantPhone || '',
-        email: formData?.applicantEmail || '',
+        email: formData?.inputNonVeteranClaimantEmail || '',
       };
 
   const renderField = (label, value) => {

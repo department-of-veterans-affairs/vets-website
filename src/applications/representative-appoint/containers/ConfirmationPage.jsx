@@ -24,7 +24,8 @@ export default function ConfirmationPage({ router }) {
     firstName:
       formData.inputNonVeteranClaimantName?.first ||
       formData.inputVeteranFullName.first,
-    emailAddress: formData.applicantEmail || formData.inputVeteranEmail,
+    emailAddress:
+      formData.inputNonVeteranClaimantEmail || formData.inputVeteranEmail,
     entityId: selectedEntity.id,
     entityType:
       selectedEntity.type === 'organization' ? 'organization' : 'individual',

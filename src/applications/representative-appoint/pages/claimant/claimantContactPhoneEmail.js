@@ -20,7 +20,7 @@ export const uiSchema = {
   inputNonVeteranClaimantPhone: phoneUI({
     required: true,
   }),
-  applicantEmail: emailUI(),
+  inputNonVeteranClaimantEmail: emailUI(),
 };
 
 export const schema = {
@@ -30,7 +30,7 @@ export const schema = {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
     inputNonVeteranClaimantPhone: phoneSchema,
-    applicantEmail: {
+    inputNonVeteranClaimantEmail: {
       ...emailSchema,
       type: 'string',
       maxLength: 31,

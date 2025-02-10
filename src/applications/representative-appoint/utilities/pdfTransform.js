@@ -55,7 +55,7 @@ export function pdfTransform(formData) {
     inputAuthorizationsAccessOutsideVASystems,
     inputAuthorizationsTeamMembers,
     inputNonVeteranClaimantPhone,
-    applicantEmail,
+    inputNonVeteranClaimantEmail,
   } = formData;
 
   const createAddress = (address = {}) => ({
@@ -98,7 +98,7 @@ export function pdfTransform(formData) {
           relationship: inputNonVeteranClaimantRelationship || '',
           address: createAddress(claimantAddress),
           phone: inputNonVeteranClaimantPhone || '',
-          email: applicantEmail || '',
+          email: inputNonVeteranClaimantEmail || '',
         };
 
   const repType = getRepType(selectedRep);

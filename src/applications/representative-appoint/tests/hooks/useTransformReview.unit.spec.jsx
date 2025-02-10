@@ -52,7 +52,7 @@ describe('useTransformForReview', () => {
           postalCode: '54321',
         },
         inputNonVeteranClaimantPhone: '555-5678',
-        applicantEmail: 'john.doe@example.com',
+        inputNonVeteranClaimantEmail: 'john.doe@example.com',
       },
     };
     mockStore = mockFormStore({

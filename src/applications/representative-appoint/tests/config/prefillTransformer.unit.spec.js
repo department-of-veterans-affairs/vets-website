@@ -34,7 +34,7 @@ describe('prefillTransformer', () => {
         'view:applicantIsVeteran': 'Yes',
         inputNonVeteranClaimantName: 'test',
         inputNonVeteranClaimantDOB: 'test',
-        applicantEmail: 'test',
+        inputNonVeteranClaimantEmail: 'test',
         inputNonVeteranClaimantPhone: 'test',
         inputNonVeteranClaimantHomeAddress: {
           city: 'test',
@@ -49,7 +49,7 @@ describe('prefillTransformer', () => {
 
       expect(result.inputNonVeteranClaimantName).to.be.undefined;
       expect(result.inputNonVeteranClaimantDOB).to.be.undefined;
-      expect(result.applicantEmail).to.be.undefined;
+      expect(result.inputNonVeteranClaimantEmail).to.be.undefined;
       expect(result.inputNonVeteranClaimantPhone).to.be.undefined;
       expect(result.inputNonVeteranClaimantHomeAddress).to.eql({
         city: undefined,
@@ -80,7 +80,7 @@ describe('prefillTransformer', () => {
         country: 'FRA',
         postalCode: '75014',
       });
-      expect(result.applicantEmail).to.eql('test2@test1.net');
+      expect(result.inputNonVeteranClaimantEmail).to.eql('test2@test1.net');
       expect(result.inputNonVeteranClaimantPhone).to.eql('4445551212');
     });
 
