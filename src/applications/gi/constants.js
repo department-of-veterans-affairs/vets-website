@@ -811,3 +811,10 @@ export const DISTANCE_DROPDOWN_OPTIONS = [
   { value: '50', label: 'within 50 miles' },
   { value: '75', label: 'within 75 miles' },
 ];
+
+export const lacpCategoryList = [
+  'all',
+  'license',
+  'certification',
+  'prep course',
+];
