@@ -6,7 +6,7 @@ import {
 /** @type {UISchemaOptions} */
 
 export const uiSchema = {
-  'view:applicantIsVeteran': radioUI({
+  inputVeteranIsClaimant: radioUI({
     title: 'Are you the Veteran?',
   }),
 };
@@ -15,8 +15,8 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['view:applicantIsVeteran'],
+  required: ['inputVeteranIsClaimant'],
   properties: {
-    'view:applicantIsVeteran': radioSchema(['Yes', 'No']),
+    inputVeteranIsClaimant: radioSchema(['Yes', 'No']),
   },
 };

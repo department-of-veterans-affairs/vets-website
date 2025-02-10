@@ -87,7 +87,7 @@ export function pdfTransform(formData) {
 
   // construct claimant object (or reuse veteran)
   const claimant =
-    formData['view:applicantIsVeteran'] === 'Yes'
+    formData.inputVeteranIsClaimant === 'Yes'
       ? null
       : {
           name: {
@@ -136,6 +136,6 @@ export function pdfTransform(formData) {
       ? inputAuthorizationsTeamMembers.split(',').map(item => item.trim())
       : null,
     representative,
-    ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),
+    ...(formData.inputVeteranIsClaimant === 'No' && { claimant }),
   };
 }

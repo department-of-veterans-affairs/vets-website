@@ -23,7 +23,7 @@ describe('useTransformForReview', () => {
           type: 'Attorney',
         },
         selectedAccreditedOrganizationName: 'Veterans Organization',
-        'view:applicantIsVeteran': 'No',
+        inputVeteranIsClaimant: 'No',
         inputVeteranFullName: { first: 'Jane', middle: 'A', last: 'Doe' },
         inputVeteranSSN: '123-45-6789',
         inputVeteranVAFileNumber: '987654321',
@@ -89,7 +89,7 @@ describe('useTransformForReview', () => {
 
   context('when applicant is a veteran', () => {
     it('should render the veteran information', () => {
-      props.formData['view:applicantIsVeteran'] = 'Yes';
+      props.formData.inputVeteranIsClaimant = 'Yes';
       props.formData.inputNonVeteranClaimantName = {
         first: 'Jane',
         middle: 'A',

@@ -5,7 +5,7 @@ import { preparerIsVeteran } from '../../utilities/helpers';
 describe('preparerIsVeteran', () => {
   it('should return true when the applicant is a veteran', () => {
     const mockFormData = {
-      'view:applicantIsVeteran': 'Yes',
+      inputVeteranIsClaimant: 'Yes',
     };
 
     const result = preparerIsVeteran({ formData: mockFormData });
@@ -14,7 +14,7 @@ describe('preparerIsVeteran', () => {
 
   it('should return false when the applicant is not a veteran', () => {
     const mockFormData = {
-      'view:applicantIsVeteran': 'No',
+      inputVeteranIsClaimant: 'No',
     };
 
     const result = preparerIsVeteran({ formData: mockFormData });

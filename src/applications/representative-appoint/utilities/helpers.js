@@ -9,7 +9,7 @@ export const representativeTypeMap = {
 };
 
 export const preparerIsVeteran = ({ formData } = {}) =>
-  formData?.['view:applicantIsVeteran'] === 'Yes';
+  formData?.inputVeteranIsClaimant === 'Yes';
 
 /**
  * Show one thing, have a screen reader say another.
@@ -217,7 +217,7 @@ export const getRepresentativeName = formData => {
 };
 
 export const getinputNonVeteranClaimantName = formData => {
-  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+  const applicantIsVeteran = formData.inputVeteranIsClaimant === 'Yes';
   const applicantFullName = applicantIsVeteran
     ? formData.inputVeteranFullName
     : formData.inputNonVeteranClaimantName;

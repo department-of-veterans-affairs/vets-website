@@ -22,7 +22,7 @@ describe('<PreSubmitInfo>', () => {
             suffix: 'Sr.',
           },
           selectedAccreditedOrganizationName: 'American Legion',
-          'view:applicantIsVeteran': 'Yes',
+          inputVeteranIsClaimant: 'Yes',
           inputSelectedRepresentative: repResults[0].data,
         },
         showError,

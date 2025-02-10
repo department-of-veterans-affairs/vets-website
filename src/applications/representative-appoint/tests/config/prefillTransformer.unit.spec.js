@@ -5,7 +5,7 @@ import prefillTransformer from '../../config/prefillTransformer';
 describe('prefillTransformer', () => {
   context('when the applicant is the Veteran', () => {
     it('should set the Veteran attributes with prefill information', () => {
-      const data = { ...prefill, 'view:applicantIsVeteran': 'Yes' };
+      const data = { ...prefill, inputVeteranIsClaimant: 'Yes' };
 
       const result = prefillTransformer(data);
 
@@ -31,7 +31,7 @@ describe('prefillTransformer', () => {
     it('should reset the applicant attributes', () => {
       const data = {
         ...prefill,
-        'view:applicantIsVeteran': 'Yes',
+        inputVeteranIsClaimant: 'Yes',
         inputNonVeteranClaimantName: 'test',
         inputNonVeteranClaimantDOB: 'test',
         inputNonVeteranClaimantEmail: 'test',
@@ -63,7 +63,7 @@ describe('prefillTransformer', () => {
 
   context('when the applicant is not the Veteran', () => {
     it('should set the applicant attributes with prefill information', () => {
-      const data = { ...prefill, 'view:applicantIsVeteran': 'No' };
+      const data = { ...prefill, inputVeteranIsClaimant: 'No' };
 
       const result = prefillTransformer(data);
 
@@ -87,7 +87,7 @@ describe('prefillTransformer', () => {
     it('should reset the Veteran attributes', () => {
       const data = {
         ...prefill,
-        'view:applicantIsVeteran': 'No',
+        inputVeteranIsClaimant: 'No',
         inputVeteranFullName: 'test',
         inputVeteranDOB: 'test',
         inputVeteranEmail: 'test',

@@ -5,7 +5,7 @@ describe('getinputNonVeteranClaimantName', () => {
   context('when the applicant is the Veteran', () => {
     it('should return the Veteran name formatted correctly', () => {
       const mockFormData = {
-        'view:applicantIsVeteran': 'Yes',
+        inputVeteranIsClaimant: 'Yes',
         inputVeteranFullName: {
           first: 'Bob',
           middle: 'A',
@@ -21,7 +21,7 @@ describe('getinputNonVeteranClaimantName', () => {
   context('when the applicant is not the Veteran', () => {
     it('should return the non-Veteran applicant name formatted correctly', () => {
       const mockFormData = {
-        'view:applicantIsVeteran': 'No',
+        inputVeteranIsClaimant: 'No',
         inputNonVeteranClaimantName: {
           first: 'Bob',
           middle: 'B',

@@ -6,7 +6,7 @@ import { convertRepType } from '../utilities/helpers';
 export function useTransformForReview(formData) {
   const representative = formData.inputSelectedRepresentative.attributes;
   const organization = formData.selectedAccreditedOrganizationName;
-  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+  const applicantIsVeteran = formData.inputVeteranIsClaimant === 'Yes';
 
   const veteran = {
     firstName: formData?.inputVeteranFullName?.first,

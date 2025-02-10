@@ -74,7 +74,7 @@ describe('<ClaimantType /> handlers', async () => {
 
       await waitFor(() => {
         expect(dispatch.firstCall.args[0].data).to.deep.include({
-          'view:applicantIsVeteran': 'Yes',
+          inputVeteranIsClaimant: 'Yes',
         });
       });
     });
@@ -92,7 +92,7 @@ describe('<ClaimantType /> handlers', async () => {
 
       await waitFor(() => {
         expect(dispatch.firstCall.args[0].data).to.deep.include({
-          'view:applicantIsVeteran': 'No',
+          inputVeteranIsClaimant: 'No',
         });
       });
     });
