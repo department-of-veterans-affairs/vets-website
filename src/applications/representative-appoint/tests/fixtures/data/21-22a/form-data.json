@@ -14,7 +14,7 @@
   "titleSchema": {},
   "profileNotUpdatedNote": {},
   "applicantPhone": "5347687980",
-  "homeAddress": {
+  "inputNonVeteranClaimantHomeAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
     "street": "123 Any Street",

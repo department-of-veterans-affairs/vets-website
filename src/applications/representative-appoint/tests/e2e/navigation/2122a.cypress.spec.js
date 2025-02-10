@@ -93,21 +93,29 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.CLAIMANT_CONTACT_MAILING);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('va-select[name="root_homeAddress_country"]')
+      cy.get(
+        'va-select[name="root_inputNonVeteranClaimantHomeAddress_country"]',
+      )
         .shadow()
         .find('select')
         .select('United States');
 
-      cy.get('input[name="root_homeAddress_street"]').type('456 Broad Street');
+      cy.get(
+        'input[name="root_inputNonVeteranClaimantHomeAddress_street"]',
+      ).type('456 Broad Street');
 
-      cy.get('input[name="root_homeAddress_city"]').type('Anywhere');
+      cy.get('input[name="root_inputNonVeteranClaimantHomeAddress_city"]').type(
+        'Anywhere',
+      );
 
-      cy.get('va-select[name="root_homeAddress_state"]')
+      cy.get('va-select[name="root_inputNonVeteranClaimantHomeAddress_state"]')
         .shadow()
         .find('select')
         .select('MA');
 
-      cy.get('input[name="root_homeAddress_postalCode"]').type('54673');
+      cy.get(
+        'input[name="root_inputNonVeteranClaimantHomeAddress_postalCode"]',
+      ).type('54673');
 
       h.clickContinue();
 

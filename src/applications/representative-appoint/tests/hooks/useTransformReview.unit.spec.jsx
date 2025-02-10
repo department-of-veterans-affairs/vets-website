@@ -45,7 +45,7 @@ describe('useTransformForReview', () => {
         },
         inputNonVeteranClaimantDOB: '1990-01-01',
         inputNonVeteranClaimantRelationship: 'Spouse',
-        homeAddress: {
+        inputNonVeteranClaimantHomeAddress: {
           street: '456 Oak St',
           city: 'Anytown',
           state: 'TX',

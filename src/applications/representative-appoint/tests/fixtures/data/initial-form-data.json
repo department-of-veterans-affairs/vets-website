@@ -49,7 +49,7 @@
   "inputVeteranPrimaryPhone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
-  "homeAddress": {
+  "inputNonVeteranClaimantHomeAddress": {
     "'view:militaryBaseDescription'": {}
   },
   "descriptionSchema": {},

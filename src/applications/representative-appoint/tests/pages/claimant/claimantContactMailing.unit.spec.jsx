@@ -29,7 +29,8 @@ describe('Claimant Contact Mailing page', () => {
   });
 
   it('should have proper max lengths for address fields', () => {
-    const addressProps = schema.properties.homeAddress.properties;
+    const addressProps =
+      schema.properties.inputNonVeteranClaimantHomeAddress.properties;
 
     expect(addressProps.street.maxLength).to.equal(30);
     expect(addressProps.street2.maxLength).to.equal(5);

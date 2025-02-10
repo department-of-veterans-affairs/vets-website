@@ -36,7 +36,7 @@ describe('prefillTransformer', () => {
         inputNonVeteranClaimantDOB: 'test',
         applicantEmail: 'test',
         applicantPhone: 'test',
-        homeAddress: {
+        inputNonVeteranClaimantHomeAddress: {
           city: 'test',
           country: 'test',
           postalCode: 'test',
@@ -51,7 +51,7 @@ describe('prefillTransformer', () => {
       expect(result.inputNonVeteranClaimantDOB).to.be.undefined;
       expect(result.applicantEmail).to.be.undefined;
       expect(result.applicantPhone).to.be.undefined;
-      expect(result.homeAddress).to.eql({
+      expect(result.inputNonVeteranClaimantHomeAddress).to.eql({
         city: undefined,
         country: undefined,
         postalCode: undefined,
@@ -73,7 +73,7 @@ describe('prefillTransformer', () => {
         middle: 'A',
       });
       expect(result.inputNonVeteranClaimantDOB).to.eql('1933-04-05');
-      expect(result.homeAddress).to.eql({
+      expect(result.inputNonVeteranClaimantHomeAddress).to.eql({
         street: '123 avenue du Maine',
         city: 'Paris',
         state: 'Paris',
