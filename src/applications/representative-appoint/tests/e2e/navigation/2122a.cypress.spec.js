@@ -189,7 +189,7 @@ describe('Unauthenticated', () => {
       // VETERAN_SERVICE_INFORMATION
       h.verifyUrl(ROUTES.VETERAN_SERVICE_INFORMATION);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('Branch of Service', 0);
+      h.selectRadio('inputVeteranServiceBranch', 0);
 
       h.clickContinue();
 

@@ -20,7 +20,11 @@ export const uiSchema = {
   profileNotUpdatedNote: {
     'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
-  inputVeteranServiceBranch: radioUI('Branch of service'),
+  inputVeteranServiceBranch: radioUI({
+    title: 'Branch of service',
+    labels: branchOptions,
+    required: () => true,
+  }),
 };
 
 export const schema = {
