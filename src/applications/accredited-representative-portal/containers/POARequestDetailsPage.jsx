@@ -248,7 +248,7 @@ const POARequestDetailsPage = () => {
           />
         )}
 
-        {poaRequestSubmission === BANNER_TYPES.DECLINED && (
+        {poaRequestSubmission === BANNER_TYPES.FAILED && (
           <ProcessingBanner
             status="error"
             header={ERROR_BANNER.HEADER}
