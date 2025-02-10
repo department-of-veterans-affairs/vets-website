@@ -201,29 +201,44 @@ const formConfig = {
           schema: locationOfDeathV2.schema,
         },
         nursingHomeUnpaid: {
-          title: 'Veteran death location information',
+          title: 'Veteran death location details',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">
+              Veteran death location details
+            </span>
+          ),
           path: 'veteran-information/location-of-death/nursing-home-unpaid',
           depends: form =>
             showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'nursingHomeUnpaid',
           ...generateDeathFacilitySchemas(
             'nursingHomeUnpaid',
-            'facility or nursing home that VA doesn’t pay for',
+            'nursing home or facility',
           ),
         },
         nursingHomePaid: {
-          title: 'Veteran death location information',
+          title: 'Veteran death location details',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">
+              Veteran death location details
+            </span>
+          ),
           path: 'veteran-information/location-of-death/nursing-home-paid',
           depends: form =>
             showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'nursingHomePaid',
           ...generateDeathFacilitySchemas(
             'nursingHomePaid',
-            'facility or nursing home that VA pays for',
+            'nursing home or facility',
           ),
         },
         vaMedicalCenter: {
-          title: 'Veteran death location information',
+          title: 'Veteran death location details',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">
+              Veteran death location details
+            </span>
+          ),
           path: 'veteran-information/location-of-death/va-medical-center',
           depends: form =>
             showLocationOfDeath() &&
@@ -234,7 +249,12 @@ const formConfig = {
           ),
         },
         stateVeteransHome: {
-          title: 'Veteran death location information',
+          title: 'Veteran death location details',
+          reviewTitle: () => (
+            <span className="vads-u-font-size--h3">
+              Veteran death location details
+            </span>
+          ),
           path: 'veteran-information/location-of-death/state-veterans-home',
           depends: form =>
             showLocationOfDeath() &&
