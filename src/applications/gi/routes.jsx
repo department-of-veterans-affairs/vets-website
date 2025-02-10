@@ -45,32 +45,37 @@ const BuildRoutes = () => {
               render={({ match }) => <ProfilePage match={match} />}
             />
             {lcToggleValue && (
-              <>
-                <Route
-                  exact
-                  path="/lc-search"
-                  render={({ match }) => (
-                    <LicenseCertificationSearchPage
-                      match={match}
-                      flag="singleFetch"
-                    />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/lc-search/results"
-                  render={({ match }) => (
-                    <LicenseCertificationSearchResults
-                      match={match}
-                      flag="singleFetch"
-                    />
-                  )}
-                />
-                <Route
-                  path="/lc-search/results/:id"
-                  component={LicenseCertificationSearchResult}
-                />
-              </>
+              <Route
+                key="lc-search"
+                exact
+                path="/lc-search"
+                render={({ match }) => (
+                  <LicenseCertificationSearchPage
+                    match={match}
+                    flag="singleFetch"
+                  />
+                )}
+              />
+            )}
+            {lcToggleValue && (
+              <Route
+                key="lc-search-results"
+                exact
+                path="/lc-search/results"
+                render={({ match }) => (
+                  <LicenseCertificationSearchResults
+                    match={match}
+                    flag="singleFetch"
+                  />
+                )}
+              />
+            )}
+            {lcToggleValue && (
+              <Route
+                key="lc-search-result"
+                path="/lc-search/results/:id"
+                component={LicenseCertificationSearchResult}
+              />
             )}
             <Route
               path="/national-exams/:examId"

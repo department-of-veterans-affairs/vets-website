@@ -43,10 +43,10 @@ export function transformFacilityV2(facility) {
       latitude: facility.lat,
     },
     address: {
-      line: facility.physicalAddress.line,
-      city: facility.physicalAddress.city,
-      state: facility.physicalAddress.state,
-      postalCode: facility.physicalAddress.postalCode,
+      line: facility.physicalAddress?.line,
+      city: facility.physicalAddress?.city,
+      state: facility.physicalAddress?.state,
+      postalCode: facility.physicalAddress?.postalCode,
     },
     website: facility.website,
   };

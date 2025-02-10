@@ -1,5 +1,6 @@
 import commonFieldMapping from './commonFieldMapping';
 import formsPatternFieldMapping from './formsPatternFieldMapping';
+import { allKeysAreEmpty } from './vaFileInputFieldHelpers';
 
 /** @param {WebComponentFieldProps} props */
 const vaFileInputFieldMapping = props => {
@@ -18,6 +19,9 @@ const vaFileInputFieldMapping = props => {
       commonFieldProps.messageAriaDescribedby || textDescription || undefined,
     name,
     onBlur: () => childrenProps.onBlur(childrenProps.idSchema.$id),
+    uploadedFile: allKeysAreEmpty(childrenProps.formData)
+      ? null
+      : childrenProps.formData,
   };
 };
 

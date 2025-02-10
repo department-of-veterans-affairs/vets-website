@@ -50,7 +50,7 @@ describe('Vital list item component', () => {
   });
 
   it('should contain the date of the record', () => {
-    const recordDate = screen.getByText('October 27, 2023, 10:00 a.m.', {
+    const recordDate = screen.getByText('October 27, 2023', {
       exact: true,
     });
     expect(recordDate).to.exist;

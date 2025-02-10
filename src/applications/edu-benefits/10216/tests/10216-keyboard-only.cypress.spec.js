@@ -37,9 +37,11 @@ describe('22-10216 Edu form', () => {
     );
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('input[name="root_institutionDetails_institutionName"]');
-    cy.typeInFocused('AVEDA INSTITUTE MARYLAND');
+    cy.typeInFocused(
+      'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',
+    );
     cy.tabToElement('input[name="root_institutionDetails_facilityCode"]');
-    cy.typeInFocused(11111111);
+    cy.typeInFocused('10B35423');
     cy.tabToElement(
       'select[name="root_institutionDetails_termStartDateMonth"]',
     );

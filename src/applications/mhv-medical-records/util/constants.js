@@ -221,6 +221,8 @@ export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_BB_ERROR = 'blue button download error';
 export const ALERT_TYPE_SEI_ERROR = 'self-entered download error';
+export const ALERT_TYPE_CCD_ERROR =
+  'continuity of care document download error';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
@@ -355,6 +357,9 @@ export const EXTRACT_LIST = [
 export const VALID_REFRESH_DURATION = 3600000; // 1 hour
 
 export const STATUS_POLL_INTERVAL = 2000;
+
+/** How long to poll the backend while it's returning 202 Patient Not Found */
+export const INITIAL_FHIR_LOAD_DURATION = 120000; // in milliseconds
 
 export const refreshPhases = {
   STALE: 'stale',

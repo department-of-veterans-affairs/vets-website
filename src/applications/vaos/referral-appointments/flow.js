@@ -7,7 +7,7 @@ import { startReferralTimer } from './utils/timer';
  * @param {string} referralId - The referral unique identifier
  * @returns {object} Referral appointment workflow object
  */
-export default function getPageFlow(referralId) {
+export function getPageFlow(referralId) {
   return {
     appointments: {
       url: '/',
