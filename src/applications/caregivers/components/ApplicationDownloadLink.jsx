@@ -8,6 +8,7 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import submitTransformer from '../config/submit-transformer';
+import { ensureValidCSRFToken } from '../actions/ensureValidCSRFToken';
 import formConfig from '../config/form';
 import content from '../locales/en/content.json';
 
@@ -45,10 +46,12 @@ const ApplicationDownloadLink = () => {
     URL.revokeObjectURL(downloadUrl);
   };
 
-  const fetchPdf = event => {
+  const fetchPdf = async event => {
     // Prevents browser from navigating to top of page due to href='#'
     event.preventDefault();
     isLoading(true);
+
+    await ensureValidCSRFToken();
 
     // get pdf file to download
     apiRequest(apiURL, {
