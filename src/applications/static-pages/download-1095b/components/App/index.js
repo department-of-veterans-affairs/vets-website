@@ -1,22 +1,26 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
+import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
-import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   VaRadio,
   VaRadioOption,
+  VaAlertSignIn,
+  VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
 import {
   notFoundComponent,
   radioOptions,
@@ -27,7 +31,7 @@ import {
   formatTimeString,
 } from './utils';
 
-export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
+export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
@@ -36,6 +40,50 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     downloaded: false,
     timeStamp: '',
   });
+
+  const cspId = useSelector(signInServiceName);
+  const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
+
+  useEffect(
+    () => {
+      const getverifyAlertVariant = () => {
+        if (cspId === CSP_IDS.LOGIN_GOV) {
+          return (
+            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
+              <span slot="LoginGovVerifyButton">
+                <VerifyLogingovButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+        if (cspId === CSP_IDS.ID_ME) {
+          return (
+            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
+              <span slot="IdMeVerifyButton">
+                <VerifyIdmeButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+        return (
+          <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
+            <span slot="LoginGovSignInButton">
+              <VerifyLogingovButton />
+            </span>
+            <span slot="IdMeSignInButton">
+              <VerifyIdmeButton />
+            </span>
+          </VaAlertSignIn>
+        );
+      };
+      setverifyAlertVariant(getverifyAlertVariant());
+    },
+    [cspId, isLOA1],
+  );
+
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'ask-va', true);
+  };
 
   const getContent = () => {
     return apiRequest(`/form1095_bs/download_${formType}/${year}`)
@@ -54,15 +102,19 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       .then(response => {
         if (response.errors || !response.availableForms.length) {
           updateFormError({ error: true, type: 'not found' });
+          return null; // Return null if there are errors or no available forms
         }
         return response.availableForms[0];
       })
-      .catch(() => updateFormError({ error: true, type: 'not found' }));
+      .catch(() => {
+        updateFormError({ error: true, type: 'not found' });
+        return null; // Return null in case of an error
+      });
   };
 
   const callLastUpdated = () => {
     getLastUpdatedOn().then(result => {
-      if (result.lastUpdated && result.year) {
+      if (result && result.lastUpdated && result.year) {
         const date = new Date(result.lastUpdated);
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         // expected output (varies according to local timezone and default locale): December 20, 2012
@@ -102,7 +154,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     () => {
       callLastUpdated();
     },
-    [loggedIn],
+    [loggedIn, callLastUpdated],
   );
 
   const radioComponent = (
@@ -133,8 +185,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const downloadButton = (
     <p>
       <button
+        type="button"
         className="usa-button-primary va-button"
-        onClick={function() {
+        onClick={() => {
           recordEvent({
             event: 'int-radio-button-option-click',
             'radio-button-label':
@@ -208,25 +261,14 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const loggedOutComponent = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h2 slot="headline">
-        Please sign in to download your 1095-B tax document
-      </h2>
-      <div>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
-      </div>
-      <va-button
-        onClick={() => toggleLoginModal(true)}
-        primary-alternate
-        text="Sign in or create an account"
-        className="vads-u-margin-top--2"
-      />
-    </va-alert>
+    <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+      <span slot="SignInButton">
+        <VaButton
+          text="Sign in or create an account"
+          onClick={showSignInModal}
+        />
+      </span>
+    </VaAlertSignIn>
   );
 
   if (!displayToggle) {
@@ -239,24 +281,30 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     if (formDownloaded.downloaded) {
       return successComponent;
     }
+    if (isLOA1) {
+      return verifyAlertVariant;
+    }
     return loggedInComponent;
   }
   return loggedOutComponent;
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool,
   displayToggle: PropTypes.bool,
+  isLOA1: PropTypes.bool,
+};
+const mapStateToProps = state => {
+  return {
+    loggedIn: state?.user?.login?.currentlyLoggedIn,
+    displayToggle: state?.featureToggles?.showDigitalForm1095b,
+    isLOA1: isLOA1Selector(state),
+  };
 };
 
-const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
-  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
-});
-
 const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
+  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
 });
 
 export default connect(
