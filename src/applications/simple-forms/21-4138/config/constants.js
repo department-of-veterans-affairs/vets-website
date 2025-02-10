@@ -152,6 +152,9 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
       Based on your answer, you should submit your statement with VA Form
       21-10210, Lay/Witness Statement.
     </p>
+    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
+      Start your statement
+    </PrimaryActionLink>
     <h2 className="vads-u-font-size--h3">About lay or witness statements</h2>
     <ul>
       <li>
@@ -165,15 +168,6 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
         file number (if available), and contact information.
       </li>
     </ul>
-    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
-      Start your statement
-    </PrimaryActionLink>
-    <va-omb-info
-      res-burden={10}
-      omb-number="2900-0881"
-      exp-date="07/31/2027"
-      class="vads-u-margin-y--4"
-    />
     {ESCAPE_HATCH}
   </div>,
 );
