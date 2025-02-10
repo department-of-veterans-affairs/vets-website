@@ -4,7 +4,7 @@ import React from 'react';
 function ClaimFileHeader({ isOpen }) {
   const headerDescription = isClaimOpen => {
     return isClaimOpen
-      ? 'If you need to add evidence, you can do that here. You can also see the files associated with this claim.'
+      ? 'If you need to add evidence, you can do that here. You can also review the files associated with this claim.'
       : 'You can see the files associated with this claim.';
   };
   return (
