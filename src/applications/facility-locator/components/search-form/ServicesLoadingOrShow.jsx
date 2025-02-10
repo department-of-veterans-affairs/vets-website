@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getProviderSpecialties } from '../actions';
+import { getProviderSpecialties } from '../../actions';
 
 function ServicesLoadingOrShow({
   children,

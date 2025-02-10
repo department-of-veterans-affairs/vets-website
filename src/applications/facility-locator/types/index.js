@@ -225,7 +225,7 @@ export const FacilitiesMapTypes = {
   usePredictiveGeolocation: PropTypes.bool,
 };
 
-export const SearchControlsTypes = {
+export const SearchFormTypes = {
   clearGeocodeError: PropTypes.func,
   clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,

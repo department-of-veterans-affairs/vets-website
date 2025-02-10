@@ -1,6 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
+import vaHealthServicesData from '../tests/hooks/test-va-healthcare-services.json';
+
+export const FACILITY_TYPE_FILTERS = {
+  VET_CENTER: 'vet_center',
+  VBA: 'vba',
+  VAMC: 'vamc',
+  TRICARE: 'tricare',
+};
 
 /**
  * function termMatcher
@@ -14,10 +22,13 @@ const termMatcher = (term, hsdatum, index, includes = false) => {
   if (includes) {
     return hsdatum[index]?.toLowerCase().includes(term) ? 1 : -1;
   }
+
   const returnMatch = hsdatum[index]?.toLowerCase().search(term);
+
   if (returnMatch === undefined) {
     return -1;
   }
+
   return returnMatch;
 };
 
@@ -27,7 +38,9 @@ const termMatcher = (term, hsdatum, index, includes = false) => {
  * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
  */
 const matchHelper = (term, hsdatum) => {
-  const regexTerm = new RegExp(term, 'i');
+  const safeRegexTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regexTerm = new RegExp(safeRegexTerm, 'i');
+
   const returnMatcher = {
     nameMatch: termMatcher(regexTerm, hsdatum, 0),
     akaMatch: termMatcher(regexTerm, hsdatum, 1),
@@ -55,6 +68,7 @@ const matchHelper = (term, hsdatum) => {
     returnMatcher.secondaryMatch = 1;
     returnMatcher.priorityMatch = 0;
   }
+
   return returnMatcher;
 };
 
@@ -66,12 +80,42 @@ const prioritySort = (a, b) => {
   return 0;
 };
 
+// Exported for unit testing
+export const filterMatches = (selector, term, facilityType) => {
+  const selectorFiltered = selector.data
+    .map(hsdatum => {
+      const matched = matchHelper(term, hsdatum);
+
+      if (matched.priorityMatch || matched.secondaryMatch) {
+        return matched;
+      }
+      return null;
+    })
+    .filter(v => v);
+
+  selectorFiltered.sort(prioritySort);
+
+  if (facilityType) {
+    return selectorFiltered.filter(
+      hsdatum =>
+        (hsdatum.hsdatum[5] &&
+          facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
+        (hsdatum.hsdatum[6] && facilityType === FACILITY_TYPE_FILTERS.VBA) ||
+        (hsdatum.hsdatum[7] && facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
+        (hsdatum.hsdatum[8] && facilityType === FACILITY_TYPE_FILTERS.TRICARE),
+    );
+  }
+
+  return selectorFiltered;
+};
+
 export default function useServiceType() {
   const dispatch = useDispatch();
+  const selector = vaHealthServicesData;
 
-  const selector = useSelector(
-    state => state.drupalStaticData.vaHealthServicesData || [],
-  );
+  // const selector = useSelector(
+  //   state => state.drupalStaticData.vaHealthServicesData || [],
+  // );
 
   useEffect(
     () => {
@@ -79,6 +123,18 @@ export default function useServiceType() {
     },
     [dispatch],
   );
+
+  const allServices = selector?.data?.sort((a, b) => {
+    if (a[0] < b[0]) {
+      return -1;
+    }
+
+    if (a[0] > b[0]) {
+      return 1;
+    }
+
+    return 0;
+  });
 
   /**
    * function serviceTypeFilter
@@ -89,33 +145,22 @@ export default function useServiceType() {
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
       if (!selector || selector.loading) return [];
-      if (term?.length < 3) return [];
-      if (selector.data) {
-        const selectorFiltered = selector.data
-          .map(hsdatum => {
-            const matched = matchHelper(term, hsdatum);
-            if (matched.priorityMatch || matched.secondaryMatch) {
-              return matched;
-            }
-            return null;
-          })
-          .filter(v => v);
 
-        selectorFiltered.sort(prioritySort);
-        if (facilityType) {
-          return selectorFiltered.filter(
-            hsdatum =>
-              (hsdatum.hsdatum[5] && facilityType === 'vet_center') ||
-              (hsdatum.hsdatum[6] && facilityType === 'vba') ||
-              (hsdatum.hsdatum[8] && facilityType === 'vamc') ||
-              (hsdatum.hsdatum[9] && facilityType === 'tricare'),
-          );
-        }
-        return selectorFiltered;
+      if (!term?.length) return [];
+
+      if (selector.data) {
+        console.log('matches: ', filterMatches(selector, term, facilityType));
+        return filterMatches(selector, term, facilityType);
       }
+
       return [];
     },
     [selector],
   );
-  return { isServiceTypeFilterLoading: selector.isLoading, serviceTypeFilter };
+
+  return {
+    allServices,
+    isServiceTypeFilterLoading: selector.isLoading,
+    serviceTypeFilter,
+  };
 }
