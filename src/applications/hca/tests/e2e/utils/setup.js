@@ -43,6 +43,7 @@ export const setupForAuth = (props = {}) => {
     disabilityRating = 0,
     enrollmentStatus = mockEnrollmentStatus,
     features = mockFeatures,
+    prefill = mockPrefill,
     user = mockUser,
   } = props;
 
@@ -58,7 +59,7 @@ export const setupForAuth = (props = {}) => {
   };
 
   setupBasicTest({ enrollmentStatus, features });
-  cy.intercept('GET', APIs.saveInProgress, mockPrefill).as('mockPrefill');
+  cy.intercept('GET', APIs.saveInProgress, prefill).as('mockPrefill');
   cy.intercept('PUT', APIs.saveInProgress, mockSaveInProgress);
   cy.intercept(APIs.disabilityRating, mockRating).as('mockDisabilityRating');
 

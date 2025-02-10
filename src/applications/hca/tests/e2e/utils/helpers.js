@@ -29,6 +29,13 @@ export const startAsGuestUser = () => {
   cy.location('pathname').should('include', '/id-form');
 };
 
+export const startAsInProgressUser = () => {
+  cy.get('[data-testid="continue-your-application"]')
+    .first()
+    .click();
+  cy.wait('@mockPrefill');
+};
+
 // Keyboard-only pattern helpers
 export const fillAddressWithKeyboard = (fieldName, value) => {
   cy.typeInIfDataExists(`[name="root_${fieldName}_street"]`, value.street);
