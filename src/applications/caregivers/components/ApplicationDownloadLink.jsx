@@ -51,7 +51,7 @@ const ApplicationDownloadLink = () => {
     event.preventDefault();
     isLoading(true);
 
-    await ensureValidCSRFToken();
+    await ensureValidCSRFToken('fetchPdf');
 
     // get pdf file to download
     apiRequest(apiURL, {

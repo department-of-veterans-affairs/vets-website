@@ -3,8 +3,8 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 
-const fetchNewCSRFToken = async () => {
-  const message = 'No csrfToken when making fetchFacilities.';
+const fetchNewCSRFToken = async methodName => {
+  const message = `No csrfToken when making ${methodName} call.`;
   const url = '/v0/maintenance_windows';
   recordEvent({
     event: 'caregivers-10-10cg-fetch-csrf-token-empty',
@@ -35,10 +35,10 @@ const fetchNewCSRFToken = async () => {
     });
 };
 
-export const ensureValidCSRFToken = async () => {
+export const ensureValidCSRFToken = async methodName => {
   const csrfToken = localStorage.getItem('csrfToken');
   if (!csrfToken) {
-    await fetchNewCSRFToken();
+    await fetchNewCSRFToken(methodName);
   } else {
     recordEvent({
       event: 'caregivers-10-10cg-fetch-csrf-token-present',

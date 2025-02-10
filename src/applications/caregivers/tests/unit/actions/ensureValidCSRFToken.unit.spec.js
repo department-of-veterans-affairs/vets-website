@@ -33,7 +33,7 @@ describe('CG ensureValidCSRFToken action', () => {
     });
 
     it('calls recordEvent token-present successfully', async () => {
-      await ensureValidCSRFToken();
+      await ensureValidCSRFToken('myMethod');
 
       await waitFor(() => {
         expect(
@@ -53,7 +53,7 @@ describe('CG ensureValidCSRFToken action', () => {
     it('successfully makes extra HEAD request to refresh csrfToken', async () => {
       apiRequestStub.onFirstCall().resolves({ meta: {} });
 
-      await ensureValidCSRFToken();
+      await ensureValidCSRFToken('myMethod');
 
       await waitFor(() => {
         expect(
@@ -72,10 +72,10 @@ describe('CG ensureValidCSRFToken action', () => {
         expect(apiRequestStub.callCount).to.equal(1);
         expect(sentrySpy.callCount).to.equal(2);
         expect(sentrySpy.firstCall.args[0]).to.equal(
-          'No csrfToken when making fetchFacilities. Calling /v0/maintenance_windows to generate new one.',
+          'No csrfToken when making myMethod call. Calling /v0/maintenance_windows to generate new one.',
         );
         expect(sentrySpy.secondCall.args[0]).to.equal(
-          'No csrfToken when making fetchFacilities. /v0/maintenance_windows successfully called to generate token.',
+          'No csrfToken when making myMethod call. /v0/maintenance_windows successfully called to generate token.',
         );
       });
     });
@@ -83,16 +83,16 @@ describe('CG ensureValidCSRFToken action', () => {
     it('returns error making extra HEAD request to refresh csrfToken', async () => {
       apiRequestStub.onFirstCall().rejects(errorResponse);
 
-      await ensureValidCSRFToken();
+      await ensureValidCSRFToken('myMethod');
 
       await waitFor(() => {
         expect(apiRequestStub.callCount).to.equal(1);
         expect(sentrySpy.callCount).to.equal(2);
         expect(sentrySpy.firstCall.args[0]).to.equal(
-          'No csrfToken when making fetchFacilities. Calling /v0/maintenance_windows to generate new one.',
+          'No csrfToken when making myMethod call. Calling /v0/maintenance_windows to generate new one.',
         );
         expect(sentrySpy.secondCall.args[0]).to.equal(
-          'No csrfToken when making fetchFacilities. /v0/maintenance_windows failed when called to generate token.',
+          'No csrfToken when making myMethod call. /v0/maintenance_windows failed when called to generate token.',
         );
       });
     });
