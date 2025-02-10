@@ -7,7 +7,7 @@ const AppointmentDetails = ({ appointment }) => {
   const [formattedDate] = formatDateTime(appointment.localStartTime);
   const daysLeft = getDaysLeft(appointment.localStartTime);
 
-  if (appointment.travelPayClaim.claim) {
+  if (appointment.travelPayClaim?.claim) {
     return (
       <>
         <p>

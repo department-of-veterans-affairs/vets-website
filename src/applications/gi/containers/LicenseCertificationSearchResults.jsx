@@ -16,6 +16,7 @@ import {
   mappedStates,
   showLcParams,
   showMultipleNames,
+  updateQueryParam,
   updateStateDropdown,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
@@ -74,6 +75,7 @@ export default function LicenseCertificationSearchResults() {
     categoryParams,
     stateParam,
     initialCategoryParam,
+    pageParam,
   } = showLcParams(location);
 
   const dispatch = useDispatch();
@@ -86,7 +88,7 @@ export default function LicenseCertificationSearchResults() {
     error,
   } = useSelector(state => state.licenseCertificationSearch);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(pageParam);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
@@ -186,10 +188,12 @@ export default function LicenseCertificationSearchResults() {
       category: categoryNames.length > 0 ? categoryNames : [null],
       name,
       state,
+      currentPage,
     };
 
     setAllowUpdate(true);
     setActiveCategories(categoryNames);
+    updateQueryParam(history, location, newParams);
     handleLcResultsSearch(
       history,
       newParams.category,
@@ -204,6 +208,14 @@ export default function LicenseCertificationSearchResults() {
   };
 
   const handlePageChange = page => {
+    const newParams = {
+      category: categoryParams,
+      name: nameParam,
+      state: stateParam,
+      page,
+    };
+
+    updateQueryParam(history, location, newParams);
     setCurrentPage(page);
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
@@ -424,8 +436,8 @@ export default function LicenseCertificationSearchResults() {
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
-                        button="Update Search"
-                        buttonLabel="Update Search"
+                        button="Filter your results"
+                        buttonLabel="Filter your results"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
                           handleSearch(
