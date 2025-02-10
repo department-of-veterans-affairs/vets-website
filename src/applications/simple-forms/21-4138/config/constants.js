@@ -509,72 +509,16 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
       Form 20-10206, Freedom of Information Act (FOIA) or Privacy Act (PA)
       Request.
     </p>
-    <h2 className="vads-u-font-size--h3">
-      What to know before you request your personal records
-    </h2>
-    <p>
-      You must be a U.S. citizen or a legal permanent resident to access your
-      records under the Privacy Act (PA).
-    </p>
-    <p>
-      You can only use this online form to request only your own personal
-      records. If you’re a third-party representative or power of attorney
-      requesting records for someone else, you can’t submit this online form.
-      You’ll need to submit a FOIA request online using the Public Access Link
-      (PAL).
-    </p>
-    <p>
-      <a href="https://vapal.efoia-host.com/app/RequestsandFees.aspx">
-        Request records online through a FOIA request.
-      </a>{' '}
-      You’ll need to have proper authorization on record for your request to be
-      processed.
-    </p>
-    <h2 className="vads-u-font-size--h3">
-      Types of information you can request
-    </h2>
-    <p>You can request any of these kinds of personal records:</p>
-    <p>
-      <strong>Your compensation and pension records</strong>
-    </p>
-    <ul>
-      <li>
-        Certificate of Release or Discharge from Active Duty (DD Form 214)
-      </li>
-      <li>Claims file (C-file)</li>
-      <li>Disability examinations (C&P exams)</li>
-      <li>Official military personnel file (OMPF)</li>
-      <li>Pension benefit documents</li>
-      <li>Service or military treatment</li>
-      <li>Other compensation and pension records</li>
-    </ul>
-    <p>
-      <strong>Your benefit records</strong>
-    </p>
-    <ul>
-      <li>Education benefit</li>
-      <li>Fiduciary services</li>
-      <li>Financial records</li>
-      <li>Home loan benefit</li>
-      <li>Life insurance benefit</li>
-      <li>Vocational rehabilitation and employment</li>
-      <li>Other benefit record</li>
-    </ul>
-    <div className="vads-u-margin-y--3">
-      <va-alert>
-        Note: Since you’re signed into your account, you can save your
-        application in progress and come back later to finish filling it out.
-      </va-alert>
-    </div>
     <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
       Start your request
     </PrimaryActionLink>
-    <va-omb-info
-      res-burden={5}
-      omb-number="2900-0736"
-      exp-date="02/28/2026"
-      class="vads-u-margin-y--4"
-    />
+    <p>
+      You can ask for your{' '}
+      <span className="vads-u-font-weight--bold">military</span>,{' '}
+      <span className="vads-u-font-weight--bold">compensation</span>,{' '}
+      <span className="vads-u-font-weight--bold">pension</span>, or{' '}
+      <span className="vads-u-font-weight--bold">benefit</span> records.
+    </p>
     {ESCAPE_HATCH}
   </div>,
 );
