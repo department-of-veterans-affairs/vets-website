@@ -56,7 +56,7 @@ const GiBillBreadcrumbs = () => {
   if (lcMatch) {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/lc-search',
-      label: 'Licensces & Certifications',
+      label: 'Licenses & Certifications',
     });
   }
   if (lcResultsMatch) {

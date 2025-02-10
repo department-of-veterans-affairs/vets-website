@@ -19,7 +19,7 @@ describe('Unverified Alert component', () => {
         <UnverifiedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 2, name: headingPrefix })).to.exist;
+    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
   });
 
   it('with service description', () => {
@@ -34,13 +34,13 @@ describe('Unverified Alert component', () => {
     expect(getByRole('heading', { name: expectedHeadline })).to.exist;
   });
 
-  it('with header level 3', () => {
+  it('with header level 4', () => {
     const { getByRole } = render(
       <Provider store={mockStore()}>
-        <UnverifiedAlert headerLevel={3} />
+        <UnverifiedAlert headerLevel={4} />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
+    expect(getByRole('heading', { level: 4, name: headingPrefix })).to.exist;
   });
 
   it('renders MHV account alert', () => {
@@ -49,7 +49,7 @@ describe('Unverified Alert component', () => {
         <UnverifiedAlert signInService={CSP_IDS.MHV} />
       </Provider>,
     );
-    expect(getByRole('heading', { level: 2, name: mhvHeadingPrefix })).to.exist;
+    expect(getByRole('heading', { level: 3, name: mhvHeadingPrefix })).to.exist;
     expect(getByText(/You have 2 options/)).to.exist;
   });
 
