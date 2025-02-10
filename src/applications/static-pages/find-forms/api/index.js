@@ -1,36 +1,81 @@
 import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
-import STUBBED_RESPONSE from '../constants/stub.json';
+import { sentryLogger } from '../helpers/sentryLogger';
+import { fetchFormsFailure, fetchFormsSuccess } from '../actions';
 
-export const fetchFormsApi = async (query, options = {}) => {
-  const mockRequest = options?.mockRequest || false;
+export const checkFormValidity = async (form, page) => {
+  // Default to true in case we encounter an error
+  // determining validity through the API.
+  let formPdfIsValid = true;
+  let formPdfUrlIsValid = true;
+  let networkRequestError = false;
+  const { formName: formNumber, url: downloadUrl, validPdf } = form.attributes;
 
-  // Change to https://dev-api.va.gov/v0/forms for quick local config
-  let FORMS_URL = '/forms';
-  let response = STUBBED_RESPONSE;
+  try {
+    const localizedDownloadUrl = downloadUrl?.includes('https://www.va.gov')
+      ? downloadUrl.replace('https://www.va.gov', window.location.origin)
+      : null;
 
-  if (query) {
-    FORMS_URL = appendQuery(FORMS_URL, { query });
+    formPdfIsValid = validPdf;
+
+    if (formPdfIsValid && localizedDownloadUrl) {
+      // URLs can be entered invalid; this checks to make sure href is valid
+      // NOTE: There are Forms URLS under the https://www.vba.va.gov/ domain, we don't have a way currently to check if URL is valid on FE because of CORS
+      const response = await fetch(localizedDownloadUrl, {
+        method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
+      });
+
+      if (!response.ok) {
+        formPdfUrlIsValid = false;
+      }
+    }
+  } catch (err) {
+    if (err) {
+      networkRequestError = true;
+    }
+
+    sentryLogger(
+      form,
+      formNumber,
+      downloadUrl,
+      `Find Forms - ${page} - onDownloadLinkClick function error`,
+    );
   }
-
-  if (!mockRequest) {
-    response = await apiRequest(FORMS_URL);
-  }
-
-  const forms = response?.data;
-  const onlyValidForms = forms?.filter(
-    form =>
-      (form.attributes?.validPDF || form.attributes?.validPdf) &&
-      (form.attributes?.deletedAt === null ||
-        form.attributes?.deletedAt === undefined ||
-        form.attributes?.deletedAt.length === 0),
-  );
-
-  // checks to see if all the forms in the results have been tombstone/ deleted.
-  const hasOnlyRetiredForms = forms?.length > 0 && onlyValidForms?.length === 0;
 
   return {
-    hasOnlyRetiredForms,
-    results: onlyValidForms,
+    formPdfIsValid,
+    formPdfUrlIsValid,
+    networkRequestError,
   };
+};
+
+export const fetchFormsApi = async (query, dispatch) => {
+  const FORMS_URL = appendQuery('/forms', { query });
+
+  try {
+    const response = await apiRequest(FORMS_URL);
+    const forms = response?.data;
+
+    if (forms?.length) {
+      const validForms = forms?.filter(
+        form =>
+          (form.attributes?.validPDF || form.attributes?.validPdf) &&
+          (form.attributes?.deletedAt === null ||
+            form.attributes?.deletedAt === undefined ||
+            form.attributes?.deletedAt.length === 0),
+      );
+
+      const hasOnlyRetiredForms = !validForms.length;
+
+      dispatch(fetchFormsSuccess(forms, hasOnlyRetiredForms));
+    }
+
+    return forms;
+  } catch (error) {
+    dispatch(
+      fetchFormsFailure(
+        'We’re sorry. Something went wrong on our end. Please try again later.',
+      ),
+    );
+  }
 };

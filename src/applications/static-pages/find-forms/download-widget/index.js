@@ -1,5 +1,4 @@
-import { fetchFormsApi } from '../api';
-import { sentryLogger } from './sentryLogger';
+import { checkFormValidity, fetchFormsApi } from '../api';
 import DownloadHandler from './DownloadHandler';
 
 export async function onDownloadLinkClick(event, reduxStore) {
@@ -9,47 +8,16 @@ export async function onDownloadLinkClick(event, reduxStore) {
 
   const link = event.target;
   const { formNumber, href: downloadUrl } = link.dataset;
+  let formValidityIndicators;
 
-  // Default to true in case we encounter an error
-  // determining validity through the API.
-  let formPdfIsValid = true;
-  let formPdfUrlIsValid = true;
-  let networkRequestError = false;
-  let form = null;
+  const results = await fetchFormsApi(formNumber, reduxStore.dispatch);
 
-  try {
-    const forms = await fetchFormsApi(formNumber);
+  const form = results?.filter(
+    f => f?.attributes?.formName === link?.dataset?.formNumber,
+  )?.[0];
 
-    form = forms?.results.find(
-      f => f?.attributes?.formName === link?.dataset?.formNumber,
-    );
-
-    formPdfIsValid = form?.attributes.validPdf;
-
-    const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
-
-    if (formPdfIsValid && isSameOrigin) {
-      // URLS can be entered invalid, 400 is returned, this checks to make sure href is valid
-      // NOTE: There are Forms URLS under the https://www.vba.va.gov/ domain, we don't have a way currently to check if URL is valid on FE because of CORS
-      const response = await fetch(downloadUrl, {
-        method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
-      });
-
-      if (!response.ok) {
-        formPdfUrlIsValid = false;
-      }
-    }
-  } catch (err) {
-    if (err) {
-      networkRequestError = true;
-    }
-
-    sentryLogger(
-      form,
-      formNumber,
-      downloadUrl,
-      'Find Forms - Form Detail - onDownloadLinkClick function error',
-    );
+  if (form?.attributes) {
+    formValidityIndicators = await checkFormValidity(form, 'Form Detail');
   }
 
   return DownloadHandler({
@@ -57,9 +25,9 @@ export async function onDownloadLinkClick(event, reduxStore) {
     downloadUrl,
     form,
     formNumber,
-    formPdfIsValid,
-    formPdfUrlIsValid,
-    networkRequestError,
+    formPdfIsValid: formValidityIndicators?.formPdfIsValid,
+    formPdfUrlIsValid: formValidityIndicators?.formPdfUrlIsValid,
+    networkRequestError: formValidityIndicators?.networkRequestError,
     reduxStore,
   });
 }

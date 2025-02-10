@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
-import { sentryLogger } from './sentryLogger';
+import { sentryLogger } from '../helpers/sentryLogger';
 
 const removeReactRoot = () => {
   const pdf = document.querySelector('.faf-pdf-alert-modal');
@@ -82,6 +82,7 @@ const DownloadHandler = ({
         downloadUrl={downloadUrl}
       />
     );
+
     ReactDOM.render(alertBox, alertDiv);
 
     pdfDownloadParent?.insertBefore(alertDiv, pdfDownloadButton);
