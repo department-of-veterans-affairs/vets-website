@@ -18,18 +18,10 @@ import MobileFilterControls from '../../../components/MobileFilterControls';
 
 export function NameSearchResults() {
   const dispatch = useDispatch();
-  const filters = useSelector(state => {
-    return state?.filters || {};
-  });
-  const preview = useSelector(state => {
-    return state?.preview || {};
-  });
-  const search = useSelector(state => {
-    return state?.search || {};
-  });
-  const smallScreen = useSelector(state => {
-    return state?.smallScreen || false;
-  });
+  const filters = useSelector(state => state?.filters || {});
+  const preview = useSelector(state => state?.preview || {});
+  const search = useSelector(state => state?.search || {});
+  const smallScreen = useSelector(state => state?.smallScreen || false);
   const filtersChanged = useSelector(state => {
     return getFiltersChanged(state?.filters) || false;
   });
