@@ -24,10 +24,10 @@ function BurialStatus({ facility }) {
       statusDescription: null,
     },
   };
-
+  const facilityBurialStatus =
+    facility.attributes.operatingStatus?.supplementalStatus?.[0]?.id;
   const { statusTitle, statusDescription } =
-    statusMappings[(facility.attributes?.burialStatus)] ||
-    statusMappings.default;
+    statusMappings[facilityBurialStatus] || statusMappings.default;
 
   return (
     <div>
