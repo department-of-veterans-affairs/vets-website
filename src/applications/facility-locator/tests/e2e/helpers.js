@@ -23,6 +23,9 @@ export const MOBILE_MAP_PIN_SELECT_HELP_TEXT =
 export const MOBILE_MAP_NO_RESULTS_TEXT =
   'Try searching for something else or in a different area.';
 
+export const MOBILE_LIST_SEARCH_TEXT =
+  'Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities.';
+
 export const MOBILE_LIST_TAB = '#react-tabs-0';
 export const MOBILE_MAP_TAB = '#react-tabs-2';
 
@@ -59,11 +62,8 @@ export const selectFacilityTypeInDropdown = value =>
 export const selectServiceTypeInVAHealthDropdown = value =>
   cy.get(VA_HEALTH_SERVICE_DROPDOWN).select(value);
 
-export const submitSearchForm = () => {
+export const submitSearchForm = () =>
   cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
-  // eslint-disable-next-line cypress/no-unnecessary-waiting
-  cy.wait(2000);
-};
 
 export const verifyMainNumber = number => {
   cy.get(MAIN_NUMBER)

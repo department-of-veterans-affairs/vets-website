@@ -102,7 +102,13 @@ describe('mobile map behavior', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/urgent_care*',
-        urgentCareSearchResults,
+        urgentCareSearchResults[1],
+      );
+
+      cy.intercept(
+        'POST',
+        '/facilities_api/v2/va*',
+        urgentCareSearchResults[0],
       );
 
       const listItem = {
@@ -138,7 +144,13 @@ describe('mobile map behavior', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
-        emergencyCareSearchResults,
+        emergencyCareSearchResults[1],
+      );
+
+      cy.intercept(
+        'POST',
+        '/facilities_api/v2/va*',
+        emergencyCareSearchResults[0],
       );
 
       cy.visit(h.ROOT_URL);
@@ -176,7 +188,13 @@ describe('mobile map behavior', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
-        communityCareProviderSearchResults,
+        communityCareProviderSearchResults[1],
+      );
+
+      cy.intercept(
+        'GET',
+        '/facilities_api/v2/ccp/specialties*',
+        communityCareProviderSearchResults[0],
       );
 
       cy.visit(h.ROOT_URL);

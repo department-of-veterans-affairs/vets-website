@@ -16,7 +16,7 @@ const verifyStandardPhoneNumbers = mainNumber => {
   h.verifyTTYNumber();
 };
 
-describe('mobile map behavior', () => {
+describe('mobile list behavior', () => {
   beforeEach(() => {
     cy.viewport(480, 1200);
     cy.intercept('GET', '/v0/feature_toggles?*', {
@@ -28,6 +28,14 @@ describe('mobile map behavior', () => {
           },
         ],
       },
+    });
+  });
+
+  describe('with no search parameters', () => {
+    it('should correctly load the basic view', () => {
+      cy.visit(h.ROOT_URL);
+      cy.injectAxeThenAxeCheck();
+      h.verifyElementByText(h.MOBILE_LIST_SEARCH_TEXT);
     });
   });
 
@@ -89,7 +97,13 @@ describe('mobile map behavior', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/urgent_care*',
-        urgentCareSearchResults,
+        urgentCareSearchResults[1],
+      );
+
+      cy.intercept(
+        'POST',
+        '/facilities_api/v2/va*',
+        urgentCareSearchResults[0],
       );
 
       cy.visit(h.ROOT_URL);
@@ -124,7 +138,13 @@ describe('mobile map behavior', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
-        emergencyCareSearchResults,
+        emergencyCareSearchResults[1],
+      );
+
+      cy.intercept(
+        'POST',
+        '/facilities_api/v2/va*',
+        emergencyCareSearchResults[0],
       );
 
       cy.visit(h.ROOT_URL);
@@ -159,7 +179,13 @@ describe('mobile map behavior', () => {
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/provider?*specialties*',
-        communityCareProviderSearchResults,
+        communityCareProviderSearchResults[1],
+      );
+
+      cy.intercept(
+        'GET',
+        '/facilities_api/v2/ccp/specialties*',
+        communityCareProviderSearchResults[0],
       );
 
       cy.visit(h.ROOT_URL);
