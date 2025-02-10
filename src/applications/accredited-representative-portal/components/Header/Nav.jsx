@@ -8,7 +8,7 @@ function SignInButton() {
   return (
     <a
       data-testid="user-nav-sign-in-link"
-      className="usa-button usa-button-primary nav__sign-in"
+      className="nav__btn"
       href={getSignInUrl()}
     >
       Sign in
@@ -20,8 +20,8 @@ export const Nav = () => {
   const profile = useLoaderData()?.profile;
 
   return (
-    <nav className="nav vads-u-background-color--primary-darker ">
-      <div className="nav__container vads-u-display--flex">
+    <nav className="nav">
+      <div className="nav__container nav__container-primary vads-u-display--flex">
         <Link
           data-testid="nav-home-link"
           aria-label="VA logo"
@@ -40,32 +40,26 @@ export const Nav = () => {
           <img
             data-testid="desktop-logo"
             className="nav__logo nav__logo--desktop desktop"
-            src="/img/arp-header-logo.png"
+            src="/img/arp-header-logo-dark.svg"
             alt="VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs"
           />
         </Link>
         {profile ? <UserNav profile={profile} /> : <SignInButton />}
       </div>
-      <span
-        aria-hidden="true"
-        className={
-          profile ? 'nav__decorator nav__decorator--login' : 'nav__decorator'
-        }
-      />
+
       {profile && (
-        <div className="nav__container vads-u-display--flex">
-          <Link
-            className="usa-button nav__user-btn nav__user-btn--user desktop"
-            to="/poa-requests"
-          >
-            POA requests
-          </Link>
-          <Link
-            to="/get-help"
-            className="usa-button nav__user-btn nav__user-btn--user desktop"
-          >
-            Get Help
-          </Link>
+        <div className="nav__container-secondary">
+          <div className="nav__container vads-u-display--flex">
+            <Link className="nav__btn desktop" to="/poa-requests">
+              Power of Attorney Requests
+            </Link>
+            <Link
+              to="/get-help"
+              className="nav__btn desktop vads-u-display--none"
+            >
+              Get Help
+            </Link>
+          </div>
         </div>
       )}
     </nav>

@@ -20,7 +20,7 @@ describe('Nav', () => {
     expect(logo.alt).to.eq(
       'VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs',
     );
-    expect(logo.src).to.include('/img/arp-header-logo.png');
+    expect(logo.src).to.include('/img/arp-header-logo-dark.svg');
   });
 
   it('should have a link that navigates to the home page', () => {

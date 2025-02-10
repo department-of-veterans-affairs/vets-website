@@ -10,16 +10,16 @@ const UserHelpLinks = () => {
       <li>
         <Link
           data-testid="user-nav-poa-requests-link"
-          className="vads-u-color--black"
+          className="vads-u-color--white"
           to="/poa-requests"
         >
-          POA Requests
+          Power of Attorney Requests
         </Link>
       </li>
-      <li>
+      <li className="vads-u-display--none">
         <Link
           data-testid="user-nav-profile-link"
-          className="vads-u-color--black"
+          className="vads-u-color--white"
           to="/get-help"
         >
           Get Help
@@ -31,8 +31,8 @@ const UserHelpLinks = () => {
 
 const UserNavLinks = () => {
   return (
-    <ul className="nav__user-list">
-      <li>
+    <>
+      <li className="vads-u-display--none">
         <Link
           data-testid="user-nav-profile-link"
           className="vads-u-color--black"
@@ -50,7 +50,7 @@ const UserNavLinks = () => {
           Sign Out
         </a>
       </li>
-    </ul>
+    </>
   );
 };
 
@@ -64,10 +64,11 @@ function UserNav({ profile }) {
         <NavDropdown
           title="profile dropdown"
           srText="toggle menu"
-          icon="person"
+          icon="account_circle"
           dataTestId="user-nav-user-name"
-          className="usa-button nav__user-btn nav__user-btn--user"
-          name={`${profile.firstName} ${profile.lastName}`}
+          className="nav__btn nav__btn--user vads-u-color--base"
+          firstName={profile.firstName}
+          lastName={profile.lastName}
           secondaryIcon="chevron_left"
           iconClassName="user-nav__chevron"
         >
@@ -76,9 +77,11 @@ function UserNav({ profile }) {
       </div>
       <div className="vads-u-display--flex vads-u-justify-content--center user-nav vads-u-align-items--center mobile">
         <NavDropdown
-          icon="person"
+          icon="account_circle"
+          secondaryIcon="chevron_left"
           srText="toggle menu"
-          className="usa-button usa-button-secondary nav__user-btn nav__user-btn--user vads-u-color--white"
+          className="nav__btn nav__btn--user vads-u-color--base"
+          iconClassName="user-nav__chevron"
         >
           <UserNavLinks />
         </NavDropdown>
@@ -87,7 +90,9 @@ function UserNav({ profile }) {
           btnText="Menu"
           icon="menu"
           srText="toggle menu"
-          className="usa-button usa-button-secondary nav__user-btn nav__user-btn--menu"
+          dropdownClass="nav__full-width"
+          className="nav__btn"
+          closeIcon="close"
         >
           <UserHelpLinks />
         </NavDropdown>
