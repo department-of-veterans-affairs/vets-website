@@ -23,7 +23,7 @@ export default function prefillTransformer(formData) {
     newFormData.inputVeteranEmail = formData?.contactInformation?.email;
     newFormData.inputVeteranPrimaryPhone =
       formData?.contactInformation?.primaryPhone;
-    newFormData['Branch of Service'] =
+    newFormData.inputVeteranServiceBranch =
       formData?.militaryInformation?.serviceBranch;
     // reset the applicant information in case of claimant type change
     newFormData.inputNonVeteranClaimantName = undefined;
@@ -70,7 +70,7 @@ export default function prefillTransformer(formData) {
     };
     newFormData.inputVeteranEmail = undefined;
     newFormData.inputVeteranPrimaryPhone = undefined;
-    newFormData['Branch of Service'] = undefined;
+    newFormData.inputVeteranServiceBranch = undefined;
   }
 
   newFormData.userIsDigitalSubmitEligible =

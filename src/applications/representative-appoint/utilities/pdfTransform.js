@@ -47,7 +47,7 @@ export function pdfTransform(formData) {
     inputNonVeteranClaimantName,
     inputNonVeteranClaimantDOB,
     inputNonVeteranClaimantRelationship,
-    'Branch of Service': serviceBranch,
+    inputVeteranServiceBranch: serviceBranch,
     inputNonVeteranClaimantHomeAddress: claimantAddress,
     inputAuthorizationsMedical,
     inputAuthorizationsAddressChange,

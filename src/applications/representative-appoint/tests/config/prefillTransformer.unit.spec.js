@@ -25,7 +25,7 @@ describe('prefillTransformer', () => {
       });
       expect(result.inputVeteranEmail).to.eql('test2@test1.net');
       expect(result.inputVeteranPrimaryPhone).to.eql('4445551212');
-      expect(result['Branch of Service']).to.eql('Army');
+      expect(result.inputVeteranServiceBranch).to.eql('Army');
     });
 
     it('should reset the applicant attributes', () => {
@@ -99,7 +99,7 @@ describe('prefillTransformer', () => {
           state: 'test',
           street: 'test',
         },
-        'Branch of Service': 'test',
+        inputVeteranServiceBranch: 'test',
         inputVeteranSSN: 'test',
       };
 
@@ -116,7 +116,7 @@ describe('prefillTransformer', () => {
         state: undefined,
         street: undefined,
       });
-      expect(result['Branch of Service']).to.be.undefined;
+      expect(result.inputVeteranServiceBranch).to.be.undefined;
       expect(result.inputVeteranSSN).to.be.undefined;
     });
   });

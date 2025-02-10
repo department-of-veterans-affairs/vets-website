@@ -20,7 +20,7 @@ export const uiSchema = {
   profileNotUpdatedNote: {
     'ui:description': () => <ProfileNotUpdatedNote includePhone />,
   },
-  'Branch of Service': radioUI('Branch of service'),
+  inputVeteranServiceBranch: radioUI('Branch of service'),
 };
 
 export const schema = {
@@ -28,7 +28,7 @@ export const schema = {
   properties: {
     titleSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    'Branch of Service': radioSchema(branchOptions),
+    inputVeteranServiceBranch: radioSchema(branchOptions),
   },
-  required: ['Branch of Service'],
+  required: ['inputVeteranServiceBranch'],
 };
