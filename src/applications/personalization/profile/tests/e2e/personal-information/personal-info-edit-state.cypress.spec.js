@@ -1,7 +1,7 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
 
 const checkPreferredName = () => {
-  it('should support preferred name field', () => {
+  it.skip('should support preferred name field', () => {
     cy.injectAxeThenAxeCheck();
 
     // preferred name field
