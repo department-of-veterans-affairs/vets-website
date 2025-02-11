@@ -98,13 +98,19 @@ describe('form submit transform', () => {
         expect(submissionObject.claimant.dateOfBirth).to.eql('1932-02-05');
       });
       it('sets up notificationMethod for text', () => {
-        mockSubmissionForm.data.notificationMethod = 'yes';
+        mockSubmissionForm.data.notificationMethod =
+          'Yes, send me text message notifications';
         submissionObject = JSON.parse(
           transform5490Form({}, mockSubmissionForm),
         );
         expect(submissionObject.claimant.notificationMethod).to.eql('TEXT');
       });
       it('sets up notificationMethod for email', () => {
+        mockSubmissionForm.data.notificationMethod =
+          'No, just send me email notifications';
+        submissionObject = JSON.parse(
+          transform5490Form({}, mockSubmissionForm),
+        );
         expect(submissionObject.claimant.notificationMethod).to.eql('EMAIL');
       });
       it('sets up preferredContactMethod', () => {

@@ -8,6 +8,7 @@ import fixTreatedDisabilityNamesKey from '../../migrations/06-fix-treatedDisabil
 import mapServiceBranches from '../../migrations/07-map-service-branches';
 import reorderHousingIllnessRemoveFdc from '../../migrations/08-paper-sync';
 import addDisabilitiesRedirect from '../../migrations/09-addDisabilities-redirect';
+import addDisabilitiesRedirectAdd3 from '../../migrations/10-addDisabilities-redirect-add-3';
 
 import formConfig from '../../config/form';
 import { MAX_HOUSING_STRING_LENGTH } from '../../constants';
@@ -322,7 +323,7 @@ describe('526 v2 migrations', () => {
   });
 
   describe('09-addDisabilities-redirect', () => {
-    it('should direct users to new-disabilities/add', () => {
+    it('should update the returnUrl to /new-disabilities/add if it is /new-disabilities-revised/add', () => {
       const savedData = {
         metadata: {
           returnUrl: '/new-disabilities-revised/add',
@@ -332,13 +333,37 @@ describe('526 v2 migrations', () => {
       expect(migratedData.metadata.returnUrl).to.equal('/new-disabilities/add');
     });
 
-    it('should continue if return URL is different page in form', () => {
+    it('should not update the returnUrl if it is any other page in the form', () => {
       const savedData = {
         metadata: {
           returnUrl: '/new-disabilities/follow-up',
         },
       };
       const migratedData = addDisabilitiesRedirect(savedData);
+      expect(migratedData.metadata.returnUrl).to.equal(
+        '/new-disabilities/follow-up',
+      );
+    });
+  });
+
+  describe('10-addDisabilities-redirect-add-3', () => {
+    it('should update the returnUrl to /new-disabilities/add if it is /new-disabilities/add-3', () => {
+      const savedData = {
+        metadata: {
+          returnUrl: '/new-disabilities/add-3',
+        },
+      };
+      const migratedData = addDisabilitiesRedirectAdd3(savedData);
+      expect(migratedData.metadata.returnUrl).to.equal('/new-disabilities/add');
+    });
+
+    it('should not update the returnUrl if it is any other page in the form', () => {
+      const savedData = {
+        metadata: {
+          returnUrl: '/new-disabilities/follow-up',
+        },
+      };
+      const migratedData = addDisabilitiesRedirectAdd3(savedData);
       expect(migratedData.metadata.returnUrl).to.equal(
         '/new-disabilities/follow-up',
       );

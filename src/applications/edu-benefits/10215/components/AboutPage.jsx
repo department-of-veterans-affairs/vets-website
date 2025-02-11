@@ -32,7 +32,7 @@ const AboutPage = ({ aboutProps }) => {
         </p>
         <p className="vads-u-margin-top--1p5">
           <strong>Form last updated: </strong>
-          November 2021
+          March 2024
         </p>
       </div>
       <h2 className="vads-u-margin-top--7"> When to use this form</h2>
@@ -68,11 +68,11 @@ const AboutPage = ({ aboutProps }) => {
 
 AboutPage.propTypes = {
   aboutProps: PropTypes.shape({
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
+    }).isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

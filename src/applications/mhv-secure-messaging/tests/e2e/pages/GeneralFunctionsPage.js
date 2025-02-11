@@ -1,3 +1,4 @@
+import { format, subMonths, getYear } from 'date-fns';
 import mockToggles from '../fixtures/toggles-response.json';
 import { Locators } from '../utils/constants';
 
@@ -95,6 +96,21 @@ class GeneralFunctionsPage {
       currentDate.getTime() +
       Math.random() * (now.getTime() - currentDate.getTime());
     return new Date(randomTime).toISOString();
+  };
+
+  getParsedDate = date => {
+    let year = getYear(date);
+    let startMonth = format(subMonths(date, 1), 'MMMM');
+    const endMonth = format(date, 'MMMM');
+    if (endMonth === 'January') {
+      year -= 1;
+      startMonth = endMonth;
+    }
+    return {
+      year,
+      startMonth,
+      endMonth,
+    };
   };
 }
 
