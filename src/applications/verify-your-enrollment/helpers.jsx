@@ -1253,3 +1253,15 @@ export const toSnakeCase = obj => {
     return acc;
   }, {});
 };
+
+export function sanitizeField(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+  const trimmed = value.trim();
+  if (trimmed === 'undefined' || trimmed === 'null') {
+    return '';
+  }
+
+  return trimmed;
+}
