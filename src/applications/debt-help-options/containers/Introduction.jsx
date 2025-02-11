@@ -17,7 +17,15 @@ const Introduction = ({ router }) => {
 
   const handleContinue = () => {
     if (selectedOption) {
-      router.push(selectedOption);
+      const flow = SUBTASK_FLOW.flows[selectedOption];
+      if (flow && flow.outcomes && !flow.questions) {
+        const outcomeKeys = Object.keys(flow.outcomes);
+        if (outcomeKeys.length === 1) {
+          router.push(`/results/${outcomeKeys[0]}`);
+          return;
+        }
+      }
+      router.push(`/questions/${selectedOption}`);
     }
   };
 

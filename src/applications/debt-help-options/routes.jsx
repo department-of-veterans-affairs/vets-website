@@ -1,17 +1,12 @@
-// ./routes.jsx
-import React from 'react';
 import App from './containers/App';
 import Introduction from './containers/Introduction';
-import Subtask from './components/Subtask';
+import Questions from './components/Questions';
 import Results from './components/Results';
 
 const childRoutes = [
   { path: 'introduction', component: Introduction },
-  { path: 'results', component: Results },
-  {
-    path: ':questionId',
-    component: props => <Subtask key={props.params.questionId} {...props} />,
-  },
+  { path: 'questions/:questionId', component: Questions },
+  { path: 'results/:outcomeId', component: Results },
 ];
 
 const routes = {
