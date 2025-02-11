@@ -103,6 +103,7 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SPECIALTIES_DONE:
       return {
         ...state,
+        error: false,
         fetchSvcsError: null,
         fetchSvcsInProgress: false,
         fetchSvcsRawData: action.data,
@@ -116,12 +117,12 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SPECIALTIES_FAILED:
       return {
         ...state,
-        error: true, // can be removed, never gets used
+        error: false,
         fetchSvcsInProgress: false,
         fetchSvcsError: action.error || true,
-        facilityType: '', // resets facility type to the Choose a facility
+        facilityType: '',
         isValid: true,
-      };
+      }; // resets facility type to the Choose a facility
     case SEARCH_FAILED:
       return {
         ...state,

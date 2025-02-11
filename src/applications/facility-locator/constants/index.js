@@ -164,6 +164,6 @@ export const MAX_SEARCH_AREA = 500;
  */
 export const MIN_RADIUS = 10;
 export const MIN_RADIUS_CCP = 20;
-export const MIN_RADIUS_EXP = 10; // Expanded search radius - due to new map configurations
+export const MIN_RADIUS_EXP = 60; // Expanded search radius - due to new map configurations
 
 export const Covid19Vaccine = 'Covid19Vaccine';

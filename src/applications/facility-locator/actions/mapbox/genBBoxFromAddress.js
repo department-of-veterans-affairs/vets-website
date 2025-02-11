@@ -23,7 +23,11 @@ const mbxClient = mbxGeo(mapboxClient);
  * @param {Object<T>} query Current searchQuery state (`searchQuery.searchString` at a minimum)
  * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
-export const genBBoxFromAddress = (query, expandedRadius = false) => {
+export const genBBoxFromAddress = (
+  query,
+  expandedRadius = false,
+  useProgessiveDisclosure = false,
+) => {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
@@ -95,6 +99,7 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
             ? features
             : [{ ...features[0], bbox: minBounds }],
           query?.facilityType === 'provider',
+          useProgessiveDisclosure,
         );
         dispatch({
           type: SEARCH_QUERY_UPDATED,

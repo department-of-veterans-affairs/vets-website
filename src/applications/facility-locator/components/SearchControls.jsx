@@ -29,6 +29,9 @@ const SearchControls = props => {
     geolocateUser,
     clearGeocodeError,
     useProgressiveDisclosure,
+    isMobile,
+    isTablet,
+    isSmallDesktop,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -57,6 +60,8 @@ const SearchControls = props => {
     onChange({
       facilityType: e.target.value,
       serviceType: null,
+      // Since the facility type may cause an error (PPMS), reset it if the type is changed
+      fetchSvcsError: null,
     });
   };
 
@@ -155,7 +160,16 @@ const SearchControls = props => {
           'usa-input-error': showError,
         })}
       >
-        <div id="location-input-field">
+        {/* 
+        after the flipper useProgressiveDisclosure is removed,
+        this id can be changed back to #location-input-field
+        and the media query in it may be removed
+         */}
+        <div
+          id={`location-input-field${
+            useProgressiveDisclosure && isSmallDesktop ? '-desktop' : ''
+          }`}
+        >
           <label
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
@@ -168,7 +182,11 @@ const SearchControls = props => {
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
-            <div className="use-my-location-link">
+            <div
+              className={`use-my-location-link${
+                isSmallDesktop && useProgressiveDisclosure ? '-desktop' : ''
+              }`}
+            >
               <va-icon icon="autorenew" size={3} />
               <span aria-live="assertive">Finding your location...</span>
             </div>
@@ -176,7 +194,9 @@ const SearchControls = props => {
             <button
               onClick={handleGeolocationButtonClick}
               type="button"
-              className="use-my-location-link"
+              className={`use-my-location-link${
+                isSmallDesktop && useProgressiveDisclosure ? '-desktop' : ''
+              }`}
               aria-describedby="city-state-zip-text"
             >
               <va-icon icon="near_me" size={3} />
@@ -250,8 +270,16 @@ const SearchControls = props => {
       <div
         className={classNames(
           'input-clear',
-          'vads-u-margin--0',
           `facility-type-dropdown-val-${facilityType || 'none'}`,
+          {
+            'facility-type-dropdown': !useProgressiveDisclosure,
+            'facility-type-dropdown-mobile':
+              isMobile && useProgressiveDisclosure,
+            'facility-type-dropdown-tablet':
+              isTablet && useProgressiveDisclosure,
+            'facility-type-dropdown-desktop':
+              isSmallDesktop && useProgressiveDisclosure,
+          },
         )}
       >
         <VaSelect
@@ -303,7 +331,10 @@ const SearchControls = props => {
         if (useProgressiveDisclosure) {
           return (
             <ServicesLoadingOrShow serviceType="ppms_services">
-              <div id="service-typeahead-container" className="typeahead">
+              <div
+                id="service-typeahead-container"
+                className={isMobile ? 'typeahead-mobile' : 'typeahead-tablet'}
+              >
                 <ServiceTypeAhead
                   handleServiceTypeChange={handleServiceTypeChange}
                   initialSelectedServiceType={serviceType}
@@ -314,7 +345,14 @@ const SearchControls = props => {
           );
         }
         return (
-          <div className="typeahead">
+          <div
+            className={classNames('typeahead', {
+              'typeahead-mobile': isMobile,
+              'typeahead-tablet':
+                isTablet || (isSmallDesktop && !useProgressiveDisclosure),
+              'typeahead-desktop': isSmallDesktop && useProgressiveDisclosure,
+            })}
+          >
             <ServiceTypeAhead
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
@@ -337,7 +375,15 @@ const SearchControls = props => {
     ));
 
     return (
-      <div className="service-type-dropdown-container">
+      <div
+        className={classNames({
+          'service-type-dropdown-mobile': isMobile,
+          'service-type-dropdown-tablet':
+            isTablet || (isSmallDesktop && !useProgressiveDisclosure),
+          'service-type-dropdown-desktop':
+            isSmallDesktop && useProgressiveDisclosure,
+        })}
+      >
         <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
@@ -395,7 +441,13 @@ const SearchControls = props => {
   );
 
   return (
-    <div className="search-controls-container clearfix">
+    <div
+      className={
+        isSmallDesktop && useProgressiveDisclosure
+          ? 'desktop-search-controls-container clearfix'
+          : 'search-controls-container clearfix'
+      }
+    >
       <VaModal
         uswds
         modalTitle={
@@ -414,26 +466,33 @@ const SearchControls = props => {
         </p>
       </VaModal>
       <form
-        className="vads-u-margin-bottom--0"
+        className={
+          useProgressiveDisclosure ? undefined : 'vads-u-margin-bottom--0'
+        }
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
-          {renderLocationInputField()}
-          {useProgressiveDisclosure ? (
-            <>
-              {renderFacilityTypeDropdown()}
-              {renderServiceTypeDropdown()}
-              <va-button id="facility-search" submit="prevent" text="Search" />
-            </>
-          ) : (
-            <div id="search-controls-bottom-row">
-              {renderFacilityTypeDropdown()}
-              {renderServiceTypeDropdown()}
+        {renderLocationInputField()}
+        {useProgressiveDisclosure ? (
+          <>
+            {renderFacilityTypeDropdown()}
+            {renderServiceTypeDropdown()}
+            <va-button
+              id="facility-search"
+              submit="prevent"
+              text="Search"
+              className="vads-u-margin-bottom--2"
+            />
+          </>
+        ) : (
+          <div id="search-controls-bottom-row">
+            {renderFacilityTypeDropdown()}
+            {renderServiceTypeDropdown()}
+            <div className="vads-u-margin-bottom--2">
               <input id="facility-search" type="submit" value="Search" />
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </form>
     </div>
   );
