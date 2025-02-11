@@ -130,6 +130,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         <div className="vads-u-padding-bottom--1">
           <VaLink
             download
+            id="pdf-download-link"
             label="Download PDF (best for printing)"
             text="Download PDF (best for printing)"
             filetype="PDF"
@@ -142,6 +143,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         <div className="vads-u-padding-top--1">
           <VaLink
             download
+            id="txt-download-link"
             label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
             text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
             filetype="TEXT"
