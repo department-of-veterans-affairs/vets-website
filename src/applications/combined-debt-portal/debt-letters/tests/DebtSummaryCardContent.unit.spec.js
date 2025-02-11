@@ -25,6 +25,34 @@ describe('debtSummaryText', () => {
     },
     { diaryCode: '212', expectedText: `Contact us to update your address.` },
     {
+      diaryCode: '061',
+      expectedText: `We’ve paused collection on this debt as you requested.`,
+    },
+    {
+      diaryCode: '065',
+      expectedText: `We’ve paused collection on this debt as you requested.`,
+    },
+    {
+      diaryCode: '070',
+      expectedText: `We’ve paused collection on this debt as you requested.`,
+    },
+    {
+      diaryCode: '440',
+      expectedText: `We’ve paused collection on this debt as you requested.`,
+    },
+    {
+      diaryCode: '442',
+      expectedText: `We’ve paused collection on this debt as you requested.`,
+    },
+    {
+      diaryCode: '448',
+      expectedText: `We’ve paused collection on this debt as you requested.`,
+    },
+    {
+      diaryCode: '453',
+      expectedText: `We’ve paused collection on this debt as you requested.`,
+    },
+    {
       diaryCode: '439',
       expectedText: `Pay your balance now or request help by ${endDate(
         testDate,
@@ -37,6 +65,20 @@ describe('debtSummaryText', () => {
         testDate,
         '109',
       )} to avoid more interest charges.`,
+    },
+    {
+      diaryCode: '117',
+      expectedText: `Pay your ${testBalance} past due balance in full or request help before ${endDate(
+        testDate,
+        '117',
+      )}.`,
+    },
+    {
+      diaryCode: '123',
+      expectedText: `Pay your ${testBalance} past due balance now or request help by ${endDate(
+        testDate,
+        '123',
+      )}.`,
     },
     {
       diaryCode: '680',
@@ -55,11 +97,67 @@ describe('debtSummaryText', () => {
       expectedText: `We’re reducing your education benefits each month until your debt is paid.`,
     },
     {
+      diaryCode: '481',
+      expectedText: `We’re reviewing your account.`,
+    },
+    {
+      diaryCode: '482',
+      expectedText: `We’re reviewing your account.`,
+    },
+    {
+      diaryCode: '483',
+      expectedText: `We’re reviewing your account.`,
+    },
+    {
+      diaryCode: '484',
+      expectedText: `We’re reviewing your account.`,
+    },
+    {
       diaryCode: '603',
       expectedText: `Make a payment on your ${testBalance} balance or request help by ${endDate(
         testDate,
         '603',
       )}.`,
+    },
+    {
+      diaryCode: '101',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '450',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '602',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '607',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '608',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '610',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '611',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '614',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '615',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
+    },
+    {
+      diaryCode: '617',
+      expectedText: `We’re reducing your benefit payments each month until your debt is paid.`,
     },
     {
       diaryCode: '080',
@@ -68,6 +166,18 @@ describe('debtSummaryText', () => {
     {
       diaryCode: '500',
       expectedText: `We’re referring this debt to the U.S. Department of the Treasury today.`,
+    },
+    {
+      diaryCode: '821',
+      expectedText: `Continue making monthly payments while we review your Notice of Disagreement.`,
+    },
+    {
+      diaryCode: '822',
+      expectedText: `Continue making monthly payments while we review your dispute.`,
+    },
+    {
+      diaryCode: '825',
+      expectedText: `Continue making monthly payments while we review your request for a hearing.`,
     },
     {
       diaryCode: '811',
@@ -81,9 +191,24 @@ describe('debtSummaryText', () => {
       )}.`,
     },
     {
+      diaryCode: '816',
+      expectedText: `We’re processing your compromise offer payment.`,
+    },
+    {
       diaryCode: '801',
       expectedText: `Continue making monthly payments while we review your waiver request.`,
     },
+    { diaryCode: '002', expectedText: `We’re updating your account.` },
+    { diaryCode: '005', expectedText: `We’re updating your account.` },
+    { diaryCode: '032', expectedText: `We’re updating your account.` },
+    { diaryCode: '609', expectedText: `We’re updating your account.` },
+    { diaryCode: '321', expectedText: `We’re updating your account.` },
+    { diaryCode: '400', expectedText: `We’re updating your account.` },
+    { diaryCode: '420', expectedText: `We’re updating your account.` },
+    { diaryCode: '421', expectedText: `We’re updating your account.` },
+    { diaryCode: '422', expectedText: `We’re updating your account.` },
+    { diaryCode: '627', expectedText: `We’re updating your account.` },
+    { diaryCode: '425', expectedText: `We’re updating your account.` },
     { diaryCode: 'unknown', expectedText: `We’re updating your account.` },
   ];
 

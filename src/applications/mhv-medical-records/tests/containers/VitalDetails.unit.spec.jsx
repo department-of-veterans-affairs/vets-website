@@ -38,11 +38,12 @@ describe('Vital details container', () => {
   });
 
   it('displays the vital name inside an h1 as a span', () => {
-    const vitalName = screen.getByText('Blood pressure', {
+    const vitalNames = screen.getAllByText('Blood pressure', {
       exact: true,
       selector: 'h1',
     });
-    expect(vitalName).to.exist;
+
+    expect(vitalNames).to.have.lengthOf(2);
   });
 
   it('displays a print button', () => {

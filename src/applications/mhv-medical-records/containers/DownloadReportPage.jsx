@@ -29,6 +29,7 @@ import {
   accessAlertTypes,
   ALERT_TYPE_BB_ERROR,
   ALERT_TYPE_SEI_ERROR,
+  ALERT_TYPE_CCD_ERROR,
   BB_DOMAIN_DISPLAY_MAP,
   documentTypes,
   pageTitles,
@@ -204,7 +205,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   );
 
   const accessErrors = () => {
-    // CCD Access Error
+    // CCD generation Error
     if (CCDRetryTimestamp) {
       return (
         <AccessTroubleAlertBox
@@ -241,6 +242,17 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     [refreshStatus],
   );
 
+  const handleDownloadCCD = e => {
+    e.preventDefault();
+    dispatch(
+      genAndDownloadCCD(
+        userProfile?.userFullName?.first,
+        userProfile?.userFullName?.last,
+      ),
+    );
+    sendDataDogAction('Download Continuity of Care Document xml Link');
+  };
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -259,7 +271,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           on {lastSuccessfulUpdate.date}
         </va-card>
       )}
-
       {activeAlert?.type === ALERT_TYPE_BB_ERROR && (
         <AccessTroubleAlertBox
           alertType={accessAlertTypes.DOCUMENT}
@@ -267,15 +278,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           className="vads-u-margin-bottom--1"
         />
       )}
-
-      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
-        <AccessTroubleAlertBox
-          alertType={accessAlertTypes.DOCUMENT}
-          documentType={documentTypes.SEI}
-          className="vads-u-margin-bottom--1"
-        />
-      )}
-
       {successfulBBDownload === true && (
         <>
           <MissingRecordsError
@@ -287,6 +289,39 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           />
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
         </>
+      )}
+
+      <h2>Download your VA Blue Button report</h2>
+      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+        First, select the types of records you want in your report. Then
+        download.
+      </p>
+      <va-link-action
+        href="/my-health/medical-records/download/date-range"
+        label="Select records and download report"
+        text="Select records and download report"
+        data-dd-action-name="Select records and download"
+        onClick={() => sendDataDogAction('Select records and download')}
+        data-testid="go-to-download-all"
+      />
+      <h2>Other reports you can download</h2>
+
+      {accessErrors()}
+
+      {/* redux action/server errors */}
+      {activeAlert?.type === ALERT_TYPE_CCD_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.CCD}
+          className="vads-u-margin-bottom--1"
+        />
+      )}
+      {activeAlert?.type === ALERT_TYPE_SEI_ERROR && (
+        <AccessTroubleAlertBox
+          alertType={accessAlertTypes.DOCUMENT}
+          documentType={documentTypes.SEI}
+          className="vads-u-margin-bottom--1"
+        />
       )}
 
       {successfulSeiDownload === true && (
@@ -301,22 +336,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
         </>
       )}
-
-      <h2>Download your VA Blue Button report</h2>
-      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-        First, select the types of records you want in your report. Then
-        download.
-      </p>
-      <va-link-action
-        href="/my-health/medical-records/download/date-range"
-        label="Select records and download"
-        text="Select records and download"
-        data-dd-action-name="Select records and download"
-        onClick={() => sendDataDogAction('Select records and download')}
-        data-testid="go-to-download-all"
-      />
-      <h2>Other reports you can download</h2>
-      {accessErrors()}
       <va-accordion bordered>
         <va-accordion-item bordered data-testid="ccdAccordionItem">
           <h3 slot="headline">
@@ -343,19 +362,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             <va-link
               download
               href="#"
-              onClick={e => {
-                e.preventDefault();
-                dispatch(
-                  genAndDownloadCCD(
-                    userProfile.userFullName.first,
-                    userProfile.userFullName.last,
-                  ),
-                );
-                sendDataDogAction(
-                  'Download Continuity of Care Document xml Link',
-                );
-              }}
-              text="Download .xml file"
+              onClick={handleDownloadCCD}
+              text="Download Continuity of Care Document (XML)"
               data-testid="generateCcdButton"
             />
           )}
@@ -390,7 +398,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                 generateSEIPdf();
                 sendDataDogAction('Self entered health information PDF link ');
               }}
-              text="Download PDF"
+              text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
           )}

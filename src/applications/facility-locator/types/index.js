@@ -121,6 +121,61 @@ export const LocationTypes = PropTypes.shape({
   search: PropTypes.string,
 });
 
+export const LocationForHoursTypes = PropTypes.shape({
+  attributes: {
+    access: {
+      effectiveDate: PropTypes.string,
+      health: PropTypes.arrayOf(PropTypes.string),
+    },
+    address: {
+      mailing: {
+        address1: PropTypes.string,
+        city: PropTypes.string,
+        state: PropTypes.string,
+        zip: PropTypes.string,
+      },
+      physical: {
+        address1: PropTypes.string,
+        city: PropTypes.string,
+        state: PropTypes.string,
+        zip: PropTypes.string,
+      },
+      classification: PropTypes.string,
+      distance: PropTypes.any,
+      facilityType: PropTypes.string,
+      feedback: PropTypes.arrayOf(PropTypes.string),
+      hours: {
+        sunday: PropTypes.string,
+        monday: PropTypes.string,
+        tuesday: PropTypes.string,
+        wednesday: PropTypes.string,
+        thursday: PropTypes.string,
+        friday: PropTypes.string,
+        saturday: PropTypes.string,
+      },
+      id: PropTypes.string,
+      LatLongAbbrTypes,
+      mobile: PropTypes.any,
+      name: PropTypes.string,
+      operatingStatus: {
+        code: PropTypes.string,
+      },
+      operationalHoursSpecialInstructions: PropTypes.string,
+      phone: {
+        fax: PropTypes.string,
+        main: PropTypes.string,
+      },
+      services: PropTypes.arrayOf(PropTypes.string),
+      tmpCovidOnlineScheduling: PropTypes.any,
+      uniqueId: PropTypes.string,
+      visn: PropTypes.string,
+      website: PropTypes.string,
+    },
+    id: PropTypes.string,
+    type: PropTypes.string,
+  },
+});
+
 export const RouterTypes = PropTypes.shape({
   createHref: PropTypes.func,
   createKey: PropTypes.func,
@@ -147,6 +202,7 @@ export const FacilitiesMapTypes = {
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,
+  facilityLocatorMobileMapUpdate: PropTypes.bool,
   fetchVaFacility: PropTypes.func,
   genBBoxFromAddress: PropTypes.func,
   genSearchAreaFromCenter: PropTypes.func,
@@ -165,7 +221,6 @@ export const FacilitiesMapTypes = {
   selectedResult: PropTypes.any,
   specialties: PropTypes.any,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
   usePredictiveGeolocation: PropTypes.bool,
 };
@@ -178,5 +233,4 @@ export const SearchControlsTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
 };

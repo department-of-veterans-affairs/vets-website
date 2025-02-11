@@ -214,7 +214,7 @@ const ProgramsList = ({ match }) => {
             <>
               {`Showing ${startIndex}-${endIndex} of ${
                 filteredPrograms.length
-              } programs`}
+              } ${filteredPrograms.length === 1 ? 'program' : 'programs'}`}
             </>
           )}
         </p>
@@ -228,7 +228,11 @@ const ProgramsList = ({ match }) => {
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         {currentPrograms.map(program => (
-          <li className="vads-u-margin-bottom--2" key={program.id}>
+          <li
+            className="vads-u-margin-bottom--2"
+            data-testid="program-list-item"
+            key={program.id}
+          >
             {program.attributes.programType === 'OJT'
               ? `${program.attributes.ojtAppType} ${
                   program.attributes.description

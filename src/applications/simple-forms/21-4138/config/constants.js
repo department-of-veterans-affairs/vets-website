@@ -47,25 +47,44 @@ export const workInProgressContent = {
 };
 
 export const STATEMENT_TYPES = Object.freeze({
-  BUDDY_STATEMENT: 'buddy-statement',
+  NEW_EVIDENCE: 'new-evidence',
   DECISION_REVIEW: 'decision-review',
+  BUDDY_STATEMENT: 'buddy-statement',
   PRIORITY_PROCESSING: 'priority-processing',
   PERSONAL_RECORDS: 'personal-records',
-  NEW_EVIDENCE: 'new-evidence',
   NOT_LISTED: 'not-listed',
 });
 
 export const STATEMENT_TYPE_LABELS = Object.freeze({
-  [STATEMENT_TYPES.BUDDY_STATEMENT]:
-    'I want to submit a formal statement to support my claim or someone else’s claim. This is also known as a “buddy statement.”',
+  [STATEMENT_TYPES.NEW_EVIDENCE]:
+    'I have new evidence to submit for an open claim.',
   [STATEMENT_TYPES.DECISION_REVIEW]:
-    'I want to request a decision review for my claim.',
+    "I disagree with VA's decision on my benefit or claim, and I'd like to request a decision review.",
+  [STATEMENT_TYPES.BUDDY_STATEMENT]:
+    'I want to provide context or details about a claim.',
   [STATEMENT_TYPES.PRIORITY_PROCESSING]:
-    'I want to request that VA process my claim faster due to certain qualifying situations.',
+    'I want to request faster claim processing because of my situation.',
   [STATEMENT_TYPES.PERSONAL_RECORDS]: 'I want to request my personal records.',
-  [STATEMENT_TYPES.NEW_EVIDENCE]: 'I have new evidence to submit.',
-  [STATEMENT_TYPES.NOT_LISTED]:
-    "The type of statement I want to submit isn't listed here.",
+  [STATEMENT_TYPES.NOT_LISTED]: "What I want to do isn't listed here.",
+});
+
+export const STATEMENT_TYPE_DESCRIPTIONS = Object.freeze({
+  [STATEMENT_TYPES.NEW_EVIDENCE]: '',
+  [STATEMENT_TYPES.DECISION_REVIEW]:
+    'In some situations, you can submit new evidence for closed claims.',
+  [STATEMENT_TYPES.BUDDY_STATEMENT]:
+    'You can do this for your claim, or as a "buddy statement" for another person\'s claim.',
+  [STATEMENT_TYPES.PRIORITY_PROCESSING]:
+    'Certain situations, like a recent job loss or homelessness, may qualify you for priority processing.',
+  [STATEMENT_TYPES.PERSONAL_RECORDS]:
+    'You can request your DD214, benefit records, and more.',
+  [STATEMENT_TYPES.NOT_LISTED]: '',
+});
+
+export const STATEMENT_TYPE_PAGE = Object.freeze({
+  title: 'What would you like to do?',
+  description:
+    "We’ve improved how we process certain types of statements and requests. Before you continue with VA Form 21-4138, tell us what you’re trying to do and we'll check if there's a quicker way to help you.",
 });
 
 export const DECISION_REVIEW_TYPES = Object.freeze({
@@ -490,72 +509,16 @@ export const RECORDS_REQUEST_HANDOFF = Object.freeze(
       Form 20-10206, Freedom of Information Act (FOIA) or Privacy Act (PA)
       Request.
     </p>
-    <h2 className="vads-u-font-size--h3">
-      What to know before you request your personal records
-    </h2>
-    <p>
-      You must be a U.S. citizen or a legal permanent resident to access your
-      records under the Privacy Act (PA).
-    </p>
-    <p>
-      You can only use this online form to request only your own personal
-      records. If you’re a third-party representative or power of attorney
-      requesting records for someone else, you can’t submit this online form.
-      You’ll need to submit a FOIA request online using the Public Access Link
-      (PAL).
-    </p>
-    <p>
-      <a href="https://vapal.efoia-host.com/app/RequestsandFees.aspx">
-        Request records online through a FOIA request.
-      </a>{' '}
-      You’ll need to have proper authorization on record for your request to be
-      processed.
-    </p>
-    <h2 className="vads-u-font-size--h3">
-      Types of information you can request
-    </h2>
-    <p>You can request any of these kinds of personal records:</p>
-    <p>
-      <strong>Your compensation and pension records</strong>
-    </p>
-    <ul>
-      <li>
-        Certificate of Release or Discharge from Active Duty (DD Form 214)
-      </li>
-      <li>Claims file (C-file)</li>
-      <li>Disability examinations (C&P exams)</li>
-      <li>Official military personnel file (OMPF)</li>
-      <li>Pension benefit documents</li>
-      <li>Service or military treatment</li>
-      <li>Other compensation and pension records</li>
-    </ul>
-    <p>
-      <strong>Your benefit records</strong>
-    </p>
-    <ul>
-      <li>Education benefit</li>
-      <li>Fiduciary services</li>
-      <li>Financial records</li>
-      <li>Home loan benefit</li>
-      <li>Life insurance benefit</li>
-      <li>Vocational rehabilitation and employment</li>
-      <li>Other benefit record</li>
-    </ul>
-    <div className="vads-u-margin-y--3">
-      <va-alert>
-        Note: Since you’re signed into your account, you can save your
-        application in progress and come back later to finish filling it out.
-      </va-alert>
-    </div>
     <PrimaryActionLink href="/records/request-personal-records-form-20-10206/introduction">
       Start your request
     </PrimaryActionLink>
-    <va-omb-info
-      res-burden={5}
-      omb-number="2900-0736"
-      exp-date="02/28/2026"
-      class="vads-u-margin-y--4"
-    />
+    <p>
+      You can ask for your{' '}
+      <span className="vads-u-font-weight--bold">military</span>,{' '}
+      <span className="vads-u-font-weight--bold">compensation</span>,{' '}
+      <span className="vads-u-font-weight--bold">pension</span>, or{' '}
+      <span className="vads-u-font-weight--bold">benefit</span> records.
+    </p>
     {ESCAPE_HATCH}
   </div>,
 );

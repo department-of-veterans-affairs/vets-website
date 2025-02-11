@@ -1,7 +1,6 @@
 import formConfig from '../../../config/form';
 
 export const mockFormData = {
-  giBillStatus: "I haven't applied for GI Bill benefits",
   disabilityRating: "I haven't applied for a disability rating",
   'view:disabilityEligibility': {},
   characterOfDischarge: 'honorable',

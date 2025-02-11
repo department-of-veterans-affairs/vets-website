@@ -5,18 +5,6 @@ import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
 
-const medicalRecordsLink = {
-  title: 'Records',
-  actionName: `${actionPrefix} - Records`,
-  icon: 'note_add',
-  href: `/my-health/medical-records`,
-};
-
-const transitionalMedicalRecordsLink = {
-  ...medicalRecordsLink,
-  href: '/my-health/records',
-};
-
 /**
  * MHV secondary navigation items. Note the first item is the home link.
  */
@@ -49,6 +37,12 @@ export const mhvSecNavItems = [
     href: '/my-health/medications/about',
     appRootUrl: '/my-health/medications',
   },
+  {
+    title: 'Records',
+    actionName: `${actionPrefix} - Records`,
+    icon: 'note_add',
+    href: `/my-health/medical-records`,
+  },
 ];
 
 /**
@@ -56,23 +50,9 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  const items = [...mhvSecNavItems];
-  const {
-    loading = true,
-    mhvTransitionalMedicalRecordsLandingPage = false,
-    mhvIntegrationMedicalRecordsToPhase1 = false,
-  } = useSelector(toggleValuesSelector);
+  const { loading = true } = useSelector(toggleValuesSelector);
 
-  if (
-    mhvTransitionalMedicalRecordsLandingPage &&
-    !mhvIntegrationMedicalRecordsToPhase1
-  ) {
-    items.push(transitionalMedicalRecordsLink);
-  } else {
-    items.push(medicalRecordsLink);
-  }
-
-  return <MhvSecondaryNavMenu items={items} loading={loading} />;
+  return <MhvSecondaryNavMenu items={mhvSecNavItems} loading={loading} />;
 };
 
 export default MhvSecondaryNav;

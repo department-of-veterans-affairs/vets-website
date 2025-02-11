@@ -36,7 +36,6 @@ describe('<ConfirmationPage>', () => {
         form: {
           formId: 'T-QSTNR',
           data: {
-            giBillStatus: 'No',
             disabilityRating: 'No',
             'view:disabilityEligibility': {},
             characterOfDischarge: 'honorable',

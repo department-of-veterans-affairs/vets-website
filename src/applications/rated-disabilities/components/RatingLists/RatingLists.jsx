@@ -5,20 +5,14 @@ import {
   getServiceConnectedRatings,
   getNonServiceConnectedRatings,
 } from './helpers';
-import NoRatings from './NoRatings';
 import List from './List';
 
 export default function RatingLists({ ratings }) {
   const serviceConnectedRatings = getServiceConnectedRatings(ratings);
   const nonServiceConnectedRatings = getNonServiceConnectedRatings(ratings);
 
-  const hasRatings = ratings.length !== 0;
   const hasServiceConnectedRatings = serviceConnectedRatings.length !== 0;
   const hasNonServiceConnectedRatings = nonServiceConnectedRatings.length !== 0;
-
-  if (!hasRatings) {
-    return <NoRatings />;
-  }
 
   return (
     <>
