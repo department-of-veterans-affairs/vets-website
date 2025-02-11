@@ -1,11 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
 
 import EditReviewSupplies from '../../components/EditReviewSupplies';
 
 const title = 'Available for reorder';
 const defaultEditButton = () => {};
-const formData = {
+const data = {
   chosenSupplies: {
     '6584': true,
   },
@@ -31,7 +32,7 @@ const formData = {
   ],
 };
 
-const setup = () => {
+const setup = (formData = data) => {
   return render(
     <div>
       <EditReviewSupplies
@@ -44,9 +45,17 @@ const setup = () => {
 };
 
 describe('EditReviewSupplies', () => {
-  it('renders EditReviewSupplies', () => {
+  it('renders', () => {
     const { getByRole, getByText } = setup();
     getByRole('heading', { level: 4, name: title });
-    getByText(formData.supplies[0].productName);
+    getByText(data.supplies[0].productName);
+  });
+  it('renders with no chosenSupplies', () => {
+    const { getByRole, queryByText } = setup({
+      ...data,
+      chosenSupplies: undefined,
+    });
+    getByRole('heading', { level: 4, name: title });
+    expect(queryByText(data.supplies[0].productName)).to.be.null;
   });
 });
