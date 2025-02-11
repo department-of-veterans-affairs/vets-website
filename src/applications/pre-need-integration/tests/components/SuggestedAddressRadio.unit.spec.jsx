@@ -5,32 +5,31 @@ import SuggestedAddressRadio from '../../components/SuggestedAddressRadio';
 
 describe('Suggested Address Radio Component', () => {
   const mockSuggestedAddress = {
-    confirmedSuggestions: [
-      {
-        addressLine1: '123 Mock St',
-        city: 'Mock City',
-        stateCode: 'MC',
-        zipCode: '12345',
-        countryCodeIso3: 'USA',
-      },
-    ],
+    addressLine1: '1477 Theresa Dr',
+    addressType: 'DOMESTIC',
+    city: 'Charleston',
+    countryName: 'United States',
+    countryCodeIso3: 'USA',
+    countyCode: '45019',
+    countyName: 'Charleston County',
+    stateCode: 'SC',
+    zipCode: '29412',
+    zipCodeSuffix: '3219',
   };
 
   const mockUserAddress = {
-    address: {
-      street: '1234 Mock St',
-      city: 'Mock City',
-      state: 'MC',
-      zipCode: '12345',
-      country: 'USA',
-    },
+    street: '1234 Mock St',
+    city: 'Mock City',
+    state: 'MC',
+    zipCode: '12345',
+    country: 'USA',
   };
   const mockOnChangeSelectedAddress = () => {};
   const props = {
     title: 'Confirm your mailing address',
     userAddress: mockUserAddress, // not mockUserAddress: ...
     selectedAddress: mockUserAddress, // or null/empty if you want
-    addressValidation: mockSuggestedAddress,
+    suggestedAddress: mockSuggestedAddress,
     onChangeSelectedAddress: mockOnChangeSelectedAddress,
   };
 
