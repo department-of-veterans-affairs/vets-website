@@ -72,9 +72,19 @@ const mailingAddress33 = {
               formData['view:mailingAddress']?.livesOnMilitaryBase;
             const country =
               formData['view:mailingAddress']?.address?.country || 'USA';
+            // Get the current required fields, excluding state
+            const required = (addressSchema.required || []).filter(
+              field => field !== 'state',
+            );
+
+            // Only add state as required for USA or military base
+            if (livesOnMilitaryBase || country === 'USA') {
+              required.push('state');
+            }
             if (livesOnMilitaryBase) {
               return {
                 ...addressSchema,
+                required,
                 properties: {
                   ...addressSchema.properties,
                   state: {
@@ -90,12 +100,10 @@ const mailingAddress33 = {
                 },
               };
             }
-
             let stateSchema = {
               type: 'string',
               title: 'State/County/Province',
             };
-
             if (country === 'USA') {
               stateSchema = {
                 ...stateSchema,
@@ -105,6 +113,7 @@ const mailingAddress33 = {
             }
             return {
               ...addressSchema,
+              required,
               properties: {
                 ...addressSchema.properties,
                 state: stateSchema,
@@ -263,9 +272,6 @@ const mailingAddress33 = {
               }
             },
           ],
-          'ui:required': formData =>
-            formData['view:mailingAddress']?.livesOnMilitaryBase ||
-            formData['view:mailingAddress']?.address?.country === 'USA',
         },
         postalCode: {
           'ui:options': {

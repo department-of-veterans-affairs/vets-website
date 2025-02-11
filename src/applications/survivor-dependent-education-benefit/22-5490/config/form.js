@@ -917,6 +917,16 @@ const formConfig = {
                       formData?.mailingAddressInput?.livesOnMilitaryBase;
                     const country =
                       formData?.mailingAddressInput?.address?.country || 'USA';
+
+                    const required = (addressSchema.required || []).filter(
+                      field => field !== 'state',
+                    );
+
+                    // Only add state as required for USA or military base
+                    if (livesOnMilitaryBase || country === 'USA') {
+                      required.push('state');
+                    }
+
                     if (livesOnMilitaryBase) {
                       return {
                         ...addressSchema,
@@ -952,6 +962,7 @@ const formConfig = {
                     }
                     return {
                       ...addressSchema,
+                      required,
                       properties: {
                         ...addressSchema.properties,
                         state: stateSchema,
@@ -1087,9 +1098,6 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:required': formData =>
-                    formData?.mailingAddressInput?.livesOnMilitaryBase ||
-                    formData?.mailingAddressInput?.address?.country === 'USA',
                 },
                 postalCode: {
                   'ui:errorMessages': {

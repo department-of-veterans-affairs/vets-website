@@ -661,9 +661,21 @@ const formConfig = {
                     const country =
                       formData['view:mailingAddress']?.address?.country ||
                       'USA';
+
+                    // Get the current required fields, excluding state
+                    const required = (addressSchema.required || []).filter(
+                      field => field !== 'state',
+                    );
+
+                    // Only add state as required for USA or military base
+                    if (livesOnMilitaryBase || country === 'USA') {
+                      required.push('state');
+                    }
+
                     if (livesOnMilitaryBase) {
                       return {
                         ...addressSchema,
+                        required,
                         properties: {
                           ...addressSchema.properties,
                           state: {
@@ -800,11 +812,7 @@ const formConfig = {
                     },
                   },
                 },
-                state: {
-                  'ui:required': formData =>
-                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                    formData['view:mailingAddress']?.address?.country === 'USA',
-                },
+                state: {},
                 postalCode: {
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
