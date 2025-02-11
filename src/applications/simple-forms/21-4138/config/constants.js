@@ -190,7 +190,7 @@ export const DECISION_REVIEW_HANDOFF = Object.freeze(
       Based on your answer, you should explore your options for a decision
       review.
     </p>
-    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
+    <PrimaryActionLink href="/resources/choosing-a-decision-review-option/">
       Choose a decision review option
     </PrimaryActionLink>
     <p>
