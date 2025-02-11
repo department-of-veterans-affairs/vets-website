@@ -251,7 +251,7 @@ export function ResultCard({
     }
     return 0;
   };
-
+  // Replaced previous lines to prevent app from failing if the estimated constants are not set
   const tuition = getEstimateTuitionForField(
     estimated,
     'tuition',

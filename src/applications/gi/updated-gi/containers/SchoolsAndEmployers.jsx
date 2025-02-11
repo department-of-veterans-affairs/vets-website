@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import SearchByName from './SearchByName';
@@ -13,27 +12,19 @@ import {
   fetchConstants,
   fetchSearchByNameResults,
   filterBeforeResultFlag,
-  geolocateUser,
 } from '../../actions';
 import { updateUrlParams } from '../../selectors/search';
 import {
   convertSchoolsAndEmployersTabIndexToText,
   isSmallScreen,
 } from '../../utils/helpers';
-import NameSearchResults from '../components/school-and-employers/NameSearchResults';
+import NameSearchResults from '../../containers/search/NameSearchResults';
 
-const SchoolAndEmployers = ({
-  dispatchGeoLocateUser,
-  dispatchEnterPreviewMode,
-  dispatchExitPreviewMode,
-  dispatchFetchConstants,
-  dispatchFetchSearchByNameResults,
-  dispatchChangeSearchTab,
-  dispatchShowFiltersBeforeResult,
-  filters,
-  preview,
-  search,
-}) => {
+const SchoolAndEmployers = () => {
+  const search = useSelector(state => state.search);
+  const preview = useSelector(state => state.preview);
+  const filters = useSelector(state => state.filters);
+  const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState(0);
   const tabPanelClassList =
     'vads-u-border-bottom--1px vads-u-border-left--1px vads-u-border-right--1px vads-u-border-color--primary medium-screen:vads-u-padding--4 mobile:vads-u-padding--2';
@@ -53,14 +44,14 @@ const SchoolAndEmployers = ({
   useEffect(
     () => {
       if (shouldExitPreviewMode) {
-        dispatchExitPreviewMode();
+        dispatch(exitPreviewMode());
       } else if (shouldEnterPreviewMode) {
-        dispatchEnterPreviewMode(version);
+        dispatch(enterPreviewMode(version));
       } else {
-        dispatchFetchConstants();
+        dispatch(fetchConstants());
       }
     },
-    [shouldExitPreviewMode, shouldEnterPreviewMode],
+    [shouldExitPreviewMode, shouldEnterPreviewMode, dispatch, version],
   );
 
   const tabChange = selectedTab => {
@@ -72,7 +63,7 @@ const SchoolAndEmployers = ({
       'tab-text': `Search by ${selectedTab}`,
     });
     setCurrentTab(selectedTab);
-    dispatchChangeSearchTab(selectedTabText);
+    dispatch(changeSearchTab(selectedTabText));
     updateUrlParams(history, selectedTabText, search.query, filters, version);
   };
 
@@ -127,10 +118,23 @@ const SchoolAndEmployers = ({
           </TabPanel>
           <TabPanel className={currentTab === 1 ? tabPanelClassList : null}>
             <SearchByProgram
-              dispatchGeoLocateUser={dispatchGeoLocateUser}
-              dispatchShowFiltersBeforeResult={dispatchShowFiltersBeforeResult}
-              dispatchFetchSearchByNameResults={
-                dispatchFetchSearchByNameResults
+              dispatchShowFiltersBeforeResult={() =>
+                dispatch(filterBeforeResultFlag())
+              }
+              dispatchFetchSearchByNameResults={(
+                searchName,
+                page,
+                currentFilters,
+                currentVersion,
+              ) =>
+                dispatch(
+                  fetchSearchByNameResults(
+                    searchName,
+                    page,
+                    currentFilters,
+                    currentVersion,
+                  ),
+                )
               }
               search={search}
             />
@@ -145,36 +149,4 @@ const SchoolAndEmployers = ({
   );
 };
 
-SchoolAndEmployers.propTypes = {
-  dispatchChangeSearchTab: PropTypes.func.isRequired,
-  dispatchEnterPreviewMode: PropTypes.func.isRequired,
-  dispatchExitPreviewMode: PropTypes.func.isRequired,
-  dispatchFetchConstants: PropTypes.func.isRequired,
-  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
-  dispatchGeoLocateUser: PropTypes.func.isRequired,
-  dispatchShowFiltersBeforeResult: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired,
-  preview: PropTypes.object.isRequired,
-  search: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({
-  filters: state.filters,
-  preview: state.preview,
-  search: state.search,
-});
-
-const mapDispatchToProps = {
-  dispatchChangeSearchTab: changeSearchTab,
-  dispatchEnterPreviewMode: enterPreviewMode,
-  dispatchExitPreviewMode: exitPreviewMode,
-  dispatchFetchConstants: fetchConstants,
-  dispatchFetchSearchByNameResults: fetchSearchByNameResults,
-  dispatchGeoLocateUser: geolocateUser,
-  dispatchShowFiltersBeforeResult: filterBeforeResultFlag,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SchoolAndEmployers);
+export default SchoolAndEmployers;

@@ -13,7 +13,7 @@ export const getSearchQueryChanged = query => {
 };
 
 const getCleanPathName = history => {
-  if (history && history.location && history.location.pathname) {
+  if (history?.location?.pathname) {
     const { pathname } = history.location;
     return pathname.replace(/\/$/, '');
   }
@@ -41,9 +41,7 @@ export const updateUrlParams = (
   }
 
   if (
-    searchQuery.name !== '' &&
-    searchQuery.name !== null &&
-    searchQuery.name !== undefined &&
+    searchQuery.name &&
     queryParams.search === TABS.schoolAndEmployerPrograms
   ) {
     queryParams.name = searchQuery.name;
