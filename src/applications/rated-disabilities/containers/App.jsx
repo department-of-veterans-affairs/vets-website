@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom-v5-compat';
 import { connect } from 'react-redux';
 
 import DowntimeNotification, {
@@ -10,7 +11,6 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import AppContent from '../components/AppContent';
 import MVIError from '../components/MVIError';
 import { useBrowserMonitoring } from '../util/datadog-rum/useBrowserMonitoring';
 
@@ -47,7 +47,7 @@ const App = props => {
         {!user.profile.verified || user.profile.status !== 'OK' ? (
           <MVIError />
         ) : (
-          <AppContent />
+          <Outlet />
         )}
       </DowntimeNotification>
     </RequiredLoginView>

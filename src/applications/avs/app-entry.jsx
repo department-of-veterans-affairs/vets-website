@@ -1,3 +1,5 @@
+import React from 'react';
+import { RouterProvider } from 'react-router-dom-v5-compat';
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/avs.scss';
 
@@ -11,5 +13,5 @@ startApp({
   entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
-  router,
+  router: <RouterProvider router={router} />,
 });
