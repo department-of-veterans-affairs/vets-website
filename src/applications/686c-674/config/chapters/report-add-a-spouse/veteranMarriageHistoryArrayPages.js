@@ -184,7 +184,7 @@ export const vetFormerMarriageEndDatePage = {
       return 'Your former marriage';
     }),
     endDate: {
-      ...currentOrPastDateUI('When did your marriage end?'),
+      ...currentOrPastDateUI('When did the marriage end?'),
       'ui:required': () => true,
       'ui:validations': [
         {
