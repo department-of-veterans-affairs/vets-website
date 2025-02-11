@@ -35,7 +35,7 @@ describe('Header <App>', () => {
     const staticDom = document.createElement('div');
     document.body.appendChild(staticDom);
 
-    if (showMinimalHeader !== undefined) {
+    if (showMinimalHeader) {
       staticDom.innerHTML += `
       <div id="header-minimal" class="vads-u-display--none">
         Minimal header
