@@ -3,17 +3,23 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { hasPrefillInformation } from '../constants';
 
 const PersonalAuthenticatedInformation = ({
-  goBack,
   goForward,
   formData,
   isLoggedIn,
+  router,
 }) => {
-  if (!isLoggedIn) {
+  if (!isLoggedIn || !hasPrefillInformation(formData)) {
     goForward(formData);
   }
+
+  const handleGoBack = () => {
+    router.push('/');
+  };
 
   const {
     first,
@@ -71,7 +77,7 @@ const PersonalAuthenticatedInformation = ({
             Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </div>
-        <FormNavButtons goBack={goBack} goForward={goForward} />
+        <FormNavButtons goBack={handleGoBack} goForward={goForward} />
       </div>
     </>
   );
@@ -82,6 +88,7 @@ PersonalAuthenticatedInformation.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
+  router: PropTypes.object,
   user: PropTypes.object,
 };
 
@@ -93,4 +100,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(PersonalAuthenticatedInformation);
+export default connect(mapStateToProps)(
+  withRouter(PersonalAuthenticatedInformation),
+);

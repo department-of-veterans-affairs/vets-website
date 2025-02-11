@@ -8,6 +8,7 @@ import classNames from 'classnames';
  * Custom alert similar to VAAlert that allows to set the icon.
  * @property {*} children the children components to include inside the alert
  * @property {bool} disableAnalytics true to disable analytics
+ * @property {number} headerLevel the heading level
  * @property {string} headline the text for the headline of the alert
  * @property {*} recordEvent the function to record the event
  * @property {string} status the status of the alert ('info', 'success', 'warning' or 'continue')
@@ -15,6 +16,7 @@ import classNames from 'classnames';
  */
 const CustomAlert = ({
   children,
+  headerLevel = 3,
   headline,
   recordEvent,
   status = 'info',
@@ -39,14 +41,20 @@ const CustomAlert = ({
     'mhv-u-reg-alert-success': status === 'continue' || status === 'success',
     'mhv-u-reg-alert-info': status === 'info',
   });
+  const headerClasses = classNames(
+    'vads-u-margin-top--0',
+    'vads-u-margin-bottom--1',
+    headerLevel > 3 && 'vads-u-font-size--h3',
+  );
+  const CustomHeaderLevel = `h${headerLevel}`;
 
   return (
     <div className={alertClasses} data-testid="mhv-custom-alert">
       <va-icon icon={icon} size={4} data-testid="mhv-custom-alert-icon" />
       <div className="mhv-u-reg-alert-col vads-u-flex-direction--col">
-        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
+        <CustomHeaderLevel className={headerClasses}>
           {headline}
-        </h2>
+        </CustomHeaderLevel>
         <div className="mhv-u-reg-alert-body" role="presentation">
           {children}
         </div>
@@ -62,6 +70,7 @@ CustomAlert.defaultProps = {
 CustomAlert.propTypes = {
   children: PropTypes.any.isRequired,
   headline: PropTypes.string.isRequired,
+  headerLevel: PropTypes.number,
   icon: PropTypes.string,
   recordEvent: PropTypes.func,
   status: PropTypes.oneOf(['info', 'success', 'warning', 'continue']),

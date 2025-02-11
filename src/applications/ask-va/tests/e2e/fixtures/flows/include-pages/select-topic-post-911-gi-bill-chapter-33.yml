@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Post-9/11 GI Bill (Chapter 33)
+  - action: click
+    target: call-to-action

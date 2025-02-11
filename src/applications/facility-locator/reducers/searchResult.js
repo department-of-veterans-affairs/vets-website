@@ -3,7 +3,7 @@ import {
   FETCH_LOCATIONS,
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
-} from '../utils/actionTypes';
+} from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   results: [],

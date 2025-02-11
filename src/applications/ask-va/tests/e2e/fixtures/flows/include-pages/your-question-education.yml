@@ -1,0 +1,13 @@
+steps:
+  - action: exists
+    target: header
+    value:  Your question
+  - action: typeTextInput
+    target: SUBJECT
+    value:  Work Study
+  - action: typeTextArea
+    target: QUESTION
+    value:  |
+      I am a veteran and I am interested in learning more about work study
+  - action: click
+    target: call-to-action

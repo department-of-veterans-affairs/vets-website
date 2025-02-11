@@ -22,3 +22,7 @@ export const determineErrorMessage = shortName => {
 export const determineLabel = shortName => {
   return labelTextMap[shortName] ? labelTextMap[shortName] : '';
 };
+
+export const isValidYear = value => {
+  return value < new Date().getFullYear() && value?.match(/^(19|20)\d{2}$/);
+};

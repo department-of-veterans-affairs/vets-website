@@ -2,8 +2,7 @@ import { mockUserWithOutIDME } from './login';
 
 describe('Contact information', () => {
   beforeEach(() => {
-    cy.login(mockUserWithOutIDME);
-    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
+    cy.intercept('GET', '/vye/v1', { statusCode: 200 }).as('mockVye');
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -15,9 +14,18 @@ describe('Contact information', () => {
       },
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.login(mockUserWithOutIDME);
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad(win) {
+        cy.stub(win.performance, 'getEntriesByType').returns([
+          { type: 'reload' },
+        ]);
+      },
+    });
+    cy.wait('@mockUser');
   });
   const fillForm = () => {
+    cy.wait('@mockVye');
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
     )
@@ -83,7 +91,7 @@ describe('Contact information', () => {
       '[aria-label="save your mailing address for GI Bill benefits"]',
     ).click();
   });
-  it('should close address form when cancle button is clicked without editing the form', () => {
+  it('should close address form when cancel button is clicked without editing the form', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
@@ -109,7 +117,7 @@ describe('Contact information', () => {
       'Are you sure?',
     );
   });
-  it('should show warning alert if user hits cancel after editing form and it should go back to thr form when user clicks "No, go back to editing" button', () => {
+  it('should show warning alert if user hits cancel after editing form and it should go back to the form when user clicks "No, go back to editing" button', () => {
     cy.injectAxeThenAxeCheck();
     fillForm();
     cy.get(
@@ -122,10 +130,9 @@ describe('Contact information', () => {
     cy.get('va-button')
       .last()
       .click({ force: true });
-    cy.get('[class="usa-checkbox__label"]').should(
-      'contain',
+    cy.contains(
       'I live on a United States military base outside of the U.S.',
-    );
+    ).should('be.visible');
   });
   it('should show warning alert if user hits cancel after editing form and it should close alert and form when user clicks Yes, cancel my changes', () => {
     cy.injectAxeThenAxeCheck();

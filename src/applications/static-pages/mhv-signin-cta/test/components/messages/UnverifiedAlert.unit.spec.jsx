@@ -5,10 +5,9 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { logoutUrl } from '~/platform/user/authentication/utilities';
-import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import UnverifiedAlert, {
   headingPrefix,
+  mhvHeadingPrefix,
 } from '../../../components/messages/UnverifiedAlert';
 
 const mockStore = createMockStore([]);
@@ -20,7 +19,7 @@ describe('Unverified Alert component', () => {
         <UnverifiedAlert />
       </Provider>,
     );
-    expect(getByRole('heading', { name: headingPrefix })).to.exist;
+    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
   });
 
   it('with service description', () => {
@@ -35,22 +34,54 @@ describe('Unverified Alert component', () => {
     expect(getByRole('heading', { name: expectedHeadline })).to.exist;
   });
 
+  it('with header level 4', () => {
+    const { getByRole } = render(
+      <Provider store={mockStore()}>
+        <UnverifiedAlert headerLevel={4} />
+      </Provider>,
+    );
+    expect(getByRole('heading', { level: 4, name: headingPrefix })).to.exist;
+  });
+
   it('renders MHV account alert', () => {
-    const { getByText } = render(
+    const { getByRole, getByText } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert signInService={CSP_IDS.MHV} />
       </Provider>,
     );
+    expect(getByRole('heading', { level: 3, name: mhvHeadingPrefix })).to.exist;
     expect(getByText(/You have 2 options/)).to.exist;
   });
 
-  it('renders alert for non-MHV accounts', () => {
-    const { getByRole } = render(
+  it('renders alert for Login.gov account', () => {
+    const { getByRole, queryByRole } = render(
+      <Provider store={mockStore()}>
+        <UnverifiedAlert signInService={CSP_IDS.LOGIN_GOV} />
+      </Provider>,
+    );
+    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
+    expect(queryByRole('button', { name: /Verify with ID.me/ })).not.to.exist;
+  });
+
+  it('renders alert for ID.me account', () => {
+    const { getByRole, queryByRole } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert signInService={CSP_IDS.ID_ME} />
       </Provider>,
     );
-    expect(getByRole('link', { name: /Verify your identity with/ })).to.exist;
+    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
+    expect(queryByRole('button', { name: /Verify with Login.gov/ })).not.to
+      .exist;
+  });
+
+  it('renders alert for MHV Basic account', () => {
+    const { getByRole } = render(
+      <Provider store={mockStore()}>
+        <UnverifiedAlert signInService={CSP_IDS.MHV} />
+      </Provider>,
+    );
+    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
+    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
   });
 
   it('reports analytics', async () => {
@@ -62,28 +93,6 @@ describe('Unverified Alert component', () => {
     );
     await waitFor(() => {
       expect(recordEventSpy.calledOnce).to.be.true;
-    });
-  });
-
-  describe('sign out', () => {
-    it('with ssoe', async () => {
-      const { getByTestId } = render(
-        <Provider store={mockStore()}>
-          <UnverifiedAlert hasSsoe={false} signInService={CSP_IDS.MHV} />
-        </Provider>,
-      );
-      getByTestId('sign-out-button').click();
-      expect(window.location).to.be.eql(logoutUrlSiS());
-    });
-
-    it('without ssoe', async () => {
-      const { getByTestId } = render(
-        <Provider store={mockStore()}>
-          <UnverifiedAlert hasSsoe signInService={CSP_IDS.MHV} />
-        </Provider>,
-      );
-      getByTestId('sign-out-button').click();
-      expect(window.location).to.be.eql(logoutUrl());
     });
   });
 });

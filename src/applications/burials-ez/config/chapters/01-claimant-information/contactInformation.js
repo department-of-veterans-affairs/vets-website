@@ -45,27 +45,13 @@ export const internationalPhoneSchema = {
 export default {
   uiSchema: {
     'ui:title': generateTitle('Contact information'),
-    claimantEmail: {
-      ...emailUI('Your email address'),
-      'ui:options': {
-        uswds: true,
-      },
-    },
-    claimantPhone: {
-      ...phoneUI('Your phone number'),
-      'ui:options': {
-        uswds: true,
-      },
-    },
-    claimantIntPhone: {
-      ...internationalPhoneUI('Your international phone number'),
-      'ui:options': {
-        uswds: true,
-      },
-    },
+    claimantEmail: emailUI('Your email address'),
+    claimantPhone: phoneUI('Your phone number'),
+    claimantIntPhone: internationalPhoneUI('Your international phone number'),
   },
   schema: {
     type: 'object',
+    required: ['claimantEmail'],
     properties: {
       claimantEmail: emailSchema,
       claimantPhone: phoneSchema,

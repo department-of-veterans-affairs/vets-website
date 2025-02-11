@@ -137,8 +137,9 @@ export const WhatsNextProcessList = ({
 
   const item1 = (
     <VaProcessListItem
-      header={item1Header || 'Now, we’ll confirm that we’ve received your form'}
-      active
+      header={
+        item1Header || 'We’ll confirm when we receive your form in our system'
+      }
     >
       {item1Content || (
         <p>
@@ -160,8 +161,7 @@ export const WhatsNextProcessList = ({
 
   const item2 = (
     <VaProcessListItem
-      pending
-      header={item2Header || 'Next, we’ll review your form'}
+      header={item2Header || 'We’ll review your form'}
       className="vads-u-margin-bottom--neg2"
     >
       {item2Content || (
@@ -396,7 +396,7 @@ export const SubmissionAlert = ({
       )}
     >
       <h2 slot="headline">{titleText}</h2>
-      {contentBody}
+      {typeof contentBody === 'string' ? <p>{contentBody}</p> : contentBody}
       {actionsBody}
     </VaAlert>
   );
@@ -408,7 +408,7 @@ SubmissionAlert.propTypes = {
   confirmationNumber: PropTypes.string,
   content: PropTypes.node,
   status: PropTypes.string,
-  submitDate: PropTypes.instanceOf(Date),
+  submitDate: PropTypes.any,
   title: PropTypes.string,
   trackingPrefix: PropTypes.string,
 };

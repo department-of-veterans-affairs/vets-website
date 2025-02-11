@@ -129,6 +129,7 @@
       "first": "Sponsor",
       "last": "Jones"
     },
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": true,

@@ -40,7 +40,9 @@ describe('Medications List Card Extra Details', () => {
     const expectedDate = dateFormat(prescription.refillDate, 'MMMM D, YYYY');
     expect(
       await screen.findByTestId('rx-refillinprocess-info'),
-    ).to.contain.text(`We expect to fill it on ${expectedDate}.`);
+    ).to.contain.text(
+      `We expect to fill this prescription on ${expectedDate}.`,
+    );
   });
 
   it('displays submitted content correctly', async () => {

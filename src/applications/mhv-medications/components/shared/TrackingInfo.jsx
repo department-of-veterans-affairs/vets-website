@@ -77,6 +77,7 @@ const TrackingInfo = ({
         <span
           className="vads-u-line-height--4 vads-u-margin-top--0p5 vads-u-margin-bottom--0 left"
           data-testid="rx-name"
+          data-dd-privacy="mask"
         >
           {prescriptionName}
         </span>

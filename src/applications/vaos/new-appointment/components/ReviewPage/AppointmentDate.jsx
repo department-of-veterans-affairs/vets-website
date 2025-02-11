@@ -11,9 +11,38 @@ export default function AppointmentDate({
   dates,
   facilityId,
   level = 3,
+  directSchedule = false,
 }) {
   const Heading = `h${level}`;
   const timezone = getTimezoneByFacilityId(facilityId);
+  const timezoneAbbr = getTimezoneAbbrByFacilityId(facilityId);
+
+  if (directSchedule) {
+    return (
+      <>
+        <Heading
+          className={classes || 'vads-u-font-size--h3 vads-u-margin-top--0'}
+        >
+          Date and time
+        </Heading>
+        {dates?.map(selected => {
+          const dateTime =
+            selected.endsWith('Z') && timezone
+              ? moment(selected).tz(timezone)
+              : moment(selected, 'YYYY-MM-DDTHH:mm:ssZ');
+          return (
+            <>
+              <span>{dateTime.format('dddd, MMMM D, YYYY')}</span>
+              <br />
+              <span>
+                {dateTime.format('h:mm a')} {timezoneAbbr}
+              </span>
+            </>
+          );
+        })}
+      </>
+    );
+  }
 
   if (dates[0].endsWith('Z') && timezone) {
     return dates?.map((selected, i) => (
@@ -38,5 +67,6 @@ AppointmentDate.propTypes = {
   dates: PropTypes.array.isRequired,
   facilityId: PropTypes.string.isRequired,
   classes: PropTypes.string,
+  directSchedule: PropTypes.bool,
   level: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
 };

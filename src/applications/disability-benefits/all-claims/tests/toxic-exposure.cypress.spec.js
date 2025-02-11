@@ -16,8 +16,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    // run the newOnly-test to verify enabling TE doesn't break things. then also run maximal using all TE pages
-    dataSets: ['newOnly-test', 'maximal-toxic-exposure-test'],
+    dataSets: ['maximal-toxic-exposure-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),

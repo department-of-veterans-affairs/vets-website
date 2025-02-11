@@ -1,0 +1,461 @@
+[
+  {
+    "entityBundle": "checklist",
+    "entityUrl": {
+      "path": "/resources/what-to-bring-to-create-your-online-sign-in-account"
+    },
+    "searchableContent": "",
+    "introText": "If you have an appointment with a VA staff member to get help to create a Login.gov or ID.me account, be sure you come prepared. Here’s what to bring, depending on the type of account you want to create.",
+    "title": "What to bring to create your online sign-in account"
+  },
+  {
+    "entityBundle": "checklist",
+    "entityUrl": {
+      "path": "/resources/what-to-bring-to-create-your-online-sign-in-account-esp"
+    },
+    "searchableContent": "",
+    "introText": "Si tiene una cita con un miembro del personal de VA para obtener ayuda con la creación de una cuenta de Login.gov o ID.me, asegúrese de venir preparado. Esto es lo que debe traer, según el tipo de cuenta que desee crear.",
+    "title": "Qué traer para crear su cuenta de inicio de sesión en línea"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/what-should-i-bring-to-my-health-care-appointments"
+    },
+    "searchableContent": "What should I bring to my health care appointments? Bring your health insurance cards and Veteran Health Identification Card.  Bring an updated list of all the medications you’re taking, including any of these: Prescriptions from any provider",
+    "introText": "Bring your health insurance cards and Veteran Health Identification Card.  Bring an updated list of all the medications you’re taking, including any of these: Prescriptions from any provider  Over-the-counter medications (like antacids) Vitamins, supplements, and herbal remedies",
+    "title": "What should I bring to my health care appointments?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-get-a-copy-of-my-education-decision-letter"
+    },
+    "searchableContent": "Can I get a copy of my education decision letter? Yes. You can get a copy of your education decision letter online or by mail. If you applied for Post-9/11 GI Bill benefits on VA.gov, you may be able to download your education decision letter now.",
+    "introText": "Yes. You can get a copy of your education decision letter online or by mail. If you applied for Post-9/11 GI Bill benefits on VA.gov, you may be able to download your education decision letter now.",
+    "title": "Can I get a copy of my education decision letter?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-use-my-va-education-benefits-to-pay-for-preparatory-courses"
+    },
+    "searchableContent": "Can I use my VA education benefits to pay for preparatory courses? Yes. You can use your VA education benefits to pay for courses that help you prepare for admissions tests required for college or graduate school. These “prep courses” help you prepare for tests like the SAT, the ACT, and others.",
+    "introText": "Yes. You can use your VA education benefits to pay for courses that help you prepare for admissions tests required for college or graduate school. These “prep courses” help you prepare for tests like the SAT, the ACT, and others.First, contact your state approving agency and ask them to approve your prep course.",
+    "title": "Can I use my VA education benefits to pay for preparatory courses?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/if-i-return-to-active-duty-do-i-still-receive-va-disability-payments"
+    },
+    "searchableContent": "If I return to active duty, will I still get VA disability payments? No. As a service member getting active-duty pay, you’re not eligible to continue to receive your VA disability compensation and pension benefit payments..",
+    "introText": "No. As a service member getting active-duty pay, you’re not eligible to continue to receive your VA disability compensation and pension benefit payments.Tell us as soon as you know you’ll be returning to active duty so you can avoid debt from VA benefit overpayments.",
+    "title": "If I return to active duty, will I still get VA disability payments?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-get-a-logingov-or-idme-account-if-i-dont-have-a-mobile-phone"
+    },
+    "searchableContent": "Can I get a Login.gov or ID.me account if I don’t have a mobile phone? Yes. You’ll just need to use alternate methods to verify your identity and add multifactor authentication (MFA).For Login.gov: You can verify your identity at a participating U.S. post office. ",
+    "introText": "Yes. You’ll just need to use alternate methods to verify your identity and add multifactor authentication (MFA).For Login.gov: You can verify your identity at a participating U.S. post office. Or, you can verify online and upload images of your ID from a computer.",
+    "title": "Can I get a Login.gov or ID.me account if I don’t have a mobile phone?"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-download-and-open-a-vagov-pdf-form"
+    },
+    "searchableContent": "null Click the Download VA form link for the form you want to fill out. The PDF will download to your Downloads folder. You can save it to a different folder if you'd like.Note: If the PDF form opens in your browser automatically or if you get a “Please wait” error message, you'll need to take one more step to download the PDF",
+    "introText": "We encourage you to download PDFs to your computer or other device instead of opening them in your browser. This is because some browsers have trouble opening PDFs. And sometimes browsers open a PDF but important form fields are missing.",
+    "title": "How to download and open a VA.gov PDF form"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/separation-health-assessment-for-service-members"
+    },
+    "searchableContent": "null If you’ve already filed your disability compensation claim online, go to My VA to upload your health self-assessment. Find your claim. Then select Review details. Select the Files tab. Scroll down and select the Add Files button. ",
+    "introText": "If you’re a service member filing a disability compensation claim online through the Benefits Delivery at Discharge (BDD) program, you must submit a Separation Health Assessment",
+    "title": "Separation Health Assessment for service members"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-get-community-care-referrals-and-schedule-appointments"
+    },
+    "searchableContent": "Follow this process to get care with an in-network community provider Find an in-network community provider.You can search for a provider yourself. Or ask your VA health care team to find a provider for you.Ask your VA health care team for help in either of these cases:You can’t find an in-network community provider who meets your needs",
+    "introText": "Before you schedule an appointment with a non-VA provider in our community care network, you must get a referral.",
+    "title": "How to get community care referrals and schedule appointments"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-file-a-va-travel-reimbursement-claim-online"
+    },
+    "searchableContent": "null Set up direct depositIf you haven’t already set up direct deposit to receive your reimbursement, you’ll need to do that now.Get instructions for how to set up direct deposit for travel pay reimbursement Sign in to the travel claim entry portal.You can sign in with any of these accounts:Login.govID.me",
+    "introText": "If you’re a Veteran or caregiver who’s eligible for general VA health care travel reimbursement, you can file your claims online. General reimbursement covers regular transportation, such as by car, plane, train, bus, taxi, or light rail.",
+    "title": "How to file a VA travel reimbursement claim online"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement"
+    },
+    "searchableContent": "null Set up direct deposit with VAIf you don't have direct deposit set up yet, you'll need to complete a VA-FSC Vendor File Request Form (VA Form 10091).Get VA Form 10091 (PDF)You'll need this information to fill out the form.)",
+    "introText": "VA travel pay reimbursement through the Beneficiary Travel program pays",
+    "title": "How to set up direct deposit for VA travel pay reimbursement"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-check-in-with-your-smartphone-for-some-va-appointments"
+    },
+    "searchableContent": "How to complete pre-check-in for some appointments Confirm your appointment by text message and wait for a pre-check-in text if available.If your facility offers this option, they’ll send you a text message to confirm your appointment. You may get this text up to a week before your appointment. After you confirm, they’ll send you another text to start your pre-check-in process.",
+    "introText": "At some VA health care facilities, you can now check in for appointments with your smartphone. More facilities will offer this option in the future. You can still always check in for an appointment with a staff member at all facilities.",
+    "title": "How to check in with your smartphone for some VA appointments"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-change-your-address-in-your-vagov-profile"
+    },
+    "searchableContent": "Step-by-step instructions If you're not signed in to VA.gov, sign in now, starting with step 1. You can sign in with your DS Logon, My HealtheVet, or ID.me account. If you don't have an account, we’ll prompt you to create one.If you're already signed in to VA.gov, you can skip to step 4 below. You'll go straight to your VA.gov profile. ",
+    "introText": "Follow our step-by-step instructions for changing your address in your VA.gov profile. We’ll show you how to sign in, go to your profile, and update your address.",
+    "title": "How to change your address in your VA.gov profile"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-change-direct-deposit-information-for-va-benefits"
+    },
+    "searchableContent": "Step-by-step instructions Sign in to VA.gov with your verified Login.gov or ID.me account.To change direct deposit information, you must verify your identity.If you don’t have a Login.gov or ID.me account, you can create one now.",
+    "introText": "Follow our step-by-step instructions for changing your VA direct deposit information for VA disability compensation, pension, or education benefit payments. We’ll show you how to sign in and make changes online.",
+    "title": "How to change direct deposit information for VA benefits"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-create-an-idme-account-for-va"
+    },
+    "searchableContent": "Create your account Make sure you’re ready to create your account. You’ll need a unique personal email address that only you use.Note: Don’t use an email address that you share with someone else, like your spouse or family.",
+    "introText": "Follow these steps to create your ID.me account. With an identity-verified ID.me account, you can manage all your VA health care and benefits online through VA.gov, the My HealtheVet website, the VA: Health and Benefits app, and other online services. ",
+    "title": "How to create an ID.me account for VA"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-create-a-logingov-account-for-va"
+    },
+    "searchableContent": "null Make sure you have a unique personal email address that only you use. Note: If you currently share an email address with someone else, like your spouse, create a new email that’s just yours before you start. And be sure it’s an email you’ll continue to have access to in the future. After you create your account, you’ll be able to add a second email to your account.",
+    "introText": "Follow these steps to create your Login.gov account. With an identity-verified Login.gov account, you can manage your VA health care and benefits online through VA websites and apps—including VA.gov, My HealtheVet, and the VA: Health and Benefits mobile app.",
+    "title": "How to create a Login.gov account for VA"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-verify-your-identity-for-your-logingov-account"
+    },
+    "searchableContent": "Section 1 of 4: Prepare Gather what you’ll need to complete the process.Here’s what you must have:Your Login.gov username (your email address) and password, andYour current, valid driver’s license or other state-issued ID, and Your Social Security numberHere’s what you’ll also need to complete the process online:A U.S. phone number, and",
+    "introText": "Identity verification helps us protect all Veterans’ identities and prevent scammers from stealing your benefits. After you verify, you won’t need to verify again—unless you lose access to your account, or we need you to reverify to help meet even higher federal security standards in the future.Follow the directions on this page. We’ll guide you step by step through each of the 4 parts of this process.",
+    "title": "How to verify your identity for your Login.gov account"
+  },
+  {
+    "entityBundle": "step_by_step",
+    "entityUrl": {
+      "path": "/resources/how-to-verify-your-identity-for-your-idme-account"
+    },
+    "searchableContent": "Section 1 of 4: Prepare Gather what you’ll need to complete the process.Here's what you must have:Your ID.me username (your email address) and password, andAccess to the method you set up for multifactor authentication (MFA)—like your passkey, mobile or landline phone, authenticator app, or security key, andYour U.S. driver’s license, state-issued ID, passport, passport card, or other accepted ID documents, and",
+    "introText": "Identity verification helps us protect all Veterans’ information and prevent scammers from stealing your benefits. After you verify once, you won’t need to verify again unless you lose access to your account or don’t use it for more than a year.Follow the directions on this page. We’ll guide you step by step through each of the 4 parts of this process.",
+    "title": "How to verify your identity for your ID.me account"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/what-should-i-do-if-i-got-a-letter-about-suspended-pension-debt"
+    },
+    "searchableContent": "What should I do if I got a letter about suspended pension debt? In June 2022, we fixed a data problem at VA related to a Social Security Administration (SSA) income verification match program.",
+    "introText": "In June 2022, we fixed a data problem at VA related to a Social Security Administration (SSA) income verification match program. Using the corrected data, we found that some Veterans and survivors had VA debt from pension overpayments.",
+    "title": "What should I do if I got a letter about suspended pension debt?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/why-is-va-updating-its-online-terms-of-use"
+    },
+    "searchableContent": "Why is VA updating its online terms of use? We continue to work to make it easier for you to access and manage your benefits and health care online. One step in this work is to adopt a single terms of use for VA websites, applications, and other online services, including these:",
+    "introText": "We continue to work to make it easier for you to access and manage your benefits and health care online. One step in this work is to adopt a single terms of use for VA websites, applications, and other online services, including these:VA.gov",
+    "title": "Why is VA updating its online terms of use?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/will-i-get-monthly-housing-allowance-mha-during-school-breaks"
+    },
+    "searchableContent": "Will I get monthly housing allowance (MHA) during school breaks? No. In 2011, Congress passed a law that prohibits VA from paying MHA during school breaks. This includes breaks between semesters, quarters, and terms.",
+    "introText": "No. In 2011, Congress passed a law that prohibits VA from paying MHA during school breaks. This includes breaks between semesters, quarters, and terms. Be sure to plan ahead to cover your housing costs when school isn’t in session.If your enrollment starts after the first of the month or ends before the last day of the month",
+    "title": "Will I get monthly housing allowance (MHA) during school breaks?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/what-does-it-mean-to-verify-my-identity-and-why-do-i-have-to-do-it"
+    },
+    "searchableContent": "What does it mean to verify my identity and why do I have to do it? Identity verification is a one-time process that we ask you to complete for your Login.gov or ID.me account. The process often takes about 10 minutes.  During this process",
+    "introText": "Identity verification is a one-time process that we ask you to complete for your Login.gov or ID.me account. The process often takes about 10 minutes.  During this process, the account provider (Login.gov or ID.me) will ask you to provide certain personal information and identification (ID). This process helps us make sure that the person creating your account is really you—and not someone pretending to be you.",
+    "title": "What does it mean to verify my identity and why do I have to do it?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-verify-my-identity-in-person-for-my-logingov-account"
+    },
+    "searchableContent": "Can I verify my identity in person for my Login.gov account? Yes. Login.gov offers in-person identity verification at a participating United States Postal Service (USPS) location near you.You can choose this option from the start. Or, you may also have the option to verify your identity in person if you tried to verify online but couldn’t upload a photo of your ID.Learn more about verifying your identity in person on the Login.gov website ",
+    "introText": "Yes. Login.gov offers in-person identity verification at a participating United States Postal Service (USPS) location near you.You can choose this option from the start. Or, you may also have the option to verify your identity in person if you tried to verify online but couldn’t upload a photo of your ID.Learn more about verifying your identity in person on the Login.gov website ",
+    "title": "Can I verify my identity in person for my Login.gov account?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/how-does-multifactor-authentication-differ-from-identity-verification"
+    },
+    "searchableContent": "How does multifactor authentication differ from identity verification? Identity verification and multifactor authentication work together to protect your identity and personal information:Identity verification is a one-time process.",
+    "introText": "Identity verification and multifactor authentication work together to protect your identity and personal information:Identity verification is a one-time process. You complete this process when you first set up your sign-in account. To verify your identity, you provide certain personal information and identification (ID).",
+    "title": "How does multifactor authentication differ from identity verification?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-call-va-to-reset-my-logingov-or-idme-password"
+    },
+    "searchableContent": "Can I call VA to reset my Login.gov or ID.me password? No. Our VA contact center representatives can’t reset your Login.gov or ID.me password for you. This includes representatives at our My HealtheVet help desk. You can get help with resetting your Login.gov or ID.me password directly from the account provider websites. Go to the Login.gov help center  Go to the ID.me support section   ",
+    "introText": "No. Our VA contact center representatives can’t reset your Login.gov or ID.me password for you. This includes representatives at our My HealtheVet help desk. You can get help with resetting your Login.gov or ID.me password directly from the account provider websites. Go to the Login.gov help center  Go to the ID.me support section   ",
+    "title": "Can I call VA to reset my Login.gov or ID.me password?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/does-va-cover-indian-health-service-or-tribal-health-programs-care"
+    },
+    "searchableContent": "Does VA cover Indian Health Service or Tribal Health Programs care? Yes. We cover the cost of care for eligible Veterans at many Indian Health Service, Tribal Health Programs, and Urban Indian Organization (I/T/U) facilities.If you’re an eligible American Indian or Alaska Native Veteran, here’s what to know",
+    "introText": "Yes. We cover the cost of care for eligible Veterans at many Indian Health Service, Tribal Health Programs, and Urban Indian Organization (I/T/U) facilities.If you’re an eligible American Indian or Alaska Native Veteran, here’s what to know:If you’re enrolled in VA health care",
+    "title": "Does VA cover Indian Health Service or Tribal Health Programs care?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/how-can-i-verify-my-identity-on-vagov-if-i-live-outside-the-us"
+    },
+    "searchableContent": "How can I verify my identity on VA.gov if I live outside the U.S.? If your address is outside the U.S., you can use ID.me to verify your identity. On the screen where you choose a verification option, select I don’t live in the US.",
+    "introText": "If your address is outside the U.S., you can use ID.me to verify your identity. On the screen where you choose a verification option, select I don’t live in the US. You’ll need to show your identity documents on a video call with an ID.me representative.",
+    "title": "How can I verify my identity on VA.gov if I live outside the U.S.?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/does-va-cover-nursing-home-assisted-living-or-other-long-term-care"
+    },
+    "searchableContent": "Does VA cover nursing home, assisted living, or other long-term care? As a Veteran, you may be able to get long-term care services like assisted living, residential (live-in), or home health care.Care settings may include:Nursing homesAssisted-living centersPrivate homes where a caregiver supports a small group of individualsAdult day health centers",
+    "introText": "As a Veteran, you may be able to get long-term care services like assisted living, residential (live-in), or home health care.Care settings may include:Nursing homesAssisted-living centers",
+    "title": "Does VA cover nursing home, assisted living, or other long-term care?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-get-free-health-care-and-prescriptions-as-a-veteran"
+    },
+    "searchableContent": "Can I get free health care and prescriptions as a Veteran? You can get free VA health care for any illness or injury that we determine is related to your military service. We refer to these illnesses and injuries as “service-connected” conditions.",
+    "introText": "You can get free VA health care for any illness or injury that we determine is related to your military service. We refer to these illnesses and injuries as “service-connected” conditions.",
+    "title": "Can I get free health care and prescriptions as a Veteran?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/whats-a-veteran-health-id-card-vhic-and-how-do-i-get-one"
+    },
+    "searchableContent": "What’s a Veteran Health ID Card (VHIC) and how do I get one? Your Veteran Health Identification Card (VHIC) is a card you get when you’re enrolled in VA health care. You’ll use your card to check in to your appointments at VA medical centers.",
+    "introText": "Your Veteran Health Identification Card (VHIC) is a card you get when you’re enrolled in VA health care. You’ll use your card to check in to your appointments at VA medical centers.This secure ID card keeps your personal information safe while giving us the information we need to access your VA health record.You may also use this card to get Veteran discounts at many stores, businesses, and restaurants.",
+    "title": "What’s a Veteran Health ID Card (VHIC) and how do I get one?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/will-i-have-to-pay-back-the-gi-bill-benefits-i-used-if-i-fail-a-class"
+    },
+    "searchableContent": "Will I have to pay back the GI Bill benefits I used if I fail a class? No. If you finished the class, you won’t have to pay back the GI Bill benefits you used for that class. This is because we count a failing grade (or “punitive grade”) as progress toward graduation requirements even though you don’t get any credit for it.Note: If you fail a class, you can take the same class again using GI Bill benefits.",
+    "introText": "No. If you finished the class, you won’t have to pay back the GI Bill benefits you used for that class. This is because we count a failing grade (or “punitive grade”) as progress toward graduation requirements even though you don’t get any credit for it.Note: If you fail a class, you can take the same class again using GI Bill benefits.",
+    "title": "Will I have to pay back the GI Bill benefits I used if I fail a class?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/should-i-create-a-logingov-or-idme-account-to-sign-in-to-vagov"
+    },
+    "searchableContent": "Should I create a Login.gov or ID.me account to sign in to VA.gov? You can choose to create either of these types of accounts.Login.gov is a secure U.S. government account that meets modern security standards.",
+    "introText": "You can choose to create either of these types of accounts.Login.gov is a secure U.S. government account that meets modern security standards. You can use Login.gov to access VA benefits, services, and information in a single, secure account.",
+    "title": "Should I create a Login.gov or ID.me account to sign in to VA.gov?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/how-do-i-change-my-name-in-my-deers-record"
+    },
+    "searchableContent": "How do I change my name in my DEERS record? You’ll need to call the Defense Manpower Data Center (DMDC) support office. They’ll tell you what documents to provide and what to do next. Call the DMDC at 800-538-9552. ",
+    "introText": "You’ll need to call the Defense Manpower Data Center (DMDC) support office. They’ll tell you what documents to provide and what to do next. Call the DMDC at 800-538-9552. They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. (closed on federal holidays).",
+    "title": "How do I change my name in my DEERS record?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-be-buried-in-arlington-national-cemetery"
+    },
+    "searchableContent": "Can I be buried in Arlington National Cemetery? We can’t determine eligibility for burial in Arlington National Cemetery because the United States Army maintains this cemetery. Please work with a funeral home director to contact Arlington National Cemetery at 877-907-8585 for their eligibility information.",
+    "introText": "We can’t determine eligibility for burial in Arlington National Cemetery because the United States Army maintains this cemetery. Please work with a funeral home director to contact Arlington National Cemetery at 877-907-8585 for their eligibility information.",
+    "title": "Can I be buried in Arlington National Cemetery?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/what-does-burial-in-a-va-national-cemetery-include"
+    },
+    "searchableContent": "What does burial in a VA national cemetery include? When a Veteran, service member, or family member qualifies for burial in a VA national cemetery, they receive certain burial benefits at no cost to their family.VA burial benefits include:A gravesite in any of our national cemeteries with available spaceFind a VA national cemetery",
+    "introText": "When a Veteran, service member, or family member qualifies for burial in a VA national cemetery, they receive certain burial benefits at no cost to their family.VA burial benefits include:A gravesite in any of our national cemeteries with available spaceFind a VA national cemetery",
+    "title": "What does burial in a VA national cemetery include?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-plan-ahead-for-my-burial-in-a-va-national-cemetery"
+    },
+    "searchableContent": "Can I plan ahead for my burial in a VA national cemetery? Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death.",
+    "introText": "Yes. You can plan ahead to make the process of applying for a burial in a VA national cemetery easier for your family members in the event of your death. To do this, you’ll need to apply for a pre-need eligibility determination.",
+    "title": "Can I plan ahead for my burial in a VA national cemetery?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/can-i-get-a-loan-through-my-va-life-insurance-policy"
+    },
+    "searchableContent": "Can I get a loan through my VA life insurance policy? Yes. You can borrow against the value of your policy. And you may be able to get a loan approved instantly online through the Online Policy Access website. If we don’t approve your instant loan request, you can still apply for a loan with an Application for Cash Surrender (VA Form 29-1546). Get VA Form 29-1546 ",
+    "introText": "Yes. You can borrow against the value of your policy. And you may be able to get a loan approved instantly online through the Online Policy Access website. If we don’t approve your instant loan request, you can still apply for a loan with an Application for Cash Surrender (VA Form 29-1546). Get VA Form 29-1546 ",
+    "title": "Can I get a loan through my VA life insurance policy?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/how-are-pension-benefits-and-disability-compensation-different"
+    },
+    "searchableContent": "How are pension benefits and disability compensation different? These VA benefits have different eligibility requirements and criteria for determining payment amounts.Pension benefits are for Veterans who served during wartime. Eligibility is based on financial need. ",
+    "introText": "These VA benefits have different eligibility requirements and criteria for determining payment amounts.Pension benefits are for Veterans who served during wartime. Eligibility is based on financial need. This is what we consider when determining eligibility:Your and your dependents’ net worth and annual income, andYour age or the severity of any disability you may have (it doesn’t have to be service connected)",
+    "title": "How are pension benefits and disability compensation different?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/are-service-dogs-allowed-in-va-facilities"
+    },
+    "searchableContent": "Are service dogs allowed in VA facilities? Yes. We allow service dogs of all breeds in VA facilities. This includes VA health facilities, Vet Centers, regional offices, and other properties we own or lease.To enter and remain in a VA facility, a service dog must meet all of these requirements:The dog must be trained to work or perform tasks for a person with a disability (including a physical, sensory, psychiatric, intellectual, or mental health disability).",
+    "introText": "Yes. We allow service dogs of all breeds in VA facilities. This includes VA health facilities, Vet Centers, regional offices, and other properties we own or lease.To enter and remain in a VA facility, a service dog must meet all of these requirements:The dog must be trained to work or perform tasks for a person with a disability (including a physical, sensory, psychiatric, intellectual, or mental health disability).",
+    "title": "Are service dogs allowed in VA facilities?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/what-if-i-dont-want-a-fiduciary-anymore"
+    },
+    "searchableContent": "What if I don’t want a fiduciary anymore? You can ask us to reevaluate your ability to manage your VA benefits at any time. You’ll need to send us a written request and any medical evidence (like a doctor’s report) that supports it. Send your request and supporting evidence to this address:Fiduciary Intake CenterPO Box 5211Janesville, WI 53547-5211",
+    "introText": "You can ask us to reevaluate your ability to manage your VA benefits at any time. You’ll need to send us a written request and any medical evidence (like a doctor’s report) that supports it. Send your request and supporting evidence to this address:Fiduciary Intake CenterPO Box 5211Janesville, WI 53547-5211",
+    "title": "What if I don’t want a fiduciary anymore?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/what-if-my-school-closes-temporarily-because-of-a-natural-disaster"
+    },
+    "searchableContent": "What if my school closes temporarily because of a natural disaster? A natural disaster may affect your education payments in these ways:If your school closes temporarily during a term, your payments will continue until the end of the term or for up to 4 weeks, whichever comes first.",
+    "introText": "A natural disaster may affect your education payments in these ways:If your school closes temporarily during a term, your payments will continue until the end of the term or for up to 4 weeks, whichever comes first.If your school closes temporarily between terms, your payments will start again when you return to school.If your school stays open but you can’t attend, your payments will stop.",
+    "title": "What if my school closes temporarily because of a natural disaster?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/how-do-i-get-college-credits-for-my-military-service"
+    },
+    "searchableContent": "How do I get college credits for my military service? As an active-duty service member, Veteran, or member of the Reserves, you’ll need to request your transcript from your branch of service and share it with schools. Each school then decides how many credits they’ll accept.Follow these instructions to request your transcript:For the Army, Navy, Marines, or Coast Guard, submit a request on the Joint Services Transcript (JST) website.",
+    "introText": "As an active-duty service member, Veteran, or member of the Reserves, you’ll need to request your transcript from your branch of service and share it with schools. Each school then decides how many credits they’ll accept.Follow these instructions to request your transcript:For the Army, Navy, Marines, or Coast Guard, submit a request on the Joint Services Transcript (JST) website.",
+    "title": "How do I get college credits for my military service?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/how-can-i-find-a-va-facility"
+    },
+    "searchableContent": "How can I find a VA facility? You can search our tool by type of facility, type of service, and location (city, state, or postal code) to find a facility near you.",
+    "introText": "You can search our tool by type of facility, type of service, and location (city, state, or postal code) to find a facility near you.",
+    "title": "How can I find a VA facility?"
+  },
+  {
+    "entityBundle": "q_a",
+    "entityUrl": {
+      "path": "/resources/how-can-i-stay-informed-about-covid-19-vaccines-at-va"
+    },
+    "searchableContent": "How can I stay informed about COVID-19 vaccines at VA? We're working closely with the Centers for Disease Control and Prevention (CDC) and other federal partners to provide COVID-19 vaccines to Veterans and VA health care personnel.Get the latest updates on COVID-19 vaccines at VA.",
+    "introText": "We're working closely with the Centers for Disease Control and Prevention (CDC) and other federal partners to provide COVID-19 vaccines to Veterans and VA health care personnel.Get the latest updates on COVID-19 vaccines at VA.",
+    "title": "How can I stay informed about COVID-19 vaccines at VA?"
+  },
+  {
+    "entityBundle": "faq_multiple_q_a",
+    "entityUrl": {
+      "path": "/resources/veteran-identification-card-vic-faqs"
+    },
+    "searchableContent": "What’s a VIC? A VIC is a photo ID you can use to get discounts offered to Veterans at many restaurants, hotels, stores, and other businesses.  Do I need a VIC if I already have a different kind of Veteran ID? If you already have a Department of Defense Identification Card or a Veteran Health Identification Card, you don’t need a VIC. There are many types of identification cards you can use to show you’re a Veteran. You only need to have one of them for this purpose. Learn more about the types of Veteran ID cards.",
+    "introText": "You may already have an identification card that you can use to show you’re a Veteran. But if you don’t, you can apply for a VIC to get discounts offered to Veterans. ",
+    "title": "Veteran Identification Card (VIC) FAQs"
+  },
+  {
+    "entityBundle": "faq_multiple_q_a",
+    "entityUrl": {
+      "path": "/resources/commissary-and-exchange-privileges-for-veterans"
+    },
+    "searchableContent": "Am I eligible for commissary and exchange privileges? In the U.S., you may be eligible for commissary and exchange privileges if you meet one of the requirements listed below.If you’re a Veteran or service member, one of these must be true. You:Have a service-connected disability rating and were honorably discharged, orAre retired from military service",
+    "introText": "Find out if you’re eligible for commissary and exchange privileges and what kind of ID you’ll need at checkout.",
+    "title": "Commissary and exchange privileges for Veterans"
+  },
+  {
+    "entityBundle": "faq_multiple_q_a",
+    "entityUrl": {
+      "path": "/resources/connected-apps-faqs"
+    },
+    "searchableContent": "What are connected apps and why might I want to use them? Connected apps are third-party (non-VA) applications or websites that can share certain information from your VA.gov profile. They can only access this information after you give us your permission to share it.When you connect to an app, you can use the app's services without having to manually enter your shared information.",
+    "introText": "Get answers to common questions about third-party connected websites and applications. These apps aren’t created by VA, but you can connect them to your profile and they’ll have access to your personal VA data, like your health or service records.",
+    "title": "Connected apps FAQs"
+  },
+  {
+    "entityBundle": "faq_multiple_q_a",
+    "entityUrl": {
+      "path": "/resources/managing-your-vagov-profile"
+    },
+    "searchableContent": "How do I find my VA.gov profile? If you’re signed in to VA.gov, your name will be at the top of any VA.gov webpage. Click or tap on your name and select Profile from the drop-down menu. What if I need to change my personal information on VA.gov? You can change your address, phone number, or email address online from your VA.gov profile.",
+    "introText": "Your VA.gov profile has your contact, personal, and military information. Keep reading to find out how to keep your profile up to date.",
+    "title": "Managing your VA.gov profile"
+  },
+  {
+    "entityBundle": "faq_multiple_q_a",
+    "entityUrl": {
+      "path": "/resources/how-va-education-benefit-payments-affect-your-taxes"
+    },
+    "searchableContent": "Do I have to pay taxes on the VA education benefit payments I receive? No. Payments from all GI Bill programs are tax-free. This is true for you, your dependents, and your survivors. Tax-free education benefits include:TuitionTraining feesTest fees for licenses and certificationsMoney to pay for a tutorWork studyBooksHousing",
+    "introText": "Learn about the IRS tax rules (called exclusions) for your VA education benefit payments, and find out how your payments affect your tax credits.",
+    "title": "How VA education benefit payments affect your taxes"
+  },
+  {
+    "entityBundle": "faq_multiple_q_a",
+    "entityUrl": {
+      "path": "/resources/waivers-for-va-benefit-debt"
+    },
+    "searchableContent": "How does a waiver work? A waiver means that we agree to forgive (or “waive”) a VA debt. You can request a waiver if you can’t afford to repay your full debt balance—even with smaller monthly payments over time. We may grant a waiver for part or all of a VA debt.If we grant your waiver request, you won’t have to repay the amount we agree to waive.Note: If we waive an education benefit debt and you have remaining entitlement, we’ll reduce the amount of your remaining entitlement as part of the waiver.",
+    "introText": "A waiver may be an option if you can’t repay a VA debt. Keep reading to learn about waivers for debt related to VA disability compensation, non-service-connected pension, or education benefits. Find out how to request a waiver—and what to expect if you do.",
+    "title": "Waivers for VA benefit debt"
+  }
+]

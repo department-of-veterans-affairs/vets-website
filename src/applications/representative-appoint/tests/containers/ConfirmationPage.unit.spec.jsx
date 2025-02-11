@@ -6,7 +6,7 @@ import * as redux from 'react-redux';
 
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-describe('ConfirmationPage', () => {
+describe('Confirmation Page', () => {
   let defaultProps;
   let container;
   let useSelectorStub;
@@ -37,13 +37,13 @@ describe('ConfirmationPage', () => {
     selectedAccreditedOrganizationId: '1',
     applicantName: {
       first: 'John',
-      middle: 'Edmund',
+      middle: 'E',
       last: 'Doe',
       suffix: 'Sr.',
     },
     veteranFullName: {
       first: 'John',
-      middle: 'Edmund',
+      middle: 'E',
       last: 'Doe',
       suffix: 'Sr.',
     },
@@ -74,7 +74,7 @@ describe('ConfirmationPage', () => {
     const checkbox = container.querySelector('va-checkbox');
     expect(checkbox).to.exist;
     expect(checkbox.getAttribute('label')).to.equal(
-      "I've downloaded, printed, and signed my form",
+      'I’ve downloaded, printed, and signed my form',
     );
 
     const button = container.querySelector('va-button');
@@ -90,6 +90,16 @@ describe('ConfirmationPage', () => {
     fireEvent.click(checkbox);
 
     expect(checkbox.checked).to.be.true;
+  });
+
+  it('should not focus on the "Continue" button after it is clicked when the checkbox is not checked', () => {
+    // We can't text the focus of the checkbox after the button click because it's in the shadow DOM.
+    // Instead, we can test that the focus is not on the "Continue" button after it is clicked when the checkbox is not checked.
+    const button = container.querySelector('va-button');
+
+    fireEvent.click(button);
+
+    expect(document.activeElement).to.not.equal(button);
   });
 
   it('should call the download handler when "Download your form" link is clicked', () => {

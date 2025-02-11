@@ -5,7 +5,7 @@
  */
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 import {
   TYPES_OF_EYE_CARE,
   TYPES_OF_SLEEP_CARE,
@@ -142,8 +142,8 @@ export function generateAppointmentUrl(
   statuses = [],
   version = 2,
 ) {
-  const end = moment(endDate).format('YYYY-MM-DD');
-  const start = moment(startDate).format('YYYY-MM-DD');
+  const start = format(parseISO(startDate), 'yyyy-MM-dd');
+  const end = format(parseISO(endDate), 'yyyy-MM-dd');
 
   return `/vaos/v${version}/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
     .map(status => `statuses[]=${status}`)

@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { fireEvent, render } from '@testing-library/react';
 import ArrayBuilderCards from '../ArrayBuilderCards';
+import { initGetText } from '../helpers';
 
 const mockRedux = ({
   review = false,
@@ -46,16 +47,26 @@ const mockRedux = ({
 };
 
 describe('ArrayBuilderCards', () => {
-  function setupArrayBuilderCards({ arrayData = [] }) {
+  function setupArrayBuilderCards({
+    arrayData = [],
+    cardDescription = 'cardDescription',
+    getItemName = (item, index) => `getItemName ${index + 1}`,
+  }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
     const onRemoveAll = sinon.spy();
     const onRemove = sinon.spy();
-    let getText = key => key;
+    let getText = initGetText({
+      textOverrides: { cardDescription },
+      nounPlural: 'employers',
+      nounSingular: 'employer',
+      getItemName,
+    });
     getText = sinon.spy(getText);
     const { mockStore } = mockRedux({
       formData: {
         employers: arrayData,
+        otherData: 'test',
       },
       setFormData,
     });
@@ -64,7 +75,7 @@ describe('ArrayBuilderCards', () => {
       <Provider store={mockStore}>
         <ArrayBuilderCards
           arrayPath="employers"
-          editItemPathUrl="edit"
+          getEditItemPathUrl={() => 'edit'}
           nounSingular="employer"
           onRemoveAll={onRemoveAll}
           onRemove={onRemove}
@@ -95,6 +106,7 @@ describe('ArrayBuilderCards', () => {
     expect(getByText('Edit')).to.exist;
     expect(getText.calledWith('cardDescription')).to.be.true;
     expect(getText.calledWith('getItemName')).to.be.true;
+    expect(getByText('getItemName 1')).to.exist;
   });
 
   it('should handle remove flow correctly', () => {
@@ -126,5 +138,26 @@ describe('ArrayBuilderCards', () => {
     expect(setFormData.called).to.be.true;
     expect(setFormData.args[0][0].employers).to.eql([]);
     expect(onRemoveAll.called).to.be.true;
+  });
+
+  it('should pass full data into cardDescription', () => {
+    const cardDescriptionSpy = sinon.spy();
+    const getItemNameSpy = sinon.spy();
+    const { getByText, getText } = setupArrayBuilderCards({
+      arrayData: [{ name: 'Test' }],
+      cardDescription: cardDescriptionSpy,
+      getItemName: getItemNameSpy,
+    });
+
+    expect(getByText('Edit')).to.exist;
+    expect(getText.calledWith('cardDescription')).to.be.true;
+    expect(getText.calledWith('getItemName')).to.be.true;
+    const functionArgs = [
+      { name: 'Test' },
+      0,
+      { employers: [{ name: 'Test' }], otherData: 'test' },
+    ];
+    expect(cardDescriptionSpy.args[0]).to.be.deep.equal(functionArgs);
+    expect(getItemNameSpy.args[0]).to.be.deep.equal(functionArgs);
   });
 });

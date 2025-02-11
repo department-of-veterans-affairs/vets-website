@@ -32,7 +32,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['witnessPhone'],
+    required: ['witnessPhone', 'witnessEmail'],
     properties: {
       witnessPhone: formDefinitions.phone,
       witnessEmail: formDefinitions.pdfEmail,

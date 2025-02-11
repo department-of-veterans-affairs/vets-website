@@ -1,11 +1,9 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { Provider } from 'react-redux';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import React from 'react';
 import sinon from 'sinon';
-
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 import { simulateInputChange } from '../../../helpers';
 
@@ -17,25 +15,13 @@ describe('hca Toxic Exposure config', () => {
   const { defaultDefinitions: definitions } = formConfig;
   const subject = () => {
     const onSubmitSpy = sinon.spy();
-    const mockStore = {
-      getState: () => ({
-        featureToggles: {
-          hcaTeraBranchingEnabled: true,
-          hca_tera_branching_enabled: true,
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
-    };
     const { container } = render(
-      <Provider store={mockStore}>
-        <DefinitionTester
-          schema={schema}
-          definitions={definitions}
-          onSubmit={onSubmitSpy}
-          uiSchema={uiSchema}
-        />
-      </Provider>,
+      <DefinitionTester
+        schema={schema}
+        definitions={definitions}
+        onSubmit={onSubmitSpy}
+        uiSchema={uiSchema}
+      />,
     );
     const selectors = () => ({
       submitBtn: container.querySelector('button[type="submit"]'),

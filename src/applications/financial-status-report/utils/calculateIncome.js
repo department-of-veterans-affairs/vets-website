@@ -50,7 +50,6 @@ const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
  *
  * @param {boolean} enhancedFSRActive - flag to check if enhanced FSR is active
  * @param {Array} employmentRecords - list of employment records
- * @param {Array} currEmployment - list of current employments
  * @param {Array} addlIncRecords - list of additional income records
  * @param {Object} socialSecurity - social security details
  * @param {Array} income - list of income records
@@ -63,7 +62,6 @@ const allFilters = [...taxFilters, ...retirementFilters, ...socialSecFilters];
 const calculateIncome = (
   enhancedFSRActive,
   employmentRecords = [],
-  currEmployment = [],
   addlIncRecords = [],
   socialSecurity = {},
   income = [],
@@ -71,9 +69,7 @@ const calculateIncome = (
   beneficiaryType,
 ) => {
   // currEmployment is for FSR 1.0
-  const grossSalary = enhancedFSRActive
-    ? sumValues(employmentRecords || [], 'grossMonthlyIncome')
-    : sumValues(currEmployment || [], `${beneficiaryType}GrossSalary`);
+  const grossSalary = sumValues(employmentRecords || [], 'grossMonthlyIncome');
 
   const addlInc = sumValues(addlIncRecords, 'amount');
 
@@ -97,12 +93,10 @@ const calculateIncome = (
 
   const benefitsAmount = comp + edu;
 
-  const deductions = (enhancedFSRActive
-    ? employmentRecords
-        .filter(emp => emp?.isCurrent)
-        .map(emp => emp?.deductions)
-    : currEmployment.map(emp => emp?.deductions)
-  ).flat();
+  const deductions = employmentRecords
+    .filter(emp => emp?.isCurrent)
+    .map(emp => emp?.deductions)
+    .flat();
 
   const taxes = filterReduceByName(deductions, taxFilters);
   const retirement = filterReduceByName(deductions, retirementFilters);
@@ -152,7 +146,6 @@ const getMonthlyIncome = formData => {
     } = {},
     socialSecurity,
     benefits,
-    currEmployment,
     spCurrEmployment,
     income,
     'view:enhancedFinancialStatusReport': enhancedFSRActive,
@@ -162,7 +155,6 @@ const getMonthlyIncome = formData => {
     calculateIncome(
       enhancedFSRActive,
       employmentRecords,
-      currEmployment,
       addlIncRecords,
       socialSecurity,
       income,
@@ -177,7 +169,6 @@ const getMonthlyIncome = formData => {
       ? calculateIncome(
           enhancedFSRActive,
           spEmploymentRecords,
-          spCurrEmployment,
           spAddlIncome,
           socialSecurity,
           income,

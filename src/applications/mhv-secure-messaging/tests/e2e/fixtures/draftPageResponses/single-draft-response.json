@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "id": "3997562",
+      "type": "message_threads",
+      "attributes": {
+        "threadId": 3997562,
+        "folderId": -2,
+        "messageId": 3997563,
+        "threadPageSize": 342,
+        "messageCount": 1,
+        "category": "OTHER",
+        "subject": "newSavedDraft",
+        "body": "new saved draft",
+        "triageGroupName": "TG-7410",
+        "attachment": null,
+        "sentDate": null,
+        "draftDate": "2024-10-02T16:17:36.000Z",
+        "senderId": 251391,
+        "senderName": "MHVDAYMARK, MARK",
+        "recipientName": "TG-7410",
+        "recipientId": 6832726,
+        "proxySenderName": null,
+        "hasAttachment": false,
+        "unsentDrafts": true,
+        "unreadMessages": false
+      },
+      "links": {
+        "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/3997562"
+      }
+    }
+  ]
+}

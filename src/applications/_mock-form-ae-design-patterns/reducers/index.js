@@ -9,6 +9,8 @@ import {
   SET_NEW_FORM_CONFIG,
   UPDATE_SAVE_TO_PROFILE,
 } from '../actions/actions';
+
+// VADX reducer for app route (WIP)
 import { vadxReducer } from '../slice';
 
 const reducer = (state = { saveToProfile: null }, action) => {

@@ -33,37 +33,50 @@ export const medicationsUrls = {
   },
 };
 
+export const ALL_MEDICATIONS_FILTER_KEY = 'ALL_MEDICATIONS';
+export const ACTIVE_FILTER_KEY = 'ACTIVE';
+export const RECENTLY_REQUESTED_FILTER_KEY = 'RECENTLY_REQUESTED';
+export const RENEWAL_FILTER_KEY = 'RENEWAL';
+export const NON_ACTIVE_FILTER_KEY = 'NON_ACTIVE';
+
 export const filterOptions = {
-  ALL_MEDICATIONS: {
+  [ALL_MEDICATIONS_FILTER_KEY]: {
     label: 'All medications',
     description: 'All medications in your VA medical records',
-    url: '/',
+    url: '',
+    showingContentDisplayName: '',
   },
-  ACTIVE: {
+  [ACTIVE_FILTER_KEY]: {
     label: 'Active',
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
-    url: '/',
+    url:
+      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On hold,Active: Parked,Active: Submitted',
+    showingContentDisplayName: ' active',
   },
-  RECENTLY_REQUESTED: {
+  [RECENTLY_REQUESTED_FILTER_KEY]: {
     label: 'Recently requested',
     name: 'filter option',
     description: 'Refill requests in process or shipped in the last 15 days',
-    url: '/',
+    url:
+      '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
+    showingContentDisplayName: ' recently requested',
   },
-  RENEWAL: {
+  [RENEWAL_FILTER_KEY]: {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description:
       'Prescriptions that just ran out of refills or became too old to refill (expired)',
-    url: '/',
+    url: '&filter[[disp_status][eq]]=Active,Expired',
+    showingContentDisplayName: ' renewal needed before refill',
   },
-  NON_ACTIVE: {
+  [NON_ACTIVE_FILTER_KEY]: {
     label: 'Non-active',
     name: 'filter option',
     description:
       'Prescriptions that are discontinued, expired, or have an unkown status',
-    url: '/',
+    url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
+    showingContentDisplayName: ' non-active',
   },
 };
 
@@ -80,15 +93,8 @@ export const imageRootUri = 'https://www.myhealth.va.gov/static/MILDrugImages/';
 export const pdfStatusDefinitions = {
   active: [
     {
-      value: `This is a current prescription. If you have refills left, you can request a refill now.`,
-    },
-    {
-      continued: true,
-      value: `Note: `,
-      weight: 'bold',
-    },
-    {
-      value: `If you have no refills left, you’ll need to request a renewal instead.`,
+      value:
+        'This is a current prescription. If you have refills left, you can request a refill now. If you have no refills left, you’ll need to request a renewal instead.',
     },
   ],
   activeParked: [
@@ -202,6 +208,8 @@ export const dispStatusObj = {
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
 export const SESSION_SELECTED_FILTER_OPTION = 'SESSION_SELECTED_FILTER_OPTION';
+export const SESSION_RX_FILTER_OPEN_BY_DEFAULT =
+  'SESSION_RX_FILTER_OPEN_BY_DEFAULT';
 export const SESSION_SELECTED_PAGE_NUMBER = 'SESSION_SELECTED_PAGE_NUMBER';
 
 export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
@@ -234,5 +242,3 @@ export const allergyTypes = {
 };
 
 export const EMPTY_FIELD = 'None noted';
-
-export const sourcesToHide = ['PD', 'PF'];

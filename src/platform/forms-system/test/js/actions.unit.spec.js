@@ -787,6 +787,184 @@ describe('Schemaform actions:', () => {
         errorMessage: 'Internal Server Error',
       });
     });
+    it('should NOT set custom error if network 500 response', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: '1.jpg',
+          size: 42,
+        },
+        {
+          fileTypes: ['jpg'],
+          maxSize: 50,
+          fileUploadNetworkErrorMessage:
+            'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        f => f,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(500, null, undefined);
+
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: '1.jpg',
+        uploading: true,
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        file: { name: '1.jpg', size: 42 },
+        name: '1.jpg',
+        size: 42,
+        errorMessage: 'Internal Server Error',
+      });
+    });
+    it('should set custom error message on network error', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: '1.jpg',
+          size: 42,
+        },
+        {
+          fileTypes: ['jpg'],
+          maxSize: 50,
+          fileUploadNetworkErrorMessage:
+            'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        f => f,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].error();
+
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: '1.jpg',
+        uploading: true,
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        file: { name: '1.jpg', size: 42 },
+        name: '1.jpg',
+        errorMessage:
+          'We’re sorry. There was problem with our system and we couldn’t upload your file. You can try again later.',
+      });
+    });
+    it('should set alert on network error', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: '1.jpg',
+          size: 0,
+        },
+        {
+          fileTypes: ['1.jpg'],
+          maxSize: 5,
+          fileUploadNetworkErrorAlert: {
+            header: 'Alert header',
+            body: ['body text'],
+          },
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        f => f,
+        undefined,
+        undefined,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].error();
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: '1.jpg',
+        uploading: true,
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        name: '1.jpg',
+        errorMessage:
+          'We\u2019re sorry. We had a connection problem. Please try again.',
+        alert: {
+          header: 'Alert header',
+          body: ['body text'],
+        },
+        file: {
+          name: '1.jpg',
+          size: 0,
+        },
+      });
+    });
+    it('should not set alert on network 400 response', () => {
+      const onChange = sinon.spy();
+      const thunk = uploadFile(
+        {
+          name: '1.jpg',
+          size: 1,
+        },
+        {
+          fileTypes: ['1.jpg'],
+          maxSize: 5,
+          fileUploadNetworkErrorAlert: {
+            header: 'Alert header text',
+            body: ['Alert body text'],
+          },
+          createPayload: f => f,
+          parseResponse: f => f.data.attributes,
+        },
+        f => f,
+        onChange,
+        f => f,
+        undefined,
+        undefined,
+      );
+      const dispatch = sinon.spy();
+      const getState = sinon.stub().returns({
+        form: {
+          data: {},
+        },
+      });
+
+      thunk(dispatch, getState);
+
+      requests[0].respond(400);
+
+      expect(onChange.firstCall.args[0]).to.eql({
+        name: '1.jpg',
+        uploading: true,
+      });
+      expect(onChange.secondCall.args[0]).to.eql({
+        file: { name: '1.jpg', size: 1 },
+        name: '1.jpg',
+        size: 1,
+        errorMessage: 'Bad Request',
+      });
+    });
   });
   describe('setFormErrors', () => {
     it('should return action', () => {

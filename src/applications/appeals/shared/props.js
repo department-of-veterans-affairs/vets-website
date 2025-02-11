@@ -84,6 +84,7 @@ export const data995 = shape({
     shape({
       locationAndName: string,
       issues: arrayOf(string),
+      treatmentDate: string,
       evidenceDates: shape({
         from: string,
         to: string,

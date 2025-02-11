@@ -22,6 +22,7 @@
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
  * @property {string} [ariaDescribedBySubmit]
+ * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
@@ -135,16 +136,21 @@
  * @property {string} [heading] defaults to 'Statement of truth'
  * @property {string} [messageAriaDescribedby] defaults to 'Statement of truth'
  * @property {string} [textInputLabel] defaults to 'Your full name'
+ * @property {boolean} [useProfileFullName] if you enable this it gets the name from profile data, default to false
  */
 
 /**
  * @typedef {Object} FormConfigChapter
- * @property {Record<string, FormConfigPage>} [pages]
+ * @property {FormConfigPages} [pages]
  * @property {string | ({ formData, formConfig }) => string} [title]
  * @property {boolean} [hideFormNavProgress]
  * @property {boolean} [hideFormTitle]
  * @property {boolean} [hideOnReviewPage]
  * @property {React.ReactNode} [reviewDescription]
+ */
+
+/**
+ * @typedef {Record<string, FormConfigPage>} FormConfigPages
  */
 
 /**
@@ -154,13 +160,13 @@
  * @property {({formData, formContext, router, setFormData}) => JSX.Element} [ContentBeforeButtons] React element that appears after the form but before save in progress and the navigation buttons
  * @property {(props: any) => JSX.Element} [CustomPage]
  * @property {(props: any) => JSX.Element} [CustomPageReview]
- * @property {((formData: Object) => boolean) | {}} [depends] optional condition when page should be shown or not
+ * @property {((formData: Object) => boolean, index: number) | {}} [depends] optional condition when page should be shown or not. Index provided for arrays.
  * @property {Object} [initialData]
  * @property {boolean} [customPageUsesPagePerItemData] Used with `CustomPage` and arrays. If true, will treat `data` (`formData`) and `setFormData` at the array level instead of the entire `formData` level, which matches how default pages work.
  * @property {boolean} [hideNavButtons] Used to hide the 'Continue' and 'Back' buttons
  * @property {(formData: any) => void} [onContinue] Called when user clicks continue button. For simple callbacks/events. If you instead want to navigate to a different page, use onNavForward.
- * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
- * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
+ * @property {({ formData, goPath, goPreviousPath, pageList, pathname, setFormData, urlParams, index }: { formData, goPath: (path: string) => void, goPreviousPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams, index: number }) => void} [onNavBack] Called instead of default navigation when user clicks back button. Use goPath or goPreviousPath to navigate.
+ * @property {({ formData, goPath, goNextPath, pageList, pathname, setFormData, urlParams, index }: { formData, goPath: (path: string) => void, goNextPath: (urlParams?: object) => void, pageList: PageList, pathname: string, setFormData, urlParams, index: number }) => void} [onNavForward] Called instead of default navigation when user clicks continue button. Use goPath or goNextPath to navigate.
  * @property {(data: any) => boolean} [itemFilter]
  * @property {string} [path] url path for page e.g. `'name-of-path'`, or `'name-of-path/:index'` for an array item page. Results in `http://localhost:3001/my-form/name-of-path`
  * @property {string} [returnUrl]
@@ -243,7 +249,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: boolean) => boolean,
+ *   'ui:required'?: (formData: any, index: number) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -299,6 +305,7 @@
  * @property {boolean} [hideTitle] For arrays.
  * @property {boolean} [hideOnReview] Used to hide a field on review page
  * @property {string} [hint] The hint text for the field. For web components.
+ * @property {UIOptions} [ifMinimalHeader] An object of options that will override existing options if minimal header is applicable.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
  * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.
@@ -391,10 +398,11 @@
 
 /**
  * @typedef {{
- *   getItemName: (itemData: any) => string,
+ *   getItemName: (itemData: any, index: number) => string,
  *   itemData: any,
  *   nounPlural: string,
  *   nounSingular: string,
+ *   index?: number,
  * }} ArrayBuilderTextProps
  */
 
@@ -418,7 +426,7 @@
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
- *   getItemName?: (itemData: any) => string,
+ *   getItemName?: (itemData: any, index: number) => string,
  *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
  *   deleteNo?: (props: ArrayBuilderTextProps) => string,
@@ -429,6 +437,8 @@
  *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddLinkText?: (props: ArrayBuilderTextProps) => string,
+ *   summaryAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText
  */
@@ -453,4 +463,12 @@
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern
+ * @property {boolean} [useLinkInsteadOfYesNo]
+ * @property {boolean} [useButtonInsteadOfYesNo]
+ */
+
+/**
+ * @typedef {Object} ReplacerOptions
+ * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
+ * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
  */

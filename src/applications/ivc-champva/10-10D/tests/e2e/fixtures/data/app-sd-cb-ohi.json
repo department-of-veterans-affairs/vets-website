@@ -70,6 +70,7 @@
     "ssn": {
       "ssn": "123123123"
     },
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": true,

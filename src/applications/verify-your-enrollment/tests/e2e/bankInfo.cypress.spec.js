@@ -1,4 +1,4 @@
-import { mockUser, mockUserWithOutIDME } from './login';
+import { mockUser } from './login';
 
 describe('Direct deposit information', () => {
   /**
@@ -6,8 +6,6 @@ describe('Direct deposit information', () => {
    * @param {object} win
    */
   beforeEach(() => {
-    cy.login(mockUser);
-    cy.intercept('GET', '/vye/v1', { statusCode: 200 });
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
@@ -15,11 +13,21 @@ describe('Direct deposit information', () => {
           { name: 'toggle_vye_application', value: true },
           { name: 'toggle_vye_address_direct_deposit_forms', value: true },
           { name: 'mgib_verifications_maintenance', value: false },
+          { name: 'is_DGIB_endpoint', value: false },
         ],
       },
     });
+    cy.intercept('GET', '/vye/v1', { statusCode: 200 }).as('getVye');
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.login(mockUser);
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad(win) {
+        cy.stub(win.performance, 'getEntriesByType').returns([
+          { type: 'reload' },
+        ]);
+      },
+    });
+    cy.wait('@getVye');
   });
   const fillForm = () => {
     cy.get(
@@ -42,7 +50,7 @@ describe('Direct deposit information', () => {
       '00026643207',
     );
   };
-  it('should show Dirct deposit infromation', () => {
+  it('should show Direct deposit information', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
@@ -85,7 +93,7 @@ describe('Direct deposit information', () => {
       'not.exist',
     );
   });
-  it('should show show errors when save button is clicked and some or all of the required fields empty ', () => {
+  it('should show errors when save button is clicked and some or all of the required fields empty ', () => {
     cy.injectAxeThenAxeCheck();
     cy.get(
       '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
@@ -181,18 +189,5 @@ describe('Direct deposit information', () => {
     cy.get('va-button')
       .first()
       .click();
-  });
-  it('should not show Direct Dopist form if user loggedin without using ID.me', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.login(mockUserWithOutIDME);
-    cy.get(
-      '[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-    )
-      .first()
-      .click();
-    cy.get('[data-testid="direct-deposit-mfa-message"]').should(
-      'contain',
-      'Before we give you access to change your direct deposit information, we need to make sure you’re you—and not someone pretending to be you. This helps us protect your bank account and prevent fraud.',
-    );
   });
 });

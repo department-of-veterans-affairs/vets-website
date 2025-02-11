@@ -1,42 +1,41 @@
-const responses = {
-  FORM_22_1990: {
-    minimal: {
-      formData: {
-        veteranFullName: {
-          first: 'Mitchell',
-          middle: 'George',
-          last: 'Jenkins',
-        },
-        gender: 'M',
-        veteranDateOfBirth: '1956-07-10',
-        veteranSocialSecurityNumber: '123456789',
-        homePhone: '5558081234',
-        mobilePhone: '5554044567',
-        email: 'test@test.com',
-        veteranAddress: {
-          street: '123 Mailing Address St.',
-          city: 'Futlon',
-          state: 'NY',
-          country: 'USA',
-          postalCode: '97064',
-          isMilitary: false,
-        },
-        toursOfDuty: [
-          {
-            serviceBranch: 'Space Force',
-            dateRange: {
-              from: '2021-01-01',
-              to: '2023-01-01',
-            },
-          },
-        ],
-      },
-      metadata: {
-        version: 0,
-        prefill: true,
-        returnUrl: '/applicant/information',
-      },
+const {
+  USER,
+  FULL_NAME,
+  HOME_PHONE_FULL,
+  MOBILE_PHONE_FULL,
+} = require('../../constants/user');
+
+const response = {
+  formData: {
+    veteranFullName: FULL_NAME,
+    gender: USER.GENDER,
+    veteranDateOfBirth: USER.BIRTH_DATE,
+    veteranSocialSecurityNumber: USER.SSN_LAST_FOUR,
+    homePhone: HOME_PHONE_FULL,
+    mobilePhone: MOBILE_PHONE_FULL,
+    email: USER.EMAIL,
+    veteranAddress: {
+      street: USER.MAILING_ADDRESS.ADDRESS_LINE1,
+      city: USER.MAILING_ADDRESS.CITY,
+      state: USER.MAILING_ADDRESS.STATE_CODE,
+      country: USER.MAILING_ADDRESS.COUNTRY_CODE_ISO3,
+      postalCode: USER.MAILING_ADDRESS.ZIP_CODE,
+      isMilitary: false,
     },
+    toursOfDuty: [
+      {
+        serviceBranch: 'Space Force',
+        dateRange: {
+          from: '2021-01-01',
+          to: '2023-01-01',
+        },
+      },
+    ],
+  },
+  metadata: {
+    version: 0,
+    prefill: true,
+    returnUrl: '/applicant/information',
   },
 };
-module.exports = responses;
+module.exports = response;

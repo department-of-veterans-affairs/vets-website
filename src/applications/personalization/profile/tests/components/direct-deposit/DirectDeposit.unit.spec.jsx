@@ -121,7 +121,6 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
               profileHideDirectDeposit: true,
-              profileShowDirectDepositSingleFormUAT: false,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',
@@ -235,6 +234,37 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
 
       // save button is shown when update view is rendered
       expect(getByRole('button', { name: /save/i })).to.exist;
+    });
+  });
+  describe('Montgomery GI Bill', () => {
+    it('Renders GI Bill additional information', () => {
+      const { getByTestId } = renderWithProfileReducersAndRouter(
+        <DirectDeposit />,
+        {
+          initialState: createInitialState(),
+        },
+      );
+
+      // Test the va-additional-info element
+      const additionalInfoElement = getByTestId('gi-bill-additional-info');
+      expect(additionalInfoElement).to.exist;
+      expect(additionalInfoElement.getAttribute('trigger').trim()).to.equal(
+        'How to update your direct deposit information for Montgomery GI Bill',
+      );
+
+      // Test the description paragraph
+      const descriptionElement = getByTestId('gi-bill-description');
+      expect(descriptionElement).to.exist;
+
+      // Test the link
+      const linkElement = getByTestId('gi-bill-update-link');
+      expect(linkElement).to.exist;
+      expect(linkElement.getAttribute('href').trim()).to.equal(
+        'https://www.va.gov/education/verify-school-enrollment/#for-montgomery-gi-bill-benefit',
+      );
+      expect(linkElement.getAttribute('text').trim()).to.equal(
+        'Update direct deposit information for MGIB benefits',
+      );
     });
   });
 });

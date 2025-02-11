@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Subtopic
+  - action: click
+    target: radio
+    value:  Benefits for spina bifida and children of women Vietnam Veterans
+  - action: click
+    target: call-to-action

@@ -1,13 +1,13 @@
 import merge from 'lodash/merge';
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { veteranHomeAddress: address } = fullSchemaHca.properties;
+const { veteranHomeAddress: address } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

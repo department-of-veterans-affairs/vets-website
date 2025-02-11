@@ -14,7 +14,7 @@ describe('verify signature', () => {
     PatientInboxPage.verifySignature();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('signature added on replying', () => {
@@ -23,6 +23,6 @@ describe('verify signature', () => {
     PatientInboxPage.verifySignature();
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

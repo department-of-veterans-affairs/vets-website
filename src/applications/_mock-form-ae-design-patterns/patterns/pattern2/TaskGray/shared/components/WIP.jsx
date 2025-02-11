@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const WIP = () => (
-  <div className="row vads-u-margin-bottom--5">
+  <div className="row vads-u-margin-y--5">
     <div className="usa-width-two-thirds medium-8 columns">
       <va-alert status="warning">
         <h1 slot="headline" className="vads-u-font-size--h3">

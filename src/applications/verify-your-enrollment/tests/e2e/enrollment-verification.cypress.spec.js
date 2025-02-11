@@ -19,7 +19,13 @@ describe('Enrollment Verification Page Tests', () => {
       },
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad(win) {
+        cy.stub(win.performance, 'getEntriesByType').returns([
+          { type: 'reload' },
+        ]);
+      },
+    });
   });
 
   it('should display the enrollment verification breadcrumbs', () => {
@@ -56,6 +62,16 @@ describe('Enrollment Verification Page Tests', () => {
   });
   it('should show error message when submit button is clicked and something went wrong', () => {
     cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: true },
+          { name: 'mgib_verifications_maintenance', value: false },
+          { name: 'is_DGIB_endpoint', value: false },
+        ],
+      },
+    });
     cy.get('[data-testid="have-not-verified"]')
       .should('be.visible')
       .and('contain', 'You haven’t verified your enrollment for the month.');
@@ -69,16 +85,6 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       '[class="vads-u-font-size--h4 vads-u-display--flex vads-u-align-items--center"]',
     ).should('contain', 'Verified');
-  });
-  it("should go back to 'enrollment verification' when 'Verify your school enrollment' link is clicked ", () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get(
-      'a[href="/education/verify-school-enrollment/mgib-enrollments/benefits-profile/"]',
-    ).click({ multiple: true });
-    cy.get('a[href="/education/verify-school-enrollment/mgib-enrollments/"]')
-      .first()
-      .click({ multiple: true });
-    cy.url().should('not.include', '/benefits-profile');
   });
   it("should  have focus around 'Showing x-y of z monthly enrollments listed by most recent' when pagination button is clicked", () => {
     cy.injectAxeThenAxeCheck();
@@ -103,41 +109,6 @@ describe('Enrollment Verification Page Tests', () => {
     cy.get(
       'span[class="vads-u-font-weight--bold vads-u-display--block vads-u-margin-top--2"]',
     ).should('contain', 'You currently have no enrollments.');
-  });
-
-  it("Should return This page isn't available right now if there is 500 error ", () => {
-    cy.injectAxeThenAxeCheck();
-    cy.intercept('GET', '/vye/v1', {
-      statusCode: 500,
-      body: {
-        errors: [
-          {
-            title: 'Internal server error',
-            detail: 'Internal server error',
-            code: '500',
-            status: '500',
-          },
-        ],
-      },
-    }).as('getServerError');
-
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
-      onBeforeLoad: win => {
-        /* eslint no-param-reassign: "error" */
-        win.isProduction = true;
-      },
-    });
-
-    cy.wait('@getServerError').then(interception => {
-      expect(interception.response.statusCode).to.equal(500);
-      expect(interception.response.body.errors[0].title).to.equal(
-        'Internal server error',
-      );
-    });
-    cy.get('[slot="headline"]').should(
-      'contain',
-      "This page isn't available right now.",
-    );
   });
   it("Should return 'You currently have no enrollments to verify.' if a user is new", () => {
     cy.injectAxeThenAxeCheck();

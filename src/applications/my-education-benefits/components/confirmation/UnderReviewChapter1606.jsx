@@ -17,23 +17,25 @@ const UnderReviewChapter1606 = ({
         </p>
       </va-alert>
 
-      <div className="feature">
-        <h3>Application for VA education benefits (VA Form 22-1990)</h3>
+      <va-summary-box class="vads-u-margin-y--3">
+        <h3 slot="headline">
+          Application for VA education benefits (VA Form 22-1990)
+        </h3>
+        <h3 slot="headline">MGIB-SR, Chapter 1606</h3>
         {claimantName.trim() ? <p>For {claimantName}</p> : <></>}
         <dl>
           <dt>Date received</dt>
           <dd>{confirmationDate}</dd>
         </dl>
         <va-button
-          uswds
-          className="usa-button meb-print"
+          class="meb-print"
           text="Print this page"
           onClick={printPage}
         />
-      </div>
+      </va-summary-box>
 
       <h2>When will I hear back about my application?</h2>
-      <div className="feature meb-feature--secondary">
+      <va-card background class="vads-u-margin-y--3">
         <h2>In 1 month</h2>
         <hr className="meb-hr" />
         <p>
@@ -43,7 +45,7 @@ const UnderReviewChapter1606 = ({
           <va-telephone contact="9187815678" international /> if you are outside
           the U.S.
         </p>
-      </div>
+      </va-card>
 
       <h2>What happens next?</h2>
       <ul>

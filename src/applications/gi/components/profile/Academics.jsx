@@ -11,6 +11,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Accreditation"
           onClick={() => {
             onShowModal('accreditation');
@@ -46,6 +47,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Credit for military training"
           onClick={() => {
             onShowModal('militaryTrainingCredit');
@@ -65,6 +67,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Independent study"
           onClick={() => {
             onShowModal('independentStudy');
@@ -84,6 +87,7 @@ export default function Academics({ institution, onShowModal }) {
     <div aria-live="off">
       <strong>
         <LearnMoreLabel
+          bold
           text="Priority Enrollment"
           onClick={() => {
             onShowModal('priorityEnrollment');

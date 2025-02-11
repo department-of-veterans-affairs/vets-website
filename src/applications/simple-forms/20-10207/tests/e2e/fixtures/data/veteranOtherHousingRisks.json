@@ -14,6 +14,7 @@
     },
     "otherHousingRisks": "[other housing risks]",
     "phone": "1234567890",
+    "emailAddress": "john.veteran@email.com",
     "other_reasons": {
       "AGE_85": true
     },

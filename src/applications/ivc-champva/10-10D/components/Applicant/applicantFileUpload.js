@@ -125,6 +125,9 @@ export const applicantSchoolCertUploadUiSchema = {
                 <li>
                   The last 4 digits of <b>{posessive}</b> Social Security number
                 </li>
+                <li>
+                  The start and end dates for each semester or enrollment term
+                </li>
                 <li>Enrollment status (full-time or part-time)</li>
                 <li>Expected graduation date</li>
                 <li>

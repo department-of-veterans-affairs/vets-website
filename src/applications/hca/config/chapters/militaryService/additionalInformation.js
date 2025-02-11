@@ -1,5 +1,5 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
 const {
   disabledInLineOfDuty,
@@ -7,7 +7,7 @@ const {
   postNov111998Combat,
   purpleHeartRecipient,
   swAsiaCombat,
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

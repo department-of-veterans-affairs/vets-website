@@ -1,4 +1,5 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
@@ -17,7 +18,7 @@ describe('SM DRAFT FOLDER VERIFICATION', () => {
   it('Verify folder header', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessagesSentPage.verifyFolderHeaderText('Drafts');
+    GeneralFunctionsPage.verifyPageHeader(`Drafts`);
     PatientMessagesSentPage.verifyResponseBodyLength();
   });
 

@@ -14,10 +14,6 @@ export const filterByOptions = [
     label: 'Custom date range',
     value: 'custom-date-range',
   },
-  {
-    label: 'Past events',
-    value: 'past',
-  },
 ];
 
 export const deriveDefaultSelectedOption = () => {
@@ -80,38 +76,31 @@ export const removeDuplicateEvents = events =>
 // each repeated instance. Repeating events can still be identified as such,
 // and let event listings show multiple recurring events.
 export const fleshOutRecurringEvents = events => {
-  if (!events) {
-    return [];
-  }
+  if (!events) return [];
+
+  const now = moment().unix();
 
   const allEvents = events.reduce((fullEvents, event) => {
-    if (!event.fieldDatetimeRangeTimezone) {
-      return fullEvents;
-    }
-
-    if (event?.fieldDatetimeRangeTimezone.length === 1) {
-      fullEvents.push(event);
-      return fullEvents;
-    }
-
     const eventTimes = event?.fieldDatetimeRangeTimezone;
-    // This makes each copy of a recurring event start with a different time,
-    // so each time is a separate event
-    event?.fieldDatetimeRangeTimezone.forEach((tz, index) => {
-      const timeZonesCopy = [...eventTimes];
+    if (!eventTimes) return fullEvents;
 
-      // eslint-disable-next-line no-plusplus
+    // Filter to only future times before creating events
+    const futureTimes = eventTimes.filter(time => time.value > now);
+    if (futureTimes.length === 0) return fullEvents;
+
+    // Create events only for future occurrences
+    futureTimes.forEach((_, index) => {
+      const timeZonesCopy = [...futureTimes];
       for (let i = 0; i < index; i++) {
         timeZonesCopy.unshift(timeZonesCopy.pop());
       }
-
       fullEvents.push({ ...event, fieldDatetimeRangeTimezone: timeZonesCopy });
     });
 
     return fullEvents;
   }, []);
 
-  return [...allEvents]?.sort(
+  return [...allEvents].sort(
     (event1, event2) =>
       event1?.fieldDatetimeRangeTimezone[0]?.value -
       event2?.fieldDatetimeRangeTimezone[0]?.value,
@@ -204,22 +193,6 @@ export const filterEvents = (
           ),
         )
         .reduce(addUniqueEventsToList, []);
-    }
-    case 'past': {
-      // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
-      const sortedEvents = [...events]?.sort(
-        (event1, event2) =>
-          event2?.fieldDatetimeRangeTimezone[0]?.value -
-          event1?.fieldDatetimeRangeTimezone[0]?.value,
-      );
-
-      return sortedEvents?.filter(event =>
-        moment(
-          event?.fieldDatetimeRangeTimezone[0]
-            ? event.fieldDatetimeRangeTimezone[0].endValue * 1000
-            : event.fieldDatetimeRangeTimezone.endValue * 1000,
-        ).isBefore(now.clone()),
-      );
     }
     case 'specific-date':
     case 'custom-date-range':

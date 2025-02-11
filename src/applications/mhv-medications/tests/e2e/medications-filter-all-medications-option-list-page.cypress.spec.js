@@ -16,10 +16,10 @@ describe('Medications List Page All Medications Filter', () => {
     listPage.clickfilterAccordionDropdownOnListPage();
     listPage.verifyFilterOptionsOnListPage(
       'All medications',
-      'All medications in your VA medical record',
+      'All medications in your VA medical records',
     );
     listPage.verifyFilterButtonWhenAccordionExpanded();
-    listPage.clickFilterRadioButtonOptionOnListPage('All medications');
-    listPage.verifyNameOfFirstRxOnMedicationsList('all medications');
+
+    listPage.verifyAllMedicationsRadioButtonIsChecked();
   });
 });

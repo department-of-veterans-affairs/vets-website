@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Category
+  - action: select
+    target: CATEGORY
+    value:  Survivor Benefits
+  - action: click
+    target: call-to-action

@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
-import {
-  signInServiceName,
-  isAuthenticatedWithSSOe,
-} from '@department-of-veterans-affairs/platform-user/authentication/selectors';
+import { signInServiceName } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 import {
   isLoggedIn,
   isLOA3,
@@ -20,23 +17,32 @@ import UnverifiedAlert from './components/messages/UnverifiedAlert';
  * @property {String} signInServiceName the signin service name is available
  * @property {bool} userIsLoggedIn true if the user is logged in
  * @property {bool} userIsVerified true if the user is verified
+ * @property {string} headingLevel the heading level
+ * @property {string} serviceDescription the heading service description
  */
 export const MhvSigninCallToAction = ({
-  hasSsoe = false,
   noAlertContent,
+  headingLevel,
   serviceDescription,
   serviceName,
   userIsLoggedIn = false,
   userIsVerified = false,
 }) => {
+  const headerLevel = parseInt(headingLevel, 10) || 3;
+
   if (!userIsLoggedIn) {
-    return <UnauthenticatedAlert serviceDescription={serviceDescription} />;
+    return (
+      <UnauthenticatedAlert
+        headerLevel={headerLevel}
+        serviceDescription={serviceDescription}
+      />
+    );
   }
 
   if (!userIsVerified) {
     return (
       <UnverifiedAlert
-        hasSsoe={hasSsoe}
+        headerLevel={headerLevel}
         signInService={serviceName}
         serviceDescription={serviceDescription}
       />
@@ -55,7 +61,7 @@ export const MhvSigninCallToAction = ({
 };
 
 MhvSigninCallToAction.propTypes = {
-  hasSsoe: PropTypes.bool,
+  headingLevel: PropTypes.string,
   noAlertContent: PropTypes.instanceOf(HTMLElement),
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,
@@ -70,7 +76,6 @@ MhvSigninCallToAction.propTypes = {
  */
 export const mapStateToProps = state => {
   return {
-    hasSsoe: isAuthenticatedWithSSOe(state),
     serviceName: signInServiceName(state),
     userIsLoggedIn: isLoggedIn(state),
     userIsVerified: isLOA3(state),

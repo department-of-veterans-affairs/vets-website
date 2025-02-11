@@ -67,34 +67,6 @@ describe('deriveMostRecentDate', () => {
     );
   });
 
-  it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are only past dates', () => {
-    const now = 1642030600;
-    const fieldDatetimeRangeTimezone = [
-      { value: 1642014000, endValue: 1642017600 },
-      { value: 1642017000, endValue: 1642020600 },
-      { value: 1642025600, endValue: 1642029600 },
-    ];
-
-    expect(deriveMostRecentDate(fieldDatetimeRangeTimezone, now)).to.deep.eq({
-      value: 1642025600,
-      endValue: 1642029600,
-    });
-  });
-
-  it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are past and future dates', () => {
-    const now = 1642019600;
-    const fieldDatetimeRangeTimezone = [
-      { value: 1642014000, endValue: 1642017600 },
-      { value: 1642017000, endValue: 1642020600 },
-      { value: 1642025600, endValue: 1642029600 },
-    ];
-
-    expect(deriveMostRecentDate(fieldDatetimeRangeTimezone, now)).to.deep.eq({
-      value: 1642017000,
-      endValue: 1642020600,
-    });
-  });
-
   it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are only future dates', () => {
     const now = 1642014000;
     const fieldDatetimeRangeTimezone = [
@@ -183,28 +155,64 @@ describe('removeDuplicateEvents', () => {
 });
 
 describe('fleshOutRecurringEvents', () => {
-  it('should create recurring events correctly', () => {
+  it('should only create events for future occurrences of recurring events', () => {
+    const now = moment().unix();
+    const pastTime = moment()
+      .subtract(1, 'day')
+      .unix();
+    const futureTime1 = moment()
+      .add(1, 'day')
+      .unix();
+    const futureTime2 = moment()
+      .add(2, 'days')
+      .unix();
     const recurringEvents = [
       {
-        fieldDatetimeRangeTimezone: [{ value: 1 }, { value: 2 }],
+        fieldDatetimeRangeTimezone: [
+          { value: pastTime, endValue: pastTime + 3600 },
+          { value: futureTime1, endValue: futureTime1 + 3600 },
+          { value: futureTime2, endValue: futureTime2 + 3600 },
+        ],
+      },
+    ];
+
+    const result = fleshOutRecurringEvents(recurringEvents);
+    // Should only contain events from future occurrences
+    expect(result.length).to.equal(2);
+    expect(result[0].fieldDatetimeRangeTimezone[0].value).to.be.greaterThan(
+      now,
+    );
+    expect(result[1].fieldDatetimeRangeTimezone[0].value).to.be.greaterThan(
+      now,
+    );
+  });
+
+  it('should create recurring events correctly', () => {
+    const one = moment().unix() + 10000;
+    const two = moment().unix() + 20000;
+    const three = moment().unix() + 30000;
+    const four = moment().unix() + 40000;
+    const recurringEvents = [
+      {
+        fieldDatetimeRangeTimezone: [{ value: one }, { value: two }],
       },
       {
-        fieldDatetimeRangeTimezone: [{ value: 3 }, { value: 4 }],
+        fieldDatetimeRangeTimezone: [{ value: three }, { value: four }],
       },
     ];
 
     expect(fleshOutRecurringEvents(recurringEvents)).to.deep.eq([
       {
-        fieldDatetimeRangeTimezone: [{ value: 1 }, { value: 2 }],
+        fieldDatetimeRangeTimezone: [{ value: one }, { value: two }],
       },
       {
-        fieldDatetimeRangeTimezone: [{ value: 2 }, { value: 1 }],
+        fieldDatetimeRangeTimezone: [{ value: two }, { value: one }],
       },
       {
-        fieldDatetimeRangeTimezone: [{ value: 3 }, { value: 4 }],
+        fieldDatetimeRangeTimezone: [{ value: three }, { value: four }],
       },
       {
-        fieldDatetimeRangeTimezone: [{ value: 4 }, { value: 3 }],
+        fieldDatetimeRangeTimezone: [{ value: four }, { value: three }],
       },
     ]);
   });
@@ -220,7 +228,9 @@ describe('fleshOutRecurringEvents', () => {
   });
 
   it('should return the one event if there is only one occurrence', () => {
-    const recurringEvents = [{ fieldDatetimeRangeTimezone: [{ value: 1234 }] }];
+    const recurringEvents = [
+      { fieldDatetimeRangeTimezone: [{ value: moment().unix() + 1000 }] },
+    ];
 
     expect(fleshOutRecurringEvents(recurringEvents)).to.deep.eq(
       recurringEvents,
@@ -367,20 +377,6 @@ describe('filterEvents', () => {
     { id: 'next-week' },
   );
 
-  const pastEvent = createEvent(
-    now
-      .clone()
-      .subtract(2, 'days')
-      .unix(),
-    now
-      .clone()
-      .subtract(2, 'days')
-      .add(1, 'hours')
-      .unix(),
-    'Past Event',
-    { id: 'past' },
-  );
-
   const activeEvent = createEvent(
     now
       .clone()
@@ -393,13 +389,7 @@ describe('filterEvents', () => {
     'Active Event',
   );
 
-  const events = [
-    upcomingEvent,
-    nextWeekEvent,
-    nextMonthEvent,
-    pastEvent,
-    activeEvent,
-  ];
+  const events = [upcomingEvent, nextWeekEvent, nextMonthEvent, activeEvent];
 
   it('returns what we expect with no arguments', () => {
     expect(
@@ -451,12 +441,6 @@ describe('filterEvents', () => {
     } else {
       expect(filteredEvents).to.deep.equal([nextMonthEvent]);
     }
-  });
-
-  it('returns what we expect for past', () => {
-    expect(filterEvents(events, 'past', undefined, now.clone())).to.deep.equal([
-      pastEvent,
-    ]);
   });
 
   it('returns what we expect for custom-date-range', () => {

@@ -18,6 +18,7 @@ const Dropdown = ({
   value,
   visible,
   required,
+  children,
 }) => {
   if (!visible) {
     return null;
@@ -28,6 +29,7 @@ const Dropdown = ({
     <label htmlFor={name}>
       {label}{' '}
       {required ? <span className="required-label">(*Required)</span> : null}{' '}
+      {children}
     </label>
   );
 
@@ -91,6 +93,7 @@ Dropdown.propTypes = {
   visible: PropTypes.bool,
   onFocus: PropTypes.func,
   required: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 Dropdown.defaultProps = {

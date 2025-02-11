@@ -15,11 +15,6 @@ describe('Content on the personal information page', () => {
       'Choose edit to add a preferred name.',
     );
 
-    cy.findByText('Gender identity').should('exist');
-    cy.findByTestId('genderIdentity').contains(
-      'Choose edit to add a gender identity.',
-    );
-
     cy.injectAxeThenAxeCheck();
   });
 });

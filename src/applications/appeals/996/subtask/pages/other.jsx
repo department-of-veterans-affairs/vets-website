@@ -34,6 +34,7 @@ const DecisionReviewPage = () => {
       <PageTitle />
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Requesting a Higher-Level Review if it isn’t for a disability
+        compensation
       </h2>
       <p>
         We can accept online Higher-Level Reviews only for disability claims at

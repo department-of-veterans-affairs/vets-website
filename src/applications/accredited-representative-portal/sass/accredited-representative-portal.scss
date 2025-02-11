@@ -1,6 +1,37 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
-@import "../accreditation/21a/sass/21a";
 
+.arp-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: $units-5 auto;
+  padding: 0 10px;
+
+  @media (min-width: $small-desktop-screen) {
+    padding: 0;
+  }
+}
+
+.status {
+  color: $vads-color-base;
+
+  &--processing {
+    background-color: $vads-color-gray-light-alt;
+    border: 1px solid $vads-color-base-dark;
+  }
+  &--declination,
+  &--expiration {
+    background-color: $vads-color-error-lighter;
+    border: 1px solid $vads-color-error;
+  }
+  &--pending {
+    background-color: $vads-color-warning-lighter;
+    border: 1px solid $vads-color-warning-darker;
+  }
+  &--acceptance {
+    background-color: $vads-color-success-lighter;
+    border: 1px solid $vads-color-success;
+  }
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -22,3 +53,51 @@
   display: none;
 }
 
+.homepage-hero {
+  &__look-and-feel {
+    background: linear-gradient(
+      to left,
+      var(--vads-color-primary-alt) 10%,
+      var(--vads-color-primary-alt-dark) 40%,
+      var(--vads-color-primary-alt-darkest)
+    );
+  }
+}
+
+.arp-full-width-alert {
+  width: 100%;
+
+  &__questions {
+    font-weight: 700;
+  }
+}
+
+.poa-requests-page-table-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.limitations-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &__warning-icon {
+    color: var(--vads-color-action-focus-on-light);
+  }
+}
+
+.relationship-row {
+  display: block;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.arp-full-width-alert {
+  width: 100%;
+
+  &__questions {
+    font-weight: 700;
+  }
+}

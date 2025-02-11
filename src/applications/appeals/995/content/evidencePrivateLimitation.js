@@ -8,8 +8,8 @@ export const content = {
 
   info: (
     <va-additional-info
+      class="vads-u-margin-bottom--4"
       trigger="What does &quot;limiting consent&quot; mean?"
-      uswds
     >
       <p>
         If you choose to limit consent, you’re limiting the type or amount of
@@ -28,4 +28,12 @@ export const content = {
   },
 
   update: 'Update page',
+
+  // New form content
+  ynTitle: 'Do you want to limit consent for the information requested?',
+  errorMessage: 'You must enter a limitation',
+
+  textAreaTitle: 'What do you want your information request to be limited to?',
+  textAreaHint:
+    'For example, you want your doctor to release only treatment dates or certain types of disabilities',
 };

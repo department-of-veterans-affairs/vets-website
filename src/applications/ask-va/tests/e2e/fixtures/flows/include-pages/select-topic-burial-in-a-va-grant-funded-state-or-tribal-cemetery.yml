@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Burial in a VA grant-funded state or tribal cemetery
+  - action: click
+    target: call-to-action

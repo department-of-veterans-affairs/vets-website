@@ -1,1 +1,1 @@
-export const TITLE = 'Review your contact information';
+export const TITLE = 'Add your contact information';

@@ -1,15 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { scrollToFirstError } from 'platform/utilities/ui';
 import { useReviewPage } from '../hooks/useReviewPage';
 
 const SelectOrganization = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
+  const [error, setError] = useState(null);
   const organizations =
     formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
       ?.data;
+
+  // // v2 feature pending availableSubmissionMethods
+  // const filteredOrganizations = organizations?.filter(org =>
+  //   org.attributes?.availableSubmissionMethods?.includes(
+  //     formData.representativeSubmissionMethod,
+  //   ),
+  // );
 
   const isReviewPage = useReviewPage();
 
@@ -26,7 +35,10 @@ const SelectOrganization = props => {
   };
 
   const handleGoForward = () => {
-    if (isReviewPage) {
+    if (!formData?.selectedAccreditedOrganizationId) {
+      setError('You must select an accredited organization');
+      scrollToFirstError({ focusOnAlertRole: true });
+    } else if (isReviewPage) {
       if (isReplacingRep) {
         goToPath('/representative-replace?review=true');
       } else {
@@ -56,6 +68,8 @@ const SelectOrganization = props => {
     const selectedOrgId = e.detail.value;
     const selectedOrg = organizations?.find(org => org.id === selectedOrgId);
 
+    setError(null);
+
     setFormData({
       ...formData,
       selectedAccreditedOrganizationId: selectedOrgId,
@@ -65,7 +79,7 @@ const SelectOrganization = props => {
 
   const organizationList = (
     <VaRadio
-      error={null}
+      error={error}
       label="Which VSO do you want to appoint?"
       required
       onVaValueChange={handleRadioSelect}
@@ -76,8 +90,21 @@ const SelectOrganization = props => {
           name="organization"
           value={org.id}
           key={`${org.id}-${index}`}
+          checked={formData.selectedAccreditedOrganizationId === org.id}
         />
       ))}
+
+      {/* v2 feature pending availableSubmissionMethods */}
+
+      {/* {filteredOrganizations?.map((org, index) => (
+        <va-radio-option
+          label={`${org.attributes.name}`}
+          name="organization"
+          value={org.id}
+          key={`${org.id}-${index}`}
+          checked={formData.selectedAccreditedOrganizationId === org.id}
+        />
+      ))} */}
     </VaRadio>
   );
 
@@ -92,6 +119,9 @@ const SelectOrganization = props => {
 
 SelectOrganization.propTypes = {
   formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 
@@ -101,6 +131,7 @@ function mapStateToProps(state) {
   };
 }
 
+export { SelectOrganization };
 export default connect(
   mapStateToProps,
   null,

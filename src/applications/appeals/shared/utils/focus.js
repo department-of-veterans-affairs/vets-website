@@ -13,7 +13,7 @@ import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 import { LAST_ISSUE } from '../constants';
 
 export const focusFirstError = (_index, root) => {
-  const error = $('[error]', root);
+  const error = $('[error], .usa-input-error', root);
   if (error) {
     scrollToFirstError({ focusOnAlertRole: true });
     return true;
@@ -128,13 +128,25 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio, va-checkbox-group');
+  const radio = $('va-radio, va-checkbox-group, va-textarea');
   if (radio) {
     const target = radio.getAttribute('error') ? '[role="alert"]' : 'h3';
     // va-radio content doesn't immediately render
     waitForRenderThenFocus(target, radio.shadowRoot);
   } else {
     focusByOrder(['#main h3', defaultFocusSelector]);
+  }
+};
+
+// Focus on alert (without header) if visible, or radio h3
+export const focusAlertOrRadio = () => {
+  const alertSelector = 'va-alert[status="info"]';
+  const alert = $(alertSelector);
+  if (alert) {
+    scrollTo('topContentElement');
+    focusElement(alertSelector);
+  } else {
+    focusRadioH3();
   }
 };
 

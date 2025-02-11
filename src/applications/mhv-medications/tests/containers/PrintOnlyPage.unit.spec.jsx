@@ -50,12 +50,7 @@ describe('Medications detail page with PrintOnlyPage component wrapper', () => {
       >
         {rx && (
           <>
-            <PrescriptionPrintOnly
-              hideLineBreak
-              rx={rx}
-              refillHistory={[]}
-              isDetailsRx
-            />
+            <PrescriptionPrintOnly rx={rx} refillHistory={[]} isDetailsRx />
           </>
         )}
       </PrintOnlyPage>,

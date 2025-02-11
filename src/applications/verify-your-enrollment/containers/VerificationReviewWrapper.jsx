@@ -21,11 +21,14 @@ import {
   VERIFY_ENROLLMENT_FAILURE,
 } from '../actions';
 import { isSameMonth, getDateRangesBetween } from '../helpers';
+import DGIBEnrollmentCard from '../components/DGIBEnrollmentCard';
 
 const VerificationReviewWrapper = ({
   children,
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchVerifyEnrollmentAction,
+  enrollmentVerifications,
+  claimantId,
 }) => {
   useScrollToTop();
   const [isChecked, setIsChecked] = useState(false);
@@ -58,8 +61,7 @@ const VerificationReviewWrapper = ({
   // successfully verifying
   const handleVerification = () => {
     const submissionError = new Error('Internal Server Error.');
-
-    if (awardsIds.length > 0) {
+    if (awardsIds?.length > 0 || claimantId !== undefined) {
       dispatchVerifyEnrollmentAction(awardsIds);
       dispatchUpdateToggleEnrollmentSuccess(true);
     } else {
@@ -116,7 +118,7 @@ const VerificationReviewWrapper = ({
         // setEnrollmentPeriodsToVerify(pendingVerifications);
       }
     },
-    [enrollmentData],
+    [enrollmentData, enrollmentVerifications],
   );
 
   useEffect(
@@ -163,6 +165,12 @@ const VerificationReviewWrapper = ({
             ) : (
               <>
                 <EnrollmentCard enrollmentPeriods={enrollmentPeriodsToVerify} />
+                <DGIBEnrollmentCard
+                  enrollmentVerifications={
+                    enrollmentVerifications?.personalInfo?.verificationRecord
+                      ?.enrollmentVerifications
+                  }
+                />
                 <div className="vads-u-margin-top--2">
                   <div
                     className={`${
@@ -195,9 +203,6 @@ const VerificationReviewWrapper = ({
                         label="Yes, this information is correct"
                         checked={isChecked}
                         onVaChange={handleCheckboxChange}
-                        aria-describedby="authorize-text"
-                        enable-analytics
-                        uswds
                       />
                     </label>
                   </div>
@@ -230,7 +235,9 @@ const VerificationReviewWrapper = ({
 };
 
 const mapStateToProps = state => ({
+  claimantId: state.personalInfo?.personalInfo?.verificationRecord?.claimantId,
   verifyEnrollment: state.verifyEnrollment,
+  enrollmentVerifications: state.personalInfo,
 });
 
 const mapDispatchToProps = {
@@ -242,10 +249,12 @@ const mapDispatchToProps = {
 
 VerificationReviewWrapper.propTypes = {
   children: PropTypes.any,
+  claimantId: PropTypes.number,
   dispatchUpdatePendingVerifications: PropTypes.func,
   dispatchUpdateToggleEnrollmentSuccess: PropTypes.func,
   dispatchUpdateVerifications: PropTypes.func,
   dispatchVerifyEnrollmentAction: PropTypes.func,
+  enrollmentVerifications: PropTypes.object,
   link: PropTypes.func,
   loggedIEnenrollmentData: PropTypes.object,
   mockData: PropTypes.object,

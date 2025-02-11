@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { DEBT_TYPES } from '../constants';
 import { getCalculatedMonthlyIncomeApi, safeNumber } from './calculateIncome';
-import { getTotalAssets } from './helpers';
 
 const VHA_LIMIT = 5000;
 
@@ -39,13 +38,9 @@ export const isStreamlinedShortForm = formData => {
   // let's keep the cashBelowGmt for now so we don't affect in progress forms that have it,
   //  but we'll use assetsBelowGmt for new forms since it's a more apt description.
   return (
-    (gmtData?.isEligibleForStreamlined &&
-      gmtData?.incomeBelowGmt &&
-      gmtData?.cashBelowGmt) ||
-    (formData['view:streamlinedWaiverAssetUpdate'] &&
-      gmtData?.isEligibleForStreamlined &&
-      gmtData?.incomeBelowGmt &&
-      gmtData?.liquidAssetsBelowGmt)
+    gmtData?.isEligibleForStreamlined &&
+    gmtData?.incomeBelowGmt &&
+    gmtData?.liquidAssetsBelowGmt
   );
 };
 
@@ -61,20 +56,12 @@ export const isStreamlinedShortForm = formData => {
 export const isStreamlinedLongForm = formData => {
   const { gmtData } = formData;
 
-  // Hopefully this is more readable, but using liquidAsetsBelowGmt as flag for
-  //  asset calculation post streamlinedWaiverAssetUpdate feature flag. Want to keep assetsBelowGmt
-  //  untouched in this update as to not interfere with in progress forms.
-  const commonConditions =
+  return (
     gmtData?.isEligibleForStreamlined &&
     !gmtData?.incomeBelowGmt &&
     gmtData?.incomeBelowOneFiftyGmt &&
-    gmtData?.discretionaryBelow;
-
-  return (
-    commonConditions &&
-    (gmtData?.assetsBelowGmt ||
-      (formData['view:streamlinedWaiverAssetUpdate'] &&
-        gmtData?.liquidAssetsBelowGmt))
+    gmtData?.discretionaryBelow &&
+    gmtData?.liquidAssetsBelowGmt
   );
 };
 
@@ -144,7 +131,7 @@ export const checkIncomeGmt = async (data, setFormData) => {
 export const calculateLiquidAssets = formData => {
   const { monetaryAssets = [] } = formData?.assets;
   // Assets considered for streamlined waiver include cash in bank and on hand
-  const liquidAssets = monetaryAssets.reduce((acc, asset) => {
+  return monetaryAssets.reduce((acc, asset) => {
     if (
       asset?.name === 'Cash in a bank (savings and checkings)' ||
       asset?.name === 'Cash on hand (not in bank)'
@@ -153,8 +140,4 @@ export const calculateLiquidAssets = formData => {
     }
     return acc;
   }, 0);
-
-  return formData['view:streamlinedWaiverAssetUpdate']
-    ? liquidAssets
-    : getTotalAssets(formData);
 };

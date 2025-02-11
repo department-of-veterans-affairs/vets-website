@@ -4,12 +4,25 @@ import { mount } from 'enzyme';
 import React from 'react';
 import Sinon from 'sinon';
 import MedicationsListFilter from '../../../components/MedicationsList/MedicationsListFilter';
-import { filterOptions } from '../../../util/constants';
+import { ACTIVE_FILTER_KEY, filterOptions } from '../../../util/constants';
 
 describe('Medicaitons List Filter component', () => {
-  const setup = (updateFilter, filterOption, setFilterOption) => {
+  const filterCountObj = {
+    allMedications: 466,
+    active: 58,
+    recentlyRequested: 43,
+    renewal: 29,
+    nonActive: 403,
+  };
+  const setup = (
+    updateFilter,
+    filterOption,
+    setFilterOption,
+    filterCount = filterCountObj,
+  ) => {
     return render(
       <MedicationsListFilter
+        filterCount={filterCount}
         updateFilter={updateFilter}
         filterOption={filterOption}
         setFilterOption={setFilterOption}
@@ -32,7 +45,7 @@ describe('Medicaitons List Filter component', () => {
     const { container } = render(
       <MedicationsListFilter
         updateFilter={() => {}}
-        filterOption={filterOptions.ACTIVE.label}
+        filterOption={ACTIVE_FILTER_KEY}
         setFilterOption={() => {}}
       />,
     );
@@ -75,9 +88,30 @@ describe('Medicaitons List Filter component', () => {
       />,
     );
 
-    const filterButton = wrapper.find('VaButton');
+    const filterButton = wrapper.find('VaButton[data-testid="filter-button"]');
 
     filterButton.simulate('click');
+    expect(updateFilter.calledOnce).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('calls setFilterOption AND updateFilter when user presses the Reset button ', () => {
+    const updateFilter = Sinon.spy();
+    const setFilterOption = Sinon.spy();
+    const wrapper = mount(
+      <MedicationsListFilter
+        updateFilter={updateFilter}
+        filterOption={filterOptions.ACTIVE.label}
+        setFilterOption={setFilterOption}
+      />,
+    );
+
+    const resetButton = wrapper.find(
+      'VaButton[data-testid="filter-reset-button"]',
+    );
+
+    resetButton.simulate('click');
+    expect(setFilterOption.calledOnce).to.be.true;
     expect(updateFilter.calledOnce).to.be.true;
     wrapper.unmount();
   });

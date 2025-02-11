@@ -1,0 +1,31 @@
+{
+    "data": {
+        "type": "feature_toggles",
+        "features": [
+            {
+                "name": "askVAFormFeature",
+                "value": false
+            },
+            {
+                "name": "ask_va_form_feature",
+                "value": false
+            },
+            {
+                "name": "askVADashboardFeature",
+                "value": false
+            },
+            {
+                "name": "ask_va_dashboard_feature",
+                "value": false
+            },
+            {
+                "name": "askVAIntroductionPageFeature",
+                "value": false
+            },
+            {
+                "name": "ask_va_introduction_page_feature",
+                "value": false
+            }
+       ]
+    }
+}

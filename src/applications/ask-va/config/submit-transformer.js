@@ -32,7 +32,8 @@ export default function submitTransformer(formData, uploadFiles, askVAStore) {
     SchoolObj: {
       InstitutionName: getSchoolInfo(formData.school)?.name,
       SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
-      StateAbbreviation: formData.stateOfTheSchool,
+      StateAbbreviation:
+        formData.stateOfTheSchool || formData.stateOfTheFacility,
     },
   };
 }

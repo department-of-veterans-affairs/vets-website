@@ -136,4 +136,29 @@ describe('<UserInfoSection>', () => {
       expect(benefitEndDate.text()).to.contain('Since you’re on active duty');
     });
   });
+  describe('date of birth InfoPair', () => {
+    it('should display the formatted date of birth if present', () => {
+      const tree = SkinDeep.shallowRender(<UserInfoSection {...props} />);
+      const dobInfoPair = tree
+        .everySubTree('InfoPair')
+        .find(pair => pair.props.label === 'Date of birth');
+      expect(dobInfoPair).to.exist;
+      expect(dobInfoPair.props.value).to.equal('November 12, 1995');
+    });
+
+    it('should display "Unavailable" if dateOfBirth is missing', () => {
+      // Create a copy of props but remove dateOfBirth
+      const noDobProps = _.merge({}, props, {
+        enrollmentData: {
+          dateOfBirth: null,
+        },
+      });
+      const tree = SkinDeep.shallowRender(<UserInfoSection {...noDobProps} />);
+      const dobInfoPair = tree
+        .everySubTree('InfoPair')
+        .find(pair => pair.props.label === 'Date of birth');
+      expect(dobInfoPair).to.exist;
+      expect(dobInfoPair.props.value).to.equal('Unavailable');
+    });
+  });
 });

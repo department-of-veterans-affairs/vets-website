@@ -463,7 +463,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         .assertWarningAlert({
           text: /We couldn.t find a VA facility where you receive care that accepts online appointments for COVID-19 vaccines/i,
         })
-        .assertNexButton({ isEnabled: false });
+        .assertNextButton({ isEnabled: false });
 
       // Assert
       cy.axeCheckBestPractice();

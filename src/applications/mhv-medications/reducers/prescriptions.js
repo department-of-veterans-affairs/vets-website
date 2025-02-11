@@ -1,5 +1,5 @@
 import { Actions } from '../util/actionTypes';
-import { defaultSelectedSortOption, sourcesToHide } from '../util/constants';
+import { defaultSelectedSortOption } from '../util/constants';
 import { categorizePrescriptions } from '../util/helpers';
 
 export const initialState = {
@@ -23,6 +23,10 @@ export const initialState = {
    * Pagination received form meta object in prescriptionsList payload
    */
   prescriptionsPagination: undefined,
+  /**
+   * Pagination received form meta object in prescriptionsList payload
+   */
+  prescriptionsFilteredPagination: undefined,
   /**
    * Sort option used for sorting the prescriptions list
    */
@@ -68,14 +72,9 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET_PAGINATED_SORTED_LIST: {
       return {
         ...state,
-        prescriptionsList: action.response.data
-          .map(rx => {
-            return { ...rx.attributes };
-            // temporary plug until those sources are ready at va.gov
-          })
-          .filter(rx => {
-            return !sourcesToHide.includes(rx.prescriptionSource);
-          }),
+        prescriptionsList: action.response.data.map(rx => {
+          return { ...rx.attributes };
+        }),
         prescriptionsPagination: action.response.meta.pagination,
         apiError: false,
       };
@@ -83,15 +82,11 @@ export const prescriptionsReducer = (state = initialState, action) => {
     case Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST: {
       return {
         ...state,
-        prescriptionsFilteredList: action.response.data
-          .map(rx => {
-            return { ...rx.attributes };
-            // temporary plug until those sources are ready at va.gov
-          })
-          .filter(rx => {
-            return !sourcesToHide.includes(rx.prescriptionSource);
-          }),
-        prescriptionsPagination: action.response.meta.pagination,
+        prescriptionsFilteredList: action.response.data.map(rx => {
+          return { ...rx.attributes };
+        }),
+        prescriptionsFilteredPagination: action.response.meta.pagination,
+        filterCount: action.response.meta.filterCount,
         apiError: false,
       };
     }

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 // eslint-disable-next-line import/no-unresolved
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import VAFacilityPage from './VAFacilityPageV2';
 import {
@@ -49,6 +49,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         long: Math.random() * 180,
         address: {
           city: `Fake city ${index + 1}`,
+          state: 'FakeState',
         },
       }),
     );
@@ -339,10 +340,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      expect(await screen.findByText(/We couldn’t find a VA facility/i)).to
-        .exist;
+      expect(
+        await screen.findByText(/You can’t schedule this appointment online/i),
+      ).to.exist;
       expect(screen.baseElement).to.contain.text(
-        'None of the facilities where you receive care accepts online appointments for primary care.',
+        'None of your VA facilities have online scheduling for primary care.',
       );
       expect(screen.getByText(/Facility 983/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Facility 983');
@@ -412,10 +414,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      expect(await screen.findByText(/We couldn’t find a VA facility/i)).to
-        .exist;
+      expect(
+        await screen.findByText(/You can’t schedule this appointment online/i),
+      ).to.exist;
       expect(screen.baseElement).to.contain.text(
-        'None of the facilities where you receive care accepts online appointments for primary care.',
+        'None of your VA facilities have online scheduling for primary care.',
       );
       expect(screen.getByText(/Bozeman VA medical center/i)).to.exist;
       expect(screen.baseElement).to.contain.text('Bozeman VA medical center');
@@ -435,8 +438,11 @@ describe('VAOS Page: VAFacilityPage', () => {
         store,
       });
 
-      expect(await screen.findByText(/something went wrong on our end/i)).to
-        .exist;
+      expect(
+        await screen.findByText(
+          /You can.t schedule an appointment online right now/i,
+        ),
+      ).to.exist;
     });
 
     // Skipping test, it breaks the unit test suite when ran in a certain order and is testing v0
@@ -685,7 +691,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       await cleanup();
 
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, /optometry/i);
+      await setTypeOfEyeCare(store, '408'); // Optometry
 
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
@@ -1178,26 +1184,92 @@ describe('VAOS Page: VAFacilityPage', () => {
 
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /eye care/i);
-      await setTypeOfEyeCare(store, /optometry/i);
+      await setTypeOfEyeCare(store, '408'); // Optometry
 
       let screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
-      await screen.findByText(
-        /We found one facility that accepts online scheduling for this care/i,
-      );
-
-      expect(screen.baseElement).to.contain.text('Facility 1');
+      await screen.findByText(/You can.t schedule an appointment online/i);
 
       await cleanup();
-      await setTypeOfEyeCare(store, /Ophthalmology/i);
+      await setTypeOfEyeCare(store, '407'); // Ophthalmology
       screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
 
       expect(await screen.findByRole('radio', { name: /Facility 2/i }));
       expect(screen.getByRole('radio', { name: /Facility 3/i }));
+    });
+
+    it('should filter out facilities without a physical location', async () => {
+      mockFacilitiesFetch({
+        children: true,
+        ids: ['983'],
+        facilities: [
+          createMockFacility({
+            id: '983',
+            name: 'Facility 1',
+          }),
+          createMockFacility({
+            id: '984',
+            name: 'Facility 2',
+            address: { city: null, state: null },
+          }),
+          createMockFacility({
+            id: '983GA',
+            name: 'Facility 3',
+          }),
+        ],
+      });
+      mockEligibilityFetches({
+        facilityId: '983',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
+      });
+      mockEligibilityFetches({
+        facilityId: '984',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
+      });
+      mockEligibilityFetches({
+        facilityId: '983GA',
+        typeOfCareId: 'primaryCare',
+        limit: true,
+        directPastVisits: true,
+      });
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '983GA',
+          typeOfCareId: 'primaryCare',
+          directEnabled: true,
+        }),
+      ]);
+
+      const store = createTestStore(initialState);
+      await setTypeOfCare(store, /primary care/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      await screen.findAllByRole('radio');
+
+      expect(await screen.findByRole('radio', { name: /Facility 1/i }));
+      expect(screen.getByRole('radio', { name: /Facility 3/i }));
+      expect(screen.queryByText(/Facility 2/i)).not.to.exist;
     });
   });
 
@@ -1245,7 +1317,6 @@ describe('VAOS Page: VAFacilityPage', () => {
         featureToggles: {
           vaOnlineSchedulingDirect: true,
           vaOnlineSchedulingUseDsot: true,
-          vaOnlineSchedulingFacilitiesServiceV2: true,
         },
         user: {
           profile: {
@@ -1317,16 +1388,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
       expect(screen.getByText(/Second Cerner facility/i)).to.be.ok;
 
-      // Make sure Cerner link shows up
-      const cernerSiteLabel = document.querySelector(
-        `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
-      );
-      expect(
-        within(cernerSiteLabel)
-          .getByRole('link', { name: /My VA Health/ })
-          .getAttribute('href'),
-      ).to.contain('pages/scheduling/upcoming');
-
       // Make sure Cerner facilities show up only once
       expect(screen.getAllByText(/Second Cerner facility/i)).to.have.length(1);
       userEvent.click(screen.getByLabelText(/First cerner facility/i));
@@ -1336,134 +1397,6 @@ describe('VAOS Page: VAFacilityPage', () => {
           '/new-appointment/how-to-schedule',
         ),
       );
-    });
-  });
-
-  describe('when OH Direct Scheduling is enabled', () => {
-    beforeEach(() => mockFetch());
-
-    const initialState = {
-      drupalStaticData: {
-        vamcEhrData: {
-          loading: false,
-          data: {
-            ehrDataByVhaId: {
-              '442': {
-                vhaId: '442',
-                vamcFacilityName: 'Cheyenne VA Medical Center',
-                vamcSystemName: 'VA Cheyenne health care',
-                ehr: 'cerner',
-              },
-              '552': {
-                vhaId: '552',
-                vamcFacilityName: 'Dayton VA Medical Center',
-                vamcSystemName: 'VA Dayton health care',
-                ehr: 'cerner',
-              },
-            },
-            cernerFacilities: [
-              {
-                vhaId: '442',
-                vamcFacilityName: 'Cheyenne VA Medical Center',
-                vamcSystemName: 'VA Cheyenne health care',
-                ehr: 'cerner',
-              },
-              {
-                vhaId: '552',
-                vamcFacilityName: 'Dayton VA Medical Center',
-                vamcSystemName: 'VA Dayton health care',
-                ehr: 'cerner',
-              },
-            ],
-            vistaFacilities: [],
-          },
-        },
-      },
-      featureToggles: {
-        vaOnlineSchedulingDirect: true,
-        vaOnlineSchedulingUseDsot: true,
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-        vaOnlineSchedulingOhDirectSchedule: true,
-      },
-      user: {
-        profile: {
-          facilities: [
-            {
-              facilityId: '442', // Must use real facility id when using DSOT
-              isCerner: false, // Not used when using DSOT
-            },
-            { facilityId: '552', isCerner: false },
-          ],
-        },
-      },
-    };
-
-    it('should not display MHV scheduling link for foodAndNutrition appointments', async () => {
-      mockFacilitiesFetch({
-        children: true,
-        facilities: [
-          createMockFacility({
-            id: '983',
-            name: 'First cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-          createMockFacility({
-            id: '984',
-            name: 'Second Cerner facility',
-            lat: 39.1362562,
-            long: -83.1804804,
-          }),
-        ],
-      });
-
-      mockSchedulingConfigurations([
-        getSchedulingConfigurationMock({
-          id: '983',
-          typeOfCareId: 'foodAndNutrition',
-          directEnabled: true,
-        }),
-        getSchedulingConfigurationMock({
-          id: '984',
-          typeOfCareId: 'foodAndNutrition',
-          directEnabled: true,
-        }),
-      ]);
-
-      const store = createTestStore({
-        ...initialState,
-        user: {
-          ...initialState.user,
-          profile: {
-            ...initialState.user.profile,
-            vapContactInfo: {
-              residentialAddress: {
-                latitude: 39.1362562,
-                longitude: -84.6804804,
-              },
-            },
-          },
-        },
-      });
-
-      await setTypeOfCare(store, /nutrition and food/i);
-
-      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
-        store,
-      });
-
-      // Make sure Cerner facilities show up
-      expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
-      expect(await screen.getByText(/Second Cerner facility/i)).to.be.ok;
-
-      // Make sure Cerner link does not show up for foodAndNutrition
-      const cernerSiteLabel = document.querySelector(
-        `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
-      );
-
-      expect(
-        within(cernerSiteLabel).queryByRole('link', { name: /My VA Health/ }),
-      ).not.to.exist;
     });
   });
 });

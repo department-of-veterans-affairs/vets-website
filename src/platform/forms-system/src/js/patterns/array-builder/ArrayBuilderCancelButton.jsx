@@ -121,7 +121,12 @@ const ArrayBuilderCancelButton = ({
       className={className || 'vads-u-margin-top--3 vads-u-margin-bottom--4'}
     >
       <VaButton
-        text={getText(isEdit ? 'cancelEditButtonText' : 'cancelAddButtonText')}
+        text={getText(
+          isEdit ? 'cancelEditButtonText' : 'cancelAddButtonText',
+          currentItem,
+          formData,
+          arrayIndex,
+        )}
         data-action="cancel"
         onClick={showCancelConfirmationModal}
         ref={cancelButtonRef}
@@ -134,16 +139,28 @@ const ArrayBuilderCancelButton = ({
         modalTitle={getText(
           isEdit ? 'cancelEditTitle' : 'cancelAddTitle',
           currentItem,
+          formData,
+          arrayIndex,
         )}
-        primaryButtonText={getText(isEdit ? 'cancelEditYes' : 'cancelAddYes')}
-        secondaryButtonText={getText(isEdit ? 'cancelEditNo' : 'cancelAddNo')}
+        primaryButtonText={getText(
+          isEdit ? 'cancelEditYes' : 'cancelAddYes',
+          currentItem,
+          formData,
+          arrayIndex,
+        )}
+        secondaryButtonText={getText(
+          isEdit ? 'cancelEditNo' : 'cancelAddNo',
+          currentItem,
+          formData,
+          arrayIndex,
+        )}
         onCloseEvent={hideCancelConfirmationModal}
         onPrimaryButtonClick={cancelAction}
         onSecondaryButtonClick={hideCancelConfirmationModal}
         visible={isModalVisible}
         uswds
       >
-        {getText(modalDescriptionKey)}
+        {getText(modalDescriptionKey, currentItem, formData, arrayIndex)}
       </VaModal>
     </div>
   );

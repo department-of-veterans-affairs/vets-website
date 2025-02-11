@@ -2,16 +2,22 @@ import React from 'react';
 
 export default function CopyOfExam() {
   return (
-    <>
-      <h2 className="help-heading">Want a copy of your claim exam?</h2>
+    <div>
+      <h2 className="appeal-help-heading vads-u-margin-top--5">
+        Want a copy of your claim exam?
+      </h2>
+
       <p>
-        You can obtain a copy of your claim exam (also known as a compensation
-        and pension, or C&amp;P, exam) by{' '}
-        <a href="/find-locations/?facilityType=benefits">
-          contacting your nearest regional office
-        </a>
-        .
+        Use{' '}
+        <a
+          data-testid="va-form-20-10206-link"
+          href="https://va.gov/find-forms/about-form-20-10206/"
+        >
+          VA Form 20-10206
+        </a>{' '}
+        to request a copy of your exam. You can submit the form using our online
+        tool, or download a pdf of the form and send it by mail.
       </p>
-    </>
+    </div>
   );
 }

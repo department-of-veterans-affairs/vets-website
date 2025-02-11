@@ -55,7 +55,7 @@ import { formatPhoneNumber } from '../../../../../utils/helpers/general';
 export const ContactInformationBase = ({ location }) => {
   const profile = useSelector(selectProfile) || {};
   const contactInfo = profile.vapContactInfo || {};
-  const { areaCode, phoneNumber } = contactInfo.homePhone;
+  const { areaCode, phoneNumber } = contactInfo.mobilePhone;
   const fullNumber = areaCode + phoneNumber;
 
   const isReviewPage = isOnReviewPage(location?.pathname);
@@ -335,7 +335,7 @@ export const ContactInfo = ({
       {editState !== 'address,updated' ? (
         <va-alert>
           We’ve prefilled some of your information. If you need to make changes,
-          you can select edit on this screen.
+          you can select edit on this screen.{' '}
           <strong>
             Your changes will affect this form and your VA.gov profile.
           </strong>

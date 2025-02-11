@@ -22,6 +22,7 @@ import {
   pageTitles,
   accessAlertTypes,
   refreshExtractTypes,
+  CernerAlertContent,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -29,9 +30,10 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
-  processList,
   getLastUpdatedText,
   formatNameFirstLast,
+  sendDataDogAction,
+  formatUserDob,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -42,6 +44,7 @@ import {
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -107,12 +110,16 @@ const Vaccines = props => {
 
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVaccinesIntro(
+    const { title, subject, subtitles } = generateVaccinesIntro(
       vaccines,
       lastUpdatedText,
     );
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateVaccinesContent(vaccines),
+    };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
   };
@@ -123,8 +130,7 @@ const Vaccines = props => {
 ${txtLine}\n\n
 ${item.name}\n
 Date received: ${item.date}\n
-Location: ${item.location}\n
-Reaction: ${processList(item.reactions)}\n`;
+Location: ${item.location}\n`;
   };
 
   const generateVaccinesTxt = async () => {
@@ -132,10 +138,9 @@ Reaction: ${processList(item.reactions)}\n`;
 ${crisisLineHeader}\n\n
 Vaccines\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-This list includes vaccines you got at VA health facilities and from providers or pharmacies in our community care network. It may not include vaccines you got outside our network.\n
-For complete records of your allergies and reactions to vaccines, review your allergy records.\n
+This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n
 Showing ${vaccines.length} records from newest to oldest
 ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
 
@@ -148,16 +153,25 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
     <div id="vaccines">
       <PrintHeader />
       <h1 className="vads-u-margin--0">Vaccines</h1>
-      <p>Review vaccines (immunizations) in your VA medical records.</p>
-      <p className="vads-u-margin-bottom--4">
-        For a list of your allergies and reactions (including any reactions to
-        vaccines), go to your allergy records.{' '}
+      <p>
+        This list includes all vaccines (immunizations) in your VA medical
+        records. For a list of your allergies and reactions (including any
+        reactions to vaccines), download your allergy records.
       </p>
       <div className="vads-u-margin-bottom--4">
-        <Link to="/allergies" className="no-print">
+        <Link
+          to="/allergies"
+          className="no-print"
+          onClick={() => {
+            sendDataDogAction('Go to your allergy records - Vaccines');
+          }}
+        >
           Go to your allergy records
         </Link>
       </div>
+
+      <CernerFacilityAlert {...CernerAlertContent.VACCINES} />
+
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -181,12 +195,16 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         />
 
         <PrintDownload
+          description="Vaccines - List"
           list
           downloadPdf={generateVaccinesPdf}
           allowTxtDownloads={allowTxtDownloads}
           downloadTxt={generateVaccinesTxt}
         />
-        <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        <DownloadingRecordsInfo
+          allowTxtDownloads={allowTxtDownloads}
+          description="Vaccines"
+        />
         <RecordList records={vaccines} type={recordType.VACCINES} />
       </RecordListSection>
     </div>

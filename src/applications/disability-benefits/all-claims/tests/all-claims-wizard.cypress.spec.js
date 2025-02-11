@@ -71,7 +71,10 @@ describe('526 wizard', () => {
 
   it('should show the form wizard', () => {
     cy.url().should('include', `${DISABILITY_526_V2_ROOT_URL}/start`);
-    cy.get('h1').should('have.text', 'File for disability compensation');
+    cy.get('h1[data-testid="form-title"]').should(
+      'have.text',
+      'File for disability compensation',
+    );
     cy.axeCheck();
   });
 
@@ -121,7 +124,7 @@ describe('526 wizard', () => {
     const h1Text = 'File for disability compensation';
     // starts with focus on breadcrumb
     // cy.get('va-breadcrumbs').first().should('have.focus'); // not working?
-    cy.get('h1').should('have.text', h1Text);
+    cy.get('h1[data-testid="form-title"]').should('have.text', h1Text);
 
     cy.get('va-radio-option[value="appeals"]').click(checkOpt);
     cy.checkFormChange({
@@ -147,7 +150,10 @@ describe('526 wizard', () => {
       .first()
       .click();
     // title changes & gets focus
-    cy.get('h1').should('have.text', h1Text + h1Addition);
+    cy.get('h1[data-testid="form-title"]').should(
+      'have.text',
+      h1Text + h1Addition,
+    );
     cy.focused().should('have.text', h1Text + h1Addition);
     cy.checkStorage(WIZARD_STATUS, 'complete');
     cy.location('pathname').should(

@@ -1,36 +1,26 @@
 import React from 'react';
+
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+// application root imports
 import { scrollAndFocusTarget } from 'applications/_mock-form-ae-design-patterns/utils/focus';
-import IntroductionPage from '../containers/IntroductionPage';
-import ConfirmationPage from '../containers/ConfirmationPage';
-import { GetFormHelp } from '../components/GetFormHelp';
-import manifest from '../manifest.json';
-import { definitions } from './schemaImports';
-import profileContactInfo from './profileContactInfo';
+import { GetFormHelp } from 'applications/_mock-form-ae-design-patterns/shared/components/GetFormHelp';
+import Confirmation from 'applications/_mock-form-ae-design-patterns/shared/components/pages/Confirmation';
+import { taskCompletePagePattern2 } from 'applications/_mock-form-ae-design-patterns/shared/config/taskCompletePage';
+import { VIEW_FIELD_SCHEMA } from 'applications/_mock-form-ae-design-patterns/utils/constants';
+
+// task specific imports
 import { ContactInformationInfoSection } from '../components/ContactInfo';
 import VeteranProfileInformation from '../components/VeteranProfileInformation';
+import IntroductionPage from '../containers/IntroductionPage';
+import { definitions } from './schemaImports';
+import profileContactInfo from './profileContactInfo';
 import ReviewPage from '../../pages/ReviewPage';
-// chapter schema imports
-// import { applicantInformation } from './chapters/applicant';
-import { VIEW_FIELD_SCHEMA } from '../../../../../utils/constants';
-// import { taskCompletePage } from '../../../../../shared/config/taskCompletePage';
-
-import { taskCompletePagePattern2 } from '../../../../../shared/config/taskCompletePage';
-
-// import { serviceHistory } from './chapters/service';
-
-// import { loanScreener, loanHistory } from './chapters/loans';
-
-// import { fileUpload } from './chapters/documents';
-
-// TODO: When schema is migrated to vets-json-schema, remove common
-// definitions from form schema and get them from common definitions instead
 
 const formConfig = {
-  rootUrl: manifest.rootUrl,
+  rootUrl: '/mock-form-ae-design-patterns',
   urlPrefix: '/2/task-gray/',
   // submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
   // transformForSubmit: customCOEsubmit,
@@ -45,7 +35,7 @@ const formConfig = {
     reviewPageTitle: 'Review your request',
   },
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: Confirmation,
   formId: VA_FORM_IDS.FORM_26_1880,
   version: 0,
   prefillEnabled: true,
@@ -80,12 +70,6 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        // applicantInformationSummary: {
-        //   path: 'applicant-information',
-        //   title: 'Your personal information on file',
-        //   uiSchema: applicantInformation.uiSchema,
-        //   schema: applicantInformation.schema,
-        // },
       },
     },
     contactInformationChapter: {
@@ -103,19 +87,6 @@ const formConfig = {
             })(),
           }),
         }),
-        // mailingAddress: {
-        //   path: 'mailing-address',
-        //   title: mailingAddress.title,
-        //   uiSchema: mailingAddress.uiSchema,
-        //   schema: mailingAddress.schema,
-        //   updateFormData: mailingAddress.updateFormData,
-        // },
-        // additionalInformation: {
-        //   path: 'additional-contact-information',
-        //   title: additionalInformation.title,
-        //   uiSchema: additionalInformation.uiSchema,
-        //   schema: additionalInformation.schema,
-        // },
       },
     },
     reviewApp: {

@@ -51,7 +51,7 @@ export default function InfoAlert({
           {headline}
         </H>
       )}
-      <div className="vads-u-font-size--base">{children}</div>
+      <div>{children}</div>
     </va-alert>
   );
 }

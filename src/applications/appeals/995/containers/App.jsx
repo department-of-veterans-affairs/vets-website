@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -68,18 +67,6 @@ export const App = ({
 
   useEffect(
     () => {
-      // Set user account & application id in Sentry so we can access their form
-      // data for any thrown errors
-      if (accountUuid && inProgressFormId) {
-        Sentry.setTag('account_uuid', accountUuid);
-        Sentry.setTag('in_progress_form_id', inProgressFormId);
-      }
-    },
-    [accountUuid, inProgressFormId],
-  );
-
-  useEffect(
-    () => {
       if (hasSupportedBenefitType) {
         // form data is reset after logging in and from the save-in-progress data,
         // so get it from the session storage
@@ -131,9 +118,10 @@ export const App = ({
       isLoadingIssues,
       legacyCount,
       loggedIn,
+      pathname,
       setFormData,
       subTaskBenefitType,
-      pathname,
+      toggles,
     ],
   );
 

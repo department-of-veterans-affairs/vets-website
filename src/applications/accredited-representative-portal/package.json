@@ -1,0 +1,8 @@
+{
+  "name": "@department-of-veterans-affairs/applications-accredited-representative-portal",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "react-router-dom": "^6.28.0"
+  }
+}

@@ -1,12 +1,15 @@
 import {
+  emailToSendNotificationsSchema,
+  emailToSendNotificationsUI,
   phoneSchema,
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import { PREPARER_TYPES } from '../config/constants';
 
 /** @type {PageSchema} */
-export default {
+const pageSchema = {
   uiSchema: {
     ...titleUI(
       'Your point of contact',
@@ -17,6 +20,15 @@ export default {
       'ui:webComponentField': VaTextInputField,
     },
     pointOfContactPhone: phoneUI('Telephone number of your point of contact'),
+    pointOfContactEmail: emailToSendNotificationsUI({
+      hint:
+        'We’ll use this email to send your point of contact notifications about your form submission',
+      required: formData =>
+        (formData.preparerType === PREPARER_TYPES.VETERAN &&
+          !formData.veteranEmailAddress) ||
+        (formData.preparerType === PREPARER_TYPES.NON_VETERAN &&
+          !formData.nonVeteranEmailAddress),
+    }),
   },
   schema: {
     type: 'object',
@@ -26,6 +38,9 @@ export default {
         maxLength: 40,
       },
       pointOfContactPhone: phoneSchema,
+      pointOfContactEmail: emailToSendNotificationsSchema,
     },
   },
 };
+
+export default pageSchema;

@@ -62,9 +62,9 @@ const Disagree = () => {
         </p>
         <h3>What to know about debt waivers</h3>
         <p>
-          You have <strong>180 days</strong> from the date you received your
-          first debt letter to request a debt waiver. A waiver is a request to
-          ask us to stop collection on your debt.
+          You have <strong>1 year</strong> from the date you received your first
+          debt letter to request a debt waiver. A waiver is a request to ask us
+          to stop collection on your debt.
         </p>
         <p className="vads-u-margin-bottom--0">
           If you’re worried that we won’t complete your appeal before the

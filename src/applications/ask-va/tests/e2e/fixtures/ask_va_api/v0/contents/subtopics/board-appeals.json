@@ -1,0 +1,42 @@
+{
+    "data": [
+        {
+            "id": "892dbcee-eb64-eb11-bb23-000d3a579b83",
+            "type": "contents",
+            "attributes": {
+                "name": "Hearing",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Hearing",
+                "parentId": "a72a8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 0,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        },
+        {
+            "id": "8b2dbcee-eb64-eb11-bb23-000d3a579b83",
+            "type": "contents",
+            "attributes": {
+                "name": "Other",
+                "allowAttachments": false,
+                "description": null,
+                "displayName": "Other",
+                "parentId": "a72a8586-e764-eb11-bb23-000d3a579c3f",
+                "rankOrder": 999,
+                "requiresAuthentication": false,
+                "topicType": "SubTopic",
+                "contactPreferences": [
+                    "Email",
+                    "Phone",
+                    "USMail"
+                ]
+            }
+        }
+    ]
+}

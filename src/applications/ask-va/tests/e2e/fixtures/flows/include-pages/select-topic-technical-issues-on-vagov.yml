@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Technical issues on VA.gov
+  - action: click
+    target: call-to-action

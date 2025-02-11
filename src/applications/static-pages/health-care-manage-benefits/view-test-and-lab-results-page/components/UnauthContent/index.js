@@ -2,7 +2,6 @@
 import React from 'react';
 // Relative imports.
 import CallToActionWidget from 'applications/static-pages/cta-widget';
-import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 
 export const UnauthContent = () => (
   <>
@@ -42,10 +41,6 @@ export const UnauthContent = () => (
         Find out how to apply for VA health care
       </a>
     </p>
-    <p>
-      <strong>And you must have one of these free accounts:</strong>
-    </p>
-    <ServiceProvidersList />
     <p className="vads-u-margin-bottom--0">
       <strong>Note:</strong> If you sign in with a Basic account, you’ll find
       only the results you’ve entered yourself.

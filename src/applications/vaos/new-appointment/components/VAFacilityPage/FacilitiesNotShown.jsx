@@ -78,15 +78,15 @@ export default function FacilitiesNotShown({
                   contact={
                     facility.telecom.find(t => t.system === 'phone')?.value
                   }
-                  level={3}
+                  className="vads-u-font-weight--bold"
                 />
               </li>
             ))}
           </ul>
           <br />
-          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--1">
+          <h2 className="vads-u-font-size--h4 vads-u-margin-top--2 vads-u-margin-bottom--1">
             What you can do
-          </h3>
+          </h2>
           <p className="vads-u-margin-top--0">
             Call the facility directly to schedule your appointment,{' '}
             <strong>or </strong>

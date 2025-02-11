@@ -5,10 +5,13 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
+import environment from '~/platform/utilities/environment';
 import {
   DefinitionTester, // selectCheckbox
 } from 'platform/testing/unit/schemaform-utils';
+
 import formConfig from '../../config/form';
+import { EVIDENCE_UPLOAD_API } from '../../constants/apis';
 
 describe('Additional evidence upload', () => {
   const page = formConfig.chapters.boardReview.pages.evidenceUpload;
@@ -81,6 +84,10 @@ describe('Additional evidence upload', () => {
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
+    const { evidence } = onSubmit.args[0][0].uiSchema;
+    expect(evidence['ui:options'].fileUploadUrl).to.eq(
+      `${environment.API_URL}${EVIDENCE_UPLOAD_API}`,
+    );
     form.unmount();
   });
 });

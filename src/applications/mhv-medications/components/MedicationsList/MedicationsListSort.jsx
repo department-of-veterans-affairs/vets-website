@@ -9,13 +9,17 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { datadogRum } from '@datadog/browser-rum';
 import { rxListSortingOptions } from '../../util/constants';
-import { selectRefillContentFlag } from '../../util/selectors';
+import {
+  selectFilterFlag,
+  selectRefillContentFlag,
+} from '../../util/selectors';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const MedicationsListSort = props => {
   const { value, sortRxList } = props;
   const history = useHistory();
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showFilterContent = useSelector(selectFilterFlag);
   const [sortListOption, setSortListOption] = useState(value);
 
   const rxSortingOptions = Object.keys(rxListSortingOptions);
@@ -33,14 +37,25 @@ const MedicationsListSort = props => {
           }
           value={sortListOption}
           onVaSelect={e => {
-            setSortListOption(e.detail.value);
+            // clean after filter flag is removed
+            if (showFilterContent) {
+              sortRxList(e.detail.value);
+              history.push(`/?page=1`);
+              waitForRenderThenFocus(
+                "[data-testid='page-total-info']",
+                document,
+                500,
+              );
+            } else {
+              setSortListOption(e.detail.value);
+            }
             const capitalizedOption = e.detail.value
               .replace(/([a-z])([A-Z])/g, '$1 $2')
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.slice(1))
               .join(' ');
             datadogRum.addAction(
-              `click on ${capitalizedOption} Option - ${pageType.LIST}`,
+              `${capitalizedOption} Option - ${pageType.LIST}`,
             );
           }}
           uswds
@@ -54,29 +69,32 @@ const MedicationsListSort = props => {
           })}
         </VaSelect>
       </div>
-      <div className="sort-button">
-        <VaButton
-          data-dd-action-name={
-            dataDogActionNames.medicationsListPage.SORT_MEDICATIONS_BUTTON
-          }
-          uswds
-          className="va-button"
-          secondary={showRefillContent}
-          data-testid="sort-button"
-          text="Sort"
-          onClick={() => {
-            if (sortListOption) {
-              sortRxList(sortListOption);
-              history.push(`/?page=1`);
-              waitForRenderThenFocus(
-                "[data-testid='page-total-info']",
-                document,
-                500,
-              );
+      {/* clean after filter flag is removed */}
+      {!showFilterContent && (
+        <div className="sort-button">
+          <VaButton
+            data-dd-action-name={
+              dataDogActionNames.medicationsListPage.SORT_MEDICATIONS_BUTTON
             }
-          }}
-        />
-      </div>
+            uswds
+            className="va-button"
+            secondary={showRefillContent}
+            data-testid="sort-button"
+            text="Sort"
+            onClick={() => {
+              if (sortListOption) {
+                sortRxList(sortListOption);
+                history.push(`/?page=1`);
+                waitForRenderThenFocus(
+                  "[data-testid='page-total-info']",
+                  document,
+                  500,
+                );
+              }
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

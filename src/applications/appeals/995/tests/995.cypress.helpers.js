@@ -9,8 +9,6 @@ import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/mockUpload.json';
 
 import {
-  CONTESTABLE_ISSUES_API,
-  EVIDENCE_UPLOAD_API,
   PRIMARY_PHONE,
   BASE_URL,
   EVIDENCE_VA_PATH,
@@ -20,6 +18,12 @@ import {
   EVIDENCE_PRIVATE,
   EVIDENCE_UPLOAD_PATH,
 } from '../constants';
+import {
+  CONTESTABLE_ISSUES_API,
+  EVIDENCE_UPLOAD_API,
+  ITF_API,
+  SUBMIT_URL,
+} from '../constants/apis';
 
 import cypressSetup from '../../shared/tests/cypress.setup';
 import {
@@ -131,25 +135,32 @@ export const getPastItf = cy => {
     });
 };
 
-export const setupPerTest = () => {
+// _testData from createTestConfig
+export const setupPerTest = (_testData, toggles = []) => {
   cypressSetup();
 
   setStoredSubTask({ benefitType: 'compensation' });
 
   cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
-  cy.intercept('GET', '/v0/intent_to_file', fetchItf());
+  cy.intercept('GET', ITF_API, fetchItf());
+  cy.intercept('GET', '/v0/feature_toggles*', {
+    data: {
+      type: 'feature_toggles',
+      features: Array.isArray(toggles) ? toggles : [],
+    },
+  });
 
   // Include legacy appeals to mock data for maximal test
   const dataSet = Cypress.currentTest.titlePath[1];
   cy.intercept(
     'GET',
-    `/v1${CONTESTABLE_ISSUES_API}compensation`,
+    `${CONTESTABLE_ISSUES_API}/compensation`,
     dataSet === 'maximal-test'
       ? mockContestableIssuesWithLegacyAppeals
       : mockContestableIssues,
   ).as('getIssues');
 
-  cy.intercept('POST', '/v1/supplemental_claims', mockSubmit);
+  cy.intercept('POST', SUBMIT_URL, mockSubmit);
 
   cy.get('@testData').then(() => {
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockPrefill);
@@ -231,7 +242,7 @@ export const pageHooks = {
   [EVIDENCE_VA_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
-      cy.get('@testData').then(({ locations = [] }) => {
+      cy.get('@testData').then(({ locations = [], showScNewForm }) => {
         locations.forEach((location, index) => {
           if (location) {
             if (index > 0) {
@@ -244,8 +255,17 @@ export const pageHooks = {
                 .find('input')
                 .check({ force: true });
             });
-            cy.fillVaMemorableDate('from', location.evidenceDates?.from, false);
-            cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
+            if (showScNewForm) {
+              cy.fillVaDate('txdate', location.treatmentDate, true);
+              cy.selectVaCheckbox('nodate', location.noDate);
+            } else {
+              cy.fillVaMemorableDate(
+                'from',
+                location.evidenceDates?.from,
+                false,
+              );
+              cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
+            }
             cy.axeCheck();
 
             // Add another

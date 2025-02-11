@@ -48,6 +48,7 @@
     "secondaryMedigapPlan": "M",
     "secondaryAdditionalComments": "Additional secondary comment",
     "certifierRole": "other",
+    "certifierEmail": "certifier@email.gov",
     "signature": "Certifier Jones",
     "consentToMailMissingRequiredFiles": true
   }

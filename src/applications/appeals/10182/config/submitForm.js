@@ -5,14 +5,14 @@ import environment from 'platform/utilities/environment';
 export const buildEventData = () => {};
 
 const submitForm = (form, formConfig) => {
-  const { trackingPrefix } = formConfig;
-  // v1 (add part III data)
-  const submitUrl = `${environment.API_URL}/v1/${formConfig.submitUrl}`;
+  const { submitUrl, trackingPrefix } = formConfig;
   const body = formConfig.transformForSubmit(formConfig, form);
+
+  const url = `${environment.API_URL}${submitUrl}`;
 
   // eventData for analytics
   const eventData = buildEventData(form.data);
-  return submitToUrl(body, submitUrl, trackingPrefix, eventData);
+  return submitToUrl(body, url, trackingPrefix, eventData);
 };
 
 export default submitForm;
