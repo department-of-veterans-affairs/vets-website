@@ -3,8 +3,13 @@ import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
 import ThreadListItem from './ThreadListItem';
-import { Paths, threadSortingOptions } from '../../util/constants';
+import {
+  Paths,
+  threadSortingOptions,
+  DefaultFolders,
+} from '../../util/constants';
 import ThreadListSort from './ThreadListSort';
+import Footer from '../Footer';
 
 const ThreadsList = props => {
   const {
@@ -17,6 +22,8 @@ const ThreadsList = props => {
     sortOrder,
     threadsPerPage,
   } = props;
+
+  const { INBOX } = DefaultFolders;
 
   const location = useLocation();
 
@@ -113,6 +120,7 @@ const ThreadsList = props => {
             </div>
           </div>
         )}
+        {folder.name === INBOX.header && <Footer />}
       </div>
     </>
   );
