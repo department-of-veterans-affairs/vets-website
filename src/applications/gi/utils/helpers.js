@@ -769,15 +769,6 @@ export const showMultipleNames = (suggestions, nameInput) => {
   return final;
 };
 
-export const categoryCheck = type => {
-  if (type === 'License') {
-    return true;
-  }
-  if (type === 'Prep Course') return true;
-
-  return false;
-};
-
 export const formatProgramType = (programType = '') => {
   if (!programType) return '';
 

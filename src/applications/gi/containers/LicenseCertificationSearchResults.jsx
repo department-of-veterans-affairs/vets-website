@@ -183,6 +183,14 @@ export default function LicenseCertificationSearchResults() {
     return () => window.removeEventListener('resize', checkScreen);
   }, []);
 
+  useEffect(
+    () => {
+      window.scroll({ top: 0, bottom: 0, behavior: 'smooth' });
+      setCurrentPage(pageParam);
+    },
+    [pageParam],
+  );
+
   const handleSearch = (categoryNames, name, state) => {
     const newParams = {
       category: categoryNames.length > 0 ? categoryNames : [null],
@@ -220,9 +228,9 @@ export default function LicenseCertificationSearchResults() {
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
 
-  const handleRouteChange = (e, id) => {
+  const handleRouteChange = (e, id, name) => {
     e.preventDefault();
-    history.push(`/lc-search/results/${id}`);
+    history.push(`/lc-search/results/${id}/${name}`);
   };
 
   const handleGoHome = e => {
@@ -491,7 +499,11 @@ export default function LicenseCertificationSearchResults() {
                                 }`}
                                 type="secondary"
                                 onClick={e =>
-                                  handleRouteChange(e, result.enrichedId)
+                                  handleRouteChange(
+                                    e,
+                                    result.enrichedId,
+                                    result.lacNm,
+                                  )
                                 }
                               />
                             </va-card>
