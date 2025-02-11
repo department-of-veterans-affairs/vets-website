@@ -7,6 +7,7 @@ import './components/OfficialGovtWebsite/styles.scss';
 import './components/Search/styles.scss';
 import './containers/Menu/styles.scss';
 import App from './components/App';
+import { createShouldShowMinimalFunction } from './helpers';
 
 const setSessionStorage = (headerMinimal, excludePathsString) => {
   if (!environment.isUnitTest()) {
@@ -30,25 +31,28 @@ const setSessionStorage = (headerMinimal, excludePathsString) => {
 };
 
 const setupMinimalHeader = () => {
-  let showMinimalHeader;
   // #header-minimal will not be in the DOM unless specified in content-build
   const headerMinimal = document.querySelector('#header-minimal');
+  let excludePaths;
   let excludePathsString;
+  let minimalHeaderEnabled = false;
 
   if (headerMinimal) {
-    showMinimalHeader = () => true;
+    minimalHeaderEnabled = true;
     if (headerMinimal.dataset?.excludePaths) {
       excludePathsString = headerMinimal.dataset.excludePaths;
-      const excludePaths = JSON.parse(excludePathsString);
+      excludePaths = JSON.parse(excludePathsString);
       // Remove the data attribute from the DOM since it's no longer needed
       headerMinimal.removeAttribute('data-exclude-paths');
-      showMinimalHeader = path => path != null && !excludePaths.includes(path);
     }
   }
 
   setSessionStorage(headerMinimal, excludePathsString);
 
-  return showMinimalHeader;
+  return createShouldShowMinimalFunction({
+    enabled: minimalHeaderEnabled,
+    excludePaths,
+  });
 };
 
 export default (store, megaMenuData) => {

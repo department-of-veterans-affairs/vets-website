@@ -110,3 +110,32 @@ export const deriveMenuItemID = (item, level) => {
   const formattedLevel = level || '';
   return `${formattedTitle}-${formattedHref}-${formattedLevel}`;
 };
+
+// Prefer to limit minimal-header to only pages where the user is in the middle
+// of the experience (filling out a form), and not at the bookends ("/introduction"
+// and "/confirmation"). You can override this in content-build by specifying the
+// excludePaths on minimalHeader and/or minimalFooter
+const DEFAULT_EXCLUDE_MINIMAL_PATHS = ['/introduction', '/confirmation'];
+
+/**
+ * @param {
+ *  enabled?: boolean,
+ *  excludePaths?: string[]
+ * } data
+ *
+ * @returns {function(string): boolean}
+ */
+export const createShouldShowMinimalFunction = ({
+  enabled,
+  excludePaths = DEFAULT_EXCLUDE_MINIMAL_PATHS,
+}) => {
+  let showMinimal = () => false;
+
+  if (enabled) {
+    showMinimal = path => {
+      return !path || !excludePaths.includes(path);
+    };
+  }
+
+  return showMinimal;
+};

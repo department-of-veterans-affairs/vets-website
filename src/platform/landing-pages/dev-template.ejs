@@ -51,7 +51,12 @@
 
   <body class="merger">
     <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
-    <% if (typeof minimalHeader !== 'undefined') { %>
+    <%
+      if (typeof minimalHeader !== 'undefined' && (minimalHeader === true || minimalHeader === 'true')) {
+        minimalHeader = {};
+      }
+    %>
+    <% if (typeof minimalHeader === 'object' && minimalHeader.enabled !== false) { %>
     <!-- Header Minimal -->
     <div
       id="header-minimal"
@@ -251,7 +256,7 @@
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
       <div id="footerNav"
-        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? minimalFooter : false %>"
+        data-minimal-footer='<%= typeof minimalFooter !== "undefined" ? JSON.stringify(minimalFooter).replace(/"/g, "&quot;") : false  %>'
       ></div>
     </footer>
 
