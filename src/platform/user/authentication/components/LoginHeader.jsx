@@ -11,6 +11,7 @@ export default function LoginHeader({ loggedOut }) {
   return (
     <>
       <div className="row">
+        <DowntimeBanners />
         {displayLogoutAlert && <LogoutAlert />}
         <SessionTimeoutAlert />
         <div className="columns small-12">
@@ -19,7 +20,6 @@ export default function LoginHeader({ loggedOut }) {
           </h1>
         </div>
       </div>
-      <DowntimeBanners />
     </>
   );
 }
