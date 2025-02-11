@@ -32,6 +32,7 @@ const SearchControls = props => {
     isMobile,
     isTablet,
     isSmallDesktop,
+    getProviderSpecialties,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -330,7 +331,10 @@ const SearchControls = props => {
       case LocationType.CC_PROVIDER:
         if (useProgressiveDisclosure) {
           return (
-            <ServicesLoadingOrShow serviceType="ppms_services">
+            <ServicesLoadingOrShow
+              serviceType="ppms_services"
+              getProviderSpecialties={getProviderSpecialties}
+            >
               <div
                 id="service-typeahead-container"
                 className={isMobile ? 'typeahead-mobile' : 'typeahead-tablet'}
@@ -339,6 +343,7 @@ const SearchControls = props => {
                   handleServiceTypeChange={handleServiceTypeChange}
                   initialSelectedServiceType={serviceType}
                   showError={showError}
+                  useProgressiveDisclosure
                 />
               </div>
             </ServicesLoadingOrShow>
@@ -357,6 +362,8 @@ const SearchControls = props => {
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
               showError={showError}
+              useProgressiveDisclosure={false}
+              getProviderSpecialties={getProviderSpecialties}
             />
           </div>
         );

@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from 'mapbox-gl-v3';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
@@ -20,6 +19,7 @@ import {
   mapMoved,
   geolocateUser,
   clearGeocodeError,
+  getProviderSpecialties,
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
@@ -61,9 +61,8 @@ const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
   const [map, setMap] = useState(null);
-  const mapboxContainerRef = useRef(null);
-  const searchResultTitleRef = useRef(null);
-  const searchResultMessageRef = useRef();
+  const [verticalSize, setVerticalSize] = useState(0);
+  const [horizontalSize, setHorizontalSize] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
   const [isSmallDesktop, setIsSmallDesktop] = useState(
     window.innerWidth >= 1024,
@@ -71,11 +70,12 @@ const FacilitiesMap = props => {
   const [isTablet, setIsTablet] = useState(
     window.innerWidth > 481 && window.innerWidth <= 1023,
   );
-
-  const [mapboxContainerHeight, setMapboxContainerHeight] = useState(0);
-  const [mapboxContainerWidth, setMapboxContainerWidth] = useState(0);
-
   const [isSearching, setIsSearching] = useState(false);
+
+  // refs
+  const mapboxContainerRef = useRef(null);
+  const searchResultTitleRef = useRef(null);
+  const searchResultMessageRef = useRef();
 
   /**
    * Search when the component renders with a sharable url
@@ -341,17 +341,11 @@ const FacilitiesMap = props => {
    * Setup map on resize
    */
   const setMapResize = () => {
-    setTimeout(function() {
+    setTimeout(function resetMap() {
       setMap(setupMap());
     }, 10);
   };
-  const mapContainerResize = () => {
-    if (map) {
-      map?.resize();
-    }
-  };
 
-  const debounceMapContainerResize = vaDebounce(500, mapContainerResize);
   const shouldRenderSearchArea = () => {
     return props.currentQuery?.mapMoved;
   };
@@ -388,7 +382,6 @@ const FacilitiesMap = props => {
         <p className="sr-only" id="map-instructions" aria-live="assertive" />
         <div
           id={mapboxGlContainer}
-          ref={mapboxContainerRef}
           role="application"
           aria-label="Find VA locations on an interactive map"
           aria-describedby="map-instructions"
@@ -460,25 +453,24 @@ const FacilitiesMap = props => {
     const childrenOfMapboxContainer = document.getElementById(mapboxGlContainer)
       ?.children?.length;
 
-    if (map && !isMobile && !childrenOfMapboxContainer) {
-      setMapResize();
-    }
-
-    // On initial load
     if (
-      map &&
-      !isMobile &&
-      !childrenOfMapboxContainer &&
-      window.document.getElementsByClassName('desktop-map-container').length ===
-        0 &&
-      window.document.getElementsByClassName('tablet-map-container').length ===
-        0
+      (map &&
+        !isMobile &&
+        (!window.document.getElementById(mapboxGlContainer) ||
+          (window.document.getElementsByClassName('desktop-map-container')
+            .length === 0 &&
+            window.document.getElementsByClassName('tablet-map-container')
+              .length === 0))) ||
+      !childrenOfMapboxContainer
     ) {
       setMapResize();
     }
 
     return (
-      <div className={!isMobile ? 'tablet-or-greater-container' : undefined}>
+      <div
+        className={!isMobile ? 'tablet-or-greater-container' : undefined}
+        ref={mapboxContainerRef}
+      >
         {props.suppressPPMS && (
           <Alert
             displayType="warning"
@@ -487,12 +479,14 @@ const FacilitiesMap = props => {
           />
         )}
         <ControlsAndMapContainer
-          isSmallDesktop={isSmallDesktop && useProgressiveDisclosure}
+          isSmallDesktop={!!(isSmallDesktop && useProgressiveDisclosure)}
         >
           <ControlResultsHolder
-            isSmallDesktop={isSmallDesktop && useProgressiveDisclosure}
+            isSmallDesktop={!!(isSmallDesktop && useProgressiveDisclosure)}
           >
-            <PpmsServiceError currentQuery={props.currentQuery} />
+            {useProgressiveDisclosure ? (
+              <PpmsServiceError currentQuery={props.currentQuery} />
+            ) : null}
             <SearchControls
               geolocateUser={props.geolocateUser}
               clearGeocodeError={props.clearGeocodeError}
@@ -506,6 +500,7 @@ const FacilitiesMap = props => {
               isMobile={isMobile}
               isTablet={isTablet}
               isSmallDesktop={isSmallDesktop}
+              getProviderSpecialties={props.getProviderSpecialties}
             />
             <EmergencyCareAlert
               shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
@@ -529,7 +524,7 @@ const FacilitiesMap = props => {
                 {isSmallDesktop &&
                   useProgressiveDisclosure && (
                     <div
-                      className="search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 columns"
+                      className="search-results-container vads-u-padding-x--0p5 vads-u-padding-top--0p5 columns"
                       id="searchResultsContainer"
                     >
                       <div className="facility-search-results">
@@ -772,11 +767,9 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       const resizeObserver = new ResizeObserver(entries => {
-        const { width, height } = entries[0].contentRect;
-        if (width && height) {
-          setMapboxContainerHeight(height);
-          setMapboxContainerWidth(width);
-        }
+        const { height, width } = entries[0].contentRect;
+        setVerticalSize(height);
+        setHorizontalSize(width);
       });
 
       if (mapboxContainerRef.current) {
@@ -784,21 +777,22 @@ const FacilitiesMap = props => {
       }
       return () => {
         if (mapboxContainerRef.current) {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
           resizeObserver.unobserve(mapboxContainerRef.current);
         }
       };
     },
     [mapboxContainerRef],
   );
+
   useEffect(
     () => {
-      if (mapboxContainerHeight || mapboxContainerWidth) {
-        debounceMapContainerResize();
+      if (map && !isMobile) {
+        map.resize();
       }
     },
-    [debounceMapContainerResize, mapboxContainerHeight, mapboxContainerWidth],
+    [map, horizontalSize, verticalSize, isMobile],
   );
+
   return (
     <>
       <h1 className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2">
@@ -836,6 +830,7 @@ const mapDispatchToProps = {
   updateSearchQuery,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
+  getProviderSpecialties,
   searchWithBounds,
   clearSearchResults,
   clearSearchText,

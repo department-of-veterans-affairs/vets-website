@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getProviderSpecialties } from '../actions';
 
 function ServicesLoadingOrShow({
   children,
@@ -34,6 +33,7 @@ function ServicesLoadingOrShow({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [serviceType],
   );
+
   if (currentQuery.fetchSvcsInProgress) {
     return (
       <VaLoadingIndicator
@@ -52,15 +52,10 @@ ServicesLoadingOrShow.propTypes = {
   serviceType: PropTypes.string,
 };
 
-const mapDispatch = { getProviderSpecialties };
-
 const mapStateToProps = state => {
   return {
     currentQuery: state.searchQuery,
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatch,
-)(ServicesLoadingOrShow);
+export default connect(mapStateToProps)(ServicesLoadingOrShow);

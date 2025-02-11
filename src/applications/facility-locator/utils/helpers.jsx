@@ -46,7 +46,7 @@ export const buildMarker = (type, values) => {
         locationElement.classList.add('active');
         recordMarkerEvents(loc);
         document.getElementById('searchResultsContainer').scrollTop =
-          locationElement.offsetTop;
+          locationElement.offsetTop - 4;
       }
     });
     return markerElement;
