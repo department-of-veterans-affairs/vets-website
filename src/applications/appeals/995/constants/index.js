@@ -35,6 +35,8 @@ export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
 export const OTHER_HOUSING_RISK_MAX = 100;
+export const POINT_OF_CONTACT_MAX = 150;
+export const TREATMENT_FACILITY_OTHER_MAX = 115;
 
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
