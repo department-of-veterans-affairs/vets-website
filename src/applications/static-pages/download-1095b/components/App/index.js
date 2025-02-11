@@ -126,7 +126,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           <b>Tax year:</b> {year}
         </span>
       </div>
-      <div className="download-break vads-u-font-size--h5">
+      <div className="download-links vads-u-font-size--h5">
         <div className="vads-u-padding-bottom--1">
           <VaLink
             download
@@ -197,8 +197,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loggedIn: true,
-  displayToggle: true,
+  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
 });
 
 const mapDispatchToProps = dispatch => ({
