@@ -6,11 +6,10 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
-import personalInfoSignedIn from '../pages/personalInfoSignedIn';
+import * as personalInfoSignedIn from '../pages/personalInfoSignedIn';
+import * as applicantInfoRelationshipToVeteranSignedIn from '../pages/applicantInfoRelationshipToVeteranSignedIn';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
-import { applicantSaveAppText } from '../utils/helpers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -47,10 +46,20 @@ const formConfig = {
   chapters: {
     applicantInformation: {
       title: 'Applicant information',
-      applicantSaveAppText,
       pages: {
         personalInfoSignedIn: {
           path: 'confirm-personal-information',
+          uiSchema: personalInfoSignedIn.uiSchema,
+          schema: personalInfoSignedIn.schema,
+        },
+        screen2: {
+          title: 'Your relationship to the Veteran',
+          path: 'relationship-to-veteran',
+          uiSchema: applicantInfoRelationshipToVeteranSignedIn.uiSchema,
+          schema: applicantInfoRelationshipToVeteranSignedIn.schema,
+        },
+        screen3: {
+          path: 'screen-3',
           title: 'Confirm the personal information we have on file for you',
           uiSchema: personalInfoSignedIn.uiSchema,
           schema: personalInfoSignedIn.schema,

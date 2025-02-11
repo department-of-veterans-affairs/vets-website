@@ -1,20 +1,30 @@
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { applicantSaveAppText } from '../utils/helpers';
+// import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
-/** @type {PageSchema} */
-export default {
-  uiSchema: {
-    'ui:description': applicantSaveAppText,
-    ...titleUI('Confirm the personal information we have on file for you'),
-    // fullName: fullNameNoSuffixUI(),
-    // dateOfBirth: dateOfBirthUI(),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      // fullName: fullNameNoSuffixSchema,
-      // dateOfBirth: dateOfBirthSchema,
-    },
-    // required: ['fullName', 'dateOfBirth'],
-  },
+import // applicantSaveAppText,
+// cardForSignedIn,
+// applicantInfoNoteDescription,
+// finishAppLaterLink,
+// personalInfoSubHeader,
+'../utils/helpers';
+
+export const uiSchema = {
+  // This does not work currently
+  // application: {
+  //   applicant: {
+  //     'ui:title': applicantSaveAppText,
+  //     'ui: description':
+  //       'Confirm the personal information we have on file for you',
+  //   },
+  // },
+  // I need the page in this order..
+  // applicantSaveAppText,
+  // personalInfoSubHeader,
+  // cardForSignedIn,
+  // applicantInfoNoteDescription,
+  // finishAppLaterLink,
+};
+
+export const schema = {
+  type: 'object',
+  properties: {},
 };
