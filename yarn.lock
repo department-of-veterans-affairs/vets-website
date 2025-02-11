@@ -11579,10 +11579,10 @@ handlebars@^4.7.7:
   optionalDependencies:
     uglify-js "^3.1.4"
 
-happy-dom@^16.6.0:
-  version "16.6.0"
-  resolved "https://registry.npmjs.org/happy-dom/-/happy-dom-16.6.0.tgz#e35e8568deb4f394cd5488c29f2519676661c1af"
-  integrity sha512-Zz5S9sog8a3p8XYZbO+eI1QMOAvCNnIoyrH8A8MLX+X2mJrzADTy+kdETmc4q+uD9AGAvQYGn96qBAn2RAciKw==
+happy-dom@^17.0.0:
+  version "17.0.3"
+  resolved "https://registry.npmjs.org/happy-dom/-/happy-dom-17.0.3.tgz#09785d87bdfe537e482960211ee5b47d5ac7d154"
+  integrity sha512-1vWCwpeguN02wQF8kGeaj69FDX19bXKQXmyUKcE+O0WLY0uhS0RPTLCJR8Omy8hrjMHwV3dUJ24JUrK07aOA9Q==
   dependencies:
     webidl-conversions "^7.0.0"
     whatwg-mimetype "^3.0.0"

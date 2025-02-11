@@ -115,18 +115,20 @@ describe('focusElement', () => {
     );
     const input = screen.getByLabelText('Name');
 
-    // happy-dom bug sets this to -1 by default
-    input.tabIndex = 0;
+    expect(input.tabIndex).to.eq(0);
+    expect(input.getAttribute('tabIndex')).to.be.null;
 
     focusElement(input);
 
     await waitFor(() => {
       expect(document.activeElement).to.eq(input);
       expect(input.tabIndex).to.eq(0);
+      expect(input.getAttribute('tabindex')).to.be.null;
     });
     fireEvent.blur(input);
     await waitFor(() => {
       expect(input.tabIndex).to.eq(0);
+      expect(input.getAttribute('tabindex')).to.be.null;
     });
   });
   it('should focus on va-alert element', async () => {
@@ -171,15 +173,15 @@ describe('focusElement', () => {
     const container = screen.getByTestId('container');
     const button = screen.getByTestId('button');
 
-    // happy-dom bug sets tabIndex to -1 by default
-    button.tabIndex = 0;
     expect(button.tabIndex).to.eq(0);
+    expect(button.getAttribute('tabindex')).to.be.null;
 
     focusElement('button', {}, container);
 
     await waitFor(() => {
       expect(document.activeElement).to.eq(button);
       expect(button.tabIndex).to.eq(0);
+      expect(button.getAttribute('tabindex')).to.be.null;
     });
   });
 });
