@@ -55,7 +55,6 @@ describe('Revew page', () => {
         profile: {
           vapContactInfo: {
             residentialAddress: homeAddress,
-            mailingAddress: null,
           },
         },
       },
