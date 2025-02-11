@@ -126,7 +126,7 @@ const preFilledDirectDeposit33 = {
               },
               accountType: {
                 type: 'string',
-                enum: ['checking', 'savings'],
+                enum: ['Checking', 'Savings'],
               },
               routingNumber: {
                 type: 'string',
