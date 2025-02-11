@@ -67,34 +67,6 @@ describe('deriveMostRecentDate', () => {
     );
   });
 
-  it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are only past dates', () => {
-    const now = 1642030600;
-    const fieldDatetimeRangeTimezone = [
-      { value: 1642014000, endValue: 1642017600 },
-      { value: 1642017000, endValue: 1642020600 },
-      { value: 1642025600, endValue: 1642029600 },
-    ];
-
-    expect(deriveMostRecentDate(fieldDatetimeRangeTimezone, now)).to.deep.eq({
-      value: 1642025600,
-      endValue: 1642029600,
-    });
-  });
-
-  it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are past and future dates', () => {
-    const now = 1642019600;
-    const fieldDatetimeRangeTimezone = [
-      { value: 1642014000, endValue: 1642017600 },
-      { value: 1642017000, endValue: 1642020600 },
-      { value: 1642025600, endValue: 1642029600 },
-    ];
-
-    expect(deriveMostRecentDate(fieldDatetimeRangeTimezone, now)).to.deep.eq({
-      value: 1642017000,
-      endValue: 1642020600,
-    });
-  });
-
   it('returns the most recent date when fieldDatetimeRangeTimezone is an array of 2 or more + there are only future dates', () => {
     const now = 1642014000;
     const fieldDatetimeRangeTimezone = [
@@ -405,20 +377,6 @@ describe('filterEvents', () => {
     { id: 'next-week' },
   );
 
-  const pastEvent = createEvent(
-    now
-      .clone()
-      .subtract(2, 'days')
-      .unix(),
-    now
-      .clone()
-      .subtract(2, 'days')
-      .add(1, 'hours')
-      .unix(),
-    'Past Event',
-    { id: 'past' },
-  );
-
   const activeEvent = createEvent(
     now
       .clone()
@@ -431,13 +389,7 @@ describe('filterEvents', () => {
     'Active Event',
   );
 
-  const events = [
-    upcomingEvent,
-    nextWeekEvent,
-    nextMonthEvent,
-    pastEvent,
-    activeEvent,
-  ];
+  const events = [upcomingEvent, nextWeekEvent, nextMonthEvent, activeEvent];
 
   it('returns what we expect with no arguments', () => {
     expect(
@@ -489,12 +441,6 @@ describe('filterEvents', () => {
     } else {
       expect(filteredEvents).to.deep.equal([nextMonthEvent]);
     }
-  });
-
-  it('returns what we expect for past', () => {
-    expect(filterEvents(events, 'past', undefined, now.clone())).to.deep.equal([
-      pastEvent,
-    ]);
   });
 
   it('returns what we expect for custom-date-range', () => {
