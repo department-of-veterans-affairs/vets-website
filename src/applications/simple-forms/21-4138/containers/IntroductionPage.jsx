@@ -49,7 +49,7 @@ const IntroductionPage = props => {
   const ombInfo = {
     resBurden: '15',
     ombNumber: '2900-0075',
-    expDate: '7/30/2027',
+    expDate: '7/31/2027',
   };
 
   return (

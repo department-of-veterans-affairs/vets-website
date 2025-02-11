@@ -44,10 +44,6 @@
   "coeAccess": "coe_access",
   "combinedDebtPortalAccess": "combined_debt_portal_access",
   "confirmationPageNew": "confirmation_page_new",
-  "covidVaccineUpdatesCTA": "covid_vaccine_registration_frontend_cta",
-  "covidVaccineUpdatesDisableAuth": "covid_vaccine_registration_frontend_hide_auth",
-  "covidVaccineUpdatesEnableExpandedEligibility": "covid_vaccine_registration_frontend_enable_expanded_eligibility",
-  "covidVaccineUpdatesForm": "covid_vaccine_registration_frontend",
   "cst5103UpdateEnabled": "cst_5103_update_enabled",
   "cstClaimPhases": "cst_claim_phases",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
@@ -69,7 +65,6 @@
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
-  "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
@@ -308,5 +303,6 @@
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
   "toggleGiProgramsFlag": "toggle_gi_programs_flag",
+  "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update",
   "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
 }
