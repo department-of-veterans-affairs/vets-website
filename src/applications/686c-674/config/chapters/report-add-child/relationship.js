@@ -1,48 +1,42 @@
+import React from 'react';
 import {
   titleUI,
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import React from 'react';
 
-const CommonEvidenceInfo = () => {
-  return (
-    <>
-      <p>
-        Based on your answers, you’ll need to submit a copy of this child’s
-        birth certificate to add them as your dependent.
-      </p>
-      <p>We’ll ask you to submit this document at the end of this form.</p>
-    </>
-  );
-};
+const CommonEvidenceInfo = (
+  <>
+    <p>
+      Based on your answers, you’ll need to submit a copy of this child’s birth
+      certificate to add them as your dependent.
+    </p>
+    <p>We’ll ask you to submit this document at the end of this form.</p>
+  </>
+);
 
-const AdoptedAdditionalEvidence = () => {
-  return (
-    <div>
-      <p>You’ll need to submit a copy of 1 of these 4 documents:</p>
-      <ul>
-        <li>The final decree of adoption, or</li>
-        <li>The adoptive placement agreement, or</li>
-        <li>The interlocutory decree of adoptions, or</li>
-        <li>The revised birth certificate</li>
-      </ul>
-    </div>
-  );
-};
+const AdoptedAdditionalEvidence = (
+  <div>
+    <p>You’ll need to submit a copy of 1 of these 4 documents:</p>
+    <ul>
+      <li>The final decree of adoption, or</li>
+      <li>The adoptive placement agreement, or</li>
+      <li>The interlocutory decree of adoptions, or</li>
+      <li>The revised birth certificate</li>
+    </ul>
+  </div>
+);
 
-const StepchildAdditionalEvidence = () => {
-  return (
-    <div>
-      <p>
-        You’ll need to submit a copy of your child’s birth certificate. The
-        birth certificate needs to show the names of both of the child’s
-        biological parents.
-      </p>
-    </div>
-  );
-};
+const StepchildAdditionalEvidence = (
+  <div>
+    <p>
+      You’ll need to submit a copy of your child’s birth certificate. The birth
+      certificate needs to show the names of both of the child’s biological
+      parents.
+    </p>
+  </div>
+);
 
 export const relationship = {
   uiSchema: {
