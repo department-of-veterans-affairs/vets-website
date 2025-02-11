@@ -405,7 +405,8 @@ const DownloadFileType = props => {
     sendDataDogAction('File type - Back - Record type');
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = e => {
+    e.preventDefault();
     selectFileTypeHandler();
     focusOnErrorField();
     if (fileType === 'pdf') {
@@ -451,7 +452,7 @@ const DownloadFileType = props => {
         )}
       {isDataFetched &&
         recordCount > 0 && (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={e => handleSubmit(e)}>
             <div>
               <div
                 className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
