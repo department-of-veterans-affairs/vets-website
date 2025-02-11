@@ -15,7 +15,7 @@ const PhoneViewField = ({ formData: phoneNumber = '', name }) => {
 };
 
 export const PhoneEmailViewField = ({ formData }) => {
-  const { inputVeteranPrimaryPhone, emailAddress } = formData;
+  const { inputVeteranPrimaryPhone, inputVeteranEmail } = formData;
   return (
     <div>
       <PhoneViewField
@@ -23,7 +23,7 @@ export const PhoneEmailViewField = ({ formData }) => {
         name="Primary phone"
       />
       <p>
-        <strong>Email address</strong>: {emailAddress || ''}
+        <strong>Email address</strong>: {inputVeteranEmail || ''}
       </p>
     </div>
   );
