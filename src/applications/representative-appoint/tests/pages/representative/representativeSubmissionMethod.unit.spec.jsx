@@ -86,7 +86,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
         .stub(reviewPageHook, 'useReviewPage')
         .returns(false);
 
-      props.formData.representativeSubmissionMethod = 'mail';
+      props.formData.inputSubmissionMethod = 'mail';
 
       const { getByText } = render(
         <Provider store={mockStore}>
@@ -138,7 +138,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
         .stub(reviewPageHook, 'useReviewPage')
         .returns(true);
 
-      props.formData.representativeSubmissionMethod = 'mail';
+      props.formData.inputSubmissionMethod = 'mail';
 
       const { getByText } = render(
         <Provider store={mockStore}>

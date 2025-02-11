@@ -31,8 +31,7 @@ export default function ConfirmationPage({ router }) {
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
 
-  const isDigitalSubmission =
-    formData.representativeSubmissionMethod === 'digital';
+  const isDigitalSubmission = formData.inputSubmissionMethod === 'digital';
 
   const v2IsEnabled = useV2FeatureToggle();
   useEffect(() => {

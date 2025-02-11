@@ -16,7 +16,7 @@ const SelectOrganization = props => {
   // // v2 feature pending availableSubmissionMethods
   // const filteredOrganizations = organizations?.filter(org =>
   //   org.attributes?.availableSubmissionMethods?.includes(
-  //     formData.representativeSubmissionMethod,
+  //     formData.inputSubmissionMethod,
   //   ),
   // );
 

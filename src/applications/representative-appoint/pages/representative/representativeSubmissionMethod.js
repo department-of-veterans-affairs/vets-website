@@ -2,7 +2,7 @@ import RepresentativeSubmissionMethod from '../../components/RepresentativeSubmi
 import { entityAcceptsDigitalPoaRequests } from '../../utilities/helpers';
 
 export const uiSchema = {
-  representativeSubmissionMethod: {
+  inputSubmissionMethod: {
     'ui:title': "Select how you'd like to submit your request",
     'ui:widget': RepresentativeSubmissionMethod,
     'ui:options': {
@@ -16,7 +16,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    representativeSubmissionMethod: {
+    inputSubmissionMethod: {
       type: 'string',
     },
   },

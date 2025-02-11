@@ -22,7 +22,7 @@ const RepresentativeSubmissionMethod = props => {
   };
 
   const handleGoForward = () => {
-    if (!formData?.representativeSubmissionMethod) {
+    if (!formData?.inputSubmissionMethod) {
       setError('Choose how to submit your request by selecting an option');
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
@@ -36,7 +36,7 @@ const RepresentativeSubmissionMethod = props => {
     setError(null);
     setFormData({
       ...formData,
-      representativeSubmissionMethod: e.detail.value,
+      inputSubmissionMethod: e.detail.value,
     });
   };
 
@@ -54,21 +54,21 @@ const RepresentativeSubmissionMethod = props => {
           name="method"
           value="digital"
           key={0}
-          checked={formData.representativeSubmissionMethod === 'digital'}
+          checked={formData.inputSubmissionMethod === 'digital'}
         />
         <va-radio-option
           label="By mail"
           name="method"
           value="mail"
           key={1}
-          checked={formData.representativeSubmissionMethod === 'mail'}
+          checked={formData.inputSubmissionMethod === 'mail'}
         />
         <va-radio-option
           label="In person"
           name="method"
           value="in person"
           key={2}
-          checked={formData.representativeSubmissionMethod === 'in person'}
+          checked={formData.inputSubmissionMethod === 'in person'}
         />
       </VaRadio>
       <p>
