@@ -29,7 +29,6 @@ const mailing = {
 
 describe('Address page', () => {
   const setPageIndex = sinon.spy();
-  const setYesNo = sinon.spy();
   const setIsUnsupportedClaimType = sinon.spy();
 
   const getData = ({ homeAddress, mailingAddress } = {}) => {
@@ -53,7 +52,7 @@ describe('Address page', () => {
       vehicle: 'yes',
       address: '',
     },
-    setYesNo,
+    setYesNo: () => {},
     setIsUnsupportedClaimType,
   };
 
