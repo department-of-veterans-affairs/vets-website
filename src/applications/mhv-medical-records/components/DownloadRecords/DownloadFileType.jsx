@@ -424,6 +424,8 @@ const DownloadFileType = props => {
           current={3}
           heading-text="Select file type"
           total={3}
+          header-level={2}
+          ref={progressBarRef}
         />
       </div>
       <h2>Select file type</h2>
