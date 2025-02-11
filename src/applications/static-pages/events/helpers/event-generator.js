@@ -1,8 +1,8 @@
-import moment from 'moment-timezone';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { fleshOutRecurringEvents, removeDuplicateEvents } from '.';
 
-moment.tz.setDefault('America/New_York');
-const now = moment().clone();
+const now = zonedTimeToUtc(new Date(), 'America/New_York');
+
 let lastEntityId = 0;
 
 /**
@@ -103,37 +103,6 @@ const createRecurringEvents = () => {
     timezone: 'America/New_York',
   });
   return [eventA, eventB];
-};
-
-/**
- * Creates past events.
- *
- * @export
- * @returns {Array<Object>} An array of event objects.
- */
-const createPastEvents = () => {
-  const lastYear = now
-    .clone()
-    .subtract(1, 'years')
-    .year();
-  return [
-    createEvent(
-      moment(`${lastYear}-01-04 10:15:00`).unix(),
-      moment(`${lastYear}-01-04 10:15:00`)
-        .add(1, 'hour')
-        .unix(),
-      'Past Event A',
-      { id: 'past' },
-    ),
-    createEvent(
-      moment(`${lastYear}-06-01 12:00:00`).unix(),
-      moment(`${lastYear}-06-01 12:00:00`)
-        .add(1, 'hour')
-        .unix(),
-      'Past Event B',
-      { id: 'past' },
-    ),
-  ];
 };
 
 /**
@@ -382,7 +351,6 @@ const createActiveEvents = () => {
 const generateTestEvents = () => {
   return fleshOutRecurringEvents(
     removeDuplicateEvents([
-      ...createPastEvents(),
       ...createFutureEvents(),
       ...createRecurringEvents(),
       ...createDuplicateEvents(),
@@ -395,7 +363,6 @@ const generateTestEvents = () => {
 export {
   generateTestEvents,
   createEvent,
-  createPastEvents,
   createFutureEvents,
   createRecurringEvents,
   createDuplicateEvents,

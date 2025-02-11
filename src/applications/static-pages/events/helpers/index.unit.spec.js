@@ -1,4 +1,10 @@
-import moment from 'moment-timezone';
+import {
+  fromUnixTime,
+  getUnixTime,
+  subDays,
+  addDays,
+  addSeconds,
+} from 'date-fns';
 import { expect } from 'chai';
 import {
   addUniqueEventsToList,
@@ -184,16 +190,11 @@ describe('removeDuplicateEvents', () => {
 
 describe('fleshOutRecurringEvents', () => {
   it('should only create events for future occurrences of recurring events', () => {
-    const now = moment().unix();
-    const pastTime = moment()
-      .subtract(1, 'day')
-      .unix();
-    const futureTime1 = moment()
-      .add(1, 'day')
-      .unix();
-    const futureTime2 = moment()
-      .add(2, 'days')
-      .unix();
+    const now = getUnixTime(new Date());
+    const pastTime = getUnixTime(subDays(new Date(), 1));
+    const futureTime1 = getUnixTime(addDays(new Date(), 1));
+    const futureTime2 = getUnixTime(addDays(new Date(), 2));
+
     const recurringEvents = [
       {
         fieldDatetimeRangeTimezone: [
@@ -216,10 +217,12 @@ describe('fleshOutRecurringEvents', () => {
   });
 
   it('should create recurring events correctly', () => {
-    const one = moment().unix() + 10000;
-    const two = moment().unix() + 20000;
-    const three = moment().unix() + 30000;
-    const four = moment().unix() + 40000;
+    const now = new Date();
+    const one = getUnixTime(addSeconds(now, 10000));
+    const two = getUnixTime(addSeconds(now, 20000));
+    const three = getUnixTime(addSeconds(now, 30000));
+    const four = getUnixTime(addSeconds(now, 40000));
+
     const recurringEvents = [
       {
         fieldDatetimeRangeTimezone: [{ value: one }, { value: two }],
@@ -257,7 +260,11 @@ describe('fleshOutRecurringEvents', () => {
 
   it('should return the one event if there is only one occurrence', () => {
     const recurringEvents = [
-      { fieldDatetimeRangeTimezone: [{ value: moment().unix() + 1000 }] },
+      {
+        fieldDatetimeRangeTimezone: [
+          { value: getUnixTime(addSeconds(new Date(), 1000)) },
+        ],
+      },
     ];
 
     expect(fleshOutRecurringEvents(recurringEvents)).to.deep.eq(
@@ -355,7 +362,7 @@ describe('deriveStartsAtUnix', () => {
 
 describe('filterEvents', () => {
   // '2021-01-01T07:00:00.000Z'
-  const now = moment(1609484400 * 1000);
+  const now = fromUnixTime(1609484400);
 
   const upcomingEvent = createEvent(
     now

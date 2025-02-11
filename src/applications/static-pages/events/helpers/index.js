@@ -1,4 +1,21 @@
-import moment from 'moment-timezone';
+import {
+  isAfter,
+  isBefore,
+  isWithinInterval,
+  addDays,
+  addMonths,
+  startOfWeek,
+  endOfWeek,
+  startOfMonth,
+  endOfMonth,
+  fromUnixTime,
+  parse,
+  isSameDay,
+  addHours,
+  endOfDay,
+  getUnixTime,
+} from 'date-fns';
+
 import { isArray, sortBy, filter, isEmpty } from 'lodash';
 
 export const filterByOptions = [
@@ -33,7 +50,7 @@ export const deriveDefaultSelectedOption = () => {
 
 export const deriveMostRecentDate = (
   fieldDatetimeRangeTimezone,
-  now = moment().unix(), // This is done so that we can mock the current time in tests.
+  now = getUnixTime(new Date()), // This is done so that we can mock the current time in tests.
 ) => {
   if (!fieldDatetimeRangeTimezone) return fieldDatetimeRangeTimezone;
 
@@ -82,7 +99,7 @@ export const removeDuplicateEvents = events =>
 export const fleshOutRecurringEvents = events => {
   if (!events) return [];
 
-  const now = moment().unix();
+  const now = getUnixTime(new Date());
 
   const allEvents = events.reduce((fullEvents, event) => {
     const eventTimes = event?.fieldDatetimeRangeTimezone;
@@ -142,7 +159,7 @@ export const filterEvents = (
   events,
   filterBy,
   options = {},
-  now = moment(),
+  now = new Date(),
 ) => {
   if (isEmpty(events)) {
     return [];
@@ -152,83 +169,89 @@ export const filterEvents = (
     case 'upcoming': {
       return events
         .filter(event => {
-          const start = moment(
-            event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
+          const start = fromUnixTime(
+            event?.fieldDatetimeRangeTimezone[0]?.value,
           );
-          const end = moment(
-            event?.fieldDatetimeRangeTimezone[0]?.endValue * 1000,
+          const end = fromUnixTime(
+            event?.fieldDatetimeRangeTimezone[0]?.endValue,
           );
-          return (
-            moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isAfter(
-              now.clone(),
-            ) || now.clone().isBetween(start, end)
-          );
+          return isAfter(start, now) || isWithinInterval(now, { start, end });
         })
         .reduce(addUniqueEventsToList, []);
     }
+
     case 'next-week': {
+      const nextWeekStart = startOfWeek(addDays(now, 7));
+      const nextWeekEnd = endOfWeek(addDays(now, 7));
       return events
-        ?.filter(event =>
-          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
-            now
-              .clone()
-              .add('7', 'days')
-              .startOf('week'),
-            now
-              .clone()
-              .add('7', 'days')
-              .endOf('week'),
-          ),
-        )
+        ?.filter(event => {
+          const start = fromUnixTime(
+            event?.fieldDatetimeRangeTimezone[0]?.value,
+          );
+          return isWithinInterval(start, {
+            start: nextWeekStart,
+            end: nextWeekEnd,
+          });
+        })
         .reduce(addUniqueEventsToList, []);
     }
+
     case 'next-month': {
+      const nextMonthStart = startOfMonth(addMonths(now, 1));
+      const nextMonthEnd = endOfMonth(addMonths(now, 1));
       return events
-        ?.filter(event =>
-          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
-            now
-              .clone()
-              .add('1', 'month')
-              .startOf('month'),
-            now
-              .clone()
-              .add('1', 'month')
-              .endOf('month'),
-          ),
-        )
+        ?.filter(event => {
+          const start = fromUnixTime(
+            event?.fieldDatetimeRangeTimezone[0]?.value,
+          );
+          return isWithinInterval(start, {
+            start: nextMonthStart,
+            end: nextMonthEnd,
+          });
+        })
         .reduce(addUniqueEventsToList, []);
     }
+
     case 'past': {
-      // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
+      // Sort events in descending order
       const sortedEvents = [...events]?.sort(
         (event1, event2) =>
           event2?.fieldDatetimeRangeTimezone[0]?.value -
           event1?.fieldDatetimeRangeTimezone[0]?.value,
       );
 
-      return sortedEvents?.filter(event =>
-        moment(
+      return sortedEvents?.filter(event => {
+        const end = fromUnixTime(
           event?.fieldDatetimeRangeTimezone[0]
-            ? event.fieldDatetimeRangeTimezone[0].endValue * 1000
-            : event.fieldDatetimeRangeTimezone.endValue * 1000,
-        ).isBefore(now.clone()),
-      );
+            ? event.fieldDatetimeRangeTimezone[0].endValue
+            : event.fieldDatetimeRangeTimezone.endValue,
+        );
+        return isBefore(end, now);
+      });
     }
+
     case 'specific-date':
-    case 'custom-date-range':
+    case 'custom-date-range': {
       if (!options?.startsAtUnix || !options?.endsAtUnix) return events;
 
-      return events?.filter(
-        event =>
-          moment(event?.fieldDatetimeRangeTimezone[0]?.value).isBetween(
-            options?.startsAtUnix,
-            options?.endsAtUnix,
-          ) ||
-          moment(event?.fieldDatetimeRangeTimezone[0]?.endValue).isBetween(
-            options?.startsAtUnix,
-            options?.endsAtUnix,
-          ),
-      );
+      return events?.filter(event => {
+        const start = fromUnixTime(event?.fieldDatetimeRangeTimezone[0]?.value);
+        const end = fromUnixTime(
+          event?.fieldDatetimeRangeTimezone[0]?.endValue,
+        );
+        return (
+          isWithinInterval(start, {
+            start: fromUnixTime(options.startsAtUnix),
+            end: fromUnixTime(options.endsAtUnix),
+          }) ||
+          isWithinInterval(end, {
+            start: fromUnixTime(options.startsAtUnix),
+            end: fromUnixTime(options.endsAtUnix),
+          })
+        );
+      });
+    }
+
     default:
       return events;
   }
@@ -243,16 +266,17 @@ export const deriveStartsAtUnix = (
     return undefined;
   }
 
-  let startsAt = moment(
+  let startsAt = parse(
     `${startDateMonth}/${startDateDay}/${startDateYear}`,
-    'MM/DD/YYYY',
+    'MM/dd/yyyy',
+    new Date(),
   );
 
-  if (startsAt.isSame(moment(), 'day')) {
-    startsAt = moment().add(1, 'hour');
+  if (isSameDay(startsAt, new Date())) {
+    startsAt = addHours(new Date(), 1);
   }
 
-  return startsAt.unix();
+  return getUnixTime(startsAt);
 };
 
 export const deriveEndsAtUnix = (
@@ -268,19 +292,20 @@ export const deriveEndsAtUnix = (
   let endsAt;
 
   if (startsAtUnix) {
-    endsAt = moment(startsAtUnix * 1000)
-      .clone()
-      .endOf('day');
+    endsAt = endOfDay(new Date(startsAtUnix * 1000));
   }
 
   if (endDateMonth && endDateDay) {
-    endsAt = moment(
-      `${endDateMonth}/${endDateDay}/${endDateYear}`,
-      'MM/DD/YYYY',
-    ).endOf('day');
+    endsAt = endOfDay(
+      parse(
+        `${endDateMonth}/${endDateDay}/${endDateYear}`,
+        'MM/dd/yyyy',
+        new Date(),
+      ),
+    );
   }
 
-  return endsAt.unix();
+  return getUnixTime(endsAt);
 };
 
 export const deriveEventLocations = event => {

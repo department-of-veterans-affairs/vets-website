@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment-timezone';
+import { format, fromUnixTime, utcToZonedTime } from 'date-fns-tz';
 import ResultsWhereContent from './ResultsWhereContent';
 import {
   deriveMostRecentDate,
@@ -72,16 +72,20 @@ export const Results = ({
             const endsAtUnix = mostRecentDate?.endValue;
             const timezone = mostRecentDate?.timezone;
 
-            const formattedStartsAt = moment
-              .tz(startsAtUnix * 1000, timezone)
-              .format('ddd MMM D, YYYY, h:mm a');
-            const formattedEndsAt = moment
-              .tz(endsAtUnix * 1000, timezone)
-              .format('h:mm a');
-            const endsAtTimezone = moment
-              .tz(endsAtUnix * 1000, timezone)
-              .format('z')
-              .replace(/S|D/i, '');
+            const formattedStartsAt = format(
+              utcToZonedTime(fromUnixTime(startsAtUnix), timezone),
+              'EEE MMM d, yyyy, h:mm a',
+            );
+
+            const formattedEndsAt = format(
+              utcToZonedTime(fromUnixTime(endsAtUnix), timezone),
+              'h:mm a',
+            );
+
+            const endsAtTimezone = format(
+              utcToZonedTime(fromUnixTime(endsAtUnix), timezone),
+              'zzz',
+            ).replace(/S|D/i, '');
 
             return (
               <div
