@@ -42,21 +42,25 @@ const mockAppt = {
   facilityData: {
     name: 'Cheyenne VA Medical Center',
   },
-  travelPayClaim: {
-    metadata: claimMeta,
-    claim: claimInfo,
-  },
 };
 
 describe('Appointment details', () => {
-  const props = {
-    appointment: mockAppt,
-  };
+  it('should render appointment details with original appointment object', () => {
+    const screen = render(<AppointmentDetails appointment={mockAppt} />);
+
+    expect(screen.getByText(/December 30/i)).to.exist;
+    expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.exist;
+  });
 
   it('should render appointment details if no claim present', () => {
     const screen = render(
       <AppointmentDetails
-        appointment={{ ...mockAppt, travelPayClaim: { metadata: claimMeta } }}
+        appointment={{
+          ...mockAppt,
+          travelPayClaim: {
+            metadata: claimMeta,
+          },
+        }}
       />,
     );
 
@@ -65,7 +69,17 @@ describe('Appointment details', () => {
   });
 
   it('should render a link to existing travel claim', () => {
-    const screen = render(<AppointmentDetails {...props} />);
+    const screen = render(
+      <AppointmentDetails
+        appointment={{
+          ...mockAppt,
+          travelPayClaim: {
+            metadata: claimMeta,
+            claim: claimInfo,
+          },
+        }}
+      />,
+    );
 
     expect(screen.getByText(/already filed/i)).to.exist;
     expect($('va-link-action[text="View your claim details"]')).to.exist;

@@ -202,6 +202,7 @@ export const FacilitiesMapTypes = {
   clearSearchResults: PropTypes.func,
   clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,
+  facilityLocatorMobileMapUpdate: PropTypes.bool,
   fetchVaFacility: PropTypes.func,
   genBBoxFromAddress: PropTypes.func,
   genSearchAreaFromCenter: PropTypes.func,
@@ -220,7 +221,6 @@ export const FacilitiesMapTypes = {
   selectedResult: PropTypes.any,
   specialties: PropTypes.any,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
   updateSearchQuery: PropTypes.func,
   usePredictiveGeolocation: PropTypes.bool,
 };
@@ -233,5 +233,4 @@ export const SearchControlsTypes = {
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   suppressPPMS: PropTypes.bool,
-  suppressPharmacies: PropTypes.bool,
 };

@@ -66,25 +66,33 @@ export default function(state = INITIAL_STATE, action) {
         error: action.payload,
       };
     case FILTER_LC_RESULTS: {
-      const { name, category, location } = action.payload;
+      const { name, categories, location, previousResults } = action.payload;
 
       const newSuggestions = filterSuggestions(
         newState.lcResults,
         name,
-        category,
+        categories,
         location,
       );
 
-      if (name.trim() !== '') {
-        newSuggestions.unshift({
-          lacNm: name,
-          type: 'all',
-        });
-      }
+      const previousMatches = filterSuggestions(
+        previousResults,
+        name,
+        categories,
+        location,
+      );
+
+      const previousMatchIds = previousMatches.map(item => item.enrichedId);
+
+      const newestResults = newSuggestions.filter(suggestion => {
+        return !previousMatchIds.includes(suggestion.enrichedId);
+      });
+
+      const finalList = [...newestResults, ...previousMatches];
 
       return {
         ...newState,
-        filteredResults: newSuggestions,
+        filteredResults: finalList,
       };
     }
     default:
