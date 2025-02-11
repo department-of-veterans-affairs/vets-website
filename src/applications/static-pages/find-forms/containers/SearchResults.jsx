@@ -186,8 +186,6 @@ export const SearchResults = ({
     setModalState(initialModalState);
   };
 
-  console.log('modalState: ', modalState);
-
   return (
     <>
       <div className="find-forms-search-metadata vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row medium-screen:vads-u-justify-content--space-between">

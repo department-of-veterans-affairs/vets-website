@@ -3,6 +3,8 @@ import { apiRequest } from 'platform/utilities/api';
 import { sentryLogger } from '../helpers/sentryLogger';
 import { fetchFormsFailure, fetchFormsSuccess } from '../actions';
 
+// Form URLs can be entered incorrectly, or the forms themselves can be deleted
+// by forms managers. This guards against sending users to 404 pages
 export const checkFormValidity = async (form, page) => {
   // Default to true in case we encounter an error
   // determining validity through the API.
@@ -42,17 +44,17 @@ export const checkFormValidity = async (form, page) => {
     );
   }
 
-  return {
-    formPdfIsValid: true,
-    formPdfUrlIsValid: true,
-    networkRequestError: false,
-  };
-
   // return {
-  //   formPdfIsValid,
-  //   formPdfUrlIsValid,
-  //   networkRequestError,
+  //   formPdfIsValid: true,
+  //   formPdfUrlIsValid: true,
+  //   networkRequestError: false,
   // };
+
+  return {
+    formPdfIsValid,
+    formPdfUrlIsValid,
+    networkRequestError,
+  };
 };
 
 export const fetchFormsApi = async (query, dispatch) => {

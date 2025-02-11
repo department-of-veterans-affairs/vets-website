@@ -2,21 +2,20 @@ import React from 'react';
 import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import PdfModal from '../../components/PdfModal';
+import DownloadModal from '../../components/DownloadModal';
 
 const removeSpy = sinon.spy();
 const url = 'https://test.com/';
 
-describe('PdfModal', () => {
+describe('DownloadModal', () => {
   describe('download button', () => {
     it('should have the correct attributes', () => {
       const screen = render(
-        <PdfModal
+        <DownloadModal
+          closeModal={removeSpy}
+          formName={10109}
+          formUrl={url}
           isOpen
-          pdfLabel="(PDF)"
-          pdfSelected={10109}
-          pdfUrl={url}
-          removeNode={removeSpy}
         />,
       );
 

@@ -160,26 +160,25 @@ const SearchResult = ({ form, formMetaInfo, setModalState }) => {
       networkRequestError,
     } = checkFormValidity(form, 'Form Search Results');
 
-    // if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
-    setPdfError(false);
-    console.log('url here: ', url);
-    setModalState({
-      formId: `pdf-link-${id}`,
-      formName,
-      formUrl: url,
-      isOpen: true,
-    });
-    // } else {
-    //   createLogMessage(
-    //     url,
-    //     form,
-    //     formPdfIsValid,
-    //     formPdfUrlIsValid,
-    //     networkRequestError,
-    //   );
+    if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
+      setPdfError(false);
+      setModalState({
+        formId: `pdf-link-${id}`,
+        formName,
+        formUrl: url,
+        isOpen: true,
+      });
+    } else {
+      createLogMessage(
+        url,
+        form,
+        formPdfIsValid,
+        formPdfUrlIsValid,
+        networkRequestError,
+      );
 
-    //   setPdfError(true);
-    // }
+      setPdfError(true);
+    }
   };
 
   return (

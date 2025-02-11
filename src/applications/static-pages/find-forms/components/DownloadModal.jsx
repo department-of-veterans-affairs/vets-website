@@ -2,16 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const DownloadModal = ({ closeModal, formName, isOpen, formUrl }) => {
-  console.log('hello?');
-  console.log('closeModal: ', closeModal);
-  console.log('formName: ', formName);
-  console.log('formUrl: ', formUrl);
+const DownloadModal = ({
+  closeModal,
+  formName,
+  formUrl,
+  isOpen,
+  modalId = null,
+}) => {
   return (
     <VaModal
-      onCloseEvent={closeModal}
-      modalTitle="Download this PDF and open it in Acrobat Reader"
+      id={modalId || null}
       initialFocusSelector="#va-modal-title"
+      modalTitle="Download this PDF and open it in Acrobat Reader"
+      onCloseEvent={closeModal}
       visible={isOpen}
     >
       <div className="vads-u-display--flex vads-u-flex-direction--column">
@@ -57,6 +60,7 @@ DownloadModal.propTypes = {
   formName: PropTypes.string.isRequired,
   formUrl: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  modalId: PropTypes.string,
 };
 
 export default DownloadModal;
