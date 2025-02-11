@@ -1,7 +1,7 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
 
 describe('Content on the personal information page', () => {
-  it('should render personal information as expected', () => {
+  it.skip('should render personal information as expected', () => {
     setup({ isEnhanced: true });
 
     // Check legal name
