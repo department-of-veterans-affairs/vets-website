@@ -1,6 +1,7 @@
 export const AXE_CONTEXT = '.secure-messaging-container';
 
 export const Paths = {
+  MHV_MAIN: '/my-health/',
   UI_MAIN: '/my-health/secure-messages',
   UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
@@ -214,6 +215,7 @@ export const Locators = {
     FIELD_ERROR: `#input-error-message`,
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
     OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
+    NO_ASSOCIATION: '[data-testid="not-connected-alert"]',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -263,6 +265,12 @@ export const Locators = {
 };
 
 export const Alerts = {
+  NO_ASSOCIATION_RED: {
+    AT_ALL_HEADER:
+      'You’re not connected to any care teams in this messaging tool',
+    PARAGRAPH:
+      'If you need to contact your care team, call your VA health facility',
+  },
   NO_ASSOCIATION: {
     AT_ALL_HEADER: `You're not connected to any care teams in this messaging tool`,
     HEADER: 'Your account is no longer connected to',
@@ -390,13 +398,13 @@ export const Data = {
   },
   FAQ_LINK: {
     URL: {
-      SEND: `/find-locations/`,
+      FACILITY: `/find-locations/`,
       EMRG: `tel:911`,
       SETTINGS: `/mhv-portal-web/preferences`,
       PAY: `/health-care/pay-copay-bill/dispute-charges/`,
     },
     TEXT: {
-      SEND: `Find your nearest VA health facility`,
+      FACILITY: `Find your nearest VA health facility`,
       EMRG_BTN: `Connect with the Veterans Crisis Line`,
       EMRG: `911`,
       SETTINGS: `My HealtheVet (opens in new tab)`,
