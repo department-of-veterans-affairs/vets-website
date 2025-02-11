@@ -7,7 +7,6 @@ import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
 import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ProfileInfoCard } from '../ProfileInfoCard';
-import GenderIdentityDescription from './GenderIdentityDescription';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 
@@ -44,17 +43,6 @@ const PersonalInformationSection = ({ dob }) => {
       value: (
         <ProfileInformationFieldController
           fieldName={FIELD_NAMES.PREFERRED_NAME}
-          isDeleteDisabled
-        />
-      ),
-    },
-    {
-      title: 'Gender identity',
-      description: <GenderIdentityDescription />,
-      id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
-      value: (
-        <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.GENDER_IDENTITY}
           isDeleteDisabled
         />
       ),
