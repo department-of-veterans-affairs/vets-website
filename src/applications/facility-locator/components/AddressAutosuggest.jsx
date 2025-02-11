@@ -186,7 +186,7 @@ function AddressAutosuggest({
       minCharacters={MIN_SEARCH_CHARS}
       keepDataOnBlur
       showDownCaret={false}
-      shouldShowNoResults={false}
+      shouldShowNoResults
       isLoading={isGeocoding}
       loadingMessage="Searching..."
     />
