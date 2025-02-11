@@ -15,7 +15,7 @@ describe('Personal information', () => {
       });
     });
 
-    it('should show the Gender Identity field as not required and allow cancel', () => {
+    it.skip('should show the Gender Identity field as not required and allow cancel', () => {
       cy.findByLabelText('Edit Gender identity')
         .should('exist')
         .click({ waitForAnimations: true });

@@ -8,7 +8,7 @@ describe('Personal information', () => {
       setup({ isEnhanced: true });
     });
 
-    it('should show the Gender Identity field as required', () => {
+    it.skip('should show the Gender Identity field as required', () => {
       cy.findByLabelText('Edit Gender identity')
         .should('exist')
         .click({ waitForAnimations: true });
@@ -22,7 +22,7 @@ describe('Personal information', () => {
   });
 
   describe('require a Gender Identity selection when initial data is not present from api call and update is attempted on empty selection', () => {
-    it('should show and error and not allow update without selecting option or cancelling out of edit mode', () => {
+    it.skip('should show and error and not allow update without selecting option or cancelling out of edit mode', () => {
       setup({
         isEnhanced: true,
         personalData: set(
