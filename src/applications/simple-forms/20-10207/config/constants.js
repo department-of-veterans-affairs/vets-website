@@ -82,7 +82,7 @@ export const LIVING_SITUATIONS_3RD_PTY_NON_VET = Object.freeze({
 
 export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
   <va-additional-info
-    trigger="What to know if you're signing for someone else"
+    trigger="What to know if you’re signing for someone else"
     data-testid="thirdPartyAdditionalInfo"
   >
     <div>
