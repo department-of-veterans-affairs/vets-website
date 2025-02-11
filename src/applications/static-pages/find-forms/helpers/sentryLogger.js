@@ -1,10 +1,10 @@
 import * as Sentry from '@sentry/browser';
 
 // HOF for reusable situations in Component.
-export function sentryLogger(form, formNumber, downloadUrl, message) {
+export function sentryLogger(form, downloadUrl, message) {
   return Sentry.withScope(scope => {
     scope.setExtra('form API response', form);
-    scope.setExtra('form number', formNumber);
+    scope.setExtra('form number', form?.formName);
     scope.setExtra('download link (invalid)', downloadUrl);
     Sentry.captureMessage(message);
   });
@@ -13,7 +13,6 @@ export function sentryLogger(form, formNumber, downloadUrl, message) {
 export const createLogMessage = ({
   downloadUrl,
   form,
-  formNumber,
   formPdfIsValid,
   formPdfUrlIsValid,
   networkRequestError,
@@ -34,5 +33,5 @@ export const createLogMessage = ({
     errorMessage = 'Find Forms - Form Detail - invalid PDF link';
   }
 
-  sentryLogger(form, formNumber, downloadUrl, errorMessage);
+  sentryLogger(form, downloadUrl, errorMessage);
 };

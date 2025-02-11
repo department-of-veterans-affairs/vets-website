@@ -2,25 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const PdfModal = ({
-  isOpen,
-  pdfLabel = null,
-  pdfUrl,
-  pdfSelected,
-  prevFocusedLink,
-  searchResults = false,
-  toggleModalState,
-}) => {
+const DownloadModal = ({ closeModal, formName, isOpen, formUrl }) => {
+  console.log('hello?');
+  console.log('closeModal: ', closeModal);
+  console.log('formName: ', formName);
+  console.log('formUrl: ', formUrl);
   return (
     <VaModal
-      onCloseEvent={() => {
-        if (searchResults) {
-          toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
-        }
-
-        toggleModalState();
-        document.getElementById(prevFocusedLink).focus();
-      }}
+      onCloseEvent={closeModal}
       modalTitle="Download this PDF and open it in Acrobat Reader"
       initialFocusSelector="#va-modal-title"
       visible={isOpen}
@@ -45,7 +34,7 @@ const PdfModal = ({
         </a>
         <a
           data-e2e-id="modal-download-link"
-          href={pdfUrl}
+          href={formUrl}
           className="vads-u-margin-top--2"
           download
         >
@@ -55,7 +44,7 @@ const PdfModal = ({
             size="3"
           />
           <span className="vads-u-text-decoration--underline">
-            Download VA Form {pdfSelected}
+            Download VA Form {formName}
           </span>
         </a>
       </div>
@@ -63,14 +52,11 @@ const PdfModal = ({
   );
 };
 
-PdfModal.propTypes = {
+DownloadModal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+  formName: PropTypes.string.isRequired,
+  formUrl: PropTypes.string.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  prevFocusedLink: PropTypes.node.isRequired,
-  toggleModalState: PropTypes.func.isRequired,
-  pdfLabel: PropTypes.string,
-  pdfSelected: PropTypes.string,
-  pdfUrl: PropTypes.string,
-  searchResults: PropTypes.bool,
 };
 
-export default PdfModal;
+export default DownloadModal;

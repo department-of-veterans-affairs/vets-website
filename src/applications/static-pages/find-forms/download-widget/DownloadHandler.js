@@ -2,20 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
+import { focusElement } from 'platform/utilities/ui/focus';
 import DownloadPDFModal from './DownloadPDFModal';
-import InvalidFormDownload from './InvalidFormAlert';
+import InvalidFormAlert from '../components/InvalidFormAlert';
 import { createLogMessage } from '../helpers/sentryLogger';
-
-const removeReactRoot = () => {
-  const pdf = document.querySelector('.faf-pdf-alert-modal');
-  pdf.remove();
-};
+import DownloadModal from '../components/DownloadModal';
 
 const DownloadHandler = ({
   clickedId,
   downloadUrl,
   form,
-  formNumber,
   formPdfIsValid,
   formPdfUrlIsValid,
   networkRequestError,
@@ -35,6 +31,14 @@ const DownloadHandler = ({
   if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
     const modalDiv = document.createElement('div');
 
+    const closeModal = () => {
+      const pdf = document.querySelector('.pdf-alert-modal');
+      pdf.remove();
+
+      const lastDownloadLinkClicked = document.getElementById(clickedId);
+      focusElement(lastDownloadLinkClicked);
+    };
+
     ReactDOM.render(
       <Provider store={reduxStore}>
         <div
@@ -44,12 +48,19 @@ const DownloadHandler = ({
             pointerEvents: 'all',
           }}
         />
-        <DownloadPDFModal
+        <DownloadModal
+          closeModal={closeModal}
+          formName={form?.formName}
+          isOpen
+          selectedPdfId={clickedId}
+          pdfUrl={downloadUrl}
+        />
+        {/* <DownloadPDFModal
           clickedId={clickedId}
-          formNumber={formNumber}
+          formNumber={form?.formName}
           removeNode={removeReactRoot}
           url={downloadUrl}
-        />
+        /> */}
       </Provider>,
       modalDiv,
     );
@@ -61,14 +72,13 @@ const DownloadHandler = ({
     createLogMessage(
       downloadUrl,
       form,
-      formNumber,
       formPdfIsValid,
       formPdfUrlIsValid,
       networkRequestError,
     );
 
     const alertBox = (
-      <InvalidFormDownload
+      <InvalidFormAlert
         isRelatedForm={isRelatedForm}
         downloadUrl={downloadUrl}
       />

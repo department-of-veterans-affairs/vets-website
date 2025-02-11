@@ -26,7 +26,6 @@ export const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FORMS: {
-      console.log('action: ', action);
       return { ...state, error: '', fetching: true, query: action.query };
     }
     case FETCH_FORMS_FAILURE: {

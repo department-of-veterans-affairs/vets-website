@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InvalidFormDownload = ({ downloadUrl, isRelatedForm }) => {
+const InvalidFormAlert = ({ downloadUrl, isRelatedForm }) => {
   const subject = encodeURIComponent('Bad PDF link');
   const body = encodeURIComponent(
     `I tried to download this form but the link doesn't work: ${downloadUrl}`,
@@ -21,7 +21,7 @@ const InvalidFormDownload = ({ downloadUrl, isRelatedForm }) => {
   );
 };
 
-InvalidFormDownload.propTypes = {
+InvalidFormAlert.propTypes = {
   downloadUrl: PropTypes.string,
   form: PropTypes.object,
   formNumber: PropTypes.string,
@@ -31,4 +31,4 @@ InvalidFormDownload.propTypes = {
   networkRequestError: PropTypes.bool,
 };
 
-export default InvalidFormDownload;
+export default InvalidFormAlert;

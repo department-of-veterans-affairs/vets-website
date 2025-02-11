@@ -18,16 +18,15 @@ export async function onDownloadLinkClick(event, reduxStore) {
     formValidityIndicators = await checkFormValidity(form, 'Form Detail');
   }
 
-  return DownloadHandler({
-    clickedId: link.id,
+  return DownloadHandler(
+    link.id,
     downloadUrl,
     form,
-    formNumber,
-    formPdfIsValid: formValidityIndicators?.formPdfIsValid,
-    formPdfUrlIsValid: formValidityIndicators?.formPdfUrlIsValid,
-    networkRequestError: formValidityIndicators?.networkRequestError,
+    formValidityIndicators?.formPdfIsValid,
+    formValidityIndicators?.formPdfUrlIsValid,
+    formValidityIndicators?.networkRequestError,
     reduxStore,
-  });
+  );
 }
 
 export default (reduxStore, widgetType) => {

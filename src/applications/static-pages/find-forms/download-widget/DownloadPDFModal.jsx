@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import PdfModal from '../components/PdfModal';
+import DownloadModal from '../components/DownloadModal';
 
 // DownloadPDFModal is state wrapper + modal for PDF guidance upon PDf being valid
 const DownloadPDFModal = ({ clickedId, formNumber, removeNode, url }) => {
   const [modalState, setModalState] = useState({
     isOpen: true,
-    pdfSelected: formNumber,
+    formName: formNumber,
     pdfUrl: url,
   });
 
@@ -22,7 +22,7 @@ const DownloadPDFModal = ({ clickedId, formNumber, removeNode, url }) => {
   const toggleModalState = () =>
     setModalState({ ...modalState, isOpen: !modalState.isOpen });
 
-  const { isOpen, pdfSelected, pdfUrl } = modalState;
+  const { isOpen, formName, pdfUrl } = modalState;
 
   return (
     <div
@@ -32,11 +32,11 @@ const DownloadPDFModal = ({ clickedId, formNumber, removeNode, url }) => {
         pointerEvents: 'all',
       }}
     >
-      <PdfModal
+      <DownloadModal
+        selectedPdfId={clickedId}
         isOpen={isOpen}
         pdfUrl={pdfUrl}
-        pdfSelected={pdfSelected}
-        prevFocusedLink={clickedId}
+        formName={formName}
         toggleModalState={toggleModalState}
       />
     </div>
