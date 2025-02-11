@@ -17,11 +17,7 @@ import {
   ITF_CREATION_FAILED,
 } from '../../actions';
 
-import {
-  NEW_API,
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_API_NEW,
-} from '../../constants/apis';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 
 import {
   FETCH_CONTESTABLE_ISSUES_INIT,
@@ -90,17 +86,6 @@ describe('fetch contestable issues action', () => {
       return getContestableIssues()(dispatch).then(() => {
         // Original API
         expect(apiRequestSpy.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
-      });
-    });
-    it('should dispatch an init action with new API endpoint', () => {
-      mockApiRequest(mockData);
-      const dispatch = sinon.spy();
-      return getContestableIssues({ [NEW_API]: true })(dispatch).then(() => {
-        return getContestableIssues()(dispatch).then(() => {
-          expect(apiRequestSpy.args[0][0]).to.contain(
-            CONTESTABLE_ISSUES_API_NEW,
-          );
-        });
       });
     });
   });

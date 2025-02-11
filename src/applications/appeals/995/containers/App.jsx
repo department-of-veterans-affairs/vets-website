@@ -26,7 +26,6 @@ import {
   SC_NEW_FORM_TOGGLE,
   SC_NEW_FORM_DATA,
 } from '../constants';
-import { NEW_API } from '../constants/apis';
 
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapInH1 } from '../../shared/content/intro';
@@ -87,10 +86,7 @@ export const App = ({
           if (!isLoadingIssues && (contestableIssues.status || '') === '') {
             // load benefit type contestable issues
             setIsLoadingIssues(true);
-            getContestableIssues({
-              benefitType: formData.benefitType,
-              [NEW_API]: toggles[NEW_API],
-            });
+            getContestableIssues({ benefitType: formData.benefitType });
           } else if (
             contestableIssues.status === FETCH_CONTESTABLE_ISSUES_SUCCEEDED &&
             (issuesNeedUpdating(
@@ -132,23 +128,19 @@ export const App = ({
   useEffect(
     () => {
       const isUpdated = toggles[SC_NEW_FORM_TOGGLE] || false;
-      const isUpdatedApi = toggles[NEW_API] || false;
       if (
         !toggles.loading &&
         (typeof formData[SC_NEW_FORM_DATA] === 'undefined' ||
-          formData[SC_NEW_FORM_DATA] !== isUpdated ||
-          typeof formData[NEW_API] === 'undefined' ||
-          formData[NEW_API] !== isUpdatedApi)
+          formData[SC_NEW_FORM_DATA] !== isUpdated)
       ) {
         setFormData({
           ...formData,
           [SC_NEW_FORM_DATA]: isUpdated,
-          [NEW_API]: toggles[NEW_API],
         });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, formData[SC_NEW_FORM_DATA], formData[NEW_API]],
+    [toggles, formData[SC_NEW_FORM_DATA]],
   );
 
   let content = (

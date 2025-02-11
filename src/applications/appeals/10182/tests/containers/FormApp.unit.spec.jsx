@@ -11,11 +11,7 @@ import { SET_DATA } from 'platform/forms-system/src/js/actions';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import FormApp from '../../containers/FormApp';
-import {
-  NEW_API,
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_API_NEW,
-} from '../../constants/apis';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -43,7 +39,6 @@ const getData = ({
   data: {
     featureToggles: {
       loading: isLoading,
-      [NEW_API]: true,
     },
     user: {
       login: {
@@ -131,21 +126,6 @@ describe('FormApp', () => {
     });
   });
 
-  it('should call new API if logged in', async () => {
-    mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData({ formData: { internalTesting: true } });
-    render(
-      <Provider store={mockStore(data)}>
-        <FormApp {...props} toggles={{ [NEW_API]: true }} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
-      resetFetch();
-    });
-  });
-
   it('should update contested issues', async () => {
     const issues = [
       {
@@ -219,7 +199,6 @@ describe('FormApp', () => {
           },
         ],
         areaOfDisagreement: [],
-        [NEW_API]: true,
       },
     });
     const store = mockStore(data);

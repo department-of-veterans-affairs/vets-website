@@ -18,11 +18,7 @@ import {
   SC_NEW_FORM_TOGGLE,
   SC_NEW_FORM_DATA,
 } from '../../constants';
-import {
-  NEW_API,
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_API_NEW,
-} from '../../constants/apis';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 
 import { SELECTED } from '../../../shared/constants';
 import {
@@ -44,7 +40,6 @@ const getData = ({
   push = () => {},
   status = '',
   toggle = false,
-  toggleApi = false,
 } = {}) => {
   setStoredSubTask({ benefitType: data?.benefitType || '' });
   return {
@@ -80,7 +75,6 @@ const getData = ({
       featureToggles: {
         loading: false,
         [SC_NEW_FORM_TOGGLE]: toggle,
-        [NEW_API]: toggleApi,
       },
       contestableIssues: {
         status,
@@ -217,24 +211,6 @@ describe('App', () => {
     });
   });
 
-  it('should call new contestable issues API if logged in', async () => {
-    mockApiRequest(contestableIssuesResponse);
-    const { props, data } = getData({
-      data: { ...hasComp, internalTesting: true },
-      toggleApi: true,
-    });
-    render(
-      <Provider store={mockStore(data)}>
-        <App {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
-      resetFetch();
-    });
-  });
-
   it('should update contested issues', async () => {
     const { props, data } = getData({
       loggedIn: true,
@@ -298,7 +274,6 @@ describe('App', () => {
       data: {
         ...hasComp,
         [SC_NEW_FORM_DATA]: false,
-        [NEW_API]: false,
         internalTesting: true,
         contestedIssues: [
           {
@@ -370,7 +345,7 @@ describe('App', () => {
 
   it('should set feature toggle in form data', async () => {
     setStoredSubTask(hasComp);
-    const { props, data } = getData({ toggle: true, toggleApi: true });
+    const { props, data } = getData({ toggle: true });
     const store = mockStore(data);
     render(
       <Provider store={store}>
@@ -385,7 +360,6 @@ describe('App', () => {
       expect(action.data).to.deep.equal({
         ...hasComp,
         [SC_NEW_FORM_DATA]: true,
-        [NEW_API]: true,
       });
     });
   });
