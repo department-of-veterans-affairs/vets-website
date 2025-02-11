@@ -4,10 +4,7 @@ import { PRIORITY_PROCESSING_HANDOFF } from '../config/constants';
 /** @type {PageSchema} */
 export const priorityProcessingPage = {
   uiSchema: {
-    ...titleUI({
-      title: 'There’s a better way to tell us you need priority processing',
-      headerLevel: 2,
-    }),
+    ...titleUI('There’s a better way to tell us you need priority processing'),
     'view:priorityProcessingContent': {
       'ui:description': PRIORITY_PROCESSING_HANDOFF,
     },
