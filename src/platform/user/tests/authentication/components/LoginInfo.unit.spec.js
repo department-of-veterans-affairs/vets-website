@@ -4,16 +4,8 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import LoginInfo from 'platform/user/authentication/components/LoginInfo';
 
 describe('LoginInfo', () => {
-  it('renders 5 links', () => {
-    const { container } = renderInReduxProvider(<LoginInfo />, {
-      initialState: {
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_credential_button_disabled: true,
-        },
-      },
-    });
-
+  it('renders 6 links', () => {
+    const { container } = renderInReduxProvider(<LoginInfo />);
     const links = container.querySelectorAll('a');
     expect(links.length).to.eq(6);
   });
