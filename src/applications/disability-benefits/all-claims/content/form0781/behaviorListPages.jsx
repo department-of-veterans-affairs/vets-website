@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
 import {
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
 } from '../../constants';
-import { form0781PagesConfig } from '../../config/form0781/index';
+
 // intro page
 export const behaviorPageTitle = 'Behavioral changes';
 
@@ -228,19 +229,25 @@ function getDescriptionForBehavior(behaviors, descriptions, details) {
   return newObj;
 }
 
-// return 'additional-forms/mental-health-statement/behavior-changes-list'
-const behaviorAndDescriptionPair = (obj) => {
+function behaviorAndDescriptionPair(obj) {
   return (
     <>
       {Object.entries(obj).map(([key, value]) => (
-        <div><h4>{key}</h4><p>{value}</p></div>
-      ))
-      }
-      <va-link
-        href={form0781PagesConfig.behaviorListPage}
-        text="Edit behavioral changes"
-      />
-    </ >
+        <div>
+          <h4>{key}</h4>
+          <p>{value}</p>
+        </div>
+      ))}
+      <Link
+        to={{
+          pathname:
+            'additional-forms/mental-health-statement/behavior-changes-list',
+          search: '?redirect',
+        }}
+      >
+        Edit behavioral changes
+      </Link>
+    </>
   );
 };
 
