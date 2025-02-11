@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ThreadListItem from './ThreadListItem';
 import {
   Paths,
@@ -26,6 +27,10 @@ const ThreadsList = props => {
   const { INBOX } = DefaultFolders;
 
   const location = useLocation();
+
+  const removeLandingPageFF = useSelector(
+    state => state.featureToggles.mhv_secure_messaging_remove_landing_page,
+  );
 
   const MAX_PAGE_LIST_LENGTH = 7;
 
@@ -120,7 +125,7 @@ const ThreadsList = props => {
             </div>
           </div>
         )}
-        {folder.name === INBOX.header && <Footer />}
+        {removeLandingPageFF && folder.name === INBOX.header && <Footer />}
       </div>
     </>
   );
