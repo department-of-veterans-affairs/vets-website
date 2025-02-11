@@ -4,10 +4,10 @@ import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Breadcrumbs from './Breadcrumbs';
 
-const AboutPage = ({ props }) => {
+const AboutPage = ({ aboutProps }) => {
   const goToIntroduction = event => {
     event.preventDefault();
-    props?.router.push('/introduction');
+    aboutProps?.router.push('/introduction');
   };
 
   useEffect(() => {
@@ -16,8 +16,8 @@ const AboutPage = ({ props }) => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container vads-u-margin-top--4">
-      <div className="vads-u-margin-top--neg2p5">
+    <div className="form-22-10215-container row">
+      <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
         <Breadcrumbs />
       </div>
       <h1>About VA Form 22-10215</h1>
@@ -32,7 +32,7 @@ const AboutPage = ({ props }) => {
         </p>
         <p className="vads-u-margin-top--1p5">
           <strong>Form last updated: </strong>
-          November 2021
+          March 2024
         </p>
       </div>
       <h2 className="vads-u-margin-top--7"> When to use this form</h2>
@@ -58,20 +58,21 @@ const AboutPage = ({ props }) => {
       <div className="vads-u-margin-bottom--4">
         <va-link
           download
-          href=" https://www.vba.va.gov/pubs/forms/vba-22-10216-are.pdf"
-          text="Download VA form 22-10216"
+          href="https://www.vba.va.gov/pubs/forms/vba-22-10215-are.pdf"
+          text="Download VA Form 22-10215"
         />
       </div>
     </div>
   );
 };
+
 AboutPage.propTypes = {
-  props: PropTypes.shape({
-    location: PropTypes.shape({
-      pathname: PropTypes.string.isRequired,
-    }).isRequired,
+  aboutProps: PropTypes.shape({
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
+    }).isRequired,
+    location: PropTypes.shape({
+      pathname: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

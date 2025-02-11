@@ -50,7 +50,13 @@ describe('Address Validations', () => {
       },
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad(win) {
+        cy.stub(win.performance, 'getEntriesByType').returns([
+          { type: 'reload' },
+        ]);
+      },
+    });
   });
   it('should not show suggested address if address is correct', () => {
     cy.injectAxeThenAxeCheck();

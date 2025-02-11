@@ -53,8 +53,16 @@ const NationalExamsList = () => {
 
   const NationalExamsInfo = () => (
     <>
-      <h1 className="vads-u-margin-bottom--3">National Exams</h1>
-      <p className="national-exams-description vads-u-margin-bottom--2">
+      <h1
+        className="vads-u-margin-bottom--3"
+        data-testid="national-exams-header"
+      >
+        National Exams
+      </h1>
+      <p
+        className="national-exams-description vads-u-margin-bottom--2"
+        data-testid="national-exams-description"
+      >
         Part of your entitlement can be used to cover the costs of national
         exams (admissions tests required for college or graduate school and
         tests for college credit)—even if you’re already receiving other
@@ -67,6 +75,7 @@ const NationalExamsList = () => {
         href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/"
         text="Find out how to get reimbursed for national tests"
         style={{ fontSize: '18px' }}
+        data-testid="national-exams-reimbursement-link"
       />
     </>
   );
@@ -125,7 +134,7 @@ const NationalExamsList = () => {
           {currentExams.map(exam => (
             <li key={exam.enrichedId} className="vads-u-margin-bottom--2p5">
               <va-card background>
-                <h3 className="vads-u-margin--0">
+                <h3 className="vads-u-margin--0 vads-u-margin-bottom--1">
                   {formatNationalExamName(exam.name)}
                 </h3>
                 <VaLink

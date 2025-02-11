@@ -10,7 +10,6 @@ import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
 import formConfig from '../config/form';
 import { DATA_DOG_ID, DATA_DOG_TOKEN, DATA_DOG_SERVICE } from '../constants';
-import { NEW_API } from '../constants/apis';
 
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../shared/actions';
 import { wrapWithBreadcrumb } from '../../shared/components/Breadcrumbs';
@@ -33,7 +32,6 @@ export const FormApp = ({
   setFormData,
   getContestableIssues,
   contestableIssues = {},
-  toggles,
 }) => {
   const { pathname } = location || {};
 
@@ -79,7 +77,7 @@ export const FormApp = ({
         // work properly is overly complicated
         (!isOutsideForm(pathname) || formData.internalTesting)
       ) {
-        getContestableIssues({ [NEW_API]: toggles[NEW_API] });
+        getContestableIssues();
       } else if (
         // Checks if the API has returned contestable issues not already reflected
         // in `formData`.
@@ -104,25 +102,7 @@ export const FormApp = ({
     // `useEffect` (e.g. `setFormData`) never change, so we don't need to include
     // them in the dependency array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, loggedIn, contestableIssues, formData.contestedIssues, pathname],
-  );
-
-  useEffect(
-    () => {
-      const isUpdatedApi = toggles[NEW_API] || false;
-      if (
-        !toggles.loading &&
-        (typeof formData[NEW_API] === 'undefined' ||
-          formData[NEW_API] !== isUpdatedApi)
-      ) {
-        setFormData({
-          ...formData,
-          [NEW_API]: toggles[NEW_API],
-        });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [toggles, formData[NEW_API]],
+    [loggedIn, contestableIssues, formData.contestedIssues, pathname],
   );
 
   const content = isLoading ? (
@@ -176,10 +156,6 @@ FormApp.propTypes = {
     push: PropTypes.func,
   }),
   setFormData: PropTypes.func,
-  toggles: PropTypes.shape({
-    [NEW_API]: PropTypes.bool,
-    loading: PropTypes.bool,
-  }),
 };
 
 const mapStateToProps = state => ({
