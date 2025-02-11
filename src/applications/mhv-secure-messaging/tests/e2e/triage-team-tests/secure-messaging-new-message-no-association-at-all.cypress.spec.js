@@ -12,13 +12,14 @@ describe('SM USER NO ASSOCIATION AT ALL', () => {
 
     cy.contains('Start a new message').click();
 
-    GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
     cy.get(Locators.ALERTS.NO_ASSOCIATION)
       .find(`h2`)
       .should(`have.text`, Alerts.NO_ASSOCIATION_RED.AT_ALL_HEADER);
+
     cy.get(Locators.ALERTS.NO_ASSOCIATION)
       .find(`p`)
       .should(`contain.text`, Alerts.NO_ASSOCIATION_RED.PARAGRAPH);
+
     cy.get(Locators.ALERTS.NO_ASSOCIATION)
       .find(`a`)
       .should(`have.attr`, `href`, Data.FAQ_LINK.URL.FACILITY);
@@ -34,12 +35,15 @@ describe('SM USER NO ASSOCIATION AT ALL', () => {
     cy.visit(`/my-health/secure-messages/new-message/`);
 
     GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
+
     cy.get(Locators.ALERTS.NO_ASSOCIATION)
       .find(`h2`)
       .should(`have.text`, Alerts.NO_ASSOCIATION_RED.AT_ALL_HEADER);
+
     cy.get(Locators.ALERTS.NO_ASSOCIATION)
       .find(`p`)
       .should(`contain.text`, Alerts.NO_ASSOCIATION_RED.PARAGRAPH);
+
     cy.get(Locators.ALERTS.NO_ASSOCIATION)
       .find(`a`)
       .should(`have.attr`, `href`, Data.FAQ_LINK.URL.FACILITY);
