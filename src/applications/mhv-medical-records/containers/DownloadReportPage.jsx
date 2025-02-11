@@ -298,8 +298,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
       </p>
       <va-link-action
         href="/my-health/medical-records/download/date-range"
-        label="Select records and download"
-        text="Select records and download"
+        label="Select records and download report"
+        text="Select records and download report"
         data-dd-action-name="Select records and download"
         onClick={() => sendDataDogAction('Select records and download')}
         data-testid="go-to-download-all"
@@ -363,7 +363,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
               download
               href="#"
               onClick={handleDownloadCCD}
-              text="Download .xml file"
+              text="Download Continuity of Care Document (XML)"
               data-testid="generateCcdButton"
             />
           )}
@@ -398,7 +398,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
                 generateSEIPdf();
                 sendDataDogAction('Self entered health information PDF link ');
               }}
-              text="Download PDF"
+              text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
           )}

@@ -40,7 +40,6 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  onFormLoaded,
   showAdditionalFormsChapter,
   showPtsdCombat,
   showPtsdNonCombat,
@@ -56,7 +55,6 @@ import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrie
 import {
   adaptiveBenefits,
   addDisabilities,
-  addDisabilitiesPrevious,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -196,7 +194,6 @@ const formConfig = {
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
-  onFormLoaded,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
@@ -330,24 +327,6 @@ const formConfig = {
             DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
-        },
-        // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
-        // When remove allClaimsAddDisabilitiesEnhancement FF, remove this page
-        addDisabilitiesPrevious: {
-          title: 'Add a new disability',
-          path: DISABILITY_SHARED_CONFIG.addDisabilitiesPrevious.path,
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilitiesPrevious.depends(formData),
-          uiSchema: addDisabilitiesPrevious.uiSchema,
-          schema: addDisabilitiesPrevious.schema,
-          updateFormData: addDisabilitiesPrevious.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
         },
         addDisabilities: {
           title: 'Add a new disability',

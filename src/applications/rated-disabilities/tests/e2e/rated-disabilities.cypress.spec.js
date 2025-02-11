@@ -1,5 +1,5 @@
 import notFoundError from '../fixtures/not-found-error.json';
-import featureToggleEnabled from '../fixtures/feature-toggle-enabled.json';
+import featureToggles from '../fixtures/feature-toggles.json';
 import serviceConnectedOnly from '../fixtures/service-connected-only.json';
 import noCombinedRating from '../fixtures/no-combined-rating.json';
 import noRatings from '../fixtures/no-ratings.json';
@@ -9,8 +9,8 @@ const RATED_DISABILITIES_PATH = '/disability/view-disability-rating/rating';
 
 describe('View rated disabilities', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', featureToggleEnabled).as(
-      'featureToggleEnabled',
+    cy.intercept('GET', '/v0/feature_toggles?*', featureToggles).as(
+      'featureToggles',
     );
 
     cy.login();

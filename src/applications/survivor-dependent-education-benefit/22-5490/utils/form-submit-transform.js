@@ -298,9 +298,9 @@ const trimObjectValuesWhiteSpace = (key, value) => {
 
 const getNotificationMethod = notificationMethod => {
   switch (notificationMethod) {
-    case 'yes':
+    case 'Yes, send me text message notifications':
       return 'TEXT';
-    case 'no':
+    case 'No, just send me email notifications':
       return 'EMAIL';
     default:
       return 'NONE';
