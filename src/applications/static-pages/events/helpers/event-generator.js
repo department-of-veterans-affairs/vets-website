@@ -343,7 +343,7 @@ const createActiveEvents = () => {
  * Generates test events for use in testing the Events app.
  *
  * Events are generated with start/end times contextual to 'now', and include
- * future events, past events, recurring events, and more.
+ * future events, recurring events, and more.
  *
  * @export
  * @returns {Array<Object>} An array of event objects

@@ -1,6 +1,5 @@
 import {
   isAfter,
-  isBefore,
   isWithinInterval,
   addDays,
   addMonths,
@@ -30,10 +29,6 @@ export const filterByOptions = [
   {
     label: 'Custom date range',
     value: 'custom-date-range',
-  },
-  {
-    label: 'Past events',
-    value: 'past',
   },
 ];
 
@@ -210,24 +205,6 @@ export const filterEvents = (
           });
         })
         .reduce(addUniqueEventsToList, []);
-    }
-
-    case 'past': {
-      // Sort events in descending order
-      const sortedEvents = [...events]?.sort(
-        (event1, event2) =>
-          event2?.fieldDatetimeRangeTimezone[0]?.value -
-          event1?.fieldDatetimeRangeTimezone[0]?.value,
-      );
-
-      return sortedEvents?.filter(event => {
-        const end = fromUnixTime(
-          event?.fieldDatetimeRangeTimezone[0]
-            ? event.fieldDatetimeRangeTimezone[0].endValue
-            : event.fieldDatetimeRangeTimezone.endValue,
-        );
-        return isBefore(end, now);
-      });
     }
 
     case 'specific-date':

@@ -85,13 +85,6 @@ export const submitTransformer = (formConfig, form) => {
     });
   }
 
-  const { sigiGenders } = form.data;
-  if (sigiGenders && sigiGenders !== 'NA') {
-    recordEvent({
-      event: 'hca-submission-with-sigi-value',
-    });
-  }
-
   // populate Google Analytics data
   let gaClientId;
   try {

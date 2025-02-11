@@ -68,135 +68,6 @@ export const certificateNotice = () => (
   </p>
 );
 
-export const isInsideListLoopReturn = (
-  chapter,
-  outerField,
-  uiTitle,
-  formChapter,
-  countryUiLabel,
-  stateUiLabel,
-  cityUiLabel,
-) => {
-  return {
-    'ui:title': uiTitle,
-    isOutsideUs: {
-      'ui:title': 'This occurred outside the U.S.',
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-      },
-    },
-    country: {
-      'ui:title': countryUiLabel,
-      'ui:required': (formData, index) =>
-        formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: (formData, index) => {
-          if (!formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    state: {
-      'ui:title': stateUiLabel,
-      'ui:required': (formData, index) =>
-        !formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: (formData, index) => {
-          if (formData?.[chapter]?.[`${index}`]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    city: {
-      'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': cityUiLabel,
-    },
-  };
-};
-
-export const isOutsideListLoopReturn = (
-  chapter,
-  outerField,
-  uiTitle,
-  formChapter,
-  countryUiLabel,
-  stateUiLabel,
-  cityUiLabel,
-) => {
-  return {
-    'ui:title': uiTitle,
-    isOutsideUs: {
-      'ui:title': 'This occurred outside the U.S.',
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-      },
-    },
-    country: {
-      'ui:title': countryUiLabel,
-      'ui:required': formData => formData?.[chapter]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: formData => {
-          if (!formData?.[chapter]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    state: {
-      'ui:title': stateUiLabel,
-      'ui:required': formData =>
-        !formData?.[chapter]?.[outerField]?.isOutsideUs,
-      'ui:options': {
-        hideIf: formData => {
-          if (formData?.[chapter]?.[outerField]?.isOutsideUs) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-    city: {
-      'ui:required': formData => isChapterFieldRequired(formData, formChapter),
-      'ui:title': cityUiLabel,
-    },
-  };
-};
-
-export const hoursPerWeekUiSchema = {
-  'ui:title': 'Hours a week',
-  'ui:options': {
-    widgetClassNames: 'form-select-medium',
-  },
-  'ui:errorMessages': { required: 'Enter a number' },
-  'ui:validations': [
-    (errors, fieldData) => {
-      if (fieldData > 168) {
-        errors.addError('Enter a number less than 169');
-      }
-    },
-  ],
-};
-
-export const classesPerWeekUiSchema = {
-  'ui:title': 'Number of sessions a week',
-  'ui:options': {
-    widgetClassNames: 'form-select-medium',
-  },
-  'ui:errorMessages': { required: 'Enter a number' },
-  'ui:validations': [
-    (errors, fieldData) => {
-      if (fieldData > 999) {
-        errors.addError('Enter a number less than 1000');
-      }
-    },
-  ],
-};
-
 const MILITARY_STATE_VALUES = constants.militaryStates.map(
   state => state.value,
 );
@@ -206,8 +77,13 @@ const filteredStates = constants.states.USA.filter(
 
 const STATE_VALUES = filteredStates.map(state => state.value);
 const STATE_NAMES = filteredStates.map(state => state.label);
-const COUNTRY_VALUES = constants.countries.map(country => country.value);
-const COUNTRY_NAMES = constants.countries.map(country => country.label);
+const COUNTRY_VALUES = constants.countries
+  .filter(country => country.value !== 'USA')
+  .map(country => country.value);
+
+const COUNTRY_NAMES = constants.countries
+  .filter(country => country.label !== 'United States')
+  .map(country => country.label);
 
 export const customLocationSchema = {
   type: 'object',
