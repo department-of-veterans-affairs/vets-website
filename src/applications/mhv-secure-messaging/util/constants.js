@@ -489,3 +489,12 @@ export const filterDescription = {
   withMsgId:
     'Enter information from one of these fields: To, from, message ID, or subject',
 };
+
+export const smFooter = {
+  needHelp: 'Need help?',
+  haveQuestions: 'Have questions about how messages works?',
+  learnMore: 'Learn more about messages',
+  contactFacility:
+    'Want to send a message to a care team that’s not on your list? Contact your VA health facility. Ask for the My HealtheVet coordinator or secure messaging administrator.',
+  findFacility: 'Find your VA health facility',
+};

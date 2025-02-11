@@ -1,5 +1,14 @@
 import React from 'react';
 import HorizontalRule from './shared/HorizontalRule';
+import { smFooter } from '../util/constants';
+
+const {
+  needHelp,
+  haveQuestions,
+  learnMore,
+  contactFacility,
+  findFacility,
+} = smFooter;
 
 const Footer = () => {
   return (
@@ -8,24 +17,16 @@ const Footer = () => {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--12">
             <p className="vads-u-margin--0 vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold">
-              Need help?
+              {needHelp}
             </p>
             <HorizontalRule />
-            <p className="vads-u-margin--0">
-              Have questions about how messages works?
-            </p>
+            <p className="vads-u-margin--0">{haveQuestions}</p>
             <p className="vads-u-margin-top--2">
-              <a href="/health-care/secure-messaging">
-                Learn more about messages
-              </a>
+              <a href="/health-care/secure-messaging">{learnMore}</a>
             </p>
+            <p className="vads-u-margin-top--1">{contactFacility}</p>
             <p className="vads-u-margin-top--1">
-              Want to send a message to a care team that’s not on your list?
-              Contadt your VA health facility. Ask for the My HealtheVet
-              coordinator or secure messaging administrator.
-            </p>
-            <p className="vads-u-margin-top--1">
-              <a href="/find-locations">Find your VA health facility</a>
+              <a href="/find-locations">{findFacility}</a>
             </p>
           </div>
         </div>
