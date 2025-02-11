@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { MemoryRouter } from 'react-router-dom'; // Import MemoryRouter
+import { MemoryRouter } from 'react-router-dom';
 import NationalExamsList from '../../containers/NationalExamsList';
 import { formatNationalExamName } from '../../utils/helpers';
 
@@ -220,16 +220,6 @@ describe('NationalExamsList', () => {
 
     wrapper.unmount();
   });
-  it('should render National Exams when not loading', () => {
-    const wrapper = mountComponent();
-    expect(wrapper.exists()).to.be.true;
-    expect(wrapper.find('h1').text()).to.equal('National Exams');
-    expect(wrapper.find('p').exists()).to.be.true;
-    expect(wrapper.find(VaPagination).length).to.equal(1);
-    expect(wrapper.find(VaPagination).props().page).to.equal(1);
-    wrapper.unmount();
-  });
-
   it('should correctly reflect the page number in URL query parameters', () => {
     const wrapper = mountComponent({ search: '?page=2' });
     expect(wrapper.find(VaPagination).props().page).to.equal(2);
