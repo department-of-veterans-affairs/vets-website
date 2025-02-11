@@ -121,6 +121,9 @@ export const customLocationSchemaStatePostal = {
     location: {
       type: 'object',
       properties: {
+        city: {
+          type: 'string',
+        },
         state: {
           type: 'string',
           enum: STATE_VALUES,
