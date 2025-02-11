@@ -26,6 +26,13 @@ describe('Helpers', () => {
       expect(getFormNumber()).to.eq('21-0779');
     });
 
+    it('retains upper-case characters from formMappings', () => {
+      global.window.location = {
+        pathname: '/find-forms/upload/21p-0518-1/upload',
+      };
+      expect(getFormNumber()).to.eq('21P-0518-1');
+    });
+
     it('returns empty string when formNumber does not match', () => {
       global.window.location = {
         pathname: 'find-forms/upload/fake-form/upload',
