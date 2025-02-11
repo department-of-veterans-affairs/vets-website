@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
+import { Toggler } from 'platform/utilities/feature-toggles';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
@@ -96,32 +97,42 @@ export class LetterList extends React.Component {
 
     return (
       <div className="step-content">
-        <p>
-          To see an explanation about each letter, click on the (+) to expand
-          the box. After you expand the box, you’ll be given the option to
-          download the letter.
-        </p>
-        <p>
-          To download a letter, you’ll need to have Adobe Acrobat Reader
-          installed on your computer. You can then download or save the letter
-          to your device. Open Acrobat Reader, and from the File menu, choose
-          Open. Select the PDF.
-        </p>
-        <p>
-          If you’re still having trouble opening the letter, you may have an
-          older version of Adobe Acrobat Reader. You’ll need to{' '}
-          <a
-            href="https://get.adobe.com/reader/otherversions/"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            download the latest version
-          </a>
-          . It’s free.
-        </p>
-        <p>
-          <Link to="/confirm-address">Go back to edit address</Link>
-        </p>
+        <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+          {toggleValue =>
+            toggleValue ? null : (
+              <>
+                {' '}
+                <p>
+                  To see an explanation about each letter, click on the (+) to
+                  expand the box. After you expand the box, you’ll be given the
+                  option to download the letter.
+                </p>
+                <p>
+                  To download a letter, you’ll need to have Adobe Acrobat Reader
+                  installed on your computer. You can then download or save the
+                  letter to your device. Open Acrobat Reader, and from the File
+                  menu, choose Open. Select the PDF.
+                </p>
+                <p>
+                  If you’re still having trouble opening the letter, you may
+                  have an older version of Adobe Acrobat Reader. You’ll need to{' '}
+                  <a
+                    href="https://get.adobe.com/reader/otherversions/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    download the latest version
+                  </a>
+                  . It’s free.
+                </p>
+                <p>
+                  <Link to="/confirm-address">Go back to edit address</Link>
+                </p>
+              </>
+            )
+          }
+        </Toggler.Hoc>
+
         {letterItems.length !== 0 && (
           <va-accordion bordered>{letterItems}</va-accordion>
         )}
