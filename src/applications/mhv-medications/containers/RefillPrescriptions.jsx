@@ -28,6 +28,7 @@ import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import RefillAlert from '../components/shared/RefillAlert';
 import { dataDogActionNames } from '../util/dataDogConstants';
 
 const RefillPrescriptions = ({ isLoadingList = true }) => {
@@ -186,6 +187,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         >
           Refill prescriptions
         </h1>
+        <RefillAlert />
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />

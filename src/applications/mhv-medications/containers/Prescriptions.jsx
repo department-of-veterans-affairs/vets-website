@@ -63,6 +63,7 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
+import RefillAlert from '../components/shared/RefillAlert';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -644,6 +645,7 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
+            <RefillAlert />
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&
