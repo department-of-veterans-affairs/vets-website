@@ -3,7 +3,10 @@ import CCProviderResult from '../../../../components/search-results-items/CCProv
 import Covid19Result from '../../../../components/search-results-items/Covid19Result';
 import EmergencyCareResult from '../../../../components/search-results-items/EmergencyCareResult';
 import PharmacyResult from '../../../../components/search-results-items/PharmacyResult';
-import { ResultMapper } from '../../../../components/search-results-items/common/ResultMapper';
+import {
+  isHealthAndHealthConnect,
+  ResultMapper,
+} from '../../../../components/search-results-items/common/ResultMapper';
 import UrgentCareResult from '../../../../components/search-results-items/UrgentCareResult';
 import VaFacilityResult from '../../../../components/search-results-items/VaFacilityResult';
 
@@ -171,5 +174,75 @@ describe('ResultMapper', () => {
     );
 
     expect(result.type).to.equal(VaFacilityResult);
+  });
+
+  describe('isHealthAndHealthConnect', () => {
+    it('should return true for VA health if the health connect number exists', () => {
+      expect(
+        isHealthAndHealthConnect(
+          {
+            attributes: {
+              phone: {
+                healthConnect: '123-456-7890',
+              },
+            },
+          },
+          {
+            facilityType: 'health',
+          },
+        ),
+      ).to.be.true;
+    });
+
+    it('should return false for VA health if the health connect number does not exist', () => {
+      expect(
+        isHealthAndHealthConnect(
+          {
+            attributes: {
+              phone: {
+                fax: '123-456-7890',
+              },
+            },
+          },
+          {
+            facilityType: 'health',
+          },
+        ),
+      ).to.be.false;
+    });
+
+    it('should return false for VA health if the health connect number is empty', () => {
+      expect(
+        isHealthAndHealthConnect(
+          {
+            attributes: {
+              phone: {
+                healthConnect: '',
+              },
+            },
+          },
+          {
+            facilityType: 'health',
+          },
+        ),
+      ).to.be.false;
+    });
+
+    it('should return false for Vet Centers', () => {
+      expect(
+        isHealthAndHealthConnect(
+          {
+            attributes: {
+              phone: {
+                healthConnect: '123-456-7890',
+              },
+            },
+          },
+          {
+            facilityType: 'vet_center',
+          },
+        ),
+      ).to.be.false;
+    });
   });
 });

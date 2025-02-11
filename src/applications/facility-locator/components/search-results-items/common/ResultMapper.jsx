@@ -13,16 +13,16 @@ import {
   EMERGENCY_CARE_SERVICES,
 } from '../../../constants';
 
+export const isHealthAndHealthConnect = (apiResult, query) => {
+  return !!(
+    query?.facilityType === 'health' &&
+    apiResult?.attributes?.phone?.healthConnect
+  );
+};
+
 // Receives a single result and returns the
 // proper data structure / listing (e.g. VA health, VBA, Urgent care)
 export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
-  const isHealthAndHealthConnect = (apiResult, query) => {
-    return !!(
-      query?.facilityType === 'health' &&
-      apiResult?.attributes?.phone?.healthConnect
-    );
-  };
-
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
 
   switch (searchQuery.facilityType) {
