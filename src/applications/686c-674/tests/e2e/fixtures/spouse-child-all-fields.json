@@ -151,6 +151,11 @@
       "addSpouse": true,
       "addChild": true
     },
+    "view:addDependentOptions": {
+      "addSpouse": true,
+      "addChild": true
+    },
+    "view:removeDependentOptions": {},
     "view:additionalEvidenceDescription": {},
     "studentNameAndSsn": {
       "view:674Information": {},
@@ -185,6 +190,22 @@
       },
       "ssn": "796121200",
       "birthDate": "1933-05-04"
-    }
+    },
+    "childSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ],
+    "spouseSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ]
   }
 }
