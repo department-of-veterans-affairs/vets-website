@@ -20,7 +20,7 @@ export const SearchForm = () => {
     const { history, location } = window;
     const queryParams = new URLSearchParams(location.search);
 
-    queryParams.set('q', query);
+    queryParams.set('q', queryState);
     history.replaceState({}, '', `${location.pathname}?${queryParams}`);
 
     dispatch(fetchFormsAction(queryState));

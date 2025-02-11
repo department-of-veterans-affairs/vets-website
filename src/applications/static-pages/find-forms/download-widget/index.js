@@ -2,13 +2,11 @@ import { checkFormValidity, fetchFormsApi } from '../api';
 import DownloadHandler from './DownloadHandler';
 
 export async function onDownloadLinkClick(event, reduxStore) {
-  // This function purpose is to determine if the PDF is valid on click.
-  // Once it's done, it passes information to DownloadHandler() which determines what to render.
   event.preventDefault();
 
   const link = event.target;
   const { formNumber, href: downloadUrl } = link.dataset;
-  let formValidityIndicators;
+  let formValidityIndicators = null;
 
   const results = await fetchFormsApi(formNumber, reduxStore.dispatch);
 

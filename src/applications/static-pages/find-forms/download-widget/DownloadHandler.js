@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
-import { sentryLogger } from '../helpers/sentryLogger';
+import { createLogMessage } from '../helpers/sentryLogger';
 
 const removeReactRoot = () => {
   const pdf = document.querySelector('.faf-pdf-alert-modal');
@@ -58,23 +58,14 @@ const DownloadHandler = ({
   } else {
     const alertDiv = document.createElement('div');
 
-    let errorMessage = 'Find Forms - Form Detail - invalid PDF accessed';
-
-    if (networkRequestError) {
-      errorMessage =
-        'Find Forms - Form Detail - onDownloadLinkClick function error';
-    }
-
-    if (!formPdfIsValid && !formPdfUrlIsValid) {
-      errorMessage =
-        'Find Forms - Form Detail - invalid PDF accessed & invalid PDF link';
-    }
-
-    if (formPdfIsValid && !formPdfUrlIsValid) {
-      errorMessage = 'Find Forms - Form Detail - invalid PDF link';
-    }
-
-    sentryLogger(form, formNumber, downloadUrl, errorMessage);
+    createLogMessage(
+      downloadUrl,
+      form,
+      formNumber,
+      formPdfIsValid,
+      formPdfUrlIsValid,
+      networkRequestError,
+    );
 
     const alertBox = (
       <InvalidFormDownload

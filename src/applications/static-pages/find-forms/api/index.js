@@ -77,5 +77,7 @@ export const fetchFormsApi = async (query, dispatch) => {
         'We’re sorry. Something went wrong on our end. Please try again later.',
       ),
     );
+
+    return null;
   }
 };

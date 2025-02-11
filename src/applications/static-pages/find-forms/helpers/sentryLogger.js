@@ -9,3 +9,30 @@ export function sentryLogger(form, formNumber, downloadUrl, message) {
     Sentry.captureMessage(message);
   });
 }
+
+export const createLogMessage = ({
+  downloadUrl,
+  form,
+  formNumber,
+  formPdfIsValid,
+  formPdfUrlIsValid,
+  networkRequestError,
+}) => {
+  let errorMessage;
+
+  if (networkRequestError) {
+    errorMessage =
+      'Find Forms - Form Detail - onDownloadLinkClick function error';
+  }
+
+  if (!formPdfIsValid && !formPdfUrlIsValid) {
+    errorMessage =
+      'Find Forms - Form Detail - invalid PDF accessed & invalid PDF link';
+  }
+
+  if (formPdfIsValid && !formPdfUrlIsValid) {
+    errorMessage = 'Find Forms - Form Detail - invalid PDF link';
+  }
+
+  sentryLogger(form, formNumber, downloadUrl, errorMessage);
+};
