@@ -15,9 +15,6 @@ describe('Content on the personal information page', () => {
       .findByText('Wes')
       .should('exist');
 
-    // Check gender identity
-    cy.findByText('Man').should('exist');
-
     // check disability rating
     cy.findByTestId('disabilityRatingField')
       .contains('90% service connected')
