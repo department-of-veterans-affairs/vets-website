@@ -35,7 +35,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
-      path: '/',
+      path: '/?id=add2f0f4-a1ea-4dea-a504-a54ab57c6801',
     });
     expect(await screen.findByTestId('referral-task-card')).to.exist;
     useGetReferralByIdStub.restore();
