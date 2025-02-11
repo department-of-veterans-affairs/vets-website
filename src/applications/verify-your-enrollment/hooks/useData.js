@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from '~/platform/user/selectors';
-import { useHistory, useLocation } from 'react-router-dom';
 import {
   getCurrentDateFormatted,
   remainingBenefits,
@@ -12,16 +11,10 @@ import { fetchPersonalInfo } from '../actions';
 export const useData = () => {
   // This custom hook is for fetching and preparing user data from the Redux state.
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
   const response = useSelector(state => state.personalInfo);
   const profile = useSelector(selectProfile);
-  const [navigationEntry] = performance.getEntriesByType('navigation');
   useEffect(() => {
     const fetchData = async () => {
-      if (location.pathname !== '/' && navigationEntry.type !== 'reload') {
-        history.push('/');
-      }
       if (!response?.personalInfo && !response?.isLoading && !response?.error) {
         await dispatch(fetchPersonalInfo());
       }
