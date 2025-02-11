@@ -63,6 +63,7 @@ const SearchControls = props => {
       serviceType: null,
       // Since the facility type may cause an error (PPMS), reset it if the type is changed
       fetchSvcsError: null,
+      error: null,
     });
   };
 
@@ -284,6 +285,7 @@ const SearchControls = props => {
         )}
       >
         <VaSelect
+          key={showError ? 'select-with-error' : 'select-without-error'}
           required
           id="facility-type-dropdown"
           className={showError ? 'vads-u-padding-left--1p5' : null}

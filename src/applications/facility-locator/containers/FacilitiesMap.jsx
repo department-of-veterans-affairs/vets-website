@@ -772,16 +772,16 @@ const FacilitiesMap = props => {
         setHorizontalSize(width);
       });
 
-      if (mapboxContainerRef.current) {
+      if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
         resizeObserver.observe(mapboxContainerRef.current);
       }
       return () => {
-        if (mapboxContainerRef.current) {
+        if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
           resizeObserver.unobserve(mapboxContainerRef.current);
         }
       };
     },
-    [mapboxContainerRef],
+    [mapboxContainerRef, props.useProgressiveDisclosure],
   );
 
   useEffect(

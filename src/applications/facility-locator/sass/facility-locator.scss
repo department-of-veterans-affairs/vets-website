@@ -45,7 +45,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     width: 100%;
     column-gap: 24px;
     min-height: calc(min(78vh, 1178px));
-    max-height: 1178px;
+    max-height: calc(max(78vh, 1178px));
   }
 
   .tablet-results-map-container {
@@ -63,12 +63,12 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 
   .desktop-map-container {
-    min-height: calc(min(78vh, 1178px));
     padding-left: 0;
     position: relative;
     width: 100%;
     max-width: 655px;
-    max-height: 1178px;
+    min-height: calc(min(78vh, 1178px));
+    max-height: calc(max(78vh, 1178px));
     height: 100%;
   }
 
@@ -661,7 +661,7 @@ button.mapboxgl-ctrl-zoom-out {
 }
 
 canvas.mapboxgl-canvas {
-  max-height: 1178px;
+  max-height: calc(max(78vh, 1178px));
 }
 
 canvas.mapboxgl-canvas:focus {
