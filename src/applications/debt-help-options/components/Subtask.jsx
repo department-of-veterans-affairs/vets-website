@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaButtonPair,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { SUBTASK_FLOW } from '../subtasks';
 
 const Subtasks = props => {
@@ -123,10 +126,7 @@ const Subtasks = props => {
           </div>
         ))}
         <div className="vads-u-margin-top--2">
-          <VaButtonPair
-            onSecondaryClick={handleBack}
-            secondaryText="Start Over"
-          />
+          <VaButton onClick={handleBack} text="Start Over" secondary />
         </div>
       </div>
     );
