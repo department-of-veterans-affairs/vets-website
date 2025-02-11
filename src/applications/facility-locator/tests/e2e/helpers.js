@@ -26,8 +26,7 @@ export const MOBILE_MAP_NO_RESULTS_TEXT =
 export const MOBILE_LIST_SEARCH_TEXT =
   'Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities.';
 
-export const MOBILE_LIST_TAB = '#react-tabs-0';
-export const MOBILE_MAP_TAB = '#react-tabs-2';
+export const MOBILE_TAB_BUTTON = 'button[class*="segment"]';
 
 export const MOBILE_MAP_RESULT_CONTAINER = '.mobile-search-result';
 
@@ -156,7 +155,11 @@ export const verifyMobileListItem = (details, index) => {
     .within(() => verifyListingContents(details));
 };
 
-export const selectMobileMapTab = () => cy.get(MOBILE_MAP_TAB).click();
+export const selectMobileMapTab = () =>
+  cy
+    .get(MOBILE_TAB_BUTTON)
+    .eq(1)
+    .click();
 
 export const selectMobileMapPin = index =>
   cy
