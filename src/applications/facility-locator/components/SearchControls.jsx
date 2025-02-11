@@ -212,14 +212,14 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressPharmacies, suppressPPMS } = props;
+    const { suppressPPMS } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
     const locationOptions = suppressPPMS
       ? nonPPMSfacilityTypeOptions
       : facilityTypesOptions;
     const showError = !isValid && facilityTypeChanged && !facilityType;
 
-    if (suppressPharmacies) {
+    if (suppressPPMS) {
       delete locationOptions.pharmacy;
     }
 

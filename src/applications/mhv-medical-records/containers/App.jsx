@@ -198,6 +198,7 @@ const App = ({ children }) => {
               hidden={isHidden}
               data-dd-privacy="mask"
               data-dd-action-name="Back to top"
+              data-testid="mr-back-to-top"
             />
             <ScrollToTop />
             <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
