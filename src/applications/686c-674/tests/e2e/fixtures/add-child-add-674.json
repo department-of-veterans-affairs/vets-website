@@ -6,6 +6,11 @@
     "addChild": true,
     "report674": true
   },
+  "view:addDependentOptions": {
+    "addChild": true,
+    "report674": true
+  },
+  "view:removeDependentOptions": {},
   "veteranContactInformation": {
     "phoneNumber": "4324324322",
     "emailAddress": "test@test.com",
@@ -128,5 +133,13 @@
       "location": {}
     }
   },
-  "privacyAgreementAccepted": true
+  "privacyAgreementAccepted": true,
+  "childSupportingDocuments": [
+      {
+        "name": "Screenshot from 2025-02-03 13-37-07.png",
+        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+        "attachmentId": "",
+        "isEncrypted": false
+      }
+    ]
 }

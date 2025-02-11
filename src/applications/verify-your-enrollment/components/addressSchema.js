@@ -9,7 +9,7 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { blockURLsRegEx } from '../constants';
-import { splitAddressLine } from '../helpers';
+import { sanitizeField, splitAddressLine } from '../helpers';
 
 const cleanZipCode = zipcode => {
   return zipcode?.substring(0, 5);
@@ -52,7 +52,9 @@ export const getFormSchema = (formData = {}) => {
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: splitAddressLine(formData?.addressLine1, 20).line1,
+        default: sanitizeField(
+          splitAddressLine(formData?.addressLine1, 20).line1,
+        ),
       },
       addressLine2: {
         type: 'string',
