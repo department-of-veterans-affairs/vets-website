@@ -4,6 +4,7 @@ import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
+import { getAllTriageTeamRecipients } from '../actions/recipients';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
@@ -15,6 +16,8 @@ const Compose = () => {
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
+  const { noAssociations } = useSelector(state => state.sm.recipients);
+
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
 
@@ -31,6 +34,7 @@ const Compose = () => {
       if (location.pathname === Paths.COMPOSE) {
         dispatch(clearThread());
         setDraftType('compose');
+        dispatch(getAllTriageTeamRecipients());
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
@@ -127,7 +131,37 @@ const Compose = () => {
         />
       )}
 
-      {draftType && !acknowledged ? (
+      {draftType &&
+        noAssociations && (
+          <div className="vads-l-grid-container compose-container">
+            <h1>Start a new message</h1>
+            <va-alert
+              class="vads-u-margin-bottom--1"
+              closeable="false"
+              disable-analytics="false"
+              full-width="false"
+              role="alert"
+              status="error"
+              visible="true"
+            >
+              <h2 id="track-your-status-on-mobile" slot="headline">
+                You’re not connected to any care teams in this messaging tool
+              </h2>
+              <p className="vads-u-margin-y--0 vads-u-margin-bottom--1">
+                If you need to contact your care team, call your VA health
+                facility
+              </p>
+              <a
+                className="vads-u-font-weight--bold vads-u-color--base"
+                href="/find-locations/"
+              >
+                Find your VA health facility
+              </a>
+            </va-alert>
+          </div>
+        )}
+
+      {draftType && !acknowledged && noAssociations === (undefined || false) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -136,11 +170,12 @@ const Compose = () => {
         />
       ) : (
         <>
-          {draftType && (
-            <div className="vads-l-grid-container compose-container">
-              {content()}
-            </div>
-          )}
+          {draftType &&
+            noAssociations === (undefined || false) && (
+              <div className="vads-l-grid-container compose-container">
+                {content()}
+              </div>
+            )}
         </>
       )}
     </>
