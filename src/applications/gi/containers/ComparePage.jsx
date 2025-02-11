@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -53,6 +54,8 @@ export function ComparePage({
   const [initialTop, setInitialTop] = useState(null);
   const [currentXScroll, setCurrentXScroll] = useState(0);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
   const headerRef = useRef(null);
   const scrollHeaderRef = useRef(null);
   const scrollPageRef = useRef(null);
@@ -222,7 +225,7 @@ export function ComparePage({
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            history.replace(updateUrlParams(newSelected, version));
+            history.replace(updateUrlParams(newSelected, version, isUpdatedGi));
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
           onCancel={() => setPromptingFacilityCode(null)}

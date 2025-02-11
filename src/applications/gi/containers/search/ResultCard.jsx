@@ -60,6 +60,7 @@ export function ResultCard({
   const isShowRatingsToggle = useToggleValue(
     TOGGLE_NAMES.giComparisonToolShowRatings,
   );
+  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
 
   let ratingCount = 0;
   let ratingAverage = false;
@@ -133,8 +134,15 @@ export function ResultCard({
   const [expanded, toggleExpansion] = useState(false);
 
   const profileLink = version
-    ? appendQuery(`/institution/${facilityCode}`, { version })
-    : `/institution/${facilityCode}`;
+    ? appendQuery(
+        `/${
+          isUpdatedGi ? 'schools-and-employers/' : ''
+        }institution/${facilityCode}`,
+        { version },
+      )
+    : `/${
+        isUpdatedGi ? 'schools-and-employers/' : ''
+      }institution/${facilityCode}`;
 
   const resultCardClasses = classNames('result-card', {
     'vads-u-margin-bottom--2': location,

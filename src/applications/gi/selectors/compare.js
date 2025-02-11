@@ -83,10 +83,10 @@ export const getCompareCalculatorState = (
   };
 };
 
-export const updateUrlParams = (facilityCodes, version) => {
+export const updateUrlParams = (facilityCodes, version, isUpdatedGi) => {
   return version
     ? appendQuery(
-        `/compare/`,
+        `${isUpdatedGi ? 'schools-and-employers/' : ''}/compare/`,
         {
           facilities: facilityCodes.join(','),
           version,
@@ -94,7 +94,7 @@ export const updateUrlParams = (facilityCodes, version) => {
         { encodeComponents: false },
       )
     : appendQuery(
-        `/compare/`,
+        `${isUpdatedGi ? 'schools-and-employers/' : ''}/compare/`,
         {
           facilities: facilityCodes.join(','),
         },

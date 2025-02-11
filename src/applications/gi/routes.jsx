@@ -12,12 +12,12 @@ import LicenseCertificationSearchPage from './components/LicenseCertificationSea
 import NationalExamsList from './containers/NationalExamsList';
 import NationalExamDetails from './containers/NationalExamDetails';
 import NewGiApp from './updated-gi/containers/NewGiApp';
-import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
+// import SchoolsAndEmployers from './updated-gi/containers/SchoolsAndEmployers';
 import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const toggleValue = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
@@ -27,7 +27,7 @@ const BuildRoutes = () => {
 
   return (
     <>
-      {!toggleValue ? (
+      {!isUpdatedGi ? (
         <GiBillApp>
           <Switch>
             <Redirect
@@ -46,7 +46,6 @@ const BuildRoutes = () => {
             />
             {lcToggleValue && (
               <Route
-                key="lc-search"
                 exact
                 path="/lc-search"
                 render={({ match }) => (
@@ -59,7 +58,6 @@ const BuildRoutes = () => {
             )}
             {lcToggleValue && (
               <Route
-                key="lc-search-results"
                 exact
                 path="/lc-search/results"
                 render={({ match }) => (
@@ -72,7 +70,6 @@ const BuildRoutes = () => {
             )}
             {lcToggleValue && (
               <Route
-                key="lc-search-result"
                 path="/lc-search/results/:id"
                 component={LicenseCertificationSearchResult}
               />
@@ -93,16 +90,42 @@ const BuildRoutes = () => {
           </Switch>
         </GiBillApp>
       ) : (
-        <NewGiApp>
-          <Switch>
-            <Route exact path="/">
+        <Switch>
+          <Route exact path="/">
+            <NewGiApp>
               <HomePage />
-            </Route>
-            <Route path="/schools-and-employers">
-              <SchoolsAndEmployers />
-            </Route>
-          </Switch>
-        </NewGiApp>
+            </NewGiApp>
+          </Route>
+          <GiBillApp>
+            <Switch>
+              <Redirect
+                from="/profile/:facilityCode"
+                to="/institution/:facilityCode"
+              />
+              <Route
+                path="/schools-and-employers/institution/:facilityCode"
+                render={({ match }) => <ProfilePage match={match} />}
+              />
+              <Route
+                path="/schools-and-employers/compare"
+                render={({ match }) => <ComparePage match={match} />}
+              />
+              <Route
+                path="/schools-and-employers"
+                render={({ match }) => <SearchPage match={match} />}
+              />
+              <Route
+                path="/school-and-employers/compare"
+                render={({ match }) => <ComparePage match={match} />}
+              />
+              <Route
+                path="/national-exams/:examId"
+                component={NationalExamDetails}
+              />
+              <Route path="/national-exams" component={NationalExamsList} />
+            </Switch>
+          </GiBillApp>
+        </Switch>
       )}
     </>
   );
