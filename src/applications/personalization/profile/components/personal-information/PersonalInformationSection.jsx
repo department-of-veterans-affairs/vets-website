@@ -10,7 +10,6 @@ import backendServices from '@department-of-veterans-affairs/platform-user/profi
 import { getMessagingSignature } from 'platform/user/profile/actions';
 import featureFlagNames from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { ProfileInfoCard } from '../ProfileInfoCard';
-import GenderIdentityDescription from './GenderIdentityDescription';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
 
@@ -87,17 +86,6 @@ const PersonalInformationSection = ({ dob }) => {
           ),
         },
         {
-          title: 'Gender identity',
-          description: <GenderIdentityDescription />,
-          id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
-          value: (
-            <ProfileInformationFieldController
-              fieldName={FIELD_NAMES.GENDER_IDENTITY}
-              isDeleteDisabled
-            />
-          ),
-        },
-        {
           title: 'Disability rating',
           value: <DisabilityRating />,
         },
@@ -126,7 +114,12 @@ const PersonalInformationSection = ({ dob }) => {
       }
       return cardFields;
     },
-    [dob, messagingSignature, messagingSignatureEnabled, userServices],
+    [
+      dob,
+      isMessagingServiceEnabled,
+      messagingSignature,
+      messagingSignatureEnabled,
+    ],
   );
 
   return (
