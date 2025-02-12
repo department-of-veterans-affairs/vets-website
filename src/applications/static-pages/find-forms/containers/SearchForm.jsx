@@ -16,7 +16,7 @@ export const SearchForm = () => {
 
   const findFormInputFieldRef = useRef(null);
 
-  const searchForForms = () => {
+  const searchForForms = async () => {
     const { history, location } = window;
     const queryParams = new URLSearchParams(location.search);
 
@@ -26,7 +26,7 @@ export const SearchForm = () => {
     dispatch(fetchFormsAction(queryState));
     dispatch(updatePaginationAction());
 
-    const forms = fetchFormsApi(queryState, dispatch);
+    const forms = await fetchFormsApi(queryState, dispatch);
 
     if (forms?.length) {
       const totalPages = Math.ceil(forms.length / MAX_PAGE_LIST_LENGTH);
