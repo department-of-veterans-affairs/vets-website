@@ -3,7 +3,7 @@ import { RouterProvider } from 'react-router-dom-v5-compat';
 import '@department-of-veterans-affairs/platform-polyfills';
 import './sass/avs.scss';
 
-import { startAppFromRouterV6 as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
+import { startAppFromRouterNext as startApp } from '@department-of-veterans-affairs/platform-startup/exports';
 
 import router from './router';
 import reducer from './reducers';
