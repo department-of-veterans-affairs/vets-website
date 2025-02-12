@@ -148,7 +148,7 @@ const App = ({ isPilot }) => {
   // rootURL to /my-health/secure-messages/inbox
   if (isPilot && !cernerPilotSmFeatureFlag) {
     const url = removeLandingPage
-      ? `/my-health/secure-messages${Paths.INBOX}`
+      ? `${manifest.rootUrl}${Paths.INBOX}`
       : `${manifest.rootUrl}`;
     window.location.replace(url);
     return <></>;

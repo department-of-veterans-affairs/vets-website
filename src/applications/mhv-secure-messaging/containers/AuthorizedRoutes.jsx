@@ -13,6 +13,7 @@ import ThreadDetails from './ThreadDetails';
 import MessageReply from './MessageReply';
 import SearchResults from './SearchResults';
 import { Paths } from '../util/constants';
+import manifest from '../manifest.json';
 import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
 import EditContactList from './EditContactList';
 
@@ -54,8 +55,8 @@ const AuthorizedRoutes = () => {
   if (removeLandingPage && location.pathname === `/`) {
     const basePath =
       cernerPilotSmFeatureFlag && window.location.pathname.includes('pilot')
-        ? `/my-health/secure-messages-pilot${Paths.INBOX}`
-        : `/my-health/secure-messages${Paths.INBOX}`;
+        ? `${manifest.rootUrl}-pilot${Paths.INBOX}`
+        : `${manifest.rootUrl}${Paths.INBOX}`;
 
     window.location.replace(basePath);
     return <></>;
