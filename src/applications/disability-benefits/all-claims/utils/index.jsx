@@ -392,11 +392,6 @@ export const hasNewPtsdDisability = formData =>
     isDisabilityPtsd(disability.condition),
   );
 
-// NOTE: this will need to be updated or removed when we have a usecase for the
-// Additional Forms chapter beyond the new 0781 flow
-export const showAdditionalFormsChapter = formData =>
-  formData?.syncModern0781Flow === true;
-
 export const showPtsdCombat = formData =>
   hasNewPtsdDisability(formData) &&
   _.get('view:selectablePtsdTypes.view:combatPtsdType', formData, false);
