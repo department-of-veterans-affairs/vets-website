@@ -248,6 +248,14 @@ export const addressExists = address =>
     address?.zipCode?.trim()
   );
 
+export const userIsDigitalSubmitEligible = formData => {
+  return (
+    formData?.identityValidation?.hasIcn &&
+    formData?.identityValidation?.hasParticipantId &&
+    formData?.v2IsEnabled
+  );
+};
+
 export const entityAcceptsDigitalPoaRequests = entity => {
   const repType = getRepType(entity);
 
