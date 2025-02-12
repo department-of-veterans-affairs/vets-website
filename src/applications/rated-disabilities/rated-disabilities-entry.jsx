@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom-v5-compat';
+import { BrowserRouter } from 'react-router-dom-v5-compat';
 import '@department-of-veterans-affairs/platform-polyfills';
 
 import startApp from '@department-of-veterans-affairs/platform-startup/routerNext';
@@ -14,13 +11,11 @@ import routes from './routes';
 
 const { entryName, rootUrl: url } = manifest;
 
-const router = createBrowserRouter([{ path: '*', element: routes }], {
-  basename: url,
-});
+const router = <BrowserRouter basename={url}>{routes}</BrowserRouter>;
 
 startApp({
   entryName,
   reducer: null,
-  router: <RouterProvider router={router} />,
+  router,
   url,
 });
