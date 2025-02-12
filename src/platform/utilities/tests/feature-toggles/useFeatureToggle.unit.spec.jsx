@@ -1,14 +1,16 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import * as redux from 'react-redux';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import PropTypes from 'prop-types';
 
 import { renderInReduxProvider } from '../../../testing/unit/react-testing-library-helpers';
-
 import { useFeatureToggle } from '../../feature-toggles/useFeatureToggle';
 import { Toggler } from '../../feature-toggles/Toggler';
 
-const testToggleName = Toggler.TOGGLE_NAMES.profileUseExperimental;
+const testToggleKey = 'profileUseExperimental';
+const testToggleName = Toggler.TOGGLE_NAMES[testToggleKey];
 
 const TestComponent = ({ customToggleName = null }) => {
   const { useToggleValue } = useFeatureToggle();
@@ -106,5 +108,64 @@ describe('useFeatureToggle hook', () => {
       },
     });
     expect(wrapper.findAllByText('Loading value: false')).to.exist;
+  });
+});
+
+describe('useFormFeatureToggleSync hook', () => {
+  const TestSyncComponent = ({ keys }) => {
+    const { useFormFeatureToggleSync } = useFeatureToggle();
+    useFormFeatureToggleSync(keys);
+    return <div />;
+  };
+
+  let useDispatchStub;
+  let dispatchSpy;
+  beforeEach(() => {
+    useDispatchStub = sinon.stub(redux, 'useDispatch');
+    dispatchSpy = sinon.spy();
+    useDispatchStub.returns(dispatchSpy);
+  });
+
+  afterEach(() => {
+    useDispatchStub.restore();
+  });
+
+  it('should sync the feature toggle value with the form data', () => {
+    renderInReduxProvider(<TestSyncComponent keys={[testToggleKey]} />, {
+      initialState: {
+        featureToggles: { [testToggleName]: true },
+      },
+    });
+    expect(dispatchSpy.called).to.be.true;
+    expect(
+      dispatchSpy.calledWith({
+        type: 'SET_DATA',
+        data: { [testToggleKey]: true },
+      }),
+    ).to.be.true;
+  });
+
+  it('should sync the feature toggle value with the form data', () => {
+    const hlrKey = 'hlrBrowserMonitoringEnabled';
+    const hlrFeatureName = Toggler.TOGGLE_NAMES[hlrKey];
+    const hlrFormDataKey = 'hlrMonitoring';
+    renderInReduxProvider(
+      <TestSyncComponent keys={[testToggleKey, [hlrKey, hlrFormDataKey]]} />,
+      {
+        initialState: {
+          featureToggles: {
+            [testToggleName]: false,
+            [hlrFeatureName]: true,
+          },
+        },
+      },
+    );
+    expect(dispatchSpy.called).to.be.true;
+    expect(
+      dispatchSpy.calledWith({
+        type: 'SET_DATA',
+        data: { [testToggleKey]: false, [hlrFormDataKey]: true },
+      }),
+    ).to.be.true;
   });
 });
