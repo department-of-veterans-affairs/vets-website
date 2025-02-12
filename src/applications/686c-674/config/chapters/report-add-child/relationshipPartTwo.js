@@ -44,7 +44,7 @@ const StepchildAdditionalEvidence = () => {
   );
 };
 
-export const relationship = {
+export const relationshipPartTwo = {
   uiSchema: {
     ...titleUI({
       title: 'Your relationship to this child',
@@ -54,7 +54,6 @@ export const relationship = {
       'ui:description': 'Check all that apply',
       'ui:webComponentField': VaCheckboxField,
       labels: {
-        biological: 'They’re my biological child',
         adopted: 'They’re my adopted child',
         stepchild: 'They’re my stepchild',
       },
@@ -109,11 +108,7 @@ export const relationship = {
   schema: {
     type: 'object',
     properties: {
-      relationshipToChild: checkboxGroupSchema([
-        'biological',
-        'adopted',
-        'stepchild',
-      ]),
+      relationshipToChild: checkboxGroupSchema(['adopted', 'stepchild']),
       'view:commonEvidenceInfo': {
         type: 'object',
         properties: {},
