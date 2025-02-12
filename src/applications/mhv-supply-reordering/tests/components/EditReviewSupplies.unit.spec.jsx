@@ -6,7 +6,7 @@ import EditReviewSupplies from '../../components/EditReviewSupplies';
 
 const title = 'Available for reorder';
 const defaultEditButton = () => {};
-const data = {
+const options = {
   chosenSupplies: {
     '6584': true,
   },
@@ -32,7 +32,7 @@ const data = {
   ],
 };
 
-const setup = (formData = data) => {
+const setup = (formData = options) => {
   return render(
     <div>
       <EditReviewSupplies
@@ -48,14 +48,14 @@ describe('EditReviewSupplies', () => {
   it('renders', () => {
     const { getByRole, getByText } = setup();
     getByRole('heading', { level: 4, name: title });
-    getByText(data.supplies[0].productName);
+    getByText(options.supplies[0].productName);
   });
   it('renders with no chosenSupplies', () => {
     const { getByRole, queryByText } = setup({
-      ...data,
+      ...options,
       chosenSupplies: undefined,
     });
     getByRole('heading', { level: 4, name: title });
-    expect(queryByText(data.supplies[0].productName)).to.be.null;
+    expect(queryByText(options.supplies[0].productName)).to.be.null;
   });
 });

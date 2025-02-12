@@ -6,10 +6,10 @@ import EditReviewEmail from '../../components/EditReviewEmail';
 
 const title = 'Email address';
 const defaultEditButton = () => {};
-const data = {
+const options = {
   emailAddress: 'vets.gov.user+1@gmail.com',
 };
-const setup = (formData = data) => {
+const setup = (formData = options) => {
   return render(
     <div>
       <EditReviewEmail
@@ -25,11 +25,11 @@ describe('EditReviewEmail', () => {
   it('renders', () => {
     const { getByRole, getByText } = setup();
     getByRole('heading', { level: 4, name: title });
-    getByText(data.emailAddress);
+    getByText(options.emailAddress);
   });
   it('renders with no email address', () => {
     const { getByRole, queryByText } = setup({});
     getByRole('heading', { level: 4, name: title });
-    expect(queryByText(data.emailAddress)).to.be.null;
+    expect(queryByText(options.emailAddress)).to.be.null;
   });
 });

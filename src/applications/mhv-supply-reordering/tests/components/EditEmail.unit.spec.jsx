@@ -7,7 +7,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import EditEmail from '../../components/EditEmail';
 
-const title = 'Email address';
+const title = 'Edit email address';
 const props = {
   data: {
     emailAddress: 'vets.gov.user+1@gmail.com',
@@ -26,13 +26,12 @@ const props = {
   },
 };
 const setup = () => {
-  return render(<EditEmail props={props} />);
+  return render(<EditEmail {...props} />);
 };
 
 describe('EditEmail', () => {
   it('renders', () => {
-    const { getByRole, getByText } = setup();
-    getByRole('heading', { level: 4, name: title });
-    getByText(props.data.emailAddress);
+    const { getByRole } = setup();
+    getByRole('heading', { level: 3, name: title });
   });
 });
