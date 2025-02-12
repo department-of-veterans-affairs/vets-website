@@ -315,11 +315,12 @@ export function selectChosenFacilityInfo(state) {
   );
 }
 
-export function getPatientProviderRelationships(state) {
+export function selectPatientProviderRelationships(state) {
+  const newAppointment = getNewAppointment(state);
   return {
-    patientProviderRelationships: state.patientProviderRelationships,
+    patientProviderRelationships: newAppointment.patientProviderRelationships,
     patientProviderRelationshipsStatus:
-      state.patientProviderRelationshipsStatus,
+      newAppointment.patientProviderRelationshipsStatus,
   };
 }
 
