@@ -40,7 +40,6 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  showAdditionalFormsChapter,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -109,7 +108,6 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
-import * as additionalFormsChapterWrapper from '../pages/additionalFormsChapterWrapper';
 
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 import { form0781PagesConfig } from './form0781/index';
@@ -612,16 +610,10 @@ const formConfig = {
         },
       },
     },
-    additionalForms: {
-      title: 'Additional Forms',
+    mentalHealth: {
+      title: 'Mental health statement',
+      path: 'mental-health-form-0781',
       pages: {
-        additionalFormsChapterWrapper: {
-          title: 'Additional forms to support your claim',
-          path: 'additional-forms',
-          depends: formData => showAdditionalFormsChapter(formData),
-          uiSchema: additionalFormsChapterWrapper.uiSchema,
-          schema: additionalFormsChapterWrapper.schema,
-        },
         ...form0781PagesConfig,
       },
     },
