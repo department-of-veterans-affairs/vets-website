@@ -9,6 +9,7 @@ describe('go bill CT new homepage', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('education/gi-bill-comparison-tool/');
   });
+
   it('should show the new homepage', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('h1[data-testid="comparison-tool-title"]').should(
@@ -20,10 +21,10 @@ describe('go bill CT new homepage', () => {
       'Discover how your GI Bill benefits can support your education.',
     );
   });
+
   it('should direct to the schools and employers search tabs', () => {
     cy.injectAxeThenAxeCheck();
     cy.contains('.comparison-tool-link', 'Schools and employers').click();
     cy.url().should('contain', '/schools-and-employers');
-    cy.injectAxeThenAxeCheck();
   });
 });

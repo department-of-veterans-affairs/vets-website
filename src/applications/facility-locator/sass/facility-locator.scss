@@ -5,6 +5,9 @@
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
+$surface-secondary: rgba(223, 225, 226,1);
+$text-color: rgba(27, 27, 27, 1);
+
 .facility-locator {
   @media (max-width: $large-screen) {
     margin: 0 12px;
@@ -268,11 +271,11 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
-      .typeahead + input[type="submit"] {
+      .typeahead+input[type="submit"] {
         margin-bottom: 30px;
       }
 
-      .typeahead:has(.usa-input-error) + input[type="submit"] {
+      .typeahead:has(.usa-input-error)+input[type="submit"] {
         margin-bottom: 38px;
       }
 
@@ -580,4 +583,50 @@ canvas.mapboxgl-canvas:focus {
 
 .success-icon {
   color: var(--vads-color-success) !important;
+}
+
+//Segemented control CSS
+
+.segmented-control-container {
+  width: 100%;
+  background-color: $surface-secondary;
+  border-radius: 8px;
+  padding: 2px;
+  display: flex;
+  width: 100%;
+  list-style: none;
+}
+
+.segment {
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 0px;
+  padding: 4px 8px;
+}
+
+.segment:active {
+  opacity: 0.8;
+}
+
+.segment-text {
+  font-size: 20.25px;
+  font-weight: 400;
+  line-height: 30.38px;
+  color: $text-color;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.segment-text--selected {
+  color: $text-color;
+  font-weight: 700;
+}
+
+.segment-wrapper {
+  padding-bottom: 20px;
+}
+
+.segment-wrapper-list {
+  border-bottom: 1px solid rgba(170, 170, 170, 1);
 }
