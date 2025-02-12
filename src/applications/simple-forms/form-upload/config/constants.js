@@ -146,6 +146,7 @@ export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
     status="error"
     visible
     closeable
+    slim
     onCloseEvent={onCloseEvent}
   >
     File upload must be complete to continue.
