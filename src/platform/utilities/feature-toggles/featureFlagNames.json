@@ -142,6 +142,7 @@
   "mhvMedicationsDisplayRefillContent": "mhv_medications_display_refill_content",
   "mhvMedicationsDisplayPendingMeds": "mhv_medications_display_pending_meds",
   "mhvMedicationsToVaGovRelease": "mhv_medications_to_va_gov_release",
+  "mhvModernCtaLinks": "mhv_modern_cta_links",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
   "mhvSecureMessagingEditContactList": "mhv_secure_messaging_edit_contact_list",
   "mhvSecureMessagingFilterAccordion": "mhv_secure_messaging_filter_accordion",
