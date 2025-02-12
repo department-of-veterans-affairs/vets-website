@@ -136,7 +136,6 @@ export const formerMarriageEndReasonPage = {
     reasonMarriageEndedOther: {
       ...textUI('Briefly describe how their marriage ended'),
       'ui:required': (formData, index) => {
-        // See above comment
         const isEditMode = formData?.reasonMarriageEnded === 'Other';
         const isAddMode =
           formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
@@ -187,6 +186,24 @@ export const formerMarriageEndDatePage = {
     endDate: {
       ...currentOrPastDateUI('When did their marriage end?'),
       'ui:required': () => true,
+      'ui:validations': [
+        {
+          validator: (errors, _field, formData) => {
+            const { startDate, endDate } = formData;
+
+            if (!startDate || !endDate) return;
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (end < start) {
+              errors.addError(
+                'Marriage end date must be on or after the marriage start date',
+              );
+            }
+          },
+        },
+      ],
     },
   },
   schema: {

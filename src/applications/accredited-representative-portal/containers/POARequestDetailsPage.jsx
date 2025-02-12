@@ -10,6 +10,7 @@ import {
   resolutionDate,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
+import ProcessingBanner from '../components/ProcessingBanner';
 
 const DECISION_TYPES = {
   ACCEPTANCE: 'acceptance',
@@ -46,6 +47,24 @@ const DECISION_OPTIONS = {
     reason: null,
   },
   ...DECLINATION_OPTIONS,
+};
+
+// processing will show up once rep accepts the request. Once it is accepted there will be a green status alert that says accepted - see decision_types above
+const BANNER_TYPES = {
+  PROCESSING: 'PENDING',
+  FAILED: 'FAILED',
+};
+
+const PROCESSING_BANNER = {
+  HEADER: 'We’re processing the accepted POA request',
+  ACCEPTED: 'You accepted the POA request on',
+  COPY:
+    'We’re processing your decision. This normally takes 1-2 minutes, but can sometimes take longer. We’ll update the status on the request once it finishes processing. You can refresh the page to check for updates.',
+};
+const ERROR_BANNER = {
+  HEADER: 'We couldn’t process the accepted POA request',
+  COPY:
+    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status on the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
 };
 
 const Authorized = () => {
@@ -114,21 +133,25 @@ const POARequestDetailsPage = () => {
   };
 
   const poaStatus =
-    poaRequest.resolution?.decision_type ||
+    poaRequest.resolution?.decisionType ||
     poaRequest.resolution?.type ||
     'Pending';
 
-  const relationship = poaRequest?.powerOfAttorneyForm.claimant.relationship;
+  const relationship =
+    poaRequest?.powerOfAttorneyForm.claimant.relationship || 'Self';
   const city = poaRequest?.powerOfAttorneyForm.claimant.address.city;
   const state = poaRequest?.powerOfAttorneyForm.claimant.address.stateCode;
   const zipCode = poaRequest?.powerOfAttorneyForm.claimant.address.zipCode;
   const phone = poaRequest?.powerOfAttorneyForm.claimant.phone;
-  const email = poaRequest.powerOfAttorneyForm.claimant.emaill;
+  const email = poaRequest?.powerOfAttorneyForm.claimant.email;
   const claimantFirstName = poaRequest?.powerOfAttorneyForm.claimant.name.first;
   const claimantLastName = poaRequest?.powerOfAttorneyForm.claimant.name.last;
   const {
     recordDisclosureLimitations,
   } = poaRequest.powerOfAttorneyForm.authorizations;
+
+  const poaRequestSubmission = poaRequest?.powerOfAttorneyFormSubmission.status;
+
   return (
     <section className="poa-request-details">
       <h1
@@ -141,7 +164,7 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status ${poaStatus}`}
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${poaStatus}`}
           >
             {formatStatus(poaStatus)}
           </span>
@@ -167,7 +190,7 @@ const POARequestDetailsPage = () => {
           {poaStatus === 'declination' && (
             <>
               <p className="poa-request-details__title">Request declined on</p>
-              {resolutionDate(poaRequest.resolution?.created_at, poaStatus.id)}
+              {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
             </>
           )}
           {poaStatus === 'acceptance' && (
@@ -184,13 +207,7 @@ const POARequestDetailsPage = () => {
           )}
           {poaStatus === 'expiration' && (
             <>
-              <p className="poa-request-details__title">
-                <va-icon
-                  icon="warning"
-                  class="vads-u-color--warning-dark poa-request__card-icon"
-                />{' '}
-                Request expired on
-              </p>
+              <p className="poa-request-details__title">Request expired on</p>
               {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
             </>
           )}
@@ -221,6 +238,24 @@ const POARequestDetailsPage = () => {
       />
 
       <div className="poa-request-details__info">
+        {poaRequestSubmission === BANNER_TYPES.PROCESSING && (
+          <ProcessingBanner
+            status="info"
+            header={PROCESSING_BANNER.HEADER}
+            accepted={PROCESSING_BANNER.ACCEPTED}
+            date={poaRequest.resolution?.createdAt}
+            copy={PROCESSING_BANNER.COPY}
+          />
+        )}
+
+        {poaRequestSubmission === BANNER_TYPES.FAILED && (
+          <ProcessingBanner
+            status="error"
+            header={ERROR_BANNER.HEADER}
+            copy={ERROR_BANNER.COPY}
+          />
+        )}
+
         <h2>Claimant information</h2>
         <ul className="poa-request-details__list poa-request-details__list--info">
           <li>
@@ -245,13 +280,11 @@ const POARequestDetailsPage = () => {
             <>
               <li>
                 <p>Social Security number</p>
-                <p>{poaRequest?.power_of_attorney_form?.claimant?.ssn}</p>
+                <p>{poaRequest?.powerOfAttorneyForm?.claimant?.ssn}</p>
               </li>
               <li>
                 <p>VA file number</p>
-                <p>
-                  {poaRequest?.power_of_attorney_form?.claimant?.va_file_number}
-                </p>
+                <p>{poaRequest?.powerOfAttorneyForm?.claimant?.vaFileNumber}</p>
               </li>
             </>
           )}
@@ -277,7 +310,7 @@ const POARequestDetailsPage = () => {
               <li>
                 <p>VA file number</p>
                 <p>
-                  {poaRequest?.power_of_attorney_form?.veteran?.va_file_number}
+                  {poaRequest?.power_of_attorney_form?.veteran?.vaFileNumber}
                 </p>
               </li>
             </ul>
@@ -290,17 +323,17 @@ const POARequestDetailsPage = () => {
             <p>Change of address</p>
             <p>
               {checkAuthorizations(
-                poaRequest?.powerOfAttorneyForm.authorizations.address_change,
+                poaRequest?.powerOfAttorneyForm.authorizations.addressChange,
               )}
             </p>
           </li>
           <li>
             <p>Protected medical records</p>
             <p>
-              {recordDisclosureLimitations.lengp === 0 && <NoAccess />}
-              {recordDisclosureLimitations.lengp < 4 &&
-                recordDisclosureLimitations.lengp > 0 && <AccessToSome />}
-              {recordDisclosureLimitations.lengp === 4 && <Authorized />}
+              {recordDisclosureLimitations.length === 0 && <NoAccess />}
+              {recordDisclosureLimitations.length < 4 &&
+                recordDisclosureLimitations.length > 0 && <AccessToSome />}
+              {recordDisclosureLimitations.length === 4 && <Authorized />}
             </p>
           </li>
           <li>

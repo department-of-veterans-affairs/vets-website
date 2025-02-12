@@ -59,7 +59,7 @@ Army Reserve 11/23/2009  11/23/2009  Post-9/11              Unknown
 -- Note: Both Service and DoD Generic codes may not be present in all records
 Service      Begin Date  Enl/Off   Type       Svc Occ Code       DoD Occ Code
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-Army Reserve 02/16/1995  Enlisted  Primary    54B3OZZ            494        
+Army Reserve 02/16/1995  Enlisted  Primary    54B3OZZ            220500        
 Army Reserve 02/16/1995  Enlisted  Duty       95B3OZZ            830        
 Army Reserve 10/31/1999  Enlisted  Secondary  ZZZZZZZZ           null       
 Army Reserve 11/30/1999  Enlisted  Primary    95B3OV5            830        

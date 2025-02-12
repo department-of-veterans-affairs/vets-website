@@ -8,7 +8,7 @@ import {
   SEARCH_FAILED,
   SEARCH_QUERY_UPDATED,
   GEOCODE_FAILED,
-} from '../../utils/actionTypes';
+} from '../actionTypes';
 import { distBetween } from '../../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);

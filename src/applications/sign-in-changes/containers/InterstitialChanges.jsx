@@ -50,7 +50,7 @@ export default function InterstitialChanges() {
         id="interstitialH1"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
       >
-        You’ll need to sign in with a different account after January 31, 2025
+        You’ll need to sign in with a different account after March 4, 2025
       </h1>
       <p
         className="vads-u-font-size--base section-content vads-u-measure--5"
@@ -68,7 +68,7 @@ export default function InterstitialChanges() {
       <h2 id="interstitialH2">Or continue using your old account</h2>
       <p className="vads-u-font-size--base" id="interstitialMhvP">
         You can use your <strong>My HealtheVet</strong> account to sign in until
-        January 31, 2025.
+        March 4, 2025.
       </p>
       <VaLink
         text="Continue with your My HealtheVet account for now"

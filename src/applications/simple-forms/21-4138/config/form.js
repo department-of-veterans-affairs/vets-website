@@ -1,10 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
-import {
-  focusByOrder,
-  scrollTo,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import manifest from '../manifest.json';
 import transform from './submit-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -18,10 +14,7 @@ import {
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layWitnessStatementPage } from '../pages/layOrWitness';
-import {
-  decisionReviewPage,
-  selectDecisionReviewPage,
-} from '../pages/decisionReview';
+import { decisionReviewPage } from '../pages/decisionReview';
 import {
   newSupplementalClaimPage,
   supplementalClaimPage,
@@ -57,37 +50,8 @@ export function isLocalhost() {
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/user.json';
-import { CustomTopContent } from '../components/breadcrumbs';
 
 const mockData = testData.data;
-
-/** @type {FormConfig} */
-const minimalFlowProps = {
-  CustomTopContent,
-  hideFormTitle: true,
-  showSaveLinkAfterButtons: true,
-  useCustomScrollAndFocus: true,
-  useTopBackLink: true,
-  v3SegmentedProgressBar: {
-    useDiv: true,
-  },
-  scrollAndFocusTarget: () => {
-    setTimeout(() => {
-      scrollTo('header-minimal');
-      const radio = document.querySelector('va-radio[label-header-level]');
-      const checkboxGroup = document.querySelector(
-        'va-checkbox-group[label-header-level]',
-      );
-      if (radio) {
-        waitForRenderThenFocus('h1', radio.shadowRoot);
-      } else if (checkboxGroup) {
-        waitForRenderThenFocus('h1', checkboxGroup.shadowRoot);
-      } else {
-        focusByOrder(['h1', 'va-segmented-progress-bar']);
-      }
-    }, 200);
-  },
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -123,7 +87,20 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  ...minimalFlowProps,
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/supporting-forms-for-claims',
+        label: 'Supporting forms for VA claims',
+      },
+      {
+        href:
+          '/supporting-forms-for-claims/statement-to-support-claim-form-21-4138',
+        label: 'Submit a statement to support a claim',
+      },
+    ],
+  }),
   chapters: {
     statementTypeChapter: {
       title: 'What would you like to do?',
@@ -144,7 +121,7 @@ const formConfig = {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.BUDDY_STATEMENT,
           path: 'lay-witness-statement',
-          title: "There's a better way to submit your statement to us",
+          title: "There's a better way to submit your statement",
           uiSchema: layWitnessStatementPage.uiSchema,
           schema: layWitnessStatementPage.schema,
           pageClass: 'lay-witness-statement',
@@ -154,11 +131,12 @@ const formConfig = {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW,
           path: 'decision-review',
-          title: 'What to know before you request a decision review',
+          title: 'There’s a better way to tell us you disagree with a decision',
           uiSchema: decisionReviewPage.uiSchema,
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
           hideSaveLinkAndStatus: true,
+          hideNavButtons: true,
         },
         newSupplementalClaimPage: {
           depends: formData =>
@@ -170,17 +148,6 @@ const formConfig = {
           schema: newSupplementalClaimPage.schema,
           pageClass: 'new-supplemental-claim',
           hideNavButtons: true,
-        },
-        selectDecisionReviewPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            isEligibleForDecisionReview(formData.decisionDate),
-          path: 'select-decision-review',
-          title: 'Which description is true for you?',
-          uiSchema: selectDecisionReviewPage.uiSchema,
-          schema: selectDecisionReviewPage.schema,
-          pageClass: 'select-decision-review',
-          hideSaveLinkAndStatus: true,
         },
         supplementalClaimPage: {
           depends: formData =>
