@@ -158,7 +158,7 @@ const SearchResult = ({ form, formMetaInfo, setModalState }) => {
       formPdfIsValid,
       formPdfUrlIsValid,
       networkRequestError,
-    } = checkFormValidity(form, 'Form Search Results');
+    } = await checkFormValidity(form, 'Form Search Results');
 
     if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
       setPdfError(false);

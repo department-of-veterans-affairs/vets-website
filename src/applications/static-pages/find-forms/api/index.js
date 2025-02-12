@@ -44,12 +44,6 @@ export const checkFormValidity = async (form, page) => {
     );
   }
 
-  // return {
-  //   formPdfIsValid: true,
-  //   formPdfUrlIsValid: true,
-  //   networkRequestError: false,
-  // };
-
   return {
     formPdfIsValid,
     formPdfUrlIsValid,

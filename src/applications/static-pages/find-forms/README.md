@@ -1,6 +1,25 @@
 # Find-a-Form Documentation
+
 ## Product Outline
 See here: https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/find-a-va-form
+
+## Environment Testing Gotchas
+When you run the Find Forms application locally, in most cases you will not be able to open the download modal on either the **search results** page or the **form detail** pages. Because another team manages the form data and makes frequent updates, there is a chance that URLs can be entered incorrectly, or forms moved or deleted. To avoid sending users to a page that 404s, we ping the given form URL with a HEAD HTTP call to see if there is a response returned from the page. If this call fails, we don't show the download modal, but instead show an error banner.
+
+Due to CORS, we can't make a HEAD HTTP call from one environment (e.g. localhost) to another (e.g. staging or production). Only same-domain forms can be checked. Unless you download the forms onto your machine, you'll always get a 404 for that HEAD HTTP call when running the code locally.
+
+To get the download modal to appear, you'll need to make code changes to force it. In `checkFormValidity` in `src/applications/static-pages/find-forms/api/index.js`, you can directly return the values that will meet the modal criteria:
+
+```
+return {
+  formPdfIsValid: true,
+  formPdfUrlIsValid: true,
+  networkRequestError: false,
+};
+```
+
+This should allow the modal to appear, and the download button on the modal should take you to the production version of the form.
+
 ## Form PDF Download
 When a user clicks to download a form PDF, a [lengthy process](https://github.com/department-of-veterans-affairs/va.gov-cms/issues/10061#issuecomment-1213584116) is undertaken to attempt to validate that the requested PDF is valid.
 
