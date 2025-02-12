@@ -14,10 +14,7 @@ import {
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layWitnessStatementPage } from '../pages/layOrWitness';
-import {
-  decisionReviewPage,
-  selectDecisionReviewPage,
-} from '../pages/decisionReview';
+import { decisionReviewPage } from '../pages/decisionReview';
 import {
   newSupplementalClaimPage,
   supplementalClaimPage,
@@ -134,11 +131,12 @@ const formConfig = {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW,
           path: 'decision-review',
-          title: 'What to know before you request a decision review',
+          title: 'There’s a better way to tell us you disagree with a decision',
           uiSchema: decisionReviewPage.uiSchema,
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
           hideSaveLinkAndStatus: true,
+          hideNavButtons: true,
         },
         newSupplementalClaimPage: {
           depends: formData =>
@@ -150,17 +148,6 @@ const formConfig = {
           schema: newSupplementalClaimPage.schema,
           pageClass: 'new-supplemental-claim',
           hideNavButtons: true,
-        },
-        selectDecisionReviewPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            isEligibleForDecisionReview(formData.decisionDate),
-          path: 'select-decision-review',
-          title: 'Which description is true for you?',
-          uiSchema: selectDecisionReviewPage.uiSchema,
-          schema: selectDecisionReviewPage.schema,
-          pageClass: 'select-decision-review',
-          hideSaveLinkAndStatus: true,
         },
         supplementalClaimPage: {
           depends: formData =>
