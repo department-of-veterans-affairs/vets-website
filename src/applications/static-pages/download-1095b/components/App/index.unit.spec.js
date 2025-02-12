@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
-import App from './index';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import App from './index';
 
 const mockStore = configureStore([]);
 
@@ -23,10 +23,10 @@ describe('App component', () => {
       profile: {
         loa: {
           current: 1,
-        }
-      }
+        },
+      },
     },
-  }
+  };
   const unverifiedState = {
     featureToggles: {
       loading: false,
@@ -45,7 +45,7 @@ describe('App component', () => {
         },
       },
     },
-  }
+  };
 
   describe('when not authenticated', () => {
     it('renders the sign-in alert', () => {
@@ -60,46 +60,46 @@ describe('App component', () => {
       );
     });
   });
- describe('when not authenticated', () => {
-  describe('when using ID.me', () => {
-    it('renders the sign-in alert', () => {
-      const testState = unverifiedState;
-      testState.user.profile.signIn.serviceName = 'idme';
-      store = mockStore(testState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
-      expect($('.idme-verify-button', container).outerHTML).to.exist;
+  describe('when not authenticated', () => {
+    describe('when using ID.me', () => {
+      it('renders the sign-in alert', () => {
+        const testState = unverifiedState;
+        testState.user.profile.signIn.serviceName = 'idme';
+        store = mockStore(testState);
+        const { container } = render(
+          <Provider store={store}>
+            <App />
+          </Provider>,
+        );
+        expect($('.idme-verify-button', container).outerHTML).to.exist;
       });
     });
-  });
-  describe('when using Login.gov', () => {
-    it('renders the sign-in alert', () => {
-      const testState = unverifiedState;
-      testState.user.profile.signIn.serviceName = 'logingov';
-      store = mockStore(testState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
-      expect($('.logingov-verify-button', container).outerHTML).to.exist;
+    describe('when using Login.gov', () => {
+      it('renders the sign-in alert', () => {
+        const testState = unverifiedState;
+        testState.user.profile.signIn.serviceName = 'logingov';
+        store = mockStore(testState);
+        const { container } = render(
+          <Provider store={store}>
+            <App />
+          </Provider>,
+        );
+        expect($('.logingov-verify-button', container).outerHTML).to.exist;
+      });
     });
-  });
-  describe('when not using ID.me or Login.gov', () => {
-    it('renders the sign-in alert', () => {
-      const testState = unverifiedState;
-      testState.user.profile.signIn.serviceName = 'mhv';
-      store = mockStore(testState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
-      expect($('.logingov-verify-button', container).outerHTML).to.exist;
-      expect($('.idme-verify-button', container).outerHTML).to.exist;
+    describe('when not using ID.me or Login.gov', () => {
+      it('renders the sign-in alert', () => {
+        const testState = unverifiedState;
+        testState.user.profile.signIn.serviceName = 'mhv';
+        store = mockStore(testState);
+        const { container } = render(
+          <Provider store={store}>
+            <App />
+          </Provider>,
+        );
+        expect($('.logingov-verify-button', container).outerHTML).to.exist;
+        expect($('.idme-verify-button', container).outerHTML).to.exist;
+      });
     });
   });
 });
