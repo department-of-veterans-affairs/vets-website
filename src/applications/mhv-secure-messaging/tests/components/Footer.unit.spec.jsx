@@ -35,10 +35,10 @@ describe('SM Footer component', () => {
       reducers: reducer,
       path: Paths.INBOX,
     });
-    expect(screen.getByText(smFooter.needHelp)).to.exist;
-    expect(screen.getByText(smFooter.haveQuestions)).to.exist;
-    expect(screen.getByText(smFooter.learnMore)).to.exist;
-    expect(screen.getByText(smFooter.contactFacility)).to.exist;
-    expect(screen.getByText(smFooter.findFacility)).to.exist;
+    expect(screen.getByText(smFooter.NEED_HELP)).to.exist;
+    expect(screen.getByText(smFooter.HAVE_QUESTIONS)).to.exist;
+    expect(screen.getByText(smFooter.LEARN_MORE)).to.exist;
+    expect(screen.getByText(smFooter.CONTACT_FACILITY)).to.exist;
+    expect(screen.getByText(smFooter.FIND_FACILITY)).to.exist;
   });
 });

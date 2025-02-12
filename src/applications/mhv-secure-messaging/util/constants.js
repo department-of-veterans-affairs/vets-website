@@ -491,10 +491,10 @@ export const filterDescription = {
 };
 
 export const smFooter = {
-  needHelp: 'Need help?',
-  haveQuestions: 'Have questions about how messages works?',
-  learnMore: 'Learn more about messages',
-  contactFacility:
+  NEED_HELP: 'Need help?',
+  HAVE_QUESTIONS: 'Have questions about how messages works?',
+  LEARN_MORE: 'Learn more about messages',
+  CONTACT_FACILITY:
     'Want to send a message to a care team that’s not on your list? Contact your VA health facility. Ask for the My HealtheVet coordinator or secure messaging administrator.',
-  findFacility: 'Find your VA health facility',
+  FIND_FACILITY: 'Find your VA health facility',
 };

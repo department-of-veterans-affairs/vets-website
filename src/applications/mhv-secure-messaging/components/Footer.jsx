@@ -3,11 +3,11 @@ import HorizontalRule from './shared/HorizontalRule';
 import { smFooter } from '../util/constants';
 
 const {
-  needHelp,
-  haveQuestions,
-  learnMore,
-  contactFacility,
-  findFacility,
+  NEED_HELP,
+  HAVE_QUESTIONS,
+  LEARN_MORE,
+  CONTACT_FACILITY,
+  FIND_FACILITY,
 } = smFooter;
 
 const Footer = () => {
@@ -20,16 +20,16 @@ const Footer = () => {
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--12">
             <p className="vads-u-margin--0 vads-u-font-size--lg vads-u-font-family--serif vads-u-font-weight--bold">
-              {needHelp}
+              {NEED_HELP}
             </p>
             <HorizontalRule />
-            <p className="vads-u-margin--0">{haveQuestions}</p>
+            <p className="vads-u-margin--0">{HAVE_QUESTIONS}</p>
             <p className="vads-u-margin-top--2">
-              <a href="/health-care/secure-messaging">{learnMore}</a>
+              <a href="/health-care/secure-messaging">{LEARN_MORE}</a>
             </p>
-            <p className="vads-u-margin-top--1">{contactFacility}</p>
+            <p className="vads-u-margin-top--1">{CONTACT_FACILITY}</p>
             <p className="vads-u-margin-top--1">
-              <a href="/find-locations">{findFacility}</a>
+              <a href="/find-locations">{FIND_FACILITY}</a>
             </p>
           </div>
         </div>
