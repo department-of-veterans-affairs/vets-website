@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom-v5-compat';
-import startApp from '../routerNext';
+import startApp from '../withoutRouter';
 import * as reactUtils from '../react';
 import * as setupUtils from '../setup';
 
