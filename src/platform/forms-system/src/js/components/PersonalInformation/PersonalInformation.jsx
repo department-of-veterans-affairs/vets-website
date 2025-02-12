@@ -37,9 +37,12 @@ import { adaptFormData } from './adapter';
  * @property {FieldConfig} [gender] - Gender field configuration
  */
 
+/**
+ * @type {FieldConfig}
+ */
 const defaultFieldConfig = {
   show: true,
-  required: true,
+  required: false,
 };
 
 /**
