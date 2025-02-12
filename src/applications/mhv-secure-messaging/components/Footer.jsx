@@ -12,7 +12,10 @@ const {
 
 const Footer = () => {
   return (
-    <footer className="vads-u-padding-top--3 vads-u-padding-bottom--3">
+    <footer
+      className="vads-u-padding-top--3 vads-u-padding-bottom--3"
+      data-testid="inbox-footer"
+    >
       <div className="vads-l-grid-container">
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--12">
