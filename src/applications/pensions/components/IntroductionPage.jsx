@@ -83,12 +83,12 @@ const IntroductionPage = props => {
           >
             <div>
               <p>
-                Based on your answers, you may need to submit supporting
-                documents and additional evidence.
+                Based on your answers, you may need to submit other documents
+                with your application. These documents may include VA forms or
+                evidence for answers to specific questions.
               </p>
               <p>
-                We’ll tell you if you need to submit any of these supporting
-                documents:
+                We’ll tell you if you need to complete any of these VA forms:
               </p>
               <ul>
                 <li>
@@ -128,17 +128,14 @@ const IntroductionPage = props => {
                 </li>
               </ul>
               <p>
-                And we’ll tell you the additional evidence you’ll need to submit
-                depending on your situation.
+                And we’ll tell you about any additional evidence you need to
+                submit depending on your situation.
               </p>
             </div>
           </va-additional-info>
         </va-process-list-item>
         <va-process-list-item header="Start your application">
-          <p>
-            We’ll take you through each step of the process. It should take
-            about 30 minutes.
-          </p>
+          <p>We’ll take you through each step of the process.</p>
           <va-additional-info
             trigger="What happens after you apply"
             disable-border
