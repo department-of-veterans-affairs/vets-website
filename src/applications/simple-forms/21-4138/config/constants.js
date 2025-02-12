@@ -139,8 +139,7 @@ export const OTHER_REASONS = Object.freeze({
 
 export const ESCAPE_HATCH = Object.freeze(
   <div className="vads-u-margin-y--4">
-    If you’d like to use VA Form 21-4138 for your statement without selecting an
-    answer here, you can{' '}
+    If you’d like to use VA Form 21-4138 for your statement instead, you can{' '}
     <a href="/supporting-forms-for-claims/statement-to-support-claim-form-21-4138/personal-information">
       go to VA Form 21-4138 now.
     </a>
@@ -153,33 +152,22 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
       Based on your answer, you should submit your statement with VA Form
       21-10210, Lay/Witness Statement.
     </p>
-    <h2 className="vads-u-font-size--h3">
-      What to know before you submit a lay or witness statement
-    </h2>
+    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
+      Start your statement
+    </PrimaryActionLink>
+    <h2 className="vads-u-font-size--h3">About lay or witness statements</h2>
     <ul>
       <li>
         You can submit a statement to support your own VA claim or someone
-        else’s VA claim. People also sometimes call this a “buddy statement.”
+        else’s VA claim. When it’s for someone else, people sometimes call this
+        a “buddy statement.”
       </li>
       <li>
         To submit a statement to support someone else’s claim, you’ll need to
         give us information like their date of birth, Social Security number, VA
         file number (if available), and contact information.
       </li>
-      <li>
-        Each statement needs its own form. If you want to submit more than one
-        statement, use a new form for each statement.
-      </li>
     </ul>
-    <PrimaryActionLink href="/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction">
-      Start your statement
-    </PrimaryActionLink>
-    <va-omb-info
-      res-burden={10}
-      omb-number="2900-0881"
-      exp-date="07/31/2027"
-      class="vads-u-margin-y--4"
-    />
     {ESCAPE_HATCH}
   </div>,
 );
