@@ -12,38 +12,11 @@ export const HowToVerifyLink = () => (
   </p>
 );
 
-const VerifyIdentityInfo = () => (
-  <va-additional-info
-    trigger="If you have trouble verifying your identity"
-    uswds
-  >
-    <a
-      href="https://www.va.gov/resources/verifying-your-identity-on-vagov/"
-      className="vads-u-padding-bottom--2"
-    >
-      Get answers to common questions about verifying your identity
-    </a>
-    <div className="vads-u-margin-top--2p5">
-      <p>
-        Or, if you have a Premium My HealtheVet account with a My HealtheVet
-        user ID and password, you can sign out and then sign back in with that
-        account to access My HealtheVet.
-      </p>
-    </div>
-  </va-additional-info>
-);
-
-const IdentityNotVerified = ({
-  showHelpContent = true,
-  showVerifyIdenityHelpInfo = false,
-}) => {
+const IdentityNotVerified = () => {
   return (
-    <>
+    <div className="vads-u-margin-top--2">
       <VerifyAlert headingLevel={2} />
-
-      {showHelpContent && <HowToVerifyLink />}
-      {showVerifyIdenityHelpInfo && <VerifyIdentityInfo />}
-    </>
+    </div>
   );
 };
 
