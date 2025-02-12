@@ -490,7 +490,7 @@ const SearchControls = props => {
               id="facility-search"
               submit="prevent"
               text="Search"
-              className="vads-u-margin-bottom--2"
+              class="vads-u-width--full"
             />
           </>
         ) : (

@@ -264,8 +264,13 @@ $text-color: rgba(27, 27, 27, 1);
     padding: 32px 16px;
     width: 100%;
     max-width: 333px;
+    height: auto;
     border: solid thin var(--vads-color-base-lightest);
     background: var(--vads-color-base-lightest);
+
+    #facility-search-controls {
+      margin: 0;
+    }
   }
 
   #facility-search-controls {
@@ -406,7 +411,7 @@ $text-color: rgba(27, 27, 27, 1);
       color: var(--vads-color-link);
       font-weight: normal;
       padding: 0;
-      margin: 1em 0;
+      margin: 0.5em 0;
       text-align: left;
     }
 
@@ -422,6 +427,10 @@ $text-color: rgba(27, 27, 27, 1);
         column-gap: 12px;
         align-items: flex-end;
       }
+    }
+    p.service-hint-text {
+      color: $vads-label-hint-text-color-on-light;
+      margin: 0.5em 0;
     }
   }
 
@@ -620,6 +629,15 @@ $text-color: rgba(27, 27, 27, 1);
 
 #search-area-control-container {
   z-index: 1;
+  va-button {
+    margin: 0 !important;
+    padding: 8px 0 8px 8px !important;
+    .usa-button {
+      margin: 0 !important;
+      width: 100% !important;
+      padding: 0 !important;
+    }
+  }
 }
 
 #search-area-control {

@@ -197,6 +197,10 @@ class ServiceTypeAhead extends Component {
               Service type{' '}
               <span className="form-required-span">(*Required)</span>
             </label>
+            <p className="service-hint-text">
+              Start typing to search for a service, like Chiropractor or
+              Optometrist.
+            </p>
             {showError && (
               <span className="usa-input-error-message" role="alert">
                 <span id="error-message">

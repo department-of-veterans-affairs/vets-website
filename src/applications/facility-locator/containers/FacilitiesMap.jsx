@@ -478,6 +478,7 @@ const FacilitiesMap = props => {
 
     return (
       <div
+        id="facilities-map-container"
         className={!isMobile ? 'tablet-or-greater-container' : undefined}
         ref={mapboxContainerRef}
       >
@@ -821,18 +822,23 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       const resizeObserver = new ResizeObserver(entries => {
-        const { height, width } = entries[0].contentRect;
-        setVerticalSize(height);
-        setHorizontalSize(width);
+        for (const entry of entries) {
+          const { height, width } = entry.contentRect;
+          setTimeout(() => {
+            // to prevent the map from being resized multiple times
+            setVerticalSize(height);
+            setHorizontalSize(width);
+          }, 200);
+        }
       });
 
       if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
         resizeObserver.observe(mapboxContainerRef.current);
+      } else {
+        resizeObserver.disconnect();
       }
       return () => {
-        if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
-          resizeObserver.unobserve(mapboxContainerRef.current);
-        }
+        resizeObserver.disconnect();
       };
     },
     [mapboxContainerRef, props.useProgressiveDisclosure],
