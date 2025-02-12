@@ -208,22 +208,13 @@ export const otherPageTitle = 'Other behavioral changes';
 
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
 
-// export const BEHAVIOR_CHANGES_WORK = Object.freeze({
-//   reassignment:
-//     'Request for a change in occupational series or duty assignment',
-//   absences: 'Increased or decreased use of leave',
-//   performance: 'Changes in performance or performance evaluations',
-// });
-
-// allSelectedBehaviorTypes, SELECTIONS
-// allBehaviorDescriptions, - CONSTANT
-// formData.behaviorsDetails, - DETAILS
-
 function getDescriptionForBehavior(behaviors, descriptions, details) {
   const newObj = {};
-  Object.entries(descriptions).map(([key, value]) => {
-    if (key in behaviors) {
-      newObj[key] = details[key] || 'Optional description not provided.';
+
+  Object.keys(descriptions).forEach(behaviorDescription => {
+    if (behaviorDescription in behaviors) {
+      newObj[behaviorDescription] =
+        details[behaviorDescription] || 'Optional description not provided.';
     }
   });
   return newObj;
@@ -232,8 +223,8 @@ function getDescriptionForBehavior(behaviors, descriptions, details) {
 function behaviorAndDescriptionPair(obj) {
   return (
     <>
-      {Object.entries(obj).map(([key, value]) => (
-        <div>
+      {Object.entries(obj).map(([key, value, index]) => (
+        <div key={`${key}-${index}`}>
           <h4>{key}</h4>
           <p>{value}</p>
         </div>
@@ -249,7 +240,7 @@ function behaviorAndDescriptionPair(obj) {
       </Link>
     </>
   );
-};
+}
 
 export const summarizeBehaviors = formData => {
   const allBehaviorDescriptions = {
@@ -264,12 +255,12 @@ export const summarizeBehaviors = formData => {
     ...formData.otherBehaviors,
   };
 
-  const allSelectedBehaviorTypes = (Object.entries(allBehaviorTypes)
-    .filter(([key, value]) => value === true)
+  const allSelectedBehaviorTypes = Object.entries(allBehaviorTypes)
+    .filter(([, value]) => value === true)
     .reduce((acc, [key, value]) => {
       acc[key] = value;
       return acc;
-    }, {}));
+    }, {});
 
   const selectedBehaviorsWithDetails = getDescriptionForBehavior(
     allSelectedBehaviorTypes,
@@ -277,8 +268,5 @@ export const summarizeBehaviors = formData => {
     formData.behaviorsDetails,
   );
 
-  console.log("selectedBehaviorsWithDetails", selectedBehaviorsWithDetails);
-
   return behaviorAndDescriptionPair(selectedBehaviorsWithDetails);
 };
-
