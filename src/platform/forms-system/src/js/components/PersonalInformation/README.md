@@ -1,21 +1,41 @@
 # Personal Information Page Pattern (Authenticated)
 
-The Personal Information component is a reusable React component used in VA.gov form applications to display a page that is used to validate a user's personal information. This page is sometimes also called a "Veteran Information" page. It typically appears at the beginning of form applications to confirm basic user information that is prefilled from the VA profile data stored in Redux state along with some prefilled data from the _in_progress_forms_ endpoint.
+The Personal Information component is a reusable React component used in VA.gov form applications to display a page that is used to validate a user's personal information. This page is sometimes also called a "Veteran Information" page. It typically appears at the beginning of form applications to confirm basic user information that is prefilled from the VA profile data stored in Redux state along with some prefilled data from the `in_progress_forms` endpoint.
+
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Basic Implementation](#basic-implementation)
+  - [Custom Configuration](#custom-configuration)
+  - [Custom Components](#custom-components)
+- [Configuration Options](#configuration-options)
+  - [PersonalInformationConfig](#personalinformationconfig)
+  - [DataAdapter](#dataadapter)
+- [Data Requirements](#data-requirements)
+- [Error Handling](#error-handling)
+  - [Missing Required Fields](#missing-required-fields)
+- [Security Considerations](#security-considerations)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
+  - [Common Issues](#common-issues)
+  - [Debugging](#debugging)
+- [Contributing](#contributing)
+- [Related Documentation](#related-documentation)
 
 ## Features
 
 - Displays user's personal information in a card format
 - Configurable fields (name, SSN, VA file number, date of birth, gender)
-- Customizable error messages for missing required data
-- Flexible data adaptation through configurable paths
+- Flexible data adaptation through configurable path lookups
 - Accessibility support with screen reader formatting
-- Custom header, footer, and note sections
 - Navigation button integration
+- Customizable error messages for missing _required_ data (optional)
+- Custom header, footer, and note sections (optional)
 
 ## Installation
 
-This component is part of the VA.gov forms system, so it should be available in your application via a direct import from the forms-system package.
-
+This component is part of the VA.gov forms system, so it should be available in your application via a direct import from the `platform/forms-system`.
 
 
 ```js
@@ -29,7 +49,10 @@ import { PersonalInformation } from 'platform/forms-system/src/js/components/Per
 ## Usage
 
 ### Basic Implementation
-assumes that the prefill endpoint returns the data in the expected format and that the fields to display on the page are name, ssn, and dateOfBirth
+- defaults to display name, ssn, and dateOfBirth
+- defaults to no fields being required for form to continue
+- assumes Redux state includes form data `form.data.ssn`
+- assumes Redux state includes the profile data `user.prfoline.userFullName` and `user.profile.dob`
 
 ```jsx
 import { personalInformationPage } from '@department-of-veterans-affairs/forms-system';
