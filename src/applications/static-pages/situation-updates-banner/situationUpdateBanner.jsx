@@ -8,19 +8,22 @@ export default function SituationUpdateBanner({
   id,
   alertType,
   headline,
-  // showClose,
+  showClose,
   content,
   operatingStatusCta = false,
   operatingStatusPage,
   findFacilitiesCta = false,
 }) {
+  const bannerId = `situation-update-banner-${id}`;
+
   return (
     <va-banner
       data-testid="situation-update-banner"
-      banner-id={`situation-update-banner-${id}`}
+      banner-id={bannerId}
       type={alertType}
       headline={headline}
-      // show-close={showClose}
+      show-close={showClose}
+      dismissed-banner-id={bannerId}
     >
       {/* eslint-disable-next-line react/no-danger */}
       <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }} />
