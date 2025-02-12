@@ -11,10 +11,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
-import {
-  VaCard,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import {
@@ -116,7 +112,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   };
 
   const downloadForm = (
-    <VaCard>
+    <va-card>
       <div>
         <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
           1095-B Proof of VA health coverage
@@ -127,7 +123,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       </div>
       <div className="download-links vads-u-font-size--h5">
         <div className="vads-u-padding-bottom--1">
-          <VaLink
+          <va-link
             download
             id="pdf-download-link"
             label="Download PDF (best for printing)"
@@ -141,7 +137,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           />
         </div>
         <div className="vads-u-padding-top--1">
-          <VaLink
+          <va-link
             download
             id="txt-download-link"
             label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
@@ -155,7 +151,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           />
         </div>
       </div>
-    </VaCard>
+    </va-card>
   );
 
   const loggedOutComponent = (
