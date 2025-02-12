@@ -78,7 +78,7 @@ const App = ({ children }) => {
     <RequiredLoginView user={user}>
       <MhvServiceRequiredGuard
         user={user}
-        serviceRequired={[backendServices.USER_PROFILE]}
+        serviceRequired={[backendServices.RX]}
       >
         <MhvSecondaryNav />
         <div ref={measuredRef} className="routes-container usa-grid">
