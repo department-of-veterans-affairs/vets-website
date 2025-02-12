@@ -8,6 +8,8 @@ import {
   showBehaviorSummaryPage,
   isCompletingForm0781,
   isRelatedToMST,
+  showReassignmentDescriptionPage,
+  showOtherDescriptionPage,
 } from '../../utils/form0781';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
@@ -248,6 +250,141 @@ describe('showBehaviorListPage', () => {
   });
 });
 
+describe('showBehaviorDescriptionPages', () => {
+  describe('showReassignmentDescriptionPage', () => {
+    describe('when a user has selected "reassignment"', () => {
+      it('should return true', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+          workBehaviors: {
+            reassignment: true,
+            absences: true,
+            performance: false,
+          },
+          otherBehaviors: {
+            socialEconomic: false,
+            relationships: true,
+            misconduct: false,
+            unlisted: true,
+          },
+          'view:noneCheckbox': { none: false },
+        };
+        expect(showReassignmentDescriptionPage(formData)).to.eq(true);
+      });
+    });
+    describe('when a user has not selected "reassignment"', () => {
+      it('should return false', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+          workBehaviors: {
+            absences: true,
+            performance: false,
+          },
+          otherBehaviors: {
+            socialEconomic: false,
+            relationships: true,
+            misconduct: false,
+            unlisted: true,
+          },
+          'view:noneCheckbox': { none: false },
+        };
+        expect(showReassignmentDescriptionPage(formData)).to.eq(false);
+      });
+    });
+    describe('when a user has not selected "reassignment"', () => {
+      it('should return false', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+          workBehaviors: {
+            reassignment: false,
+            absences: true,
+            performance: false,
+          },
+          otherBehaviors: {
+            socialEconomic: false,
+            relationships: true,
+            misconduct: false,
+            unlisted: true,
+          },
+          'view:noneCheckbox': { none: false },
+        };
+        expect(showReassignmentDescriptionPage(formData)).to.eq(false);
+      });
+    });
+  });
+  describe('showOtherDescriptionPage', () => {
+    describe('when a user has selected "unlisted"', () => {
+      it('should return true', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+          workBehaviors: {
+            reassignment: true,
+            absences: true,
+            performance: false,
+          },
+          otherBehaviors: {
+            socialEconomic: false,
+            relationships: true,
+            misconduct: false,
+            unlisted: true,
+          },
+          'view:noneCheckbox': { none: false },
+        };
+        expect(showOtherDescriptionPage(formData)).to.eq(true);
+      });
+    });
+    describe('when a user has not selected "unlisted"', () => {
+      it('should return false', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+          workBehaviors: {
+            absences: true,
+            performance: false,
+          },
+          otherBehaviors: {
+            socialEconomic: false,
+            relationships: true,
+            misconduct: false,
+          },
+          'view:noneCheckbox': { none: false },
+        };
+        expect(showOtherDescriptionPage(formData)).to.eq(false);
+      });
+    });
+    describe('when a user has unselected "unlisted"', () => {
+      it('should return false', () => {
+        const formData = {
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+          workBehaviors: {
+            absences: true,
+            performance: false,
+          },
+          otherBehaviors: {
+            socialEconomic: false,
+            relationships: true,
+            misconduct: false,
+            unlisted: false,
+          },
+          'view:noneCheckbox': { none: false },
+        };
+        expect(showOtherDescriptionPage(formData)).to.eq(false);
+      });
+    });
+  });
+});
+
 describe('showBehaviorSummaryPage', () => {
   describe('when a user has selected behavior changes', () => {
     it('should return true', () => {
@@ -283,7 +420,7 @@ describe('showBehaviorSummaryPage', () => {
     });
   });
 
-  describe('when a user has unselected any behavior changes', () => {
+  describe('when a user has unselected any behavior changes that were previously selected', () => {
     it('should return false', () => {
       const formData = {
         syncModern0781Flow: true,
