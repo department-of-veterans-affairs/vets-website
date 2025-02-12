@@ -2,6 +2,7 @@ import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
+import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
 
 import fullSchema from '../../../../22-1990-schema.json';
 
@@ -13,6 +14,28 @@ import { formFields } from '../../../../constants';
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
+}
+
+const stateRequiredCountries = new Set(['USA']);
+function customValidateAddress(errors, addressData, formData, currentSchema) {
+  if (
+    stateRequiredCountries.has(addressData.country) &&
+    addressData.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a state');
+  }
+  let isValidPostalCode = true;
+  if (addressData.country === 'USA') {
+    isValidPostalCode = isValidUSZipCode(addressData.postalCode);
+  }
+  if (addressData.country === 'CAN') {
+    isValidPostalCode = isValidCanPostalCode(addressData.postalCode);
+  }
+
+  if (addressData.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
 }
 
 const mailingAddress33 = {
@@ -66,6 +89,7 @@ const mailingAddress33 = {
       },
       [formFields.address]: {
         ...address.uiSchema('', false, null, true),
+        'ui:validations': [customValidateAddress],
         'ui:options': {
           updateSchema: (formData, addressSchema) => {
             const livesOnMilitaryBase =
