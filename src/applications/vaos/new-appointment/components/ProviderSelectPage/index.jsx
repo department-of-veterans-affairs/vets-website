@@ -1,28 +1,28 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import ErrorMessage from '../../../components/ErrorMessage';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
+import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
 
 const pageKey = 'selectProvider';
 
-export default function SelectProviderPage({
-  providers = [
-    {
-      name: 'Sarah Bennett, RD',
-      lastAppointment: '9/12/2024',
-    },
-    {
-      name: 'Julie Carson, RD',
-      lastAppointment: '7/12/2024',
-    },
-  ],
-}) {
+export default function SelectProviderPage() {
+  const {
+    loading,
+    patientRelationshipsError,
+    patientProviderRelationships,
+    typeOfCare,
+    selectedFacility,
+  } = useGetPatientRelationships();
+
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+
   const singleProviderTitle = 'Your nutrition and food provider';
-  const pageHeader = providers.length > 1 ? pageTitle : singleProviderTitle;
+  const pageHeader =
+    patientProviderRelationships.length > 1 ? pageTitle : singleProviderTitle;
 
   useEffect(
     () => {
@@ -32,15 +32,28 @@ export default function SelectProviderPage({
     [pageTitle],
   );
 
+  if (patientRelationshipsError) {
+    return <ErrorMessage level={1} />;
+  }
+
+  if (loading) {
+    return (
+      <div className="vads-u-margin-y--8" data-testid="loading-indicator">
+        <va-loading-indicator message="Loading the list of providers..." />
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1 className="vads-u-font-size--h2">{pageHeader}</h1>
       <div>
-        <strong>Type of care:</strong> Nutrition and Food <br />
-        <strong>Facility:</strong> Grove City VA Clinic
+        <strong>Type of care:</strong> {typeOfCare?.name}
+        <br />
+        <strong>Facility:</strong> {selectedFacility?.name}
       </div>
 
-      {providers.map((provider, index) => (
+      {patientProviderRelationships.map((provider, index) => (
         <ProviderCard key={index} provider={provider} />
       ))}
 
@@ -48,7 +61,3 @@ export default function SelectProviderPage({
     </div>
   );
 }
-
-SelectProviderPage.propTypes = {
-  providers: PropTypes.array,
-};

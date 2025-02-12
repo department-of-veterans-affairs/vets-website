@@ -109,13 +109,12 @@ export async function fetchPatientEligibility({
  *
  * @export
  * @async
- * @param {Object} params
  * @param {TypeOfCare} params.typeOfCare Type of care object for which to check patient relationships
  * @param {string} params.facilityId of facility to check for relationships
  * @returns {Array<PatientProviderRelationship} Returns an array of PatientProviderRelationship objects
  */
 
-export async function fetchPatientRelationships({ facilityId, typeOfCare }) {
+export async function fetchPatientRelationships(facilityId, typeOfCare) {
   try {
     const data = await getPatientRelationships({
       locationId: facilityId,

@@ -43,14 +43,13 @@ describe('VAOS Services: Patient ', () => {
         },
       ];
 
+      const typeOfCare = {
+        idV2: 'foodAndNutrition',
+      };
+
       setFetchJSONResponse(global.fetch, { data: relationships });
 
-      const data = await fetchPatientRelationships({
-        facilityId: '123',
-        typeOfCare: {
-          idV2: 'foodAndNutrition',
-        },
-      });
+      const data = await fetchPatientRelationships('123', typeOfCare);
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         `/vaos/v2/relationships`,

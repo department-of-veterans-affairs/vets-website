@@ -228,20 +228,35 @@ export function startRequestAppointmentFlow(isCommunityCare) {
   };
 }
 
-export function fetchPatientProviderRelationships() {
-  return async dispatch => {
+export function getPatientRelationships() {
+  let patientProviderRelationships;
+
+  return async (dispatch, getState) => {
+    const initialState = getState();
+    const { newAppointment } = initialState;
+    const typeOfCare = getTypeOfCare(newAppointment.data);
+    const typeOfCareId = typeOfCare;
+    const facilityId = newAppointment.data.vaFacility;
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
+    });
+
     try {
-      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS });
-
-      const patientProviderRelationships = await fetchPatientRelationships();
-
-      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED });
-
-      return patientProviderRelationships;
-    } catch (e) {
+      patientProviderRelationships = await fetchPatientRelationships(
+        facilityId,
+        typeOfCareId,
+      );
+    } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
-      return captureError(e);
+      patientProviderRelationships = null;
+      captureError(error);
     }
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
+      patientProviderRelationships,
+    });
   };
 }
 
