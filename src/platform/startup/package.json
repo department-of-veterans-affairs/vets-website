@@ -11,7 +11,7 @@
     "./react": "./react.js",
     "./setup": "./setup.js",
     "./router": "./router.js",
-    "./routerNext": "./routerNext.js",
+    "./withoutRouter": "./withoutRouter.js",
     "./analytics-middleware": "./analytics-middleware.js"
   },
   "peerDependencies": {
