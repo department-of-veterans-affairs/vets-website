@@ -3,6 +3,7 @@ import {
   VaButton,
   VaIcon,
   VaTextarea,
+  VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -18,7 +19,6 @@ import FileUpload from '../components/FileUpload';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import {
   convertDateForInquirySubheader,
-  DownloadLink,
   formatDate,
   getFiles,
   getVAStatusFromCRM,
@@ -31,7 +31,7 @@ import {
   URL,
 } from '../constants';
 import manifest from '../manifest.json';
-import { mockInquiryResponse } from '../utils/mockData';
+import { mockInquiryResponse, mockAttachmentResponse } from '../utils/mockData';
 
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
@@ -141,6 +141,38 @@ const ResponseInboxPage = ({ router }) => {
       });
   }, []);
 
+  const getDownload = (fileName, filePath) => {
+    const link = document.createElement('a');
+    link.href = `data:image/png;base64,${filePath}`;
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const getDownloadData = useCallback(url => {
+    setError(false);
+
+    if (mockTestingFlagforAPI) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const res = mockAttachmentResponse.data;
+          getDownload(res.attributes.fileName, res.attributes.fileContent);
+          resolve(mockAttachmentResponse);
+        }, 500);
+      });
+    }
+
+    return apiRequest(url)
+      .then(res => {
+        getDownload(res.attributes.fileName, res.attributes.fileContent);
+      })
+      .catch(() => {
+        setError(true);
+      });
+  }, []);
+
   const handleRetry = () => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
   };
@@ -193,6 +225,7 @@ const ResponseInboxPage = ({ router }) => {
         messageType: 'Your question',
         description: inquiryData.attributes.submitterQuestion,
         originalCreatedOn: inquiryData.attributes.createdOn,
+        attachments: inquiryData.attributes.attachments,
       },
     },
     ...(inquiryData.attributes.correspondences.data
@@ -367,11 +400,15 @@ const ResponseInboxPage = ({ router }) => {
                                 size={3}
                                 className="vads-u-margin--right-1p5"
                               />
-                              <DownloadLink
-                                fileUrl={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
-                                  file.id
-                                }`}
-                                fileName={file.name}
+                              <VaLink
+                                text={file.name}
+                                onClick={() =>
+                                  getDownloadData(
+                                    `${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
+                                      file.id
+                                    }`,
+                                  )
+                                }
                               />
                             </div>
                           );

@@ -1,11 +1,7 @@
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 
-import {
-  NEW_API,
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_API_NEW,
-} from '../constants/apis';
+import { CONTESTABLE_ISSUES_API } from '../constants/apis';
 
 import {
   FETCH_CONTESTABLE_ISSUES_INIT,
@@ -13,14 +9,11 @@ import {
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../shared/actions';
 
-export const getContestableIssues = props => {
-  const newApi = props?.[NEW_API];
+export const getContestableIssues = () => {
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
 
-    const apiUrl = `${environment.API_URL}${
-      newApi ? CONTESTABLE_ISSUES_API_NEW : CONTESTABLE_ISSUES_API
-    }`;
+    const apiUrl = `${environment.API_URL}${CONTESTABLE_ISSUES_API}`;
 
     return apiRequest(apiUrl)
       .then(response =>
