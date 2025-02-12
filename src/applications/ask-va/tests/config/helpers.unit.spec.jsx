@@ -1003,7 +1003,7 @@ describe('Components and Utility Functions', () => {
       expect(wrapper.exists()).to.be.true;
       expect(wrapper.find('a').prop('href')).to.equal('http://foo.bar');
       expect(wrapper.find('a').prop('download')).to.equal('foo.pdf');
-      expect(wrapper.find('a').text()).to.equal('foo.pdf (200000.00 MB)');
+      expect(wrapper.find('a').text()).to.equal('foo.pdf (1907.36 MB)');
       wrapper.unmount();
     });
 
