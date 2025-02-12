@@ -29,7 +29,6 @@ import {
 import user from '../mocks/user.json';
 import useDetectFieldChanges from '../hooks/useDetectFieldChanges';
 import useDocumentTitle from '../hooks/useDocumentTitle';
-import { isEligibleForStreamlined } from '../utils/streamlinedDepends';
 
 const App = ({
   children,
@@ -247,7 +246,6 @@ const mapStateToProps = state => ({
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
-  isEligibleForStreamlined: isEligibleForStreamlined(state),
   isLoadingFeatures: toggleValues(state).loading,
   isStartingOver: state.form.isStartingOver,
 });
