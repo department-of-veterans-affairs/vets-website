@@ -732,6 +732,7 @@ const formConfig = {
                     }
                     return {
                       ...addressSchema,
+                      required,
                       properties: {
                         ...addressSchema.properties,
                         state: stateSchema,
@@ -836,7 +837,17 @@ const formConfig = {
                     },
                   },
                 },
-                state: {},
+                state: {
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length === 1) {
+                        errors.addError('Must be more than 1 character');
+                      } else if (field?.length > 31) {
+                        errors.addError('Must be less than 31 characters');
+                      }
+                    },
+                  ],
+                },
                 postalCode: {
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
