@@ -14,7 +14,7 @@ export const checkFormValidity = async (form, page) => {
   const { formName: formNumber, url: downloadUrl, validPdf } = form.attributes;
 
   try {
-    const localizedDownloadUrl = downloadUrl?.includes('https://www.va.gov')
+    const localizedDownloadUrl = downloadUrl?.startsWith('https://www.va.gov')
       ? downloadUrl.replace('https://www.va.gov', window.location.origin)
       : null;
 
