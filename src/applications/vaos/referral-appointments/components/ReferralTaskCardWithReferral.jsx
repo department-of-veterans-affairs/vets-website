@@ -29,7 +29,13 @@ export default function ReferralTaskCardWithReferral() {
     (referralFetchStatus === FETCH_STATUS.loading ||
       referralFetchStatus === FETCH_STATUS.notStarted)
   ) {
-    return <va-loading-indicator set-focus message="Loading your data..." />;
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        set-focus
+        message="Loading your data..."
+      />
+    );
   }
 
   if (id && referralFetchStatus === FETCH_STATUS.failed) {
