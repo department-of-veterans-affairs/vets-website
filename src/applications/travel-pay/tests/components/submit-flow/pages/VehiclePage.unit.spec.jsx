@@ -78,4 +78,11 @@ describe('Vehicle page', () => {
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(3)).to.be.true;
   });
+
+  it('should move back a step', () => {
+    render(<VehiclePage {...props} />);
+    $('va-button-pair').__events.secondaryClick(); // back
+
+    expect(setPageIndex.calledWith(1)).to.be.true;
+  });
 });

@@ -24,6 +24,7 @@ const mailing = {
   ...home,
   addressLine1: '123 Mailing Address St.',
   addressLine2: 'Ste. B',
+  addressLine3: 'Building 2',
   addressPou: 'CORRESPONDENCE',
 };
 
@@ -150,5 +151,17 @@ describe('Address page', () => {
 
     expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
     expect(setPageIndex.calledWith(4)).to.be.true;
+  });
+
+  it('should move back a step', () => {
+    renderWithStoreAndRouter(<AddressPage {...props} />, {
+      initialState: getData({
+        homeAddress: home,
+      }),
+    });
+    $('va-button-pair').__events.secondaryClick(); // back
+
+    expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
+    expect(setPageIndex.calledWith(2)).to.be.true;
   });
 });
