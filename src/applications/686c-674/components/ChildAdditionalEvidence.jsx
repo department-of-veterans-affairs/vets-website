@@ -7,7 +7,7 @@ export const ChildAdditionalEvidence = () => {
   });
 
   const livesOutsideUSA =
-    formData?.veteranContactInformation?.veteranAddress?.country === 'USA';
+    formData?.veteranContactInformation?.veteranAddress?.country !== 'USA';
   const childrenToAdd = formData?.childrenToAdd || [];
   const hasStepChild = childrenToAdd.some(
     childFormData => childFormData?.relationshipToChild?.stepchild,
