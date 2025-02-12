@@ -700,6 +700,9 @@ export function recalculateSchemaAndData(initialState) {
       page.schema,
       page.uiSchema,
       formData,
+      false,
+      formData,
+      // index: undefined; assuming we're recalculating outside of arrays
     );
 
     let newState = state;
