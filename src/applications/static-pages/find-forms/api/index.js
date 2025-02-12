@@ -14,16 +14,14 @@ export const checkFormValidity = async (form, page) => {
   const { formName: formNumber, url: downloadUrl, validPdf } = form.attributes;
 
   try {
-    const localizedDownloadUrl = downloadUrl?.startsWith('https://www.va.gov')
-      ? downloadUrl.replace('https://www.va.gov', window.location.origin)
-      : null;
+    const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
 
     formPdfIsValid = validPdf;
 
-    if (formPdfIsValid && localizedDownloadUrl) {
+    if (formPdfIsValid && isSameOrigin) {
       // URLs can be entered invalid; this checks to make sure href is valid
       // NOTE: There are Forms URLS under the https://www.vba.va.gov/ domain, we don't have a way currently to check if URL is valid on FE because of CORS
-      const response = await fetch(localizedDownloadUrl, {
+      const response = await fetch(downloadUrl, {
         method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
       });
 
