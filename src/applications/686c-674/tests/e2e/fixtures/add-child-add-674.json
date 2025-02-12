@@ -70,6 +70,7 @@
       },
       "birthLocation": {
         "location": {
+          "city": "Fakesville",
           "state": "AK",
           "postalCode": "43222"
         }
