@@ -711,7 +711,7 @@ const formConfig = {
               items: {
                 ...titleUI(
                   ({ formData }) =>
-                    `${applicantWording(formData)} mailing address`,
+                    `${applicantWording(formData)} contact information`,
                   ({ formData, formContext }) => {
                     const txt = `We'll use this information to contact ${applicantWording(
                       formData,
