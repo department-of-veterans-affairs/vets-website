@@ -475,7 +475,9 @@ ${record.results}`;
 
         {phase0p5Flag && (
           <div className="test-results-container">
-            <HeaderSection label="Images" value={imageStatusContent()} />
+            <HeaderSection header="Images" className="test-results-header">
+              {imageStatusContent()}
+            </HeaderSection>
           </div>
         )}
       </HeaderSection>
