@@ -130,14 +130,15 @@ describe('useFormFeatureToggleSync hook', () => {
     useDispatchStub.restore();
   });
 
-  it('should sync the feature toggle value with the form data', () => {
-    renderInReduxProvider(<TestSyncComponent keys={[testToggleKey]} />, {
+  it('should sync the feature toggle value with the form data', async () => {
+    await renderInReduxProvider(<TestSyncComponent keys={[testToggleKey]} />, {
       initialState: {
         featureToggles: { [testToggleName]: true },
       },
     });
-    expect(dispatchSpy.called).to.be.true;
-    expect(
+
+    await expect(dispatchSpy.called).to.be.true;
+    await expect(
       dispatchSpy.calledWith({
         type: 'SET_DATA',
         data: { [testToggleKey]: true },
@@ -145,11 +146,11 @@ describe('useFormFeatureToggleSync hook', () => {
     ).to.be.true;
   });
 
-  it('should sync the feature toggle value with the form data', () => {
+  it('should sync the feature toggle value with the form data', async () => {
     const hlrKey = 'hlrBrowserMonitoringEnabled';
     const hlrFeatureName = Toggler.TOGGLE_NAMES[hlrKey];
     const hlrFormDataKey = 'hlrMonitoring';
-    renderInReduxProvider(
+    await renderInReduxProvider(
       <TestSyncComponent keys={[testToggleKey, [hlrKey, hlrFormDataKey]]} />,
       {
         initialState: {
@@ -160,8 +161,9 @@ describe('useFormFeatureToggleSync hook', () => {
         },
       },
     );
-    expect(dispatchSpy.called).to.be.true;
-    expect(
+
+    await expect(dispatchSpy.called).to.be.true;
+    await expect(
       dispatchSpy.calledWith({
         type: 'SET_DATA',
         data: { [testToggleKey]: false, [hlrFormDataKey]: true },
