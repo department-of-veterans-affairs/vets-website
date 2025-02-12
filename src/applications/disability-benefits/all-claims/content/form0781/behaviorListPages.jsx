@@ -196,7 +196,7 @@ export function validateBehaviorSelections(errors, formData) {
 // behavior description pages
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
-export const otherDescriptionPageDescription =
+export const unlistedDescriptionPageDescription =
   'Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided';
 
 export const behaviorDescriptionPageHint =
@@ -204,7 +204,7 @@ export const behaviorDescriptionPageHint =
 
 export const reassignmentPageTitle = BEHAVIOR_CHANGES_WORK.reassignment;
 
-export const otherPageTitle = 'Other behavioral changes';
+export const unlistedPageTitle = 'Other behavioral changes';
 
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
 

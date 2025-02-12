@@ -9,17 +9,15 @@ import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testi
 
 import * as reassignmentDescriptionPage from '../../../pages/form0781/behaviorChangeDescriptions/reassignmentDescriptionPage';
 
-import * as otherDescriptionPage from '../../../pages/form0781/behaviorChangeDescriptions/otherDescriptionPage';
+import * as unlistedDescriptionPage from '../../../pages/form0781/behaviorChangeDescriptions/unlistedDescriptionPage';
 
 import {
   behaviorDescriptionPageDescription,
-  otherDescriptionPageDescription,
+  unlistedDescriptionPageDescription,
 } from '../../../content/form0781/behaviorListPages';
 
 describe('Behavioral description pages', () => {
-  const allBehaviorDescriptionPages = [
-    reassignmentDescriptionPage,
-  ];
+  const allBehaviorDescriptionPages = [reassignmentDescriptionPage];
 
   allBehaviorDescriptionPages.forEach(page => {
     const { schema, uiSchema } = page;
@@ -34,7 +32,7 @@ describe('Behavioral description pages', () => {
 
     it('Displays a text area', () => {
       const onSubmit = Sinon.spy();
-      const { container, getByText } = render(
+      const { container } = render(
         <DefinitionTester
           schema={schema}
           uiSchema={uiSchema}
@@ -93,7 +91,7 @@ describe('Behavioral description pages', () => {
 });
 
 describe('Unlisted behavioral description page', () => {
-  const { schema, uiSchema } = otherDescriptionPage
+  const { schema, uiSchema } = unlistedDescriptionPage;
 
   it('should define a uiSchema object', () => {
     expect(uiSchema).to.be.an('object');
@@ -105,7 +103,7 @@ describe('Unlisted behavioral description page', () => {
 
   it('Displays a text area', () => {
     const onSubmit = Sinon.spy();
-    const { container, getByText } = render(
+    const { container } = render(
       <DefinitionTester
         schema={schema}
         uiSchema={uiSchema}
@@ -120,7 +118,7 @@ describe('Unlisted behavioral description page', () => {
     // Not required
     expect(textarea.getAttribute('required')).to.eq('false');
     expect(textarea.getAttribute('label')).to.eq(
-      otherDescriptionPageDescription,
+      unlistedDescriptionPageDescription,
     );
   });
 
