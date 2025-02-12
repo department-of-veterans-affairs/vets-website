@@ -8,6 +8,9 @@ import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/u
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import ServiceProvidersText, {
+  ServiceProvidersTextCreateAcct,
+} from 'platform/user/authentication/components/ServiceProvidersText';
 import {
   VaCard,
   VaLink,
@@ -71,8 +74,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
-
-        if (format === 'txt') a.download = `1095B-${year}.${format}`; // download text file directly
+        a.download = `1095B-${year}.${format}`;
 
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
@@ -136,6 +138,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             filetype="PDF"
             onClick={e => {
               e.preventDefault();
+              recordEvent({ event: '1095b-pdf-download' });
               callGetContent('pdf');
             }}
           />
@@ -149,6 +152,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             filetype="TEXT"
             onClick={e => {
               e.preventDefault();
+              recordEvent({ event: '1095b-txt-download' });
               callGetContent('txt');
             }}
           />
@@ -158,18 +162,17 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const loggedOutComponent = (
-    <va-alert close-btn-aria-label="Close notification" status="info" visible >
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="continue"
+      visible
+    >
       <h2 slot="headline">
-        Sign in with a verified account to download your documents
+        Please sign in to download your 1095-B tax document
       </h2>
       <div>
-        You'll need to sign in with an identity-verified account through one of our account
-        providers. Identity verification helps us protect all Veterans' information and prevent
-        scammers from stealing your benefits.
-        <b>Don't yet have an account?</b> Create a <b>Login.gov</b> or <b>ID.me</b> account. We'll help you
-        verify your account now.
-        <b>Not sure if your account is verified?</b> Sign in here. If you still need to verify your identity,
-        we'll help you do that now.
+        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
+        <ServiceProvidersTextCreateAcct />
       </div>
       <va-button
         onClick={() => toggleLoginModal(true)}

@@ -8,11 +8,13 @@ describe('Authed 1095-B Form Download PDF', () => {
     );
     cy.intercept('GET', 'v0/form1095_bs/available_forms', form).as('form');
     cy.intercept('GET', 'v0/form1095_bs/download_pdf/*', {
-      fixture: 'platform/utilities/tests/api/pdfFixture.pdf',
+      fixture:
+        'applications/static-pages/download-1095b/tests/e2e/fixtures/1095BTestFixture.pdf',
       statusCode: 200,
     });
     cy.intercept('GET', 'v0/form1095_bs/download_txt/*', {
-      fixture: 'applications/static-pages/download-1095b/tests/e2e/fixtures/1095BTestFixture.txt',
+      fixture:
+        'applications/static-pages/download-1095b/tests/e2e/fixtures/1095BTestFixture.txt',
       statusCode: 200,
     });
 
@@ -34,12 +36,9 @@ describe('Authed 1095-B Form Download PDF', () => {
     cy.get('#pdf-download-link').should('be.visible');
     cy.get('#txt-download-link').should('be.visible');
 
-    // mockApiRequest({}, false);
-
     cy.get('#pdf-download-link')
       .click()
       .then(() => {
-        // cy.url().should('contain', 'pdf');
         cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.pdf`);
       });
 
