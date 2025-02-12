@@ -29,6 +29,7 @@ import {
 import user from '../mocks/user.json';
 import useDetectFieldChanges from '../hooks/useDetectFieldChanges';
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import { isEligibleForStreamlined } from '../utils/streamlinedDepends';
 
 const App = ({
   children,
@@ -52,6 +53,9 @@ const App = ({
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showUpdatedExpensePages = useToggleValue(
     TOGGLE_NAMES.financialStatusReportExpensesUpdate,
+  );
+  const showStreamlinedWaiver = useToggleValue(
+    TOGGLE_NAMES.showFinancialStatusReportStreamlinedWaiver,
   );
 
   // Set the document title based on the current page
@@ -152,7 +156,7 @@ const App = ({
       setFormData({
         ...formData,
         'view:enhancedFinancialStatusReport': true,
-        'view:streamlinedWaiver': true,
+        'view:streamlinedWaiver': showStreamlinedWaiver,
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
         'view:showUpdatedExpensePages': showUpdatedExpensePages,
@@ -243,6 +247,7 @@ const mapStateToProps = state => ({
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
+  isEligibleForStreamlined: isEligibleForStreamlined(state),
   isLoadingFeatures: toggleValues(state).loading,
   isStartingOver: state.form.isStartingOver,
 });
