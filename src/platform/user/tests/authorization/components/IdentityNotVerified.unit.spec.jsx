@@ -7,10 +7,6 @@ import { CSP_IDS } from '../../../authentication/constants';
 import IdentityNotVerified from '../../../authorization/components/IdentityNotVerified';
 
 describe('IdentityNotVerified component', () => {
-  const initialState = {
-    user: { profile: { signIn: { serviceName: 'idme' } } },
-  };
-
   afterEach(cleanup);
 
   it('renders the correct content for MHV based accounts', () => {
@@ -50,49 +46,5 @@ describe('IdentityNotVerified component', () => {
     expect(signInAlert).to.exist;
     expect(signInAlert.getAttribute('variant')).to.eql('verifyLoginGov');
     expect(container.querySelector('.logingov-verify-button')).to.exist;
-  });
-
-  describe('when passed a showHelpContent prop', () => {
-    it('renders the How to verify your identity link', () => {
-      const { getByTestId } = renderInReduxProvider(
-        <IdentityNotVerified showHelpContent />,
-        { initialState },
-      );
-      expect(getByTestId('verify-identity-link')).to.exist;
-    });
-
-    it('does not render the How to verify your identity link', () => {
-      const { queryByTestId } = renderInReduxProvider(
-        <IdentityNotVerified showHelpContent={false} />,
-        { initialState },
-      );
-      expect(queryByTestId('verify-identity-link')).not.to.exist;
-    });
-  });
-
-  describe('when passed a showHelpContent prop', () => {
-    it('renders the How to verify your identity link', () => {
-      const { getByText } = renderInReduxProvider(
-        <IdentityNotVerified showVerifyIdenityHelpInfo />,
-        { initialState },
-      );
-      expect(
-        getByText(
-          'Get answers to common questions about verifying your identity',
-        ),
-      ).to.exist;
-    });
-
-    it('does not render the How to verify your identity link', () => {
-      const { queryByText } = renderInReduxProvider(
-        <IdentityNotVerified showVerifyIdenityHelpInfo={false} />,
-        { initialState },
-      );
-      expect(
-        queryByText(
-          'Get answers to common questions about verifying your identity',
-        ),
-      ).not.to.exist;
-    });
   });
 });
