@@ -71,12 +71,7 @@ const StatementAddresses = ({ copay }) => {
           <span data-testid="recipient-city-state-zip">
             {copay.pHCity}, {copay.pHState} {copay.pHZipCde}
           </span>
-          <p>
-            <strong>Note:</strong> If your address has changed, call &nbsp;
-            <span>
-              <va-telephone contact="8662602614" international="true" />.
-            </span>
-          </p>
+          {/* TODO: Once https://github.com/department-of-veterans-affairs/va.gov-team/issues/102858 is complete, this code needs to be updated with the correct variables. */}
         </dd>
       </dl>
     </>
