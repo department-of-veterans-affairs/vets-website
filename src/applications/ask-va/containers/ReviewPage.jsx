@@ -193,6 +193,11 @@ const ReviewPage = props => {
       });
   };
 
+  const getSchoolString = (code, name) => {
+    if (code && name) return `${code} - ${name}`;
+    return null;
+  };
+
   const handleSubmit = () => {
     const files = localStorage.getItem('askVAFiles');
     const transformedData = submitTransformer(
@@ -308,53 +313,6 @@ const ReviewPage = props => {
                   viewedPages={new Set(getPageKeysForReview(formConfig))}
                   hasUnviewedPages={chapter.hasUnviewedPages}
                 />
-                {props.formData.allowAttachments && (
-                  <div
-                    className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
-                    aria-hidden="false"
-                  >
-                    <div className="form-review-panel-page vads-u-margin-bottom--0">
-                      <div name="questionScrollElement" />
-                      <form className="rjsf">
-                        <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-                          <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                            <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              {!editAttachments ? (
-                                nonEditAttachmentsMode(attachments.length)
-                              ) : (
-                                <>
-                                  {attachments.map(file => (
-                                    <div
-                                      key={`${file.fileID}-${
-                                        file.fileName
-                                      }-edit`}
-                                      className="review-page-attachments"
-                                    >
-                                      <dt className="form-review-panel-page-header">
-                                        {`${file.fileName} (${file.fileSize})`}
-                                      </dt>
-                                      <dd className="vads-u-margin-right--0">
-                                        <va-button-icon
-                                          button-type="delete"
-                                          onClick={() =>
-                                            deleteFile(file.fileID)
-                                          }
-                                        />
-                                      </dd>
-                                    </div>
-                                  ))}
-                                  <div className="vads-u-margin-y--2">
-                                    <FileUpload />
-                                  </div>
-                                </>
-                              )}
-                            </dl>
-                          </dl>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                )}
               </VaAccordionItem>
             );
           })}
@@ -745,9 +703,10 @@ const ReviewPage = props => {
                           name: 'School facility',
                           data: props.formData.school
                             ? props.formData.school
-                            : `${
-                                props.formData.schoolInfo.schoolFacilityCode
-                              } - ${props.formData.schoolInfo.schoolName}`,
+                            : getSchoolString(
+                                props.formData.schoolInfo?.schoolFacilityCode,
+                                props.formData.schoolInfo?.schoolName,
+                              ),
                           key: 'searchSchools',
                         },
                         {
@@ -1020,6 +979,53 @@ const ReviewPage = props => {
                   viewedPages={new Set(getPageKeysForReview(formConfig))}
                   hasUnviewedPages={chapter.hasUnviewedPages}
                 />
+                {props.formData.allowAttachments && (
+                  <div
+                    className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
+                    aria-hidden="false"
+                  >
+                    <div className="form-review-panel-page vads-u-margin-bottom--0">
+                      <div name="questionScrollElement" />
+                      <form className="rjsf">
+                        <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+                          <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                            <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              {!editAttachments ? (
+                                nonEditAttachmentsMode(attachments.length)
+                              ) : (
+                                <>
+                                  {attachments.map(file => (
+                                    <div
+                                      key={`${file.fileID}-${
+                                        file.fileName
+                                      }-edit`}
+                                      className="review-page-attachments"
+                                    >
+                                      <dt className="form-review-panel-page-header">
+                                        {`${file.fileName} (${file.fileSize})`}
+                                      </dt>
+                                      <dd className="vads-u-margin-right--0">
+                                        <va-button-icon
+                                          button-type="delete"
+                                          onClick={() =>
+                                            deleteFile(file.fileID)
+                                          }
+                                        />
+                                      </dd>
+                                    </div>
+                                  ))}
+                                  <div className="vads-u-margin-y--2">
+                                    <FileUpload />
+                                  </div>
+                                </>
+                              )}
+                            </dl>
+                          </dl>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                )}
               </VaAccordionItem>
             );
           })}

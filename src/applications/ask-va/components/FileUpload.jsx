@@ -1,7 +1,9 @@
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
+import { DownloadLink, getFileSizeMB } from '../config/helpers';
 
 const idList = numberOfIDs => {
   const ids = [];
@@ -15,28 +17,59 @@ const FileUpload = props => {
   const {
     acceptFileTypes = '.pdf,.jpeg,.png,.jpg',
     buttonText = 'Upload file',
-    error,
     label = 'Select optional files to upload',
     hint = 'You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size',
     // success = null,
   } = props;
 
   const first = 'askVA_upload_first';
+  const errorMessage = 'File must be less than 25 MB';
   const uploadIDs = idList(10);
   const [attachments, setAttachments] = useState([]);
+  const [existingFiles, setExistingFiles] = useState([]);
+  const [fileErrors, setFileErrors] = useState([]);
+  const route = useSelector(state => state.navigation.route.path);
 
-  const onRemoveFile = fileToRemoveID => {
-    const uploadedFiles = localStorage.getItem('askVAFiles');
-    const parseFiles = JSON.parse(uploadedFiles);
-    const removedFile = parseFiles.filter(
-      file => file.fileID !== fileToRemoveID,
-    );
-    localStorage.askVAFiles = JSON.stringify(removedFile);
-    setAttachments(attachments.filter(file => file.fileID !== fileToRemoveID));
+  const clearError = fileID => {
+    if (fileErrors) {
+      const filterIDs = fileErrors.filter(id => fileID !== id);
+      setFileErrors(filterIDs);
+    }
   };
 
-  const onAddFile = async event => {
+  const deleteExistingFile = fileID => {
+    const uploadedFiles = localStorage.getItem('askVAFiles');
+    const parseFiles = JSON.parse(uploadedFiles);
+    const removedFile = parseFiles.filter(file => file.fileID !== fileID);
+    localStorage.askVAFiles = JSON.stringify(removedFile);
+    setExistingFiles(existingFiles.filter(file => file.fileID !== fileID));
+  };
+
+  const onRemoveFile = fileToRemoveID => {
+    if (fileErrors.includes(fileToRemoveID)) {
+      clearError(fileToRemoveID);
+    } else {
+      const uploadedFiles = localStorage.getItem('askVAFiles');
+      const parseFiles = JSON.parse(uploadedFiles);
+      const removedFile = parseFiles.filter(
+        file => file.fileID !== fileToRemoveID,
+      );
+      localStorage.askVAFiles = JSON.stringify(removedFile);
+      setAttachments(
+        attachments.filter(file => file.fileID !== fileToRemoveID),
+      );
+    }
+  };
+  /* eslint-disable consistent-return */
+  const onAddFile = event => {
     const { files } = event.detail;
+    const inputID = event.srcElement['data-testid'];
+
+    if (getFileSizeMB(files[0]?.size) > 25) {
+      return setFileErrors([...new Set([...fileErrors, inputID])]);
+    }
+
+    if (fileErrors) clearError(inputID);
 
     if (files.length) {
       const currentFile = files[0];
@@ -57,8 +90,8 @@ const FileUpload = props => {
         const questionFiles = storedFile
           ? [...JSON.parse(storedFile), imgData]
           : [imgData];
-        setAttachments([...attachments, imgData]);
         localStorage.askVAFiles = JSON.stringify(questionFiles);
+        setAttachments([...attachments, imgData]);
       };
     } else {
       onRemoveFile(event.target['data-testid']);
@@ -87,6 +120,20 @@ const FileUpload = props => {
   //   return null;
   // };
 
+  const getUploadedFiles = () => {
+    const storedFile = localStorage.getItem('askVAFiles');
+    if (storedFile?.length > 0) {
+      const files = JSON.parse(storedFile);
+      setExistingFiles(files);
+    }
+  };
+
+  useEffect(() => {
+    if (existingFiles.length === 0) {
+      getUploadedFiles();
+    }
+  }, []);
+
   const fileInputs = () => {
     return attachments.map((attachment, i) => {
       return (
@@ -94,7 +141,7 @@ const FileUpload = props => {
           key={i}
           accept={acceptFileTypes}
           data-testid={uploadIDs[i]}
-          error={error}
+          error={fileErrors.includes(uploadIDs[i]) ? errorMessage : ''}
           aria-label={label}
           name="usa-file-input"
           onVaChange={onAddFile}
@@ -107,13 +154,45 @@ const FileUpload = props => {
   return (
     <div>
       <div className="usa-form-group">
+        {route === '/your-question' && (
+          <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                {existingFiles.map(file => (
+                  <div
+                    key={`${file.fileID}-${file.fileName}-edit`}
+                    className="review-page-attachments"
+                  >
+                    <dt
+                      className=" form-review-panel-page-header vads-u-margin-bottom--2 vads-u-color--link-default"
+                      key={`${file.fileID}-${file.fileName}`}
+                    >
+                      <va-icon icon="attach_file" size={3} />
+                      <DownloadLink
+                        fileUrl={file.base64}
+                        fileName={file.fileName}
+                        fileSize={file.fileSize}
+                      />
+                    </dt>
+                    <dd className="vads-u-margin-right--0">
+                      <va-button-icon
+                        button-type="delete"
+                        onClick={() => deleteExistingFile(file.fileID)}
+                      />
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </dl>
+          </div>
+        )}
         <VaFileInput
           className="vads-u-margin-y--neg1"
           accept={acceptFileTypes}
           multiple="multiple"
           button-text={buttonText}
           data-testid={first}
-          error={error}
+          error={fileErrors.includes(first) ? errorMessage : ''}
           hint={hint}
           label={label}
           name="usa-file-input"
