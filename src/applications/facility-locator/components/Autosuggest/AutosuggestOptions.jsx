@@ -25,7 +25,12 @@ function AutosuggestOptions({
         ]);
       } else if (!options?.length && shouldShowNoResults) {
         setOptionsToShow([
-          { id: 'no-items', disabled: true, toDisplay: noItemsMessage },
+          {
+            id: 'no-items',
+            disabled: true,
+            toDisplay: noItemsMessage,
+            isError: true,
+          },
         ]);
       } else {
         setOptionsToShow(options);

@@ -17,7 +17,7 @@ function AutosuggestOption({
       {...getItemProps({
         item,
         className: optionClasses(index === highlightedIndex),
-        role: 'option',
+        role: item.isError ? 'alert' : 'option',
         'aria-selected': index === highlightedIndex,
       })}
       data-testid={`autosuggest-option-${item.id || `${item}-${index}`}`}
