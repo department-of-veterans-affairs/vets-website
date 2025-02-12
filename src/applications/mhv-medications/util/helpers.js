@@ -543,6 +543,6 @@ export const isRefillTakingLongerThanExpected = rx => {
     (rx.dispStatus === dispStatusObj.refillinprocess &&
       Date.now() > Date.parse(refillDate)) ||
     (rx.dispStatus === dispStatusObj.submitted &&
-      refillSubmitDate < sevenDaysAgoDate)
+      Date.parse(refillSubmitDate) < sevenDaysAgoDate)
   );
 };
