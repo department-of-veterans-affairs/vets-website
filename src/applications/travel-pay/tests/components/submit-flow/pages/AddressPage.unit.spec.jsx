@@ -76,6 +76,9 @@ describe('Address page', () => {
     expect(screen.queryByTestId('address-test-id')).to.not.exist;
     expect($('va-button-pair')).to.not.exist;
     expect($('va-alert')).to.exist;
+    expect(
+      screen.findByText(`We can’t file this claim in this tool at this time`),
+    ).to.exist;
     expect(screen.findByText(/We need your home address/i)).to.exist;
     expect($('va-link[href="/profile/contact-information"]')).to.exist;
   });

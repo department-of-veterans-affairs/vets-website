@@ -54,7 +54,7 @@ const AddressPage = ({
     return (
       <>
         <h1 className="vads-u-margin-bottom--2">
-          Did you travel from your home address?
+          We can’t file this claim in this tool at this time
         </h1>
         <va-alert
           close-btn-aria-label="Close notification"
@@ -72,7 +72,11 @@ const AddressPage = ({
           />
         </va-alert>
         <HelpTextModalities />
+        <h2 className="vads-u-font-size--h4">
+          How can I get help with my claim?
+        </h2>
         <HelpTextGeneral />
+        <br />
         <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
       </>
     );
