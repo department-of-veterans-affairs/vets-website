@@ -4,11 +4,7 @@
   max-width: 1000px;
   width: 100%;
   margin: $units-5 auto;
-  padding: 0 10px;
-
-  @media (min-width: $small-desktop-screen) {
-    padding: 0;
-  }
+  padding: 0 16px;
 }
 
 .status {

@@ -82,6 +82,7 @@ function UserNav({ profile }) {
           srText="toggle menu"
           className="nav__btn nav__btn--user vads-u-color--base"
           iconClassName="user-nav__chevron"
+          dropdownClass="nav__user-menu"
         >
           <UserNavLinks />
         </NavDropdown>

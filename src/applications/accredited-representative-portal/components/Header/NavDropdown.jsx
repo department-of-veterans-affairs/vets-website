@@ -59,10 +59,9 @@ const NavDropdown = ({
         type="button"
       >
         {closeIcon && isDropdownOpen ? 'Close' : btnText}
-
         <va-icon
           icon={closeIcon && isDropdownOpen ? 'close' : icon}
-          size={2}
+          size="3"
           srtext={srText}
           class="nav__user-btn-icon"
         />

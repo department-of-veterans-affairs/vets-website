@@ -80,7 +80,7 @@
 
     li {
       border-bottom: 4px solid $vads-color-white;
-      padding: 12px 0;
+      padding: 16px 0;
 
       &:first-child {
         border: none;
@@ -161,6 +161,12 @@
 
     &--user {
       background-color: transparent;
+      [icon="account_circle"] {
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
       &:hover {
         background-color: transparent !important;
 
@@ -240,6 +246,10 @@
       background-color: $vads-color-primary;
       color: $vads-color-white;
     }
+
+    .nav__user-menu & {
+      right: 0;
+    }
   }
 
   .mobile {
@@ -252,4 +262,8 @@
       display: none !important;
     }
   }
+}
+.usa-icon {
+  width: 22px;
+  height: 22px;
 }
