@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import VerifyAlert from './VerifyAlert';
 
 export const HowToVerifyLink = () => (
@@ -18,11 +17,6 @@ const IdentityNotVerified = () => {
       <VerifyAlert headingLevel={2} />
     </div>
   );
-};
-
-IdentityNotVerified.propTypes = {
-  showHelpContent: PropTypes.bool,
-  showVerifyIdenityHelpInfo: PropTypes.bool,
 };
 
 export { IdentityNotVerified as default };
