@@ -9,7 +9,7 @@ import {
   isCompletingForm0781,
   isRelatedToMST,
   showReassignmentDescriptionPage,
-  showOtherDescriptionPage,
+  showUnlistedDescriptionPage,
 } from '../../utils/form0781';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
@@ -318,7 +318,7 @@ describe('showBehaviorDescriptionPages', () => {
       });
     });
   });
-  describe('showOtherDescriptionPage', () => {
+  describe('showUnlistedDescriptionPage', () => {
     describe('when a user has selected "unlisted"', () => {
       it('should return true', () => {
         const formData = {
@@ -338,7 +338,7 @@ describe('showBehaviorDescriptionPages', () => {
           },
           'view:noneCheckbox': { none: false },
         };
-        expect(showOtherDescriptionPage(formData)).to.eq(true);
+        expect(showUnlistedDescriptionPage(formData)).to.eq(true);
       });
     });
     describe('when a user has not selected "unlisted"', () => {
@@ -358,7 +358,7 @@ describe('showBehaviorDescriptionPages', () => {
           },
           'view:noneCheckbox': { none: false },
         };
-        expect(showOtherDescriptionPage(formData)).to.eq(false);
+        expect(showUnlistedDescriptionPage(formData)).to.eq(false);
       });
     });
     describe('when a user has unselected "unlisted"', () => {
@@ -379,7 +379,7 @@ describe('showBehaviorDescriptionPages', () => {
           },
           'view:noneCheckbox': { none: false },
         };
-        expect(showOtherDescriptionPage(formData)).to.eq(false);
+        expect(showUnlistedDescriptionPage(formData)).to.eq(false);
       });
     });
   });

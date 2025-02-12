@@ -3,8 +3,8 @@ import {
   textareaSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  otherPageTitle,
-  otherDescriptionPageDescription,
+  unlistedPageTitle,
+  unlistedDescriptionPageDescription,
 } from '../../../content/form0781/behaviorListPages';
 import {
   titleWithTag,
@@ -13,10 +13,10 @@ import {
 } from '../../../content/form0781';
 
 export const uiSchema = {
-  'ui:title': titleWithTag(otherPageTitle, form0781HeadingTag),
+  'ui:title': titleWithTag(unlistedPageTitle, form0781HeadingTag),
   behaviorsDetails: {
     unlisted: textareaUI({
-      title: otherDescriptionPageDescription,
+      title: unlistedDescriptionPageDescription,
     }),
   },
   'view:mentalHealthSupportAlert': {
