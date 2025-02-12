@@ -184,6 +184,31 @@ export const LAY_OR_WITNESS_HANDOFF = Object.freeze(
   </div>,
 );
 
+export const DECISION_REVIEW_HANDOFF = Object.freeze(
+  <div>
+    <p>
+      Based on your answer, you should explore your options for a decision
+      review.
+    </p>
+    <PrimaryActionLink href="/resources/choosing-a-decision-review-option/">
+      Choose a decision review option
+    </PrimaryActionLink>
+    <p>
+      If you disagree with a VA benefit or claim decision, you can choose from 3
+      decision review options (
+      <span className="vads-u-font-weight--bold">Supplemental Claim</span>,{' '}
+      <span className="vads-u-font-weight--bold">Higher-Level Review</span>, or{' '}
+      <span className="vads-u-font-weight--bold">Board Appeal</span>) to
+      continue your case.
+    </p>
+    <p>
+      If you aren’t satisfied with the results of the first option you choose,
+      you can try another eligible option.
+    </p>
+    {ESCAPE_HATCH}
+  </div>,
+);
+
 export const NOD_OLD_HANDOFF = Object.freeze(
   <div>
     <p>
