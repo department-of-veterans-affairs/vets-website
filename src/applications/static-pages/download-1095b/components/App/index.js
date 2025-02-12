@@ -27,7 +27,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
 
-  const fetchFile = format => {
+  const getFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)
       .then(response => response.blob())
       .then(blob => {
@@ -39,7 +39,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       });
   };
 
-  const fetchAvailableForms = () => {
+  const getAvailableForms = () => {
     return apiRequest('/form1095_bs/available_forms')
       .then(response => {
         if (response.errors || !response.availableForms.length) {
@@ -51,7 +51,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   };
 
   const downloadFileToUser = format => {
-    fetchFile(format).then(result => {
+    getFile(format).then(result => {
       if (result) {
         const a = document.createElement('a');
         a.href = result;
@@ -68,7 +68,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   useEffect(
     () => {
-      fetchAvailableForms().then(result => {
+      getAvailableForms().then(result => {
         const mostRecentYearData = result[0];
         if (mostRecentYearData.lastUpdated && mostRecentYearData.year) {
           const date = new Date(mostRecentYearData.lastUpdated);
