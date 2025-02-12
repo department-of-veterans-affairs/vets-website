@@ -1,57 +1,39 @@
 import React from 'react';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 
 export default () => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const mhvButtonDeprecated = useToggleValue(
-    TOGGLE_NAMES.mhvCredentialButtonDisabled,
-  );
+  const supportLinks = [
+    { text: 'Sign-in errors', url: '/resources/signing-in-to-vagov/' },
+    {
+      text: 'Verifying your identity',
+      url: '/resources/verifying-your-identity-on-vagov/',
+    },
+    {
+      text: 'Deleting your account',
+      url: '/resources/can-i-delete-my-logingov-or-idme-account',
+    },
+    {
+      text: 'Common issues with Login.gov or ID.me',
+      url: '/resources/support-for-common-logingov-and-idme-issues/',
+    },
+  ];
   return (
     <div className="row">
       <div className="columns print-full-width sign-in-wrapper">
         <div className="help-info">
-          <h2 className="vads-u-margin-top--0">Having trouble signing in?</h2>
-          {mhvButtonDeprecated ? (
+          <h2 className="vads-u-margin-top--0">Help and support</h2>
+
+          <div>
             <div>
-              <p>Get help with questions about:</p>
-              <div>
-                <div role="list" className="vads-u-padding-bottom--3">
-                  <li>
-                    <a href="/resources/signing-in-to-vagov/">signing in</a>
+              <div role="list" className="vads-u-padding-bottom--3">
+                {supportLinks.map((link, idx) => (
+                  <li className="vads-u-margin--0" key={idx}>
+                    <a href={link.url}>{link.text}</a>
                   </li>
-                  <li>
-                    <a href="/resources/verifying-your-identity-on-vagov/">
-                      verifying your identity
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/resources/verifying-your-identity-on-vagov/">
-                      deleting your account
-                    </a>
-                  </li>
-                </div>
+                ))}
               </div>
-              <va-link
-                text="The My HealtheVet sign-in option is no loner available"
-                label="The My HealtheVet sign-in option is no longer available"
-                href="/"
-                className="vads-u-margin-top--3"
-              />
             </div>
-          ) : (
-            <p>
-              Get answers to common{' '}
-              <a href="/resources/signing-in-to-vagov/">
-                questions about signing in
-              </a>{' '}
-              and{' '}
-              <a href="/resources/verifying-your-identity-on-vagov/">
-                verifying your identity
-              </a>
-              .
-            </p>
-          )}
+          </div>
           <p>
             <SubmitSignInForm startSentence /> We're here 24/7.
           </p>

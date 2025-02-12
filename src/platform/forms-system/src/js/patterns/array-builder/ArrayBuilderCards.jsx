@@ -108,6 +108,8 @@ const ArrayBuilderCards = ({
           return;
         }
         focusElement(
+          'button',
+          null,
           `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
         );
       });
@@ -148,7 +150,11 @@ const ArrayBuilderCards = ({
     index: PropTypes.number.isRequired,
   };
 
-  const CardHeading = `h${Number(titleHeaderLevel) + 1}`;
+  const cardHeaderLevel = Number(titleHeaderLevel) + 1;
+  const CardTitle = `h${cardHeaderLevel}`;
+  // Use h3 as the largest size for styling, otherwise use header level.
+  // This can change based on minimal header or not.
+  const cardHeadingStyling = cardHeaderLevel < 3 ? ' vads-u-font-size--h3' : '';
 
   return (
     <div>
@@ -173,9 +179,11 @@ const ArrayBuilderCards = ({
                   <Card index={index}>
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
-                      <CardHeading className="vads-u-margin-top--0">
+                      <CardTitle
+                        className={`vads-u-margin-top--0${cardHeadingStyling}`}
+                      >
                         {itemName}
-                      </CardHeading>
+                      </CardTitle>
                       {itemDescription}
                       {isIncomplete(itemData) && (
                         <MissingInformationAlert>
@@ -279,7 +287,7 @@ ArrayBuilderCards.propTypes = {
     PropTypes.node,
     PropTypes.string,
   ]),
-  titleHeaderLevel: PropTypes.func,
+  titleHeaderLevel: PropTypes.string,
 };
 
 export default connect(

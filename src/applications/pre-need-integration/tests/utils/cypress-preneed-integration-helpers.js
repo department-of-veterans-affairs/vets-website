@@ -265,6 +265,7 @@ function fillServicePeriods(serviceRecord) {
   clickContinue();
 
   serviceRecord.forEach((tour, index) => {
+    cy.get('h3').should('be.focused');
     autoSuggestFirstResult(
       '#root_serviceBranch',
       serviceLabels[tour.serviceBranch],

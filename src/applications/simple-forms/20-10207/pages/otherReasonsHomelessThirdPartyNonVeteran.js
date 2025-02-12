@@ -8,7 +8,8 @@ export default {
   uiSchema: {
     otherReasons: checkboxGroupUI({
       title: 'Are any of these other descriptions true for the claimant?',
-      hint: 'If not, select continue.',
+      hint:
+        'If yes, select which descriptions are true. If no, select continue.',
       required: false,
       labels: OTHER_REASONS_3RD_PTY_NON_VET,
       labelHeaderLevel: '3',

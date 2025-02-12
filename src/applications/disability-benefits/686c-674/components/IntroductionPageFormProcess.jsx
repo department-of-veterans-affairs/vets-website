@@ -83,7 +83,7 @@ export const IntroductionPageFormProcess = () => (
             (VSO), can help you fill out your application.{' '}
           </p>
           <p>
-            <a href="/disability-benefits/apply/help/index.html">
+            <a href="/get-help-from-accredited-representative/">
               Get help filing your claim
             </a>
           </p>

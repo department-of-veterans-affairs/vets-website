@@ -102,7 +102,7 @@ const createProviderDetails = (numberOfSlots, providerId = '111') => {
 };
 
 const draftAppointments = {
-  '0': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6800': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
@@ -110,11 +110,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -171,7 +171,7 @@ const draftAppointments = {
       },
     },
   },
-  '111': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6801': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
@@ -179,11 +179,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -240,7 +240,7 @@ const draftAppointments = {
       },
     },
   },
-  '222': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6802': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
@@ -248,11 +248,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -309,7 +309,7 @@ const draftAppointments = {
       },
     },
   },
-  '333': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6803': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
@@ -317,11 +317,11 @@ const draftAppointments = {
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -387,7 +387,10 @@ const draftAppointments = {
  * @param {String} referralId The ID for the referral
  * @returns {Object} draftAppointmentInfo object
  */
-const createDraftAppointmentInfo = (numberOfSlots, referralId = '0') => {
+const createDraftAppointmentInfo = (
+  numberOfSlots,
+  referralId = 'add2f0f4-a1ea-4dea-a504-a54ab57c6800',
+) => {
   const draftAppointmentInfo = draftAppointments[referralId];
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
   draftAppointmentInfo.slots = { count: numberOfSlots, slots: [] };

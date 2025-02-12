@@ -51,6 +51,7 @@ const getData = ({
             // },
           ],
           prefillsAvailable: [],
+          signIn: { serviceName: 'mhv' },
           verified: isVerified,
         },
       },
@@ -130,6 +131,6 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
 
-    expect($('va-alert[status="continue"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="signInEither"]', container)).to.exist;
   });
 });

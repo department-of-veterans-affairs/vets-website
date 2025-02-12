@@ -61,9 +61,13 @@ const MicroDetails = props => {
 
   const generateMicrobiologyPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateLabsIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateMicrobioContent(record) };
+    const { title, subject, subtitles } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateMicrobioContent(record),
+    };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Microbiology details', runningUnitTest);
   };

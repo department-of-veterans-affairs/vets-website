@@ -10,7 +10,7 @@ import {
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
-import * as eventType from '../../../pages/form0781/traumaticEventTypes';
+import eventTypes from '../../../pages/form0781/traumaticEventTypes';
 import {
   eventTypesPageTitle,
   eventTypesDescription,
@@ -27,19 +27,19 @@ describe('Traumatic event types', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalForms.pages.eventType;
+  } = formConfig.chapters.mentalHealth.pages.eventTypes;
 
   it('should define a uiSchema object', () => {
-    expect(eventType.uiSchema).to.be.an('object');
+    expect(eventTypes.uiSchema).to.be.an('object');
   });
 
   it('should define a schema object', () => {
-    expect(eventType.schema).to.be.an('object');
+    expect(eventTypes.schema).to.be.an('object');
   });
 
   it('should have the correct title in uiSchema', () => {
     const { container: uiTitleContainer } = render(
-      <div>{eventType.uiSchema['ui:title']}</div>,
+      <div>{eventTypes.uiSchema['ui:title']}</div>,
     );
     const renderedUITitleText = uiTitleContainer.textContent.trim();
 
@@ -52,14 +52,14 @@ describe('Traumatic event types', () => {
   });
 
   it('should have the correct description in uiSchema', () => {
-    expect(eventType.uiSchema['ui:description']).to.equal(
+    expect(eventTypes.uiSchema['ui:description']).to.equal(
       eventTypesDescription,
     );
   });
 
   it('should render the mental health support alert description in uiSchema', () => {
     expect(
-      eventType.uiSchema['view:mentalHealthSupportAlert']['ui:description'],
+      eventTypes.uiSchema['view:mentalHealthSupportAlert']['ui:description'],
     ).to.equal(mentalHealthSupportAlert);
   });
 

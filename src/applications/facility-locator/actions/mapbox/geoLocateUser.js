@@ -2,7 +2,7 @@ import {
   GEOLOCATE_USER,
   GEOCODE_FAILED,
   GEOCODE_COMPLETE,
-} from '../../utils/actionTypes';
+} from '../actionTypes';
 import { searchCriteraFromCoords } from '../../utils/mapHelpers';
 import { updateSearchQuery } from '../search/updateSearchQuery';
 

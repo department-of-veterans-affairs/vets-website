@@ -4,7 +4,7 @@ export const eventDetailsPageTitle = 'Details about your traumatic event';
 export const eventDetailsPrompt =
   'Briefly describe what happened during your traumatic event in the military.';
 export const eventDetailsHint =
-  'We don’t need to know the names of people that were involved in the traumatic events. If you do share any names, we won’t contact an of those individuals.';
+  'We don’t need to know the names of people that were involved in the traumatic events. If you do share any names, we won’t contact any of those individuals.';
 export const eventExamplesAdditionalInfo = (
   <va-additional-info trigger="Examples of responses">
     <div>

@@ -2,10 +2,9 @@ export const DIGITAL_FORMS_FILENAME = 'digital-forms.json';
 export const FORM_LOADING_INITIATED = 'FORM_RENDERER/FORM_LOADING_INITIATED';
 export const FORM_LOADING_SUCCEEDED = 'FORM_RENDERER/FORM_LOADING_SUCCEEDED';
 export const FORM_LOADING_FAILED = 'FORM_RENDERER/FORM_LOADING_FAILED';
-export const INTEGRATION_DEPLOYMENT =
-  'https://pr18811-ps4nwwul37jtyembecv4bg0gafmyl3oj.ci.cms.va.gov';
 
 import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
+import environment from 'platform/utilities/environment';
 import mockForms from '../../config/formConfig';
 import { createFormConfig } from '../../utils/formConfig';
 
@@ -31,7 +30,7 @@ export const formLoadingFailed = error => {
 };
 
 export const fetchDrupalDigitalForms = () =>
-  fetchDrupalStaticDataFile(DIGITAL_FORMS_FILENAME, INTEGRATION_DEPLOYMENT);
+  fetchDrupalStaticDataFile(DIGITAL_FORMS_FILENAME, environment.BASE_URL);
 
 /**
  * Mocks a fetch of content-build forms data.
@@ -40,6 +39,11 @@ export const fetchDrupalDigitalForms = () =>
  */
 export const mockFetchForms = async () =>
   new Promise(r => setTimeout(r, 200, mockForms));
+
+export const filterForms = (forms, onlyPublished) =>
+  onlyPublished
+    ? forms.filter(form => form.moderationState === 'published')
+    : forms;
 
 export const findFormByFormId = (forms, formId) => {
   const form = forms.find(f => f.formId === formId);
@@ -59,7 +63,8 @@ export const fetchAndBuildFormConfig = (
     dispatch(formLoadingInitiated(formId));
     try {
       const forms = await fetchMethod();
-      const form = findFormByFormId(forms, formId);
+      const filteredForms = filterForms(forms, environment.isProduction());
+      const form = findFormByFormId(filteredForms, formId);
       const formConfig = createFormConfig(form, options);
 
       dispatch(formLoadingSucceeded(formConfig));

@@ -3,6 +3,7 @@ import {
   VaButton,
   VaIcon,
   VaTextarea,
+  VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -30,7 +31,7 @@ import {
   URL,
 } from '../constants';
 import manifest from '../manifest.json';
-import { mockInquiryResponse } from '../utils/mockData';
+import { mockInquiryResponse, mockAttachmentResponse } from '../utils/mockData';
 
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
@@ -140,49 +141,41 @@ const ResponseInboxPage = ({ router }) => {
       });
   }, []);
 
+  const getDownload = (fileName, filePath) => {
+    const link = document.createElement('a');
+    link.href = `data:image/png;base64,${filePath}`;
+    link.setAttribute('download', fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
+  const getDownloadData = useCallback(url => {
+    setError(false);
+
+    if (mockTestingFlagforAPI) {
+      // Simulate API delay
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const res = mockAttachmentResponse.data;
+          getDownload(res.attributes.fileName, res.attributes.fileContent);
+          resolve(mockAttachmentResponse);
+        }, 500);
+      });
+    }
+
+    return apiRequest(url)
+      .then(res => {
+        getDownload(res.attributes.fileName, res.attributes.fileContent);
+      })
+      .catch(() => {
+        setError(true);
+      });
+  }, []);
+
   const handleRetry = () => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
   };
-
-  // const handleFileUpload = event => {
-  //   const errors = [];
-  //   const fileEntries = event.detail;
-
-  //   fileEntries.forEach(fileEntry => {
-  //     if (fileEntry) {
-  //       let fileError;
-
-  //       if (fileEntry.size > 25 * 1024 * 1024) {
-  //         fileError = `File is ${
-  //           fileEntry.size
-  //         } MB. Please include files less than 25 MB`;
-  //       }
-
-  //       if (fileError) errors.push(fileError);
-  //     }
-  //   });
-  //   console.log(errors);
-
-  //   setFileUploadError(errors);
-  //   console.log(event.detail);
-  //   const reader = new FileReader();
-  //   reader.onload = e => {
-  //     setSendReply({
-  //       ...sendReply,
-  //       attachments: [
-  //         ...sendReply.attachments,
-  //         {
-  //           name: file.name,
-  //           file: e.target.result.split(',')[1],
-  //         },
-  //       ],
-  //     });
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-
-  // { 'reply' => 'this is my reply', 'files' => [{ 'file_name' => nil, 'file_content' => nil }] }
-  // reference submit tranformer
 
   useEffect(
     () => {
@@ -232,6 +225,7 @@ const ResponseInboxPage = ({ router }) => {
         messageType: 'Your question',
         description: inquiryData.attributes.submitterQuestion,
         originalCreatedOn: inquiryData.attributes.createdOn,
+        attachments: inquiryData.attributes.attachments,
       },
     },
     ...(inquiryData.attributes.correspondences.data
@@ -391,30 +385,34 @@ const ResponseInboxPage = ({ router }) => {
                     {correspondence.attributes.attachments &&
                       correspondence.attributes.attachments.length > 0 &&
                       correspondence.attributes.attachments.map(
-                        (attachment, index, array) => (
-                          <div
-                            key={attachment.id}
-                            className={`vads-u-margin-bottom--2 ${
-                              index === array.length - 1
-                                ? 'vads-u-margin-bottom--0'
-                                : ''
-                            }`}
-                          >
-                            <va-link
-                              href={`${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
-                                attachment.id
+                        (file, index, array) => {
+                          return (
+                            <div
+                              key={file.id}
+                              className={`vads-u-margin-bottom--2 ${
+                                index === array.length - 1
+                                  ? 'vads-u-margin-bottom--0'
+                                  : ''
                               }`}
-                              text={`${attachment.name}
-                          ${
-                            attachment.fileSize
-                              ? `(${attachment.fileSize} kb)`
-                              : ''
-                          }`}
-                              icon-name="attach_file"
-                              icon-size={3}
-                            />
-                          </div>
-                        ),
+                            >
+                              <va-icon
+                                icon="attach_file"
+                                size={3}
+                                className="vads-u-margin--right-1p5"
+                              />
+                              <VaLink
+                                text={file.name}
+                                onClick={() =>
+                                  getDownloadData(
+                                    `${envUrl}${URL.DOWNLOAD_ATTACHMENT}${
+                                      file.id
+                                    }`,
+                                  )
+                                }
+                              />
+                            </div>
+                          );
+                        },
                       )}
                   </div>
                 </va-accordion-item>
@@ -442,20 +440,6 @@ const ResponseInboxPage = ({ router }) => {
                   value={sendReply.reply}
                   required
                 />
-                {/* <VaFileInputMultiple
-              accept={null}
-              className=""
-              label="Select optional files to upload"
-              hint="You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size"
-              name="my-file-input-multiple"
-              onVaMultipleChange={handleFileUpload}
-              error={fileUploadError}
-              errors={fileUploadError}
-              value={null}
-            />
-            {fileUploadError.length > 0 && (
-              <VaAlert status="error">{fileUploadError}</VaAlert>
-            )} */}
 
                 {inquiryData.attributes?.allowAttachments && <FileUpload />}
 

@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const { unauthenticated, internalServerError, notFound } = require('./errors');
+const { internalServerError, unprocessableEntity } = require('../../errors');
 const { supplies } = require('./supplies');
 // const supplies = [];
 
@@ -57,11 +57,25 @@ const putOk = {
   },
 };
 
+// eslint-disable-next-line no-unused-vars
+const notFound = {
+  errors: [
+    {
+      title: 'Veteran Not Found',
+      detail: 'The veteran could not be found',
+      code: 'MDOT_invalid',
+      source: 'MDOT::Client',
+      status: '404',
+    },
+  ],
+};
+
 module.exports = {
   // `GET /v0/in_progress_forms/${VA_FORM_IDS.FORM_VA_2346A}`: getOk,
   'GET /v0/in_progress_forms/MDOT': getOk,
   'OPTIONS /v0/in_progress_forms/MDOT': 'OK',
-  // 'GET /v0/in_progress_forms/MDOT': (_, res) => res.status(404).json(notFound),
-  // 'GET /v0/in_progress_forms/MDOT': (_, res) => res.status(500).json(internalServerError),
   'PUT /v0/in_progress_forms/MDOT': putOk,
+  // 'PUT /v0/in_progress_forms/MDOT': (_, res) => res.status(404).json(notFound),
+  // 'PUT /v0/in_progress_forms/MDOT': (_, res) => res.status(422).json(unprocessableEntity),
+  // 'PUT /v0/in_progress_forms/MDOT': (_, res) => res.status(500).json(internalServerError),
 };
