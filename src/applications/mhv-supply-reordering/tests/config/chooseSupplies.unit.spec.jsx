@@ -20,37 +20,32 @@ describe('chooseSupplies', () => {
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
         data={{}}
-        formData={{}}
       />,
     );
     expect($$('va-checkbox-group', container).length).to.equal(1);
     getByRole('heading', { level: 3, name: title });
-
     // Not required
     const group = $('va-checkbox-group', container);
     expect(group.getAttribute('required')).to.eq('false');
-
     expect($('button[type="submit"]', container)).to.exist;
   });
+
   it('renders on review & submit page', () => {
     window.location = { pathname: '/review-and-submit' };
     const { container, getByRole } = render(
       <DefinitionTester
-        definitions={{}}
         schema={schema}
+        definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
         data={{}}
         formData={{}}
       />,
     );
-
     expect($$('va-checkbox-group', container).length).to.equal(1);
     getByRole('heading', { level: 3, name: title });
-
     // Not required
     const group = $('va-checkbox-group', container);
     expect(group.getAttribute('required')).to.eq('false');
-
     expect($('button[type="submit"]', container)).to.exist;
   });
 });
