@@ -31,7 +31,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
 
-  const getContent = format => {
+  const fetchFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)
       .then(response => response.blob())
       .then(blob => {
@@ -49,27 +49,13 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         if (response.errors || !response.availableForms.length) {
           updateFormError({ error: true, type: 'not found' });
         }
-        return response.availableForms[0];
+        return response.availableForms;
       })
       .catch(() => updateFormError({ error: true, type: 'not found' }));
   };
 
-  const callAvailableForms = () => {
-    fetchAvailableForms().then(result => {
-      if (result.lastUpdated && result.year) {
-        const date = new Date(result.lastUpdated);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        // expected output (varies according to local timezone and default locale): December 20, 2012
-        updateLastUpdated(date.toLocaleDateString(undefined, options));
-        updateYear(result.year);
-      } else {
-        updateFormError({ error: true, type: 'not found' });
-      }
-    });
-  };
-
-  const callGetContent = format => {
-    getContent(format).then(result => {
+  const downloadFileToUser = format => {
+    fetchFile(format).then(result => {
       if (result) {
         const a = document.createElement('a');
         a.href = result;
@@ -86,7 +72,18 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   useEffect(
     () => {
-      callAvailableForms();
+      fetchAvailableForms().then(result => {
+        const mostRecentYearData = result[0];
+        if (mostRecentYearData.lastUpdated && mostRecentYearData.year) {
+          const date = new Date(mostRecentYearData.lastUpdated);
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          // expected output (varies according to local timezone and default locale): December 20, 2012
+          updateLastUpdated(date.toLocaleDateString(undefined, options));
+          updateYear(mostRecentYearData.year);
+        } else {
+          updateFormError({ error: true, type: 'not found' });
+        }
+      });
     },
     [loggedIn],
   );
@@ -139,7 +136,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             onClick={e => {
               e.preventDefault();
               recordEvent({ event: '1095b-pdf-download' });
-              callGetContent('pdf');
+              downloadFileToUser('pdf');
             }}
           />
         </div>
@@ -153,7 +150,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             onClick={e => {
               e.preventDefault();
               recordEvent({ event: '1095b-txt-download' });
-              callGetContent('txt');
+              downloadFileToUser('txt');
             }}
           />
         </div>
@@ -196,9 +193,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
   displayToggle: PropTypes.bool,
+  loggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
