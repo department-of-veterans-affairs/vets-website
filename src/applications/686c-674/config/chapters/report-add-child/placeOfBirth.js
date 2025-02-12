@@ -16,6 +16,15 @@ export const placeOfBirth = {
         'ui:webComponentField': VaCheckboxField,
       },
       location: {
+        city: {
+          'ui:title': 'City',
+          'ui:required': () => true,
+          'ui:autocomplete': 'address-level2',
+          'ui:errorMessages': {
+            required: 'Enter the city where they were married',
+          },
+          'ui:webComponentField': VaTextInputField,
+        },
         state: {
           'ui:title': 'State',
           'ui:webComponentField': VaSelectField,
