@@ -4,6 +4,7 @@ import * as redux from 'react-redux';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import PropTypes from 'prop-types';
+import { waitFor } from '@testing-library/react';
 
 import { renderInReduxProvider } from '../../../testing/unit/react-testing-library-helpers';
 import { useFeatureToggle } from '../../feature-toggles/useFeatureToggle';
@@ -131,26 +132,28 @@ describe('useFormFeatureToggleSync hook', () => {
   });
 
   it('should sync the feature toggle value with the form data', async () => {
-    await renderInReduxProvider(<TestSyncComponent keys={[testToggleKey]} />, {
+    renderInReduxProvider(<TestSyncComponent keys={[testToggleKey]} />, {
       initialState: {
         featureToggles: { [testToggleName]: true },
       },
     });
 
-    await expect(dispatchSpy.called).to.be.true;
-    await expect(
-      dispatchSpy.calledWith({
-        type: 'SET_DATA',
-        data: { [testToggleKey]: true },
-      }),
-    ).to.be.true;
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'SET_DATA',
+          data: { [testToggleKey]: true },
+        }),
+      ).to.be.true;
+    });
   });
 
-  it('should sync the feature toggle value with the form data', async () => {
+  it('should sync multiple (2) feature toggle values with the form data', async () => {
     const hlrKey = 'hlrBrowserMonitoringEnabled';
     const hlrFeatureName = Toggler.TOGGLE_NAMES[hlrKey];
     const hlrFormDataKey = 'hlrMonitoring';
-    await renderInReduxProvider(
+    renderInReduxProvider(
       <TestSyncComponent keys={[testToggleKey, [hlrKey, hlrFormDataKey]]} />,
       {
         initialState: {
@@ -162,12 +165,14 @@ describe('useFormFeatureToggleSync hook', () => {
       },
     );
 
-    await expect(dispatchSpy.called).to.be.true;
-    await expect(
-      dispatchSpy.calledWith({
-        type: 'SET_DATA',
-        data: { [testToggleKey]: false, [hlrFormDataKey]: true },
-      }),
-    ).to.be.true;
+    await waitFor(() => {
+      expect(dispatchSpy.called).to.be.true;
+      expect(
+        dispatchSpy.calledWith({
+          type: 'SET_DATA',
+          data: { [testToggleKey]: false, [hlrFormDataKey]: true },
+        }),
+      ).to.be.true;
+    });
   });
 });
