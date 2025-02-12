@@ -30,7 +30,10 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       selectedSlot: '0',
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
-      postAppointmentStartTime: null,
+      pollingRequestStart: null,
+      appointmentInfoError: false,
+      appointmentInfoLoading: false,
+      referralAppointmentInfo: {},
     },
   };
   const initialEmptyState = {
@@ -41,7 +44,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       draftAppointmentInfo: {},
       draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
       appointmentCreateStatus: FETCH_STATUS.notStarted,
-      postAppointmentStartTime: null,
+      pollingRequestStart: null,
+      appointmentInfoError: false,
+      appointmentInfoLoading: false,
     },
   };
   beforeEach(() => {
@@ -144,8 +149,14 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       now: new Date().getTime(),
       toFake: ['setTimeout', 'nextTick'],
     });
+
+    // Stub the appointment cration function
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+      .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
+    // Stub the appointment info function to return a draft appointment on the first call and a confirmed appointment on the second call to mock polling
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
       .onFirstCall()
       .resolves(
         createReferralAppointment(draftAppointmentInfo.appointment.id, 'draft'),
@@ -175,14 +186,20 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     // advance the clock
     clock.runAll();
     sandbox.assert.calledTwice(
+      postDraftReferralAppointmentModule.getAppointmentInfo,
+    );
+    sandbox.assert.calledOnce(
       postDraftReferralAppointmentModule.postReferralAppointment,
     );
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
-    sandbox.stub(flow, 'routeToNextReferralPage');
-
+    sandbox.spy(flow, 'routeToNextReferralPage');
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+      .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
+
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
       .resolves(
         createReferralAppointment(
           draftAppointmentInfo.appointment.id,
@@ -206,6 +223,9 @@ describe('VAOS Component: ReviewAndConfirm', () => {
 
     sandbox.assert.calledOnce(
       postDraftReferralAppointmentModule.postReferralAppointment,
+    );
+    sandbox.assert.calledOnce(
+      postDraftReferralAppointmentModule.getAppointmentInfo,
     );
 
     sandbox.assert.calledOnce(flow.routeToNextReferralPage);

@@ -7,6 +7,7 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   getAppointmentCreateStatus,
   getDraftAppointmentInfo,
+  getReferralAppointmentInfo,
   getSelectedSlot,
 } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
@@ -41,6 +42,11 @@ const ReviewAndConfirm = props => {
   );
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+  const {
+    appointmentInfoLoading,
+    appointmentInfoError,
+    referralAppointmentInfo,
+  } = useSelector(getReferralAppointmentInfo);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const slotDetails = getSlotById(
@@ -125,7 +131,11 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (appointmentCreateStatus === FETCH_STATUS.succeeded) {
+      if (
+        referralAppointmentInfo?.appointment &&
+        !appointmentInfoLoading &&
+        !appointmentInfoError
+      ) {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
@@ -133,7 +143,13 @@ const ReviewAndConfirm = props => {
         );
       }
     },
-    [appointmentCreateStatus, currentReferral.UUID, history],
+    [
+      appointmentInfoError,
+      appointmentInfoLoading,
+      currentReferral.UUID,
+      history,
+      referralAppointmentInfo,
+    ],
   );
 
   if (loading || loadingCreateAppointment) {
