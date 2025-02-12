@@ -290,18 +290,16 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
 };
 
 App.propTypes = {
-  toggleLoginModal: PropTypes.func.isRequired,
-  loggedIn: PropTypes.bool,
   displayToggle: PropTypes.bool,
   isLOA1: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  toggleLoginModal: PropTypes.func.isRequired,
 };
-const mapStateToProps = state => {
-  return {
-    loggedIn: state?.user?.login?.currentlyLoggedIn,
-    displayToggle: state?.featureToggles?.showDigitalForm1095b,
-    isLOA1: isLOA1Selector(state),
-  };
-};
+const mapStateToProps = state => ({
+  displayToggle: state?.featureToggles?.showDigitalForm1095b,
+  isLOA1: isLOA1Selector(state),
+  loggedIn: state?.user?.login?.currentlyLoggedIn,
+});
 
 const mapDispatchToProps = dispatch => ({
   toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
