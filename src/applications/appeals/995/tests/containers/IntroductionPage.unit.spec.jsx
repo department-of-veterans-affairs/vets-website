@@ -43,6 +43,7 @@ const getData = ({
           claims: {
             appeals: canAppeal,
           },
+          signIn: { serviceName: 'logingov' },
         },
       },
       form: {
@@ -120,7 +121,7 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('va-alert[status="continue"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="verifyLoginGov"]', container)).to.exist;
     expect($('va-alert[status="info"]', container)).to.not.exist;
     expect($('.sip-wrapper.bottom', container).innerHTML).to.eq('');
   });

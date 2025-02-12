@@ -37,6 +37,7 @@ const getData = ({
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,
+          signIn: { serviceName: 'idme' },
         },
       },
       form: {
@@ -95,9 +96,6 @@ describe('IntroductionPage', () => {
     );
 
     expect($('.schemaform-sip-alert', container)).to.not.exist;
-    expect($('h2', container).textContent).to.contain(
-      'verify your identity to access more VA.gov tools and features',
-    );
-    expect($('va-alert[status="continue"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="verifyIdMe"]', container)).to.exist;
   });
 });
