@@ -15,6 +15,8 @@ import {
   pointOfContactPhoneLabel,
 } from '../content/livingSituation';
 
+import { POINT_OF_CONTACT_MAX } from '../constants';
+
 export const baseUiSchemaErrors = {
   phone: phoneUI()['ui:errorMessages'],
   international: internationalPhoneUI()['ui:errorMessages'],
@@ -64,7 +66,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      pointOfContactName: textSchema,
+      pointOfContactName: { ...textSchema, maxLength: POINT_OF_CONTACT_MAX },
       pointOfContactHasInternationalPhone: { type: 'boolean' },
       pointOfContactPhone: phoneSchema,
     },
