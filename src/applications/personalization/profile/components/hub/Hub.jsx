@@ -36,7 +36,7 @@ export const Hub = () => {
       <div className="hub-cards vads-u-margin-bottom--4">
         <HubCard
           heading={PROFILE_PATH_NAMES.PERSONAL_INFORMATION}
-          content="Legal name, date of birth, preferred name, gender identity, and disability rating"
+          content="Legal name, date of birth, preferred name, and disability rating"
         >
           <ProfileLink
             text="Manage your personal information"

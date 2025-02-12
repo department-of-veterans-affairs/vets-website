@@ -11,6 +11,7 @@ import {
   hasAddressFormChanged,
   prepareAddressData,
   removeCommas,
+  sanitizeField,
   scrollToElement,
 } from '../helpers';
 import {
@@ -151,6 +152,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
     [dispatch, location.pathname],
   );
   const addressDescription = () => {
+    if (!newAddress) return null;
     return (
       <>
         {loading ? (
@@ -179,9 +181,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             <p>
               <>
                 <span className="vads-u-display--block">
-                  {newAddress?.street ?? ''}
-                  {newAddress?.street2 && <br />}
-                  {newAddress?.street2 ?? ''}
+                  {sanitizeField(newAddress?.street)}
+                  {sanitizeField(newAddress?.street2) && <br />}
+                  {sanitizeField(newAddress?.street2)}
                 </span>
                 <span className="vads-u-display--block">
                   {formatAddress(newAddress)}
@@ -285,7 +287,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
               />
             ) : (
               <>
-                {addressDescription()}
+                {addressDescription() ? addressDescription() : ' '}
                 <va-button
                   id="VYE-mailing-address-button"
                   onClick={event => handleAddNewClick(event)}
