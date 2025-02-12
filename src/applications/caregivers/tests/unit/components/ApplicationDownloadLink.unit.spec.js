@@ -77,8 +77,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
     it('should record `success` event when button is clicked', async () => {
       const { selectors } = subject();
-      const { vaLink: downloadBtn } = selectors();
-
+      const { vaLink: link } = selectors();
       const createObjectStub = sinon
         .stub(URL, 'createObjectURL')
         .returns('my_stubbed_url.com');
@@ -87,7 +86,7 @@ describe('CG <ApplicationDownloadLink>', () => {
       mockApiRequest({
         blob: () => new Blob(['my blob'], { type: 'application/pdf' }),
       });
-      fireEvent.click(downloadBtn);
+      fireEvent.click(link);
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
@@ -96,15 +95,10 @@ describe('CG <ApplicationDownloadLink>', () => {
       });
 
       await waitFor(() => {
-        expect(
-          recordEventStub.calledWith({
-            event: 'caregivers-10-10cg-pdf-download--success',
-          }),
-        ).to.be.true;
-      });
-
-      await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
+        const event = 'caregivers-10-10cg-pdf-download--success';
+
+        expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(vaLoadingIndicator).to.not.exist;
         expect(vaLink).to.exist;
       });
@@ -151,8 +145,10 @@ describe('CG <ApplicationDownloadLink>', () => {
       await waitFor(() => {
         const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
         const error = content['alert-download-message--500'];
+
         expect(vaLoadingIndicator).to.not.exist;
         expect(vaLink).to.not.exist;
+
         expect(vaAlert).to.exist;
         expect(vaAlert).to.contain.text(error);
       });
@@ -171,8 +167,10 @@ describe('CG <ApplicationDownloadLink>', () => {
       await waitFor(() => {
         const { vaAlert, vaLink, vaLoadingIndicator } = selectors();
         const error = content['alert-download-message--generic'];
+
         expect(vaLoadingIndicator).to.not.exist;
         expect(vaLink).to.not.exist;
+
         expect(vaAlert).to.exist;
         expect(vaAlert).to.contain.text(error);
       });
