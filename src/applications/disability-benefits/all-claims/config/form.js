@@ -72,7 +72,6 @@ import {
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
-  mentalHealthConditions,
   militaryHistory,
   newDisabilityFollowUp,
   newPTSDFollowUp,
@@ -115,7 +114,6 @@ import { form0781PagesConfig } from './form0781/index';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
-import { showMentalHealthPages } from '../content/mentalHealth';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
 
@@ -547,13 +545,6 @@ const formConfig = {
           appStateSelector: state => ({
             serviceInformation: state.form?.data?.serviceInformation,
           }),
-        },
-        mentalHealthConditions: {
-          title: 'Mental health conditions',
-          path: `disabilities/781-screener`,
-          depends: formData => showMentalHealthPages(formData),
-          uiSchema: mentalHealthConditions.uiSchema,
-          schema: mentalHealthConditions.schema,
         },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
