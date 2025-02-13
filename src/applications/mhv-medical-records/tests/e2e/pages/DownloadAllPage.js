@@ -85,6 +85,7 @@ class DownloadAllPage {
 
   selectCustomStartYear = year => {
     cy.get('[data-testid="va-date-start-date"]')
+      .find('va-text-input')
       .find('input')
       .type(year);
   };
@@ -117,6 +118,7 @@ class DownloadAllPage {
 
   selectCustomEndYear = year => {
     cy.get('[data-testid="va-date-end-date"]')
+      .find('va-text-input')
       .find('input')
       .type(year);
   };
