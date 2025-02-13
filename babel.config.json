@@ -61,6 +61,7 @@
           "@department-of-veterans-affairs/platform-startup/react": "./src/platform/startup/react.js",
           "@department-of-veterans-affairs/platform-startup/setup": "./src/platform/startup/setup.js",
           "@department-of-veterans-affairs/platform-startup/router": "./src/platform/startup/router.js",
+          "@department-of-veterans-affairs/platform-startup/withoutRouter": "./src/platform/startup/withoutRouter.js",
           "@department-of-veterans-affairs/platform-startup/analytics-middleware": "./src/platform/startup/analytics-middleware.js",
 
           "@department-of-veterans-affairs/platform-utilities/date": "./src/platform/utilities/date/index.js",
