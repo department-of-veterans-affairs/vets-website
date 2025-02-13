@@ -56,7 +56,7 @@ export const updateUrlParams = (
     ...queryParams,
     ...ClonedBuildSearchFilters,
   });
-  if (history.location.pathname.startsWith('/schools-and-employers'))
+  if (history.location?.pathname.startsWith('/schools-and-employers'))
     url = `/schools-and-employers${url}`;
   managePushHistory(history, url);
   setDocumentTitle();
