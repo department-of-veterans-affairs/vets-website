@@ -19,9 +19,9 @@ const faqs = [
     answer: (
       <p className="faq-answer">
         Part of your entitlement can be used to cover the costs of tests, up to
-        \$2000, for a job that requires a license or certification—even if
-        you’re already receiving other education benefits. Your benefits will
-        only cover tests approved for the GI Bill.
+        $2000, for a job that requires a license or certification—even if you’re
+        already receiving other education benefits. Your benefits will only
+        cover tests approved for the GI Bill.
       </p>
     ),
   },

@@ -113,7 +113,7 @@ function LcTestInfo({ tests }) {
                       <span>
                         {formatDollarAmountWithCents(
                           test.fee,
-                          'test fee not available',
+                          'Test fee not available',
                         )}
                       </span>
                     </va-table-row>
@@ -138,7 +138,7 @@ function LcTestInfo({ tests }) {
             Fee:{' '}
             {formatDollarAmountWithCents(
               tests[0].fee,
-              'test fee not available',
+              'Test fee not available',
             )}
           </p>
         </div>

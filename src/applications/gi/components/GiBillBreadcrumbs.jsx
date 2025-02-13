@@ -62,7 +62,7 @@ const GiBillBreadcrumbs = () => {
   if (lcResultsMatch) {
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/lc-search/results',
-      label: 'Search Results',
+      label: 'Search results',
     });
   }
   if (lcResultInfoMatch) {

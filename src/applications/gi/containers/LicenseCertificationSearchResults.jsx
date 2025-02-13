@@ -346,6 +346,102 @@ export default function LicenseCertificationSearchResults() {
     );
   };
 
+  function formatArrayWithOr(array) {
+    if (array.length === 1) {
+      return array[0];
+    }
+    if (array.length === 2) {
+      return `${array[0]} or ${array[1]}`;
+    }
+
+    const lastItem = array[array.length - 1];
+    const otherItems = array.slice(0, -1);
+
+    return `${otherItems.join(', ')} or ${lastItem}`;
+  }
+
+  const renderNoResults = (name, state) => {
+    // consider helper function for displaying name if available, and showing nothing if not -- insert in place of nameParam to qvoid extra conditional statements
+    //
+
+    const formatState = () => {
+      if (state === 'all') {
+        return 'all';
+      }
+      return (
+        <>
+          "
+          <strong>
+            {
+              mappedStates.find(
+                mappedState => mappedState.optionValue === stateParam,
+              ).optionLabel
+            }
+          </strong>
+          "
+        </>
+      );
+    };
+
+    const formattedCategories = formatArrayWithOr(
+      activeCategories.filter(activeCategory => activeCategory !== 'all'),
+    );
+
+    const formatName = () => {
+      if (name) {
+        return (
+          <>
+            for "<strong>{nameParam}</strong>"
+          </>
+        );
+      }
+
+      return null;
+    };
+
+    const classes =
+      'vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4';
+
+    if (activeCategories.length === 0) {
+      return (
+        <p className={classes}>
+          To see your results, select a category type filter and update search
+          or select reset search.
+        </p>
+      );
+    }
+
+    if (formatState() === 'all') {
+      return (
+        <p className={classes}>
+          There is no {formattedCategories} available {formatName()}.
+        </p>
+      );
+    }
+    if (activeCategories.includes('certification')) {
+      if (activeCategories.length > 1) {
+        return (
+          <p className={classes}>
+            There is no {formattedCategories} {formatName()} available in the
+            state of {formatState()}. All certifications are available
+            nationwide.
+          </p>
+        );
+      }
+      return (
+        <p className={classes}>
+          There is no certification available {formatName()}.
+        </p>
+      );
+    }
+    return (
+      <p className={classes}>
+        There is no {formattedCategories} {formatName()} available in the state
+        of {formatState()}.
+      </p>
+    );
+  };
+
   if (fetchingLc) {
     return <va-loading-indicator message="Loading..." />;
   }
@@ -366,12 +462,13 @@ export default function LicenseCertificationSearchResults() {
       <>
         <div className="row vads-u-padding-x--2p5 desktop:vads-u-padding-x--0 ">
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
-            Search Results
+            Search results
           </h1>
           {/* </div> */}
           {/* <div className="row"> */}
           <p className="vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--7 ">
-            We didn't find any results for "<strong>{nameParam}</strong>" Please{' '}
+            We didn't find any results for "<strong>{nameParam}</strong>
+            ." Please{' '}
             <va-link
               href="./"
               onClick={e => handleGoHome(e)}
@@ -405,18 +502,14 @@ export default function LicenseCertificationSearchResults() {
             <>
               <div className="row">
                 <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
-                  Search Results
+                  Search results
                 </h1>
               </div>
 
               <div className="lc-result-info-wrapper row">
                 <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
                   {filteredResults.length === 0 ? (
-                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
-                      {activeCategories.length >= 1
-                        ? `There is no ${activeCategories} available in the state of ${stateParam}`
-                        : `Please update the filter options to see results.`}
-                    </p>
+                    <>{renderNoResults(nameParam, stateParam)}</>
                   ) : (
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
                       Showing{' '}
@@ -444,7 +537,7 @@ export default function LicenseCertificationSearchResults() {
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
-                        button="Filter your results"
+                        button="Update Search"
                         buttonLabel="Filter your results"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
