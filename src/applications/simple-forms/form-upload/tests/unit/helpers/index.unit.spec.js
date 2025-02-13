@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import Scroll from 'react-scroll';
+import { shallow } from 'enzyme';
 import {
   getFileSize,
   getFormNumber,
@@ -13,7 +13,10 @@ import {
   onCloseAlert,
   getMockData,
   formattedPhoneNumber,
+  onClickContinue,
+  getAlert,
 } from '../../../helpers';
+import * as constants from '../../../config/constants';
 
 const { scroller } = Scroll;
 
@@ -144,6 +147,67 @@ describe('Helpers', () => {
   describe('formattedPhoneNumber', () => {
     it('formats the phone number', () => {
       expect(formattedPhoneNumber('12345-67890')).to.eq('(123) 456-7890');
+    });
+  });
+
+  describe('onClickContinue', () => {
+    it('sets continueClicked to true', () => {
+      const props = {
+        data: {
+          uploadedFile: { name: 'uploading' },
+        },
+      };
+      const setContinueClicked = sinon.spy();
+
+      onClickContinue(props, setContinueClicked);
+
+      expect(setContinueClicked.calledOnce).to.be.true;
+    });
+
+    it('calls onContinue if file is not currently uploading', () => {
+      const onContinue = sinon.spy();
+      const props = {
+        data: {
+          uploadedFile: { name: 'file-name' },
+        },
+        onContinue,
+      };
+
+      onClickContinue(props, () => {});
+
+      expect(onContinue.calledOnce).to.be.true;
+    });
+  });
+
+  describe('getAlert', () => {
+    it('displays the OCR alert if there are warnings', () => {
+      const props = { data: { uploadedFile: { warnings: ['warning'] } } };
+      const continueClicked = false;
+      const stub = sinon.stub(constants, 'FORM_UPLOAD_OCR_ALERT');
+
+      getAlert(props, continueClicked);
+
+      expect(stub.calledOnce).to.be.true;
+    });
+
+    it('displays the uploading... alert if a file is still uploading and Continue was clicked', () => {
+      const props = { data: { uploadedFile: { name: 'uploading' } } };
+      const continueClicked = true;
+      const stub = sinon.stub(constants, 'FORM_UPLOAD_FILE_UPLOADING_ALERT');
+
+      getAlert(props, continueClicked);
+
+      expect(stub.calledOnce).to.be.true;
+    });
+
+    it('displays instructions alert if no warnings and not currently uploading', () => {
+      const props = { data: { uploadedFile: {} } };
+      const continueClicked = false;
+      const stub = sinon.stub(constants, 'FORM_UPLOAD_INSTRUCTION_ALERT');
+
+      getAlert(props, continueClicked);
+
+      expect(stub.calledOnce).to.be.true;
     });
   });
 });

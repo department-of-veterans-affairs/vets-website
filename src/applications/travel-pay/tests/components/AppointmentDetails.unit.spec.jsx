@@ -23,14 +23,6 @@ const claimInfo = {
 };
 
 const mockAppt = {
-  practitioners: [
-    {
-      name: {
-        family: 'BERNARDO',
-        given: ['KENNETH J'],
-      },
-    },
-  ],
   start: '2024-12-30T14:00:00Z',
   localStartTime: '2024-12-30T08:00:00.000-06:00',
   location: {
@@ -39,9 +31,6 @@ const mockAppt = {
     attributes: {
       name: 'Cheyenne VA Medical Center',
     },
-  },
-  facilityData: {
-    name: 'Cheyenne VA Medical Center',
   },
 };
 

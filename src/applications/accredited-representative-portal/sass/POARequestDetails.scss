@@ -121,6 +121,9 @@
 
     .poa-request-details__list & {
       margin-bottom: 24px;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 0;
+      }
     }
 
     .poa-request-details__list-item:last-child & {

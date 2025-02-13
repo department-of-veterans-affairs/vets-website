@@ -10,6 +10,8 @@ import AddressPage from '../../../../components/submit-flow/pages/AddressPage';
 
 const home = {
   addressLine1: '345 Home Address St.',
+  addressLine2: 'Apt. 22B',
+  addressLine3: 'Building 2',
   addressPou: 'RESIDENCE/CHOICE',
   addressType: 'DOMESTIC',
   city: 'San Francisco',
@@ -20,25 +22,16 @@ const home = {
   zipCode: '94118',
 };
 
-const mailing = {
-  ...home,
-  addressLine1: '123 Mailing Address St.',
-  addressLine2: 'Ste. B',
-  addressLine3: 'Building 2',
-  addressPou: 'CORRESPONDENCE',
-};
-
 describe('Address page', () => {
   const setPageIndex = sinon.spy();
   const setIsUnsupportedClaimType = sinon.spy();
 
-  const getData = ({ homeAddress, mailingAddress } = {}) => {
+  const getData = ({ homeAddress } = {}) => {
     return {
       user: {
         profile: {
           vapContactInfo: {
             residentialAddress: homeAddress,
-            mailingAddress,
           },
         },
       },
@@ -81,19 +74,6 @@ describe('Address page', () => {
     });
   });
 
-  it('should render with mail address if no home address', () => {
-    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
-      initialState: getData({
-        mailingAddress: mailing,
-      }),
-    });
-
-    expect(screen.getByTestId('address-test-id')).to.exist;
-    expect(screen.findByText('123 Mailing Address St')).to.exist;
-    expect(screen.findByText('Ste. B')).to.exist;
-    expect($('va-button-pair')).to.exist;
-  });
-
   it('should show an alert if no address', () => {
     const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
       initialState: getData(),
@@ -102,7 +82,11 @@ describe('Address page', () => {
     expect(screen.queryByTestId('address-test-id')).to.not.exist;
     expect($('va-button-pair')).to.not.exist;
     expect($('va-alert')).to.exist;
-    expect(screen.findByText(/You don't have an address on file/i)).to.exist;
+    expect(
+      screen.findByText(`We can’t file this claim in this tool at this time`),
+    ).to.exist;
+    expect(screen.findByText(/We need your home address/i)).to.exist;
+    expect($('va-link[href="/profile/contact-information"]')).to.exist;
   });
 
   it('should render an error if no selection made', async () => {

@@ -68,9 +68,11 @@ const MileagePage = ({
           <p>
             For your appointment on{' '}
             <strong>
-              {formattedDate} {formattedTime}
-            </strong>{' '}
-            at <strong>{data.location.attributes.name}</strong>
+              {formattedDate} at {formattedTime}{' '}
+              {data.location?.attributes?.name
+                ? `at ${data.location.attributes.name}`
+                : ''}{' '}
+            </strong>
           </p>
           <p>{data.reasonForAppointment}</p>
           <hr className="vads-u-margin-y--0" />
