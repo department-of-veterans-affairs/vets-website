@@ -346,6 +346,7 @@ const FacilitiesMap = props => {
 
   const segmentOnChange = tab => {
     setSelectedTab(tab);
+    props.selectMobileMapPin(null);
     setTimeout(function() {
       setMap(setupMap());
     }, 10);
