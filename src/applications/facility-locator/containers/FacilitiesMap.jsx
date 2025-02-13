@@ -199,9 +199,13 @@ const FacilitiesMap = props => {
   };
 
   const calculateSearchArea = () => {
-    const currentBounds = map.getBounds();
-    const { _ne, _sw } = currentBounds;
-    return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+    if (map) {
+      const currentBounds = map.getBounds();
+      const { _ne, _sw } = currentBounds;
+      return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+    }
+
+    return null;
   };
 
   const handleSearchArea = () => {
@@ -215,6 +219,7 @@ const FacilitiesMap = props => {
       'fl-search-fac-type': currentQuery.facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
+
     const currentMapBoundsDistance = calculateSearchArea();
 
     props.genSearchAreaFromCenter({
