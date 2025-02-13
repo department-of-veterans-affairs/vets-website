@@ -7,10 +7,7 @@ import {
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import {
-  selectVAPMailingAddress,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 import { BTSSS_PORTAL_URL } from '../../../constants';
@@ -57,21 +54,29 @@ const AddressPage = ({
     return (
       <>
         <h1 className="vads-u-margin-bottom--2">
-          Did you travel from your home address?
+          We can’t file this claim in this tool at this time
         </h1>
         <va-alert
           close-btn-aria-label="Close notification"
           status="warning"
           visible
         >
-          <h2 slot="headline">You don’t have an address on file</h2>
-          <p className="vads-u-margin-y--0">
-            We’re sorry, we don’t have an address on file for you and can’t file
-            a claim in this tool right now.
+          <h2 slot="headline">We need your home address</h2>
+          <p className="vads-u-margin-y--1">
+            After your home address is in your profile, come back to your
+            appointment to start your claim.
           </p>
+          <va-link
+            href="/profile/contact-information"
+            text="Update your address"
+          />
         </va-alert>
         <HelpTextModalities />
+        <h2 className="vads-u-font-size--h4">
+          How can I get help with my claim?
+        </h2>
         <HelpTextGeneral />
+        <br />
         <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
       </>
     );
@@ -179,9 +184,8 @@ AddressPage.propTypes = {
 
 function mapStateToProps(state) {
   const homeAddress = selectVAPResidentialAddress(state);
-  const mailingAddress = selectVAPMailingAddress(state);
   return {
-    address: homeAddress || mailingAddress,
+    address: homeAddress,
   };
 }
 
