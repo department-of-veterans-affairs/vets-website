@@ -206,13 +206,16 @@ const BlockedTriageGroupAlert = props => {
               setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
             }
           }
+        } else if (noAssociations) {
+          setAlertTitleText(alertTitle.NO_ASSOCIATIONS);
+          setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
         } else {
           setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
           setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
         }
       }
     },
-    [blockedTriageList, recipients],
+    [blockedTriageList, recipients, noAssociations],
   );
 
   if (!showAlert) {
