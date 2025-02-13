@@ -61,9 +61,6 @@ export function routeToPageInFlow(history, current, action, referralId) {
   }
 
   if (nextPage?.url) {
-    // If we are not on the referralsAndRequests page, we want to not push a new page
-    // to the history stack because this caused an issue with the user having to click
-    // back twice to get back to the referralsAndRequests page.
     history.push(nextPage.url);
   } else if (nextPage) {
     throw new Error(`Tried to route to a page without a url: ${nextPage}`);
