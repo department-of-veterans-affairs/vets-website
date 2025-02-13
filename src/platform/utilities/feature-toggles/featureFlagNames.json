@@ -277,6 +277,7 @@
   "vaOnlineSchedulingVAOSServiceVAAppointments": "va_online_scheduling_vaos_service_va_appointments",
   "vaOnlineSchedulingVaosV2Next": "va_online_scheduling_vaos_v2_next",
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
+  "vaOnlineSchedulingUseVaDate": "vaos_online_scheduling_use_va_date",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingContactInfoFlow": "veteran_onboarding_contact_info_flow",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
