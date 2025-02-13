@@ -419,21 +419,36 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
-    const Alerts = () => (
-      <>
-        <MaxItemsAlert show={isMaxItemsReached} ref={maxItemsAlertRef}>
-          {getText(
-            'alertMaxItems',
-            updatedItemData,
-            props.data,
-            updateItemIndex,
-          )}
-        </MaxItemsAlert>
-        <RemovedAlert show={showRemovedAlert} />
-        <UpdatedAlert show={showUpdatedAlert} />
-        <ReviewErrorAlert show={showReviewErrorAlert} />
-      </>
-    );
+    const Alerts = () => {
+      const alertsShown =
+        isMaxItemsReached ||
+        showUpdatedAlert ||
+        showRemovedAlert ||
+        showReviewErrorAlert;
+      const isButtonOrLink = useLinkInsteadOfYesNo || useButtonInsteadOfYesNo;
+
+      return (
+        <div
+          className={
+            alertsShown && isButtonOrLink && !arrayData?.length
+              ? 'vads-u-margin-bottom--4'
+              : ''
+          }
+        >
+          <MaxItemsAlert show={isMaxItemsReached} ref={maxItemsAlertRef}>
+            {getText(
+              'alertMaxItems',
+              updatedItemData,
+              props.data,
+              updateItemIndex,
+            )}
+          </MaxItemsAlert>
+          <RemovedAlert show={showRemovedAlert} />
+          <UpdatedAlert show={showUpdatedAlert} />
+          <ReviewErrorAlert show={showReviewErrorAlert} />
+        </div>
+      );
+    };
 
     const Cards = () => (
       <ArrayBuilderCards
