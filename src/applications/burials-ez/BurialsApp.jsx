@@ -55,16 +55,8 @@ export default function BurialsApp({ location, children }) {
     return <NoFormPage />;
   }
 
-  // Temporary overwrite of version until flipper is removed.
-  const ldFormConfig = !burialLocationOfDeathUpdate
-    ? formConfig
-    : {
-        ...formConfig,
-        version: 3,
-      };
-
   return (
-    <RoutedSavableApp formConfig={ldFormConfig} currentLocation={location}>
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
