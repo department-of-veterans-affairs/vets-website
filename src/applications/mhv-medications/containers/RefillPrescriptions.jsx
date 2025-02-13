@@ -20,7 +20,11 @@ import {
   clearFillNotification,
 } from '../actions/prescriptions';
 import { dateFormat } from '../util/helpers';
-import { selectRefillContentFlag, selectFilterFlag } from '../util/selectors';
+import {
+  selectRefillContentFlag,
+  selectFilterFlag,
+  selectRefillProgressFlag,
+} from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
 import RefillNotification from '../components/RefillPrescriptions/RefillNotification';
@@ -62,6 +66,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showFilterContent = useSelector(selectFilterFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -187,7 +192,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         >
           Refill prescriptions
         </h1>
-        <RefillAlert />
+        {showRefillProgressContent && <RefillAlert />}
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />

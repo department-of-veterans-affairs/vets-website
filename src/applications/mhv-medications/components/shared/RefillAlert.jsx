@@ -12,7 +12,9 @@ const RefillAlert = () => {
   );
 
   useEffect(() => {
-    dispatch(getRefillAlertList());
+    if (!refillAlertList) {
+      dispatch(getRefillAlertList());
+    }
   }, []);
 
   return (

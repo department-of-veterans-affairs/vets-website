@@ -23,6 +23,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
   selectRefillContentFlag,
+  selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
@@ -33,6 +34,7 @@ import CallPharmacyPhone from '../shared/CallPharmacyPhone';
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -138,7 +140,8 @@ const VaPrescription = prescription => {
                     prescriptionName={prescription.prescriptionName}
                   />
                 )}
-                {latestTrackingStatus &&
+                {showRefillProgressContent &&
+                  latestTrackingStatus &&
                   isRefillRunningLate && (
                     <h2
                       className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
@@ -147,30 +150,31 @@ const VaPrescription = prescription => {
                       Check the status of your next refill
                     </h2>
                   )}
-                {isRefillRunningLate && (
-                  <VaAlert
-                    data-testid="rx-details-refill-alert"
-                    status="warning"
-                    className="vads-u-margin-bottom--2"
-                    uswds
-                  >
-                    <h2 slot="headline">
-                      Your refill request for this medication is taking longer
-                      than expected
-                    </h2>
-                    <p>
-                      Call your VA pharmacy{' '}
-                      {pharmacyPhone && (
-                        <CallPharmacyPhone
-                          cmopDivisionPhone={pharmacyPhone}
-                          page={pageType.DETAILS}
-                        />
-                      )}
-                      to check on your refill, if you haven’t received it in the
-                      mail yet.
-                    </p>
-                  </VaAlert>
-                )}
+                {showRefillProgressContent &&
+                  isRefillRunningLate && (
+                    <VaAlert
+                      data-testid="rx-details-refill-alert"
+                      status="warning"
+                      className="vads-u-margin-bottom--2"
+                      uswds
+                    >
+                      <h2 slot="headline">
+                        Your refill request for this medication is taking longer
+                        than expected
+                      </h2>
+                      <p>
+                        Call your VA pharmacy{' '}
+                        {pharmacyPhone && (
+                          <CallPharmacyPhone
+                            cmopDivisionPhone={pharmacyPhone}
+                            page={pageType.DETAILS}
+                          />
+                        )}
+                        to check on your refill, if you haven’t received it in
+                        the mail yet.
+                      </p>
+                    </VaAlert>
+                  )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
                   data-testid="recent-rx"

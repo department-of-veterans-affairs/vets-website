@@ -56,6 +56,7 @@ import {
   selectFilterFlag,
   selectGroupingFlag,
   selectRefillContentFlag,
+  selectRefillProgressFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
@@ -91,6 +92,7 @@ const Prescriptions = () => {
   // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -645,7 +647,7 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
-            <RefillAlert />
+            {showRefillProgressContent && <RefillAlert />}
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&
