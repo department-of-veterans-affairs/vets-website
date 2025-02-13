@@ -15,6 +15,7 @@ export default function ClaimDetailsContent(props) {
 
   const [appointmentDate, appointmentTime] = formatDateTime(
     appointmentDateTime,
+    true,
   );
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);

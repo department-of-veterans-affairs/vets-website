@@ -24,6 +24,7 @@ export default function TravelClaimCard(props) {
   } else {
     const [appointmentDate, appointmentTime] = formatDateTime(
       appointmentDateTime,
+      true,
     );
     appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
   }

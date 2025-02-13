@@ -229,3 +229,19 @@ describe('getDaysLeft', () => {
     expect(actual).to.eq(0);
   });
 });
+
+describe('formatDateTime', () => {
+  it('should format datetime', () => {
+    expect(formatDateTime('2024-06-25T14:00:00Z')).to.deep.equal([
+      'Tuesday, June 25, 2024',
+      '7:00 AM',
+    ]);
+  });
+
+  it('should format datetime without UTC indicator', () => {
+    expect(formatDateTime('2024-06-25T14:00:00Z', true)).to.deep.equal([
+      'Tuesday, June 25, 2024',
+      '2:00 PM',
+    ]);
+  });
+});
