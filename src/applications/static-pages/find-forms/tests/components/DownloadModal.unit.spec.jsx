@@ -26,7 +26,7 @@ describe('DownloadModal', () => {
       ).to.eq('https://get.adobe.com/reader/');
       expect(
         screen
-          .getByRole('link', { name: 'Download VA Form 10109' })
+          .getByRole('link', { name: 'Download VA Form 10109 (PDF)' })
           .getAttribute('href'),
       ).to.eq(url);
     });

@@ -21,6 +21,13 @@ export const goToNextPage = () =>
     .findByText(/Next/i)
     .click();
 
+export const goToPrevPage = () =>
+  cy
+    .get('va-pagination')
+    .shadow()
+    .findByText(/Previous/i)
+    .click();
+
 export const typeSearchTerm = (term = '') =>
   cy
     .get(FINDFORM_INPUT_ROOT)
@@ -70,4 +77,58 @@ export const confirmErrorsDisplayed = () => {
   cy.get(FINDFORM_REQUIRED)
     .should('exist')
     .should('contain', '(*Required)');
+};
+
+export const validateSearchResult = (
+  formNumber,
+  formName,
+  revisionDate,
+  relatedTo,
+  index,
+  hasDetailPage,
+  formToolText = null,
+) => {
+  cy.get('li')
+    .eq(index)
+    .scrollIntoView();
+
+  if (hasDetailPage) {
+    cy.get(`h3[aria-describedby="${formNumber}"] va-link`)
+      .shadow()
+      .find('a')
+      .should('exist')
+      .and('be.visible')
+      .and('have.text', formName);
+  } else {
+    cy.get(`h3[aria-describedby="${formNumber}"]`)
+      .should('exist')
+      .and('be.visible')
+      .and('have.text', formName);
+  }
+
+  cy.get('[data-e2e-id="form-revision-date"]')
+    .eq(index)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', `Form revision date: ${revisionDate}`);
+
+  cy.get('[data-e2e-id="related-to"]')
+    .eq(index)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', `Related to: ${relatedTo}`);
+
+  cy.get('.va-button-link')
+    .eq(index)
+    .should('exist')
+    .and('be.visible')
+    .and('have.text', `Download VA Form ${formNumber} (PDF)`);
+
+  if (formToolText) {
+    cy.get(`va-link-action[text="${formToolText}"]`)
+      .shadow()
+      .find('a')
+      .should('exist')
+      .and('be.visible');
+  }
 };

@@ -108,7 +108,10 @@ const deriveRelatedTo = ({
 
   if (relatedTo) {
     return (
-      <div className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+      <div
+        className="vads-u-margin-top--1 vads-u-margin-bottom--2"
+        data-e2e-id="related-to"
+      >
         <span className="vads-u-font-weight--bold">Related to:</span>{' '}
         {relatedTo}
       </div>
@@ -190,7 +193,7 @@ const SearchResult = ({ form, formMetaInfo, setModalState }) => {
         recordGAEvent={recordGAEvent}
         formName={formName}
       />
-      <div className="vads-u-margin-y--1 vsa-from-last-updated">
+      <div className="vads-u-margin-y--1" data-e2e-id="form-revision-date">
         <span className="vads-u-font-weight--bold">Form revision date:</span>{' '}
         {lastRevisionOn
           ? format(

@@ -7,7 +7,7 @@ import { createLogMessage } from '../helpers/sentryLogger';
 import InvalidFormAlert from '../components/InvalidFormAlert';
 import DownloadModal from '../components/DownloadModal';
 
-const renderDownloadModal = (
+export const renderDownloadModal = (
   clickedId,
   reduxStore,
   formName,
