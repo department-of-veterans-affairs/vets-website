@@ -7,6 +7,7 @@ import { retrieveMessageThread } from '../actions/messages';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { closeAlert } from '../actions/alerts';
 import { PageTitles, Paths } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
@@ -135,29 +136,7 @@ const Compose = () => {
         noAssociations && (
           <div className="vads-l-grid-container compose-container">
             <h1>Start a new message</h1>
-            <va-alert
-              class="vads-u-margin-bottom--1"
-              closeable="false"
-              disable-analytics="false"
-              full-width="false"
-              role="alert"
-              status="error"
-              visible="true"
-            >
-              <h2 id="track-your-status-on-mobile" slot="headline">
-                You’re not connected to any care teams in this messaging tool
-              </h2>
-              <p className="vads-u-margin-y--0 vads-u-margin-bottom--1">
-                If you need to contact your care team, call your VA health
-                facility
-              </p>
-              <a
-                className="vads-u-font-weight--bold vads-u-color--base"
-                href="/find-locations/"
-              >
-                Find your VA health facility
-              </a>
-            </va-alert>
+            <BlockedTriageGroupAlert />
           </div>
         )}
 
