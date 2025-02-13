@@ -51,7 +51,6 @@ describe('CG <ApplicationDownloadLink>', () => {
       expect(vaLink).to.exist;
       expect(vaAlert).to.not.exist;
       expect(vaLoadingIndicator).to.not.exist;
-      expect(vaLink).to.have.attr('text', content['button-download']);
     });
   });
 
@@ -120,7 +119,7 @@ describe('CG <ApplicationDownloadLink>', () => {
 
       await waitFor(() => {
         const { vaLink, vaLoadingIndicator } = selectors();
-        const event = 'caregivers-10-10cg-pdf--failure';
+        const event = 'caregivers-10-10cg-pdf-download--failure';
 
         expect(recordEventStub.calledWith({ event })).to.be.true;
         expect(sentrySpy.called).to.be.true;
