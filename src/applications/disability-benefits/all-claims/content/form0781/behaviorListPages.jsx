@@ -115,11 +115,11 @@ function hasSelectedNoneCheckbox(formData) {
 }
 
 /**
- * Returns an object with behavior section properties and boolean value if selections present
+ * Returns an object with behavior section properties and boolean value if selections present within each section
  * @param {object} formData
  * @returns {object}
  */
-function selectedBehaviors(formData) {
+function selectedBehaviorSections(formData) {
   const workBehaviorsSelected = Object.values(
     formData.workBehaviors || {},
   ).some(selected => selected === true);
@@ -148,7 +148,7 @@ function selectedBehaviors(formData) {
  * @returns {boolean}
  */
 export function hasSelectedBehaviors(formData) {
-  const selections = selectedBehaviors(formData);
+  const selections = selectedBehaviorSections(formData);
   const { workBehaviors, healthBehaviors, otherBehaviors } = selections;
   return [workBehaviors, healthBehaviors, otherBehaviors].some(
     selection => selection === true,
@@ -176,7 +176,7 @@ export function showConflictingAlert(formData) {
 
 export function validateBehaviorSelections(errors, formData) {
   const isConflicting = showConflictingAlert(formData);
-  const selections = selectedBehaviors(formData);
+  const selections = selectedBehaviorSections(formData);
 
   // add error with no message to each checked section
   if (isConflicting === true) {
@@ -206,6 +206,7 @@ export const reassignmentPageTitle = BEHAVIOR_CHANGES_WORK.reassignment;
 
 export const unlistedPageTitle = 'Other behavioral changes';
 
+// behavior summary page
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
 
 function getDescriptionForBehavior(behaviors, descriptions, details) {
@@ -220,7 +221,7 @@ function getDescriptionForBehavior(behaviors, descriptions, details) {
   return newObj;
 }
 
-function behaviorAndDescriptionPair(obj) {
+function behaviorAndDescriptionBlock(obj) {
   return (
     <>
       {Object.entries(obj).map(([key, value, index]) => (
@@ -268,5 +269,5 @@ export const summarizeBehaviors = formData => {
     formData.behaviorsDetails,
   );
 
-  return behaviorAndDescriptionPair(selectedBehaviorsWithDetails);
+  return behaviorAndDescriptionBlock(selectedBehaviorsWithDetails);
 };
