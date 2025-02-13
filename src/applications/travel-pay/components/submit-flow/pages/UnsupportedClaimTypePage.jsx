@@ -22,10 +22,7 @@ const UnsupportedClaimTypePage = ({
 
   return (
     <div>
-      <h1 tabIndex="-1">
-        We can’t file this type of travel reimbursement claim in this tool at
-        this time
-      </h1>
+      <h1 tabIndex="-1">We can’t file this claim in this tool at this time</h1>
       <HelpTextModalities />
       <h2 className="vads-u-font-size--h4">
         How can I get help with my claim?
