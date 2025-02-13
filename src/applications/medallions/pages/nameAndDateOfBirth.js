@@ -1,24 +1,22 @@
-import {
-  dateOfBirthSchema,
-  dateOfBirthUI,
-  fullNameNoSuffixSchema,
-  fullNameNoSuffixUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import // dateOfBirthSchema,
+// dateOfBirthUI,
+// fullNameNoSuffixSchema,
+// fullNameNoSuffixUI,
+// titleUI,
+'platform/forms-system/src/js/web-component-patterns';
+
+import { applicantInfoNoteDescription } from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Name and date of birth'),
-    fullName: fullNameNoSuffixUI(),
-    dateOfBirth: dateOfBirthUI(),
+    'ui:description': applicantInfoNoteDescription,
   },
   schema: {
     type: 'object',
     properties: {
-      fullName: fullNameNoSuffixSchema,
-      dateOfBirth: dateOfBirthSchema,
+      // cool: fullNameNoSuffixSchema,
+      // dateOfBirth: dateOfBirthSchema,
     },
-    required: ['fullName', 'dateOfBirth'],
   },
 };
