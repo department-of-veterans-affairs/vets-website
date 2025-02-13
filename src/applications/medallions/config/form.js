@@ -5,9 +5,10 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import applicantInfoConfirmInfo from '../pages/applicantInfoConfirmInfo';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import applicantRelationToVet from '../pages/applicantRelationToVet';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -45,11 +46,17 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        applicantConfirmPersonalInfo: {
+          path: 'confirm-personal-information',
+          title: 'Confirm the personal information we have on file for you',
+          uiSchema: applicantInfoConfirmInfo.uiSchema,
+          schema: applicantInfoConfirmInfo.schema,
+        },
+        applicantRelationToVet: {
+          path: 'applicant-relation-to-vet',
+          title: 'Your relationship to the Veteran',
+          uiSchema: applicantRelationToVet.uiSchema,
+          schema: applicantRelationToVet.schema,
         },
       },
     },
