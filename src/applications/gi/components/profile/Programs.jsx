@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { mapProgramTypeToName, mapToDashedName } from '../../utils/helpers';
 
 const Programs = ({ programTypes, facilityCode }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+
   return (
     <>
       <p>
@@ -21,9 +25,9 @@ const Programs = ({ programTypes, facilityCode }) => {
           </p>
           <Link
             to={{
-              pathname: `/institution/${facilityCode}/${mapToDashedName(
-                programType,
-              )
+              pathname: `${
+                isUpdatedGi ? '/schools-and-employers' : ''
+              }/institution/${facilityCode}/${mapToDashedName(programType)
                 .trim()
                 .toLowerCase()
                 .replace(/\s+/g, '-')

@@ -46,6 +46,7 @@ const BuildRoutes = () => {
             />
             {lcToggleValue && (
               <Route
+                key="lc-search"
                 exact
                 path="/lc-search"
                 render={({ match }) => (
@@ -58,6 +59,7 @@ const BuildRoutes = () => {
             )}
             {lcToggleValue && (
               <Route
+                key="lc-search-results"
                 exact
                 path="/lc-search/results"
                 render={({ match }) => (
@@ -70,6 +72,7 @@ const BuildRoutes = () => {
             )}
             {lcToggleValue && (
               <Route
+                key="lc-search-result"
                 path="/lc-search/results/:id"
                 component={LicenseCertificationSearchResult}
               />
@@ -102,6 +105,12 @@ const BuildRoutes = () => {
                 from="/profile/:facilityCode"
                 to="/institution/:facilityCode"
               />
+              {toggleGiProgramsFlag && (
+                <Route
+                  path="/schools-and-employers/institution/:facilityCode/:programType"
+                  render={({ match }) => <ProgramsList match={match} />}
+                />
+              )}
               <Route
                 path="/schools-and-employers/institution/:facilityCode"
                 render={({ match }) => <ProfilePage match={match} />}
@@ -118,6 +127,39 @@ const BuildRoutes = () => {
                 path="/school-and-employers/compare"
                 render={({ match }) => <ComparePage match={match} />}
               />
+              {lcToggleValue && (
+                <Route
+                  key="lc-search"
+                  exact
+                  path="/lc-search"
+                  render={({ match }) => (
+                    <LicenseCertificationSearchPage
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
+                />
+              )}
+              {lcToggleValue && (
+                <Route
+                  key="lc-search-results"
+                  exact
+                  path="/lc-search/results"
+                  render={({ match }) => (
+                    <LicenseCertificationSearchResults
+                      match={match}
+                      flag="singleFetch"
+                    />
+                  )}
+                />
+              )}
+              {lcToggleValue && (
+                <Route
+                  key="lc-search-result"
+                  path="/lc-search/results/:id"
+                  component={LicenseCertificationSearchResult}
+                />
+              )}
               <Route
                 path="/national-exams/:examId"
                 component={NationalExamDetails}
