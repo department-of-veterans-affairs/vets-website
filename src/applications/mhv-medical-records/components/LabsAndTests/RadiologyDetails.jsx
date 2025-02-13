@@ -42,9 +42,6 @@ import useAlerts from '../../hooks/use-alerts';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
 
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
@@ -451,29 +448,28 @@ ${record.results}`;
         >
           {record.imagingProvider}
         </p>
-        {!phase0p5Flag && (
-          <>
-            <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
-              Images
-            </h3>
-            <p data-testid="radiology-image" className="no-print">
-              Images are not yet available in this new medical records tool. To
-              get images, you’ll need to request them in the previous version of
-              medical records on the My HealtheVet website.
-            </p>
-            <va-link
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'va-medical-images-and-reports',
-              )}
-              text="Request images on the My HealtheVet website"
-              data-testid="radiology-images-link"
-              onClick={() => {
-                sendDataDogAction('Request images on MHV');
-              }}
-            />
-          </>
-        )}
+
+        <>
+          <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
+            Images
+          </h3>
+          <p data-testid="radiology-image" className="no-print">
+            Images are not yet available in this new medical records tool. To
+            get images, you’ll need to request them in the previous version of
+            medical records on the My HealtheVet website.
+          </p>
+          <va-link
+            href={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'va-medical-images-and-reports',
+            )}
+            text="Request images on the My HealtheVet website"
+            data-testid="radiology-images-link"
+            onClick={() => {
+              sendDataDogAction('Request images on MHV');
+            }}
+          />
+        </>
       </div>
 
       <div className="test-results-container">
@@ -488,13 +484,10 @@ ${record.results}`;
           {record.results}
         </p>
       </div>
-
-      {phase0p5Flag && (
-        <div className="test-results-container">
-          <h2 className="test-results-header">Images</h2>
-          {imageStatusContent()}
-        </div>
-      )}
+      <div className="test-results-container">
+        <h2 className="test-results-header">Images</h2>
+        {imageStatusContent()}
+      </div>
     </div>
   );
 };

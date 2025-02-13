@@ -143,8 +143,6 @@ describe('Landing Page', () => {
         mhv_medical_records_display_vitals: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_settings_page: true,
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
       ...initialState,
     };

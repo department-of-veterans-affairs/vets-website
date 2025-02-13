@@ -44,10 +44,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
 
     const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
@@ -82,10 +78,6 @@ describe('MrBreadcrumbs component', () => {
             },
           ],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
     };
     window.document.querySelector = Sinon.stub().returns({
@@ -127,10 +119,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
     window.document.querySelector = Sinon.stub().returns({
       textContent: 'test',
@@ -156,10 +144,6 @@ describe('MrBreadcrumbs component', () => {
         breadcrumbs: {
           crumbsList: null,
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: false,
       },
     };
 
@@ -191,10 +175,6 @@ describe('MrBreadcrumbs component', () => {
             },
           ],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
     };
     const screen = renderInReduxProvider(
@@ -233,10 +213,6 @@ describe('MrBreadcrumbs component', () => {
             },
           ],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
     };
     window.document.querySelector = Sinon.stub().returns({
