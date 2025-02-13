@@ -23,7 +23,7 @@ import getHelp from '../components/Help';
 import introduction from '../containers/IntroductionPage';
 import confirmation from '../containers/ConfirmationPage';
 
-import prefillTransformer from './prefillTransformer';
+import prefillTransformer from '../utils/prefillTransformer';
 import transformForSubmit from '../utils/transformForSubmit';
 import submit from '../utils/submit';
 

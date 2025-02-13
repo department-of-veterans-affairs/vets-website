@@ -28,7 +28,7 @@ describe(`${appName} -- editing test`, () => {
 
     // contact information
     cy.injectAxeThenAxeCheck();
-    // assert for email and mailing address changes
+    // assertions
     cy.findByText(/^vets\.gov\.user\+1@gmail\.com$/).should('exist');
     cy.findByText(/101 EXAMPLE STREET/).should('exist');
     cy.findByText(/APT 2/).should('exist');
@@ -105,6 +105,7 @@ describe(`${appName} -- editing test`, () => {
 
     // review: edit mailing address
     cy.get('va-button[label="Edit Shipping address"]').click();
+    cy.fillVaTextInput('root_permanentAddress_street', '');
     cy.fillVaTextInput('root_permanentAddress_street', '111 REVIEWER STREET');
     cy.get('va-button[text="Update page"]').click();
 
