@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 import CautionFlagDetails from './CautionFlagDetails';
 import SchoolClosingDetails from './SchoolClosingDetails';
 import LearnMoreLabel from '../LearnMoreLabel';
@@ -25,15 +25,15 @@ export function CautionaryInformation({ institution, showModal }) {
     if (!displayEmpty && !thisCampus && !allCampuses) return null;
     const bold = description === 'Total Complaints';
     return (
-      <tr key={key}>
-        <td>
+      <va-table-row key={key}>
+        <span>
           <strong>{description}</strong>
           <br />
           {definition}
-        </td>
-        <td>{bold ? <strong>{thisCampus}</strong> : thisCampus}</td>
-        <td>{bold ? <strong>{allCampuses}</strong> : allCampuses}</td>
-      </tr>
+        </span>
+        <span>{bold ? <strong>{thisCampus}</strong> : thisCampus}</span>
+        <span>{bold ? <strong>{allCampuses}</strong> : allCampuses}</span>
+      </va-table-row>
     );
   };
   const renderListRow = ({ description, key, value, definition }) => {
@@ -167,38 +167,31 @@ export function CautionaryInformation({ institution, showModal }) {
       <div>
         <div className="table">
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component */}
-          <table className="usa-table">
-            <thead>
-              <tr>
-                <th scope="col" aria-label="Empty header" />
-                <th scope="col">This campus</th>
-                <th scope="col">{allCampusesLink}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {renderTableRow({
-                description: 'All student complaints',
-                displayEmpty: true,
-                thisCampus: allComplaints.thisCampus || 0,
-                allCampuses: allComplaints.allCampuses || 0,
-              })}
-            </tbody>
-          </table>
+          <va-table table-type="bordered">
+            <va-table-row>
+              <span>&nbsp;</span>
+              <span>This campus</span>
+              <span>{allCampusesLink}</span>
+            </va-table-row>
+            {renderTableRow({
+              description: 'All student complaints',
+              displayEmpty: true,
+              thisCampus: allComplaints.thisCampus || 0,
+              allCampuses: allComplaints.allCampuses || 0,
+            })}
+          </va-table>
 
           {!!complaints.mainCampusRollUp && (
-            // eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component
-            <table className="usa-table">
-              <thead>
-                <tr>
-                  <th scope="col">
-                    Complaints by type{' '}
-                    <span>(Each complaint can have multiple types)</span>
-                  </th>
-                  <th scope="col">This campus</th>
-                  <th scope="col">{allCampusesLink}</th>
-                </tr>
-              </thead>
-              <tbody>
+            <va-table table-type="bordered">
+              <va-table-row>
+                <span>
+                  Complaints by type{' '}
+                  <span>(Each complaint can have multiple types)</span>
+                </span>
+                <span>This campus</span>
+                <span>{allCampusesLink}</span>
+              </va-table-row>
+              <>
                 {complaintRows.map(c => {
                   return renderTableRow({
                     key: c.description,
@@ -208,8 +201,8 @@ export function CautionaryInformation({ institution, showModal }) {
                     definition: c.definition,
                   });
                 })}
-              </tbody>
-            </table>
+              </>
+            </va-table>
           )}
         </div>
 
