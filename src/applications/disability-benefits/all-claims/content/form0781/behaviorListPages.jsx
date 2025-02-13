@@ -232,8 +232,7 @@ function behaviorAndDescriptionBlock(obj) {
       ))}
       <Link
         to={{
-          pathname:
-            'additional-forms/mental-health-statement/behavior-changes-list',
+          pathname: 'mental-health-form-0781/behavior-changes-list',
           search: '?redirect',
         }}
       >

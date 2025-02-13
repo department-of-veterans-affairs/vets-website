@@ -82,21 +82,19 @@ export const form0781PagesConfig = {
     schema: behaviorListPage.schema,
   },
   reassignmentDescriptionPage: {
-    path:
-      'additional-forms/mental-health-statement/behavior-changes-1-description',
+    path: 'mental-health-form-0781/behavior-changes-1-description',
     depends: formData => showReassignmentDescriptionPage(formData),
     uiSchema: reassignmentDescriptionPage.uiSchema,
     schema: reassignmentDescriptionPage.schema,
   },
   unlistedDescriptionPage: {
-    path:
-      'additional-forms/mental-health-statement/behavior-changes-2-description',
+    path: 'mental-health-form-0781/behavior-changes-2-description',
     depends: formData => showUnlistedDescriptionPage(formData),
     uiSchema: unlistedDescriptionPage.uiSchema,
     schema: unlistedDescriptionPage.schema,
   },
   behaviorSummaryPage: {
-    path: 'additional-forms/mental-health-statement/behavior-changes-summary',
+    path: 'mental-health-form-0781/behavior-changes-summary',
     depends: formData => showBehaviorSummaryPage(formData),
     uiSchema: behaviorSummaryPage.uiSchema,
     schema: behaviorSummaryPage.schema,
