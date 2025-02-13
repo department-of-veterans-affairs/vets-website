@@ -65,6 +65,11 @@ const VaFileInputField = props => {
     }
   };
 
+  const onFileUploading = () => {
+    setIsUploading(true);
+    props.childrenProps.onChange({ name: 'uploading' });
+  };
+
   const handleVaChange = e => {
     const fileFromEvent = e.detail.files[0];
     if (!fileFromEvent) {
@@ -87,7 +92,7 @@ const VaFileInputField = props => {
         formNumber,
         fileFromEvent,
         onFileUploaded,
-        () => setIsUploading(true),
+        onFileUploading,
       ),
     );
   };
