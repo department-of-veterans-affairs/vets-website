@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaPagination,
@@ -10,9 +10,12 @@ import { fetchNationalExams } from '../actions';
 import { formatNationalExamName } from '../utils/helpers';
 
 const NationalExamsList = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [currentPage, setCurrentPage] = useState(1);
+  const query = new URLSearchParams(location.search);
+  const initialPage = Number(query.get('page')) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const itemsPerPage = 10;
   const resultsSummaryRef = useRef(null);
   const { loading, error, nationalExams } = useSelector(
@@ -38,6 +41,11 @@ const NationalExamsList = () => {
 
   const handlePageChange = page => {
     setCurrentPage(page);
+    history.replace({
+      pathname: location.pathname,
+      search: `?page=${page}`,
+    });
+
     window.scrollTo(0, 0);
     setTimeout(() => {
       if (resultsSummaryRef.current) {
@@ -101,6 +109,7 @@ const NationalExamsList = () => {
       </div>
     );
   }
+
   if (loading) {
     return (
       <div className="national-exams-container row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
@@ -116,7 +125,7 @@ const NationalExamsList = () => {
   }
 
   return (
-    <div className="national-exams-container  row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+    <div className="national-exams-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
       <div className="usa-width-two-thirds">
         <NationalExamsInfo />
         <p
@@ -138,7 +147,7 @@ const NationalExamsList = () => {
                   {formatNationalExamName(exam.name)}
                 </h3>
                 <VaLink
-                  href={`national-exams/${exam.enrichedId}`}
+                  href={`/national-exams/${exam.enrichedId}`}
                   text={`View test amount details for ${formatNationalExamName(
                     exam.name,
                   )}`}

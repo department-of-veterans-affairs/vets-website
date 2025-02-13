@@ -6,89 +6,34 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { MemoryRouter } from 'react-router-dom';
 import NationalExamsList from '../../containers/NationalExamsList';
 import { formatNationalExamName } from '../../utils/helpers';
 
 const mockExams = [
-  {
-    enrichedId: '1@acce9',
-    name: 'AP-ADVANCED PLACEMENT EXAMS',
-  },
-  {
-    enrichedId: '2@5bf2b',
-    name: 'CLEP-COLLEGE LEVEL EXAMINATION PROGRAM',
-  },
-  {
-    enrichedId: '3@48003',
-    name: 'DANTES SPONSORED CLEP EXAMS',
-  },
-  {
-    enrichedId: '4@a359f',
-    name: 'DAT-DENTAL ADMISSION TEST',
-  },
-  {
-    enrichedId: '5@8527d',
-    name: 'GMAT-GRADUATE MGMT ADMISSION TEST',
-  },
-  {
-    enrichedId: '6@a4d71',
-    name: 'GRE-GRADUATE RECORD EXAM',
-  },
-  {
-    enrichedId: '7@5073b',
-    name: 'TOEFL',
-  },
-  {
-    enrichedId: '8@2eef3',
-    name: 'MCAT',
-  },
-  {
-    enrichedId: '9@f683b',
-    name: 'OAT-OPTOMETRY ADMISSION TEST',
-  },
-  {
-    enrichedId: '10@b4bfb',
-    name: 'SAT-SCHOLASTIC ASSESSMENT TEST',
-  },
-  {
-    enrichedId: '11@fc1dd',
-    name: 'CAS',
-  },
-  {
-    enrichedId: '12@53d2a',
-    name: 'LSAT-LAW SCHOOL ADMISSION TEST',
-  },
-  {
-    enrichedId: '13@8eca8',
-    name: 'ACT',
-  },
-  {
-    enrichedId: '14@2db24',
-    name: 'DSST-DANTES',
-  },
-  {
-    enrichedId: '15@8fd2a',
-    name: 'MAT-MILLER ANALOGIES TEST',
-  },
-  {
-    enrichedId: '16@e477d',
-    name: 'PCAT-PHARMACY COLLEGE ADMISSON TEST',
-  },
-  {
-    enrichedId: '17@8479c',
-    name: 'ECE (4 hours)',
-  },
-  {
-    enrichedId: '18@07aaf',
-    name: 'ECE (6 hours)',
-  },
-  {
-    enrichedId: '19@a36f3',
-    name: 'ECE 8 HOURS NURSING',
-  },
+  { enrichedId: '1@acce9', name: 'AP-ADVANCED PLACEMENT EXAMS' },
+  { enrichedId: '2@5bf2b', name: 'CLEP-COLLEGE LEVEL EXAMINATION PROGRAM' },
+  { enrichedId: '3@48003', name: 'DANTES SPONSORED CLEP EXAMS' },
+  { enrichedId: '4@a359f', name: 'DAT-DENTAL ADMISSION TEST' },
+  { enrichedId: '5@8527d', name: 'GMAT-GRADUATE MGMT ADMISSION TEST' },
+  { enrichedId: '6@a4d71', name: 'GRE-GRADUATE RECORD EXAM' },
+  { enrichedId: '7@5073b', name: 'TOEFL' },
+  { enrichedId: '8@2eef3', name: 'MCAT' },
+  { enrichedId: '9@f683b', name: 'OAT-OPTOMETRY ADMISSION TEST' },
+  { enrichedId: '10@b4bfb', name: 'SAT-SCHOLASTIC ASSESSMENT TEST' },
+  { enrichedId: '11@fc1dd', name: 'CAS' },
+  { enrichedId: '12@53d2a', name: 'LSAT-LAW SCHOOL ADMISSION TEST' },
+  { enrichedId: '13@8eca8', name: 'ACT' },
+  { enrichedId: '14@2db24', name: 'DSST-DANTES' },
+  { enrichedId: '15@8fd2a', name: 'MAT-MILLER ANALOGIES TEST' },
+  { enrichedId: '16@e477d', name: 'PCAT-PHARMACY COLLEGE ADMISSON TEST' },
+  { enrichedId: '17@8479c', name: 'ECE (4 hours)' },
+  { enrichedId: '18@07aaf', name: 'ECE (6 hours)' },
+  { enrichedId: '19@a36f3', name: 'ECE 8 HOURS NURSING' },
 ];
 
 const mockStore = configureStore([thunk]);
+
 describe('NationalExamsList', () => {
   let store;
   const initialState = {
@@ -98,6 +43,7 @@ describe('NationalExamsList', () => {
       error: null,
     },
   };
+
   beforeEach(() => {
     store = mockStore(initialState);
   });
@@ -106,16 +52,14 @@ describe('NationalExamsList', () => {
     cleanup();
   });
 
-  const mountComponent = () => {
-    store = mockStore({
-      nationalExams: {
-        ...initialState.nationalExams,
-      },
-    });
+  const mountComponent = (location = { search: '' }) => {
+    store = mockStore({ nationalExams: { ...initialState.nationalExams } });
 
     return mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
   };
@@ -196,7 +140,9 @@ describe('NationalExamsList', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -216,7 +162,9 @@ describe('NationalExamsList', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -250,7 +198,9 @@ describe('NationalExamsList', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <NationalExamsList />
+        <MemoryRouter initialEntries={[location]}>
+          <NationalExamsList location={location} />
+        </MemoryRouter>
       </Provider>,
     );
 
@@ -268,6 +218,11 @@ describe('NationalExamsList', () => {
     // Check institution name and program type are displayed
     expect(wrapper.find('h1').text()).to.equal('National Exams');
 
+    wrapper.unmount();
+  });
+  it('should correctly reflect the page number in URL query parameters', () => {
+    const wrapper = mountComponent({ search: '?page=2' });
+    expect(wrapper.find(VaPagination).props().page).to.equal(2);
     wrapper.unmount();
   });
 });
