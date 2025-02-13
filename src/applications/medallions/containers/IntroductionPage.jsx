@@ -23,9 +23,9 @@ const ProcessList = () => {
           apply.
         </p>
         <p>
-          {/* <a href="">
+          <a href="https://www.va.gov/burials-memorials/memorial-items/headstones-markers-medallions/#eligibility">
             Find out if the Veteran is eligible for a medallion
-          </a> */}
+          </a>
         </p>
       </va-process-list-item>
       <va-process-list-item header="Contact the Veteran’s cemetery">
@@ -61,9 +61,9 @@ const ProcessList = () => {
           </li>
         </ul>
         <p>
-          {/* <a href="">
+          <a href="https://www.cem.va.gov/CEM/hmm/discharge_documents.asp">
             Find out what supporting documents you’ll need to submit
-          </a> */}
+          </a>
         </p>
       </va-process-list-item>
       <va-process-list-item header="Start your application">
@@ -97,7 +97,7 @@ export const IntroductionPage = props => {
   const onSignInButtonClick = () => {
     const redirectLocation = `${formConfig.rootUrl}${
       formConfig.urlPrefix
-    }introduction?loggedIn=true`;
+    }introduction?next=loginModal&oauth=true`;
 
     window.location = redirectLocation;
   };
