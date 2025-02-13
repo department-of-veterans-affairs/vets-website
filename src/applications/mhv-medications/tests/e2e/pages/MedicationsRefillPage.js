@@ -5,6 +5,9 @@ import { Paths } from '../utils/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',

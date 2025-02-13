@@ -21,8 +21,11 @@ const RefillAlert = () => {
       visible={!!refillAlertList?.length}
       uswds
       className={refillAlertList?.length ? 'vads-u-margin-bottom--3' : ''}
+      data-testid="alert-banner"
     >
-      <h2 slot="headline">Some refills are taking longer than expected</h2>
+      <h2 slot="headline" data-testid="rxDelay-alert-message">
+        Some refills are taking longer than expected
+      </h2>
       <p>Go to your medication details to find out what to do next:</p>
       {refillAlertList?.map(rx => {
         return (

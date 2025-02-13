@@ -81,7 +81,7 @@
                 "modifiedDate": "2023-10-04T20:16:11.000Z",
                 "institutionId": null,
                 "dialCmopDivisionPhone": "",
-                "dispStatus": "Active",
+                "dispStatus": "Active: Refill in Process",
                 "ndc": "00603-2408-32",
                 "reason": null,
                 "prescriptionNumberIndex": "RX",
@@ -111,9 +111,9 @@
         },
         "pagination": {
             "currentPage": 1,
-            "perPage": 20,
-            "totalPages": 2,
-            "totalEntries": 29
+            "perPage": 2,
+            "totalPages": 1,
+            "totalEntries": 2
         }
     }
 }
