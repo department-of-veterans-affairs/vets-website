@@ -17,6 +17,7 @@ import {
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { medicationsUrls } from '../util/constants';
 
 const App = ({ children }) => {
@@ -74,43 +75,47 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView
-      user={user}
-      serviceRequired={[backendServices.USER_PROFILE]}
-    >
-      <MhvSecondaryNav />
-      <div ref={measuredRef} className="routes-container usa-grid">
-        <div className={`${contentClasses}`}>
-          <DowntimeNotification
-            appTitle="Medications"
-            dependencies={[
-              externalServices.mhvPlatform,
-              externalServices.mhvMeds,
-            ]}
-            render={(downtimeProps, downtimeChildren) => (
-              <>
-                {downtimeProps.status === externalServiceStatus.down && (
-                  <h1 className="vads-u-margin-top--4">Medications</h1>
-                )}
-                {downtimeProps.status ===
-                  externalServiceStatus.downtimeApproaching && (
-                  <div className="vads-u-margin-top--4" />
-                )}
-                <MHVDowntime {...downtimeProps}>{downtimeChildren}</MHVDowntime>
-              </>
-            )}
-          >
-            {children}
-            <va-back-to-top
-              class="no-print"
-              hidden={isHidden}
-              data-dd-privacy="mask"
-              data-dd-action-name="Back to top"
-              data-testid="rx-back-to-top"
-            />
-          </DowntimeNotification>
+    <RequiredLoginView user={user}>
+      <MhvServiceRequiredGuard
+        user={user}
+        serviceRequired={[backendServices.RX]}
+      >
+        <MhvSecondaryNav />
+        <div ref={measuredRef} className="routes-container usa-grid">
+          <div className={`${contentClasses}`}>
+            <DowntimeNotification
+              appTitle="Medications"
+              dependencies={[
+                externalServices.mhvPlatform,
+                externalServices.mhvMeds,
+              ]}
+              render={(downtimeProps, downtimeChildren) => (
+                <>
+                  {downtimeProps.status === externalServiceStatus.down && (
+                    <h1 className="vads-u-margin-top--4">Medications</h1>
+                  )}
+                  {downtimeProps.status ===
+                    externalServiceStatus.downtimeApproaching && (
+                    <div className="vads-u-margin-top--4" />
+                  )}
+                  <MHVDowntime {...downtimeProps}>
+                    {downtimeChildren}
+                  </MHVDowntime>
+                </>
+              )}
+            >
+              {children}
+              <va-back-to-top
+                class="no-print"
+                hidden={isHidden}
+                data-dd-privacy="mask"
+                data-dd-action-name="Back to top"
+                data-testid="rx-back-to-top"
+              />
+            </DowntimeNotification>
+          </div>
         </div>
-      </div>
+      </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
 };
