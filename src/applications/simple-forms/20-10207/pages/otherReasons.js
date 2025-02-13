@@ -7,8 +7,8 @@ import { OTHER_REASONS } from '../config/constants';
 export default {
   uiSchema: {
     otherReasons: checkboxGroupUI({
-      title: 'Which of these descriptions is true for you?',
-      hint: 'Select all that apply.',
+      title: 'Which of these descriptions are true for you?',
+      hint: 'Select all that apply',
       required: true,
       labels: OTHER_REASONS,
       labelHeaderLevel: '3',
