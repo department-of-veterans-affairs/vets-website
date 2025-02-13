@@ -6,7 +6,7 @@ import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
 import AppointmentColumn from '../../components/AppointmentColumn';
 
-const PendingReferralCard = ({ referral, handleClick, index }) => {
+const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
   const idClickable = `id-${referral.UUID.replace('.', '\\.')}`;
   const isCanceled = referral.status === 'cancelled';
@@ -71,7 +71,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                   aria-describedby={`vaos-referral-detail-${referral.UUID}`}
                   message-aria-describedby="Custom message"
                   text="Schedule your appointment"
-                  onClick={e => handleClick(e, referral.UUID)}
+                  onClick={e => e.preventDefault()}
                 />
               </AppointmentColumn>
             </AppointmentRow>
