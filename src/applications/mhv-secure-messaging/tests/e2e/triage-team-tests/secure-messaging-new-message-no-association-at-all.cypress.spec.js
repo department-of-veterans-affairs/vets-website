@@ -12,17 +12,20 @@ describe('SM USER NO ASSOCIATION AT ALL', () => {
 
     cy.contains('Start a new message').click();
 
-    cy.get(Locators.ALERTS.NO_ASSOCIATION)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
-      .should(`have.text`, Alerts.NO_ASSOCIATION_RED.AT_ALL_HEADER);
+      .should('contain.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
 
-    cy.get(Locators.ALERTS.NO_ASSOCIATION)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`p`)
-      .should(`contain.text`, Alerts.NO_ASSOCIATION_RED.PARAGRAPH);
+      .should(`be.visible`)
+      .and(`contain.text`, Alerts.NO_ASSOCIATION.PARAGRAPH);
 
-    cy.get(Locators.ALERTS.NO_ASSOCIATION)
-      .find(`a`)
-      .should(`have.attr`, `href`, Data.FAQ_LINK.URL.FACILITY);
+    cy.get(Locators.ALERTS.TRIAGE_ALERT).should(
+      'have.attr',
+      'href',
+      Paths.FIND_LOCATIONS,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -32,21 +35,24 @@ describe('SM USER NO ASSOCIATION AT ALL', () => {
     SecureMessagingSite.login();
     mhvPage.loadHomePage(mockFeatureToggles, Paths.MHV_MAIN, mockNoRecipients);
 
-    cy.visit(`/my-health/secure-messages/new-message/`);
+    cy.visit(Paths.NEW_MESSAGE);
 
     GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
 
-    cy.get(Locators.ALERTS.NO_ASSOCIATION)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
-      .should(`have.text`, Alerts.NO_ASSOCIATION_RED.AT_ALL_HEADER);
+      .should('contain.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
 
-    cy.get(Locators.ALERTS.NO_ASSOCIATION)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`p`)
-      .should(`contain.text`, Alerts.NO_ASSOCIATION_RED.PARAGRAPH);
+      .should(`be.visible`)
+      .and(`contain.text`, Alerts.NO_ASSOCIATION.PARAGRAPH);
 
-    cy.get(Locators.ALERTS.NO_ASSOCIATION)
-      .find(`a`)
-      .should(`have.attr`, `href`, Data.FAQ_LINK.URL.FACILITY);
+    cy.get(Locators.ALERTS.TRIAGE_ALERT).should(
+      'have.attr',
+      'href',
+      Paths.FIND_LOCATIONS,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

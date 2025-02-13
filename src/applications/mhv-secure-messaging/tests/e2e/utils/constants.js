@@ -27,6 +27,7 @@ export const Paths = {
   MHV_LANDING_PAGE: '/my-health',
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
+  NEW_MESSAGE: '/my-health/secure-messages/new-message/',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -161,7 +162,6 @@ export const Locators = {
     HEADER: `#heading`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
-    TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
@@ -265,12 +265,6 @@ export const Locators = {
 };
 
 export const Alerts = {
-  NO_ASSOCIATION_RED: {
-    AT_ALL_HEADER:
-      'You’re not connected to any care teams in this messaging tool',
-    PARAGRAPH:
-      'If you need to contact your care team, call your VA health facility',
-  },
   NO_ASSOCIATION: {
     AT_ALL_HEADER: `You're not connected to any care teams in this messaging tool`,
     HEADER: 'Your account is no longer connected to',
