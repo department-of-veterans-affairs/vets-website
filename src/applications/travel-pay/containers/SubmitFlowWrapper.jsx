@@ -65,7 +65,7 @@ const SubmitFlowWrapper = () => {
       scrollToFirstError();
       return;
     }
-    dispatch(submitMileageOnlyClaim(appointmentData.start));
+    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
     setPageIndex(pageIndex + 1);
   };
 
