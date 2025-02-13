@@ -11,6 +11,7 @@ import {
   getEvidence,
   getForm4142,
 } from './evidence';
+import { getMstData } from './mst';
 
 /**
  * @typedef ClaimantData
@@ -51,6 +52,7 @@ export {
   hasDuplicateLocation,
   hasDuplicateFacility,
   getEvidence,
+  getMstData,
   getForm4142,
   TEMP_DATE,
 };
