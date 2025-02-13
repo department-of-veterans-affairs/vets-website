@@ -7,14 +7,12 @@ import {
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import {
-  selectVAPMailingAddress,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
+import { getPractionerName } from '../../../util/appointment-helpers';
 
 const ReviewPage = ({
   address,
@@ -53,14 +51,15 @@ const ReviewPage = ({
         What you’re claiming
       </h3>
       <p className="vads-u-margin-y--0">
-        Mileage-only reimbursement for your appointment at{' '}
-        {data.location.attributes.name}{' '}
-        {data.practitioners.length > 0
-          ? `with ${data.practitioners[0].name.given.join(' ')} ${
-              data.practitioners[0].name.family
-            }`
+        Mileage-only reimbursement for your appointment
+        {data.location?.attributes?.name
+          ? `at ${data.location.attributes.name}`
           : ''}{' '}
-        on {formattedDate}, {formattedTime}.
+        {data.practitioners?.length > 0 &&
+        typeof data.practitioners[0].name !== 'undefined'
+          ? `with ${getPractionerName(data.practitioners)}`
+          : ''}{' '}
+        on {formattedDate} at {formattedTime}.
       </p>
 
       <h2 className="vads-u-margin-bottom--0">Travel method</h2>
@@ -147,9 +146,8 @@ ReviewPage.propTypes = {
 
 function mapStateToProps(state) {
   const homeAddress = selectVAPResidentialAddress(state);
-  const mailingAddress = selectVAPMailingAddress(state);
   return {
-    address: homeAddress || mailingAddress,
+    address: homeAddress,
   };
 }
 
