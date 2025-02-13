@@ -302,7 +302,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -323,7 +323,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(aprDate);
+      const [date, time] = formatDateTime(aprDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -515,7 +515,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(
@@ -565,7 +565,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(async () => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(
