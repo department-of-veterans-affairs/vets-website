@@ -30,8 +30,6 @@ describe('Radiology details component - images', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -145,8 +143,6 @@ describe('Radiology details component - image with error', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -203,8 +199,6 @@ describe('Radiology details component - new image', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
