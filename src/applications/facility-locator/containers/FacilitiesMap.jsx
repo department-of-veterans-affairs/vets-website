@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import appendQuery from 'append-query';
-import mapboxgl from 'mapbox-gl-v3';
+import mapboxgl from 'mapbox-gl';
 import { browserHistory } from 'react-router';
 import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';

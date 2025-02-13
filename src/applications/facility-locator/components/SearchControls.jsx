@@ -281,6 +281,7 @@ const SearchControls = props => {
               isTablet && useProgressiveDisclosure,
             'facility-type-dropdown-desktop':
               isSmallDesktop && useProgressiveDisclosure,
+            'facility-error': showError,
           },
         )}
       >

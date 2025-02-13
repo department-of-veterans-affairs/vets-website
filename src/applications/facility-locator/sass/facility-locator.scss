@@ -2,7 +2,7 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~leaflet/dist/leaflet.css";
 @import "~react-tabs/style/react-tabs";
-@import "~mapbox-gl-v3/dist/mapbox-gl.css";
+@import "~mapbox-gl/dist/mapbox-gl.css";
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
@@ -40,6 +40,11 @@ $text-color: rgba(27, 27, 27, 1);
     display: flex;
     flex-direction: column;
     width: 333px;
+
+    .usa-input-error {
+      right: 0;
+      margin-top: 0;
+    }
   }
 
   #controls-and-map-container {
@@ -47,8 +52,8 @@ $text-color: rgba(27, 27, 27, 1);
     flex-direction: row;
     width: 100%;
     column-gap: 24px;
-    min-height: calc(min(78vh, 1178px));
-    max-height: calc(max(78vh, 1178px));
+    min-height: 78vh;
+    max-height: 1178px;
   }
 
   .tablet-results-map-container {
@@ -59,8 +64,7 @@ $text-color: rgba(27, 27, 27, 1);
 
   .tablet-map-container {
     width: calc(100% - 305px);
-    height: 55vh;
-    min-height: calc(min(78vh, 1178px));
+    min-height: 78vh;
     padding-left: 0;
     position: relative;
   }
@@ -70,8 +74,8 @@ $text-color: rgba(27, 27, 27, 1);
     position: relative;
     width: 100%;
     max-width: 655px;
-    min-height: calc(min(78vh, 1178px));
-    max-height: calc(max(78vh, 1178px));
+    min-height: 78vh;
+    max-height: 1178px;
     height: 100%;
   }
 
@@ -358,6 +362,12 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+      &.facility-error {
+        margin-top: 0px;
+        @media screen and (min-width: $small-desktop-screen) {
+          margin-left: 12px;
+        }
+      }
     }
 
     va-button {
@@ -631,7 +641,7 @@ $text-color: rgba(27, 27, 27, 1);
   z-index: 1;
   va-button {
     margin: 0 !important;
-    padding: 8px 0 8px 8px !important;
+    padding: 0px 0 0px 8px !important;
     .usa-button {
       margin: 0 !important;
       width: 100% !important;
@@ -669,6 +679,12 @@ $text-color: rgba(27, 27, 27, 1);
   pointer-events: none;
 }
 
+button.mapboxgl-ctrl-attrib-button {
+  padding: 1px 6px 1px 6px;
+  margin: 0;
+  bottom: 0;
+}
+
 button.mapboxgl-ctrl-zoom-in {
   margin-top: 0;
   margin-bottom: 0;
@@ -682,7 +698,9 @@ button.mapboxgl-ctrl-zoom-out {
 }
 
 canvas.mapboxgl-canvas {
-  max-height: calc(max(78vh, 1178px));
+  height: 100%;
+  min-height: 58vh;
+  max-height: 1178px;
 }
 
 canvas.mapboxgl-canvas:focus {
