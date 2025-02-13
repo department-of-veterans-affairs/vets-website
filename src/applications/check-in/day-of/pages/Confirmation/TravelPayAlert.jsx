@@ -44,7 +44,7 @@ const TravelPayAlert = props => {
             data-testid="travel-pay-message-error"
           >
             <Trans
-              i18nKey="sorry-we-cant-file-now"
+              i18nKey="sorry-we-cant-file-now--v2"
               components={[
                 <span key="bold" className="vads-u-font-weight--bold" />,
               ]}
@@ -76,7 +76,7 @@ const TravelPayAlert = props => {
           data-testid="travel-pay-message-ineligible"
         >
           <Trans
-            i18nKey="travel-pay-cant-file-message"
+            i18nKey="travel-pay-cant-file-message--v2"
             components={[
               <span key="bold" className="vads-u-font-weight--bold" />,
             ]}
