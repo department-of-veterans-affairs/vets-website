@@ -12,6 +12,14 @@ export function getAppointmentCreateStatus(state) {
   return state.referral.appointmentCreateStatus;
 }
 
+export function getReferralAppointmentInfo(state) {
+  return {
+    referralAppointmentInfo: state.referral.referralAppointmentInfo,
+    appointmentInfoLoading: state.referral.appointmentLoading,
+    appointmentInfoError: state.referral.appointmentError,
+  };
+}
+
 export function getDraftAppointmentInfo(state) {
   return {
     draftAppointmentInfo: state.referral.draftAppointmentInfo,

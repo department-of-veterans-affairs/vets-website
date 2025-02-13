@@ -20,12 +20,9 @@ describe('Unsupported claim type page', () => {
     const screen = render(<UnsupportedClaimTypePage {...props} />);
 
     expect(
-      screen.findByText(
-        `We can’t file this type of travel reimbursement claim`,
-      ),
+      screen.findByText(`We can’t file this claim in this tool at this time`),
     ).to.exist;
-    expect(screen.findByText(`You can still file a claim within 30 days`)).to
-      .exist;
+    expect(screen.findByText(`You can still file a claim`)).to.exist;
     expect(screen.findByText(`Call the BTSSS call center`)).to.exist;
     expect($('va-button[text="Back"]')).to.exist;
     fireEvent.click($('va-button[text="Back"]'));
