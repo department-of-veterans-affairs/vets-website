@@ -48,9 +48,6 @@ const MileagePage = ({
   return (
     <div>
       <VaRadio
-        use-forms-pattern="single"
-        form-heading="Are you claiming only mileage?"
-        form-heading-level={1}
         id="mileage"
         onVaValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
@@ -59,11 +56,11 @@ const MileagePage = ({
         data-testid="mileage-test-id"
         error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
-        hint=""
-        label=""
-        label-header-level=""
+        hint={null}
+        label="Are you claiming only mileage?"
+        label-header-level="1"
       >
-        <div slot="form-description">
+        <div className="vads-u-margin-y--2">
           <hr className="vads-u-margin-y--0" />
           <p>
             For your appointment on{' '}
