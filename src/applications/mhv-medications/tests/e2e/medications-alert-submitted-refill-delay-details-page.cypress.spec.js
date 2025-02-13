@@ -3,24 +3,30 @@ import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 import prescriptionList from './fixtures/listOfPrescriptions.json';
 import { Data } from './utils/constants';
-import rxDetails from './fixtures/prescription-tracking-details.json';
 import rxSubmitted from './fixtures/active-submitted-prescription-details.json';
+import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 
-describe('Medications List Page Delay Alert', () => {
-  it('visits Medications List Page Delay Alert for Multiple Refills', () => {
+describe('Medications Details Page Submitted Rx Delay Alert', () => {
+  it('visits Medications Details Page Delay Alert for Submitted Refill', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const landingPage = new MedicationsLandingPage();
+    const detailsPage = new MedicationsDetailsPage();
     site.login();
     landingPage.visitLandingPageURL();
     landingPage.visitMedicationsListPage(prescriptionList);
     listPage.verifyRefillDelayAlertBannerOnListPage(Data.DELAY_ALERT_BANNER);
     listPage.verifyRefillDetailsLinkVisibleOnDelayAlertBanner(
-      rxDetails.data.attributes.prescriptionName,
-    );
-    listPage.verifyRefillDetailsLinkVisibleOnDelayAlertBanner(
       rxSubmitted.data.attributes.prescriptionName,
     );
+    listPage.clickMedicationsDetailsLinkOnDelayAlert(
+      rxSubmitted.data.attributes.prescriptionId,
+      rxSubmitted,
+    );
+    detailsPage.verifyRefillDelayAlertBannerOnDetailsPage(
+      Data.DELAY_ALERT_DETAILS_BANNER,
+    );
+    detailsPage.verifySubmittedStatusDropDownDefinition();
     cy.injectAxe();
     cy.axeCheck('main');
   });

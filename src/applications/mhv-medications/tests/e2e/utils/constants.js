@@ -40,6 +40,9 @@ export const Data = {
   PENDING_ALERT_WITHIN_SEVEN_DAYS:
     'Your VA pharmacy is reviewing this prescription',
   DELAY_ALERT_BANNER: 'Some refills are taking longer than expected',
+  DELAY_ALERT_DETAILS_BANNER:
+    'Your refill request for this medication is taking longer than expected',
+  CHECK_STATUS_HEADER: 'Check the status of your next refill',
 };
 export const Paths = {
   LANDING_LIST:

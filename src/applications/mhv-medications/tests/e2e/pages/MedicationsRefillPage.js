@@ -481,6 +481,14 @@ class MedicationsRefillPage {
   verifyCernerUserMyVAHealthAlertOnRefillsPage = text => {
     cy.get('[data-testid="cerner-facilities-alert"]').should('contain', text);
   };
+
+  verifyRefillDelayAlertBannerOnRefillPage = text => {
+    cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
+  };
+
+  verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
+    cy.get('[data-testid="alert-banner"]').should('contain', rxName);
+  };
 }
 
 export default MedicationsRefillPage;

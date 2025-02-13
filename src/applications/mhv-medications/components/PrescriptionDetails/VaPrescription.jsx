@@ -141,7 +141,10 @@ const VaPrescription = prescription => {
                 )}
                 {latestTrackingStatus &&
                   isRefillRunningLate && (
-                    <h2 className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter">
+                    <h2
+                      className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                      data-testid="check-status-text"
+                    >
                       Check the status of your next refill
                     </h2>
                   )}
