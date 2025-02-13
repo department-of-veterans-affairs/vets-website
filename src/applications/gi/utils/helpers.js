@@ -175,6 +175,24 @@ export const formatDollarAmount = value => {
   return formatCurrency(output);
 };
 
+export const formatDollarAmountWithCents = (value, message) => {
+  if (!value) {
+    return message;
+  }
+  const formattedValue = parseFloat(value).toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    style: 'currency',
+  });
+
+  if (!formattedValue) {
+    return message;
+  }
+
+  return formattedValue;
+};
+
 export const handleInputFocusWithPotentialOverLap = (
   fieldId1,
   fieldId2,
@@ -749,15 +767,6 @@ export const showMultipleNames = (suggestions, nameInput) => {
   }
 
   return final;
-};
-
-export const categoryCheck = type => {
-  if (type === 'License') {
-    return true;
-  }
-  if (type === 'Prep Course') return true;
-
-  return false;
 };
 
 export const formatProgramType = (programType = '') => {

@@ -11,6 +11,7 @@ import ClearFiltersBtn from './ClearFiltersBtn';
 export default function LicenseCertificationFilterAccordion({
   children,
   buttonLabel,
+  button,
   buttonOnClick, // update results
   onClick,
   headerClass,
@@ -41,7 +42,7 @@ export default function LicenseCertificationFilterAccordion({
         <button
           // id={`${id}-button`}
           onClick={toggle}
-          className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--4"
+          className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
           // aria-isExpanded={isExpanded}
           // aria-controls={id}
           data-testid="update-tuition-housing"
@@ -102,7 +103,7 @@ export default function LicenseCertificationFilterAccordion({
             className={`update-results-button-after ${updateResultsButton}`}
             onClick={buttonOnClick}
             aria-describedby={ariaDescribedBy}
-            text={buttonLabel}
+            text={button}
           />
           <ClearFiltersBtn
             onClick={resetSearch}

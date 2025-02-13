@@ -35,7 +35,7 @@ function LicenseCertificationAdminInfo({ institution, type }) {
           </p>
         </>
       )}
-      <p className="vads-u-padding-top--1p5 vads-u-margin-bottom--1">
+      <p className="vads-u-padding-top--1p5 vads-u-margin-bottom--1 vads-l-col--12 medium-screen:vads-l-col--7">
         Print and fill out form Request for Reimbursement of Licensing or
         Certification Test Fees. Send the completed application to the Regional
         Processing Office for your region listed in the form.
@@ -43,7 +43,7 @@ function LicenseCertificationAdminInfo({ institution, type }) {
       <p>
         <va-link
           text="Get VA Form22-0803 to download"
-          href="../../../find-forms/about-form-22-0803/" // check link structure
+          href="https://www.va.gov/find-forms/about-form-22-0803/"
         />
       </p>
     </div>
