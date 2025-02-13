@@ -47,13 +47,13 @@ import { distBetween } from '../utils/facilityDistance';
 import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink } from '../utils/mapLinks';
-import SearchAreaControl from '../components/SearchAreaControl';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
 import EmergencyCareAlert from '../components/EmergencyCareAlert';
 import ControlResultsHolder from '../components/ControlResultsHolder';
 import ControlsAndMapContainer from '../components/ControlsAndMapContainer';
 import PpmsServiceError from '../components/PpmsServiceError';
+import RenderMap from '../components/RenderMap';
 
 let lastZoom = 3;
 
@@ -76,6 +76,7 @@ const FacilitiesMap = props => {
 
   // refs
   const mapboxContainerRef = useRef(null);
+  const mapboxGlContainerRef = useRef(null);
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
 
@@ -208,12 +209,14 @@ const FacilitiesMap = props => {
   };
 
   const calculateSearchArea = () => {
+    if (!map) return 0;
     const currentBounds = map.getBounds();
     const { _ne, _sw } = currentBounds;
     return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
   };
 
   const handleSearchArea = () => {
+    if (!map) return;
     resetMapElements();
     const { currentQuery } = props;
     lastZoom = null;
@@ -343,7 +346,7 @@ const FacilitiesMap = props => {
    * Setup map on resize
    */
   const setMapResize = () => {
-    setTimeout(function() {
+    setTimeout(function mapSetup() {
       setMap(setupMap());
     }, 10);
   };
@@ -366,54 +369,6 @@ const FacilitiesMap = props => {
     (props.currentQuery.facilityType === 'provider'
       ? props.currentQuery.serviceType
       : true);
-
-  const speakMapInstructions = () => {
-    const mapInstructionsElement = document.getElementById('map-instructions');
-
-    if (mapInstructionsElement) {
-      mapInstructionsElement.innerText =
-        'Search areas on the map up to a maximum of 500 miles. ' +
-        'Zoom in or out using the zoom in and zoom out buttons. ' +
-        'Use a keyboard to navigate up, down, left, and right in the map.';
-    }
-  };
-
-  // renderMap does not consider progressive disclosure flipper internally
-  const renderMap = (mobile, results, smallDesktop) => {
-    if (isSearching) {
-      return null;
-    }
-    return (
-      <>
-        {(results?.length || 0) > 0 ? (
-          <h2 className="sr-only">Map of Results</h2>
-        ) : null}
-        <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
-        <p className="sr-only" id="map-instructions" aria-live="assertive" />
-        <div
-          id={mapboxGlContainer}
-          role="application"
-          aria-label="Find VA locations on an interactive map"
-          aria-describedby="map-instructions"
-          onFocus={() => speakMapInstructions()}
-          className={
-            mobile
-              ? 'mobile'
-              : `${smallDesktop ? 'desktop' : 'tablet'}-map-container`
-          }
-        >
-          {shouldRenderSearchArea() && (
-            <SearchAreaControl
-              isMobile={mobile}
-              isEnabled={searchAreaButtonEnabled()}
-              handleSearchArea={handleSearchArea}
-              query={props.currentQuery}
-            />
-          )}
-        </div>
-      </>
-    );
-  };
 
   const renderView = () => {
     // This block renders the desktop and mobile view. It ensures that the desktop map
@@ -459,19 +414,10 @@ const FacilitiesMap = props => {
       );
     };
 
-    // Sometimes the div presents but the map does not get loaded on resize
-    const childrenOfMapboxContainer = document.getElementById(mapboxGlContainer)
-      ?.children?.length;
-
     if (
-      (map &&
-        !isMobile &&
-        (!window.document.getElementById(mapboxGlContainer) ||
-          (window.document.getElementsByClassName('desktop-map-container')
-            .length === 0 &&
-            window.document.getElementsByClassName('tablet-map-container')
-              .length === 0))) ||
-      !childrenOfMapboxContainer
+      map &&
+      !isMobile &&
+      !window.document.getElementById(mapboxGlContainer)?.children.length
     ) {
       setMapResize();
     }
@@ -558,11 +504,24 @@ const FacilitiesMap = props => {
                           {resultsList()}
                         </div>
                       </div>
-                      {renderMap(
-                        false,
-                        results,
-                        isSmallDesktop && useProgressiveDisclosure,
-                      )}
+                      <RenderMap
+                        currentQuery={currentQuery}
+                        handleSearchArea={handleSearchArea}
+                        isSearching={isSearching}
+                        mapboxGlContainer={mapboxGlContainer}
+                        map={map}
+                        mobile={false}
+                        results={results}
+                        searchAreaButtonEnabled={
+                          !!map && searchAreaButtonEnabled()
+                        }
+                        shouldRenderSearchArea={
+                          !!map && shouldRenderSearchArea()
+                        }
+                        smallDesktop={false}
+                        zoomMessageDivID={zoomMessageDivID}
+                        ref={mapboxGlContainerRef}
+                      />
                     </div>
                     {paginationWrapper()}
                   </>
@@ -573,11 +532,20 @@ const FacilitiesMap = props => {
           {isSmallDesktop &&
             useProgressiveDisclosure && (
               <div className="map-and-message-container">
-                {renderMap(
-                  false,
-                  results,
-                  isSmallDesktop && useProgressiveDisclosure,
-                )}
+                <RenderMap
+                  currentQuery={currentQuery}
+                  handleSearchArea={handleSearchArea}
+                  isSearching={isSearching}
+                  mapboxGlContainer={mapboxGlContainer}
+                  map={map}
+                  mobile={false}
+                  results={results}
+                  searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
+                  smallDesktop
+                  zoomMessageDivID={zoomMessageDivID}
+                  ref={mapboxGlContainerRef}
+                />
               </div>
             )}
         </ControlsAndMapContainer>
@@ -603,7 +571,24 @@ const FacilitiesMap = props => {
                     </>
                   ) : (
                     <>
-                      {renderMap(true, results)}
+                      <RenderMap
+                        currentQuery={currentQuery}
+                        handleSearchArea={handleSearchArea}
+                        isSearching={isSearching}
+                        mapboxGlContainer={mapboxGlContainer}
+                        map={map}
+                        mobile
+                        results={results}
+                        searchAreaButtonEnabled={
+                          !!map && searchAreaButtonEnabled()
+                        }
+                        shouldRenderSearchArea={
+                          !!map && shouldRenderSearchArea()
+                        }
+                        smallDesktop={false}
+                        zoomMessageDivID={zoomMessageDivID}
+                        ref={mapboxGlContainerRef}
+                      />
                       {currentQuery.searchStarted &&
                         !results.length && (
                           <NoResultsMessage
@@ -641,7 +626,20 @@ const FacilitiesMap = props => {
                   {paginationWrapper()}
                 </TabPanel>
                 <TabPanel>
-                  {renderMap(true, results, false)}
+                  <RenderMap
+                    currentQuery={currentQuery}
+                    handleSearchArea={handleSearchArea}
+                    isSearching={isSearching}
+                    mapboxGlContainer={mapboxGlContainer}
+                    map={map}
+                    mobile
+                    results={results}
+                    searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
+                    smallDesktop={false}
+                    zoomMessageDivID={zoomMessageDivID}
+                    ref={mapboxGlContainerRef}
+                  />
                   {currentQuery.searchStarted &&
                     !results.length && (
                       <NoResultsMessage
@@ -773,11 +771,16 @@ const FacilitiesMap = props => {
     [props.currentQuery.searchArea],
   );
 
-  useEffect(() => {
-    setMap(setupMap());
-    setUpResizeEventListener();
+  useEffect(
+    () => {
+      if (mapboxContainerRef.current && !map) {
+        setMap(setupMap());
+        setUpResizeEventListener();
+      }
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // <-- empty array means 'run once'
+    [mapboxContainerRef, map],
+  );
 
   useEffect(
     () => {
