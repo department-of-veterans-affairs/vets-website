@@ -34,11 +34,6 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10216`,
   submit: submitForm,
-  // submit: async formData => {
-  //   return new Promise(resolve => {
-  //     resolve({ status: 201, data: formData });
-  //   });
-  // },
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
