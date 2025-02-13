@@ -10,7 +10,7 @@ describe('<AlertNotVerified />', () => {
   it('renders', async () => {
     const recordEvent = sinon.spy();
     const props = { recordEvent };
-    const { getByTestId } = renderInReduxProvider(
+    const { getByTestId, container } = renderInReduxProvider(
       <AlertNotVerified {...props} />,
       {
         initialState: {
@@ -19,6 +19,7 @@ describe('<AlertNotVerified />', () => {
       },
     );
     getByTestId('verify-identity-alert-headline');
+    expect(container.querySelector('va-alert-sign-in')).to.exist;
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
       expect(recordEvent.calledTwice).to.be.false;
