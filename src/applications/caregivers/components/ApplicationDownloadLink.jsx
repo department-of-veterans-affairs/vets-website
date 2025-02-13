@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
-
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
@@ -9,14 +9,13 @@ import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import submitTransformer from '../config/submit-transformer';
 import { ensureValidCSRFToken } from '../actions/ensureValidCSRFToken';
-import formConfig from '../config/form';
 import content from '../locales/en/content.json';
 
 const apiURL = `${
   environment.API_URL
 }/v0/caregivers_assistance_claims/download_pdf`;
 
-const ApplicationDownloadLink = () => {
+const ApplicationDownloadLink = ({ formConfig }) => {
   const [loading, isLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -100,7 +99,7 @@ const ApplicationDownloadLink = () => {
   if (errors?.length > 0) {
     return (
       <div className="caregiver-download-error">
-        <va-alert status="error" uswds>
+        <va-alert status="error">
           <h4 slot="headline">{content['alert-heading--generic']}</h4>
           {errorMessage()}
         </va-alert>
@@ -117,6 +116,10 @@ const ApplicationDownloadLink = () => {
       download
     />
   );
+};
+
+ApplicationDownloadLink.propTypes = {
+  formConfig: PropTypes.object,
 };
 
 export default ApplicationDownloadLink;
