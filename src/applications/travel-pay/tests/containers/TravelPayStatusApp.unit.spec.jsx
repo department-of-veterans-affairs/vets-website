@@ -7,7 +7,11 @@ import MockDate from 'mockdate';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockFetch,
+  mockApiRequest,
+  setFetchJSONFailure,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import reducer from '../../redux/reducer';
 import TravelPayStatusApp from '../../containers/TravelPayStatusApp';
@@ -141,7 +145,14 @@ describe('TravelPayStatusApp', () => {
 
   it('handles a failed fetch of claims when user is not a Veteran', async () => {
     global.fetch.restore();
-    mockApiRequest({ errors: [{ title: 'Forbidden', status: 403 }] }, false);
+
+    mockFetch();
+    setFetchJSONFailure(
+      global.fetch.withArgs(sinon.match(`/travel_pay/v0/claims`)),
+      {
+        errors: [{ title: 'Forbidden', status: 403 }],
+      },
+    );
 
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
@@ -164,9 +175,13 @@ describe('TravelPayStatusApp', () => {
 
   it('handles a unspecified errors', async () => {
     global.fetch.restore();
-    mockApiRequest(
-      { errors: [{ title: 'Service unavilable', status: 500 }] },
-      false,
+
+    mockFetch();
+    setFetchJSONFailure(
+      global.fetch.withArgs(sinon.match(`/travel_pay/v0/claims`)),
+      {
+        errors: [{ title: 'Service unavilable', status: 500 }],
+      },
     );
 
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
@@ -287,7 +302,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -308,7 +323,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(aprDate);
+      const [date, time] = formatDateTime(aprDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -500,7 +515,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(
@@ -550,7 +565,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(async () => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(

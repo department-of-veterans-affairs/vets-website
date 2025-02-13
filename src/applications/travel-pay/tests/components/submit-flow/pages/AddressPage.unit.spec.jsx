@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -9,6 +10,8 @@ import AddressPage from '../../../../components/submit-flow/pages/AddressPage';
 
 const home = {
   addressLine1: '345 Home Address St.',
+  addressLine2: 'Apt. 22B',
+  addressLine3: 'Building 2',
   addressPou: 'RESIDENCE/CHOICE',
   addressType: 'DOMESTIC',
   city: 'San Francisco',
@@ -20,6 +23,9 @@ const home = {
 };
 
 describe('Address page', () => {
+  const setPageIndex = sinon.spy();
+  const setIsUnsupportedClaimType = sinon.spy();
+
   const getData = ({ homeAddress } = {}) => {
     return {
       user: {
@@ -34,14 +40,14 @@ describe('Address page', () => {
 
   const props = {
     pageIndex: 3,
-    setPageIndex: () => {},
+    setPageIndex,
     yesNo: {
       mileage: 'yes',
       vehicle: 'yes',
       address: '',
     },
     setYesNo: () => {},
-    setIsUnsupportedClaimType: () => {},
+    setIsUnsupportedClaimType,
   };
 
   it('should render with user home address', async () => {
@@ -93,5 +99,53 @@ describe('Address page', () => {
     await waitFor(() => {
       expect(screen.findByText(/You must make a selection/i)).to.exist;
     });
+  });
+
+  it('should render an error selection is "no"', async () => {
+    const screen = renderWithStoreAndRouter(
+      <AddressPage {...props} yesNo={{ ...props.yesNo, address: 'no' }} />,
+      {
+        initialState: getData({
+          homeAddress: home,
+        }),
+      },
+    );
+    $('va-button-pair').__events.primaryClick(); // continue
+
+    expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
+    await waitFor(() => {
+      expect(
+        screen.findByText(
+          /We can’t file this type of travel reimbursement claim in this tool at this time/i,
+        ),
+      ).to.exist;
+    });
+  });
+
+  it('should move on to the next step if selection is "yes"', () => {
+    renderWithStoreAndRouter(
+      <AddressPage {...props} yesNo={{ ...props.yesNo, address: 'yes' }} />,
+      {
+        initialState: getData({
+          homeAddress: home,
+        }),
+      },
+    );
+    $('va-button-pair').__events.primaryClick(); // continue
+
+    expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
+    expect(setPageIndex.calledWith(4)).to.be.true;
+  });
+
+  it('should move back a step', () => {
+    renderWithStoreAndRouter(<AddressPage {...props} />, {
+      initialState: getData({
+        homeAddress: home,
+      }),
+    });
+    $('va-button-pair').__events.secondaryClick(); // back
+
+    expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
+    expect(setPageIndex.calledWith(2)).to.be.true;
   });
 });

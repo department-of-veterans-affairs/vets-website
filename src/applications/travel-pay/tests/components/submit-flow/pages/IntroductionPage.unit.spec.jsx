@@ -29,4 +29,25 @@ describe('Introduction page', () => {
     expect(screen.getByTestId('travel-pay-loading-indicator')).to.exist;
     expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
   });
+
+  it('should show alert if appointment fetch fails', () => {
+    const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: false,
+            error: 'there was a problem',
+            data: null,
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(
+      screen.getByText(
+        'We’re sorry, we can’t access your appointment details right now',
+      ),
+    ).to.exist;
+  });
 });
