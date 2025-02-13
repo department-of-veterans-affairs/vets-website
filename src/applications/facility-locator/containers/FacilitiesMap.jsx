@@ -515,7 +515,7 @@ const FacilitiesMap = props => {
             <EmergencyCareAlert
               shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
             />
-            <div id="search-results-title">
+            <div id="search-results-title" ref={searchResultTitleRef}>
               {!searchError && (
                 <SearchResultsHeader
                   results={results}
