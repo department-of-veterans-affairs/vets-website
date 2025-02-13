@@ -4,20 +4,6 @@
     "type": "appointment",
     "attributes": {
       "id": "167322",
-      "practitioners": [
-        {
-          "identifier": [
-            {
-              "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
-              "value": null
-            }
-          ],
-          "name": {
-            "family": "BERNARDO",
-            "given": ["KENNETH J"]
-          }
-        }
-      ],
       "start": "2024-12-30T14:00:00Z",
       "localStartTime": "2024-12-30T08:00:00.000-06:00",
       "serviceName": "COVID VACCINE CLIN1",
@@ -63,38 +49,6 @@
         }
       },
       "timeZone": "America/Denver",
-      "facilityData": {
-        "resourceType": "Location",
-        "id": "983",
-        "vistaId": "983",
-        "name": "Cheyenne VA Medical Center",
-        "identifier": [
-          {
-            "system": "http://med.va.gov/fhir/urn",
-            "value": "urn:va:division:983:983"
-          },
-          {
-            "system": "urn:oid:2.16.840.1.113883.6.233",
-            "value": "983"
-          }
-        ],
-        "telecom": [
-          {
-            "system": "phone",
-            "value": "307-778-7550"
-          }
-        ],
-        "position": {
-          "longitude": -104.830956,
-          "latitude": 39.744507
-        },
-        "address": {
-          "line": ["2360 East Pershing Boulevard"],
-          "city": "Cheyenne",
-          "state": "WY",
-          "postalCode": "82001-5356"
-        }
-      },
       "travelPayClaim": {
         "metadata": {
           "status": 200,
