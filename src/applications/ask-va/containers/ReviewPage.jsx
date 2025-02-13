@@ -19,6 +19,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
+import { removeInProgressForm } from '@department-of-veterans-affairs/platform-forms/actions';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import {
@@ -208,7 +209,9 @@ const ReviewPage = props => {
 
     if (props.loggedIn) {
       // auth call
+      const id = formConfig.formId;
       postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
+      dispatch(removeInProgressForm(id));
     } else {
       // no auth call
       postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
