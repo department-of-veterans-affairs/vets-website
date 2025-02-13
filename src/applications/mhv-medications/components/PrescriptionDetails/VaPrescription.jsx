@@ -537,13 +537,7 @@ const VaPrescription = prescription => {
                             const refillPosition = refillHistory.length - i - 1;
                             const refillLabelId = `rx-refill-${refillPosition}`;
                             return (
-                              <VaAccordionItem
-                                bordered="true"
-                                key={i}
-                                subHeader={`Filled on ${dateFormat(
-                                  entry.dispensedDate,
-                                )}`}
-                              >
+                              <VaAccordionItem bordered="true" key={i}>
                                 <h4
                                   className="vads-u-font-size--h6"
                                   data-testid="rx-refill"
@@ -553,6 +547,9 @@ const VaPrescription = prescription => {
                                   {i + 1 === refillHistory.length
                                     ? 'Original fill'
                                     : `Refill`}
+                                  {entry.dispensedDate
+                                    ? `: ${dateFormat(entry.dispensedDate)}`
+                                    : ''}
                                 </h4>
                                 {i === 0 && (
                                   <>
