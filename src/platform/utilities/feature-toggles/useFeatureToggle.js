@@ -32,62 +32,72 @@ export const useFeatureToggle = () => {
   };
 
   /**
-   * @typedef ToggleNames
-   * @type {Array<String>}
-   * @property {String|Array<string>} toggleName - feature flag name
-   * @property {String} [formDataName] - feature name in the form & session data
-   * @example
-   * useFormFeatureToggleSync(['toggleOne']);
-   * useFormFeatureToggleSync(['toggleOne', 'toggleTwo']);
-   * useFormFeatureToggleSync([
-   *   'toggleOne',
-   *   ['toggleTwo', 'toggle2FormData'],
-   * ]);
-   * useFormFeatureToggleSync([
-   *   ['toggleOne', 'toggleOneFormData'],
-   *   ['toggleTwo', 'toggle2FormData'],
-   * ]);
+   * Configuration type for a single feature toggle
+   * @typedef {Object} ToggleConfig
+   * @property {string} toggleName - CamelCased name of the feature toggle example: 'profileUseExperimental'
+   * @property {string} [formKey] - Optional custom key for form/session storage
    */
-  /**
-   * Add feature toggle & sync value in to the form data
-   * @param {ToggleNames} toggleNames - feature flag name
-   */
-  const useFormFeatureToggleSync = toggleNames => {
-    if (!Array.isArray(toggleNames)) {
-      throw new Error('toggleNames must be an array of feature toggle names');
-    }
 
+  /**
+   * Hook to sync feature toggles with form data and session storage
+   * @param {(string|ToggleConfig)[]} toggles - Array of toggle names or config objects
+   * @param {Function} [setStorageItem] - Storage setter function (defaults to sessionStorage.setItem)
+   */
+  const useFormFeatureToggleSync = (
+    toggles,
+    setStorageItem = window.sessionStorage.setItem.bind(window.sessionStorage),
+  ) => {
     const dispatch = useDispatch();
-    const formData = useSelector(state => state?.form?.data || {});
+    const formData = useSelector(state => state?.form?.data ?? {});
     const isLoadingFeatureFlags = useToggleLoadingValue();
     const featureToggles = useSelector(toggleValuesSelector);
 
-    const toggleData = useMemo(
+    // Normalize toggle configurations
+    const normalizedToggles = useMemo(
       () =>
-        toggleNames.reduce((acc, toggle) => {
-          const [toggleName, formDataName] = Array.isArray(toggle)
-            ? toggle
-            : [toggle];
-          const dataName = formDataName || toggleName;
-          const toggleValue = featureToggles[(TOGGLE_NAMES?.[toggleName])];
-
-          if (!isLoadingFeatureFlags && formData[dataName] !== toggleValue) {
-            sessionStorage.setItem(dataName, toggleValue);
-            return { ...acc, [dataName]: toggleValue };
+        toggles.map(toggle => {
+          if (typeof toggle === 'string') {
+            return { toggleName: toggle, formKey: toggle };
           }
-          return acc;
-        }, {}),
-      [toggleNames, featureToggles, isLoadingFeatureFlags, formData],
+          return { ...toggle, formKey: toggle.formKey ?? toggle.toggleName };
+        }),
+      [toggles],
     );
 
+    // Calculate updates needed for form data and storage
+    const updates = useMemo(
+      () => {
+        if (isLoadingFeatureFlags) return {};
+
+        return normalizedToggles.reduce((acc, { toggleName, formKey }) => {
+          const toggleValue = featureToggles[(TOGGLE_NAMES?.[toggleName])];
+          // Only include in updates if the value differs from current form data
+          if (toggleValue !== formData?.[formKey]) {
+            setStorageItem(formKey, String(toggleValue));
+            return { ...acc, [formKey]: toggleValue };
+          }
+
+          return acc;
+        }, {});
+      },
+      [
+        normalizedToggles,
+        featureToggles,
+        isLoadingFeatureFlags,
+        formData,
+        setStorageItem,
+      ],
+    );
+
+    // Only dispatch if we have actual updates
     useEffect(
       () => {
-        if (Object.keys(toggleData).length) {
-          dispatch(setData({ ...formData, ...toggleData }));
+        const updateCount = Object.keys(updates).length;
+        if (updateCount > 0) {
+          dispatch(setData({ ...formData, ...updates }));
         }
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [toggleData],
+      [updates, dispatch, formData],
     );
   };
 
