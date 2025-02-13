@@ -139,3 +139,16 @@ export const FORM_UPLOAD_INSTRUCTION_ALERT = onCloseEvent => (
     </React.Fragment>
   </VaAlert>
 );
+
+export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
+  <VaAlert
+    close-btn-aria-label="Close notification"
+    status="error"
+    visible
+    closeable
+    slim
+    onCloseEvent={onCloseEvent}
+  >
+    File upload must be complete to continue.
+  </VaAlert>
+);
