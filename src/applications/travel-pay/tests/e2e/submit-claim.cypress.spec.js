@@ -37,7 +37,7 @@ describe('Submit Mileage Only Claims', () => {
 
     cy.get('h1').should(
       'include.text',
-      `We can’t file this type of travel reimbursement claim`,
+      `We can’t file this claim in this tool at this time`,
     );
 
     cy.get('va-button[text="Back"]')

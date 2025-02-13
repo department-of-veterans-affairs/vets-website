@@ -7,10 +7,7 @@ import {
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import {
-  selectVAPMailingAddress,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
@@ -149,9 +146,8 @@ ReviewPage.propTypes = {
 
 function mapStateToProps(state) {
   const homeAddress = selectVAPResidentialAddress(state);
-  const mailingAddress = selectVAPMailingAddress(state);
   return {
-    address: homeAddress || mailingAddress,
+    address: homeAddress,
   };
 }
 
