@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom-v5-compat';
-import startAppV6 from '../routerV6';
+import startApp from '../withoutRouter';
 import * as reactUtils from '../react';
 import * as setupUtils from '../setup';
 
-describe('startAppV6', () => {
+describe('startApp', () => {
   let setUpCommonFunctionalityStub;
   let startReactAppStub;
   const sandbox = sinon.createSandbox();
@@ -26,14 +26,15 @@ describe('startAppV6', () => {
     setUpCommonFunctionalityStub.returns(mockStore);
 
     const mockRouter = {};
+    const mockRouterProvider = <RouterProvider router={mockRouter} />;
     const mockReducer = {};
     const mockUrl = '/test';
     const mockAnalyticsEvents = [];
     const mockEntryName = 'testApp';
     const mockPreloadScheduledDowntimes = true;
 
-    startAppV6({
-      router: mockRouter,
+    startApp({
+      router: mockRouterProvider,
       reducer: mockReducer,
       url: mockUrl,
       analyticsEvents: mockAnalyticsEvents,

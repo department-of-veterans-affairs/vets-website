@@ -4,7 +4,6 @@
  */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { RouterProvider } from 'react-router-dom-v5-compat';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
@@ -26,7 +25,7 @@ import setUpCommonFunctionality from './setup';
  * DowntimeNotification component to mount. This can improve startup time for applications
  * that use the DowntimeNotification component.
  */
-export default function startAppV6({
+export default function startApp({
   router,
   reducer,
   url,
@@ -42,9 +41,5 @@ export default function startAppV6({
     preloadScheduledDowntimes,
   });
 
-  startReactApp(
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>,
-  );
+  startReactApp(<Provider store={store}>{router}</Provider>);
 }
