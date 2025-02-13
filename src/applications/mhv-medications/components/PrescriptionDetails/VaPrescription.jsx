@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   VaAccordion,
-  VaAccordionItem,
   VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
@@ -574,7 +573,7 @@ const VaPrescription = prescription => {
                             const refillPosition = refillHistory.length - i - 1;
                             const refillLabelId = `rx-refill-${refillPosition}`;
                             return (
-                              <VaAccordionItem
+                              <va-accordion-item
                                 bordered="true"
                                 key={i}
                                 subHeader={`Filled on ${dateFormat(
@@ -703,7 +702,7 @@ const VaPrescription = prescription => {
                                     </>
                                   )}
                                 </div>
-                              </VaAccordionItem>
+                              </va-accordion-item>
                             );
                           })}
                         </VaAccordion>

@@ -14,8 +14,11 @@ import {
 
 import { utcToZonedTime } from 'date-fns-tz';
 
-export function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
+export function formatDateTime(datetimeString, stripUTCIndicator = false) {
+  const str = stripUTCIndicator
+    ? (datetimeString ?? '').split('Z')[0]
+    : datetimeString;
+  const dateTime = new Date(str);
   const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
 
