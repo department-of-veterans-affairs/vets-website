@@ -5,6 +5,7 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
+import { getPractionerName } from '../../../util/appointment-helpers';
 
 const ConfirmationPage = () => {
   useEffect(() => {
@@ -35,14 +36,15 @@ const ConfirmationPage = () => {
         <va-alert status="success" visible>
           <h2 slot="headline">Claim submitted</h2>
           <p className="vads-u-margin-y--0">
-            This claim is for your appointment at{' '}
-            {data.location.attributes.name}{' '}
-            {data.practitioners.length > 0
-              ? `with ${data.practitioners[0].name.given.join(' ')} ${
-                  data.practitioners[0].name.family
-                }`
+            This claim is for your appointment{' '}
+            {data.location?.attributes?.name
+              ? `at ${data.location.attributes.name}`
               : ''}{' '}
-            on {formattedDate}, {formattedTime}.
+            {data.practitioners?.length > 0 &&
+            typeof data.practitioners[0].name !== 'undefined'
+              ? `with ${getPractionerName(data.practitioners)}`
+              : ''}{' '}
+            on {formattedDate} at {formattedTime}.
           </p>
         </va-alert>
       )}

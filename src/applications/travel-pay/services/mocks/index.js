@@ -2,14 +2,20 @@ const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
-// const appointmentClaim = require('./vaos-appointment-with-claim.json');
-// const appointmentNoclaim = require('./vaos-appointment-no-claim.json');
-const appointmentOriginal = require('./vaos-appointment-original.json');
-const user = require('./user.json');
-// const noAddressUser = require('./user-no-address.json');
+
+const appointment = {
+  original: require('./vaos-appointment-original.json'),
+  claim: require('./vaos-appointment-with-claim.json'),
+  noClaim: require('./vaos-appointment-no-claim.json'),
+};
+
+const user = {
+  withAddress: require('./user.json'),
+  noAddress: require('./user-no-address.json'),
+};
 
 const responses = {
-  'GET /v0/user': user,
+  'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
@@ -86,7 +92,7 @@ const responses = {
 
   // Get travel-pay appointment
   'GET /vaos/v2/appointments/:id': (req, res) => {
-    return res.json(appointmentOriginal);
+    return res.json(appointment.original);
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({

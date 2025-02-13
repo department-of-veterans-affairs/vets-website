@@ -10,11 +10,6 @@ const appointment = {
   location: { attributes: { name: 'VA location name' } },
   start: '2025-01-15T21:39:27.698Z',
   localStartTime: '2025-01-15T21:39:27+08:00',
-  practitioners: [
-    {
-      name: { family: 'Last', given: ['First', 'Middle'] },
-    },
-  ],
 };
 
 describe('Confirmation page', () => {
@@ -62,7 +57,14 @@ describe('Confirmation page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: appointment,
+            data: {
+              ...appointment,
+              practitioners: [
+                {
+                  name: { family: 'Last', given: ['First', 'Middle'] },
+                },
+              ],
+            },
           },
           claimSubmission: {
             isSubmitting: false,
