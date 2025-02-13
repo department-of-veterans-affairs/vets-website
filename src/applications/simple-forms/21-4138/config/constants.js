@@ -361,6 +361,65 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
   </va-additional-info>,
 );
 
+export const PRIORITY_PROCESSING_HANDOFF = Object.freeze(
+  <div>
+    <p>
+      Based on your answer, you should consider submitting a priority processing
+      request.
+    </p>
+    <PrimaryActionLink href="/supporting-forms-for-claims/request-priority-processing-form-20-10207/introduction">
+      Start your priority processing request
+    </PrimaryActionLink>
+    <h2 className="vads-u-font-size--h3">
+      What to know before you request priority processing
+    </h2>
+    <p>
+      To qualify for priority processing, one of these descriptions must be
+      true:
+    </p>
+    <ul>
+      <li>
+        You’re homeless or at risk of becoming homeless,{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You’re experiencing extreme financial hardship (such as loss of your job
+        or a sudden decrease in income),{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You have ALS (amyotrophic lateral sclerosis), also known as Lou Gehrig’s
+        disease, <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You have a terminal illness (a condition that can’t be treated),{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You have a Very Seriously Injured or Ill (VSI) or Seriously Injured or
+        Ill (SI) status from the Defense Department (DOD) (this status means you
+        have a disability from a military operation that will likely result in
+        your discharge from the military),{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You’re age 85 or older,{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>
+        You’re a former prisoner of war,{' '}
+        <span className="vads-u-font-weight--bold">or</span>
+      </li>
+      <li>You received the Medal of Honor or the Purple Heart award</li>
+    </ul>
+    <p>
+      We may need supporting documents based on the situation, but you can still
+      submit your initial request without evidence.
+    </p>
+    {ESCAPE_HATCH}
+  </div>,
+);
+
 export const PRIORITY_PROCESSING_NOT_QUALIFIED = Object.freeze(
   <div>
     <va-alert>
