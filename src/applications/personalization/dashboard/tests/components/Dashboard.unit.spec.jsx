@@ -49,6 +49,7 @@ describe('<Dashboard />', () => {
           loading: false,
           services: ['appeals-status'],
           claims: {},
+          signIn: { serviceName: 'logingov' },
         },
       },
       featureToggles: {
@@ -62,14 +63,14 @@ describe('<Dashboard />', () => {
     initialState.user.profile.loa.current = 1;
     initialState.user.profile.loa.highest = 1;
 
-    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+    const { getByTestId, container } = renderInReduxProvider(<Dashboard />, {
       initialState,
       reducers,
     });
 
     await waitFor(() => {
       expect(getByTestId('dashboard-title')).to.exist;
-      expect(getByTestId('verify-identity-alert-headline')).to.exist;
+      expect(container.querySelector('va-alert-sign-in')).to.exist;
     });
   });
 
