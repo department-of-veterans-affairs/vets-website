@@ -39,6 +39,7 @@ export const personalInformation = [
   FIELD_NAMES.PRONOUNS,
   FIELD_NAMES.GENDER_IDENTITY,
   FIELD_NAMES.SEXUAL_ORIENTATION,
+  FIELD_NAMES.MESSAGING_SIGNATURE,
 ];
 
 export const getProfileInfoFieldAttributes = fieldName => {
@@ -136,6 +137,17 @@ export const getProfileInfoFieldAttributes = fieldName => {
         // TODO: update when api route is avail
         apiRoute = '/';
         title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
+        break;
+
+      case FIELD_NAMES.MESSAGING_SIGNATURE:
+        apiRoute = API_ROUTES.MESSAGING_SIGNATURE;
+        title = FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE];
+        convertCleanDataToPayload = payload => {
+          return {
+            signatureName: payload?.signatureName,
+            signatureTitle: payload?.signatureTitle,
+          };
+        };
         break;
 
       default:

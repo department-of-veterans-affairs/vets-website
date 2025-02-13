@@ -99,6 +99,13 @@ export const getInitialFormValues = options => {
       return set({}, fieldName, data?.[fieldName]?.code);
     }
 
+    if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
+      return {
+        signatureName: data?.messagingSignature.signatureName,
+        signatureTitle: data?.messagingSignature.signatureTitle,
+      };
+    }
+
     const notListedTextKey = createNotListedTextKey(fieldName);
 
     // handle multi-select values plus additional 'write in' value if present
