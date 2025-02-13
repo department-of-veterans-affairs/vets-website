@@ -58,6 +58,8 @@ export const phoneAndEmailPages = ({ additionalFields, id, pageTitle }) => {
 
   if (additionalFields.includeEmail) {
     schema.properties.emailAddress = webComponentPatterns.emailSchema;
+    // Email is always required when present.
+    schema.required = [...schema.required, 'emailAddress'];
     uiSchema.emailAddress = webComponentPatterns.emailUI();
   }
 
