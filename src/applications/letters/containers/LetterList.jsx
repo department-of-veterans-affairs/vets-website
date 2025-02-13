@@ -85,13 +85,16 @@ export class LetterList extends React.Component {
       AVAILABILITY_STATUSES.letterEligibilityError
     ) {
       eligibilityMessage = (
-        <va-alert status="warning" visible>
-          <h4 slot="headline">Some letters may not be available</h4>
-          <p>
-            One of our systems appears to be down. If you believe you’re missing
-            a letter or document from the list above, please try again later.
-          </p>
-        </va-alert>
+        <div className="vads-u-margin-top--2">
+          <va-alert status="warning" visible>
+            <h4 slot="headline">Some letters may not be available</h4>
+            <p>
+              One of our systems appears to be down. If you believe you’re
+              missing a letter or document from the list above, please try again
+              later.
+            </p>
+          </va-alert>
+        </div>
       );
     }
 
@@ -138,8 +141,7 @@ export class LetterList extends React.Component {
         )}
         {eligibilityMessage}
 
-        <br />
-        <h3 slot="headline">Other sources of VA benefit documentation</h3>
+        <h2 slot="headline">Other sources of VA benefit documentation</h2>
         <p>
           A lot of people come to this page looking for their Post-9/11 GI Bill
           statement of benefits, their Certificate of Eligibility (COE) for home
@@ -187,16 +189,36 @@ export class LetterList extends React.Component {
             </a>
           </li>
         </ul>
-
-        <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
-          Need help?
-        </h2>
-        <div className="vads-u-margin-bottom--4">
-          If you have any questions, please call the VA Benefits Help Desk:
-          <br />
-          <va-telephone contact="8008271000" />, Monday &#8211; Friday, 8 a.m.
-          &#8211; 9 p.m. ET
-        </div>
+        <Toggler.Hoc toggleName={Toggler.TOGGLE_NAMES.lettersPageNewDesign}>
+          {toggleValue =>
+            toggleValue ? (
+              <va-need-help>
+                <div slot="content">
+                  <p>
+                    Call us at <va-telephone contact="8008271000" />. We're here
+                    Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+                    hearing loss, call <va-telephone contact="711" tty="true" />
+                    .
+                  </p>
+                </div>
+              </va-need-help>
+            ) : (
+              <>
+                {' '}
+                <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
+                  Need help?
+                </h2>
+                <div className="vads-u-margin-bottom--4">
+                  If you have any questions, please call the VA Benefits Help
+                  Desk:
+                  <br />
+                  <va-telephone contact="8008271000" />, Monday &#8211; Friday,
+                  8 a.m. &#8211; 9 p.m. ET
+                </div>{' '}
+              </>
+            )
+          }
+        </Toggler.Hoc>
       </div>
     );
   }

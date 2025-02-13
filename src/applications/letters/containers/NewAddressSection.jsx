@@ -22,14 +22,14 @@ export function NewAddressSection() {
             documentation. You can edit this address.
           </p>
           <va-card className="vads-u-justify-content--space-between">
-            <div className="address-section">
-              <AddressView data={mailingAddress} />
-            </div>
-            <va-link
-              active
-              href="https://www.va.gov"
-              text="Edit mailing address"
-            />
+            <AddressView data={mailingAddress} />
+            <p className="edit-link">
+              <va-link
+                active
+                href="/records/download-va-letters/letters/edit-address"
+                text="Edit mailing address"
+              />
+            </p>
           </va-card>
         </VAPServicePendingTransactionCategory>
       </InitializeVAPServiceID>
