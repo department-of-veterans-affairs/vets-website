@@ -70,7 +70,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     () => {
       getAvailableForms().then(result => {
         const mostRecentYearData = result[0];
-        if (mostRecentYearData.lastUpdated && mostRecentYearData.year) {
+        if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
           const date = new Date(mostRecentYearData.lastUpdated);
           const options = { year: 'numeric', month: 'long', day: 'numeric' };
           // expected output (varies according to local timezone and default locale): December 20, 2012
@@ -121,7 +121,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           <b>Tax year:</b> {year}
         </span>
       </div>
-      <div className="download-links vads-u-font-size--h5">
+      <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
         <div className="vads-u-padding-bottom--1">
           <va-link
             download
