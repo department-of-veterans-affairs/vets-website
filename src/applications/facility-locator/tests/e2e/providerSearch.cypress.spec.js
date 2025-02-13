@@ -11,8 +11,6 @@ describe('Provider search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
-    cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
       'mockServices',
     );
@@ -129,7 +127,7 @@ describe('Provider search', () => {
       .shadow()
       .find('select')
       .select('Urgent care');
-    cy.get('.service-type-dropdown-container')
+    cy.get('.service-type-dropdown-tablet')
       .find('select')
       .select(NON_VA_URGENT_CARE);
     cy.get('#facility-search').click({ waitForAnimations: true });
@@ -152,7 +150,7 @@ describe('Provider search', () => {
       .shadow()
       .find('select')
       .select('Emergency care');
-    cy.get('.service-type-dropdown-container')
+    cy.get('.service-type-dropdown-tablet')
       .find('select')
       .select('In-network community emergency care');
     cy.get('#facility-search').click({ waitForAnimations: true });
