@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import {
-  VaAccordion,
-  VaAccordionItem,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import {
   validateField,
@@ -537,7 +534,13 @@ const VaPrescription = prescription => {
                             const refillPosition = refillHistory.length - i - 1;
                             const refillLabelId = `rx-refill-${refillPosition}`;
                             return (
-                              <VaAccordionItem bordered="true" key={i}>
+                              <va-accordion-item
+                                bordered="true"
+                                key={i}
+                                subHeader={`Filled on ${dateFormat(
+                                  entry.dispensedDate,
+                                )}`}
+                              >
                                 <h4
                                   className="vads-u-font-size--h6"
                                   data-testid="rx-refill"
@@ -547,9 +550,6 @@ const VaPrescription = prescription => {
                                   {i + 1 === refillHistory.length
                                     ? 'Original fill'
                                     : `Refill`}
-                                  {entry.dispensedDate
-                                    ? `: ${dateFormat(entry.dispensedDate)}`
-                                    : ''}
                                 </h4>
                                 {i === 0 && (
                                   <>
@@ -663,7 +663,7 @@ const VaPrescription = prescription => {
                                     </>
                                   )}
                                 </div>
-                              </VaAccordionItem>
+                              </va-accordion-item>
                             );
                           })}
                         </VaAccordion>
