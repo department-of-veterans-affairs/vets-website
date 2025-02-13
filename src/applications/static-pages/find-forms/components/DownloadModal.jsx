@@ -47,7 +47,7 @@ const DownloadModal = ({
             size="3"
           />
           <span className="vads-u-text-decoration--underline">
-            Download VA Form {formName}
+            Download VA Form {formName} (PDF)
           </span>
         </a>
       </div>

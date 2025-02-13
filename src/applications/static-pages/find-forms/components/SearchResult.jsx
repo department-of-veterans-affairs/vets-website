@@ -47,7 +47,7 @@ const deriveLanguageTranslation = (lang = 'en', whichNode, formName) => {
     },
     en: {
       goToOnlineTool: `Fill out VA Form ${formName} online`,
-      downloadVaForm: `Download VA Form ${formName}`,
+      downloadVaForm: `Download VA Form ${formName} (PDF)`,
     },
   };
 
