@@ -3,13 +3,15 @@ import {
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import {
+  //   finishAppLaterLink,
+  applicantRelationToVetHeaders,
+} from '../utils/helpers';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    // ...titleUI(
-    //   'Mailing address',
-    //   'We’ll send any important information about your application to this address.',
-    // ),
+    'ui:description': applicantRelationToVetHeaders,
     relationToVetRadio: radioUI({
       title: 'What’s your relationship to the Veteran?',
       labels: {
@@ -22,7 +24,7 @@ export default {
       },
       required: () => true,
       errorMessages: {
-        required: 'Please select an animal',
+        required: 'Please select an option',
       },
     }),
   },
