@@ -16,39 +16,56 @@ const OMB_EXP_DATE = '10/30/2024';
 const ProcessList = () => {
   return (
     <va-process-list>
-      {/* <va-process-list-item header="Check the Veteran’s eligibility">
-        <p>Check our eligibility requirements before you apply. If you think the Veteran may be eligible, but you’re not sure, we encourage you to apply.</p>
+      <va-process-list-item header="Check the Veteran’s eligibility">
         <p>
-          <a href="">
+          Check our eligibility requirements before you apply. If you think the
+          Veteran may be eligible, but you’re not sure, we encourage you to
+          apply.
+        </p>
+        <p>
+          {/* <a href="">
             Find out if the Veteran is eligible for a medallion
-          </a>
+          </a> */}
         </p>
       </va-process-list-item>
       <va-process-list-item header="Contact the Veteran’s cemetery">
-        <p>Contact the Veteran’s cemetery and tell them that you’re applying for a medallion to put on a Veteran’s headstone or marker.</p>
+        <p>
+          Contact the Veteran’s cemetery and tell them that you’re applying for
+          a medallion to put on a Veteran’s headstone or marker.
+        </p>
         <p>You’ll need to get this information from them:</p>
         <ul>
           <li>The name of a representative from the Veteran’s cemetery</li>
           <li>The representative’s email address</li>
         </ul>
-        <p>Also check if the cemetery will accept the size of medallion you request.</p>
-        <p>After you get this information, tell the representative to expect an email from VA about your application. And to review and sign your application within 30 days.</p>
-      </va-process-list-item> */}
-      {/* <va-process-list-item header="Gather the Veteran’s information">
+        <p>
+          Also check if the cemetery will accept the size of medallion you
+          request.
+        </p>
+        <p>
+          After you get this information, tell the representative to expect an
+          email from VA about your application. And to review and sign your
+          application within 30 days.
+        </p>
+      </va-process-list-item>
+      <va-process-list-item header="Gather the Veteran’s information">
         <p>Here’s what you’ll need to apply:</p>
         <ul>
           <li>The Veteran’s Social Security number</li>
           <li>The Veteran’s date and place of birth</li>
           <li>The Veteran’s date of death</li>
           <li>The Veteran’s service periods</li>
-          <li>The contact information and mailing address for a representative from the Veteran’s cemetery</li>
+          <li>
+            The contact information and mailing address for a representative
+            from the Veteran’s cemetery
+          </li>
         </ul>
         <p>
-          <a href="">
+          {/* <a href="">
             Find out what supporting documents you’ll need to submit
-          </a>
+          </a> */}
         </p>
-      </va-process-list-item> */}
+      </va-process-list-item>
       <va-process-list-item header="Start your application">
         <p>
           We’ll take you through each step of the process. It should take about
