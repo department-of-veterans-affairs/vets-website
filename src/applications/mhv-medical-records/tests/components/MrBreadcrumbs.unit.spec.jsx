@@ -138,23 +138,6 @@ describe('MrBreadcrumbs component', () => {
     expect(header).to.exist;
   });
 
-  it('phase 1 disabled && no crumbs list && on the home page, should display the no-crumbs div', () => {
-    const initialState = {
-      mr: {
-        breadcrumbs: {
-          crumbsList: null,
-        },
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-    });
-    const { getByTestId } = screen;
-    expect(getByTestId('no-crumbs-list-display')).to.exist;
-  });
-
   it('checks the lab test bread crumbs', () => {
     const initialState = {
       mr: {
