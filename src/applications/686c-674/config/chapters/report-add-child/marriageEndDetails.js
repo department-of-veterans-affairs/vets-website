@@ -32,25 +32,24 @@ export const marriageEndDetails = {
       }),
     },
     marriageEndDescription: {
-      ...textUI({
-        title: 'Briefly describe how the marriage ended',
-        required: (formData, index) =>
-          formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
-          formData?.marriageEndReason === 'other',
+      ...textUI('Briefly describe how the marriage ended'),
+      'ui:required': (formData, index) =>
+        formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
+        formData?.marriageEndReason === 'other',
+      'ui:errorMessages': {
+        required: 'Provide details on how the marriage ended.',
+      },
+      'ui:options': {
         hideIf: (formData, index) =>
           !(
             formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
             formData?.marriageEndReason === 'other'
           ),
-        errorMessages: {
-          required: 'Provide details on how the marriage ended.',
-        },
-      }),
+      },
     },
   },
   schema: {
     type: 'object',
-    required: ['marriageEndDate', 'marriageEndReason'],
     properties: {
       marriageEndDate: currentOrPastDateSchema,
       marriageEndReason: radioSchema([
