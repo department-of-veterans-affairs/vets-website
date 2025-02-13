@@ -1,17 +1,19 @@
 import { datadogLogs } from '@datadog/browser-logs';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 // Conditional added to prevent initialization of Datadog as it was causing tests to hang indefinitely and prevented coverage report generation
 if (!process.env.NODE_ENV === 'test') {
   // Initialize Datadog logging
   datadogLogs.init({
-    clientToken: 'pubf64b43174e3eb74fa640b1ec28781c07', // Replace with your Datadog API key
+    clientToken: 'pubf64b43174e3eb74fa640b1ec28781c07',
+    service: 'virtual-agent-front-end',
+    team: 'virtual-agent-platform',
     site: 'ddog-gov.com',
-    forwardErrorsToLogs: true, // Automatically capture unhandled errors
-    sampleRate: 100, // Percentage of sessions to log (adjust as needed)
+    env: environment.vspEnvironment(),
+    sessionSampleRate: 100,
+    forwardConsoleLogs: ['error'],
+    telemetrySampleRate: 100,
   });
-
-  // Add a global context attribute to identify the source of the logs as the chatbot
-  datadogLogs.addLoggerGlobalContext('source', 'chatbot');
 }
 
 /**
@@ -25,7 +27,6 @@ export function logErrorToDatadog(
   context = {},
 ) {
   if (isDatadogLoggingEnabled) {
-    // Replace with your actual feature toggle name
     datadogLogs.logger.error(message, context);
   }
 }
