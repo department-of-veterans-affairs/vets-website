@@ -1,43 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-import { TITLE, SUBTITLE } from '../config/constants';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-const content = {
-  headlineText: "You've submitted your statement to support your claim",
-  nextStepsText: (
-    <>
-      <p>
-        We’ll review your statement. If we have any questions or need additional
-        information from you, we’ll contact you.
-      </p>
-    </>
-  ),
-};
-const childContent = <div />;
-
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
-  const submitterFullName = form.data.fullName;
 
   return (
-    <>
-      <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <ConfirmationPageView
-        formType="submission"
-        submitterHeader="Who submitted this form"
-        submitterName={submitterFullName}
-        submitDate={submitDate}
-        confirmationNumber={confirmationNumber}
-        content={content}
-        childContent={childContent}
-      />
-    </>
+    <ConfirmationView
+      formConfig={props.route?.formConfig}
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    />
   );
 };
 
@@ -48,6 +29,7 @@ ConfirmationPage.propTypes = {
         first: PropTypes.string.isRequired,
         middle: PropTypes.string,
         last: PropTypes.string.isRequired,
+        suffix: PropTypes.string,
       },
     }),
     formId: PropTypes.string,
@@ -61,6 +43,9 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };
 
 function mapStateToProps(state) {
