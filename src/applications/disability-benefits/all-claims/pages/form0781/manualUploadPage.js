@@ -34,7 +34,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['form781aUpload'],
+  required: ['form781Upload'],
   properties: {
     'view:howToScanAFile': {
       type: 'object',
