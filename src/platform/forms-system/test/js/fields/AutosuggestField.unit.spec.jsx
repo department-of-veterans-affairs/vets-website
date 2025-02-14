@@ -341,7 +341,7 @@ describe('<AutosuggestField>', () => {
 
     // Check that getOptions was called with the form data
     setTimeout(() => {
-      const args = getOptions.secondCall.args;
+      const { args } = getOptions.secondCall;
       expect(args[0]).to.eql('ir');
       wrapper.unmount();
       done();
@@ -496,7 +496,7 @@ describe('<AutosuggestField>', () => {
       />,
     );
 
-    onChange.reset();
+    onChange.resetHistory();
     tree.instance().setOptions([]);
     expect(onChange.called).to.be.true;
     tree.unmount();

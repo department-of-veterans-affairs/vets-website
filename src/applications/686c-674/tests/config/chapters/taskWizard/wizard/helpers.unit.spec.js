@@ -43,7 +43,7 @@ describe('removeDependentOptions', () => {
 
 describe('validateAtLeastOneSelected', () => {
   beforeEach(() => {
-    addErrorSpy.reset();
+    addErrorSpy.resetHistory();
   });
 
   it('should add an error if no option is selected', () => {

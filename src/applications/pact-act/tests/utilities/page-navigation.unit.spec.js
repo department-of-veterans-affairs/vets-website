@@ -14,7 +14,7 @@ const router = {
 };
 
 beforeEach(() => {
-  pushSpy.reset();
+  pushSpy.resetHistory();
 });
 
 describe('navigateForward', () => {

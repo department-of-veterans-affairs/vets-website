@@ -94,7 +94,7 @@ describe('<ContestableIssues>', () => {
     const { container } = render(<ContestableIssues {...props} />);
 
     $$('.widget-checkbox-wrap', container).forEach(async (element, index) => {
-      testChange.reset();
+      testChange.resetHistory();
 
       const checkbox = $('input', element);
       // "Click" the option

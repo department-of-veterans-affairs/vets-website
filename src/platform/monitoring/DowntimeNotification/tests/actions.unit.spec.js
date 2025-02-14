@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import {
   getScheduledDowntime,
   RECEIVE_SCHEDULED_DOWNTIME,
   RETRIEVE_SCHEDULED_DOWNTIME,
 } from '../actions';
-import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 
 describe('getScheduledDowntime', () => {
   const dispatch = sinon.spy();
@@ -16,7 +16,7 @@ describe('getScheduledDowntime', () => {
   });
 
   afterEach(() => {
-    dispatch.reset();
+    dispatch.resetHistory();
   });
 
   it('dispatches the correct actions and maps the data correctly', done => {

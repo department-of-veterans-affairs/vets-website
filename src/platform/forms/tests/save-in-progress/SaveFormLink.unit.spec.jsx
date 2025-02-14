@@ -212,7 +212,7 @@ describe('Schemaform <SaveFormLink>', () => {
   });
 
   it.skip('should call saveInProgressForm if logged in', () => {
-    saveInProgressForm.reset(); // Just because it's good practice for a shared spy
+    saveInProgressForm.resetHistory(); // Just because it's good practice for a shared spy
     const tree = ReactTestUtils.renderIntoDocument(
       // Wrapped in a div because I SaveFormLink only returns an anchor and I
       //  didn't want to just .click() the tree (if that would even work).

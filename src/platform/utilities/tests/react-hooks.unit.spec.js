@@ -62,7 +62,7 @@ describe('useStaggeredFeatureRelease', () => {
     const spy = sinon.spy(global.window.localStorage, 'setItem');
     ReactDOM.render(<TestComponent displayThreshold={100} />, container);
     expect(spy.calledWith('test-value', '100'));
-    spy.reset();
+    spy.resetHistory();
   });
 
   it('should not allow feature with 0 displayThreshold', () => {
@@ -70,6 +70,6 @@ describe('useStaggeredFeatureRelease', () => {
     ReactDOM.render(<TestComponent displayThreshold={0} />, container);
     expect(isAllowed).to.be.false;
     expect(spy.calledWith('test-value', '0'));
-    spy.reset();
+    spy.resetHistory();
   });
 });

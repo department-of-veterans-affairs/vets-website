@@ -36,7 +36,7 @@ describe('<MHVApp>', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
-    props.fetchMHVAccount.reset();
+    props.fetchMHVAccount.resetHistory();
   };
 
   const context = { router: {} };

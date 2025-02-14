@@ -37,7 +37,7 @@ describe('CG <FacilityReview>', () => {
   };
 
   afterEach(() => {
-    goToPath.reset();
+    goToPath.resetHistory();
   });
 
   it('calls goToPath with review query string when clicking edit button', () => {

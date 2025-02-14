@@ -12,7 +12,7 @@ describe('<PrintPage/>', () => {
     enrollmentData: {},
   };
 
-  afterEach(() => pushSpy.reset());
+  afterEach(() => pushSpy.resetHistory());
 
   it('should render', () => {
     // Not necessary if not componentWillUnmount

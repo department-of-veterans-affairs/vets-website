@@ -23,7 +23,7 @@ describe('<SelectArrayItemsWidget>', () => {
 
   beforeEach(() => {
     // Reset default props before each test
-    onChangeSpy.reset();
+    onChangeSpy.resetHistory();
     defaultProps = {
       value: [
         {
@@ -97,7 +97,7 @@ describe('<SelectArrayItemsWidget>', () => {
   it('should call onChange with the toggled the selected property when the checkbox is toggled', () => {
     const wrapper = mount(<SelectArrayItemsWidget {...defaultProps} />);
     wrapper.find('.form-checkbox').forEach((element, index) => {
-      onChangeSpy.reset();
+      onChangeSpy.resetHistory();
 
       // Grab the default "checked" state
       // Note: Using `get` because that's what the widget uses

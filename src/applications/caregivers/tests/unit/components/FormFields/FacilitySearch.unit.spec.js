@@ -91,10 +91,10 @@ describe('CG <FacilitySearch>', () => {
   };
 
   afterEach(() => {
-    goBack.reset();
-    goForward.reset();
-    dispatch.reset();
-    goToPath.reset();
+    goBack.resetHistory();
+    goForward.resetHistory();
+    dispatch.resetHistory();
+    goToPath.resetHistory();
   });
 
   context('when the component renders on the form page', () => {

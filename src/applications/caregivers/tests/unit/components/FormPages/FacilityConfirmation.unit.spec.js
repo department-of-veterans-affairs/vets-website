@@ -42,9 +42,9 @@ describe('CG <FacilityConfirmation>', () => {
   };
 
   afterEach(() => {
-    goBack.reset();
-    goForward.reset();
-    goToPath.reset();
+    goBack.resetHistory();
+    goForward.resetHistory();
+    goToPath.resetHistory();
   });
 
   context('formNavButtons', () => {

@@ -35,8 +35,8 @@ describe('hca `validateServiceDates` form validation', () => {
   });
 
   afterEach(() => {
-    dischargeDateSpy.reset();
-    entryDateSpy.reset();
+    dischargeDateSpy.resetHistory();
+    entryDateSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {
@@ -98,8 +98,8 @@ describe('hca `validateGulfWarDates` form validation', () => {
   });
 
   afterEach(() => {
-    startDateSpy.reset();
-    endDateSpy.reset();
+    startDateSpy.resetHistory();
+    endDateSpy.resetHistory();
   });
 
   it('should not set error message when date range is valid', () => {
@@ -159,8 +159,8 @@ describe('hca `validateExposureDates` form validation', () => {
   });
 
   afterEach(() => {
-    startDateSpy.reset();
-    endDateSpy.reset();
+    startDateSpy.resetHistory();
+    endDateSpy.resetHistory();
   });
 
   it('should not set error message when date range is valid', () => {
@@ -214,7 +214,7 @@ describe('hca `validateDependentDate` form validation', () => {
   });
 
   afterEach(() => {
-    fieldSpy.reset();
+    fieldSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {
@@ -239,7 +239,7 @@ describe('hca `validateCurrency` form validation', () => {
   });
 
   afterEach(() => {
-    fieldSpy.reset();
+    fieldSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {
@@ -292,8 +292,8 @@ describe('hca `validatePolicyNumber` form validation', () => {
   });
 
   afterEach(() => {
-    policySpy.reset();
-    groupSpy.reset();
+    policySpy.resetHistory();
+    groupSpy.resetHistory();
   });
 
   it('should not set error message when form data is valid', () => {

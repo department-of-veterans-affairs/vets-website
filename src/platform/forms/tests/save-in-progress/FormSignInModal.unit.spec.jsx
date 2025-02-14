@@ -21,8 +21,8 @@ describe('<FormSignInModal>', () => {
   });
 
   afterEach(() => {
-    props.onClose.reset();
-    props.onSignIn.reset();
+    props.onClose.resetHistory();
+    props.onSignIn.resetHistory();
     global.window = oldWindow;
   });
 

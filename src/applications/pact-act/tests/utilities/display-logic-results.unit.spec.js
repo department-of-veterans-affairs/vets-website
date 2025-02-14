@@ -17,8 +17,8 @@ const router = {
 };
 
 beforeEach(() => {
-  pushSpy.reset();
-  updateSpy.reset();
+  pushSpy.resetHistory();
+  updateSpy.resetHistory();
 });
 
 const {

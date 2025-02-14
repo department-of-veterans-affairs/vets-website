@@ -270,7 +270,7 @@ describe('validateLivingSituation()', () => {
         'If none of these situations apply to you, unselect the other options you selected',
       ),
     ).to.be.true;
-    errors.livingSituation.addError.reset();
+    errors.livingSituation.addError.resetHistory();
 
     validateLivingSituation(errors, fieldsNonVet);
     expect(errors.livingSituation.addError.calledOnce).to.be.true;
@@ -279,7 +279,7 @@ describe('validateLivingSituation()', () => {
         'If none of these situations apply to you, unselect the other options you selected',
       ),
     ).to.be.true;
-    errors.livingSituation.addError.reset();
+    errors.livingSituation.addError.resetHistory();
 
     validateLivingSituation(errors, fields3rdPtyVet);
     expect(errors.livingSituation.addError.calledOnce).to.be.true;
@@ -288,7 +288,7 @@ describe('validateLivingSituation()', () => {
         'If none of these situations apply to the Veteran, unselect the other options you selected',
       ),
     ).to.be.true;
-    errors.livingSituation.addError.reset();
+    errors.livingSituation.addError.resetHistory();
 
     validateLivingSituation(errors, fields3rdPtyNonVet);
     expect(errors.livingSituation.addError.calledOnce).to.be.true;
@@ -297,7 +297,7 @@ describe('validateLivingSituation()', () => {
         'If none of these situations apply to the Claimant, unselect the other options you selected',
       ),
     ).to.be.true;
-    errors.livingSituation.addError.reset();
+    errors.livingSituation.addError.resetHistory();
   });
 
   it('doesn’t add an error if "NONE" is the only option selected', () => {

@@ -340,7 +340,7 @@ describe('Schemaform: ReviewCardField', () => {
     });
 
     it('should handle canceling an update', () => {
-      defaultVDProps.onChange.reset();
+      defaultVDProps.onChange.resetHistory();
       // Start in review mode with some data
       const tree = shallow(<ReviewCardField {...defaultVDProps} />);
       // Start editing

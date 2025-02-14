@@ -28,8 +28,8 @@ const defaultProps = {
 
 describe('526 ITFWrapper', () => {
   afterEach(() => {
-    fetchITF.reset();
-    createITF.reset();
+    fetchITF.resetHistory();
+    createITF.resetHistory();
   });
 
   it('should not make an api call on the intro page', () => {

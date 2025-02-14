@@ -41,12 +41,12 @@ describe('<Main>', () => {
   });
 
   afterEach(() => {
-    props.getBackendStatuses.reset();
-    props.toggleFormSignInModal.reset();
-    props.toggleLoginModal.reset();
-    props.toggleSearchHelpUserMenu.reset();
-    props.updateLoggedInStatus.reset();
-    props.initializeProfile.reset();
+    props.getBackendStatuses.resetHistory();
+    props.toggleFormSignInModal.resetHistory();
+    props.toggleLoginModal.resetHistory();
+    props.toggleSearchHelpUserMenu.resetHistory();
+    props.updateLoggedInStatus.resetHistory();
+    props.initializeProfile.resetHistory();
     global.window = oldWindow;
     localStorage.clear();
   });

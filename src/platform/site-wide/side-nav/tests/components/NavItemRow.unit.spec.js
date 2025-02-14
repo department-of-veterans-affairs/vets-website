@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { uniqueId } from 'lodash';
 // Relative
-import NavItemRow from '../../components/NavItemRow';
 import sinon from 'sinon';
+import NavItemRow from '../../components/NavItemRow';
 
 describe('<NavItemRow>', () => {
   const trackEventsSpy = sinon.spy();
@@ -29,7 +29,7 @@ describe('<NavItemRow>', () => {
   });
 
   beforeEach(() => {
-    trackEventsSpy.reset();
+    trackEventsSpy.resetHistory();
   });
 
   it('should fire trackEvents when href clicked', () => {
