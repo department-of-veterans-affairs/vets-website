@@ -83,7 +83,6 @@ const PendingReferralCard = ({ referral, index }) => {
 };
 
 PendingReferralCard.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   referral: PropTypes.object.isRequired,
 };
