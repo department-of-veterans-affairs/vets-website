@@ -14,10 +14,7 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import {
-  apiAccountStatusEnabled,
-  personalizationEnabled,
-} from './featureToggles';
+import { personalizationEnabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import { selectGreetingName } from './personalInformation';
 import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
@@ -32,7 +29,6 @@ import {
 } from './mhvAccountStatus';
 
 export {
-  apiAccountStatusEnabled,
   hasMhvAccount,
   hasMhvBasicAccount,
   isAuthenticatedWithSSOe,

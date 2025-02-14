@@ -121,7 +121,6 @@
   "mhvAcceleratedDeliveryEnabled": "mhv_accelerated_delivery_enabled",
   "mhvAcceleratedDeliveryAllergiesEnabled": "mhv_accelerated_delivery_allergies_enabled",
   "mhvAcceleratedDeliveryVitalSignsEnabled": "mhv_accelerated_delivery_vital_signs_enabled",
-  "mhvAccountCreationApiConsumption": "mhv_account_creation_api_consumption",
   "mhvIntegrationMedicalRecordsToPhase1": "mhv_integration_medical_records_to_phase_1",
   "mhvInterstitialEnabled": "mhv_interstitial_enabled",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",

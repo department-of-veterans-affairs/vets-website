@@ -10,7 +10,6 @@ import {
 } from '../components/alerts';
 
 import {
-  apiAccountStatusEnabled,
   hasMhvAccount,
   hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
@@ -25,7 +24,6 @@ import {
 } from '../selectors';
 
 const Alerts = () => {
-  const isAccountStatusApiEnabled = useSelector(apiAccountStatusEnabled);
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
@@ -54,7 +52,7 @@ const Alerts = () => {
     return <AlertUnregistered />;
   }
 
-  if (mhvAccountStatusSortedErrors.length > 0 && isAccountStatusApiEnabled) {
+  if (mhvAccountStatusSortedErrors.length > 0) {
     return (
       <AlertAccountApiAlert
         userActionable={mhvAccountStatusUserErrors.length > 0}
