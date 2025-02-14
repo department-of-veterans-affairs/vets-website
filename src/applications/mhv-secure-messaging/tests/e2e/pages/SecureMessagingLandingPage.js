@@ -16,17 +16,21 @@ class SecureMessagingLandingPage {
     cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, featureToggles).as(
       'featureToggles',
     );
+
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
       recipients,
     ).as('Recipients');
+
     cy.intercept('GET', '/v0/user', user).as('user');
+
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0*`,
       mockGeneralFolder,
     ).as('generalFolder');
+
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/messages*`,
@@ -41,7 +45,6 @@ class SecureMessagingLandingPage {
 
     cy.wait('@featureToggles');
     cy.wait('@user');
-    cy.wait('@generalFolder');
   };
 
   verifyHeaderText = (text = 'Messages') => {
