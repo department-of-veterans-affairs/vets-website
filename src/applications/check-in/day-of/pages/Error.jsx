@@ -64,7 +64,7 @@ const Error = () => {
             data-testid="travel-pay-not-eligible-message"
           >
             <Trans
-              i18nKey="travel-pay-cant-file-message"
+              i18nKey="travel-pay-cant-file-message--v2"
               components={[
                 <span key="bold" className="vads-u-font-weight--bold" />,
               ]}
@@ -86,7 +86,7 @@ const Error = () => {
       <div data-testid="check-in-failed-file-later">
         <p className="vads-u-margin-top--0">
           <Trans
-            i18nKey="were-sorry-cant-file-travel-file-later--info-message"
+            i18nKey="were-sorry-cant-file-travel-file-later--info-message--v2"
             components={[
               <span key="bold" className="vads-u-font-weight--bold" />,
             ]}
