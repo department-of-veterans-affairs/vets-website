@@ -166,6 +166,7 @@ export function CautionaryInformation({ institution, showModal }) {
 
       <div>
         <div className="table">
+          {/* NOTE: This table purposely not converted to a va-table - DST */}
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component */}
           <table className="usa-table">
             <thead>
@@ -186,6 +187,7 @@ export function CautionaryInformation({ institution, showModal }) {
           </table>
 
           {!!complaints.mainCampusRollUp && (
+            // NOTE: This table purposely not converted to a va-table - DST
             // eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component
             <table className="usa-table">
               <thead>
