@@ -8,6 +8,8 @@ import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   arrayBuilderItemSubsequentPageTitleUI,
+  radioUI,
+  radioSchema,
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -92,6 +94,23 @@ export const employersPageNameAndAddressPage = {
       'ui:webComponentField': VaTextInputField,
     },
     address: addressNoMilitaryUI({ omit: ['street2', 'street3'] }),
+    testRadio: radioUI({
+      title: 'testRadio',
+      labels: {
+        Y: 'Yes',
+        N: 'No',
+      },
+    }),
+    test: textUI({
+      title: 'test',
+      // hideIf: (formData, index, fullData) => {
+      //   return false;
+      // },
+      expandUnder: 'testRadio',
+      expandUnderCondition: value => {
+        return value === 'Y';
+      },
+    }),
   },
   schema: {
     type: 'object',
@@ -100,6 +119,8 @@ export const employersPageNameAndAddressPage = {
         type: 'string',
       },
       address: addressNoMilitarySchema({ omit: ['street2', 'street3'] }),
+      testRadio: radioSchema(['Y', 'N']),
+      test: textSchema,
     },
     required: ['name'],
   },
