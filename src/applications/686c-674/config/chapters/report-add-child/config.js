@@ -29,7 +29,9 @@ export const arrayBuilderOptions = {
       return 'Child';
     },
     cardDescription: item => {
-      return `${item?.fullName?.first} ${item?.fullName?.last}`;
+      return `${item?.fullName?.first ? item?.fullName?.first : ''} ${
+        item?.fullName?.last ? item?.fullName?.last : ''
+      }`;
     },
   },
 };

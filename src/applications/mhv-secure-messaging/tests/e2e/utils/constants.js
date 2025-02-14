@@ -25,6 +25,7 @@ export const Paths = {
   FIND_LOCATION: '/find-locations',
   HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
   MHV_LANDING_PAGE: '/my-health',
+  MHV_SM: '/secure-messages',
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
   NEW_MESSAGE: '/my-health/secure-messages/new-message/',

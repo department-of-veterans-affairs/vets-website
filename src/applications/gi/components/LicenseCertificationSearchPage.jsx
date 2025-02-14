@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import LicenseCertificationSearchForm from '../containers/LicenseCertificationSearchForm';
 import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 
@@ -20,9 +19,9 @@ const faqs = [
     answer: (
       <p className="faq-answer">
         Part of your entitlement can be used to cover the costs of tests, up to
-        \$2000, for a job that requires a license or certification—even if
-        you’re already receiving other education benefits. Your benefits will
-        only cover tests approved for the GI Bill.
+        $2000, for a job that requires a license or certification—even if you’re
+        already receiving other education benefits. Your benefits will only
+        cover tests approved for the GI Bill.
       </p>
     ),
   },
@@ -33,7 +32,7 @@ const faqs = [
       <>
         <va-link
           text="Find out how to get reimbursed for licenses, certifications and prep courses"
-          href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
+          href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
         />
         <br />
         <br />
@@ -46,7 +45,7 @@ const faqs = [
         <br />
         <va-link
           text="Get VA Form22-0803 to download"
-          href="../find-forms/about-form-22-0803/"
+          href="https://www.va.gov/find-forms/about-form-22-0803/"
         />
       </>
     ),
@@ -75,11 +74,6 @@ const faqs = [
 export default function LicenseCertificationSearchPage({ flag }) {
   const history = useHistory();
   const location = useLocation();
-  const [modal, setModal] = useState({
-    visible: false,
-    changedfield: '',
-    message: '',
-  });
 
   useEffect(() => {
     window.scrollTo(0, 0); // create function for reuse
@@ -99,15 +93,16 @@ export default function LicenseCertificationSearchPage({ flag }) {
     }
   };
 
-  const handleUpdateQueryParam = () => updateQueryParam(history, location); // refactor this function
+  const handleSearch = (category, name) => {
+    const newParams = {
+      category: [category],
+      name,
+    };
 
-  const handleSearch = (category, name, state) => {
-    handleUpdateQueryParam()([
-      ['state', state],
-      ['category', category],
-      ['name', name],
-    ]);
-    handleLcResultsSearch(history, category, name, state);
+    // preserves category filter option in case user navigates back to this page
+    updateQueryParam(history, location, newParams);
+
+    handleLcResultsSearch(history, newParams.category, name, 'all', category);
   };
 
   const handleReset = callback => {
@@ -115,29 +110,14 @@ export default function LicenseCertificationSearchPage({ flag }) {
     callback?.();
   };
 
-  const handleShowModal = (changedField, message, callback) => {
-    return setModal({
-      visible: true,
-      changedField,
-      message,
-      callback,
-    });
-  };
-
-  const toggleModal = () => {
-    setModal(current => {
-      return { ...current, visible: false };
-    });
-  };
-
   return (
     <div className="lc-page-wrapper">
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        <div className="row">
-          <h1 className="mobile-lg:vads-u-text-align--left">
+        <div className="row ">
+          <h1 className="mobile-lg:vads-u-text-align--left vads-l-col--12 medium-screen:vads-l-col--7">
             Licenses, certifications, and prep courses
           </h1>
-          <p className="vads-u-color--gray-dark">
+          <p className=" vads-l-col--12 medium-screen:vads-l-col--7">
             Use the search tool to find out which tests or related prep courses
             are reimbursable. If you don’t see a test or prep course listed, it
             may be a valid test that’s not yet approved. We encourage you to
@@ -154,8 +134,6 @@ export default function LicenseCertificationSearchPage({ flag }) {
         <div className="lc-form-wrapper row">
           <LicenseCertificationSearchForm
             handleSearch={handleSearch}
-            handleUpdateQueryParam={handleUpdateQueryParam}
-            handleShowModal={handleShowModal}
             location={location}
             handleReset={handleReset}
             flag={flag}
@@ -173,32 +151,12 @@ export default function LicenseCertificationSearchPage({ flag }) {
                   onClick={() => handleFaqClick(index)}
                   onKeyDown={e => handleKeyDown(e, index)}
                 >
-                  {faq.answer}
+                  <div className="vads-u-padding-y--3">{faq.answer}</div>
                 </va-accordion-item>
               );
             })}
           </va-accordion>
         </div>
-        <VaModal
-          forcedModal={false}
-          clickToClose
-          disableAnalytics
-          large
-          modalTitle={`Are you sure you want to change the ${
-            modal.changedField
-          } field?`}
-          onCloseEvent={toggleModal}
-          onPrimaryButtonClick={() => {
-            modal.callback();
-            toggleModal();
-          }}
-          primaryButtonText="Continue to change"
-          onSecondaryButtonClick={toggleModal}
-          secondaryButtonText="Go Back"
-          visible={modal.visible}
-        >
-          <p>{modal.message}</p>
-        </VaModal>
       </section>
     </div>
   );

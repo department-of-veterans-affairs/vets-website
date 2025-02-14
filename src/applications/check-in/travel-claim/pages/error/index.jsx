@@ -40,7 +40,7 @@ const Error = () => {
                   'sorry-we-couldnt-find-an-account-that-matches-last-name-or-dob',
                 )}
               </p>
-              <p>{t('you-can-still-file-within')}</p>
+              <p>{t('you-can-still-file-within--v2')}</p>
               <FindOutLink />
             </>
           ),
@@ -57,7 +57,7 @@ const Error = () => {
           message: (
             <>
               <p className="vads-u-margin-top--0">
-                {t('we-cant-file-a-claim')}
+                {t('we-cant-file-a-claim--v2')}
               </p>
               <FindOutLink />
             </>
@@ -77,7 +77,7 @@ const Error = () => {
               <p className="vads-u-margin-top--0">
                 {t('were-sorry-we-couldnt-file-your-claim')}
               </p>
-              <p>{t('or-you-can-still-file-within')}</p>
+              <p>{t('or-you-can-still-file-within--v2')}</p>
               <FindOutLink />
             </>
           ),
@@ -93,7 +93,7 @@ const Error = () => {
           message: (
             <>
               <p className="vads-u-margin-top--0">
-                {t('were-sorry-we-cant-file-this-type')}
+                {t('were-sorry-we-cant-file-this-type--v2')}
               </p>
               <FindOutLink />
             </>
@@ -146,7 +146,7 @@ const Error = () => {
           message: (
             <>
               <p className="vads-u-margin-top--0">
-                {t('we-cant-file-a-claim')}
+                {t('we-cant-file-a-claim--v2')}
               </p>
               <FindOutLink />
             </>
