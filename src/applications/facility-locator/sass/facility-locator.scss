@@ -40,11 +40,6 @@ $text-color: rgba(27, 27, 27, 1);
     display: flex;
     flex-direction: column;
     width: 333px;
-
-    .usa-input-error {
-      right: 0;
-      margin-top: 0;
-    }
   }
 
   #controls-and-map-container {
@@ -347,24 +342,39 @@ $text-color: rgba(27, 27, 27, 1);
       flex-basis: 100%;
       width: 100%;
     }
+    .usa-input-error {
+      right: 0;
+    }
 
     .facility-type-dropdown {
       width: 100%;
       flex-basis: 100%;
+      margin-top: -24px;
       @media (min-width: $small-desktop-screen) {
         flex-basis: 50%;
+      }
+      &.facility-error {
+        @media screen and (min-width: $tablet) {
+          margin-top: 10px;
+          margin-left: 12px;
+        }
       }
     }
 
     .facility-type-dropdown-mobile,
-    .facility-type-dropdown-tablet,
+    .facility-type-dropdown-tablet {
+      width: 100%;
+      flex-basis: 100%;
+      margin-top: -24px;
+    }
+
     .facility-type-dropdown-desktop {
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
       &.facility-error {
-        margin-top: 0px;
-        @media screen and (min-width: $small-desktop-screen) {
+        @media screen and (min-width: $tablet) {
+          margin-top: 10px;
           margin-left: 12px;
         }
       }
@@ -496,7 +506,10 @@ $text-color: rgba(27, 27, 27, 1);
 // Prevent error message div from colliding with facility-type
 #service-error {
   @media (min-width: $small-desktop-screen) {
-    right: 0px;
+    &.usa-input-error {
+      padding-top: 0.25rem !important;
+      padding-bottom: 0rem !important;
+    }
   }
 }
 

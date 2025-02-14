@@ -205,14 +205,14 @@ class ServiceTypeAhead extends Component {
               <span className="usa-input-error-message" role="alert">
                 <span id="error-message">
                   <span className="sr-only">Error</span>
-                  Please search for an available service.
+                  Start typing and select an available service
                 </span>
               </span>
             )}
             <span id="service-typeahead">
               <input
                 {...getInputProps({
-                  placeholder: 'like Chiropractor or Optometrist',
+                  placeholder: '',
                   onFocus: () => this.setState({ isFocused: true }),
                   disabled: currentQuery?.fetchSvcsInProgress,
                 })}
