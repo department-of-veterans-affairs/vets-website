@@ -8,8 +8,16 @@ describe('Authed 1095-B Form Download PDF', () => {
     );
     cy.intercept('GET', 'v0/form1095_bs/available_forms', form).as('form');
     cy.intercept('GET', 'v0/form1095_bs/download_pdf/*', {
+      fixture:
+        'applications/static-pages/download-1095b/tests/e2e/fixtures/1095BTestFixture.pdf',
       statusCode: 200,
     });
+    cy.intercept('GET', 'v0/form1095_bs/download_txt/*', {
+      fixture:
+        'applications/static-pages/download-1095b/tests/e2e/fixtures/1095BTestFixture.txt',
+      statusCode: 200,
+    });
+
     cy.login();
     cy.visit('/health-care/download-1095b/');
     cy.wait(['@featureToggles', '@form']);
@@ -25,17 +33,19 @@ describe('Authed 1095-B Form Download PDF', () => {
 
     cy.axeCheck();
 
-    cy.get('#pdf').should('be.visible');
-    cy.get('#txt').should('be.visible');
+    cy.get('#pdf-download-link').should('be.visible');
+    cy.get('#txt-download-link').should('be.visible');
 
-    cy.get('#download-url')
+    cy.get('#pdf-download-link')
       .click()
       .then(() => {
-        cy.get('.usa-content div va-alert h2').should(
-          'have.text',
-          'Download Complete',
-        );
-        cy.get('#download-url').should('be.visible');
+        cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.pdf`);
+      });
+
+    cy.get('#txt-download-link')
+      .click()
+      .then(() => {
+        cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.txt`);
       });
 
     cy.axeCheck();

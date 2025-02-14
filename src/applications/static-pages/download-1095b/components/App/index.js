@@ -11,34 +11,24 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
-import {
-  VaRadio,
-  VaRadioOption,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
 
 import {
   notFoundComponent,
-  radioOptions,
   unavailableComponent,
   phoneComponent,
-  dateOptions,
   LastUpdatedComponent,
-  formatTimeString,
 } from './utils';
+
+import '../../sass/download-1095b.scss';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
-  const [formType, updateFormType] = useState('pdf');
-  const [formDownloaded, updateFormDownloaded] = useState({
-    downloaded: false,
-    timeStamp: '',
-  });
 
-  const getContent = () => {
-    return apiRequest(`/form1095_bs/download_${formType}/${year}`)
+  const getFile = format => {
+    return apiRequest(`/form1095_bs/download_${format}/${year}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
@@ -49,105 +39,49 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       });
   };
 
-  const getLastUpdatedOn = () => {
+  const getAvailableForms = () => {
     return apiRequest('/form1095_bs/available_forms')
       .then(response => {
         if (response.errors || !response.availableForms.length) {
           updateFormError({ error: true, type: 'not found' });
         }
-        return response.availableForms[0];
+        return response.availableForms;
       })
       .catch(() => updateFormError({ error: true, type: 'not found' }));
   };
 
-  const callLastUpdated = () => {
-    getLastUpdatedOn().then(result => {
-      if (result.lastUpdated && result.year) {
-        const date = new Date(result.lastUpdated);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        // expected output (varies according to local timezone and default locale): December 20, 2012
-        updateLastUpdated(date.toLocaleDateString(undefined, options));
-        updateYear(result.year);
-      } else {
-        updateFormError({ error: true, type: 'not found' });
-      }
-    });
-  };
-
-  const callGetContent = () => {
-    getContent().then(result => {
+  const downloadFileToUser = format => {
+    getFile(format).then(result => {
       if (result) {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
-
-        if (formType === 'txt') a.download = `1095B-${year}.txt`; // download text file directly
+        a.download = `1095B-${year}.${format}`;
 
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
         a.remove(); // removes element from the DOM
-        const date = new Date();
         updateFormError({ error: false, type: '' });
-        updateFormDownloaded({
-          downloaded: true,
-          timeStamp: formatTimeString(
-            date.toLocaleDateString(undefined, dateOptions),
-          ),
-        });
       }
     });
   };
 
   useEffect(
     () => {
-      callLastUpdated();
+      getAvailableForms().then(result => {
+        const mostRecentYearData = result[0];
+        if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
+          const date = new Date(mostRecentYearData.lastUpdated);
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          // expected output (varies according to local timezone and default locale): December 20, 2012
+          updateLastUpdated(date.toLocaleDateString(undefined, options));
+          updateYear(mostRecentYearData.year);
+        } else {
+          updateFormError({ error: true, type: 'not found' });
+        }
+      });
     },
     [loggedIn],
-  );
-
-  const radioComponent = (
-    <>
-      <h2>Choose your file format and download your document</h2>
-      <VaRadio
-        id="1095-download-options"
-        label="We offer two file format options for this form. Choose the option that best meets your needs."
-        onRadioOptionSelected={e => {
-          e.preventDefault();
-          updateFormType(e.target.value);
-        }}
-      >
-        {radioOptions.map(({ value, label }) => (
-          <VaRadioOption
-            id={value}
-            key={value}
-            checked={value === formType}
-            label={label}
-            value={value}
-            name="1095b-form-select"
-          />
-        ))}
-      </VaRadio>
-    </>
-  );
-
-  const downloadButton = (
-    <p>
-      <button
-        className="usa-button-primary va-button"
-        onClick={function() {
-          recordEvent({
-            event: 'int-radio-button-option-click',
-            'radio-button-label':
-              'Choose your file format and download your document',
-            'radio-button-option-click-label': `${formType} 1095B downloaded`,
-          });
-          callGetContent();
-        }}
-        id="download-url"
-      >
-        Download your 1095-B tax form{' '}
-      </button>
-    </p>
   );
 
   const errorComponent = (
@@ -167,7 +101,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           </p>
         </div>
       </va-alert>
-      {downloadButton}
     </>
   );
 
@@ -178,33 +111,47 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     return errorComponent;
   };
 
-  const successComponent = (
-    <>
-      <LastUpdatedComponent lastUpdated={lastUpdated} />
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="success"
-        visible
-      >
-        <h2 slot="headline">Download Complete</h2>
-        <div>
-          <p>
-            You successfully downloaded your 1095-B tax form. Please check your
-            files. &nbsp;
-            {formDownloaded.timeStamp}
-          </p>
+  const downloadForm = (
+    <va-card>
+      <div>
+        <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
+          1095-B Proof of VA health coverage
+        </h4>
+        <span className="vads-u-font-size--h5">
+          <b>Tax year:</b> {year}
+        </span>
+      </div>
+      <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
+        <div className="vads-u-padding-bottom--1">
+          <va-link
+            download
+            id="pdf-download-link"
+            label="Download PDF (best for printing)"
+            text="Download PDF (best for printing)"
+            filetype="PDF"
+            onClick={e => {
+              e.preventDefault();
+              recordEvent({ event: '1095b-pdf-download' });
+              downloadFileToUser('pdf');
+            }}
+          />
         </div>
-      </va-alert>
-      {downloadButton}
-    </>
-  );
-
-  const loggedInComponent = (
-    <>
-      <LastUpdatedComponent lastUpdated={lastUpdated} />
-      {radioComponent}
-      {downloadButton}
-    </>
+        <div className="vads-u-padding-top--1">
+          <va-link
+            download
+            id="txt-download-link"
+            label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+            text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+            filetype="TEXT"
+            onClick={e => {
+              e.preventDefault();
+              recordEvent({ event: '1095b-txt-download' });
+              downloadFileToUser('txt');
+            }}
+          />
+        </div>
+      </div>
+    </va-card>
   );
 
   const loggedOutComponent = (
@@ -236,18 +183,15 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     if (formError.error) {
       return getErrorComponent();
     }
-    if (formDownloaded.downloaded) {
-      return successComponent;
-    }
-    return loggedInComponent;
+    return downloadForm;
   }
   return loggedOutComponent;
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
   displayToggle: PropTypes.bool,
+  loggedIn: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
