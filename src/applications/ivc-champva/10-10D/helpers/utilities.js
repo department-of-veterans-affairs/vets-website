@@ -51,8 +51,8 @@ export function sponsorWording(formData, isPosessive = true, cap = true) {
 
 /**
  * Adds a new `applicant` object to the start of the `formData.applicants`
- * array. This is used to add the certifier info to the first applicant
- * slot so users don't have to enter info twice if the certifier is also an app.
+ * array, or replaces the existing applicant if the name matches. This is used
+ * to add the certifier info to the first applicant slot to avoid duplicated work.
  * @param {object} formData standard formData object
  * @param {object} name standard fullNameUI name to populate
  * @param {string} email email address to populate
@@ -67,24 +67,27 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
     applicantAddress: address,
     applicantPhone: phone,
   };
-  if (modifiedFormData.applicants) {
-    if (
-      // Make sure we haven't already added this applicant:
-      !modifiedFormData.applicants.some(
-        a =>
-          a.applicantName.first === name.first ||
-          a.applicantEmailAddress === email,
+
+  const applicantIndex = formData.applicants
+    ? formData.applicants.findIndex(
+        a => JSON.stringify(a.applicantName) === JSON.stringify(name),
       )
-    ) {
-      modifiedFormData.applicants = [
-        newApplicant,
-        ...modifiedFormData.applicants,
-      ];
-    }
+    : -1;
+
+  // If no applicants, or no matching applicant, add the new one
+  if (applicantIndex === -1) {
+    modifiedFormData.applicants = [
+      newApplicant,
+      ...(formData.applicants || []),
+    ];
   } else {
-    // No applicants yet. Create array and add ours:
-    modifiedFormData.applicants = [newApplicant];
+    // If applicant exists, replace the existing one
+    modifiedFormData.applicants[applicantIndex] = {
+      ...formData.applicants[applicantIndex],
+      ...newApplicant,
+    };
   }
+
   return modifiedFormData;
 }
 

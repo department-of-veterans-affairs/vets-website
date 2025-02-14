@@ -1,4 +1,4 @@
-import { objDiff } from './utilities';
+import { objDiff, onReviewPage } from './utilities';
 import { makeHumanReadable } from '../../shared/utilities';
 
 /* 
@@ -24,7 +24,7 @@ export const fieldsMustMatchValidation = (
     return; // This validation is not applicable here.
   }
 
-  if (target === undefined) return;
+  if (target === undefined || !onReviewPage()) return;
 
   // E.g.: `certifierName` => `Name`:
   const friendlyName = makeHumanReadable(certProp)
@@ -77,6 +77,7 @@ export const certifierAddressValidation = (errors, page, formData) => {
 };
 
 export const certifierPhoneValidation = (errors, page, formData) => {
+  // TODO: test out whether running the validation exclusively on the review page is a good compromise
   return fieldsMustMatchValidation(
     errors,
     page,
