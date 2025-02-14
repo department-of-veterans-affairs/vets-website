@@ -11,7 +11,19 @@ export const applicantRelationToVetHeaders = (
     </div>
 
     <div>
-      <h4>Your relationship to the veteran</h4>
+      <h3>Your relationship to the veteran</h3>
+    </div>
+  </div>
+);
+
+export const applicantRelationToVetOrgHeaders = (
+  <div>
+    <div>
+      <p>We’ll save your application on every change.</p>
+    </div>
+
+    <div>
+      <h3>Your organization</h3>
     </div>
   </div>
 );

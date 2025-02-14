@@ -1,29 +1,27 @@
-import { textUI } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  textUI,
+  textSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
   //   finishAppLaterLink,
-  applicantRelationToVetHeaders,
+  applicantRelationToVetOrgHeaders,
 } from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:description': applicantRelationToVetHeaders,
-    exampleText: textUI({
-      title: 'Text field',
-      hint: 'This is a hint',
-      description: 'This is a description',
-      charcount: true, // Used with minLength and maxLength in the schema
+    'ui:description': applicantRelationToVetOrgHeaders,
+    yourOrgText: textUI({
+      title: 'Enter the name of the cemetery or funeral home you represent',
     }),
   },
+
   schema: {
     type: 'object',
     properties: {
-      exampleText: {
-        type: 'string',
-        minLength: 10,
-        maxLength: 30,
-      },
+      yourOrgText: textSchema,
     },
+    required: ['yourOrgText'],
   },
 };

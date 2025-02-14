@@ -14,9 +14,6 @@ export default {
   },
   schema: {
     type: 'object',
-    properties: {
-      // cool: fullNameNoSuffixSchema,
-      // dateOfBirth: dateOfBirthSchema,
-    },
+    properties: {},
   },
 };
