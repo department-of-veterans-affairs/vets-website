@@ -5,7 +5,7 @@ const REVIEW_PATH =
   'http://localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/review-and-submit';
 
 function stubWindowLocation(url) {
-  const originalHref = Object.getOwnPropertyDescriptor(window.location, 'href');
+  const originalHref = window.location.href;
   delete window.location;
   window.location = { href: url };
   return originalHref;
