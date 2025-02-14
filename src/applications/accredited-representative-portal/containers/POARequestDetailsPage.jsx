@@ -167,7 +167,8 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${statusCheck}`}
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${statusCheck} ${poaRequestSubmission ===
+              BANNER_TYPES.FAILED && 'vads-u-display--none'}`}
           >
             {poaRequestSubmission === BANNER_TYPES.PROCESSING
               ? 'processing'
