@@ -5,6 +5,7 @@ import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/a
 import { isClaimingIncrease, isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
+import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
 
 /**
  * Helper method to determine if a series of veteran selections match ONLY
@@ -43,7 +44,7 @@ export function showManualUpload0781Page(formData) {
   return (
     showForm0781Pages(formData) &&
     formData['view:mentalHealthWorkflowChoice'] ===
-      form0781WorkflowChoices.SUBMIT_PAPER_FORM
+    form0781WorkflowChoices.SUBMIT_PAPER_FORM
   );
 }
 
@@ -59,7 +60,7 @@ export function isCompletingForm0781(formData) {
   return (
     showForm0781Pages(formData) &&
     formData['view:mentalHealthWorkflowChoice'] ===
-      form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+    form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   );
 }
 
@@ -117,6 +118,24 @@ export function showBehaviorListPage(formData) {
     ((showBehaviorIntroCombatPage(formData) && answerQuestions) ||
       !combatOnlySelection(formData))
   );
+}
+
+export function showReassignmentDescriptionPage(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.workBehaviors?.reassignment === true
+  );
+}
+
+export function showUnlistedDescriptionPage(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.otherBehaviors?.unlisted === true
+  );
+}
+
+export function showBehaviorSummaryPage(formData) {
+  return isCompletingForm0781(formData) && hasSelectedBehaviors(formData);
 }
 
 /**
