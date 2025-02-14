@@ -266,6 +266,92 @@ describe('App', () => {
     expect(window.location.replace.called).to.be.true;
   });
 
+  it('redirects Basic users to /health-care/secure-messaging/inbox if feature flag is enabled', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = true;
+
+    renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(window.location.replace.called).to.be.true;
+    expect(window.location.replace.args[0][0]).to.equal(
+      '/my-health/secure-messages/inbox/',
+    );
+  });
+
+  it('redirects Basic users to /health-care/secure-messaging-pilot/inbox if feature flags are enabled', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+
+    global.window.location = {
+      replace: sinon.spy(),
+      pathname: '/secure-messaging-pilot/',
+    };
+
+    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = true;
+
+    const { queryByText } = renderWithStoreAndRouter(
+      <App isPilot removeLandingPage />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/`,
+      },
+    );
+
+    expect(queryByText('Messages', { selector: 'h1', exact: true }));
+    expect(window.location.replace.called).to.be.true;
+    expect(window.location.replace.args[0][0]).to.equal(
+      '/my-health/secure-messages-pilot/inbox/',
+    );
+  });
+
+  it('should NOT redirect Basic users to /health-care/secure-messaging/inbox if feature flag is enabled', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = false;
+
+    renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(window.location.replace.called).to.be.false;
+  });
+
+  it('should NOT redirect Basic users to /health-care/secure-messaging-pilot/inbox if feature flags are enabled', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+
+    global.window.location = {
+      replace: sinon.spy(),
+      pathname: '/secure-messaging-pilot/',
+    };
+
+    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = false;
+
+    const { getByText } = renderWithStoreAndRouter(
+      <App isPilot removeLandingPage />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/`,
+      },
+    );
+
+    expect(getByText('Messages', { selector: 'h1', exact: true }));
+    expect(window.location.replace.called).to.be.false;
+  });
+
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
     const customState = { ...initialState, featureToggles: [] };
     customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
