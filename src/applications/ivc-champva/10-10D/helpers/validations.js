@@ -1,4 +1,4 @@
-import { objDiff } from './utilities';
+import { objDiff, onReviewPage } from './utilities';
 import { makeHumanReadable } from '../../shared/utilities';
 
 /* 
@@ -24,7 +24,7 @@ export const fieldsMustMatchValidation = (
     return; // This validation is not applicable here.
   }
 
-  if (target === undefined) return;
+  if (target === undefined || !onReviewPage()) return;
 
   // E.g.: `certifierName` => `Name`:
   const friendlyName = makeHumanReadable(certProp)
