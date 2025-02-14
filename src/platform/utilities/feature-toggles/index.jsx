@@ -14,7 +14,7 @@ import {
   useToggleValue,
 } from './useFeatureToggle';
 import { Toggler } from './Toggler';
-import { TOGGLE_NAMES } from './featureFlagNames';
+import TOGGLE_NAMES from './featureFlagNames';
 
 const { fetchToggleValues } = FlipperClient({ host: environments.API_URL });
 
@@ -41,7 +41,8 @@ const updateFeatureToggleValue = newToggleValues =>
   updateFeatureToggleValuesFunc(newToggleValues);
 
 /**
- * Connects the feature toggle to the redux store
+ * Fetches feature toggle values from the service and updates the redux store
+ * generally this is only called once in the app when mounted
  * @param {Function} dispatch - Redux dispatch function
  * @param {Object} toggleValues - Initial toggle values
  */
