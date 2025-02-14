@@ -77,7 +77,6 @@ export const certifierAddressValidation = (errors, page, formData) => {
 };
 
 export const certifierPhoneValidation = (errors, page, formData) => {
-  // TODO: test out whether running the validation exclusively on the review page is a good compromise
   return fieldsMustMatchValidation(
     errors,
     page,
