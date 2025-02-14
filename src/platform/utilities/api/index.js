@@ -166,7 +166,11 @@ export function apiRequest(
         }
       }
 
-      return data.then(Promise.reject.bind(Promise));
+      return data.then(_result => {
+        const err = new Error();
+        err.status = response.status;
+        return Promise.reject(err);
+      });
     })
     .then(success)
     .catch(error);
