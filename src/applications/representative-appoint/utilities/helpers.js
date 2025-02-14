@@ -196,7 +196,7 @@ export const getOrgName = formData => {
  * Takes representative object (rather than formData object)
  */
 export const formIs2122 = rep => {
-  return rep?.type === 'representative' || 'organization';
+  return rep?.type === 'representative' || rep?.type === 'organization';
 };
 
 // Rep name used in Terms and Conditions agreement
