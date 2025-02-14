@@ -51,8 +51,8 @@ export function sponsorWording(formData, isPosessive = true, cap = true) {
 
 /**
  * Adds a new `applicant` object to the start of the `formData.applicants`
- * array, or replaces the existing applicant if the name matches. This is used
- * to add the certifier info to the first applicant slot to avoid duplicated work.
+ * array. This is used to add the certifier info to the first applicant
+ * slot so users don't have to enter info twice if the certifier is also an app.
  * @param {object} formData standard formData object
  * @param {object} name standard fullNameUI name to populate
  * @param {string} email email address to populate
@@ -67,27 +67,30 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
     applicantAddress: address,
     applicantPhone: phone,
   };
+  if (modifiedFormData.applicants) {
+    // Get index of existing applicant w/ same name OR phone+email
+    const matchIndex = modifiedFormData.applicants.findIndex(
+      a =>
+        JSON.stringify(a.applicantName) === JSON.stringify(name) ||
+        (a.applicantEmail === email && a.applicantPhone === phone),
+    );
 
-  const applicantIndex = formData.applicants
-    ? formData.applicants.findIndex(
-        a => JSON.stringify(a.applicantName) === JSON.stringify(name),
-      )
-    : -1;
-
-  // If no applicants, or no matching applicant, add the new one
-  if (applicantIndex === -1) {
-    modifiedFormData.applicants = [
-      newApplicant,
-      ...(formData.applicants || []),
-    ];
+    if (matchIndex === -1) {
+      modifiedFormData.applicants = [
+        newApplicant,
+        ...modifiedFormData.applicants,
+      ];
+    } else if (matchIndex === 0) {
+      // If match found at first spot in applicant array, override:
+      modifiedFormData.applicants[matchIndex] = {
+        ...modifiedFormData.applicants[matchIndex],
+        ...newApplicant,
+      };
+    }
   } else {
-    // If applicant exists, replace the existing one
-    modifiedFormData.applicants[applicantIndex] = {
-      ...formData.applicants[applicantIndex],
-      ...newApplicant,
-    };
+    // No applicants yet. Create array and add ours:
+    modifiedFormData.applicants = [newApplicant];
   }
-
   return modifiedFormData;
 }
 
