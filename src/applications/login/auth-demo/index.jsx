@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { useAuth } from './context/AuthContext';
 import SignIn from './components/SignIn';
 import UserSelect from './components/UserSelect';
 import Profile from './components/Profile';
@@ -224,10 +224,10 @@ const AuthDemo = () => {
   );
 };
 
-const AuthApp = () => (
-  <AuthProvider>
-    <AuthDemo />
-  </AuthProvider>
-);
+// const AuthApp = () => (
+//   <AuthProvider>
+//     <AuthDemo />
+//   </AuthProvider>
+// );
 
-export default AuthApp;
+export default AuthDemo;
