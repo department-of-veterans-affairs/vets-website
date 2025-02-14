@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
+
 export const applicantSaveAppText = (
   <div>We’ll save your application on every change.</div>
 );
@@ -80,3 +82,21 @@ export const finishAppLaterLink = (
     <a href="update-later">Finish this application later</a>
   </div>
 );
+
+export const applicantRelationToVetRadio = {
+  relationToVetRadio: radioUI({
+    title: 'What’s your relationship to the Veteran?',
+    labels: {
+      familyMember: 'Family member',
+      personalRep: 'Personal representative',
+      repOfVSO: 'Representative of Veterans Service Organization (VSO)',
+      repOfCemetary: 'Representative of a cemetery',
+      repOfFuneralHome: 'Representative of a funeral home',
+      other: 'Other',
+    },
+    required: () => true,
+    errorMessages: {
+      required: 'Please select an option',
+    },
+  }),
+};

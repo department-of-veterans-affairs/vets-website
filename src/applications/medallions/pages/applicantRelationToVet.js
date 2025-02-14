@@ -1,32 +1,24 @@
-import {
-  radioUI,
-  radioSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { radioSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
   //   finishAppLaterLink,
   applicantRelationToVetHeaders,
+  applicantRelationToVetRadio,
 } from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:description': applicantRelationToVetHeaders,
-    relationToVetRadio: radioUI({
-      title: 'What’s your relationship to the Veteran?',
-      labels: {
-        familyMember: 'Family member',
-        personalRep: 'Personal representative',
-        repOfVSO: 'Representative of Veterans Service Organization (VSO)',
-        repOfCemetary: 'Representative of a cemetery',
-        repOfFuneralHome: 'Representative of a funeral home',
-        other: 'Other',
+    relationToVetRadio: applicantRelationToVetRadio.relationToVetRadio,
+    otherRelation: {
+      'ui:title': 'Describe your relationship to the Veteran',
+      'ui:widget': 'textarea',
+      'ui:options': {
+        expandUnder: 'relationToVetRadio',
+        hideIf: formData => formData.relationToVetRadio !== 'other',
       },
-      required: () => true,
-      errorMessages: {
-        required: 'Please select an option',
-      },
-    }),
+    },
   },
   schema: {
     type: 'object',
@@ -39,6 +31,11 @@ export default {
         'repOfFuneralHome',
         'other',
       ]),
+      otherRelation: {
+        type: 'string',
+        title: 'Please specify your relationship to the Veteran',
+        required: ['otherRelation'],
+      },
     },
   },
 };
