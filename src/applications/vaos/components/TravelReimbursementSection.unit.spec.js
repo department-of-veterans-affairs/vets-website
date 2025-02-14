@@ -47,6 +47,7 @@ describe('VAOS Component: TravelReimbursement', () => {
   });
   it('should display travel reimbursement section with file claim link', async () => {
     const appointment = {
+      id: '1234567890',
       start: startTime,
       vaos: {
         apiData: {
@@ -66,6 +67,10 @@ describe('VAOS Component: TravelReimbursement', () => {
     );
 
     expect(screen.getByTestId('file-claim-link')).to.exist;
+    expect(screen.getByTestId('file-claim-link')).to.have.attribute(
+      'href',
+      `/my-health/travel-pay/file-new-claim/${appointment.id}`,
+    );
   });
   it('should display travel reimbursement section with link to view claim status', async () => {
     const appointment = {
