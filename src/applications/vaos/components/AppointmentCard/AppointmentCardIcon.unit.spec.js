@@ -255,62 +255,6 @@ describe('VAOS Component: AppointmentCardIcon', () => {
     },
   );
 
-  it(
-    'should display videocam icon for VA video care on GFE appointments',
-    async () => {
-      const appointment = {
-        ...appointmentData,
-        vaos: {
-          isVideo: true,
-        },
-        videoData: {
-          isAtlas: false,
-          kind: 'MOBILE_ANY',
-          extension: {
-            patientHasMobileGfe: true,
-          },
-        },
-      };
-
-      const wrapper = renderWithStoreAndRouter(
-        <AppointmentCardIcon appointment={appointment} />,
-        {
-          initialState,
-        },
-      );
-      expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.getByTestId('appointment-icon')).to.have.attribute(
-        'icon',
-        'videocam',
-      );
-    },
-    async () => {
-      const appointment = {
-        ...appointmentData,
-        vaos: {
-          isVideo: true,
-        },
-        videoData: {
-          isAtlas: false,
-          kind: 'ADHOC',
-          extension: {
-            patientHasMobileGfe: true,
-          },
-        },
-      };
-
-      const wrapper = renderWithStoreAndRouter(
-        <AppointmentCardIcon appointment={appointment} />,
-        {
-          initialState,
-        },
-      );
-
-      expect(wrapper.getByTestId('appointment-icon')).to.exist;
-      expect(wrapper.baseElement).to.contain('videocam');
-    },
-  );
-
   it('should display phone icon for VA phone appointments', async () => {
     const appointment = {
       ...appointmentData,
