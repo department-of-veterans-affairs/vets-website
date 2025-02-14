@@ -1,7 +1,8 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
-import { AXE_CONTEXT, Data, Locators, Paths } from './utils/constants';
+import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
+import { smFooter } from '../../util/constants';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   it('Verify folder header', () => {
@@ -13,13 +14,13 @@ describe('Secure Messaging Inbox Message Sort', () => {
     PatientInboxPage.loadInboxMessages();
 
     cy.get(Locators.INBOX_FOOTER).should(`be.visible`);
-    cy.contains(Data.INBOX_FOOTER.HEADER).should(`be.visible`);
-    cy.contains(Data.INBOX_FOOTER.PARAGRAPH_1).should(`be.visible`);
-    cy.contains(Data.INBOX_FOOTER.PARAGRAPH_2).should(`be.visible`);
-    cy.contains(Data.INBOX_FOOTER.LINK_1)
+    cy.contains(smFooter.NEED_HELP).should(`be.visible`);
+    cy.contains(smFooter.HAVE_QUESTIONS).should(`be.visible`);
+    cy.contains(smFooter.CONTACT_FACILITY).should(`be.visible`);
+    cy.contains(smFooter.LEARN_MORE)
       .should(`be.visible`)
       .and(`have.attr`, `href`, Paths.HEALTH_CARE_SECURE_MSG);
-    cy.contains(Data.INBOX_FOOTER.LINK_2)
+    cy.contains(smFooter.FIND_FACILITY)
       .should(`be.visible`)
       .and(`have.attr`, `href`, Paths.FIND_LOCATION);
 
