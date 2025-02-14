@@ -74,7 +74,9 @@ export function NewBookingSection() {
 
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () =>
-      !isNewAppointmentStarted && !location.pathname.endsWith('confirmation'),
+      !isNewAppointmentStarted &&
+      !location.pathname.endsWith('confirmation') &&
+      !location.pathname.endsWith('covid-vaccine/'),
   });
 
   if (shouldRedirectToStart) {
