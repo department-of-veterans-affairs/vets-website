@@ -5,14 +5,10 @@ import { checkFormValidity, fetchFormsApi } from '../../api';
 import * as sentryLogger from '../../helpers/sentryLogger';
 
 describe('find forms API methods', () => {
-  let sandbox;
-
-  beforeEach(() => {
-    sandbox = sinon.createSandbox();
-  });
-
   describe('checkFormValidity', () => {
     const currentLocation = global.window.location;
+    const currentFetch = global.fetch;
+    let fetchStub;
     let sentryStub;
 
     beforeEach(() => {
@@ -24,11 +20,15 @@ describe('find forms API methods', () => {
 
     afterEach(() => {
       global.window.location = currentLocation;
-      sandbox.restore();
+      global.fetch = currentFetch;
+      fetchStub.restore();
+      sentryStub?.restore();
     });
 
     it('should return the proper form validity markers when given a valid form', async () => {
-      sandbox.stub(global, 'fetch').resolves(new Response({ status: 200 }));
+      fetchStub = sinon
+        .stub(global, 'fetch')
+        .resolves(new Response({ status: 200 }));
 
       const form = {
         attributes: {
@@ -49,7 +49,9 @@ describe('find forms API methods', () => {
     });
 
     it('should return the proper form validity markers when given a form with an invalid PDF', async () => {
-      sinon.stub(global, 'fetch').resolves(new Response({ status: 200 }));
+      fetchStub = sinon
+        .stub(global, 'fetch')
+        .resolves(new Response({ status: 200 }));
 
       const form = {
         attributes: {
@@ -70,7 +72,7 @@ describe('find forms API methods', () => {
     });
 
     it('should return the proper form validity markers when given a form with a valid PDF but an invalid URL', async () => {
-      sinon
+      fetchStub = sinon
         .stub(global, 'fetch')
         .resolves(new Response('error', { status: 500 }));
 
@@ -92,8 +94,8 @@ describe('find forms API methods', () => {
     });
 
     it('should return the proper form validity markers when given a valid form but the fetch call fails', async () => {
-      sandbox.stub(global, 'fetch').rejects(new Response('error'));
-      sentryStub = sandbox.stub(sentryLogger, 'sentryLogger');
+      fetchStub = sinon.stub(global, 'fetch').rejects(new Response('error'));
+      sentryStub = sinon.stub(sentryLogger, 'sentryLogger');
 
       const form = {
         attributes: {
@@ -121,16 +123,16 @@ describe('find forms API methods', () => {
           'Find Forms - Form Detail - onDownloadLinkClick function error',
         ),
       );
-
-      sentryStub.restore();
     });
   });
 
   describe('fetchFormsApi', () => {
     const dispatchSpy = sinon.spy();
+    let apiStub;
 
     afterEach(() => {
-      sandbox.restore();
+      dispatchSpy.reset();
+      apiStub.restore();
     });
 
     it('should set the correct valid forms when given a response with all valid forms', async () => {
@@ -151,7 +153,9 @@ describe('find forms API methods', () => {
         },
       ];
 
-      sandbox.stub(apiHelpers, 'apiRequest').resolves({ data: allValidForms });
+      apiStub = sinon
+        .stub(apiHelpers, 'apiRequest')
+        .resolves({ data: allValidForms });
 
       await fetchFormsApi('1010', dispatchSpy);
 
@@ -181,7 +185,7 @@ describe('find forms API methods', () => {
         },
       ];
 
-      sandbox
+      apiStub = sinon
         .stub(apiHelpers, 'apiRequest')
         .resolves({ data: mixedValidForms });
 
@@ -206,7 +210,7 @@ describe('find forms API methods', () => {
         },
       ];
 
-      sandbox.stub(apiHelpers, 'apiRequest').resolves({ data: forms });
+      apiStub = sinon.stub(apiHelpers, 'apiRequest').resolves({ data: forms });
 
       await fetchFormsApi('1010', dispatchSpy);
 
@@ -219,7 +223,7 @@ describe('find forms API methods', () => {
     });
 
     it('should dispatch a failure when the API request fails', async () => {
-      sandbox.stub(apiHelpers, 'apiRequest').rejects();
+      apiStub = sinon.stub(apiHelpers, 'apiRequest').rejects();
 
       await fetchFormsApi('1010', dispatchSpy);
 
