@@ -5,7 +5,6 @@ import {
   isClinicVideoAppointment,
   isAtlasVideoAppointment,
   isVideoHome,
-  isGfeVideoAppointment,
   isInPersonVAAppointment,
 } from '../../services/appointment';
 
@@ -36,7 +35,7 @@ const appointmentIcon = appointment => {
     return 'location_city';
   }
 
-  if (isVideoHome(appointment) || isGfeVideoAppointment(appointment)) {
+  if (isVideoHome(appointment)) {
     return 'videocam';
   }
   return 'calendar_today';
