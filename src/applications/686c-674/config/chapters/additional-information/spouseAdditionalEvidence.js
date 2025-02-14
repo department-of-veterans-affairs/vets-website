@@ -4,7 +4,7 @@ import { dependentsUploadSchema, dependentsUploadUI } from '../../upload';
 
 const schema = {
   type: 'object',
-  // required: ['spouseSupportingDocuments'], // Enable after QA
+  required: ['spouseSupportingDocuments'],
   properties: {
     'view:additionalEvidenceDescription': {
       type: 'object',
