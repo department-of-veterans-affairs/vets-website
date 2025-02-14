@@ -16,8 +16,6 @@ import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
-require('@babel/register')({ extensions: ['.js', '.jsx'] });
-
 const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 Sentry.init({

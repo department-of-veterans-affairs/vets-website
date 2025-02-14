@@ -10,7 +10,6 @@
     "src/platform/testing/unit/enzyme-setup.js",
     "dd-trace/ci/init"
   ],
-  "extension": ["js", "jsx"],
   "reporter": "progress",
   "timeout": 10000,
   "slow": 0,
