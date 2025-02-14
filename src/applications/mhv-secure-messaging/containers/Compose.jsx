@@ -4,8 +4,10 @@ import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
+import { getAllTriageTeamRecipients } from '../actions/recipients';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { closeAlert } from '../actions/alerts';
 import { PageTitles, Paths } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
@@ -15,6 +17,8 @@ const Compose = () => {
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
+  const { noAssociations } = useSelector(state => state.sm.recipients);
+
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
 
@@ -31,6 +35,7 @@ const Compose = () => {
       if (location.pathname === Paths.COMPOSE) {
         dispatch(clearThread());
         setDraftType('compose');
+        dispatch(getAllTriageTeamRecipients());
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
@@ -127,7 +132,15 @@ const Compose = () => {
         />
       )}
 
-      {draftType && !acknowledged ? (
+      {draftType &&
+        noAssociations && (
+          <div className="vads-l-grid-container compose-container">
+            <h1>Start a new message</h1>
+            <BlockedTriageGroupAlert />
+          </div>
+        )}
+
+      {draftType && !acknowledged && noAssociations === (undefined || false) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -136,11 +149,12 @@ const Compose = () => {
         />
       ) : (
         <>
-          {draftType && (
-            <div className="vads-l-grid-container compose-container">
-              {content()}
-            </div>
-          )}
+          {draftType &&
+            noAssociations === (undefined || false) && (
+              <div className="vads-l-grid-container compose-container">
+                {content()}
+              </div>
+            )}
         </>
       )}
     </>

@@ -8,11 +8,11 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadPageForNoProvider(noAssociationResponse);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
       .should('contain.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`p`)
       .should(`be.visible`)
       .and(`contain.text`, Alerts.NO_ASSOCIATION.PARAGRAPH);
@@ -42,11 +42,11 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadPageForNoProvider(allBlockedResponse);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
       .should('contain.text', Alerts.BLOCKED.HEADER);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`p`)
       .should(`be.visible`)
       .and(`contain.text`, Alerts.BLOCKED.ALL_PARAGRAPH);

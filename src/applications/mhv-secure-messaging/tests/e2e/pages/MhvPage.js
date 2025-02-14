@@ -1,0 +1,52 @@
+import mockFeatureToggles from '../fixtures/toggles-response.json';
+import mockRecipients from '../fixtures/recipients-response.json';
+import mockUser from '../fixtures/generalResponses/user.json';
+import { Paths } from '../utils/constants';
+import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
+import mockSignature from '../fixtures/signature-response.json';
+
+class MhvPage {
+  loadHomePage = (
+    featureToggles = mockFeatureToggles,
+    url = '/my-health/',
+    recipients = mockRecipients,
+    user = mockUser,
+  ) => {
+    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, featureToggles).as(
+      'featureToggles',
+    );
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
+      recipients,
+    ).as('Recipients');
+
+    cy.intercept('GET', '/v0/user', user).as('user');
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDER}`,
+      mockGeneralFolder,
+    ).as('generalFolder');
+
+    // required for further actions
+    cy.intercept(
+      'GET',
+      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
+      mockSignature,
+    ).as('signature');
+
+    cy.visit(url, {
+      onBeforeLoad: win => {
+        cy.stub(win, 'print');
+      },
+    });
+
+    cy.wait('@featureToggles');
+    cy.wait('@user');
+    cy.wait('@generalFolder');
+  };
+}
+
+export default new MhvPage();
