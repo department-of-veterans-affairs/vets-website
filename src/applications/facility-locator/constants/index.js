@@ -107,6 +107,27 @@ export const OperatingStatusDisplay = {
   },
 };
 
+export const BurialStatusDisplay = {
+  BURIALS_OPEN: {
+    statusTitle: 'Burials open',
+    statusDescription: 'Burial space is available',
+  },
+  BURIALS_CREMATION_ONLY: {
+    statusTitle: 'Cremation only',
+    statusDescription: 'Cremation interments only',
+  },
+  BURIALS_CLOSED: {
+    statusTitle: 'Closed',
+    statusDescription:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+  },
+  BURIALS_UNDER_CONSTRUCTION: {
+    statusTitle: 'Under construction',
+    statusDescription: 'Cemetery is under construction.',
+  },
+  default: { statusTitle: 'Call for burial status', statusDescription: null },
+};
+
 /**
  * Service type "Clinic/Center - Urgent Care" code
  */

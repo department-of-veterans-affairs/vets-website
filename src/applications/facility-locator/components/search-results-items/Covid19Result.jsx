@@ -66,7 +66,7 @@ const Covid19Result = ({ location, index }) => {
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from="SearchResult" />
+        <LocationDirectionsLink location={location} />
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
