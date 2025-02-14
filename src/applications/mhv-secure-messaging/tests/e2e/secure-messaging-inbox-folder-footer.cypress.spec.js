@@ -6,10 +6,11 @@ import { smFooter } from '../../util/constants';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   it('Verify folder header', () => {
-    const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
+    const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggleValue(
       'mhv_secure_messaging_remove_landing_page',
       true,
     );
+
     SecureMessagingSite.login(updatedFeatureTogglesResponse);
     PatientInboxPage.loadInboxMessages();
 
