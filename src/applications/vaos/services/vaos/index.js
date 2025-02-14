@@ -48,7 +48,7 @@ export function getAppointments({
     includeParams.push('avs');
   }
   if (fetchClaimStatus) {
-    includeParams.push('claims');
+    includeParams.push('travel_pay_claims');
   }
   if (includeEPS) {
     includeParams.push('eps');
@@ -72,7 +72,7 @@ export function getAppointment(id, avs = false, fetchClaimStatus = false) {
     includeParams.push('avs');
   }
   if (fetchClaimStatus) {
-    includeParams.push('claims');
+    includeParams.push('travel_pay_claims');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments/${id}?_include=${includeParams

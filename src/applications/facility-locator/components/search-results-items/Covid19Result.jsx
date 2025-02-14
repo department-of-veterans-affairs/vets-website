@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions, jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */
-
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
@@ -13,7 +12,7 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({ location, index }) => {
+const Covid19Result = ({ index, isMobile = false, location, query }) => {
   const {
     name,
     website,
@@ -44,6 +43,7 @@ const Covid19Result = ({ location, index }) => {
         {isVADomain(website) ? (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
             tabIndex={0}
@@ -53,6 +53,7 @@ const Covid19Result = ({ location, index }) => {
         ) : (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
             tabIndex={0}
@@ -66,7 +67,11 @@ const Covid19Result = ({ location, index }) => {
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from="SearchResult" />
+        <LocationDirectionsLink
+          location={location}
+          from="SearchResult"
+          query={query}
+        />
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
@@ -101,8 +106,10 @@ const Covid19Result = ({ location, index }) => {
 
 Covid19Result.propTypes = {
   index: PropTypes.number,
+  isMobile: PropTypes.bool,
   location: PropTypes.object,
   query: PropTypes.object,
+  setHeaderHasFocus: PropTypes.func,
 };
 
 export default Covid19Result;

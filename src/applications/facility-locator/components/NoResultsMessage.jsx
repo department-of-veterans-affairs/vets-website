@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NoResultsMessage = ({ isMobile, resultRef }) => {
+const NoResultsMessage = ({ isMobileListView, resultRef }) => {
   // The ResultsList component is shown in the "View List" tab on mobile
   // The design specifies a different error treatment for that tab specifically
   // but the mobile map view has the same treatment as desktop
-  if (isMobile) {
+  if (isMobileListView) {
     return (
       <p className="vads-u-margin-top--2 mobile-lg:vads-u-margin-top--0 vads-u-margin-bottom--4 vads-u-margin-x--1 mobile-lg:vads-u-margin-x--0">
         Search for something else or in a different area. Try entering a
@@ -37,7 +37,7 @@ const NoResultsMessage = ({ isMobile, resultRef }) => {
 };
 
 NoResultsMessage.propTypes = {
-  isMobile: PropTypes.bool,
+  isMobileListView: PropTypes.bool,
   resultRef: PropTypes.any,
 };
 

@@ -62,6 +62,7 @@
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
+  "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
@@ -302,6 +303,5 @@
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
   "toggleGiProgramsFlag": "toggle_gi_programs_flag",
-  "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update",
   "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
 }

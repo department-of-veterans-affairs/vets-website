@@ -179,6 +179,18 @@ class MedicationsSite {
   mockVamcEhr = () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', mockVamcEhr).as('vamcEhr');
   };
+
+  unallowedUserLogin = user => {
+    cy.login(user);
+    this.mockFeatureToggles();
+    this.mockVamcEhr();
+    cy.intercept('GET', '/v0/user', user).as('mockUser');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      emptyPrescriptionsList,
+    ).as('emptyPrescriptionsList');
+  };
 }
 
 export default MedicationsSite;

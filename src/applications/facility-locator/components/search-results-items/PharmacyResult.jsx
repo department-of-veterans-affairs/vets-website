@@ -6,18 +6,27 @@ import LocationDistance from './common/LocationDistance';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationMarker from './common/LocationMarker';
 
-const PharmacyResult = ({ provider, query }) => {
+const PharmacyResult = ({ isMobile = false, provider, query }) => {
   const { name } = provider.attributes;
 
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
         <LocationMarker markerText={provider.markerText} />
-        <h3 className="vads-u-margin-y--0">{name}</h3>
+        <h3
+          className="vads-u-margin-y--0"
+          id={isMobile ? 'fl-provider-name' : undefined}
+        >
+          {name}
+        </h3>
         {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
         <LocationDistance distance={provider.distance} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink location={provider} from="SearchResult" />
+        <LocationDirectionsLink
+          location={provider}
+          from="SearchResult"
+          query={query}
+        />
         <LocationPhoneLink
           location={provider}
           from="SearchResult"
@@ -30,6 +39,7 @@ const PharmacyResult = ({ provider, query }) => {
 };
 
 PharmacyResult.propTypes = {
+  isMobile: PropTypes.bool,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

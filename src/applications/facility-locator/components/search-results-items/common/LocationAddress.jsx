@@ -15,7 +15,9 @@ const LocationAddress = ({ location }) => {
   }
 
   return (
-    <p>{[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}</p>
+    <p data-testid="facility-result-address">
+      {[].concat(...addressArray.map(e => [<br key={e} />, e])).slice(1)}
+    </p>
   );
 };
 
