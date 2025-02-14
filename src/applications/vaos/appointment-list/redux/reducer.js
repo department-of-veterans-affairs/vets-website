@@ -57,6 +57,7 @@ const initialState = {
   facilitySettingsStatus: FETCH_STATUS.notStarted,
   facilitySettings: null,
   backendServiceFailures: null,
+  badAppointmentId: false,
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -79,6 +80,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.failed,
         confirmed: null,
+        error: action.error,
       };
     case FETCH_PENDING_APPOINTMENTS:
       return {
@@ -169,6 +171,7 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.failed,
+        badAppointmentId: action.errors,
       };
     }
     case FETCH_CONFIRMED_DETAILS_SUCCEEDED:

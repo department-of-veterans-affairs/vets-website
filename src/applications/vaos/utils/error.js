@@ -79,3 +79,8 @@ export function has400LevelError(error) {
 export function has409LevelError(error) {
   return getErrorCodes(error).some(code => code.startsWith('VAOS_409'));
 }
+export function has404AppointmentIdError(error) {
+  return error.issue[0].source.vamfBody?.includes(
+    'Appointment not found for appointmentId',
+  );
+}

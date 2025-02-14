@@ -27,6 +27,7 @@ import {
   selectIsPast,
 } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
+import InfoAlert from '../../../components/InfoAlert';
 
 export default function UpcomingAppointmentsDetailsPage() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const {
     appointment,
     appointmentDetailsStatus,
+    isAppointmentIdError,
     facilityData,
     useV2,
   } = useSelector(
@@ -124,11 +126,33 @@ export default function UpcomingAppointmentsDetailsPage() {
     },
     [appointmentDetailsStatus, appointment],
   );
-
   if (
-    appointmentDetailsStatus === FETCH_STATUS.failed ||
-    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+    appointmentDetailsStatus === FETCH_STATUS.failed &&
+    isAppointmentIdError
   ) {
+    return (
+      <PageLayout showBreadcrumbs showNeedHelp>
+        <div aria-atomic="true" aria-live="assertive">
+          <InfoAlert
+            status="error"
+            level={1}
+            headline="We’re sorry. We’ve can't find your appointment"
+          >
+            Try searching this appointment on your appointment list or call your
+            facility.
+            <p className="vads-u-margin-y--0p5">
+              <va-link
+                data-testid="view-claim-link"
+                href="/my-health/appointments"
+                text="Go to appointments"
+              />
+            </p>
+          </InfoAlert>
+        </div>
+      </PageLayout>
+    );
+  }
+  if (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
         <ErrorMessage level={1} />

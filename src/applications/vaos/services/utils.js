@@ -82,8 +82,13 @@ export function parseApiListWithErrors(resp) {
  * @returns {Object} The data.attributes object from resp, but with the id included
  */
 export function parseApiObject(resp) {
-  return {
-    ...resp.data.attributes,
-    id: resp.data.id,
-  };
+  if (resp.ok)
+    return {
+      ...resp.data.attributes,
+      id: resp.data.id,
+    };
+  if (!resp.ok) {
+    throw mapToFHIRErrors(resp.errors);
+  }
+  return resp;
 }

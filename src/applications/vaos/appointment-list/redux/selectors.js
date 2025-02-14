@@ -600,7 +600,11 @@ export function selectConfirmedAppointmentData(state, appointment) {
 
   const locationId = getVAAppointmentLocationId(appointment);
 
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    badAppointmentId,
+  } = state.appointments;
   const facility =
     facilityData?.[locationId] || appointment?.vaos?.facilityData;
 
@@ -645,6 +649,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facility,
     facilityData,
     facilityPhone,
+    isAppointmentIdError: badAppointmentId,
     isCanceledAppointment,
     isCommunityCare,
     isAtlasVideo,
