@@ -72,7 +72,7 @@ export function populateFirstApplicant(formData, name, email, phone, address) {
     const matchIndex = modifiedFormData.applicants.findIndex(
       a =>
         JSON.stringify(a.applicantName) === JSON.stringify(name) ||
-        (a.applicantEmail === email && a.applicantPhone === phone),
+        (a.applicantEmailAddress === email && a.applicantPhone === phone),
     );
 
     if (matchIndex === -1) {
