@@ -136,9 +136,16 @@ export function apiRequest(
       return Promise.reject(err);
     })
     .then(response => {
+      const includeStatus = optionalSettings?.includeStatus;
       const data = isJson(response)
-        ? response.json()
-        : Promise.resolve(response);
+        ? response.json().then(result => ({
+            ...result,
+            ...(includeStatus && { status: response.status }),
+          }))
+        : Promise.resolve({
+            ...response,
+            ...(includeStatus && { status: response.status }),
+          });
 
       // Get CSRF Token from API header
       const csrfToken = response.headers.get('X-CSRF-Token');
@@ -166,11 +173,7 @@ export function apiRequest(
         }
       }
 
-      return data.then(_result => {
-        const err = new Error();
-        err.status = response.status;
-        return Promise.reject(err);
-      });
+      return data.then(Promise.reject.bind(Promise));
     })
     .then(success)
     .catch(error);

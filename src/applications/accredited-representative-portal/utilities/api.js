@@ -27,6 +27,7 @@ const wrapApiRequest = fn => {
 
     const options = {
       apiVersion: API_VERSION,
+      includeStatus: true,
       headers: {
         'Content-Type': 'application/json',
       },
