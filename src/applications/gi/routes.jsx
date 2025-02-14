@@ -120,12 +120,9 @@ const BuildRoutes = () => {
                 render={({ match }) => <ComparePage match={match} />}
               />
               <Route
+                exact
                 path="/schools-and-employers"
                 render={({ match }) => <SearchPage match={match} />}
-              />
-              <Route
-                path="/school-and-employers/compare"
-                render={({ match }) => <ComparePage match={match} />}
               />
               {lcToggleValue && (
                 <Route

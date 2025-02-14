@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { useRouteMatch } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   isSearchByNamePage,
   isSearchByLocationPage,
@@ -8,14 +9,15 @@ import {
 } from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
-  // const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
-  const isUpdatedGi = true;
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const location = useLocation();
   const ProgramsTypeMatch = useRouteMatch(
     '/institution/:facilityCode/:programType',
   );
   const schoolsEmployersMatch = useRouteMatch('/schools-and-employers');
   const profileMatch = useRouteMatch('/institution/:facilityCode');
-  const compareMatch = useRouteMatch('/compare');
+  const compareMatch = location.pathname.includes('/compare');
   const lcMatch = useRouteMatch('/lc-search');
   const lcResultsMatch = useRouteMatch('/lc-search/results');
   const lcResultInfoMatch = useRouteMatch('/lc-search/:type/:id');
@@ -42,7 +44,7 @@ const GiBillBreadcrumbs = () => {
     const searchByName = isSearchByNamePage();
     const searchByLocationPage = isSearchByLocationPage();
     crumbs.push({
-      href: '/schools-and-employers',
+      href: '/education/gi-bill-comparison-tool/schools-and-employers',
       label: `Schools and employers ${searchByName ? '(Search by name)' : ''}${
         searchByLocationPage ? '(Search by location}' : ''
       }`,

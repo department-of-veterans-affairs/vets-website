@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
@@ -18,6 +19,7 @@ export function CompareDrawer({
   preview,
 }) {
   const history = useHistory();
+
   const { loaded, institutions } = compare.search;
   const { open } = compare;
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
@@ -40,6 +42,8 @@ export function CompareDrawer({
     return open && maxDrawerHeight >= window.innerHeight;
   };
   const [scrollable, setScrollable] = useState(tooTall());
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
 
   const renderBlanks = () => {
     const blanks = [];
@@ -217,7 +221,7 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    history.push(updateUrlParams(loaded, preview.version));
+    history.push(updateUrlParams(loaded, preview.version, isUpdatedGi));
   };
 
   const headerLabelClasses = classNames('header-label', {
