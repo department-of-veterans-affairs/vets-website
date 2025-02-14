@@ -1,5 +1,6 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import {
+  isPostcode,
   MAPBOX_QUERY_TYPES,
   CountriesList,
   mapboxClient,
@@ -38,10 +39,7 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
 
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = MAPBOX_QUERY_TYPES;
-    // check for postcode search
-    const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
-
-    if (isPostcode) {
+    if (isPostcode(query.searchString?.trim() || '')) {
       types = ['postcode'];
     }
     mbxClient
