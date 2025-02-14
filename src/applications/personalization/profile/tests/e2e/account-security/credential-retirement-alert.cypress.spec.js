@@ -98,12 +98,7 @@ context('credential retirement alerts on account security', () => {
 
     cy.visit(PROFILE_PATHS.ACCOUNT_SECURITY);
 
-    cy.get('va-alert').within(() => {
-      cy.findByText('Verify your identity to access your complete profile', {
-        exact: false,
-      });
-      cy.findByRole('link', { name: /verify your identity/i });
-    });
+    cy.get('va-alert-sign-in');
 
     cy.injectAxeThenAxeCheck();
   });

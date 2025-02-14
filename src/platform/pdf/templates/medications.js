@@ -202,10 +202,16 @@ const generateResultsContent = async (doc, parent, data) => {
     // results --> header
     if (resultItem.header) {
       results.add(
-        createHeading(doc, 'H2', config, resultItem.header, {
-          paragraphGap: 12,
-          x: 16,
-        }),
+        createHeading(
+          doc,
+          resultItem.headerSize || 'H2',
+          config,
+          resultItem.header,
+          {
+            paragraphGap: 12,
+            x: 16,
+          },
+        ),
       );
     }
 

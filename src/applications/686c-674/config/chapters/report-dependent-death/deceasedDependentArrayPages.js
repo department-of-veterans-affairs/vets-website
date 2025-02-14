@@ -27,7 +27,7 @@ import {
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import { customLocationSchema } from '../../helpers';
+import { customLocationSchema, generateHelpText } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -62,7 +62,7 @@ export const deceasedDependentOptions = {
         return label;
       }
 
-      return 'Unknown'; // Default if `dependentType` is null for some reason
+      return 'Unknown'; // Default if `dependentType` is undefined for some reason
     },
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
@@ -169,6 +169,7 @@ export const deceasedDependentChildTypePage = {
         labels: childTypeLabels,
         required: () => true,
       }),
+      'ui:description': generateHelpText('Check all that apply'),
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.deaths?.[index];
