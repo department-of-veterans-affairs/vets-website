@@ -34,6 +34,9 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.visit(`${manifest.rootUrl}`);
     cy.injectAxeThenAxeCheck();
 
+    cy.tabToElement('va-link-action');
+    cy.realPress('Enter');
+
     cy.tabToElement(
       'va-accordion-item[header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"]',
     );
@@ -148,6 +151,13 @@ describe('22-10215 Edu Benefits Form', () => {
     // Review application
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
+    cy.tabToElementAndPressSpace('va-text-input[label="Your full name"]');
+    cy.typeInFocused('Jane Doe');
+    cy.tabToElementAndPressSpace(
+      'va-text-input[label="Your school official title"]',
+    );
+    cy.typeInFocused('School Official');
+    cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
   });
 });
