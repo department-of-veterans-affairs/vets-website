@@ -104,7 +104,6 @@ export class LetterList extends React.Component {
           {toggleValue =>
             toggleValue ? null : (
               <>
-                {' '}
                 <p>
                   To see an explanation about each letter, click on the (+) to
                   expand the box. After you expand the box, you’ll be given the
@@ -204,7 +203,6 @@ export class LetterList extends React.Component {
               </va-need-help>
             ) : (
               <>
-                {' '}
                 <h2 className="vads-u-padding-top--1 vads-u-padding-bottom--1p5 vads-u-border-bottom--3px vads-u-border-color--primary">
                   Need help?
                 </h2>
@@ -214,7 +212,7 @@ export class LetterList extends React.Component {
                   <br />
                   <va-telephone contact="8008271000" />, Monday &#8211; Friday,
                   8 a.m. &#8211; 9 p.m. ET
-                </div>{' '}
+                </div>
               </>
             )
           }
