@@ -27,10 +27,19 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
     if (imageList.length && imagesPerPage && studyId) {
       return (
         <>
+          <div>
+            <span>
+              {`Showing ${paginatedImages[currentPage - 1][0].index}
+                 to ${paginatedImages[currentPage - 1][0].index +
+                   (paginatedImages[currentPage - 1].length - 1)} of ${
+                imageList.length
+              } records from newest to oldest`}
+            </span>
+          </div>
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
             {paginatedImages[currentPage - 1].map((image, idx) => (
               <div
-                className="image-div vads-l-col--4"
+                className="image-div vads-l-col--6"
                 data-testid="image-div"
                 key={idx}
               >

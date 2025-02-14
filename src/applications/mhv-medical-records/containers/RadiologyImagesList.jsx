@@ -41,7 +41,7 @@ const RadiologyImagesList = ({ isTesting }) => {
     isTesting || false,
   );
   const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
-
+  const [diacomDownload, setDiacomDownload] = useState(false);
   const returnToDetailsPage = useCallback(
     () => history.push(`/labs-and-tests/${labId}`),
     [history, labId],
@@ -112,6 +112,11 @@ const RadiologyImagesList = ({ isTesting }) => {
     [radiologyDetails, returnToDetailsPage],
   );
 
+  const updateDiacomDownload = truth => {
+    setDiacomDownload(truth);
+    document.querySelector('#download-banner');
+  };
+
   const renderImageContent = () => (
     <>
       <PrintHeader />
@@ -136,8 +141,8 @@ const RadiologyImagesList = ({ isTesting }) => {
         VA care team to share them directly.
       </p>
       <p>
-        If you want to try to sharing these images yourself, you can download
-        them as DICOM files in a ZIP folder.
+        If you want to try sharing these images yourself, you can download them
+        as DICOM files in a ZIP folder.
       </p>
       <p>Here’s what to know:</p>
       <ul>
@@ -160,12 +165,25 @@ const RadiologyImagesList = ({ isTesting }) => {
       </ul>
       <p>
         {radiologyDetails?.studyId && (
-          <va-link
-            download
-            filetype="ZIP folder"
-            href={`${apiImagingPath}/${radiologyDetails.studyId}/dicom`}
-            text="Download DICOM files"
-          />
+          <>
+            <va-banner
+              id="download-banner"
+              show-close={false}
+              headline="Download started"
+              type="success"
+              visible={diacomDownload}
+            >
+              Check your device’s downloads location for your file.
+            </va-banner>
+            <br />
+            <va-link
+              download
+              filetype="ZIP folder"
+              href={`${apiImagingPath}/${radiologyDetails.studyId}/dicom`}
+              text="Download DICOM files"
+              onClick={() => updateDiacomDownload(true)}
+            />
+          </>
         )}
       </p>
     </>
