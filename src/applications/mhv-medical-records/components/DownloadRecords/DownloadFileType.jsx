@@ -93,6 +93,24 @@ const DownloadFileType = props => {
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
+        if (heading) {
+          heading.addEventListener(
+            'focus',
+            e => {
+              e.target.style.outline = '#face00 auto 1px';
+              e.target.style.outlineOffset = '2px';
+            },
+            true,
+          );
+          heading.addEventListener(
+            'blur',
+            e => {
+              e.target.style.outline = '';
+              e.target.style.outlineOffset = '';
+            },
+            true,
+          );
+        }
         focusElement(heading);
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
@@ -453,16 +471,11 @@ const DownloadFileType = props => {
       {isDataFetched &&
         recordCount > 0 && (
           <form onSubmit={e => handleSubmit(e)}>
-            <div>
-              <div
-                className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
-                data-testid="record-count"
-              >
-                <legend className="vads-u-font-weight--normal vads-u-margin-y--2 vads-u-display--block vads-u-font-size--source-sans-normalized">
-                  You’re downloading{' '}
-                  <strong>{recordCount} total records</strong>
-                </legend>
-              </div>
+            <fieldset>
+              <legend className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+                You’re downloading <strong>{recordCount} total records</strong>
+              </legend>
+
               <VaRadio
                 label="If you use assistive technology, a text file may work better for you."
                 onVaValueChange={e => {
@@ -483,7 +496,7 @@ const DownloadFileType = props => {
               <div className="vads-u-margin-top--1">
                 <DownloadingRecordsInfo />
               </div>
-            </div>
+            </fieldset>
 
             <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
               <button

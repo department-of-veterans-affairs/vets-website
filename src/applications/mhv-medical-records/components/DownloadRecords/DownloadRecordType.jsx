@@ -44,6 +44,24 @@ const DownloadRecordType = () => {
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
+        if (heading) {
+          heading.addEventListener(
+            'focus',
+            e => {
+              e.target.style.outline = '#face00 auto 1px';
+              e.target.style.outlineOffset = '2px';
+            },
+            true,
+          );
+          heading.addEventListener(
+            'blur',
+            e => {
+              e.target.style.outline = '';
+              e.target.style.outlineOffset = '';
+            },
+            true,
+          );
+        }
         focusElement(heading);
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
@@ -165,18 +183,17 @@ const DownloadRecordType = () => {
 
       <form>
         <fieldset>
-          <div className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-            <legend className="vads-u-font-weight--normal vads-u-margin-y--2 vads-u-display--block vads-u-font-size--source-sans-normalized">
-              Date range: <strong>{selectedDateRange}</strong>{' '}
-              {dateFilterOption && dateFilterOption !== 'any'
-                ? `(${format(new Date(fromDate), 'PPP')} to ${format(
-                    new Date(toDate),
-                    'PPP',
-                  )})`
-                : ''}
-            </legend>
-          </div>
-          <div className="vads-u-margin-bottom--3">
+          <legend className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+            Date range: <strong>{selectedDateRange}</strong>{' '}
+            {dateFilterOption && dateFilterOption !== 'any'
+              ? `(${format(new Date(fromDate), 'PPP')} to ${format(
+                  new Date(toDate),
+                  'PPP',
+                )})`
+              : ''}
+          </legend>
+
+          <div>
             <va-checkbox-group error={selectionError} ref={checkboxGroupRef}>
               <VaCheckbox
                 label="Select all VA records"
