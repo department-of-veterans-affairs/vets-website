@@ -17,6 +17,7 @@ describe('Thread List component', () => {
   // REMOVE FEATURE FLAG WHEN RemoveLandingPage WORK IS IMPLEMENTED
   beforeEach(() => {
     store = mockStore({
+      sm: { folders: { folder: { folderId: 0 } } },
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: false,
       },

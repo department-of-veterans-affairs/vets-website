@@ -16,6 +16,7 @@ describe('SM Footer component', () => {
 
   beforeEach(() => {
     store = mockStore({
+      sm: { folders: { folder: { folderId: 0 } } },
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: true,
       },
@@ -61,8 +62,26 @@ describe('SM Footer component', () => {
 
   it('should not render the footer when the feature flag is off', () => {
     store = mockStore({
+      sm: { folders: { folder: { folderId: 0 } } },
       featureToggles: {
         [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: false,
+      },
+    });
+
+    const screen = renderWithStoreAndRouter(<Footer />, {
+      initialState,
+      reducers: reducer,
+      path: Paths.INBOX,
+      store,
+    });
+    expect(screen.queryByTestId('inbox-footer')).not.to.exist;
+  });
+
+  it('should not render the footer when NOT on the INBOX page', () => {
+    store = mockStore({
+      sm: { folders: { folder: { folderId: -1 } } },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: true,
       },
     });
 

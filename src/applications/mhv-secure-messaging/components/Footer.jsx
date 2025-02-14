@@ -2,7 +2,7 @@ import React from 'react';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { useSelector } from 'react-redux';
 import HorizontalRule from './shared/HorizontalRule';
-import { smFooter } from '../util/constants';
+import { smFooter, DefaultFolders } from '../util/constants';
 
 const {
   NEED_HELP,
@@ -12,6 +12,8 @@ const {
   FIND_FACILITY,
 } = smFooter;
 
+const { INBOX } = DefaultFolders;
+
 const Footer = () => {
   const removeLandingPageFF = useSelector(
     state =>
@@ -19,8 +21,11 @@ const Footer = () => {
         FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
       ],
   );
+
+  const folderId = useSelector(state => state.sm.folders.folder.folderId);
   return (
-    removeLandingPageFF && (
+    removeLandingPageFF &&
+    folderId === INBOX.id && (
       <footer
         className="vads-u-padding-top--3 vads-u-padding-bottom--3"
         data-testid="inbox-footer"
