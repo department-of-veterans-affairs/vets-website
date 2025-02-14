@@ -85,7 +85,7 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959f2],
   },
   savedFormMessages: {
     notFound: 'Please start over to apply for health care benefits.',

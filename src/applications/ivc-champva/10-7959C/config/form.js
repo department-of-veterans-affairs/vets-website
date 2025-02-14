@@ -94,7 +94,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959c],
   },
   preSubmitInfo: {
     required: true,
