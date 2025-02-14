@@ -14,7 +14,6 @@ import { createShouldShowMinimalFunction } from '../header/helpers';
 
 export const footerElemementId = 'footerNav';
 
-// Returns a function (or undefined) that determines whether to show the minimal footer
 export const setupMinimalFooter = () => {
   const footer = document.getElementById(footerElemementId);
   const minimalFooterData = footer?.dataset?.minimalFooter;
