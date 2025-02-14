@@ -84,6 +84,7 @@ export const Locators = {
   SPINNER: `[data-testid="loading-indicator"]`,
   BACK_TO: '.sm-breadcrumb-list-item > a',
   FAQ_ACC_ITEM: '[data-testid="faq-accordion-item"]',
+  INBOX_FOOTER: `[data-testid="inbox-footer"]`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -408,6 +409,14 @@ export const Data = {
     THREE_MONTHS: `Last 3 months`,
     SIX_MONTHS: `Last 6 months`,
     TWELVE_MONTHS: `Last 12 months`,
+  },
+  INBOX_FOOTER: {
+    HEADER: `Need help?`,
+    PARAGRAPH_1: `Have questions about how messages works?`,
+    PARAGRAPH_2: `Want to send a message to a care team that’s not on your list? Contact your VA health facility. Ask for the My HealtheVet coordinator or secure messaging administrator.`,
+
+    LINK_1: `Learn more about messages`,
+    LINK_2: `Find your VA health facility`,
   },
 };
 export const Assertions = {
