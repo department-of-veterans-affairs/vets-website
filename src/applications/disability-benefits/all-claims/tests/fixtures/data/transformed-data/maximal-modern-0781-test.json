@@ -34,73 +34,55 @@
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
     "syncModern0781Flow": true,
-    "toxicExposure": {
-      "conditions": {
-        "asthma": true,
-        "heartattackmyocardialinfarction": true
-      },
-      "gulfWar1990": {
-        "afghanistan": true,
-        "iraq": true,
-        "airspace": true
-      },
-      "gulfWar1990Details": {
-        "afghanistan": {
-          "startDate": "1990-01-01",
-          "endDate": "1990-12-31"
-        },
-        "iraq": {
-          "startDate": "1991-02-01",
-          "endDate": "1992-12-15"
-        }
-      },
-      "gulfWar2001": {
-        "yemen": true,
-        "airspace": false
-      },
-      "gulfWar2001Details": {
-        "yemen": {
-          "startDate": "2002-01-01"
-        }
-      },
-      "herbicide": {
-        "c123": true,
-        "guam": true,
-        "laos": true
-      },
-      "herbicideDetails": {
-        "c123": {
-          "endDate": "1966-02-20"
-        },
-        "laos": {
-          "startDate": "1965-01-01"
-        }
-      },
-      "otherHerbicideLocations": {
-        "description": "Test location 1",
-        "endDate": "1969-01-01",
-        "startDate": "1968-01-01"
-      },
-      "otherExposuresDetails": {
-        "radiation": {
-          "endDate": "2005-05-30"
-        },
-        "mos": {
-          "startDate": "2001-01-08"
-        }
-      },
-      "specifyOtherExposures": {
-        "startDate": "2000-03-20",
-        "endDate": "2001-03-01",
-        "description": "Test substance 1, Test Substance 2, Test Substance 3"
-      },
-      "otherExposures": {
-        "asbestos": true,
-        "mos": true,
-        "radiation": true,
-        "notsure": true
-      }
+    "eventTypes": {
+      "combat": true,
+      "mst": true,
+      "nonMst": true,
+      "other": true
     },
+    "events": [
+      {
+        "details": "Briefly describe what happened during your traumatic event in the military.",
+        "location": "Where did the event happen?",
+        "otherReports": "Other official report type not listed here",
+        "timing": "When did the event happen?",
+        "reports": {
+          "restricted": true,
+          "unrestricted": true,
+          "police": true,
+          "none": true
+        },
+        "agency": "Name of the agency that issued the report",
+        "city": "report city",
+        "state": "report state",
+        "township": "report township",
+        "country": "USA"
+      }
+    ],
+    "workBehaviors": {
+      "absences": true,
+      "performance": true,
+      "reassignment": true
+    },
+    "healthBehaviors": {
+      "appetite": true,
+      "consultations": true,
+      "episodes": true,
+      "medications": true,
+      "pregnancy": true,
+      "screenings": true,
+      "selfMedication": true,
+      "substances": true
+    },
+    "otherBehaviors": {
+      "misconduct": true,
+      "relationships": true,
+      "socialEconomic": true,
+      "unlisted": true
+    },
+    "optionIndicator": "yes",
+    "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
+    "none": false,
     "vaTreatmentFacilities": [
       {
         "treatmentCenterName": "Treatment Center the First",

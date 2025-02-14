@@ -211,6 +211,12 @@
     },
     "newDisabilities": [
       {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
+      },
+      {
         "cause": "SECONDARY",
         "view:secondaryFollowUp": {
           "causedByDisability": "Diabetes Mellitus0",
