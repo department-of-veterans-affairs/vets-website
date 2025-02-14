@@ -9,8 +9,10 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import { MhvSecondaryNav } from '@department-of-veterans-affairs/mhv/exports';
 
 import VerifyIdentityAlert from '../components/alerts/VerifyIdentityAlert';
+import { useDatadogRum } from '../util/useDatadogRum';
 
 const App = ({ identityVerified, user }) => {
+  useDatadogRum();
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}

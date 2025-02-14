@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -22,14 +23,6 @@ const claimInfo = {
 };
 
 const mockAppt = {
-  practitioners: [
-    {
-      name: {
-        family: 'BERNARDO',
-        given: ['KENNETH J'],
-      },
-    },
-  ],
   start: '2024-12-30T14:00:00Z',
   localStartTime: '2024-12-30T08:00:00.000-06:00',
   location: {
@@ -38,9 +31,6 @@ const mockAppt = {
     attributes: {
       name: 'Cheyenne VA Medical Center',
     },
-  },
-  facilityData: {
-    name: 'Cheyenne VA Medical Center',
   },
 };
 
@@ -83,5 +73,13 @@ describe('Appointment details', () => {
 
     expect(screen.getByText(/already filed/i)).to.exist;
     expect($('va-link-action[text="View your claim details"]')).to.exist;
+  });
+
+  it('should show appropriate days left to claim', () => {
+    MockDate.set('2025-01-28T14:00:00Z');
+    const screen = render(<AppointmentDetails appointment={mockAppt} />);
+
+    expect(screen.getByText(/1 day/i)).to.exist;
+    MockDate.reset();
   });
 });

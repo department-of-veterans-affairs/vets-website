@@ -7,7 +7,6 @@ import { add, getUnixTime } from 'date-fns';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { heading as missingHeading } from '../../components/NeedsMissingInfoAlert';
-import { heading as verifyHeading } from '../../components/NeedsToVerifyAlert';
 import ShowAlertOrSip from '../../components/ShowAlertOrSip';
 
 const defaultSipOptions = {
@@ -70,6 +69,7 @@ describe('<NeedsMissingInfoAlert>', () => {
               appeals,
             },
             savedForms,
+            signIn: { serviceName: 'idme' },
             prefillsAvailable: [],
           },
           login: {
@@ -184,11 +184,10 @@ describe('<NeedsMissingInfoAlert>', () => {
         <ShowAlertOrSip {...props} />
       </Provider>,
     );
-    expect($('va-alert', container)).to.exist;
-    expect($('h2', container).textContent).to.contain(verifyHeading);
-    const link = $('a', container);
-    expect(link.textContent).to.contain('Verify your identity');
-    expect(link.href).to.contain('/verify?next=nod/intro');
+    const signInAlert = $('va-alert-sign-in', container);
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('heading-level')).to.eql('2');
+    expect(container.querySelector('.idme-verify-button')).to.exist;
   });
   it('should not render verify alert at bottom', () => {
     const { props, store } = getData({ verified: false, bottom: true });

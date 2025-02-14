@@ -39,14 +39,14 @@ const setCantFileSpy = sinon.spy();
 describe('Mileage page', () => {
   const props = {
     pageIndex: 1,
-    setPageIndex: () => setPageIndexSpy(),
+    setPageIndex: setPageIndexSpy,
     yesNo: {
       mileage: 'yes',
       vehicle: '',
       address: '',
     },
-    setYesNo: () => setYesNoSpy(),
-    setIsUnsupportedClaimType: () => setCantFileSpy(),
+    setYesNo: setYesNoSpy,
+    setIsUnsupportedClaimType: setCantFileSpy,
   };
 
   it('should render correctly', async () => {
@@ -129,5 +129,24 @@ describe('Mileage page', () => {
     await waitFor(() => {
       expect(setCantFileSpy.called).to.be.true;
     });
+  });
+
+  it('should move back a step', () => {
+    renderWithStoreAndRouter(<MileagePage {...props} />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: false,
+            error: null,
+            data: mockAppt,
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    $('va-button-pair').__events.secondaryClick(); // back
+
+    expect(setPageIndexSpy.calledWith(0)).to.be.true;
   });
 });

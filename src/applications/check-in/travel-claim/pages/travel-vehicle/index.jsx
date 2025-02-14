@@ -13,7 +13,7 @@ const TravelVehicle = props => {
     {
       info: (
         <Trans
-          i18nKey="if-you-traveled-by-bus-train-taxi-or-other-authorized--help-text"
+          i18nKey="if-you-traveled-by-bus-train-taxi-or-other-authorized--help-text--v2"
           components={[
             <span key="bold" className="vads-u-font-weight--bold" />,
           ]}

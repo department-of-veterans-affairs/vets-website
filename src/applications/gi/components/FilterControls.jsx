@@ -35,7 +35,7 @@ function FilterControls({
       <>
         <h3 className="vads-u-margin-bottom--0">State</h3>
         <Dropdown
-          label="Applies to only license and prep course category type. Certifications are available nationwide."
+          label="Applies to only license and prep course category type. All certifications are available nationwide."
           name={dropdown.label}
           alt="Filter results by state"
           options={dropdown.options}

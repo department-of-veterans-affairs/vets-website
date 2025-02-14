@@ -33,25 +33,22 @@ const mockData = testData.data;
 
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
+  const formId = `${formNumber.toUpperCase()}-UPLOAD`;
+  const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 
   return {
     rootUrl: manifest.rootUrl,
     urlPrefix: `/${formNumber}/`,
     submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
-    dev: {
-      collapsibleNavLinks: true,
-      showNavLinks: !window.Cypress,
-    },
-    trackingPrefix: 'form-upload-flow-',
+    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    trackingPrefix,
     confirmation: ConfirmationPage,
     CustomTopContent,
     CustomReviewTopContent,
-    customText: {
-      appType: 'form',
-    },
+    customText: { appType: 'form' },
     hideReviewChapters: true,
     introduction: IntroductionPage,
-    formId: 'FORM-UPLOAD-FLOW',
+    formId,
     saveInProgress: SAVE_IN_PROGRESS_CONFIG,
     version: 0,
     prefillEnabled: true,
@@ -64,9 +61,7 @@ const formConfig = (pathname = null) => {
     title,
     subTitle,
     defaultDefinitions: {},
-    v3SegmentedProgressBar: {
-      useDiv: false,
-    },
+    v3SegmentedProgressBar: { useDiv: false },
     chapters: {
       personalInformationChapter: {
         title: 'Veteran information',
