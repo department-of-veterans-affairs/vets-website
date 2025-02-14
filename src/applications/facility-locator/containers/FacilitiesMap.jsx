@@ -1,59 +1,62 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import appendQuery from 'append-query';
 import mapboxgl from 'mapbox-gl';
-import { browserHistory } from 'react-router';
-import vaDebounce from 'platform/utilities/data/debounce';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { isEmpty } from 'lodash';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+
+// Components
+import Alert from '../components/Alert';
+import ControlResultsHolder from '../components/ControlResultsHolder';
+import ControlsAndMapContainer from '../components/ControlsAndMapContainer';
+import EmergencyCareAlert from '../components/EmergencyCareAlert';
+import MobileMapSearchResult from '../components/MobileMapSearchResult';
+import NoResultsMessage from '../components/NoResultsMessage';
+import PaginationWrapper from '../components/PaginationWrapper';
+import PpmsServiceError from '../components/PpmsServiceError';
+import RenderMap from '../components/RenderMap';
+import ResultsList from '../components/ResultsList';
+import SearchControls from '../components/SearchControls';
+import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
+
 import {
+  clearGeocodeError,
   clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  updateSearchQuery,
-  mapMoved,
-  geolocateUser,
-  clearGeocodeError,
   getProviderSpecialties,
+  geolocateUser,
+  mapMoved,
+  selectMobileMapPin,
+  updateSearchQuery,
 } from '../actions';
 import {
   facilitiesPpmsSuppressAll,
+  facilityLocatorMobileMapUpdate,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
-  facilityLocatorMobileMapUpdate,
 } from '../utils/featureFlagSelectors';
-import NoResultsMessage from '../components/NoResultsMessage';
-import ResultsList from '../components/ResultsList';
-import PaginationWrapper from '../components/PaginationWrapper';
-import SearchControls from '../components/SearchControls';
-import SearchResultsHeader from '../components/SearchResultsHeader';
 import { FacilitiesMapTypes } from '../types';
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
-  Covid19Vaccine,
   EMERGENCY_CARE_SERVICES,
   LocationType,
   MapboxInit,
   MAX_SEARCH_AREA,
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
-import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink } from '../utils/mapLinks';
-import Covid19Result from '../components/search-results-items/Covid19Result';
-import Alert from '../components/Alert';
-import EmergencyCareAlert from '../components/EmergencyCareAlert';
-import ControlResultsHolder from '../components/ControlResultsHolder';
-import ControlsAndMapContainer from '../components/ControlsAndMapContainer';
-import PpmsServiceError from '../components/PpmsServiceError';
-import RenderMap from '../components/RenderMap';
 
 let lastZoom = 3;
 
@@ -61,6 +64,7 @@ const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
+  const { mobileMapPinSelected, mobileMapUpdateEnabled } = props;
   const [map, setMap] = useState(null);
   const [verticalSize, setVerticalSize] = useState(0);
   const [horizontalSize, setHorizontalSize] = useState(0);
@@ -138,15 +142,17 @@ const FacilitiesMap = props => {
     browserHistory.push(queryStringObj);
   };
 
-  const addMapMarker = useCallback(
-    searchCoords => {
-      const markerElement = buildMarker('currentPos');
-      new mapboxgl.Marker(markerElement)
-        .setLngLat([searchCoords.lng, searchCoords.lat])
-        .addTo(map);
-    },
-    [map],
-  );
+  const addMapMarker = searchCoords => {
+    const markerElement = buildMarker(
+      'currentPos',
+      null,
+      props.selectMobileMapPin,
+      mobileMapUpdateEnabled,
+    );
+    new mapboxgl.Marker(markerElement)
+      .setLngLat([searchCoords.lng, searchCoords.lat])
+      .addTo(map);
+  };
 
   const renderMarkers = useCallback(
     locations => {
@@ -161,7 +167,12 @@ const FacilitiesMap = props => {
         locationBounds.extend(
           new mapboxgl.LngLat(loc.attributes.long, loc.attributes.lat),
         );
-        const markerElement = buildMarker('location', { loc, attrs });
+        const markerElement = buildMarker(
+          'location',
+          { loc, attrs },
+          props.selectMobileMapPin,
+          mobileMapUpdateEnabled,
+        );
         new mapboxgl.Marker(markerElement)
           .setLngLat([loc.attributes.long, loc.attributes.lat])
           .addTo(map);
@@ -209,10 +220,13 @@ const FacilitiesMap = props => {
   };
 
   const calculateSearchArea = () => {
-    if (!map) return 0;
-    const currentBounds = map.getBounds();
-    const { _ne, _sw } = currentBounds;
-    return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+    if (map) {
+      const currentBounds = map.getBounds();
+      const { _ne, _sw } = currentBounds;
+      return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+    }
+
+    return 0;
   };
 
   const handleSearchArea = () => {
@@ -227,6 +241,7 @@ const FacilitiesMap = props => {
       'fl-search-fac-type': currentQuery.facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
+
     const currentMapBoundsDistance = calculateSearchArea();
 
     props.genSearchAreaFromCenter({
@@ -356,6 +371,7 @@ const FacilitiesMap = props => {
    */
   const segmentOnChange = tab => {
     setSelectedTab(tab);
+    props.selectMobileMapPin(null);
     setMapResize();
   };
 
@@ -375,7 +391,6 @@ const FacilitiesMap = props => {
     // gets re-loaded when resizing from mobile to desktop.
     const {
       currentQuery,
-      selectedResult,
       results,
       pagination,
       searchError,
@@ -445,18 +460,20 @@ const FacilitiesMap = props => {
               <PpmsServiceError currentQuery={props.currentQuery} />
             ) : null}
             <SearchControls
-              geolocateUser={props.geolocateUser}
               clearGeocodeError={props.clearGeocodeError}
+              clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
+              geolocateUser={props.geolocateUser}
+              getProviderSpecialties={props.getProviderSpecialties}
+              isMobile={isMobile}
+              isSmallDesktop={isSmallDesktop}
+              isTablet={isTablet}
+              mobileMapUpdateEnabled={mobileMapUpdateEnabled}
               onChange={props.updateSearchQuery}
               onSubmit={handleSearch}
+              selectMobileMapPin={props.selectMobileMapPin}
               suppressPPMS={props.suppressPPMS}
-              clearSearchText={props.clearSearchText}
               useProgressiveDisclosure={useProgressiveDisclosure}
-              isMobile={isMobile}
-              isTablet={isTablet}
-              isSmallDesktop={isSmallDesktop}
-              getProviderSpecialties={props.getProviderSpecialties}
             />
             <EmergencyCareAlert
               shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
@@ -553,7 +570,7 @@ const FacilitiesMap = props => {
 
         {isMobile && (
           <div className="columns small-12">
-            {props.facilityLocatorMobileMapUpdate ? (
+            {mobileMapUpdateEnabled ? (
               <>
                 <SegmentedControl
                   a11yLabels={['View List', 'View Map']}
@@ -597,18 +614,11 @@ const FacilitiesMap = props => {
                             searchStarted
                           />
                         )}
-                      {selectedResult && (
-                        <div className="mobile-search-result">
-                          {currentQuery.serviceType === Covid19Vaccine ? (
-                            <Covid19Result location={selectedResult} />
-                          ) : (
-                            <SearchResult
-                              result={selectedResult}
-                              query={currentQuery}
-                            />
-                          )}
-                        </div>
-                      )}
+                      <MobileMapSearchResult
+                        mobileMapPinSelected={mobileMapPinSelected}
+                        query={currentQuery}
+                        searchResultMessageRef={searchResultMessageRef}
+                      />
                     </>
                   )}
                 </>
@@ -648,18 +658,6 @@ const FacilitiesMap = props => {
                         searchStarted
                       />
                     )}
-                  {selectedResult && (
-                    <div className="mobile-search-result">
-                      {currentQuery.serviceType === Covid19Vaccine ? (
-                        <Covid19Result location={selectedResult} />
-                      ) : (
-                        <SearchResult
-                          result={selectedResult}
-                          query={currentQuery}
-                        />
-                      )}
-                    </div>
-                  )}
                 </TabPanel>
               </Tabs>
             )}
@@ -873,31 +871,32 @@ const FacilitiesMap = props => {
 };
 
 const mapStateToProps = state => ({
-  facilityLocatorMobileMapUpdate: facilityLocatorMobileMapUpdate(state),
   currentQuery: state.searchQuery,
+  mobileMapPinSelected: state.searchResult.mobileMapPinSelected,
+  mobileMapUpdateEnabled: facilityLocatorMobileMapUpdate(state),
+  pagination: state.searchResult.pagination,
+  resultTime: state.searchResult.resultTime,
+  results: state.searchResult.results,
+  searchError: state.searchResult.error,
+  specialties: state.searchQuery.specialties,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
-  results: state.searchResult.results,
-  searchError: state.searchResult.error,
-  resultTime: state.searchResult.resultTime,
-  pagination: state.searchResult.pagination,
-  selectedResult: state.searchResult.selectedResult,
-  specialties: state.searchQuery.specialties,
 });
 
 const mapDispatchToProps = {
-  geolocateUser,
   clearGeocodeError,
-  fetchVAFacility,
-  updateSearchQuery,
-  genBBoxFromAddress,
-  genSearchAreaFromCenter,
-  getProviderSpecialties,
-  searchWithBounds,
   clearSearchResults,
   clearSearchText,
+  fetchVAFacility,
+  genBBoxFromAddress,
+  genSearchAreaFromCenter,
+  geolocateUser,
+  getProviderSpecialties,
   mapMoved,
+  searchWithBounds,
+  selectMobileMapPin,
+  updateSearchQuery,
 };
 
 FacilitiesMap.propTypes = FacilitiesMapTypes;

@@ -22,17 +22,19 @@ import ServicesLoadingOrShow from './ServicesLoadingOrShow';
 
 const SearchControls = props => {
   const {
+    clearGeocodeError,
+    clearSearchText,
     currentQuery,
+    geolocateUser,
+    getProviderSpecialties,
+    isMobile,
+    isSmallDesktop,
+    isTablet,
+    mobileMapUpdateEnabled,
     onChange,
     onSubmit,
-    clearSearchText,
-    geolocateUser,
-    clearGeocodeError,
+    selectMobileMapPin,
     useProgressiveDisclosure,
-    isMobile,
-    isTablet,
-    isSmallDesktop,
-    getProviderSpecialties,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -129,6 +131,10 @@ const SearchControls = props => {
       'fl-search-svc-type': analyticsServiceType,
       'fl-current-zoom-depth': zoomLevel,
     });
+
+    if (isMobile && mobileMapUpdateEnabled) {
+      selectMobileMapPin(null);
+    }
 
     onSubmit();
   };

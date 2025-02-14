@@ -97,8 +97,10 @@ $text-color: rgba(27, 27, 27, 1);
       border-top: none;
     }
 
-    &.active {
-      outline: $focus-outline;
+    @media screen and (min-width: $small-screen) {
+      &.active {
+        border: $focus-outline;
+      }
     }
 
     a {
@@ -447,6 +449,9 @@ $text-color: rgba(27, 27, 27, 1);
         column-gap: 12px;
         align-items: flex-end;
       }
+      .facility-type-dropdown {
+        margin-top: 0;
+      }
     }
     p.service-hint-text {
       color: $vads-label-hint-text-color-on-light;
@@ -613,6 +618,26 @@ $text-color: rgba(27, 27, 27, 1);
   font-size: 0.9375rem;
   width: 1.5rem;
   height: 1.5rem;
+
+  &#active-pin {
+    height: 38.5px;
+    width: 38.5px;
+    border-radius: 50%;
+    border: 16px;
+    background-color: var(--vads-color-link);
+  }
+
+  &#active-pin::after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    bottom: -4px;
+    left: 9.5px;
+    border: 10.45px solid var(--vads-color-link);
+    transform: rotate(45deg);
+    z-index: -1;
+  }
 }
 
 .notice-marg-pad {

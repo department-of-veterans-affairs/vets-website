@@ -11,8 +11,10 @@ function RenderMap(
     mapboxGlContainer,
     map,
     mobile,
+    mobileMapUpdateEnabled,
     results,
     searchAreaButtonEnabled,
+    selectMobileMapPin,
     shouldRenderSearchArea,
     smallDesktop,
     zoomMessageDivID,
@@ -60,10 +62,12 @@ function RenderMap(
       >
         {shouldRenderSearchArea && (
           <SearchAreaControl
+            handleSearchArea={handleSearchArea}
             isMobile={mobile}
             isEnabled={searchAreaButtonEnabled}
-            handleSearchArea={handleSearchArea}
+            mobileMapUpdateEnabled={mobileMapUpdateEnabled}
             query={currentQuery}
+            selectMobileMapPin={selectMobileMapPin}
           />
         )}
       </div>
@@ -78,8 +82,10 @@ RenderMap.propTypes = {
   map: PropTypes.object,
   mapboxGlContainer: PropTypes.string,
   mobile: PropTypes.bool,
+  mobileMapUpdateEnabled: PropTypes.bool,
   results: PropTypes.array,
   searchAreaButtonEnabled: PropTypes.bool,
+  selectMobileMapPin: PropTypes.func,
   shouldRenderSearchArea: PropTypes.bool,
   smallDesktop: PropTypes.bool,
   zoomMessageDivID: PropTypes.string,
