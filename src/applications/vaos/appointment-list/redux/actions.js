@@ -195,11 +195,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       );
 
       recordItemsRetrieved(
-        'video_gfe',
-        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
-      );
-
-      recordItemsRetrieved(
         'video_store_forward',
         data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.storeForward)
           .length,

@@ -23,7 +23,6 @@ export const APPOINTMENT_STATUS = {
 };
 
 export const VIDEO_TYPES = {
-  gfe: 'MOBILE_GFE',
   clinic: 'CLINIC_BASED',
   adhoc: 'ADHOC',
   mobile: 'MOBILE_ANY',
