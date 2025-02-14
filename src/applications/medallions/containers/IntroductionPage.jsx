@@ -11,7 +11,7 @@ import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 15;
 const OMB_NUMBER = '2900-0222';
-const OMB_EXP_DATE = '10/30/2024';
+const OMB_EXP_DATE = '09/30/2027';
 
 const ProcessList = () => {
   return (
