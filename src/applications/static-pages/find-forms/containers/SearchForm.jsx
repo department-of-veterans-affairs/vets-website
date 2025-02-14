@@ -125,6 +125,7 @@ export const SearchForm = () => {
           className="usa-input-error-message vads-u-margin-bottom--0p5"
           role="alert"
           data-e2e-id="find-form-error-message"
+          data-testid="find-form-error-message"
         >
           <span className="sr-only">Error</span>
           Please fill in a keyword, form name, or number.
