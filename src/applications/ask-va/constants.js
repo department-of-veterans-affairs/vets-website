@@ -294,9 +294,9 @@ export const stateOrFacilityOptions = {
 
 // Do you want to use this school options
 export const useThisSchoolOptions = {
-  YES: `Yes, replace my saved school facility with this facility.
+  Y: `Yes, replace my saved school facility with this facility.
   This school facility will be saved for future submissions`,
-  NO: `No, don't update my saved facility.
+  N: `No, don't update my saved facility.
   This school facility will only be used for this submissions`,
 };
 
