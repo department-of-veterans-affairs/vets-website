@@ -8,7 +8,7 @@ import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from '~/platform/user/selectors';
 import { setData } from '~/platform/forms-system/src/js/actions';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { useFormFeatureToggleSync } from 'platform/utilities/feature-toggles';
 
 import { getContestableIssues as getContestableIssuesAction } from '../actions';
 
@@ -124,8 +124,12 @@ export const App = ({
     ],
   );
 
-  const { useFormFeatureToggleSync } = useFeatureToggle();
-  useFormFeatureToggleSync([[SC_NEW_FORM_KEY, SC_NEW_FORM_DATA]]);
+  useFormFeatureToggleSync([
+    {
+      toggleName: SC_NEW_FORM_KEY,
+      formKey: SC_NEW_FORM_DATA,
+    },
+  ]);
 
   let content = (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
