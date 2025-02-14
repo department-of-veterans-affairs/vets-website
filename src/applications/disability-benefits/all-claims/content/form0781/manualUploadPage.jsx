@@ -34,9 +34,3 @@ export const howToScanFileInfo = (
     </div>
   </va-additional-info>
 );
-
-export const uploadComponentPlaceholder = (
-  <>
-    <p>UPLOAD COMPONENT PLACEHOLDER</p>
-  </>
-);
