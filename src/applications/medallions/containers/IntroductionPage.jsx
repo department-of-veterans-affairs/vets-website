@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import { isLoggedIn } from 'platform/user/selectors';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import SaveInProgressIntro from './SaveInProgressIntro';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 15;
@@ -112,6 +112,7 @@ export const IntroductionPage = props => {
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>
+      <ProcessList />
       {!userLoggedIn ? (
         <>
           <va-alert
@@ -175,13 +176,12 @@ export const IntroductionPage = props => {
           prefillEnabled={formConfig.prefillEnabled}
           messages={formConfig.savedFormMessages}
           pageList={pageList}
-          startText="Start the application"
+          startText="Start the medallion application"
           devOnly={{
             forceShowFormControls: true,
           }}
         />
       )}
-      <ProcessList />
       <p />
       <va-omb-info
         res-burden={OMB_RES_BURDEN}
