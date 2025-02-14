@@ -15,7 +15,6 @@ export const marriageEndDetails = {
     }),
     marriageEndDate: {
       ...currentOrPastDateUI('When did this marriage end?'),
-      'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Enter the date the marriage ended.',
       },
