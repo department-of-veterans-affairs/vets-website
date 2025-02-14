@@ -1,0 +1,1 @@
+To use the update translation script, add your translation JSON file and name it the same as the 
