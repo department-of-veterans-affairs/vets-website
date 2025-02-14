@@ -232,7 +232,7 @@
     "sass-lint": "^1.13.1",
     "sass-loader": "^8.0.2",
     "semver": "^7.3.5",
-    "sinon": "^3.2.1",
+    "sinon": "^19.0.2",
     "skin-deep": "^1.0.0",
     "stylelint": "^13.13.1",
     "stylelint-order": "^4.1.0",
