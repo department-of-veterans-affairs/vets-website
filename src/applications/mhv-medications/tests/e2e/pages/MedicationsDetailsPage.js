@@ -582,6 +582,14 @@ class MedicationsDetailsPage {
   verifyPendingTextAlertForLessThanSevenDays = text => {
     cy.get('[data-testid="pending-med-alert"]').should('have.text', text);
   };
+
+  verifyRefillDelayAlertBannerOnDetailsPage = text => {
+    cy.get('[data-testid="rx-details-refill-alert"]').should('contain', text);
+  };
+
+  verifyCheckStatusHeaderTextOnDetailsPage = text => {
+    cy.get('[data-testid="check-status-text"]').should('have.text', text);
+  };
 }
 
 export default MedicationsDetailsPage;

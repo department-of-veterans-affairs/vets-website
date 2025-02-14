@@ -146,6 +146,9 @@ class MedicationsLandingPage {
   };
 
   visitMedicationsListPage = prescriptionsList => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptionsList).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',

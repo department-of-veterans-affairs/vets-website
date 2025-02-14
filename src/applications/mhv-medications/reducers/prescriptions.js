@@ -49,6 +49,11 @@ export const initialState = {
    * Refill Page successful/failed notification
    */
   refillNotification: undefined,
+  /**
+   * The list of prescriptions with taking longer than expected refills
+   * @type {array}
+   */
+  refillAlertList: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -87,6 +92,13 @@ export const prescriptionsReducer = (state = initialState, action) => {
         }),
         prescriptionsFilteredPagination: action.response.meta.pagination,
         filterCount: action.response.meta.filterCount,
+        apiError: false,
+      };
+    }
+    case Actions.Prescriptions.GET_REFILL_ALERT_LIST: {
+      return {
+        ...state,
+        refillAlertList: action.response,
         apiError: false,
       };
     }

@@ -2,7 +2,11 @@ import {
   apiRequest,
   environment,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { INCLUDE_IMAGE_ENDPOINT } from '../util/constants';
+import {
+  INCLUDE_IMAGE_ENDPOINT,
+  filterOptions,
+  rxListSortingOptions,
+} from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 const headers = {
@@ -93,6 +97,18 @@ export const getFilteredList = (
 ) => {
   return apiRequest(
     `${apiBasePath}/prescriptions?page=${pageNumber}&per_page=${perPage}${filterOption}${sortEndpoint}`,
+    { headers },
+  );
+};
+
+/**
+ * get full list of recently requested medications to identify those running late
+ */
+export const getRecentlyRequestedList = () => {
+  return apiRequest(
+    `${apiBasePath}/prescriptions?${filterOptions.RECENTLY_REQUESTED.url}${
+      rxListSortingOptions.alphabeticalOrder.API_ENDPOINT
+    }`,
     { headers },
   );
 };
