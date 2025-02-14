@@ -6,6 +6,7 @@ import RoutedSavableApp from '@department-of-veterans-affairs/platform-forms/Rou
 import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
+import ldMigrations from './ldMigrations';
 
 export default function BurialsApp({ location, children }) {
   const {
@@ -55,8 +56,17 @@ export default function BurialsApp({ location, children }) {
     return <NoFormPage />;
   }
 
+  // Temporary overwrite of version until flipper is removed.
+  const ldFormConfig = !burialLocationOfDeathUpdate
+    ? formConfig
+    : {
+        ...formConfig,
+        migrations: ldMigrations,
+        version: 3,
+      };
+
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <RoutedSavableApp formConfig={ldFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
