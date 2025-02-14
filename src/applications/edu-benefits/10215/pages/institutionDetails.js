@@ -30,7 +30,7 @@ const uiSchema = {
       }),
       'ui:validations': [
         (errors, fieldData) => {
-          if (fieldData && !/^[0-9]{8}$/.test(fieldData)) {
+          if (fieldData && !/^[a-zA-Z0-9]{8}$/.test(fieldData)) {
             errors.addError('Please enter a valid 8-digit facility code');
           }
         },
