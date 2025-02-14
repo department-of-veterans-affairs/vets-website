@@ -1,15 +1,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as apiHelpers from 'platform/utilities/api';
-import { checkFormValidity, fetchFormsApi } from '../../api';
+import { allFormsRetired, checkFormValidity } from '../../api';
 import * as sentryLogger from '../../helpers/sentryLogger';
 
 describe('find forms API methods', () => {
+  const sandbox = sinon.createSandbox();
+
   describe('checkFormValidity', () => {
     const currentLocation = global.window.location;
-    const currentFetch = global.fetch;
-    let fetchStub;
-    let sentryStub;
 
     beforeEach(() => {
       global.window.location = {
@@ -20,15 +18,11 @@ describe('find forms API methods', () => {
 
     afterEach(() => {
       global.window.location = currentLocation;
-      global.fetch = currentFetch;
-      fetchStub.restore();
-      sentryStub?.restore();
+      sandbox.restore();
     });
 
     it('should return the proper form validity markers when given a valid form', async () => {
-      fetchStub = sinon
-        .stub(global, 'fetch')
-        .resolves(new Response({ status: 200 }));
+      sandbox.stub(global, 'fetch').resolves(new Response({ status: 200 }));
 
       const form = {
         attributes: {
@@ -49,9 +43,7 @@ describe('find forms API methods', () => {
     });
 
     it('should return the proper form validity markers when given a form with an invalid PDF', async () => {
-      fetchStub = sinon
-        .stub(global, 'fetch')
-        .resolves(new Response({ status: 200 }));
+      sandbox.stub(global, 'fetch').resolves(new Response({ status: 200 }));
 
       const form = {
         attributes: {
@@ -72,7 +64,7 @@ describe('find forms API methods', () => {
     });
 
     it('should return the proper form validity markers when given a form with a valid PDF but an invalid URL', async () => {
-      fetchStub = sinon
+      sandbox
         .stub(global, 'fetch')
         .resolves(new Response('error', { status: 500 }));
 
@@ -94,8 +86,8 @@ describe('find forms API methods', () => {
     });
 
     it('should return the proper form validity markers when given a valid form but the fetch call fails', async () => {
-      fetchStub = sinon.stub(global, 'fetch').rejects(new Response('error'));
-      sentryStub = sinon.stub(sentryLogger, 'sentryLogger');
+      sandbox.stub(global, 'fetch').rejects(new Response('error'));
+      const sentryStub = sandbox.stub(sentryLogger, 'sentryLogger');
 
       const form = {
         attributes: {
@@ -126,16 +118,8 @@ describe('find forms API methods', () => {
     });
   });
 
-  describe('fetchFormsApi', () => {
-    const dispatchSpy = sinon.spy();
-    let apiStub;
-
-    afterEach(() => {
-      dispatchSpy.reset();
-      apiStub.restore();
-    });
-
-    it('should set the correct valid forms when given a response with all valid forms', async () => {
+  describe('allFormsRetired', () => {
+    it('should return false when there is at least one valid form', () => {
       const allValidForms = [
         {
           attributes: {
@@ -153,26 +137,15 @@ describe('find forms API methods', () => {
         },
       ];
 
-      apiStub = sinon
-        .stub(apiHelpers, 'apiRequest')
-        .resolves({ data: allValidForms });
-
-      await fetchFormsApi('1010', dispatchSpy);
-
-      expect(dispatchSpy.called).to.be.true;
-      expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
-        results: allValidForms,
-        hasOnlyRetiredForms: false,
-        type: 'findVAForms/FETCH_FORMS_SUCCESS',
-      });
+      expect(allFormsRetired(allValidForms)).to.be.false;
     });
 
-    it('should set the correct valid forms when given a response with 1 valid form', async () => {
-      const mixedValidForms = [
+    it('should return false when there is at least one valid form', () => {
+      const allValidForms = [
         {
           attributes: {
             formName: '10-10164',
-            validPdf: true,
+            validPDF: true,
             deletedAt: null,
           },
         },
@@ -185,55 +158,66 @@ describe('find forms API methods', () => {
         },
       ];
 
-      apiStub = sinon
-        .stub(apiHelpers, 'apiRequest')
-        .resolves({ data: mixedValidForms });
-
-      await fetchFormsApi('1010', dispatchSpy);
-
-      expect(dispatchSpy.called).to.be.true;
-      expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
-        results: mixedValidForms,
-        hasOnlyRetiredForms: false,
-        type: 'findVAForms/FETCH_FORMS_SUCCESS',
-      });
+      expect(allFormsRetired(allValidForms)).to.be.false;
     });
+  });
 
-    it('should set the correct valid forms when given a response with 1 deleted form', async () => {
-      const forms = [
-        {
-          attributes: {
-            formName: '10-10164',
-            validPdf: true,
-            deletedAt: '2025-01-01',
-          },
+  it('should return false when there is at least one valid form', () => {
+    const allValidForms = [
+      {
+        attributes: {
+          formName: '10-10164',
+          validPdf: true,
         },
-      ];
+      },
+      {
+        attributes: {
+          formName: '10-10116c',
+          validPdf: true,
+          deletedAt: null,
+        },
+      },
+    ];
 
-      apiStub = sinon.stub(apiHelpers, 'apiRequest').resolves({ data: forms });
+    expect(allFormsRetired(allValidForms)).to.be.false;
+  });
 
-      await fetchFormsApi('1010', dispatchSpy);
+  it('should return false when there is at least one valid form', () => {
+    const allValidForms = [
+      {
+        attributes: {
+          formName: '10-10164',
+          validPdf: false,
+        },
+      },
+      {
+        attributes: {
+          formName: '10-10116c',
+          validPdf: true,
+        },
+      },
+    ];
 
-      expect(dispatchSpy.called).to.be.true;
-      expect(dispatchSpy.firstCall.args[0]).to.deep.equal({
-        results: forms,
-        hasOnlyRetiredForms: true,
-        type: 'findVAForms/FETCH_FORMS_SUCCESS',
-      });
-    });
+    expect(allFormsRetired(allValidForms)).to.be.false;
+  });
 
-    it('should dispatch a failure when the API request fails', async () => {
-      apiStub = sinon.stub(apiHelpers, 'apiRequest').rejects();
+  it('should return true when there are no valid forms', () => {
+    const allValidForms = [
+      {
+        attributes: {
+          formName: '10-10164',
+          validPdf: false,
+          deletedAt: '2025-01-01',
+        },
+      },
+      {
+        attributes: {
+          formName: '10-10116c',
+          validPdf: false,
+        },
+      },
+    ];
 
-      await fetchFormsApi('1010', dispatchSpy);
-
-      expect(dispatchSpy.called).to.be.true;
-      expect(dispatchSpy.firstCall.args[0].error.replace(/’/g, "'")).to.equal(
-        "We're sorry. Something went wrong on our end. Please try again later.",
-      );
-      expect(dispatchSpy.firstCall.args[0].type).to.equal(
-        'findVAForms/FETCH_FORMS_FAILURE',
-      );
-    });
+    expect(allFormsRetired(allValidForms)).to.be.true;
   });
 });

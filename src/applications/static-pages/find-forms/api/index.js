@@ -49,6 +49,18 @@ export const checkFormValidity = async (form, page) => {
   };
 };
 
+export const allFormsRetired = forms => {
+  const validForms = forms?.filter(
+    form =>
+      (form.attributes?.validPDF || form.attributes?.validPdf) &&
+      (form.attributes?.deletedAt === null ||
+        form.attributes?.deletedAt === undefined ||
+        form.attributes?.deletedAt.length === 0),
+  );
+
+  return !validForms.length;
+};
+
 export const fetchFormsApi = async (query, dispatch) => {
   const FORMS_URL = appendQuery('/forms', { query });
 
@@ -57,17 +69,7 @@ export const fetchFormsApi = async (query, dispatch) => {
     const forms = response?.data;
 
     if (forms?.length) {
-      const validForms = forms?.filter(
-        form =>
-          (form.attributes?.validPDF || form.attributes?.validPdf) &&
-          (form.attributes?.deletedAt === null ||
-            form.attributes?.deletedAt === undefined ||
-            form.attributes?.deletedAt.length === 0),
-      );
-
-      const hasOnlyRetiredForms = !validForms.length;
-
-      dispatch(fetchFormsSuccess(forms, hasOnlyRetiredForms));
+      dispatch(fetchFormsSuccess(forms, allFormsRetired(forms)));
     }
 
     return forms;
