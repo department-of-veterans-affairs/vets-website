@@ -1,15 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import ThreadListItem from './ThreadListItem';
-import {
-  Paths,
-  threadSortingOptions,
-  DefaultFolders,
-} from '../../util/constants';
+import { Paths, threadSortingOptions } from '../../util/constants';
 import ThreadListSort from './ThreadListSort';
 import Footer from '../Footer';
 
@@ -25,16 +19,7 @@ const ThreadsList = props => {
     threadsPerPage,
   } = props;
 
-  const { INBOX } = DefaultFolders;
-
   const location = useLocation();
-
-  const removeLandingPageFF = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
-      ],
-  );
 
   const MAX_PAGE_LIST_LENGTH = 7;
 
@@ -129,7 +114,7 @@ const ThreadsList = props => {
             </div>
           </div>
         )}
-        {removeLandingPageFF && folder.folderId === INBOX.id && <Footer />}
+        <Footer />
       </div>
     </>
   );
