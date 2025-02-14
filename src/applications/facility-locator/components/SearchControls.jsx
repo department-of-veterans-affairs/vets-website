@@ -18,6 +18,7 @@ import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
+import ServicesLoadingOrShow from './ServicesLoadingOrShow';
 
 const SearchControls = props => {
   const {
@@ -25,11 +26,15 @@ const SearchControls = props => {
     clearSearchText,
     currentQuery,
     geolocateUser,
+    getProviderSpecialties,
     isMobile,
+    isSmallDesktop,
+    isTablet,
     mobileMapUpdateEnabled,
     onChange,
     onSubmit,
     selectMobileMapPin,
+    useProgressiveDisclosure,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -58,6 +63,9 @@ const SearchControls = props => {
     onChange({
       facilityType: e.target.value,
       serviceType: null,
+      // Since the facility type may cause an error (PPMS), reset it if the type is changed
+      fetchSvcsError: null,
+      error: null,
     });
   };
 
@@ -160,16 +168,33 @@ const SearchControls = props => {
           'usa-input-error': showError,
         })}
       >
-        <div id="location-input-field">
+        {/* 
+        after the flipper useProgressiveDisclosure is removed,
+        this id can be changed back to #location-input-field
+        and the media query in it may be removed
+         */}
+        <div
+          id={`location-input-field${
+            useProgressiveDisclosure && isSmallDesktop ? '-desktop' : ''
+          }`}
+        >
           <label
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            <span id="city-state-zip-text">City, state or postal code</span>{' '}
+            <span id="city-state-zip-text">
+              {useProgressiveDisclosure
+                ? 'Zip code or city, state'
+                : 'City, state or postal code'}
+            </span>{' '}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
-            <div className="use-my-location-link">
+            <div
+              className={`use-my-location-link${
+                isSmallDesktop && useProgressiveDisclosure ? '-desktop' : ''
+              }`}
+            >
               <va-icon icon="autorenew" size={3} />
               <span aria-live="assertive">Finding your location...</span>
             </div>
@@ -177,7 +202,9 @@ const SearchControls = props => {
             <button
               onClick={handleGeolocationButtonClick}
               type="button"
-              className="use-my-location-link"
+              className={`use-my-location-link${
+                isSmallDesktop && useProgressiveDisclosure ? '-desktop' : ''
+              }`}
               aria-describedby="city-state-zip-text"
             >
               <va-icon icon="near_me" size={3} />
@@ -188,7 +215,9 @@ const SearchControls = props => {
         {showError && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
-            Please fill in a city, state, or postal code.
+            {useProgressiveDisclosure
+              ? 'Please fill in a zip code or city, state.'
+              : 'Please fill in a city, state, or postal code.'}
           </span>
         )}
         <div className="input-container">
@@ -200,11 +229,20 @@ const SearchControls = props => {
             onChange={handleQueryChange}
             onBlur={handleLocationBlur}
             value={searchString}
-            title="Your location: Street, City, State or Postal code"
+            title={
+              useProgressiveDisclosure
+                ? undefined // cause to be unset
+                : 'Your location: Street, City, State or Postal code'
+            }
           />
           {searchString?.length > 0 && (
+            // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
             <button
-              aria-label="Clear your city, state or postal code"
+              aria-label={
+                useProgressiveDisclosure
+                  ? 'Clear your zip code or city, state'
+                  : 'Clear your city, state or postal code'
+              }
               type="button"
               id="clear-input"
               className="clear-button"
@@ -240,12 +278,21 @@ const SearchControls = props => {
       <div
         className={classNames(
           'input-clear',
-          'vads-u-margin--0',
           `facility-type-dropdown-val-${facilityType || 'none'}`,
+          {
+            'facility-type-dropdown': !useProgressiveDisclosure,
+            'facility-type-dropdown-mobile':
+              isMobile && useProgressiveDisclosure,
+            'facility-type-dropdown-tablet':
+              isTablet && useProgressiveDisclosure,
+            'facility-type-dropdown-desktop':
+              isSmallDesktop && useProgressiveDisclosure,
+            'facility-error': showError,
+          },
         )}
       >
         <VaSelect
-          uswds
+          key={showError ? 'select-with-error' : 'select-without-error'}
           required
           id="facility-type-dropdown"
           className={showError ? 'vads-u-padding-left--1p5' : null}
@@ -285,19 +332,54 @@ const SearchControls = props => {
         services = emergencyCareServices;
         break;
       case LocationType.BENEFITS:
+        if (useProgressiveDisclosure) {
+          return null;
+        }
         services = benefitsServices;
         break;
       case LocationType.CC_PROVIDER:
+        if (useProgressiveDisclosure) {
+          return (
+            <ServicesLoadingOrShow
+              serviceType="ppms_services"
+              getProviderSpecialties={getProviderSpecialties}
+            >
+              <div
+                id="service-typeahead-container"
+                className={isMobile ? 'typeahead-mobile' : 'typeahead-tablet'}
+              >
+                <ServiceTypeAhead
+                  handleServiceTypeChange={handleServiceTypeChange}
+                  initialSelectedServiceType={serviceType}
+                  showError={showError}
+                  useProgressiveDisclosure
+                />
+              </div>
+            </ServicesLoadingOrShow>
+          );
+        }
         return (
-          <div className="typeahead">
+          <div
+            className={classNames('typeahead', {
+              'typeahead-mobile': isMobile,
+              'typeahead-tablet':
+                isTablet || (isSmallDesktop && !useProgressiveDisclosure),
+              'typeahead-desktop': isSmallDesktop && useProgressiveDisclosure,
+            })}
+          >
             <ServiceTypeAhead
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
               showError={showError}
+              useProgressiveDisclosure={false}
+              getProviderSpecialties={getProviderSpecialties}
             />
           </div>
         );
       default:
+        if (useProgressiveDisclosure) {
+          return null; // do not show a disabled dropdown for progressive disclosure
+        }
         services = {};
     }
 
@@ -309,7 +391,15 @@ const SearchControls = props => {
     ));
 
     return (
-      <span className="service-type-dropdown-container">
+      <div
+        className={classNames({
+          'service-type-dropdown-mobile': isMobile,
+          'service-type-dropdown-tablet':
+            isTablet || (isSmallDesktop && !useProgressiveDisclosure),
+          'service-type-dropdown-desktop':
+            isSmallDesktop && useProgressiveDisclosure,
+        })}
+      >
         <label htmlFor="service-type-dropdown">Service type</label>
         <select
           id="service-type-dropdown"
@@ -319,7 +409,7 @@ const SearchControls = props => {
         >
           {options}
         </select>
-      </span>
+      </div>
     );
   };
 
@@ -367,7 +457,13 @@ const SearchControls = props => {
   );
 
   return (
-    <div className="search-controls-container clearfix">
+    <div
+      className={
+        isSmallDesktop && useProgressiveDisclosure
+          ? 'desktop-search-controls-container clearfix'
+          : 'search-controls-container clearfix'
+      }
+    >
       <VaModal
         uswds
         modalTitle={
@@ -386,18 +482,33 @@ const SearchControls = props => {
         </p>
       </VaModal>
       <form
-        className="vads-u-margin-bottom--0"
+        className={
+          useProgressiveDisclosure ? undefined : 'vads-u-margin-bottom--0'
+        }
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
-          {renderLocationInputField()}
+        {renderLocationInputField()}
+        {useProgressiveDisclosure ? (
+          <>
+            {renderFacilityTypeDropdown()}
+            {renderServiceTypeDropdown()}
+            <va-button
+              id="facility-search"
+              submit="prevent"
+              text="Search"
+              class="vads-u-width--full"
+            />
+          </>
+        ) : (
           <div id="search-controls-bottom-row">
             {renderFacilityTypeDropdown()}
             {renderServiceTypeDropdown()}
-            <input id="facility-search" type="submit" value="Search" />
+            <div className="vads-u-margin-bottom--2">
+              <input id="facility-search" type="submit" value="Search" />
+            </div>
           </div>
-        </div>
+        )}
       </form>
     </div>
   );

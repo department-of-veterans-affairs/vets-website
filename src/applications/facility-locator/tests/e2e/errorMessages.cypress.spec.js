@@ -72,7 +72,7 @@ describe('Facility search error messages', () => {
       .focus();
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
-      'Please search for an available service.',
+      'Start typing and select an available service',
     );
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
     cy.get('#downshift-1-item-0').click();
@@ -87,7 +87,7 @@ describe('Facility search error messages', () => {
     cy.get('#service-type-ahead-input').type('back pain');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
-      'Please search for an available service.',
+      'Start typing and select an available service',
     );
   });
 
@@ -126,7 +126,7 @@ describe('Facility search error messages', () => {
     cy.get('#service-type-ahead-input').clear();
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('.usa-input-error-message').contains(
-      'Please search for an available service.',
+      'Start typing and select an available service',
     );
     cy.get('#service-type-ahead-input').should('be.empty');
   });

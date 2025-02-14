@@ -130,7 +130,7 @@ ResultsList.propTypes = {
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.shape(PropTypes.any),
+  searchError: PropTypes.string,
   searchResultMessageRef: PropTypes.object,
   searchString: PropTypes.string,
 };

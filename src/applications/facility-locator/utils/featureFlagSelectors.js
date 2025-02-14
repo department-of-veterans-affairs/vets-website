@@ -9,5 +9,8 @@ export const facilityLocatorPredictiveLocationSearch = state =>
     FEATURE_FLAG_NAMES.facilityLocatorPredictiveLocationSearch
   ];
 
+export const facilitiesUseFlProgressiveDisclosure = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesUseFlProgressiveDisclosure];
+
 export const facilityLocatorMobileMapUpdate = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorMobileMapUpdate];

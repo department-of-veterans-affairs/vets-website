@@ -34,13 +34,13 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('VA health');
-  cy.get('.service-type-dropdown-tablet')
+  cy.get('.service-type-dropdown-desktop')
     .find('select')
     .should('not.have.attr', 'disabled');
   const hServices = Object.keys(healthServices);
 
   for (let i = 0; i < hServices.length; i++) {
-    cy.get('.service-type-dropdown-tablet')
+    cy.get('.service-type-dropdown-desktop')
       .find('select')
       .children()
       .eq(i)
@@ -54,7 +54,7 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Urgent care');
-  cy.get('.service-type-dropdown-tablet')
+  cy.get('.service-type-dropdown-desktop')
     .find('select')
     .should('not.have.attr', 'disabled');
 
@@ -63,29 +63,23 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Vet Centers');
-  cy.get('.facility-type-dropdown')
-    .find('select')
-    .should('not.have', 'disabled');
+
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA cemeteries');
-  cy.get('.service-type-dropdown-tablet')
-    .find('select')
-    .should('not.have', 'disabled');
+
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA benefits');
-  cy.get('.service-type-dropdown-tablet') // remember to remove when we allow selection again for VA Benefits
-    .find('select')
-    .should('have.attr', 'disabled');
 
   // CCP care have services available
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('Community providers (in VA’s network)');
+  cy.get('#service-type-loading').should('exist');
   cy.get('#service-typeahead').should('not.have.attr', 'disabled');
 
   // CCP pharmacies dont have services available
@@ -98,7 +92,13 @@ Cypress.Commands.add('verifyOptions', () => {
 
 describe('Facility VA search', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        features: [
+          { name: 'facilities_use_fl_progressive_disclosure', value: true },
+        ],
+      },
+    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
       'mockServices',
