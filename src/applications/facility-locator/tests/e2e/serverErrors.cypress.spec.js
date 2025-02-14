@@ -1,15 +1,11 @@
 describe('Facility Locator error handling', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles?*',
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: {
-          type: 'feature_toggles',
-          features: [],
-        },
-      }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [],
+      },
+    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/facilities_api/**', {
       statusCode: 500,
@@ -34,7 +30,7 @@ describe('Facility Locator error handling', () => {
       .shadow()
       .find('select')
       .select('VA health');
-    cy.get('#service-type-dropdown')
+    cy.get('.service-type-dropdown-tablet')
       .find('select')
       .select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
@@ -47,7 +43,6 @@ describe('Facility Locator error handling', () => {
   });
 
   it('should show the 911 banner for emergency searches even if the API returns a non-200 response', () => {
-    cy.intercept('GET', '/v0/feature_toggles?*', []);
     cy.intercept('GET', '/v0/maintenance_windows', []);
     cy.intercept('GET', '/facilities_api/**', {
       statusCode: 500,
