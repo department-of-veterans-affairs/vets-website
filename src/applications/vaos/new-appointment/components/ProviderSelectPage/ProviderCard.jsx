@@ -14,13 +14,21 @@ export default function ProviderCard({ provider }) {
       </p>
 
       {!hasAvailability && (
-        <va-additional-info trigger="Why you can't schedule online with this provider">
+        <va-additional-info
+          data-testid="no-appointments-available"
+          trigger="Why you can't schedule online with this provider"
+        >
           This provider has no appointments available for online scheduling.
         </va-additional-info>
       )}
 
       {hasAvailability && (
-        <va-link active href="#" text="Choose your preferred date and time" />
+        <va-link
+          active
+          data-testid="choose-date-time"
+          href="#"
+          text="Choose your preferred date and time"
+        />
       )}
 
       <hr
