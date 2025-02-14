@@ -53,7 +53,7 @@ const ReviewPage = ({
       <p className="vads-u-margin-y--0">
         Mileage-only reimbursement for your appointment
         {data.location?.attributes?.name
-          ? `at ${data.location.attributes.name}`
+          ? ` at ${data.location.attributes.name}`
           : ''}{' '}
         {data.practitioners?.length > 0 &&
         typeof data.practitioners[0].name !== 'undefined'
