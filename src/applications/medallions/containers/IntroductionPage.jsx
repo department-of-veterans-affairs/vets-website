@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import { isLoggedIn } from 'platform/user/selectors';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SaveInProgressIntro from './SaveInProgressIntro';
+import SaveInProgressIntroLink from './SaveInProgressIntroLink';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 15;
@@ -15,72 +16,77 @@ const OMB_EXP_DATE = '09/30/2027';
 
 const ProcessList = () => {
   return (
-    <va-process-list>
-      <va-process-list-item header="Check the Veteran’s eligibility">
-        <p>
-          Check our eligibility requirements before you apply. If you think the
-          Veteran may be eligible, but you’re not sure, we encourage you to
-          apply.
-        </p>
-        <p>
-          <a href="https://www.va.gov/burials-memorials/memorial-items/headstones-markers-medallions/#eligibility">
-            Find out if the Veteran is eligible for a medallion
-          </a>
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Contact the Veteran’s cemetery">
-        <p>
-          Contact the Veteran’s cemetery and tell them that you’re applying for
-          a medallion to put on a Veteran’s headstone or marker.
-        </p>
-        <p>You’ll need to get this information from them:</p>
-        <ul>
-          <li>The name of a representative from the Veteran’s cemetery</li>
-          <li>The representative’s email address</li>
-        </ul>
-        <p>
-          Also check if the cemetery will accept the size of medallion you
-          request.
-        </p>
-        <p>
-          After you get this information, tell the representative to expect an
-          email from VA about your application. And to review and sign your
-          application within 30 days.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Gather the Veteran’s information">
-        <p>Here’s what you’ll need to apply:</p>
-        <ul>
-          <li>The Veteran’s Social Security number</li>
-          <li>The Veteran’s date and place of birth</li>
-          <li>The Veteran’s date of death</li>
-          <li>The Veteran’s service periods</li>
-          <li>
-            The contact information and mailing address for a representative
-            from the Veteran’s cemetery
-          </li>
-        </ul>
-        <p>
-          <a href="https://www.cem.va.gov/CEM/hmm/discharge_documents.asp">
-            Find out what supporting documents you’ll need to submit
-          </a>
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Start your application">
-        <p>
-          We’ll take you through each step of the process. It should take about
-          15 minutes.
-        </p>
-        <va-additional-info trigger="What happens after you apply">
+    <>
+      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+        Follow these steps to get started
+      </h2>
+      <va-process-list>
+        <va-process-list-item header="Check the Veteran’s eligibility">
           <p>
-            We’ll ask the representative from the Veteran’s cemetery to review
-            and sign your application. After the representative reviews and
-            signs your application, we’ll review it next. Then, we’ll send you a
-            letter in the mail with our decision.
+            Check our eligibility requirements before you apply. If you think
+            the Veteran may be eligible, but you’re not sure, we encourage you
+            to apply.
           </p>
-        </va-additional-info>
-      </va-process-list-item>
-    </va-process-list>
+          <p>
+            <a href="https://www.va.gov/burials-memorials/memorial-items/headstones-markers-medallions/#eligibility">
+              Find out if the Veteran is eligible for a medallion
+            </a>
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Contact the Veteran’s cemetery">
+          <p>
+            Contact the Veteran’s cemetery and tell them that you’re applying
+            for a medallion to put on a Veteran’s headstone or marker.
+          </p>
+          <p>You’ll need to get this information from them:</p>
+          <ul>
+            <li>The name of a representative from the Veteran’s cemetery</li>
+            <li>The representative’s email address</li>
+          </ul>
+          <p>
+            Also check if the cemetery will accept the size of medallion you
+            request.
+          </p>
+          <p>
+            After you get this information, tell the representative to expect an
+            email from VA about your application. And to review and sign your
+            application within 30 days.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Gather the Veteran’s information">
+          <p>Here’s what you’ll need to apply:</p>
+          <ul>
+            <li>The Veteran’s Social Security number</li>
+            <li>The Veteran’s date and place of birth</li>
+            <li>The Veteran’s date of death</li>
+            <li>The Veteran’s service periods</li>
+            <li>
+              The contact information and mailing address for a representative
+              from the Veteran’s cemetery
+            </li>
+          </ul>
+          <p>
+            <a href="https://www.cem.va.gov/CEM/hmm/discharge_documents.asp">
+              Find out what supporting documents you’ll need to submit
+            </a>
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Start your application">
+          <p>
+            We’ll take you through each step of the process. It should take
+            about 15 minutes.
+          </p>
+          <va-additional-info trigger="What happens after you apply">
+            <p>
+              We’ll ask the representative from the Veteran’s cemetery to review
+              and sign your application. After the representative reviews and
+              signs your application, we’ll review it next. Then, we’ll send you
+              a letter in the mail with our decision.
+            </p>
+          </va-additional-info>
+        </va-process-list-item>
+      </va-process-list>
+    </>
   );
 };
 
@@ -109,12 +115,9 @@ export const IntroductionPage = props => {
         Use this form to get a medallion to put on a deceased Veteran’s
         headstone or marker.
       </p>
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow these steps to get started
-      </h2>
-      <ProcessList />
       {!userLoggedIn ? (
         <>
+          <ProcessList />
           <va-alert
             status="info"
             class="vads-u-margin-y--4"
@@ -171,16 +174,29 @@ export const IntroductionPage = props => {
           </va-alert>
         </>
       ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the medallion application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
+        <>
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            pageList={pageList}
+            startText="Start your medallion application"
+            devOnly={{
+              forceShowFormControls: true,
+            }}
+          />
+          <ProcessList />
+          <SaveInProgressIntroLink
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            pageList={pageList}
+            startText="Start your medallion application"
+            devOnly={{
+              forceShowFormControls: true,
+            }}
+          />
+        </>
       )}
       <p />
       <va-omb-info
