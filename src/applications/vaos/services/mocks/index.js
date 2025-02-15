@@ -350,7 +350,7 @@ const responses = {
       });
     }
     const tomorrow = moment()
-      .add(1, 'days')
+      .add(2, 'days')
       .format('YYYY-MM-DD');
     const referral = referralUtils.createReferralById(
       '2024-12-02',
@@ -403,28 +403,34 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
+    let successPollCount = 5; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
 
+    if (appointmentId === 'timeout-appointment-id') {
+      // Set a very high poll count to simulate a timeout
+      successPollCount = 1000;
+    }
+
     const draftAppointment = draftAppointments[appointmentId];
-    if (!draftAppointment) {
+    if (!draftAppointment || appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
     }
 
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { status } = draftAppointment.appointment;
+    let { state } = draftAppointment.appointment;
 
-    // Mock polling for appointment status change
-    if (count < 5) {
+    // Mock polling for appointment state change
+    if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      status = 'confirmed';
+      state = 'confirmed';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
       data: ccDirectAppointmentUtils.createReferralAppointment(
         appointmentId,
-        status,
+        state,
         draftAppointment,
       ),
     });
