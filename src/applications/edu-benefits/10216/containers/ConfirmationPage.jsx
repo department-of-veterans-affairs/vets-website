@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
@@ -27,7 +28,10 @@ export const ConfirmationPage = ({ router, route }) => {
         To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
         below
       </h2>
-      <ProcessList isAccredited={isAccredited} />
+      <ProcessList
+        isAccredited={isAccredited}
+        id={form.submission?.response?.id}
+      />
       <p>
         <va-button
           secondary
