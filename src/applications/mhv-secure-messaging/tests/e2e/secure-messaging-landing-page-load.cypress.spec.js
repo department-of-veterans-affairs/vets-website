@@ -51,6 +51,8 @@ describe('SM MAIN PAGE', () => {
   });
 
   it('verify previous version link', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     cy.get(Locators.LINKS.OLD_VERSION)
       .should(`not.have.attr`, `target`, `_blank`)
       .invoke(`attr`, `href`)
@@ -58,6 +60,8 @@ describe('SM MAIN PAGE', () => {
   });
 
   it('verify breadcrumbs', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT, {});
     FolderLoadPage.verifyBreadCrumbsLength(3);
 
     FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
@@ -84,7 +88,7 @@ describe('SM MAIN PAGE WITHOUT API CALLS', () => {
   });
 
   describe('SM MAIN PAGE REDIRECTING', () => {
-    it('verify redirecting to inbox wit feature flag', () => {
+    it('verify redirecting to inbox with feature flag', () => {
       const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
         'mhv_secure_messaging_remove_landing_page',
         true,
@@ -92,7 +96,7 @@ describe('SM MAIN PAGE WITHOUT API CALLS', () => {
       SecureMessagingSite.login(updatedFeatureToggle);
       SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
 
-      cy.url().should(`include`, `/secure-messages/inbox`);
+      cy.url().should(`include`, Paths.INBOX);
 
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
