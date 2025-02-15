@@ -47,8 +47,10 @@ export function useTransformForReview(formData) {
     if (!value) return null;
     return (
       <>
-        <p className="light-gray">{label}</p>
-        <p>{value}</p>
+        <div className="vads-u-margin-bottom--2p5">
+          <p className="light-gray vads-u-margin-bottom--1">{label}</p>
+          <p className="vads-u-margin-y--0">{value}</p>
+        </div>
       </>
     );
   };
@@ -66,10 +68,14 @@ export function useTransformForReview(formData) {
         {renderField('Relationship', veteran.relationship)}
         {renderField('Primary number', veteran.phone)}
         {renderField('Email address', veteran.email)}
-        <p className="light-gray">Mailing address</p>
-        {veteran.street && <p>{veteran.street}</p>}
-        {veteran.street2 && <p>{veteran.street2} </p>}
-        <p>
+        <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
+        {veteran.street && (
+          <p className="vads-u-margin-y--0">{veteran.street}</p>
+        )}
+        {veteran.street2 && (
+          <p className="vads-u-margin-y--0">{veteran.street2} </p>
+        )}
+        <p className="vads-u-margin-y--0">
           {veteran.city && veteran.city}
           {veteran.state && `, ${veteran.state}`}{' '}
           {veteran.postalCode && veteran.postalCode}
@@ -89,11 +95,17 @@ export function useTransformForReview(formData) {
             'Type',
             convertRepType(formData?.['view:selectedRepresentative']?.type),
           )}
-          <p className="light-gray">Mailing address</p>
-          {representative?.addressLine1 && <p>{representative.addressLine1}</p>}
-          {representative?.addressLine2 && <p>{representative.addressLine2}</p>}
-          {representative?.addressLine3 && <p>{representative.addressLine3}</p>}
-          <p>
+          <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
+          {representative?.addressLine1 && (
+            <p className="vads-u-margin-y--0">{representative.addressLine1}</p>
+          )}
+          {representative?.addressLine2 && (
+            <p className="vads-u-margin-y--0">{representative.addressLine2}</p>
+          )}
+          {representative?.addressLine3 && (
+            <p className="vads-u-margin-y--0">{representative.addressLine3}</p>
+          )}
+          <p className="vads-u-margin-y--0">
             {representative.city && representative.city}
             {representative.stateCode && `, ${representative.stateCode}`}{' '}
             {representative.zipCode && representative.zipCode}
@@ -110,10 +122,14 @@ export function useTransformForReview(formData) {
           {renderField('Relationship', claimant.relationship)}
           {renderField('Primary number', claimant.phone)}
           {renderField('Email address', claimant.email)}
-          <p className="light-gray">Mailing address</p>
-          {claimant.street && <p>{claimant.street}</p>}
-          {claimant.street2 && <p>{claimant.street2}</p>}
-          <p>
+          <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
+          {claimant.street && (
+            <p className="vads-u-margin-y--0">{claimant.street}</p>
+          )}
+          {claimant.street2 && (
+            <p className="vads-u-margin-y--0">{claimant.street2}</p>
+          )}
+          <p className="vads-u-margin-y--0">
             {representative.city && representative.city}{' '}
             {representative.state && `, ${representative.state}`}{' '}
             {representative.postalCode && representative.postalCode}

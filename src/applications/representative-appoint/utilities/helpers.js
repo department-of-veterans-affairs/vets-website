@@ -192,6 +192,13 @@ export const getOrgName = formData => {
   return orgs[0]?.attributes?.name;
 };
 
+/**
+ * Takes representative object (rather than formData object)
+ */
+export const formIs2122 = rep => {
+  return rep?.type === 'representative' || rep?.type === 'organization';
+};
+
 // Rep name used in Terms and Conditions agreement
 export const getRepresentativeName = formData => {
   const rep = formData['view:selectedRepresentative'];
@@ -247,6 +254,14 @@ export const addressExists = address =>
     address?.stateCode?.trim() &&
     address?.zipCode?.trim()
   );
+
+export const userIsDigitalSubmitEligible = formData => {
+  return (
+    formData?.identityValidation?.hasIcn &&
+    formData?.identityValidation?.hasParticipantId &&
+    formData?.v2IsEnabled
+  );
+};
 
 export const entityAcceptsDigitalPoaRequests = entity => {
   const repType = getRepType(entity);
