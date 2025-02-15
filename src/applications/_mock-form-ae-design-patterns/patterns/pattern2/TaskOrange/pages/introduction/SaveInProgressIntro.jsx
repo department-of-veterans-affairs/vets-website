@@ -68,9 +68,7 @@ class SaveInProgressIntro extends React.Component {
     let alert;
     let includesFormControls = false;
     const {
-      alertTitle,
       formId,
-      renderSignInMessage,
       prefillEnabled,
       verifyRequiredPrefill,
       verifiedPrefillAlert,
@@ -79,7 +77,6 @@ class SaveInProgressIntro extends React.Component {
       ariaLabel = null,
       ariaDescribedby = null,
     } = this.props;
-    const { signInHelpList } = formConfig;
     const { profile, login } = this.props.user;
     const prefillAvailable = !!(
       profile && profile.prefillsAvailable.includes(formId)
@@ -197,16 +194,8 @@ class SaveInProgressIntro extends React.Component {
           </div>
         );
       }
-    } else if (renderSignInMessage) {
-      alert = renderSignInMessage(prefillEnabled);
     } else if (prefillEnabled && !verifyRequiredPrefill) {
-      const H = `h${this.props.headingLevel}`;
-      const {
-        buttonOnly,
-        retentionPeriod,
-        retentionPeriodStart,
-        unauthStartText,
-      } = this.props;
+      const { buttonOnly, retentionPeriod, unauthStartText } = this.props;
       const CustomLink = this.props.customLink;
       const unauthStartButton = CustomLink ? (
         <CustomLink
@@ -222,7 +211,6 @@ class SaveInProgressIntro extends React.Component {
         <VaButton
           onClick={this.openLoginModal}
           label={ariaLabel}
-          // aria-describedby={ariaDescribedby}
           uswds
           text={unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         />
@@ -245,74 +233,38 @@ class SaveInProgressIntro extends React.Component {
           )}
         </>
       ) : (
-        <va-alert status="info" uswds visible>
-          <div className="usa-alert-body">
-            <H className="usa-alert-heading">{alertTitle}</H>
-            <div className="usa-alert-text">
-              {this.props.displayNonVeteranMessaging ? (
-                <p>
-                  By signing in, you can save your work in progress.{' '}
-                  You&rsquo;ll have {retentionPeriod} from{' '}
-                  {retentionPeriodStart} your {appType} to come back and finish
-                  it.
-                </p>
-              ) : (
-                <>
-                  <p>Here&rsquo;s how signing in now helps you:</p>
-                  {signInHelpList ? (
-                    signInHelpList()
-                  ) : (
-                    <ul>
-                      <li>
-                        We can fill in some of your information for you to save
-                        you time.
-                      </li>
-                      <li>
-                        You can save your work in progress. You&rsquo;ll have{' '}
-                        {retentionPeriod} from {retentionPeriodStart} your{' '}
-                        {appType} to come back and finish it.
-                      </li>
-                    </ul>
-                  )}
-                </>
-              )}
+        <va-alert-sign-in
+          variant="signInOptional"
+          time-limit={retentionPeriod}
+          heading-level={this.props.headingLevel}
+          no-sign-in-link=""
+          visible
+        >
+          <span slot="SignInButton">
+            {unauthStartButton}
+            {!this.props.hideUnauthedStartLink && (
               <p>
-                {!this.props.hideUnauthedStartLink && (
-                  <>
-                    <strong>Note:</strong> You can sign in after you start your{' '}
-                    {appType}. But you&rsquo;ll lose any information you already
-                    filled in.
-                  </>
-                )}
+                <Link
+                  onClick={this.handleClick}
+                  to={this.getStartPage}
+                  className="schemaform-start-button"
+                  aria-label={ariaLabel}
+                  aria-describedby={ariaDescribedby}
+                >
+                  Start your {appType} without signing in
+                </Link>
               </p>
-              {unauthStartButton}
-              {!this.props.hideUnauthedStartLink && (
-                <p>
-                  <Link
-                    onClick={this.handleClick}
-                    to={this.getStartPage}
-                    className="schemaform-start-button"
-                    aria-label={ariaLabel}
-                    aria-describedby={ariaDescribedby}
-                  >
-                    Start your {appType} without signing in
-                  </Link>
-                </p>
-              )}
-            </div>
-          </div>
-        </va-alert>
+            )}
+          </span>
+        </va-alert-sign-in>
       );
     } else if (prefillEnabled && unverifiedPrefillAlert) {
       alert = unverifiedPrefillAlert;
     } else {
       alert = (
         <div>
-          <va-alert status="info" uswds visible>
-            <div className="usa-alert-body">
-              You can save this {appType} in progress, and come back later to
-              finish filling it out.
-              <br />
+          <va-alert-sign-in variant="signInOptional" visible>
+            <span slot="SignInButton">
               <va-button
                 className="va-button-link"
                 onClick={this.openLoginModal}
@@ -320,8 +272,8 @@ class SaveInProgressIntro extends React.Component {
                 aria-describedby={ariaDescribedby}
                 text="Sign in to your account."
               />
-            </div>
-          </va-alert>
+            </span>
+          </va-alert-sign-in>
           <br />
         </div>
       );
@@ -484,7 +436,6 @@ SaveInProgressIntro.propTypes = {
   pathname: PropTypes.string,
   prefillEnabled: PropTypes.bool,
   prefillTransformer: PropTypes.func,
-  renderSignInMessage: PropTypes.func,
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
   retentionPeriodStart: PropTypes.string,
