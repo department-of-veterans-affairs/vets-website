@@ -77,7 +77,7 @@ const FormStartControls = props => {
 
     // Wizard status needs an intermediate value between not-started &
     // complete to prevent infinite loops in the RoutedSavableApp
-    sessionStorage.setItem(
+    window.sessionStorage.setItem(
       formConfig?.wizardStorageKey || WIZARD_STATUS,
       WIZARD_STATUS_RESTARTING,
     );
