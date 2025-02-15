@@ -84,7 +84,7 @@ const formConfig = {
     },
   },
   version: 2,
-  migrations,
+  migrations: migrations.slice(0, 2),
   prefillEnabled: true,
   dev: {
     disableWindowUnloadInCI: true,
