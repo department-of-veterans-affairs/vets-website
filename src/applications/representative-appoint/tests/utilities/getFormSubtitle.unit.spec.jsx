@@ -5,7 +5,7 @@ describe('getFormSubtitle', () => {
   context('when the entity type is organization', () => {
     it('should return "VA Form 21-22"', () => {
       const mockFormData = {
-        'view:selectedRepresentative': { type: 'organization' },
+        inputSelectedRepresentative: { type: 'organization' },
       };
       const result = getFormSubtitle(mockFormData);
       expect(result).to.equal('VA Form 21-22');
@@ -16,7 +16,7 @@ describe('getFormSubtitle', () => {
     context('when the individual type is veteran_service_officer', () => {
       it('should return "VA Form 21-22"', () => {
         const mockFormData = {
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'representative',
             attributes: { individualType: 'veteran_service_officer' },
           },
@@ -29,7 +29,7 @@ describe('getFormSubtitle', () => {
     context('when the individual type is representative', () => {
       it('should return "VA Form 21-22"', () => {
         const mockFormData = {
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'representative',
             attributes: { individualType: 'representative' },
           },
@@ -44,7 +44,7 @@ describe('getFormSubtitle', () => {
       () => {
         it('should return "VA Form 21-22a"', () => {
           const mockFormData = {
-            'view:selectedRepresentative': {
+            inputSelectedRepresentative: {
               type: 'representative',
               attributes: { individualType: 'attorney' },
             },
@@ -60,7 +60,7 @@ describe('getFormSubtitle', () => {
     context('when the individual type is representative', () => {
       it('should return "VA Form 21-22"', () => {
         const mockFormData = {
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'individual',
             attributes: { individualType: 'representative' },
           },
@@ -73,7 +73,7 @@ describe('getFormSubtitle', () => {
     context('when the individual type is veteran_service_officer', () => {
       it('should return "VA Form 21-22"', () => {
         const mockFormData = {
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'individual',
             attributes: { individualType: 'veteran_service_officer' },
           },
@@ -88,7 +88,7 @@ describe('getFormSubtitle', () => {
       () => {
         it('should return "VA Form 21-22a"', () => {
           const mockFormData = {
-            'view:selectedRepresentative': {
+            inputSelectedRepresentative: {
               type: 'individual',
               attributes: { individualType: 'attorney' },
             },
@@ -103,7 +103,7 @@ describe('getFormSubtitle', () => {
   context('when the entity type is anything else', () => {
     it('should return "VA Forms 21-22 and 21-22a"', () => {
       const mockFormData = {
-        'view:selectedRepresentative': { type: 'else' },
+        inputSelectedRepresentative: { type: 'else' },
       };
       const result = getFormSubtitle(mockFormData);
       expect(result).to.equal('VA Forms 21-22 and 21-22a');

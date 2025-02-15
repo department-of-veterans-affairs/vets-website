@@ -12,7 +12,7 @@ import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { SearchResultsHeader } from './SearchResultsHeader';
-import { isVSORepresentative } from '../utilities/helpers';
+import { formIs2122 } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
   const {
@@ -27,8 +27,8 @@ const SelectAccreditedRepresentative = props => {
   const representativeResults =
     formData?.['view:representativeSearchResults'] || null;
 
-  const queryInput = formData['view:representativeQueryInput'];
-  const querySubmission = formData['view:representativeQuerySubmission'];
+  const queryInput = formData.inputRepresentativeQueryString;
+  const querySubmission = formData.inputRepresentativeQuerySubmission;
   const invalidQuery = queryInput === undefined || !queryInput.trim();
 
   const noSearchError =
@@ -41,7 +41,7 @@ const SelectAccreditedRepresentative = props => {
   const [loadingPOA, setLoadingPOA] = useState(false);
   const [error, setError] = useState(null);
 
-  const currentSelectedRep = useRef(formData?.['view:selectedRepresentative']);
+  const currentSelectedRep = useRef(formData?.inputSelectedRepresentative);
 
   const isReviewPage = useReviewPage();
 
@@ -70,11 +70,11 @@ const SelectAccreditedRepresentative = props => {
   };
 
   const handleGoForward = ({ selectionMade = false, newSelection = null }) => {
-    const selection = formData['view:selectedRepresentative'];
+    const selection = formData.inputSelectedRepresentative;
 
     const repTypeChanged =
-      isVSORepresentative(currentSelectedRep.current) !==
-      isVSORepresentative(newSelection);
+      formIs2122(currentSelectedRep.current) !== formIs2122(newSelection);
+
     const noSelectionExists = !selection && !selectionMade;
     const noNewSelection =
       !newSelection || newSelection === currentSelectedRep.current;
@@ -112,7 +112,7 @@ const SelectAccreditedRepresentative = props => {
       const res = await fetchRepresentatives({ query: queryInput });
       setFormData({
         ...formData,
-        'view:representativeQuerySubmission': queryInput,
+        inputRepresentativeQuerySubmission: queryInput,
         'view:representativeSearchResults': res,
       });
     } catch (err) {
@@ -130,15 +130,15 @@ const SelectAccreditedRepresentative = props => {
 
       const tempData = {
         ...formData,
-        'view:selectedRepresentative': selectedRepResult,
+        inputSelectedRepresentative: selectedRepResult,
         'view:representativeStatus': repStatus,
         // when a new representative is selected, we want to nil out the
         //   selected organization to prevent weird states. For example,
         //   we wouldn't want a user to select a representative, an organization,
         //   go backwards to select an attorney, and then our state variables
         //   say an attorney was selected with a non-null organization id
-        selectedAccreditedOrganizationId: null,
-        representativeSubmissionMethod: null,
+        inputSelectedOrgId: null,
+        inputSubmissionMethod: null,
       };
 
       setFormData({

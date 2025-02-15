@@ -36,6 +36,8 @@ describe('Claimant Contact Phone Email page', () => {
   });
 
   it('should have proper max length for email field', () => {
-    expect(schema.properties.applicantEmail.maxLength).to.equal(31);
+    expect(schema.properties.inputNonVeteranClaimantEmail.maxLength).to.equal(
+      31,
+    );
   });
 });

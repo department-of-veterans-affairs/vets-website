@@ -17,7 +17,7 @@ export const uiSchema = {
       <ProfileNotUpdatedNote includeLink includePrefix isClaimantChapter />
     ),
   },
-  homeAddress: addressUI({
+  inputNonVeteranClaimantHomeAddress: addressUI({
     labels: {
       militaryCheckbox: `This address is on a United States military base outside of the U.S.`,
     },
@@ -28,7 +28,7 @@ export const schema = {
   type: 'object',
   properties: {
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    homeAddress: {
+    inputNonVeteranClaimantHomeAddress: {
       ...addressSchema({ omit: ['street3'] }),
       properties: {
         ...addressSchema({ omit: ['street3'] }).properties,

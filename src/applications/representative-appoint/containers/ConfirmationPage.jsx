@@ -17,19 +17,21 @@ export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
   const { data: formData } = useSelector(state => state.form);
-  const selectedEntity = formData['view:selectedRepresentative'];
+  const selectedEntity = formData.inputSelectedRepresentative;
   const sendNextStepsEmailPayload = {
     formNumber: getFormNumber(formData),
     formName: getFormName(formData),
-    firstName: formData.applicantName?.first || formData.veteranFullName.first,
-    emailAddress: formData.applicantEmail || formData.veteranEmail,
+    firstName:
+      formData.inputNonVeteranClaimantName?.first ||
+      formData.inputVeteranFullName.first,
+    emailAddress:
+      formData.inputNonVeteranClaimantEmail || formData.inputVeteranEmail,
     entityId: selectedEntity.id,
     entityType:
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
 
-  const isDigitalSubmission =
-    formData.representativeSubmissionMethod === 'digital';
+  const isDigitalSubmission = formData.inputSubmissionMethod === 'digital';
 
   const v2IsEnabled = useV2FeatureToggle();
   useEffect(() => {

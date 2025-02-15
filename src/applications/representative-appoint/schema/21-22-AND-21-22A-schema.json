@@ -331,13 +331,13 @@
     }
   },
   "properties": {
-    "veteranFullName": {
+    "inputVeteranFullName": {
       "$ref": "#/definitions/fullName"
     },
     "dateOfBirth": {
       "$ref": "#/definitions/date"
     },
-    "veteranSocialSecurityNumber": {
+    "inputVeteranSSN": {
       "$ref": "#/definitions/ssn"
     },
     "email": {
@@ -382,9 +382,9 @@
     }
   },
   "required": [
-    "veteranFullName",
+    "inputVeteranFullName",
     "dateOfBirth",
-    "veteranSocialSecurityNumber",
+    "inputVeteranSSN",
     "email",
     "privacyAgreementAccepted"
   ]

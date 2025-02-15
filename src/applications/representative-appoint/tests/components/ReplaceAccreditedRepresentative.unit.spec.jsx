@@ -107,7 +107,7 @@ describe('<ReplaceAccreditedRepresentative>', () => {
         },
         formData: {
           'view:representativeStatus': currentRep, // Add necessary mock data here
-          'view:selectedRepresentative': selectedRep, // Add necessary mock data here },
+          inputSelectedRepresentative: selectedRep, // Add necessary mock data here },
         },
         setFormData,
       },
@@ -116,7 +116,7 @@ describe('<ReplaceAccreditedRepresentative>', () => {
           form: {
             data: {
               'view:representativeStatus': currentRep, // Add necessary mock data here
-              'view:selectedRepresentative': selectedRep, // Add necessary mock data here
+              inputSelectedRepresentative: selectedRep, // Add necessary mock data here
             },
           },
         }),

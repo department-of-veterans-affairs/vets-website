@@ -31,9 +31,9 @@ describe('<SelectAccreditedRepresentative>', () => {
 
         loggedIn: true,
         formData: {
-          'view:representativeQueryInput': query,
+          inputRepresentativeQueryString: query,
           'view:representativeSearchResults': results,
-          'view:selectedRepresentative': currentRep,
+          inputSelectedRepresentative: currentRep,
         },
         setFormData: sinon.spy(),
         goToPath: sinon.spy(),
@@ -44,9 +44,9 @@ describe('<SelectAccreditedRepresentative>', () => {
         getState: () => ({
           form: {
             data: {
-              'view:representativeQueryInput': query,
+              inputRepresentativeQueryString: query,
               'view:representativeSearchResults': results,
-              'view:selectedRepresentative': currentRep,
+              inputSelectedRepresentative: currentRep,
             },
           },
         }),
@@ -175,7 +175,7 @@ describe('<SelectAccreditedRepresentative>', () => {
             expect(props.setFormData.called).to.be.true;
             expect(props.goToPath.called).to.be.false;
             expect(props.setFormData.args[0][0]).to.include({
-              'view:selectedRepresentative': repResults[0].data,
+              inputSelectedRepresentative: repResults[0].data,
             });
           });
 
@@ -232,7 +232,7 @@ describe('<SelectAccreditedRepresentative>', () => {
 
             await waitFor(() => {
               expect(props.setFormData.args[0][0]).to.include({
-                'view:selectedRepresentative': repResults[0].data,
+                inputSelectedRepresentative: repResults[0].data,
               });
             });
 
@@ -390,8 +390,8 @@ describe('<SelectAccreditedRepresentative>', () => {
 
             const props = {
               formData: {
-                'view:representativeQueryInput': 'Valid Query',
-                'view:selectedRepresentative': null,
+                inputRepresentativeQueryString: 'Valid Query',
+                inputSelectedRepresentative: null,
               },
             };
 

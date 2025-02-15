@@ -30,7 +30,7 @@ import {
   veteranServiceInformation,
   selectAccreditedRepresentative,
   replaceAccreditedRepresentative,
-  selectedAccreditedOrganizationId,
+  inputSelectedOrgId,
   contactAccreditedRepresentative,
   representativeSubmissionMethod,
 } from '../pages';
@@ -151,10 +151,9 @@ const formConfig = {
           title: 'Organization Select',
           hideOnReview: true,
           CustomPage: SelectOrganization,
-          depends: formData =>
-            selectedAccreditedOrganizationId.pageDepends(formData),
-          uiSchema: selectedAccreditedOrganizationId.uiSchema,
-          schema: selectedAccreditedOrganizationId.schema,
+          depends: formData => inputSelectedOrgId.pageDepends(formData),
+          uiSchema: inputSelectedOrgId.uiSchema,
+          schema: inputSelectedOrgId.schema,
         },
 
         replaceAccreditedRepresentative: {
@@ -163,7 +162,7 @@ const formConfig = {
           hideOnReview: true,
           depends: formData =>
             !!formData['view:representativeStatus']?.id &&
-            !!formData['view:selectedRepresentative'],
+            !!formData.inputSelectedRepresentative,
           uiSchema: replaceAccreditedRepresentative.uiSchema,
           schema: replaceAccreditedRepresentative.schema,
         },
@@ -300,7 +299,7 @@ const formConfig = {
           path: 'authorize-medical/select',
           depends: formData => {
             return (
-              formData?.authorizationRadio ===
+              formData?.inputAuthorizationsMedical ===
               'Yes, but they can only access some of these types of records'
             );
           },
@@ -337,7 +336,7 @@ const formConfig = {
           depends: formData => {
             return (
               formIs2122A(formData) &&
-              formData.authorizeOutsideVARadio === 'Yes'
+              formData.inputAuthorizationsAccessOutsideVASystems === 'Yes'
             );
           },
           title: 'Authorization for Access Outside of VA Systems',

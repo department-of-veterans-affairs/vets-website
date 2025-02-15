@@ -1,7 +1,7 @@
 import { getRepType } from './helpers';
 
 function consentLimitsTransform(formData) {
-  const medicalAuthorization = formData.authorizationRadio;
+  const medicalAuthorization = formData.inputAuthorizationsMedical;
   let authorizeRecords;
   if (
     medicalAuthorization ===
@@ -35,27 +35,27 @@ function yesNoToBoolean(field) {
 
 export function pdfTransform(formData) {
   const {
-    veteranFullName,
-    veteranSocialSecurityNumber: ssn,
-    vaFileNumber,
-    veteranDateOfBirth: dateOfBirth,
-    serviceNumber,
-    veteranHomeAddress: homeAddress,
-    primaryPhone: phone,
-    veteranEmail: email,
-    'view:selectedRepresentative': selectedRep,
-    applicantName,
-    applicantDOB,
-    claimantRelationship,
-    'Branch of Service': serviceBranch,
-    homeAddress: claimantAddress,
-    authorizationRadio,
-    authorizeAddressRadio,
-    authorizeInsideVARadio,
-    authorizeOutsideVARadio,
-    authorizeNamesTextArea,
-    applicantPhone,
-    applicantEmail,
+    inputVeteranFullName,
+    inputVeteranSSN: ssn,
+    inputVeteranVAFileNumber,
+    inputVeteranDOB: dateOfBirth,
+    inputVeteranServiceNumber,
+    inputVeteranHomeAddress: homeAddress,
+    inputVeteranPrimaryPhone: phone,
+    inputVeteranEmail: email,
+    inputSelectedRepresentative: selectedRep,
+    inputNonVeteranClaimantName,
+    inputNonVeteranClaimantDOB,
+    inputNonVeteranClaimantRelationship,
+    inputVeteranServiceBranch,
+    inputNonVeteranClaimantHomeAddress: claimantAddress,
+    inputAuthorizationsMedical,
+    inputAuthorizationsAddressChange,
+    inputAuthorizationsAccessInsideVASystems,
+    inputAuthorizationsAccessOutsideVASystems,
+    inputAuthorizationsTeamMembers,
+    inputNonVeteranClaimantPhone,
+    inputNonVeteranClaimantEmail,
   } = formData;
 
   const createAddress = (address = {}) => ({
@@ -70,15 +70,16 @@ export function pdfTransform(formData) {
 
   const veteran = {
     name: {
-      first: veteranFullName?.first || '',
-      middle: veteranFullName?.middle || '',
-      last: veteranFullName?.last || '',
+      first: inputVeteranFullName?.first || '',
+      middle: inputVeteranFullName?.middle || '',
+      last: inputVeteranFullName?.last || '',
     },
     ssn,
-    vaFileNumber,
+    vaFileNumber: inputVeteranVAFileNumber,
     dateOfBirth,
-    serviceNumber,
-    serviceBranch: serviceBranch?.replace(/ /g, '_').toUpperCase() || null,
+    serviceNumber: inputVeteranServiceNumber,
+    serviceBranch:
+      inputVeteranServiceBranch?.replace(/ /g, '_').toUpperCase() || null,
     address: createAddress(homeAddress),
     phone,
     email,
@@ -86,19 +87,19 @@ export function pdfTransform(formData) {
 
   // construct claimant object (or reuse veteran)
   const claimant =
-    formData['view:applicantIsVeteran'] === 'Yes'
+    formData.inputVeteranIsClaimant === 'Yes'
       ? null
       : {
           name: {
-            first: applicantName?.first || '',
-            middle: applicantName?.middle || '',
-            last: applicantName?.last || '',
+            first: inputNonVeteranClaimantName?.first || '',
+            middle: inputNonVeteranClaimantName?.middle || '',
+            last: inputNonVeteranClaimantName?.last || '',
           },
-          dateOfBirth: applicantDOB || '',
-          relationship: claimantRelationship || '',
+          dateOfBirth: inputNonVeteranClaimantDOB || '',
+          relationship: inputNonVeteranClaimantRelationship || '',
           address: createAddress(claimantAddress),
-          phone: applicantPhone || '',
-          email: applicantEmail || '',
+          phone: inputNonVeteranClaimantPhone || '',
+          email: inputNonVeteranClaimantEmail || '',
         };
 
   const repType = getRepType(selectedRep);
@@ -112,8 +113,8 @@ export function pdfTransform(formData) {
   if (repType === 'Organization') {
     representative.organizationId = selectedRep?.id;
   } else if (repType === 'VSO Representative') {
-    if (formData?.selectedAccreditedOrganizationId) {
-      representative.organizationId = formData.selectedAccreditedOrganizationId;
+    if (formData?.inputSelectedOrgId) {
+      representative.organizationId = formData.inputSelectedOrgId;
     } else {
       representative.organizationId =
         selectedRep?.attributes?.accreditedOrganizations?.data[0]?.id || null;
@@ -122,15 +123,19 @@ export function pdfTransform(formData) {
 
   return {
     veteran,
-    recordConsent: yesNoToBoolean(authorizationRadio),
-    consentAddressChange: yesNoToBoolean(authorizeAddressRadio),
+    recordConsent: yesNoToBoolean(inputAuthorizationsMedical),
+    consentAddressChange: yesNoToBoolean(inputAuthorizationsAddressChange),
     consentLimits: consentLimitsTransform(formData),
-    consentInsideAccess: yesNoToBoolean(authorizeInsideVARadio),
-    consentOutsideAccess: yesNoToBoolean(authorizeOutsideVARadio),
-    consentTeamMembers: authorizeNamesTextArea
-      ? authorizeNamesTextArea.split(',').map(item => item.trim())
+    consentInsideAccess: yesNoToBoolean(
+      inputAuthorizationsAccessInsideVASystems,
+    ),
+    consentOutsideAccess: yesNoToBoolean(
+      inputAuthorizationsAccessOutsideVASystems,
+    ),
+    consentTeamMembers: inputAuthorizationsTeamMembers
+      ? inputAuthorizationsTeamMembers.split(',').map(item => item.trim())
       : null,
     representative,
-    ...(formData['view:applicantIsVeteran'] === 'No' && { claimant }),
+    ...(formData.inputVeteranIsClaimant === 'No' && { claimant }),
   };
 }

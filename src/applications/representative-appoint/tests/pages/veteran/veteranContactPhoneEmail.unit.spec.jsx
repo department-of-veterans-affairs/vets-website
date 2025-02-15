@@ -36,6 +36,6 @@ describe('Veteran Contact Phone Email page', () => {
   });
 
   it('should have proper max length for email field', () => {
-    expect(schema.properties.veteranEmail.maxLength).to.equal(61);
+    expect(schema.properties.inputVeteranEmail.maxLength).to.equal(61);
   });
 });

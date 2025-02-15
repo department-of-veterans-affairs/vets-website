@@ -7,9 +7,9 @@ const MedicalAuthorizationDescription = ({ formData }) => {
     <>
       <h3>Authorization to access certain medical records</h3>
       <p className="appoint-text">
-        This accredited {getRepType(formData['view:selectedRepresentative'])}{' '}
-        may need to access certain medical records to help you. You can
-        authorize them to access all or some of these types of records:
+        This accredited {getRepType(formData.inputSelectedRepresentative)} may
+        need to access certain medical records to help you. You can authorize
+        them to access all or some of these types of records:
       </p>
       <ul className="appoint-text">
         <li>Alcoholism and alcohol abuse records</li>

@@ -13,7 +13,7 @@ const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
   const currentRep = formData?.['view:representativeStatus'] || {};
   const selectedRepAttributes =
-    formData?.['view:selectedRepresentative']?.attributes || {};
+    formData?.inputSelectedRepresentative?.attributes || {};
   const repName = selectedRepAttributes?.fullName;
   const orgName = getOrgName(formData);
 
@@ -48,7 +48,7 @@ const ReplaceAccreditedRepresentative = props => {
 ReplaceAccreditedRepresentative.propTypes = {
   formData: PropTypes.shape({
     'view:representativeStatus': PropTypes.object,
-    'view:selectedRepresentative': PropTypes.object,
+    inputSelectedRepresentative: PropTypes.object,
   }),
 };
 

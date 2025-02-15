@@ -11,7 +11,7 @@ import AddressEmailPhone from './AddressEmailPhone';
 const ContactAccreditedRepresentative = props => {
   const v2IsEnabled = useV2FeatureToggle();
   const { formData, goBack, goForward, goToPath } = props;
-  const rep = props?.formData?.['view:selectedRepresentative'];
+  const rep = props?.formData?.inputSelectedRepresentative;
   const repAttributes = rep?.attributes;
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
@@ -19,7 +19,7 @@ const ContactAccreditedRepresentative = props => {
   const isOrg = rep?.type === 'organization';
   const isReviewPage = useReviewPage();
 
-  const representative = formData?.['view:selectedRepresentative'];
+  const representative = formData?.inputSelectedRepresentative;
 
   const orgSelectionRequired =
     !!representative &&

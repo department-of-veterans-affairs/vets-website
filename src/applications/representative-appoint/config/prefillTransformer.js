@@ -6,31 +6,31 @@ export default function prefillTransformer(formData) {
   };
 
   if (preparerIsVeteran({ formData })) {
-    newFormData.veteranFullName = {
+    newFormData.inputVeteranFullName = {
       first: formData?.personalInformation?.fullName?.first,
       middle: formData?.personalInformation?.fullName?.middle?.substring(0, 1),
       last: formData?.personalInformation?.fullName?.last,
     };
-    newFormData.veteranDateOfBirth = formData?.personalInformation?.dateOfBirth;
-    newFormData.veteranSocialSecurityNumber =
-      formData?.personalInformation?.ssn;
-    newFormData.veteranHomeAddress = {
+    newFormData.inputVeteranDOB = formData?.personalInformation?.dateOfBirth;
+    newFormData.inputVeteranSSN = formData?.personalInformation?.ssn;
+    newFormData.inputVeteranHomeAddress = {
       city: formData?.contactInformation?.address?.city,
       country: formData?.contactInformation?.address?.country,
       postalCode: formData?.contactInformation?.address?.postalCode,
       state: formData?.contactInformation?.address?.state,
       street: formData?.contactInformation?.address?.street,
     };
-    newFormData.veteranEmail = formData?.contactInformation?.email;
-    newFormData.primaryPhone = formData?.contactInformation?.primaryPhone;
-    newFormData['Branch of Service'] =
+    newFormData.inputVeteranEmail = formData?.contactInformation?.email;
+    newFormData.inputVeteranPrimaryPhone =
+      formData?.contactInformation?.primaryPhone;
+    newFormData.inputVeteranServiceBranch =
       formData?.militaryInformation?.serviceBranch;
     // reset the applicant information in case of claimant type change
-    newFormData.applicantName = undefined;
-    newFormData.applicantDOB = undefined;
-    newFormData.applicantEmail = undefined;
-    newFormData.applicantPhone = undefined;
-    newFormData.homeAddress = {
+    newFormData.inputNonVeteranClaimantName = undefined;
+    newFormData.inputNonVeteranClaimantDOB = undefined;
+    newFormData.inputNonVeteranClaimantEmail = undefined;
+    newFormData.inputNonVeteranClaimantPhone = undefined;
+    newFormData.inputNonVeteranClaimantHomeAddress = {
       city: undefined,
       country: undefined,
       postalCode: undefined,
@@ -38,15 +38,18 @@ export default function prefillTransformer(formData) {
       street: undefined,
     };
   } else {
-    newFormData.applicantName = {
+    newFormData.inputNonVeteranClaimantName = {
       first: formData?.personalInformation?.fullName?.first,
       middle: formData?.personalInformation?.fullName?.middle?.substring(0, 1),
       last: formData?.personalInformation?.fullName?.last,
     };
-    newFormData.applicantDOB = formData?.personalInformation?.dateOfBirth;
-    newFormData.applicantEmail = formData?.contactInformation?.email;
-    newFormData.applicantPhone = formData?.contactInformation?.primaryPhone;
-    newFormData.homeAddress = {
+    newFormData.inputNonVeteranClaimantDOB =
+      formData?.personalInformation?.dateOfBirth;
+    newFormData.inputNonVeteranClaimantEmail =
+      formData?.contactInformation?.email;
+    newFormData.inputNonVeteranClaimantPhone =
+      formData?.contactInformation?.primaryPhone;
+    newFormData.inputNonVeteranClaimantHomeAddress = {
       city: formData?.contactInformation?.address?.city,
       country: formData?.contactInformation?.address?.country,
       postalCode: formData?.contactInformation?.address?.postalCode,
@@ -55,19 +58,19 @@ export default function prefillTransformer(formData) {
     };
 
     // reset the applicant information in case of claimant type change
-    newFormData.veteranFullName = undefined;
-    newFormData.veteranDateOfBirth = undefined;
-    newFormData.veteranSocialSecurityNumber = undefined;
-    newFormData.veteranHomeAddress = {
+    newFormData.inputVeteranFullName = undefined;
+    newFormData.inputVeteranDOB = undefined;
+    newFormData.inputVeteranSSN = undefined;
+    newFormData.inputVeteranHomeAddress = {
       city: undefined,
       country: undefined,
       postalCode: undefined,
       state: undefined,
       street: undefined,
     };
-    newFormData.veteranEmail = undefined;
-    newFormData.primaryPhone = undefined;
-    newFormData['Branch of Service'] = undefined;
+    newFormData.inputVeteranEmail = undefined;
+    newFormData.inputVeteranPrimaryPhone = undefined;
+    newFormData.inputVeteranServiceBranch = undefined;
   }
 
   newFormData.userIsDigitalSubmitEligible =

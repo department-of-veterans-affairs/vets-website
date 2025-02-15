@@ -9,7 +9,7 @@ export const representativeTypeMap = {
 };
 
 export const preparerIsVeteran = ({ formData } = {}) =>
-  formData?.['view:applicantIsVeteran'] === 'Yes';
+  formData?.inputVeteranIsClaimant === 'Yes';
 
 /**
  * Show one thing, have a screen reader say another.
@@ -34,7 +34,7 @@ export const formatDate = (date, format = DATE_FORMAT) => {
  * Setting subtitle based on rep type
  */
 export const getFormSubtitle = formData => {
-  const entity = formData['view:selectedRepresentative'];
+  const entity = formData.inputSelectedRepresentative;
   const entityType = entity?.type;
 
   if (entityType === 'organization') {
@@ -124,7 +124,7 @@ export const getFormNumberFromEntity = entity => {
 };
 
 export const getFormNumber = formData => {
-  const entity = formData['view:selectedRepresentative'];
+  const entity = formData.inputSelectedRepresentative;
   const entityType = entity?.type;
 
   if (
@@ -164,15 +164,15 @@ export const isVSORepresentative = rep => {
  */
 export const formIs2122A = formData =>
   ['attorney', 'claimsAgent', 'claims_agent', 'claim_agents'].includes(
-    formData?.['view:selectedRepresentative']?.attributes?.individualType,
+    formData?.inputSelectedRepresentative?.attributes?.individualType,
   ) || null;
 
 const isOrg = formData =>
-  formData['view:selectedRepresentative']?.type === 'organization';
+  formData.inputSelectedRepresentative?.type === 'organization';
 
 export const getOrgName = formData => {
   if (isOrg(formData)) {
-    return formData['view:selectedRepresentative']?.attributes?.name;
+    return formData.inputSelectedRepresentative?.attributes?.name;
   }
 
   if (formIs2122A(formData)) {
@@ -180,11 +180,11 @@ export const getOrgName = formData => {
   }
 
   const orgs =
-    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+    formData.inputSelectedRepresentative?.attributes?.accreditedOrganizations
       ?.data;
 
   if (orgs && orgs.length > 1) {
-    const id = formData?.selectedAccreditedOrganizationId;
+    const id = formData?.inputSelectedOrgId;
     const selectedOrg = orgs.find(org => org.id === id);
     return selectedOrg?.attributes?.name;
   }
@@ -192,28 +192,35 @@ export const getOrgName = formData => {
   return orgs[0]?.attributes?.name;
 };
 
+/**
+ * Takes representative object (rather than formData object)
+ */
+export const formIs2122 = rep => {
+  return rep?.type === 'representative' || 'organization';
+};
+
 // Rep name used in Terms and Conditions agreement
 export const getRepresentativeName = formData => {
-  const rep = formData['view:selectedRepresentative'];
+  const rep = formData.inputSelectedRepresentative;
 
   if (!rep) {
     return null;
   }
 
   if (isOrg(formData)) {
-    return formData['view:selectedRepresentative']?.attributes?.name;
+    return formData.inputSelectedRepresentative?.attributes?.name;
   }
 
-  return isVSORepresentative(formData['view:selectedRepresentative'])
+  return isVSORepresentative(formData.inputSelectedRepresentative)
     ? formData.selectedAccreditedOrganizationName
     : rep.attributes.fullName;
 };
 
-export const getApplicantName = formData => {
-  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+export const getinputNonVeteranClaimantName = formData => {
+  const applicantIsVeteran = formData.inputVeteranIsClaimant === 'Yes';
   const applicantFullName = applicantIsVeteran
-    ? formData.veteranFullName
-    : formData.applicantName;
+    ? formData.inputVeteranFullName
+    : formData.inputNonVeteranClaimantName;
 
   return [
     applicantFullName.first,

@@ -1,21 +1,18 @@
 {
   "titleSchema": {},
   "profileNotUpdatedNote": {},
-  "applicantName": {},
-  "veteranFullName": {
+  "inputNonVeteranClaimantName": {},
+  "inputVeteranFullName": {
     "first": "John",
     "middle": "E",
     "last": "Doe",
     "suffix": "Sr."
   },
-  "veteranSocialSecurityNumber": "333224444",
+  "inputVeteranSSN": "333224444",
   "vaClaimsHistory": true,
-  "vaFileNumber": "123456789",
-  "veteranDateOfBirth": "1960-01-01",
-  "serviceBranch": {
-    "army": true,
-    "navy": true
-  },
+  "inputVeteranVAFileNumber": "123456789",
+  "inputVeteranDOB": "1960-01-01",
+  "inputVeteranServiceBranch": "army",
   "activeServiceDateRange": {
     "from": "2003-03-02",
     "to": "2007-03-20"
@@ -37,7 +34,7 @@
     "to": "1973-03-02"
   },
 
-  "veteranHomeAddress": {
+  "inputVeteranHomeAddress": {
     "'view:militaryBaseDescription'": {},
     "country": "USA",
     "street": "123 8th st",
@@ -45,17 +42,17 @@
     "state": "ME",
     "postalCode": "01050"
   },
-  "veteranEmail": "test@example.com",
-  "primaryPhone": "5551234567",
+  "inputVeteranEmail": "test@example.com",
+  "inputVeteranPrimaryPhone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
-  "homeAddress": {
+  "inputNonVeteranClaimantHomeAddress": {
     "'view:militaryBaseDescription'": {}
   },
   "descriptionSchema": {},
   "'view:authorizationPolicy'": {},
   "'view:authorizationNote4'": {},
-  "'view:authorizeRecordsSelect'": {},
+  "inputAuthorizationsConsentLimits": {},
   "authorizeMedicalSelectCheckbox": {},
   "'view:addressAuthorizationPolicy'": {},
   "'view:authorizationNote3'": {},
@@ -64,6 +61,6 @@
   "'view:outsideVAAuthorizationPolicy'": {},
   "'view:authorizationNote5'": {},
   "'view:unsureNote'": {},
-  "'view:representativeQueryInput'": "",
+  "inputRepresentativeQueryString": "",
   "'view:representativeSearchResults'": []
 }

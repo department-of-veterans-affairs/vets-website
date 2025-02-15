@@ -65,23 +65,27 @@ describe('Unauthenticated', () => {
       // CLAIMANT_RELATIONSHIP
       h.verifyUrl(ROUTES.CLAIMANT_RELATIONSHIP);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('claimantRelationship', 0);
+      h.selectRadio('inputNonVeteranClaimantRelationship', 0);
       h.clickContinue();
 
       // CLAIMANT_PERSONAL_INFORMATION;
       h.verifyUrl(ROUTES.CLAIMANT_PERSONAL_INFORMATION);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_applicantName_first"]').type('Adam');
-      cy.get('input[name="root_applicantName_middle"]').type('J');
-      cy.get('input[name="root_applicantName_last"]').type('Friedman');
+      cy.get('input[name="root_inputNonVeteranClaimantName_first"]').type(
+        'Adam',
+      );
+      cy.get('input[name="root_inputNonVeteranClaimantName_middle"]').type('J');
+      cy.get('input[name="root_inputNonVeteranClaimantName_last"]').type(
+        'Friedman',
+      );
 
       cy.get('va-select.usa-form-group--month-select')
         .shadow()
         .find('select')
         .select('April');
-      cy.get('input[name="root_applicantDOBDay"]').type('01');
-      cy.get('input[name="root_applicantDOBYear"]').type('1970');
+      cy.get('input[name="root_inputNonVeteranClaimantDOBDay"]').type('01');
+      cy.get('input[name="root_inputNonVeteranClaimantDOBYear"]').type('1970');
 
       h.clickContinue();
 
@@ -89,21 +93,29 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.CLAIMANT_CONTACT_MAILING);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('va-select[name="root_homeAddress_country"]')
+      cy.get(
+        'va-select[name="root_inputNonVeteranClaimantHomeAddress_country"]',
+      )
         .shadow()
         .find('select')
         .select('United States');
 
-      cy.get('input[name="root_homeAddress_street"]').type('456 Broad Street');
+      cy.get(
+        'input[name="root_inputNonVeteranClaimantHomeAddress_street"]',
+      ).type('456 Broad Street');
 
-      cy.get('input[name="root_homeAddress_city"]').type('Anywhere');
+      cy.get('input[name="root_inputNonVeteranClaimantHomeAddress_city"]').type(
+        'Anywhere',
+      );
 
-      cy.get('va-select[name="root_homeAddress_state"]')
+      cy.get('va-select[name="root_inputNonVeteranClaimantHomeAddress_state"]')
         .shadow()
         .find('select')
         .select('MA');
 
-      cy.get('input[name="root_homeAddress_postalCode"]').type('54673');
+      cy.get(
+        'input[name="root_inputNonVeteranClaimantHomeAddress_postalCode"]',
+      ).type('54673');
 
       h.clickContinue();
 
@@ -111,23 +123,25 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.CLAIMANT_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_applicantPhone"]').type('5436578475');
+      cy.get('input[name="root_inputNonVeteranClaimantPhone"]').type(
+        '5436578475',
+      );
 
       h.clickContinue();
 
       // VETERAN_PERSONAL_INFORMATION;
       h.verifyUrl(ROUTES.VETERAN_PERSONAL_INFORMATION);
-      cy.get('input[name="root_veteranFullName_first"]').type('John');
-      cy.get('input[name="root_veteranFullName_middle"]').type('E');
-      cy.get('input[name="root_veteranFullName_last"]').type('Doe');
+      cy.get('input[name="root_inputVeteranFullName_first"]').type('John');
+      cy.get('input[name="root_inputVeteranFullName_middle"]').type('E');
+      cy.get('input[name="root_inputVeteranFullName_last"]').type('Doe');
 
       cy.get('va-select.usa-form-group--month-select')
         .shadow()
         .find('select')
         .select('January');
 
-      cy.get('input[name="root_veteranDateOfBirthDay"]').type('01');
-      cy.get('input[name="root_veteranDateOfBirthYear"]').type('1990');
+      cy.get('input[name="root_inputVeteranDOBDay"]').type('01');
+      cy.get('input[name="root_inputVeteranDOBYear"]').type('1990');
 
       h.clickContinue();
 
@@ -135,20 +149,22 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_MAILING);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('va-select[name="root_veteranHomeAddress_country"]')
+      cy.get('va-select[name="root_inputVeteranHomeAddress_country"]')
         .shadow()
         .find('select')
         .select('United States');
 
-      cy.get('input[name="root_veteranHomeAddress_street"]').type(
+      cy.get('input[name="root_inputVeteranHomeAddress_street"]').type(
         '123 Anywhere St',
       );
 
-      cy.get('input[name="root_veteranHomeAddress_city"]').type('Anytown');
+      cy.get('input[name="root_inputVeteranHomeAddress_city"]').type('Anytown');
 
-      cy.get('input[name="root_veteranHomeAddress_postalCode"]').type('43545');
+      cy.get('input[name="root_inputVeteranHomeAddress_postalCode"]').type(
+        '43545',
+      );
 
-      cy.get('va-select[name="root_veteranHomeAddress_state"]')
+      cy.get('va-select[name="root_inputVeteranHomeAddress_state"]')
         .shadow()
         .find('select')
         .select('Ohio');
@@ -159,57 +175,55 @@ describe('Unauthenticated', () => {
       h.verifyUrl(ROUTES.VETERAN_CONTACT_PHONE_EMAIL);
       cy.injectAxeThenAxeCheck();
 
-      cy.get('input[name="root_primaryPhone"]').type('5467364732');
+      cy.get('input[name="root_inputVeteranPrimaryPhone"]').type('5467364732');
 
       h.clickContinue();
 
       // VETERAN_IDENTIFICATION
       h.verifyUrl(ROUTES.VETERAN_IDENTIFICATION);
       cy.injectAxeThenAxeCheck();
-      cy.get('input[name="root_veteranSocialSecurityNumber"]').type(
-        '658432765',
-      );
+      cy.get('input[name="root_inputVeteranSSN"]').type('658432765');
 
       h.clickContinue();
 
       // VETERAN_SERVICE_INFORMATION
       h.verifyUrl(ROUTES.VETERAN_SERVICE_INFORMATION);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('Branch of Service', 0);
+      h.selectRadio('inputVeteranServiceBranch', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_MEDICAL
       h.verifyUrl(ROUTES.AUTHORIZE_MEDICAL);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizationRadio', 0);
+      h.selectRadio('inputAuthorizationsMedical', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_ADDRESS
       h.verifyUrl(ROUTES.AUTHORIZE_ADDRESS);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizeAddressRadio', 0);
+      h.selectRadio('inputAuthorizationsAddressChange', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_INSIDE_VA
       h.verifyUrl(ROUTES.AUTHORIZE_INSIDE_VA);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizeInsideVARadio', 0);
+      h.selectRadio('inputAuthorizationsAccessInsideVASystems', 0);
 
       h.clickContinue();
 
       // AUTHORIZE_OUTSIDE_VA
       h.verifyUrl(ROUTES.AUTHORIZE_OUTSIDE_VA);
       cy.injectAxeThenAxeCheck();
-      h.selectRadio('authorizeOutsideVARadio', 0);
+      h.selectRadio('inputAuthorizationsAccessOutsideVASystems', 0);
 
       h.clickContinue();
       // AUTHORIZE_OUTSIDE_VA_NAMES
       h.verifyUrl(ROUTES.AUTHORIZE_OUTSIDE_VA_NAMES);
       cy.injectAxeThenAxeCheck();
-      cy.get('input[name="root_authorizeNamesTextArea"]').type(
+      cy.get('input[name="root_inputAuthorizationsTeamMembers"]').type(
         'Bob Test, Tom Middleton',
       );
 

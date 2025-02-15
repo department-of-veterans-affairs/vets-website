@@ -1,5 +1,5 @@
 export const attorney = {
-  'view:selectedRepresentative': {
+  inputSelectedRepresentative: {
     type: 'representative',
     attributes: {
       individualType: 'attorney',
@@ -8,7 +8,7 @@ export const attorney = {
 };
 
 export const agent = {
-  'view:selectedRepresentative': {
+  inputSelectedRepresentative: {
     type: 'representative',
     attributes: {
       individualType: 'claim_agents',
@@ -17,7 +17,7 @@ export const agent = {
 };
 
 export const vso = {
-  'view:selectedRepresentative': {
+  inputSelectedRepresentative: {
     type: 'representative',
     attributes: {
       individualType: 'veteran_service_officer',
@@ -26,7 +26,7 @@ export const vso = {
 };
 
 export const org = {
-  'view:selectedRepresentative': {
+  inputSelectedRepresentative: {
     type: 'organization',
   },
 };

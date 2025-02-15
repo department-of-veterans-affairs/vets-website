@@ -18,37 +18,41 @@ describe('useTransformForReview', () => {
   beforeEach(() => {
     props = {
       formData: {
-        'view:selectedRepresentative': {
+        inputSelectedRepresentative: {
           attributes: { fullName: 'John Doe' },
           type: 'Attorney',
         },
         selectedAccreditedOrganizationName: 'Veterans Organization',
-        'view:applicantIsVeteran': 'No',
-        veteranFullName: { first: 'Jane', middle: 'A', last: 'Doe' },
-        veteranSocialSecurityNumber: '123-45-6789',
-        veteranVAFileNumber: '987654321',
-        veteranDateOfBirth: '1990-01-01',
-        serviceNumber: 'S123456789',
-        serviceBranch: 'Army',
-        veteranHomeAddress: {
+        inputVeteranIsClaimant: 'No',
+        inputVeteranFullName: { first: 'Jane', middle: 'A', last: 'Doe' },
+        inputVeteranSSN: '123-45-6789',
+        inputVeteranVAFileNumber: '987654321',
+        inputVeteranDOB: '1990-01-01',
+        inputVeteranServiceNumber: 'S123456789',
+        inputVeteranServiceBranch: 'Army',
+        inputVeteranHomeAddress: {
           street: '123 Main St',
           city: 'Anytown',
           state: 'TX',
           postalCode: '12345',
         },
-        primaryPhone: '555-1234',
-        veteranEmail: 'jane.doe@example.com',
-        applicantName: { first: 'John', middle: 'B', last: 'Doe' },
-        applicantDOB: '1990-01-01',
-        claimantRelationship: 'Spouse',
-        homeAddress: {
+        inputVeteranPrimaryPhone: '555-1234',
+        inputVeteranEmail: 'jane.doe@example.com',
+        inputNonVeteranClaimantName: {
+          first: 'John',
+          middle: 'B',
+          last: 'Doe',
+        },
+        inputNonVeteranClaimantDOB: '1990-01-01',
+        inputNonVeteranClaimantRelationship: 'Spouse',
+        inputNonVeteranClaimantHomeAddress: {
           street: '456 Oak St',
           city: 'Anytown',
           state: 'TX',
           postalCode: '54321',
         },
-        applicantPhone: '555-5678',
-        applicantEmail: 'john.doe@example.com',
+        inputNonVeteranClaimantPhone: '555-5678',
+        inputNonVeteranClaimantEmail: 'john.doe@example.com',
       },
     };
     mockStore = mockFormStore({
@@ -85,8 +89,8 @@ describe('useTransformForReview', () => {
 
   context('when applicant is a veteran', () => {
     it('should render the veteran information', () => {
-      props.formData['view:applicantIsVeteran'] = 'Yes';
-      props.formData.applicantName = {
+      props.formData.inputVeteranIsClaimant = 'Yes';
+      props.formData.inputNonVeteranClaimantName = {
         first: 'Jane',
         middle: 'A',
         last: 'Doe',

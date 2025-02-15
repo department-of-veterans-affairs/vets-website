@@ -20,7 +20,7 @@
     "primaryPhone": "4445551212"
   },
   "militaryInformation": {
-    "serviceBranch": "Army"
+    "serviceBranch": "army"
   },
   "identityValidation": {
     "hasIcn": true,

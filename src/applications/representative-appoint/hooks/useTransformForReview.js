@@ -4,43 +4,43 @@ import React, { useMemo } from 'react';
 import { convertRepType } from '../utilities/helpers';
 
 export function useTransformForReview(formData) {
-  const representative = formData['view:selectedRepresentative'].attributes;
+  const representative = formData.inputSelectedRepresentative.attributes;
   const organization = formData.selectedAccreditedOrganizationName;
-  const applicantIsVeteran = formData['view:applicantIsVeteran'] === 'Yes';
+  const applicantIsVeteran = formData.inputVeteranIsClaimant === 'Yes';
 
   const veteran = {
-    firstName: formData?.veteranFullName?.first,
-    middleName: formData?.veteranFullName?.middle,
-    lastName: formData?.veteranFullName?.last,
-    ssn: formData.veteranSocialSecurityNumber,
-    vaFileNumber: formData.veteranVAFileNumber,
-    dateOfBirth: formData.veteranDateOfBirth,
-    serviceNumber: formData.serviceNumber,
-    serviceBranch: formData.serviceBranch,
-    street: formData.veteranHomeAddress.street,
-    street2: formData.veteranHomeAddress.street2,
-    city: formData?.veteranHomeAddress?.city,
-    state: formData?.veteranHomeAddress?.state,
-    postalCode: formData?.veteranHomeAddress?.postalCode,
-    phone: formData.primaryPhone,
-    email: formData.veteranEmail,
+    firstName: formData?.inputVeteranFullName?.first,
+    middleName: formData?.inputVeteranFullName?.middle,
+    lastName: formData?.inputVeteranFullName?.last,
+    ssn: formData.inputVeteranSSN,
+    inputVeteranVAFileNumber: formData.inputVeteranVAFileNumber,
+    dateOfBirth: formData.inputVeteranDOB,
+    serviceNumber: formData.inputVeteranServiceNumber,
+    serviceBranch: formData.inputVeteranServiceBranch,
+    street: formData.inputVeteranHomeAddress.street,
+    street2: formData.inputVeteranHomeAddress.street2,
+    city: formData?.inputVeteranHomeAddress?.city,
+    state: formData?.inputVeteranHomeAddress?.state,
+    postalCode: formData?.inputVeteranHomeAddress?.postalCode,
+    phone: formData.inputVeteranPrimaryPhone,
+    email: formData.inputVeteranEmail,
   };
 
   const claimant = applicantIsVeteran
     ? veteran
     : {
-        firstName: formData?.applicantName?.first,
-        middleName: formData?.applicantName?.middle,
-        lastName: formData?.applicantName?.last,
-        dateOfBirth: formData?.applicantDOB || '',
-        relationship: formData?.claimantRelationship || '',
-        street: formData?.homeAddress?.street,
-        street2: formData?.homeAddress?.street2,
-        city: formData?.homeAddress?.city,
-        state: formData?.homeAddress?.state,
-        postalCode: formData?.homeAddress?.postalCode,
-        phone: formData?.applicantPhone || '',
-        email: formData?.applicantEmail || '',
+        firstName: formData?.inputNonVeteranClaimantName?.first,
+        middleName: formData?.inputNonVeteranClaimantName?.middle,
+        lastName: formData?.inputNonVeteranClaimantName?.last,
+        dateOfBirth: formData?.inputNonVeteranClaimantDOB || '',
+        relationship: formData?.inputNonVeteranClaimantRelationship || '',
+        street: formData?.inputNonVeteranClaimantHomeAddress?.street,
+        street2: formData?.inputNonVeteranClaimantHomeAddress?.street2,
+        city: formData?.inputNonVeteranClaimantHomeAddress?.city,
+        state: formData?.inputNonVeteranClaimantHomeAddress?.state,
+        postalCode: formData?.inputNonVeteranClaimantHomeAddress?.postalCode,
+        phone: formData?.inputNonVeteranClaimantPhone || '',
+        email: formData?.inputNonVeteranClaimantEmail || '',
       };
 
   const renderField = (label, value) => {
@@ -61,7 +61,7 @@ export function useTransformForReview(formData) {
         {renderField('Middle name', veteran.middleName)}
         {renderField('Last name', veteran.lastName)}
         {renderField('Social security number', veteran.ssn)}
-        {renderField('VA file number', veteran.vaFileNumber)}
+        {renderField('VA file number', veteran.inputVeteranVAFileNumber)}
         {renderField('Date of birth', veteran.dateOfBirth)}
         {renderField('Relationship', veteran.relationship)}
         {renderField('Primary number', veteran.phone)}
@@ -87,7 +87,7 @@ export function useTransformForReview(formData) {
           {renderField('Organization', organization)}
           {renderField(
             'Type',
-            convertRepType(formData?.['view:selectedRepresentative']?.type),
+            convertRepType(formData?.inputSelectedRepresentative?.type),
           )}
           <p className="light-gray">Mailing address</p>
           {representative?.addressLine1 && <p>{representative.addressLine1}</p>}
@@ -105,7 +105,7 @@ export function useTransformForReview(formData) {
           {renderField('Middle name', claimant.middleName)}
           {renderField('Last name', claimant.lastName)}
           {renderField('Social security number', claimant.ssn)}
-          {renderField('VA file number', claimant.vaFileNumber)}
+          {renderField('VA file number', claimant.inputVeteranVAFileNumber)}
           {renderField('Date of birth', claimant.dateOfBirth)}
           {renderField('Relationship', claimant.relationship)}
           {renderField('Primary number', claimant.phone)}
@@ -122,23 +122,23 @@ export function useTransformForReview(formData) {
           <h3>Accredited representative authorizations</h3>
           {renderField(
             'Do you authorize this accredited VSO to access your medical records?',
-            formData?.authorizationRadio,
+            formData?.inputAuthorizationsMedical,
           )}
           {renderField(
             'Do you authorize this accredited VSO Representative to change your address on VA records?',
-            formData?.authorizeAddressRadio,
+            formData?.inputAuthorizationsAddressChange,
           )}
           {renderField(
             'Do you authorize this accredited Attorney’s team to access your records through VA’s information technology systems?',
-            formData?.authorizeInsideVARadio,
+            formData?.inputAuthorizationsAccessInsideVASystems,
           )}
           {renderField(
             'Do you authorize this accredited Attorney’s team to access your records outside VA’s information technology systems?',
-            formData?.authorizeOutsideVARadio,
+            formData?.inputAuthorizationsAccessOutsideVASystems,
           )}
           {renderField(
             'Enter the name of each team member who can access your records outside of VA’s information technology systems',
-            formData?.authorizeNamesTextArea,
+            formData?.inputAuthorizationsTeamMembers,
           )}
         </>
       );

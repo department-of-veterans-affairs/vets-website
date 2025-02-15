@@ -8,6 +8,7 @@ import { useReviewPage } from '../hooks/useReviewPage';
 
 const RepresentativeSubmissionMethod = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
+
   const [error, setError] = useState(null);
 
   const isReviewPage = useReviewPage();
@@ -19,8 +20,9 @@ const RepresentativeSubmissionMethod = props => {
       goBack(formData);
     }
   };
+
   const handleGoForward = () => {
-    if (!formData?.representativeSubmissionMethod) {
+    if (!formData?.inputSubmissionMethod) {
       setError('Choose how to submit your request by selecting an option');
       scrollToFirstError({ focusOnAlertRole: true });
     } else if (isReviewPage) {
@@ -34,15 +36,16 @@ const RepresentativeSubmissionMethod = props => {
     setError(null);
     setFormData({
       ...formData,
-      representativeSubmissionMethod: e.detail.value,
+      inputSubmissionMethod: e.detail.value,
     });
   };
 
   return (
     <>
+      <h3>Select how to submit your request</h3>
       <VaRadio
         error={error}
-        label="Select how to submit your request"
+        label="How do you want to submit your request?"
         required
         onVaValueChange={handleRadioSelect}
       >
@@ -51,23 +54,28 @@ const RepresentativeSubmissionMethod = props => {
           name="method"
           value="digital"
           key={0}
-          checked={formData.representativeSubmissionMethod === 'digital'}
+          checked={formData.inputSubmissionMethod === 'digital'}
         />
         <va-radio-option
           label="By mail"
           name="method"
           value="mail"
           key={1}
-          checked={formData.representativeSubmissionMethod === 'mail'}
+          checked={formData.inputSubmissionMethod === 'mail'}
         />
         <va-radio-option
           label="In person"
           name="method"
           value="in person"
           key={2}
-          checked={formData.representativeSubmissionMethod === 'in person'}
+          checked={formData.inputSubmissionMethod === 'in person'}
         />
       </VaRadio>
+      <p>
+        <strong>Note:</strong> If you want to submit your request by mail or in
+        person, you’ll need to print your form at the end of our online tool.
+        We’ll provide instructions on how to submit it.
+      </p>
       <FormNavButtons goBack={handleGoBack} goForward={handleGoForward} />
     </>
   );

@@ -86,7 +86,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
         .stub(reviewPageHook, 'useReviewPage')
         .returns(false);
 
-      props.formData.representativeSubmissionMethod = 'mail';
+      props.formData.inputSubmissionMethod = 'mail';
 
       const { getByText } = render(
         <Provider store={mockStore}>
@@ -138,7 +138,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
         .stub(reviewPageHook, 'useReviewPage')
         .returns(true);
 
-      props.formData.representativeSubmissionMethod = 'mail';
+      props.formData.inputSubmissionMethod = 'mail';
 
       const { getByText } = render(
         <Provider store={mockStore}>
@@ -163,7 +163,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
       it('returns false', () => {
         const formData = {
           v2IsEnabled: false,
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
@@ -182,7 +182,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
         it('returns false', () => {
           const formData = {
             v2IsEnabled: true,
-            'view:selectedRepresentative': {
+            inputSelectedRepresentative: {
               type: 'organization',
               attributes: { canAcceptDigitalPoaRequests: false },
             },
@@ -200,7 +200,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
       it('returns false', () => {
         const formData = {
           v2IsEnabled: true,
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
@@ -217,7 +217,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
       it('returns true', () => {
         const formData = {
           v2IsEnabled: true,
-          'view:selectedRepresentative': {
+          inputSelectedRepresentative: {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },

@@ -1,15 +1,15 @@
 {
-  "veteranFullName": {
+  "inputVeteranFullName": {
     "first": "John",
     "middle": "E",
     "last": "Doe",
     "suffix": "Sr."
   },
-  "veteranSocialSecurityNumber": "333224444",
+  "inputVeteranSSN": "333224444",
   "vaClaimsHistory": true,
-  "vaFileNumber": "123456789",
-  "veteranDateOfBirth": "1960-01-01",
-  "serviceBranch": {
+  "inputVeteranVAFileNumber": "123456789",
+  "inputVeteranDOB": "1960-01-01",
+  "inputVeteranServiceBranch": {
     "army": true,
     "navy": true
   },
@@ -252,7 +252,7 @@
     "accountNumber": "001122334455",
     "routingNumber": "123123123"
   },
-  "veteranHomeAddress": {
+  "inputVeteranHomeAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
     "street": "123 8th st",
@@ -260,8 +260,8 @@
     "state": "ME",
     "postalCode": "01050"
   },
-  "veteranEmail": "test@example.com",
-  "primaryPhone": "5551234567",
+  "inputVeteranEmail": "test@example.com",
+  "inputVeteranPrimaryPhone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
   "view:aidAttendance": true,

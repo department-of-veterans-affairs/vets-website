@@ -9,7 +9,7 @@
     "vaFileNumber": "123456789",
     "dateOfBirth": "1960-01-01",
     "serviceNumber": "123456789",
-    "serviceBranch": null,
+    "serviceBranch": "ARMY",
     "address": {
       "addressLine1": "123 8th st",
       "addressLine2": "",

@@ -15,12 +15,12 @@ export const uiSchema = {
   'view:authorizationPolicy': {
     'ui:description': <MedicalAuthorizationPolicy />,
   },
-  authorizationRadio: radioUI({
+  inputAuthorizationsMedical: radioUI({
     title:
       'Do you authorize this accredited representative to access your medical records?',
     updateUiSchema: formData => {
       const title = `Do you authorize this accredited ${getRepType(
-        formData['view:selectedRepresentative'],
+        formData.inputSelectedRepresentative,
       )} to access your medical records?`;
       return { 'ui:title': title };
     },
@@ -32,13 +32,13 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['authorizationRadio'],
+  required: ['inputAuthorizationsMedical'],
   properties: {
     'view:authorizationPolicy': {
       type: 'object',
       properties: {},
     },
-    authorizationRadio: radioSchema([
+    inputAuthorizationsMedical: radioSchema([
       'Yes, they can access all of these types of records',
       'Yes, but they can only access some of these types of records',
       `No, they can't access any of these types of records`,

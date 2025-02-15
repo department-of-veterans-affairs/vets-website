@@ -36,24 +36,24 @@ export const uiSchema = {
       <ProfileNotUpdatedNote includePhone includePrefix />
     ),
   },
-  veteranSocialSecurityNumber: ssnUI('Social Security number'),
-  veteranVAFileNumber: vaFileNumberUI('VA file number'),
-  veteranServiceNumber: serviceNumberUI('Service Number'),
+  inputVeteranSSN: ssnUI('Social Security number'),
+  inputVeteranVAFileNumber: vaFileNumberUI('VA file number'),
+  inputVeteranServiceNumber: serviceNumberUI('Service Number'),
 };
 
 export const schema = {
   type: 'object',
-  required: ['veteranSocialSecurityNumber'],
+  required: ['inputVeteranSSN'],
   properties: {
     titleSchema,
     descriptionSchema,
     profileNotUpdatedNote: { type: 'object', properties: {} },
-    veteranSocialSecurityNumber: ssnSchema,
-    veteranVAFileNumber: {
+    inputVeteranSSN: ssnSchema,
+    inputVeteranVAFileNumber: {
       ...vaFileNumberSchema,
       maxLength: 9,
     },
-    veteranServiceNumber: {
+    inputVeteranServiceNumber: {
       ...serviceNumberSchema,
       maxLength: 9,
     },

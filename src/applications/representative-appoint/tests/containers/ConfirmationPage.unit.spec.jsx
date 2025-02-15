@@ -12,7 +12,7 @@ describe('Confirmation Page', () => {
   let useSelectorStub;
 
   const mockFormData = {
-    'view:selectedRepresentative': {
+    inputSelectedRepresentative: {
       type: 'individual',
       fullName: 'Brian Daniel',
       addressLine1: '400 South 18th Street',
@@ -34,14 +34,14 @@ describe('Confirmation Page', () => {
         },
       },
     },
-    selectedAccreditedOrganizationId: '1',
-    applicantName: {
+    inputSelectedOrgId: '1',
+    inputNonVeteranClaimantName: {
       first: 'John',
       middle: 'E',
       last: 'Doe',
       suffix: 'Sr.',
     },
-    veteranFullName: {
+    inputVeteranFullName: {
       first: 'John',
       middle: 'E',
       last: 'Doe',

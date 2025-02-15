@@ -1,6 +1,6 @@
 {
   "view:addressAuthorizationPolicy": {},
-  "authorizeAddressRadio": "Yes, they can change my address if it’s incorrect or outdated",
+  "inputAuthorizationsAddressChange": "Yes, they can change my address if it’s incorrect or outdated",
   "view:authorizationNote3": {},
   "view:authorizeRecordsSelect": {},
   "authorizeMedicalSelectCheckbox": {
@@ -8,12 +8,12 @@
     "drugAbuseRecords": true
   },
   "view:authorizationPolicy": {},
-  "authorizationRadio": "Yes, but they can only access some of these types of records",
+  "inputAuthorizationsMedical": "Yes, but they can only access some of these types of records",
   "view:authorizationNote4": {},
   "titleSchema": {},
   "profileNotUpdatedNote": {},
-  "applicantPhone": "5347687980",
-  "homeAddress": {
+  "inputNonVeteranClaimantPhone": "5347687980",
+  "inputNonVeteranClaimantHomeAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
     "street": "123 Any Street",
@@ -21,22 +21,22 @@
     "state": "OH",
     "postalCode": "43210"
   },
-  "applicantName": { "first": "Bob", "last": "Tester" },
-  "applicantDOB": "1990-01-01",
-  "claimantRelationship": "CHILD",
-  "veteranFullName": {
+  "inputNonVeteranClaimantName": { "first": "Bob", "last": "Tester" },
+  "inputNonVeteranClaimantDOB": "1990-01-01",
+  "inputNonVeteranClaimantRelationship": "CHILD",
+  "inputVeteranFullName": {
     "first": "John",
     "middle": "E",
     "last": "Doe",
     "suffix": "Sr."
   },
-  "veteranSocialSecurityNumber": "333224444",
+  "inputVeteranSSN": "333224444",
   "vaClaimsHistory": true,
-  "vaFileNumber": "123456789",
-  "veteranDateOfBirth": "1960-01-01",
-  "serviceBranch": { "army": true, "navy": true },
+  "inputVeteranVAFileNumber": "123456789",
+  "inputVeteranDOB": "1960-01-01",
+  "inputVeteranServiceBranch": "army",
   "activeServiceDateRange": { "from": "2003-03-02", "to": "2007-03-20" },
-  "serviceNumber": "123456789",
+  "inputVeteranServiceNumber": "123456789",
   "serveUnderOtherNames": true,
   "previousNames": [
     { "previousFullName": { "first": "Joseph", "last": "Doe" } }
@@ -232,7 +232,7 @@
     "accountNumber": "001122334455",
     "routingNumber": "123123123"
   },
-  "veteranHomeAddress": {
+  "inputVeteranHomeAddress": {
     "view:militaryBaseDescription": {},
     "country": "USA",
     "street": "123 8th st",
@@ -240,8 +240,8 @@
     "state": "ME",
     "postalCode": "01050"
   },
-  "veteranEmail": "test@example.com",
-  "primaryPhone": "5551234567",
+  "inputVeteranEmail": "test@example.com",
+  "inputVeteranPrimaryPhone": "5551234567",
   "mobilePhone": "5551234567",
   "internationalPhone": "001-555-123-4567",
   "view:aidAttendance": true,
@@ -255,7 +255,7 @@
   "view:outsideVAAuthorizationPolicy": {},
   "view:authorizationNote5": {},
   "view:unsureNote": {},
-  "view:representativeQueryInput": "bob",
+  "inputRepresentativeQueryString": "bob",
   "view:representativeSearchResults": [
     {
       "data": {
@@ -334,8 +334,8 @@
       }
     }
   ],
-  "view:applicantIsVeteran": "No",
-  "view:selectedRepresentative": {
+  "inputVeteranIsClaimant": "No",
+  "inputSelectedRepresentative": {
     "id": "19731",
     "type": "representative",
     "attributes": {
@@ -410,6 +410,6 @@
     }
   },
   "view:representativeStatus": null,
-  "selectedAccreditedOrganizationId": "074",
+  "inputSelectedOrgId": "074",
   "selectedAccreditedOrganizationName": "Am Legion"
 }

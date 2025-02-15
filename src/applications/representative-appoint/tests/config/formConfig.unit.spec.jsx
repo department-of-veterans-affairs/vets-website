@@ -71,7 +71,7 @@ describe('FormConfig depends function', () => {
 
   context('applicant is veteran', () => {
     const mockData = {
-      'view:applicantIsVeteran': 'Yes',
+      inputVeteranIsClaimant: 'Yes',
     };
     it('should hide claimant pages', () => {
       expect(claimantPages.claimantRelationship.depends(mockData)).to.be.false;
@@ -106,7 +106,7 @@ describe('FormConfig depends function', () => {
 
   context('applicant is not veteran', () => {
     const mockData = {
-      'view:applicantIsVeteran': 'No',
+      inputVeteranIsClaimant: 'No',
     };
 
     it('should show claimant pages', () => {
@@ -144,7 +144,7 @@ describe('FormConfig depends function', () => {
       .to.be.false;
   });
 
-  it('should show authorizeMedicalSelect when authorizationRadio is yes', () => {
+  it('should show authorizeMedicalSelect when inputAuthorizationsMedical is yes', () => {
     expect(authPages.authorizeMedicalSelect.depends(mockFormData2122)).to.be
       .true;
   });

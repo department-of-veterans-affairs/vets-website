@@ -11,12 +11,12 @@ describe('<ContactAccreditedRepresentative>', () => {
     return {
       props: {
         loggedIn: true,
-        formData: { 'view:selectedRepresentative': selectedRep.data },
+        formData: { inputSelectedRepresentative: selectedRep.data },
       },
       mockStore: {
         getState: () => ({
           form: {
-            data: { 'view:selectedRepresentative': selectedRep.data },
+            data: { inputSelectedRepresentative: selectedRep.data },
           },
         }),
         loggedIn: true,
@@ -121,9 +121,7 @@ describe('<ContactAccreditedRepresentative>', () => {
 
       const goToPathSpy = sinon.spy();
 
-      props.formData[
-        'view:selectedRepresentative'
-      ].attributes.accreditedOrganizations = {
+      props.formData.inputSelectedRepresentative.attributes.accreditedOrganizations = {
         data: [
           { attributes: { name: 'Organization 1' } },
           { attributes: { name: 'Organization 2' } },
@@ -150,9 +148,7 @@ describe('<ContactAccreditedRepresentative>', () => {
 
       const goToPathSpy = sinon.spy();
 
-      props.formData[
-        'view:selectedRepresentative'
-      ].attributes.accreditedOrganizations = {
+      props.formData.inputSelectedRepresentative.attributes.accreditedOrganizations = {
         data: [{ attributes: { name: 'Organization 1' } }], // Only one organization
       };
 

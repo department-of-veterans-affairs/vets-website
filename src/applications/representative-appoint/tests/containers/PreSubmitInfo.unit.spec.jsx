@@ -15,15 +15,15 @@ describe('<PreSubmitInfo>', () => {
     return {
       props: {
         formData: {
-          veteranFullName: {
+          inputVeteranFullName: {
             first: 'John',
             middle: 'E',
             last: 'Doe',
             suffix: 'Sr.',
           },
           selectedAccreditedOrganizationName: 'American Legion',
-          'view:applicantIsVeteran': 'Yes',
-          'view:selectedRepresentative': repResults[0].data,
+          inputVeteranIsClaimant: 'Yes',
+          inputSelectedRepresentative: repResults[0].data,
         },
         showError,
         onSectionComplete: sinon.spy(),
