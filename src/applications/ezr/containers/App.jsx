@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
+import { fetchVeteranPrefillDataAction } from '../utils/actions/veteran-prefill-data';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
@@ -18,6 +19,7 @@ const App = props => {
     children,
     features,
     fetchEnrollmentStatus,
+    fetchVeteranPrefillData,
     formData,
     location,
     setFormData,
@@ -39,8 +41,9 @@ const App = props => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      fetchVeteranPrefillData();
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isUserLOA3],
   );
 
@@ -97,6 +100,7 @@ App.propTypes = {
   ]),
   features: PropTypes.object,
   fetchEnrollmentStatus: PropTypes.func,
+  fetchVeteranPrefillData: PropTypes.func,
   formData: PropTypes.object,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -116,6 +120,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setFormData: setData,
   fetchEnrollmentStatus: fetchEnrollmentStatusAction,
+  fetchVeteranPrefillData: fetchVeteranPrefillDataAction,
 };
 
 export default connect(
