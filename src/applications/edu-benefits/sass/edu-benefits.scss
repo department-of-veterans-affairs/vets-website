@@ -1,5 +1,5 @@
+@use "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins" as mixins;
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/functions";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
@@ -41,7 +41,7 @@
 
 .search-results-count:focus,
 .schemaform-widget-wrapper textarea:focus {
-  @include focus-gold-light-outline(0);
+  @include mixins.focus-gold-light-outline(0);
   outline-offset: 2px;
   z-index: 3;
 }

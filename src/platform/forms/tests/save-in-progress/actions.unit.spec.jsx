@@ -306,10 +306,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a client failure when a network error occurs', done => {
       server.use(
         http.put(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse.error({
-            status: 500,
-            statusText: 'SIP Network Error',
-          });
+          return HttpResponse.error();
         }),
       );
       const thunk = saveAndRedirectToReturnUrl(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -426,7 +423,6 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches: `no-auth` if the API returns a 401', () => {
       server.use(
         http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          // ctx.json({ status }) is a workaround for isomorphicFetch bug
           return HttpResponse.json({ status: 401 }, { status: 401 });
         }),
       );
@@ -458,7 +454,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches: `not-found` if the API returns an empty object', () => {
       server.use(
         http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse.json({}, { status: 200 });
+          return HttpResponse.json({});
         }),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -473,7 +469,7 @@ describe('Schemaform save / load actions:', () => {
     it("dispatches: `invalid-data` if the API return value isn't an object", () => {
       server.use(
         http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse.json([], { status: 200 });
+          return HttpResponse.json([]);
         }),
       );
       const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -509,7 +505,12 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a no-auth if the api returns a 401', () => {
         server.use(
           http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-            return HttpResponse.json({ status: 401 }, { status: 401 });
+            return HttpResponse.json(
+              { status: 401 },
+              {
+                status: 401,
+              },
+            );
           }),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
@@ -523,7 +524,7 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a success if the api returns a 404', () => {
         server.use(
           http.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-            return HttpResponse(null, { status: 404 });
+            return HttpResponse.json(null, { status: 404 });
           }),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
@@ -597,7 +598,7 @@ describe('Schemaform save / load actions:', () => {
     it('dispatches a start over action', () => {
       server.use(
         http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse(null, { status: 200 });
+          return HttpResponse.json(null, { status: 200 });
         }),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -610,7 +611,7 @@ describe('Schemaform save / load actions:', () => {
     it('attempts to remove an in-progress form', () => {
       server.use(
         http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse(null, { status: 200 });
+          return HttpResponse.json(null, { status: 200 });
         }),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -636,7 +637,7 @@ describe('Schemaform save / load actions:', () => {
       };
       server.use(
         http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse.json(mockedData, { status: 200 });
+          HttpResponse.json(mockedData, { status: 200 });
         }),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -650,10 +651,7 @@ describe('Schemaform save / load actions:', () => {
     it('handles remove error and fetches prefill data', () => {
       server.use(
         http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse.error({
-            status: 500,
-            statusText: 'SIP Network Error',
-          });
+          return HttpResponse.error();
         }),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
@@ -667,7 +665,12 @@ describe('Schemaform save / load actions:', () => {
     it('sets no-auth status if session expires', () => {
       server.use(
         http.delete(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), () => {
-          return HttpResponse.json({ status: 401 }, { status: 401 });
+          return HttpResponse.json(
+            { status: 401 },
+            {
+              status: 401,
+            },
+          );
         }),
       );
       const thunk = removeInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {});
