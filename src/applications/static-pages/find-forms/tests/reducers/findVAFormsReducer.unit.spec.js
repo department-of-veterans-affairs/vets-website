@@ -8,9 +8,7 @@ import {
   UPDATE_PAGINATION,
   UPDATE_RESULTS,
 } from '../../constants';
-import findVAFormsReducer, {
-  initialState,
-} from '../../reducers/findVAFormsReducer';
+import findVAFormsReducer, { initialState } from '../../reducers';
 
 describe('Find VA Forms reducer: findVAFormsReducer', () => {
   it('returns the default state when no action is given', () => {

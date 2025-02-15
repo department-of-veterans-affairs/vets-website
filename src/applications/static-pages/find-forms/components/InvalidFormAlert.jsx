@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// InvalidFormDownload as in the name, react component to render an alert
-const InvalidFormDownload = ({ downloadUrl, isRelatedForm }) => {
+const InvalidFormAlert = ({ downloadUrl, isRelatedForm }) => {
   const subject = encodeURIComponent('Bad PDF link');
   const body = encodeURIComponent(
     `I tried to download this form but the link doesn't work: ${downloadUrl}`,
   );
+
   const mailto = `mailto:VaFormsManagers@va.gov?subject=${subject}&body=${body}`;
 
   return (
@@ -21,9 +21,14 @@ const InvalidFormDownload = ({ downloadUrl, isRelatedForm }) => {
   );
 };
 
-InvalidFormDownload.propTypes = {
+InvalidFormAlert.propTypes = {
   downloadUrl: PropTypes.string,
+  form: PropTypes.object,
+  formNumber: PropTypes.string,
+  formPdfIsValid: PropTypes.bool,
+  formPdfUrlIsValid: PropTypes.bool,
   isRelatedForm: PropTypes.bool,
+  networkRequestError: PropTypes.bool,
 };
 
-export default InvalidFormDownload;
+export default InvalidFormAlert;

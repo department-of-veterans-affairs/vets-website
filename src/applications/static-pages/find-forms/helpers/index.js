@@ -86,12 +86,3 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
 
   return indexRemainsInPlace;
 };
-
-export const deriveDefaultModalState = () => {
-  return {
-    isOpen: false,
-    pdfSelected: '',
-    pdfUrl: '',
-    pdfLabel: '',
-  };
-};
