@@ -1,11 +1,13 @@
 import {
+  CLEAR_SEARCH_RESULTS,
   FETCH_LOCATION_DETAIL,
   FETCH_LOCATIONS,
+  MOBILE_MAP_PIN_SELECTED,
   SEARCH_FAILED,
-  CLEAR_SEARCH_RESULTS,
 } from '../actions/actionTypes';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
+  mobileMapPinSelected: null,
   results: [],
   selectedResult: null,
   pagination: {},
@@ -34,6 +36,11 @@ export const SearchResultReducer = (state = INITIAL_STATE, action) => {
         };
       }
       return INITIAL_STATE;
+    case MOBILE_MAP_PIN_SELECTED:
+      return {
+        ...state,
+        mobileMapPinSelected: action.payload,
+      };
     case CLEAR_SEARCH_RESULTS:
       return INITIAL_STATE;
     default:

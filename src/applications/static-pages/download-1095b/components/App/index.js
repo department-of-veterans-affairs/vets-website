@@ -7,8 +7,6 @@ import { apiRequest } from 'platform/utilities/api';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
-  VaRadio,
-  VaRadioOption,
   VaAlertSignIn,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -23,26 +21,40 @@ import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
 import {
   notFoundComponent,
-  radioOptions,
   unavailableComponent,
   phoneComponent,
-  dateOptions,
   LastUpdatedComponent,
-  formatTimeString,
 } from './utils';
+import '../../sass/download-1095b.scss';
 
 export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
-  const [formType, updateFormType] = useState('pdf');
-  const [formDownloaded, updateFormDownloaded] = useState({
-    downloaded: false,
-    timeStamp: '',
-  });
-
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
+
+  const getFile = format => {
+    return apiRequest(`/form1095_bs/download_${format}/${year}`)
+      .then(response => response.blob())
+      .then(blob => {
+        return window.URL.createObjectURL(blob);
+      });
+  };
+
+  const getAvailableForms = () => {
+    return apiRequest('/form1095_bs/available_forms')
+      .then(response => {
+        if (response.errors || !response.availableForms.length) {
+          updateFormError({ error: true, type: 'not found' });
+        }
+        return response.availableForms;
+      })
+      .catch(() => {
+        updateFormError({ error: true, type: 'not found' });
+        return null; // Return null in case of an error
+      });
+  };
 
   useEffect(
     () => {
@@ -85,122 +97,43 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     toggleLoginModal(true, 'ask-va', true);
   };
 
-  const getContent = () => {
-    return apiRequest(`/form1095_bs/download_${formType}/${year}`)
-      .then(response => response.blob())
-      .then(blob => {
-        return window.URL.createObjectURL(blob);
-      })
-      .catch(() => {
-        updateFormError({ error: true, type: 'download error' });
-        return false;
-      });
-  };
-
-  const getLastUpdatedOn = () => {
-    return apiRequest('/form1095_bs/available_forms')
-      .then(response => {
-        if (response.errors || !response.availableForms.length) {
-          updateFormError({ error: true, type: 'not found' });
-          return null; // Return null if there are errors or no available forms
-        }
-        return response.availableForms[0];
-      })
-      .catch(() => {
-        updateFormError({ error: true, type: 'not found' });
-        return null; // Return null in case of an error
-      });
-  };
-
-  const callLastUpdated = () => {
-    getLastUpdatedOn().then(result => {
-      if (result && result.lastUpdated && result.year) {
-        const date = new Date(result.lastUpdated);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        // expected output (varies according to local timezone and default locale): December 20, 2012
-        updateLastUpdated(date.toLocaleDateString(undefined, options));
-        updateYear(result.year);
-      } else {
-        updateFormError({ error: true, type: 'not found' });
-      }
-    });
-  };
-
-  const callGetContent = () => {
-    getContent().then(result => {
+  const downloadFileToUser = format => {
+    getFile(format).then(result => {
       if (result) {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
-
-        if (formType === 'txt') a.download = `1095B-${year}.txt`; // download text file directly
+        a.download = `1095B-${year}.${format}`;
 
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
         a.remove(); // removes element from the DOM
-        const date = new Date();
         updateFormError({ error: false, type: '' });
-        updateFormDownloaded({
-          downloaded: true,
-          timeStamp: formatTimeString(
-            date.toLocaleDateString(undefined, dateOptions),
-          ),
-        });
       }
     });
   };
 
   useEffect(
     () => {
-      callLastUpdated();
+      getAvailableForms().then(result => {
+        const mostRecentYearData = result[0];
+        // todo nick: check if result is truthy?
+        if (
+          mostRecentYearData &&
+          mostRecentYearData?.lastUpdated &&
+          mostRecentYearData?.year
+        ) {
+          const date = new Date(mostRecentYearData.lastUpdated);
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          // expected output (varies according to local timezone and default locale): December 20, 2012
+          updateLastUpdated(date.toLocaleDateString(undefined, options));
+          updateYear(mostRecentYearData.year);
+        } else {
+          updateFormError({ error: true, type: 'not found' });
+        }
+      });
     },
-    [loggedIn, callLastUpdated],
-  );
-
-  const radioComponent = (
-    <>
-      <h2>Choose your file format and download your document</h2>
-      <VaRadio
-        id="1095-download-options"
-        label="We offer two file format options for this form. Choose the option that best meets your needs."
-        onRadioOptionSelected={e => {
-          e.preventDefault();
-          updateFormType(e.target.value);
-        }}
-      >
-        {radioOptions.map(({ value, label }) => (
-          <VaRadioOption
-            id={value}
-            key={value}
-            checked={value === formType}
-            label={label}
-            value={value}
-            name="1095b-form-select"
-          />
-        ))}
-      </VaRadio>
-    </>
-  );
-
-  const downloadButton = (
-    <p>
-      <button
-        type="button"
-        className="usa-button-primary va-button"
-        onClick={() => {
-          recordEvent({
-            event: 'int-radio-button-option-click',
-            'radio-button-label':
-              'Choose your file format and download your document',
-            'radio-button-option-click-label': `${formType} 1095B downloaded`,
-          });
-          callGetContent();
-        }}
-        id="download-url"
-      >
-        Download your 1095-B tax form{' '}
-      </button>
-    </p>
+    [loggedIn],
   );
 
   const errorComponent = (
@@ -220,7 +153,6 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
           </p>
         </div>
       </va-alert>
-      {downloadButton}
     </>
   );
 
@@ -231,33 +163,45 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     return errorComponent;
   };
 
-  const successComponent = (
-    <>
-      <LastUpdatedComponent lastUpdated={lastUpdated} />
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="success"
-        visible
-      >
-        <h2 slot="headline">Download Complete</h2>
-        <div>
-          <p>
-            You successfully downloaded your 1095-B tax form. Please check your
-            files. &nbsp;
-            {formDownloaded.timeStamp}
-          </p>
+  const downloadForm = (
+    <va-card>
+      <div>
+        <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
+          1095-B Proof of VA health coverage
+        </h4>
+        <span className="vads-u-font-size--h5">
+          <b>Tax year:</b> {year}
+        </span>
+      </div>
+      <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
+        <div className="vads-u-padding-bottom--1">
+          <va-link
+            download
+            id="pdf-download-link"
+            label="Download PDF (best for printing)"
+            text="Download PDF (best for printing)"
+            onClick={e => {
+              e.preventDefault();
+              recordEvent({ event: '1095b-pdf-download' });
+              downloadFileToUser('pdf');
+            }}
+          />
         </div>
-      </va-alert>
-      {downloadButton}
-    </>
-  );
-
-  const loggedInComponent = (
-    <>
-      <LastUpdatedComponent lastUpdated={lastUpdated} />
-      {radioComponent}
-      {downloadButton}
-    </>
+        <div className="vads-u-padding-top--1">
+          <va-link
+            download
+            id="txt-download-link"
+            label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+            text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+            onClick={e => {
+              e.preventDefault();
+              recordEvent({ event: '1095b-txt-download' });
+              downloadFileToUser('txt');
+            }}
+          />
+        </div>
+      </div>
+    </va-card>
   );
 
   const loggedOutComponent = (
@@ -278,13 +222,10 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     if (formError.error) {
       return getErrorComponent();
     }
-    if (formDownloaded.downloaded) {
-      return successComponent;
-    }
     if (isLOA1) {
       return verifyAlertVariant;
     }
-    return loggedInComponent;
+    return downloadForm;
   }
   return loggedOutComponent;
 };
