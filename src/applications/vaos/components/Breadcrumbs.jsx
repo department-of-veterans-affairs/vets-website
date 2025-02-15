@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import manifest from '../manifest.json';
 import { getUrlLabel } from '../new-appointment/newAppointmentFlow';
 import { getCovidUrlLabel } from '../covid-19-vaccine/flow';
+import { getPageFlow } from '../referral-appointments/flow';
 
 export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const location = useLocation();
@@ -16,6 +17,10 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
   const label = useSelector(state => getUrlLabel(state, location));
   const covidLabel = useSelector(state => getCovidUrlLabel(state, location));
   const newLabel = labelOverride || label || covidLabel;
+
+  // get referrer query param
+  const searchParams = new URLSearchParams(location.search);
+  const referrer = searchParams.get('referrer');
 
   useEffect(
     () => {
@@ -64,6 +69,23 @@ export default function VAOSBreadcrumbs({ children, labelOverride }) {
         {
           href: window.location.href,
           label: 'Pending appointments',
+        },
+      ];
+    }
+
+    if (referrer) {
+      const referralsRequest = getPageFlow('referralsAndRequests')
+        .referralsAndRequests;
+
+      return [
+        ...BREADCRUMB_BASE,
+        {
+          href: `${manifest.rootUrl}/${referrer}`,
+          label: referralsRequest.label,
+        },
+        {
+          href: window.location.href,
+          label: breadcrumb,
         },
       ];
     }
