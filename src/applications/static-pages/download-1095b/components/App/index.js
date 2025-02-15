@@ -117,7 +117,6 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     () => {
       getAvailableForms().then(result => {
         const mostRecentYearData = result[0];
-        // todo nick: check if result is truthy?
         if (
           mostRecentYearData &&
           mostRecentYearData?.lastUpdated &&
@@ -243,7 +242,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
+  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
 });
 
 export default connect(
