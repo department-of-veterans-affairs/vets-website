@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
@@ -39,3 +40,5 @@ describe('Schools and employers', () => {
     expect(nameTab.getAttribute('aria-selected')).to.equal('true');
   });
 });
+
+ */

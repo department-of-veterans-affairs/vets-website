@@ -72,6 +72,19 @@ const vetTecCheckbox = (
   return <div />;
 };
 
+function generateFacets(search) {
+  let results = null;
+  if (
+    search.tab === TABS.name ||
+    search.tab === TABS.schoolAndEmployerPrograms
+  ) {
+    results = search.name.facets;
+  } else {
+    results = search.location.facets;
+  }
+  return results;
+}
+
 export function FilterYourResults({
   dispatchFilterChange,
   dispatchError,
@@ -139,8 +152,9 @@ export function FilterYourResults({
     ],
   );
 
-  const facets =
-    search.tab === TABS.name ? search.name.facets : search.location.facets;
+  // const facets =
+  //   search.tab === TABS.name ? search.name.facets : search.location.facets;
+  const facets = generateFacets(search);
   const [nameValue, setNameValue] = useState(
     search.query.name || search.query.location,
   );
