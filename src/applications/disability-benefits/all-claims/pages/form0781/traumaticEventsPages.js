@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { isCompletingForm0781 } from '../../utils/form0781';
 import eventDetails from './traumaticEventDetails';
-import officialReport from './officialReport';
+import { officialReport, officialReportMst } from './officialReport';
 import policeReport from './policeReportLocation';
 import {
   eventsListPageTitle,
@@ -16,7 +16,10 @@ import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
-import { OFFICIAL_REPORT_TYPES } from '../../constants';
+import { MILITARY_REPORT_TYPES, OTHER_REPORT_TYPES } from '../../constants';
+
+const mstEvent = formData =>
+  isCompletingForm0781(formData) && formData.eventTypes?.mst;
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -25,7 +28,7 @@ export const options = {
   nounPlural: 'events',
   useButtonInsteadOfYesNo: true,
   required: false,
-  maxItems: 20,
+  maxItems: 3,
   text: {
     summaryTitle: titleWithTag(eventsListPageTitle, form0781HeadingTag),
     summaryTitleWithoutItems: titleWithTag(
@@ -38,13 +41,18 @@ export const options = {
       return `Event #${index + 1}`;
     },
     cardDescription: item => {
-      const selectedReports = Object.entries(item?.reports || {})
-        .filter(([_, isSelected]) => isSelected)
-        .map(([key]) => OFFICIAL_REPORT_TYPES[key]);
-      if (item?.otherReports) {
-        selectedReports.push(item.otherReports);
+      const selectedReports = [
+        ...Object.entries(item?.militaryReports || {})
+          .filter(([_, isSelected]) => isSelected)
+          .map(([key]) => MILITARY_REPORT_TYPES[key]),
+        ...Object.entries(item?.otherReports || {})
+          .filter(([_, isSelected]) => isSelected)
+          .map(([key]) => OTHER_REPORT_TYPES[key]),
+      ];
+      if (item?.unlistedReport) {
+        selectedReports.push(item.unlistedReport);
       }
-      const reportsDescription = selectedReports.join(', ');
+      const reportsDescription = selectedReports.join('; ');
       return (
         <div>
           <p className="multiline-ellipsis-4">
@@ -107,16 +115,24 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
     title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
     path: `mental-health-form-0781/:index/event-report`,
     depends: (formData, index) =>
-      isCompletingForm0781(formData) && formData.events?.[index],
+      formData.events?.[index] && !mstEvent(formData),
     uiSchema: officialReport.uiSchema,
     schema: officialReport.schema,
+  }),
+  officialReportMst: pageBuilder.itemPage({
+    title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
+    path: `mental-health-form-0781/:index/event-report-mst`,
+    depends: (formData, index) =>
+      formData.events?.[index] && mstEvent(formData),
+    uiSchema: officialReportMst.uiSchema,
+    schema: officialReportMst.schema,
   }),
   policeReport: pageBuilder.itemPage({
     title: titleWithTag(policeReportLocationPageTitle, form0781HeadingTag),
     path: `mental-health-form-0781/:index/event-police-report`,
     depends: (formData, index) =>
       isCompletingForm0781(formData) &&
-      formData.events?.[index]?.reports?.police,
+      formData.events?.[index]?.otherReports?.police,
     uiSchema: policeReport.uiSchema,
     schema: policeReport.schema,
   }),
