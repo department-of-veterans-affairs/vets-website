@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user/RequiredLoginView';
+import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
@@ -24,15 +26,33 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isSigiEnabled,
+    isAuthOnlyEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
     loading: isLoadingProfile,
-  } = user;
+  } = user.profile;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+  const sipApp =
+    isAppLoading || !isProdEnabled ? (
+      <va-loading-indicator
+        data-testid="ezr-loading-indicator"
+        message={content['load-app']}
+        class="vads-u-margin-y--4"
+        set-focus
+      />
+    ) : (
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    );
 
   useEffect(
     () => {
@@ -41,7 +61,7 @@ const App = props => {
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [isUserLOA3],
+    [fetchEnrollmentStatus, isUserLOA3],
   );
 
   /**
@@ -77,16 +97,16 @@ const App = props => {
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
-  return isAppLoading || !isProdEnabled ? (
-    <va-loading-indicator
-      message={content['load-app']}
-      class="vads-u-margin-y--4"
-      set-focus
-    />
+  return isAuthOnlyEnabled &&
+    !window.location.href.startsWith('http://localhost') ? (
+    <RequiredLoginView
+      serviceRequired={backendServices.USER_PROFILE}
+      user={user}
+    >
+      {sipApp}
+    </RequiredLoginView>
   ) : (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    sipApp
   );
 };
 
@@ -108,9 +128,10 @@ const mapStateToProps = state => ({
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isAuthOnlyEnabled: state.featureToggles.ezrAuthOnlyEnabled,
   },
   formData: state.form.data,
-  user: state.user.profile,
+  user: state.user,
 });
 
 const mapDispatchToProps = {
