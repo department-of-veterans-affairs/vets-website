@@ -472,7 +472,10 @@ const DownloadFileType = props => {
         recordCount > 0 && (
           <form onSubmit={e => handleSubmit(e)}>
             <fieldset>
-              <legend className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
+              <legend
+                className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+                data-testid="record-count"
+              >
                 You’re downloading <strong>{recordCount} total records</strong>
               </legend>
 
