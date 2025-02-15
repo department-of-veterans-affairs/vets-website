@@ -36,6 +36,7 @@ yarn workspace @department-of-veterans-affairs/applications-check-in update:tran
 - The script will **merge** the new translations with the existing ones.  
 - It will **overwrite** existing keys with updated values from the new files.  
 - The final translation files will be **sorted alphabetically** for consistency.  
+- After the update, **delete the files** you added to the `input-files` folder to keep it clean.  
 
 ---
 
@@ -44,5 +45,6 @@ yarn workspace @department-of-veterans-affairs/applications-check-in update:tran
 2. You save them in `input-files/` with the correct language file names.
 3. You run the script.
 4. The existing translation files are updated and sorted.
+5. You **delete the new translation files** from the `input-files` folder.
 
 ---
