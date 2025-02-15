@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { personalInformationPage } from 'applications/_mock-form-ae-design-patterns/shared/components/PersonalInformation';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 
 const CustomErrorMessage = ({ missingFields }) => (
   <div>
@@ -31,6 +31,12 @@ const personalInfoMax = personalInformationPage({
     gender: { show: true, required: true },
     name: { show: true, required: true },
   },
+  note: <p>This is a note</p>,
+  footer: <p>This is a footer</p>,
+  contentBeforeButtons: <p>This is content before buttons</p>,
+  contentAfterButtons: <p>This is content after buttons</p>,
+  cardHeader: <p>This is a card header</p>,
+  header: <p>This is a header</p>,
 });
 
 const personalInfoMin = personalInformationPage({

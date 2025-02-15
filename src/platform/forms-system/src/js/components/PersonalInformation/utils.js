@@ -78,6 +78,7 @@ export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
  */
 const ALLOWED_CHILD_COMPONENTS = {
   HEADER: 'PersonalInformationHeader',
+  CARD_HEADER: 'PersonalInformationCardHeader',
   NOTE: 'PersonalInformationNote',
   FOOTER: 'PersonalInformationFooter',
 };
@@ -102,6 +103,9 @@ export const getChildrenByType = children => {
         break;
       case ALLOWED_CHILD_COMPONENTS.HEADER:
         childrenByType.header = child;
+        break;
+      case ALLOWED_CHILD_COMPONENTS.CARD_HEADER:
+        childrenByType.cardHeader = child;
         break;
       case ALLOWED_CHILD_COMPONENTS.FOOTER:
         childrenByType.footer = child;
