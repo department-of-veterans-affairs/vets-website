@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { isLoggedIn } from 'platform/user/selectors';
+
 import ClaimantTypeForm from './ClaimantTypeForm';
+
 import prefillTransformer from '../config/prefillTransformer';
+import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 const ClaimantType = props => {
+  const v2IsEnabled = useV2FeatureToggle();
+
   const { formData, router, setFormData, loggedIn } = props;
 
   const [localData, setLocalData] = useState({});
@@ -43,6 +49,14 @@ const ClaimantType = props => {
       router.push(nextPagePath);
     },
   };
+
+  useEffect(() => {
+    const updatedFormData = {
+      ...formData,
+      v2IsEnabled,
+    };
+    setFormData(updatedFormData);
+  }, []);
 
   return (
     <div className="schemaform-intro">
