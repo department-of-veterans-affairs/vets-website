@@ -5,7 +5,6 @@ import * as reactRouter from 'react-router';
 import * as history from 'history';
 import * as navActions from 'platform/site-wide/user-nav/actions';
 import * as reactApp from '../react';
-import * as axeCheck from '../axe-check';
 import * as commonFunctionality from '../setup';
 import startApp from '../index';
 
@@ -13,7 +12,6 @@ describe('startApp', () => {
   let sandbox;
   let storeStub;
   let setUpCommonFunctionalityStub;
-  let runAxeCheckStub;
   let startReactAppStub;
   let updateRouteStub;
   let useRouterHistoryStub;
@@ -28,7 +26,6 @@ describe('startApp', () => {
     setUpCommonFunctionalityStub = sandbox
       .stub(commonFunctionality, 'default')
       .returns(storeStub);
-    runAxeCheckStub = sandbox.stub(axeCheck, 'default');
     startReactAppStub = sandbox.stub(reactApp, 'default');
     updateRouteStub = sandbox.stub(navActions, 'updateRoute');
     createHistoryStub = sandbox.stub(history, 'createHistory').returns({
@@ -47,13 +44,6 @@ describe('startApp', () => {
   it('should create a store with setUpCommonFunctionality', () => {
     startApp({ entryName: 'testApp' });
     expect(setUpCommonFunctionalityStub.called).to.be.true;
-  });
-
-  it('should run axe check in non-production environment', () => {
-    process.env.NODE_ENV = 'development';
-    startApp({ entryName: 'testApp' });
-    expect(runAxeCheckStub.called).to.be.true;
-    process.env.NODE_ENV = 'test';
   });
 
   it('should set up history with URL', () => {

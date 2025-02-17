@@ -21,12 +21,15 @@ import { SearchControlsTypes } from '../types';
 
 const SearchControls = props => {
   const {
+    clearGeocodeError,
+    clearSearchText,
     currentQuery,
+    geolocateUser,
+    isMobile,
+    mobileMapUpdateEnabled,
     onChange,
     onSubmit,
-    clearSearchText,
-    geolocateUser,
-    clearGeocodeError,
+    selectMobileMapPin,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -121,6 +124,10 @@ const SearchControls = props => {
       'fl-current-zoom-depth': zoomLevel,
     });
 
+    if (isMobile && mobileMapUpdateEnabled) {
+      selectMobileMapPin(null);
+    }
+
     onSubmit();
   };
 
@@ -212,14 +219,14 @@ const SearchControls = props => {
   };
 
   const renderFacilityTypeDropdown = () => {
-    const { suppressPharmacies, suppressPPMS } = props;
+    const { suppressPPMS } = props;
     const { facilityType, isValid, facilityTypeChanged } = currentQuery;
     const locationOptions = suppressPPMS
       ? nonPPMSfacilityTypeOptions
       : facilityTypesOptions;
     const showError = !isValid && facilityTypeChanged && !facilityType;
 
-    if (suppressPharmacies) {
+    if (suppressPPMS) {
       delete locationOptions.pharmacy;
     }
 
