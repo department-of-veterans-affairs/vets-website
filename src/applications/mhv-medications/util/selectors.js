@@ -14,3 +14,6 @@ export const selectGroupingFlag = state =>
 
 export const selectPendingMedsFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayPendingMeds];
+
+export const selectRefillProgressFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayRefillProgress];
