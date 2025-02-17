@@ -38,6 +38,7 @@ const retryOn = async (attempt, error, response) => {
 };
 
 export function fetchAndUpdateSessionExpiration(url, settings) {
+  // debugger
   // use regular fetch if stubbed by sinon or cypress
   if (fetch.isSinonProxy) {
     return fetch(url, settings);
@@ -58,7 +59,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 
   return _fetch(url, mergedSettings).then(response => {
     const apiURL = environment.API_URL;
-
+    // debugger
     if (response.url.includes(apiURL)) {
       /**
        * Sets sessionExpiration
@@ -72,6 +73,7 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
         checkAndUpdateSSOeSession();
       }
     }
+    // debugger
     return response;
   });
 }
@@ -132,6 +134,7 @@ export function apiRequest(
 
   return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
+      // debugger
       Sentry.withScope(scope => {
         scope.setExtra('error', err);
         scope.setFingerprint(['{{default}}', scope._tags?.source]);

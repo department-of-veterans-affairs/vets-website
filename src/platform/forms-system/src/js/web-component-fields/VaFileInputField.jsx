@@ -77,6 +77,7 @@ const VaFileInputField = props => {
       return;
     }
 
+    // debugger
     dispatch(
       uploadScannedForm(
         fileUploadUrl,

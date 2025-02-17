@@ -1,5 +1,4 @@
 const prefillTransformer = (pages, formData, metadata, state) => {
-  // debugger
   const { veteran = {} } = formData;
   const {
     fullName,
@@ -18,6 +17,7 @@ const prefillTransformer = (pages, formData, metadata, state) => {
     zip: profileZip,
   } = profile;
 
+  // debugger
   return {
     pages,
     formData: {

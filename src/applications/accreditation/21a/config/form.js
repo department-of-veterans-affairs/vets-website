@@ -16,6 +16,7 @@ import backgroundInformationChapter from '../pages/06-background-information-cha
 import characterReferencesChapter from '../pages/07-character-references-chapter';
 import supplementaryStatementsChapter from '../pages/08-supplementary-statements-chapter';
 
+// debugger
 /** @type {FormConfig} */
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21A,

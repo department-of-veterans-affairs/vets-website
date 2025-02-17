@@ -92,6 +92,7 @@ class SchemaForm extends React.Component {
   }
 
   onError(hasSubmitted = true) {
+    // debugger
     const formContext = set(
       'submitted',
       !!hasSubmitted,
@@ -198,7 +199,7 @@ class SchemaForm extends React.Component {
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
-
+    // debugger
     return (
       <Form
         safeRenderCompletion={safeRenderCompletion}
