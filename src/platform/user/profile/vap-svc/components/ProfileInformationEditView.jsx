@@ -175,6 +175,9 @@ export class ProfileInformationEditView extends Component {
         );
         return;
       }
+
+      // TODO: update with PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE after api is built
+
       this.props.createPersonalInfoUpdate({
         route: apiRoute,
         method: 'PUT',

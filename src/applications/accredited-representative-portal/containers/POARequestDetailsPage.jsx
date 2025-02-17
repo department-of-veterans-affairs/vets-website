@@ -150,7 +150,10 @@ const POARequestDetailsPage = () => {
     recordDisclosureLimitations,
   } = poaRequest.powerOfAttorneyForm.authorizations;
 
-  const poaRequestSubmission = poaRequest?.powerOfAttorneyFormSubmission.status;
+  const poaRequestSubmission =
+    poaRequest?.powerOfAttorneyFormSubmission?.status;
+  const statusCheck =
+    poaRequestSubmission === BANNER_TYPES.PROCESSING ? 'processing' : poaStatus;
 
   return (
     <section className="poa-request-details">
@@ -164,9 +167,12 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${poaStatus}`}
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${statusCheck} ${poaRequestSubmission ===
+              BANNER_TYPES.FAILED && 'vads-u-display--none'}`}
           >
-            {formatStatus(poaStatus)}
+            {poaRequestSubmission === BANNER_TYPES.PROCESSING
+              ? 'processing'
+              : formatStatus(poaStatus)}
           </span>
         )}
       </h2>
@@ -399,7 +405,7 @@ const POARequestDetailsPage = () => {
               type="submit"
               className="usa-button poa-request-details__form-submit"
             >
-              Submit Decision
+              Submit decision
             </button>
           </Form>
         )}

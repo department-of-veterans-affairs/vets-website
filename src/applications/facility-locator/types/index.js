@@ -232,6 +232,7 @@ export const SearchControlsTypes = {
   geolocateUser: PropTypes.func,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
+  selectMobileMapPin: PropTypes.func,
   suppressPPMS: PropTypes.bool,
 };
 
@@ -262,4 +263,14 @@ export const AutosuggestProps = {
   stateReducer: PropTypes.func, // optional function to modify the state of Downshift - e.g. handle escape to not clear
   shouldShowNoResults: PropTypes.bool, // optional to hide show no results under input
   AutosuggestOptionComponent: PropTypes.elementType, // by default uses the AutosuggestOption component in this directory, but you can supply another
+
+export const SearchAreaControlTypes = {
+  handleSearchArea: PropTypes.func.isRequired,
+  isEnabled: PropTypes.bool.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  mobileMapUpdateEnabled: PropTypes.bool.isRequired,
+  query: PropTypes.shape({
+    currentRadius: PropTypes.number,
+  }),
+  selectMobileMapPin: PropTypes.func,
 };

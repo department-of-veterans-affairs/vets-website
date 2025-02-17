@@ -22,13 +22,16 @@ import AddressAutosuggest from './AddressAutosuggest';
 
 const SearchControls = props => {
   const {
+    clearGeocodeError,
+    clearSearchText,
     currentQuery,
+    facilitiesUseAddressTypeahead,
+    geolocateUser,
+    isMobile,
+    mobileMapUpdateEnabled,
     onChange,
     onSubmit,
-    clearSearchText,
-    geolocateUser,
-    clearGeocodeError,
-    facilitiesUseAddressTypeahead,
+    selectMobileMapPin,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -122,6 +125,10 @@ const SearchControls = props => {
       'fl-search-svc-type': analyticsServiceType,
       'fl-current-zoom-depth': zoomLevel,
     });
+
+    if (isMobile && mobileMapUpdateEnabled) {
+      selectMobileMapPin(null);
+    }
 
     onSubmit();
   };

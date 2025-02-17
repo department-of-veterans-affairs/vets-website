@@ -4,6 +4,7 @@ import { expect } from 'chai';
 const {
   MUST_MATCH_ALERT,
   FORM_UPLOAD_OCR_ALERT,
+  FORM_UPLOAD_FILE_UPLOADING_ALERT,
 } = require('../../../config/constants');
 
 describe('MUST_MATCH_ALERT', () => {
@@ -94,5 +95,15 @@ describe('FORM_UPLOAD_OCR_ALERT', () => {
         'The file you uploaded doesn’t look like a recent VA Form form-number.',
       ),
     ).to.be.null;
+  });
+});
+
+describe('FORM_UPLOAD_FILE_UPLOADING_ALERT', () => {
+  const textToFind = 'File upload must be complete to continue.';
+
+  it('displays', () => {
+    const { queryByText } = render(FORM_UPLOAD_FILE_UPLOADING_ALERT(() => {}));
+
+    expect(queryByText(textToFind)).to.be.visible;
   });
 });

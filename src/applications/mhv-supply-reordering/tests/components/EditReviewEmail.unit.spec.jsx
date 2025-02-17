@@ -1,14 +1,15 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { expect } from 'chai';
 
 import EditReviewEmail from '../../components/EditReviewEmail';
 
 const title = 'Email address';
 const defaultEditButton = () => {};
-const formData = {
+const options = {
   emailAddress: 'vets.gov.user+1@gmail.com',
 };
-const setup = () => {
+const setup = (formData = options) => {
   return render(
     <div>
       <EditReviewEmail
@@ -21,9 +22,14 @@ const setup = () => {
 };
 
 describe('EditReviewEmail', () => {
-  it('renders EditReviewEmail', () => {
+  it('renders', () => {
     const { getByRole, getByText } = setup();
     getByRole('heading', { level: 4, name: title });
-    getByText(formData.emailAddress);
+    getByText(options.emailAddress);
+  });
+  it('renders with no email address', () => {
+    const { getByRole, queryByText } = setup({});
+    getByRole('heading', { level: 4, name: title });
+    expect(queryByText(options.emailAddress)).to.be.null;
   });
 });

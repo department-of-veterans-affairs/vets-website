@@ -106,6 +106,19 @@ export const personalInformationFormSchemas = {
     },
     required: [],
   },
+  messagingSignature: {
+    type: 'object',
+    properties: {
+      signatureName: {
+        type: 'string',
+        maxLength: 50,
+      },
+      signatureTitle: {
+        type: 'string',
+        maxLength: 50,
+      },
+    },
+  },
 };
 
 export const personalInformationUiSchemas = {
@@ -149,6 +162,17 @@ export const personalInformationUiSchemas = {
     sexualOrientationNotListedText: {
       'ui:title':
         'If not listed, please provide your sexual orientation (255 characters maximum)',
+    },
+  },
+  messagingSignature: {
+    'ui:description': `Enter both fields for a signature or leave blank for no signature.`,
+    signatureName: {
+      'ui:widget': TextWidget,
+      'ui:title': `Signature name (50 characters maximum)`,
+    },
+    signatureTitle: {
+      'ui:widget': TextWidget,
+      'ui:title': `Signature title (50 characters maximum)`,
     },
   },
 };

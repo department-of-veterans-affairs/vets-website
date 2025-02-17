@@ -11,6 +11,7 @@ import {
   getOtherEvidence,
   getPrivateEvidence,
 } from '../evidence';
+import { getFacilityType } from './facilities';
 
 import '../../../shared/definitions';
 import { fixDateFormat } from '../../../shared/utils/replace';
@@ -140,6 +141,15 @@ export const getEvidence = formData => {
   };
   const showNewFormContent = showScNewForm(formData);
   // Add VA evidence data
+
+  if (showNewFormContent) {
+    const types = getFacilityType(formData);
+    if (Object.keys(types).length) {
+      evidenceSubmission.treatmentLocations = types.treatmentLocations;
+      evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
+    }
+  }
+
   const locations = getVAEvidence(formData);
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
