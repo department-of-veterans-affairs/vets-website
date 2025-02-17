@@ -143,7 +143,7 @@ function selectedBehaviorSections(formData) {
 }
 
 /**
- * Returns true if any selections, false otherwise
+ * Returns true if any selected behavior types, false otherwise
  * @param {object} formData
  * @returns {boolean}
  */
@@ -156,7 +156,7 @@ export function hasSelectedBehaviors(formData) {
 }
 
 /**
- * Returns true if 'none' checkbox and other behaviors are selected
+ * Returns true if 'none' checkbox and other behavior types are selected
  * @param {object} formData
  * @returns {boolean}
  */
@@ -169,7 +169,7 @@ export function showConflictingAlert(formData) {
 }
 
 /**
- * Validates that the 'none' checkbox is not selected if behaviors are also selected
+ * Validates that the 'none' checkbox is not selected if behavior types are also selected
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
@@ -197,7 +197,7 @@ export function validateBehaviorSelections(errors, formData) {
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
 export const unlistedDescriptionPageDescription =
-  'Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided';
+  'Describe the other behavioral changes  you experienced that were not in the list  of behavioral change types provided. (Optional)';
 
 export const behaviorDescriptionPageHint =
   'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';

@@ -44,7 +44,7 @@ export function showManualUpload0781Page(formData) {
   return (
     showForm0781Pages(formData) &&
     formData['view:mentalHealthWorkflowChoice'] ===
-    form0781WorkflowChoices.SUBMIT_PAPER_FORM
+      form0781WorkflowChoices.SUBMIT_PAPER_FORM
   );
 }
 
@@ -60,7 +60,7 @@ export function isCompletingForm0781(formData) {
   return (
     showForm0781Pages(formData) &&
     formData['view:mentalHealthWorkflowChoice'] ===
-    form0781WorkflowChoices.COMPLETE_ONLINE_FORM
+      form0781WorkflowChoices.COMPLETE_ONLINE_FORM
   );
 }
 

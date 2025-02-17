@@ -295,7 +295,7 @@ describe('showBehaviorDescriptionPages', () => {
         expect(showReassignmentDescriptionPage(formData)).to.eq(false);
       });
     });
-    describe('when a user has not selected "reassignment"', () => {
+    describe('when a user has unselected "reassignment" (reassignment: false)', () => {
       it('should return false', () => {
         const formData = {
           syncModern0781Flow: true,
@@ -361,7 +361,7 @@ describe('showBehaviorDescriptionPages', () => {
         expect(showUnlistedDescriptionPage(formData)).to.eq(false);
       });
     });
-    describe('when a user has unselected "unlisted"', () => {
+    describe('when a user has unselected "unlisted" (unlisted: false)', () => {
       it('should return false', () => {
         const formData = {
           syncModern0781Flow: true,
