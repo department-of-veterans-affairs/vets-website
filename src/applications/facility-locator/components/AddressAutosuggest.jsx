@@ -151,7 +151,7 @@ function AddressAutosuggest({
       /* eslint-disable prettier/prettier */
       label={(
         <>
-          <span id="city-state-zip-text">City, state or postal code</span>{' '}
+          <span id="city-state-zip-text">Zip code or city, state</span>{' '}
           <span className="form-required-span">(*Required)</span>
         </>
       )}

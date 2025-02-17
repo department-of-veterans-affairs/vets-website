@@ -8,7 +8,7 @@ function AddressInputError({ showError }) {
   return (
     <span className="usa-input-error-message" role="alert">
       <span className="sr-only">Error</span>
-      Please fill in a city, state, or postal code.
+      Enter a zip code or a city and state in the search box
     </span>
   );
 }
