@@ -24,7 +24,7 @@ class ServiceTypeAhead extends Component {
 
   componentDidUpdate(prevProps) {
     if (
-      !prevProps.currentQuery.specialties &&
+      !prevProps.currentQuery?.specialties &&
       this.state.services.length === 0
     ) {
       this.getServices();
