@@ -22,7 +22,6 @@ const SearchAreaControl = ({
     return `${mobileClass} ${radiusClass}`;
   };
 
-  // removed
   const buttonClass = `${!isEnabled ? ' fl-disabled' : ''}`;
 
   const handleClick = e => {
