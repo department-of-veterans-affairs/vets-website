@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import appendQuery from 'append-query';
 import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import { isEmpty } from 'lodash';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
