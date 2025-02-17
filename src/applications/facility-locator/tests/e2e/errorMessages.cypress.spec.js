@@ -36,9 +36,18 @@ for (const feature of featuresToTest) {
 
     it('shows error message in location field on invalid search', () => {
       cy.get('#facility-search').click({ waitForAnimations: true });
-      cy.get('.usa-input-error-message').contains(
-        'Please fill in a city, state, or postal code.',
-      );
+      if (
+        feature?.name === 'facilities_use_address_typeahead' &&
+        feature.value
+      ) {
+        cy.get('.usa-input-error-message').contains(
+          'Enter a zip code or a city and state in the search box',
+        );
+      } else {
+        cy.get('.usa-input-error-message').contains(
+          'Please fill in a city, state, or postal code.',
+        );
+      }
       cy.get('#street-city-state-zip').should('be.focused');
     });
 
@@ -48,9 +57,18 @@ for (const feature of featuresToTest) {
         .shadow()
         .find('select')
         .focus();
-      cy.get('.usa-input-error-message').contains(
-        'Please fill in a city, state, or postal code.',
-      );
+      if (
+        feature?.name === 'facilities_use_address_typeahead' &&
+        feature.value
+      ) {
+        cy.get('.usa-input-error-message').contains(
+          'Enter a zip code or a city and state in the search box',
+        );
+      } else {
+        cy.get('.usa-input-error-message').contains(
+          'Please fill in a city, state, or postal code.',
+        );
+      }
       cy.get('#street-city-state-zip').type('A');
       cy.get('#street-city-state-zip').type('{esc}');
       cy.get('.usa-input-error-message').should('not.exist');
