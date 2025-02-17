@@ -32,27 +32,31 @@ class ServiceTypeAhead extends Component {
   }
 
   getServices = async () => {
-    if (!this.props.useProgressiveDisclosure) {
+    const {
+      currentQuery,
+      getProviderSpecialties,
+      initialSelectedServiceType,
+      useProgressiveDisclosure,
+    } = this.props;
+    if (!useProgressiveDisclosure) {
       // Remove all of this if after progressive disclosure flipper is removed
-      const values = await this.props.getProviderSpecialties();
+      const values = await getProviderSpecialties();
       this.setState({
         services: typeof values?.[0] === 'string' ? [] : values,
         defaultSelectedItem:
-          this.props.initialSelectedServiceType &&
-          this.props.currentQuery?.fetchSvcsRawData?.find(
-            ({ specialtyCode }) =>
-              specialtyCode === this.props.initialSelectedServiceType,
+          initialSelectedServiceType &&
+          currentQuery?.fetchSvcsRawData?.find(
+            ({ specialtyCode }) => specialtyCode === initialSelectedServiceType,
           ),
       });
       return;
     }
     this.setState({
-      services: this.props.currentQuery?.fetchSvcsRawData || [],
+      services: currentQuery?.fetchSvcsRawData || [],
       defaultSelectedItem:
-        this.props.initialSelectedServiceType &&
-        this.props.currentQuery?.fetchSvcsRawData?.find(
-          ({ specialtyCode }) =>
-            specialtyCode === this.props.initialSelectedServiceType,
+        initialSelectedServiceType &&
+        currentQuery?.fetchSvcsRawData?.find(
+          ({ specialtyCode }) => specialtyCode === initialSelectedServiceType,
         ),
     });
   };
