@@ -35,16 +35,29 @@ export const marriageEndDetails = {
       'ui:required': (formData, index) =>
         formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
         formData?.marriageEndReason === 'other',
+      'ui:options': {
+        expandUnder: 'marriageEndReason',
+        expandUnderCondition: (value, _formData) => {
+          // console.log('value', value);
+          // console.log('formData', _formData);
+          return value === 'other';
+        },
+        // hideIf: (formData, index) => {
+        //   console.log(formData);
+        //   console.log(index);
+        //   return true;
+        // },
+      },
       'ui:errorMessages': {
         required: 'Provide details on how the marriage ended.',
       },
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !(
-            formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
-            formData?.marriageEndReason === 'other'
-          ),
-      },
+      // 'ui:options': {
+      //   hideIf: (formData, index) =>
+      //     !(
+      //       formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
+      //       formData?.marriageEndReason === 'other'
+      //     ),
+      // },
     },
   },
   schema: {
