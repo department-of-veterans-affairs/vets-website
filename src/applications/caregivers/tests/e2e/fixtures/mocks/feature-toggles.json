@@ -1,11 +1,6 @@
 {
   "data": {
     "type": "feature_toggles",
-    "features": [
-      {
-        "name": "caregiver_use_facilities_API",
-        "value": false
-      }
-    ]
+    "features": []
   }
 }

@@ -29,6 +29,10 @@
             {
                 "name": "mhv_medications_display_pending_meds",
                 "value": true
+            },
+            {
+                "name": "mhv_medications_display_refill_progress",
+                "value": true
             }
         ]
     }

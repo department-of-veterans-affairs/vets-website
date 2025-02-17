@@ -20,7 +20,7 @@ veteranContactInformationSchema.properties.veteranAddress = buildAddressSchema(
 merge(veteranContactInformationSchema.properties, {
   internationalPhoneNumber: {
     type: 'string',
-    pattern: '^\\+?[0-9](?:-?[0-9]){6,14}$',
+    pattern: /^\d{1,11}$/,
   },
   electronicCorrespondence: {
     type: 'boolean',
@@ -69,10 +69,7 @@ export const uiSchema = {
     internationalPhoneNumber: {
       'ui:title': 'International phone number',
       'ui:errorMessages': {
-        required:
-          'Please enter an international phone number (with or without dashes)',
-        pattern:
-          'Please enter a valid international phone number (with or without dashes)',
+        pattern: 'Enter a valid international phone number up to 11-digits',
       },
     },
     emailAddress: emailUI(),

@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-// import { render } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import reducer from '../../../../redux/reducer';
 import ConfirmationPage from '../../../../components/submit-flow/pages/ConfirmationPage';
@@ -10,11 +10,6 @@ const appointment = {
   location: { attributes: { name: 'VA location name' } },
   start: '2025-01-15T21:39:27.698Z',
   localStartTime: '2025-01-15T21:39:27+08:00',
-  practitioners: [
-    {
-      name: { family: 'Last', given: ['First', 'Middle'] },
-    },
-  ],
 };
 
 describe('Confirmation page', () => {
@@ -26,6 +21,11 @@ describe('Confirmation page', () => {
             isLoading: false,
             error: null,
             data: appointment,
+          },
+          claimSubmission: {
+            isSubmitting: false,
+            error: null,
+            data: { claimId: '12345' },
           },
         },
       },
@@ -57,7 +57,19 @@ describe('Confirmation page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: appointment,
+            data: {
+              ...appointment,
+              practitioners: [
+                {
+                  name: { family: 'Last', given: ['First', 'Middle'] },
+                },
+              ],
+            },
+          },
+          claimSubmission: {
+            isSubmitting: false,
+            error: null,
+            data: { claimId: '12345' },
           },
         },
       },
@@ -72,5 +84,29 @@ describe('Confirmation page', () => {
         element.textContent.includes('with First Middle Last'),
       ),
     ).to.not.be.empty;
+  });
+
+  it('should render a loading spinner while claim is submitting', () => {
+    const screen = renderWithStoreAndRouter(<ConfirmationPage />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: false,
+            error: null,
+            data: appointment,
+          },
+          claimSubmission: {
+            isSubmitting: true,
+            error: null,
+            data: null,
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(screen.getByText('We’re processing your travel reimbursement claim'))
+      .to.exist;
+    expect($('va-loading-indicator')).to.exist;
   });
 });
