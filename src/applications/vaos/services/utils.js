@@ -4,6 +4,7 @@
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
+import { has404AppointmentIdError } from '../utils/error';
 
 /**
  * Maps the JSON API error format to the FHIR OperationOutcome format
@@ -82,13 +83,11 @@ export function parseApiListWithErrors(resp) {
  * @returns {Object} The data.attributes object from resp, but with the id included
  */
 export function parseApiObject(resp) {
-  if (resp.ok)
-    return {
-      ...resp.data.attributes,
-      id: resp.data.id,
-    };
-  if (!resp.ok) {
-    throw mapToFHIRErrors(resp.errors);
+  if (!resp.data && resp?.errors[0]?.code === 'VAOS_404') {
+    throw has404AppointmentIdError(resp);
   }
-  return resp;
+  return {
+    ...resp.data.attributes,
+    id: resp.data.id,
+  };
 }
