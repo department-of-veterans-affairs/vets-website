@@ -49,7 +49,7 @@ const wrapApiRequest = fn => {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      // For successful responses, parse and return data
+      // For successful responses,return data
       if (response.ok || response.status === 304) {
         return response;
       }
