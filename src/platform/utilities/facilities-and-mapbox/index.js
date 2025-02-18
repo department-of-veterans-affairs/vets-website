@@ -2,6 +2,8 @@ import MapboxClient from '@mapbox/mapbox-sdk';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { compact, isEmpty } from 'lodash';
 
+export const isPostcode = qs => /^\d{5}$/.test(qs);
+
 export const mapboxToken =
   process.env.MAPBOX_TOKEN ||
   'pk.eyJ1IjoiYWRob2MiLCJhIjoiY2wyZjNwM3dxMDZ4YjNjbzVwbTZ5aWQ1dyJ9.D8TZ1a4WobqcdYLWntXV_w';

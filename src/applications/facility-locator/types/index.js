@@ -236,6 +236,52 @@ export const SearchControlsTypes = {
   suppressPPMS: PropTypes.bool,
 };
 
+/**
+ * AutosuggesOptionComponent: default uses the AutosuggestOption component in this directory but you can supply another
+ * inputValue: controlled component
+ * keepDataOnBlur: optional flag to clear the input on escape
+ * downshiftInputProps: props to pass to the input from downshift's getInputProps
+ * inputError: optional element to render an error message
+ * inputId: defaults to 'typeahead-input'
+ * inputRef: not required, use only if you programmatically need to focus the input or get something from it
+ * isLoading: data is loading - to be shown in place of no results if no results is to be shown
+ * labelSibling: optional element to render next to the label
+ * minCharacters: optional minimum number of characters to start an action
+ * noItemsMessage: message to show when no items are found (an error)
+ * showDownCaret: optional flag to show the down caret/arrow
+ * showError: optional flag to show the error state
+ * stateReducer: optional function to modify the state of Downshift - e.g. handle escape to not clear
+ * shouldShowNoResults: optional to hide show no results under input - shown with aria error role
+ */
+export const AutosuggestProps = {
+  AutosuggestOptionComponent: PropTypes.elementType,
+  clearOnEscape: PropTypes.bool,
+  defaultSelectedItem: PropTypes.object,
+  downshiftInputProps: PropTypes.object,
+  handleOnSelect: PropTypes.func.isRequired,
+  inputContainerClassName: PropTypes.string,
+  inputError: PropTypes.element,
+  inputId: PropTypes.string,
+  inputRef: PropTypes.object,
+  isItemDisabled: PropTypes.func,
+  isLoading: PropTypes.bool,
+  inputValue: PropTypes.string.isRequired,
+  itemToString: PropTypes.func,
+  keepDataOnBlur: PropTypes.bool,
+  label: PropTypes.element.isRequired,
+  labelSibling: PropTypes.element,
+  loadingMessage: PropTypes.string,
+  minCharacters: PropTypes.number,
+  noItemsMessage: PropTypes.string,
+  onClearClick: PropTypes.func.isRequired,
+  onInputValueChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  shouldShowNoResults: PropTypes.bool,
+  showDownCaret: PropTypes.bool,
+  showError: PropTypes.bool,
+  stateReducer: PropTypes.func,
+};
+
 export const SearchAreaControlTypes = {
   handleSearchArea: PropTypes.func.isRequired,
   isEnabled: PropTypes.bool.isRequired,
