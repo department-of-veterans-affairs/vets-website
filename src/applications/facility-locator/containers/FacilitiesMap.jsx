@@ -39,6 +39,7 @@ import {
   updateSearchQuery,
 } from '../actions';
 import {
+  facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
   facilityLocatorMobileMapUpdate,
   facilitiesUseFlProgressiveDisclosure,
@@ -462,6 +463,9 @@ const FacilitiesMap = props => {
               clearGeocodeError={props.clearGeocodeError}
               clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
+              facilitiesUseAddressTypeahead={
+                props.facilitiesUseAddressTypeahead
+              }
               geolocateUser={props.geolocateUser}
               getProviderSpecialties={props.getProviderSpecialties}
               isMobile={isMobile}
@@ -871,6 +875,7 @@ const FacilitiesMap = props => {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
+  facilitiesUseAddressTypeahead: facilitiesUseAddressTypeahead(state),
   mobileMapPinSelected: state.searchResult.mobileMapPinSelected,
   mobileMapUpdateEnabled: facilityLocatorMobileMapUpdate(state),
   pagination: state.searchResult.pagination,

@@ -125,6 +125,10 @@
     {
       "rootFolder": "mhv-medications",
       "slackGroup": "@C059Q28DV99"
+    },
+    {
+      "rootFolder": "static-pages",
+      "slackGroup": "@C059Q28DV99"
     }
   ]
 }
