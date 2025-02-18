@@ -3,14 +3,33 @@ import { expect } from 'chai';
 
 import { renderWithProfileReducersAndRouter } from '@@profile/tests/unit-test-helpers';
 import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { waitFor } from '@testing-library/dom';
 import { PROFILE_PATHS } from '../../../constants';
 
 function createInitialState(
-  { hasUnsavedEdits, toggles } = {
+  { hasUnsavedEdits, toggles, optionalServices = [], mhvAccount } = {
     hasUnsavedEdits: false,
     toggles: {},
+    mhvAccount: {},
   },
 ) {
+  const services = [
+    ...optionalServices,
+    'facilities',
+    'hca',
+    'edu-benefits',
+    'form-save-in-progress',
+    'form-prefill',
+    'form526',
+    'user-profile',
+    'appeals-status',
+    'id-card',
+    'identity-proofed',
+    'vet360',
+    'lighthouse',
+  ];
+
   return {
     featureToggles: {
       ...{
@@ -49,20 +68,8 @@ function createInitialState(
         signIn: {
           serviceName: 'idme',
         },
-        services: [
-          'facilities',
-          'hca',
-          'edu-benefits',
-          'form-save-in-progress',
-          'form-prefill',
-          'form526',
-          'user-profile',
-          'appeals-status',
-          'id-card',
-          'identity-proofed',
-          'vet360',
-          'lighthouse',
-        ],
+        services,
+        mhvAccount,
       },
     },
     vapService: {
@@ -122,15 +129,87 @@ const setup = (options = defaultOptions) => {
 };
 
 describe('<PersonalInformation />', () => {
-  it('should render without crashing on root path', () => {
+  it('should render without crashing on root path', async () => {
     const { getByText } = setup({ hasUnsavedEdits: true });
     expect(getByText('Personal information', { selector: 'h1' })).to.exist;
   });
 
-  it('should render without crashing on edit hashed path', () => {
+  it('should render without crashing on edit hashed path', async () => {
     const { getByText } = setup({
       path: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-preferred-name`,
     });
     expect(getByText('Personal information', { selector: 'h1' })).to.exist;
+  });
+
+  it('renders Messaging signature section if messagingSignature is not null', async () => {
+    const mhvAccount = {
+      messagingSignature: {
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+      },
+    };
+
+    const featureToggles = {};
+
+    // eslint-disable-next-line dot-notation
+    featureToggles['mhv_secure_messaging_signature_settings'] = true;
+    const screen = setup({
+      toggles: { ...featureToggles },
+      optionalServices: ['messaging'],
+      mhvAccount,
+    });
+    const messagingSignatureSection = screen.getByTestId('messagingSignature');
+
+    expect(messagingSignatureSection.innerHTML).to.contain('Abraham Lincoln');
+    expect(messagingSignatureSection.innerHTML).to.contain('Veteran');
+  });
+
+  it('does not render Messaging signature section if messaging service is not enabled', async () => {
+    const mhvAccount = {
+      messagingSignature: {
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+      },
+    };
+
+    const featureToggles = {};
+
+    // eslint-disable-next-line dot-notation
+    featureToggles['mhv_secure_messaging_signature_settings'] = true;
+
+    const screen = setup({
+      toggles: { ...featureToggles },
+      mhvAccount,
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('messagingSignature')).to.not.exist;
+    });
+  });
+
+  it('retrieves the messaging signatue from SM API if messaging is enabled but messagingSignature is not populated', async () => {
+    const featureToggles = {};
+
+    // eslint-disable-next-line dot-notation
+    featureToggles['mhv_secure_messaging_signature_settings'] = true;
+
+    mockApiRequest({
+      data: {
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+        includeSignature: true,
+      },
+    });
+    const screen = setup({
+      toggles: { ...featureToggles },
+      optionalServices: ['messaging'],
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('messagingSignature')).to.exist;
+    });
+    const messagingSignatureSection = screen.getByTestId('messagingSignature');
+    expect(messagingSignatureSection.textContent).to.contain('Abraham Lincoln');
+    expect(messagingSignatureSection.textContent).to.contain('Veteran');
   });
 });

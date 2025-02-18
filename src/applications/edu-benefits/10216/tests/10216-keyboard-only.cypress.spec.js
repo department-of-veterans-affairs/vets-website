@@ -83,7 +83,7 @@ describe('22-10216 Edu form', () => {
       'select[name="root_studentRatioCalcChapter_dateOfCalculationMonth"]',
     );
     // cy.chooseSelectOptionByTyping('April');
-    cy.realType('December');
+    cy.realType('April');
     cy.tabToElement(
       'input[name="root_studentRatioCalcChapter_dateOfCalculationDay"]',
     );
@@ -91,7 +91,7 @@ describe('22-10216 Edu form', () => {
     cy.tabToElement(
       'input[name="root_studentRatioCalcChapter_dateOfCalculationYear"]',
     );
-    cy.realType('2000');
+    cy.realType('1990');
     cy.tabToContinueForm();
 
     cy.url().should(
