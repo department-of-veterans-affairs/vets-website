@@ -15,7 +15,7 @@ export const ConfirmationPage = ({ router, route }) => {
     () => {
       if (form.submission?.response?.id) {
         localStorage.setItem(
-          'calimantID',
+          '10216claimID',
           JSON.stringify(form.submission?.response?.id),
         );
       }
@@ -23,7 +23,7 @@ export const ConfirmationPage = ({ router, route }) => {
     [form],
   );
 
-  const calimantID = JSON.parse(localStorage.getItem('calimantID'));
+  const calimantID = JSON.parse(localStorage.getItem('10216claimID'));
   const { submission } = form;
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
