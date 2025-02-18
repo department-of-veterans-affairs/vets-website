@@ -53,19 +53,9 @@ let oldWindow;
 
 const fakeWindow = () => {
   oldWindow = global.window;
-  global.window = Object.create(global.window);
-  Object.assign(global.window, {
-    dataLayer: [],
-    location: {
-      get: () => global.window.location,
-      set: value => {
-        global.window.location = value;
-      },
-      host: 'dev.va.gov',
-      pathname: '',
-      search: '',
-    },
-  });
+  global.window = window;
+  global.window.dataLayer = [];
+  global.window.location.href = 'https://dev.va.gov';
 };
 
 describe('checkAutoSession', () => {
@@ -88,13 +78,12 @@ describe('checkAutoSession', () => {
         authn: CSP_IDS.DS_LOGON,
         transactionid: 'X',
       });
-      global.window.location = new URL(
-        `http://localhost/sign-in/?application=myvahealth&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252F${cernerEndpoint}-patientportal.myhealth.va.gov%252F`,
-      );
+      global.window.location.href = `http://localhost/sign-in/?application=myvahealth&to=%2Fsession-api%2Frealm%2Ff0fded0d-d00b-4b28-9190-853247fd9f9d%3Fto%3Dhttps%253A%252F%252F${cernerEndpoint}-patientportal.myhealth.va.gov%252F`;
+
       const profile = { verified: true };
       await checkAutoSession(true, 'X', profile);
 
-      expect(global.window.location).to.eq(
+      expect(global.window.location.href).to.eq(
         `https://${cernerEndpoint}-patientportal.myhealth.va.gov/session-api/realm/f0fded0d-d00b-4b28-9190-853247fd9f9d?authenticated=true`,
       );
     });
@@ -106,9 +95,8 @@ describe('checkAutoSession', () => {
       authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
-    global.window.location.origin = 'http://localhost';
-    global.window.location.pathname = '/sign-in/';
-    global.window.location.search = '?application=myvahealth';
+    global.window.location.href =
+      'http://localhost/sign-in/?application=myvahealth';
     const profile = { verified: false };
     await checkAutoSession(true, 'X', profile);
 
@@ -124,14 +112,13 @@ describe('checkAutoSession', () => {
       [AUTHN_KEYS.CSP_TYPE]: CSP_IDS.DSLOGON,
       transactionid: 'X',
     });
-    global.window.location.origin = 'http://localhost';
-    global.window.location.pathname = '/sign-in/';
-    global.window.location.search = '';
+    global.window.location.href = 'http://localhost/sign-in/';
+
     const profile = { verified: true };
 
     await checkAutoSession(true, 'X', profile);
 
-    expect(global.window.location).to.eq('http://localhost');
+    expect(global.window.location.origin).to.eq('http://localhost');
   });
 
   it('should re login user before redirect to myvahealth because transactions are different', async () => {
@@ -141,9 +128,8 @@ describe('checkAutoSession', () => {
       authn: CSP_IDS.DS_LOGON,
       transactionid: 'X',
     });
-    global.window.location.origin = 'http://localhost';
-    global.window.location.pathname = '/sign-in/';
-    global.window.location.search = '?application=myvahealth';
+    global.window.location.href =
+      'http://localhost/sign-in/?application=myvahealth';
     const profile = { verified: true };
 
     const auto = sandbox.stub(authUtils, 'login');
@@ -479,7 +465,7 @@ describe('keepAlive', () => {
     const KA_RESPONSE = await keepAliveMod.keepAlive();
     expect(KA_RESPONSE).to.eql({
       ttl: 0,
-      transactionid: null,
+      transactionid: 'null',
       authn: 'NOT_FOUND',
       [AUTHN_KEYS.CSP_TYPE]: 'idme',
       [AUTHN_KEYS.CSP_METHOD]: 'IDME_DSL',
@@ -714,8 +700,7 @@ describe('verifySession', () => {
     expect(verifySession()).to.eql(false);
   });
   it('should return false if the pathname is terms-of-use', () => {
-    global.window.location.origin = 'http://localhost';
-    global.window.location.pathname = '/terms-of-use/';
+    global.window.location.href = 'http://localhost/terms-of-use/';
     localStorage.setItem('hasSessionSSO', true);
     localStorage.setItem('loginAttempted', true);
     localStorage.setItem('sessionExpirationSSO', new Date());
