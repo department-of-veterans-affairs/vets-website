@@ -15,7 +15,7 @@ describe('Pensions document upload', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.additionalInformation.pages.documentUpload;
+  } = formConfig.chapters.additionalInformation.pages.uploadDocuments;
 
   it('should render', () => {
     const form = render(
