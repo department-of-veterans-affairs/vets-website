@@ -173,13 +173,15 @@ export const serviceDowntimeErrorMessage = (
 );
 
 export const genericErrorMessage = (
-  <div>
+  <div className="vads-u-margin-bottom--2 grid-col usa-width-two-thirds">
     <h3>We’re sorry. Something went wrong on our end. Please try again.</h3>
-    <va-link
-      back
+    <va-button
       className="usa-button usa-button-primary"
-      href="https://www.va.gov/education/check-remaining-post-9-11-gi-bill-benefits/"
-      text="Back to Post-9/11 GI Bill"
+      onClick={e => {
+        e.preventDefault();
+        window.history.back();
+      }}
+      text=" Back to Post-9/11 GI Bill"
     />
   </div>
 );
