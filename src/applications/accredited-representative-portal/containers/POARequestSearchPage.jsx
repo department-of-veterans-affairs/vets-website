@@ -67,6 +67,10 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       to={`?status=${tabStatus}&sort=${tabSort}`}
       className={classNames.join(' ')}
       role="tab"
+      id={`tab-${tabStatus}`}
+      aria-controls={`tabpanel-${tabStatus}`}
+      aria-selected={active ? 'true' : 'false'}
+      aria-label={`View requests marked as ${tabStatus}`}
     >
       {children}
     </Link>
@@ -118,9 +122,9 @@ const POARequestSearchPage = () => {
 
         <div
           className={searchStatus}
-          id={`panel-${searchStatus}`}
+          id={`tabpanel-${searchStatus}`}
           role="tabpanel"
-          aria-labelledby={`${searchStatus}`}
+          aria-labelledby={`tab-${searchStatus}`}
         >
           {(() => {
             switch (searchStatus) {

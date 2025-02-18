@@ -10,6 +10,7 @@ import {
   resolutionDate,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
+import ProcessingBanner from '../components/ProcessingBanner';
 
 const DECISION_TYPES = {
   ACCEPTANCE: 'acceptance',
@@ -46,6 +47,24 @@ const DECISION_OPTIONS = {
     reason: null,
   },
   ...DECLINATION_OPTIONS,
+};
+
+// processing will show up once rep accepts the request. Once it is accepted there will be a green status alert that says accepted - see decision_types above
+const BANNER_TYPES = {
+  PROCESSING: 'PENDING',
+  FAILED: 'FAILED',
+};
+
+const PROCESSING_BANNER = {
+  HEADER: 'We’re processing the accepted POA request',
+  ACCEPTED: 'You accepted the POA request on',
+  COPY:
+    'We’re processing your decision. This normally takes 1-2 minutes, but can sometimes take longer. We’ll update the status on the request once it finishes processing. You can refresh the page to check for updates.',
+};
+const ERROR_BANNER = {
+  HEADER: 'We couldn’t process the accepted POA request',
+  COPY:
+    'We’re sorry, there was a problem with our system. We weren’t able to process your decision and update the status on the request. To try again, contact the claimant and ask them to resubmit VA Form 21-22.',
 };
 
 const Authorized = () => {
@@ -130,6 +149,12 @@ const POARequestDetailsPage = () => {
   const {
     recordDisclosureLimitations,
   } = poaRequest.powerOfAttorneyForm.authorizations;
+
+  const poaRequestSubmission =
+    poaRequest?.powerOfAttorneyFormSubmission?.status;
+  const statusCheck =
+    poaRequestSubmission === BANNER_TYPES.PROCESSING ? 'processing' : poaStatus;
+
   return (
     <section className="poa-request-details">
       <h1
@@ -142,9 +167,12 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${poaStatus}`}
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${statusCheck.toLowerCase()} ${poaRequestSubmission ===
+              BANNER_TYPES.FAILED && 'vads-u-display--none'}`}
           >
-            {formatStatus(poaStatus)}
+            {poaRequestSubmission === BANNER_TYPES.PROCESSING
+              ? 'processing'
+              : formatStatus(poaStatus)}
           </span>
         )}
       </h2>
@@ -216,10 +244,28 @@ const POARequestDetailsPage = () => {
       />
 
       <div className="poa-request-details__info">
+        {poaRequestSubmission === BANNER_TYPES.PROCESSING && (
+          <ProcessingBanner
+            status="info"
+            header={PROCESSING_BANNER.HEADER}
+            accepted={PROCESSING_BANNER.ACCEPTED}
+            date={poaRequest.resolution?.createdAt}
+            copy={PROCESSING_BANNER.COPY}
+          />
+        )}
+
+        {poaRequestSubmission === BANNER_TYPES.FAILED && (
+          <ProcessingBanner
+            status="error"
+            header={ERROR_BANNER.HEADER}
+            copy={ERROR_BANNER.COPY}
+          />
+        )}
+
         <h2>Claimant information</h2>
         <ul className="poa-request-details__list poa-request-details__list--info">
           <li>
-            <p>Relationship to veteran</p>
+            <p>Relationship to Veteran</p>
             <p>{relationship}</p>
           </li>
           <li>
@@ -239,11 +285,11 @@ const POARequestDetailsPage = () => {
           {relationship === 'Self' && (
             <>
               <li>
-                <p>Social Security number</p>
+                <p>Last 4 digits of Social Security number</p>
                 <p>{poaRequest?.powerOfAttorneyForm?.claimant?.ssn}</p>
               </li>
               <li>
-                <p>VA file number</p>
+                <p>Last 4 digits of VA file number</p>
                 <p>{poaRequest?.powerOfAttorneyForm?.claimant?.vaFileNumber}</p>
               </li>
             </>
@@ -264,11 +310,11 @@ const POARequestDetailsPage = () => {
                 </p>
               </li>
               <li>
-                <p>Social security number</p>
+                <p>Last 4 digits of Social security number</p>
                 <p>{poaRequest?.power_of_attorney_form?.veteran?.ssn}</p>
               </li>
               <li>
-                <p>VA file number</p>
+                <p>Last 4 digits of VA file number</p>
                 <p>
                   {poaRequest?.power_of_attorney_form?.veteran?.vaFileNumber}
                 </p>
@@ -359,7 +405,7 @@ const POARequestDetailsPage = () => {
               type="submit"
               className="usa-button poa-request-details__form-submit"
             >
-              Submit Decision
+              Submit decision
             </button>
           </Form>
         )}

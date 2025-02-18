@@ -33,11 +33,11 @@ export const formatStatus = x => {
 };
 export const resolutionDate = (date, requestId) => {
   return (
-    <p
+    <span
       className="poa-request-details__subtitle"
       data-testid={`poa-request-card-${requestId}`}
     >
       {formatDateParsedZoneLong(date)}
-    </p>
+    </span>
   );
 };

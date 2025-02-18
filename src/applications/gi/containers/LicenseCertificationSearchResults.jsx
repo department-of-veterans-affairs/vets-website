@@ -16,6 +16,7 @@ import {
   mappedStates,
   showLcParams,
   showMultipleNames,
+  updateQueryParam,
   updateStateDropdown,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
@@ -74,15 +75,20 @@ export default function LicenseCertificationSearchResults() {
     categoryParams,
     stateParam,
     initialCategoryParam,
+    pageParam,
   } = showLcParams(location);
 
   const dispatch = useDispatch();
 
-  const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
-    state => state.licenseCertificationSearch,
-  );
+  const {
+    hasFetchedOnce,
+    fetchingLc,
+    filteredResults,
+    lcResults,
+    error,
+  } = useSelector(state => state.licenseCertificationSearch);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(pageParam);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
@@ -92,11 +98,10 @@ export default function LicenseCertificationSearchResults() {
   const [filterLocation, setFilterLocation] = useState(stateParam);
   const [dropdown, setDropdown] = useState(() => {
     return updateStateDropdown(
-      showMultipleNames(filteredResults, nameParam),
+      showMultipleNames(lcResults, nameParam),
       filterLocation,
     );
   });
-
   const itemsPerPage = 10;
 
   const totalPages = Math.ceil(filteredResults.length / itemsPerPage);
@@ -114,7 +119,14 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       if (hasFetchedOnce) {
-        dispatch(filterLcResults(nameParam ?? '', categoryParams, stateParam));
+        dispatch(
+          filterLcResults(
+            nameParam ?? '',
+            categoryParams,
+            stateParam,
+            filteredResults,
+          ),
+        );
       }
     },
     [hasFetchedOnce, stateParam],
@@ -124,7 +136,12 @@ export default function LicenseCertificationSearchResults() {
     () => {
       if (allowUpdate) {
         dispatch(
-          filterLcResults(nameParam ?? '', activeCategories, filterLocation),
+          filterLcResults(
+            nameParam ?? '',
+            activeCategories,
+            filterLocation,
+            filteredResults,
+          ),
         );
       }
 
@@ -138,7 +155,7 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       let final = updateStateDropdown(
-        showMultipleNames(filteredResults, nameParam),
+        showMultipleNames(lcResults, nameParam),
         filterLocation,
       );
 
@@ -166,15 +183,25 @@ export default function LicenseCertificationSearchResults() {
     return () => window.removeEventListener('resize', checkScreen);
   }, []);
 
+  useEffect(
+    () => {
+      window.scroll({ top: 0, bottom: 0, behavior: 'smooth' });
+      setCurrentPage(pageParam);
+    },
+    [pageParam],
+  );
+
   const handleSearch = (categoryNames, name, state) => {
     const newParams = {
       category: categoryNames.length > 0 ? categoryNames : [null],
       name,
       state,
+      currentPage,
     };
 
     setAllowUpdate(true);
     setActiveCategories(categoryNames);
+    updateQueryParam(history, location, newParams);
     handleLcResultsSearch(
       history,
       newParams.category,
@@ -189,13 +216,21 @@ export default function LicenseCertificationSearchResults() {
   };
 
   const handlePageChange = page => {
+    const newParams = {
+      category: categoryParams,
+      name: nameParam,
+      state: stateParam,
+      page,
+    };
+
+    updateQueryParam(history, location, newParams);
     setCurrentPage(page);
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
 
-  const handleRouteChange = (e, id) => {
+  const handleRouteChange = (e, id, name) => {
     e.preventDefault();
-    history.push(`/lc-search/results/${id}`);
+    history.push(`/lc-search/results/${id}/${name}`);
   };
 
   const handleGoHome = e => {
@@ -280,13 +315,20 @@ export default function LicenseCertificationSearchResults() {
                 <strong key={index}>
                   {capitalizeFirstLetter(category, ['course'])}
                 </strong>
-                "{index === activeCategories.length - 1 && <>,</>}
+                "
+                {(index !== activeCategories.length - 1 || nameParam) && <>,</>}
               </span>
             );
           })
         )}
         <span className="info-option">
-          "<strong>{nameParam}</strong>"{!previousRouteHome && <>,</>}{' '}
+          {nameParam && (
+            <>
+              {' '}
+              "<strong>{nameParam}</strong>"{' '}
+            </>
+          )}
+          {!previousRouteHome && <>,</>}{' '}
         </span>
         {!previousRouteHome && (
           <span className="info-option">
@@ -304,6 +346,102 @@ export default function LicenseCertificationSearchResults() {
     );
   };
 
+  function formatArrayWithOr(array) {
+    if (array.length === 1) {
+      return array[0];
+    }
+    if (array.length === 2) {
+      return `${array[0]} or ${array[1]}`;
+    }
+
+    const lastItem = array[array.length - 1];
+    const otherItems = array.slice(0, -1);
+
+    return `${otherItems.join(', ')} or ${lastItem}`;
+  }
+
+  const renderNoResults = (name, state) => {
+    // consider helper function for displaying name if available, and showing nothing if not -- insert in place of nameParam to qvoid extra conditional statements
+    //
+
+    const formatState = () => {
+      if (state === 'all') {
+        return 'all';
+      }
+      return (
+        <>
+          "
+          <strong>
+            {
+              mappedStates.find(
+                mappedState => mappedState.optionValue === stateParam,
+              ).optionLabel
+            }
+          </strong>
+          "
+        </>
+      );
+    };
+
+    const formattedCategories = formatArrayWithOr(
+      activeCategories.filter(activeCategory => activeCategory !== 'all'),
+    );
+
+    const formatName = () => {
+      if (name) {
+        return (
+          <>
+            for "<strong>{nameParam}</strong>"
+          </>
+        );
+      }
+
+      return null;
+    };
+
+    const classes =
+      'vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4';
+
+    if (activeCategories.length === 0) {
+      return (
+        <p className={classes}>
+          To see your results, select a category type filter and update search
+          or select reset search.
+        </p>
+      );
+    }
+
+    if (formatState() === 'all') {
+      return (
+        <p className={classes}>
+          There is no {formattedCategories} available {formatName()}.
+        </p>
+      );
+    }
+    if (activeCategories.includes('certification')) {
+      if (activeCategories.length > 1) {
+        return (
+          <p className={classes}>
+            There is no {formattedCategories} {formatName()} available in the
+            state of {formatState()}. All certifications are available
+            nationwide.
+          </p>
+        );
+      }
+      return (
+        <p className={classes}>
+          There is no certification available {formatName()}.
+        </p>
+      );
+    }
+    return (
+      <p className={classes}>
+        There is no {formattedCategories} {formatName()} available in the state
+        of {formatState()}.
+      </p>
+    );
+  };
+
   if (fetchingLc) {
     return <va-loading-indicator message="Loading..." />;
   }
@@ -317,21 +455,22 @@ export default function LicenseCertificationSearchResults() {
   if (
     !fetchingLc &&
     hasFetchedOnce &&
-    filteredResults.length - 1 <= 0 &&
+    filteredResults.length === 0 &&
     previousRouteHome
   ) {
     return (
       <>
-        <div className="row">
+        <div className="row vads-u-padding-x--2p5 desktop:vads-u-padding-x--0 ">
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
-            Search Results
+            Search results
           </h1>
-        </div>
-        <div className="row">
-          <p className="vads-u-margin-top--0">
-            We didn't find any results for "<strong>{nameParam}</strong>" Please{' '}
+          {/* </div> */}
+          {/* <div className="row"> */}
+          <p className="vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--7 ">
+            We didn't find any results for "<strong>{nameParam}</strong>
+            ." Please{' '}
             <va-link
-              href="./" // check link structure
+              href="./"
               onClick={e => handleGoHome(e)}
               text="go back to search"
             />{' '}
@@ -344,7 +483,7 @@ export default function LicenseCertificationSearchResults() {
               entitlement charges based on the actual amount of the fee charged
               for the test.{' '}
               <va-link
-                href="../../find-forms/about-form-22-0803/" // check link structure
+                href="https://www.va.gov/find-forms/about-form-22-0803/"
                 text="Find out how to get reimbursed for
                 licenses, certifications and prep courses."
               />
@@ -363,18 +502,14 @@ export default function LicenseCertificationSearchResults() {
             <>
               <div className="row">
                 <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
-                  Search Results
+                  Search results
                 </h1>
               </div>
 
               <div className="lc-result-info-wrapper row">
                 <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                  {filteredResults.length - 1 <= 0 ? (
-                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
-                      {activeCategories.length >= 1
-                        ? `There is no ${activeCategories} available in the state of ${stateParam}`
-                        : `Please update the filter options to see results.`}
-                    </p>
+                  {filteredResults.length === 0 ? (
+                    <>{renderNoResults(nameParam, stateParam)}</>
                   ) : (
                     <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
                       Showing{' '}
@@ -383,7 +518,7 @@ export default function LicenseCertificationSearchResults() {
                           filteredResults,
                           currentPage,
                           itemsPerPage,
-                        )} of ${filteredResults.length - 1} results for `}
+                        )} of ${filteredResults.length} results for `}
                         {renderSearchInfo()}
                       </>
                     </p>
@@ -403,7 +538,7 @@ export default function LicenseCertificationSearchResults() {
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
                         button="Update Search"
-                        buttonLabel="Update Search"
+                        buttonLabel="Filter your results"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
                           handleSearch(
@@ -427,7 +562,7 @@ export default function LicenseCertificationSearchResults() {
                     </div>
                   </div>
 
-                  {filteredResults.length - 1 > 0 && (
+                  {filteredResults.length > 0 && (
                     <ul
                       className={
                         !smallScreen
@@ -436,7 +571,6 @@ export default function LicenseCertificationSearchResults() {
                       }
                     >
                       {currentResults.map((result, index) => {
-                        if (index === 0) return null;
                         return (
                           <li className="vads-u-padding-bottom--2" key={index}>
                             <va-card class="vads-u-background-color--gray-lightest vads-u-border--0">
@@ -458,7 +592,11 @@ export default function LicenseCertificationSearchResults() {
                                 }`}
                                 type="secondary"
                                 onClick={e =>
-                                  handleRouteChange(e, result.enrichedId)
+                                  handleRouteChange(
+                                    e,
+                                    result.enrichedId,
+                                    result.lacNm,
+                                  )
                                 }
                               />
                             </va-card>

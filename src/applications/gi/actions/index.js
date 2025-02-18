@@ -88,6 +88,24 @@ export const FETCH_NATIONAL_EXAM_DETAILS_STARTED =
 export const FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED =
   'FETCH_NATIONAL_EXAM_DETAILS_SUCCEEDED';
 
+const getSearchByLocationParams = (filters, description, name) => {
+  if (description) {
+    return {
+      description,
+    };
+  }
+
+  if (name) {
+    return {
+      name,
+    };
+  }
+
+  return {
+    ...rubyifyKeys(filters && buildSearchFilters(filters)),
+  };
+};
+
 export const fetchNationalExamDetails = id => {
   const url = `${api.url}/lcpe/exams/${id}`;
   return async dispatch => {
@@ -202,10 +220,15 @@ export function fetchAndFilterLacpResults( // new action for ss filter
   };
 }
 
-export function filterLcResults(name, categories, location) {
+export function filterLcResults(
+  name,
+  categories,
+  location,
+  previousResults = [],
+) {
   return {
     type: FILTER_LC_RESULTS,
-    payload: { name, categories, location },
+    payload: { name, categories, location, previousResults },
   };
 }
 
@@ -553,22 +576,21 @@ export function fetchSearchByLocationCoords(
   filters,
   version,
   description,
+  name,
 ) {
   const [longitude, latitude] = coordinates;
-  // If description - search by program, else search by location w/ filters
-  const params = description
-    ? {
-        latitude,
-        longitude,
-        distance,
-        description,
-      }
-    : {
-        latitude,
-        longitude,
-        distance,
-        ...rubyifyKeys(filters && buildSearchFilters(filters)),
-      };
+  /**
+   * description - search by program
+   * name - search by name
+   * else - search by location w/ filters
+   */
+  const params = {
+    latitude,
+    longitude,
+    distance,
+    ...getSearchByLocationParams(filters, description, name),
+  };
+
   if (version) {
     params.version = version;
   }
@@ -617,6 +639,7 @@ export function fetchSearchByLocationResults(
   filters,
   version,
   description,
+  name,
 ) {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
@@ -648,6 +671,7 @@ export function fetchSearchByLocationResults(
             filters,
             version,
             description,
+            name,
           ),
         );
       })
@@ -748,12 +772,14 @@ export function mapChanged(mapState) {
     dispatch({ type: MAP_CHANGED, payload: mapState });
   };
 }
+
 export const setError = error => {
   return {
     type: SET_ERROR,
     payload: error,
   };
 };
+
 export const filterBeforeResultFlag = () => {
   return {
     type: FILTER_BEFORE_RESULTS,

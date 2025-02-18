@@ -175,6 +175,24 @@ export const formatDollarAmount = value => {
   return formatCurrency(output);
 };
 
+export const formatDollarAmountWithCents = (value, message) => {
+  if (!value) {
+    return message;
+  }
+  const formattedValue = parseFloat(value).toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    style: 'currency',
+  });
+
+  if (!formattedValue) {
+    return message;
+  }
+
+  return formattedValue;
+};
+
 export const handleInputFocusWithPotentialOverLap = (
   fieldId1,
   fieldId2,
@@ -572,7 +590,7 @@ export const filterSuggestions = (
 
     if (
       !categoryFilters.includes('all') &&
-      !categoryFilters.includes(result.eduLacTypeNm.toLowerCase())
+      !categoryFilters.includes(result.eduLacTypeNm?.toLowerCase())
     ) {
       return false;
     }
@@ -613,8 +631,15 @@ export const showLcParams = location => {
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
   const initialCategoryParam = searchParams.get('initial') ?? 'all';
+  const pageParam = searchParams.get('page') ?? 1;
 
-  return { nameParam, categoryParams, stateParam, initialCategoryParam };
+  return {
+    nameParam,
+    categoryParams,
+    stateParam,
+    initialCategoryParam,
+    pageParam,
+  };
 };
 
 export const handleLcResultsSearch = (
@@ -647,8 +672,9 @@ export const handleLcResultsSearch = (
 
 export const formatResultCount = (results, currentPage, itemsPerPage) => {
   if (currentPage * itemsPerPage > results.length - 1) {
-    return `${currentPage * itemsPerPage -
-      (itemsPerPage - 1)} - ${results.length - 1}  `;
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }  `;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
@@ -709,9 +735,16 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
         : [
             { optionValue: 'all', optionLabel: 'All' },
             ...mappedStates.filter(mappedState =>
-              multiples.find(
-                multiple => multiple?.state === mappedState.optionValue,
-              ),
+              multiples.find(multiple => {
+                if (
+                  multiple?.state === mappedState.optionValue &&
+                  multiple.eduLacTypeNm !== 'Certification'
+                ) {
+                  return true;
+                }
+
+                return false;
+              }),
             ),
           ],
     alt: 'state',
@@ -725,22 +758,15 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
 };
 
 export const showMultipleNames = (suggestions, nameInput) => {
+  let final = [];
+
   if (suggestions && nameInput) {
-    return suggestions.filter(suggestion =>
+    final = suggestions.filter(suggestion =>
       suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
     );
   }
 
-  return [];
-};
-
-export const categoryCheck = type => {
-  if (type === 'License') {
-    return true;
-  }
-  if (type === 'Prep Course') return true;
-
-  return false;
+  return final;
 };
 
 export const formatProgramType = (programType = '') => {
@@ -839,11 +865,11 @@ export const mapToAbbreviation = value => {
 
 export const mapProgramTypeToName = programType => {
   const programTypesNames = {
-    NCD: 'Non College Degree',
-    IHL: 'Institution of Higher Learning',
-    OJT: 'On The Job Training/Apprenticeship',
-    FLGT: 'Flight',
-    CORR: 'Correspondence',
+    NCD: 'non college degree',
+    IHL: 'institution of higher learning',
+    OJT: 'on-the-job training/apprenticeship',
+    FLGT: 'flight',
+    CORR: 'correspondence',
   };
 
   return programTypesNames[programType] || 'Unknown Program Type';
