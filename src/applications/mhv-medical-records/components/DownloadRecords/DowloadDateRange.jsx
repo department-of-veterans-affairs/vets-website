@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { subMonths, format } from 'date-fns';
 import {
   VaButtonPair,
@@ -15,11 +15,16 @@ import { pageTitles } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
 
 const DownloadDateRange = () => {
+  const dateFilter = useSelector(state => state.mr.downloads?.dateFilter);
   const history = useHistory();
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(dateFilter.option || '');
   const [selectionError, setSelectionError] = useState(null);
-  const [customFromDate, setCustomFromDate] = useState('');
-  const [customToDate, setCustomToDate] = useState('');
+  const [customFromDate, setCustomFromDate] = useState(
+    dateFilter.option === 'custom' ? dateFilter.fromDate : '',
+  );
+  const [customToDate, setCustomToDate] = useState(
+    dateFilter.option === 'custom' ? dateFilter.toDate : '',
+  );
   const [customToError, setCustomToError] = useState(null);
   const [customFromError, setCustomFromError] = useState(null);
   const dispatch = useDispatch();
@@ -99,7 +104,7 @@ const DownloadDateRange = () => {
         <VaSelect
           label="Date range"
           onVaSelect={handleDateSelect}
-          value=""
+          value={selectedDate}
           data-testid="va-select-date-range"
           error={selectionError}
           ref={dateInputRef}
@@ -118,6 +123,7 @@ const DownloadDateRange = () => {
             required="true"
             error={customFromError}
             data-testid="va-date-start-date"
+            value={customFromDate}
             onDateChange={e => {
               if (e.target.value) {
                 const [year, month, day] = e.target.value?.split('-');
@@ -134,6 +140,7 @@ const DownloadDateRange = () => {
             required="true"
             error={customToError}
             data-testid="va-date-end-date"
+            value={customToDate}
             onDateChange={e => {
               const [year, month, day] = e.target.value.split('-');
               if (parseInt(year, 10) >= 1900 && month && day) {
