@@ -47,8 +47,9 @@ import createFacilityPageSatelliteLocations from './facilities/createFacilityPag
 import createFindARepLandingContent from './representative-search';
 import createAppointARepLandingContent from './representative-appoint';
 import createRepresentativeStatus from './representative-status';
-import createFindVaForms, {
-  findVaFormsWidgetReducer,
+import {
+  createFindVaForms,
+  reducer as findVAFormsReducer,
 } from './find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from './find-forms/download-widget';
 import createHCAPerformanceWarning from './hca-performance-warning';
@@ -113,7 +114,7 @@ Sentry.configureScope(scope => scope.setTag('source', 'static-pages'));
 // Create the Redux store.
 const store = createCommonStore({
   ...facilityReducer,
-  ...findVaFormsWidgetReducer,
+  ...findVAFormsReducer,
   ...post911GIBillStatusReducer,
   ...thirdPartyAppsReducer,
   ...dependencyVerificationReducer,
