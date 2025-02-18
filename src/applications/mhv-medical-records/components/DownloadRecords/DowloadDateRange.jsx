@@ -73,6 +73,7 @@ const DownloadDateRange = () => {
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
+        heading.scrollIntoView({ behavior: 'smooth' });
         focusElement(heading);
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
@@ -186,7 +187,6 @@ const DownloadDateRange = () => {
         )}
         <VaButtonPair
           continue
-          submit
           onSecondaryClick={handleBack}
           onPrimaryClick={handleSubmit}
         />
