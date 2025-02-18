@@ -58,10 +58,10 @@ if (options.help) {
   process.exit(0);
 }
 
-const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha ${reporterOption}`;
+const mochaPath = `BABEL_ENV=test NODE_ENV=test mocha --require @babel/register --require src/platform/testing/unit/mocha-setup.js ${reporterOption}`;
 const coverageReporter = options['coverage-html']
-  ? '--reporter=html mocha --retries 5'
-  : '--reporter=json-summary mocha --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
+  ? '--reporter=html mocha --require @babel/register --require src/platform/testing/unit/mocha-setup.js  --retries 5'
+  : '--reporter=json-summary mocha --require @babel/register --require src/platform/testing/unit/mocha-setup.js --reporter mocha-multi-reporters --reporter-options configFile=config/mocha-multi-reporter.js --no-color --retries 5';
 const coveragePath = `NODE_ENV=test nyc --all ${coverageInclude} ${coverageReporter}`;
 const testRunner = options.coverage ? coveragePath : mochaPath;
 const configFile = options.config ? options.config : 'config/mocha.json';

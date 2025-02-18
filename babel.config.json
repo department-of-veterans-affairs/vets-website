@@ -1,7 +1,7 @@
 {
   "presets": [
     [
-      "@babel/env",
+      "@babel/preset-env",
       {
         "forceAllTransforms": true,
         "targets": {
@@ -20,7 +20,7 @@
         "debug": false
       }
     ],
-    "@babel/react"
+    "@babel/preset-react"
   ],
   "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js"],
   "plugins": [
@@ -314,7 +314,7 @@
 
   "env": {
     "test": {
-      "presets": ["@babel/env", "@babel/preset-react"],
+      "presets": ["@babel/preset-env", "@babel/preset-react"],
       "plugins": [
         [
           "babel-plugin-transform-import-ignore",
