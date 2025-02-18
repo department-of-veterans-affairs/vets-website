@@ -114,9 +114,6 @@ export function validateReportSelections(errors, formData) {
     if (selections.militaryReports) {
       errors.militaryReports.addError(' ');
     }
-    if (selections.otherReports) {
-      errors.otherReports.addError(' ');
-    }
     if (selections.unlistedReport) {
       errors.unlistedReport.addError(' ');
     }
