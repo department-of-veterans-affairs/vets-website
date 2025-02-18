@@ -1,6 +1,5 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 export const childAttendsCollege = child => child.attendingCollege;
 export const childIsDisabled = child => child.disabled;
@@ -70,7 +69,6 @@ const SpecialMonthlyPensionAccordionItems = () => (
 );
 
 function Documents({ formData }) {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hasDisabledChild = (formData.dependents || []).some(childIsDisabled);
   const hasSchoolChild = (formData.dependents || []).some(childAttendsCollege);
   const hasAdoptedChild = (formData.dependents || []).some(childIsAdopted);
@@ -96,12 +94,7 @@ function Documents({ formData }) {
     hasSocialSecurityDisability ||
     hasSpecialMonthlyPension;
 
-  // Remove ternary logic when feature flag is removed and update unit tests
-  const showUpdatedDocuments = useToggleValue(
-    TOGGLE_NAMES.pensionSupportingDocumentsUpdate,
-  );
-
-  return showUpdatedDocuments ? (
+  return (
     <>
       {showDocumentsList && (
         <>
@@ -214,71 +207,6 @@ function Documents({ formData }) {
             {hasSpecialMonthlyPension && (
               <SpecialMonthlyPensionAccordionItems />
             )}
-          </va-accordion>
-        </>
-      )}
-    </>
-  ) : (
-    <>
-      {showDocumentsList && (
-        <>
-          <p> You'll need to upload these documents: </p>
-
-          <ul data-testid="supporting-documents-list">
-            {hasSpecialMonthlyPension && (
-              <SupportingDocument
-                formName="Examination for Housebound Status or Permanent Need
-              for Regular Aid and Attendance"
-                formId="21-2680"
-              />
-            )}
-
-            {livesInNursingHome && (
-              <SupportingDocument
-                formName="Request for Nursing Home Information in Connection
-              with Claim for Aid and Attendance"
-                formId="21-0779"
-              />
-            )}
-
-            {hasSchoolChild && (
-              <SupportingDocument
-                formName="Request for Approval of School Attendance"
-                formId="21-674"
-              />
-            )}
-
-            {hasDisabledChild && (
-              <li>
-                Private medical records documenting your child's disability
-                before the age of 18
-              </li>
-            )}
-
-            {hasAdoptedChild && (
-              <li>Adoption papers or amended birth certificate</li>
-            )}
-
-            {needsIncomeAndAssetStatement && (
-              <SupportingDocument
-                formName="Income and Asset Statement in Support of Claim for
-              Pension or Parents' Dependency and Indemnity Compensation"
-                formId="21P-0969"
-              />
-            )}
-          </ul>
-        </>
-      )}
-      {hasSpecialMonthlyPension && (
-        <>
-          <p>
-            <strong>
-              You’ll also need to submit additional evidence depending on your
-              situation:
-            </strong>
-          </p>
-          <va-accordion data-testid="additional-evidence-list">
-            <SpecialMonthlyPensionAccordionItems />
           </va-accordion>
         </>
       )}
