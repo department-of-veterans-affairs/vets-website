@@ -16,7 +16,7 @@ describe(`${appName} -- minimal test`, () => {
     cy.injectAxeThenAxeCheck();
     heading = {
       level: 1,
-      name: /^Order medical supplies$/,
+      name: /^Medical supplies$/,
     };
     cy.findByRole('heading', heading).should('have.focus');
     cy.findByText(/^Start a new order$/).click();
