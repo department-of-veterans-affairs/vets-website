@@ -98,9 +98,9 @@ const POARequestSearchPage = () => {
         <strong>Note:</strong> requests need to be submitted using the digital
         VA Form 21-22 on VA.gov.
       </p>
-      <Link to="/get-help-from-accredited-representative/appoint-rep/introduction">
+      <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
         VA Form 21-22 (on VA.gov)
-      </Link>
+      </a>
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink
