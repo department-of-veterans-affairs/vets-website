@@ -124,7 +124,7 @@ export const REGEXP = {
   COMMA: /[, ]/g,
   DASH: /-/g,
   EMPTY_DATE: /(--|-00-00)/,
-  NON_DIGIT: /[^0-9]/g,
+  NON_DIGIT: /\D/g,
   PERCENT: /(\s|\b)percent(\s|\b)/gi,
   WHITESPACE: /\s+/g,
 };
