@@ -58,11 +58,13 @@ const wrapApiRequest = fn => {
       throw response;
     } catch (err) {
       // Log network-like errors to Sentry
-      Sentry.withScope(scope => {
-        scope.setExtra('error', err);
-        scope.setFingerprint(['{{default}}', scope._tags?.source]);
-        Sentry.captureMessage(`vets_client_error: ${err.message}`);
-      });
+      if (!(err instanceof Response)) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', err);
+          scope.setFingerprint(['{{default}}', scope._tags?.source]);
+          Sentry.captureMessage(`vets_client_error: ${err.message}`);
+        });
+      }
       throw err;
     }
   };
