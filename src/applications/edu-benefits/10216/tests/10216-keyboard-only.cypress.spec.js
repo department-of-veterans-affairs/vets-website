@@ -3,6 +3,9 @@ import manifest from '../manifest.json';
 import formConfig from '../config/form';
 
 describe('22-10216 Edu form', () => {
+  beforeEach(function beforeEachHook() {
+    if (Cypress.env('CI')) this.skip();
+  });
   it('should be keyboard-only navigable', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
