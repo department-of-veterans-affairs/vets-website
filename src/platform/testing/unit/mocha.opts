@@ -7,6 +7,7 @@
 --require blob-polyfill
 --require isomorphic-fetch
 --require mocha-snapshots
+--compilers js:@babel/register,jsx:@babel/register
 --prof
 --reporter progress
 --timeout 10000
