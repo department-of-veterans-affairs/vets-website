@@ -112,46 +112,56 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   };
 
   const downloadForm = (
-    <va-card>
-      <div>
-        <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
-          1095-B Proof of VA health coverage
-        </h4>
-        <span className="vads-u-font-size--h5">
-          <b>Tax year:</b> {year}
-        </span>
-      </div>
-      <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
-        <div className="vads-u-padding-bottom--1">
-          <va-link
-            download
-            id="pdf-download-link"
-            label="Download PDF (best for printing)"
-            text="Download PDF (best for printing)"
-            filetype="PDF"
-            onClick={e => {
-              e.preventDefault();
-              recordEvent({ event: '1095b-pdf-download' });
-              downloadFileToUser('pdf');
-            }}
-          />
+    <>
+      <va-card>
+        <div>
+          <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
+            1095-B Proof of VA health coverage
+          </h4>
+          <span className="vads-u-font-size--h5">
+            <b>Tax year:</b> {year}
+          </span>
         </div>
-        <div className="vads-u-padding-top--1">
-          <va-link
-            download
-            id="txt-download-link"
-            label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
-            text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
-            filetype="TEXT"
-            onClick={e => {
-              e.preventDefault();
-              recordEvent({ event: '1095b-txt-download' });
-              downloadFileToUser('txt');
-            }}
-          />
+        <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
+          <div className="vads-u-padding-bottom--1">
+            <va-link
+              download
+              id="pdf-download-link"
+              label="Download PDF (best for printing)"
+              text="Download PDF (best for printing)"
+              filetype="PDF"
+              onClick={e => {
+                e.preventDefault();
+                recordEvent({ event: '1095b-pdf-download' });
+                downloadFileToUser('pdf');
+              }}
+            />
+          </div>
+          <div className="vads-u-padding-top--1">
+            <va-link
+              download
+              id="txt-download-link"
+              label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+              text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
+              filetype="TEXT"
+              onClick={e => {
+                e.preventDefault();
+                recordEvent({ event: '1095b-txt-download' });
+                downloadFileToUser('txt');
+              }}
+            />
+          </div>
         </div>
-      </div>
-    </va-card>
+      </va-card>
+      <p className="vads-u-margin-y--4">
+        If you’re having trouble viewing your IRS 1095-B tax form you may need
+        the latest version of Adobe Acrobat Reader. It’s free to download.{' '}
+        <va-link
+          href="https://get.adobe.com/reader"
+          text="Get Acrobat Reader for free from Adobe."
+        />
+      </p>
+    </>
   );
 
   const loggedOutComponent = (
