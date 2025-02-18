@@ -7,16 +7,14 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import * as customPropTypes from '../prop-types';
 import {
   updateSortByPropertyNameThunk,
   updatePaginationAction,
 } from '../actions';
-import { deriveDefaultModalState } from '../helpers';
-import { getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS, MAX_PAGE_LIST_LENGTH } from '../constants';
 import SearchResult from '../components/SearchResult';
-import PdfModal from '../components/PdfModal';
+import DownloadModal from '../components/DownloadModal';
+import { FormTypes } from '../types';
 
 const usePreviousProps = value => {
   // This is a mirror to storing and assessing prevProps vs current props
@@ -54,9 +52,15 @@ export const SearchResults = ({
   const prevProps = usePreviousProps({
     fetching,
   });
-  const [modalState, setModalState] = useState(deriveDefaultModalState());
 
-  const [prevFocusedLink, setPrevFocusedLink] = useState('');
+  const initialModalState = {
+    formId: null,
+    formName: null,
+    formUrl: null,
+    isOpen: false,
+  };
+
+  const [modalState, setModalState] = useState(initialModalState);
 
   useEffect(() => {
     const justRefreshed = prevProps?.fetching && !fetching;
@@ -86,34 +90,13 @@ export const SearchResults = ({
 
       recordEvent({
         event: 'onsite-search-results-change',
-        'search-query': formMetaInfo?.query, // dynamically populate with the search query
-        'search-page-path': '/find-forms', // consistent for all search results from this page
-        'search-results-change-action-type': 'sort', // will consistently classify these actions as 'sort', leaves the door open for other search enhancements to user "filter"
-        'search-results-change-action-label': state.value, // 'oldest' // populate according to user selection
-        'search-results-pagination-current-page': formMetaInfo?.currentPage, // populate with the current pagination number
-        'search-results-total-count': formMetaInfo?.totalResultsCount, // populate with the total number of search results
-        'search-results-total-pages': formMetaInfo?.totalResultsPages, // populate with total number of result pages
-      });
-    }
-  };
-
-  const toggleModalState = async (
-    pdfSelected,
-    pdfUrl,
-    pdfLabel,
-    closingModal,
-  ) => {
-    if (closingModal) {
-      setModalState({
-        ...modalState,
-        isOpen: !modalState.isOpen,
-      });
-    } else {
-      setModalState({
-        isOpen: !modalState.isOpen,
-        pdfSelected,
-        pdfUrl,
-        pdfLabel,
+        'search-query': formMetaInfo?.query,
+        'search-page-path': '/find-forms',
+        'search-results-change-action-type': 'sort',
+        'search-results-change-action-label': state.value,
+        'search-results-pagination-current-page': formMetaInfo?.currentPage,
+        'search-results-total-count': formMetaInfo?.totalResultsCount,
+        'search-results-total-pages': formMetaInfo?.totalResultsPages,
       });
     }
   };
@@ -190,12 +173,18 @@ export const SearchResults = ({
         key={form.id}
         form={form}
         formMetaInfo={{ ...formMetaInfo, currentPositionOnPage: index + 1 }}
-        toggleModalState={toggleModalState}
-        setPrevFocusedLink={setPrevFocusedLink}
+        setModalState={setModalState}
       />
     ));
 
-  const { isOpen, pdfSelected, pdfUrl, pdfLabel } = modalState;
+  const closeModal = () => {
+    if (modalState?.pdfId) {
+      const lastDownloadLinkClicked = document.getElementById(modalState.pdf);
+      focusElement(lastDownloadLinkClicked);
+    }
+
+    setModalState(initialModalState);
+  };
 
   return (
     <>
@@ -236,14 +225,11 @@ export const SearchResults = ({
 
       {/* Download PDF modal */}
       <div className="pdf-alert-modal">
-        <PdfModal
-          isOpen={isOpen}
-          pdfLabel={pdfLabel}
-          pdfUrl={pdfUrl}
-          pdfSelected={pdfSelected}
-          prevFocusedLink={prevFocusedLink}
-          searchResults
-          toggleModalState={toggleModalState}
+        <DownloadModal
+          closeModal={closeModal}
+          formName={modalState?.formName}
+          formUrl={modalState?.formUrl}
+          isOpen={modalState.isOpen}
         />
       </div>
 
@@ -270,20 +256,20 @@ SearchResults.propTypes = {
   query: PropTypes.string.isRequired,
   startIndex: PropTypes.number.isRequired,
   updatePagination: PropTypes.func.isRequired,
-  results: PropTypes.arrayOf(customPropTypes.Form.isRequired),
+  results: PropTypes.arrayOf(FormTypes),
   sortByPropertyName: PropTypes.string,
   updateSortByPropertyName: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  error: getFindFormsAppState(state).error,
-  fetching: getFindFormsAppState(state).fetching,
-  hasOnlyRetiredForms: getFindFormsAppState(state).hasOnlyRetiredForms,
-  sortByPropertyName: getFindFormsAppState(state).sortByPropertyName,
-  page: getFindFormsAppState(state).page,
-  query: getFindFormsAppState(state).query,
-  results: getFindFormsAppState(state).results,
-  startIndex: getFindFormsAppState(state).startIndex,
+  error: state.findVAFormsReducer.error,
+  fetching: state.findVAFormsReducer.fetching,
+  hasOnlyRetiredForms: state.findVAFormsReducer.hasOnlyRetiredForms,
+  sortByPropertyName: state.findVAFormsReducer.sortByPropertyName,
+  page: state.findVAFormsReducer.page,
+  query: state.findVAFormsReducer.query,
+  results: state.findVAFormsReducer.results,
+  startIndex: state.findVAFormsReducer.startIndex,
 });
 
 const mapDispatchToProps = dispatch => ({
