@@ -48,7 +48,7 @@ const IncomeLimitsApp = ({
 
   const alertBanner = (message = null) => {
     return (
-      <va-alert data-testid="il-service-error" status="error" uswds>
+      <va-alert data-testid="il-service-error" status="error">
         <h2 className="vads-u-margin-bottom--2" slot="headline">
           {message ? `We've run into a problem` : GENERAL_ERROR_HEADING}
         </h2>
