@@ -47,13 +47,14 @@ export const behaviorIntroDescription = (
 export const behaviorIntroCombatDescription = (
   <>
     <p>
-      The next few questions are about behavioral changes you experienced after
-      your traumatic experiences
+      PLACEHOLDER The next few questions are about behavioral changes you
+      experienced after your traumatic experiences
     </p>
     <p>
-      Since you said your traumatic experiences were related to combat only,
-      these questions are optional. You don’t need to answer them. If we need
-      more information, we’ll contact you after you submit your claim.
+      PLACEHOLDER Since you said your traumatic experiences were related to
+      combat only, these questions are optional. You don’t need to answer them.
+      If we need more information, we’ll contact you after you submit your
+      claim.
     </p>
   </>
 );
@@ -91,7 +92,7 @@ export const behaviorListAdditionalInformation = (
 );
 
 export const behaviorListNoneLabel =
-  'I didn’t experience any of these behavioral changes.';
+  'PLACEHOLDER I didn’t experience any of these behavioral changes.';
 
 export const behaviorListValidationError = (
   <va-alert status="error" uswds>
@@ -197,7 +198,7 @@ export function validateBehaviorSelections(errors, formData) {
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
 export const unlistedDescriptionPageDescription =
-  'Describe the other behavioral changes  you experienced that were not in the list  of behavioral change types provided. (Optional)';
+  'PLACEHOLDER Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided. (Optional)';
 
 export const behaviorDescriptionPageHint =
   'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
@@ -221,7 +222,7 @@ function getDescriptionForBehavior(behaviors, descriptions, details) {
   return newObj;
 }
 
-function behaviorAndDescriptionBlock(obj) {
+function behaviorSummariesList(obj) {
   return (
     <>
       {Object.entries(obj).map(([key, value, index]) => (
@@ -268,5 +269,5 @@ export const summarizeBehaviors = formData => {
     formData.behaviorsDetails,
   );
 
-  return behaviorAndDescriptionBlock(selectedBehaviorsWithDetails);
+  return behaviorSummariesList(selectedBehaviorsWithDetails);
 };
