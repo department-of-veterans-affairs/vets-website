@@ -51,10 +51,6 @@ export default function PensionEntry({ location, children }) {
           'showPensionEvidenceClarification',
           !!pensionMedicalEvidenceClarification,
         );
-        window.sessionStorage.setItem(
-          'showUploadDocuments',
-          !!pensionDocumentUploadUpdate,
-        );
       }
     },
     [
