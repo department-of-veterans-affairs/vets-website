@@ -297,7 +297,6 @@ const DownloadRecordType = () => {
 
         <VaButtonPair
           continue
-          submit
           onSecondaryClick={handleBack}
           onPrimaryClick={handleSubmit}
         />
