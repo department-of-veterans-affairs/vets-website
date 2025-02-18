@@ -12,6 +12,7 @@ import NeedHelpSection from './NeedHelpSection';
 import { updateReportRecordType } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
+import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadRecordType = () => {
   const history = useHistory();
@@ -38,30 +39,14 @@ const DownloadRecordType = () => {
   const checkboxGroupRef = useRef(null);
   const progressBarRef = useRef(null);
 
+  useFocusOutline(progressBarRef);
+
   useEffect(
     () => {
       setTimeout(() => {
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
-        if (heading) {
-          heading.addEventListener(
-            'focus',
-            e => {
-              e.target.style.outline = '#face00 auto 1px';
-              e.target.style.outlineOffset = '2px';
-            },
-            true,
-          );
-          heading.addEventListener(
-            'blur',
-            e => {
-              e.target.style.outline = '';
-              e.target.style.outlineOffset = '';
-            },
-            true,
-          );
-        }
         focusElement(heading);
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);

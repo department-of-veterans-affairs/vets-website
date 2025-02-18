@@ -43,6 +43,7 @@ import {
   refreshExtractTypes,
 } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
+import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -87,30 +88,14 @@ const DownloadFileType = props => {
 
   const progressBarRef = useRef(null);
 
+  useFocusOutline(progressBarRef);
+
   useEffect(
     () => {
       setTimeout(() => {
         const heading = progressBarRef?.current?.shadowRoot?.querySelector(
           'h2',
         );
-        if (heading) {
-          heading.addEventListener(
-            'focus',
-            e => {
-              e.target.style.outline = '#face00 auto 1px';
-              e.target.style.outlineOffset = '2px';
-            },
-            true,
-          );
-          heading.addEventListener(
-            'blur',
-            e => {
-              e.target.style.outline = '';
-              e.target.style.outlineOffset = '';
-            },
-            true,
-          );
-        }
         focusElement(heading);
       }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
@@ -514,7 +499,6 @@ const DownloadFileType = props => {
               </button>
               <button
                 type="submit"
-                disabled={recordCount === 0 || !isDataFetched}
                 className="vads-u-margin-y--0p5 vads-u-width--auto"
                 data-testid="download-report-button"
               >
