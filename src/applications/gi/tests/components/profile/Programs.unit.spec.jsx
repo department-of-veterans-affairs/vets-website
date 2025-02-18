@@ -20,15 +20,12 @@ describe('<Programs>', () => {
     ).to.equal(
       'The following program is approved by the VA at this institution.',
     );
-
     programTypes.forEach(programType => {
-      expect(
-        wrapper.contains(
-          <p className="vads-u-font-weight--bold vads-u-padding-right--2">
-            {mapProgramTypeToName(programType)}
-          </p>,
-        ),
-      ).to.equal(true);
+      const link = wrapper.find('[data-testid="program-link"]');
+      expect(link.exists()).to.be.true;
+      expect(link.text()).to.equal(
+        `See ${mapProgramTypeToName(programType)} programs`,
+      );
     });
 
     wrapper.unmount();
