@@ -27,7 +27,6 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
-  sendDataDogAction,
   formatDateAndTime,
   formatUserDob,
 } from '../../util/helpers';
@@ -448,28 +447,6 @@ ${record.results}`;
         >
           {record.imagingProvider}
         </p>
-
-        <>
-          <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
-            Images
-          </h3>
-          <p data-testid="radiology-image" className="no-print">
-            Images are not yet available in this new medical records tool. To
-            get images, you’ll need to request them in the previous version of
-            medical records on the My HealtheVet website.
-          </p>
-          <va-link
-            href={mhvUrl(
-              isAuthenticatedWithSSOe(fullState),
-              'va-medical-images-and-reports',
-            )}
-            text="Request images on the My HealtheVet website"
-            data-testid="radiology-images-link"
-            onClick={() => {
-              sendDataDogAction('Request images on MHV');
-            }}
-          />
-        </>
       </div>
 
       <div className="test-results-container">
