@@ -39,6 +39,10 @@
       background-color: $vads-color-white;
       border-radius: 6px;
     }
+
+    &:visited {
+      color: inherit;
+    }
   }
   &__sort-by {
     display: flex;
