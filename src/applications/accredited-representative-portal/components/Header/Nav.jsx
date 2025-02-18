@@ -8,7 +8,7 @@ function SignInButton() {
   return (
     <a
       data-testid="user-nav-sign-in-link"
-      className="nav__btn"
+      className="nav__btn is--sign-in"
       href={getSignInUrl()}
     >
       Sign in
