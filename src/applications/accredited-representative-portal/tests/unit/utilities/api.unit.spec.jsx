@@ -1,12 +1,61 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import * as Sentry from '@sentry/browser';
 import api from '../../../utilities/api';
 
 describe('API utilities', () => {
+  let sandbox;
   let fetchStub;
+  let sentryCaptureMessageStub;
 
   beforeEach(() => {
-    fetchStub = sinon.stub(global, 'fetch');
+    sandbox = sinon.createSandbox();
+    fetchStub = sandbox.stub(global, 'fetch');
+    sentryCaptureMessageStub = sandbox.stub(Sentry, 'captureMessage');
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('Error handling', () => {
+    it('does not log Response objects to Sentry', async () => {
+      const errorResponse = new Response(
+        JSON.stringify({
+          errors: ['User is not authorized to access this resource'],
+          status: 'FORBIDDEN',
+        }),
+        {
+          status: 403,
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
+      fetchStub.resolves(errorResponse);
+
+      try {
+        await api.getPOARequest('123');
+        expect.fail('Should have thrown an error');
+      } catch (error) {
+        expect(error).to.be.instanceOf(Response);
+        expect(sentryCaptureMessageStub.called).to.be.false;
+      }
+    });
+
+    it('logs network errors to Sentry', async () => {
+      const networkError = new TypeError('Failed to fetch');
+      fetchStub.rejects(networkError);
+
+      try {
+        await api.getPOARequest('123');
+        expect.fail('Should have thrown an error');
+      } catch (error) {
+        expect(error).to.be.instanceOf(TypeError);
+        expect(sentryCaptureMessageStub.called).to.be.true;
+        expect(sentryCaptureMessageStub.firstCall.args[0]).to.equal(
+          'vets_client_error: Failed to fetch',
+        );
+      }
+    });
   });
 
   describe('getPOARequests', () => {
