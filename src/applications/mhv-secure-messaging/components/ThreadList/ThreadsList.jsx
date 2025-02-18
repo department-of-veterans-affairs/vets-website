@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import ThreadListItem from './ThreadListItem';
 import { Paths, threadSortingOptions } from '../../util/constants';
 import ThreadListSort from './ThreadListSort';
+import Footer from '../Footer';
 
 const ThreadsList = props => {
   const {
@@ -113,6 +114,7 @@ const ThreadsList = props => {
             </div>
           </div>
         )}
+        <Footer />
       </div>
     </>
   );
