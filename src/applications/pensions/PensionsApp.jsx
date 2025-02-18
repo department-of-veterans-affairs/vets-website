@@ -20,9 +20,6 @@ export default function PensionEntry({ location, children }) {
   const pensionMedicalEvidenceClarification = useToggleValue(
     TOGGLE_NAMES.pensionMedicalEvidenceClarification,
   );
-  const pensionDocumentUploadUpdate = useToggleValue(
-    TOGGLE_NAMES.pensionDocumentUploadUpdate,
-  );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
   );
@@ -58,7 +55,6 @@ export default function PensionEntry({ location, children }) {
       pensionMultiplePageResponse,
       pensionIncomeAndAssetsClarification,
       pensionMedicalEvidenceClarification,
-      pensionDocumentUploadUpdate,
     ],
   );
 
