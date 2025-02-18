@@ -7,7 +7,6 @@ import { scrollAndFocus } from '../utils/scrollAndFocus';
 import {
   getAppointmentCreateStatus,
   getDraftAppointmentInfo,
-  getReferralAppointmentInfo,
   getSelectedSlot,
 } from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
@@ -42,11 +41,6 @@ const ReviewAndConfirm = props => {
   );
 
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
-  const {
-    appointmentInfoLoading,
-    appointmentInfoError,
-    referralAppointmentInfo,
-  } = useSelector(getReferralAppointmentInfo);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
   const slotDetails = getSlotById(
@@ -59,6 +53,7 @@ const ReviewAndConfirm = props => {
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.UUID),
   );
+
   useEffect(
     () => {
       dispatch(setFormCurrentPage('reviewAndConfirm'));
@@ -89,9 +84,6 @@ const ReviewAndConfirm = props => {
     },
     [currentReferral.UUID, dispatch, draftAppointmentCreateStatus],
   );
-
-  const loadingCreateAppointment =
-    appointmentCreateStatus === FETCH_STATUS.loading;
 
   useEffect(
     () => {
@@ -132,39 +124,20 @@ const ReviewAndConfirm = props => {
   useEffect(
     () => {
       if (
-        referralAppointmentInfo?.appointment &&
-        !appointmentInfoLoading &&
-        !appointmentInfoError
+        appointmentCreateStatus === FETCH_STATUS.succeeded &&
+        draftAppointmentInfo?.appointment?.id
       ) {
         routeToNextReferralPage(
           history,
           'reviewAndConfirm',
-          currentReferral.UUID,
+          null,
+          draftAppointmentInfo.appointment.id,
         );
       }
     },
-    [
-      appointmentInfoError,
-      appointmentInfoLoading,
-      currentReferral.UUID,
-      history,
-      referralAppointmentInfo,
-    ],
+    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
   );
 
-  if (loading || loadingCreateAppointment) {
-    return (
-      <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator
-          message={
-            loadingCreateAppointment
-              ? 'Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page.'
-              : 'Loading schedule referral review...'
-          }
-        />
-      </div>
-    );
-  }
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
   return (
@@ -172,6 +145,7 @@ const ReviewAndConfirm = props => {
       hasEyebrow
       heading="Review your appointment details"
       apiFailure={failed}
+      loadingMessage={loading ? 'Loading your appointment details' : null}
     >
       <div>
         <hr className="vads-u-margin-y--2" />

@@ -36,6 +36,7 @@ const initialState = {
   referralAppointmentInfo: {},
   appointmentInfoLoading: false,
   appointmentInfoError: false,
+  appointmentInfoTimeout: false,
 };
 
 function ccAppointmentReducer(state = initialState, action) {
@@ -81,13 +82,15 @@ function ccAppointmentReducer(state = initialState, action) {
         ...state,
         appointmentInfoError: false,
         appointmentInfoLoading: true,
-        pollingRequestStart: action.pollingRequestStart,
+        appointmentInfoTimeout: false,
+        pollingRequestStart: action.payload.pollingRequestStart,
       };
     case FETCH_REFERRAL_APPOINTMENT_INFO_SUCCEEDED:
       return {
         ...state,
         appointmentInfoLoading: false,
         appointmentInfoError: false,
+        appointmentInfoTimeout: false,
         referralAppointmentInfo: action.data,
       };
     case FETCH_REFERRAL_APPOINTMENT_INFO_FAILED:
@@ -95,6 +98,7 @@ function ccAppointmentReducer(state = initialState, action) {
         ...state,
         appointmentInfoLoading: false,
         appointmentInfoError: true,
+        appointmentInfoTimeout: action.payload,
       };
     case FETCH_REFERRALS:
       return {
@@ -140,6 +144,10 @@ function ccAppointmentReducer(state = initialState, action) {
         providerFetchStatus: FETCH_STATUS.notStarted,
         draftAppointmentInfo: {},
         draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
+        appointmentInfoTimeout: false,
+        appointmentInfoError: false,
+        appointmentInfoLoading: false,
+        referralAppointmentInfo: {},
         selectedSlot: '',
       };
     default:
