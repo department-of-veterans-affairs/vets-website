@@ -6,6 +6,7 @@ import { selectUser } from 'platform/user/selectors';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { selectAuthStatus } from '../redux/selectors';
 import { useDatadogRum } from '../utils/useDatadogRum';
 
@@ -34,11 +35,10 @@ export default function EnrolledRoute({ component: RouteComponent, ...rest }) {
       user={user}
       verify={!environment.isLocalhost()}
     >
-      <Route {...rest}>
-        {/* TODO: Delete 'NoRegistrationMessage' component after code review confirmed */}
-        {/* {!hasRegisteredSystems && <NoRegistrationMessage />} */}
-        {hasRegisteredSystems && <RouteComponent />}
-      </Route>
+      <Route {...rest}>{hasRegisteredSystems && <RouteComponent />}</Route>
     </RequiredLoginView>
   );
 }
+EnrolledRoute.propTypes = {
+  component: PropTypes.func,
+};
