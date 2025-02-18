@@ -149,7 +149,7 @@ const ZipCodePage = ({
           name="zipCode"
           onBlur={onBlurInput}
           onInput={onZipInput}
-          uswds
+          required
           value={zipCode || ''}
         />
         {!submitting && (
@@ -159,7 +159,6 @@ const ZipCodePage = ({
             onPrimaryClick={onContinueClick}
             onSecondaryClick={onBackClick}
             continue
-            uswds
           />
         )}
         {submitting && (

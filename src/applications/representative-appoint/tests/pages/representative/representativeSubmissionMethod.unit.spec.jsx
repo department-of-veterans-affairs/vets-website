@@ -168,6 +168,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
             attributes: { canAcceptDigitalPoaRequests: true },
           },
           userIsDigitalSubmitEligible: true,
+          identityValidation: { hasIcn: true, hasParticipantId: true },
         };
 
         const result = representativeSubmissionMethod.pageDepends(formData);
@@ -187,6 +188,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
               attributes: { canAcceptDigitalPoaRequests: false },
             },
             userIsDigitalSubmitEligible: true,
+            identityValidation: { hasIcn: true, hasParticipantId: true },
           };
 
           const result = representativeSubmissionMethod.pageDepends(formData);
@@ -205,6 +207,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
             attributes: { canAcceptDigitalPoaRequests: true },
           },
           userIsDigitalSubmitEligible: false,
+          identityValidation: { hasIcn: false, hasParticipantId: false },
         };
 
         const result = representativeSubmissionMethod.pageDepends(formData);
@@ -222,6 +225,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
             attributes: { canAcceptDigitalPoaRequests: true },
           },
           userIsDigitalSubmitEligible: true,
+          identityValidation: { hasIcn: true, hasParticipantId: true },
         };
 
         const result = representativeSubmissionMethod.pageDepends(formData);
