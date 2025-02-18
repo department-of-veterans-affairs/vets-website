@@ -22,7 +22,7 @@ const FileUpload = props => {
   } = props;
 
   const firstInputID = useMemo(() => {
-    return `askVA_upload_${Math.floor(Math.random() * 10000)}`;
+    return `askVA_upload_${Date.now()}`;
   }, []);
   const uploadIDs = idList(10);
   const [attachments, setAttachments] = useState([]);
