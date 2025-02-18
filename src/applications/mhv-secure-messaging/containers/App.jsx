@@ -46,8 +46,8 @@ const App = ({ isPilot }) => {
 
   const removeLandingPage = useSelector(
     state =>
-      state.featureToggles?.[
-        FEATURE_FLAG_NAMES?.mhvSecureMessagingRemoveLandingPage
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
       ],
   );
 
@@ -147,9 +147,7 @@ const App = ({ isPilot }) => {
   // When removing the landing page changes are fully implemented, update manifest.json to set
   // rootURL to /my-health/secure-messages/inbox
   if (isPilot && !cernerPilotSmFeatureFlag) {
-    const url = removeLandingPage
-      ? `${manifest.rootUrl}${Paths.INBOX}`
-      : `${manifest.rootUrl}`;
+    const url = `${manifest.rootUrl}${removeLandingPage ? Paths.INBOX : ''}`;
     window.location.replace(url);
     return <></>;
   }

@@ -4,6 +4,7 @@ import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/Pag
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
+import pilotManifest from '../pilot/manifest.json';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import Compose from './Compose';
 import Folders from './Folders';
@@ -42,8 +43,8 @@ const AuthorizedRoutes = () => {
 
   const removeLandingPage = useSelector(
     state =>
-      state.featureToggles?.[
-        FEATURE_FLAG_NAMES?.mhvSecureMessagingRemoveLandingPage
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
       ],
   );
 
@@ -53,11 +54,11 @@ const AuthorizedRoutes = () => {
   );
 
   if (removeLandingPage && location.pathname === `/`) {
-    const basePath =
+    const basePath = `${
       cernerPilotSmFeatureFlag && window.location.pathname.includes('pilot')
-        ? `${manifest.rootUrl}-pilot${Paths.INBOX}`
-        : `${manifest.rootUrl}${Paths.INBOX}`;
-
+        ? pilotManifest.rootUrl
+        : manifest.rootUrl
+    }${Paths.INBOX}`;
     window.location.replace(basePath);
     return <></>;
   }
