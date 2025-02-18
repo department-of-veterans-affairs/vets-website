@@ -39,6 +39,8 @@ import {
   requestImages,
 } from '../../actions/images';
 import useAlerts from '../../hooks/use-alerts';
+import HeaderSection from '../shared/HeaderSection';
+import LabelValue from '../shared/LabelValue';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -372,129 +374,113 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="radiology-date"
         data-testid="radiology-record-name"
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - radiology name]"
       >
-        {record.name}
-      </h1>
-      <DateSubheading
-        date={record.date}
-        id="radiology-date"
-        label="Date and time performed"
-        labelClass="vads-font-weight-regular"
-      />
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        description="L&TR Detail"
-        downloadPdf={downloadPdf}
-        downloadTxt={generateRadioloyTxt}
-        allowTxtDownloads={allowTxtDownloads}
-      />
-      <DownloadingRecordsInfo
-        description="L&TR Detail"
-        allowTxtDownloads={allowTxtDownloads}
-      />
+        <DateSubheading
+          date={record.date}
+          id="radiology-date"
+          label="Date and time performed"
+          labelClass="vads-font-weight-regular"
+        />
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={downloadPdf}
+          downloadTxt={generateRadioloyTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo
+          description="L&TR Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
-      <div className="test-details-container max-80">
-        <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Reason for test
-        </h3>
-        <p
-          data-testid="radiology-reason"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology reason]"
-        >
-          {record.reason}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Clinical history
-        </h3>
-        <p
-          data-testid="radiology-clinical-history"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology clinical history]"
-        >
-          {record.clinicalHistory}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Ordered by
-        </h3>
-        <p
-          data-testid="radiology-ordered-by"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology ordered by]"
-        >
-          {record.orderedBy}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Location
-        </h3>
-        <p
-          data-testid="radiology-imaging-location"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology location]"
-        >
-          {record.imagingLocation}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Imaging provider
-        </h3>
-        <p
-          data-testid="radiology-imaging-provider"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology provider]"
-        >
-          {record.imagingProvider}
-        </p>
-        {!phase0p5Flag && (
-          <>
-            <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
-              Images
-            </h3>
-            <p data-testid="radiology-image" className="no-print">
-              Images are not yet available in this new medical records tool. To
-              get images, you’ll need to request them in the previous version of
-              medical records on the My HealtheVet website.
-            </p>
-            <va-link
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'va-medical-images-and-reports',
-              )}
-              text="Request images on the My HealtheVet website"
-              data-testid="radiology-images-link"
-              onClick={() => {
-                sendDataDogAction('Request images on MHV');
-              }}
+        <div className="test-details-container max-80">
+          <HeaderSection header="Details about this test">
+            <LabelValue
+              label="Reason for test"
+              value={record.reason}
+              testId="radiology-reason"
+              actionName="[admission discharge summary - location]"
             />
-          </>
-        )}
-      </div>
+            <LabelValue
+              label="Clinical history"
+              value={record.clinicalHistory}
+              testId="radiology-clinical-history"
+              actionName="[lab and tests - radiology clinical history]"
+            />
+            <LabelValue
+              label="Ordered by"
+              value={record.orderedBy}
+              testId="radiology-ordered-by"
+              actionName="[lab and tests - radiology ordered by]"
+            />
+            <LabelValue
+              label="Location"
+              value={record.imagingLocation}
+              testId="radiology-imaging-location"
+              actionName="[lab and tests - radiology location]"
+            />
+            <LabelValue
+              label="Imaging provider"
+              value={record.imagingProvider}
+              testId="radiology-imaging-provider"
+              actionName="[lab and tests - radiology provider]"
+            />
 
-      <div className="test-results-container">
-        <h2 className="test-results-header">Results</h2>
-        <InfoAlert fullState={fullState} />
-        <p
-          data-testid="radiology-record-results"
-          className="monospace"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology results]"
-        >
-          {record.results}
-        </p>
-      </div>
-
-      {phase0p5Flag && (
-        <div className="test-results-container">
-          <h2 className="test-results-header">Images</h2>
-          {imageStatusContent()}
+            {!phase0p5Flag && (
+              <>
+                <LabelValue label="Images">
+                  <p data-testid="radiology-image" className="no-print">
+                    Images are not yet available in this new medical records
+                    tool. To get images, you’ll need to request them in the
+                    previous version of medical records on the My HealtheVet
+                    website.
+                  </p>
+                </LabelValue>
+                <va-link
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'va-medical-images-and-reports',
+                  )}
+                  text="Request images on the My HealtheVet website"
+                  data-testid="radiology-images-link"
+                  onClick={() => {
+                    sendDataDogAction('Request images on MHV');
+                  }}
+                />
+              </>
+            )}
+          </HeaderSection>
         </div>
-      )}
+
+        <div className="test-results-container">
+          <HeaderSection header="Results" className="test-results-header">
+            <InfoAlert fullState={fullState} />
+            <p
+              data-testid="radiology-record-results"
+              className="monospace"
+              data-dd-privacy="mask"
+              data-dd-action-name="[lab and tests - radiology results]"
+            >
+              {record.results}
+            </p>
+          </HeaderSection>
+        </div>
+
+        {phase0p5Flag && (
+          <div className="test-results-container">
+            <HeaderSection header="Images" className="test-results-header">
+              {imageStatusContent()}
+            </HeaderSection>
+          </div>
+        )}
+      </HeaderSection>
     </div>
   );
 };
