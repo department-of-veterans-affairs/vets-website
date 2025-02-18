@@ -18,12 +18,14 @@ import { LocationType } from '../constants';
 import ServiceTypeAhead from './ServiceTypeAhead';
 import { setFocus } from '../utils/helpers';
 import { SearchControlsTypes } from '../types';
+import AddressAutosuggest from './AddressAutosuggest';
 
 const SearchControls = props => {
   const {
     clearGeocodeError,
     clearSearchText,
     currentQuery,
+    facilitiesUseAddressTypeahead,
     geolocateUser,
     isMobile,
     mobileMapUpdateEnabled,
@@ -141,10 +143,25 @@ const SearchControls = props => {
 
   const handleClearInput = () => {
     clearSearchText();
+    // optional chaining not allowed
+    if (locationInputFieldRef.current) {
+      locationInputFieldRef.current.value = '';
+    }
     focusElement('#street-city-state-zip');
   };
 
   const renderLocationInputField = () => {
+    if (facilitiesUseAddressTypeahead) {
+      return (
+        <AddressAutosuggest
+          geolocateUser={geolocateUser}
+          inputRef={locationInputFieldRef}
+          onClearClick={handleClearInput}
+          onChange={onChange}
+          currentQuery={currentQuery}
+        />
+      );
+    }
     const {
       locationChanged,
       searchString,
