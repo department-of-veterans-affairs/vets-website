@@ -50,18 +50,6 @@ class GeneralFunctionsPage {
     };
   };
 
-  updateFeatureToggleValue = (name, value) => {
-    return {
-      ...mockToggles,
-      data: {
-        ...mockToggles.data,
-        features: mockToggles.data.features.map(
-          feature => (feature.name === name ? { ...feature, value } : feature),
-        ),
-      },
-    };
-  };
-
   getDateFormat = (date = new Date()) => {
     const options = {
       year: 'numeric',

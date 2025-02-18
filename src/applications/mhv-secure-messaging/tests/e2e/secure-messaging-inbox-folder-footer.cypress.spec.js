@@ -6,7 +6,7 @@ import { smFooter } from '../../util/constants';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   it('Verify folder header', () => {
-    const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggleValue(
+    const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
       'mhv_secure_messaging_remove_landing_page',
       true,
     );

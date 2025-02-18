@@ -13,10 +13,6 @@
       {
         "name": "mhv_secure_messaging_filter_accordion",
         "value": true
-      },
-      {
-        "name": "mhv_secure_messaging_remove_landing_page",
-        "value": false
       }
     ]
   }
