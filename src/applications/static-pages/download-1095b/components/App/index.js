@@ -12,7 +12,11 @@ import ServiceProvidersText, {
 } from 'platform/user/authentication/components/ServiceProvidersText';
 import recordEvent from '~/platform/monitoring/record-event';
 
-import { notFoundComponent, unavailableComponent } from './utils';
+import {
+  notFoundComponent,
+  unavailableComponent,
+  downloadErrorComponent,
+} from './utils';
 
 import '../../sass/download-1095b.scss';
 
@@ -71,22 +75,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       });
     },
     [loggedIn],
-  );
-
-  const downloadErrorComponent = (
-    <div className="vads-u-margin-bottom--2p5">
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="error"
-        visible
-      >
-        <p className="vads-u-margin-y--0">
-          We’re sorry. Something went wrong when we tried to download your form.
-          Please try again. If your form still doesn’t download, call us at
-          800-698-2411 (TTY: 711). We’re here 24/7.
-        </p>
-      </va-alert>
-    </div>
   );
 
   const downloadForm = (
