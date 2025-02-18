@@ -420,7 +420,7 @@ export const MILITARY_REPORT_TYPES = Object.freeze({
     'Restricted incident report (filed with the military while requesting confidentiality)',
   unrestricted:
     'Unrestricted incident report (filed with the military without requesting confidentiality)',
-  pre2025: 'Incident report filed with the military before 2005',
+  pre2005: 'Incident report filed with the military before 2005',
 });
 
 export const OTHER_REPORT_TYPES = Object.freeze({
