@@ -59,8 +59,8 @@ function AddressAutosuggest({
    * updateSearch is not called directly but debounced below
    */
   const updateSearch = term => {
-    const trimmedTerm = term?.trim();
-    if (trimmedTerm === searchString?.trim()) {
+    const trimmedTerm = term.trimStart();
+    if (trimmedTerm === searchString) {
       return; // already have the values
     }
     if (trimmedTerm.length >= MIN_SEARCH_CHARS) {
@@ -95,7 +95,7 @@ function AddressAutosuggest({
   const debouncedUpdateSearch = vaDebounce(500, updateSearch);
 
   const onBlur = () => {
-    const iv = inputValue?.trim();
+    const iv = inputValue.trimStart();
     onChange({ searchString: ' ' });
     onChange({ searchString: iv || '' });
     // not expected to search when user leaves the field
@@ -106,7 +106,7 @@ function AddressAutosuggest({
     setInputValue(value);
     setIsTouched(true);
 
-    if (!value?.trim()) {
+    if (!value?.trimStart()) {
       onClearClick();
       return;
     }
