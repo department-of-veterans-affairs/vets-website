@@ -6,6 +6,7 @@ import { selectAvailableServices, selectVAPContactInfo } from '../../selectors';
 import {
   VAP_SERVICE_INITIALIZATION_STATUS,
   INIT_VAP_SERVICE_ID,
+  FIELD_NAMES,
 } from './constants';
 
 import { isVAProfileServiceConfigured } from './util/local-vapsvc';
@@ -165,7 +166,10 @@ export const hasBadAddress = state =>
   state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
 
 export function selectVAProfilePersonalInformation(state, fieldName) {
-  const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
+  const fieldValue =
+    fieldName === FIELD_NAMES.MESSAGING_SIGNATURE
+      ? state?.user?.profile?.mhvAccount?.[fieldName]
+      : state?.vaProfile?.personalInformation?.[fieldName];
 
   const notListedKeySuffix = 'NotListedText';
 
