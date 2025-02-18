@@ -16,8 +16,12 @@ export default function ReferralLayout({
   apiFailure,
   heading,
   categoryOfCare = '',
+  loadingMessage,
+  errorBody = '',
 }) {
   const location = useLocation();
+
+  const content = apiFailure ? <ErrorAlert body={errorBody} /> : children;
 
   return (
     <>
@@ -47,7 +51,18 @@ export default function ReferralLayout({
               </>
             )}
             <ErrorBoundary>
-              {apiFailure ? <ErrorAlert /> : children}
+              {!!loadingMessage && (
+                <div
+                  className="vads-u-margin-y--8"
+                  data-testid="loading-container"
+                >
+                  <va-loading-indicator
+                    data-testid="loading"
+                    message={loadingMessage}
+                  />
+                </div>
+              )}
+              {!loadingMessage && content}
             </ErrorBoundary>
             <NeedHelp />
           </div>
@@ -61,6 +76,8 @@ ReferralLayout.propTypes = {
   apiFailure: PropTypes.bool,
   categoryOfCare: PropTypes.string,
   children: PropTypes.node,
+  errorBody: PropTypes.string,
   hasEyebrow: PropTypes.bool,
   heading: PropTypes.string,
+  loadingMessage: PropTypes.string,
 };
