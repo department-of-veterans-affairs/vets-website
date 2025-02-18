@@ -123,7 +123,7 @@ class RadiologyDetailsPage extends BaseDetailsPage {
       .find('span')
       .should(
         'contain',
-        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} records from newest to oldest`,
+        `Showing ${displayedStartNumber} to ${displayedEndNumber} of ${numRecords} images`,
       );
   };
 }
