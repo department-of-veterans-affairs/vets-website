@@ -9,6 +9,7 @@ import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
+import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -106,6 +107,12 @@ const formConfig = {
           title: 'Supporting documents',
           uiSchema: supportingDocuments.uiSchema,
           schema: supportingDocuments.schema,
+        },
+        supportingDocumentsUpload: {
+          path: 'supporting-documents-upload',
+          title: 'Supporting Documents',
+          uiSchema: supportingDocumentsUpload.uiSchema,
+          schema: supportingDocumentsUpload.schema,
         },
       },
     },
