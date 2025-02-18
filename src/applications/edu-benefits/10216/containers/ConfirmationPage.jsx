@@ -10,6 +10,20 @@ import ProcessList from '../components/ProcessList';
 export const ConfirmationPage = ({ router, route }) => {
   const isAccredited = localStorage.getItem('isAccredited') === 'true';
   const form = useSelector(state => state.form || {});
+
+  React.useEffect(
+    () => {
+      if (form.submission?.response?.id) {
+        localStorage.setItem(
+          'calimantID',
+          JSON.stringify(form.submission?.response?.id),
+        );
+      }
+    },
+    [form],
+  );
+
+  const calimantID = JSON.parse(localStorage.getItem('calimantID'));
   const { submission } = form;
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
@@ -28,10 +42,7 @@ export const ConfirmationPage = ({ router, route }) => {
         To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
         below
       </h2>
-      <ProcessList
-        isAccredited={isAccredited}
-        id={form.submission?.response?.id}
-      />
+      <ProcessList isAccredited={isAccredited} id={calimantID} />
       <p>
         <va-button
           secondary

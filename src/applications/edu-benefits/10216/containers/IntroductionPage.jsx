@@ -13,6 +13,7 @@ const IntroductionPage = ({ router }) => {
 
   const startForm = event => {
     event.preventDefault();
+    localStorage.removeItem('calimantID');
     router.push('/institution-details');
   };
 
