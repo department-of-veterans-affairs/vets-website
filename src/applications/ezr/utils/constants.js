@@ -150,12 +150,15 @@ export const VETERAN_PREFILL_DATA_ACTIONS = {
 
 // declare mock response for veteran prefill data from vets-api to use for simulated testing
 export const MOCK_VETERAN_PREFILL_DATA_RESPONSE = {
-  veteranIncome: {
+  veteranFinancialInfo: {
     otherIncome: '6405',
     grossIncome: '49728',
     netIncome: '3962',
+    deductibleFuneralExpenses: '2193',
+    deductibleMedicalExpenses: '9532',
+    deductibleEducationExpenses: '1295',
   },
-  spouseIncome: {
+  spouseFinancialInfo: {
     otherIncome: '1376',
     grossIncome: '38911',
     netIncome: '743',

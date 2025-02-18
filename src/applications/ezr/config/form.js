@@ -10,7 +10,7 @@ import content from '../locales/en/content.json';
 import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../utils/constants';
 import {
   includeSpousalInformation,
-  // includeHouseholdInformation,
+  includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
   isSigiEnabled,
@@ -328,7 +328,7 @@ const formConfig = {
           path: 'household-information/marital-status',
           title: 'Marital status',
           initialData: {},
-          // depends: includeHouseholdInformation,
+          depends: includeHouseholdInformation,
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
         },
@@ -368,7 +368,7 @@ const formConfig = {
           title: 'Dependents',
           CustomPage: DependentSummaryPage,
           CustomPageReview: DependentsReviewPage,
-          // depends: includeHouseholdInformation,
+          depends: includeHouseholdInformation,
           uiSchema: dependentSummary.uiSchema,
           schema: dependentSummary.schema,
         },
@@ -381,43 +381,18 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-        // veteranAnnualIncome: {
-        //   path: 'household-information/veteran-annual-income',
-        //   title: 'Your annual income',
-        //   initialData: {},
-        //   depends: includeHouseholdInformation,
-        //   uiSchema: veteranAnnualIncome.uiSchema,
-        //   schema: veteranAnnualIncome.schema,
-        // },
         financialInformationSummary: {
           ...financialInformationPages.financialInformationSummary,
         },
         veteranAnnualIncome: {
           ...financialInformationPages.veteranFinancialInformation,
         },
+        spouseAnnualIncome: {
+          ...financialInformationPages.spouseFinancialInformation,
+        },
         deductibleExpenses: {
           ...financialInformationPages.veteranDeductibleInformation,
         },
-        spouseAnnualIncome: {
-          ...financialInformationPages.spouseFinancialInformation,
-          // depends: includeSpousalInformation,
-        },
-        // spouseAnnualIncome: {
-        //   path: 'household-information/spouse-annual-income',
-        //   title: 'Spouse\u2019s annual income',
-        //   initialData: {},
-        //   depends: includeSpousalInformation,
-        //   uiSchema: spouseAnnualIncome.uiSchema,
-        //   schema: spouseAnnualIncome.schema,
-        // },
-        // deductibleExpenses: {
-        //   path: 'household-information/deductible-expenses',
-        //   title: 'Deductible expenses',
-        //   initialData: {},
-        //   // depends: includeHouseholdInformation,
-        //   uiSchema: deductibleExpenses.uiSchema,
-        //   schema: deductibleExpenses.schema,
-        // },
       },
     },
     insuranceInformation: {

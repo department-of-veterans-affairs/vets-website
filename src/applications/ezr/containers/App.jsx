@@ -64,7 +64,7 @@ const App = props => {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
-          'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:householdEnabled': true,
         };
 
         setFormData({

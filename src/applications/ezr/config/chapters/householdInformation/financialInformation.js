@@ -7,7 +7,8 @@ import {
   deductibleExpensesPage,
   summaryPage,
 } from '../../../definitions/financials';
-import FinancialOverviewInformation from '../../../components/FormDescriptions/FinancialOverviewInformation';
+import FinancialOverviewDescription from '../../../components/FormDescriptions/FinancialOverviewInformation';
+import { includeSpousalInformation } from '../../../utils/helpers/form-config';
 
 /**
  * Declare attributes for array builder pattern
@@ -21,7 +22,7 @@ const options = {
   // isItemIncomplete: validateInsurancePolicy,
   text: {
     cardDescription: item => {
-      return FinancialOverviewInformation(item);
+      return FinancialOverviewDescription(item);
     },
   },
 };
@@ -49,17 +50,18 @@ const financialInformationPages = arrayBuilderPages(options, pagebuilder => ({
     uiSchema: annualIncomePageSchemas.uiSchema,
     schema: annualIncomePageSchemas.schema,
   }),
+  spouseFinancialInformation: pagebuilder.itemPage({
+    title: 'spouse annual income',
+    path: 'household-information/financial-information/:index/spousal-income',
+    depends: includeSpousalInformation,
+    uiSchema: spouseAnnualIncomePageSchemas.uiSchema,
+    schema: spouseAnnualIncomePageSchemas.schema,
+  }),
   veteranDeductibleInformation: pagebuilder.itemPage({
     title: 'deductible page',
     path: 'household-information/financial-information/:index/deductible',
     uiSchema: deductiblePageSchemas.uiSchema,
     schema: deductiblePageSchemas.schema,
-  }),
-  spouseFinancialInformation: pagebuilder.itemPage({
-    title: 'spouse annual income',
-    path: 'household-information/financial-information/:index/spousal-income',
-    uiSchema: spouseAnnualIncomePageSchemas.uiSchema,
-    schema: spouseAnnualIncomePageSchemas.schema,
   }),
 }));
 

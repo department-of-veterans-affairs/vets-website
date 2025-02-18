@@ -19,11 +19,13 @@ import { inlineTitleUI } from '../components/FormPatterns/TitlePatterns';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
+  PreviousNetIncome,
 } from '../components/FormDescriptions/IncomeDescriptions';
 import { validateCurrency } from '../utils/validation';
 import {
   EducationalExpensesDescription,
   MedicalExpensesDescription,
+  PreviousFuneralExpenses,
 } from '../components/FormDescriptions/ExpensesDescriptions';
 
 const {
@@ -69,6 +71,7 @@ export const veteranAnnualIncomePage = options => ({
         content['household-income-net-title'],
         content['household-income-net-description'],
       ),
+      'ui:description': PreviousNetIncome,
       veteranNetIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -155,6 +158,7 @@ export const deductibleExpensesPage = options => ({
         content['household-expenses-funeral-title'],
         content['household-expenses-funeral-description'],
       ),
+      'ui:description': PreviousFuneralExpenses,
       deductibleFuneralExpenses: {
         ...currencyUI(
           replaceStrValues(
@@ -199,8 +203,7 @@ export const spouseAnnualIncomePage = options => ({
         content['household-income-gross-title'],
         content['household-income-gross-description'],
       ),
-      // 'ui:description': GrossIncomeDescription,
-      'ui:description': 'test',
+      'ui:description': GrossIncomeDescription(false),
       spouseGrossIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -216,6 +219,7 @@ export const spouseAnnualIncomePage = options => ({
         content['household-income-net-title'],
         content['household-income-net-description'],
       ),
+      'ui:description': PreviousNetIncome(false),
       spouseNetIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -231,7 +235,7 @@ export const spouseAnnualIncomePage = options => ({
         content['household-income-other-title'],
         content['household-income-other-description'],
       ),
-      'ui:description': OtherIncomeDescription,
+      'ui:description': OtherIncomeDescription(false),
       spouseOtherIncome: {
         ...currencyUI(
           replaceStrValues(

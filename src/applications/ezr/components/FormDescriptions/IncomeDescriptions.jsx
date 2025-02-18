@@ -1,31 +1,45 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { formatCurrency } from '../../utils/helpers/general';
 
-// eslint-disable-next-line react/prop-types
-const PreviousGrossIncome = (veteranData, { isVeteranIncome = true }) => {
-  const grossIncome =
-    isVeteranIncome === true
-      ? `${veteranData?.veteranIncome?.grossIncome}`
-      : `${veteranData?.spouseIncome?.grossIncome}`;
+const PreviousIncome = props => {
+  const { incomeType, isVeteran } = props;
+  const { parsedData } = useSelector(state => state.veteranPrefillData);
+  const income = isVeteran
+    ? `${parsedData?.veteranFinancialInfo?.[`${incomeType}`]}`
+    : `${parsedData?.spouseFinancialInfo?.[`${incomeType}`]}`;
 
-  return (
+  return (isVeteran && parsedData?.veteranFinancialInfo) ||
+    (!isVeteran && parsedData?.spouseFinancialInfo) ? (
     <>
-      <div className="vads-u-background-color--gray-lightest">
+      <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
         <va-card background>
           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
-            Your {isVeteranIncome ? '' : "spouse's"} gross annual income from{' '}
-            {isVeteranIncome
-              ? veteranData.incomeYear
-              : veteranData.spouseIncomeYear}
+            Your {isVeteran ? '' : "spouse's"}{' '}
+            {incomeType
+              .split('Income')
+              .join(' ')
+              .toLowerCase()}{' '}
+            income from{' '}
+            {isVeteran ? parsedData?.incomeYear : parsedData?.spouseIncomeYear}
           </h4>
-          <p className="vads-u-margin-y--0">{formatCurrency(grossIncome)}</p>
+          <p className="vads-u-margin-y--0">{formatCurrency(income)}</p>
         </va-card>
       </div>
     </>
-  );
+  ) : null;
 };
 
-export const GrossIncomeDescription = (props, { isVeteranIncome = true }) => {
+PreviousIncome.propTypes = {
+  incomeType: PropTypes.string,
+  isVeteran: PropTypes.bool,
+};
+
+// eslint-disable-next-line react/prop-types
+export const GrossIncomeDescription = (isVeteran = true) => {
+  const incomeType = 'grossIncome';
+
   return (
     <>
       <va-additional-info
@@ -45,54 +59,45 @@ export const GrossIncomeDescription = (props, { isVeteranIncome = true }) => {
           </ul>
         </div>
       </va-additional-info>
-      <PreviousGrossIncome
-        isVeteranIncome={isVeteranIncome}
-        veteranData={props.veteranPrefillData.parsedData}
-      />
+      <PreviousIncome incomeType={incomeType} isVeteran={isVeteran} />
     </>
   );
 };
 
-// const PreviousNetIncome = (veteranData, { isVeteranIncome = true }) => {
-//   const netIncome =
-//     isVeteranIncome === true
-//       ? `${veteranData?.veteranIncome?.netIncome}`
-//       : `${veteranData?.spouseIncome?.netIncome}`;
-//
-//   return (
-//     <>
-//       <div className="vads-u-background-color--gray-lightest">
-//         <va-card background>
-//           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
-//             Your {isVeteranIncome ? '' : "spouse's"} net income from{' '}
-//             {isVeteranIncome
-//               ? veteranData.incomeYear
-//               : veteranData.spouseIncomeYear}
-//           </h4>
-//           <p className="vads-u-margin-y--0">{formatCurrency(netIncome)}</p>
-//         </va-card>
-//       </div>
-//     </>
-//   );
-// };
+export const PreviousNetIncome = (isVeteran = true) => {
+  const incomeType = 'netIncome';
 
-export const OtherIncomeDescription = (
-  <va-additional-info
-    trigger="What we consider other annual income"
-    class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
-    uswds
-  >
-    <div>
-      <p className="vads-u-font-weight--bold vads-u-margin-top--0">
-        Other income includes things like this:
-      </p>
-      <ul className="vads-u-margin-bottom--0">
-        <li>Retirement benefits</li>
-        <li>Unemployment</li>
-        <li>VA benefit compensation</li>
-        <li>Money from the sale of a house</li>
-        <li>Interest from investments</li>
-      </ul>
-    </div>
-  </va-additional-info>
-);
+  return (
+    <>
+      <PreviousIncome incomeType={incomeType} isVeteran={isVeteran} />
+    </>
+  );
+};
+
+export const OtherIncomeDescription = (isVeteran = true) => {
+  const incomeType = 'otherIncome';
+
+  return (
+    <>
+      <va-additional-info
+        trigger="What we consider other annual income"
+        class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
+        uswds
+      >
+        <div>
+          <p className="vads-u-font-weight--bold vads-u-margin-top--0">
+            Other income includes things like this:
+          </p>
+          <ul className="vads-u-margin-bottom--0">
+            <li>Retirement benefits</li>
+            <li>Unemployment</li>
+            <li>VA benefit compensation</li>
+            <li>Money from the sale of a house</li>
+            <li>Interest from investments</li>
+          </ul>
+        </div>
+      </va-additional-info>
+      <PreviousIncome incomeType={incomeType} isVeteran={isVeteran} />
+    </>
+  );
+};
