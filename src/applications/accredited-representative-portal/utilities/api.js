@@ -10,11 +10,6 @@ window.appName = manifest.entryName;
 
 const API_VERSION = 'accredited_representative_portal/v0';
 
-const isJson = response => {
-  const contentType = response.headers.get('Content-Type');
-  return contentType && contentType.includes('application/json');
-};
-
 /**
  * Enhanced API wrapper that preserves Response objects for error handling
  * while maintaining existing platform functionality where beneficial
@@ -56,7 +51,7 @@ const wrapApiRequest = fn => {
 
       // For successful responses, parse and return data
       if (response.ok || response.status === 304) {
-        return isJson(response) ? await response.json() : response;
+        return response;
       }
 
       // For errors, preserve the Response object
