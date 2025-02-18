@@ -28,6 +28,8 @@ export const uiSchema = {
       viewField: treatmentView,
       showSave: true,
       reviewMode: true,
+      confirmRemove: true,
+      useVaCards: true,
       updateSchema: (formData, schema) => ({
         ...schema,
         minItems: hasVAEvidence(formData) ? 1 : 0,
