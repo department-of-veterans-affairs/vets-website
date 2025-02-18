@@ -3,7 +3,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
 import { fromUnixTime } from 'date-fns';
 import { format } from 'date-fns-tz';
 
@@ -130,100 +129,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     );
     tree.unmount();
   });
-  it('calls signInHelpList function when provided', () => {
-    const signInHelpListMock = () =>
-      React.createElement('div', null, 'Mock Component');
-    const testFormConfig = {
-      prefillEnabled: true,
-      saveInProgress: {
-        messages: {
-          inProgress:
-            'Your personal records request (20-10206) is in progress.',
-          expired:
-            'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
-          saved: 'Your Personal records request has been saved.',
-        },
-      },
-      signInHelpList: signInHelpListMock,
-      customText: {
-        appType: 'testApp',
-      },
-    };
-    const testUser = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
 
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="20-10206"
-        user={testUser}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={testFormConfig}
-        prefillEnabled
-        headingLevel={1}
-      />,
-    );
-
-    expect(container.textContent).to.include('Mock Component');
-  });
-  it('renders correctly when signInHelpList not provided', () => {
-    const testFormConfig = {
-      prefillEnabled: true,
-      saveInProgress: {
-        messages: {
-          inProgress:
-            'Your personal records request (20-10206) is in progress.',
-          expired:
-            'Your saved Personal records request (20-10206) has expired. If you want to request personal records, please start a new application.',
-          saved: 'Your Personal records request has been saved.',
-        },
-      },
-      customText: {
-        appType: 'testApp',
-      },
-    };
-    const testUser = {
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-
-    const { container } = render(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="20-10206"
-        user={testUser}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={testFormConfig}
-        prefillEnabled
-      />,
-    );
-
-    expect(container.textContent).not.to.contain('Mock Component');
-  });
   it('should pass prefills available prop', () => {
     const user = {
       profile: {
@@ -346,17 +252,11 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect($('va-alert', container).textContent).to.contain(
-      'We can fill in some of your information for you to save you time.',
-    );
     expect($('va-button', container).getAttribute('text')).to.contain(
       'Sign in to start your application',
     );
     expect($('a', container).textContent).to.contain(
       'Start your application without signing in',
-    );
-    expect(container.textContent).to.include(
-      'lose any information you already',
     );
   });
 
@@ -444,15 +344,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         ],
         prefillsAvailable: [],
       },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
+      login: { currentlyLoggedIn: false },
     };
 
-    const tree = shallow(
+    const { container } = render(
       <SaveInProgressIntro
         saveInProgress={{ formData: {} }}
         pageList={pageList}
@@ -467,9 +362,12 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('va-alert').text()).to.contain('1 year');
-    expect(tree.find('va-alert').text()).to.not.contain('60 days');
-    tree.unmount();
+    const signInAlertRetentionPeriod = container
+      .querySelector('va-alert-sign-in')
+      .getAttribute('time-limit');
+
+    expect(signInAlertRetentionPeriod).to.eql('1 year');
+    expect(signInAlertRetentionPeriod).to.not.eql('60 days');
   });
 
   it('should render loading indicator while profile is loading', () => {
@@ -551,48 +449,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.true;
     tree.unmount();
   });
-  it('should render sign in message from render prop', () => {
-    const user = {
-      profile: {
-        savedForms: [
-          {
-            form: VA_FORM_IDS.FORM_10_10EZ,
-            metadata: {
-              lastUpdated: 3000,
-              expiresAt: Math.floor(Date.now() / 1000) + 2000,
-            },
-          },
-        ],
-        prefillsAvailable: [],
-      },
-      login: {
-        currentlyLoggedIn: false,
-        loginUrls: {
-          idme: '/mockLoginUrl',
-        },
-      },
-    };
-    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
-
-    const tree = shallow(
-      <SaveInProgressIntro
-        saveInProgress={{ formData: {} }}
-        pageList={pageList}
-        formId="1010ez"
-        user={user}
-        fetchInProgressForm={fetchInProgressForm}
-        removeInProgressForm={removeInProgressForm}
-        renderSignInMessage={renderSpy}
-        toggleLoginModal={toggleLoginModal}
-        formConfig={formConfig}
-      />,
-    );
-
-    expect(renderSpy.called).to.be.true;
-    expect(tree.text()).to.contain('Render prop info');
-    expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
-    tree.unmount();
-  });
 
   it('should render downtime notification', () => {
     const user = {
@@ -615,7 +471,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         },
       },
     };
-    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
 
     const tree = shallow(
       <SaveInProgressIntro
@@ -626,7 +481,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
       />,
@@ -698,7 +552,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         },
       },
     };
-    const renderSpy = sinon.stub().returns(<div>Render prop info</div>);
 
     const tree = shallow(
       <SaveInProgressIntro
@@ -710,7 +563,6 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         user={user}
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
-        renderSignInMessage={renderSpy}
         toggleLoginModal={toggleLoginModal}
         formConfig={formConfig}
       />,
