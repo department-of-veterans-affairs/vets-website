@@ -16,9 +16,6 @@ const Programs = ({ programTypes, facilityCode }) => {
           key={index}
           className="program-link-wrapper vads-u-display--flex vads-u-justify-content--space-between"
         >
-          <p className="vads-u-font-weight--bold vads-u-padding-right--2">
-            {mapProgramTypeToName(programType)}
-          </p>
           <Link
             to={{
               pathname: `/institution/${facilityCode}/${mapToDashedName(
@@ -29,10 +26,10 @@ const Programs = ({ programTypes, facilityCode }) => {
                 .replace(/\s+/g, '-')
                 .replace(/\//g, '-')}`,
             }}
-            className="vads-u-display--flex vads-u-align-items--center"
+            className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--2"
             data-testid="program-link"
           >
-            See All
+            See {mapProgramTypeToName(programType)} programs
           </Link>
         </span>
       ))}
