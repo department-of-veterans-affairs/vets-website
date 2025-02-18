@@ -5,7 +5,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 
 // showClose is disabled until we can determine if dangerouslySetInnerHTML can work with the close button
 export default function SituationUpdateBanner({
-  id,
+  entityId,
   alertType,
   headline,
   showClose,
@@ -14,7 +14,7 @@ export default function SituationUpdateBanner({
   operatingStatusPage,
   findFacilitiesCta = false,
 }) {
-  const bannerId = `situation-update-banner-${id}`;
+  const bannerId = `situation-update-banner-${entityId}`;
 
   return (
     <va-banner
@@ -56,8 +56,8 @@ export default function SituationUpdateBanner({
 SituationUpdateBanner.propTypes = {
   alertType: PropTypes.string.isRequired,
   content: PropTypes.node.isRequired,
+  entityId: PropTypes.string.isRequired,
   headline: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
   findFacilitiesCta: PropTypes.bool,
   operatingStatusCta: PropTypes.bool,
   operatingStatusPage: PropTypes.string,
