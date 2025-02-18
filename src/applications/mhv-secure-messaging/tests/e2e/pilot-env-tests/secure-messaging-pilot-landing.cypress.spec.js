@@ -6,10 +6,12 @@ import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 
 describe('SM PILOT FEATURE FLAG', () => {
-  const mockPilotFeatureToggles = GeneralFunctionsPage.updateFeatureToggles(
-    `mhv_secure_messaging_cerner_pilot`,
-    true,
-  );
+  const mockPilotFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: `mhv_secure_messaging_cerner_pilot`,
+      value: true,
+    },
+  ]);
   it('pilot OF landing page view', () => {
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(mockFeatureToggles, Paths.UI_PILOT);
@@ -52,12 +54,16 @@ describe('SM PILOT FEATURE FLAG', () => {
   });
 
   it('redirect to pilot inbox page visiting sm-pilot', () => {
-    const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
-      'mhv_secure_messaging_cerner_pilot',
-      true,
-      'mhv_secure_messaging_remove_landing_page',
-      true,
-    );
+    const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+      {
+        name: 'mhv_secure_messaging_cerner_pilot',
+        value: true,
+      },
+      {
+        name: 'mhv_secure_messaging_remove_landing_page',
+        value: true,
+      },
+    ]);
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(
       updatedFeatureToggle,
@@ -69,12 +75,16 @@ describe('SM PILOT FEATURE FLAG', () => {
   });
 
   it('redirect to inbox page visiting sm', () => {
-    const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
-      'mhv_secure_messaging_cerner_pilot',
-      true,
-      'mhv_secure_messaging_remove_landing_page',
-      true,
-    );
+    const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+      {
+        name: 'mhv_secure_messaging_cerner_pilot',
+        value: true,
+      },
+      {
+        name: 'mhv_secure_messaging_remove_landing_page',
+        value: true,
+      },
+    ]);
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
     cy.url().should(`include`, Paths.INBOX);

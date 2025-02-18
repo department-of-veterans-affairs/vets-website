@@ -89,10 +89,9 @@ describe('SM MAIN PAGE WITHOUT API CALLS', () => {
 
   describe('SM MAIN PAGE REDIRECTING', () => {
     it('verify redirecting to inbox with feature flag', () => {
-      const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
-        'mhv_secure_messaging_remove_landing_page',
-        true,
-      );
+      const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+        { name: 'mhv_secure_messaging_remove_landing_page', value: true },
+      ]);
       SecureMessagingSite.login(updatedFeatureToggle);
       SecureMessagingLandingPage.loadMainPage(updatedFeatureToggle);
 

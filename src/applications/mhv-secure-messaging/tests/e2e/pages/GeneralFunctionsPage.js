@@ -33,19 +33,14 @@ class GeneralFunctionsPage {
     };
   };
 
-  updateFeatureToggles = (...args) => {
-    const options = [];
-    for (let i = 0; i < args.length; i += 2) {
-      options.push({
-        name: args[i],
-        value: args[i + 1],
-      });
-    }
+  // param {ArrayOfObjects<{name: string, value: any}>}
+  // returns {Object} - the updated mock toggles object.
+  updateFeatureToggles = toggles => {
     return {
       ...mockToggles,
       data: {
         ...mockToggles.data,
-        features: [...mockToggles.data.features, ...options],
+        features: [...mockToggles.data.features, ...toggles],
       },
     };
   };
