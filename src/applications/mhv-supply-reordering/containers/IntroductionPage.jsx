@@ -7,9 +7,8 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 import { getMdotInProgressForm } from '../actions';
-import { TITLE, SUBTITLE } from '../constants';
+import { INTRO_TITLE, INTRO_SUBTITLE } from '../constants';
 
-import Breadcrumbs from '../components/Breadcrumbs';
 import VerifiedPrefillAlert from '../components/VerifiedPrefillAlert';
 import Alerts from './Alerts';
 import SuppliesAvailable from '../components/SuppliesAvailable';
@@ -48,9 +47,8 @@ export const IntroductionPage = ({ route }) => {
 
   return (
     <>
-      <Breadcrumbs />
-      <FormTitle title={TITLE} />
-      <p className="vads-u-font-family--serif">{SUBTITLE}</p>
+      <FormTitle title={INTRO_TITLE} />
+      <p className="vads-u-font-family--serif">{INTRO_SUBTITLE}</p>
       <Alerts />
       {isNotAlerting && (
         <>

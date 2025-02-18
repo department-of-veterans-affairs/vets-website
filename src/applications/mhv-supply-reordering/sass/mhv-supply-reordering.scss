@@ -5,3 +5,16 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+.mhv-update-cancel-buttons {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+// override button.usa-button media query
+@media (min-width: 30em) {
+    va-button.mhv-update-cancel-buttons::part(button) {
+        max-width: 20rem;
+        width: 100%;
+    }
+}
