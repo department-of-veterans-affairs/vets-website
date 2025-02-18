@@ -287,6 +287,7 @@ const formConfig = {
       checkboxLabel:
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
+    hideBackButton: true,
   },
   footerContent,
   getHelp,
