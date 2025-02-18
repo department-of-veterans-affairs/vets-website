@@ -7,17 +7,32 @@ export default function transform(formConfig, form) {
   //
   // Include total enrolled FTE And supported student percentage FTE if 10+ supported students enrolled
   //
-  formData.data.programs = formData.data?.programs?.map(program => {
-    const programWithCalcs = program;
-    if (!Number(program.supportedStudents) < 10 && program.fte) {
+  formData.data.programs = formData.data?.programs?.map(p => {
+    const program = p;
+    program.studentsEnrolled = parseInt(program.studentsEnrolled);
+    program.supportedStudents = parseInt(program.supportedStudents);
+    if (!program.supportedStudents < 10 && program.fte) {
       const fteCalcs = getFTECalcs(program);
-      programWithCalcs.fte.totalFTE = fteCalcs?.total;
-      programWithCalcs.fte.supportedPercentageFTE =
-        fteCalcs?.supportedFTEPercent;
+      program.fte.totalFTE = fteCalcs?.total;
+      program.fte.supportedPercentageFTE =
+        fteCalcs?.supportedFTEPercent &&
+        Number(
+          fteCalcs?.supportedFTEPercent.substring(
+            0,
+            fteCalcs?.supportedFTEPercent.length - 1,
+          ),
+        );
     }
-    return programWithCalcs;
+    if (program.fte) {
+      program.fte.nonSupported = parseInt(program.fte.nonSupported);
+      program.fte.supported = parseInt(program.fte.supported);
+    }
+    return program;
   });
+  // Strip Statement of truth checkbox value
+  delete formData.data.statementOfTruthCertified;
   const transformedData = transformForSubmit(formConfig, formData);
+
   return JSON.stringify({
     educationBenefitsClaim: {
       form: transformedData,
