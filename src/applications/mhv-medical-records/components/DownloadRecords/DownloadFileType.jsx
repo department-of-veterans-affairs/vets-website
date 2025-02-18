@@ -1,4 +1,10 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -37,6 +43,7 @@ import {
   refreshExtractTypes,
 } from '../../util/constants';
 import { Actions } from '../../util/actionTypes';
+import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadFileType = props => {
   const { runningUnitTest = false } = props;
@@ -79,12 +86,21 @@ const DownloadFileType = props => {
 
   const { fromDate, toDate, option: dateFilterOption } = dateFilter;
 
+  const progressBarRef = useRef(null);
+
+  useFocusOutline(progressBarRef);
+
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
+      setTimeout(() => {
+        const heading = progressBarRef?.current?.shadowRoot?.querySelector(
+          'h2',
+        );
+        focusElement(heading);
+      }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
-    [dispatch],
+    [progressBarRef],
   );
 
   useEffect(
@@ -387,6 +403,23 @@ const DownloadFileType = props => {
     if (e?.detail?.value) setFileTypeError(null);
   };
 
+  const handleBack = () => {
+    history.push('/download/record-type');
+    sendDataDogAction('File type - Back - Record type');
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    selectFileTypeHandler();
+    focusOnErrorField();
+    if (fileType === 'pdf') {
+      generatePdf().then(() => history.push('/download'));
+    } else if (fileType === 'txt') {
+      generateTxt().then(() => history.push('/download'));
+    }
+    sendDataDogAction('File type - Continue - Record type');
+  };
+
   return (
     <div>
       <h1>Select records and download report</h1>
@@ -395,6 +428,8 @@ const DownloadFileType = props => {
           current={3}
           heading-text="Select file type"
           total={3}
+          header-level={2}
+          ref={progressBarRef}
         />
       </div>
       <h2>Select file type</h2>
@@ -420,66 +455,57 @@ const DownloadFileType = props => {
         )}
       {isDataFetched &&
         recordCount > 0 && (
-          <div>
-            <div
-              className="vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
-              data-testid="record-count"
-            >
-              <p>
+          <form onSubmit={e => handleSubmit(e)}>
+            <fieldset>
+              <legend
+                className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
+                data-testid="record-count"
+              >
                 You’re downloading <strong>{recordCount} total records</strong>
-              </p>
-            </div>
-            <VaRadio
-              label="If you use assistive technology, a text file may work better for you."
-              onVaValueChange={e => {
-                setFileType(e.detail.value);
-                handleDdRum(e);
-                selectFileTypeHandler(e);
-              }}
-              error={fileTypeError}
-            >
-              <va-radio-option label="PDF" value="pdf" name="file-type" />
-              <va-radio-option label="Text file" value="txt" name="file-type" />
-            </VaRadio>
-            {downloadStarted && <DownloadSuccessAlert />}
-            <div className="vads-u-margin-top--1">
-              <DownloadingRecordsInfo />
-            </div>
-          </div>
-        )}
-      {recordCount > 0 &&
-        isDataFetched && (
-          <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
-            <button
-              className="usa-button-secondary vads-u-margin-y--0p5"
-              onClick={() => {
-                history.push('/download/record-type');
-                sendDataDogAction('File type - Back - Record type');
-              }}
-            >
-              <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-                <va-icon icon="navigate_far_before" size={2} />
-                <span className="vads-u-margin-left--0p5">Back</span>
+              </legend>
+
+              <VaRadio
+                label="If you use assistive technology, a text file may work better for you."
+                onVaValueChange={e => {
+                  setFileType(e.detail.value);
+                  handleDdRum(e);
+                  selectFileTypeHandler(e);
+                }}
+                error={fileTypeError}
+              >
+                <va-radio-option label="PDF" value="pdf" name="file-type" />
+                <va-radio-option
+                  label="Text file"
+                  value="txt"
+                  name="file-type"
+                />
+              </VaRadio>
+              {downloadStarted && <DownloadSuccessAlert />}
+              <div className="vads-u-margin-top--1">
+                <DownloadingRecordsInfo />
               </div>
-            </button>
-            <button
-              disabled={recordCount === 0 || !isDataFetched}
-              className="vads-u-margin-y--0p5"
-              data-testid="download-report-button"
-              onClick={() => {
-                selectFileTypeHandler();
-                focusOnErrorField();
-                if (fileType === 'pdf') {
-                  generatePdf().then(() => history.push('/download'));
-                } else if (fileType === 'txt') {
-                  generateTxt().then(() => history.push('/download'));
-                }
-                sendDataDogAction('File type - Continue - Record type');
-              }}
-            >
-              Download report
-            </button>
-          </div>
+            </fieldset>
+
+            <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
+              <button
+                type="button"
+                className="usa-button-secondary vads-u-margin-y--0p5"
+                onClick={handleBack}
+              >
+                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
+                  <va-icon icon="navigate_far_before" size={2} />
+                  <span className="vads-u-margin-left--0p5">Back</span>
+                </div>
+              </button>
+              <button
+                type="submit"
+                className="vads-u-margin-y--0p5 vads-u-width--auto"
+                data-testid="download-report-button"
+              >
+                Download report
+              </button>
+            </div>
+          </form>
         )}
       <NeedHelpSection />
     </div>
