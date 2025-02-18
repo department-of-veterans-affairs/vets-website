@@ -10,6 +10,7 @@ import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
+import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -64,6 +65,12 @@ const formConfig = {
           title: 'Your organization',
           uiSchema: applicantRelationToVetOrg.uiSchema,
           schema: applicantRelationToVetOrg.schema,
+        },
+        applicantRelationToVetOrg2: {
+          path: 'applicant-relation-to-vet-org-2',
+          title: 'Your organization',
+          uiSchema: applicantRelationToVetOrg2.uiSchema,
+          schema: applicantRelationToVetOrg2.schema,
         },
       },
     },

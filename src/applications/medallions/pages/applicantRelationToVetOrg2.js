@@ -13,7 +13,8 @@ export default {
   uiSchema: {
     'ui:description': applicantRelationToVetOrgHeaders,
     yourOrgText: textUI({
-      title: 'Enter the name of the cemetery or funeral home you represent',
+      title:
+        'Enter the name of the Veterans Service Organization (VSO) you represent',
     }),
     'view:finishAppLaterLink': {
       'ui:description': finishAppLaterLink,

@@ -1,7 +1,7 @@
 import { radioSchema } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  //   finishAppLaterLink,
+  finishAppLaterLink,
   applicantRelationToVetHeaders,
   applicantRelationToVetRadio,
   validateVetRadioOtherComment,
@@ -25,6 +25,9 @@ export default {
         pattern: 'Only alphabetic characters are allowed',
       },
     },
+    'view:finishAppLaterLink': {
+      'ui:description': finishAppLaterLink,
+    },
   },
   schema: {
     type: 'object',
@@ -42,6 +45,10 @@ export default {
         title: 'Please specify your relationship to the Veteran',
         maxLength: 50,
         pattern: '^[A-Za-z\\s]+$',
+      },
+      'view:finishAppLaterLink': {
+        type: 'object',
+        properties: {},
       },
     },
   },

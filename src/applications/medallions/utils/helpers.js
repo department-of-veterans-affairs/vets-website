@@ -55,9 +55,8 @@ export const applicantInfoNoteDescription = (
       <b>Note: </b>
       To protect your personal information, we don’t allow online changes to
       your name, date of birth, or Social Security number. If you need to change
-      this information, call us at
-      <va-telephone contact="8008271000" />. We’re here Monday through Friday,
-      between 8:00 a.m. and 9:00 p.m. ET.
+      this information, call us at <va-telephone contact="8008271000" />. We’re
+      here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.
     </p>
 
     <div>

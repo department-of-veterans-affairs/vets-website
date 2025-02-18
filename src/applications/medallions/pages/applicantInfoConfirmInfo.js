@@ -1,19 +1,22 @@
-import // dateOfBirthSchema,
-// dateOfBirthUI,
-// fullNameNoSuffixSchema,
-// fullNameNoSuffixUI,
-// titleUI,
-'platform/forms-system/src/js/web-component-patterns';
-
 import { applicantInfoNoteDescription } from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:description': applicantInfoNoteDescription,
+    'view:applicantInfoNoteDescription': {
+      'ui:description': applicantInfoNoteDescription,
+    },
+    'ui:options': {
+      keepInPageOnReview: true,
+    },
   },
   schema: {
     type: 'object',
-    properties: {},
+    properties: {
+      'view:applicantInfoNoteDescription': {
+        type: 'object',
+        properties: {},
+      },
+    },
   },
 };
