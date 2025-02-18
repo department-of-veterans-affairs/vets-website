@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
@@ -18,6 +19,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import InstitutionDetails from '../pages/institutionDetails';
 import studentRatioCalc from '../pages/studentRatioCalc';
+import submitForm from './submitForm';
 
 const { date, dateRange } = commonDefinitions;
 
@@ -30,13 +32,8 @@ const subTitle = () => (
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  // submit: submitForm,
-  submit: async formData => {
-    return new Promise(resolve => {
-      resolve({ status: 201, data: formData });
-    });
-  },
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10216`,
+  submit: submitForm,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (

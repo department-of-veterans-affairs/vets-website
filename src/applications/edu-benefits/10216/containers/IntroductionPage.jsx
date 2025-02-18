@@ -13,6 +13,7 @@ const IntroductionPage = ({ router }) => {
 
   const startForm = event => {
     event.preventDefault();
+    localStorage.removeItem('10216claimID');
     router.push('/institution-details');
   };
 
