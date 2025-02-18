@@ -26,7 +26,7 @@
 
       p {
         margin: 4px 0 14px;
-        color: $vads-color-gray-medium;
+        color: $vads-color-base;
       }
 
       .poa-request-details__form--error & {
@@ -121,6 +121,7 @@
 
     .poa-request-details__list & {
       margin-bottom: 24px;
+      display: block;
       @media (min-width: $small-desktop-screen) {
         margin-bottom: 0;
       }
@@ -184,9 +185,8 @@
   }
 }
 .processing-date {
-  display: flex;
-
-  strong {
+  > span {
+    font-weight: bold;
     margin-left: 3px;
   }
 }
