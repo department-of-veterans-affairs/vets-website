@@ -865,11 +865,11 @@ export const mapToAbbreviation = value => {
 
 export const mapProgramTypeToName = programType => {
   const programTypesNames = {
-    NCD: 'Non College Degree',
-    IHL: 'Institution of Higher Learning',
-    OJT: 'On The Job Training/Apprenticeship',
-    FLGT: 'Flight',
-    CORR: 'Correspondence',
+    NCD: 'non college degree',
+    IHL: 'institution of higher learning',
+    OJT: 'on-the-job training/apprenticeship',
+    FLGT: 'flight',
+    CORR: 'correspondence',
   };
 
   return programTypesNames[programType] || 'Unknown Program Type';
