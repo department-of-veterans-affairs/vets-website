@@ -28,8 +28,6 @@ import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const userServices = user.profile.services;
-  const hasMhvAccount = user.profile.mhvAccountState !== 'NONE';
 
   const { featureTogglesLoading, appEnabled } = useSelector(
     flagsLoadedAndMhvEnabled,
@@ -116,28 +114,6 @@ const App = ({ children }) => {
   };
   useDatadogRum(datadogRumConfig);
 
-  useEffect(
-    () => {
-      // If the user is not whitelisted or feature flag is disabled, redirect them.
-      if (featureTogglesLoading === false && appEnabled !== true) {
-        window.location.replace('/health-care/get-medical-records');
-      }
-    },
-    [featureTogglesLoading, appEnabled],
-  );
-
-  const isMissingRequiredService = (loggedIn, services) => {
-    if (
-      loggedIn &&
-      hasMhvAccount &&
-      !services.includes(backendServices.MEDICAL_RECORDS)
-    ) {
-      window.location.replace('/health-care/get-medical-records');
-      return true;
-    }
-    return false;
-  };
-
   if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
@@ -164,54 +140,47 @@ const App = ({ children }) => {
         user={user}
         serviceRequired={[backendServices.MEDICAL_RECORDS]}
       >
-        {isMissingRequiredService(
-          user.login.currentlyLoggedIn,
-          userServices,
-        ) || (
-          <>
-            {phase0p5Flag && <MhvSecondaryNav />}
-            <div
-              ref={measuredRef}
-              className="vads-l-grid-container vads-u-padding-left--2"
-            >
-              {mhvMrDown === externalServiceStatus.down ? (
-                <>
-                  {atLandingPage && <MrBreadcrumbs />}
-                  <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
-                    Medical records
-                  </h1>
-                  <DowntimeNotification
-                    appTitle={downtimeNotificationParams.appTitle}
-                    dependencies={[
-                      externalServices.mhvMr,
-                      externalServices.mhvPlatform,
-                      externalServices.global,
-                    ]}
-                    render={renderMHVDowntime}
-                  />
-                </>
-              ) : (
-                <HeaderSectionProvider>
-                  <MrBreadcrumbs />
-                  <div className="vads-l-row">
-                    <div className="medium-screen:vads-l-col--8">
-                      {children}
-                    </div>
-                  </div>
-                </HeaderSectionProvider>
-              )}
-              <va-back-to-top
-                class="no-print"
-                hidden={isHidden}
-                data-dd-privacy="mask"
-                data-dd-action-name="Back to top"
-                data-testid="mr-back-to-top"
-              />
-              <ScrollToTop />
-              <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
-            </div>
-          </>
-        )}
+        <>
+          {phase0p5Flag && <MhvSecondaryNav />}
+          <div
+            ref={measuredRef}
+            className="vads-l-grid-container vads-u-padding-left--2"
+          >
+            {mhvMrDown === externalServiceStatus.down ? (
+              <>
+                {atLandingPage && <MrBreadcrumbs />}
+                <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
+                  Medical records
+                </h1>
+                <DowntimeNotification
+                  appTitle={downtimeNotificationParams.appTitle}
+                  dependencies={[
+                    externalServices.mhvMr,
+                    externalServices.mhvPlatform,
+                    externalServices.global,
+                  ]}
+                  render={renderMHVDowntime}
+                />
+              </>
+            ) : (
+              <HeaderSectionProvider>
+                <MrBreadcrumbs />
+                <div className="vads-l-row">
+                  <div className="medium-screen:vads-l-col--8">{children}</div>
+                </div>
+              </HeaderSectionProvider>
+            )}
+            <va-back-to-top
+              class="no-print"
+              hidden={isHidden}
+              data-dd-privacy="mask"
+              data-dd-action-name="Back to top"
+              data-testid="mr-back-to-top"
+            />
+            <ScrollToTop />
+            <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
+          </div>
+        </>
       </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
