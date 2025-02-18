@@ -52,21 +52,15 @@ export const LastUpdatedComponent = props => {
 export const notFoundComponent = () => {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>
-      <h2 slot="headline">
+      <h4 id="track-your-status-on-mobile" slot="headline">
         You don’t have a 1095-B tax form available right now
-      </h2>
-      <div>
-        <p>
-          If you recently enrolled in VA health care, you may not have a 1095-B
-          form yet. We process 1095-B forms in early January each year, based on
-          your enrollment in VA health care during the past year.
-        </p>
-        <p>
-          If you think you should have a 1095-B form, call us at{' '}
-          {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
-          Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
-      </div>
+      </h4>
+      <p className="vads-u-margin-y--0">
+        You do not have a 1095-B tax form available. This could be because you
+        weren’t enrolled in VA healthcare in 2024. If you think you were
+        enrolled, call us at 877-222-8387 (TTY:711). We’re here Monday through
+        Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
     </va-alert>
   );
 };
