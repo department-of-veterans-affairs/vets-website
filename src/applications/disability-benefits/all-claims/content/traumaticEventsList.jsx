@@ -38,6 +38,7 @@ export const maxEventsAlert = () => {
         <li>
           You may also print this form, fill it out, and mail it to us.{' '}
           <va-link
+            external
             href="https://www.va.gov/find-forms/about-form-21-0781/"
             text="Get VA Form 21-0781"
           />
