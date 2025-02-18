@@ -2,8 +2,19 @@ import { expect } from 'chai';
 import { formIs2122 } from '../../utilities/helpers';
 
 describe('formIs2122', () => {
-  it('should return true if rep.type is "representative"', () => {
-    const rep = { type: 'representative' };
+  it('should return true if rep.attributes.individualType is "veteran_service_officer"', () => {
+    const rep = {
+      type: 'individual',
+      attributes: { individualType: 'veteran_service_officer' },
+    };
+    expect(formIs2122(rep)).to.be.true;
+  });
+
+  it('should return true if rep.attributes.individualType is "representative"', () => {
+    const rep = {
+      type: 'individual',
+      attributes: { individualType: 'representative' },
+    };
     expect(formIs2122(rep)).to.be.true;
   });
 

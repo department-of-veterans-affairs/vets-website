@@ -196,7 +196,19 @@ export const getOrgName = formData => {
  * Takes representative object (rather than formData object)
  */
 export const formIs2122 = rep => {
-  return rep?.type === 'representative' || rep?.type === 'organization';
+  const repType = rep?.type;
+
+  if (
+    repType === 'organization' ||
+    (['representative', 'individual'].includes(repType) &&
+      ['representative', 'veteran_service_officer'].includes(
+        rep?.attributes?.individualType,
+      ))
+  ) {
+    return true;
+  }
+
+  return false;
 };
 
 // Rep name used in Terms and Conditions agreement

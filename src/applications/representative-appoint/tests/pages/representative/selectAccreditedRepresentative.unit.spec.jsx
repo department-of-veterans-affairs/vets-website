@@ -429,7 +429,10 @@ describe('<SelectAccreditedRepresentative> - formIs2122 logic', () => {
 
     handleGoForward = ({ newSelection }) => {
       const currentSelectedRep = {
-        current: { type: 'representative' }, // Mock the current selected rep with 'representative'
+        current: {
+          type: 'representative',
+          attributes: { individualType: 'veteran_service_officer' },
+        },
       };
 
       if (formIs2122(currentSelectedRep.current) !== formIs2122(newSelection)) {
@@ -448,7 +451,10 @@ describe('<SelectAccreditedRepresentative> - formIs2122 logic', () => {
     });
 
     it('should call goToPath with /representative-contact if type changes to something completely different (e.g., attorney)', () => {
-      const newSelection = { type: 'attorney' };
+      const newSelection = {
+        type: 'veteran_service_officer',
+        attributes: { individualType: 'attorney' },
+      };
 
       handleGoForward({ newSelection });
 
