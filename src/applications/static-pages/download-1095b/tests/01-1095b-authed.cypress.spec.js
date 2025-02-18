@@ -23,14 +23,9 @@ describe('Authed 1095-B Form Download PDF', () => {
         'applications/static-pages/download-1095b/tests/e2e/fixtures/1095BTestFixture.txt',
       statusCode: 200,
     });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', {
-      data: {
-        nodeQuery: {
-          count: 0,
-          entities: [],
-        },
-      },
-    }).as('vamcUser');
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 }).as(
+      'vamcUser',
+    );
 
     cy.login(mockUsers.loa3User);
     cy.visit('/health-care/download-1095b/');
