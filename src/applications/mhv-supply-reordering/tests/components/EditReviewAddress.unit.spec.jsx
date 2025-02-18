@@ -29,7 +29,7 @@ const setup = () => {
 };
 
 describe('EditReviewAddress', () => {
-  it('renders EditReviewAddress', () => {
+  it('renders', () => {
     const { getByRole, getByText } = setup();
     getByRole('heading', { level: 4, name: title });
     getByText(/101 EXAMPLE STREET/);

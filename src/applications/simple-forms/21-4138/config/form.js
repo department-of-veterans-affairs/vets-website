@@ -21,14 +21,7 @@ import {
   higherLevelReviewPage,
   boardAppealPage,
 } from '../pages/noticeOfDisagreement';
-import {
-  aboutPriorityProcessingPage,
-  housingRisksPage,
-  otherHousingRisksPage,
-  hardshipsPage,
-  priorityProcessingNotQualifiedPage,
-  priorityProcessingRequestPage,
-} from '../pages/priorityProcessing';
+import { priorityProcessingPage } from '../pages/priorityProcessing';
 import { personalRecordsRequestPage } from '../pages/recordsRequest';
 import { claimStatusToolPage } from '../pages/newEvidence';
 import { personalInformationPage } from '../pages/personalInformation';
@@ -39,7 +32,6 @@ import { statementPage } from '../pages/statement';
 import {
   getMockData,
   isEligibleForDecisionReview,
-  isIneligibleForPriorityProcessing,
   isEligibleToSubmitStatement,
 } from '../helpers';
 
@@ -186,67 +178,15 @@ const formConfig = {
           pageClass: 'board-appeal',
           hideNavButtons: true,
         },
-        aboutPriorityProcessingPage: {
+        priorityProcessingPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
-          path: 'about-priority-processing',
-          title: 'What to know before you request priority processing',
-          uiSchema: aboutPriorityProcessingPage.uiSchema,
-          schema: aboutPriorityProcessingPage.schema,
-          pageClass: 'about-priority-processing',
+          path: 'priority-processing',
+          title: 'There’s a better way to tell us you need priority processing',
+          uiSchema: priorityProcessingPage.uiSchema,
+          schema: priorityProcessingPage.schema,
+          pageClass: 'priority-processing',
           hideSaveLinkAndStatus: true,
-        },
-        housingRisksPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
-          path: 'housing-risks',
-          title:
-            'Which of these statements best describes your living situation?',
-          uiSchema: housingRisksPage.uiSchema,
-          schema: housingRisksPage.schema,
-          pageClass: 'housing-risks',
-          hideSaveLinkAndStatus: true,
-        },
-        otherHousingRisksPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation.OTHER_RISK,
-          path: 'other-housing-risk',
-          title: 'Other housing risks',
-          uiSchema: otherHousingRisksPage.uiSchema,
-          schema: otherHousingRisksPage.schema,
-          pageClass: 'other-housing-risk',
-          hideSaveLinkAndStatus: true,
-        },
-        hardshipsPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
-          path: 'hardships',
-          title: 'Other reasons for request',
-          uiSchema: hardshipsPage.uiSchema,
-          schema: hardshipsPage.schema,
-          pageClass: 'hardships',
-          hideSaveLinkAndStatus: true,
-        },
-        priorityProcessingNotQualifiedPage: {
-          depends: formData => isIneligibleForPriorityProcessing(formData),
-          path: 'priority-processing-not-qualified',
-          title: 'You may not qualify for priority processing',
-          uiSchema: priorityProcessingNotQualifiedPage.uiSchema,
-          schema: priorityProcessingNotQualifiedPage.schema,
-          pageClass: 'priority-processing-not-qualified',
-          hideSaveLinkAndStatus: true,
-        },
-        priorityProcessingRequestPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (!formData.livingSituation.NONE ||
-              (formData.livingSituation.NONE && !formData.otherReasons?.NONE)),
-          path: 'priority-processing-request',
-          title: "There's a better way to request priority processing",
-          uiSchema: priorityProcessingRequestPage.uiSchema,
-          schema: priorityProcessingRequestPage.schema,
-          pageClass: 'priority-processing-request',
           hideNavButtons: true,
         },
         personalRecordsRequestPage: {
