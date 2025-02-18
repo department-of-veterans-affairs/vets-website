@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
 import SkinDeep from 'skin-deep';
+import * as reactScroll from 'react-scroll';
 
 import { RequiredTermsAcceptanceView } from '../../../authorization/containers/RequiredTermsAcceptanceView';
 import createCommonStore from '../../../../startup/store';
@@ -18,12 +19,18 @@ const defaultProps = {
 };
 
 describe('<RequiredTermsAcceptanceView>', () => {
+  let scrollToStub;
+
   before(() => {
     window.dataLayer = [];
+    scrollToStub = sinon.stub(reactScroll.scroller, 'scrollTo');
+  });
+
+  afterEach(() => {
+    scrollToStub.restore();
   });
 
   it('should call initial actions properly', () => {
-    window.scrollTo = () => {};
     const tree = SkinDeep.shallowRender(
       <RequiredTermsAcceptanceView {...defaultProps} />,
     );

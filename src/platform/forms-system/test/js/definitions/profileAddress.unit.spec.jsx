@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -171,7 +171,7 @@ describe('Schemaform definition address', () => {
     expect(country.value).to.equal('CAN');
   });
 
-  it('should require state for non-required addresses with other info', () => {
+  it('should require state for non-required addresses with other info', async () => {
     const { container } = render(
       <DefinitionTester
         schema={getAddressSchema()}
@@ -184,16 +184,18 @@ describe('Schemaform definition address', () => {
     const street = $('#root_address_street', container);
     const city = $('#root_address_city', container);
     const postalCode = $('#root_address_postalCode', container);
+
     const submit = $('button', container);
 
     fireEvent.change(street, { target: { value: '123 Street' } });
     fireEvent.change(city, { target: { value: 'Northampton' } });
     fireEvent.change(postalCode, { target: { value: '12345' } });
-
     fireEvent(submit, mouseClick);
-    const errors = $$('[role="alert"]');
-    expect(errors.length).to.equal(1);
-    expect(errors[0].textContent).to.include('State, Province, or Region');
+    await waitFor(() => {
+      const errors = $$('[role="alert"]');
+      expect(errors.length).to.equal(1);
+      expect(errors[0].textContent).to.include('State, Province, or Region');
+    });
   });
 
   it('should restore city & state fields after selecting military city & state', async () => {
