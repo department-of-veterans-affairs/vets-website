@@ -41,7 +41,7 @@ const RadiologyImagesList = ({ isTesting }) => {
     isTesting || false,
   );
   const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
-  const [diacomDownload, setDiacomDownload] = useState(false);
+  const [dicomDownload, setDicomDownload] = useState(false);
   const returnToDetailsPage = useCallback(
     () => history.push(`/labs-and-tests/${labId}`),
     [history, labId],
@@ -112,8 +112,8 @@ const RadiologyImagesList = ({ isTesting }) => {
     [radiologyDetails, returnToDetailsPage],
   );
 
-  const updateDiacomDownload = truth => {
-    setDiacomDownload(truth);
+  const updateDicomDownload = truth => {
+    setDicomDownload(truth);
     document.querySelector('#download-banner');
   };
 
@@ -163,29 +163,28 @@ const RadiologyImagesList = ({ isTesting }) => {
           saves a copy of your files to the computer you’re using.
         </li>
       </ul>
-      <p>
-        {radiologyDetails?.studyId && (
-          <>
-            <va-banner
-              id="download-banner"
-              show-close={false}
-              headline="Download started"
-              type="success"
-              visible={diacomDownload}
-            >
-              Check your device’s downloads location for your file.
-            </va-banner>
-            <br />
+      {radiologyDetails?.studyId && (
+        <>
+          <va-banner
+            id="download-banner"
+            show-close={false}
+            headline="Download started"
+            type="success"
+            visible={dicomDownload}
+          >
+            Check your device’s downloads location for your file.
+          </va-banner>
+          <p>
             <va-link
               download
               filetype="ZIP folder"
               href={`${apiImagingPath}/${radiologyDetails.studyId}/dicom`}
               text="Download DICOM files"
-              onClick={() => updateDiacomDownload(true)}
+              onClick={() => updateDicomDownload(true)}
             />
-          </>
-        )}
-      </p>
+          </p>
+        </>
+      )}
     </>
   );
 

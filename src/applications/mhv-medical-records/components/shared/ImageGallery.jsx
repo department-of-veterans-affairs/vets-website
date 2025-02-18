@@ -33,7 +33,7 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
                  to ${paginatedImages[currentPage - 1][0].index +
                    (paginatedImages[currentPage - 1].length - 1)} of ${
                 imageList.length
-              } records from newest to oldest`}
+              } images`}
             </span>
           </div>
           <div className="vads-u-padding--0 vads-u-border-top--1px vads-u-border-color--gray-lighter vads-l-grid-container vads-l-row vads-u-margin-bottom--2">
