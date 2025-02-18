@@ -27,11 +27,12 @@ const ImageGallery = ({ imageList, imagesPerPage, studyId }) => {
     if (imageList.length && imagesPerPage && studyId) {
       return (
         <>
-          <div>
+          <div data-testid="showing-image-records">
             <span>
-              {`Showing ${paginatedImages[currentPage - 1][0].index}
-                 to ${paginatedImages[currentPage - 1][0].index +
-                   (paginatedImages[currentPage - 1].length - 1)} of ${
+              {`Showing ${
+                paginatedImages[currentPage - 1][0].index
+              } to ${paginatedImages[currentPage - 1][0].index +
+                (paginatedImages[currentPage - 1].length - 1)} of ${
                 imageList.length
               } records from newest to oldest`}
             </span>
