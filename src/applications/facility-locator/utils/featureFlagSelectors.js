@@ -14,3 +14,8 @@ export const facilitiesUseAddressTypeahead = state =>
 
 export const facilityLocatorMobileMapUpdate = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorMobileMapUpdate];
+
+export const facilityLocatorAutosuggestVAMCServices = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.facilitiesAutoSuggestVAMCServicesEnabled
+  ];

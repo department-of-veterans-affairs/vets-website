@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
 import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+<<<<<<< HEAD
 import {
   healthServices,
   benefitsServices,
@@ -19,6 +21,15 @@ import CCServiceTypeAhead from './service-type/CCServiceTypeAhead';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
 import AddressAutosuggest from './location/AddressAutosuggest';
+=======
+import { facilityTypesOptions, nonPPMSfacilityTypeOptions } from '../../config';
+import { LocationType } from '../../constants';
+import { setFocus } from '../../utils/helpers';
+import { SearchFormTypes } from '../../types';
+import { facilityLocatorAutosuggestVAMCServices } from '../../utils/featureFlagSelectors';
+import AddressAutosuggest from './location/AddressAutosuggest';
+import ServiceType from './service-type';
+>>>>>>> 36e062bdef (VACMS-18911 Facility Locator: add VAMC services autosuggest)
 
 const SearchForm = props => {
   const {
@@ -32,6 +43,7 @@ const SearchForm = props => {
     onChange,
     onSubmit,
     selectMobileMapPin,
+    vamcAutoSuggestEnabled,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -143,10 +155,12 @@ const SearchForm = props => {
 
   const handleClearInput = () => {
     clearSearchText();
+
     // optional chaining not allowed
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }
+
     focusElement('#street-city-state-zip');
   };
 
@@ -162,15 +176,18 @@ const SearchForm = props => {
         />
       );
     }
+
     const {
       locationChanged,
       searchString,
       geolocationInProgress,
     } = currentQuery;
+
     const showError =
       locationChanged &&
       !geolocationInProgress &&
       (!searchString || searchString.length === 0);
+
     return (
       <div
         className={classNames('vads-u-margin--0', {
@@ -277,6 +294,7 @@ const SearchForm = props => {
     );
   };
 
+<<<<<<< HEAD
   const renderServiceTypeDropdown = () => {
     const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
     const disabled = ![
@@ -340,6 +358,8 @@ const SearchForm = props => {
     );
   };
 
+=======
+>>>>>>> 36e062bdef (VACMS-18911 Facility Locator: add VAMC services autosuggest)
   // Set focus in the location field when manual geocoding completes
   useEffect(
     () => {
@@ -407,13 +427,16 @@ const SearchForm = props => {
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
+        <div className="columns vads-u-margin--0 vads-u-padding--0">
           {renderLocationInputField()}
-          <div id="search-controls-bottom-row">
-            {renderFacilityTypeDropdown()}
-            {renderServiceTypeDropdown()}
-            <input id="facility-search" type="submit" value="Search" />
-          </div>
+          {renderFacilityTypeDropdown()}
+          <ServiceType
+            currentQuery={currentQuery}
+            handleServiceTypeChange={handleServiceTypeChange}
+            selectedServiceType={selectedServiceType}
+            vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
+          />
+          <va-button id="facility-search" submit="prevent" text="Search" />
         </div>
       </form>
     </div>
@@ -422,4 +445,13 @@ const SearchForm = props => {
 
 SearchForm.propTypes = SearchFormTypes;
 
+<<<<<<< HEAD
 export default SearchForm;
+=======
+const mapStateToProps = state => ({
+  vamcAutoSuggestEnabled: true,
+  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
+});
+
+export default connect(mapStateToProps)(SearchForm);
+>>>>>>> 36e062bdef (VACMS-18911 Facility Locator: add VAMC services autosuggest)
