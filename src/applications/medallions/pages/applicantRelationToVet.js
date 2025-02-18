@@ -4,6 +4,7 @@ import {
   //   finishAppLaterLink,
   applicantRelationToVetHeaders,
   applicantRelationToVetRadio,
+  validateVetRadioOtherComment,
 } from '../utils/helpers';
 
 /** @type {PageSchema} */
@@ -14,9 +15,14 @@ export default {
     otherRelation: {
       'ui:title': 'Describe your relationship to the Veteran',
       'ui:widget': 'textarea',
+      'ui:required': formData => formData.relationToVetRadio === 'other',
       'ui:options': {
         expandUnder: 'relationToVetRadio',
         hideIf: formData => formData.relationToVetRadio !== 'other',
+      },
+      'ui:errorMessages': {
+        required: 'You must provide a response',
+        pattern: 'Only alphabetic characters are allowed',
       },
     },
   },
@@ -34,8 +40,10 @@ export default {
       otherRelation: {
         type: 'string',
         title: 'Please specify your relationship to the Veteran',
-        required: ['otherRelation'],
+        maxLength: 50,
+        pattern: '^[A-Za-z\\s]+$',
       },
     },
   },
+  validateVetRadioOtherComment,
 };

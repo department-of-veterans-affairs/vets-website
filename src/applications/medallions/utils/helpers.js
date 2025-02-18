@@ -100,3 +100,16 @@ export const applicantRelationToVetRadio = {
     },
   }),
 };
+
+export const validateVetRadioOtherComment = (formData, errors) => {
+  if (formData.relationToVetRadio === 'other') {
+    if (!formData.otherRelation) {
+      errors.otherRelation.addError('You must provide a response');
+    } else if (formData.otherRelation.length > 50) {
+      errors.otherRelation.addError(
+        'Character limit exceeded. Maximum 50 characters allowed.',
+      );
+    }
+  }
+  return errors;
+};
