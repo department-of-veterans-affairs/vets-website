@@ -296,11 +296,11 @@ $text-color: rgba(27, 27, 27, 1);
         color: var(--vads-color-link);
         font-weight: normal;
         padding: 0;
-        margin: 0 0 0 20px;
+        margin: 1em 0;
+        text-align: left;
 
-        @media (max-width: $small-desktop-screen) {
-          margin: 1em 0;
-          text-align: left;
+        @media (min-width: $small-desktop-screen) {
+          margin: 0;
         }
       }
 
