@@ -1,5 +1,5 @@
 import mockFeatureToggles from '../fixtures/toggles-response.json';
-import mockUser from '../fixtures/generalResponses/user.json';
+import mockUser from '../fixtures/userResponse/user.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
 import mockRecipients from '../fixtures/recipients-response.json';

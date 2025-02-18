@@ -264,7 +264,9 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(window.location.replace.called).to.be.true;
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.true;
+    });
   });
 
   it('redirects user to /my-health/secure-messages/inbox if feature flag is enabled', async () => {

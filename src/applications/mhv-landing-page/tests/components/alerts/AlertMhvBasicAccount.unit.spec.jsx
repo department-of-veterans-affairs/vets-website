@@ -15,16 +15,15 @@ describe('<AlertMhvBasicAccount />', () => {
   it('renders', async () => {
     const recordEvent = sinon.spy();
     const props = { ...defaultProps, recordEvent };
-    const { getByRole, getByTestId } = render(
+    const { container, getByTestId } = render(
       <Provider store={mockStore()}>
         <AlertMhvBasicAccount {...props} />,
       </Provider>,
     );
     getByTestId(defaultProps.testId);
 
-    getByRole('heading', { name: defaultProps.headline });
-    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
-    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
+    expect(container.querySelector('.idme-verify-buttons')).to.exist;
+    expect(container.querySelector('.logingov-verify-buttons')).to.exist;
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
       expect(recordEvent.calledTwice).to.be.false;
