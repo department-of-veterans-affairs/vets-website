@@ -1,17 +1,27 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import moment from 'moment';
 
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
+import ContactCard from '../components/ContactCard';
+
 import { useTransformForReview } from '../hooks/useTransformForReview';
-import { getFormNumber } from '../utilities/helpers';
+import {
+  getFormNumber,
+  getOrgName,
+  getEntityAddressAsObject,
+} from '../utilities/helpers';
 
 export default function ConfirmationDigitalSubmission() {
   const form = useSelector(state => state?.form);
 
   const { submission, data: formData } = form;
+
+  const selectedRepAttributes =
+    formData?.['view:selectedRepresentative']?.attributes || {};
+  const repName = selectedRepAttributes?.fullName;
+  const orgName = getOrgName(formData);
 
   const dateSubmitted = moment(submission?.timestamp).format('MMMM D, YYYY');
   const expirationDate = moment(submission?.timestamp)
@@ -55,10 +65,11 @@ export default function ConfirmationDigitalSubmission() {
         />
       </div>
 
-      <va-accordion open-single>
+      <va-accordion bordered open-single>
         <va-accordion-item
           header="Information you submitted on this form"
           id="submittedInfo"
+          bordered="true"
         >
           {useTransformForReview(formData)}
         </va-accordion-item>
@@ -80,7 +91,7 @@ export default function ConfirmationDigitalSubmission() {
       <h2>What to expect next</h2>
       <p>
         The Veteran Service Organization (VSO) is reviewing your request. Your
-        request will expire on {expirationDate}.
+        request will expire on <strong>{expirationDate}</strong>.
       </p>
       <p>
         After the VSO reviews your request, we’ll send you an email with their
@@ -90,6 +101,14 @@ export default function ConfirmationDigitalSubmission() {
         <strong>Note:</strong> Don’t submit another request before we email you.
         If you submit another request, you’ll cancel your current one.
       </p>
+
+      <ContactCard
+        repName={repName}
+        orgName={orgName}
+        addressData={getEntityAddressAsObject(selectedRepAttributes)}
+        phone={selectedRepAttributes?.phone}
+        email={selectedRepAttributes?.email}
+      />
 
       <VaLinkAction
         text="Go back to VA.gov"
