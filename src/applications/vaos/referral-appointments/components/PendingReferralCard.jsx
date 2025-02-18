@@ -6,13 +6,15 @@ import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
 import AppointmentColumn from '../../components/AppointmentColumn';
 
-const PendingReferralCard = ({ referral, handleClick, index }) => {
+const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
   const idClickable = `id-${referral.UUID.replace('.', '\\.')}`;
   const isCanceled = referral.status === 'cancelled';
   const typeOfCareName = referral.CategoryOfCare;
 
-  const link = `schedule-referral/?id=${referral.UUID}`;
+  const link = `schedule-referral?id=${
+    referral.UUID
+  }&referrer=referrals-requests`;
 
   const appointmentString =
     referral.numberOfAppointments === 1
@@ -69,7 +71,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                   aria-describedby={`vaos-referral-detail-${referral.UUID}`}
                   message-aria-describedby="Custom message"
                   text="Schedule your appointment"
-                  onClick={e => handleClick(e, referral.UUID)}
+                  onClick={e => e.preventDefault()}
                 />
               </AppointmentColumn>
             </AppointmentRow>
@@ -81,7 +83,6 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
 };
 
 PendingReferralCard.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   referral: PropTypes.object.isRequired,
 };
