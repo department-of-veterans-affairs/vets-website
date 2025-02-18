@@ -186,7 +186,6 @@ const DownloadDateRange = () => {
         )}
         <VaButtonPair
           continue
-          submit
           onSecondaryClick={handleBack}
           onPrimaryClick={handleSubmit}
         />
