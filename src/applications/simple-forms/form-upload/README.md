@@ -6,22 +6,35 @@ The Form Upload tool was developed by the Veteran Facing Forms team to provide a
 
 The Form Upload tool launched with support for four forms: `21-0779`, `21-509`, `21P-0518-1`, and `21P-0516-1`. If you'd like to add support for additional forms, follow the steps below.
 
-1. Follow the instructions in the `vets-api` repo to add support from the back end.
+### 1. Follow the instructions in the `vets-api` repo.
 
-Explanation: It's best to enable the additional form(s) on the backend before enabling them on the front end.
+- [Follow the instructions here](link-not-yet-available) to enable the form on the back-end.
 
-2. Add an entry to [this array](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/applications/simple-forms/form-upload/routes.jsx#L6).
+  **Why?**  
+  It's best to enable the additional form(s) on the backend before enabling them on the front end.
 
-Explanation: This array allows routes for the specified form ids.
+### 2. Enable the routes.
 
-3. Add an entry to [this object](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/applications/simple-forms/form-upload/helpers/index.js#L9-L29).
+- Add an entry to [this array](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/applications/simple-forms/form-upload/routes.jsx#L6).
 
-Explanation: The `formMappings` object specifies two pieces of text that the Form Upload tool needs: sub-title and PDF download URL.
+  **Why?**  
+  This array enables routes for the specified form ids.
 
-4. Add an entry similar to [this line in this object](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/platform/forms/constants.js#L23).
+### 3. Add necessary text elements.
 
-Explanation: Enables prefill.
+- Add an entry to [this object](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/applications/simple-forms/form-upload/helpers/index.js#L9-L29).
 
-5. Add an entry similar to [this object in this array](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/platform/forms/constants.js#L464-L470).
+  **Why?**  
+  The `formMappings` object specifies two pieces of text that the Form Upload tool needs: sub-title and PDF download URL.
 
-Explanation: Enables prefill.
+### 4. Add the form to the prefill configuration.
+
+- Add an entry similar to [this line in this object](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/platform/forms/constants.js#L23).
+
+  **Why?**  
+  This registers the form for Save in Progress functionality.
+
+- Add an entry similar to [this object in this array](https://github.com/department-of-veterans-affairs/vets-website/blob/a95dc7bcbc929ca097daab034c3b74b7a5957815/src/platform/forms/constants.js#L464-L470).
+
+  **Why?**  
+  This provides some Save in Progress metadata.
