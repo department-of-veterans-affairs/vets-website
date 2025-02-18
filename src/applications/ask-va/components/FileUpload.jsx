@@ -2,8 +2,9 @@ import { VaFileInput } from '@department-of-veterans-affairs/component-library/d
 import PropTypes from 'prop-types';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { nanoid } from 'nanoid';
 import { DownloadLink, getFileSizeMB } from '../config/helpers';
-import { StorageAdapter } from '../../_mock-form-ae-design-patterns/vadx/utils/StorageAdapter';
+import { StorageAdapter } from '../utils/StorageAdapter';
 
 const idList = numberOfIDs => {
   const ids = [];
@@ -22,7 +23,8 @@ const FileUpload = props => {
   } = props;
 
   const firstInputID = useMemo(() => {
-    return `askVA_upload_${Date.now()}`;
+    const uuid = nanoid();
+    return `askVA_upload_${uuid}`;
   }, []);
   const uploadIDs = idList(10);
   const [attachments, setAttachments] = useState([]);
