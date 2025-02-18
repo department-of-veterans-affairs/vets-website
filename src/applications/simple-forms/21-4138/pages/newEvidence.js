@@ -5,7 +5,7 @@ import { NEW_EVIDENCE_HANDOFF } from '../config/constants';
 export const claimStatusToolPage = {
   uiSchema: {
     ...titleUI({
-      title: "There's a better way to request your personal records",
+      title: "There's a better way to submit new evidence",
       headerLevel: 1,
     }),
     'view:newEvidenceHandoffContent': {
