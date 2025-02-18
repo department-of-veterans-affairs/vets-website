@@ -19,14 +19,6 @@ export const radioOptions = [
   },
 ];
 
-// VA content time formatting - should be lowercase with periods
-export const formatTimeString = string => {
-  if (string.includes('AM')) {
-    return string.replace('AM', 'a.m.');
-  }
-  return string.replace('PM', 'p.m.');
-};
-
 export const phoneComponent = number => {
   return (
     <>

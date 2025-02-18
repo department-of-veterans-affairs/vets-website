@@ -7,23 +7,16 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 import recordEvent from '~/platform/monitoring/record-event';
 
-import {
-  notFoundComponent,
-  unavailableComponent,
-  phoneComponent,
-  LastUpdatedComponent,
-} from './utils';
+import { notFoundComponent, unavailableComponent } from './utils';
 
 import '../../sass/download-1095b.scss';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
-  const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
 
@@ -71,10 +64,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       getAvailableForms().then(result => {
         const mostRecentYearData = result[0];
         if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
-          const date = new Date(mostRecentYearData.lastUpdated);
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
-          // expected output (varies according to local timezone and default locale): December 20, 2012
-          updateLastUpdated(date.toLocaleDateString(undefined, options));
           updateYear(mostRecentYearData.year);
         } else {
           updateFormError({ error: true, type: 'not found' });
@@ -84,32 +73,21 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     [loggedIn],
   );
 
-  const errorComponent = (
-    <>
-      <LastUpdatedComponent lastUpdated={lastUpdated} />
+  const downloadErrorComponent = (
+    <div className="vads-u-margin-bottom--2p5">
       <va-alert
         close-btn-aria-label="Close notification"
         status="error"
         visible
       >
-        <h2 slot="headline">We couldn’t download your form</h2>
-        <div>
-          <p>
-            We’re sorry. Something went wrong when we tried to download your
-            form. Please try again. If your form still doesn’t download, call us
-            at {phoneComponent(CONTACTS.HELP_DESK)}. We’re here 24/7.
-          </p>
-        </div>
+        <p className="vads-u-margin-y--0">
+          We’re sorry. Something went wrong when we tried to download your form.
+          Please try again. If your form still doesn’t download, call us at
+          800-698-2411 (TTY: 711). We’re here 24/7.
+        </p>
       </va-alert>
-    </>
+    </div>
   );
-
-  const getErrorComponent = () => {
-    if (formError.type === 'not found') {
-      return notFoundComponent();
-    }
-    return errorComponent;
-  };
 
   const downloadForm = (
     <>
@@ -123,6 +101,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           </span>
         </div>
         <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
+          {formError.type === 'download error' && downloadErrorComponent}
           <div className="vads-u-padding-bottom--1">
             <va-link
               download
@@ -190,8 +169,8 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     return unavailableComponent();
   }
   if (loggedIn) {
-    if (formError.error) {
-      return getErrorComponent();
+    if (formError.error === 'not found') {
+      return notFoundComponent();
     }
     return downloadForm;
   }
