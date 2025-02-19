@@ -57,7 +57,6 @@ const initialState = {
   facilitySettingsStatus: FETCH_STATUS.notStarted,
   facilitySettings: null,
   backendServiceFailures: null,
-  badAppointmentId: false,
 };
 
 export default function appointmentsReducer(state = initialState, action) {

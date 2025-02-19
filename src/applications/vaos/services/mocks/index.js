@@ -28,7 +28,7 @@ const requestsV2 = require('./v2/requests.json');
 const meta = require('./v2/meta_failures.json');
 
 // malform appointment id error
-const errors = require('./v2/errors.json');
+// const errors = require('./v2/errors.json');
 
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
@@ -197,20 +197,23 @@ const responses = {
     return res.json({ data: filteredAppointments, meta });
   },
   //  To get malformed appointmentID error response
-  //  uncomment the get statement with returned error below
+  //  uncomment the constant "errors"
+  //  uncomment the get statement with returned errors
   //  then comment out the get statement with returned data
-  'GET /vaos/v2/appointments/:id': (req, res) => {
-    return res.json(errors);
-  },
 
+  // const errors = require('./v2/errors.json');
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
-  //   const appointments = {
-  //     data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
-  //   };
-  //   return res.json({
-  //     data: appointments.data.find(appt => appt.id === req.params.id),
-  //   });
+  //   return res.json(errors);
   // },
+
+  'GET /vaos/v2/appointments/:id': (req, res) => {
+    const appointments = {
+      data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
+    };
+    return res.json({
+      data: appointments.data.find(appt => appt.id === req.params.id),
+    });
+  },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
     if (req.query.cc_enabled === 'true') {
       return res.json(schedulingConfigurationsCC);
