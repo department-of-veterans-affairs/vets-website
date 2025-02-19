@@ -1,0 +1,407 @@
+{
+  "data": {
+    "view:claimType": {
+      "view:claimingIncrease": false,
+      "view:claimingNew": true
+    },
+    "standardClaim": true,
+    "view:fdcWarning": {},
+    "isVaEmployee": true,
+    "homelessOrAtRisk": "homeless",
+    "view:isHomeless": {
+      "homelessHousingSituation": "other",
+      "otherHomelessHousing": "Under a bridge",
+      "needToLeaveHousing": true
+    },
+    "homelessnessContact": {
+      "name": "Name Here, and invalid chars with email elmer@fud.com",
+      "phoneNumber": "1231231234"
+    },
+    "view:bankAccount": {
+      "bankAccountType": "Checking",
+      "bankAccountNumber": "1233",
+      "bankRoutingNumber": "123123123",
+      "bankName": "Bigbank Co."
+    },
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "view:livesOnMilitaryBase": false,
+      "type": "MILITARY",
+      "militaryPostOfficeTypeCode": "APO",
+      "militaryStateCode": "AA",
+      "zipFirstFive": "27103",
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "view:hasForwardingAddress": true,
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "321 Secondary",
+      "city": "Smallcity",
+      "state": "NY",
+      "zipCode": "54321",
+      "effectiveDate": {
+        "from": "2099-12-01",
+        "to": "2100-01-01"
+      }
+    },
+    "view:contactInfoDescription": {},
+    "additionalDocuments": [
+      {
+        "name": "lolwut.png",
+        "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
+        "attachmentId": "L015"
+      },
+      {
+        "name": "image (1).png",
+        "confirmationCode": "0496e5c2-0675-4a43-83d6-e1eeabd4ea0e",
+        "attachmentId": "L070"
+      },
+      {
+        "name": "Success.jpg",
+        "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
+        "attachmentId": "L023"
+      }
+    ],
+    "view:uploadPrivateRecordsQualifier": {
+      "view:aboutPrivateMedicalRecords": {},
+      "view:hasPrivateRecordsToUpload": true,
+      "view:privateRecordsChoiceHelp": {}
+    },
+    "privateMedicalRecordAttachments": [
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "544f14cc-4e51-4661-b8f4-d79f71567491",
+        "attachmentId": "L107"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
+        "attachmentId": "L023"
+      }
+    ],
+    "view:vaMedicalRecordsIntro": {},
+    "vaTreatmentFacilities": [
+      {
+        "treatmentCenterName": "Treatment Center the First",
+        "treatmentDateRange": {
+          "from": "2008-01-XX"
+        },
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": "Bigcity",
+          "state": "AK"
+        },
+        "treatedDisabilityNames": {
+          "diabetesmellitus0": true,
+          "diabetesmellitus1": true,
+          "heartattackmyocardialinfarction": true
+        }
+      },
+      {
+        "treatmentCenterName": "Treatment Center the Second",
+        "treatmentDateRange": {
+          "from": "2010-01-XX"
+        },
+        "treatmentCenterAddress": {
+          "country": "Uganda",
+          "city": "Ugandan City"
+        },
+        "treatedDisabilityNames": {
+          "asthma": true,
+          "heartattackmyocardialinfarction": true,
+          "ankylosisinkneebilateral": true
+        }
+      }
+    ],
+    "view:hasEvidence": true,
+    "view:selectableEvidenceTypes": {
+      "view:hasVaMedicalRecords": true,
+      "view:hasPrivateMedicalRecords": true,
+      "view:hasOtherEvidence": true
+    },
+    "view:evidenceTypeHelp": {},
+    "view:unemployable": false,
+    "view:aidAndAttendance": true,
+    "view:modifyingHome": true,
+    "view:modifyingCar": true,
+    "view:needsCarHelp": {
+      "view:alreadyClaimedVehicleAllowance": false
+    },
+    "toxicExposure": {
+      "conditions": {},
+      "gulfWar1990": {},
+      "gulfWar1990Details": {
+        "afghanistan": {},
+        "bahrain": {},
+        "egypt": {},
+        "iraq": {},
+        "israel": {},
+        "jordan": {},
+        "kuwait": {},
+        "neutralzone": {},
+        "oman": {},
+        "qatar": {},
+        "saudiarabia": {},
+        "somalia": {},
+        "syria": {},
+        "uae": {},
+        "turkey": {},
+        "waters": {},
+        "airspace": {}
+      },
+      "view:gulfWar1990AdditionalInfo": {},
+      "gulfWar2001": {},
+      "gulfWar2001Details": {
+        "djibouti": {},
+        "lebanon": {},
+        "uzbekistan": {},
+        "yemen": {},
+        "airspace": {}
+      },
+      "view:gulfWar2001AdditionalInfo": {},
+      "herbicide": {},
+      "otherHerbicideLocations": {},
+      "herbicideDetails": {
+        "cambodia": {},
+        "guam": {},
+        "koreandemilitarizedzone": {},
+        "johnston": {},
+        "laos": {},
+        "c123": {},
+        "thailand": {},
+        "vietnam": {}
+      },
+      "view:herbicideAdditionalInfo": {},
+      "otherExposures": {},
+      "specifyOtherExposures": {},
+      "otherExposuresDetails": {
+        "asbestos": {},
+        "chemical": {},
+        "water": {},
+        "mos": {},
+        "mustardgas": {},
+        "radiation": {}
+      },
+      "view:otherExposuresAdditionalInfo": {},
+      "view:additionalExposuresAdditionalInfo": {}
+    },
+    "view:powStatus": true,
+    "view:isPow": {
+      "confinements": [
+        {
+          "from": "2016-01-01",
+          "to": "2017-01-01"
+        },
+        {
+          "from": "2017-01-06",
+          "to": "2017-04-01"
+        }
+      ],
+      "powDisabilities": {
+        "ankylosisinkneebilateral": true,
+        "heartattackmyocardialinfarction": true
+      }
+    },
+    "newDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "SECONDARY",
+        "view:secondaryFollowUp": {
+          "causedByDisability": "Diabetes Mellitus0",
+          "causedByDisabilityDescription": "Again, this doesn't really make sense."
+        },
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "WORSENED",
+        "view:worsenedFollowUp": {
+          "worsenedDescription": "My knee was strained in the service",
+          "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?"
+        },
+        "condition": "ankylosis in knee, bilateral",
+        "view:descriptionInfo": {}
+      },
+      {
+        "cause": "VA",
+        "view:vaFollowUp": {
+          "vaMistreatmentDescription": "A thing happened.",
+          "vaMistreatmentLocation": "Somewhereville",
+          "vaMistreatmentDate": "A while ago"
+        },
+        "condition": "heart attack (myocardial infarction)",
+        "view:descriptionInfo": {}
+      }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": true
+      },
+      {
+        "name": "Diabetes mellitus1",
+        "ratedDisabilityId": "1",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": true
+      },
+      {
+        "name": "De-selected",
+        "ratedDisabilityId": "2",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE",
+        "view:selected": false
+      },
+      {
+        "name": "Not selected",
+        "ratedDisabilityId": "3",
+        "ratingDecisionId": "63655",
+        "diagnosticCode": 5238,
+        "decisionCode": "SVCCONNCTED",
+        "decisionText": "Service Connected",
+        "ratingPercentage": 100,
+        "disabilityActionType": "NONE"
+      }
+    ],
+    "view:disabilitiesClarification": {},
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "view:isTitle10Activated": false,
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Seal Team Six"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": {
+            "from": "2001-03-21",
+            "to": "2014-07-21"
+          }
+        },
+        {
+          "serviceBranch": "Air National Guard",
+          "dateRange": {
+            "from": "2015-01-01",
+            "to": "2017-05-13"
+          }
+        }
+      ],
+      "view:militaryHistoryNote": {}
+    },
+    "view:selectablePtsdTypes": {
+      "view:combatPtsdType": true
+    },
+    "view:ptsdTypeHelp": {},
+    "view:upload781ChoiceHelp": {},
+    "skip781ForCombatReason": false,
+    "view:ptsdCombatBypassAdditionalInfo": {},
+    "view:mentalHealthSupportAlert": {},
+    "view:mentalHealthWorkflowChoice": "optForOnlineForm0781",
+    "eventTypes": {
+      "combat": true,
+      "mst": true,
+      "nonMst": true,
+      "other": true
+    },
+    "view:traumaticEventsInfo": {},
+    "events": [
+      {
+        "details": "Briefly describe what happened during your traumatic event in the military.",
+        "view:eventExamplesAdditionalInfo": {},
+        "location": "Where did the event happen?",
+        "otherReports": "Other official report type not listed here",
+        "timing": "When did the event happen?",
+        "view:mentalHealthSupportAlert": {},
+        "reports": {
+          "restricted": true,
+          "unrestricted": true,
+          "police": true,
+          "none": true
+        },
+        "agency": "Name of the agency that issued the report",
+        "city": "report city",
+        "state": "report state",
+        "township": "report township",
+        "country": "USA"
+      }
+    ],
+    "workBehaviors": {
+      "absences": true,
+      "performance": true,
+      "reassignment": true
+    },
+    "healthBehaviors": {
+      "appetite": true,
+      "consultations": true,
+      "episodes": true,
+      "medications": true,
+      "pregnancy": true,
+      "screenings": true,
+      "selfMedication": true,
+      "substances": true
+    },
+    "otherBehaviors": {
+      "misconduct": true,
+      "relationships": true,
+      "socialEconomic": true,
+      "unlisted": true
+    },
+    "view:noneCheckbox": {
+      "none": false
+    },
+    "optionIndicator": "yes",
+    "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
+    "view:ancillaryFormsWizardIntro": {},
+    "view:unemployabilityHelp": {},
+    "unemployability": {
+      "view:recordsInfo": {},
+      "view:unemployabilityDatesDesc": {},
+      "view:grossIncomeAdditionalInfo": {},
+      "view:supplementalBenefitsHelp": {},
+      "view:substantiallyGainfulEmploymentInfo": {},
+      "view:statementsAreTrue": {},
+      "view:informOfReturnToWork": {}
+    },
+    "view:privateMedicalFacility": {},
+    "view:upload4192Choice": {},
+    "view:downloadInfo": {},
+    "view:privateRecordsChoiceHelp": {},
+    "view:faqAccordion": {},
+    "view:originalBankAccount": {
+      "view:bankAccountType": "Checking",
+      "view:bankAccountNumber": "*********1234",
+      "view:bankRoutingNumber": "*****2115",
+      "view:bankName": "Comerica"
+    }
+  }
+}
