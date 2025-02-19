@@ -7,11 +7,16 @@ const GiBillBreadcrumbs = () => {
   const ProgramsTypeMatch = useRouteMatch(
     '/institution/:facilityCode/:programType',
   );
+  const nationalExamsMatch = useRouteMatch('/national-exams');
+  const nationalExamsDetailMatch = useRouteMatch('/national-exams/:examId');
   const profileMatch = useRouteMatch('/institution/:facilityCode');
   const compareMatch = useRouteMatch('/compare');
   const lcMatch = useRouteMatch('/lc-search');
   const lcResultsMatch = useRouteMatch('/lc-search/results');
-  const lcResultInfoMatch = useRouteMatch('/lc-search/:type/:id/:name');
+  const lcResultInfoMatch = useRouteMatch('/lc-search/:type/:id');
+  const query = new URLSearchParams(location.search);
+  const selectedExamName = query.get('examName') || '';
+
   const crumbLiEnding = giDocumentTitle();
   const formatedProgramType = formatProgramType(
     ProgramsTypeMatch?.params?.programType,
@@ -39,12 +44,24 @@ const GiBillBreadcrumbs = () => {
       label: 'Institution details',
     });
   }
+  if (nationalExamsMatch) {
+    crumbs.push({
+      href: '/education/gi-bill-comparison-tool/national-exams',
+      label: 'National exams',
+    });
+  }
+  if (nationalExamsDetailMatch) {
+    crumbs.push({
+      href: '/education/gi-bill-comparison-tool/national-exams',
+      label: selectedExamName || 'National exam details',
+    });
+  }
   if (ProgramsTypeMatch) {
     crumbs.push({
       href: `/institution/${ProgramsTypeMatch.params.facilityCode}/${
         ProgramsTypeMatch.params.programType
       }`,
-      label: `${formatedProgramType}`,
+      label: formatedProgramType,
     });
   }
   if (compareMatch) {
