@@ -152,9 +152,6 @@ const POARequestDetailsPage = () => {
 
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
-  const statusCheck =
-    poaRequestSubmission === BANNER_TYPES.PROCESSING ? 'processing' : poaStatus;
-
   return (
     <section className="poa-request-details">
       <h1
@@ -167,7 +164,7 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${statusCheck.toLowerCase()} ${poaRequestSubmission ===
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--processing ${poaRequestSubmission ===
               BANNER_TYPES.FAILED && 'vads-u-display--none'}`}
           >
             {poaRequestSubmission === BANNER_TYPES.PROCESSING
