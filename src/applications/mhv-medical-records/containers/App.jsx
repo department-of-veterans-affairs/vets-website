@@ -17,6 +17,7 @@ import {
   externalServiceStatus,
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
+import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
@@ -27,8 +28,6 @@ import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
-  const userServices = user.profile.services;
-  const hasMhvAccount = user.profile.mhvAccountState !== 'NONE';
 
   const { featureTogglesLoading, appEnabled } = useSelector(
     flagsLoadedAndMhvEnabled,
@@ -112,28 +111,6 @@ const App = ({ children }) => {
   };
   useDatadogRum(datadogRumConfig);
 
-  useEffect(
-    () => {
-      // If the user is not whitelisted or feature flag is disabled, redirect them.
-      if (featureTogglesLoading === false && appEnabled !== true) {
-        window.location.replace('/health-care/get-medical-records');
-      }
-    },
-    [featureTogglesLoading, appEnabled],
-  );
-
-  const isMissingRequiredService = (loggedIn, services) => {
-    if (
-      loggedIn &&
-      hasMhvAccount &&
-      !services.includes(backendServices.MEDICAL_RECORDS)
-    ) {
-      window.location.replace('/health-care/get-medical-records');
-      return true;
-    }
-    return false;
-  };
-
   if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
@@ -155,11 +132,11 @@ const App = ({ children }) => {
   }
 
   return (
-    <RequiredLoginView
-      user={user}
-      serviceRequired={[backendServices.MEDICAL_RECORDS]}
-    >
-      {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
+    <RequiredLoginView user={user}>
+      <MhvServiceRequiredGuard
+        user={user}
+        serviceRequired={[backendServices.MEDICAL_RECORDS]}
+      >
         <>
           <MhvSecondaryNav />
           <div
@@ -201,7 +178,7 @@ const App = ({ children }) => {
             <PhrRefresh statusPollBeginDate={statusPollBeginDate} />
           </div>
         </>
-      )}
+      </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
 };
