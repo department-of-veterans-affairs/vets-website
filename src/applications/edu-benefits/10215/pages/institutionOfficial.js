@@ -25,7 +25,7 @@ const uiSchema = {
     },
     title: {
       ...textUI({
-        title: 'Title',
+        title: 'Your title',
         errorMessages: {
           required: 'Please enter a title',
         },
