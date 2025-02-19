@@ -11,6 +11,7 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
@@ -70,7 +71,6 @@ const RadiologyDetails = props => {
   const [pollInterval, setPollInterval] = useState(2000);
 
   const [processingRequest, setProcessingRequest] = useState(false);
-
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
@@ -388,6 +388,20 @@ ${record.results}`;
           label="Date and time performed"
           labelClass="vads-font-weight-regular"
         />
+        {studyJob?.status === studyJobStatus.COMPLETE && (
+          <VaAlert
+            status="success"
+            visible
+            class="vads-u-margin-top--4 no-print"
+            role="alert"
+            data-testid="alert-download-started"
+          >
+            <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
+              Images ready
+            </h3>
+            {imageAlertComplete()}
+          </VaAlert>
+        )}
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           description="L&TR Detail"
