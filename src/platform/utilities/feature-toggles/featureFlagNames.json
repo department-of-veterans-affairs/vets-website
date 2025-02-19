@@ -233,6 +233,8 @@
   "showMedicalCopays": "show_medical_copays",
   "showNewRefillTrackPrescriptionsPage": "show_new_refill_track_prescriptions_page",
   "showNewScheduleViewAppointmentsPage": "show_new_schedule_view_appointments_page",
+  "showOneVADebtLetter": "show_one_va_debt_letter",
+  "showPaymentHistoryMVP": "show_payment_history_mvp",
   "showPaymentAndDebtSection": "show_payment_and_debt_section",
   "showUpdatedFryDeaApp": "show_updated_fry_dea_app",
   "showUpdatedToeApp": "show_updated_toe_app",
