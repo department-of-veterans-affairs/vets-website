@@ -4,6 +4,9 @@ import mockUser from '../fixtures/userResponse/user.json';
 import { Paths } from '../utils/constants';
 import mockSignature from '../fixtures/signature-response.json';
 
+// this class is for build MHV home page which could not be used at the moment
+// using this class will fail CI runs as they're using "mhv-sm" env entry
+// MHV home does not belong to MHV SM, but I'll keep it for possibles further inquires
 class MhvPage {
   loadHomePage = (
     featureToggles = mockFeatureToggles,
