@@ -1,8 +1,7 @@
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import mockUser from '../fixtures/generalResponses/user.json';
+import mockUser from '../fixtures/userResponse/user.json';
 import { Paths } from '../utils/constants';
-import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockSignature from '../fixtures/signature-response.json';
 
 class MhvPage {
@@ -24,12 +23,6 @@ class MhvPage {
 
     cy.intercept('GET', '/v0/user', user).as('user');
 
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDER}`,
-      mockGeneralFolder,
-    ).as('generalFolder');
-
     // required for further actions
     cy.intercept(
       'GET',
@@ -45,7 +38,7 @@ class MhvPage {
 
     cy.wait('@featureToggles');
     cy.wait('@user');
-    cy.wait('@generalFolder');
+    // cy.wait('@generalFolder');
   };
 }
 
