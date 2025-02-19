@@ -21,7 +21,7 @@ const POARequestCard = ({ poaRequest }) => {
       <va-card class="poa-request__card">
         <span
           data-testid={`poa-request-card-${poaRequest.id}-status`}
-          className={`usa-label poa-request__card-field poa-request__card-field--status status status--${poaStatus}`}
+          className="usa-label poa-request__card-field poa-request__card-field--status status status--processing"
         >
           {formatStatus(poaStatus)}
         </span>

@@ -47,6 +47,7 @@ import {
 } from '../utils/reviewPageHelper';
 import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
 import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
+import { StorageAdapter } from '../../_mock-form-ae-design-patterns/vadx/utils/StorageAdapter';
 
 const { scroller } = Scroll;
 
@@ -56,6 +57,7 @@ const ReviewPage = props => {
   const [editSection, setEditSection] = useState([]);
   const [attachments, setAttachments] = useState([]);
   const [editAttachments, setEditAttachments] = useState(false);
+  const askVAAttachmentStorage = new StorageAdapter('askVA', 'attachments');
 
   const dispatch = useDispatch();
 
@@ -91,19 +93,17 @@ const ReviewPage = props => {
     return pronounList.toString();
   };
 
-  const getUploadedFiles = () => {
-    const storedFile = localStorage.getItem('askVAFiles');
+  const getUploadedFiles = async () => {
+    const storedFile = await askVAAttachmentStorage.get('attachments');
     if (storedFile?.length > 0) {
-      const files = JSON.parse(storedFile);
-      setAttachments(files);
+      setAttachments(storedFile);
     }
   };
 
-  const deleteFile = fileID => {
-    const uploadedFiles = localStorage.getItem('askVAFiles');
-    const parseFiles = JSON.parse(uploadedFiles);
-    const removedFile = parseFiles.filter(file => file.fileID !== fileID);
-    localStorage.askVAFiles = JSON.stringify(removedFile);
+  const deleteFile = async fileID => {
+    const uploadedFiles = await askVAAttachmentStorage.get('attachments');
+    const removedFile = uploadedFiles.filter(file => file.fileID !== fileID);
+    await askVAAttachmentStorage.set('attachments', removedFile);
     setAttachments(attachments.filter(file => file.fileID !== fileID));
   };
 
@@ -146,7 +146,7 @@ const ReviewPage = props => {
     }
   };
 
-  const postFormData = (url, data) => {
+  const postFormData = async (url, data) => {
     setIsDisabled(true);
     const options = {
       method: 'POST',
@@ -164,7 +164,7 @@ const ReviewPage = props => {
           resolve(mockSubmitResponse);
           const inquiryNumber = 'A-20230622-306458';
           const contactPreference = props.formData.contactPreference || 'Email';
-          localStorage.removeItem('askVAFiles');
+          askVAAttachmentStorage.clear();
           props.router.push({
             pathname: '/confirmation',
             state: { contactPreference, inquiryNumber },
@@ -178,7 +178,7 @@ const ReviewPage = props => {
         setIsDisabled(false);
         const { inquiryNumber } = response;
         const contactPreference = props.formData.contactPreference || 'Email';
-        localStorage.removeItem('askVAFiles');
+        askVAAttachmentStorage.clear();
         props.router.push({
           pathname: '/confirmation',
           state: { contactPreference, inquiryNumber },
@@ -186,7 +186,7 @@ const ReviewPage = props => {
       })
       .catch(error => {
         setIsDisabled(false);
-        localStorage.removeItem('askVAFiles');
+        askVAAttachmentStorage.clear();
         // TODO - need error modal instead of forwarding to confirmation per final design
         // Temporary alert dialog for testing
         alert(error.error);
@@ -198,11 +198,11 @@ const ReviewPage = props => {
     return null;
   };
 
-  const handleSubmit = () => {
-    const files = localStorage.getItem('askVAFiles');
+  const handleSubmit = async () => {
+    const files = await askVAAttachmentStorage.get('attachments');
     const transformedData = submitTransformer(
       props.formData,
-      JSON.parse(files),
+      files,
       props.askVA,
     );
 
@@ -463,6 +463,7 @@ const ReviewPage = props => {
                 <>
                   <div
                     name={`chapter${chapterTitles.yourPostalCode}ScrollElement`}
+                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourPostalCode) ? (
                     <ReviewSectionContent
@@ -518,6 +519,7 @@ const ReviewPage = props => {
                     name={`chapter${
                       chapterTitles.yourVAHealthFacility
                     }ScrollElement`}
+                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
                     <ReviewSectionContent
@@ -573,6 +575,7 @@ const ReviewPage = props => {
                     name={`chapter${
                       chapterTitles.stateOfProperty
                     }ScrollElement`}
+                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.stateOfProperty) ? (
                     <ReviewSectionContent
@@ -628,6 +631,7 @@ const ReviewPage = props => {
                     name={`chapter${
                       chapterTitles.yourVREInformation
                     }ScrollElement`}
+                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourVREInformation) ? (
                     <ReviewSectionContent
@@ -691,6 +695,7 @@ const ReviewPage = props => {
                     name={`chapter${
                       chapterTitles.schoolInformation
                     }ScrollElement`}
+                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.schoolInformation) ? (
                     <ReviewSectionContent
@@ -772,6 +777,7 @@ const ReviewPage = props => {
                     name={`chapter${
                       chapterTitles.yourContactInformation
                     }ScrollElement`}
+                    key={chapter.name}
                   />
                   {!editSection.includes(
                     chapterTitles.yourContactInformation,
@@ -856,6 +862,7 @@ const ReviewPage = props => {
                     name={`chapter${
                       chapterTitles.yourMailingAddress
                     }ScrollElement`}
+                    key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourMailingAddress) ? (
                     <ReviewSectionContent
