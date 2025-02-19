@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
 // Relative imports.
+import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
@@ -23,6 +24,15 @@ import '../../sass/download-1095b.scss';
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+
+  useEffect(
+    () => {
+      if (formError.type === 'download error') {
+        focusElement('#downloadError');
+      }
+    },
+    [formError],
+  );
 
   const getFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)

@@ -75,7 +75,7 @@ export const unavailableComponent = () => {
 };
 
 export const downloadErrorComponent = (
-  <div className="vads-u-margin-bottom--2p5">
+  <div id="downloadError" className="vads-u-margin-bottom--2p5">
     <va-alert close-btn-aria-label="Close notification" status="error" visible>
       <p className="vads-u-margin-y--0">
         We’re sorry. Something went wrong when we tried to download your form.
