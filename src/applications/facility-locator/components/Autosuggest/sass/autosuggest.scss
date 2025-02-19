@@ -7,18 +7,18 @@ div[id$="-autosuggest-container"] {
     padding-top: 0; // matching style to VaSelect use of usa-error
     right: 0;
   }
-  @media (min-width: $small-desktop-screen) {
-    &.usa-input-error {
-      margin-left: -0.9rem; // matching Facility Type - can override
-    }
-  }
-  div[class$="-autosuggest-label-container"] {
+
+  div[class*="autosuggest-label-container"] {
     display: flex;
     flex-direction: column;
     width: 100%;
 
     @media (min-width: $small-desktop-screen) {
       flex-direction: row;
+      &.fl-sm-desktop {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   }
 

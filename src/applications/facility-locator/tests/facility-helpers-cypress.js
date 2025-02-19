@@ -216,10 +216,10 @@ const resultsData = {
 
 // Create API routes
 function initApplicationMock() {
-  cy.intercept('GET', '/v0/facilities/va', resultsData);
+  cy.intercept('GET', '/facilities_api/v2/va', resultsData);
 
   return resultsData.data.map((cur, i) =>
-    cy.intercept('GET', `/v0/facilities/va/${resultsData.data[i].id}`, {
+    cy.intercept('GET', `/facilities_api/v2/va/${resultsData.data[i].id}`, {
       data: resultsData.data[i],
     }),
   );

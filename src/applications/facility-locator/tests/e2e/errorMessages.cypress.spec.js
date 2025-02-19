@@ -1,4 +1,4 @@
-import mockServices from '../../constants/mock-provider-services.json';
+import CcpHelpers from 'applications/facility-locator/tests/ccp-helpers-cypress';
 import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
 
 const featuresToTest = [
@@ -16,11 +16,9 @@ for (const feature of featuresToTest) {
         data: { features: [feature] },
       });
       cy.intercept('GET', '/v0/maintenance_windows', []);
-      cy.intercept(
-        'GET',
-        '/facilities_api/v2/ccp/specialties',
-        mockServices,
-      ).as('mockServices');
+
+      CcpHelpers.initApplicationMock('mockServices');
+
       cy.intercept(
         'GET',
         '/facilities_api/v2/ccp/provider?**',

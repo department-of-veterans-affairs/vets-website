@@ -357,7 +357,7 @@ $text-color: rgba(27, 27, 27, 1);
       }
       &.facility-error {
         @media screen and (min-width: $tablet) {
-          margin-top: 10px;
+          margin-top: 0px;
           margin-left: 12px;
         }
       }
@@ -376,7 +376,7 @@ $text-color: rgba(27, 27, 27, 1);
       margin-top: -24px;
       &.facility-error {
         @media screen and (min-width: $tablet) {
-          margin-top: 10px;
+          margin-top: 0px;
           margin-left: 12px;
         }
       }
@@ -423,6 +423,11 @@ $text-color: rgba(27, 27, 27, 1);
 
       @media (min-width: $small-desktop-screen) {
         margin: 0 0 0 20px;
+        &.fl-sm-desktop {
+          flex-direction: column;
+          align-items: flex-start;
+          margin: 0.5em 0;
+        }
       }
     }
 
@@ -440,16 +445,15 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       display: flex;
       flex-direction: column;
-      margin-top: -24px;
 
+      @media screen and (max-width: $small-desktop-screen) {
+        margin-top: 0;
+      }
       @media (min-width: $small-desktop-screen) {
         display: flex;
         flex-direction: row;
         column-gap: 12px;
         align-items: flex-end;
-      }
-      .facility-type-dropdown {
-        margin-top: 0;
       }
     }
     p.service-hint-text {

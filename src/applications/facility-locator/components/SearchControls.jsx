@@ -162,11 +162,15 @@ const SearchControls = props => {
     if (facilitiesUseAddressTypeahead) {
       return (
         <AddressAutosuggest
+          currentQuery={currentQuery}
           geolocateUser={geolocateUser}
           inputRef={locationInputFieldRef}
+          isMobile={isMobile}
+          isSmallDesktop={isSmallDesktop}
+          isTablet={isTablet}
           onClearClick={handleClearInput}
           onChange={onChange}
-          currentQuery={currentQuery}
+          useProgressiveDisclosure={useProgressiveDisclosure}
         />
       );
     }
@@ -208,8 +212,10 @@ const SearchControls = props => {
           </label>
           {geolocationInProgress ? (
             <div
-              className={`use-my-location-link${
-                isSmallDesktop && useProgressiveDisclosure ? '-desktop' : ''
+              className={`use-my-location-link ${
+                isSmallDesktop && useProgressiveDisclosure
+                  ? 'fl-sm-desktop'
+                  : ''
               }`}
             >
               <va-icon icon="autorenew" size={3} />
@@ -312,7 +318,11 @@ const SearchControls = props => {
           key={showError ? 'select-with-error' : 'select-without-error'}
           required
           id="facility-type-dropdown"
-          className={showError ? 'vads-u-padding-left--1p5' : null}
+          className={
+            showError
+              ? `vads-u-padding-left--1p5 vads-u-padding-top--1p5`
+              : null
+          }
           label="Facility Type"
           value={facilityType || ''}
           onVaSelect={e => handleFacilityTypeChange(e)}

@@ -280,6 +280,7 @@ export const AutosuggestProps = {
   showDownCaret: PropTypes.bool,
   showError: PropTypes.bool,
   stateReducer: PropTypes.func,
+  useProgressiveDisclosure: PropTypes.bool,
 };
 
 export const SearchAreaControlTypes = {
