@@ -6,6 +6,7 @@ import PageNotFound, {
   pageNotFoundHeading,
   pageNotFoundTitle,
   pageNotFoundTestId,
+  pageNotFoundEvent,
 } from '../../components/PageNotFound';
 
 describe('PageNotFound Component', () => {
@@ -19,7 +20,7 @@ describe('PageNotFound Component', () => {
 
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
-      expect(recordEvent.calledWith({ event: 'nav-404-error' })).to.be.true;
+      expect(recordEvent.calledWith({ event: pageNotFoundEvent })).to.be.true;
       expect(document.activeElement).to.eq(heading);
       expect(document.title).to.eql(pageNotFoundTitle);
     });

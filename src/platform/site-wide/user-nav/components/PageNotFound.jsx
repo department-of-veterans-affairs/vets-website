@@ -7,12 +7,13 @@ import { focusElement } from '~/platform/utilities/ui';
 export const pageNotFoundHeading = 'Sorry — we can’t find that page';
 export const pageNotFoundTitle = 'Page not found | Veterans Affairs';
 export const pageNotFoundTestId = 'page-not-found';
+export const pageNotFoundEvent = 'nav-404-error';
 
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(
     () => {
       recordEvent({
-        event: `nav-404-error`,
+        event: pageNotFoundEvent,
       });
     },
     [recordEvent],
