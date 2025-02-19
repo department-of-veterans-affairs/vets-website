@@ -271,7 +271,7 @@ export const userIsDigitalSubmitEligible = formData => {
   return (
     formData?.identityValidation?.hasIcn &&
     formData?.identityValidation?.hasParticipantId &&
-    formData?.v2IsEnabled
+    formData?.['view:v2IsEnabled']
   );
 };
 
