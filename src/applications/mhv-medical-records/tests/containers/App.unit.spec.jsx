@@ -42,6 +42,8 @@ describe('App', () => {
       },
       profile: {
         services: [backendServices.MEDICAL_RECORDS],
+        verified: true,
+        mhvAccountState: 'MULTIPLE',
       },
     },
     featureToggles: {
