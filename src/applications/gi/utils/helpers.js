@@ -648,6 +648,7 @@ export const handleLcResultsSearch = (
   name,
   state = 'all',
   initialCategory = 'all',
+  page = 1,
 ) => {
   let categoryParams = '';
 
@@ -661,7 +662,7 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&`.concat(
+    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
       categoryParams,
     ),
     {
