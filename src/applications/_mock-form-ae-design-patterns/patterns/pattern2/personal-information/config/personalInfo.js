@@ -28,7 +28,7 @@ const personalInfoMax = personalInformationPage({
     ssn: { show: true, required: true },
     vaFileNumber: { show: true, required: true },
     dateOfBirth: { show: true, required: true },
-    gender: { show: true, required: true },
+    sex: { show: true, required: true },
     name: { show: true, required: true },
   },
   note: <p>This is a note</p>,
@@ -48,7 +48,7 @@ const personalInfoMin = personalInformationPage({
     ssn: { show: true, required: true },
     vaFileNumber: { show: false, required: false },
     dateOfBirth: { show: false, required: false },
-    gender: { show: false, required: false },
+    sex: { show: false, required: false },
   },
 });
 
@@ -60,7 +60,7 @@ const personalInfoError = personalInformationPage({
     ssn: { show: true, required: true },
     vaFileNumber: { show: true, required: true },
     dateOfBirth: { show: true, required: true },
-    gender: { show: true, required: true },
+    sex: { show: true, required: true },
     name: { show: true, required: true },
   },
   dataAdapter: {
@@ -76,7 +76,7 @@ const personalInfoCustomErrorMessage = personalInformationPage({
     ssn: { show: true, required: true },
     vaFileNumber: { show: true, required: true },
     dateOfBirth: { show: true, required: true },
-    gender: { show: true, required: true },
+    sex: { show: true, required: true },
     name: { show: true, required: true },
   },
   dataAdapter: {
@@ -94,7 +94,7 @@ const personalInfoCustomErrorMessageComponent = personalInformationPage({
     ssn: { show: true, required: true },
     vaFileNumber: { show: true, required: true },
     dateOfBirth: { show: true, required: true },
-    gender: { show: true, required: true },
+    sex: { show: true, required: true },
     name: { show: true, required: true },
   },
   dataAdapter: {
@@ -112,7 +112,7 @@ const personalInfoCustom = personalInformationPage({
     ssn: { show: true, required: false },
     vaFileNumber: { show: true, required: false },
     dateOfBirth: { show: true, required: true },
-    gender: { show: true, required: false },
+    sex: { show: true, required: false },
   },
 });
 

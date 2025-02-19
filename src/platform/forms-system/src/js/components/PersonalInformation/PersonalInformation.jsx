@@ -34,7 +34,7 @@ import { adaptFormData } from './adapter';
  * @property {FieldConfig} [ssn] - SSN field configuration
  * @property {FieldConfig} [vaFileNumber] - VA file number field configuration
  * @property {FieldConfig} [dateOfBirth] - Date of birth field configuration
- * @property {FieldConfig} [gender] - Gender field configuration
+ * @property {FieldConfig} [sex] - Sex field configuration
  */
 
 /**
@@ -53,7 +53,7 @@ const defaultConfig = {
   ssn: { ...defaultFieldConfig },
   vaFileNumber: { show: false, required: false },
   dateOfBirth: { ...defaultFieldConfig },
-  gender: { show: false, required: false },
+  sex: { show: false, required: false },
 };
 
 /**
@@ -190,19 +190,19 @@ export const PersonalInformation = ({
                 )}
               </p>
             )}
-          {finalConfig.gender?.show &&
-            (gender || finalConfig.gender?.required) && (
+          {finalConfig.sex?.show &&
+            (gender || finalConfig.sex?.required) && (
               <p>
-                <strong>Gender: </strong>
+                <strong>Sex: </strong>
                 {gender ? (
                   <span
-                    className="gender dd-privacy-hidden"
-                    data-dd-action-name="Veteran's gender"
+                    className="sex dd-privacy-hidden"
+                    data-dd-action-name="Veteran's sex"
                   >
                     {genderLabels?.[gender]}
                   </span>
                 ) : (
-                  <span data-testid="gender-not-available">Not available</span>
+                  <span data-testid="sex-not-available">Not available</span>
                 )}
               </p>
             )}
