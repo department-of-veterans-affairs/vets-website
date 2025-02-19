@@ -178,6 +178,9 @@ export const setup = (cy, testOptions = {}) => {
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
     }
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
+    }
 
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,

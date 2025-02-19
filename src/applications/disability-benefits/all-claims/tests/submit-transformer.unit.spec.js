@@ -41,6 +41,11 @@ describe('transform', () => {
           rawData.data.startedFormVersion = '2022';
         }
 
+        // special logic for 0781 forms.
+        if (fileName === 'maximal-modern-0781-test.json') {
+          rawData.data.syncModern0781Flow = true;
+        }
+
         let transformedData;
         try {
           transformedData = fs.readFileSync(
