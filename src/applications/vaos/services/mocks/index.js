@@ -193,6 +193,16 @@ const responses = {
     });
     return res.json({ data: filteredAppointments, meta });
   },
+  //  To test malformed appointmentID error response locally
+  //  uncomment the inclusion of errors.json
+  //  uncomment the get api with returned errors
+  //  comment out the get api request with returned data
+
+  // const errors = require('./v2/errors.json');
+  // 'GET /vaos/v2/appointments/:id': (req, res) => {
+  //   return res.json(errors);
+  // },
+
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
       data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
