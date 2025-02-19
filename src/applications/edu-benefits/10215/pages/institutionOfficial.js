@@ -8,14 +8,29 @@ const uiSchema = {
   certifyingOfficial: {
     ...titleUI('Tell us about yourself'),
     first: {
-      ...textUI('First name'),
-      'ui:required': () => true,
+      ...textUI({
+        title: 'First name',
+        errorMessages: {
+          required: 'First name is required',
+        },
+      }),
     },
     last: {
-      ...textUI('Last name'),
-      'ui:required': () => true,
+      ...textUI({
+        title: 'Last name',
+        errorMessages: {
+          required: 'Last name is required',
+        },
+      }),
     },
-    title: textUI('Your title'),
+    title: {
+      ...textUI({
+        title: 'Title',
+        errorMessages: {
+          required: 'Please enter a title',
+        },
+      }),
+    },
   },
 };
 
