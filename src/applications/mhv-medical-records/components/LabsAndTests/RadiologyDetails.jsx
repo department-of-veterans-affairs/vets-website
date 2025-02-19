@@ -382,7 +382,6 @@ ${record.results}`;
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - radiology name]"
       >
-        {record.name}
         <DateSubheading
           date={record.date}
           id="radiology-date"
