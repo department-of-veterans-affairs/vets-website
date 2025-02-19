@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import AutosuggestOptions from '../../components/Autosuggest/AutosuggestOptions';
-import AutosuggestOption from '../../components/Autosuggest/AutosuggestOption';
-import { itemToString } from '../../components/Autosuggest/helpers';
+import AutosuggestOptions from '../../../components/search-form/autosuggest/AutosuggestOptions';
+import AutosuggestOption from '../../../components/search-form/autosuggest/AutosuggestOption';
+import { itemToString } from '../../../components/search-form/autosuggest/helpers';
 
 /**
  * getItemProps,
