@@ -2,6 +2,10 @@ import React from 'react';
 
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 
+// export function duder({ formContext }) {
+//   return JSON.stringify(formContext.isLoggedIn);
+// }
+
 export const applicantInfoNoteDescription = (
   <div>
     <div>

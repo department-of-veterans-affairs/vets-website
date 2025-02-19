@@ -53,12 +53,14 @@ const formConfig = {
           title: 'Confirm the personal information we have on file for you',
           uiSchema: applicantInfoConfirmInfo.uiSchema,
           schema: applicantInfoConfirmInfo.schema,
+          // depends: formData => formContext.isLoggedIn,
         },
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',
           title: 'Your relationship to the Veteran',
           uiSchema: applicantRelationToVet.uiSchema,
           schema: applicantRelationToVet.schema,
+          // depends: formData => formContext.isLoggedIn,
         },
         applicantRelationToVetOrg: {
           path: 'applicant-relation-to-vet-org',
@@ -66,6 +68,7 @@ const formConfig = {
           uiSchema: applicantRelationToVetOrg.uiSchema,
           schema: applicantRelationToVetOrg.schema,
           depends: formData =>
+            // formContext.isLoggedIn &&
             ['repOfCemetery', 'repOfFuneralHome'].includes(
               formData.relationToVetRadio,
             ),
@@ -75,7 +78,9 @@ const formConfig = {
           title: 'Your organization',
           uiSchema: applicantRelationToVetOrg2.uiSchema,
           schema: applicantRelationToVetOrg2.schema,
-          depends: formData => formData.relationToVetRadio === 'repOfVSO',
+          depends: formData =>
+            // formContext.isLoggedIn &&
+            formData.relationToVetRadio === 'repOfVSO',
         },
       },
     },

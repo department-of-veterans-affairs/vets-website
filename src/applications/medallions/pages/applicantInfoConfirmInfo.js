@@ -10,7 +10,7 @@ export default {
       'ui:description': applicantInfoNoteDescription,
     },
     'ui:options': {
-      keepInPageOnReview: false,
+      keepInPageOnReview: true,
     },
   },
   schema: {
