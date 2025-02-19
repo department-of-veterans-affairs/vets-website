@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import { scrollTo } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
