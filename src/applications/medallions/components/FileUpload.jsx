@@ -88,6 +88,48 @@ const FileUpload = props => {
     }
   };
 
+  // inside the FileUpload component
+
+  const onReplaceExistingFile = (fileIndex, event) => {
+    const { files } = event.detail;
+    if (files && files[0]) {
+      const newFile = files[0];
+
+      // Check file size (should be less than 25 MB)
+      if (getFileSizeMB(newFile.size) > 25) {
+        // Set error for the file index (or use an identifier if needed)
+        setFileErrors(prevErrors =>
+          Array.from(new Set([...prevErrors, fileIndex])),
+        );
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Img = reader.result;
+        const replacedFile = {
+          fileName: newFile.name,
+          fileSize: newFile.size,
+          fileType: newFile.type,
+          base64: base64Img,
+          // Keep the same fileID as the file being replaced
+          fileID: existingFiles[fileIndex].fileID,
+        };
+
+        // Create updated file list with the replaced file
+        const updatedFiles = existingFiles.map(
+          (file, idx) => (idx === fileIndex ? replacedFile : file),
+        );
+
+        // Update localStorage, component state, and Redux formData
+        setLocalFiles(updatedFiles);
+        setExistingFiles(updatedFiles);
+        updateFormData(updatedFiles);
+      };
+      reader.readAsDataURL(newFile);
+    }
+  };
+
   const onRemoveFile = fileID => {
     if (fileErrors.includes(fileID)) {
       clearError(fileID);
@@ -175,34 +217,10 @@ const FileUpload = props => {
     <div>
       <div className="usa-form-group">
         {existingFiles.length > 0 && (
-          // <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-          //   <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-          //     {existingFiles.map(file => (
-          //       <div
-          //         key={`${file.fileID}-${file.fileName}-edit`}
-          //         className="review-page-attachments"
-          //       >
-          //         <dt className="form-review-panel-page-header vads-u-margin-bottom--2 vads-u-color--link-default">
-          //           <va-icon icon="attach_file" size={3} />
-          //           <DownloadLink
-          //             fileUrl={file.base64}
-          //             fileName={file.fileName}
-          //             fileSize={file.fileSize}
-          //           />
-          //         </dt>
-          //         <dd className="vads-u-margin-right--0">
-          //           <va-button-icon
-          //             button-type="delete"
-          //             onClick={() => deleteExistingFile(file.fileID)}
-          //           />
-          //         </dd>
-          //       </div>
-          //     ))}
-          //   </dl>
-          // </div>
           <FileList
             files={existingFiles}
-            onClick={e => onDeleteExistingFile(e)}
+            onReplace={onReplaceExistingFile}
+            onDelete={onDeleteExistingFile}
             editMode={editMode}
             path={path}
           />
