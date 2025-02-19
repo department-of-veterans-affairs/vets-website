@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 export const workflowChoicePageTitle = (
   <div className="vads-u-font-size--h3">
     Statement about mental health conditions (VA Form 21-0781)
@@ -30,6 +32,94 @@ const conditionSelections = formData => {
   );
 };
 
+const optOutOfForm0781Modal = () => {
+  // const optOutOfForm0781Modal = formData => {
+  // const [modal, showModal] = useState(false);
+  // const isOptedOut = formData?.['view:mentalHealthWorkflowChoice'] === 'optOutOfForm0781';
+  // if(isOptedOut){
+  //   showModal(true);
+  // }
+  // console.log('Is opt-out selected:', isOptedOut);
+
+  /**
+   * declare event handlers
+   *  - onCancel - fired on modal close and secondary button click - no action taken
+   *  - onChange - fired when data from local form components is updated
+   *  - onConfirm - fired on modal primary button click - returns to dependents summary page in form
+   *  - onGoBack - fired on click of back progress button - render previous form fieldset or go back to summary page
+   *  - onSubmit - fired on click of continue progress button - render next form fieldset or populate data into array
+   *  - showConfirm - fired on cancel button click - show modal for confirmation of cancel action
+   */
+  const handlers = {
+    onCancel: () => {
+      // showModal(false);
+    },
+    onChange: () => {
+      // setLocalData({ ...localData, ...formData });
+      // console.log(`change happened, ${formData}`);
+    },
+    onConfirm: () => {
+      // setLocalData(null);
+      // goToPath(searchAction.pathToGo);
+      // console.log('confirmed');
+    },
+    onGoBack: () => {
+      // const index = activePages.findIndex(item => item.id === currentPage.id);
+      // if (index > 0) {
+      //   setCurrentPage(activePages[index - 1]);
+      // } else {
+      //   handlers.showConfirm();
+      // }
+      // console.log('go back');
+    },
+    onSubmit: () => {
+      // const index = activePages.findIndex(item => item.id === currentPage.id);
+      // if (index === activePages.length - 1) {
+      //   const dataToSet = getDataToSet({
+      //     slices: {
+      //       beforeIndex: dependents.slice(0, searchIndex),
+      //       afterIndex: dependents.slice(searchIndex + 1),
+      //     },
+      //     viewFields: DEPENDENT_VIEW_FIELDS,
+      //     dataKey: 'dependents',
+      //     localData,
+      //     listRef,
+      //   });
+      //   setFormData({ ...data, ...dataToSet });
+      //   goToPath(searchAction.pathToGo);
+      // } else {
+      //   setCurrentPage(activePages[index + 1]);
+      // }
+      // console.log('submit');
+    },
+    showConfirm: () => {
+      // showModal(true);
+    },
+  };
+  return (
+    <VaModal
+      clickToClose
+      status="warning"
+      modalTitle="Opt out of VA Form 21-0781?"
+      primaryButtonText="Yes, opt me out"
+      secondaryButtonText="No, return to claim"
+      onPrimaryButtonClick={handlers.onConfirm}
+      onSecondaryButtonClick={handlers.onCancel}
+      onCloseEvent={handlers.onCancel}
+      visible
+      uswds
+    >
+      <p>
+        If you opt out of the 21-0781, you’ll lose any answers you’ve provided
+        about your mental health conditions. This includes descriptions about
+        your traumatic events and behavioral changes, and details about mental
+        health related supporting documents.
+      </p>
+      <p>Do you want to opt out of form 21-0781?</p>
+    </VaModal>
+  );
+};
+
 export const workflowChoicePageDescription = formData => {
   return (
     <>
@@ -52,6 +142,8 @@ export const workflowChoicePageDescription = formData => {
         questions you’re comfortable answering.
       </p>
       <p>Completing this additional form should take about 45 minutes.</p>
+      {optOutOfForm0781Modal()}
+      {/* {optOutOfForm0781Modal(formData)} */}
     </>
   );
 };
@@ -69,9 +161,9 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
     'Yes, I want to complete VA Form 21-0781 online',
   [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
-    'Yes, but I’ve already filled out a PDF of VA Form 21-0781 and I want to upload it to my claim',
+    "Yes, but I've already filled out a PDF of VA Form 21-0781 and I want to upload it to my claim",
   [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
-    'No, I don’t want to complete VA Form 21-0781 (opt out)',
+    "No, I don't want to complete VA Form 21-0781 (opt out)",
 });
 
 export const traumaticEventsExamples = (
@@ -159,30 +251,32 @@ export const traumaticEventsExamples = (
 
 export const mstAlert = () => {
   return (
-    <va-alert-expandable
-      status="info"
-      trigger="Learn more about treatment for military sexual trauma"
-    >
-      <p>
-        If you experienced military sexual trauma (MST), we provide treatment
-        for any physical or mental health conditions related to your
-        experiences.
-      </p>
-      <br />
-      <p>
-        You don’t need to file a disability claim or have a disability rating to
-        get care. These services are available to Veterans regardless of
-        discharge status. You may be able to receive MST-related health care
-        even if you’re not eligible for other VA health care.
-      </p>
-      <br />
-      <p>
-        <va-link
-          external
-          href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
-          text="Learn more about MST-related benefits and services (opens in a new tab)"
-        />
-      </p>
-    </va-alert-expandable>
+    <>
+      <va-alert-expandable
+        status="info"
+        trigger="Learn more about treatment for military sexual trauma"
+      >
+        <p>
+          If you experienced military sexual trauma (MST), we provide treatment
+          for any physical or mental health conditions related to your
+          experiences.
+        </p>
+        <br />
+        <p>
+          You don’t need to file a disability claim or have a disability rating
+          to get care. These services are available to Veterans regardless of
+          discharge status. You may be able to receive MST-related health care
+          even if you’re not eligible for other VA health care.
+        </p>
+        <br />
+        <p>
+          <va-link
+            external
+            href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+            text="Learn more about MST-related benefits and services (opens in a new tab)"
+          />
+        </p>
+      </va-alert-expandable>
+    </>
   );
 };
