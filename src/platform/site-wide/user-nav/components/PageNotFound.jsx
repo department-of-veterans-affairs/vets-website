@@ -16,26 +16,43 @@ export const helpfulLinks = [
 ];
 
 /**
- * PageNotFound component renders the 404 error page.
- * It displays a message indicating that the page cannot be found
- * and lists common questions and popular links.
+ * PageNotFound component -- renders the 404 error page.
  *
  * @component
- * @param {Object} props - The component props
+ * @param {Object} props
  * @param {Function} [props.recordEvent=recordEventFn] - Function to record events, defaults to `recordEventFn`
  *
  * @example
- * <PageNotFound />
+ * // routes.jsx -- react-router-dom -- declare <PageNotFound /> last within <Switch />
+ * import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * <Switch>
+ *   <Route exact path="/" key="App"><App/></Route>
+ *   <Route><PageNotFound /></Route>
+ * </Switch>
  *
  * @example
- * // unit spec
- * import { pageNotFoundTestId } from [at]department-of-veterans-affairs/platform-site-wide/PageNotFound;
+ * // routes.jsx -- react-router-dom-v5-compat -- declare <PageNotFound /> last within <Routes />
+ * import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * <Routes>
+ *   <Route path="/" element={<App />} />
+ *   <Route path="*" element={<PageNotFound />} />
+ * </Routes>
+ *
+ * @example
+ * // in _.unit.spec.jsx files:
+ * import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
  * // render a 404 condition
  * const { getByTestId } = render(<App />);
  * getByTestId(pageNotFoundTestId);
  * // or, with chai assertions
  * const el = getByTestId(pageNotFoundTestId);
  * expect(el).to.exist;
+ *
+ * @example
+ * // in _.cypress.spec.js e2e files:
+ * import { pageNotFoundId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * cy.visit('/nowhere');
+ * cy.findByTestId(pageNotFoundTestId);
  */
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(() => recordEvent({ event: pageNotFoundEvent }), [recordEvent]);
