@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { getProviderSpecialties } from '../actions';
+import { getProviderSpecialties } from '../../../actions';
 import MessagePromptDiv from './MessagePromptDiv';
 
 const MIN_SEARCH_CHARS = 2;
 /**
  * CC Providers' Service Types Typeahead
  */
-class ServiceTypeAhead extends Component {
+class CCServiceTypeAhead extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -213,7 +213,7 @@ class ServiceTypeAhead extends Component {
   }
 }
 
-ServiceTypeAhead.propTypes = {
+CCServiceTypeAhead.propTypes = {
   getProviderSpecialties: PropTypes.func.isRequired,
   initialSelectedServiceType: PropTypes.string,
   handleServiceTypeChange: PropTypes.func.isRequired,
@@ -232,4 +232,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   mapDispatch,
-)(ServiceTypeAhead);
+)(CCServiceTypeAhead);
