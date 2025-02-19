@@ -28,7 +28,6 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
-  sendDataDogAction,
   formatDateAndTime,
   formatUserDob,
 } from '../../util/helpers';
@@ -45,9 +44,6 @@ import LabelValue from '../shared/LabelValue';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
 
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
@@ -446,30 +442,6 @@ ${record.results}`;
               testId="radiology-imaging-provider"
               actionName="[lab and tests - radiology provider]"
             />
-
-            {!phase0p5Flag && (
-              <>
-                <LabelValue label="Images">
-                  <p data-testid="radiology-image" className="no-print">
-                    Images are not yet available in this new medical records
-                    tool. To get images, you’ll need to request them in the
-                    previous version of medical records on the My HealtheVet
-                    website.
-                  </p>
-                </LabelValue>
-                <va-link
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'va-medical-images-and-reports',
-                  )}
-                  text="Request images on the My HealtheVet website"
-                  data-testid="radiology-images-link"
-                  onClick={() => {
-                    sendDataDogAction('Request images on MHV');
-                  }}
-                />
-              </>
-            )}
           </HeaderSection>
         </div>
 
@@ -487,13 +459,11 @@ ${record.results}`;
           </HeaderSection>
         </div>
 
-        {phase0p5Flag && (
-          <div className="test-results-container">
-            <HeaderSection header="Images" className="test-results-header">
-              {imageStatusContent()}
-            </HeaderSection>
-          </div>
-        )}
+        <div className="test-results-container">
+          <HeaderSection header="Images" className="test-results-header">
+            {imageStatusContent()}
+          </HeaderSection>
+        </div>
       </HeaderSection>
     </div>
   );
