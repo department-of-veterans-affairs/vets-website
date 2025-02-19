@@ -1,9 +1,10 @@
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import _ from 'lodash';
+import { nanoid } from 'nanoid';
 import { DownloadLink, getFileSizeMB } from '../config/helpers';
+import { StorageAdapter } from '../utils/StorageAdapter';
 
 const idList = numberOfIDs => {
   const ids = [];
@@ -19,49 +20,77 @@ const FileUpload = props => {
     buttonText = 'Upload file',
     label = 'Select optional files to upload',
     hint = 'You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size',
-    // success = null,
   } = props;
 
-  const first = 'askVA_upload_first';
-  const errorMessage = 'File must be less than 25 MB';
+  const firstInputID = useMemo(() => {
+    const uuid = nanoid();
+    return `askVA_upload_${uuid}`;
+  }, []);
   const uploadIDs = idList(10);
   const [attachments, setAttachments] = useState([]);
   const [existingFiles, setExistingFiles] = useState([]);
   const [fileErrors, setFileErrors] = useState([]);
+  const [indexDBError, setIndexDBError] = useState([]);
   const route = useSelector(state => state.navigation.route.path);
+  const askVAAttachmentStorage = new StorageAdapter('askVA', 'attachments');
+
+  const getErrorMessage = fileID => {
+    if (indexDBError.length > 0 && indexDBError.includes(fileID)) {
+      return 'Could not upload your file';
+    }
+    if (fileErrors.length > 0 && fileErrors.includes(fileID)) {
+      return 'File must be less than 25 MB';
+    }
+    return null;
+  };
 
   const clearError = fileID => {
+    if (indexDBError) {
+      const filterIDs = indexDBError.filter(id => fileID !== id);
+      setIndexDBError(filterIDs);
+    }
     if (fileErrors) {
       const filterIDs = fileErrors.filter(id => fileID !== id);
       setFileErrors(filterIDs);
     }
   };
 
-  const deleteExistingFile = fileID => {
-    const uploadedFiles = localStorage.getItem('askVAFiles');
-    const parseFiles = JSON.parse(uploadedFiles);
-    const removedFile = parseFiles.filter(file => file.fileID !== fileID);
-    localStorage.askVAFiles = JSON.stringify(removedFile);
+  const deleteExistingFile = async fileID => {
+    const uploadedFiles = await askVAAttachmentStorage.get('attachments');
+    const removedFile = uploadedFiles.filter(file => file.fileID !== fileID);
+    await askVAAttachmentStorage.set('attachments', removedFile);
     setExistingFiles(existingFiles.filter(file => file.fileID !== fileID));
   };
 
-  const onRemoveFile = fileToRemoveID => {
-    if (fileErrors.includes(fileToRemoveID)) {
+  const onRemoveFile = async fileToRemoveID => {
+    if (
+      fileErrors.includes(fileToRemoveID) ||
+      indexDBError.includes(fileToRemoveID)
+    ) {
       clearError(fileToRemoveID);
     } else {
-      const uploadedFiles = localStorage.getItem('askVAFiles');
-      const parseFiles = JSON.parse(uploadedFiles);
-      const removedFile = parseFiles.filter(
+      const uploadedFiles = await askVAAttachmentStorage.get('attachments');
+      const removedFile = uploadedFiles.filter(
         file => file.fileID !== fileToRemoveID,
       );
-      localStorage.askVAFiles = JSON.stringify(removedFile);
+      await askVAAttachmentStorage.set('attachments', removedFile);
       setAttachments(
         attachments.filter(file => file.fileID !== fileToRemoveID),
       );
     }
   };
+
+  const setIndexData = async (newData, fileID) => {
+    try {
+      // Update IndexedDB
+      await askVAAttachmentStorage.set('attachments', newData);
+    } catch (error) {
+      setIndexDBError([...new Set([...indexDBError, fileID])]);
+    }
+  };
+
   /* eslint-disable consistent-return */
-  const onAddFile = event => {
+  const onAddFile = async event => {
     const { files } = event.detail;
     const inputID = event.srcElement['data-testid'];
 
@@ -74,8 +103,7 @@ const FileUpload = props => {
     if (files.length) {
       const currentFile = files[0];
       const reader = new FileReader();
-      const storedFile = localStorage.getItem('askVAFiles');
-
+      const storedFiles = await askVAAttachmentStorage.get('attachments');
       reader.readAsDataURL(currentFile);
       reader.onload = () => {
         const base64Img = reader.result;
@@ -84,13 +112,13 @@ const FileUpload = props => {
           fileSize: files[0].size,
           fileType: files[0].type,
           base64: base64Img,
-          fileID: _.uniqueId(`${event.target['data-testid']}`),
+          fileID: inputID,
         };
 
-        const questionFiles = storedFile
-          ? [...JSON.parse(storedFile), imgData]
+        const questionFiles = storedFiles
+          ? [...storedFiles, imgData]
           : [imgData];
-        localStorage.askVAFiles = JSON.stringify(questionFiles);
+        setIndexData(questionFiles, imgData.fileID);
         setAttachments([...attachments, imgData]);
       };
     } else {
@@ -98,33 +126,10 @@ const FileUpload = props => {
     }
   };
 
-  // const renderAlert = () => {
-  //   if (success === true) {
-  //     return (
-  //       <div className="usa-alert usa-alert--success usa-alert--slim">
-  //         <div className="usa-alert__body">
-  //           <p className="usa-alert__text">File attached successfully</p>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-  //   if (success === false) {
-  //     return (
-  //       <div className="usa-alert usa-alert--error usa-alert--slim">
-  //         <div className="usa-alert__body">
-  //           <p className="usa-alert__text">Issue uploading your file</p>
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-  //   return null;
-  // };
-
-  const getUploadedFiles = () => {
-    const storedFile = localStorage.getItem('askVAFiles');
-    if (storedFile?.length > 0) {
-      const files = JSON.parse(storedFile);
-      setExistingFiles(files);
+  const getUploadedFiles = async () => {
+    const storedFiles = await askVAAttachmentStorage.get('attachments');
+    if (storedFiles?.length > 0) {
+      setExistingFiles(storedFiles);
     }
   };
 
@@ -141,7 +146,7 @@ const FileUpload = props => {
           key={i}
           accept={acceptFileTypes}
           data-testid={uploadIDs[i]}
-          error={fileErrors.includes(uploadIDs[i]) ? errorMessage : ''}
+          error={getErrorMessage(uploadIDs[i])}
           aria-label={label}
           name="usa-file-input"
           onVaChange={onAddFile}
@@ -191,8 +196,8 @@ const FileUpload = props => {
           accept={acceptFileTypes}
           multiple="multiple"
           button-text={buttonText}
-          data-testid={first}
-          error={fileErrors.includes(first) ? errorMessage : ''}
+          data-testid={firstInputID}
+          error={getErrorMessage(firstInputID)}
           hint={hint}
           label={label}
           name="usa-file-input"
