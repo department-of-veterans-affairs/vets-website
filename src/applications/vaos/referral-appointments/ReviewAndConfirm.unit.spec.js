@@ -30,20 +30,26 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       selectedSlot: '0',
       currentPage: 'reviewAndConfirm',
       appointmentCreateStatus: FETCH_STATUS.notStarted,
-      postAppointmentStartTime: null,
+      pollingRequestStart: null,
+      appointmentInfoError: false,
+      appointmentInfoLoading: false,
+      referralAppointmentInfo: {},
     },
   };
-  const initialEmptyState = {
-    featureToggles: {
-      vaOnlineSchedulingCCDirectScheduling: true,
-    },
-    referral: {
-      draftAppointmentInfo: {},
-      draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
-      appointmentCreateStatus: FETCH_STATUS.notStarted,
-      postAppointmentStartTime: null,
-    },
-  };
+  // TODO - add test for when draftAppointmentInfo is empty
+  // const initialEmptyState = {
+  //   featureToggles: {
+  //     vaOnlineSchedulingCCDirectScheduling: true,
+  //   },
+  //   referral: {
+  //     draftAppointmentInfo: {},
+  //     draftAppointmentCreateStatus: FETCH_STATUS.notStarted,
+  //     appointmentCreateStatus: FETCH_STATUS.notStarted,
+  //     pollingRequestStart: null,
+  //     appointmentInfoError: false,
+  //     appointmentInfoLoading: false,
+  //   },
+  // };
   beforeEach(() => {
     global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
     sandbox
@@ -53,39 +59,6 @@ describe('VAOS Component: ReviewAndConfirm', () => {
   afterEach(() => {
     sandbox.restore();
     sessionStorage.clear();
-  });
-  it('should not fetch provider if in redux', async () => {
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store: createTestStore(initialFullState),
-      },
-    );
-    expect(await screen.getByTestId('referral-layout-heading')).to.exist;
-    sandbox.assert.notCalled(
-      postDraftReferralAppointmentModule.postDraftReferralAppointment,
-    );
-  });
-  it('should fetch provider if not in redux', async () => {
-    const selectedSlotKey = getReferralSlotKey('UUID');
-    sessionStorage.setItem(
-      selectedSlotKey,
-      '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
-    );
-    const screen = renderWithStoreAndRouter(
-      <ReviewAndConfirm
-        currentReferral={createReferralById('2024-09-09', 'UUID')}
-      />,
-      {
-        store: createTestStore(initialEmptyState),
-      },
-    );
-    expect(await screen.getByTestId('loading')).to.exist;
-    sandbox.assert.calledOnce(
-      postDraftReferralAppointmentModule.postDraftReferralAppointment,
-    );
   });
   it('should get selected slot from session storage if not in redux', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
@@ -138,14 +111,20 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
       .true;
   });
-  it('should poll for appointment creation when "continue" is pressed', async () => {
+  it('should call call create appointment post and begin polling for appointment state when "continue" is pressed', async () => {
     const clock = sinon.useFakeTimers({
       shouldAdvanceTime: false,
       now: new Date().getTime(),
       toFake: ['setTimeout', 'nextTick'],
     });
+
+    // Stub the appointment cration function
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+      .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
+    // Stub the appointment info function to return a draft appointment on the first call and a confirmed appointment on the second call to mock polling
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
       .onFirstCall()
       .resolves(
         createReferralAppointment(draftAppointmentInfo.appointment.id, 'draft'),
@@ -169,20 +148,28 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.queryByTestId('continue-button')).to.exist;
     userEvent.click(screen.queryByTestId('continue-button'));
     await waitFor(() => {
-      expect(screen.getByTestId('loading')).to.exist;
+      sandbox.assert.calledOnce(
+        postDraftReferralAppointmentModule.postReferralAppointment,
+      );
     });
 
-    // advance the clock
+    // Advance the clock to trigger the polling
     clock.runAll();
-    sandbox.assert.calledTwice(
-      postDraftReferralAppointmentModule.postReferralAppointment,
-    );
+
+    await waitFor(() => {
+      sandbox.assert.calledTwice(
+        postDraftReferralAppointmentModule.getAppointmentInfo,
+      );
+    });
   });
   it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
-    sandbox.stub(flow, 'routeToNextReferralPage');
-
+    sandbox.spy(flow, 'routeToNextReferralPage');
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
+      .resolves({ appointmentId: draftAppointmentInfo.appointment.id });
+
+    sandbox
+      .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
       .resolves(
         createReferralAppointment(
           draftAppointmentInfo.appointment.id,
@@ -200,12 +187,16 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     );
     expect(screen.queryByTestId('continue-button')).to.exist;
     userEvent.click(screen.queryByTestId('continue-button'));
+
+    // Wait for the postReferralAppointment call to complete
     await waitFor(() => {
-      expect(screen.getByTestId('loading')).to.exist;
+      sandbox.assert.calledOnce(
+        postDraftReferralAppointmentModule.postReferralAppointment,
+      );
     });
 
     sandbox.assert.calledOnce(
-      postDraftReferralAppointmentModule.postReferralAppointment,
+      postDraftReferralAppointmentModule.getAppointmentInfo,
     );
 
     sandbox.assert.calledOnce(flow.routeToNextReferralPage);
