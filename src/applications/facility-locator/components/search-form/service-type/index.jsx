@@ -77,7 +77,7 @@ const ServiceType = ({
   ));
 
   return (
-    <span className="service-type-dropdown-container">
+    <div className="service-type-dropdown-container">
       <label htmlFor="service-type-dropdown">Service type</label>
       <select
         id="service-type-dropdown"
@@ -87,7 +87,7 @@ const ServiceType = ({
       >
         {options}
       </select>
-    </span>
+    </div>
   );
 };
 

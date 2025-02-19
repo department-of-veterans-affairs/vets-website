@@ -4,6 +4,7 @@
 div[id$="-autosuggest-container"] {
   &.usa-input-error {
     margin-top: 0 !important;
+    margin-bottom: 24px;
     padding-top: 0; // matching style to VaSelect use of usa-error
     right: 0;
   }
@@ -146,5 +147,17 @@ div[id$="-autosuggest-container"] {
         }
       }
     }
+  }
+}
+
+div#vamc-services-autosuggest-container {
+  .autosuggest-input-container {
+    @media (min-width: $small-desktop-screen) {
+      margin-bottom: 0;
+    }
+  }
+
+  .autosuggest-input-container {
+    margin-top: .3rem !important;
   }
 }

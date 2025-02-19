@@ -257,8 +257,6 @@ const SearchForm = props => {
     return (
       <div
         className={classNames(
-          'input-clear',
-          'vads-u-margin--0',
           `facility-type-dropdown-val-${facilityType || 'none'}`,
         )}
       >
@@ -345,7 +343,7 @@ const SearchForm = props => {
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
+        <div>
           {renderLocationInputField()}
           <div id="search-controls-bottom-row">
             {renderFacilityTypeDropdown()}
