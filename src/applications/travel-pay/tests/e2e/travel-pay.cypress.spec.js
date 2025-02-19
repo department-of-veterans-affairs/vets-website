@@ -37,6 +37,11 @@ describe(`${appName} -- Status Page`, () => {
     cy.clock().invoke('restore');
   });
 
+  it('navigates to the platform 404 page if route not found', () => {
+    cy.visit(`${rootUrl}/banana`);
+    cy.get('h1').should('include.text', 'Sorry — we can’t find that page');
+  });
+
   it('defaults to "most recent" sort order', () => {
     cy.get('select[name="claimsOrder"]').should('have.value', 'mostRecent');
   });

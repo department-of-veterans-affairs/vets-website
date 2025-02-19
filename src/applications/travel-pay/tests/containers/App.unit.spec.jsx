@@ -136,4 +136,19 @@ describe('App', () => {
     });
     expect($('va-alert-sign-in[variant="verifyIdMe"]')).to.exist;
   });
+
+  it('should render the platform 404 page if undefined route', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/banana`,
+      reducers: reducer,
+    });
+    await waitFor(() => {
+      expect(screen.findByText(/we can’t find that page/i)).to.exist;
+    });
+  });
 });
