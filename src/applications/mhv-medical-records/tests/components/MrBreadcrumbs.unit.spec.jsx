@@ -44,10 +44,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
 
     const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
@@ -82,10 +78,6 @@ describe('MrBreadcrumbs component', () => {
             },
           ],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
     };
     window.document.querySelector = Sinon.stub().returns({
@@ -127,10 +119,6 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
-      },
     };
     window.document.querySelector = Sinon.stub().returns({
       textContent: 'test',
@@ -148,27 +136,6 @@ describe('MrBreadcrumbs component', () => {
     );
     const header = screen.getByTestId('breadcrumbs');
     expect(header).to.exist;
-  });
-
-  it('phase 1 disabled && no crumbs list && on the home page, should display the no-crumbs div', () => {
-    const initialState = {
-      mr: {
-        breadcrumbs: {
-          crumbsList: null,
-        },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: false,
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-    });
-    const { getByTestId } = screen;
-    expect(getByTestId('no-crumbs-list-display')).to.exist;
   });
 
   it('checks the lab test bread crumbs', () => {
@@ -191,10 +158,6 @@ describe('MrBreadcrumbs component', () => {
             },
           ],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
     };
     const screen = renderInReduxProvider(
@@ -233,10 +196,6 @@ describe('MrBreadcrumbs component', () => {
             },
           ],
         },
-      },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
     };
     window.document.querySelector = Sinon.stub().returns({

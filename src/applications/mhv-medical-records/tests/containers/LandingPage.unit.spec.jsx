@@ -43,44 +43,6 @@ describe('Landing Page', () => {
     expect(screen).to.exist;
   });
 
-  it('displays a section linking to My HealtheVet classic to download all records', () => {
-    const customState = {
-      featureToggles: {
-        loading: false,
-      },
-      drupalStaticData: {
-        vamcEhrData: {
-          loading: false,
-        },
-      },
-      ...initialState,
-    };
-    const screen = renderWithStoreAndRouter(<LandingPage />, {
-      initialState: customState,
-    });
-    expect(
-      screen.getByText('Download your Blue Button report or health summary', {
-        selector: 'h2',
-        exact: true,
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText('We’re working on a way to download all your', {
-        selector: 'p',
-        exact: false,
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText(
-        'Go back to the previous version of My HealtheVet to download your records',
-        {
-          selector: 'a',
-          exact: true,
-        },
-      ),
-    ).to.exist;
-  });
-
   it('displays downtimeNotification when downtimeApproaching is true', () => {
     const customState = {
       featureToggles: {
@@ -143,8 +105,6 @@ describe('Landing Page', () => {
         mhv_medical_records_display_vitals: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_settings_page: true,
-        // eslint-disable-next-line camelcase
-        mhv_integration_medical_records_to_phase_1: true,
       },
       ...initialState,
     };

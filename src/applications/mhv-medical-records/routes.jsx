@@ -150,38 +150,18 @@ const routes = (
       >
         <SettingsPage />
       </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download"
-        key="Download"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      <AppRoute exact path="/download" key="Download">
         <DownloadReportPage />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download/date-range"
-        key="Download-date-range"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      </AppRoute>
+      <AppRoute exact path="/download/date-range" key="Download-date-range">
         <DownloadDateRange />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download/record-type"
-        key="Download-record-type"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      </AppRoute>
+      <AppRoute exact path="/download/record-type" key="Download-record-type">
         <DownloadRecordType />
-      </FeatureFlagRoute>
-      <FeatureFlagRoute
-        exact
-        path="/download/file-type"
-        key="Download-file-type"
-        featureFlag={FEATURE_FLAG_NAMES.mhvIntegrationMedicalRecordsToPhase1}
-      >
+      </AppRoute>
+      <AppRoute exact path="/download/file-type" key="Download-file-type">
         <DownloadFileType />
-      </FeatureFlagRoute>
+      </AppRoute>
       <Route>
         <PageNotFound />
       </Route>
