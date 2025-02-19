@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import recordEventFn from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 
-export const notFoundHeading = 'Sorry — we can’t find that page';
-export const notFoundTitle = 'Page not found | Veterans Affairs';
+export const pageNotFoundHeading = 'Sorry — we can’t find that page';
+export const pageNotFoundTitle = 'Page not found | Veterans Affairs';
+export const pageNotFoundTestId = 'page-not-found';
 
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   useEffect(
@@ -18,7 +19,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   );
 
   useEffect(() => {
-    document.title = notFoundTitle;
+    document.title = pageNotFoundTitle;
     focusElement('h1');
   }, []);
 
@@ -32,7 +33,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
         <div className="primary">
           <div className="row">
             <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto columns">
-              <h1 id="sorry--we-cant-find-that-page">{notFoundHeading}</h1>
+              <h1 id="sorry--we-cant-find-that-page">{pageNotFoundHeading}</h1>
               <p>Try the search box or one of the common questions below.</p>
               <div className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--primary-alt-lightest vads-u-padding--2 vads-u-margin-y--3 vads-u-margin-x--0">
                 <form
