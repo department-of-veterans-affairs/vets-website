@@ -23,8 +23,19 @@ import {
 import '../../sass/download-1095b.scss';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
+  const {loading, setLoading} = useState(true);
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' });
+
+  
+  useEffect(
+    () => {
+      if(loggedIn === true) {
+        setLoading(false);
+      }
+    },
+    [loggedIn],
+  );
 
   useEffect(
     () => {
@@ -167,16 +178,27 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     </va-alert>
   );
 
-  if (!displayToggle) {
-    return unavailableComponent();
+  if(loading) {
+    console.log('loggedIn', loggedIn)
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading your 1095-B information..."
+      />
+    )
   }
-  if (loggedIn) {
-    if (formError.error === errorTypes.NOT_FOUND) {
-      return notFoundComponent();
-    }
-    return downloadForm;
-  }
-  return loggedOutComponent;
+
+  // if (!displayToggle) {
+  //   return unavailableComponent();
+  // }
+  // if (loggedIn) {
+  //   if (formError.error === errorTypes.NOT_FOUND) {
+  //     return notFoundComponent();
+  //   }
+  //   return downloadForm;
+  // }
+  // return loggedOutComponent;
+  return downloadForm;
 };
 
 App.propTypes = {
