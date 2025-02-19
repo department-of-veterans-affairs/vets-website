@@ -13,14 +13,14 @@ import {
   facilityTypesOptions,
   emergencyCareServices,
   nonPPMSfacilityTypeOptions,
-} from '../config';
-import { LocationType } from '../constants';
-import ServiceTypeAhead from './ServiceTypeAhead';
-import { setFocus } from '../utils/helpers';
-import { SearchControlsTypes } from '../types';
-import AddressAutosuggest from './AddressAutosuggest';
+} from '../../config';
+import { LocationType } from '../../constants';
+import CCServiceTypeAhead from './service-type/CCServiceTypeAhead';
+import { setFocus } from '../../utils/helpers';
+import { SearchFormTypes } from '../../types';
+import AddressAutosuggest from './location/AddressAutosuggest';
 
-const SearchControls = props => {
+const SearchForm = props => {
   const {
     clearGeocodeError,
     clearSearchText,
@@ -307,7 +307,7 @@ const SearchControls = props => {
       case LocationType.CC_PROVIDER:
         return (
           <div className="typeahead">
-            <ServiceTypeAhead
+            <CCServiceTypeAhead
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
               showError={showError}
@@ -420,6 +420,6 @@ const SearchControls = props => {
   );
 };
 
-SearchControls.propTypes = SearchControlsTypes;
+SearchForm.propTypes = SearchFormTypes;
 
-export default SearchControls;
+export default SearchForm;
