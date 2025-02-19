@@ -4,8 +4,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
-import { searchAddresses } from '../utils/mapHelpers';
-import Autosuggest from './Autosuggest';
+import { searchAddresses } from '../../../utils/mapHelpers';
+import Autosuggest from '../autosuggest';
 
 const MIN_SEARCH_CHARS = 3;
 const onlySpaces = str => /^\s+$/.test(str);

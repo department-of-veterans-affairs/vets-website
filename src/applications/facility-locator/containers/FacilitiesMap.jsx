@@ -18,7 +18,7 @@ import NoResultsMessage from '../components/NoResultsMessage';
 import PaginationWrapper from '../components/PaginationWrapper';
 import ResultsList from '../components/ResultsList';
 import SearchAreaControl from '../components/SearchAreaControl';
-import SearchControls from '../components/SearchControls';
+import SearchForm from '../components/search-form';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
@@ -460,7 +460,7 @@ const FacilitiesMap = props => {
             description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
           />
         )}
-        <SearchControls
+        <SearchForm
           clearGeocodeError={props.clearGeocodeError}
           clearSearchText={props.clearSearchText}
           currentQuery={currentQuery}
