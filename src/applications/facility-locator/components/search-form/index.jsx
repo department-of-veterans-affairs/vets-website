@@ -7,29 +7,13 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-<<<<<<< HEAD
-import {
-  healthServices,
-  benefitsServices,
-  urgentCareServices,
-  facilityTypesOptions,
-  emergencyCareServices,
-  nonPPMSfacilityTypeOptions,
-} from '../../config';
-import { LocationType } from '../../constants';
-import CCServiceTypeAhead from './service-type/CCServiceTypeAhead';
-import { setFocus } from '../../utils/helpers';
-import { SearchFormTypes } from '../../types';
-import AddressAutosuggest from './location/AddressAutosuggest';
-=======
 import { facilityTypesOptions, nonPPMSfacilityTypeOptions } from '../../config';
 import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
-import { facilityLocatorAutosuggestVAMCServices } from '../../utils/featureFlagSelectors';
 import AddressAutosuggest from './location/AddressAutosuggest';
+import { facilityLocatorAutosuggestVAMCServices } from '../../utils/featureFlagSelectors';
 import ServiceType from './service-type';
->>>>>>> 36e062bdef (VACMS-18911 Facility Locator: add VAMC services autosuggest)
 
 const SearchForm = props => {
   const {
@@ -294,72 +278,6 @@ const SearchForm = props => {
     );
   };
 
-<<<<<<< HEAD
-  const renderServiceTypeDropdown = () => {
-    const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
-    const disabled = ![
-      LocationType.HEALTH,
-      LocationType.URGENT_CARE,
-      LocationType.CC_PROVIDER,
-      LocationType.EMERGENCY_CARE,
-    ].includes(facilityType);
-
-    const showError = serviceTypeChanged && !disabled && !serviceType;
-    const filteredHealthServices = healthServices;
-
-    let services;
-    // Determine what service types to display for the location type (if any).
-    switch (facilityType) {
-      case LocationType.HEALTH:
-        services = filteredHealthServices;
-        break;
-      case LocationType.URGENT_CARE:
-        services = urgentCareServices;
-        break;
-      case LocationType.EMERGENCY_CARE:
-        services = emergencyCareServices;
-        break;
-      case LocationType.BENEFITS:
-        services = benefitsServices;
-        break;
-      case LocationType.CC_PROVIDER:
-        return (
-          <div className="typeahead">
-            <CCServiceTypeAhead
-              handleServiceTypeChange={handleServiceTypeChange}
-              initialSelectedServiceType={serviceType}
-              showError={showError}
-            />
-          </div>
-        );
-      default:
-        services = {};
-    }
-
-    // Create option elements for each VA service type.
-    const options = Object.keys(services).map(service => (
-      <option key={service} value={service} style={{ fontWeight: 'bold' }}>
-        {services[service]}
-      </option>
-    ));
-
-    return (
-      <span className="service-type-dropdown-container">
-        <label htmlFor="service-type-dropdown">Service type</label>
-        <select
-          id="service-type-dropdown"
-          disabled={disabled || !facilityType}
-          value={serviceType || ''}
-          onChange={handleServiceTypeChange}
-        >
-          {options}
-        </select>
-      </span>
-    );
-  };
-
-=======
->>>>>>> 36e062bdef (VACMS-18911 Facility Locator: add VAMC services autosuggest)
   // Set focus in the location field when manual geocoding completes
   useEffect(
     () => {
@@ -447,13 +365,9 @@ const SearchForm = props => {
 
 SearchForm.propTypes = SearchFormTypes;
 
-<<<<<<< HEAD
-export default SearchForm;
-=======
 const mapStateToProps = state => ({
   vamcAutoSuggestEnabled: true,
   // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 export default connect(mapStateToProps)(SearchForm);
->>>>>>> 36e062bdef (VACMS-18911 Facility Locator: add VAMC services autosuggest)
