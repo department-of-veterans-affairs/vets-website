@@ -62,7 +62,9 @@
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
+  "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update",
   "facilityLocatorPredictiveLocationSearch": "facility_locator_predictive_location_search",
+  "facilitiesUseAddressTypeahead": "facilities_use_address_typeahead",
   "fileUploadShortWorkflowEnabled": "file_upload_short_workflow_enabled",
   "financialStatusReportDebtsApiModule": "financial_status_report_debts_api_module",
   "financialStatusReportExpensesUpdate": "financial_status_report_expenses_update",
@@ -121,7 +123,6 @@
   "mhvAcceleratedDeliveryEnabled": "mhv_accelerated_delivery_enabled",
   "mhvAcceleratedDeliveryAllergiesEnabled": "mhv_accelerated_delivery_allergies_enabled",
   "mhvAcceleratedDeliveryVitalSignsEnabled": "mhv_accelerated_delivery_vital_signs_enabled",
-  "mhvAccountCreationApiConsumption": "mhv_account_creation_api_consumption",
   "mhvIntegrationMedicalRecordsToPhase1": "mhv_integration_medical_records_to_phase_1",
   "mhvInterstitialEnabled": "mhv_interstitial_enabled",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",
@@ -141,6 +142,7 @@
   "mhvMedicationsDisplayGrouping": "mhv_medications_display_grouping",
   "mhvMedicationsDisplayRefillContent": "mhv_medications_display_refill_content",
   "mhvMedicationsDisplayPendingMeds": "mhv_medications_display_pending_meds",
+  "mhvMedicationsDisplayRefillProgress": "mhv_medications_display_refill_progress",
   "mhvMedicationsToVaGovRelease": "mhv_medications_to_va_gov_release",
   "mhvModernCtaLinks": "mhv_modern_cta_links",
   "mhvSecureMessagingCernerPilot": "mhv_secure_messaging_cerner_pilot",
@@ -303,6 +305,5 @@
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
   "toggleGiProgramsFlag": "toggle_gi_programs_flag",
-  "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update",
   "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
 }

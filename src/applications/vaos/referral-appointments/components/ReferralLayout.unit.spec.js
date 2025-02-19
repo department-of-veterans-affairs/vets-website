@@ -51,4 +51,50 @@ describe('VAOS Component: ReferralLayout', () => {
       .exist;
     expect(screen.getByText('New Appointment')).to.exist;
   });
+  it('should render the error with the custom error body and children', () => {
+    const screen = renderWithStoreAndRouter(
+      <ReferralLayout
+        hasEyebrow
+        apiFailure
+        errorBody="I'm a custom error body"
+        heading="A tribute to the best heading in the world"
+      />,
+      {
+        store: createTestStore(initialFullState),
+      },
+    );
+
+    expect(screen.getByTestId('error')).to.exist;
+    expect(screen.getByTestId('error-body')).to.exist;
+    expect(screen.queryByTestId('child')).to.not.exist;
+    expect(screen.getByText('A tribute to the best heading in the world')).to
+      .exist;
+    expect(screen.getByText("I'm a custom error body")).to.exist;
+    expect(screen.getByText('New Appointment')).to.exist;
+  });
+  it('should render the loading message', () => {
+    const screen = renderWithStoreAndRouter(
+      <ReferralLayout
+        hasEyebrow
+        apiFailure={false}
+        loadingMessage="Loading..."
+        heading="A tribute to the best heading in the world"
+      >
+        <div data-testid="child">I'm a child</div>
+      </ReferralLayout>,
+      {
+        store: createTestStore(initialFullState),
+      },
+    );
+
+    expect(screen.getByTestId('loading-container')).to.exist;
+    expect(screen.queryByTestId('child')).to.not.exist;
+    expect(screen.getByText('A tribute to the best heading in the world')).to
+      .exist;
+    expect(screen.getByTestId('loading')).to.have.attribute(
+      'message',
+      'Loading...',
+    );
+    expect(screen.getByText('New Appointment')).to.exist;
+  });
 });

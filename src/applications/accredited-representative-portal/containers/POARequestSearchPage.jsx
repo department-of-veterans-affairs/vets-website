@@ -67,6 +67,10 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       to={`?status=${tabStatus}&sort=${tabSort}`}
       className={classNames.join(' ')}
       role="tab"
+      id={`tab-${tabStatus}`}
+      aria-controls={`tabpanel-${tabStatus}`}
+      aria-selected={active ? 'true' : 'false'}
+      aria-label={`View requests marked as ${tabStatus}`}
     >
       {children}
     </Link>
@@ -89,15 +93,14 @@ const POARequestSearchPage = () => {
         You can accept or decline power of attorney (POA) requests in the
         Accredited Representative Portal. Requests will expire and be removed
         from the portal after 60 days.
-        <br />
-        <br />
+      </p>
+      <p className="poa-request__copy">
         <strong>Note:</strong> requests need to be submitted using the digital
         VA Form 21-22 on VA.gov.
       </p>
-      <br />
-      <Link to="/get-help-from-accredited-representative/appoint-rep/introduction">
+      <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
         VA Form 21-22 (on VA.gov)
-      </Link>
+      </a>
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink
@@ -118,9 +121,9 @@ const POARequestSearchPage = () => {
 
         <div
           className={searchStatus}
-          id={`panel-${searchStatus}`}
+          id={`tabpanel-${searchStatus}`}
           role="tabpanel"
-          aria-labelledby={`${searchStatus}`}
+          aria-labelledby={`tab-${searchStatus}`}
         >
           {(() => {
             switch (searchStatus) {
