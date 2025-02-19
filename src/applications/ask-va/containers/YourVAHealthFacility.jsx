@@ -21,7 +21,6 @@ const YourVAHealthFacilityPage = props => {
     goForward,
     searchQuery,
     currentPath,
-    injectMockFlagForAPI,
   } = props;
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
@@ -30,10 +29,6 @@ const YourVAHealthFacilityPage = props => {
     searchInputError: false,
     radioError: null,
   });
-
-  YourVAHealthFacilityPage.propTypes = {
-    injectMockFlagForAPI: PropTypes.bool,
-  };
 
   const options = {
     method: 'POST',
@@ -45,7 +40,7 @@ const YourVAHealthFacilityPage = props => {
   const getApiData = url => {
     setIsSearching(true);
 
-    if (injectMockFlagForAPI || mockTestingFlagforAPI) {
+    if (mockTestingFlagforAPI) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {

@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import formConfig from '../../config/form';
-// import isQuestionAboutVeteranOrSomeoneElsePage from '../../config/chapters/personalInformation/isQuestionAboutVeteranOrSomeoneElse';
 
 describe('Form Configuration', () => {
   describe('Chapters and Pages', () => {
@@ -11,7 +10,7 @@ describe('Form Configuration', () => {
         'yourQuestionPart1',
         'aboutMyselfRelationshipVeteran',
         'aboutMyselfRelationshipFamilyMember',
-        // TODO: Add other chapter keys here...
+        // Add other chapter keys here...
         'review',
       ]);
     });
@@ -207,7 +206,7 @@ describe('Form Configuration', () => {
     });
   });
 
-  // TODO: We need to refactor this test once form submission is finalized
+  // We need to refactor this test once form submission is finalized
   describe('Submit Logic', () => {
     it.skip('should resolve with a confirmation number on submit', async () => {
       const result = await formConfig.submit();
