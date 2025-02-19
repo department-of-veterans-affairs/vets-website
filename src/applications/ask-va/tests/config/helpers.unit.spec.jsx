@@ -32,7 +32,7 @@ import {
   getFiles,
   formatDate,
   DownloadLink,
-  // convertDateForInquirySubheader,
+  convertDateForInquirySubheader,
 } from '../../config/helpers';
 // import { CategoryGuardianshipCustodianshipFiduciaryIssues } from '../../config/constants';
 import {
@@ -1020,6 +1020,25 @@ describe('Components and Utility Functions', () => {
       expect(wrapper.find('a').prop('download')).to.equal('foo.pdf');
       expect(wrapper.find('a').text()).to.equal('foo.pdf');
       wrapper.unmount();
+    });
+  });
+
+  describe('convertDateForInquirySubheader', () => {
+    it('handles well-formed dateString', () => {
+      // eslint-disable-next-line no-console
+      expect(convertDateForInquirySubheader('2/12/2023 12:00:00 AM')).to.equal(
+        'Feb. 11, 2023 at 7:00 p.m. E.T',
+      );
+    });
+
+    it('handles poorly-formed dateString', () => {
+      expect(convertDateForInquirySubheader('2/13/-234')).to.equal(
+        'Invalid Date',
+      );
+      expect(convertDateForInquirySubheader('pizza')).to.equal('Invalid Date');
+      expect(convertDateForInquirySubheader('2023-99-99 99:99:99')).to.equal(
+        'Invalid Date',
+      );
     });
   });
 });
