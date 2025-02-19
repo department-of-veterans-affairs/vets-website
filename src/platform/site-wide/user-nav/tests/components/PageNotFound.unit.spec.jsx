@@ -3,8 +3,11 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import PageNotFound, {
-  notFoundHeading,
-  notFoundTitle,
+  pageNotFoundHeading,
+  pageNotFoundTitle,
+  pageNotFoundTestId,
+  pageNotFoundEvent,
+  helpfulLinks,
 } from '../../components/PageNotFound';
 
 let sandbox;
@@ -20,18 +23,45 @@ describe('PageNotFound Component', () => {
     sandbox.restore();
   });
 
-  it('renders', async () => {
-    const props = { recordEvent };
-    const { getByRole, getByTestId } = render(<PageNotFound {...props} />);
-    const heading = getByRole('heading', { name: notFoundHeading });
+  it('can be asserted in other specs via its test id', () => {
+    const { getByTestId } = render(<PageNotFound />);
+    getByTestId(pageNotFoundTestId);
+  });
+
+  it('renders a relevant h1, and sets as the active element', async () => {
+    const { getByRole } = render(<PageNotFound />);
+    const heading = getByRole('heading', {
+      name: pageNotFoundHeading,
+      level: 1,
+    });
     expect(heading).to.exist;
-    getByTestId('page-not-found');
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(heading);
+    });
+  });
+
+  it('sets the page title', async () => {
+    render(<PageNotFound />);
+    await waitFor(() => {
+      expect(document.title).to.eql(pageNotFoundTitle);
+    });
+  });
+
+  it('reports to analytics', async () => {
+    const props = { recordEvent };
+    render(<PageNotFound {...props} />);
 
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
-      expect(recordEvent.calledWith({ event: 'nav-404-error' })).to.be.true;
-      expect(document.activeElement).to.eq(heading);
-      expect(document.title).to.eql(notFoundTitle);
+      expect(recordEvent.calledWith({ event: pageNotFoundEvent })).to.be.true;
+    });
+  });
+
+  it('renders helpful links', () => {
+    const { findByRole } = render(<PageNotFound />);
+    helpfulLinks.forEach(({ href, text }) => {
+      findByRole('link', { name: text, href });
     });
   });
 });

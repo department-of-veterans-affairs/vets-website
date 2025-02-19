@@ -3,21 +3,45 @@ import PropTypes from 'prop-types';
 import recordEventFn from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-export const notFoundHeading = 'Page not found';
-export const notFoundTitle = 'Page not found | Veterans Affairs';
+export const pageNotFoundHeading = 'Sorry — we can’t find that page';
+export const pageNotFoundTitle = 'Page not found | Veterans Affairs';
+export const pageNotFoundTestId = 'page-not-found';
+export const pageNotFoundEvent = 'nav-404-error';
 
-const searchTools = [
+export const helpfulLinks = [
   { href: '/find-locations', text: 'Find a VA Location' },
   { href: '/find-forms', text: 'Find a VA form' },
   { href: '/resources', text: 'Find benefit resourcecs and support' },
   { href: '/outreach-and-events/events', text: 'Find an outreach event' },
 ];
 
+/**
+ * PageNotFound component renders the 404 error page.
+ * It displays a message indicating that the page cannot be found
+ * and lists common questions and popular links.
+ *
+ * @component
+ * @param {Object} props - The component props
+ * @param {Function} [props.recordEvent=recordEventFn] - Function to record events, defaults to `recordEventFn`
+ *
+ * @example
+ * <PageNotFound />
+ *
+ * @example
+ * // unit spec
+ * import { pageNotFoundTestId } from [at]department-of-veterans-affairs/platform-site-wide/PageNotFound;
+ * // render a 404 condition
+ * const { getByTestId } = render(<App />);
+ * getByTestId(pageNotFoundTestId);
+ * // or, with chai assertions
+ * const el = getByTestId(pageNotFoundTestId);
+ * expect(el).to.exist;
+ */
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
-  useEffect(() => recordEvent({ event: `nav-404-error` }), [recordEvent]);
+  useEffect(() => recordEvent({ event: pageNotFoundEvent }), [recordEvent]);
 
   useEffect(() => {
-    document.title = notFoundTitle;
+    document.title = pageNotFoundTitle;
     focusElement('h1');
   }, []);
 
@@ -28,7 +52,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
           className="vads-l-col--12 medium-screen:vads-l-col--8"
           data-testid="page-not-found"
         >
-          <h1 className="vads-u-margin-top--4">{notFoundHeading}</h1>
+          <h1 className="vads-u-margin-top--4">{pageNotFoundHeading}</h1>
           <p>
             If you typed or copied the web address, check that it’s correct.
           </p>
@@ -47,8 +71,8 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
             Or try these other search tools
           </h2>
           <ul className="usa-unstyled-list vads-u-margin-bottom--5">
-            {searchTools.map(({ href, text }, i) => (
-              <li key={`search-tool-${i}`} className="vads-u-margin-y--2">
+            {helpfulLinks.map(({ href, text }, i) => (
+              <li key={`helpful-link-${i}`} className="vads-u-margin-y--2">
                 <va-link href={href} text={text} />
               </li>
             ))}
