@@ -1,10 +1,11 @@
 {
   "presets": [
     [
-      "@babel/env",
+      "@babel/preset-env",
       {
         "forceAllTransforms": true,
         "targets": {
+          "node": "current",
           "browsers": [
             "Chrome 61",
             "Firefox 60",
@@ -20,7 +21,7 @@
         "debug": false
       }
     ],
-    "@babel/react"
+    "@babel/preset-react"
   ],
   "ignore": ["./src/platform/polyfills/preESModulesPolyfills.js"],
   "plugins": [
@@ -314,7 +315,7 @@
 
   "env": {
     "test": {
-      "presets": ["@babel/env", "@babel/preset-react"],
+      "presets": [[ "@babel/preset-env", { "targets":{ "node" : "current"}}], "@babel/preset-react"],
       "plugins": [
         [
           "babel-plugin-transform-import-ignore",

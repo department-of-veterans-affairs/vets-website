@@ -1,8 +1,14 @@
+'use strict';
 /**
  * Global set up code for the Mocha unit testing environment
  *
  * If you're looking to add polyfills for all unit tests, this is the place.
  */
+
+require('@babel/register')({
+  extensions: ['.js', '.jsx'],
+  ignore: [/node_modules/],
+});
 
 import os from 'os';
 import chai from 'chai';
