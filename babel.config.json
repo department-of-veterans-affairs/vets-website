@@ -5,6 +5,7 @@
       {
         "forceAllTransforms": true,
         "targets": {
+          "node": "current",
           "browsers": [
             "Chrome 61",
             "Firefox 60",
@@ -314,7 +315,7 @@
 
   "env": {
     "test": {
-      "presets": ["@babel/preset-env", "@babel/preset-react"],
+      "presets": [[ "@babel/preset-env", { "targets":{ "node" : "current"}}], "@babel/preset-react"],
       "plugins": [
         [
           "babel-plugin-transform-import-ignore",

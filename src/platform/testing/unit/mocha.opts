@@ -1,3 +1,4 @@
+--require @happy-dom/global-registrar/register
 --require @babel/register
 --require @babel/preset-env
 --require src/platform/testing/unit/mocha-setup.js
