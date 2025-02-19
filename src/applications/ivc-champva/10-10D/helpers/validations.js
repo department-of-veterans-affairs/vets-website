@@ -102,7 +102,7 @@ export const certifierEmailValidation = (errors, page, formData) => {
  * Runs `validateText` against all properties in an address object
  * to make sure they don't contain illegal characters (as defined in `validateText`).
  *
- * @param {Array} errors Array of formlib error objects corresponding to the address fields
+ * @param {Object} errors Formlib error objects corresponding to the address fields
  * @param {Object} page Form data accessible on the current page
  * @param {Object} formData All form fields and their data, or the current list loop item data
  * @param {String} addressProp keyname for the address property in
