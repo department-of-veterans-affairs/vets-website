@@ -79,6 +79,7 @@ export default function appointmentsReducer(state = initialState, action) {
         ...state,
         confirmedStatus: FETCH_STATUS.failed,
         confirmed: null,
+        error: action.error,
       };
     case FETCH_PENDING_APPOINTMENTS:
       return {
@@ -169,6 +170,7 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.failed,
+        error: action.error,
       };
     }
     case FETCH_CONFIRMED_DETAILS_SUCCEEDED:
