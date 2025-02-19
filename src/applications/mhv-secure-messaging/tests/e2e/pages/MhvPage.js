@@ -38,7 +38,6 @@ class MhvPage {
 
     cy.wait('@featureToggles');
     cy.wait('@user');
-    // cy.wait('@generalFolder');
   };
 }
 
