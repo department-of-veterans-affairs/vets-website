@@ -89,7 +89,7 @@ export const applicantRelationToVetRadio = {
       familyMember: 'Family member',
       personalRep: 'Personal representative',
       repOfVSO: 'Representative of Veterans Service Organization (VSO)',
-      repOfCemetary: 'Representative of a cemetery',
+      repOfCemetery: 'Representative of a cemetery',
       repOfFuneralHome: 'Representative of a funeral home',
       other: 'Other',
     },

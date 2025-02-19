@@ -36,7 +36,7 @@ export default {
         'familyMember',
         'personalRep',
         'repOfVSO',
-        'repOfCemetary',
+        'repOfCemetery',
         'repOfFuneralHome',
         'other',
       ]),

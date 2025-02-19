@@ -65,12 +65,17 @@ const formConfig = {
           title: 'Your organization',
           uiSchema: applicantRelationToVetOrg.uiSchema,
           schema: applicantRelationToVetOrg.schema,
+          depends: formData =>
+            ['repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
         applicantRelationToVetOrg2: {
           path: 'applicant-relation-to-vet-org-2',
           title: 'Your organization',
           uiSchema: applicantRelationToVetOrg2.uiSchema,
           schema: applicantRelationToVetOrg2.schema,
+          depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
       },
     },
