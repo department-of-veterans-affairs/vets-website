@@ -35,7 +35,6 @@ const CategorySelectPage = props => {
     const selected = apiData.find(
       category => category.attributes.name === selectedValue,
     );
-    localStorage.removeItem('askVAFiles');
     if (selected.attributes.requiresAuthentication && !isLoggedIn) {
       setShowModal(true);
     } else {

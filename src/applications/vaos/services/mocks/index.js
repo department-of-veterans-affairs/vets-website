@@ -193,6 +193,16 @@ const responses = {
     });
     return res.json({ data: filteredAppointments, meta });
   },
+  //  To test malformed appointmentID error response locally
+  //  uncomment the inclusion of errors.json
+  //  uncomment the get api with returned errors
+  //  comment out the get api request with returned data
+
+  // const errors = require('./v2/errors.json');
+  // 'GET /vaos/v2/appointments/:id': (req, res) => {
+  //   return res.json(errors);
+  // },
+
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
       data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
@@ -350,7 +360,7 @@ const responses = {
       });
     }
     const tomorrow = moment()
-      .add(1, 'days')
+      .add(2, 'days')
       .format('YYYY-MM-DD');
     const referral = referralUtils.createReferralById(
       '2024-12-02',
@@ -403,28 +413,34 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
+    let successPollCount = 5; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
 
+    if (appointmentId === 'timeout-appointment-id') {
+      // Set a very high poll count to simulate a timeout
+      successPollCount = 1000;
+    }
+
     const draftAppointment = draftAppointments[appointmentId];
-    if (!draftAppointment) {
+    if (!draftAppointment || appointmentId === 'eps-error-appointment-id') {
       return res.status(400).json({ error: true });
     }
 
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { status } = draftAppointment.appointment;
+    let { state } = draftAppointment.appointment;
 
-    // Mock polling for appointment status change
-    if (count < 5) {
+    // Mock polling for appointment state change
+    if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      status = 'confirmed';
+      state = 'confirmed';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
       data: ccDirectAppointmentUtils.createReferralAppointment(
         appointmentId,
-        status,
+        state,
         draftAppointment,
       ),
     });

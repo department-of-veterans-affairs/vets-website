@@ -152,9 +152,6 @@ const POARequestDetailsPage = () => {
 
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
-  const statusCheck =
-    poaRequestSubmission === BANNER_TYPES.PROCESSING ? 'processing' : poaStatus;
-
   return (
     <section className="poa-request-details">
       <h1
@@ -167,7 +164,7 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${statusCheck} ${poaRequestSubmission ===
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--processing ${poaRequestSubmission ===
               BANNER_TYPES.FAILED && 'vads-u-display--none'}`}
           >
             {poaRequestSubmission === BANNER_TYPES.PROCESSING
@@ -265,7 +262,7 @@ const POARequestDetailsPage = () => {
         <h2>Claimant information</h2>
         <ul className="poa-request-details__list poa-request-details__list--info">
           <li>
-            <p>Relationship to veteran</p>
+            <p>Relationship to Veteran</p>
             <p>{relationship}</p>
           </li>
           <li>
@@ -285,11 +282,11 @@ const POARequestDetailsPage = () => {
           {relationship === 'Self' && (
             <>
               <li>
-                <p>Social Security number</p>
+                <p>Last 4 digits of Social Security number</p>
                 <p>{poaRequest?.powerOfAttorneyForm?.claimant?.ssn}</p>
               </li>
               <li>
-                <p>VA file number</p>
+                <p>Last 4 digits of VA file number</p>
                 <p>{poaRequest?.powerOfAttorneyForm?.claimant?.vaFileNumber}</p>
               </li>
             </>
@@ -310,11 +307,11 @@ const POARequestDetailsPage = () => {
                 </p>
               </li>
               <li>
-                <p>Social security number</p>
+                <p>Last 4 digits of Social security number</p>
                 <p>{poaRequest?.power_of_attorney_form?.veteran?.ssn}</p>
               </li>
               <li>
-                <p>VA file number</p>
+                <p>Last 4 digits of VA file number</p>
                 <p>
                   {poaRequest?.power_of_attorney_form?.veteran?.vaFileNumber}
                 </p>

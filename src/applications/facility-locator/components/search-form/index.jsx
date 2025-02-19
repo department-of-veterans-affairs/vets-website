@@ -13,17 +13,19 @@ import {
   facilityTypesOptions,
   emergencyCareServices,
   nonPPMSfacilityTypeOptions,
-} from '../config';
-import { LocationType } from '../constants';
-import ServiceTypeAhead from './ServiceTypeAhead';
-import { setFocus } from '../utils/helpers';
-import { SearchControlsTypes } from '../types';
+} from '../../config';
+import { LocationType } from '../../constants';
+import CCServiceTypeAhead from './service-type/CCServiceTypeAhead';
+import { setFocus } from '../../utils/helpers';
+import { SearchFormTypes } from '../../types';
+import AddressAutosuggest from './location/AddressAutosuggest';
 
-const SearchControls = props => {
+const SearchForm = props => {
   const {
     clearGeocodeError,
     clearSearchText,
     currentQuery,
+    facilitiesUseAddressTypeahead,
     geolocateUser,
     isMobile,
     mobileMapUpdateEnabled,
@@ -141,10 +143,25 @@ const SearchControls = props => {
 
   const handleClearInput = () => {
     clearSearchText();
+    // optional chaining not allowed
+    if (locationInputFieldRef.current) {
+      locationInputFieldRef.current.value = '';
+    }
     focusElement('#street-city-state-zip');
   };
 
   const renderLocationInputField = () => {
+    if (facilitiesUseAddressTypeahead) {
+      return (
+        <AddressAutosuggest
+          geolocateUser={geolocateUser}
+          inputRef={locationInputFieldRef}
+          onClearClick={handleClearInput}
+          onChange={onChange}
+          currentQuery={currentQuery}
+        />
+      );
+    }
     const {
       locationChanged,
       searchString,
@@ -290,7 +307,7 @@ const SearchControls = props => {
       case LocationType.CC_PROVIDER:
         return (
           <div className="typeahead">
-            <ServiceTypeAhead
+            <CCServiceTypeAhead
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
               showError={showError}
@@ -403,6 +420,6 @@ const SearchControls = props => {
   );
 };
 
-SearchControls.propTypes = SearchControlsTypes;
+SearchForm.propTypes = SearchFormTypes;
 
-export default SearchControls;
+export default SearchForm;
