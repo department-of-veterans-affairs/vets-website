@@ -55,6 +55,8 @@ const SearchForm = props => {
   };
 
   const handleServiceTypeChange = ({ target, selectedItem }) => {
+    // console.log('target: ', target);
+    // console.log('selectedItem: ', selectedItem);
     setSelectedServiceType(selectedItem);
 
     const option = target.value.trim();

@@ -39,6 +39,9 @@ function AutosuggestOptions({
     [options, noItemsMessage, shouldShowNoResults, isLoading, loadingMessage],
   );
 
+  console.log('isShown: ', isShown);
+  console.log('options:  ', optionsToShow?.length);
+
   return (
     <div
       className="dropdown"

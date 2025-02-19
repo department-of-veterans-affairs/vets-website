@@ -80,6 +80,17 @@ const prioritySort = (a, b) => {
   return 0;
 };
 
+export const filterDataByFacilityType = (selectorFiltered, facilityType) => {
+  // console.log('selectorFiltered: ', selectorFiltered);
+  return selectorFiltered.filter(
+    hsdatum =>
+      (hsdatum[5] && facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
+      (hsdatum[6] && facilityType === FACILITY_TYPE_FILTERS.VBA) ||
+      (hsdatum[7] && facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
+      (hsdatum[8] && facilityType === FACILITY_TYPE_FILTERS.TRICARE),
+  );
+};
+
 // Exported for unit testing
 export const filterMatches = (selector, term, facilityType) => {
   const selectorFiltered = selector.data
@@ -96,17 +107,24 @@ export const filterMatches = (selector, term, facilityType) => {
   selectorFiltered.sort(prioritySort);
 
   if (facilityType) {
-    return selectorFiltered.filter(
-      hsdatum =>
-        (hsdatum.hsdatum[5] &&
-          facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
-        (hsdatum.hsdatum[6] && facilityType === FACILITY_TYPE_FILTERS.VBA) ||
-        (hsdatum.hsdatum[7] && facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
-        (hsdatum.hsdatum[8] && facilityType === FACILITY_TYPE_FILTERS.TRICARE),
-    );
+    return filterDataByFacilityType(selectorFiltered, facilityType);
   }
 
   return selectorFiltered;
+};
+
+export const sortServices = services => {
+  return services.sort((a, b) => {
+    if (a[0] < b[0]) {
+      return -1;
+    }
+
+    if (a[0] > b[0]) {
+      return 1;
+    }
+
+    return 0;
+  });
 };
 
 export default function useServiceType() {
@@ -124,18 +142,6 @@ export default function useServiceType() {
     [dispatch],
   );
 
-  const allServices = selector?.data?.sort((a, b) => {
-    if (a[0] < b[0]) {
-      return -1;
-    }
-
-    if (a[0] > b[0]) {
-      return 1;
-    }
-
-    return 0;
-  });
-
   /**
    * function serviceTypeFilter
    * @param { string } term
@@ -146,10 +152,20 @@ export default function useServiceType() {
     (term, facilityType = '') => {
       if (!selector || selector.loading) return [];
 
-      if (!term?.length) return [];
+      // initial load of services
+      if (!term?.length && facilityType && selector.data) {
+        const filteredServices = filterDataByFacilityType(
+          selector.data,
+          facilityType,
+        );
+
+        // console.log('filteredServices: ', filteredServices);
+
+        return sortServices(filteredServices);
+      }
 
       if (selector.data) {
-        console.log('matches: ', filterMatches(selector, term, facilityType));
+        // console.log('matches: ', filterMatches(selector, term, facilityType));
         return filterMatches(selector, term, facilityType);
       }
 
@@ -159,7 +175,6 @@ export default function useServiceType() {
   );
 
   return {
-    allServices,
     isServiceTypeFilterLoading: selector.isLoading,
     serviceTypeFilter,
   };
