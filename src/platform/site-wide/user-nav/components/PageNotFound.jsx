@@ -24,7 +24,11 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
 
   return (
     <>
-      <div className="main maintenance-page vads-u-padding-top--4" role="main">
+      <div
+        className="main maintenance-page vads-u-padding-top--4"
+        role="main"
+        data-testid="page-not-found"
+      >
         <div className="primary">
           <div className="row">
             <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto columns">

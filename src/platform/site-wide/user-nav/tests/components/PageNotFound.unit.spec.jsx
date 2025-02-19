@@ -11,9 +11,10 @@ describe('PageNotFound Component', () => {
   it('renders', async () => {
     const recordEvent = sinon.spy();
     const props = { recordEvent };
-    const { getByRole } = render(<PageNotFound {...props} />);
+    const { getByRole, getByTestId } = render(<PageNotFound {...props} />);
     const heading = getByRole('heading', { name: notFoundHeading });
     expect(heading).to.exist;
+    getByTestId('page-not-found');
 
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
