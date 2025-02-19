@@ -81,6 +81,7 @@ const VAMCServiceAutosuggest = ({
       }}
       handleOnSelect={() => {}}
       inputError={() => {}}
+      inputId="vamc-services"
       inputValue={serviceType || ''}
       isLoading={stubFalse}
       keepDataOnBlur

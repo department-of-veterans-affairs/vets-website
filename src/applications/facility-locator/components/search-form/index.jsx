@@ -427,16 +427,18 @@ const SearchForm = props => {
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns vads-u-margin--0 vads-u-padding--0">
+        <div className="columns">
           {renderLocationInputField()}
-          {renderFacilityTypeDropdown()}
-          <ServiceType
-            currentQuery={currentQuery}
-            handleServiceTypeChange={handleServiceTypeChange}
-            selectedServiceType={selectedServiceType}
-            vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
-          />
-          <va-button id="facility-search" submit="prevent" text="Search" />
+          <div id="search-controls-bottom-row">
+            {renderFacilityTypeDropdown()}
+            <ServiceType
+              currentQuery={currentQuery}
+              handleServiceTypeChange={handleServiceTypeChange}
+              selectedServiceType={selectedServiceType}
+              vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
+            />
+            <input id="facility-search" type="submit" value="Search" />
+          </div>
         </div>
       </form>
     </div>

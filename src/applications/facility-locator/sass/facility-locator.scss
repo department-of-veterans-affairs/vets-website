@@ -248,6 +248,12 @@ $text-color: rgba(27, 27, 27, 1);
         }
       }
 
+      #vamc-services {
+        @media (min-width: $small-desktop-screen) {
+          margin-bottom: 0;
+        }
+      }
+
       .input-container {
         padding: 0;
       }
@@ -607,7 +613,7 @@ canvas.mapboxgl-canvas:focus {
   color: var(--vads-color-success) !important;
 }
 
-//Segemented control CSS
+//Segmented control CSS
 
 .segmented-control-container {
   width: 100%;
