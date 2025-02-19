@@ -19,16 +19,18 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { removeInProgressForm } from '@department-of-veterans-affairs/platform-forms/actions';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
 import {
   closeReviewChapter,
   openReviewChapter,
+  removeAskVaForm,
   setUpdatedInReview,
 } from '../actions';
 import FileUpload from '../components/FileUpload';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
+import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
+import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
@@ -40,14 +42,12 @@ import {
 } from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
 import {
+  chapterTitles,
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
   pagesToMoveConfig,
-  chapterTitles,
 } from '../utils/reviewPageHelper';
-import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
-import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 
 const { scroller } = Scroll;
 
@@ -148,6 +148,7 @@ const ReviewPage = props => {
   };
 
   const postFormData = (url, data) => {
+    const id = formConfig.formId;
     setIsDisabled(true);
     const options = {
       method: 'POST',
@@ -166,6 +167,7 @@ const ReviewPage = props => {
           const inquiryNumber = 'A-20230622-306458';
           const contactPreference = props.formData.contactPreference || 'Email';
           localStorage.removeItem('askVAFiles');
+          dispatch(removeAskVaForm(id));
           props.router.push({
             pathname: '/confirmation',
             state: { contactPreference, inquiryNumber },
@@ -180,6 +182,7 @@ const ReviewPage = props => {
         const { inquiryNumber } = response;
         const contactPreference = props.formData.contactPreference || 'Email';
         localStorage.removeItem('askVAFiles');
+        dispatch(removeAskVaForm(id));
         props.router.push({
           pathname: '/confirmation',
           state: { contactPreference, inquiryNumber },
@@ -209,9 +212,7 @@ const ReviewPage = props => {
 
     if (props.loggedIn) {
       // auth call
-      const id = formConfig.formId;
       postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
-      dispatch(removeInProgressForm(id));
     } else {
       // no auth call
       postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
