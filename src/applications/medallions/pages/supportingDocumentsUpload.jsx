@@ -26,7 +26,7 @@ export default {
     'ui:description': formData => description(formData),
     supportingDocuments: {
       'ui:title': 'Upload documents',
-      'ui:field': FileUpload, // Try a custom review page
+      'ui:field': FileUpload,
       'ui:options': {
         keepInPageOnReview: true,
       },
