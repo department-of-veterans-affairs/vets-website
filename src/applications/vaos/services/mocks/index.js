@@ -25,10 +25,7 @@ const requestsV2 = require('./v2/requests.json');
 // const requestsV2 = require('./v2/requests_null_states.json.json');
 
 // Uncomment to produce backend service errors
-const meta = require('./v2/meta_failures.json');
-
-// malform appointment id error
-// const errors = require('./v2/errors.json');
+// const meta = require('./v2/meta_failures.json');
 
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
@@ -36,7 +33,7 @@ const providerUtils = require('../../referral-appointments/utils/provider');
 const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
-// const meta = require('./v2/meta.json');
+const meta = require('./v2/meta.json');
 const momentTz = require('../../lib/moment-tz');
 const features = require('../../utils/featureFlags');
 
@@ -196,10 +193,10 @@ const responses = {
     });
     return res.json({ data: filteredAppointments, meta });
   },
-  //  To get malformed appointmentID error response
-  //  uncomment the constant "errors"
-  //  uncomment the get statement with returned errors
-  //  then comment out the get statement with returned data
+  //  To test malformed appointmentID error response locally
+  //  uncomment the inclusion of errors.json
+  //  uncomment the get api with returned errors
+  //  comment out the get api request with returned data
 
   // const errors = require('./v2/errors.json');
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
