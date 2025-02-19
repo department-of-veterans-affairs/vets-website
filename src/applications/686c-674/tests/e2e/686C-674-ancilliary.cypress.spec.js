@@ -125,6 +125,19 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('select#options[name="root_dependentDeathDateMonth"]', {
+            timeout: 1000,
+          })
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-report-add-child/introduction': ({ afterHook }) => {
         afterHook(() => {
           cy.get('.usa-button-primary').click();
