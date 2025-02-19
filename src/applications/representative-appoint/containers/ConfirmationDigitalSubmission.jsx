@@ -75,7 +75,7 @@ export default function ConfirmationDigitalSubmission() {
         </va-accordion-item>
       </va-accordion>
 
-      <h3>Pring this confirmation page</h3>
+      <h3>Print this confirmation page</h3>
       <p>
         If you’d like to keep a copy of the information on this page, you can
         print it now.
