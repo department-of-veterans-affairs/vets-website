@@ -9,8 +9,8 @@ export default function transform(formConfig, form) {
   //
   formData.data.programs = formData.data?.programs?.map(p => {
     const program = p;
-    program.studentsEnrolled = parseInt(program.studentsEnrolled);
-    program.supportedStudents = parseInt(program.supportedStudents);
+    program.studentsEnrolled = parseInt(program.studentsEnrolled, 10);
+    program.supportedStudents = parseInt(program.supportedStudents, 10);
     if (!program.supportedStudents < 10 && program.fte) {
       const fteCalcs = getFTECalcs(program);
       program.fte.totalFTE = fteCalcs?.total;
@@ -24,8 +24,8 @@ export default function transform(formConfig, form) {
         );
     }
     if (program.fte) {
-      program.fte.nonSupported = parseInt(program.fte.nonSupported);
-      program.fte.supported = parseInt(program.fte.supported);
+      program.fte.nonSupported = parseInt(program.fte.nonSupported, 10);
+      program.fte.supported = parseInt(program.fte.supported, 10);
     }
     return program;
   });

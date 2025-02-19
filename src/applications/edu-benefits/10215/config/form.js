@@ -7,7 +7,7 @@ import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-import submitForm from './submitForm';
+// import submitForm from './submitForm';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
 
@@ -53,7 +53,8 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
-  submit: submitForm,
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -64,8 +65,10 @@ const formConfig = {
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
-      body: 'I hereby certify that the calculations above are true and correct in content and policy.',
-      messageAriaDescribedby: 'I hereby certify that the calculations above are true and correct in content and policy.',
+      body:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      messageAriaDescribedby:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
       fullNamePath: 'certifyingOfficial',
     },
   },
