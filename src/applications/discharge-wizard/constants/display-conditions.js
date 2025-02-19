@@ -4,7 +4,7 @@ import { RESPONSES } from './question-data-map';
 
 const get15YearsPast = () => `${new Date().getFullYear() - 15}`;
 const currentYear = new Date().getFullYear();
-const yearResponses = range(currentYear - 1900).map(i => {
+const yearResponses = range(currentYear - 1899).map(i => {
   const year = currentYear - i;
   return year.toString();
 });

@@ -7,6 +7,7 @@ import policeReport from './policeReportLocation';
 import {
   eventsListPageTitle,
   eventsListDescription,
+  maxEventsAlert,
 } from '../../content/traumaticEventsList';
 import { eventDetailsPageTitle } from '../../content/traumaticEventDetails';
 import { officialReportPageTitle } from '../../content/officialReport';
@@ -63,8 +64,7 @@ export const options = {
       );
     },
     summaryAddButtonText: 'Add an event',
-    alertMaxItems:
-      'You have added the maximum number of allowed events for this application. You may edit or delete an event or choose to continue on in the application.',
+    alertMaxItems: maxEventsAlert,
     alertItemUpdated: props => {
       return `You’ve edited details about Event #${props.index + 1}`;
     },

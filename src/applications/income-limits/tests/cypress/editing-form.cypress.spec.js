@@ -11,7 +11,7 @@ describe('editing form', () => {
 
     // Year
     h.verifyElement(h.YEARINPUT);
-    h.selectFromDropdown(h.YEARINPUT, h.YEAR);
+    h.typeInInput(h.YEARINPUT, h.YEAR);
     h.clickContinue();
 
     // Zip code
@@ -33,7 +33,8 @@ describe('editing form', () => {
 
     // Year
     h.verifyElement(h.YEARINPUT);
-    h.selectFromDropdown(h.YEARINPUT, h.NEWYEAR);
+    h.clearInput(h.YEARINPUT);
+    h.typeInInput(h.YEARINPUT, h.NEWYEAR);
     h.clickContinue();
 
     // Review

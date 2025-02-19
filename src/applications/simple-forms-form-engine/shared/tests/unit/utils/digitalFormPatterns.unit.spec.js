@@ -93,6 +93,10 @@ describe('phoneAndEmailPages', () => {
     expect(phoneOnlyPage.uiSchema.homePhone).to.not.eq(undefined);
   });
 
+  it('requires homePhone', () => {
+    expect(phoneOnlyPage.schema.required).to.include('homePhone');
+  });
+
   it('includes mobilePhone', () => {
     expect(phoneOnlyPage.schema.properties.mobilePhone).to.eq(
       webComponentPatterns.phoneSchema,
@@ -101,15 +105,17 @@ describe('phoneAndEmailPages', () => {
   });
 
   context('when includeEmail is true', () => {
-    it('includes emailAddress', () => {
-      const includeEmailPage = phoneAndEmailPages(includeEmail)[
-        includeEmail.id
-      ];
+    const includeEmailPage = phoneAndEmailPages(includeEmail)[includeEmail.id];
 
+    it('includes emailAddress', () => {
       expect(includeEmailPage.schema.properties.emailAddress).to.eq(
         webComponentPatterns.emailSchema,
       );
       expect(includeEmailPage.uiSchema.emailAddress).to.not.eq(undefined);
+    });
+
+    it('requires emailAddress', () => {
+      expect(includeEmailPage.schema.required).to.include('emailAddress');
     });
   });
 

@@ -9,7 +9,7 @@ const submit = (form, formConfig) => {
   const body = JSON.stringify(params);
 
   return submitToUrl(body, submitUrl, trackingPrefix, { productIdsCount });
-  // // Attempting to report to analytics via .then().catch() isn't working quite right.
+  // Attempting to report to analytics via .then().catch() isn't working quite right.
   // .then(resource => {
   //   console.log({ resource });
   //   analytics({ ok: true, resource, productIdsCount, trackingPrefix });

@@ -91,19 +91,11 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: relationshipPartTwo.schema,
     }),
     addChildStepchild: pages.itemPage({
-      depends: (formData, rawIndex) => {
-        const index = parseInt(rawIndex, 10);
-        if (Number.isFinite(index)) {
-          const stepChildSelected =
-            formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild;
-          return (
-            isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
-            stepChildSelected
-          );
-        }
+      depends: (formData, index) => {
         return (
           isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
-          formData?.['view:addOrRemoveDependents']?.add
+          formData?.['view:addOrRemoveDependents']?.add &&
+          formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild
         );
       },
       title: "Child's biological parents",
@@ -152,16 +144,12 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: additionalInformationPartOne.schema,
     }),
     addChildMarriageEndDetails: pages.itemPage({
-      depends: (formData, rawIndex) => {
-        if (!isChapterFieldRequired(formData, TASK_KEYS.addChild)) {
-          return false;
-        }
-
-        const index = parseInt(rawIndex, 10);
-        if (Number.isFinite(index)) {
-          return formData?.childrenToAdd?.[index]?.hasChildEverBeenMarried;
-        }
-        return false;
+      depends: (formData, index) => {
+        return (
+          isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
+          formData?.['view:addOrRemoveDependents']?.add &&
+          formData?.childrenToAdd[index]?.hasChildEverBeenMarried
+        );
       },
       title: 'How and when marriage ended',
       path: '686-report-add-child/:index/marriage-end-details',
@@ -178,19 +166,11 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: additionalInformationPartTwo.schema,
     }),
     addChildChildAddressPartOne: pages.itemPage({
-      depends: (formData, rawIndex) => {
-        const index = parseInt(rawIndex, 10);
-        if (Number.isFinite(index)) {
-          const shouldSeeAddressPage =
-            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false;
-          return (
-            isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
-            shouldSeeAddressPage
-          );
-        }
+      depends: (formData, index) => {
         return (
           isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
-          formData?.['view:addOrRemoveDependents']?.add
+          formData?.['view:addOrRemoveDependents']?.add &&
+          formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false
         );
       },
       title: "Child's Address",
@@ -199,19 +179,11 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: childAddressPartOne.schema,
     }),
     addChildChildAddressPartTwo: pages.itemPage({
-      depends: (formData, rawIndex) => {
-        const index = parseInt(rawIndex, 10);
-        if (Number.isFinite(index)) {
-          const shouldSeeAddressPage =
-            formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false;
-          return (
-            isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
-            shouldSeeAddressPage
-          );
-        }
+      depends: (formData, index) => {
         return (
           isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
-          formData?.['view:addOrRemoveDependents']?.add
+          formData?.['view:addOrRemoveDependents']?.add &&
+          formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false
         );
       },
       title: "Child's Address",

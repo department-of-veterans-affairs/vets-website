@@ -6,6 +6,7 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
@@ -17,15 +18,24 @@ import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
+import {
+  getAppointmentCreateStatus,
+  getReferralAppointmentInfo,
+} from './redux/selectors';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
   const basePath = useRouteMatch();
   const { isInCCPilot } = useIsInCCPilot();
-  const { search } = useLocation();
+  const { search, pathname } = useLocation();
   const params = new URLSearchParams(search);
   const id = params.get('id');
+  const [, appointmentId] = pathname.split('/schedule-referral/complete/');
+
   const { referral, referralFetchStatus } = useGetReferralById(id);
+  const { appointmentInfoLoading } = useSelector(getReferralAppointmentInfo);
+  const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+
   useEffect(
     () => {
       if (referralFetchStatus === FETCH_STATUS.succeeded) {
@@ -47,15 +57,37 @@ export default function ReferralAppointments() {
   }
 
   if (
-    !referral ||
-    referralFetchStatus === FETCH_STATUS.loading ||
-    referralFetchStatus === FETCH_STATUS.notStarted
+    appointmentId &&
+    appointmentInfoLoading &&
+    appointmentCreateStatus === FETCH_STATUS.succeeded
+  ) {
+    return (
+      <ReferralLayout loadingMessage="Confirming your appointment. This may take up to 30 seconds. Please don’t refresh the page." />
+    );
+  }
+
+  if (
+    (!referral ||
+      referralFetchStatus === FETCH_STATUS.loading ||
+      referralFetchStatus === FETCH_STATUS.notStarted) &&
+    !appointmentId
   ) {
     // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">
         <va-loading-indicator set-focus message="Loading your data..." />
       </FormLayout>
+    );
+  }
+
+  if (appointmentId) {
+    return (
+      <Switch>
+        <Route
+          path={`${basePath.url}/complete/:appointmentId`}
+          component={CompleteReferral}
+        />
+      </Switch>
     );
   }
 
@@ -67,9 +99,6 @@ export default function ReferralAppointments() {
         </Route>
         <Route path={`${basePath.url}/date-time/`} search={id}>
           <ChooseDateAndTime currentReferral={referral} />
-        </Route>
-        <Route path={`${basePath.url}/complete/`} search={id}>
-          <CompleteReferral currentReferral={referral} />
         </Route>
         <Route path={`${basePath.url}`} search={id}>
           <ScheduleReferral currentReferral={referral} />

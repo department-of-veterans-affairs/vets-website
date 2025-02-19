@@ -175,6 +175,24 @@ export const formatDollarAmount = value => {
   return formatCurrency(output);
 };
 
+export const formatDollarAmountWithCents = (value, message) => {
+  if (!value) {
+    return message;
+  }
+  const formattedValue = parseFloat(value).toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    style: 'currency',
+  });
+
+  if (!formattedValue) {
+    return message;
+  }
+
+  return formattedValue;
+};
+
 export const handleInputFocusWithPotentialOverLap = (
   fieldId1,
   fieldId2,
@@ -630,6 +648,7 @@ export const handleLcResultsSearch = (
   name,
   state = 'all',
   initialCategory = 'all',
+  page = 1,
 ) => {
   let categoryParams = '';
 
@@ -643,7 +662,7 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&`.concat(
+    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
       categoryParams,
     ),
     {
@@ -751,15 +770,6 @@ export const showMultipleNames = (suggestions, nameInput) => {
   return final;
 };
 
-export const categoryCheck = type => {
-  if (type === 'License') {
-    return true;
-  }
-  if (type === 'Prep Course') return true;
-
-  return false;
-};
-
 export const formatProgramType = (programType = '') => {
   if (!programType) return '';
 
@@ -856,11 +866,11 @@ export const mapToAbbreviation = value => {
 
 export const mapProgramTypeToName = programType => {
   const programTypesNames = {
-    NCD: 'Non College Degree',
-    IHL: 'Institution of Higher Learning',
-    OJT: 'On The Job Training/Apprenticeship',
-    FLGT: 'Flight',
-    CORR: 'Correspondence',
+    NCD: 'non college degree',
+    IHL: 'institution of higher learning',
+    OJT: 'on-the-job training/apprenticeship',
+    FLGT: 'flight',
+    CORR: 'correspondence',
   };
 
   return programTypesNames[programType] || 'Unknown Program Type';

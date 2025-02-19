@@ -79,3 +79,12 @@ export function has400LevelError(error) {
 export function has409LevelError(error) {
   return getErrorCodes(error).some(code => code.startsWith('VAOS_409'));
 }
+
+export function get404AppointmentIdError() {
+  const message = 'Appointment not found for appointmentId';
+  const error = new Error('Bad AppointmentId');
+  error.code = 'VAOS_404';
+  error.status = '404';
+  error.cause = message;
+  return error;
+}

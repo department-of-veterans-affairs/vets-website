@@ -517,7 +517,12 @@ export const BENEFITS_LIST = [
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [
+        expectedSeparationTypes.UP_TO_3_MONTHS,
+        expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
+        expectedSeparationTypes.MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR,
+        expectedSeparationTypes.MORE_THAN_1_YEAR,
+      ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_3_MONTHS,
@@ -740,6 +745,27 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/discharge-upgrade-instructions/',
+    applyNowURL: '',
+  },
+  {
+    name: "State Veterans' Benefits",
+    category: categories.MORE_SUPPORT,
+    id: 'SVB',
+    description:
+      'Each state has their own list of benefits and resources that they provide at a state level to veterans and their family members. This link contains a listing of VA approved resources outside the Department.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [anyType.ANY],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://discover.va.gov/external-resources/?_resource_type=state-veterans-affairs-office',
     applyNowURL: '',
   },
 ];
