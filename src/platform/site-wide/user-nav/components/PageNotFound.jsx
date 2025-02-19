@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-// Cypress does not like @ imports, so import with a path instead
-import recordEventFn from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
+import recordEventFn from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 
-export const notFoundHeading = 'Sorry — we can’t find that page';
+export const notFoundHeading = 'Page not found';
 export const notFoundTitle = 'Page not found | Veterans Affairs';
 
+const searchTools = [
+  { href: '/find-locations', text: 'Find a VA Location' },
+  { href: '/find-forms', text: 'Find a VA form' },
+  { href: '/resources', text: 'Find benefit resourcecs and support' },
+  { href: '/outreach-and-events/events', text: 'Find an outreach event' },
+];
+
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
-  useEffect(
-    () => {
-      recordEvent({
-        event: `nav-404-error`,
-      });
-    },
-    [recordEvent],
-  );
+  useEffect(() => recordEvent({ event: `nav-404-error` }), [recordEvent]);
 
   useEffect(() => {
     document.title = notFoundTitle;
@@ -23,104 +22,40 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
   }, []);
 
   return (
-    <>
-      <div className="main maintenance-page vads-u-padding-top--4" role="main">
-        <div className="primary">
-          <div className="row">
-            <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto columns">
-              <h1 id="sorry--we-cant-find-that-page">{notFoundHeading}</h1>
-              <p>Try the search box or one of the common questions below.</p>
-              <div className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--primary-alt-lightest vads-u-padding--2 vads-u-margin-y--3 vads-u-margin-x--0">
-                <form
-                  acceptCharset="UTF-8"
-                  action="/search/"
-                  id="search_form"
-                  className="full-width search-form-bottom-margin"
-                  method="get"
-                >
-                  <div
-                    className="vads-u-display--flex vads-u-align-items--flex-start vads-u-justify-content--center"
-                    style={{ height: '3.5625rem' }}
-                  >
-                    <label htmlFor="mobile-query" className="sr-only">
-                      Search:
-                    </label>
-                    <input
-                      autoComplete="off"
-                      className="usagov-search-autocomplete full-width vads-u-height--full vads-u-margin--0 vads-u-max-width--100"
-                      id="mobile-query"
-                      name="query"
-                      type="text"
-                    />
-                    <input
-                      type="submit"
-                      value="Search"
-                      style={{ borderRadius: '0 3px 3px 0' }}
-                      className="vads-u-height--full vads-u-margin--0"
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row vads-u-padding-bottom--9">
-        <div className="small-12 usa-width-one-half medium-6 columns">
-          <h3
-            className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl"
-            id="common-questions"
-          >
-            Common Questions
-          </h3>
-          <ul className="va-list--plain vads-u-margin-top--1">
-            <li className="vads-u-padding-y--1">
-              <a href="/health-care/how-to-apply/">
-                How do I apply for health care?
-              </a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a href="/disability/how-to-file-claim/">
-                How do I file for disability benefits?
-              </a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a href="/education/how-to-apply/">
-                How do I apply for education benefits?
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="small-12 usa-width-one-half medium-6 columns">
-          <h3
-            className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl"
-            id="popular-on-vagov"
-          >
-            Popular on VA.gov
-          </h3>
-          <ul className="va-list--plain vads-u-margin-top--1">
-            <li className="vads-u-padding-y--1">
-              <a href="/find-locations/">Find nearby VA locations</a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a href="/education/gi-bill-comparison-tool">
-                View education benefits available by school
-              </a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a
-                target="_blank"
-                href="https://www.veteranscrisisline.net/"
-                rel="noopener noreferrer"
-                className="external no-external-icon"
-              >
-                Contact the Veterans Crisis Line
-              </a>
-            </li>
+    <div className="vads-l-grid-container medium-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
+      <div className="vads-l-row">
+        <div
+          className="vads-l-col--12 medium-screen:vads-l-col--8"
+          data-testid="page-not-found"
+        >
+          <h1 className="vads-u-margin-top--4">{notFoundHeading}</h1>
+          <p>
+            If you typed or copied the web address, check that it’s correct.
+          </p>
+          <p className="vads-u-measure--3">
+            If you still can’t find what you’re looking for, try visiting our
+            homepage or contact us for help.
+          </p>
+          <p>
+            <va-link href="/" text="Go to our VA.gov homepage" />
+          </p>
+          <p>
+            <va-link href="/contact-us" text="Learn how to contact us" />
+          </p>
+
+          <h2 className="va-h-ruled vads-u-font-size--h4 vads-u-margin-top--5">
+            Or try these other search tools
+          </h2>
+          <ul className="usa-unstyled-list vads-u-margin-bottom--5">
+            {searchTools.map(({ href, text }, i) => (
+              <li key={`search-tool-${i}`} className="vads-u-margin-y--2">
+                <va-link href={href} text={text} />
+              </li>
+            ))}
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
