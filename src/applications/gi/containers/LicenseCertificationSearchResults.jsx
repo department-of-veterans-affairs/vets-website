@@ -205,7 +205,6 @@ export default function LicenseCertificationSearchResults() {
       name,
       state,
       initialCategoryParam,
-      currentPage,
     );
   };
 
