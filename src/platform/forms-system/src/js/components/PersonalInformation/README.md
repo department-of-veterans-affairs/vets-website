@@ -26,7 +26,7 @@ The Personal Information component is a reusable React component used in VA.gov 
 ## Features
 
 - Displays user's personal information in a card format
-- Configurable fields (name, SSN, VA file number, date of birth, gender)
+- Configurable fields (name, SSN, VA file number, date of birth, sex)
 - Flexible data adaptation through configurable path lookups
 - Accessibility support with screen reader formatting
 - Navigation button integration
@@ -85,7 +85,7 @@ const customConfig = {
     ssn: { show: true, required: true },
     vaFileNumber: { show: true, required: false },
     dateOfBirth: { show: true, required: true },
-    gender: { show: false, required: false }
+    sex: { show: false, required: false }
   },
   dataAdapter: {
     ssnPath: 'veteran.ssn',
@@ -151,7 +151,7 @@ interface PersonalInformationConfig {
   ssn?: FieldConfig;
   vaFileNumber?: FieldConfig;
   dateOfBirth?: FieldConfig;
-  gender?: FieldConfig;
+  sex?: FieldConfig;
 }
 ```
 
@@ -173,7 +173,7 @@ The page potentially expects data from two sources:
 1. Redux state (VA Profile data):
    - `userFullName` (first, middle, last, suffix)
    - `dob` (ISO format date string)
-   - `gender`
+   - `gender` (is used to display the sex as Male or Female)
 
 2. Form data (through data adapter):
    - SSN (last four digits)
