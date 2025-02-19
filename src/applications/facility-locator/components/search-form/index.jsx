@@ -1,19 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import {
-  VaModal,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { facilityTypesOptions, nonPPMSfacilityTypeOptions } from '../../config';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
-import AddressAutosuggest from './location/AddressAutosuggest';
-import { facilityLocatorAutosuggestVAMCServices } from '../../utils/featureFlagSelectors';
 import ServiceType from './service-type';
+import FacilityType from './facility-type';
+import LocationInput from './location';
 
 const SearchForm = props => {
   const {
@@ -27,6 +21,7 @@ const SearchForm = props => {
     onChange,
     onSubmit,
     selectMobileMapPin,
+    suppressPPMS,
     vamcAutoSuggestEnabled,
   } = props;
 
@@ -148,134 +143,6 @@ const SearchForm = props => {
     focusElement('#street-city-state-zip');
   };
 
-  const renderLocationInputField = () => {
-    if (facilitiesUseAddressTypeahead) {
-      return (
-        <AddressAutosuggest
-          geolocateUser={geolocateUser}
-          inputRef={locationInputFieldRef}
-          onClearClick={handleClearInput}
-          onChange={onChange}
-          currentQuery={currentQuery}
-        />
-      );
-    }
-
-    const {
-      locationChanged,
-      searchString,
-      geolocationInProgress,
-    } = currentQuery;
-
-    const showError =
-      locationChanged &&
-      !geolocationInProgress &&
-      (!searchString || searchString.length === 0);
-
-    return (
-      <div
-        className={classNames('vads-u-margin--0', {
-          'usa-input-error': showError,
-        })}
-      >
-        <div id="location-input-field">
-          <label
-            htmlFor="street-city-state-zip"
-            id="street-city-state-zip-label"
-          >
-            <span id="city-state-zip-text">City, state or postal code</span>{' '}
-            <span className="form-required-span">(*Required)</span>
-          </label>
-          {geolocationInProgress ? (
-            <div className="use-my-location-link">
-              <va-icon icon="autorenew" size={3} />
-              <span aria-live="assertive">Finding your location...</span>
-            </div>
-          ) : (
-            <button
-              onClick={handleGeolocationButtonClick}
-              type="button"
-              className="use-my-location-link"
-              aria-describedby="city-state-zip-text"
-            >
-              <va-icon icon="near_me" size={3} />
-              Use my location
-            </button>
-          )}
-        </div>
-        {showError && (
-          <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span>
-            Please fill in a city, state, or postal code.
-          </span>
-        )}
-        <div className="input-container">
-          <input
-            id="street-city-state-zip"
-            ref={locationInputFieldRef}
-            name="street-city-state-zip"
-            type="text"
-            onChange={handleQueryChange}
-            onBlur={handleLocationBlur}
-            value={searchString}
-            title="Your location: Street, City, State or Postal code"
-          />
-          {searchString?.length > 0 && (
-            <button
-              aria-label="Clear your city, state or postal code"
-              type="button"
-              id="clear-input"
-              className="clear-button"
-              onClick={handleClearInput}
-            >
-              <va-icon icon="cancel" size={3} />
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  const renderFacilityTypeDropdown = () => {
-    const { suppressPPMS } = props;
-    const { facilityType, isValid, facilityTypeChanged } = currentQuery;
-    const locationOptions = suppressPPMS
-      ? nonPPMSfacilityTypeOptions
-      : facilityTypesOptions;
-    const showError = !isValid && facilityTypeChanged && !facilityType;
-
-    if (suppressPPMS) {
-      delete locationOptions.pharmacy;
-    }
-
-    const options = Object.keys(locationOptions).map(facility => (
-      <option key={facility} value={facility}>
-        {locationOptions[facility]}
-      </option>
-    ));
-
-    return (
-      <div
-        className={classNames(
-          `facility-type-dropdown-val-${facilityType || 'none'}`,
-        )}
-      >
-        <VaSelect
-          uswds
-          required
-          id="facility-type-dropdown"
-          className={showError ? 'vads-u-padding-left--1p5' : null}
-          label="Facility Type"
-          value={facilityType || ''}
-          onVaSelect={e => handleFacilityTypeChange(e)}
-          error={showError ? 'Please choose a facility type.' : null}
-        >
-          {options}
-        </VaSelect>
-      </div>
-    );
-  };
-
   // Set focus in the location field when manual geocoding completes
   useEffect(
     () => {
@@ -344,9 +211,23 @@ const SearchForm = props => {
         onSubmit={handleSubmit}
       >
         <div>
-          {renderLocationInputField()}
+          <LocationInput
+            currentQuery={currentQuery}
+            facilitiesUseAddressTypeahead={facilitiesUseAddressTypeahead}
+            geolocateUser={geolocateUser}
+            handleClearInput={handleClearInput}
+            handleGeolocationButtonClick={handleGeolocationButtonClick}
+            handleLocationBlur={handleLocationBlur}
+            handleQueryChange={handleQueryChange}
+            locationInputFieldRef={locationInputFieldRef}
+            onChange={onChange}
+          />
           <div id="search-controls-bottom-row">
-            {renderFacilityTypeDropdown()}
+            <FacilityType
+              currentQuery={currentQuery}
+              handleFacilityTypeChange={handleFacilityTypeChange}
+              suppressPPMS={suppressPPMS}
+            />
             <ServiceType
               currentQuery={currentQuery}
               handleServiceTypeChange={handleServiceTypeChange}
@@ -363,9 +244,4 @@ const SearchForm = props => {
 
 SearchForm.propTypes = SearchFormTypes;
 
-const mapStateToProps = state => ({
-  vamcAutoSuggestEnabled: true,
-  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
-});
-
-export default connect(mapStateToProps)(SearchForm);
+export default SearchForm;
