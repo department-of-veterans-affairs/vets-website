@@ -5,7 +5,7 @@ import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PatientInboxPage from '../pages/PatientInboxPage';
 
 describe('SM USER NO ASSOCIATION AT ALL', () => {
-  it('verify new message using direct url', () => {
+  it('verify user could not visit new message page using direct url', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadPageForNoProvider(mockNoRecipients);
 
