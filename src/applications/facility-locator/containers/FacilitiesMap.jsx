@@ -20,7 +20,7 @@ import PaginationWrapper from '../components/PaginationWrapper';
 import PpmsServiceError from '../components/PpmsServiceError';
 import RenderMap from '../components/RenderMap';
 import ResultsList from '../components/ResultsList';
-import SearchControls from '../components/SearchControls';
+import SearchForm from '../components/search-form';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
@@ -459,7 +459,7 @@ const FacilitiesMap = props => {
             {useProgressiveDisclosure ? (
               <PpmsServiceError currentQuery={props.currentQuery} />
             ) : null}
-            <SearchControls
+            <SearchForm
               clearGeocodeError={props.clearGeocodeError}
               clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
