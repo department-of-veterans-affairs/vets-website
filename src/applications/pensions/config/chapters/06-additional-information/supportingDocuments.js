@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const childAttendsCollege = child => child.attendingCollege;
@@ -20,6 +21,11 @@ const SupportingDocument = ({ formId, formName }) => {
       </a>
     </li>
   );
+};
+
+SupportingDocument.propTypes = {
+  formId: PropTypes.string.isRequired,
+  formName: PropTypes.string.isRequired,
 };
 
 const SpecialMonthlyPensionAccordionItems = () => (
@@ -169,40 +175,24 @@ function Documents({ formData }) {
               </va-accordion-item>
             )}
             {hasSocialSecurityDisability && (
-              <>
-                <va-accordion-item header="If you receive Social Security disability payments">
-                  <p>
-                    You’ll need to submit additional evidence that shows on of
-                    these true:
-                  </p>
-                  <ul>
-                    <li>
-                      You’re unemployed due to a permanent disability (a
-                      disability that’s not expected to improve),{' '}
-                      <strong>or</strong>
-                    </li>
-                    <li>
-                      You have a permanent and total disability (a disability
-                      that we’ve rated as 100% disabling and that’s not expected
-                      to improve)
-                    </li>
-                  </ul>
-                  <p>You can submit these types of additional evidence:</p>
-                  <ul>
-                    <li>Doctor’s reports</li>
-                    <li>Medical labs, test results, or X-rays</li>
-                    <li>Military medical or personnel records</li>
-                    <li>
-                      Social Security Administration or other federal or state
-                      medical treatment records
-                    </li>
-                  </ul>
-                  <p>
-                    <strong>Note:</strong> Your disability doesn’t have to be
-                    service connected.
-                  </p>
-                </va-accordion-item>
-              </>
+              <va-accordion-item header="If you receive Social Security disability payments">
+                <p>
+                  You’ll need to submit additional evidence that shows one of
+                  these is true:
+                </p>
+                <ul>
+                  <li>
+                    You’re unemployed due to a permanent disability (a
+                    disability that’s not expected to improve),{' '}
+                    <strong>or</strong>
+                  </li>
+                  <li>
+                    You have a permanent and total disability (a disability that
+                    we’ve rated as 100% disabling and that’s not expected to
+                    improve)
+                  </li>
+                </ul>
+              </va-accordion-item>
             )}
             {hasSpecialMonthlyPension && (
               <SpecialMonthlyPensionAccordionItems />
@@ -213,6 +203,19 @@ function Documents({ formData }) {
     </>
   );
 }
+
+Documents.propTypes = {
+  formData: PropTypes.shape({
+    dependents: PropTypes.arrayOf(PropTypes.object),
+    specialMonthlyPension: PropTypes.bool,
+    socialSecurityDisability: PropTypes.bool,
+    nursingHome: PropTypes.bool,
+    totalNetWorth: PropTypes.bool,
+    homeOwnership: PropTypes.bool,
+    homeAcreageMoreThanTwo: PropTypes.bool,
+    transferredAssets: PropTypes.bool,
+  }).isRequired,
+};
 
 export default {
   title: 'Supporting documents',
