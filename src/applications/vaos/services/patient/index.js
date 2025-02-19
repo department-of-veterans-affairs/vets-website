@@ -257,6 +257,7 @@ export async function fetchFlowEligibilityAndClinics({
   directSchedulingEnabled,
   useV2 = false,
   featureClinicFilter = false,
+  isCerner = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -275,7 +276,7 @@ export async function fetchFlowEligibilityAndClinics({
     location.legacyVAR.settings?.[typeOfCare.id]?.direct;
 
   // We don't want to make unnecessary api calls if DS is turned off
-  if (directSchedulingAvailable) {
+  if (directSchedulingAvailable && !!isCerner) {
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
       typeOfCare,

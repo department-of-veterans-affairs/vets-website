@@ -92,6 +92,20 @@ async function vaFacilityNext(state, dispatch) {
 
   if (isCerner) {
     if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
+      // Fetch eligibility if we haven't already
+      if (!eligibility) {
+        const siteId = getSiteIdFromFacilityId(location.id);
+
+        eligibility = await dispatch(
+          checkEligibility({
+            location,
+            siteId,
+            showModal: true,
+            isCerner: true,
+          }),
+        );
+      }
+
       return 'selectProvider';
     }
     return 'scheduleCerner';

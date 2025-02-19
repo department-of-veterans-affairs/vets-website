@@ -285,7 +285,7 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility({ location, showModal }) {
+export function checkEligibility({ location, showModal, isCerner = false }) {
   return async (dispatch, getState) => {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
@@ -312,6 +312,7 @@ export function checkEligibility({ location, showModal }) {
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
         featureClinicFilter,
+        isCerner,
       });
 
       if (showModal) {
