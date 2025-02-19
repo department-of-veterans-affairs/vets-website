@@ -108,7 +108,8 @@ const MrBreadcrumbs = () => {
         summaryId ||
         allergyId ||
         conditionId}`,
-    )
+    ) ||
+    location.pathname.includes('/vitals/')
   ) {
     return (
       <div
