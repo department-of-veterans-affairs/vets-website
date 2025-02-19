@@ -181,7 +181,8 @@ const DebtLettersSummary = () => {
         wrapping
       />
       <div
-        className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"
+        // className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"
+        className="tablet:vads-grid-col-10 desktop:vads-grid-col-8"
         data-testid="current-va-debt"
       >
         <h1
