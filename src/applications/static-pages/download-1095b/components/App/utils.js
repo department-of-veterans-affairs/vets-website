@@ -19,6 +19,11 @@ export const radioOptions = [
   },
 ];
 
+export const errorTypes = Object.freeze({
+  NOT_FOUND: 'not found',
+  DOWNLOAD_ERROR: 'download error',
+});
+
 export const phoneComponent = number => {
   return (
     <>

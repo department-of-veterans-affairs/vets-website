@@ -17,17 +17,18 @@ import {
   notFoundComponent,
   unavailableComponent,
   downloadErrorComponent,
+  errorTypes,
 } from './utils';
 
 import '../../sass/download-1095b.scss';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [year, updateYear] = useState(0);
-  const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+  const [formError, updateFormError] = useState({ error: false, type: '' });
 
   useEffect(
     () => {
-      if (formError.type === 'download error') {
+      if (formError.type === errorTypes.DOWNLOAD_ERROR) {
         focusElement('#downloadError');
       }
     },
@@ -41,7 +42,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         return window.URL.createObjectURL(blob);
       })
       .catch(() => {
-        updateFormError({ error: true, type: 'download error' });
+        updateFormError({ error: true, type: errorTypes.DOWNLOAD_ERROR });
         return false;
       });
   };
@@ -50,11 +51,13 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     return apiRequest('/form1095_bs/available_forms')
       .then(response => {
         if (response.errors || !response.availableForms.length) {
-          updateFormError({ error: true, type: 'not found' });
+          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
         }
         return response.availableForms;
       })
-      .catch(() => updateFormError({ error: true, type: 'not found' }));
+      .catch(() =>
+        updateFormError({ error: true, type: errorTypes.NOT_FOUND }),
+      );
   };
 
   const downloadFileToUser = format => {
@@ -80,7 +83,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
           updateYear(mostRecentYearData.year);
         } else {
-          updateFormError({ error: true, type: 'not found' });
+          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
         }
       });
     },
@@ -99,7 +102,8 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           </span>
         </div>
         <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
-          {formError.type === 'download error' && downloadErrorComponent}
+          {formError.type === errorTypes.DOWNLOAD_ERROR &&
+            downloadErrorComponent}
           <div className="vads-u-padding-bottom--1">
             <va-link
               download
@@ -167,7 +171,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     return unavailableComponent();
   }
   if (loggedIn) {
-    if (formError.error === 'not found') {
+    if (formError.error === errorTypes.NOT_FOUND) {
       return notFoundComponent();
     }
     return downloadForm;
