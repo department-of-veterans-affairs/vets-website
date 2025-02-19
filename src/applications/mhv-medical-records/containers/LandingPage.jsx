@@ -30,7 +30,6 @@ import {
   selectLabsAndTestsFlag,
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { sendDataDogAction } from '../util/helpers';
@@ -56,9 +55,7 @@ const LandingPage = () => {
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
+
   const {
     isLoading,
     isAccelerating,
@@ -352,81 +349,50 @@ const LandingPage = () => {
             </section>
           )}
 
-          {phase0p5Flag && (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Manage your medical records settings
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Review and update your medical records sharing and notification
-                settings.
-              </p>
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Manage your medical records settings
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Review and update your medical records sharing and notification
+              settings.
+            </p>
+            <Link
+              to="/settings"
+              className="vads-c-action-link--blue"
+              data-testid="settings-landing-page-link"
+              onClick={() => {
+                sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+              }}
+            >
+              {MEDICAL_RECORDS_SETTINGS_LABEL}
+            </Link>
+          </section>
+
+          <section>
+            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+              Download your medical records reports
+            </h2>
+            <p className="vads-u-margin-bottom--2">
+              Download full reports of your medical records or your self entered
+              health information.
+            </p>
+            <p
+              data-testid="go-to-mhv-download-records"
+              className="vads-u-margin-bottom--2"
+            >
               <Link
-                to="/settings"
+                to="/download"
                 className="vads-c-action-link--blue"
-                data-testid="settings-landing-page-link"
+                data-testid="go-to-download-mr-reports"
                 onClick={() => {
-                  sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+                  sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                 }}
               >
-                {MEDICAL_RECORDS_SETTINGS_LABEL}
+                {MEDICAL_RECORDS_DOWNLOAD_LABEL}
               </Link>
-            </section>
-          )}
-          {phase0p5Flag ? (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Download your medical records reports
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                Download full reports of your medical records or your self
-                entered health information.
-              </p>
-              <p
-                data-testid="go-to-mhv-download-records"
-                className="vads-u-margin-bottom--2"
-              >
-                <Link
-                  to="/download"
-                  className="vads-c-action-link--blue"
-                  data-testid="go-to-download-mr-reports"
-                  onClick={() => {
-                    sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
-                  }}
-                >
-                  {MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                </Link>
-              </p>
-            </section>
-          ) : (
-            <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-                Download your Blue Button report or health summary
-              </h2>
-              <p className="vads-u-margin-bottom--2">
-                We’re working on a way to download all your medical records here
-                as a single file or a summary.
-              </p>
-              <p className="vads-u-margin-bottom--2">
-                For now, you can continue to download your VA Blue Button®
-                report or your VA Health Summary on the previous version of My
-                HealtheVet.
-              </p>
-              <p
-                data-testid="go-to-mhv-download-records"
-                className="vads-u-margin-bottom--2"
-              >
-                <ExternalLink
-                  ddTag="Start a new message - FAQ"
-                  href={mhvUrl(
-                    isAuthenticatedWithSSOe(fullState),
-                    'download-my-data',
-                  )}
-                  text="Go back to the previous version of My HealtheVet to download your records"
-                />
-              </p>
-            </section>
-          )}
+            </p>
+          </section>
           <section>
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
               What to know as you try out this tool
@@ -464,44 +430,21 @@ const LandingPage = () => {
                 <h3 className="vads-u-font-size--h6" slot="headline">
                   Where can I find health information I entered myself?
                 </h3>
-                {phase0p5Flag ? (
-                  <div>
-                    <p className="vads-u-margin-bottom--2">
-                      Download your self-entered health information report.
-                    </p>
-                    <p className="vads-u-margin-bottom--2">
-                      <Link
-                        to="/download"
-                        onClick={() => {
-                          sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
-                        }}
-                      >
-                        {MEDICAL_RECORDS_DOWNLOAD_LABEL}
-                      </Link>
-                    </p>
-                  </div>
-                ) : (
-                  <div>
-                    <p className="vads-u-margin-bottom--2">
-                      Right now, your records on VA.gov only include health
-                      information your VA providers have entered.
-                    </p>
-                    <p className="vads-u-margin-bottom--2">
-                      To find health information you entered yourself, go to
-                      your medical records on the My HealtheVet website.
-                    </p>
-                    <p className="vads-u-margin-bottom--2">
-                      <ExternalLink
-                        href={mhvUrl(
-                          isAuthenticatedWithSSOe(fullState),
-                          'download-my-data',
-                        )}
-                        text="Go to your medical records on the My HealtheVet website"
-                        ddTag="Go back to MR on MHV - in FAQ"
-                      />
-                    </p>
-                  </div>
-                )}
+                <div>
+                  <p className="vads-u-margin-bottom--2">
+                    Download your self-entered health information report.
+                  </p>
+                  <p className="vads-u-margin-bottom--2">
+                    <Link
+                      to="/download"
+                      onClick={() => {
+                        sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                      }}
+                    >
+                      {MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                    </Link>
+                  </p>
+                </div>
               </va-accordion-item>
               <va-accordion-item
                 bordered="true"
@@ -521,24 +464,13 @@ const LandingPage = () => {
                   them to update your records.
                 </p>
                 <p className="vads-u-margin-bottom--2">
-                  {phase0p5Flag ? (
-                    <va-link
-                      href="/my-health/secure-messages/new-message/"
-                      text="Start a new message"
-                      onClick={() => {
-                        sendDataDogAction('Start a new message - FAQ');
-                      }}
-                    />
-                  ) : (
-                    <ExternalLink
-                      href={mhvUrl(
-                        isAuthenticatedWithSSOe(fullState),
-                        'compose-message',
-                      )}
-                      text="Start a new message"
-                      ddTag="Start a new message - FAQ"
-                    />
-                  )}
+                  <va-link
+                    href="/my-health/secure-messages/new-message/"
+                    text="Start a new message"
+                    onClick={() => {
+                      sendDataDogAction('Start a new message - FAQ');
+                    }}
+                  />
                 </p>
               </va-accordion-item>
               <va-accordion-item
@@ -576,24 +508,13 @@ const LandingPage = () => {
                 </p>
 
                 <p className="vads-u-margin-bottom--2">
-                  {phase0p5Flag ? (
-                    <va-link
-                      href="/my-health/secure-messages/new-message/"
-                      text="Start a new message"
-                      onClick={() => {
-                        sendDataDogAction('Start a new message - FAQ');
-                      }}
-                    />
-                  ) : (
-                    <ExternalLink
-                      href={mhvUrl(
-                        isAuthenticatedWithSSOe(fullState),
-                        'compose-message',
-                      )}
-                      text="Start a new message"
-                      ddTag="Start a new message - FAQ"
-                    />
-                  )}
+                  <va-link
+                    href="/my-health/secure-messages/new-message/"
+                    text="Start a new message"
+                    onClick={() => {
+                      sendDataDogAction('Start a new message - FAQ');
+                    }}
+                  />
                 </p>
                 <p className="vads-u-margin-bottom--2">
                   Only use messages for non-urgent needs. Your care team may
@@ -635,24 +556,13 @@ const LandingPage = () => {
                 {!killExternalLinks && (
                   <>
                     <p className="vads-u-margin-bottom--2">
-                      {phase0p5Flag ? (
-                        <va-link
-                          href="/my-health/secure-messages/new-message/"
-                          text="Start a new message"
-                          onClick={() => {
-                            sendDataDogAction('Start a new message - FAQ');
-                          }}
-                        />
-                      ) : (
-                        <ExternalLink
-                          href={mhvUrl(
-                            isAuthenticatedWithSSOe(fullState),
-                            'compose-message',
-                          )}
-                          text="Start a new message"
-                          ddTag="Start a new message - FAQ"
-                        />
-                      )}
+                      <va-link
+                        href="/my-health/secure-messages/new-message/"
+                        text="Start a new message"
+                        onClick={() => {
+                          sendDataDogAction('Start a new message - FAQ');
+                        }}
+                      />
                     </p>
                   </>
                 )}
@@ -692,24 +602,13 @@ const LandingPage = () => {
                 </p>
 
                 <p className="vads-u-margin-bottom--2">
-                  {phase0p5Flag ? (
-                    <va-link
-                      href="/my-health/secure-messages/new-message/"
-                      text="Start a new message"
-                      onClick={() => {
-                        sendDataDogAction('Start a new message - FAQ');
-                      }}
-                    />
-                  ) : (
-                    <ExternalLink
-                      href={mhvUrl(
-                        isAuthenticatedWithSSOe(fullState),
-                        'compose-message',
-                      )}
-                      text="Start a new message"
-                      ddTag="Start a new message - FAQ"
-                    />
-                  )}
+                  <va-link
+                    href="/my-health/secure-messages/new-message/"
+                    text="Start a new message"
+                    onClick={() => {
+                      sendDataDogAction('Start a new message - FAQ');
+                    }}
+                  />
                 </p>
                 <p className="vads-u-margin-bottom--2">
                   Only use messages for non-urgent needs. Your care team may
@@ -754,19 +653,13 @@ const LandingPage = () => {
                       <span className="vads-u-font-weight--bold">
                         For questions about how to use this tool,{' '}
                       </span>
-                      {phase0p5Flag ? (
-                        <span>
-                          call us at{' '}
-                          <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
-                          <va-telephone tty contact={CONTACTS['711']} />
-                          ). We’re here Monday through Friday, 8:00 a.m. to 8:00
-                          p.m. ET.
-                        </span>
-                      ) : (
-                        <span>
-                          email us at <FeedbackEmail />.
-                        </span>
-                      )}
+                      <span>
+                        call us at{' '}
+                        <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+                        <va-telephone tty contact={CONTACTS['711']} />
+                        ). We’re here Monday through Friday, 8:00 a.m. to 8:00
+                        p.m. ET.
+                      </span>
                     </p>
                   </>
                 )}
