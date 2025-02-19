@@ -97,11 +97,11 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
             1095-B Proof of VA health coverage
           </h4>
-          <span className="vads-u-font-size--h5">
+          <span>
             <b>Tax year:</b> {year}
           </span>
         </div>
-        <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
+        <div className="download-links vads-u-margin-y--1p5 vads-u-padding-top--3">
           {formError.type === errorTypes.DOWNLOAD_ERROR &&
             downloadErrorComponent}
           <div className="vads-u-padding-bottom--1">
