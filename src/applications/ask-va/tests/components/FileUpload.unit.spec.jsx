@@ -29,7 +29,7 @@ describe('<FileUpload />', () => {
     );
 
     const file = new File(['hello'], 'hello.png', { type: 'image/png' });
-    const input = screen.getByTestId('askVA_upload_first');
+    const input = screen.getByTestId(/askVA_upload_/);
 
     await waitFor(() => fireEvent.change(input, { target: { files: [file] } }));
     expect(input.files[0].name).to.equal('hello.png');
