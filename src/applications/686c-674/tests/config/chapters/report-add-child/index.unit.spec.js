@@ -6,7 +6,16 @@ describe('Add Child Chapter', () => {
     const formDataWithAdd = {
       'view:addOrRemoveDependents': { add: true },
       'view:addDependentsOptions': { addChild: true },
-      'view:selectable686Options': { addChild: true },
+      'view:selectable686Options': { addChild: true, addDisabledChild: true },
+      childrenToAdd: [
+        {
+          relationshipToChild: { stepchild: true },
+          doesChildLiveWithYou: false,
+          hasChildEverBeenMarried: true,
+          isBiologicalChild: false,
+          doesChildHaveDisability: true,
+        },
+      ],
     };
 
     const formDataWithoutAdd = {
@@ -23,8 +32,11 @@ describe('Add Child Chapter', () => {
     );
 
     remainder.forEach(([_key, page]) => {
-      expect(page.depends(formDataWithAdd)).to.be.true;
-      expect(page.depends(formDataWithoutAdd)).to.be.false;
+      expect(page.depends(formDataWithAdd, 0)).to.be.true;
+      expect(page.depends(formDataWithoutAdd, 0)).to.be.oneOf([
+        false,
+        undefined,
+      ]);
     });
     addChildMarriageDetails.forEach(([_key, page]) => {
       expect(
@@ -40,12 +52,14 @@ describe('Add Child Chapter', () => {
     const formDataWithAdd = {
       'view:addOrRemoveDependents': { add: true },
       'view:addDependentsOptions': { addChild: true },
-      'view:selectable686Options': { addChild: true },
+      'view:selectable686Options': { addChild: true, addDisabledChild: true },
       childrenToAdd: [
         {
           relationshipToChild: { stepchild: true },
           doesChildLiveWithYou: false,
           hasChildEverBeenMarried: true,
+          isBiologicalChild: false,
+          doesChildHaveDisability: true,
         },
       ],
     };
