@@ -1,18 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-export const ApplicantInfoNoteDescription = () => (
+const mapStateToProps = state => ({
+  firstName: state.user.firstName,
+  lastName: state.user.lastName,
+});
+
+const ApplicantInfoNoteDescription = ({ firstName, lastName }) => (
   <div>
-    <div>
-      <h3>Confirm the personal information we have on file for you</h3>
-    </div>
-
     <div>
       <va-card background>
         <h4>
           <b>Personal information</b>
         </h4>
         <p>
-          <b>Name:</b> Bruce Wayne
+          <b>Name:</b> {firstName} {lastName}
         </p>
       </va-card>
     </div>
@@ -35,11 +37,7 @@ export const ApplicantInfoNoteDescription = () => (
         in new tab)
       </a>
     </div>
-    <br />
-    <div>
-      <a href="update-later">Finish this application later</a>
-    </div>
   </div>
 );
 
-export default ApplicantInfoNoteDescription;
+export default connect(mapStateToProps)(ApplicantInfoNoteDescription);

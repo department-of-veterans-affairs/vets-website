@@ -4,6 +4,7 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import prefillTransformer from './prefill-transformer';
 
 import applicantInfoConfirmInfo from '../pages/applicantInfoConfirmInfo';
 import mailingAddress from '../pages/mailingAddress';
@@ -22,6 +23,7 @@ const formConfig = {
   trackingPrefix: 'memorials-1330m',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  prefillTransformer,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
