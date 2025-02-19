@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
+import FileList from './FileList';
 
 // Helper function: Convert bytes to MB (correct conversion factor)
 const getFileSizeMB = size => size / 1048576;
@@ -48,6 +49,8 @@ const FileUpload = props => {
     label = 'Select optional files to upload',
     hint = 'You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size',
     formData,
+    editMode,
+    path,
   } = props;
 
   const firstInputID = 'medallions_upload_first';
@@ -76,6 +79,13 @@ const FileUpload = props => {
     );
     setExistingFiles(newExistingFiles);
     updateFormData(newExistingFiles);
+  };
+
+  const onDeleteExistingFile = index => {
+    const fileToDelete = existingFiles[index];
+    if (fileToDelete) {
+      deleteExistingFile(fileToDelete.fileID);
+    }
   };
 
   const onRemoveFile = fileID => {
@@ -165,45 +175,55 @@ const FileUpload = props => {
     <div>
       <div className="usa-form-group">
         {existingFiles.length > 0 && (
-          <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-              {existingFiles.map(file => (
-                <div
-                  key={`${file.fileID}-${file.fileName}-edit`}
-                  className="review-page-attachments"
-                >
-                  <dt className="form-review-panel-page-header vads-u-margin-bottom--2 vads-u-color--link-default">
-                    <va-icon icon="attach_file" size={3} />
-                    <DownloadLink
-                      fileUrl={file.base64}
-                      fileName={file.fileName}
-                      fileSize={file.fileSize}
-                    />
-                  </dt>
-                  <dd className="vads-u-margin-right--0">
-                    <va-button-icon
-                      button-type="delete"
-                      onClick={() => deleteExistingFile(file.fileID)}
-                    />
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
+          // <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+          //   <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+          //     {existingFiles.map(file => (
+          //       <div
+          //         key={`${file.fileID}-${file.fileName}-edit`}
+          //         className="review-page-attachments"
+          //       >
+          //         <dt className="form-review-panel-page-header vads-u-margin-bottom--2 vads-u-color--link-default">
+          //           <va-icon icon="attach_file" size={3} />
+          //           <DownloadLink
+          //             fileUrl={file.base64}
+          //             fileName={file.fileName}
+          //             fileSize={file.fileSize}
+          //           />
+          //         </dt>
+          //         <dd className="vads-u-margin-right--0">
+          //           <va-button-icon
+          //             button-type="delete"
+          //             onClick={() => deleteExistingFile(file.fileID)}
+          //           />
+          //         </dd>
+          //       </div>
+          //     ))}
+          //   </dl>
+          // </div>
+          <FileList
+            files={existingFiles}
+            onClick={e => onDeleteExistingFile(e)}
+            editMode={editMode}
+            path={path}
+          />
         )}
-        <VaFileInput
-          className="vads-u-margin-y--neg1"
-          accept={acceptFileTypes}
-          multiple="multiple"
-          data-testid={firstInputID}
-          error={fileErrors.includes(firstInputID) ? errorMessage : ''}
-          hint={hint}
-          label={label}
-          name="usa-file-input"
-          onVaChange={onAddFile}
-          uswds
-        />
-        {renderDynamicFileInputs()}
+        {(editMode || path !== '/review-and-submit') && (
+          <>
+            <VaFileInput
+              className="vads-u-margin-y--neg1"
+              accept={acceptFileTypes}
+              multiple="multiple"
+              data-testid={firstInputID}
+              error={fileErrors.includes(firstInputID) ? errorMessage : ''}
+              hint={hint}
+              label={label}
+              name="usa-file-input"
+              onVaChange={onAddFile}
+              uswds
+            />
+            {renderDynamicFileInputs()}
+          </>
+        )}
       </div>
     </div>
   );
@@ -225,6 +245,8 @@ FileUpload.propTypes = {
 
 const mapStateToProps = state => ({
   formData: state?.form?.data,
+  editMode: state?.form?.pages?.supportingDocumentsUpload?.editMode,
+  path: state?.navigation?.route?.path,
 });
 
 export default connect(mapStateToProps)(FileUpload);
