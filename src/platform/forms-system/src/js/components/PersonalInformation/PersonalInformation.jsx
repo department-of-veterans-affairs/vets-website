@@ -21,6 +21,8 @@ import {
 } from './utils';
 
 import { adaptFormData } from './adapter';
+import { DefaultHeader } from './DefaultHeader';
+import { DefaultCardHeader } from './DefaultCardHeader';
 
 /**
  * @typedef {Object} FieldConfig
@@ -122,90 +124,85 @@ export const PersonalInformation = ({
 
   return (
     <>
-      {header}
+      {header || <DefaultHeader />}
       <div className="vads-u-display--flex">
         <va-card>
-          {cardHeader}
-          {finalConfig.name?.show &&
-            (first || last || finalConfig.name?.required) && (
-              <p>
-                <strong
-                  className="name dd-privacy-hidden"
-                  data-dd-action-name="Veteran's name"
+          {cardHeader || <DefaultCardHeader />}
+          {finalConfig.name?.show && (
+            <p>
+              <strong
+                className="name dd-privacy-hidden"
+                data-dd-action-name="Veteran's name"
+              >
+                Name:{' '}
+              </strong>
+              {first || last ? (
+                `${first || ''} ${middle || ''} ${last || ''}`
+              ) : (
+                <span data-testid="name-not-available">Not available</span>
+              )}
+              {suffix ? `, ${suffix}` : null}
+            </p>
+          )}
+          {finalConfig.ssn?.show && (
+            <p>
+              <strong>Last 4 digits of Social Security number: </strong>
+              {ssn ? (
+                <span data-dd-action-name="Veteran's SSN">
+                  {formatNumberForScreenReader(ssn)}
+                </span>
+              ) : (
+                <span data-testid="ssn-not-available">Not available</span>
+              )}
+            </p>
+          )}
+          {finalConfig.vaFileNumber?.show && (
+            <p>
+              <strong>Last 4 digits of VA file number: </strong>
+              {vaFileLastFour ? (
+                <span
+                  className="dd-privacy-mask"
+                  data-dd-action-name="Veteran's VA file number"
                 >
-                  Name:{' '}
-                </strong>
-                {first || last ? (
-                  `${first || ''} ${middle || ''} ${last || ''}`
-                ) : (
-                  <span data-testid="name-not-available">Not available</span>
-                )}
-                {suffix ? `, ${suffix}` : null}
-              </p>
-            )}
-          {finalConfig.ssn?.show &&
-            (ssn || finalConfig.ssn?.required) && (
-              <p>
-                <strong>Last 4 digits of Social Security number: </strong>
-                {ssn ? (
-                  <span data-dd-action-name="Veteran's SSN">
-                    {formatNumberForScreenReader(ssn)}
-                  </span>
-                ) : (
-                  <span data-testid="ssn-not-available">Not available</span>
-                )}
-              </p>
-            )}
-          {finalConfig.vaFileNumber?.show &&
-            (vaFileLastFour || finalConfig.vaFileNumber?.required) && (
-              <p>
-                <strong>Last 4 digits of VA file number: </strong>
-                {vaFileLastFour ? (
-                  <span
-                    className="dd-privacy-mask"
-                    data-dd-action-name="Veteran's VA file number"
-                  >
-                    {formatNumberForScreenReader(vaFileLastFour)}
-                  </span>
-                ) : (
-                  <span data-testid="va-file-number-not-available">
-                    Not available
-                  </span>
-                )}
-              </p>
-            )}
-          {finalConfig.dateOfBirth?.show &&
-            (isValid(dobDateObj) || finalConfig.dateOfBirth?.required) && (
-              <p>
-                <strong>Date of birth: </strong>
-                {isValid(dobDateObj) ? (
-                  <span
-                    className="dob dd-privacy-mask"
-                    data-dd-action-name="Veteran's date of birth"
-                  >
-                    {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
-                  </span>
-                ) : (
-                  <span data-testid="dob-not-available">Not available</span>
-                )}
-              </p>
-            )}
-          {finalConfig.sex?.show &&
-            (gender || finalConfig.sex?.required) && (
-              <p>
-                <strong>Sex: </strong>
-                {gender ? (
-                  <span
-                    className="sex dd-privacy-hidden"
-                    data-dd-action-name="Veteran's sex"
-                  >
-                    {genderLabels?.[gender]}
-                  </span>
-                ) : (
-                  <span data-testid="sex-not-available">Not available</span>
-                )}
-              </p>
-            )}
+                  {formatNumberForScreenReader(vaFileLastFour)}
+                </span>
+              ) : (
+                <span data-testid="va-file-number-not-available">
+                  Not available
+                </span>
+              )}
+            </p>
+          )}
+          {finalConfig.dateOfBirth?.show && (
+            <p>
+              <strong>Date of birth: </strong>
+              {isValid(dobDateObj) ? (
+                <span
+                  className="dob dd-privacy-mask"
+                  data-dd-action-name="Veteran's date of birth"
+                >
+                  {format(dobDateObj, FORMAT_READABLE_DATE_FNS)}
+                </span>
+              ) : (
+                <span data-testid="dob-not-available">Not available</span>
+              )}
+            </p>
+          )}
+          {finalConfig.sex?.show && (
+            <p>
+              <strong>Sex: </strong>
+              {gender ? (
+                <span
+                  className="sex dd-privacy-hidden"
+                  data-dd-action-name="Veteran's sex"
+                >
+                  {genderLabels?.[gender]}
+                </span>
+              ) : (
+                <span data-testid="sex-not-available">Not available</span>
+              )}
+            </p>
+          )}
         </va-card>
       </div>
 
@@ -213,9 +210,9 @@ export const PersonalInformation = ({
         <div className="vads-u-margin-bottom--4" data-testid="default-note">
           <p>
             <strong>Note:</strong> To protect your personal information, we
-            don’t allow online changes to your name, Social Security number,
-            date of birth, or gender. If you need to change this information,
-            call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+            don’t allow online changes to your name, Social Security number, or
+            date of birth. If you need to change this information, call us at{' '}
+            <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
             <va-telephone contact="711" tty />
             ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m.
             ET. We’ll give you instructions for how to change your information.

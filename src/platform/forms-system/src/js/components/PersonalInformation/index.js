@@ -7,6 +7,7 @@ import {
   PersonalInformationHeader,
   PersonalInformationNote,
 } from './PersonalInformation';
+
 import { DefaultErrorMessage } from './DefaultErrorMessage';
 import { DefaultCardHeader } from './DefaultCardHeader';
 import { DefaultHeader } from './DefaultHeader';
@@ -18,7 +19,7 @@ import { DefaultHeader } from './DefaultHeader';
  * @typedef {import('./PersonalInformation').DataAdapter} DataAdapter
  */
 
-export const defaultConfig = {
+export const defaultPageConfig = {
   key: 'personalInfoPage',
   title: 'Personal Information',
   path: 'personal-information',
@@ -42,19 +43,19 @@ export const defaultConfig = {
  * @property {string|Function} errorMessage - Custom error message or component for missing data
  */
 const personalInformationPage = ({
-  key = defaultConfig.key,
-  title = defaultConfig.title,
-  path = defaultConfig.path,
-  personalInfoConfig = defaultConfig.personalInfoConfig,
-  dataAdapter = defaultConfig.dataAdapter,
-  errorMessage = defaultConfig.errorMessage,
-  cardHeader = defaultConfig.cardHeader,
-  header = defaultConfig.header,
-  note = defaultConfig.note,
-  footer = defaultConfig.footer,
-  contentBeforeButtons = defaultConfig.contentBeforeButtons,
-  contentAfterButtons = defaultConfig.contentAfterButtons,
-} = defaultConfig) => {
+  key = defaultPageConfig.key,
+  title = defaultPageConfig.title,
+  path = defaultPageConfig.path,
+  personalInfoConfig = defaultPageConfig.personalInfoConfig,
+  dataAdapter = defaultPageConfig.dataAdapter,
+  errorMessage = defaultPageConfig.errorMessage,
+  cardHeader = defaultPageConfig.cardHeader,
+  header = defaultPageConfig.header,
+  note = defaultPageConfig.note,
+  footer = defaultPageConfig.footer,
+  contentBeforeButtons = defaultPageConfig.contentBeforeButtons,
+  contentAfterButtons = defaultPageConfig.contentAfterButtons,
+} = defaultPageConfig) => {
   return {
     [key]: {
       title,
