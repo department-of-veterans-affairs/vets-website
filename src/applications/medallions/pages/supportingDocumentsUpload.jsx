@@ -1,10 +1,12 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FileUpload from '../components/FileUpload';
+import { supportingDocsInfo } from '../utils/helpers';
 
-const description = () => {
+const description = formData => {
   return (
     <div>
+      {formData?.formContext?.onReviewPage && supportingDocsInfo(formData)}
       <p>
         You can submit your documents online now. Or, select Continue to submit
         them by mail or fax later.
@@ -21,11 +23,13 @@ const description = () => {
 export default {
   uiSchema: {
     ...titleUI('Upload your supporting documents'),
-    'ui:description': description,
-    // 'ui:objectViewField': SupportingDocsViewField,
+    'ui:description': formData => description(formData),
     supportingDocuments: {
       'ui:title': 'Upload documents',
-      'ui:field': FileUpload,
+      'ui:field': FileUpload, // Try a custom review page
+      'ui:options': {
+        keepInPageOnReview: true,
+      },
     },
   },
   schema: {
@@ -33,7 +37,6 @@ export default {
     properties: {
       supportingDocuments: {
         type: 'array',
-        minItems: 1,
         items: {
           type: 'object',
           properties: {
