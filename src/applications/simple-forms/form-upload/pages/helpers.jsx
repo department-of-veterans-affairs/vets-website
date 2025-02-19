@@ -35,7 +35,7 @@ export const CustomAlertPage = props => {
   useEffect(
     () => {
       const focusSelector = document.querySelector("va-alert[status='error']");
-      if (!window.Cypress) {
+      if (focusSelector && continueClicked && !window.Cypress) {
         scrollAndFocus(focusSelector);
       }
     },
