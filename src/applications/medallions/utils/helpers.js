@@ -2,44 +2,8 @@ import React from 'react';
 
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 
-export const applicantSaveAppText = (
-  <div>We’ll save your application on every change.</div>
-);
-
-export const applicantRelationToVetHeaders = (
-  <div>
-    <div>
-      <p>We’ll save your application on every change.</p>
-    </div>
-
-    <div>
-      <h3>Your relationship to the veteran</h3>
-    </div>
-  </div>
-);
-
-export const applicantRelationToVetOrgHeaders = (
-  <div>
-    <div>
-      <p>We’ll save your application on every change.</p>
-    </div>
-
-    <div>
-      <h3>Your organization</h3>
-    </div>
-  </div>
-);
-
 export const applicantInfoNoteDescription = (
   <div>
-    <div>
-      <p>We’ll save your application on every change.</p>
-    </div>
-
-    <div>
-      <h3>Confirm the personal information we have on file for you</h3>
-    </div>
-
     <div>
       <va-card background>
         <h4>
@@ -70,15 +34,6 @@ export const applicantInfoNoteDescription = (
       </a>
     </div>
     <br />
-    <div>
-      <a href="update-later">Finish this application later</a>
-    </div>
-  </div>
-);
-
-export const finishAppLaterLink = (
-  <div>
-    <a href="update-later">Finish this application later</a>
   </div>
 );
 

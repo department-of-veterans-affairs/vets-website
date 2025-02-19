@@ -1,8 +1,9 @@
-import { radioSchema } from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  radioSchema,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  finishAppLaterLink,
-  applicantRelationToVetHeaders,
   applicantRelationToVetRadio,
   validateVetRadioOtherComment,
 } from '../utils/helpers';
@@ -10,7 +11,7 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:description': applicantRelationToVetHeaders,
+    ...titleUI('Your relationship to the veteran'),
     relationToVetRadio: applicantRelationToVetRadio.relationToVetRadio,
     otherRelation: {
       'ui:title': 'Describe your relationship to the Veteran',
@@ -24,9 +25,6 @@ export default {
         required: 'You must provide a response',
         pattern: 'Only alphabetic characters are allowed',
       },
-    },
-    'view:finishAppLaterLink': {
-      'ui:description': finishAppLaterLink,
     },
   },
   schema: {
@@ -45,10 +43,6 @@ export default {
         title: 'Please specify your relationship to the Veteran',
         maxLength: 50,
         pattern: '^[A-Za-z\\s]+$',
-      },
-      'view:finishAppLaterLink': {
-        type: 'object',
-        properties: {},
       },
     },
   },

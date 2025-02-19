@@ -1,33 +1,22 @@
 import {
   textUI,
   textSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-import {
-  finishAppLaterLink,
-  applicantRelationToVetOrgHeaders,
-} from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'ui:description': applicantRelationToVetOrgHeaders,
+    ...titleUI('Your organization'),
     yourOrgText: textUI({
       title: 'Enter the name of the cemetery or funeral home you represent',
     }),
-    'view:finishAppLaterLink': {
-      'ui:description': finishAppLaterLink,
-    },
   },
 
   schema: {
     type: 'object',
     properties: {
       yourOrgText: textSchema,
-      'view:finishAppLaterLink': {
-        type: 'object',
-        properties: {},
-      },
     },
     required: ['yourOrgText'],
   },
