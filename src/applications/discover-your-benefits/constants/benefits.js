@@ -517,7 +517,12 @@ export const BENEFITS_LIST = [
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [
+        expectedSeparationTypes.UP_TO_3_MONTHS,
+        expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
+        expectedSeparationTypes.MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR,
+        expectedSeparationTypes.MORE_THAN_1_YEAR,
+      ],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_3_MONTHS,

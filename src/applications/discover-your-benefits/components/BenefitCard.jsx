@@ -16,7 +16,7 @@ const BenefitCard = ({ benefit }) => {
       return action === true ? (
         <va-link-action href={url} text={text} label={label} type="secondary" />
       ) : (
-        <va-link href={url} text={text} label={label} />
+        <va-link active href={url} text={text} label={label} />
       );
     }
     return null;
