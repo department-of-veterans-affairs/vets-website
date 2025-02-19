@@ -617,46 +617,6 @@ export const NEW_EVIDENCE_HANDOFF = Object.freeze(
         text="Get VA Form 20-10208 to download"
       />
     </div>
-    <p>
-      <strong>Compensation claims</strong>
-    </p>
-    <p className="va-address-block">
-      U.S. Department of Veterans Affairs
-      <br />
-      Compensation Intake Center
-      <br />
-      P.O. Box 4444
-      <br />
-      Janesville, WI 53547
-      <br />
-      United States of America
-    </p>
-    <p>
-      <strong>Pension claims</strong>
-    </p>
-    <p className="va-address-block">
-      U.S. Department of Veterans Affairs
-      <br />
-      Pension Intake Center
-      <br />
-      P.O. Box 5365
-      <br />
-      Janesville, WI 53547
-      <br />
-      United States of America
-    </p>
-    <h2 className="vads-u-font-size--h3">What happens after I submit?</h2>
-    <p>
-      After you submit evidence, we’ll review the documents and contact you with
-      updates.
-    </p>
-    <p>
-      If you’ve also applied for a VA pension or for disability benefits, you
-      can check the status of those claims online.
-    </p>
-    <a className="vads-u-font-weight--bold" href="/track-claims/your-claims">
-      Check the status of your claim
-    </a>
     {ESCAPE_HATCH}
   </div>,
 );
