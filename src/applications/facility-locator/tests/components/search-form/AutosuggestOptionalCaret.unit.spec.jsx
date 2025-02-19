@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import Autosuggest from '../../components/Autosuggest';
+import Autosuggest from '../../../components/search-form/autosuggest';
 
 describe('<Autosuggest inputId="any">', () => {
   it('Autosuggest should render with input with down caret.', () => {
