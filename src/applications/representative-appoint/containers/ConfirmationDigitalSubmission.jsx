@@ -44,10 +44,6 @@ export default function ConfirmationDigitalSubmission() {
             We’ve sent your form to the Veterans Service Organization you’d like
             to appoint.
           </p>
-          <VaLinkAction
-            href="/my-va#benefit-applications"
-            text="Check the status of your form on My VA"
-          />
         </React.Fragment>
       </va-alert>
       <h2 className="vads-u-font-size--h3">Save a copy of your form</h2>
