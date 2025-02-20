@@ -76,22 +76,6 @@ export function isRelatedToMST(formData) {
   return isCompletingForm0781(formData) && formData?.eventTypes?.mst === true;
 }
 
-// /**
-//  * Checks if
-//  * 1. modern 0781 pages should be showing
-//  * 2. the option to complete the online form is selected
-//  * 3. MST is selected as an eventType
-//  *
-//  * @param {object} formData
-//  * @param {object} schema
-//  * @returns {object} formData
-//  */
-// export function updateSchemaWith0781EvidenceButtons(formData, schema) {
-//   console.log(formData)
-//   console.log(schema)
-//   return formData
-// }
-
 /*
  * @returns
  *   TRUE
