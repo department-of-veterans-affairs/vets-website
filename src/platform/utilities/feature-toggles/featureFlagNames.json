@@ -49,6 +49,7 @@
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
   "cstIncludeDdlBoaLetters": "cst_include_ddl_boa_letters",
   "cstIncludeDdlSqdLetters": "cst_include_ddl_sqd_letters",
+  "cstShowDocumentUploadStatus": "cst_show_document_upload_status",
   "cstUseDataDogRUM": "cst_use_dd_rum",
   "debtLettersShowLettersVBMS": "debt_letters_show_letters_vbms",
   "dependencyVerification": "dependency_verification",
