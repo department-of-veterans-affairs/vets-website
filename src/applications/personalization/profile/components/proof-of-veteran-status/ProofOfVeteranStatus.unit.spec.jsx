@@ -60,16 +60,8 @@ const nonEligibility = {
   ],
 };
 
-function createBasicInitialState(
-  serviceHistory,
-  eligibility,
-  enableToggle = false,
-) {
+function createBasicInitialState(serviceHistory, eligibility) {
   return {
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      veteran_status_card_use_lighthouse_frontend: enableToggle,
-    },
     user: {
       profile: {
         veteranStatus: {
@@ -164,7 +156,6 @@ describe('ProofOfVeteranStatus', () => {
     let initialState = createBasicInitialState(
       [serviceHistoryItemMiddle],
       confirmedEligibility,
-      true,
     );
 
     it('displays the card successfully', async () => {
@@ -325,7 +316,7 @@ describe('ProofOfVeteranStatus', () => {
       };
       apiRequestStub.resolves(mockData);
 
-      initialState = createBasicInitialState([], problematicEligibility, true);
+      initialState = createBasicInitialState([], problematicEligibility);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -356,7 +347,7 @@ describe('ProofOfVeteranStatus', () => {
         },
       };
       apiRequestStub.resolves(mockData);
-      initialState = createBasicInitialState([], problematicEligibility, true);
+      initialState = createBasicInitialState([], problematicEligibility);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -376,7 +367,7 @@ describe('ProofOfVeteranStatus', () => {
     });
 
     it('displays loading indicator if fetch not complete', async () => {
-      initialState = createBasicInitialState([], problematicEligibility, true);
+      initialState = createBasicInitialState([], problematicEligibility);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
