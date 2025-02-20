@@ -9,7 +9,6 @@ import {
 import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
 
 import { createReferralById } from '../utils/referrals';
-// import { FETCH_STATUS } from '../../utils/constants';
 
 describe('VAOS Component: ReferralTaskCardWithReferral', () => {
   let fetchStub;
