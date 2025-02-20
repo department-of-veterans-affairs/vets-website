@@ -5,6 +5,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import { mount } from 'enzyme';
 import moment from 'moment';
 import formConfig from '../../config/form';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
 describe('VA Medical Records', () => {
   const {
@@ -84,6 +85,32 @@ describe('VA Medical Records', () => {
 
     expect(form.find('input').length).to.equal(3); // non-checkbox inputs
     expect(form.find('va-checkbox').length).to.equal(4);
+    expect(form.find('select').length).to.equal(3);
+    form.unmount();
+  });
+
+  it('should render with 0781 questions when feature is enabled, and the user did not opt out of 0781 ', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...claimType,
+          ratedDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+        }}
+      />,
+    );
+
+    expect(form.find('va-radio').length).to.equal(1); // 0781 question VA radio button
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(3);
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
