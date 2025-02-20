@@ -181,7 +181,7 @@ export const mstAlert = () => {
           <va-link
             external
             href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
-            text="Learn more about MST-related benefits and services (opens in a new tab)"
+            text="Learn more about MST-related benefits and services"
           />
         </p>
       </va-alert-expandable>
