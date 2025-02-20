@@ -1,6 +1,6 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
-import { useSelector, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 // Relative imports.
@@ -11,13 +11,8 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
-import {
-  VerifyIdmeButton,
-  VerifyLogingovButton,
-} from '~/platform/user/authentication/components/VerifyButton';
+import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
 
-import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
 import {
   notFoundComponent,
@@ -27,18 +22,24 @@ import {
 } from './utils';
 import '../../sass/download-1095b.scss';
 
+function blobToBase64(_blob) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(_blob);
+  });
+}
+
 export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
-  const cspId = useSelector(signInServiceName);
-  const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
 
   const getFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)
       .then(response => response.blob())
-      .then(blob => {
-        return window.URL.createObjectURL(blob);
+      .then(async blob => {
+        return window?.Cypress ? blobToBase64(blob) : URL.createObjectURL(blob);
       });
   };
 
@@ -55,43 +56,6 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
         return null; // Return null in case of an error
       });
   };
-
-  useEffect(
-    () => {
-      const getverifyAlertVariant = () => {
-        if (cspId === CSP_IDS.LOGIN_GOV) {
-          return (
-            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
-              <span slot="LoginGovVerifyButton">
-                <VerifyLogingovButton />
-              </span>
-            </VaAlertSignIn>
-          );
-        }
-        if (cspId === CSP_IDS.ID_ME) {
-          return (
-            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
-              <span slot="IdMeVerifyButton">
-                <VerifyIdmeButton />
-              </span>
-            </VaAlertSignIn>
-          );
-        }
-        return (
-          <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
-            <span slot="LoginGovSignInButton">
-              <VerifyLogingovButton />
-            </span>
-            <span slot="IdMeSignInButton">
-              <VerifyIdmeButton />
-            </span>
-          </VaAlertSignIn>
-        );
-      };
-      setverifyAlertVariant(getverifyAlertVariant());
-    },
-    [cspId, isLOA1],
-  );
 
   const showSignInModal = () => {
     toggleLoginModal(true, 'ask-va', true);
@@ -222,7 +186,7 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
       return getErrorComponent();
     }
     if (isLOA1) {
-      return verifyAlertVariant;
+      return <VerifyAlert headingLevel={4} />;
     }
     return downloadForm;
   }
