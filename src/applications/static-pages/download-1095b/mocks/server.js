@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const delay = require('mocker-api/lib/delay');
 const user = require('./endpoints/user');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
@@ -41,4 +42,4 @@ const generateMockResponses = () => {
   return responseDelay > 0 ? delay(responses, responseDelay) : responses;
 };
 
-module.exports = generateMockResponses();
+module.exports = {};
