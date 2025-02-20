@@ -12,7 +12,7 @@ import VehiclePage from '../components/submit-flow/pages/VehiclePage';
 import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
-import BreadCrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { selectAppointment } from '../redux/selectors';
 
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
@@ -155,7 +155,7 @@ const SubmitFlowWrapper = () => {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-margin-bottom--3">
-        <BreadCrumbs />
+        <Breadcrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
