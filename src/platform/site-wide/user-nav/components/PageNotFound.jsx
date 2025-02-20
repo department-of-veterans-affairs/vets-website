@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import recordEventFn from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-export const pageNotFoundHeading = 'Sorry — we can’t find that page';
+export const pageNotFoundHeading = 'Page not found';
 export const pageNotFoundTitle = 'Page not found | Veterans Affairs';
 export const pageNotFoundTestId = 'page-not-found';
 export const pageNotFoundEvent = 'nav-404-error';
