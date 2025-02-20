@@ -4,16 +4,14 @@ import {
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-export const marriageEndOther = {
+export const marriageEndDescription = {
   uiSchema: {
     ...titleUI({
       title: 'How and when marriage ended',
     }),
     marriageEndDescription: {
       ...textUI('Briefly describe how the marriage ended'),
-      'ui:required': (formData, index) =>
-        formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
-        formData?.marriageEndReason === 'other',
+      // 'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Provide details on how the marriage ended.',
       },
@@ -21,6 +19,7 @@ export const marriageEndOther = {
   },
   schema: {
     type: 'object',
+    required: ['marriageEndDescription'],
     properties: {
       marriageEndDescription: textSchema,
     },
