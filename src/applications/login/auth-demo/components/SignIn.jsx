@@ -23,7 +23,7 @@ const SignIn = ({ onSignIn }) => {
                     id="signin-signup-modal-title"
                     className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
                   >
-                    Sign in or create an account
+                    Sign in to as Delagate
                   </h1>
                 </div>
               </div>
