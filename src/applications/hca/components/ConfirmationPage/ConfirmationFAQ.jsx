@@ -33,7 +33,6 @@ const confirmationFAQ = () => {
         <ul>
           <li>Login.gov</li>
           <li>ID.me</li>
-          <li>Premium My HealtheVet</li>
           <li>Premium DS Logon</li>
         </ul>
         <p>
