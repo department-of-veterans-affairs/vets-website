@@ -67,7 +67,7 @@ const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
       <div className="vads-l-row">
         <div
           className="vads-l-col--12 medium-screen:vads-l-col--8"
-          data-testid="page-not-found"
+          data-testid={pageNotFoundTestId}
         >
           <h1 className="vads-u-margin-top--4">{pageNotFoundHeading}</h1>
           <p>
