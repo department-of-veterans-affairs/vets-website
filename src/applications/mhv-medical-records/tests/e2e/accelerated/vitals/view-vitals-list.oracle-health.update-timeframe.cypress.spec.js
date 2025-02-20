@@ -47,7 +47,7 @@ describe('Medical Records View Vitals', () => {
     Vitals.checkUrl({ timeFrame: '2020-01' });
 
     // This is checking that the breadcrumbs are correct
-    cy.get('breadcrumbs')
+    cy.get('va-breadcrumbs')
       .shadow()
       .find('li')
       .eq(3)
@@ -56,7 +56,7 @@ describe('Medical Records View Vitals', () => {
       .should('have.attr', 'href')
       .and('include', '/vitals?timeFrame=2020-01');
 
-    cy.get('breadcrumbs')
+    cy.get('va-breadcrumbs')
       .shadow()
       .find('li')
       .eq(3)
