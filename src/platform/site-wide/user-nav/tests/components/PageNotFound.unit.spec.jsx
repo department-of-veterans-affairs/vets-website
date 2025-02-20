@@ -7,22 +7,61 @@ import PageNotFound, {
   pageNotFoundTitle,
   pageNotFoundTestId,
   pageNotFoundEvent,
+  helpfulLinks,
 } from '../../components/PageNotFound';
 
+let sandbox;
+let recordEvent;
+
 describe('PageNotFound Component', () => {
-  it('renders', async () => {
-    const recordEvent = sinon.spy();
-    const props = { recordEvent };
-    const { getByRole, getByTestId } = render(<PageNotFound {...props} />);
-    const heading = getByRole('heading', { name: pageNotFoundHeading });
-    expect(heading).to.exist;
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    recordEvent = sandbox.stub();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('can be asserted in other specs via its test id', () => {
+    const { getByTestId } = render(<PageNotFound />);
     getByTestId(pageNotFoundTestId);
+  });
+
+  it('renders a relevant h1, and sets as the active element', async () => {
+    const { getByRole } = render(<PageNotFound />);
+    const heading = getByRole('heading', {
+      name: pageNotFoundHeading,
+      level: 1,
+    });
+    expect(heading).to.exist;
+
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(heading);
+    });
+  });
+
+  it('sets the page title', async () => {
+    render(<PageNotFound />);
+    await waitFor(() => {
+      expect(document.title).to.eql(pageNotFoundTitle);
+    });
+  });
+
+  it('reports to analytics', async () => {
+    const props = { recordEvent };
+    render(<PageNotFound {...props} />);
 
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
       expect(recordEvent.calledWith({ event: pageNotFoundEvent })).to.be.true;
-      expect(document.activeElement).to.eq(heading);
-      expect(document.title).to.eql(pageNotFoundTitle);
+    });
+  });
+
+  it('renders helpful links', () => {
+    const { findByRole } = render(<PageNotFound />);
+    helpfulLinks.forEach(({ href, text }) => {
+      findByRole('link', { name: text, href });
     });
   });
 });
