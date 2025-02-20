@@ -1,8 +1,4 @@
-import {
-  form0781HeadingTag,
-  mentalHealthSupportAlert,
-  titleWithTag,
-} from '../../content/form0781';
+import { form0781HeadingTag, titleWithTag } from '../../content/form0781';
 import {
   howToScanFileInfo,
   manualUploadPageDescription,
@@ -36,9 +32,6 @@ export const uiSchema = {
     ),
     'ui:description': manualUploadRequirementsText,
   },
-  'view:mentalHealthSupportAlert': {
-    'ui:description': mentalHealthSupportAlert,
-  },
 };
 
 export const schema = {
@@ -50,9 +43,5 @@ export const schema = {
       properties: {},
     },
     form781Upload: getAttachmentsSchema(PTSD_781_ATTACHMENT_ID),
-    'view:mentalHealthSupportAlert': {
-      type: 'object',
-      properties: {},
-    },
   },
 };
