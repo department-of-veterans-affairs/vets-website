@@ -7,6 +7,8 @@ import {
   howToScanFileInfo,
   manualUploadPageDescription,
   manualUploadPageTitle,
+  manualUploadRequirementsText,
+  manualUploadRequirementsTextTitle,
 } from '../../content/form0781/manualUploadPage';
 import {
   ancillaryFormUploadUi,
@@ -21,12 +23,19 @@ export const uiSchema = {
   'view:howToScanAFile': {
     'ui:description': howToScanFileInfo,
   },
-  form781Upload: ancillaryFormUploadUi('TESTING', 'PTSD 781 form', {
-    attachmentId: PTSD_781_ATTACHMENT_ID,
-    customClasses: 'upload-completed-form',
-    isDisabled: true,
-    attachmentName: true,
-  }),
+  form781Upload: {
+    ...ancillaryFormUploadUi(
+      manualUploadRequirementsTextTitle,
+      'PTSD 781 form',
+      {
+        attachmentId: PTSD_781_ATTACHMENT_ID,
+        customClasses: 'upload-completed-form',
+        isDisabled: true,
+        attachmentName: true,
+      },
+    ),
+    'ui:description': manualUploadRequirementsText,
+  },
   'view:mentalHealthSupportAlert': {
     'ui:description': mentalHealthSupportAlert,
   },

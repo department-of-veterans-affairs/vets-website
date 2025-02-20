@@ -34,3 +34,18 @@ export const howToScanFileInfo = (
     </div>
   </va-additional-info>
 );
+
+export const manualUploadRequirementsTextTitle = (
+  <>
+    <h4 className="vads-u-font-size--h4">Select a file to upload</h4>
+  </>
+);
+
+export const manualUploadRequirementsText = (
+  <div>
+    <p className="vads-u-font-style--italic">
+      You can upload a .pdf, .jpg, .jpeg, .png, .gif, .bmp, or .txt file. Your
+      file should be no larger than 50MB (non-PDF) or 99 MB (PDF only)
+    </p>
+  </div>
+);
