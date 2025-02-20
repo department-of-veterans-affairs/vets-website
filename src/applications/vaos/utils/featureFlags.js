@@ -26,6 +26,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingOhRequest', value: false },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
   { name: 'vaOnlineSchedulingUseVaDate', value: false },
+  { name: 'vaOnlineSchedulingPastApptDateRange', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },
