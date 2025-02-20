@@ -70,5 +70,5 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  return <ReferralTaskCard data={referral.data} />;
+  return <ReferralTaskCard data={referral?.data} />;
 }
