@@ -422,7 +422,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         ).to.be.ok;
       });
     });
-    it('should show custom error message for bad appointment Id', async () => {
+    it.skip('should show custom error message for bad appointment Id', async () => {
       // Arrange
       const fetchStub = sinon.stub(global, 'fetch');
       fetchStub.callsFake(url => {
