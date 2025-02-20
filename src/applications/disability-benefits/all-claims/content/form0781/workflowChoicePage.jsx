@@ -69,9 +69,9 @@ export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
     'Yes, I want to complete VA Form 21-0781 online',
   [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
-    "Yes, but I've already filled out a PDF of VA Form 21-0781 and I want to upload it to my claim",
+    'Yes, but I’ve already filled out a PDF of VA Form 21-0781 and I want to upload it to my claim',
   [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
-    "No, I don't want to complete VA Form 21-0781 (opt out)",
+    'No, I don’t want to complete VA Form 21-0781 (opt out)',
 });
 
 export const traumaticEventsExamples = (
