@@ -19,6 +19,9 @@ export default {
   '1010ezr': '1010ezr',
   // IVC CHAMPVA form controls
   form107959f1: 'form107959f1',
+  form107959f2: 'form107959f2',
+  form107959c: 'form107959c',
+  form1010d: 'form1010d',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
