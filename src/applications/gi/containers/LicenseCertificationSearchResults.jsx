@@ -108,46 +108,29 @@ export default function LicenseCertificationSearchResults() {
     currentPage * itemsPerPage,
   );
 
-  useEffect(() => {
-    if (!hasFetchedOnce) {
-      dispatch(fetchLicenseCertificationResults());
-    }
-  }, []);
-
   useEffect(
     () => {
-      if (hasFetchedOnce) {
+      if (!hasFetchedOnce) {
+        dispatch(fetchLicenseCertificationResults());
+        return;
+      }
+
+      if (hasFetchedOnce && (allowUpdate || stateParam)) {
         dispatch(
           filterLcResults(
             nameParam ?? '',
-            categoryParams,
-            stateParam,
+            allowUpdate ? activeCategories : categoryParams,
+            allowUpdate ? filterLocation : stateParam,
             filteredResults,
           ),
         );
+
+        if (allowUpdate) {
+          setAllowUpdate(false);
+        }
       }
     },
-    [hasFetchedOnce, stateParam],
-  );
-
-  useEffect(
-    () => {
-      if (allowUpdate) {
-        dispatch(
-          filterLcResults(
-            nameParam ?? '',
-            activeCategories,
-            filterLocation,
-            filteredResults,
-          ),
-        );
-      }
-
-      return () => {
-        setAllowUpdate(false);
-      };
-    },
-    [categoryParams, allowUpdate],
+    [hasFetchedOnce, stateParam, allowUpdate],
   );
 
   useEffect(
@@ -478,11 +461,11 @@ export default function LicenseCertificationSearchResults() {
               text="go back to search"
             />{' '}
             and try using different words or checking the spelling of the words
-            you’re using.
+            you're using.
             <p className="">
-              If you don’t see a test or prep course listed, it may be a valid
-              test that’s not yet approved. We encourage you to submit an
-              application for reimbursement. If approved, we’ll prorate the
+              If you don't see a test or prep course listed, it may be a valid
+              test that's not yet approved. We encourage you to submit an
+              application for reimbursement. If approved, we'll prorate the
               entitlement charges based on the actual amount of the fee charged
               for the test.{' '}
               <va-link
