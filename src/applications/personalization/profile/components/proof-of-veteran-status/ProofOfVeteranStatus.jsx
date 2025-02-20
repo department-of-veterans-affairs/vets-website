@@ -6,7 +6,6 @@ import { generatePdf } from '~/platform/pdf';
 import { focusElement } from '~/platform/utilities/ui';
 import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { apiRequest } from '~/platform/utilities/api';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
@@ -99,11 +98,6 @@ const ProofOfVeteranStatus = ({
     },
   };
 
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const useLighthouseApi = useToggleValue(
-    TOGGLE_NAMES.veteranStatusCardUseLighthouseFrontend,
-  );
-
   useEffect(() => {
     let isMounted = true;
 
@@ -167,36 +161,7 @@ const ProofOfVeteranStatus = ({
   const isVetStatusEligibilityPopulated =
     Object.keys(vetStatusEligibility).length !== 0;
 
-  const componentizedMessage = isVetStatusEligibilityPopulated
-    ? vetStatusEligibility?.message.map(item => {
-        const contactNumber = `${CONTACTS.DS_LOGON.slice(
-          0,
-          3,
-        )}-${CONTACTS.DS_LOGON.slice(3, 6)}-${CONTACTS.DS_LOGON.slice(6)}`;
-        const startIndex = item.indexOf(contactNumber);
-
-        if (startIndex === -1) {
-          return item;
-        }
-
-        const before = item.slice(0, startIndex);
-        const telephone = item.slice(
-          startIndex,
-          startIndex + contactNumber.length + 11,
-        );
-        const after = item.slice(startIndex + telephone.length);
-
-        return (
-          <>
-            {before}
-            <va-telephone contact={contactNumber} /> (
-            <va-telephone contact={CONTACTS[711]} tty />){after}
-          </>
-        );
-      })
-    : null;
-
-  const contactInfoElements = data?.message?.map(item => {
+  const buildContactElements = item => {
     const contactNumber = `${CONTACTS.DS_LOGON.slice(
       0,
       3,
@@ -221,6 +186,16 @@ const ProofOfVeteranStatus = ({
         <va-telephone contact={CONTACTS[711]} tty />){after}
       </>
     );
+  };
+
+  const componentizedMessage = isVetStatusEligibilityPopulated
+    ? vetStatusEligibility?.message.map(item => {
+        return buildContactElements(item);
+      })
+    : null;
+
+  const contactInfoElements = data?.message?.map(item => {
+    return buildContactElements(item);
   });
 
   const systemErrrorAlert = (
@@ -290,61 +265,7 @@ const ProofOfVeteranStatus = ({
           <>
             {userHasRequiredCardData ? (
               <>
-                {!useLighthouseApi ? (
-                  <>
-                    {vetStatusEligibility.confirmed ? (
-                      <>
-                        {errors?.length > 0 ? (
-                          <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                            <va-alert status="error" uswds>
-                              {errors[0]}
-                            </va-alert>
-                          </div>
-                        ) : null}
-                        <div className="vads-l-grid-container--full">
-                          <div className="vads-l-row">
-                            <ProofOfVeteranStatusCard
-                              edipi={edipi}
-                              formattedFullName={formattedFullName}
-                              latestService={latestService}
-                              totalDisabilityRating={totalDisabilityRating}
-                            />
-                          </div>
-                        </div>
-                        <div className="vads-u-font-size--md">
-                          <va-link
-                            active
-                            filetype="PDF"
-                            // exception to eslint: the url is a dynamically generated blob url
-                            // eslint-disable-next-line no-script-url
-                            href="javascript:void(0)"
-                            text="Print your Proof of Veteran status (PDF)"
-                            onClick={createPdf}
-                          />
-                        </div>
-                        <div className="vads-u-margin-y--4">
-                          <MobileAppCallout
-                            headingText="Get proof of Veteran status on your mobile device"
-                            bodyText={
-                              <>
-                                You can use our mobile app to get proof of
-                                Veteran status. To get started, download the{' '}
-                                <strong> VA: Health and Benefits </strong>{' '}
-                                mobile app.
-                              </>
-                            }
-                          />
-                        </div>
-                      </>
-                    ) : null}
-                    {!vetStatusEligibility.confirmed &&
-                    vetStatusEligibility.message.length > 0 ? (
-                      <>{profileApiErrorMessage}</>
-                    ) : null}
-                  </>
-                ) : null}
-
-                {useLighthouseApi && hasConfirmationData ? (
+                {hasConfirmationData ? (
                   <>
                     {data?.attributes?.veteranStatus === 'confirmed' ? (
                       <>
@@ -398,37 +319,29 @@ const ProofOfVeteranStatus = ({
                       <>{lighthouseApiErrorMessage}</>
                     ) : null}
                   </>
-                ) : null}
-
-                {useLighthouseApi && !hasConfirmationData ? (
+                ) : (
                   <>{systemErrrorAlert}</>
-                ) : null}
+                )}
               </>
             ) : null}
 
             {!userHasRequiredCardData ? (
               <>
-                {!useLighthouseApi ? <>{systemErrrorAlert}</> : null}
-
-                {useLighthouseApi ? (
+                {errors?.length > 0 ? (
                   <>
-                    {errors?.length > 0 ? (
-                      <>
-                        <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                          <va-alert status="error" uswds>
-                            {errors[0]}
-                          </va-alert>
-                        </div>
-                      </>
-                    ) : null}
-
-                    {data?.attributes?.veteranStatus === 'confirmed' ? (
-                      <>{profileApiErrorMessage}</>
-                    ) : null}
-                    {data?.attributes?.veteranStatus === 'not confirmed' ? (
-                      <>{lighthouseApiErrorMessage}</>
-                    ) : null}
+                    <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                      <va-alert status="error" uswds>
+                        {errors[0]}
+                      </va-alert>
+                    </div>
                   </>
+                ) : null}
+
+                {data?.attributes?.veteranStatus === 'confirmed' ? (
+                  <>{profileApiErrorMessage}</>
+                ) : null}
+                {data?.attributes?.veteranStatus === 'not confirmed' ? (
+                  <>{lighthouseApiErrorMessage}</>
                 ) : null}
               </>
             ) : null}
