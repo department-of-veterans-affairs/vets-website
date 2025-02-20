@@ -18,7 +18,7 @@ export default function Breadcrumbs() {
   const { apptId, id: claimId } = useParams();
 
   const isSubmitWrapper = new RegExp(
-    /\/file-new-claim\//.source + uuidRegex.source,
+    /\/file-new-claim\//.source + apptId,
     'i',
   ).test(pathname);
 
