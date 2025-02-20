@@ -178,15 +178,15 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     </va-alert>
   );
 
-  // if(loading) {
-  //   console.log('1 loggedIn', loggedIn)
-  //   return (
-  //     <va-loading-indicator
-  //       label="Loading"
-  //       message="Loading your 1095-B information..."
-  //     />
-  //   )
-  // }
+  if(loading) {
+    console.log('1 loggedIn', loggedIn)
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading your 1095-B information..."
+      />
+    )
+  }
 
   // if (!displayToggle) {
   //   return unavailableComponent();
