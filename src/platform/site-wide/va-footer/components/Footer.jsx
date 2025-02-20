@@ -2,7 +2,7 @@
 // Node modules.
 import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { debounce } from 'lodash';
 // Relative imports.
 import { langSelectedAction } from 'applications/static-pages/i18Select/actions';
@@ -16,13 +16,19 @@ import { replaceWithStagingDomain } from '../../../utilities/environment/staging
 
 const Footer = ({
   footerData,
-  minimalFooter,
+  showMinimalFooter,
   dispatchLanguageSelection,
   languageCode,
   onFooterLoad,
 }) => {
+  const path = useSelector(state => state?.navigation?.route?.path);
   const linkObj = useMemo(() => createLinkGroups(footerData), []);
   const [isMobile, setIsMobile] = useState(!isWideScreen());
+  const [isMinimalFooter, setIsMinimalFooter] = useState(
+    typeof showMinimalFooter === 'function'
+      ? showMinimalFooter(path)
+      : showMinimalFooter,
+  );
 
   useEffect(() => {
     const onResize = debounce(() => {
@@ -35,10 +41,21 @@ const Footer = ({
     return () => window.removeEventListener('resize', onResize);
   }, []);
 
+  useEffect(
+    () => {
+      setIsMinimalFooter(
+        typeof showMinimalFooter === 'function'
+          ? showMinimalFooter(path)
+          : showMinimalFooter,
+      );
+    },
+    [showMinimalFooter, path],
+  );
+
   return (
     <div>
       <div className="footer-inner">
-        <DesktopLinks visible={!minimalFooter && !isMobile} links={linkObj} />
+        <DesktopLinks visible={!isMinimalFooter && !isMobile} links={linkObj} />
         <MobileLinks
           visible={isMobile}
           links={linkObj}
@@ -46,9 +63,9 @@ const Footer = ({
             dispatchLanguageSelection,
             languageCode,
           }}
-          minimalFooter={minimalFooter}
+          minimalFooter={isMinimalFooter}
         />
-        {!minimalFooter &&
+        {!isMinimalFooter &&
           !isMobile && (
             <LanguageSupport
               isDesktop
@@ -69,7 +86,7 @@ const Footer = ({
             />
           </a>
         </div>
-        {!minimalFooter && (
+        {!isMinimalFooter && (
           <div className="usa-grid usa-grid-full va-footer-links-bottom">
             {linkObj.bottomLinks}
           </div>
@@ -90,9 +107,9 @@ const mapStateToProps = state => ({
 
 Footer.propTypes = {
   footerData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  minimalFooter: PropTypes.bool.isRequired,
   dispatchLanguageSelection: PropTypes.func,
   languageCode: PropTypes.string,
+  showMinimalFooter: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   onFooterLoad: PropTypes.func,
 };
 
