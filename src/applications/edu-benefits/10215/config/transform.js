@@ -1,8 +1,7 @@
 import { cloneDeep } from 'lodash';
-import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { getFTECalcs } from '../helpers';
 
-export default function transform(formConfig, form) {
+export default function transform(form) {
   const formData = cloneDeep(form);
   //
   // Include total enrolled FTE And supported student percentage FTE if 10+ supported students enrolled
@@ -29,13 +28,24 @@ export default function transform(formConfig, form) {
     }
     return program;
   });
-  // Strip Statement of truth checkbox value
+
+  // Strip view fieldds and statement of truth checkbox value
+  for (const i of formData.data.programs) {
+    delete i['view:calcs'];
+  }
   delete formData.data.statementOfTruthCertified;
-  const transformedData = transformForSubmit(formConfig, formData);
+  delete formData.data['view:programsSummary'];
+
+  // Send date signed
+  let today = new Date();
+  const offset = today.getTimezoneOffset();
+  today = new Date(today.getTime() - offset * 60 * 1000);
+  // eslint-disable-next-line prefer-destructuring
+  formData.data.dateSigned = today.toISOString().split('T')[0];
 
   return JSON.stringify({
     educationBenefitsClaim: {
-      form: transformedData,
+      form: JSON.stringify(formData.data),
     },
   });
 }

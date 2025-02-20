@@ -10,6 +10,7 @@ const uiSchema = {
     first: {
       ...textUI({
         title: 'First name',
+        hint: '',
         errorMessages: {
           required: 'First name is required',
         },
@@ -18,6 +19,7 @@ const uiSchema = {
     last: {
       ...textUI({
         title: 'Last name',
+        hint: '',
         errorMessages: {
           required: 'Last name is required',
         },
@@ -26,6 +28,7 @@ const uiSchema = {
     title: {
       ...textUI({
         title: 'Your title',
+        hint: '',
         errorMessages: {
           required: 'Please enter a title',
         },
