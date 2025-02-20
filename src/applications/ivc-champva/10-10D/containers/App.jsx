@@ -55,7 +55,7 @@ export default function App({ location, children }) {
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[externalServices.pega]}
+              dependencies={[externalServices.pega, externalServices.form1010d]}
             >
               {children}
             </DowntimeNotification>
