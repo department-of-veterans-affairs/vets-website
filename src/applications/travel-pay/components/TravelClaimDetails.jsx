@@ -11,7 +11,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { HelpTextManage } from './HelpText';
-import BreadCrumbs from './Breadcrumbs';
+import Breadcrumbs from './Breadcrumbs';
 import ClaimDetailsContent from './ClaimDetailsContent';
 
 export default function TravelClaimDetails() {
@@ -99,7 +99,7 @@ export default function TravelClaimDetails() {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         {claimsError && <h1>There was an error loading the claim details.</h1>}
         {claimDetails && <ClaimDetailsContent {...claimDetails} />}
         <hr />
