@@ -1,28 +1,36 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
-import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import {
+  VaAlertSignIn,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
+import VerifyAlert from '~/platform/user/authorization/components/VerifyAlert';
 
+import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
 import {
   notFoundComponent,
   unavailableComponent,
   phoneComponent,
   LastUpdatedComponent,
 } from './utils';
-
 import '../../sass/download-1095b.scss';
 
-export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
+function blobToBase64(_blob) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(_blob);
+  });
+}
+
+export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
@@ -30,12 +38,8 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const getFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)
       .then(response => response.blob())
-      .then(blob => {
-        return window.URL.createObjectURL(blob);
-      })
-      .catch(() => {
-        updateFormError({ error: true, type: 'download error' });
-        return false;
+      .then(async blob => {
+        return window?.Cypress ? blobToBase64(blob) : URL.createObjectURL(blob);
       });
   };
 
@@ -47,7 +51,14 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         }
         return response.availableForms;
       })
-      .catch(() => updateFormError({ error: true, type: 'not found' }));
+      .catch(() => {
+        updateFormError({ error: true, type: 'not found' });
+        return null; // Return null in case of an error
+      });
+  };
+
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'ask-va', true);
   };
 
   const downloadFileToUser = format => {
@@ -70,7 +81,11 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     () => {
       getAvailableForms().then(result => {
         const mostRecentYearData = result[0];
-        if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
+        if (
+          mostRecentYearData &&
+          mostRecentYearData?.lastUpdated &&
+          mostRecentYearData?.year
+        ) {
           const date = new Date(mostRecentYearData.lastUpdated);
           const options = { year: 'numeric', month: 'long', day: 'numeric' };
           // expected output (varies according to local timezone and default locale): December 20, 2012
@@ -128,7 +143,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             id="pdf-download-link"
             label="Download PDF (best for printing)"
             text="Download PDF (best for printing)"
-            filetype="PDF"
             onClick={e => {
               e.preventDefault();
               recordEvent({ event: '1095b-pdf-download' });
@@ -142,7 +156,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             id="txt-download-link"
             label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
             text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
-            filetype="TEXT"
             onClick={e => {
               e.preventDefault();
               recordEvent({ event: '1095b-txt-download' });
@@ -155,25 +168,14 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const loggedOutComponent = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h2 slot="headline">
-        Please sign in to download your 1095-B tax document
-      </h2>
-      <div>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
-      </div>
-      <va-button
-        onClick={() => toggleLoginModal(true)}
-        primary-alternate
-        text="Sign in or create an account"
-        className="vads-u-margin-top--2"
-      />
-    </va-alert>
+    <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+      <span slot="SignInButton">
+        <VaButton
+          text="Sign in or create an account"
+          onClick={showSignInModal}
+        />
+      </span>
+    </VaAlertSignIn>
   );
 
   if (!displayToggle) {
@@ -183,20 +185,24 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     if (formError.error) {
       return getErrorComponent();
     }
+    if (isLOA1) {
+      return <VerifyAlert headingLevel={4} />;
+    }
     return downloadForm;
   }
   return loggedOutComponent;
 };
 
 App.propTypes = {
-  toggleLoginModal: PropTypes.func.isRequired,
   displayToggle: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  toggleLoginModal: PropTypes.func.isRequired,
 };
-
 const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
-  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
+  displayToggle: state?.featureToggles?.showDigitalForm1095b,
+  isLOA1: isLOA1Selector(state),
+  loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
