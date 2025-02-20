@@ -21,7 +21,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import { StorageAdapter } from '../../_mock-form-ae-design-patterns/vadx/utils/StorageAdapter';
+import { StorageAdapter } from '../utils/StorageAdapter';
 import {
   closeReviewChapter,
   openReviewChapter,
