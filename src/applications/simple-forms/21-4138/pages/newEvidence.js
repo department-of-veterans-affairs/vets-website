@@ -4,10 +4,7 @@ import { NEW_EVIDENCE_HANDOFF } from '../config/constants';
 /** @type {PageSchema} */
 export const claimStatusToolPage = {
   uiSchema: {
-    ...titleUI({
-      title: "There's a better way to request your personal records",
-      headerLevel: 1,
-    }),
+    ...titleUI("There's a better way to submit new evidence"),
     'view:newEvidenceHandoffContent': {
       'ui:description': NEW_EVIDENCE_HANDOFF,
     },
