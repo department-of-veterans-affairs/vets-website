@@ -80,11 +80,14 @@ export function has409LevelError(error) {
   return getErrorCodes(error).some(code => code.startsWith('VAOS_409'));
 }
 
-export function get404AppointmentIdError() {
+export function has404AppointmentIdError(error) {
+  let isBadAppointmentId = false;
   const message = 'Appointment not found for appointmentId';
-  const error = new Error('Bad AppointmentId');
-  error.code = 'VAOS_404';
-  error.status = '404';
-  error.cause = message;
-  return error;
+  if (Object.values(error).includes('OperationOutcome')) {
+    // error response transformed into mapToFHIRErrors pattern
+    isBadAppointmentId =
+      error?.issue[0]?.code === 'VAOS_404' &&
+      error?.issue[0]?.source?.vamfBody?.includes(message);
+  }
+  return isBadAppointmentId;
 }

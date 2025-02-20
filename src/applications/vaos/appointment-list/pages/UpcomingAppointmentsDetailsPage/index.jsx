@@ -34,7 +34,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const {
     appointment,
     appointmentDetailsStatus,
-    error,
+    isBadAppointmentId,
     facilityData,
     useV2,
   } = useSelector(
@@ -125,10 +125,7 @@ export default function UpcomingAppointmentsDetailsPage() {
     },
     [appointmentDetailsStatus, appointment],
   );
-  if (
-    appointmentDetailsStatus === FETCH_STATUS.failed &&
-    error.code === 'VAOS_404'
-  ) {
+  if (appointmentDetailsStatus === FETCH_STATUS.failed && isBadAppointmentId) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
         <div aria-atomic="true" aria-live="assertive">

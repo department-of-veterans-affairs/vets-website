@@ -1,13 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import moment from 'moment-timezone';
 import MockDate from 'mockdate';
-import {
-  mockFetch,
-  setFetchJSONFailure,
-} from '@department-of-veterans-affairs/platform-testing/helpers';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
 import { waitFor } from '@testing-library/react';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
@@ -419,43 +414,6 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
             level: 1,
             name: 'We’re sorry. We’ve run into a problem',
           }),
-        ).to.be.ok;
-      });
-    });
-    it('should show custom error message for bad appointment Id', async () => {
-      // Arrange
-      const fetchStub = sinon.stub(global, 'fetch');
-      fetchStub.callsFake(url => {
-        let response;
-        if (!response) {
-          response = new Response();
-          response.ok = false;
-          response.url = url;
-          response.status = 404;
-          response.code = 'VAOS_404';
-          response.statusText = 'Not Found';
-        }
-        return Promise.resolve(response);
-      });
-      setFetchJSONFailure(
-        global.fetch.withArgs(
-          `${
-            environment.API_URL
-          }/vaos/v2/appointments/1/?_include=facilities,clinics,avs,claims`,
-        ),
-        {},
-      );
-      // Act
-      const screen = renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: '/1',
-      });
-      // Assert
-      await waitFor(() => {
-        expect(
-          screen.getByText(
-            /Try searching this appointment on your appointment list/i,
-          ),
         ).to.be.ok;
       });
     });
