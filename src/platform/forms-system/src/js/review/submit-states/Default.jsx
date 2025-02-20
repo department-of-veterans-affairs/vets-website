@@ -14,7 +14,7 @@ export default function Default({
   const ariaDescribedBy = formConfig?.ariaDescribedBySubmit ?? null;
   const hideBackButton = formConfig?.useTopBackLink || false;
 
-  const progressButton = (
+  const renderProgressButton = () => (
     <ProgressButton
       ariaDescribedBy={ariaDescribedBy}
       onButtonClick={onSubmit}
@@ -29,7 +29,9 @@ export default function Default({
       <Row classNames="form-progress-buttons vads-u-display--flex vads-u-margin-y--2">
         {hideBackButton ? (
           <>
-            <Column classNames="vads-u-flex--1">{progressButton}</Column>
+            <Column classNames="vads-u-flex--1">
+              {renderProgressButton()}
+            </Column>
             <Column classNames="vads-u-flex--1" />
           </>
         ) : (
@@ -37,7 +39,9 @@ export default function Default({
             <Column classNames="vads-u-flex--1">
               <Back onButtonClick={onBack} />
             </Column>
-            <Column classNames="vads-u-flex--1">{progressButton}</Column>
+            <Column classNames="vads-u-flex--1">
+              {renderProgressButton()}
+            </Column>
           </>
         )}
       </Row>
