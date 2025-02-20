@@ -1,10 +1,7 @@
-// Node modules.
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { apiRequest } from 'platform/utilities/api';
-// Relative imports.
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import {
   VaAlertSignIn,
@@ -30,76 +27,11 @@ function blobToBase64(_blob) {
   });
 }
 
-export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
-  const [lastUpdated, updateLastUpdated] = useState('');
-  const [year, updateYear] = useState(0);
-  const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
-
-  const getFile = format => {
-    return apiRequest(`/form1095_bs/download_${format}/${year}`)
-      .then(response => response.blob())
-      .then(async blob => {
-        return window?.Cypress ? blobToBase64(blob) : URL.createObjectURL(blob);
-      });
-  };
-
-  const getAvailableForms = () => {
-    return apiRequest('/form1095_bs/available_forms')
-      .then(response => {
-        if (response.errors || !response.availableForms.length) {
-          updateFormError({ error: true, type: 'not found' });
-        }
-        return response.availableForms;
-      })
-      .catch(() => {
-        updateFormError({ error: true, type: 'not found' });
-        return null; // Return null in case of an error
-      });
-  };
-
-  const showSignInModal = () => {
-    toggleLoginModal(true, 'ask-va', true);
-  };
-
-  const downloadFileToUser = format => {
-    getFile(format).then(result => {
-      if (result) {
-        const a = document.createElement('a');
-        a.href = result;
-        a.target = '_blank';
-        a.download = `1095B-${year}.${format}`;
-
-        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-        a.click();
-        a.remove(); // removes element from the DOM
-        updateFormError({ error: false, type: '' });
-      }
-    });
-  };
-
-  useEffect(
-    () => {
-      getAvailableForms().then(result => {
-        const mostRecentYearData = result[0];
-        if (
-          mostRecentYearData &&
-          mostRecentYearData?.lastUpdated &&
-          mostRecentYearData?.year
-        ) {
-          const date = new Date(mostRecentYearData.lastUpdated);
-          const options = { year: 'numeric', month: 'long', day: 'numeric' };
-          // expected output (varies according to local timezone and default locale): December 20, 2012
-          updateLastUpdated(date.toLocaleDateString(undefined, options));
-          updateYear(mostRecentYearData.year);
-        } else {
-          updateFormError({ error: true, type: 'not found' });
-        }
-      });
-    },
-    [loggedIn],
-  );
-
-  const errorComponent = (
+const getErrorComponent = (formError, lastUpdated) => {
+  if (formError.type === 'not found') {
+    return notFoundComponent();
+  }
+  return (
     <>
       <LastUpdatedComponent lastUpdated={lastUpdated} />
       <va-alert
@@ -118,13 +50,84 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
       </va-alert>
     </>
   );
+};
 
-  const getErrorComponent = () => {
-    if (formError.type === 'not found') {
-      return notFoundComponent();
-    }
-    return errorComponent;
+const getFile = (format, year) => {
+  return apiRequest(`/form1095_bs/download_${format}/${year}`)
+    .then(response => response.blob())
+    .then(async blob => {
+      return window?.Cypress ? blobToBase64(blob) : URL.createObjectURL(blob);
+    });
+};
+
+export const App = () => {
+  const dispatch = useDispatch();
+  const displayToggle = useSelector(
+    state => state?.featureToggles?.showDigitalForm1095b,
+  );
+  const isLOA1 = useSelector(isLOA1Selector);
+  const loggedIn = useSelector(state => state?.user?.login?.currentlyLoggedIn);
+
+  const [lastUpdated, updateLastUpdated] = useState('');
+  const [year, updateYear] = useState(0);
+  const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+
+  const getAvailableForms = () => {
+    return apiRequest('/form1095_bs/available_forms')
+      .then(response => {
+        if (
+          response.errors ||
+          !response?.availableForms?.length ||
+          response?.availableForms?.length <= 0
+        ) {
+          updateFormError({ error: true, type: 'not found' });
+        }
+
+        return response.availableForms[0];
+      })
+      .catch(() => {
+        updateFormError({ error: true, type: 'not found' });
+        return null; // Return null in case of an error
+      });
   };
+
+  const showSignInModal = () => {
+    dispatch(toggleLoginModal(true, '1095b-download', true));
+  };
+
+  const downloadFileToUser = format => {
+    getFile(format, year).then(result => {
+      if (result) {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        a.download = `1095B-${year}.${format}`;
+
+        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+        a.click();
+        a.remove(); // removes element from the DOM
+        updateFormError({ error: false, type: '' });
+      }
+    });
+  };
+
+  useEffect(
+    () => {
+      if (loggedIn) {
+        getAvailableForms().then(mostRecentYearData => {
+          if (!mostRecentYearData) {
+            return;
+          }
+          const date = new Date(mostRecentYearData?.lastUpdated);
+          const options = { year: 'numeric', month: 'long', day: 'numeric' };
+          // expected output (varies according to local timezone and default locale): December 20, 2012
+          updateLastUpdated(date.toLocaleDateString(undefined, options));
+          updateYear(mostRecentYearData.year);
+        });
+      }
+    },
+    [loggedIn],
+  );
 
   const downloadForm = (
     <va-card>
@@ -181,35 +184,20 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   if (!displayToggle) {
     return unavailableComponent();
   }
+
+  if (formError.error) {
+    return getErrorComponent(formError, lastUpdated);
+  }
+
+  if (isLOA1) {
+    return <VerifyAlert headingLevel={4} />;
+  }
+
   if (loggedIn) {
-    if (formError.error) {
-      return getErrorComponent();
-    }
-    if (isLOA1) {
-      return <VerifyAlert headingLevel={4} />;
-    }
     return downloadForm;
   }
+
   return loggedOutComponent;
 };
 
-App.propTypes = {
-  displayToggle: PropTypes.bool,
-  isLOA1: PropTypes.bool,
-  loggedIn: PropTypes.bool,
-  toggleLoginModal: PropTypes.func.isRequired,
-};
-const mapStateToProps = state => ({
-  displayToggle: state?.featureToggles?.showDigitalForm1095b,
-  isLOA1: isLOA1Selector(state),
-  loggedIn: state?.user?.login?.currentlyLoggedIn,
-});
-
-const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default App;

@@ -1,6 +1,13 @@
+import set from 'lodash/set';
 import { form, featureToggles, defaultUser } from './e2e/fixtures/mocks/mocks';
 
-describe('Authed 1095-B Form Download PDF', () => {
+describe('Unverified authenticated', () => {
+  const mockedUnverifiedUser = set(
+    defaultUser,
+    'data.attributes.profile.loa.current',
+    1,
+  );
+
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', featureToggles).as(
       'featureToggles',
@@ -17,12 +24,12 @@ describe('Authed 1095-B Form Download PDF', () => {
       statusCode: 200,
     });
 
-    cy.login(defaultUser);
+    cy.login(mockedUnverifiedUser);
     cy.visit('/health-care/download-1095b/');
     cy.wait(['@featureToggles', '@form']);
   });
 
-  it('downloads the 1095-B PDF form', () => {
+  it('displays the verify alerts', () => {
     cy.get('body').should('be.visible');
     cy.injectAxeThenAxeCheck();
     cy.title().should('contain', '1095B Download | Veterans Affairs');
@@ -30,20 +37,7 @@ describe('Authed 1095-B Form Download PDF', () => {
 
     cy.axeCheck();
 
-    cy.get('#pdf-download-link').should('be.visible');
-    cy.get('#txt-download-link').should('be.visible');
-
-    cy.get('#pdf-download-link')
-      .click()
-      .then(() => {
-        cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.pdf`);
-      });
-
-    cy.get('#txt-download-link')
-      .click()
-      .then(() => {
-        cy.readFile(`${Cypress.config('downloadsFolder')}/1095B-2021.txt`);
-      });
+    cy.get('va-alert-sign-in').should('be.visible');
 
     cy.axeCheck();
   });

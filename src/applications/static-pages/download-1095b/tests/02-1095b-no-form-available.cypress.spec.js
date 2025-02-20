@@ -1,4 +1,3 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import { formUnavailable, featureToggles } from './e2e/fixtures/mocks/mocks';
 
 describe('No 1095-B Form Available for Download', () => {
@@ -18,9 +17,7 @@ describe('No 1095-B Form Available for Download', () => {
     cy.get('body').should('be.visible');
     cy.injectAxeThenAxeCheck();
     cy.title().should('contain', '1095B Download | Veterans Affairs');
-    cy.get('.usa-content', {
-      timeout: Timeouts.slow,
-    }).should('be.visible');
+    cy.get('.usa-content').should('be.visible');
 
     cy.axeCheck();
 
