@@ -12,7 +12,7 @@ export default function Default({
   onSubmit,
 }) {
   const ariaDescribedBy = formConfig?.ariaDescribedBySubmit ?? null;
-  const hideBackButton = formConfig?.preSubmitInfo?.hideBackButton || false;
+  const hideBackButton = formConfig?.useTopBackLink || false;
 
   const progressButton = (
     <ProgressButton
