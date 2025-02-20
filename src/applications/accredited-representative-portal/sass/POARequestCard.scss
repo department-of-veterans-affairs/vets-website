@@ -116,6 +116,22 @@
         flex-wrap: wrap;
       }
 
+      &--submission-status {
+        font-weight: 700;
+
+        @media (min-width: $small-desktop-screen) {
+          display: flex;
+          align-items: center;
+        }
+
+        [icon="error"] {
+          color: $vads-color-error;
+        }
+        [icon] {
+          margin-right: 6px;
+        }
+      }
+
       &--label {
         font-weight: 700;
         margin-bottom: 0;

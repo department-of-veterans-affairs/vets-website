@@ -8,6 +8,7 @@ import {
   expiresSoon,
   formatStatus,
   resolutionDate,
+  BANNER_TYPES,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
@@ -47,12 +48,6 @@ const DECISION_OPTIONS = {
     reason: null,
   },
   ...DECLINATION_OPTIONS,
-};
-
-// processing will show up once rep accepts the request. Once it is accepted there will be a green status alert that says accepted - see decision_types above
-const BANNER_TYPES = {
-  PROCESSING: 'PENDING',
-  FAILED: 'FAILED',
 };
 
 const PROCESSING_BANNER = {

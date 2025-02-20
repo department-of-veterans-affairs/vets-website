@@ -119,6 +119,11 @@
   &__subtitle {
     margin: 0;
 
+    .poa-request__card-field--label & {
+      margin-left: 5px;
+      font-weight: normal;
+    }
+
     .poa-request-details__list & {
       margin-bottom: 24px;
       display: block;
