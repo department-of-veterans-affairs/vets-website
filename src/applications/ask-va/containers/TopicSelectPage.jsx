@@ -58,8 +58,12 @@ const TopicSelectPage = props => {
     if (selected.attributes.requiresAuthentication && !loggedIn) {
       setShowModal(true);
     } else {
-      dispatch(setTopicID(selected.id));
-      onChange({ ...formData, selectTopic: selectedValue });
+      dispatch(setTopicID(selected.id)); // askVA store topicID
+      onChange({
+        ...formData,
+        selectTopic: selectedValue,
+        topicId: selected.id,
+      });
     }
   };
 
@@ -155,7 +159,7 @@ function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
     formData: state.form.data,
-    categoryID: state.askVA.categoryID,
+    categoryID: state.form.data.categoryId,
   };
 }
 

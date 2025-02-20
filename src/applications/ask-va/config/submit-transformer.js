@@ -24,10 +24,9 @@ const getFiles = files => {
   });
 };
 
-export default function submitTransformer(formData, uploadFiles, askVAStore) {
+export default function submitTransformer(formData, uploadFiles) {
   return {
     ...formData,
-    ...askVAStore,
     files: getFiles(uploadFiles),
     SchoolObj: {
       InstitutionName: getSchoolInfo(formData.school)?.name,
