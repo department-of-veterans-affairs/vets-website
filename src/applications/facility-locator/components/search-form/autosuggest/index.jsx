@@ -6,7 +6,7 @@ import InputWithClear from './InputWithClear';
 import AutosuggestOption from './AutosuggestOption';
 import AutosuggestOptions from './AutosuggestOptions';
 import './sass/autosuggest.scss';
-import { AutosuggestProps } from '../../types';
+import { AutosuggestProps } from '../../../types';
 import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 
 function Autosuggest({

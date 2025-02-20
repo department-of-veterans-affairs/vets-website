@@ -15,7 +15,6 @@ export const marriageEndDetails = {
     }),
     marriageEndDate: {
       ...currentOrPastDateUI('When did this marriage end?'),
-      'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Enter the date the marriage ended.',
       },
@@ -23,7 +22,6 @@ export const marriageEndDetails = {
     marriageEndReason: {
       ...radioUI({
         title: 'How did the marriage end?',
-        required: () => true,
         labels: {
           death: 'Their former spouse died',
           divorce: 'They divorced',
@@ -34,13 +32,9 @@ export const marriageEndDetails = {
     },
     marriageEndDescription: {
       ...textUI('Briefly describe how the marriage ended'),
-      'ui:required': (formData, index) => {
-        const isEditMode = formData?.marriageEndReason === 'other';
-        const isAddMode =
-          formData?.childrenToAdd?.[index]?.marriageEndReason === 'other';
-
-        return isEditMode || isAddMode;
-      },
+      'ui:required': (formData, index) =>
+        formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
+        formData?.marriageEndReason === 'other',
       'ui:options': {
         expandUnder: 'marriageEndReason',
         expandUnderCondition: (value, _formData) => {
