@@ -734,6 +734,8 @@ export const convertDateForInquirySubheader = dateString => {
     utcDate.setUTCMinutes(utcDate.getMinutes());
     utcDate.setUTCSeconds(utcDate.getSeconds());
   } catch (error) {
+    // TODO: This catch block doesn't seem to be hit in testing. johall-tw
+    // istanbul ignore next
     return 'Invalid Date';
   }
 
@@ -748,7 +750,8 @@ export const convertDateForInquirySubheader = dateString => {
     'America/New_York',
     "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
     { locale: enUS },
-  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+    // ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  ).replace(/[AaPp]\.{0,1}[Mm]\.{0,1}/, match => `${match.toLowerCase()}`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {
@@ -786,8 +789,12 @@ export const getFiles = files => {
   });
 };
 
+export const getFileSizeMB = size => size * 0.00000095367432;
+
 export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
-  const fileSizeText = fileSize ? ` (${(fileSize * 0.001).toFixed(2)} MB)` : '';
+  const fileSizeText = fileSize
+    ? ` (${getFileSizeMB(fileSize).toFixed(2)} MB)`
+    : '';
 
   return (
     <a href={fileUrl} download={fileName}>

@@ -26,7 +26,7 @@
 
       p {
         margin: 4px 0 14px;
-        color: $vads-color-gray-medium;
+        color: $vads-color-base;
       }
 
       .poa-request-details__form--error & {
@@ -119,8 +119,17 @@
   &__subtitle {
     margin: 0;
 
+    .poa-request__card-field--label & {
+      margin-left: 5px;
+      font-weight: normal;
+    }
+
     .poa-request-details__list & {
       margin-bottom: 24px;
+      display: block;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 0;
+      }
     }
 
     .poa-request-details__list-item:last-child & {
@@ -178,5 +187,11 @@
 
   &__info {
     max-width: 650px;
+  }
+}
+.processing-date {
+  > span {
+    font-weight: bold;
+    margin-left: 3px;
   }
 }

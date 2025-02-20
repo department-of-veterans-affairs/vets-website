@@ -9,6 +9,9 @@ import * as additionalInformationPage from '../../pages/form0781/additionalInfor
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
 import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
+import * as reassignmentDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/reassignmentDescriptionPage';
+import * as unlistedDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/unlistedDescriptionPage';
+import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
 import {
   showForm0781Pages,
   showManualUpload0781Page,
@@ -17,6 +20,9 @@ import {
   showBehaviorIntroPage,
   showBehaviorIntroCombatPage,
   showBehaviorListPage,
+  showReassignmentDescriptionPage,
+  showUnlistedDescriptionPage,
+  showBehaviorSummaryPage,
 } from '../../utils/form0781';
 
 /**
@@ -26,32 +32,31 @@ import {
  */
 export const form0781PagesConfig = {
   workflowChoicePage: {
-    path: 'additional-forms/mental-health-statement',
+    path: 'mental-health-form-0781/workflow',
     depends: formData => showForm0781Pages(formData),
     uiSchema: workflowChoicePage.uiSchema,
     schema: workflowChoicePage.schema,
   },
   manualUploadPage: {
-    path:
-      'disability/file-disability-claim-form-21-526ez/additional-forms/mental-health-statement/upload',
+    path: 'mental-health-form-0781/upload',
     uiSchema: manualUploadPage.uiSchema,
     depends: formData => showManualUpload0781Page(formData),
     schema: manualUploadPage.schema,
   },
   mentalHealthSupport: {
-    path: 'additional-forms/mental-health-statement/support',
+    path: 'mental-health-form-0781/support',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: mentalHealthSupport.uiSchema,
     schema: mentalHealthSupport.schema,
   },
   eventsIntro: {
-    path: 'additional-forms/mental-health-statement/events',
+    path: 'mental-health-form-0781/events',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: eventsIntro.uiSchema,
     schema: eventsIntro.schema,
   },
   eventTypes: {
-    path: 'additional-forms/mental-health-statement/events-type',
+    path: 'mental-health-form-0781/events-type',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: eventTypes.uiSchema,
     schema: eventTypes.schema,
@@ -59,32 +64,50 @@ export const form0781PagesConfig = {
   ...traumaticEventsPages,
   // Behavioral Changes Pages
   behaviorIntroPage: {
-    path: 'additional-forms/mental-health-statement/behavior-changes',
+    path: 'mental-health-form-0781/behavior-changes',
     depends: formData => showBehaviorIntroPage(formData),
     uiSchema: behaviorIntroPage.uiSchema,
     schema: behaviorIntroPage.schema,
   },
   behaviorIntroCombatPage: {
-    path: 'additional-forms/mental-health-statement/behavior-changes-combat',
+    path: 'mental-health-form-0781/behavior-changes-combat',
     depends: formData => showBehaviorIntroCombatPage(formData),
     uiSchema: behaviorIntroCombatPage.uiSchema,
     schema: behaviorIntroCombatPage.schema,
   },
   behaviorListPage: {
-    path: 'additional-forms/mental-health-statement/behavior-changes-list',
+    path: 'mental-health-form-0781/behavior-changes-list',
     depends: formData => showBehaviorListPage(formData),
     uiSchema: behaviorListPage.uiSchema,
     schema: behaviorListPage.schema,
   },
+  reassignmentDescriptionPage: {
+    path: 'mental-health-form-0781/behavior-changes-1-description',
+    depends: formData => showReassignmentDescriptionPage(formData),
+    uiSchema: reassignmentDescriptionPage.uiSchema,
+    schema: reassignmentDescriptionPage.schema,
+  },
+  unlistedDescriptionPage: {
+    path: 'mental-health-form-0781/behavior-changes-2-description',
+    depends: formData => showUnlistedDescriptionPage(formData),
+    uiSchema: unlistedDescriptionPage.uiSchema,
+    schema: unlistedDescriptionPage.schema,
+  },
+  behaviorSummaryPage: {
+    path: 'mental-health-form-0781/behavior-changes-summary',
+    depends: formData => showBehaviorSummaryPage(formData),
+    uiSchema: behaviorSummaryPage.uiSchema,
+    schema: behaviorSummaryPage.schema,
+  },
   // Conclusion Pages
   consentPage: {
-    path: 'additional-forms/mental-health-statement/consent',
+    path: 'mental-health-form-0781/consent',
     depends: formData => isRelatedToMST(formData),
     uiSchema: consentPage.uiSchema,
     schema: consentPage.schema,
   },
   additionalInformationPage: {
-    path: 'additional-forms/mental-health-statement/additional-information',
+    path: 'mental-health-form-0781/additional-information',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: additionalInformationPage.uiSchema,
     schema: additionalInformationPage.schema,

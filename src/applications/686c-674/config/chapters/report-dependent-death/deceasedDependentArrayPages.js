@@ -17,6 +17,8 @@ import {
   ssnSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  dateOfDeathUI,
+  dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -27,7 +29,7 @@ import {
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import { customLocationSchema } from '../../helpers';
+import { customLocationSchema, generateHelpText } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -62,7 +64,7 @@ export const deceasedDependentOptions = {
         return label;
       }
 
-      return 'Unknown'; // Default if `dependentType` is null for some reason
+      return 'Unknown'; // Default if `dependentType` is undefined for some reason
     },
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
@@ -169,6 +171,7 @@ export const deceasedDependentChildTypePage = {
         labels: childTypeLabels,
         required: () => true,
       }),
+      'ui:description': generateHelpText('Check all that apply'),
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.deaths?.[index];
@@ -198,7 +201,7 @@ export const deceasedDependentDateOfDeathPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'When did this dependent die?',
     ),
-    dependentDeathDate: currentOrPastDateUI({
+    dependentDeathDate: dateOfDeathUI({
       title: 'Date of death',
       required: () => true,
     }),
@@ -206,7 +209,7 @@ export const deceasedDependentDateOfDeathPage = {
   schema: {
     type: 'object',
     properties: {
-      dependentDeathDate: currentOrPastDateSchema,
+      dependentDeathDate: dateOfDeathSchema,
     },
   },
 };

@@ -6,22 +6,13 @@ import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 
 const faqs = [
   {
-    question: 'What is the difference between a license and certification?',
-    answer: (
-      <p className="faq-answer">
-        A license is granted by the state or a governing authority; whereas, a
-        certification is granted by professional organizations or associations.
-      </p>
-    ),
-  },
-  {
     question: 'What will my benefits cover?',
     answer: (
       <p className="faq-answer">
         Part of your entitlement can be used to cover the costs of tests, up to
-        \$2000, for a job that requires a license or certification—even if
-        you’re already receiving other education benefits. Your benefits will
-        only cover tests approved for the GI Bill.
+        $2000, for a job that requires a license or certification—even if you’re
+        already receiving other education benefits. Your benefits will only
+        cover tests approved for the GI Bill.
       </p>
     ),
   },
@@ -32,7 +23,7 @@ const faqs = [
       <>
         <va-link
           text="Find out how to get reimbursed for licenses, certifications and prep courses"
-          href="../about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/" // check link structure
+          href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/licensing-and-certification-tests/"
         />
         <br />
         <br />
@@ -45,18 +36,9 @@ const faqs = [
         <br />
         <va-link
           text="Get VA Form22-0803 to download"
-          href="../find-forms/about-form-22-0803/"
+          href="https://www.va.gov/find-forms/about-form-22-0803/"
         />
       </>
-    ),
-  },
-  {
-    question: 'What is a prep course?',
-    answer: (
-      <p className="faq-answer">
-        A preparatory course (prep course) is a course that prepares students
-        for success tied to a specific license or certification.
-      </p>
     ),
   },
   {
@@ -66,6 +48,24 @@ const faqs = [
         If you fail a license or certification test, we will pay again. If the
         license or certification expires, you can take it again and we’ll pay
         for the renewal.
+      </p>
+    ),
+  },
+  {
+    question: 'What is the difference between a license and certification?',
+    answer: (
+      <p className="faq-answer">
+        A license is granted by the state or a governing authority; whereas, a
+        certification is granted by professional organizations or associations.
+      </p>
+    ),
+  },
+  {
+    question: 'What is a prep course?',
+    answer: (
+      <p className="faq-answer">
+        A preparatory course (prep course) is a course that prepares students
+        for success tied to a specific license or certification.
       </p>
     ),
   },
@@ -113,11 +113,11 @@ export default function LicenseCertificationSearchPage({ flag }) {
   return (
     <div className="lc-page-wrapper">
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        <div className="row">
-          <h1 className="mobile-lg:vads-u-text-align--left">
+        <div className="row ">
+          <h1 className="mobile-lg:vads-u-text-align--left vads-l-col--12 medium-screen:vads-l-col--7">
             Licenses, certifications, and prep courses
           </h1>
-          <p className="vads-u-color--gray-dark">
+          <p className=" vads-l-col--12 medium-screen:vads-l-col--7">
             Use the search tool to find out which tests or related prep courses
             are reimbursable. If you don’t see a test or prep course listed, it
             may be a valid test that’s not yet approved. We encourage you to
@@ -151,7 +151,7 @@ export default function LicenseCertificationSearchPage({ flag }) {
                   onClick={() => handleFaqClick(index)}
                   onKeyDown={e => handleKeyDown(e, index)}
                 >
-                  {faq.answer}
+                  <div className="vads-u-padding-y--3">{faq.answer}</div>
                 </va-accordion-item>
               );
             })}

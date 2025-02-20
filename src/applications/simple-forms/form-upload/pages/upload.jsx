@@ -6,13 +6,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
-import {
-  UPLOAD_TITLE,
-  UPLOAD_DESCRIPTION,
-  FORM_UPLOAD_OCR_ALERT,
-  FORM_UPLOAD_INSTRUCTION_ALERT,
-} from '../config/constants';
-import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
+import { UPLOAD_TITLE, UPLOAD_DESCRIPTION } from '../config/constants';
+import { getFormContent } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
 const { formNumber, title } = getFormContent();
@@ -57,17 +52,7 @@ export const uploadPage = {
 
 /** @type {CustomPageType} */
 export function UploadPage(props) {
-  const warnings = props.data?.uploadedFile?.warnings;
-  const alert =
-    warnings?.length > 0
-      ? FORM_UPLOAD_OCR_ALERT(
-          formNumber,
-          getPdfDownloadUrl(formNumber),
-          onCloseAlert,
-          warnings,
-        )
-      : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
-  return <CustomAlertPage {...props} alert={alert} />;
+  return <CustomAlertPage {...props} />;
 }
 
 UploadPage.propTypes = {

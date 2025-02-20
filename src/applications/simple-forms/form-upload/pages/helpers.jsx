@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
-import { getFormNumber } from '../helpers';
+import { scrollAndFocus } from 'platform/utilities/ui';
+import { getAlert, getFormNumber, onClickContinue } from '../helpers';
 
 export const CustomTopContent = () => {
   const formNumber = getFormNumber();
@@ -29,22 +30,35 @@ export const CustomTopContent = () => {
 };
 
 /** @type {CustomPageType} */
-export const CustomAlertPage = props => (
-  <div className="form-panel">
-    {props.alert}
-    <SchemaForm {...props}>
-      <>
-        {props.contentBeforeButtons}
-        <FormNavButtons
-          goBack={props.goBack}
-          goForward={props.onContinue}
-          submitToContinue
-        />
-        {props.contentAfterButtons}
-      </>
-    </SchemaForm>
-  </div>
-);
+export const CustomAlertPage = props => {
+  const [continueClicked, setContinueClicked] = useState(false);
+  useEffect(
+    () => {
+      const focusSelector = document.querySelector("va-alert[status='error']");
+      if (focusSelector && continueClicked && !window.Cypress) {
+        scrollAndFocus(focusSelector);
+      }
+    },
+    [continueClicked],
+  );
+
+  return (
+    <div className="form-panel">
+      {getAlert(props, continueClicked)}
+      <SchemaForm {...props}>
+        <>
+          {props.contentBeforeButtons}
+          <FormNavButtons
+            goBack={props.goBack}
+            goForward={() => onClickContinue(props, setContinueClicked)}
+            submitToContinue
+          />
+          {props.contentAfterButtons}
+        </>
+      </SchemaForm>
+    </div>
+  );
+};
 
 CustomAlertPage.propTypes = {
   alert: PropTypes.element,

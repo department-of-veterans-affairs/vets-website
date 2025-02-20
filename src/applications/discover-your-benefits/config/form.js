@@ -3,6 +3,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
@@ -97,14 +98,34 @@ export const formConfig = {
           title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (
+              environment.isProduction() &&
+              formData.militaryServiceCurrentlyServing === undefined
+            ) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
         militaryServiceCompleted: {
           path: 'service/completed',
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
-          depends: formData =>
-            formData.militaryServiceCurrentlyServing === true,
+          depends: formData => {
+            if (environment.isProduction()) {
+              return formData.militaryServiceCurrentlyServing === true;
+            }
+            return (
+              formData.militaryServiceCurrentlyServing === true ||
+              (environment.isProduction() &&
+                formData.militaryServiceCurrentlyServing === false)
+            );
+          },
           onNavForward: ({ formData, goPath }) => {
             if (
               formData.militaryServiceCurrentlyServing === true &&

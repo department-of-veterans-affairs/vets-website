@@ -237,25 +237,6 @@ export function isClinicVideoAppointment(appointment) {
 
 /**
  * Returns true if the appointment is a video appointment
- * where the Veteran uses a VA furnished device
- *
- * @export
- * @param {Appointment} appointment
- * @returns {boolean} True if appointment is a video appointment that uses a VA furnished device
- */
-export function isGfeVideoAppointment(appointment) {
-  const patientHasMobileGfe =
-    appointment.videoData.extension?.patientHasMobileGfe;
-
-  return (
-    (appointment?.videoData.kind === VIDEO_TYPES.mobile ||
-      appointment?.videoData.kind === VIDEO_TYPES.adhoc) &&
-    (!appointment?.videoData.isAtlas && patientHasMobileGfe)
-  );
-}
-
-/**
- * Returns true if the appointment is a video appointment
  * at an ATLAS location
  *
  * @export
@@ -625,7 +606,6 @@ export function getCalendarData({ appointment, facility }) {
   let data = {};
   const isAtlas = appointment?.videoData.isAtlas;
   const isHome = isVideoHome(appointment);
-  const videoKind = appointment?.videoData.kind;
   const isVideo = appointment?.vaos.isVideo;
   const isCommunityCare = appointment?.vaos.isCommunityCare;
   const isPhone = isVAPhoneAppointment(appointment);
@@ -725,14 +705,6 @@ export function getCalendarData({ appointment, facility }) {
 
       if (providerName) data.additionalText = [providerText, signinText];
       else data.additionalText = [signinText];
-    } else if (videoKind === VIDEO_TYPES.gfe) {
-      data = {
-        summary: 'VA Video Connect appointment using a VA device',
-        location: '',
-        text: 'Join this video meeting using a device provided by VA.',
-      };
-
-      if (providerName) data.additionalText = [providerText];
     }
   }
 
@@ -880,15 +852,12 @@ export function getPractitionerName(appointment) {
 
 export function getVideoAppointmentLocationText(appointment) {
   const { isAtlas } = appointment.videoData;
-  const videoKind = appointment.videoData.kind;
   let desc = 'Video appointment at home';
 
   if (isAtlas) {
     desc = 'Video appointment at an ATLAS location';
   } else if (isClinicVideoAppointment(appointment)) {
     desc = 'Video appointment at a VA location';
-  } else if (videoKind === VIDEO_TYPES.gfe) {
-    desc = 'Video with VA device';
   }
 
   return desc;

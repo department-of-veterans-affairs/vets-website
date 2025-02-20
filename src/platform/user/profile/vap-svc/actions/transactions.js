@@ -365,15 +365,19 @@ export const validateAddress = (
     sessionStorage.setItem('profile-has-cleared-bad-address-indicator', 'true');
 
     // otherwise just send the first suggestion to the API
-    return dispatch(
-      createTransaction(
-        route,
-        method,
-        fieldName,
-        payloadWithSuggestedAddress,
-        analyticsSectionName,
-      ),
-    );
+    if (JSON.parse(localStorage.getItem('hasSession'))) {
+      return dispatch(
+        createTransaction(
+          route,
+          method,
+          fieldName,
+          payloadWithSuggestedAddress,
+          analyticsSectionName,
+        ),
+      );
+    }
+
+    return {};
   } catch (error) {
     if (error instanceof Error) {
       // Just in case the addresses is an array with suggested addresses in it,

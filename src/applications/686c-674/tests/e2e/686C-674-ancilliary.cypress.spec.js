@@ -30,6 +30,13 @@ const testConfig = createTestConfig(
           ],
         },
       });
+      cy.intercept('POST', '/v0/claim_attachments', {
+        data: {
+          attributes: {
+            confirmationCode: '5',
+          },
+        },
+      });
       cy.intercept(
         'GET',
         '/v0/profile/valid_va_file_number',
@@ -114,6 +121,19 @@ const testConfig = createTestConfig(
             .should('be.visible')
             .should('not.be.disabled');
           cy.get('select#options[name="root_address_state"]').select('AL');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('select#options[name="root_dependentDeathDateMonth"]', {
+            timeout: 1000,
+          })
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.fillPage();
           cy.get('.usa-button-primary').click();
         });
       },
