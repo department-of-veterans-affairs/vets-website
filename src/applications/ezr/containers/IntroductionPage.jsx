@@ -32,14 +32,20 @@ const IntroductionPage = ({
   const sipProps = { formConfig, pageList };
 
   // Determine if the user should be routed to a different page
-  const shouldRedirect = isUserLOA3 && !hasPreferredFacility;
+  const shouldRedirectToMyHealth = isUserLOA3 && !hasPreferredFacility;
+  const shouldRedirectToVerify = !isUserLOA3;
+
   useEffect(
     () => {
-      if (shouldRedirect && process.env.NODE_ENV !== 'test') {
-        window.location.replace('/my-health');
+      if (process.env.NODE_ENV !== 'test') {
+        if (shouldRedirectToVerify) {
+          window.location.replace('/verify-identity');
+        } else if (shouldRedirectToMyHealth) {
+          window.location.replace('/my-health');
+        }
       }
     },
-    [shouldRedirect],
+    [shouldRedirectToMyHealth, shouldRedirectToVerify],
   );
 
   useEffect(
