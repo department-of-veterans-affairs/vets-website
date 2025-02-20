@@ -17,3 +17,6 @@ export const selectPendingMedsFlag = state =>
 
 export const selectRefillProgressFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsDisplayRefillProgress];
+
+export const selectRemoveLandingPageFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsRemoveLandingPage];
