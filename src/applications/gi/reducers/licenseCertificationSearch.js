@@ -88,7 +88,9 @@ export default function(state = INITIAL_STATE, action) {
         return !previousMatchIds.includes(suggestion.enrichedId);
       });
 
-      const finalList = [...newestResults, ...previousMatches];
+      const finalList = [...newestResults, ...previousMatches].sort((a, b) => {
+        return a.lacNm.localeCompare(b.lacNm);
+      });
 
       return {
         ...newState,
