@@ -6,6 +6,9 @@ export const baseURL = '/ask_va_api/v0';
 
 export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
 
+// Overridable for testing
+export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
+
 export const URL = {
   GET_CATEGORIES: `${baseURL}/contents?type=category${
     mockTestingFlagforAPI ? '&user_mock_data=true' : ''

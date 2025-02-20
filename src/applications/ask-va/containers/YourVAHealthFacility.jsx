@@ -7,7 +7,7 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import SearchControls from '../components/search/SearchControls';
 import SearchItem from '../components/search/SearchItem';
 import { getHealthFacilityTitle } from '../config/helpers';
-import { CHAPTER_3, URL, envUrl, mockTestingFlagforAPI } from '../constants';
+import { CHAPTER_3, URL, envUrl, getMockTestingFlagforAPI } from '../constants';
 import { convertToLatLng } from '../utils/mapbox';
 import { mockHealthFacilityResponse } from '../utils/mockData';
 
@@ -40,7 +40,7 @@ const YourVAHealthFacilityPage = props => {
   const getApiData = url => {
     setIsSearching(true);
 
-    if (mockTestingFlagforAPI) {
+    if (getMockTestingFlagforAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
