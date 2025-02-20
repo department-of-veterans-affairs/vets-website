@@ -81,7 +81,6 @@ const prioritySort = (a, b) => {
 };
 
 export const filterDataByFacilityType = (selectorFiltered, facilityType) => {
-  // console.log('selectorFiltered: ', selectorFiltered);
   return selectorFiltered.filter(
     hsdatum =>
       (hsdatum[5] && facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
@@ -102,9 +101,9 @@ export const filterMatches = (selector, term, facilityType) => {
       }
       return null;
     })
-    .filter(v => v);
-
-  selectorFiltered.sort(prioritySort);
+    .filter(v => v)
+    .sort(prioritySort)
+    .map(data => data.hsdatum);
 
   if (facilityType) {
     return filterDataByFacilityType(selectorFiltered, facilityType);
@@ -159,13 +158,10 @@ export default function useServiceType() {
           facilityType,
         );
 
-        // console.log('filteredServices: ', filteredServices);
-
         return sortServices(filteredServices);
       }
 
       if (selector.data) {
-        // console.log('matches: ', filterMatches(selector, term, facilityType));
         return filterMatches(selector, term, facilityType);
       }
 

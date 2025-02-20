@@ -14,6 +14,7 @@ import VAMCServiceAutosuggest from './VAMCServiceAutosuggest';
 const ServiceType = ({
   currentQuery,
   handleServiceTypeChange,
+  onChange,
   selectedServiceType,
   vamcAutoSuggestEnabled,
 }) => {
@@ -23,7 +24,7 @@ const ServiceType = ({
   if (facilityType === LocationType.HEALTH && vamcAutoSuggestEnabled) {
     return (
       <VAMCServiceAutosuggest
-        handleServiceTypeChange={handleServiceTypeChange}
+        onChange={onChange}
         selectedServiceType={selectedServiceType}
       />
     );
@@ -96,6 +97,7 @@ ServiceType.propTypes = {
   handleServiceTypeChange: PropTypes.func,
   selectedServiceType: PropTypes.string,
   vamcAutoSuggestEnabled: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 export default ServiceType;

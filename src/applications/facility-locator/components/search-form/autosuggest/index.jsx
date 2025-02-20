@@ -69,9 +69,6 @@ function Autosuggest({
     selectItem(null);
   };
 
-  // console.log('isOpen: ', isOpen);
-  // console.log('inputvalue: ', inputValue);
-
   return (
     <div
       id={`${inputId}-autosuggest-container`}

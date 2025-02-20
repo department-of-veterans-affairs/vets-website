@@ -12,7 +12,6 @@ function AutosuggestOption({
   getItemProps,
   itemToString,
 }) {
-  // console.log('item: ', item);
   return (
     <p
       {...getItemProps({

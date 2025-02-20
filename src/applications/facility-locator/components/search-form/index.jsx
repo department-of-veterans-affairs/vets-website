@@ -55,8 +55,6 @@ const SearchForm = props => {
   };
 
   const handleServiceTypeChange = ({ target, selectedItem }) => {
-    // console.log('target: ', target);
-    // console.log('selectedItem: ', selectedItem);
     setSelectedServiceType(selectedItem);
 
     const option = target.value.trim();
@@ -233,6 +231,7 @@ const SearchForm = props => {
             <ServiceType
               currentQuery={currentQuery}
               handleServiceTypeChange={handleServiceTypeChange}
+              onChange={onChange}
               selectedServiceType={selectedServiceType}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
