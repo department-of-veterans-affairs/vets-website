@@ -41,7 +41,11 @@ import {
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
-import { captureError, has400LevelError } from '../../utils/error';
+import {
+  captureError,
+  has400LevelError,
+  has404AppointmentIdError,
+} from '../../utils/error';
 import { selectAppointmentById } from './selectors';
 import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 
@@ -460,7 +464,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       captureError(e);
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_FAILED,
-        error: e,
+        isBadAppointmentId: has404AppointmentIdError(e),
       });
     }
   };
