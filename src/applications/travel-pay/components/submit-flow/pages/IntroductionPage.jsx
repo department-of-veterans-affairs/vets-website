@@ -4,11 +4,18 @@ import { useSelector } from 'react-redux';
 
 import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
-import AppointmentDetails from '../../AppointmentDetails';
+// import AppointmentDetails from '../../AppointmentDetails';
 import { selectAppointment } from '../../../redux/selectors';
+import { getDaysLeft } from '../../../util/dates';
+import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 
 const IntroductionPage = ({ onStart }) => {
   const { data, error, isLoading } = useSelector(selectAppointment);
+  let daysLeft;
+
+  if (data) {
+    daysLeft = getDaysLeft(data.localStartTime);
+  }
 
   return (
     <div>
@@ -21,7 +28,32 @@ const IntroductionPage = ({ onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {data && <AppointmentDetails appointment={data} />}
+      {data && daysLeft > 0 ? (
+        <>
+          <p>We encourage you to file your claim within 30 days.</p>
+          <p>
+            If it’s been more than 30 days since your appointment, we still
+            encourage you to file now. But we may not be able to approve your
+            claim.
+          </p>
+          <va-link
+            text="Learn how to file your travel reimbursement claim online"
+            href={TRAVEL_PAY_INFO_LINK}
+          />
+        </>
+      ) : (
+        <>
+          <p>
+            It has been more than 30 days since your appointment. We still
+            encourage you to file now but we may not be able to approve your
+            claim.
+          </p>
+          <va-link
+            text="Learn how to file your travel reimbursement claim online"
+            href={TRAVEL_PAY_INFO_LINK}
+          />
+        </>
+      )}
 
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
@@ -33,7 +65,7 @@ const IntroductionPage = ({ onStart }) => {
             your direct deposit set up, you can file a reimbursement claim now.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/#eligibility-for-general-health"
+            href={`${TRAVEL_PAY_INFO_LINK}#eligibility-for-general-health`}
             text="Travel reimbursement eligibility"
           />
         </va-process-list-item>
@@ -57,7 +89,7 @@ const IntroductionPage = ({ onStart }) => {
             or in person.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+            href={TRAVEL_PAY_INFO_LINK}
             text="Learn how to file claims for other expenses"
           />
         </va-process-list-item>
