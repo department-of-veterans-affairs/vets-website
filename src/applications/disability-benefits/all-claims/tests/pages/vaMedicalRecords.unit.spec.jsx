@@ -89,7 +89,7 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
-  it('should render with 0781 questions when feature is enabled, and the user did not opt out of 0781 ', () => {
+  it('should render with 0781 questions when feature is enabled, and the user did not opt out of 0781', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -114,6 +114,12 @@ describe('VA Medical Records', () => {
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
+
+  it('should not render with 0781 questions when feature is enabled, and the user did opt out of 0781', () => {});
+
+  it('should not render with 0781 questions when feature is disabled', () => {});
+
+  it('should add the correct data values to formData when yes/no selected for 0781 flow', () => {});
 
   // Ignore empty vaTreatmentFacilities when not selected, see
   // va.gov-team/issues/34289

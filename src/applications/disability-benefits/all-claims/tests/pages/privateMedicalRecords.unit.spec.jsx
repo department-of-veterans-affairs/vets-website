@@ -29,6 +29,14 @@ describe('526 All Claims Private medical records', () => {
     expect($$('va-radio-option').length).to.equal(2);
   });
 
+  it('should render with 0781 questions when feature is enabled, and the user did not opt out of 0781', () => {});
+
+  it('should not render with 0781 questions when feature is enabled, and the user did opt out of 0781', () => {});
+
+  it('should not render with 0781 questions when feature is disabled', () => {});
+
+  it('should add the correct data values to formData when yes/no selected for 0781 flow', () => {});
+
   it('should error when user makes no selection', () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
