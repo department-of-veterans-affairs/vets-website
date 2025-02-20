@@ -117,6 +117,9 @@ export const selectFeatureRemovePodiatry = state =>
 export const selectFeatureUseVaDate = state =>
   toggleValues(state).vaOnlineSchedulingUseVaDate;
 
+export const selectFeaturePastApptDateRange = state =>
+  toggleValues(state).vaOnlineSchedulingPastApptDateRange;
+
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
 
