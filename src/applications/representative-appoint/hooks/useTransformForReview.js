@@ -93,11 +93,9 @@ export function useTransformForReview(formData) {
           {renderField('Organization', organization)}
           {renderField(
             'Type',
-            convertRepType(
-              formData?.['view:selectedRepresentative']?.type
-                .charAt(0)
-                .toUpperCase(),
-            ),
+            convertRepType(formData?.['view:selectedRepresentative']?.type)
+              .charAt(0)
+              .toUpperCase(),
           )}
           <p className="light-gray vads-u-margin-bottom--1">Mailing address</p>
           {representative?.addressLine1 && (
