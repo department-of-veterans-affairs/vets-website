@@ -460,6 +460,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       captureError(e);
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_FAILED,
+        error: e,
       });
     }
   };

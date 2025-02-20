@@ -80,6 +80,8 @@ export const spouseMarriageHistorySummaryPage = {
       spouseMarriageHistoryOptions,
       {
         title: 'Does your spouse have any former marriages to add?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
         labels: {
           Y: 'Yes',
           N: 'No',
