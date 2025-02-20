@@ -42,7 +42,7 @@ describe('Header <App>', () => {
     const { showMinimalHeader } = options;
     staticDom = document.createElement('div');
 
-    if (showMinimalHeader !== undefined) {
+    if (showMinimalHeader) {
       staticDom.innerHTML += `
       <div id="header-minimal" class="vads-u-display--none">
         Minimal header
