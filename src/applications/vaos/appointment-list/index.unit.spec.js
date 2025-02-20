@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import Sinon from 'sinon';
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { AppointmentList } from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
 import * as AppointmentsPage from './pages/AppointmentsPage/index';
@@ -266,7 +267,7 @@ describe('VAOS Page: Appointment list routes', () => {
         path: '/unknown/path',
       });
 
-      expect(screen.getByText(/Sorry — we can’t find that page/)).to.be.ok;
+      expect(screen.getByText(pageNotFoundHeading)).to.be.ok;
     });
   });
 });

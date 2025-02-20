@@ -1,3 +1,5 @@
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+
 export const AXE_CONTEXT = '.secure-messaging-container';
 
 export const Paths = {
@@ -308,7 +310,7 @@ export const Alerts = {
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
   OLD_MSG_SUBHEAD:
     "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
-  PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
+  PAGE_NOT_FOUND: pageNotFoundHeading,
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,
   EL_SIGN: `Messages to this team require a signature. We added a signature box to this page.`,
