@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { fieldsMustMatchValidation } from '../../../helpers/validations';
+import {
+  fieldsMustMatchValidation,
+  certifierAddressCleanValidation,
+  applicantAddressCleanValidation,
+} from '../../../helpers/validations';
 
 const REVIEW_PATH =
   'http://localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/apply-form-10-10d/review-and-submit';
@@ -112,5 +116,116 @@ describe('fieldsMustMatchValidation helper', () => {
       'veteransFullName',
     );
     expect(errorMessage.length > 0).to.be.false;
+  });
+});
+
+describe('validAddressCharsOnly validator', () => {
+  let errorMessage = [];
+  const addError = message => {
+    errorMessage.push(message || '');
+  };
+  const addressErrors = {
+    country: { addError },
+    street: { addError },
+    street2: { addError },
+    city: { addError },
+    state: { addError },
+    postalCode: { addError },
+  };
+  const validAddress = {
+    country: 'USA',
+    street: 'st 1',
+    street2: 'St 2',
+    city: 'Phoenix',
+    state: 'AZ',
+    postalCode: '12345',
+  };
+  const invalidAddress = {
+    ...validAddress,
+    street2: '"@%',
+  };
+
+  beforeEach(() => {
+    errorMessage = [];
+  });
+
+  /*
+  `certifierAddress` and `applicantAddress` reflect address objects
+  that are outside and inside the list loop respectively. Not
+  explicitly testing `sponsorAddressCleanValidation` as it 
+  functions identically to `certifierAddressCleanValidation`.
+  */
+  it('should add errors to certifier address fields containing illegal characters', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      page: {},
+      formData: {
+        certifierAddress: {
+          ...invalidAddress,
+        },
+      },
+    };
+
+    certifierAddressCleanValidation(
+      {
+        certifierAddress: addressErrors,
+      },
+      props.page,
+      props.formData,
+    );
+    expect(errorMessage.length > 0).to.be.true;
+  });
+
+  it('should NOT add errors to certifier address fields if all characters are valid', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      page: {},
+      formData: {
+        certifierAddress: {
+          ...validAddress,
+        },
+      },
+    };
+
+    certifierAddressCleanValidation(
+      {
+        certifierAddress: addressErrors,
+      },
+      props.page,
+      props.formData,
+    );
+    expect(errorMessage.length === 0).to.be.true;
+  });
+
+  it('should add errors to applicant address fields containing illegal characters', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      page: invalidAddress,
+      // formData is a single list loop item
+      formData: {
+        applicantAddress: invalidAddress,
+      },
+    };
+
+    applicantAddressCleanValidation(addressErrors, props.page, props.formData);
+    expect(errorMessage.length > 0).to.be.true;
+  });
+
+  it('should NOT add errors to applicant address fields if all characters are valid', () => {
+    expect(errorMessage[0]).to.be.undefined;
+
+    const props = {
+      page: validAddress,
+      // formData is a single list loop item
+      formData: {
+        applicantAddress: validAddress,
+      },
+    };
+
+    applicantAddressCleanValidation(addressErrors, props.page, props.formData);
+    expect(errorMessage.length === 0).to.be.true;
   });
 });

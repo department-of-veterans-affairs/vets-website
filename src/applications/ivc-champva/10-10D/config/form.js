@@ -49,6 +49,9 @@ import {
 import {
   certifierNameValidation,
   certifierAddressValidation,
+  sponsorAddressCleanValidation,
+  certifierAddressCleanValidation,
+  applicantAddressCleanValidation,
 } from '../helpers/validations';
 import { ADDITIONAL_FILES_HINT } from '../../shared/constants';
 import { applicantWording, getAgeInYears } from '../../shared/utilities';
@@ -247,7 +250,10 @@ const formConfig = {
               'We’ll send any important information about this application to your address',
             ),
             certifierAddress: addressUI(),
-            'ui:validations': [certifierAddressValidation],
+            'ui:validations': [
+              certifierAddressValidation,
+              certifierAddressCleanValidation,
+            ],
           },
           schema: {
             type: 'object',
@@ -497,6 +503,7 @@ const formConfig = {
                 },
               }),
             },
+            'ui:validations': [sponsorAddressCleanValidation],
           },
           schema: {
             type: 'object',
@@ -691,6 +698,7 @@ const formConfig = {
                         'Address is on a United States military base outside the country.',
                     },
                   }),
+                  'ui:validations': [applicantAddressCleanValidation],
                 },
               },
             },
