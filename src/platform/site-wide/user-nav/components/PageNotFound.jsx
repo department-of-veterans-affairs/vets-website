@@ -50,7 +50,7 @@ export const helpfulLinks = [
  *
  * @example
  * // in _.cypress.spec.js e2e files:
- * import { pageNotFoundId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
  * cy.visit('/nowhere');
  * cy.findByTestId(pageNotFoundTestId);
  */
