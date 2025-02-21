@@ -2,12 +2,12 @@ import minTestData from './fixtures/data/minimal-test.json';
 import {
   advanceFromShortFormToSubmit,
   advanceToAuthShortForm,
-  // fillIdentityForm,
+  fillIdentityForm,
   goToNextPage,
   setupForAuth,
-  // setupForGuest,
+  setupForGuest,
   startAsAuthUser,
-  // startAsGuestUser,
+  startAsGuestUser,
 } from './utils';
 
 const { data: testData } = minTestData;
@@ -43,7 +43,6 @@ describe('HCA-ShortForm-Authenticated: Low disability', () => {
   });
 });
 
-/*
 describe('HCA-ShortForm: Unauthenticated', () => {
   beforeEach(() => {
     setupForGuest();
@@ -72,4 +71,3 @@ describe('HCA-ShortForm: Unauthenticated', () => {
     cy.injectAxeThenAxeCheck();
   });
 });
-*/
