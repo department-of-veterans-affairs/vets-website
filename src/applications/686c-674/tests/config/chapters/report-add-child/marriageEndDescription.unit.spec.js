@@ -25,7 +25,7 @@ describe('686 add child marriage end details', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.addChild.pages.addChildMarriageEndDetailsPartOne;
+  } = formConfig.chapters.addChild.pages.addChildMarriageEndDetailsPartTwo;
 
   it('should render', () => {
     const { container } = render(
@@ -41,8 +41,6 @@ describe('686 add child marriage end details', () => {
       </Provider>,
     );
 
-    expect($$('va-memorable-date', container).length).to.equal(1);
-    expect($$('va-radio', container).length).to.equal(1);
-    expect($$('va-radio-option', container).length).to.equal(4);
+    expect($$('va-text-input', container).length).to.equal(1);
   });
 });
