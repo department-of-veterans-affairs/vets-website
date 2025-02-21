@@ -93,25 +93,7 @@ export const listLoopPages = (
     },
   };
 
-  const { datePage, detailPage, namePage } = employmentHistory;
-
-  /** @type {PageSchema} */
-  const introPage = {
-    path: 'employers',
-    title: 'Employers',
-    uiSchema: {
-      ...webComponentPatterns.titleUI(
-        `Treatment records`,
-        `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
-          options.maxItems
-        }.`,
-      ),
-    },
-    schema: {
-      type: 'object',
-      properties: {},
-    },
-  };
+  const { datePage, detailPage, introPage, namePage } = employmentHistory;
 
   /** @type {PageSchema} */
   const summaryPage = {
@@ -152,7 +134,7 @@ export const listLoopPages = (
     const pages = {};
 
     if (!optional) {
-      pages.employer = pageBuilder.introPage(introPage);
+      pages.employer = pageBuilder.introPage(introPage(options));
     }
 
     return {

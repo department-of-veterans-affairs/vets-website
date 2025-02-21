@@ -1,6 +1,6 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 
-/** @returns {PageSchema} */
+/** @type {PageSchema} */
 export const datePage = {
   title: 'Dates you were employed',
   path: 'employers/:index/dates',
@@ -68,6 +68,24 @@ export const detailPage = {
     }),
   },
 };
+
+/** @returns {PageSchema} */
+export const introPage = options => ({
+  path: 'employers',
+  title: 'Employers',
+  uiSchema: {
+    ...webComponentPatterns.titleUI(
+      `Treatment records`,
+      `In the next few questions, we’ll ask you about the treatment records you’re requesting. You must add at least one treatment request. You may add up to ${
+        options.maxItems
+      }.`,
+    ),
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+});
 
 /** @returns {PageSchema} */
 export const namePage = options => ({

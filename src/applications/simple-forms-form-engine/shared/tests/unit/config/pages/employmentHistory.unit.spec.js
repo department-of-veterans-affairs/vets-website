@@ -5,6 +5,7 @@ import * as arrayBuilderPatterns from 'platform/forms-system/src/js/web-componen
 import {
   datePage,
   detailPage,
+  introPage,
   namePage,
 } from 'applications/simple-forms-form-engine/shared/config/pages/employmentHistory';
 
@@ -39,6 +40,22 @@ describe('detailPage', () => {
     expect(detailPage.uiSchema.hoursPerWeek).to.not.eq(undefined);
     expect(detailPage.uiSchema.lostTime).to.not.eq(undefined);
     expect(detailPage.uiSchema.highestIncome).to.not.eq(undefined);
+  });
+});
+
+describe('introPage', () => {
+  const options = {
+    maxItems: 42,
+  };
+
+  it('includes an introPage', () => {
+    const pageSchema = introPage(options);
+
+    expect(pageSchema.title).to.eq('Employers');
+    expect(pageSchema.path).to.eq('employers');
+    // introPages have no schemas
+    expect(Object.keys(pageSchema.schema.properties).length).to.eq(0);
+    expect(pageSchema.uiSchema).to.not.eq(undefined);
   });
 });
 

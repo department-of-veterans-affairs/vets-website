@@ -214,10 +214,6 @@ describe('listLoopPages', () => {
         const { employer: introPage, employerSummary } = pages;
 
         expect(introPage.title).to.eq('Employers');
-        expect(introPage.path).to.eq('employers');
-        // introPages have no schemas
-        expect(Object.keys(introPage.schema.properties).length).to.eq(0);
-        expect(introPage.uiSchema).to.not.eq(undefined);
 
         expect(employerSummary.title).to.eq('Review your employers');
         expect(employerSummary.path).to.eq('employers-summary');
