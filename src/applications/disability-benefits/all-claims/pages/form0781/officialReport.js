@@ -27,13 +27,18 @@ import {
   OTHER_REPORT_TYPES,
 } from '../../constants';
 
+const pageTitleWithTag = titleWithTag(
+  officialReportPageTitle,
+  form0781HeadingTag,
+);
+
 export const officialReport = {
   uiSchema: {
     ...arrayBuilderEventPageTitleUI({
-      title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
+      title: pageTitleWithTag,
       editTitle: 'official report details',
     }),
-    'ui:description': officialReportsDescription,
+    'ui:description': officialReportsDescription(),
     'view:conflictingResponseAlert': {
       'ui:description': reportTypeValidationError,
       'ui:options': {
@@ -80,10 +85,10 @@ export const officialReport = {
 export const officialReportMst = {
   uiSchema: {
     ...arrayBuilderEventPageTitleUI({
-      title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
+      title: pageTitleWithTag,
       editTitle: 'official report details',
     }),
-    'ui:description': officialReportsDescription,
+    'ui:description': officialReportsDescription('mst'),
     'view:conflictingResponseAlert': {
       'ui:description': reportTypeValidationError,
       'ui:options': {

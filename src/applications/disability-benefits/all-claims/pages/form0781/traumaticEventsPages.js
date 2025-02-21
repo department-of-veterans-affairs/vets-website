@@ -19,7 +19,21 @@ import {
 } from '../../content/form0781';
 import { MILITARY_REPORT_TYPES, OTHER_REPORT_TYPES } from '../../constants';
 
-const mstEvent = formData =>
+const summaryPageTitleWithTag = titleWithTag(
+  eventsListPageTitle,
+  form0781HeadingTag,
+);
+const isReviewAndSubmitPage = () => {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1] === 'review-and-submit';
+};
+const summaryTitleUI = (summaryTitle, fallbackTitle) => {
+  return () => (isReviewAndSubmitPage() ? fallbackTitle : summaryTitle);
+};
+const summaryDescriptionUI = (description, fallback = null) => {
+  return () => (isReviewAndSubmitPage() ? fallback : description());
+};
+const isMstEvent = formData =>
   isCompletingForm0781(formData) && formData.eventTypes?.mst;
 
 /** @type {ArrayBuilderOptions} */
@@ -31,12 +45,9 @@ export const options = {
   required: false,
   maxItems: 3,
   text: {
-    summaryTitle: titleWithTag(eventsListPageTitle, form0781HeadingTag),
-    summaryTitleWithoutItems: titleWithTag(
-      eventsListPageTitle,
-      form0781HeadingTag,
-    ),
-    summaryDescription: eventsListDescription,
+    summaryTitle: summaryTitleUI(summaryPageTitleWithTag, eventsListPageTitle),
+    summaryTitleWithoutItems: summaryPageTitleWithTag,
+    summaryDescription: summaryDescriptionUI(eventsListDescription, null),
     summaryDescriptionWithoutItems: eventsListDescription,
     getItemName: (props, index) => {
       return `Event #${index + 1}`;
@@ -72,6 +83,7 @@ export const options = {
       );
     },
     summaryAddButtonText: 'Add an event',
+    reviewAddButtonText: 'Add an event',
     alertMaxItems: maxEventsAlert,
     alertItemUpdated: props => {
       return `You’ve edited details about Event #${props.index + 1}`;
@@ -97,7 +109,7 @@ export const options = {
 
 export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   eventsList: pageBuilder.summaryPage({
-    title: titleWithTag(eventsListPageTitle, form0781HeadingTag),
+    title: summaryPageTitleWithTag,
     path: 'mental-health-form-0781/events-summary',
     depends: formData => isCompletingForm0781(formData),
     ContentBeforeButtons: (
@@ -105,30 +117,30 @@ export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
     ),
   }),
   eventDetails: pageBuilder.itemPage({
-    title: titleWithTag(eventDetailsPageTitle, form0781HeadingTag),
+    title: eventDetailsPageTitle,
     path: 'mental-health-form-0781/:index/event-details',
     depends: formData => isCompletingForm0781(formData),
     uiSchema: eventDetails.uiSchema,
     schema: eventDetails.schema,
   }),
   officialReport: pageBuilder.itemPage({
-    title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
+    title: officialReportPageTitle,
     path: `mental-health-form-0781/:index/event-report`,
     depends: (formData, index) =>
-      formData.events?.[index] && !mstEvent(formData),
+      formData.events?.[index] && !isMstEvent(formData),
     uiSchema: officialReport.uiSchema,
     schema: officialReport.schema,
   }),
   officialReportMst: pageBuilder.itemPage({
-    title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
+    title: officialReportPageTitle,
     path: `mental-health-form-0781/:index/event-report-mst`,
     depends: (formData, index) =>
-      formData.events?.[index] && mstEvent(formData),
+      formData.events?.[index] && isMstEvent(formData),
     uiSchema: officialReportMst.uiSchema,
     schema: officialReportMst.schema,
   }),
   policeReport: pageBuilder.itemPage({
-    title: titleWithTag(policeReportLocationPageTitle, form0781HeadingTag),
+    title: policeReportLocationPageTitle,
     path: `mental-health-form-0781/:index/event-police-report`,
     depends: (formData, index) =>
       isCompletingForm0781(formData) &&

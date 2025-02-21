@@ -2,22 +2,24 @@ import React from 'react';
 
 export const officialReportPageTitle = 'Official report';
 
-export const officialReportsDescription = () => {
+export const officialReportsDescription = (type = 'default') => {
   return (
     <>
       <p>
         Letting us know the types of reports filed about your traumatic event
         helps us get a copy of the report to evaluate your claim.
       </p>
+      {type === 'mst' && (
+        <p>
+          When reporting a sexual assault during military service, two different
+          reporting options are given. Restricted reporting are reports made
+          while requesting confidentiality. Unrestricted reporting are reports
+          made without requesting confidentiality. These options were not
+          available before 2005.
+        </p>
+      )}
       <p>
-        When reporting a sexual assault during military service, two different
-        reporting options are given. Restricted reporting are reports made while
-        requesting confidentiality. Unrestricted reporting are reports made
-        without requesting confidentiality. These options were not available
-        before 2005.
-      </p>
-      <p>
-        If you’re not sure which reports were filed, VA may send a follow up
+        If you’re not sure which reports were filed, VA may send a follow-up
         letter with additional information.
       </p>
       <p>

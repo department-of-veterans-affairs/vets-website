@@ -43,7 +43,7 @@ export default function ArrayBuilderItemPage({
       fullData: props.fullData,
       onChange: props.onChange,
       onSubmit: props.onSubmit,
-      index: props.index,
+      index: props.pagePerItemIndex ? Number(props.pagePerItemIndex) : null,
     });
 
     if (!props.onReviewPage && !isEdit && !isAdd) {
