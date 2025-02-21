@@ -61,7 +61,7 @@ const GiBillBreadcrumbs = () => {
       href: `/institution/${ProgramsTypeMatch.params.facilityCode}/${
         ProgramsTypeMatch.params.programType
       }`,
-      label: formatedProgramType,
+      label: `${formatedProgramType} programs`,
     });
   }
   if (compareMatch) {
