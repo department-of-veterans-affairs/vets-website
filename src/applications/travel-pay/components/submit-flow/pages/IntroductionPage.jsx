@@ -4,18 +4,13 @@ import { useSelector } from 'react-redux';
 
 import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
-// import AppointmentDetails from '../../AppointmentDetails';
 import { selectAppointment } from '../../../redux/selectors';
-import { getDaysLeft } from '../../../util/dates';
+import { isPastAppt } from '../../../util/dates';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
+import { AppointmentInfoText } from '../../AppointmentDetails';
 
 const IntroductionPage = ({ onStart }) => {
   const { data, error, isLoading } = useSelector(selectAppointment);
-  let daysLeft;
-
-  if (data) {
-    daysLeft = getDaysLeft(data.localStartTime);
-  }
 
   return (
     <div>
@@ -28,33 +23,9 @@ const IntroductionPage = ({ onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {data && daysLeft > 0 ? (
-        <>
-          <p>We encourage you to file your claim within 30 days.</p>
-          <p>
-            If it’s been more than 30 days since your appointment, we still
-            encourage you to file now. But we may not be able to approve your
-            claim.
-          </p>
-          <va-link
-            text="Learn how to file your travel reimbursement claim online"
-            href={TRAVEL_PAY_INFO_LINK}
-          />
-        </>
-      ) : (
-        <>
-          <p>
-            It has been more than 30 days since your appointment. We still
-            encourage you to file now but we may not be able to approve your
-            claim.
-          </p>
-          <va-link
-            text="Learn how to file your travel reimbursement claim online"
-            href={TRAVEL_PAY_INFO_LINK}
-          />
-        </>
+      {data && (
+        <AppointmentInfoText appointment={data} isPast={isPastAppt(data)} />
       )}
-
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
       </h2>
@@ -74,14 +45,14 @@ const IntroductionPage = ({ onStart }) => {
             If you’re only claiming mileage, you can file online right now.
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
-          {!error && (
-            <va-link-action
-              onClick={e => onStart(e)}
-              href="javascript0:void"
-              text="File a mileage only claim"
-            />
-          )}
-
+          {data &&
+            isPastAppt(data) && (
+              <va-link-action
+                onClick={e => onStart(e)}
+                href="javascript0:void"
+                text="File a mileage only claim"
+              />
+            )}
           <p>
             If you’re claiming other expenses, like lodging, meals, or tolls,
             you will need receipts for these expenses. You can file online
