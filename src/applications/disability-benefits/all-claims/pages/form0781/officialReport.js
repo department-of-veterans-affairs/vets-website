@@ -37,7 +37,10 @@ export const officialReport = {
     'view:conflictingResponseAlert': {
       'ui:description': reportTypeValidationError,
       'ui:options': {
-        hideIf: formData => showConflictingAlert(formData) === false,
+        hideIf: (formData, index, fullData) => {
+          const data = fullData.events?.[index];
+          return showConflictingAlert(data) === false;
+        },
       },
     },
     otherReports: checkboxGroupUI({
@@ -84,7 +87,10 @@ export const officialReportMst = {
     'view:conflictingResponseAlert': {
       'ui:description': reportTypeValidationError,
       'ui:options': {
-        hideIf: formData => showConflictingAlert(formData) === false,
+        hideIf: (formData, index, fullData) => {
+          const data = fullData.events?.[index];
+          return showConflictingAlert(data) === false;
+        },
       },
     },
     militaryReports: checkboxGroupUI({
