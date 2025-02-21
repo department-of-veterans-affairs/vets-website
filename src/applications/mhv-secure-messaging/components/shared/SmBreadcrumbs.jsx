@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
@@ -18,6 +19,13 @@ const SmBreadcrumbs = () => {
   const activeDraftId = useSelector(
     state => state.sm.threadDetails?.drafts?.[0]?.messageId,
   );
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
+
   const previousPath = useRef(null);
 
   const [locationBasePath, locationChildPath] = useMemo(
@@ -163,6 +171,26 @@ const SmBreadcrumbs = () => {
     history.push(href);
   };
 
+  const newCrumbsList = useMemo(
+    () => {
+      let updatedCrumbsList = crumbsList;
+
+      if (removeLandingPageFF) {
+        updatedCrumbsList = updatedCrumbsList.filter(
+          item => item.label !== 'Messages',
+        );
+      }
+
+      return updatedCrumbsList.map(item => ({
+        ...item,
+        label: `${
+          removeLandingPageFF && item.href !== '/my-health' ? 'Messages: ' : ''
+        }${item.label}`,
+      }));
+    },
+    [crumbsList, removeLandingPageFF],
+  );
+
   return (
     <div>
       {shortenBreadcrumb ? (
@@ -191,21 +219,25 @@ const SmBreadcrumbs = () => {
               </Link>
             ) : (
               <Link to={crumb.href} className="vads-u-font-size--md">
-                {`Back to ${crumb.label}`}
+                {`Back to ${
+                  removeLandingPageFF ? `Messages: ${crumb.label}` : crumb.label
+                }`}
               </Link>
             )}
           </span>
         </nav>
       ) : (
-        <VaBreadcrumbs
-          breadcrumbList={crumbsList}
-          label="Breadcrumb"
-          home-veterans-affairs
-          onRouteChange={handleRoutechange}
-          className="mobile-lg:vads-u-margin-y--2"
-          dataTestid="sm-breadcrumbs"
-          uswds
-        />
+        <>
+          <VaBreadcrumbs
+            breadcrumbList={newCrumbsList}
+            label="Breadcrumb"
+            home-veterans-affairs
+            onRouteChange={handleRoutechange}
+            className="mobile-lg:vads-u-margin-y--2"
+            dataTestid="sm-breadcrumbs"
+            uswds
+          />
+        </>
       )}
     </div>
   );
