@@ -48,6 +48,7 @@ import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
 import { useSessionExpiration } from '../../hooks/use-session-expiration';
+import EditSignatureLink from './EditSignatureLink';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -821,7 +822,6 @@ const ComposeForm = props => {
                 setElectronicSignature={setElectronicSignature}
               />
             )}
-
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
@@ -893,6 +893,9 @@ const ComposeForm = props => {
               />
             )}
           </div>
+
+          <EditSignatureLink />
+
           {recipientsList &&
             (!noAssociations &&
               !allTriageGroupsBlocked && (
@@ -920,7 +923,6 @@ const ComposeForm = props => {
                   />
                 </section>
               ))}
-
           {isSignatureRequired && (
             <ElectronicSignature
               nameError={signatureError}
@@ -931,7 +933,6 @@ const ComposeForm = props => {
               electronicSignature={electronicSignature}
             />
           )}
-
           <DraftSavedInfo />
           <ComposeFormActionButtons
             cannotReply={noAssociations || allTriageGroupsBlocked}
