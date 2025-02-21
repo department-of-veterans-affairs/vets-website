@@ -6,10 +6,16 @@ const LandingPage = () => {
       <div className="home__hero">
         <div className="home__hero-container">
           <div className="home__hero-bg">
-            <h1 className="home__hero-header">
+            <h1
+              className="home__hero-header"
+              data-testid="landing-page-heading"
+            >
               Welcome to the Accredited Representative Portal
             </h1>
-            <p className="home__hero-sub-header">
+            <p
+              className="home__hero-sub-header"
+              data-testid="landing-page-hero-text"
+            >
               A secure, user-friendly system that streamlines the power of
               attorney and claims process for representatives and the Veterans
               they support
@@ -20,8 +26,10 @@ const LandingPage = () => {
       <div className="home__container">
         <div className="home__content">
           <div className="home__content-copy">
-            <h2>What the portal can do</h2>
-            <p>
+            <h2 data-testid="landing-page-portal-hdr">
+              What the portal can do
+            </h2>
+            <p data-testid="landing-page-portal-text">
               You can use the portal to accept power of attorney (POA) requests
               for any of your accredited organizations. If you have access to
               the Veterans Benefits Management System (VBMS), you’ll be able to
@@ -41,8 +49,10 @@ const LandingPage = () => {
             </p>
           </div>
           <div className="home__content-copy">
-            <h2>Who the portal is for</h2>
-            <p>
+            <h2 data-testid="landing-page-portal-for-hdr">
+              Who the portal is for
+            </h2>
+            <p data-testid="landing-page-portal-for-text">
               Currently, the portal is only for Veterans Service Organization
               (VSO) representatives who accept POA requests on behalf of their
               organizations. In the future, the portal will support accredited

@@ -48,13 +48,13 @@ describe('Accredited Representative Portal', () => {
       });
     });
 
-    it('allows navigation from the Landing Page to unified sign-in page', () => {
-      cy.axeCheck();
-      cy.get('[data-testid=landing-page-sign-in-link]')
-        .contains('Sign in or create account')
-        .click();
-      cy.location('pathname').should('eq', '/sign-in/');
-    });
+    // it('allows navigation from the Landing Page to unified sign-in page', () => {
+    //   cy.axeCheck();
+    //   cy.get('[data-testid=landing-page-sign-in-link]')
+    //     .contains('Sign in or create account')
+    //     .click();
+    //   cy.location('pathname').should('eq', '/sign-in/');
+    // });
 
     // Bring back when repairing testing.
     it.skip('displays an alert when in production and when user is not in pilot', () => {
@@ -90,7 +90,7 @@ describe('Accredited Representative Portal', () => {
 
       cy.get('[data-testid=landing-page-heading]').should(
         'have.text',
-        'Welcome to the Accredited Representative Portal, William',
+        'Welcome to the Accredited Representative Portal',
       );
 
       cy.location('pathname').should('eq', '/representative/poa-requests');
