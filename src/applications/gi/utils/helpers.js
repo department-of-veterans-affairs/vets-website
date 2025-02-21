@@ -662,7 +662,7 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
+    `/licenses-certifications-and-prep-courses/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
       categoryParams,
     ),
     {

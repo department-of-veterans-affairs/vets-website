@@ -20,12 +20,39 @@ export default function LicenseCertificationSearchForm() {
   const history = useHistory();
   const location = useLocation();
 
+  const { nameParam, categoryParams } = showLcParams(location);
+
   const [dropdown, setDropdown] = useState(updateCategoryDropdown());
   const [name, setName] = useState('');
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
+
+  const suggestions = [
+    {
+      lacNm: name,
+      type: 'all',
+    },
+    ...filteredResults,
+  ];
+
+  useLcpFilter({
+    flag: 'singleFetch',
+    name,
+    categoryValues: dropdown.current.optionValue,
+  });
+
+  // If available, use url query params to assign initial dropdown values
+  useEffect(() => {
+    if (categoryParams) {
+      setDropdown(updateCategoryDropdown(categoryParams[0]));
+    }
+
+    if (nameParam) {
+      setName(nameParam);
+    }
+  }, []);
 
   const handleSearch = (category, nameInput) => {
     const newParams = {
@@ -44,37 +71,10 @@ export default function LicenseCertificationSearchForm() {
   };
 
   const handleReset = () => {
-    history.replace('/lc-search');
+    history.replace('/licenses-certifications-and-prep-courses');
     setName('');
     setDropdown(updateCategoryDropdown());
   };
-
-  const { nameParam, categoryParams } = showLcParams(location);
-
-  useLcpFilter({
-    flag: 'singleFetch',
-    name,
-    categoryValues: dropdown.current.optionValue,
-  });
-
-  const suggestions = [
-    {
-      lacNm: name,
-      type: 'all',
-    },
-    ...filteredResults,
-  ];
-
-  // If available, use url query params to assign initial dropdown values
-  useEffect(() => {
-    if (categoryParams) {
-      setDropdown(updateCategoryDropdown(categoryParams[0]));
-    }
-
-    if (nameParam) {
-      setName(nameParam);
-    }
-  }, []);
 
   const handleChange = e => {
     setDropdown(updateCategoryDropdown(e.target.value));

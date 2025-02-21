@@ -66,7 +66,8 @@ export default function LicenseCertificationSearchResults() {
 
   const previousRoute = history.location.state?.path;
   const previousRouteHome =
-    previousRoute === '/lc-search' || previousRoute === '/lc-search/';
+    previousRoute === '/licenses-certifications-and-prep-courses' ||
+    previousRoute === '/licenses-certifications-and-prep-courses/';
 
   const {
     nameParam,
@@ -216,12 +217,14 @@ export default function LicenseCertificationSearchResults() {
 
   const handleRouteChange = (e, id, name) => {
     e.preventDefault();
-    history.push(`/lc-search/results/${id}/${name}`);
+    history.push(
+      `/licenses-certifications-and-prep-courses/results/${id}/${name}`,
+    );
   };
 
   const handleGoHome = e => {
     e.preventDefault();
-    history.push(`/lc-search`);
+    history.push(`/licenses-certifications-and-prep-courses`);
   };
 
   const handleCheckboxGroupChange = e => {
@@ -347,9 +350,6 @@ export default function LicenseCertificationSearchResults() {
   }
 
   const renderNoResults = (name, state) => {
-    // consider helper function for displaying name if available, and showing nothing if not -- insert in place of nameParam to qvoid extra conditional statements
-    //
-
     const formatState = () => {
       if (state === 'all') {
         return 'all';
@@ -572,7 +572,9 @@ export default function LicenseCertificationSearchResults() {
                                 </p>
                               )}
                               <va-link
-                                href={`/lc-search/results/${result.enrichedId}`}
+                                href={`/licenses-certifications-and-prep-courses/results/${
+                                  result.enrichedId
+                                }`}
                                 text={`View test amount details for ${
                                   result.lacNm
                                 }`}
