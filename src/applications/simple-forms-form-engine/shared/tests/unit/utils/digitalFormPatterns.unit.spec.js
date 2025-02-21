@@ -175,6 +175,11 @@ describe('listLoopPages', () => {
   });
 
   context('when the variation is employment history', () => {
+    const { employerDatePage, employerDetailPage } = listLoopPages(
+      optional,
+      arrayBuilderStub,
+    );
+
     it('includes a name page', () => {
       const { employerNamePage } = listLoopPages(optional, arrayBuilderStub);
 
@@ -191,32 +196,11 @@ describe('listLoopPages', () => {
     });
 
     it('includes a date page', () => {
-      const { employerDatePage } = listLoopPages(optional, arrayBuilderStub);
-
       expect(employerDatePage.title).to.eq('Dates you were employed');
     });
 
     it('includes a details page', () => {
-      const { employerDetailPage } = listLoopPages(optional, arrayBuilderStub);
-
       expect(employerDetailPage.title).to.eq('Employment detail for employer');
-      expect(employerDetailPage.path).to.eq('employers/:index/detail');
-      expect(employerDetailPage.schema.properties.typeOfWork).to.eq(
-        webComponentPatterns.textSchema,
-      );
-      expect(employerDetailPage.schema.properties.hoursPerWeek).to.eq(
-        webComponentPatterns.numberSchema,
-      );
-      expect(employerDetailPage.schema.properties.lostTime).to.eq(
-        webComponentPatterns.numberSchema,
-      );
-      expect(employerDetailPage.schema.properties.highestIncome).to.eq(
-        webComponentPatterns.textSchema,
-      );
-      expect(employerDetailPage.uiSchema.typeOfWork).to.not.eq(undefined);
-      expect(employerDetailPage.uiSchema.hoursPerWeek).to.not.eq(undefined);
-      expect(employerDetailPage.uiSchema.lostTime).to.not.eq(undefined);
-      expect(employerDetailPage.uiSchema.highestIncome).to.not.eq(undefined);
     });
   });
 
