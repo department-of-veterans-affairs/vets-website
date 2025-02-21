@@ -2344,7 +2344,7 @@
                       }
                   ],
                   "direct": {
-                      "patientHistoryRequired": false,
+                      "patientHistoryRequired": true,
                       "patientHistoryDuration": 0,
                       "relationshipAge": 0,
                       "requireVisitWithinDays": 365,
@@ -2352,14 +2352,14 @@
                       "enabled": true
                   },
                   "request": {
-                      "patientHistoryRequired": false,
+                      "patientHistoryRequired": true,
                       "patientHistoryDuration": 0,
                       "relationshipAge": 0,
                       "requireVisitWithinDays": 365,
                       "canCancel": true,
                       "submittedRequestLimit": 2,
                       "enterpriseSubmittedRequestLimit": 2,
-                      "enabled": false
+                      "enabled": true
                   }
               },
               {
