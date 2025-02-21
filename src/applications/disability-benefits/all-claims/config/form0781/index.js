@@ -10,7 +10,7 @@ import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
 import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
-// import * as unlistedDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/unlistedDescriptionPage';
+import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
 import {
   showForm0781Pages,
@@ -20,7 +20,7 @@ import {
   showBehaviorIntroPage,
   showBehaviorIntroCombatPage,
   showBehaviorListPage,
-  // showUnlistedDescriptionPage,
+  showUnlistedDescriptionPage,
   showBehaviorSummaryPage,
 } from '../../utils/form0781';
 import { workflowChoicePageTitle } from '../../content/form0781/workflowChoicePage';
@@ -32,7 +32,7 @@ import {
   behaviorPageTitle,
   behaviorListPageTitle,
   // reassignmentPageTitle,
-  // unlistedPageTitle,
+  unlistedPageTitle,
   behaviorSummaryPageTitle,
 } from '../../content/form0781/behaviorListPages';
 import { consentPageTitle } from '../../content/form0781/consentPage';
@@ -103,12 +103,13 @@ export const form0781PagesConfig = {
     schema: behaviorListPage.schema,
   },
   ...behaviorDescriptions.makePages(),
-  // unlistedDescriptionPage: {
-  //   path: 'mental-health-form-0781/behavior-changes-2-description',
-  //   depends: formData => showUnlistedDescriptionPage(formData),
-  //   uiSchema: unlistedDescriptionPage.uiSchema,
-  //   schema: unlistedDescriptionPage.schema,
-  // },
+  unlistedBehaviorDescriptionPage: {
+    title: unlistedPageTitle,
+    path: 'mental-health-form-0781/behavior-changes-15-description',
+    depends: formData => showUnlistedDescriptionPage(formData),
+    uiSchema: unlistedBehaviorDescriptionPage.uiSchema,
+    schema: unlistedBehaviorDescriptionPage.schema,
+  },
   behaviorSummaryPage: {
     title: behaviorSummaryPageTitle,
     path: 'mental-health-form-0781/behavior-changes-summary',

@@ -471,3 +471,9 @@ export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
   misconduct: 'Disciplinary or legal difficulties',
   unlisted: 'I experienced other behavioral changes that were not in this list',
 });
+
+export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
+  ...BEHAVIOR_CHANGES_WORK,
+  ...BEHAVIOR_CHANGES_HEALTH,
+  ...BEHAVIOR_CHANGES_OTHER,
+};

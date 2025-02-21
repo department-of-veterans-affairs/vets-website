@@ -1,10 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {
-  BEHAVIOR_CHANGES_WORK,
-  BEHAVIOR_CHANGES_HEALTH,
-  BEHAVIOR_CHANGES_OTHER,
-} from '../../constants';
+import { ALL_BEHAVIOR_CHANGE_DESCRIPTIONS } from '../../constants';
 
 // intro page
 export const behaviorPageTitle = 'Behavioral changes';
@@ -197,15 +193,13 @@ export function validateBehaviorSelections(errors, formData) {
 // behavior description pages
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
-export const unlistedDescriptionPageDescription =
-  'PLACEHOLDER Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided. (Optional)';
 
 export const behaviorDescriptionPageHint =
   'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
 
-export const reassignmentPageTitle = BEHAVIOR_CHANGES_WORK.reassignment;
-
 export const unlistedPageTitle = 'Other behavioral changes';
+export const unlistedDescriptionPageDescription =
+  'Describe the other behavioral changes  you experienced that were not in the list  of behavioral change types provided. (Optional)';
 
 // behavior summary page
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
@@ -244,11 +238,7 @@ function behaviorSummariesList(obj) {
 }
 
 export const summarizeBehaviors = formData => {
-  const allBehaviorDescriptions = {
-    ...BEHAVIOR_CHANGES_WORK,
-    ...BEHAVIOR_CHANGES_HEALTH,
-    ...BEHAVIOR_CHANGES_OTHER,
-  };
+  const allBehaviorDescriptions = ALL_BEHAVIOR_CHANGE_DESCRIPTIONS;
 
   const allBehaviorTypes = {
     ...formData.workBehaviors,
