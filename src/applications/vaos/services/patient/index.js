@@ -237,68 +237,6 @@ function logEligibilityExplanation(
 }
 
 /**
- * Checks for eligibility for OH new appointment flow and returns eligibility objects
- * as well as past appointments needed to determine when someone was last seen
- *
- * @export
- * @async
- * @param {Object} params
- */
-
-export async function fetchOhEligibility({
-  typeOfCare,
-  location,
-  directSchedulingEnabled,
-  oHDirectSchedulingEnabled,
-}) {
-  const directSchedulingAvailable =
-    locationSupportsDirectScheduling(location, typeOfCare) &&
-    directSchedulingEnabled &&
-    oHDirectSchedulingEnabled;
-
-  const apiCalls = {
-    patientEligibility: fetchPatientEligibility({
-      typeOfCare,
-      location,
-      type: !directSchedulingAvailable ? 'request' : null,
-    }),
-  };
-
-  // location contains legacyVAR that contains patientHistoryRequired
-  const directTypeOfCareSettings =
-    location.legacyVAR.settings?.[typeOfCare.id]?.direct;
-
-  const isDirectAppointmentHistoryRequired =
-    directTypeOfCareSettings.patientHistoryRequired === true;
-
-  if (isDirectAppointmentHistoryRequired) {
-    // eslint-disable-next-line no-console
-    console.log('Checking past appointment history...');
-    apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
-      createErrorHandler('direct-no-matching-past-clinics-error'),
-    );
-  }
-
-  const results = await promiseAllFromObject(apiCalls);
-
-  const eligibility = {
-    direct: directSchedulingEnabled,
-    directReasons: !directSchedulingEnabled
-      ? [ELIGIBILITY_REASONS.notEnabled]
-      : [],
-    request: true,
-    requestReasons: [],
-  };
-
-  return {
-    eligibility,
-    // it feels sort of hackish to return these along with our main
-    // eligibility calcs, but we want to cache them for future use
-    pastAppointments: results.pastAppointments,
-  };
-}
-
-/**
  * Checks eligibility for new appointment flow and returns
  * results, plus clinics and past appointments fetched along the way
  *
