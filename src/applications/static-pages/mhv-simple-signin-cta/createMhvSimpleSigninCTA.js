@@ -17,14 +17,9 @@ export default async function createMhvSimpleSigninCallToAction(
   if (widgets.length) {
     const {
       default: MhvSimpleSigninCallToAction,
-    } = await import(/* webpackChunkName: "mhv-signin-cta" */ 'applications/static-pages/mhv-signin-cta');
+    } = await import(/* webpackChunkName: "mhv-simple-signin-cta" */ 'applications/static-pages/mhv-simple-signin-cta');
 
     widgets.forEach(el => {
-      // Grab the content that will show if no alerts.
-      const origElement = el.cloneNode(true);
-      const widgetContent = origElement.getElementsByClassName(
-        'static-widget-content',
-      )[0];
       const serviceDescription = el.getAttribute('data-service-description');
       const headingLevel = el.getAttribute('data-heading-level');
       ReactDOM.render(
@@ -32,7 +27,6 @@ export default async function createMhvSimpleSigninCallToAction(
           <MhvSimpleSigninCallToAction
             headingLevel={headingLevel}
             serviceDescription={serviceDescription}
-            noAlertContent={widgetContent}
           />
         </Provider>,
         el,

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import ReactDOM from 'react-dom';
 import widgetTypes from 'platform/site-wide/widgetTypes';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import createMhvSimpleSigninCallToAction from '../createMhvSigninCTA';
+import createMhvSimpleSigninCallToAction from '../createMhvSimpleSigninCTA';
 
 describe('create MHV Signin Call To Action widget', () => {
   const mockStore = createMockStore([]);
@@ -97,10 +97,6 @@ describe('create MHV Signin Call To Action widget', () => {
       expect(components).to.exist;
       expect(components.props.headingLevel).to.eql(headingLevel);
       expect(components.props.serviceDescription).to.eql(serviceDescription);
-      expect(components.props.noAlertContent).to.exist;
-      expect(components.props.noAlertContent.innerHTML).to.include(
-        'order-hearing-aid-or-CPAP-supplies-form',
-      );
       const replacedEl = ReactDOM.render.getCall(0).args[1];
       expect(replacedEl).to.exist;
       expect(replacedEl.id).to.eql(divId);
