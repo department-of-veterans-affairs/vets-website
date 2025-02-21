@@ -808,7 +808,6 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-
           {recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
