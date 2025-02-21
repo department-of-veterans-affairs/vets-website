@@ -1,19 +1,19 @@
 {
     "data": {
-        "id": "22377955",
+        "id": "22545165",
         "type": "prescription_details",
         "attributes": {
-            "prescriptionId": 22377955,
-            "prescriptionNumber": "2720553",
-            "prescriptionName": "MEGESTROL ACETATE 200MG/5ML ORAL SUSP",
-            "refillStatus": "submitted",
-            "refillSubmitDate": "October 3,2023",
-            "refillDate": "2023-07-18T04:00:00.000Z",
-            "refillRemaining": 5,
+            "prescriptionId": 22545165,
+            "prescriptionNumber": "2720604",
+            "prescriptionName": "BACLOFEN 10MG TAB",
+            "refillStatus": "active",
+            "refillSubmitDate": null,
+            "refillDate": "2023-09-04T04:00:00.000Z",
+            "refillRemaining": 3,
             "facilityName": "DAYT29",
-            "orderedDate": "2023-07-17T04:00:00.000Z",
-            "quantity": 1,
-            "expirationDate": "2024-07-17T04:00:00.000Z",
+            "orderedDate": "2023-09-04T04:00:00.000Z",
+            "quantity": 30,
+            "expirationDate": "2024-09-04T04:00:00.000Z",
             "dispensedDate": null,
             "stationNumber": "989",
             "isRefillable": true,
@@ -21,18 +21,18 @@
             "cmopNdcNumber": null,
             "inCernerTransition": false,
             "notRefillableDisplayMessage": "A refill request cannot be submitted at this time. Please review the prescription status and fill date. If you need more of this medication, please call the pharmacy phone number on your prescription label.",
-            "sig": "TAKE 1 TEASPOONFUL DAILY FOR 30 DAYS",
+            "sig": "TAKE ONE TABLET BY MOUTH DAILY FOR 30 DAYS AUTO TEST --TAKE WITH FOOD--",
             "cmopDivisionPhone": null,
-            "userId": 16955936,
+            "userId": 17621060,
             "providerFirstName": "MOHAMMAD",
             "providerLastName": "ISLAM",
             "remarks": null,
             "divisionName": "DAYTON",
-            "modifiedDate": "2023-08-11T15:56:58.000Z",
+            "modifiedDate": "2023-10-04T20:16:11.000Z",
             "institutionId": null,
-            "dialCmopDivisionPhone": "410-636-6899",
-            "dispStatus": "Active: Submitted",
-            "ndc": "00015-0508-42",
+            "dialCmopDivisionPhone": "",
+            "dispStatus": "Active: Refill in Process",
+            "ndc": "00603-2408-32",
             "reason": null,
             "prescriptionNumberIndex": "RX",
             "prescriptionSource": "RX",
@@ -41,11 +41,10 @@
             "indicationForUseFlag": null,
             "category": "Rx Medication",
             "trackingList": [],
-            "rxRfRecords": [],
-            "tracking": false
+            "rxRfRecords": []
         },
         "links": {
-            "self": "http://127.0.0.1:3000/my_health/v1/prescriptions/22377955"
+            "self": "https://staging-api.va.gov/my_health/v1/prescriptions/22545165"
         }
     }
 }
