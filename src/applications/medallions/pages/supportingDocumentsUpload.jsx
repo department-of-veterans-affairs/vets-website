@@ -8,8 +8,8 @@ const description = formData => {
     <div>
       {formData?.formContext?.onReviewPage && supportingDocsInfo(formData)}
       <p>
-        You can submit your documents online now. Or, select Continue to submit
-        them by mail or fax later.
+        You can submit your documents online now. Or, select{' '}
+        <strong>Continue</strong> to submit them by mail or fax later.
       </p>
       <p>
         <strong>Note:</strong> If you want to mail or fax your documents, we’ll

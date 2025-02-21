@@ -47,7 +47,7 @@ const FileUpload = props => {
   const {
     acceptFileTypes = '.pdf,.jpeg,.png,.jpg',
     label = 'Select optional files to upload',
-    hint = 'You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size',
+    hint = 'You can upload a .jpg, .pdf, or .png file. A .jpg or .png file must be less than 50MB. A .pdf file must be less than 100MB.',
     formData,
     editMode,
     path,

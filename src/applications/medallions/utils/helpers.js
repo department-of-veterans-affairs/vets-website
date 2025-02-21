@@ -37,6 +37,7 @@ export const supportingDocsInfo = formData => {
         >
           <va-accordion open-single>
             <va-accordion-item
+              bordered="true"
               header="If you’re a personal representative of the applicant"
               id="first"
             >
@@ -55,8 +56,8 @@ export const supportingDocsInfo = formData => {
                   of this authority, <strong>or</strong>
                 </li>
                 <li>
-                  <strong>Alternative Signer Certification</strong> (VA Form
-                  21-0972), <strong>or</strong>
+                  Alternative Signer Certification (VA Form 21-0972),{' '}
+                  <strong>or</strong>
                   <br />
                   <a
                     href="https://www.va.gov/find-forms/about-form-21-0972/"
@@ -67,11 +68,8 @@ export const supportingDocsInfo = formData => {
                   </a>
                 </li>
                 <li>
-                  <strong>
-                    Appointment of Veterans Service Organization as Claimant’s
-                    Representative
-                  </strong>{' '}
-                  (VA Form 21-22), <strong>or</strong>
+                  Appointment of Veterans Service Organization as Claimant’s
+                  Representative (VA Form 21-22), <strong>or</strong>
                   <br />
                   <a
                     href="https://www.va.gov/find-forms/about-form-21-22/"
@@ -82,10 +80,8 @@ export const supportingDocsInfo = formData => {
                   </a>
                 </li>
                 <li>
-                  <strong>
-                    Appointment of Individual as Claimant’s Representative
-                  </strong>{' '}
-                  (VA Form 21-22a)
+                  Appointment of Individual as Claimant’s Representative (VA
+                  Form 21-22a)
                   <br />
                   <a
                     href="https://www.va.gov/find-forms/about-form-21-22a/"
