@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import { login } from 'platform/user/authentication/utilities';
 
-export default function MhvSignIn() {
+export default function ProdTestAccess() {
   const [email, setEmail] = useState('');
   const [isValidEmail, setIsValidEmail] = useState(false);
 
@@ -34,12 +34,10 @@ export default function MhvSignIn() {
   return (
     <section className="container row login vads-u-padding--3">
       <div className="columns small-12 vads-u-padding--0">
-        <h1 id="signin-signup-modal-title">
-          Access My HealtheVet test account
-        </h1>
+        <h1 id="signin-signup-modal-title">Access production test account</h1>
         <p>
-          My HealtheVet test accounts are available for VA and Oracle Health
-          staff only.
+          Production test accounts are available for VA and Oracle Health staff
+          only.
         </p>
       </div>
       <h2 className="vads-u-padding-top--4">
@@ -61,16 +59,17 @@ export default function MhvSignIn() {
       />
       <div className="vads-u-margin-y--2">
         <p>
-          <strong>Disclaimer:</strong> By providing your email address you are
-          agreeing to only use <br />
-          My HealtheVet for official VA testing, training, or development
-          purposes.
+          <strong>Disclaimer:</strong> By providing your email address you agree
+          to only use this
+          <br />
+          production test account for official VA testing, training, or
+          development purposes.
         </p>
       </div>
       <div className="vads-u-margin-y--2">
         <va-button
           onClick={handleButtonClick}
-          text="Access My HealtheVet"
+          text="Access test account"
           data-testid="accessMhvBtn"
           disabled={!isValidEmail}
         />

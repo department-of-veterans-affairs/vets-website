@@ -14,6 +14,7 @@ import { additionalInformationPartTwo } from './additionalInformationPartTwo';
 import { childAddressPartOne } from './childAddressPartOne';
 import { childAddressPartTwo } from './childAddressPartTwo';
 import { marriageEndDetails } from './marriageEndDetails';
+import { marriageEndDescription } from './marriageEndDescription';
 
 const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
   return {
@@ -93,7 +94,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       uiSchema: additionalInformationPartOne.uiSchema,
       schema: additionalInformationPartOne.schema,
     }),
-    addChildMarriageEndDetails: pages.itemPage({
+    addChildMarriageEndDetailsPartOne: pages.itemPage({
       depends: (formData, index) => {
         return (
           isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
@@ -105,6 +106,19 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       path: '686-report-add-child/:index/marriage-end-details',
       uiSchema: marriageEndDetails.uiSchema,
       schema: marriageEndDetails.schema,
+    }),
+    addChildMarriageEndDetailsPartTwo: pages.itemPage({
+      depends: (formData, index) => {
+        return (
+          isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
+          formData?.['view:addOrRemoveDependents']?.add &&
+          formData?.childrenToAdd[index]?.marriageEndReason === 'other'
+        );
+      },
+      title: 'How and when marriage ended',
+      path: '686-report-add-child/:index/other-marriage-end-details',
+      uiSchema: marriageEndDescription.uiSchema,
+      schema: marriageEndDescription.schema,
     }),
     addChildAdditionalInformationPartTwo: pages.itemPage({
       depends: formData =>
