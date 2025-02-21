@@ -5,7 +5,7 @@ import { BurialStatusDisplay } from '../../constants';
 function BurialStatus({ facility }) {
   const facilityBurialStatus =
     facility.attributes.operatingStatus?.supplementalStatus?.[0]?.id;
-  const { statusTitle, statusDescription } =
+  const { statusTitle, statusDescription, descriptionDetails } =
     BurialStatusDisplay[facilityBurialStatus] || BurialStatusDisplay.default;
 
   return (
@@ -16,12 +16,20 @@ function BurialStatus({ facility }) {
           <strong>{statusTitle}</strong>
         </p>
         {statusDescription && <p>{statusDescription}</p>}
+        {descriptionDetails &&
+          descriptionDetails.length > 0 && (
+            <ul className="va-list--disc">
+              {descriptionDetails.map((detail, index) => (
+                <li key={index}>{detail}</li>
+              ))}
+            </ul>
+          )}
         <p>
-          This cemetery may have a memorial section or a memorial wall. Memorial
-          areas honor decedents whose remains are not recoverable and are not
-          available for burial. (Examples include remains that are donated to
-          science or cremated remains scattered at sea). Please contact the
-          cemetery for more information.
+          This cemetery may also have a memorial section or a memorial wall.
+          Memorial areas honor decedents whose remains are not recoverable and
+          are not available for burial. (Examples include remains that are
+          donated to science or cremated remains scattered at sea). Please
+          contact the cemetery for more information.
         </p>
       </div>
     </div>
