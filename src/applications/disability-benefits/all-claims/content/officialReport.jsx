@@ -64,15 +64,15 @@ export const reportTypeValidationError = (
 
 function selectedReportTypes(formData) {
   const militaryReportsSelected = Object.values(
-    formData.militaryReports || {},
+    formData?.militaryReports || {},
   ).some(selected => selected === true);
 
-  const otherReportsSelected = Object.entries(formData.otherReports || {})
+  const otherReportsSelected = Object.entries(formData?.otherReports || {})
     .filter(([key]) => key !== 'none')
     .some(([_, selected]) => selected === true);
 
   const unlistedReportEntered =
-    typeof formData.unlistedReport === 'string' &&
+    typeof formData?.unlistedReport === 'string' &&
     formData.unlistedReport.trim() !== '';
 
   return {
@@ -92,7 +92,7 @@ export function showConflictingAlert(formData) {
   const selections = selectedReportTypes(formData);
   const { militaryReports, otherReports, unlistedReport } = selections;
 
-  const noneSelected = !!formData.otherReports?.none;
+  const noneSelected = !!(formData?.otherReports && formData.otherReports.none);
   const reportTypeSelected = militaryReports || otherReports || unlistedReport;
 
   return !!(noneSelected && reportTypeSelected);
