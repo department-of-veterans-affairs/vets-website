@@ -181,11 +181,12 @@ function AddressAutosuggest({
           geolocationInProgress={currentQuery.geolocationInProgress}
         />
       )}
-      /* eslint-enable prettier/prettier */
-      minCharacters={MIN_SEARCH_CHARS}
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
+      showOptionsRestriction={
+        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
+      }
       isLoading={isGeocoding}
       loadingMessage="Searching..."
     />

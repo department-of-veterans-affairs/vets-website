@@ -96,7 +96,6 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
 
   return (
     <Autosuggest
-      defaultSelectedItem={allServicesOption}
       downshiftInputProps={{
         autoCorrect: 'off',
         disabled: false,

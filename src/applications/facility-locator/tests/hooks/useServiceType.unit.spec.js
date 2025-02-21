@@ -5,7 +5,7 @@ import vaHealthcareServices from './test-va-healthcare-services.json';
 describe('filterMatches (VAMC)', () => {
   describe('when matches are expected', () => {
     const getServiceNamesOnly = filteredServices =>
-      filteredServices.map(service => service.hsdatum[0]);
+      filteredServices.map(service => service[0]);
 
     it('should return the correct match for a search term', () => {
       const results = filterMatches(vaHealthcareServices, 'mental', 'vamc');

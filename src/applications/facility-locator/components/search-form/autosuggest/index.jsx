@@ -13,7 +13,6 @@ import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 function Autosuggest({
   // downshift props
   handleOnSelect,
-  defaultSelectedItem,
   initialSelectedItem = null,
   inputValue,
   itemToString = toDisplay,
@@ -30,7 +29,6 @@ function Autosuggest({
   downshiftInputProps,
   // options for the autosuggest to show
   options,
-  minCharacters = 3, // only trigger update after n=3 characters
   noItemsMessage = 'No results found',
   shouldShowNoResults = true,
   // showError - use the usa-input-error class to show the error
@@ -44,6 +42,7 @@ function Autosuggest({
   isLoading = false,
   loadingMessage = '',
   AutosuggestOptionComponent = AutosuggestOption,
+  showOptionsRestriction = undefined,
 }) {
   const {
     isOpen,
@@ -60,7 +59,6 @@ function Autosuggest({
     initialSelectedItem,
     inputId,
     onSelectedItemChange: handleOnSelect,
-    defaultSelectedItem,
     onInputValueChange,
     inputValue,
     isItemDisabled,
@@ -71,6 +69,12 @@ function Autosuggest({
     onClearClick();
     selectItem(null);
   };
+
+  let shouldBeShown = isOpen;
+
+  if (showOptionsRestriction !== undefined) {
+    shouldBeShown = isOpen && showOptionsRestriction;
+  }
 
   return (
     <div
@@ -102,7 +106,7 @@ function Autosuggest({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           options={options}
-          isShown={isOpen && !!inputValue && inputValue.length >= minCharacters}
+          isShown={shouldBeShown}
           itemToString={itemToString}
           noItemsMessage={noItemsMessage} // to display when no items are found - disabled item
           getMenuProps={getMenuProps}

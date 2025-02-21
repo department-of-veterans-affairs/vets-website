@@ -99,6 +99,7 @@ export const filterMatches = (selector, term, facilityType) => {
       if (matched.priorityMatch || matched.secondaryMatch) {
         return matched;
       }
+
       return null;
     })
     .filter(v => v)
