@@ -44,6 +44,7 @@ import SelectOrganization from '../components/SelectOrganization';
 import RepresentativeSubmissionMethod from '../components/RepresentativeSubmissionMethod';
 
 import SubmissionError from '../components/SubmissionError';
+import { submitPOARequest } from '../api/submitPOARequest';
 
 // const mockData = initialData;
 
@@ -59,9 +60,15 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   submit: async form => {
-    await generatePDF(form.data);
+    if (form.data.representativeSubmissionMethod === 'online') {
+      await submitPOARequest(form.data);
+    } else {
+      await generatePDF(form.data);
+    }
 
-    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
+    return Promise.resolve({
+      attributes: { confirmationNumber: '123123123' },
+    });
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
