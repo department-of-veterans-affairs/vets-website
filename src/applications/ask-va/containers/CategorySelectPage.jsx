@@ -11,6 +11,7 @@ import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
 import { URL, getApiUrl } from '../constants';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const CategorySelectPage = props => {
   const { onChange, isLoggedIn, goToPath, formData, goBack, router } = props;
@@ -30,7 +31,7 @@ const CategorySelectPage = props => {
     return setValidationError('Please select a category');
   };
 
-  const handleChange = event => {
+  const handleChange = async event => {
     const selectedValue = event.detail.value;
     const selected = apiData.find(
       category => category.attributes.name === selectedValue,
@@ -39,6 +40,7 @@ const CategorySelectPage = props => {
       setShowModal(true);
     } else {
       dispatch(setCategoryID(selected.id));
+      await askVAAttachmentStorage.clear();
       onChange({
         ...formData,
         selectCategory: selectedValue,
