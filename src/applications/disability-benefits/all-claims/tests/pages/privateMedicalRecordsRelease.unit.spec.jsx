@@ -10,6 +10,7 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
+import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
 describe('Disability benefits 4142 provider medical records facility information', () => {
   const {
@@ -17,6 +18,40 @@ describe('Disability benefits 4142 provider medical records facility information
     uiSchema,
     arrayPath,
   } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
+
+  const claimType = {
+    'view:claimType': {
+      'view:claimingIncrease': true,
+      'view:claimingNew': false,
+    },
+  };
+  const newClaimTypeOnly = {
+    'view:claimType': {
+      'view:claimingNew': true,
+    },
+  };
+  const ratedDisabilities = [
+    {
+      name: 'Post traumatic stress disorder',
+      'view:selected': true,
+    },
+    {
+      name: 'Intervertebral disc syndrome',
+      'view:selected': true,
+    },
+    {
+      name: 'Diabetes Melitus',
+      'view:selected': true,
+    },
+  ];
+
+  const newDisabilities = [
+    {
+      cause: 'NEW',
+      condition: 'asthma',
+      'view:descriptionInfo': {},
+    },
+  ];
 
   it('should render 4142 form', () => {
     const form = mount(
@@ -119,6 +154,90 @@ describe('Disability benefits 4142 provider medical records facility information
     expect(form.find('select').length).to.equal(6);
     expect(form.find('input').length).to.equal(7); // non-checkbox inputs
     expect(form.find('va-checkbox').length).to.equal(1);
+    form.unmount();
+  });
+
+  it('should render with 0781 questions when feature is enabled, user opted into 0781, and has new disabilites', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...newClaimTypeOnly,
+          newDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM, // Opt in/out
+        }}
+      />,
+    );
+    expect(form.find('va-radio').length).to.equal(1); // 0781 question VA radio button
+    form.unmount();
+  });
+
+  it('should not render with 0781 questions when feature is enabled, and the user did opt out of 0781, and has new disabilites', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...newClaimTypeOnly,
+          newDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.OPT_OUT_OF_FORM0781, // Opt in/out
+        }}
+      />,
+    );
+    expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
+    form.unmount();
+  });
+
+  it('should not render with 0781 questions when feature is disabled', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...newClaimTypeOnly,
+          newDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: false,
+        }}
+      />,
+    );
+    expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
+    form.unmount();
+  });
+
+  it('should not render with 0781 questions when it is a claim for increase only', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...claimType,
+          ratedDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: false,
+        }}
+      />,
+    );
+    expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
     form.unmount();
   });
 

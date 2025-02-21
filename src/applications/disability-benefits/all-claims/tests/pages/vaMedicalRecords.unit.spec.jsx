@@ -18,6 +18,11 @@ describe('VA Medical Records', () => {
       'view:claimingNew': false,
     },
   };
+  const newClaimTypeOnly = {
+    'view:claimType': {
+      'view:claimingNew': true,
+    },
+  };
   const ratedDisabilities = [
     {
       name: 'Post traumatic stress disorder',
@@ -89,7 +94,80 @@ describe('VA Medical Records', () => {
     form.unmount();
   });
 
-  it('should render with 0781 questions when feature is enabled, and the user did not opt out of 0781', () => {
+  it('should render with 0781 questions when feature is enabled, user opted into 0781, and has new disabilites', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...newClaimTypeOnly,
+          newDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.COMPLETE_ONLINE_FORM, // Opt in/out
+        }}
+      />,
+    );
+    expect(form.find('va-radio').length).to.equal(1); // 0781 question VA radio button
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1); // Disability checkboxes
+    expect(form.find('select').length).to.equal(3);
+    form.unmount();
+  });
+
+  it('should not render with 0781 questions when feature is enabled, and the user did opt out of 0781, and has new disabilites', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...newClaimTypeOnly,
+          newDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: true,
+          'view:mentalHealthWorkflowChoice':
+            form0781WorkflowChoices.OPT_OUT_OF_FORM0781, // Opt in/out
+        }}
+      />,
+    );
+    expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1); // Disability checkboxes
+    expect(form.find('select').length).to.equal(3);
+    form.unmount();
+  });
+
+  it('should not render with 0781 questions when feature is disabled', () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          ...newClaimTypeOnly,
+          newDisabilities,
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
+          },
+          syncModern0781Flow: false,
+        }}
+      />,
+    );
+    expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
+    expect(form.find('input').length).to.equal(3); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1); // Disability checkboxes
+    expect(form.find('select').length).to.equal(3);
+    form.unmount();
+  });
+
+  it('should not render with 0781 questions when it is a claim for increase only', () => {
     const form = mount(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
@@ -101,25 +179,16 @@ describe('VA Medical Records', () => {
           'view:selectableEvidenceTypes': {
             'view:hasVaMedicalRecords': true,
           },
-          syncModern0781Flow: true,
-          'view:mentalHealthWorkflowChoice':
-            form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
+          syncModern0781Flow: false,
         }}
       />,
     );
-
-    expect(form.find('va-radio').length).to.equal(1); // 0781 question VA radio button
+    expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
     expect(form.find('input').length).to.equal(3); // non-checkbox inputs
-    expect(form.find('va-checkbox').length).to.equal(3);
+    expect(form.find('va-checkbox').length).to.equal(3); // Disability checkboxes
     expect(form.find('select').length).to.equal(3);
     form.unmount();
   });
-
-  it('should not render with 0781 questions when feature is enabled, and the user did opt out of 0781', () => {});
-
-  it('should not render with 0781 questions when feature is disabled', () => {});
-
-  it('should add the correct data values to formData when yes/no selected for 0781 flow', () => {});
 
   // Ignore empty vaTreatmentFacilities when not selected, see
   // va.gov-team/issues/34289
