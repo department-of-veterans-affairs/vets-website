@@ -1,7 +1,11 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
-import { identificationInformation, nameAndDateOfBirth } from '../config/pages';
+import {
+  employmentHistory,
+  identificationInformation,
+  nameAndDateOfBirth,
+} from '../config/pages';
 
 /** @type {SchemaOptions} */
 const defaultSchema = {
@@ -89,30 +93,7 @@ export const listLoopPages = (
     },
   };
 
-  /** @returns {PageSchema} */
-  const datePage = {
-    title: 'Dates you were employed',
-    path: 'employers/:index/dates',
-    uiSchema: {
-      ...webComponentPatterns.arrayBuilderItemSubsequentPageTitleUI(
-        ({ formData }) =>
-          formData?.name
-            ? `Dates you were employed at ${formData.name}`
-            : 'Dates you were employed',
-      ),
-      dateRange: webComponentPatterns.currentOrPastDateRangeUI(
-        'Start date of employment',
-        'End date of employment',
-      ),
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        dateRange: webComponentPatterns.currentOrPastDateRangeSchema,
-      },
-      required: ['dateRange'],
-    },
-  };
+  const { datePage } = employmentHistory;
 
   /** @returns {PageSchema} */
   const namePage = {

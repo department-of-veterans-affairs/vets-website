@@ -1,3 +1,4 @@
+export * as employmentHistory from './employmentHistory';
 export {
   default as identificationInformation,
 } from './identificationInformation';

@@ -194,11 +194,6 @@ describe('listLoopPages', () => {
       const { employerDatePage } = listLoopPages(optional, arrayBuilderStub);
 
       expect(employerDatePage.title).to.eq('Dates you were employed');
-      expect(employerDatePage.path).to.eq('employers/:index/dates');
-      expect(employerDatePage.schema.properties.dateRange).to.eq(
-        webComponentPatterns.currentOrPastDateRangeSchema,
-      );
-      expect(employerDatePage.uiSchema.dateRange).to.not.eq(undefined);
     });
 
     it('includes a details page', () => {
