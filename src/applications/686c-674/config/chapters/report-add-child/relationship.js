@@ -4,7 +4,7 @@ import {
   checkboxGroupUI,
   checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import { generateHelpText } from '../../helpers';
 
 const CommonEvidenceInfo = (
   <>
@@ -45,8 +45,7 @@ export const relationship = {
     }),
     relationshipToChild: checkboxGroupUI({
       title: 'What’s your relationship to this child?',
-      'ui:description': 'Check all that apply',
-      'ui:webComponentField': VaCheckboxField,
+      description: generateHelpText('Check all that apply'),
       labels: {
         biological: 'They’re my biological child',
         adopted: 'They’re my adopted child',
