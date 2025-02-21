@@ -477,7 +477,7 @@ const ReviewPage = props => {
                         {
                           name: 'Middle name',
                           data: props.formData.aboutYourself.middle,
-                          key: 'aboutYourselfGeneral',
+                          key: 'aboutYourselfRelationshipFamilyMember',
                         },
                         {
                           name: 'Last name',
