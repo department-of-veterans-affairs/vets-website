@@ -26,6 +26,9 @@ describe('Medications Details Page Submitted Rx Delay Alert', () => {
     detailsPage.verifyRefillDelayAlertBannerOnDetailsPage(
       Data.DELAY_ALERT_DETAILS_BANNER,
     );
+    detailsPage.verifyPharmacyPhoneNumberOnDelayAlert(
+      rxSubmitted.data.attributes.dialCmopDivisionPhone,
+    );
     detailsPage.verifySubmittedStatusDropDownDefinition();
     cy.injectAxe();
     cy.axeCheck('main');

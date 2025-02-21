@@ -590,6 +590,13 @@ class MedicationsDetailsPage {
   verifyCheckStatusHeaderTextOnDetailsPage = text => {
     cy.get('[data-testid="check-status-text"]').should('have.text', text);
   };
+
+  verifyPharmacyPhoneNumberOnDelayAlert = phoneNumber => {
+    cy.get('[data-testid="pharmacy-phone-number"]')
+      .shadow()
+      .find('[href="tel:+14106366899"]')
+      .should('contain', phoneNumber);
+  };
 }
 
 export default MedicationsDetailsPage;
