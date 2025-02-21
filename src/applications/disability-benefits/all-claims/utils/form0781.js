@@ -120,19 +120,28 @@ export function showBehaviorListPage(formData) {
   );
 }
 
-export function showReassignmentDescriptionPage(formData) {
+/**
+ * Checks if a specific description page should display for selected behavior type. It should display if all
+ * the following is true
+ * 1. 0781 pages should be showing at all
+ * 2. the given checkbox formData is present for the given behavior with a value of true
+ *
+ * @param {object} formData - full form data
+ * @param {string} behavior - selected behavior type
+ * @returns {boolean} true if the page should display, false otherwise
+ */
+export function showBehaviorDescriptionsPage(formData, behavior, section) {
   return (
-    isCompletingForm0781(formData) &&
-    formData?.workBehaviors?.reassignment === true
+    isCompletingForm0781(formData) && formData?.[section]?.[behavior] === true
   );
 }
 
-export function showUnlistedDescriptionPage(formData) {
-  return (
-    isCompletingForm0781(formData) &&
-    formData?.otherBehaviors?.unlisted === true
-  );
-}
+// export function showUnlistedDescriptionPage(formData) {
+//   return (
+//     isCompletingForm0781(formData) &&
+//     formData?.otherBehaviors?.unlisted === true
+//   );
+// }
 
 export function showBehaviorSummaryPage(formData) {
   return isCompletingForm0781(formData) && hasSelectedBehaviors(formData);
