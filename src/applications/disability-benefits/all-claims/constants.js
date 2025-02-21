@@ -417,6 +417,26 @@ export const OFFICIAL_REPORT_TYPES = Object.freeze({
   none: 'No report',
 });
 
+export const BEHAVIOR_CHANGE_TYPES_WITH_SECTION = Object.freeze({
+  reassignment: 'workBehaviors',
+  absences: 'workBehaviors',
+  performance: 'workBehaviors',
+  consultations: 'healthBehaviors',
+  episodes: 'healthBehaviors',
+  medications: 'healthBehaviors',
+  selfMedication: 'healthBehaviors',
+  substances: 'healthBehaviors',
+  appetite: 'healthBehaviors',
+  pregnancy: 'healthBehaviors',
+  screenings: 'healthBehaviors',
+  socialEconomic: 'otherBehaviors',
+  relationships: 'otherBehaviors',
+  misconduct: 'otherBehaviors',
+  unlisted: 'otherBehaviors',
+});
+
+export const MH_0781_URL_PREFIX = 'mental-health-form-0781';
+
 export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
   work: 'Behavioral changes related to work',
   health: 'Behavioral changes related to health',
