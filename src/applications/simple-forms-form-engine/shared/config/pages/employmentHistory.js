@@ -68,3 +68,29 @@ export const detailPage = {
     }),
   },
 };
+
+/** @returns {PageSchema} */
+export const namePage = options => ({
+  title: 'Name and address of employer or unit',
+  path: 'employers/:index/name-and-address',
+  uiSchema: {
+    ...webComponentPatterns.arrayBuilderItemFirstPageTitleUI({
+      title: 'Name and address of employer or unit',
+      nounSingular: options.nounSingular,
+    }),
+    name: webComponentPatterns.textUI('Name of employer'),
+    address: webComponentPatterns.addressNoMilitaryUI({
+      omit: ['street2', 'street3'],
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      name: webComponentPatterns.textSchema,
+      address: webComponentPatterns.addressNoMilitarySchema({
+        omit: ['street2', 'street3'],
+      }),
+    },
+    required: ['name', 'address'],
+  },
+});

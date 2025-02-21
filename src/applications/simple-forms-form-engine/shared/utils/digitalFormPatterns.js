@@ -93,33 +93,7 @@ export const listLoopPages = (
     },
   };
 
-  const { datePage, detailPage } = employmentHistory;
-
-  /** @returns {PageSchema} */
-  const namePage = {
-    title: 'Name and address of employer or unit',
-    path: 'employers/:index/name-and-address',
-    uiSchema: {
-      ...webComponentPatterns.arrayBuilderItemFirstPageTitleUI({
-        title: 'Name and address of employer or unit',
-        nounSingular: options.nounSingular,
-      }),
-      name: webComponentPatterns.textUI('Name of employer'),
-      address: webComponentPatterns.addressNoMilitaryUI({
-        omit: ['street2', 'street3'],
-      }),
-    },
-    schema: {
-      type: 'object',
-      properties: {
-        name: webComponentPatterns.textSchema,
-        address: webComponentPatterns.addressNoMilitarySchema({
-          omit: ['street2', 'street3'],
-        }),
-      },
-      required: ['name', 'address'],
-    },
-  };
+  const { datePage, detailPage, namePage } = employmentHistory;
 
   /** @type {PageSchema} */
   const introPage = {
@@ -184,7 +158,7 @@ export const listLoopPages = (
     return {
       ...pages,
       employerSummary: pageBuilder.summaryPage(summaryPage),
-      employerNamePage: pageBuilder.itemPage(namePage),
+      employerNamePage: pageBuilder.itemPage(namePage(options)),
       employerDatePage: pageBuilder.itemPage(datePage),
       employerDetailPage: pageBuilder.itemPage(detailPage),
     };

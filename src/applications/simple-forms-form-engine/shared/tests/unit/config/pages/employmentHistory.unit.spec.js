@@ -1,8 +1,11 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
+import * as arrayBuilderPatterns from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
 import {
   datePage,
   detailPage,
+  namePage,
 } from 'applications/simple-forms-form-engine/shared/config/pages/employmentHistory';
 
 describe('datePage', () => {
@@ -36,5 +39,47 @@ describe('detailPage', () => {
     expect(detailPage.uiSchema.hoursPerWeek).to.not.eq(undefined);
     expect(detailPage.uiSchema.lostTime).to.not.eq(undefined);
     expect(detailPage.uiSchema.highestIncome).to.not.eq(undefined);
+  });
+});
+
+describe('namePage', () => {
+  const options = {
+    nounSingular: 'test employer',
+  };
+
+  let spy;
+
+  beforeEach(() => {
+    spy = sinon.spy(arrayBuilderPatterns, 'arrayBuilderItemFirstPageTitleUI');
+  });
+
+  afterEach(() => {
+    spy.restore();
+  });
+
+  it('includes the proper attributes', () => {
+    const employerNamePage = namePage(options);
+
+    expect(employerNamePage.title).to.eq(
+      'Name and address of employer or unit',
+    );
+    expect(employerNamePage.path).to.eq('employers/:index/name-and-address');
+    expect(employerNamePage.schema.properties.address).to.not.eq(undefined);
+    expect(employerNamePage.schema.properties.name).to.eq(
+      webComponentPatterns.textSchema,
+    );
+    expect(employerNamePage.uiSchema.address).to.not.eq(undefined);
+    expect(employerNamePage.uiSchema.name).to.not.eq(undefined);
+  });
+
+  it('calls arrayBuilderItemFirstPageTitleUI with the correct option', () => {
+    namePage(options);
+
+    expect(
+      spy.calledWithMatch({
+        title: 'Name and address of employer or unit',
+        nounSingular: options.nounSingular,
+      }),
+    ).to.eq(true);
   });
 });
