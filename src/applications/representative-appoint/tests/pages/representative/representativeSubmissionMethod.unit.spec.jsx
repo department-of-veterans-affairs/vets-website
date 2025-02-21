@@ -162,7 +162,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
     context('when v2 is not enabled', () => {
       it('returns false', () => {
         const formData = {
-          v2IsEnabled: false,
+          'view:v2IsEnabled': false,
           'view:selectedRepresentative': {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
@@ -182,7 +182,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
       () => {
         it('returns false', () => {
           const formData = {
-            v2IsEnabled: true,
+            'view:v2IsEnabled': true,
             'view:selectedRepresentative': {
               type: 'organization',
               attributes: { canAcceptDigitalPoaRequests: false },
@@ -201,7 +201,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
     context('when the user is not eligible for digital submission', () => {
       it('returns false', () => {
         const formData = {
-          v2IsEnabled: true,
+          'view:v2IsEnabled': true,
           'view:selectedRepresentative': {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
@@ -219,7 +219,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
     context('when all digital submission criteria met', () => {
       it('returns true', () => {
         const formData = {
-          v2IsEnabled: true,
+          'view:v2IsEnabled': true,
           'view:selectedRepresentative': {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
