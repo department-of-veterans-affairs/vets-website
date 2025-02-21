@@ -276,64 +276,17 @@ describe('listLoopPages', () => {
 });
 
 describe('personalInfoPages', () => {
-  const optionalFieldsIncluded = {
-    id: 54321,
-    type: 'digital_form_your_personal_info',
-    chapterTitle: 'Your personal information',
-    pages: [
-      {
-        pageTitle: 'Name',
-        includeDateOfBirth: true,
-      },
-      {
-        pageTitle: 'Identification information',
-        includeServiceNumber: true,
-      },
-    ],
-  };
   const yourPersonalInfo = findChapterByType('digital_form_your_personal_info');
   const [nameAndDob, identificationInfo] = yourPersonalInfo.pages;
   const { identificationInformation, nameAndDateOfBirth } = personalInfoPages(
     yourPersonalInfo,
   );
-  const {
-    identificationInformation: serviceNumberIncluded,
-  } = personalInfoPages(optionalFieldsIncluded);
 
   it('includes a nameAndDateOfBirth page', () => {
     expect(nameAndDateOfBirth.title).to.eq(nameAndDob.pageTitle);
   });
 
-  describe('identificationInformation', () => {
-    it('includes an identification information page', () => {
-      expect(identificationInformation.title).to.eq(
-        identificationInfo.pageTitle,
-      );
-      expect(identificationInformation.path).to.eq(
-        'identification-information',
-      );
-    });
-
-    context('when includeServiceNumber is true', () => {
-      it('includes serviceNumber', () => {
-        expect(serviceNumberIncluded.schema.properties.serviceNumber).to.eq(
-          webComponentPatterns.serviceNumberSchema,
-        );
-        expect(serviceNumberIncluded.uiSchema.serviceNumber).to.not.eq(
-          undefined,
-        );
-      });
-    });
-
-    context('when includeServiceNumber is false', () => {
-      it('does not include serviceNumber', () => {
-        expect(identificationInformation.schema.properties.serviceNumber).to.eq(
-          undefined,
-        );
-        expect(identificationInformation.uiSchema.serviceNumber).to.eq(
-          undefined,
-        );
-      });
-    });
+  it('includes an identificationInformation page', () => {
+    expect(identificationInformation.title).to.eq(identificationInfo.pageTitle);
   });
 });

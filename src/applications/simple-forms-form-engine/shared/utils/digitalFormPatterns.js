@@ -1,7 +1,7 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
-import nameAndDateOfBirth from '../config/pages/nameAndDateOfBirth';
+import { identificationInformation, nameAndDateOfBirth } from '../config/pages';
 
 /** @type {SchemaOptions} */
 const defaultSchema = {
@@ -260,35 +260,8 @@ export const listLoopPages = (
 export const personalInfoPages = chapter => {
   const [nameAndDob, identificationInfo] = chapter.pages;
 
-  /** @returns {PageSchema} */
-  const identificationInfoPage = ({ includeServiceNumber, pageTitle }) => {
-    const schema = {
-      ...defaultSchema,
-      properties: {
-        veteranId: webComponentPatterns.ssnOrVaFileNumberSchema,
-      },
-    };
-    const uiSchema = {
-      ...webComponentPatterns.titleUI(pageTitle),
-      veteranId: webComponentPatterns.ssnOrVaFileNumberUI(),
-    };
-
-    if (includeServiceNumber) {
-      schema.properties.serviceNumber =
-        webComponentPatterns.serviceNumberSchema;
-      uiSchema.serviceNumber = webComponentPatterns.serviceNumberUI();
-    }
-
-    return {
-      path: 'identification-information',
-      title: pageTitle,
-      schema,
-      uiSchema,
-    };
-  };
-
   return {
     nameAndDateOfBirth: nameAndDateOfBirth(nameAndDob),
-    identificationInformation: identificationInfoPage(identificationInfo),
+    identificationInformation: identificationInformation(identificationInfo),
   };
 };
