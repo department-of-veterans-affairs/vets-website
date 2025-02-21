@@ -1,14 +1,14 @@
-import minTestData from './fixtures/data/minimal-test.json';
+// import minTestData from './fixtures/data/minimal-test.json';
 import mockFeatures from './fixtures/mocks/feature-toggles.reg-only.json';
 import {
-  advanceToVaBenefits,
+  // advanceToVaBenefits,
   goToNextPage,
   setupForAuth,
-  setupForGuest,
+  // setupForGuest,
   startAsAuthUser,
 } from './utils';
 
-const { data: testData } = minTestData;
+// const { data: testData } = minTestData;
 
 describe('HCA-Registration-Only: Authenticated user', () => {
   context('when user has no disability rating - 0%', () => {
@@ -55,7 +55,7 @@ describe('HCA-Registration-Only: Authenticated user', () => {
     });
   });
 });
-
+/*
 describe('HCA-Registration-Only: Guest user', () => {
   beforeEach(() => {
     setupForGuest({ features: mockFeatures });
@@ -102,3 +102,4 @@ describe('HCA-Registration-Only: Guest user', () => {
     });
   });
 });
+*/

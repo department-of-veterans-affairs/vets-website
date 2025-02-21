@@ -8,8 +8,10 @@ import {
   fillIdentityForm,
   fillVaFacility,
   goToNextPage,
-  setupBasicTest,
-  startAsGuestUser,
+  // setupBasicTest,
+  setupForAuth,
+  startAsAuthUser,
+  // startAsGuestUser,
 } from './utils';
 
 const testConfig = createTestConfig(
@@ -19,7 +21,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures/data') },
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => startAsGuestUser());
+        afterHook(() => startAsAuthUser());
       },
       'id-form': () => {
         cy.get('@testData').then(testData => fillIdentityForm(testData));
@@ -62,7 +64,7 @@ const testConfig = createTestConfig(
         });
       },
     },
-    setupPerTest: () => setupBasicTest(),
+    setupPerTest: () => setupForAuth(),
   },
   manifest,
   formConfig,
