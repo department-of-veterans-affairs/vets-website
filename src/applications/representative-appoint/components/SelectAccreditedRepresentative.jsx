@@ -205,7 +205,10 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
-            userIsDigitalSubmitEligible={formData?.userIsDigitalSubmitEligible}
+            userIsDigitalSubmitEligible={
+              formData?.userIsDigitalSubmitEligible &&
+              formData?.['view:v2IsEnabled']
+            }
           />
         ))}
       <p className="vads-u-margin-y--4">
