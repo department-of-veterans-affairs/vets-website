@@ -77,7 +77,12 @@ export default function CCRequest() {
 
   return (
     <div className="vaos-form__detailed-radio">
-      <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       <p>You can select up to 3 preferred timeframes.</p>
       <p>
         <strong>Note:</strong> We’ll contact you to finish scheduling the
