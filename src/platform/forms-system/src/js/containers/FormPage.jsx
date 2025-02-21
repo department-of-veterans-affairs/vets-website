@@ -87,9 +87,7 @@ class FormPage extends React.Component {
       get('params.index', prevProps) !== get('params.index', this.props)
     ) {
       this.prePopulateArrayData();
-      setTimeout(() => {
-        focusForm(this.props.route, this.props?.params?.index);
-      }, 250);
+      focusForm(this.props.route, this.props?.params?.index);
     }
   }
 
