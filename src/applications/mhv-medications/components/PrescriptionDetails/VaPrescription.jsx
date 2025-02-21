@@ -141,13 +141,14 @@ const VaPrescription = prescription => {
                   />
                 )}
                 {showRefillProgressContent &&
-                  latestTrackingStatus &&
                   isRefillRunningLate && (
                     <h2
                       className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
                       data-testid="check-status-text"
                     >
-                      Check the status of your next refill
+                      {latestTrackingStatus
+                        ? 'Check the status of your next refill'
+                        : 'Refill request status'}
                     </h2>
                   )}
                 {showRefillProgressContent &&
