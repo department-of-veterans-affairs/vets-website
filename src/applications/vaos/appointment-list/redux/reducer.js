@@ -170,7 +170,7 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         appointmentDetailsStatus: FETCH_STATUS.failed,
-        error: action.error,
+        isBadAppointmentId: action.isBadAppointmentId,
       };
     }
     case FETCH_CONFIRMED_DETAILS_SUCCEEDED:

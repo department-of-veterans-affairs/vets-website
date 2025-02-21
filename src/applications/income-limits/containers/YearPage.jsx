@@ -90,7 +90,6 @@ const YearPage = ({
         maxlength={4}
         onInput={onYearInput}
         required
-        type="number"
         value={yearInput}
       />
       <VaButtonPair
