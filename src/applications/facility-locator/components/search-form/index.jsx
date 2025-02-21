@@ -185,6 +185,7 @@ const SearchForm = props => {
       (!searchString || searchString.length === 0);
     return (
       <div
+        id="location-input-container"
         className={classNames('vads-u-margin--0', {
           'usa-input-error': showError,
         })}
@@ -239,7 +240,7 @@ const SearchForm = props => {
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
             {useProgressiveDisclosure
-              ? 'Please fill in a zip code or city, state.'
+              ? 'Enter a zip code or a city and state in the search box'
               : 'Please fill in a city, state, or postal code.'}
           </span>
         )}
@@ -378,6 +379,7 @@ const SearchForm = props => {
                 <CCServiceTypeAhead
                   handleServiceTypeChange={handleServiceTypeChange}
                   initialSelectedServiceType={serviceType}
+                  isSmallDesktop={isSmallDesktop}
                   showError={showError}
                   useProgressiveDisclosure
                 />
@@ -397,6 +399,7 @@ const SearchForm = props => {
             <CCServiceTypeAhead
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
+              isSmallDesktop={isSmallDesktop}
               showError={showError}
               useProgressiveDisclosure={false}
               getProviderSpecialties={getProviderSpecialties}

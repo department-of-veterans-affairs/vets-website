@@ -84,7 +84,10 @@ function AddressAutosuggest({
           }
           setIsGeocoding(false);
         })
-        .catch(() => setIsGeocoding(false));
+        .catch(() => {
+          onChange({ error: true });
+          setIsGeocoding(false);
+        });
     }
   };
 

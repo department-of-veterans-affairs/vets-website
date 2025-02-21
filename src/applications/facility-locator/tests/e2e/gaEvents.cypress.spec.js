@@ -4,25 +4,23 @@ import {
   assertEventAndAttributes,
 } from './analyticsUtils';
 import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
-import { featureTogglesToTest } from './featureTogglesToTest';
+import {
+  featureCombinationsTogglesToTest,
+  enabledFeatures,
+} from './featureTogglesToTest';
 
-const featuresToTestOn = featureTogglesToTest([
+const featuresToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
+  'facilities_use_address_typeahead',
 ]);
-const featuresToTestOff = featureTogglesToTest(
-  ['facilities_use_fl_progressive_disclosure'],
-  false,
-);
 
-for (const feature of [...featuresToTestOn, ...featuresToTestOff]) {
-  describe(`Google Analytics FL Events${
-    feature?.name ? ` ${feature.name} - ${feature.value}` : ''
-  }`, () => {
+for (const featureSet of featuresToTest) {
+  describe(`Google Analytics FL Events ${enabledFeatures(featureSet)}`, () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
-          features: [feature],
+          features: featureSet,
         },
       });
     });

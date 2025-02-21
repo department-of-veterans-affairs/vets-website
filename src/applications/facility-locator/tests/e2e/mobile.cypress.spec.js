@@ -1,18 +1,20 @@
 import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
-import { featureTogglesToTest } from './featureTogglesToTest';
+import {
+  featureCombinationsTogglesToTest,
+  isFeatureEnabled,
+  enabledFeatures,
+} from './featureTogglesToTest';
 
 const city = 'Austin, TX';
 const randomInput = 'Random Input To be Cleared';
-const featuresToTestOn = featureTogglesToTest([
-  'facilities_use_fl_progressive_disclosure',
-]);
-const featuresToTestOff = featureTogglesToTest(
-  ['facilities_use_fl_progressive_disclosure'],
-  false,
-);
 
-Cypress.Commands.add('checkClearInput', () => {
+const featureSetsToTest = featureCombinationsTogglesToTest([
+  'facilities_use_fl_progressive_disclosure',
+  'facilities_use_address_typeahead',
+]);
+
+Cypress.Commands.add('checkClearInput', clearInputSelector => {
   cy.get('#street-city-state-zip').clear();
   cy.axeCheck();
   [...randomInput].forEach(char => {
@@ -21,7 +23,7 @@ Cypress.Commands.add('checkClearInput', () => {
       .focus()
       .type(char, { force: true });
   });
-  cy.get('#clear-input').click();
+  cy.get(clearInputSelector).click();
   cy.get('#street-city-state-zip').should('have.value', '');
 });
 
@@ -37,7 +39,7 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#street-city-state-zip')
     .should('not.be.disabled')
     .focus()
-    .type(city, { force: true });
+    .type(`${city}{esc}`, { force: true });
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
@@ -72,15 +74,18 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#street-city-state-zip').clear();
 });
 
-for (const feature of [...featuresToTestOn, ...featuresToTestOff]) {
-  describe(`Mobile${
-    feature?.name ? ` ${feature.name} - ${feature.value}` : ''
-  }`, () => {
+for (const featureSet of featureSetsToTest) {
+  const clearInputSelector = featureSet.some(
+    isFeatureEnabled('facilities_use_address_typeahead'),
+  )
+    ? '#clear-street-city-state-zip'
+    : '#clear-input';
+  describe(`Mobile ${enabledFeatures(featureSet)}`, () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
-          features: [feature],
+          features: featureSet,
         },
       });
       cy.intercept('GET', '/v0/maintenance_windows', []);
@@ -96,41 +101,41 @@ for (const feature of [...featuresToTestOn, ...featuresToTestOff]) {
 
       // iPhone X
       cy.viewport(400, 812);
-      cy.checkClearInput();
+      cy.checkClearInput(clearInputSelector);
       cy.checkSearch();
 
       // iPhone 6/7/8 plus
       cy.viewport(414, 736);
-      cy.checkClearInput();
+      cy.checkClearInput(clearInputSelector);
       cy.checkSearch();
 
       // Pixel 2
       cy.viewport(411, 731);
-      cy.checkClearInput();
+      cy.checkClearInput(clearInputSelector);
       cy.checkSearch();
 
       // Galaxy S5/Moto
       cy.viewport(360, 640);
-      cy.checkClearInput();
+      cy.checkClearInput(clearInputSelector);
       cy.checkSearch();
     });
 
     // [W,H, width of #facility-search, +/- range (this matters for CI) where it gets confused how to apply style sheets]
-    const sizes =
-      feature?.name === 'facilities_use_fl_progressive_disclosure' &&
-      feature.value
-        ? [
-            [1024, 1000, 299, 20],
-            [1007, 1000, 900, 100],
-            [768, 1000, 699, 40],
-            [481, 1000, 436, 40],
-          ]
-        : [
-            [1024, 1000, 180.25, 140],
-            [1007, 1000, 900, 100],
-            [768, 1000, 699, 40],
-            [481, 1000, 436, 40],
-          ];
+    const sizes = featureSet.some(
+      isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
+    )
+      ? [
+          [1024, 1000, 299, 20],
+          [1007, 1000, 900, 100],
+          [768, 1000, 699, 40],
+          [481, 1000, 436, 40],
+        ]
+      : [
+          [1024, 1000, 180.25, 140],
+          [1007, 1000, 900, 100],
+          [768, 1000, 699, 40],
+          [481, 1000, 436, 40],
+        ];
     const smDesktopOrGreater = 1024;
     const tabletOrGreater = 768;
     const phoneOrGreater = 320;
@@ -149,8 +154,9 @@ for (const feature of [...featuresToTestOn, ...featuresToTestOff]) {
 
         if (
           size[0] >= smDesktopOrGreater &&
-          feature.name === 'facilities_use_fl_progressive_disclosure' &&
-          feature.value
+          featureSet.some(
+            isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
+          )
         ) {
           cy.get('#vertical-oriented-left-controls').should('exist');
           cy.get('.react-tabs').should('not.exist');

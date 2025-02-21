@@ -368,6 +368,9 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+      &.facility-error {
+        margin-top: -8px;
+      }
     }
 
     .facility-type-dropdown-desktop {
@@ -393,6 +396,16 @@ $text-color: rgba(27, 27, 27, 1);
 
     .typeahead:has(.usa-input-error) + input[type="submit"] {
       margin-bottom: 38px;
+    }
+
+    #location-input-container {
+      &.usa-input-error {
+        margin-bottom: 24px;
+        padding-bottom: 0;
+        .input-container {
+          margin-bottom: 0;
+        }
+      }
     }
 
     #location-input-field {
@@ -508,16 +521,17 @@ $text-color: rgba(27, 27, 27, 1);
     @media (min-width: $small-desktop-screen) {
       flex-basis: 50%;
     }
+    &:has(.usa-input-error) {
+      margin-bottom: 24px;
+    }
   }
 }
 
 // Prevent error message div from colliding with facility-type
 #service-error {
-  @media (min-width: $small-desktop-screen) {
-    &.usa-input-error {
-      padding-top: 0.25rem !important;
-      padding-bottom: 0rem !important;
-    }
+  &.usa-input-error {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0rem !important;
   }
 }
 
@@ -554,6 +568,12 @@ $text-color: rgba(27, 27, 27, 1);
     top: 44px;
     width: 100%;
     z-index: 1010;
+
+    &.drowpdown-fl-sm-desktop {
+      @media screen and (min-width: $small-desktop-screen) {
+        max-width: 301px;
+      }
+    }
 
     @media (min-width: $small-desktop-screen) {
       width: 418px;

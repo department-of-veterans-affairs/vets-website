@@ -69,7 +69,7 @@ class CCServiceTypeAhead extends Component {
     });
   };
 
-  optionClasses = selected => classNames('dropdown-option', { selected });
+  optionClasses = selected => classNames('dropdown-option ', { selected });
 
   getSpecialtyName = specialty => {
     if (!specialty) return '';
@@ -104,8 +104,9 @@ class CCServiceTypeAhead extends Component {
     const { isFocused } = this.state;
     const { showError } = this.props;
     if (
-      (isFocused && inputValue === '' && !showError) ||
-      (inputValue && inputValue.length < MIN_SEARCH_CHARS)
+      ((isFocused && inputValue === '' && !showError) ||
+        (inputValue && inputValue.length < MIN_SEARCH_CHARS)) &&
+      !this.props.useProgressiveDisclosure
     ) {
       return (
         <MessagePromptDiv
@@ -123,7 +124,14 @@ class CCServiceTypeAhead extends Component {
     inputValue,
   ) => {
     return (
-      <div className="dropdown" role="listbox">
+      <div
+        className={`dropdown${
+          this.props.useProgressiveDisclosure && this.props.isSmallDesktop
+            ? ' drowpdown-fl-sm-desktop'
+            : ''
+        }`}
+        role="listbox"
+      >
         {this.matchingServices(inputValue).map((specialty, index) => (
           <div
             key={`${this.getSpecialtyName(specialty)}-${index}`}
@@ -201,22 +209,29 @@ class CCServiceTypeAhead extends Component {
               Service type{' '}
               <span className="form-required-span">(*Required)</span>
             </label>
-            <p className="service-hint-text">
-              Start typing to search for a service, like Chiropractor or
-              Optometrist.
-            </p>
+            {this.props.useProgressiveDisclosure && (
+              <p className="service-hint-text">
+                Start typing to search for a service, like Chiropractor or
+                Optometrist.
+              </p>
+            )}
             {showError && (
               <span className="usa-input-error-message" role="alert">
                 <span id="error-message">
                   <span className="sr-only">Error</span>
-                  Start typing and select an available service
+                  {this.props.useProgressiveDisclosure
+                    ? 'Start typing and select an available service'
+                    : 'Please search for an available service'}
                 </span>
               </span>
             )}
             <span id="service-typeahead">
               <input
                 {...getInputProps({
-                  placeholder: '',
+                  placeholder: this.props.useProgressiveDisclosure
+                    ? undefined
+                    : 'like Chiropractor or Optometrist',
+
                   onFocus: () => this.setState({ isFocused: true }),
                   disabled: currentQuery?.fetchSvcsInProgress,
                 })}
@@ -246,10 +261,11 @@ class CCServiceTypeAhead extends Component {
 }
 
 CCServiceTypeAhead.propTypes = {
-  currentQuery: PropTypes.object,
   getProviderSpecialties: PropTypes.func.isRequired,
   handleServiceTypeChange: PropTypes.func.isRequired,
+  currentQuery: PropTypes.object,
   initialSelectedServiceType: PropTypes.string,
+  isSmallDesktop: PropTypes.bool,
   showError: PropTypes.bool,
   useProgressiveDisclosure: PropTypes.bool,
   onBlur: PropTypes.func,

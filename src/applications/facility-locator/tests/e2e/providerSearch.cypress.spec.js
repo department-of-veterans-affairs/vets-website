@@ -1,23 +1,33 @@
 import CcpHelpers from 'applications/facility-locator/tests/ccp-helpers-cypress';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import {
+  featureCombinationsTogglesToTest,
+  isFeatureEnabled,
+  enabledFeatures,
+} from './featureTogglesToTest';
 
 const CC_PROVIDER = 'Community providers (in VA’s network)';
 const NON_VA_URGENT_CARE = 'In-network community urgent care';
-const featuresToTest = [
-  {
-    name: 'facilities_use_address_typeahead',
-    value: true,
-  },
-  { name: 'facilities_use_address_typeahead', value: false },
-];
+const featureSetsToTest = featureCombinationsTogglesToTest([
+  'facilities_use_fl_progressive_disclosure',
+  'facilities_use_address_typeahead',
+]);
 
-for (const feature of featuresToTest) {
-  describe('Provider search', () => {
+for (const featureSet of featureSetsToTest) {
+  const isProgDiscEnabled = featureSet.some(
+    isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
+  );
+
+  const facilityDropdown = '#facility-type-dropdown';
+  const serviceDropdown = isProgDiscEnabled
+    ? '.service-type-dropdown-desktop'
+    : '.service-type-dropdown-tablet';
+  describe(`Provider search - ${enabledFeatures(featureSet)}`, () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',
-          features: [feature],
+          features: featureSet,
         },
       });
       cy.intercept('GET', '/v0/maintenance_windows', []);
@@ -30,8 +40,10 @@ for (const feature of featuresToTest) {
     it('renders "Search for available service" prompt', () => {
       cy.visit('/find-locations');
 
-      cy.get('#street-city-state-zip').type('Austin, TX{esc}');
-      cy.get('#facility-type-dropdown')
+      cy.get('#street-city-state-zip').type('Austin, TX{esc}', {
+        waitForAnimations: true,
+      });
+      cy.get(facilityDropdown)
         .shadow()
         .find('select')
         .select('Community providers (in VA’s network)');
@@ -40,10 +52,16 @@ for (const feature of featuresToTest) {
       cy.get('#service-type-ahead-input')
         .should('not.be.disabled')
         .focus();
-      cy.get('#search-available-service-prompt').should('exist');
+
+      if (!isProgDiscEnabled) {
+        cy.get('#search-available-service-prompt').should('exist');
+      }
 
       cy.get('#service-type-ahead-input').type('D');
-      cy.get('#search-available-service-prompt').should('exist');
+
+      if (!isProgDiscEnabled) {
+        cy.get('#search-available-service-prompt').should('exist');
+      }
 
       cy.get('#service-type-ahead-input').type('De'); // 2nd and 3rd character -
       cy.get('#search-available-service-prompt').should('not.exist');
@@ -53,7 +71,7 @@ for (const feature of featuresToTest) {
       cy.visit('/find-locations');
 
       cy.get('#street-city-state-zip').type('Austin, TX{esc}');
-      cy.get('#facility-type-dropdown')
+      cy.get(facilityDropdown)
         .shadow()
         .find('select')
         .select('Community providers (in VA’s network)');
@@ -66,7 +84,7 @@ for (const feature of featuresToTest) {
       cy.visit('/find-locations');
 
       cy.get('#street-city-state-zip').type('Austin, TX{esc}');
-      cy.get('#facility-type-dropdown')
+      cy.get(facilityDropdown)
         .shadow()
         .find('select')
         .select(CC_PROVIDER);
@@ -92,8 +110,10 @@ for (const feature of featuresToTest) {
     it('finds community urgent care - Clinic/Center', () => {
       cy.visit('/find-locations');
 
-      cy.get('#street-city-state-zip').type('Austin, TX{esc}');
-      cy.get('#facility-type-dropdown')
+      cy.get('#street-city-state-zip').type('Austin, TX{esc}', {
+        waitForAnimations: true,
+      });
+      cy.get(facilityDropdown)
         .shadow()
         .find('select')
         .select(CC_PROVIDER);
@@ -118,11 +138,11 @@ for (const feature of featuresToTest) {
       cy.visit('/find-locations');
 
       cy.get('#street-city-state-zip').type('Austin, TX{esc}');
-      cy.get('#facility-type-dropdown')
+      cy.get(facilityDropdown)
         .shadow()
         .find('select')
         .select('Urgent care');
-      cy.get('.service-type-dropdown-tablet')
+      cy.get(serviceDropdown)
         .find('select')
         .select(NON_VA_URGENT_CARE);
       cy.get('#facility-search').click({ waitForAnimations: true });
@@ -142,11 +162,11 @@ for (const feature of featuresToTest) {
       cy.visit('/find-locations');
 
       cy.get('#street-city-state-zip').type('Austin, TX{esc}');
-      cy.get('#facility-type-dropdown')
+      cy.get(facilityDropdown)
         .shadow()
         .find('select')
         .select('Emergency care');
-      cy.get('.service-type-dropdown-tablet')
+      cy.get(serviceDropdown)
         .find('select')
         .select('In-network community emergency care');
       cy.get('#facility-search').click({ waitForAnimations: true });
