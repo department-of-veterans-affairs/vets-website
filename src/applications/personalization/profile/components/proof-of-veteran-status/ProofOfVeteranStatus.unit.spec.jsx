@@ -59,6 +59,35 @@ const nonEligibility = {
     'If you think your discharge status is incorrect, call the Defense Manpower Data Center at 800-538-9552 (TTY: 711). They’re open Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.',
   ],
 };
+const vetStatusConfirmed = {
+  data: {
+    id: '',
+    type: 'veteran_status_confirmations',
+    attributes: { veteranStatus: 'confirmed' },
+  },
+};
+const vetStatusNotConfirmed = {
+  data: {
+    id: '',
+    type: 'veteran_status_confirmations',
+    attributes: {
+      veteranStatus: 'not confirmed',
+      notConfirmedReason: 'PERSON_NOT_FOUND',
+    },
+    message: problematicEligibility.message,
+  },
+};
+const vetStatusNotEligible = {
+  data: {
+    id: '',
+    type: 'veteran_status_confirmations',
+    attributes: {
+      veteranStatus: 'not confirmed',
+      notConfirmedReason: 'NOT_TITLE_38',
+    },
+    message: nonEligibility.message,
+  },
+};
 
 function createBasicInitialState(serviceHistory, eligibility) {
   return {
@@ -130,15 +159,7 @@ describe('ProofOfVeteranStatus', () => {
     });
 
     it('should render mobile app callout', async () => {
-      const mockData = {
-        data: {
-          id: '',
-          type: 'veteran_status_confirmations',
-          attributes: { veteranStatus: 'confirmed' },
-        },
-      };
-
-      apiRequestStub.resolves(mockData);
+      apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -159,15 +180,7 @@ describe('ProofOfVeteranStatus', () => {
     );
 
     it('displays the card successfully', async () => {
-      const mockData = {
-        data: {
-          id: '',
-          type: 'veteran_status_confirmations',
-          attributes: { veteranStatus: 'confirmed' },
-        },
-      };
-
-      apiRequestStub.resolves(mockData);
+      apiRequestStub.resolves(vetStatusConfirmed);
 
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
@@ -192,19 +205,7 @@ describe('ProofOfVeteranStatus', () => {
     });
 
     it('displays the returned not confirmed message', async () => {
-      const mockData = {
-        data: {
-          id: '',
-          type: 'veteran_status_confirmations',
-          attributes: {
-            veteranStatus: 'not confirmed',
-            notConfirmedReason: 'PERSON_NOT_FOUND',
-          },
-          message: problematicEligibility.message,
-        },
-      };
-
-      apiRequestStub.resolves(mockData);
+      apiRequestStub.resolves(vetStatusNotConfirmed);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -306,66 +307,6 @@ describe('ProofOfVeteranStatus', () => {
       });
     });
 
-    it('displays not confirmed message if confirmed with no service history', async () => {
-      const mockData = {
-        data: {
-          id: '',
-          type: 'veteran_status_confirmations',
-          attributes: { veteranStatus: 'confirmed' },
-        },
-      };
-      apiRequestStub.resolves(mockData);
-
-      initialState = createBasicInitialState([], problematicEligibility);
-      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
-        initialState,
-      });
-
-      sinon.assert.calledWith(
-        apiRequestStub,
-        '/profile/vet_verification_status',
-      );
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
-          ),
-        ).to.exist;
-      });
-    });
-
-    it('displays not confirmed message if not confirmed and no service history', async () => {
-      const mockData = {
-        data: {
-          id: '',
-          type: 'veteran_status_confirmations',
-          attributes: {
-            veteranStatus: 'not confirmed',
-            notConfirmedReason: 'PERSON_NOT_FOUND',
-          },
-          message: problematicEligibility.message,
-        },
-      };
-      apiRequestStub.resolves(mockData);
-      initialState = createBasicInitialState([], problematicEligibility);
-      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
-        expect(
-          view.queryByText(
-            /Get proof of Veteran Status on your mobile device/i,
-          ),
-        ).to.not.exist;
-        expect(
-          view.queryByText(
-            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
-          ),
-        ).to.exist;
-      });
-    });
-
     it('displays loading indicator if fetch not complete', async () => {
       initialState = createBasicInitialState([], problematicEligibility);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
@@ -389,6 +330,7 @@ describe('ProofOfVeteranStatus', () => {
     );
 
     it('should render card if service history contains an eligible discharge despite any other discharges', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -403,6 +345,7 @@ describe('ProofOfVeteranStatus', () => {
     });
 
     it('should render the latest service item', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -413,6 +356,7 @@ describe('ProofOfVeteranStatus', () => {
     });
 
     it('should render the print button', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -427,20 +371,42 @@ describe('ProofOfVeteranStatus', () => {
   });
 
   describe('when there is no service history', () => {
-    const initialState = createBasicInitialState([], confirmedEligibility);
+    const initialState = createBasicInitialState([], problematicEligibility);
 
-    it('should render an error and not the HTML card', async () => {
+    it('displays not confirmed message if confirmed', async () => {
+      apiRequestStub.resolves(vetStatusConfirmed);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
 
-      const heading = view.getAllByText(/Proof of Veteran status/);
-      expect(heading).to.have.lengthOf.to.be(1); // only appears once as the section heading, not here as the card heading
+      sinon.assert.calledWith(
+        apiRequestStub,
+        '/profile/vet_verification_status',
+      );
+      await waitFor(() => {
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
+          ),
+        ).to.exist;
+      });
+    });
+
+    it('displays not confirmed message if not confirmed', async () => {
+      apiRequestStub.resolves(vetStatusNotConfirmed);
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
 
       await waitFor(() => {
         expect(
           view.queryByText(
-            /We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later./,
+            /Get proof of Veteran Status on your mobile device/i,
+          ),
+        ).to.not.exist;
+        expect(
+          view.queryByText(
+            /We’re sorry. There’s a problem with your discharge status records. We can’t provide a Veteran status card for you right now./,
           ),
         ).to.exist;
       });
@@ -464,6 +430,7 @@ describe('ProofOfVeteranStatus', () => {
     };
 
     it('should render an error and not the HTML card', async () => {
+      apiRequestStub.resolves(vetStatusNotConfirmed);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -477,32 +444,18 @@ describe('ProofOfVeteranStatus', () => {
             /We’re sorry. There’s a problem with our system. We can’t show your Veteran status card right now. Try again later./,
           ),
         ).to.exist;
-      });
-    });
-  });
-
-  describe('discharge status problem message', () => {
-    it('should render if service history contains neither eligible nor ineligible discharges', async () => {
-      const initialState = createBasicInitialState(
-        [neutralServiceHistoryItem],
-        problematicEligibility,
-      );
-      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
-        initialState,
-      });
-
-      await waitFor(() => {
         expect(
           view.queryByText(
             /We’re sorry. There’s a problem with your discharge status records./,
           ),
-        ).to.exist;
+        ).to.not.exist;
       });
     });
   });
 
   describe('ineligibility message', () => {
     it('should render if service history does not contain an eligible discharge, but does contain an inelible discharge', async () => {
+      apiRequestStub.resolves(vetStatusNotEligible);
       const initialState = createBasicInitialState(
         [ineligibleServiceHistoryItem, neutralServiceHistoryItem],
         nonEligibility,
