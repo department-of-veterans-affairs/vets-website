@@ -33,11 +33,10 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   const [formError, updateFormError] = useState({ error: false, type: '' });
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
-  console.log('loggedIn', loggedIn)
-  
+
   useEffect(
     () => {
-      if(loggedIn !== null) {
+      if (loggedIn !== null) {
         setLoading(false);
       }
     },
@@ -162,6 +161,8 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
           </span>
         </div>
         <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
+          {formError.type === errorTypes.DOWNLOAD_ERROR &&
+            downloadErrorComponent}
           <div className="vads-u-padding-bottom--1">
             <va-link
               download
@@ -212,19 +213,18 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     </VaAlertSignIn>
   );
 
-  if(loading) {
-    console.log('1 loggedIn', loggedIn)
+  if (loading) {
     return (
       <va-loading-indicator
         label="Loading"
         message="Loading your 1095-B information..."
       />
-    )
+    );
   }
 
-  {/* if (!displayToggle) {
+  if (!displayToggle) {
     return unavailableComponent();
-  } */}
+  }
   if (loggedIn) {
     if (formError.error === errorTypes.NOT_FOUND) {
       return notFoundComponent();
@@ -246,7 +246,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   displayToggle: state?.featureToggles?.showDigitalForm1095b,
   isLOA1: isLOA1Selector(state),
-  loggedIn: state?.user?.login?.currentlyLoggedIn,
+  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
 });
 
 const mapDispatchToProps = dispatch => ({
