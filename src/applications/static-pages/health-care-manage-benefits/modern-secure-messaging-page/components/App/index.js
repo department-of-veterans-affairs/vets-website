@@ -9,15 +9,15 @@ import {
 // Relative imports.
 import { MhvSimpleSigninCallToAction } from 'applications/static-pages/mhv-simple-signin-cta';
 
-export const App = state => {
+export const App = ({ userIsLoggedIn, userIsVerified }) => {
   return (
     <MhvSimpleSigninCallToAction
       headingLevel="3"
       serviceDescription="send secure messages"
       linkText="Go to your messages"
       linkUrl="/my-health/secure-messages/inbox"
-      userIsLoggedIn={state.userIsLoggedIn}
-      userIsVerified={state.userIsVerified}
+      userIsLoggedIn={userIsLoggedIn}
+      userIsVerified={userIsVerified}
     />
   );
 };
