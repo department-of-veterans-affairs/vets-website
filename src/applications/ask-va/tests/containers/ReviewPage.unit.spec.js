@@ -1,6 +1,4 @@
 import { render, waitFor } from '@testing-library/react';
-// import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
-// import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';
 import sinon from 'sinon';
