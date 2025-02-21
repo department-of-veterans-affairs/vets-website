@@ -31,7 +31,7 @@ const CategorySelectPage = props => {
     return setValidationError('Please select a category');
   };
 
-  const handleChange = async event => {
+  const handleChange = event => {
     const selectedValue = event.detail.value;
     const selected = apiData.find(
       category => category.attributes.name === selectedValue,
@@ -40,7 +40,9 @@ const CategorySelectPage = props => {
       setShowModal(true);
     } else {
       dispatch(setCategoryID(selected.id));
-      await askVAAttachmentStorage.clear();
+      (async () => {
+        await askVAAttachmentStorage.clear();
+      })();
       onChange({
         ...formData,
         categoryId: selected.id,
