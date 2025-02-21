@@ -319,30 +319,36 @@ const ProofOfVeteranStatus = ({
                       <>{lighthouseApiErrorMessage}</>
                     ) : null}
                   </>
-                ) : (
-                  <>{systemErrrorAlert}</>
-                )}
+                ) : null}
+
+                {!hasConfirmationData ? <>{systemErrrorAlert}</> : null}
               </>
             ) : null}
 
             {!userHasRequiredCardData ? (
               <>
-                {errors?.length > 0 ? (
+                {!formattedFullName ? (
+                  <>{systemErrrorAlert}</>
+                ) : (
                   <>
-                    <div className="vet-status-pdf-download-error vads-u-padding-y--2">
-                      <va-alert status="error" uswds>
-                        {errors[0]}
-                      </va-alert>
-                    </div>
-                  </>
-                ) : null}
+                    {errors?.length > 0 ? (
+                      <>
+                        <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                          <va-alert status="error" uswds>
+                            {errors[0]}
+                          </va-alert>
+                        </div>
+                      </>
+                    ) : null}
 
-                {data?.attributes?.veteranStatus === 'confirmed' ? (
-                  <>{profileApiErrorMessage}</>
-                ) : null}
-                {data?.attributes?.veteranStatus === 'not confirmed' ? (
-                  <>{lighthouseApiErrorMessage}</>
-                ) : null}
+                    {data?.attributes?.veteranStatus === 'confirmed' ? (
+                      <>{profileApiErrorMessage}</>
+                    ) : null}
+                    {data?.attributes?.veteranStatus === 'not confirmed' ? (
+                      <>{lighthouseApiErrorMessage}</>
+                    ) : null}
+                  </>
+                )}
               </>
             ) : null}
           </>
