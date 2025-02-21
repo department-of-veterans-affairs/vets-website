@@ -100,7 +100,7 @@ async function vaFacilityNext(state, dispatch) {
           checkEligibility({
             location,
             siteId,
-            showModal: true,
+            showModal: false,
             isCerner: true,
           }),
         );
@@ -120,6 +120,7 @@ async function vaFacilityNext(state, dispatch) {
         location,
         siteId,
         showModal: true,
+        isCerner: false,
       }),
     );
   }
