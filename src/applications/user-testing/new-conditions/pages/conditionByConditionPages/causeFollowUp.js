@@ -41,14 +41,20 @@ const createCauseFollowUpConditional = (formData, index, causeType) => {
 // formData on add contains all form data { "conditionByCondition": [{ "condition": "migraines (headaches)"... }] }
 // formData on edit contains only item data { "condition": "migraines (headaches)"... } which does not include ratedDisabilities or other new conditions
 // TODO: If causedByCondition is 'asthma' asthma is updated to 'emphysema' ensure 'asthma' is cleared as potential cause
-const getOtherConditions = (formData, currentIndex) => {
+const getOtherConditions = (fullData, currentIndex) => {
   const ratedDisabilities =
-    formData?.ratedDisabilities?.map(disability => disability.name) || [];
+    fullData?.ratedDisabilities?.map(disability => disability.name) || [];
 
   const otherNewConditions =
-    formData?.[arrayBuilderOptions.arrayPath]
-      ?.filter((_, index) => index !== currentIndex)
-      ?.map(condition => createItemName(condition)) || [];
+    fullData?.[arrayBuilderOptions.arrayPath]?.reduce(
+      (others, condition, index) => {
+        if (index !== currentIndex) {
+          others.push(createItemName(condition));
+        }
+        return others;
+      },
+      [],
+    ) || [];
 
   return [...ratedDisabilities, ...otherNewConditions];
 };
@@ -70,9 +76,9 @@ const causeFollowUpPage = {
     }),
     causedByCondition: selectUI({
       title:
-        'Choose the service-connected disability that caused the new condition that you’re claiming here.',
-      updateSchema: (formData, _schema, _uiSchema, index) => {
-        return selectSchema(getOtherConditions(formData, index));
+        "Choose the service-connected disability that caused the new condition that you're claiming here.",
+      updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) => {
+        return selectSchema(getOtherConditions(fullData, index));
       },
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'SECONDARY'),
