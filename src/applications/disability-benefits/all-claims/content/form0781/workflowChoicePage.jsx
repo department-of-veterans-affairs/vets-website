@@ -1,10 +1,7 @@
 import React from 'react';
 
-export const workflowChoicePageTitle = (
-  <div className="vads-u-font-size--h3">
-    Statement about mental health conditions (VA Form 21-0781)
-  </div>
-);
+export const workflowChoicePageTitle =
+  'Statement about mental health conditions (VA Form 21-0781)';
 
 // Lists new conditions the veteran has claimed
 // The user should not get to this page if these conditions are not present
