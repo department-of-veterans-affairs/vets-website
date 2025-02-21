@@ -138,5 +138,5 @@ export const searchAddresses = async addressTerm => {
       proximity: 'ip',
     })
     .send();
-  return response?.body?.features ? response.body.features : [];
+  return response?.body?.features ?? [];
 };

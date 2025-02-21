@@ -17,7 +17,7 @@ Cypress.Commands.add(
       cy.stub($window.navigator.geolocation, 'getCurrentPosition', callback => {
         return setTimeout(() => {
           callback({ coords: { latitude, longitude } });
-        }, 100);
+        }, 350);
       });
     });
   },

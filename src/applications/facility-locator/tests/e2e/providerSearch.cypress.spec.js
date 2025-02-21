@@ -1,5 +1,5 @@
-import CcpHelpers from 'applications/facility-locator/tests/ccp-helpers-cypress';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import CcpHelpers from '../ccp-helpers-cypress';
 import {
   featureCombinationsTogglesToTest,
   isFeatureEnabled,

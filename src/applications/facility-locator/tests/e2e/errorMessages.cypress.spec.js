@@ -1,5 +1,7 @@
-import CcpHelpers from 'applications/facility-locator/tests/ccp-helpers-cypress';
-import mockFacilityDataV1 from '../../constants/mock-facility-data-v1.json';
+import FacilityHelpers from '../facility-helpers-cypress';
+import FeaturesHelpers from '../features-helpers-cypress';
+import CcpHelpers from '../ccp-helpers-cypress';
+
 import {
   enabledFeatures,
   featureCombinationsTogglesToTest,
@@ -32,18 +34,10 @@ for (const featureSet of featureSets) {
       serviceErrorMessage = 'Start typing and select an available service';
     }
     beforeEach(() => {
-      cy.intercept('GET', '/v0/feature_toggles?*', {
-        data: { features: featureSet },
-      });
       cy.intercept('GET', '/v0/maintenance_windows', []);
-
+      FeaturesHelpers.initApplicationMock(featureSet);
       CcpHelpers.initApplicationMock('mockServices');
-
-      cy.intercept(
-        'GET',
-        '/facilities_api/v2/ccp/provider?**',
-        mockFacilityDataV1,
-      ).as('searchFacilities');
+      FacilityHelpers.initApplicationMock();
       cy.visit('/find-locations');
     });
 

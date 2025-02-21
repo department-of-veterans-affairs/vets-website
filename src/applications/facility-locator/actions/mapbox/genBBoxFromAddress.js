@@ -27,7 +27,7 @@ const mbxClient = mbxGeo(mapboxClient);
 export const genBBoxFromAddress = (
   query,
   expandedRadius = false,
-  useProgessiveDisclosure = false,
+  useProgressiveDisclosure = false,
 ) => {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
@@ -97,7 +97,7 @@ export const genBBoxFromAddress = (
             ? features
             : [{ ...features[0], bbox: minBounds }],
           query?.facilityType === 'provider',
-          useProgessiveDisclosure,
+          useProgressiveDisclosure,
         );
         dispatch({
           type: SEARCH_QUERY_UPDATED,

@@ -20,7 +20,7 @@ export function distBetween(lat1, lng1, lat2, lng2) {
 export const radiusFromBoundingBox = (
   fbox,
   ccp = false,
-  useProgessiveDisclosure = false,
+  useProgressiveDisclosure = false,
 ) => {
   let radius = distBetween(
     fbox[0].bbox[1],
@@ -28,7 +28,7 @@ export const radiusFromBoundingBox = (
     fbox[0].bbox[3],
     fbox[0].bbox[2],
   );
-  if (useProgessiveDisclosure && radius < MIN_RADIUS_EXP) {
+  if (useProgressiveDisclosure && radius < MIN_RADIUS_EXP) {
     radius = MIN_RADIUS_EXP;
   } else if (ccp && radius < MIN_RADIUS_CCP) {
     radius = MIN_RADIUS_CCP;

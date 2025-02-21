@@ -1,8 +1,7 @@
-import mockFacilitiesSearchResultsV1 from '../../constants/mock-facility-data-v1.json';
-import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
-import mockServices from '../../constants/mock-provider-services.json';
+import CcpHelpers from '../ccp-helpers-cypress';
+import FacilityHelpers from '../facility-helpers-cypress';
 
 const CC_PROVIDER = 'Community providers (in VA’s network)';
 const healthServices = {
@@ -88,6 +87,7 @@ Cypress.Commands.add('verifyOptions', () => {
     .find('select')
     .select('Community pharmacies (in VA’s network)');
   cy.get('#service-typeahead').should('not.have', 'disabled');
+  cy.get('#service-typeahead').should('not.exist');
 });
 
 describe('Facility VA search', () => {
@@ -101,22 +101,8 @@ describe('Facility VA search', () => {
       },
     });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
-      'mockServices',
-    );
-    cy.intercept(
-      'GET',
-      '/facilities_api/v2/ccp/provider?**',
-      mockFacilitiesSearchResultsV1,
-    ).as('searchFacilitiesCCP');
-    cy.intercept(
-      'POST',
-      '/facilities_api/v2/va',
-      mockFacilitiesSearchResultsV1,
-    ).as('searchFacilitiesVA');
-    cy.intercept('GET', '/facilities_api/v2/va/vba_**', mockFacilityDataV1).as(
-      'facilityDetail',
-    );
+    CcpHelpers.initApplicationMock();
+    FacilityHelpers.initApplicationMock();
   });
 
   it('does a simple search and finds a result on the list', () => {
@@ -129,21 +115,26 @@ describe('Facility VA search', () => {
 
     cy.verifyOptions();
 
-    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#street-city-state-zip').type('Alexandria, VA');
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
       .select('VA health');
     cy.get('#service-type-dropdown').select('Primary care');
-    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#facility-search').click();
+    cy.wait('@searchFacilities');
+    cy.get('#search-results-subheader')
+      .invoke('text')
+      .then(text => {
+        cy.log('TEXT', text);
+      });
     cy.get('#search-results-subheader').contains(
-      'Results for "VA health", "Primary care" near "Austin, Texas"',
+      /results.*VA health.*Primary care.*near.*Alexandria, Virgina/,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
     cy.get('.i-pin-card-map').contains('2');
     cy.get('.i-pin-card-map').contains('3');
-    cy.get('.i-pin-card-map').contains('4');
 
     cy.get('#other-tools').should('exist');
   });
@@ -151,7 +142,7 @@ describe('Facility VA search', () => {
   it.skip('should render breadcrumbs ', () => {
     cy.visit('/find-locations');
 
-    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#street-city-state-zip').type('Alexandria, VA');
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
@@ -163,13 +154,7 @@ describe('Facility VA search', () => {
         cy.axeCheck();
 
         cy.get('.facility-result va-link').should('exist');
-        cy.intercept(
-          'GET',
-          '/facilities_api/v2/va/vha_674BY',
-          mockFacilitiesSearchResultsV1,
-        ).as('fetchFacility');
-
-        cy.findByText(/austin va clinic/i, { selector: 'va-link' })
+        cy.findByText(/Washington VA Medical Center/i, { selector: 'va-link' })
           .first()
           .click({ waitForAnimations: true })
           .then(() => {
@@ -209,22 +194,21 @@ describe('Facility VA search', () => {
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
-    cy.intercept('GET', '/facilities_api/v2/ccp/provider?**', {
-      data: [],
-      meta: { pagination: { totalEntries: 0 } },
-    }).as('searchFacilities');
+    // override so no provider data
+    CcpHelpers.initApplicationMock('', 'mockProviders');
 
     cy.get('#street-city-state-zip').type('27606');
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
       .select(CC_PROVIDER);
+    cy.wait('@mockServices');
+
     cy.get('#service-type-ahead-input').type('General');
     cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(3000);
+    cy.wait('@mockProviders');
 
     cy.focused().contains(
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
@@ -247,7 +231,7 @@ describe('Facility VA search', () => {
       waitForAnimations: true,
     });
     cy.get('#search-results-subheader').contains(
-      'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
+      /Showing.*Results.*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
     cy.get('#other-tools').should('exist');
 
@@ -314,7 +298,7 @@ describe('Facility VA search', () => {
     cy.get('.facility-result h3 va-link')
       .shadow()
       .get('a')
-      .contains('Alexandria Vet Center');
+      .contains('Alexandria');
 
     cy.injectAxe();
     cy.axeCheck();

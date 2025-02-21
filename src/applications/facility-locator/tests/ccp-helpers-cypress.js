@@ -401,6 +401,7 @@ function initApplicationMock(
     '/facilities_api/v2/ccp/specialties*',
     specialtiesData,
   ).as('mockServices');
+
   cy.intercept('GET', '/facilities_api/v2/ccp/pharmacy*', {
     data: pharmacies,
     meta: {
