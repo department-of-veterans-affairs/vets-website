@@ -1,10 +1,9 @@
-import classNames from 'classnames';
-import moment from 'moment';
-import { formatDateLong } from 'platform/utilities/date';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+import PreferredDates from './PreferredDates';
 import { FACILITY_TYPES, FLOW_TYPES } from '../../../../utils/constants';
 import getNewAppointmentFlow from '../../../newAppointmentFlow';
 import { getFlowType } from '../../../redux/selectors';
@@ -21,15 +20,6 @@ function handleClick(history, home, requestDateTimeUrl) {
       history.push(`../${requestDateTimeUrl}`);
     else history.push(requestDateTimeUrl);
   };
-}
-
-function PreferredDates(props) {
-  return props.dates?.map((selected, i) => (
-    <li key={i}>
-      {formatDateLong(selected)}
-      {moment(selected).hour() < 12 ? ' in the morning' : ' in the afternoon'}
-    </li>
-  ));
 }
 
 export default function PreferredDatesSection(props) {
