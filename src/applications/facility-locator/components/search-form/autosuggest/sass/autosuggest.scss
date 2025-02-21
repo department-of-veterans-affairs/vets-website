@@ -151,10 +151,20 @@ div[id$="-autosuggest-container"] {
 }
 
 div#vamc-services-autosuggest-container {
+  max-width: 436px;
+
   .autosuggest-input-container {
     @media (min-width: $small-desktop-screen) {
       margin-bottom: 0;
     }
+  }
+
+  &.usa-input-error {
+    margin: -30px 16px 0 0 !important;
+  }
+
+  &.usa-input-error + #facility-search {
+    margin-bottom: 10px !important;
   }
 
   .autosuggest-input-container {

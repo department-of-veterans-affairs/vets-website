@@ -161,7 +161,10 @@ export default function useServiceType() {
         return sortServices(filteredServices);
       }
 
+      console.log('term: ', term);
+
       if (selector.data) {
+        console.log('matches: ', filterMatches(selector, term, facilityType));
         return filterMatches(selector, term, facilityType);
       }
 

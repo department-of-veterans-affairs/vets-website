@@ -5,6 +5,7 @@ import { itemToString as toDisplay } from './helpers';
 import InputWithClear from './InputWithClear';
 import AutosuggestOption from './AutosuggestOption';
 import AutosuggestOptions from './AutosuggestOptions';
+import InputError from './InputError';
 import './sass/autosuggest.scss';
 import { AutosuggestProps } from '../../../types';
 import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
@@ -13,6 +14,7 @@ function Autosuggest({
   // downshift props
   handleOnSelect,
   defaultSelectedItem,
+  initialSelectedItem = null,
   inputValue,
   itemToString = toDisplay,
   onInputValueChange,
@@ -20,7 +22,7 @@ function Autosuggest({
   onClearClick,
   inputContainerClassName = 'input-container', // allows to work with fixed width from facility-locator
   inputId = 'autosuggest-input',
-  inputError,
+  errorMessage,
   label,
   labelSibling = null,
   showDownCaret = true,
@@ -55,6 +57,7 @@ function Autosuggest({
   } = useCombobox({
     items: options,
     itemToString,
+    initialSelectedItem,
     inputId,
     onSelectedItemChange: handleOnSelect,
     defaultSelectedItem,
@@ -82,7 +85,7 @@ function Autosuggest({
         </label>
         {labelSibling}
       </div>
-      {inputError}
+      <InputError errorMessage={errorMessage} showError={showError || false} />
       <div className="autosuggest-input-container">
         <InputWithClear
           getInputProps={getInputProps}

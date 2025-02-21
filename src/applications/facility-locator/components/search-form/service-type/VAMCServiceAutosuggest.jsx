@@ -5,42 +5,52 @@ import useServiceType, {
 } from '../../../hooks/useServiceType';
 import Autosuggest from '../autosuggest';
 
-const VAMCServiceAutosuggest = ({ onChange, selectedServiceType }) => {
+const VAMCServiceAutosuggest = ({ onChange }) => {
   const { serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
-  const [serviceType, setServiceType] = useState('');
   const [options, setOptions] = useState([]);
   const [showServicesError, setShowServicesError] = useState(false);
+  const [allVAMCServices, setAllVAMCServices] = useState([]);
+
+  const allServicesOption = {
+    id: 'all',
+    toDisplay: 'All VA health services',
+  };
 
   const getServices = input => {
-    console.log('input: ', input);
     const services = serviceTypeFilter(
       input || null,
       FACILITY_TYPE_FILTERS.VAMC,
     );
 
-    if (services?.length) {
-      const serviceOptions = services.map(service => {
-        let displayName = service?.[0];
+    if (!services?.length) {
+      console.log('doing this instead');
+      setOptions([]);
+    }
 
-        if (displayName && service?.[1]) {
-          displayName = `${displayName} (${service?.[1]})`;
-        } else if (!displayName) {
-          return null;
-        }
+    const serviceOptions = services.map(service => {
+      let displayName = service?.[0];
 
-        return {
-          id: service[0],
-          serviceId: service[3],
-          toDisplay: displayName,
-        };
-      });
+      if (displayName && service?.[1]) {
+        displayName = `${displayName} (${service?.[1]})`;
+      } else if (!displayName) {
+        return null;
+      }
 
-      // console.log('serviceOptions: ', serviceOptions);
+      return {
+        id: service[0],
+        serviceId: service[3],
+        toDisplay: displayName,
+      };
+    });
 
-      if (serviceOptions?.length) {
-        setOptions(serviceOptions);
+    if (serviceOptions?.length) {
+      console.log('setting initial options here');
+      setOptions([allServicesOption, ...serviceOptions]);
+
+      if (!allVAMCServices?.length) {
+        setAllVAMCServices([allServicesOption, ...serviceOptions]);
       }
     }
   };
@@ -54,82 +64,52 @@ const VAMCServiceAutosuggest = ({ onChange, selectedServiceType }) => {
       onChange({ serviceType: null });
       setInputValue(null);
       setSelectedService(null);
-      setOptions([]);
+      setOptions(allVAMCServices);
+      setShowServicesError(true);
     },
     [onChange],
   );
 
-  // const createAllServiceOptions = useCallback(
-  //   () => {
-  //     return allServices.map((match, index) =>
-  //       createDropdownOption(match, index),
-  //     );
-  //   },
-  //   [allServices],
-  // );
-
-  // useEffect(
-  //   () => {
-  //     const seeAll = (
-  //       <option key="health" value="health">
-  //         All VA health services
-  //       </option>
-  //     );
-
-  //     if (!serviceType) {
-  //       setOptions([seeAll, ...createAllServiceOptions()]);
-  //     } else {
-  //       const filteredServices =
-  //         serviceTypeFilter(serviceType, FACILITY_TYPE_FILTERS.VAMC) ||
-  //         allServices;
-
-  //       if (filteredServices?.length) {
-  //         const dropdownOptions = filteredServices.map((match, index) =>
-  //           createDropdownOption(match.hsdatum, index),
-  //         );
-
-  //         setOptions([seeAll, ...dropdownOptions]);
-  //       }
-  //     }
-  //   },
-  //   [allServices, createAllServiceOptions, serviceType, serviceTypeFilter],
-  // );
-
   const handleServiceTypeChange = e => {
+    setShowServicesError(false);
     setInputValue(e.inputValue?.trimStart());
 
     if (inputValue?.length >= 2) {
       getServices(e.inputValue);
     }
 
-    // if (!value?.trimStart()) {
-    // onClearClick();
-    // }
+    if (!e.inputValue?.trimStart()) {
+      handleClearClick();
+    }
   };
 
   const handleServiceTypeSelection = event => {
     const { selectedItem } = event;
+    console.log('selectedItem: ', selectedItem);
 
     if (selectedItem && selectedItem?.serviceId) {
-      onChange({ serviceType: selectedItem.serviceId });
+      onChange({
+        serviceType: selectedItem.serviceId,
+        vamcServiceDisplay: selectedItem.toDisplay,
+      });
+
       setSelectedService(selectedItem);
     }
   };
 
+  console.log('options: ', options);
+
   return (
     <Autosuggest
-      defaultSelectedItem={{
-        id: 'all',
-        toDisplay: 'All VA health services',
-      }}
+      defaultSelectedItem={allServicesOption}
       downshiftInputProps={{
         autoCorrect: 'off',
         disabled: false,
         spellCheck: 'false',
       }}
       handleOnSelect={handleServiceTypeSelection}
-      inputError={false}
-      // inputError={<p>Error</p>}
+      initialSelectedItem={allServicesOption}
+      errorMessage="Start typing and select a service type."
       inputId="vamc-services"
       inputValue={inputValue || ''}
       isLoading={false}
@@ -143,12 +123,14 @@ const VAMCServiceAutosuggest = ({ onChange, selectedServiceType }) => {
       )}
       loadingMessage="Searching..."
       minCharacters={2}
+      noItemsMessage="No results found. Search for a different service."
       onClearClick={handleClearClick}
       onInputValueChange={handleServiceTypeChange}
       options={options}
       selectedItem={selectedService}
       showDownCaret
       showError={showServicesError}
+      shouldShowNoResults
     />
   )
 };
