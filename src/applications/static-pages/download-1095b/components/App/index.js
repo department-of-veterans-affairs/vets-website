@@ -1,31 +1,38 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
+import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
-import { connect } from 'react-redux';
 // Relative imports.
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
+import {
+  VaAlertSignIn,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
 import {
   notFoundComponent,
   unavailableComponent,
   downloadErrorComponent,
   errorTypes,
 } from './utils';
-
 import '../../sass/download-1095b.scss';
 
-export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
+export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   const [loading, setLoading] = useState(true);
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' });
+  const cspId = useSelector(signInServiceName);
+  const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
   console.log('loggedIn', loggedIn)
   
   useEffect(
@@ -66,9 +73,51 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         }
         return response.availableForms;
       })
-      .catch(() =>
-        updateFormError({ error: true, type: errorTypes.NOT_FOUND }),
-      );
+      .catch(() => {
+        updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+        return null; // Return null in case of an error
+      });
+  };
+
+  useEffect(
+    () => {
+      const getverifyAlertVariant = () => {
+        if (cspId === CSP_IDS.LOGIN_GOV) {
+          return (
+            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
+              <span slot="LoginGovVerifyButton">
+                <VerifyLogingovButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+        if (cspId === CSP_IDS.ID_ME) {
+          return (
+            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
+              <span slot="IdMeVerifyButton">
+                <VerifyIdmeButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+        return (
+          <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
+            <span slot="LoginGovSignInButton">
+              <VerifyLogingovButton />
+            </span>
+            <span slot="IdMeSignInButton">
+              <VerifyIdmeButton />
+            </span>
+          </VaAlertSignIn>
+        );
+      };
+      setverifyAlertVariant(getverifyAlertVariant());
+    },
+    [cspId, isLOA1],
+  );
+
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'ask-va', true);
   };
 
   const downloadFileToUser = format => {
@@ -77,7 +126,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
-        a.download = `1095B-${year}.${format}`;
+        a.download = `1095B-${year}.${format}zz`;
 
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
@@ -108,20 +157,17 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
             1095-B Proof of VA health coverage
           </h4>
-          <span>
+          <span className="vads-u-font-size--h5">
             <b>Tax year:</b> {year}
           </span>
         </div>
-        <div className="download-links vads-u-margin-y--1p5 vads-u-padding-top--3">
-          {formError.type === errorTypes.DOWNLOAD_ERROR &&
-            downloadErrorComponent}
+        <div className="download-links vads-u-font-size--h5 vads-u-margin-y--1p5 vads-u-padding-top--3">
           <div className="vads-u-padding-bottom--1">
             <va-link
               download
               id="pdf-download-link"
               label="Download PDF (best for printing)"
               text="Download PDF (best for printing)"
-              filetype="PDF"
               onClick={e => {
                 e.preventDefault();
                 recordEvent({ event: '1095b-pdf-download' });
@@ -135,7 +181,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
               id="txt-download-link"
               label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
               text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
-              filetype="TEXT"
               onClick={e => {
                 e.preventDefault();
                 recordEvent({ event: '1095b-txt-download' });
@@ -157,25 +202,14 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const loggedOutComponent = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h2 slot="headline">
-        Please sign in to download your 1095-B tax document
-      </h2>
-      <div>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
-      </div>
-      <va-button
-        onClick={() => toggleLoginModal(true)}
-        primary-alternate
-        text="Sign in or create an account"
-        className="vads-u-margin-top--2"
-      />
-    </va-alert>
+    <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+      <span slot="SignInButton">
+        <VaButton
+          text="Sign in or create an account"
+          onClick={showSignInModal}
+        />
+      </span>
+    </VaAlertSignIn>
   );
 
   if(loading) {
@@ -188,12 +222,15 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     )
   }
 
-  // if (!displayToggle) {
-  //   return unavailableComponent();
-  // }
+  {/* if (!displayToggle) {
+    return unavailableComponent();
+  } */}
   if (loggedIn) {
     if (formError.error === errorTypes.NOT_FOUND) {
       return notFoundComponent();
+    }
+    if (isLOA1) {
+      return verifyAlertVariant;
     }
     return downloadForm;
   }
@@ -201,14 +238,15 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 };
 
 App.propTypes = {
-  toggleLoginModal: PropTypes.func.isRequired,
   displayToggle: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  toggleLoginModal: PropTypes.func.isRequired,
 };
-
 const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
-  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
+  displayToggle: state?.featureToggles?.showDigitalForm1095b,
+  isLOA1: isLOA1Selector(state),
+  loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
