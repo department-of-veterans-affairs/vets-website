@@ -41,7 +41,11 @@ import {
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
-import { captureError, has400LevelError } from '../../utils/error';
+import {
+  captureError,
+  has400LevelError,
+  has404AppointmentIdError,
+} from '../../utils/error';
 import { selectAppointmentById } from './selectors';
 import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 
@@ -192,11 +196,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       recordItemsRetrieved(
         'video_va_facility',
         data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic).length,
-      );
-
-      recordItemsRetrieved(
-        'video_gfe',
-        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
@@ -465,6 +464,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       captureError(e);
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_FAILED,
+        isBadAppointmentId: has404AppointmentIdError(e),
       });
     }
   };

@@ -8,7 +8,6 @@ import {
   getFormNumberFromEntity,
   entityAcceptsDigitalPoaRequests,
 } from '../utilities/helpers';
-import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 const SearchResult = ({
   representative,
@@ -33,8 +32,8 @@ const SearchResult = ({
   } = representative.data.attributes;
 
   const formNumber = getFormNumberFromEntity(representative.data);
-  const v2IsEnabled = useV2FeatureToggle();
-  const showSubmissionContent = v2IsEnabled && userIsDigitalSubmitEligible;
+
+  const showSubmissionContent = userIsDigitalSubmitEligible;
 
   const representativeName = name || fullName;
 

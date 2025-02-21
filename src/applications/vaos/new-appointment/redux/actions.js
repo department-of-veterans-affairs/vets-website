@@ -3,6 +3,8 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import { format, utcToZonedTime } from 'date-fns-tz';
+
 import { createAppointment } from '../../services/appointment';
 import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -226,20 +228,35 @@ export function startRequestAppointmentFlow(isCommunityCare) {
   };
 }
 
-export function fetchPatientProviderRelationships() {
-  return async dispatch => {
+export function getPatientRelationships() {
+  let patientProviderRelationships;
+
+  return async (dispatch, getState) => {
+    const initialState = getState();
+    const { newAppointment } = initialState;
+    const typeOfCare = getTypeOfCare(newAppointment.data);
+    const typeOfCareId = typeOfCare;
+    const facilityId = newAppointment.data.vaFacility;
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
+    });
+
     try {
-      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS });
-
-      const patientProviderRelationships = await fetchPatientRelationships();
-
-      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED });
-
-      return patientProviderRelationships;
-    } catch (e) {
+      patientProviderRelationships = await fetchPatientRelationships(
+        facilityId,
+        typeOfCareId,
+      );
+    } catch (error) {
       dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
-      return captureError(e);
+      patientProviderRelationships = null;
+      captureError(error);
     }
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
+      patientProviderRelationships,
+    });
   };
 }
 
@@ -630,16 +647,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           // for the correct day.
           .map(slot => {
             if (featureVAOSServiceVAAppointments) {
-              // The moment.tz() function will parse a given time with offset
-              // and convert it to the time zone provided.
-              //
-              // NOTE: Stripping off the timezone information 'Z' so that it will
-              // not be used during formatting elsewhere. Including the 'Z' would
-              // result in the formatted string using the local timezone.
-              const time = moment
-                .tz(slot.start, timezone)
-                .format('YYYY-MM-DDTHH:mm:ss');
-
+              const zonedDate = utcToZonedTime(slot.start, timezone);
+              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+                timeZone: timezone,
+              });
               return { ...slot, start: time };
             }
             return slot;

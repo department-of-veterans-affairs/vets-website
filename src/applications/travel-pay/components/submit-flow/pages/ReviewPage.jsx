@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect, useSelector } from 'react-redux';
 
 import {
   VaCheckbox,
   VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
+import { selectAppointment } from '../../../redux/selectors';
+import { getPractionerName } from '../../../util/appointment-helpers';
 
 const ReviewPage = ({
-  appointment,
   address,
   onSubmit,
   setPageIndex,
@@ -24,9 +27,9 @@ const ReviewPage = ({
     scrollToTop('topScrollElement');
   }, []);
 
-  const [formattedDate, formattedTime] = formatDateTime(
-    appointment.vaos.apiData.start,
-  );
+  const { data } = useSelector(selectAppointment);
+
+  const [formattedDate, formattedTime] = formatDateTime(data.localStartTime);
 
   const onBack = () => {
     setYesNo({
@@ -48,14 +51,15 @@ const ReviewPage = ({
         What you’re claiming
       </h3>
       <p className="vads-u-margin-y--0">
-        Mileage-only reimbursement for your appointment at{' '}
-        {appointment.vaos.apiData.location.attributes.name}{' '}
-        {appointment.vaos?.apiData?.practitioners
-          ? `with ${appointment.vaos.apiData.practitioners[0].name.given.join(
-              ' ',
-            )} ${appointment.vaos.apiData.practitioners[0].name.family}`
+        Mileage-only reimbursement for your appointment
+        {data.location?.attributes?.name
+          ? ` at ${data.location.attributes.name}`
           : ''}{' '}
-        on {formattedDate}, {formattedTime}.
+        {data.practitioners?.length > 0 &&
+        typeof data.practitioners[0].name !== 'undefined'
+          ? `with ${getPractionerName(data.practitioners)}`
+          : ''}{' '}
+        on {formattedDate} at {formattedTime}.
       </p>
 
       <h2 className="vads-u-margin-bottom--0">Travel method</h2>
@@ -133,7 +137,6 @@ const ReviewPage = ({
 
 ReviewPage.propTypes = {
   address: PropTypes.object,
-  appointment: PropTypes.object,
   isAgreementChecked: PropTypes.bool,
   setIsAgreementChecked: PropTypes.func,
   setPageIndex: PropTypes.func,
@@ -141,4 +144,11 @@ ReviewPage.propTypes = {
   onSubmit: PropTypes.func,
 };
 
-export default ReviewPage;
+function mapStateToProps(state) {
+  const homeAddress = selectVAPResidentialAddress(state);
+  return {
+    address: homeAddress,
+  };
+}
+
+export default connect(mapStateToProps)(ReviewPage);

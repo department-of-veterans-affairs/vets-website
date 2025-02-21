@@ -89,20 +89,6 @@ describe('CG fetchFacilities action', () => {
         headers,
         body: expectedBody,
       });
-
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
-        expect(
-          recordEventStub.calledWith({
-            event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
-          }),
-        ).to.be.false;
-        expect(
-          recordEventStub.calledWith({
-            event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
-          }),
-        ).to.be.true;
-      });
     });
 
     it('formats facility ids correctly when only one facility id', async () => {
@@ -153,69 +139,6 @@ describe('CG fetchFacilities action', () => {
 
       await waitFor(() => {
         expect(apiRequestStub.callCount).to.equal(1);
-      });
-    });
-
-    context('no csrfToken in localStorage', () => {
-      beforeEach(() => {
-        localStorage.setItem('csrfToken', '');
-      });
-
-      it('returns error making extra HEAD request to refresh csrfToken', async () => {
-        apiRequestStub.onFirstCall().rejects(errorResponse);
-        apiRequestStub.onSecondCall().resolves({ meta: {} });
-
-        await fetchFacilities({ long, lat, perPage, radius });
-
-        await waitFor(() => {
-          expect(apiRequestStub.callCount).to.equal(2);
-          expect(sentrySpy.callCount).to.equal(2);
-          expect(sentrySpy.firstCall.args[0]).to.equal(
-            'No csrfToken when making fetchFacilities. Calling /v0/maintenance_windows to generate new one.',
-          );
-          expect(sentrySpy.secondCall.args[0]).to.equal(
-            'No csrfToken when making fetchFacilities. /v0/maintenance_windows failed when called to generate token.',
-          );
-        });
-      });
-
-      it('successfully makes extra HEAD request to refresh csrfToken', async () => {
-        apiRequestStub.onFirstCall().resolves({ data: [] });
-        apiRequestStub.onSecondCall().resolves({ meta: {} });
-
-        const response = await fetchFacilities({ long, lat, perPage, radius });
-
-        expect(response).to.deep.eq({
-          type: 'NO_SEARCH_RESULTS',
-          errorMessage: content['error--no-results-found'],
-        });
-
-        await waitFor(() => {
-          expect(
-            recordEventStub.calledWith({
-              event: 'caregivers-10-10cg-fetch-facilities-csrf-token-empty',
-            }),
-          ).to.be.true;
-          expect(
-            recordEventStub.calledWith({
-              event: 'caregivers-10-10cg-fetch-facilities-csrf-token-present',
-            }),
-          ).to.be.false;
-          expect(apiRequestStub.firstCall.args[0]).to.equal(
-            `${environment.API_URL}/v0/maintenance_windows`,
-          );
-          expect(apiRequestStub.secondCall.args[0]).to.equal(
-            `${environment.API_URL}/v0/caregivers_assistance_claims/facilities`,
-          );
-          expect(apiRequestStub.callCount).to.equal(2);
-          expect(sentrySpy.callCount).to.equal(2);
-          expect(sentrySpy.firstCall.args[0]).to.equal(
-            'No csrfToken when making fetchFacilities. Calling /v0/maintenance_windows to generate new one.',
-          );
-          expect(sentrySpy.secondCall.args[0]).to.equal(
-            'No csrfToken when making fetchFacilities. /v0/maintenance_windows successfully called to generate token.',
-          );
-        });
       });
     });
   });

@@ -28,7 +28,7 @@ const TravelWarningAlert = () => {
         status="warning"
       >
         <p data-testid="travel-btsss-message" className="vads-u-margin-y--0">
-          {t('you-can-still-check-in-travel-reimbursement')}
+          {t('you-can-still-check-in-travel-reimbursement--v2')}
         </p>
       </VaAlert>
     </section>

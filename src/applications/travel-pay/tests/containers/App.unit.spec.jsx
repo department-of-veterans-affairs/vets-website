@@ -7,6 +7,7 @@ import MockDate from 'mockdate';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 
 import reducer from '../../redux/reducer';
 import App from '../../containers/App';
@@ -19,6 +20,7 @@ describe('App', () => {
     hasClaimDetailsFeatureFlag = true,
     isLoggedIn = true,
     isLOA3 = true,
+    signInServiceName = '',
   } = {}) => {
     return {
       featureToggles: {
@@ -33,6 +35,9 @@ describe('App', () => {
           currentlyLoggedIn: isLoggedIn,
         },
         profile: {
+          signIn: {
+            serviceName: signInServiceName,
+          },
           services: [backendServices.USER_PROFILE],
           loa: {
             current: isLOA3 ? 3 : 1,
@@ -100,6 +105,51 @@ describe('App', () => {
     await waitFor(() => {
       expect($('va-alert-sign-in')).to.exist;
       expect(screen.findByText(/verify your identity/i)).to.exist;
+    });
+  });
+
+  it('should render a verify identity message for logingov sign in service if user is not LOA3', async () => {
+    renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+        isLOA3: false,
+        signInServiceName: 'logingov',
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+    expect($('va-alert-sign-in[variant="verifyLoginGov"]')).to.exist;
+  });
+
+  it('should render a verify identity message for idme sign in service if user is not LOA3', async () => {
+    renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+        isLOA3: false,
+        signInServiceName: 'idme',
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+    expect($('va-alert-sign-in[variant="verifyIdMe"]')).to.exist;
+  });
+
+  it('should render the platform 404 page if undefined route', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/banana`,
+      reducers: reducer,
+    });
+    await waitFor(() => {
+      expect(screen.findByTestId(pageNotFoundTestId)).to.exist;
     });
   });
 });

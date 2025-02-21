@@ -911,6 +911,54 @@ const formConfig = {
               },
               address: {
                 ...address.uiSchema('', false, null, true),
+                'ui:options': {
+                  updateSchema: (formData, addressSchema) => {
+                    const livesOnMilitaryBase =
+                      formData?.mailingAddressInput?.livesOnMilitaryBase;
+                    const country =
+                      formData?.mailingAddressInput?.address?.country || 'USA';
+                    if (livesOnMilitaryBase) {
+                      return {
+                        ...addressSchema,
+                        properties: {
+                          ...addressSchema.properties,
+                          state: {
+                            type: 'string',
+                            title: 'AE/AA/AP',
+                            enum: ['AE', 'AA', 'AP'],
+                            enumNames: [
+                              'AE - APO/DPO/FPO',
+                              'AA - APO/DPO/FPO',
+                              'AP - APO/DPO/FPO',
+                            ],
+                          },
+                        },
+                      };
+                    }
+
+                    let stateSchema = {
+                      type: 'string',
+                      title: 'State/County/Province',
+                    };
+
+                    if (country === 'USA') {
+                      stateSchema = {
+                        ...stateSchema,
+                        enum: constants.states.USA.map(state => state.value),
+                        enumNames: constants.states.USA.map(
+                          state => state.label,
+                        ),
+                      };
+                    }
+                    return {
+                      ...addressSchema,
+                      properties: {
+                        ...addressSchema.properties,
+                        state: stateSchema,
+                      },
+                    };
+                  },
+                },
                 country: {
                   'ui:title': 'Country',
                   'ui:required': formData =>
@@ -1000,14 +1048,28 @@ const formConfig = {
                   ],
                   'ui:options': {
                     replaceSchema: formData => {
-                      if (formData?.mailingAddressInput?.livesOnMilitaryBase) {
+                      const livesOnBase =
+                        formData?.mailingAddressInput?.livesOnMilitaryBase;
+
+                      if (livesOnBase) {
+                        // Start with APO/FPO
+                        const baseEnum = ['APO', 'FPO'];
+
+                        // Conditionally add DPO if feature flag is on
+                        if (formData?.mebDpoAddressOptionEnabled) {
+                          baseEnum.push('DPO');
+                        }
+
                         return {
                           type: 'string',
-                          title: 'APO/FPO',
-                          enum: ['APO', 'FPO'],
+                          title: formData?.mebDpoAddressOptionEnabled
+                            ? 'APO/FPO/DPO'
+                            : 'APO/FPO',
+                          enum: baseEnum,
                         };
                       }
 
+                      // Otherwise, a normal City text field
                       return {
                         type: 'string',
                         title: 'City',
@@ -1025,24 +1087,6 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      if (
-                        formData?.mailingAddressInput?.livesOnMilitaryBase ||
-                        formData?.mailingAddressInput?.address?.country ===
-                          'USA'
-                      ) {
-                        return {
-                          title: 'State',
-                          type: 'string',
-                        };
-                      }
-                      return {
-                        title: 'State/County/Province',
-                        type: 'string',
-                      };
-                    },
-                  },
                   'ui:required': formData =>
                     formData?.mailingAddressInput?.livesOnMilitaryBase ||
                     formData?.mailingAddressInput?.address?.country === 'USA',

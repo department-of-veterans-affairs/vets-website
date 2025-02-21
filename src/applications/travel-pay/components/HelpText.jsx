@@ -49,10 +49,7 @@ export const HelpTextGeneral = () => {
 export const HelpTextModalities = () => {
   return (
     <div>
-      <p>
-        You can still file a claim within 30 days of this appointment these
-        other ways:
-      </p>
+      <p>You can still file a claim for this appointment these other ways:</p>
       <ul>
         <li>
           <p className="vads-u-margin-y--2">

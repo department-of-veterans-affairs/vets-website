@@ -44,6 +44,10 @@ const config = {
       font: 'Bitter-Bold',
       size: 12.75,
     },
+    H5: {
+      font: 'Bitter-Bold',
+      size: 12,
+    },
   },
   subHeading: {
     boldFont: 'SourceSansPro-Bold',
@@ -102,10 +106,16 @@ const generateResultsMedicationListContent = async (
   // medication header
   if (medication.header) {
     results.add(
-      await createHeading(doc, 'H3', config, medication.header, {
-        paragraphGap: 10,
-        x: 16,
-      }),
+      await createHeading(
+        doc,
+        medication.headerSize || 'H3',
+        config,
+        medication.header,
+        {
+          paragraphGap: 10,
+          x: medication.indent || 16,
+        },
+      ),
     );
   }
 
@@ -120,7 +130,7 @@ const generateResultsMedicationListContent = async (
           section.header,
           {
             paragraphGap: 10,
-            x: 16,
+            x: section.indent || 16,
           },
         ),
       );
@@ -134,7 +144,7 @@ const generateResultsMedicationListContent = async (
         structs = await createImageDetailItem(
           doc,
           config,
-          resultItem.noIndentation ? 16 : 32,
+          resultItem.indent || 16,
           resultItem,
         );
         // rich text item
@@ -142,7 +152,7 @@ const generateResultsMedicationListContent = async (
         structs = await createRichTextDetailItem(
           doc,
           config,
-          resultItem.noIndentation ? 16 : 32,
+          resultItem.indent || 16,
           resultItem,
         );
         // regular item
@@ -150,7 +160,7 @@ const generateResultsMedicationListContent = async (
         structs = await createDetailItem(
           doc,
           config,
-          resultItem.noIndentation ? 16 : 32,
+          resultItem.indent || 16,
           resultItem,
         );
       }
@@ -171,7 +181,7 @@ const generateResultsMedicationListContent = async (
       }
     }
 
-    doc.moveDown(0.5);
+    doc.moveDown(0.75);
   }
 
   // horizontal line
@@ -183,7 +193,7 @@ const generateResultsMedicationListContent = async (
 };
 
 const generateResultsContent = async (doc, parent, data) => {
-  for (const resultItem of data.results) {
+  for (const [i, resultItem] of data.results.entries()) {
     const results = doc.struct('Sect', {
       title: resultItem.header || 'Results',
     });
@@ -192,10 +202,16 @@ const generateResultsContent = async (doc, parent, data) => {
     // results --> header
     if (resultItem.header) {
       results.add(
-        createHeading(doc, 'H2', config, resultItem.header, {
-          paragraphGap: 12,
-          x: 16,
-        }),
+        createHeading(
+          doc,
+          resultItem.headerSize || 'H2',
+          config,
+          resultItem.header,
+          {
+            paragraphGap: 12,
+            x: 16,
+          },
+        ),
       );
     }
 
@@ -220,13 +236,25 @@ const generateResultsContent = async (doc, parent, data) => {
 
     // results --> items
     for (const listItem of resultItem.list) {
-      const hasHorizontalRule = listItem.sectionSeparators !== false;
+      const hasHorizontalRule = !!listItem.sectionSeparators;
       await generateResultsMedicationListContent(
         listItem,
         doc,
         results,
         hasHorizontalRule,
         listItem.sectionSeperatorOptions,
+      );
+    }
+
+    // horizontal line at the end of results (typically before allergies)
+    if (i < data.results.length - 1) {
+      addHorizontalRule(
+        doc,
+        ...Object.values({
+          spaceFromEdge: 16,
+          linesAbove: 0.5,
+          linesBelow: 1,
+        }),
       );
     }
 

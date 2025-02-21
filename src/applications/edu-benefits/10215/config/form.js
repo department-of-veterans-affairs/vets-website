@@ -11,6 +11,7 @@ import { getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
+import StatementOfTruth from '../components/StatementOfTruth';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
@@ -35,6 +36,12 @@ export const arrayBuilderOptions = {
       const percent = getFTECalcs(item).supportedFTEPercent;
       return percent ? `${percent} supported student FTE` : null;
     },
+    summaryTitle: props =>
+      location?.pathname.includes('review-and-submit')
+        ? ''
+        : `Review your ${
+            props?.formData?.programs.length > 1 ? 'programs' : 'program'
+          }`,
   },
 };
 
@@ -54,7 +61,12 @@ const formConfig = {
   saveInProgress: {},
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    required: true,
+    CustomComponent: StatementOfTruth,
+  },
   customText: {
+    reviewPageTitle: 'Review',
     submitButtonText: 'Continue',
   },
   savedFormMessages: {
@@ -112,15 +124,13 @@ const formConfig = {
     },
     submissionInstructionsChapter: {
       title: 'Submission instructions',
+      hideOnReviewPage: true,
       pages: {
         submissionInstructions: {
           path: 'submission-instructions',
           title: '',
           uiSchema: {
             'ui:description': SubmissionInstructions,
-            'ui:options': {
-              hideOnReview: true,
-            },
           },
           schema: {
             type: 'object',

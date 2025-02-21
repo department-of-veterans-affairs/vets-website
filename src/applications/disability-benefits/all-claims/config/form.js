@@ -40,8 +40,6 @@ import {
   isUploadingSTR,
   needsToEnter781,
   needsToEnter781a,
-  onFormLoaded,
-  showAdditionalFormsChapter,
   showPtsdCombat,
   showPtsdNonCombat,
   showSeparationLocation,
@@ -56,7 +54,6 @@ import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrie
 import {
   adaptiveBenefits,
   addDisabilities,
-  addDisabilitiesPrevious,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -75,7 +72,6 @@ import {
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
-  mentalHealthConditions,
   militaryHistory,
   newDisabilityFollowUp,
   newPTSDFollowUp,
@@ -112,14 +108,12 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
-import * as additionalFormsChapterWrapper from '../pages/additionalFormsChapterWrapper';
 
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
 import { form0781PagesConfig } from './form0781/index';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
-import { showMentalHealthPages } from '../content/mentalHealth';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
 import { ptsdFirstIncidentIntro } from '../content/ptsdFirstIncidentIntro';
 
@@ -196,7 +190,6 @@ const formConfig = {
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
-  onFormLoaded,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
@@ -330,24 +323,6 @@ const formConfig = {
             DISABILITY_SHARED_CONFIG.ratedDisabilities.depends(formData),
           uiSchema: ratedDisabilities.uiSchema,
           schema: ratedDisabilities.schema,
-        },
-        // TODO https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/671:
-        // When remove allClaimsAddDisabilitiesEnhancement FF, remove this page
-        addDisabilitiesPrevious: {
-          title: 'Add a new disability',
-          path: DISABILITY_SHARED_CONFIG.addDisabilitiesPrevious.path,
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilitiesPrevious.depends(formData),
-          uiSchema: addDisabilitiesPrevious.uiSchema,
-          schema: addDisabilitiesPrevious.schema,
-          updateFormData: addDisabilitiesPrevious.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
         },
         addDisabilities: {
           title: 'Add a new disability',
@@ -571,13 +546,6 @@ const formConfig = {
             serviceInformation: state.form?.data?.serviceInformation,
           }),
         },
-        mentalHealthConditions: {
-          title: 'Mental health conditions',
-          path: `disabilities/781-screener`,
-          depends: formData => showMentalHealthPages(formData),
-          uiSchema: mentalHealthConditions.uiSchema,
-          schema: mentalHealthConditions.schema,
-        },
         // Ancillary forms wizard
         ancillaryFormsWizardIntro: {
           title: 'Additional disability benefits',
@@ -642,16 +610,10 @@ const formConfig = {
         },
       },
     },
-    additionalForms: {
-      title: 'Additional Forms',
+    mentalHealth: {
+      title: 'Mental health statement',
+      path: 'mental-health-form-0781',
       pages: {
-        additionalFormsChapterWrapper: {
-          title: 'Additional forms to support your claim',
-          path: 'additional-forms',
-          depends: formData => showAdditionalFormsChapter(formData),
-          uiSchema: additionalFormsChapterWrapper.uiSchema,
-          schema: additionalFormsChapterWrapper.schema,
-        },
         ...form0781PagesConfig,
       },
     },

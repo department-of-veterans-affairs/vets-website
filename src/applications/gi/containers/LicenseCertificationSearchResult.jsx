@@ -9,21 +9,16 @@ import LicesnseCertificationServiceError from '../components/LicesnseCertificati
 export default function LicenseCertificationSearchResult() {
   const { id } = useParams();
 
-  const {
-    hasFetchedResult,
-    fetchingLcResult,
-    lcResultInfo,
-    error,
-  } = useSelector(state => state.licenseCertificationSearch);
+  const { fetchingLcResult, lcResultInfo, error } = useSelector(
+    state => state.licenseCertificationSearch,
+  );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (!hasFetchedResult) {
-      dispatch(fetchLcResult(id));
-    }
+    dispatch(fetchLcResult(id));
   }, []);
 
   const { lacNm, eduLacTypeNm, institution, tests } = lcResultInfo;
@@ -37,7 +32,9 @@ export default function LicenseCertificationSearchResult() {
         tests && (
           <section className="lc-result-details vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
             <div className="row">
-              <h1 className="mobile-lg:vads-u-text-align--left">{lacNm}</h1>
+              <h1 className="mobile-lg:vads-u-text-align--left vads-l-col--12 medium-screen:vads-l-col--7">
+                {lacNm}
+              </h1>
               <h2 className="vads-u-margin-top--0">{eduLacTypeNm}</h2>
             </div>
             <div className="row">
