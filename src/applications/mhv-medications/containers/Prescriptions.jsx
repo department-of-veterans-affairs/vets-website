@@ -56,6 +56,7 @@ import {
   selectFilterFlag,
   selectGroupingFlag,
   selectRefillContentFlag,
+  selectRefillProgressFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
@@ -63,6 +64,7 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
+import RefillAlert from '../components/shared/RefillAlert';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -90,6 +92,7 @@ const Prescriptions = () => {
   // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -644,6 +647,7 @@ const Prescriptions = () => {
         ) : (
           <>
             <CernerFacilityAlert />
+            {showRefillProgressContent && <RefillAlert />}
             {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
             (showFilterContent &&
               filteredList?.length === 0 &&

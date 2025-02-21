@@ -13,6 +13,9 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
@@ -47,6 +50,9 @@ class MedicationsListPage {
   clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
     waitForMeds = false,
   ) => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
@@ -873,6 +879,21 @@ class MedicationsListPage {
         };
       }),
     };
+  };
+
+  verifyRefillDelayAlertBannerOnListPage = text => {
+    cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
+  };
+
+  verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
+    cy.get('[data-testid="alert-banner"]').should('contain', rxName);
+  };
+
+  clickMedicationsDetailsLinkOnDelayAlert = (prescriptionId, rx) => {
+    cy.intercept('GET', `/my_health/v1/prescriptions/${prescriptionId}`, rx);
+    cy.get(`[data-testid="refill-alert-link-${prescriptionId}"]`).click({
+      force: true,
+    });
   };
 }
 

@@ -8,6 +8,7 @@ import {
   medicationsUrls,
   PRINT_FORMAT,
   DOWNLOAD_FORMAT,
+  dispStatusObj,
 } from './constants';
 
 /**
@@ -522,4 +523,26 @@ export const categorizePrescriptions = ([refillable, renewable], rx) => {
     return [[...refillable, rx], renewable];
   }
   return [refillable, [...renewable, rx]];
+};
+
+/**
+ * @param {Object} rx prescription object
+ * @returns {Boolean}
+ */
+export const isRefillTakingLongerThanExpected = rx => {
+  if (!rx) {
+    return false;
+  }
+
+  const refillDate = rx.refillDate || rx.rxRfRecords[0]?.refillDate;
+  const refillSubmitDate =
+    rx.refillSubmitDate || rx.rxRfRecords[0]?.refillSubmitDate;
+  const sevenDaysAgoDate = new Date().setDate(new Date().getDate() - 7);
+
+  return (
+    (rx.dispStatus === dispStatusObj.refillinprocess &&
+      Date.now() > Date.parse(refillDate)) ||
+    (rx.dispStatus === dispStatusObj.submitted &&
+      Date.parse(refillSubmitDate) < sevenDaysAgoDate)
+  );
 };
