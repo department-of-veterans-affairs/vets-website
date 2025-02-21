@@ -136,12 +136,12 @@ export function showBehaviorDescriptionsPage(formData, behavior, section) {
   );
 }
 
-// export function showUnlistedDescriptionPage(formData) {
-//   return (
-//     isCompletingForm0781(formData) &&
-//     formData?.otherBehaviors?.unlisted === true
-//   );
-// }
+export function showUnlistedDescriptionPage(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.otherBehaviors?.unlisted === true
+  );
+}
 
 export function showBehaviorSummaryPage(formData) {
   return isCompletingForm0781(formData) && hasSelectedBehaviors(formData);
