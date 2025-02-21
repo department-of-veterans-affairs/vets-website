@@ -25,7 +25,6 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
     );
 
     if (!services?.length) {
-      console.log('doing this instead');
       setOptions([]);
     }
 
@@ -46,7 +45,6 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
     });
 
     if (serviceOptions?.length) {
-      console.log('setting initial options here');
       setOptions([allServicesOption, ...serviceOptions]);
 
       if (!allVAMCServices?.length) {
@@ -85,7 +83,6 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
 
   const handleServiceTypeSelection = event => {
     const { selectedItem } = event;
-    console.log('selectedItem: ', selectedItem);
 
     if (selectedItem && selectedItem?.serviceId) {
       onChange({
@@ -96,8 +93,6 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
       setSelectedService(selectedItem);
     }
   };
-
-  console.log('options: ', options);
 
   return (
     <Autosuggest
@@ -112,7 +107,6 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
       errorMessage="Start typing and select a service type."
       inputId="vamc-services"
       inputValue={inputValue || ''}
-      isLoading={false}
       keepDataOnBlur
       /* eslint-disable prettier/prettier */
       label={(
@@ -121,7 +115,6 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
           <span className="form-required-span">(*Required)</span>
         </>
       )}
-      loadingMessage="Searching..."
       minCharacters={2}
       noItemsMessage="No results found. Search for a different service."
       onClearClick={handleClearClick}
