@@ -5,11 +5,8 @@ import {
   personalInformationFormSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const {
-  // eslint-disable-next-line no-unused-vars
-  isVeteranDeceased, // omit
-  ...aboutYourselfFormSchema
-} = personalInformationFormSchemas;
+const aboutYourselfFormSchema = { ...personalInformationFormSchemas };
+delete aboutYourselfFormSchema.isVeteranDeceased;
 
 const aboutYourselfPage = {
   uiSchema: {
