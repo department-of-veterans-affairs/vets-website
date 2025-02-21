@@ -13,9 +13,10 @@ describe('Accessibility', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
-
+  const POA_REQUESTS =
+    '/representative/poa-requests?status=pending&sort=created_at_asc';
   it('has accessible POA Requests page', () => {
-    cy.visit('/representative/poa-requests');
+    cy.visit(POA_REQUESTS);
     cy.injectAxe();
     cy.axeCheck();
   });
