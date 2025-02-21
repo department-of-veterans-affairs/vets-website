@@ -578,35 +578,41 @@ describe('GIBCT helpers:', () => {
     it('should return an empty string when programType is null or undefined', () => {
       expect(formatProgramType(null)).to.equal('');
     });
+
     it('should return an empty string when programType is an empty string', () => {
       expect(formatProgramType('')).to.equal('');
     });
-    it('should capitalize each word and join with spaces when programType is hyphenated', () => {
-      expect(formatProgramType('online-program')).to.equal('Online Program');
+
+    it('should capitalize only the first letter of the entire string and replace hyphens with spaces', () => {
+      expect(formatProgramType('online-program')).to.equal('Online program');
     });
-    it('should handle a single word programType', () => {
+
+    it('should handle a single word programType by capitalizing only its first letter', () => {
       expect(formatProgramType('bachelor')).to.equal('Bachelor');
     });
-    it('should handle multiple hyphenated words', () => {
+
+    it('should handle multiple hyphenated words, keeping only the first letter capitalized overall', () => {
       expect(formatProgramType('associate-degree-program')).to.equal(
-        'Associate Degree Program',
+        'Associate degree program',
       );
     });
+
     it('should handle programType with extra hyphens', () => {
-      expect(formatProgramType('masters--program')).to.equal('Masters Program');
+      expect(formatProgramType('masters--program')).to.equal('Masters program');
     });
-    it('should lowercase the remaining characters of each word after capitalizing the first', () => {
+
+    it('should lowercase remaining characters for the entire string', () => {
       expect(formatProgramType('DOCTORATE-PROGRAM')).to.equal(
-        'Doctorate Program',
+        'Doctorate program',
       );
     });
+
     it('should return a formatted string for "on-the-job-training-apprenticeship"', () => {
       expect(formatProgramType('on-the-job-training-apprenticeship')).to.equal(
         'On-the-job training/Apprenticeships',
       );
     });
   });
-
   describe('deriveMaxAmount', () => {
     it('should return "Not provided" if no contributionAmount is given', () => {
       expect(deriveMaxAmount()).to.equal('Not provided');

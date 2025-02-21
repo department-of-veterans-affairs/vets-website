@@ -287,11 +287,11 @@ describe('ProgramsList component', () => {
       'We’re sorry. There’s a problem with our system. Try again later.',
     );
 
-    // Check institution name and program type are displayed
+    // Check  program type is displayed
     expect(wrapper.find('h1').exists()).to.be.true;
     expect(
       wrapper
-        .find('h2')
+        .find('h1')
         .at(0)
         .text()
         .toUpperCase(),
