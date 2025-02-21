@@ -35,13 +35,13 @@ const CategorySelectPage = props => {
     const selected = apiData.find(
       category => category.attributes.name === selectedValue,
     );
-    localStorage.removeItem('askVAFiles');
     if (selected.attributes.requiresAuthentication && !isLoggedIn) {
       setShowModal(true);
     } else {
-      dispatch(setCategoryID(selected.id));
+      dispatch(setCategoryID(selected.id)); // askVA store categoryID
       onChange({
         ...formData,
+        categoryId: selected.id,
         selectCategory: selectedValue,
         allowAttachments: selected.attributes.allowAttachments,
       });

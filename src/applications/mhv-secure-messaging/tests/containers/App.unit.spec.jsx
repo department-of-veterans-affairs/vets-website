@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { createServiceMap } from '@department-of-veterans-affairs/platform-monitoring';
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import sinon from 'sinon';
 import { addDays, subDays, format } from 'date-fns';
 import { waitFor } from '@testing-library/dom';
@@ -263,7 +264,9 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(window.location.replace.called).to.be.true;
+    await waitFor(() => {
+      expect(window.location.replace.called).to.be.true;
+    });
   });
 
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {
@@ -301,7 +304,7 @@ describe('App', () => {
       path: `/sdfsdf`,
     });
     expect(
-      screen.getByText('Sorry — we can’t find that page', {
+      screen.getByText(pageNotFoundHeading, {
         selector: 'h1',
         exact: true,
       }),

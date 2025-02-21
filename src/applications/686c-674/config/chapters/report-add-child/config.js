@@ -19,8 +19,7 @@ export const arrayBuilderOptions = {
       isBirthLocationIncomplete ||
       !item?.relationshipToChild ||
       typeof item?.doesChildLiveWithYou !== 'boolean' ||
-      typeof item?.hasChildEverBeenMarried !== 'boolean' ||
-      typeof item?.incomeInLastYear !== 'boolean'
+      typeof item?.hasChildEverBeenMarried !== 'boolean'
     );
   },
   maxItems: 10,
@@ -29,7 +28,9 @@ export const arrayBuilderOptions = {
       return 'Child';
     },
     cardDescription: item => {
-      return `${item?.fullName?.first} ${item?.fullName?.last}`;
+      return `${item?.fullName?.first ? item?.fullName?.first : ''} ${
+        item?.fullName?.last ? item?.fullName?.last : ''
+      }`;
     },
   },
 };

@@ -79,6 +79,8 @@ export const veteranMarriageHistorySummaryPage = {
       veteranMarriageHistoryOptions,
       {
         title: 'Do you have any former marriages to add?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -184,7 +186,7 @@ export const vetFormerMarriageEndDatePage = {
       return 'Your former marriage';
     }),
     endDate: {
-      ...currentOrPastDateUI('When did your marriage end?'),
+      ...currentOrPastDateUI('When did the marriage end?'),
       'ui:required': () => true,
       'ui:validations': [
         {
@@ -223,7 +225,7 @@ export const vetFormerMarriageStartLocationPage = {
         labelHeaderLevel: '4',
       },
       outsideUsa: {
-        'ui:title': 'They got married outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {

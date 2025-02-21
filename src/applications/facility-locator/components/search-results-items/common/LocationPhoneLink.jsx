@@ -31,7 +31,7 @@ export const renderPhoneNumber = (
   const phoneNumberId = `${location.id}-${title.replaceAll(/\s+/g, '')}`;
 
   return (
-    <p>
+    <p data-testid={title}>
       {from === 'FacilityDetail' && (
         <va-icon class="vads-u-margin-right--0p5" icon="phone" size="3" />
       )}

@@ -6,11 +6,11 @@ import { TASK_KEYS } from '../../../constants';
 import { addDependentOptions } from './helpers';
 
 export const uiSchema = {
-  'view:selectable686Options': {
+  'view:addDependentOptions': {
     ...checkboxGroupUI({
       title:
         'Who do you want to add as a dependent? Check everyone you want to add.',
-      required: form => form?.['view:addOrRemoveDependents']?.remove,
+      required: () => true,
       tile: true,
       labelHeaderLevel: '3',
       labels: {
@@ -23,13 +23,32 @@ export const uiSchema = {
         required: 'Select at least one option',
       },
     }),
+    'ui:options': {
+      tile: true,
+      updateSchema: (formData, schema) => {
+        // Check if new option is selected
+        // update view:selectable686Options with the selection
+        // this is to preserve field validation
+
+        if (formData?.['view:addDependentOptions']) {
+          // eslint-disable-next-line no-param-reassign
+          formData['view:selectable686Options'] = {
+            ...formData?.['view:addDependentOptions'],
+            ...formData?.['view:removeDependentOptions'],
+          };
+        }
+
+        return schema;
+      },
+    },
   },
 };
 
 export const schema = {
   type: 'object',
+  required: ['view:addDependentOptions'],
   properties: {
-    'view:selectable686Options': checkboxGroupSchema([
+    'view:addDependentOptions': checkboxGroupSchema([
       TASK_KEYS.addSpouse,
       TASK_KEYS.addChild,
       TASK_KEYS.report674,

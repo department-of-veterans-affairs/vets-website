@@ -8,7 +8,7 @@ export default function SuggestedAddressRadio({
   title,
   userAddress,
   selectedAddress,
-  addressValidation,
+  suggestedAddress,
   onChangeSelectedAddress,
 }) {
   return (
@@ -36,19 +36,17 @@ export default function SuggestedAddressRadio({
             }
           />
         )}
-        {addressValidation?.confirmedSuggestions?.[0] && (
+        {suggestedAddress && (
           <va-radio-option
             key="suggestedAddress"
             name="addressGroup"
             label="Suggested address:"
-            description={formatSuggestedAddress(
-              addressValidation?.confirmedSuggestions?.[0],
-            )}
-            value={JSON.stringify(addressValidation?.confirmedSuggestions?.[0])}
+            description={formatSuggestedAddress(suggestedAddress)}
+            value={JSON.stringify(suggestedAddress)}
             tile
             checked={
               JSON.stringify(selectedAddress) ===
-              JSON.stringify(addressValidation?.confirmedSuggestions?.[0])
+              JSON.stringify(suggestedAddress)
             }
           />
         )}

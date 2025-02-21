@@ -226,7 +226,9 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.findByText(/continue/i, { selector: 'button' }).click(FORCE_OPTION);
+    cy.findByText(/continue/i, { selector: 'button' })
+      .should('be.visible')
+      .click(FORCE_OPTION);
   };
 };
 

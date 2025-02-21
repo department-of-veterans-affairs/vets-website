@@ -41,18 +41,15 @@ const VehiclePage = ({
   return (
     <div>
       <VaRadio
-        use-forms-pattern="single"
-        form-heading="Did you travel in your own vehicle?"
-        form-heading-level={1}
         id="vehicle"
         onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
         value={yesNo.vehicle}
         data-testid="vehicle-test-id"
         error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
-        hint=""
-        label=""
-        label-header-level=""
+        hint={null}
+        label="Did you travel in your own vehicle?"
+        label-header-level="1"
       >
         <va-radio-option
           label="Yes"
