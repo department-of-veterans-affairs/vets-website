@@ -1,11 +1,11 @@
-/* eslint-disable import/no-cycle */
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import ConfirmationScreenView from '../components/ConfirmationPage/ConfirmationScreenView';
 import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPrintView';
 import ConfirmationFAQ from '../components/ConfirmationPage/ConfirmationFAQ';
 
-const ConfirmationPage = () => {
+const ConfirmationPage = ({ route }) => {
   const { submission, data } = useSelector(state => state.form);
   const { response, timestamp } = submission;
   const name = data.veteranFullName;
@@ -15,6 +15,7 @@ const ConfirmationPage = () => {
       <section className="caregiver-confirmation--screen no-print">
         <ConfirmationScreenView
           name={name}
+          route={route}
           timestamp={response ? timestamp : null}
         />
       </section>
@@ -36,6 +37,10 @@ const ConfirmationPage = () => {
       </a>
     </div>
   );
+};
+
+ConfirmationPage.propTypes = {
+  route: PropTypes.object,
 };
 
 export default ConfirmationPage;

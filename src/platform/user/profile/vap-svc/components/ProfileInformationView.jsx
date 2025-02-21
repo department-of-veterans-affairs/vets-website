@@ -91,6 +91,15 @@ const ProfileInformationView = props => {
       return formatGenderIdentity(data[fieldName]);
     }
 
+    if (fieldName === FIELD_NAMES.MESSAGING_SIGNATURE)
+      return (
+        <>
+          {data[fieldName].signatureName}
+          <br />
+          {data[fieldName].signatureTitle}
+        </>
+      );
+
     return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
   }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -6,16 +7,19 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import VehiclePage from '../../../../components/submit-flow/pages/VehiclePage';
 
 describe('Vehicle page', () => {
+  const setPageIndex = sinon.spy();
+  const setIsUnsupportedClaimType = sinon.spy();
+
   const props = {
     pageIndex: 2,
-    setPageIndex: () => {},
+    setPageIndex,
     yesNo: {
       mileage: 'yes',
       vehicle: '',
       address: '',
     },
     setYesNo: () => {},
-    setIsUnsupportedClaimType: () => {},
+    setIsUnsupportedClaimType,
   };
 
   it('should render correctly', async () => {
@@ -47,5 +51,38 @@ describe('Vehicle page', () => {
     await waitFor(() => {
       expect(screen.findByText(/You must make a selection/i)).to.exist;
     });
+  });
+
+  it('should render an error selection is "no"', async () => {
+    const screen = render(
+      <VehiclePage {...props} yesNo={{ ...props.yesNo, vehicle: 'no' }} />,
+    );
+    $('va-button-pair').__events.primaryClick(); // continue
+
+    expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
+    await waitFor(() => {
+      expect(
+        screen.findByText(
+          /We can’t file this type of travel reimbursement claim in this tool at this time/i,
+        ),
+      ).to.exist;
+    });
+  });
+
+  it('should move on to the next step if selection is "yes"', () => {
+    render(
+      <VehiclePage {...props} yesNo={{ ...props.yesNo, vehicle: 'yes' }} />,
+    );
+    $('va-button-pair').__events.primaryClick(); // continue
+
+    expect(setIsUnsupportedClaimType.calledWith(false)).to.be.true;
+    expect(setPageIndex.calledWith(3)).to.be.true;
+  });
+
+  it('should move back a step', () => {
+    render(<VehiclePage {...props} />);
+    $('va-button-pair').__events.secondaryClick(); // back
+
+    expect(setPageIndex.calledWith(1)).to.be.true;
   });
 });

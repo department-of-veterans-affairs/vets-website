@@ -54,14 +54,13 @@ ProgramCard.propTypes = {
 };
 
 const YellowRibbonSelector = ({ programs }) => {
-  const mappedPrograms = programs.map(program => ({
+  programs.map(program => ({
     degreeLevel: program.degreeLevel,
     divisionProfessionalSchool: program.divisionProfessionalSchool,
     numberOfStudents: program.numberOfStudents,
     contributionAmount: program.contributionAmount,
   }));
 
-  console.table(mappedPrograms); // eslint-disable-line no-console
   const resultsSummaryRef = useRef(null);
   const [selectedOption, setSelectedOption] = useState('');
   const [activeOption, setActiveOption] = useState('');

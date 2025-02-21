@@ -20,9 +20,8 @@ export default (store, widgetType) => {
           event2?.fieldDatetimeRangeTimezone[0]?.value,
       );
     } else {
-      const pastEvents = window?.pastEvents?.entities || [];
       const allEventTeasers = window?.allEventTeasers?.entities || [];
-      rawEvents = [...pastEvents, ...allEventTeasers]?.sort(
+      rawEvents = [...allEventTeasers]?.sort(
         (event1, event2) =>
           event1?.fieldDatetimeRangeTimezone[0]?.value -
           event2?.fieldDatetimeRangeTimezone[0]?.value,

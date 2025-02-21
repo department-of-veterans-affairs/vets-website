@@ -43,6 +43,7 @@ const getData = ({
           claims: {
             appeals: canAppeal,
           },
+          signIn: { serviceName: 'logingov' },
         },
       },
       form: {
@@ -106,10 +107,7 @@ describe('IntroductionPage', () => {
       </Provider>,
     );
     // This SIP alert is _after_ the process list
-    expect($$('va-alert[status="info"]', container).length).to.eq(1);
-    expect($$('va-alert[status="info"]', container)[0].textContent).to.include(
-      'Sign in now',
-    );
+    expect($$('va-alert-sign-in', container).length).to.eql(1);
     expect($('va-alert[status="warning"]', container)).to.not.exist;
   });
 
@@ -120,7 +118,7 @@ describe('IntroductionPage', () => {
         <IntroductionPage {...props} />
       </Provider>,
     );
-    expect($('va-alert[status="continue"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="verifyLoginGov"]', container)).to.exist;
     expect($('va-alert[status="info"]', container)).to.not.exist;
     expect($('.sip-wrapper.bottom', container).innerHTML).to.eq('');
   });

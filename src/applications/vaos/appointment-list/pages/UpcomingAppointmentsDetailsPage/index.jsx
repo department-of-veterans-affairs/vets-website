@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
 import moment from 'moment';
+import InfoAlert from '../../../components/InfoAlert';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import CCLayout from '../../../components/layouts/CCLayout';
@@ -34,6 +34,7 @@ export default function UpcomingAppointmentsDetailsPage() {
   const {
     appointment,
     appointmentDetailsStatus,
+    error,
     facilityData,
     useV2,
   } = useSelector(
@@ -124,7 +125,32 @@ export default function UpcomingAppointmentsDetailsPage() {
     },
     [appointmentDetailsStatus, appointment],
   );
-
+  if (
+    appointmentDetailsStatus === FETCH_STATUS.failed &&
+    error.code === 'VAOS_404'
+  ) {
+    return (
+      <PageLayout showBreadcrumbs showNeedHelp>
+        <div aria-atomic="true" aria-live="assertive">
+          <InfoAlert
+            status="error"
+            level={1}
+            headline="We’re sorry, we can't find your appointment"
+          >
+            Try searching this appointment on your appointment list or call your
+            facility.
+            <p className="vads-u-margin-y--0p5">
+              <va-link
+                data-testid="view-claim-link"
+                href="/my-health/appointments"
+                text="Go to appointments"
+              />
+            </p>
+          </InfoAlert>
+        </div>
+      </PageLayout>
+    );
+  }
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
