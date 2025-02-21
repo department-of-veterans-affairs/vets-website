@@ -159,10 +159,10 @@ const VaPrescription = prescription => {
                       className="vads-u-margin-bottom--2"
                       uswds
                     >
-                      <h2 slot="headline">
+                      <h3 slot="headline">
                         Your refill request for this medication is taking longer
                         than expected
-                      </h2>
+                      </h3>
                       <p>
                         Call your VA pharmacy{' '}
                         {pharmacyPhone && (
