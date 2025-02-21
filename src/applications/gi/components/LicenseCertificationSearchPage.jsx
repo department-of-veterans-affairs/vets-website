@@ -1,34 +1,12 @@
 import React, { useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LicenseCertificationSearchForm from '../containers/LicenseCertificationSearchForm';
-import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 import LicenseCertificationFaq from './LicenseCertificationFaq';
 
-export default function LicenseCertificationSearchPage({ flag }) {
-  const history = useHistory();
-  const location = useLocation();
-
+export default function LicenseCertificationSearchPage() {
   useEffect(() => {
     window.scrollTo(0, 0); // create function for reuse
   }, []);
-
-  const handleSearch = (category, name) => {
-    const newParams = {
-      category: [category],
-      name,
-    };
-
-    // preserves category filter option in case user navigates back to this page
-    updateQueryParam(history, location, newParams);
-
-    handleLcResultsSearch(history, newParams.category, name, 'all', category);
-  };
-
-  const handleReset = callback => {
-    history.replace('/lc-search');
-    callback?.();
-  };
 
   return (
     <div className="lc-page-wrapper">
@@ -52,12 +30,7 @@ export default function LicenseCertificationSearchPage({ flag }) {
           </p>
         </div>
         <div className="lc-form-wrapper row">
-          <LicenseCertificationSearchForm
-            handleSearch={handleSearch}
-            location={location}
-            handleReset={handleReset}
-            flag={flag}
-          />
+          <LicenseCertificationSearchForm />
         </div>
         <div className="row">
           <LicenseCertificationFaq />

@@ -2,23 +2,24 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useLcpFilter } from '../utils/useLcpFilter';
 import {
   capitalizeFirstLetter,
+  handleLcResultsSearch,
   showLcParams,
   updateCategoryDropdown,
+  updateQueryParam,
 } from '../utils/helpers';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
 import Dropdown from '../components/Dropdown';
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 
-export default function LicenseCertificationSearchForm({
-  handleSearch,
-  location,
-  handleReset,
-  flag,
-}) {
+export default function LicenseCertificationSearchForm() {
+  const history = useHistory();
+  const location = useLocation();
+
   const [dropdown, setDropdown] = useState(updateCategoryDropdown());
   const [name, setName] = useState('');
 
@@ -26,10 +27,32 @@ export default function LicenseCertificationSearchForm({
     state => state.licenseCertificationSearch,
   );
 
+  const handleSearch = (category, nameInput) => {
+    const newParams = {
+      category: [category],
+      name: nameInput,
+    };
+
+    updateQueryParam(history, location, newParams);
+    handleLcResultsSearch(
+      history,
+      newParams.category,
+      nameInput,
+      'all',
+      category,
+    );
+  };
+
+  const handleReset = () => {
+    history.replace('/lc-search');
+    setName('');
+    setDropdown(updateCategoryDropdown());
+  };
+
   const { nameParam, categoryParams } = showLcParams(location);
 
   useLcpFilter({
-    flag,
+    flag: 'singleFetch',
     name,
     categoryValues: dropdown.current.optionValue,
   });
@@ -64,11 +87,7 @@ export default function LicenseCertificationSearchForm({
     setName(lacNm);
   };
 
-  const handleClearInput = () => {
-    setName('');
-  };
-
-  const onUpdateAutocompleteSearchTerm = value => {
+  const updateAutocompleteSearchTerm = value => {
     setName(value);
   };
 
@@ -95,10 +114,9 @@ export default function LicenseCertificationSearchForm({
               <LicenseCertificationKeywordSearch
                 inputValue={name}
                 suggestions={suggestions}
-                // suggestions={filteredResults}
                 onSelection={onSelection}
-                handleClearInput={handleClearInput}
-                onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+                handleClearInput={() => updateAutocompleteSearchTerm('')}
+                onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
               />
             </div>
 
@@ -108,17 +126,7 @@ export default function LicenseCertificationSearchForm({
                 text="Submit"
                 onClick={() => handleSearch(dropdown.current.optionValue, name)}
               />
-              <VaButton
-                text="Reset Search"
-                // className="reset-search"
-                secondary
-                onClick={() =>
-                  handleReset(() => {
-                    setName('');
-                    setDropdown(updateCategoryDropdown());
-                  })
-                }
-              />
+              <VaButton text="Reset Search" secondary onClick={handleReset} />
             </div>
           </form>
         )}
