@@ -20,6 +20,7 @@ import { SearchFormTypes } from '../../types';
 import AddressAutosuggest from './location/AddressAutosuggest';
 import CCServiceTypeAhead from './service-type/CCServiceTypeAhead';
 import ServicesLoadingOrShow from './service-type/ServicesLoadingOrShow';
+import BottomRow from './BottomRow';
 
 const SearchForm = props => {
   const {
@@ -511,13 +512,7 @@ const SearchForm = props => {
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
-      <form
-        className={
-          useProgressiveDisclosure ? undefined : 'vads-u-margin-bottom--0'
-        }
-        id="facility-search-controls"
-        onSubmit={handleSubmit}
-      >
+      <form id="facility-search-controls" onSubmit={handleSubmit}>
         {renderLocationInputField()}
         {useProgressiveDisclosure ? (
           <>
@@ -531,13 +526,13 @@ const SearchForm = props => {
             />
           </>
         ) : (
-          <div id="search-controls-bottom-row">
+          <BottomRow isSmallDesktop={isSmallDesktop}>
             {renderFacilityTypeDropdown()}
             {renderServiceTypeDropdown()}
-            <div className="vads-u-margin-bottom--2">
+            <div>
               <input id="facility-search" type="submit" value="Search" />
             </div>
-          </div>
+          </BottomRow>
         )}
       </form>
     </div>

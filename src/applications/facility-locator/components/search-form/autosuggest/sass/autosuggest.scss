@@ -53,10 +53,6 @@ div[id$="-autosuggest-container"] {
       box-shadow: 0px 2px 6px 1px var(--vads-color-black),
         0px 4px 4px 0px var(--vads-color-darker);
 
-      @media (min-width: $small-desktop-screen) {
-        width: 418px;
-      }
-
       .dropdown-option {
         z-index: 1011;
         border: 2px solid var(--vads-color-white);

@@ -256,7 +256,7 @@ $text-color: rgba(27, 27, 27, 1);
   }
 
   .search-controls-container {
-    padding: 24px 16px 0 12px;
+    padding: 24px 16px 24px 12px;
     border: solid thin var(--vads-color-base-lightest);
     background: var(--vads-color-base-lightest);
   }
@@ -268,22 +268,18 @@ $text-color: rgba(27, 27, 27, 1);
     height: auto;
     border: solid thin var(--vads-color-base-lightest);
     background: var(--vads-color-base-lightest);
-
-    #facility-search-controls {
-      margin: 0;
-    }
   }
 
   #facility-search-controls {
     display: flex;
     flex-direction: column;
     width: 100%;
+    row-gap: 24px;
+    margin: 0;
+    padding: 0;
 
     .input-container {
       width: 100%;
-      @media screen and (min-width: $small-desktop-screen) {
-        max-width: 418px;
-      }
     }
 
     input {
@@ -298,7 +294,6 @@ $text-color: rgba(27, 27, 27, 1);
     select,
     va-select,
     .input-container {
-      margin-bottom: 24px;
       max-width: none;
 
       @media (min-width: $small-desktop-screen) {
@@ -325,6 +320,7 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       padding: 0 0.625rem;
       margin-top: 0;
+      margin-bottom: 0;
 
       @media (min-width: $small-desktop-screen) {
         min-width: 4.4rem;
@@ -356,8 +352,8 @@ $text-color: rgba(27, 27, 27, 1);
         flex-basis: 50%;
       }
       &.facility-error {
-        @media screen and (min-width: $tablet) {
-          margin-top: 0px;
+        margin-top: 0px;
+        @media screen and (min-width: $small-desktop-screen) {
           margin-left: 12px;
         }
       }
@@ -390,20 +386,13 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
     }
 
-    .typeahead + input[type="submit"] {
-      margin-bottom: 30px;
-    }
-
-    .typeahead:has(.usa-input-error) + input[type="submit"] {
-      margin-bottom: 38px;
-    }
-
     #location-input-container {
       &.usa-input-error {
         margin-bottom: 24px;
         padding-bottom: 0;
         .input-container {
           margin-bottom: 0;
+          max-width: calc(418px - 0.9375rem - 4px);
         }
       }
     }
@@ -458,6 +447,14 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       display: flex;
       flex-direction: column;
+
+      select {
+        margin: 0.5rem 0 0 0;
+      }
+
+      input[type="submit"] {
+        margin: 0;
+      }
 
       @media screen and (max-width: $small-desktop-screen) {
         margin-top: 0;
@@ -544,8 +541,7 @@ $text-color: rgba(27, 27, 27, 1);
   font-size: 1rem;
   height: 2.625rem;
   line-height: 1.3;
-  // margin: 0.2em 0 1.875rem;
-  margin-bottom: 24px;
+  margin: 0;
   position: relative;
   width: 100%;
 
