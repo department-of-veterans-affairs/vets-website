@@ -5,7 +5,7 @@ describe('convertRepType', () => {
   context('when the input is organization', () => {
     it('should return "organization"', () => {
       const result = convertRepType('organization');
-      expect(result).to.equal('organization');
+      expect(result).to.equal('Organization');
     });
   });
 

@@ -1,41 +1,44 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
+import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
-import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import {
+  VaAlertSignIn,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
+import {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+} from '~/platform/user/authentication/components/VerifyButton';
 
+import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
 import {
   notFoundComponent,
   unavailableComponent,
   phoneComponent,
   LastUpdatedComponent,
 } from './utils';
-
 import '../../sass/download-1095b.scss';
 
-export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
+export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+  const cspId = useSelector(signInServiceName);
+  const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
 
   const getFile = format => {
     return apiRequest(`/form1095_bs/download_${format}/${year}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
-      })
-      .catch(() => {
-        updateFormError({ error: true, type: 'download error' });
-        return false;
       });
   };
 
@@ -47,7 +50,51 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         }
         return response.availableForms;
       })
-      .catch(() => updateFormError({ error: true, type: 'not found' }));
+      .catch(() => {
+        updateFormError({ error: true, type: 'not found' });
+        return null; // Return null in case of an error
+      });
+  };
+
+  useEffect(
+    () => {
+      const getverifyAlertVariant = () => {
+        if (cspId === CSP_IDS.LOGIN_GOV) {
+          return (
+            <VaAlertSignIn variant="verifyLoginGov" visible headingLevel={4}>
+              <span slot="LoginGovVerifyButton">
+                <VerifyLogingovButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+        if (cspId === CSP_IDS.ID_ME) {
+          return (
+            <VaAlertSignIn variant="verifyIdMe" visible headingLevel={4}>
+              <span slot="IdMeVerifyButton">
+                <VerifyIdmeButton />
+              </span>
+            </VaAlertSignIn>
+          );
+        }
+        return (
+          <VaAlertSignIn variant="signInEither" visible headingLevel={4}>
+            <span slot="LoginGovSignInButton">
+              <VerifyLogingovButton />
+            </span>
+            <span slot="IdMeSignInButton">
+              <VerifyIdmeButton />
+            </span>
+          </VaAlertSignIn>
+        );
+      };
+      setverifyAlertVariant(getverifyAlertVariant());
+    },
+    [cspId, isLOA1],
+  );
+
+  const showSignInModal = () => {
+    toggleLoginModal(true, 'ask-va', true);
   };
 
   const downloadFileToUser = format => {
@@ -70,7 +117,11 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     () => {
       getAvailableForms().then(result => {
         const mostRecentYearData = result[0];
-        if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
+        if (
+          mostRecentYearData &&
+          mostRecentYearData?.lastUpdated &&
+          mostRecentYearData?.year
+        ) {
           const date = new Date(mostRecentYearData.lastUpdated);
           const options = { year: 'numeric', month: 'long', day: 'numeric' };
           // expected output (varies according to local timezone and default locale): December 20, 2012
@@ -128,7 +179,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             id="pdf-download-link"
             label="Download PDF (best for printing)"
             text="Download PDF (best for printing)"
-            filetype="PDF"
             onClick={e => {
               e.preventDefault();
               recordEvent({ event: '1095b-pdf-download' });
@@ -142,7 +192,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
             id="txt-download-link"
             label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
             text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
-            filetype="TEXT"
             onClick={e => {
               e.preventDefault();
               recordEvent({ event: '1095b-txt-download' });
@@ -155,25 +204,14 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const loggedOutComponent = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h2 slot="headline">
-        Please sign in to download your 1095-B tax document
-      </h2>
-      <div>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
-      </div>
-      <va-button
-        onClick={() => toggleLoginModal(true)}
-        primary-alternate
-        text="Sign in or create an account"
-        className="vads-u-margin-top--2"
-      />
-    </va-alert>
+    <VaAlertSignIn variant="signInRequired" visible headingLevel={4}>
+      <span slot="SignInButton">
+        <VaButton
+          text="Sign in or create an account"
+          onClick={showSignInModal}
+        />
+      </span>
+    </VaAlertSignIn>
   );
 
   if (!displayToggle) {
@@ -183,20 +221,24 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     if (formError.error) {
       return getErrorComponent();
     }
+    if (isLOA1) {
+      return verifyAlertVariant;
+    }
     return downloadForm;
   }
   return loggedOutComponent;
 };
 
 App.propTypes = {
-  toggleLoginModal: PropTypes.func.isRequired,
   displayToggle: PropTypes.bool,
+  isLOA1: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  toggleLoginModal: PropTypes.func.isRequired,
 };
-
 const mapStateToProps = state => ({
-  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
-  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
+  displayToggle: state?.featureToggles?.showDigitalForm1095b,
+  isLOA1: isLOA1Selector(state),
+  loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({

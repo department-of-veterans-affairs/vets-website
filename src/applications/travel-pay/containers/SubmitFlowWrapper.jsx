@@ -15,7 +15,7 @@ import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
 
-import BreadCrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { selectAppointment } from '../redux/selectors';
 import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
@@ -156,7 +156,7 @@ const SubmitFlowWrapper = () => {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-margin-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
