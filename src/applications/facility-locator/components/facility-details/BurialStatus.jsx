@@ -5,11 +5,28 @@ import { BurialStatusDisplay } from '../../constants';
 function BurialStatus({ facility }) {
   const facilityBurialStatus =
     facility.attributes.operatingStatus?.supplementalStatus?.[0]?.id;
+  const underConstruction =
+    facilityBurialStatus === 'BURIALS_UNDER_CONSTRUCTION';
   const { statusTitle, statusDescription, descriptionDetails } =
-    BurialStatusDisplay[facilityBurialStatus] || BurialStatusDisplay.default;
+    BurialStatusDisplay[facilityBurialStatus] || BurialStatusDisplay.DEFAULT;
+  const linkOrMemorialDescription = underConstruction ? (
+    <va-link
+      text="Find a VA national cemetery"
+      label="Find a VA national cemetery"
+      href="/find-locations?facilityType=cemetery"
+    />
+  ) : (
+    <p>
+      This cemetery may also have a memorial section or a memorial wall.
+      Memorial areas honor decedents whose remains are not recoverable and are
+      not available for burial. (Examples include remains that are donated to
+      science or cremated remains scattered at sea). Please contact the cemetery
+      for more information.
+    </p>
+  );
 
   return (
-    <div>
+    <div className="vads-u-padding-bottom--1">
       <h2 className="vads-u-font-size--h3">Burial space</h2>
       <div>
         <p>
@@ -24,13 +41,7 @@ function BurialStatus({ facility }) {
               ))}
             </ul>
           )}
-        <p>
-          This cemetery may also have a memorial section or a memorial wall.
-          Memorial areas honor decedents whose remains are not recoverable and
-          are not available for burial. (Examples include remains that are
-          donated to science or cremated remains scattered at sea). Please
-          contact the cemetery for more information.
-        </p>
+        {linkOrMemorialDescription}
       </div>
     </div>
   );

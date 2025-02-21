@@ -138,7 +138,7 @@ export const BurialStatusDisplay = {
       'This cemetery isn’t open yet for burials or visitation while it is under construction.',
     descriptionDetails: [],
   },
-  default: {
+  DEFAULT: {
     statusTitle: 'Call for burial status',
     statusDescription: null,
     descriptionDetails: [],
