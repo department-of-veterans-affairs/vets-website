@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { DownloadLink, getFileSizeMB } from '../config/helpers';
-import { StorageAdapter } from '../utils/StorageAdapter';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const idList = numberOfIDs => {
   const ids = [];
@@ -32,7 +32,6 @@ const FileUpload = props => {
   const [fileErrors, setFileErrors] = useState([]);
   const [indexDBError, setIndexDBError] = useState([]);
   const route = useSelector(state => state.navigation.route.path);
-  const askVAAttachmentStorage = new StorageAdapter('askVA', 'attachments');
 
   const getErrorMessage = fileID => {
     if (indexDBError.length > 0 && indexDBError.includes(fileID)) {
