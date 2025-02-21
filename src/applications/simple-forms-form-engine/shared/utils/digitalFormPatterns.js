@@ -1,6 +1,7 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
+import nameAndDateOfBirth from '../config/pages/nameAndDateOfBirth';
 
 /** @type {SchemaOptions} */
 const defaultSchema = {
@@ -260,32 +261,6 @@ export const personalInfoPages = chapter => {
   const [nameAndDob, identificationInfo] = chapter.pages;
 
   /** @returns {PageSchema} */
-  const nameAndDobPage = ({ includeDateOfBirth, pageTitle }) => {
-    const schema = {
-      ...defaultSchema,
-      properties: {
-        fullName: webComponentPatterns.fullNameSchema,
-      },
-    };
-    const uiSchema = {
-      ...webComponentPatterns.titleUI(pageTitle),
-      fullName: webComponentPatterns.fullNameUI(),
-    };
-
-    if (includeDateOfBirth) {
-      schema.properties.dateOfBirth = webComponentPatterns.dateOfBirthSchema;
-      uiSchema.dateOfBirth = webComponentPatterns.dateOfBirthUI();
-    }
-
-    return {
-      path: 'name-and-date-of-birth',
-      title: pageTitle,
-      schema,
-      uiSchema,
-    };
-  };
-
-  /** @returns {PageSchema} */
   const identificationInfoPage = ({ includeServiceNumber, pageTitle }) => {
     const schema = {
       ...defaultSchema,
@@ -313,7 +288,7 @@ export const personalInfoPages = chapter => {
   };
 
   return {
-    nameAndDateOfBirth: nameAndDobPage(nameAndDob),
+    nameAndDateOfBirth: nameAndDateOfBirth(nameAndDob),
     identificationInformation: identificationInfoPage(identificationInfo),
   };
 };

@@ -298,39 +298,10 @@ describe('personalInfoPages', () => {
   );
   const {
     identificationInformation: serviceNumberIncluded,
-    nameAndDateOfBirth: dobIncluded,
   } = personalInfoPages(optionalFieldsIncluded);
 
-  describe('nameAndDateOfBirth', () => {
-    it('includes the correct attributes', () => {
-      expect(nameAndDateOfBirth.title).to.eq(nameAndDob.pageTitle);
-      expect(nameAndDateOfBirth.path).to.eq('name-and-date-of-birth');
-    });
-
-    it('contains fullName', () => {
-      expect(nameAndDateOfBirth.schema.properties.fullName).to.eq(
-        webComponentPatterns.fullNameSchema,
-      );
-      expect(nameAndDateOfBirth.uiSchema.fullName).to.not.eq(undefined);
-    });
-
-    context('when includeDateOfBirth is true', () => {
-      it('contains dateOfBirth', () => {
-        expect(dobIncluded.schema.properties.dateOfBirth).to.eq(
-          webComponentPatterns.dateOfBirthSchema,
-        );
-        expect(dobIncluded.uiSchema.dateOfBirth).to.not.eq(undefined);
-      });
-    });
-
-    context('when includeDateOfBirth is false', () => {
-      it('does not contain dateOfBirth', () => {
-        expect(nameAndDateOfBirth.schema.properties.dateOfBirth).to.eq(
-          undefined,
-        );
-        expect(nameAndDateOfBirth.uiSchema.dateOfBirth).to.eq(undefined);
-      });
-    });
+  it('includes a nameAndDateOfBirth page', () => {
+    expect(nameAndDateOfBirth.title).to.eq(nameAndDob.pageTitle);
   });
 
   describe('identificationInformation', () => {
