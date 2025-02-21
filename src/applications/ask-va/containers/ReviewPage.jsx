@@ -24,10 +24,13 @@ import Scroll from 'react-scroll';
 import {
   closeReviewChapter,
   openReviewChapter,
+  removeAskVaForm,
   setUpdatedInReview,
 } from '../actions';
 import FileUpload from '../components/FileUpload';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
+import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
+import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 import formConfig from '../config/form';
 import { DownloadLink, formatDate } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
@@ -39,14 +42,12 @@ import {
 } from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
 import {
+  chapterTitles,
   createPageListByChapterAskVa,
   getChapterFormConfigAskVa,
   getPageKeysForReview,
   pagesToMoveConfig,
-  chapterTitles,
 } from '../utils/reviewPageHelper';
-import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
-import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const { scroller } = Scroll;
@@ -165,6 +166,7 @@ const ReviewPage = props => {
   };
 
   const postFormData = async (url, data) => {
+    const id = formConfig.formId;
     setIsDisabled(true);
     const options = {
       method: 'POST',
@@ -183,6 +185,7 @@ const ReviewPage = props => {
           const inquiryNumber = 'A-20230622-306458';
           const contactPreference = props.formData.contactPreference || 'Email';
           askVAAttachmentStorage.clear();
+          dispatch(removeAskVaForm(id));
           props.router.push({
             pathname: '/confirmation',
             state: { contactPreference, inquiryNumber },
@@ -197,6 +200,7 @@ const ReviewPage = props => {
         const { inquiryNumber } = response;
         const contactPreference = props.formData.contactPreference || 'Email';
         askVAAttachmentStorage.clear();
+        dispatch(removeAskVaForm(id));
         props.router.push({
           pathname: '/confirmation',
           state: { contactPreference, inquiryNumber },
