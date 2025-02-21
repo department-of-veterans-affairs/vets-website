@@ -254,6 +254,8 @@ export const convertRepType = input => {
     claim_agents: 'Claims Agent',
     /* eslint-disable-next-line camelcase */
     veteran_service_officer: 'VSO',
+    /* eslint-disable-next-line camelcase */
+    organization: 'Organization',
   };
 
   return mapping[input] || input;
