@@ -2,25 +2,25 @@ import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import MhvProdTestAccess from '../../containers/MhvProdTestAccess';
+import ProdTestAccess from '../../containers/ProdTestAccess';
 
-describe('MhvProdTestAccess Component', () => {
+describe('ProdTestAccess Component', () => {
   it('renders the heading and description', () => {
-    const screen = renderInReduxProvider(<MhvProdTestAccess />);
+    const screen = renderInReduxProvider(<ProdTestAccess />);
     expect(
       screen.getByRole('heading', {
-        name: /Access My HealtheVet test account/i,
+        name: /Access production test account/i,
       }),
     ).to.exist;
     expect(
       screen.getByText(
-        /My HealtheVet test accounts are available for VA and Oracle Health staff only\./i,
+        /production test accounts are available for VA and Oracle Health staff only\./i,
       ),
     ).to.exist;
   });
 
   it('renders email input and validates email with allowed domains', async () => {
-    const screen = render(<MhvProdTestAccess />);
+    const screen = render(<ProdTestAccess />);
     const emailInput = screen.getByTestId('mvhemailinput');
 
     emailInput.value = 'test@va.gov';
@@ -38,7 +38,7 @@ describe('MhvProdTestAccess Component', () => {
   });
 
   it('renders the login button and calls handleButtonClick', () => {
-    const screen = renderInReduxProvider(<MhvProdTestAccess />);
+    const screen = renderInReduxProvider(<ProdTestAccess />);
     const emailInput = screen.getByTestId('mvhemailinput');
     const loginButton = screen.getByTestId('accessMhvBtn');
 
@@ -50,7 +50,7 @@ describe('MhvProdTestAccess Component', () => {
   });
 
   it('disables the login button for invalid email', () => {
-    const screen = renderInReduxProvider(<MhvProdTestAccess />);
+    const screen = renderInReduxProvider(<ProdTestAccess />);
     const emailInput = screen.getByTestId('mvhemailinput');
     const loginButton = screen.getByTestId('accessMhvBtn');
 
@@ -60,7 +60,7 @@ describe('MhvProdTestAccess Component', () => {
   });
 
   it('renders the "Having trouble signing in?" section', () => {
-    const screen = renderInReduxProvider(<MhvProdTestAccess />);
+    const screen = renderInReduxProvider(<ProdTestAccess />);
     expect(
       screen.getByRole('heading', { name: /Having trouble signing in\?/i }),
     ).to.exist;
