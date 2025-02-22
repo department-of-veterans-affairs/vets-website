@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
 // eslint-disable-next-line @department-of-veterans-affairs/no-cross-app-imports
 import manifest from '../../../ivc-champva/10-7959C/manifest.json';
 
