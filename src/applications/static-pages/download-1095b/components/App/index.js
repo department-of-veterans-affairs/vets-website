@@ -56,7 +56,7 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
 
   const getAvailableForms = () => {
     return apiRequest('/form1095_bs/available_forms').then(response => {
-      if (response.errors || !!response.availableForms.length) {
+      if (response.errors || response.availableForms.length === 0) {
         updateFormError({ error: true, type: errorTypes.NOT_FOUND });
       }
       return response.availableForms;
@@ -127,11 +127,7 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
           const mostRecentYearData = result[0];
           if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
             updateYear(mostRecentYearData.year);
-          } else {
-            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
           }
-        } else {
-          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
         }
       });
     },
