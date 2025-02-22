@@ -55,17 +55,12 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   };
 
   const getAvailableForms = () => {
-    return apiRequest('/form1095_bs/available_forms')
-      .then(response => {
-        if (response.errors || !response.availableForms.length) {
-          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-        }
-        return response.availableForms;
-      })
-      .catch(() => {
+    return apiRequest('/form1095_bs/available_forms').then(response => {
+      if (response.errors || !!response.availableForms.length) {
         updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-        return null; // Return null in case of an error
-      });
+      }
+      return response.availableForms;
+    });
   };
 
   useEffect(
@@ -128,9 +123,13 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   useEffect(
     () => {
       getAvailableForms().then(result => {
-        const mostRecentYearData = result[0];
-        if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
-          updateYear(mostRecentYearData.year);
+        if (result) {
+          const mostRecentYearData = result[0];
+          if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
+            updateYear(mostRecentYearData.year);
+          } else {
+            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+          }
         } else {
           updateFormError({ error: true, type: errorTypes.NOT_FOUND });
         }
@@ -207,7 +206,7 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     if (!displayToggle) {
       return unavailableComponent();
     }
-    if (formError.error === errorTypes.NOT_FOUND) {
+    if (formError.type === errorTypes.NOT_FOUND) {
       return notFoundComponent();
     }
     if (isLOA1) {
