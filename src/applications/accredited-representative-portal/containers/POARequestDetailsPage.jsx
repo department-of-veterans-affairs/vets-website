@@ -192,7 +192,13 @@ const POARequestDetailsPage = () => {
             </>
           )}
           {poaStatus === 'acceptance' && (
-            <>
+            <span
+              className={
+                (poaRequestSubmission === BANNER_TYPES.PROCESSING ||
+                  poaRequestSubmission === BANNER_TYPES.FAILED) &&
+                'vads-u-display--none'
+              }
+            >
               <p className="poa-request-details__title">
                 <va-icon
                   icon="check_circle"
@@ -201,7 +207,7 @@ const POARequestDetailsPage = () => {
                 Request accepted on
               </p>
               {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
-            </>
+            </span>
           )}
           {poaStatus === 'expiration' && (
             <>
@@ -297,19 +303,17 @@ const POARequestDetailsPage = () => {
               <li>
                 <p>Name</p>
                 <p>
-                  {poaRequest?.power_of_attorney_form?.veteran?.name?.last},{' '}
-                  {poaRequest?.power_of_attorney_form?.veteran?.name?.first}
+                  {poaRequest?.powerOfAttorneyForm?.veteran?.name?.last},{' '}
+                  {poaRequest?.powerOfAttorneyForm?.veteran?.name?.first}
                 </p>
               </li>
               <li>
                 <p>Last 4 digits of Social security number</p>
-                <p>{poaRequest?.power_of_attorney_form?.veteran?.ssn}</p>
+                <p>{poaRequest?.powerOfAttorneyForm?.veteran?.ssn}</p>
               </li>
               <li>
                 <p>Last 4 digits of VA file number</p>
-                <p>
-                  {poaRequest?.power_of_attorney_form?.veteran?.vaFileNumber}
-                </p>
+                <p>{poaRequest?.powerOfAttorneyForm?.veteran?.vaFileNumber}</p>
               </li>
             </ul>
           </>
