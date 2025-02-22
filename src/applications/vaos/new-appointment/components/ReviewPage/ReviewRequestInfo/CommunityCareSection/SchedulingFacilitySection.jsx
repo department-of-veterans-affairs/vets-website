@@ -38,8 +38,8 @@ export default function SchedulingFacilitySection({ facility }) {
             Scheduling facility
           </h2>
           <p>
-            This facility will contact you if we need more information about
-            your request.
+            This facility will contact you to help schedule your request for
+            community care.
           </p>
           <p className="vaos-u-word-break--break-word">
             {facility.name}
