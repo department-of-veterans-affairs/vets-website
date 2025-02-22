@@ -28,20 +28,10 @@ import {
 import '../../sass/download-1095b.scss';
 
 export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
-  const [loading, setLoading] = useState(true);
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' });
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
-
-  useEffect(
-    () => {
-      if (loggedIn !== null) {
-        setLoading(false);
-      }
-    },
-    [loggedIn],
-  );
 
   useEffect(
     () => {
@@ -125,7 +115,7 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
-        a.download = `1095B-${year}.${format}zz`;
+        a.download = `1095B-${year}.${format}`;
 
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
@@ -213,18 +203,10 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     </VaAlertSignIn>
   );
 
-  if (loading) {
-    return (
-      <va-loading-indicator
-        label="Loading"
-        message="Loading your 1095-B information..."
-      />
-    );
-  }
-  if (!displayToggle) {
-    return unavailableComponent();
-  }
   if (loggedIn) {
+    if (!displayToggle) {
+      return unavailableComponent();
+    }
     if (formError.error === errorTypes.NOT_FOUND) {
       return notFoundComponent();
     }
@@ -245,7 +227,7 @@ App.propTypes = {
 const mapStateToProps = state => ({
   displayToggle: state?.featureToggles?.showDigitalForm1095b,
   isLOA1: isLOA1Selector(state),
-  loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
