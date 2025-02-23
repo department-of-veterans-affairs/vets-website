@@ -14,73 +14,57 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
       true,
     );
     SecureMessagingSite.login(updatedFeatureTogglesResponse);
+    PatientInboxPage.loadInboxMessages();
   });
 
   it('verify Inbox folder details', () => {
-    PatientInboxPage.loadInboxMessages();
     GeneralFunctionsPage.verifyPageHeader(`Messages: Inbox`);
-    cy.get(`.usa-breadcrumb__link`)
-      .last()
-      .should(`have.text`, `Messages: Inbox`);
-    cy.title().should(`contain`, `Messages:`);
+    GeneralFunctionsPage.verifyLastBreadCrumb(`Messages: Inbox`);
+    GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify Sent folder details', () => {
-    PatientInboxPage.loadInboxMessages();
     PatientMessagesSentPage.loadMessages();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Sent`);
-    cy.get(`.usa-breadcrumb__link`)
-      .last()
-      .should(`have.text`, `Messages: Sent`);
-    cy.title().should(`contain`, `Messages:`);
+    GeneralFunctionsPage.verifyLastBreadCrumb(`Messages: Sent`);
+    GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify Drafts folder details', () => {
-    PatientInboxPage.loadInboxMessages();
     PatientMessageDraftsPage.loadDrafts();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
-    cy.get(`.usa-breadcrumb__link`)
-      .last()
-      .should(`have.text`, `Messages: Drafts`);
-    cy.title().should(`contain`, `Messages:`);
+    GeneralFunctionsPage.verifyLastBreadCrumb(`Messages: Drafts`);
+    GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify Trash folder details', () => {
-    PatientInboxPage.loadInboxMessages();
     PatientMessageTrashPage.loadMessages();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Trash`);
-    cy.get(`.usa-breadcrumb__link`)
-      .last()
-      .should(`have.text`, `Messages: Trash`);
-
-    cy.title().should(`contain`, `Messages:`);
+    GeneralFunctionsPage.verifyLastBreadCrumb(`Messages: Trash`);
+    GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify custom folder details', () => {
-    PatientInboxPage.loadInboxMessages();
+  it('verify Custom folder details', () => {
     PatientMessageCustomFolderPage.loadMessages();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: TESTAGAIN`);
-    cy.get(`.usa-breadcrumb__link`)
-      .last()
-      .should(`have.text`, `Messages: TESTAGAIN`);
-
-    cy.title().should(`contain`, `Messages:`);
+    GeneralFunctionsPage.verifyLastBreadCrumb(`Messages: TESTAGAIN`);
+    GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
