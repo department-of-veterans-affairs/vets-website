@@ -6,9 +6,18 @@ import {
   buildSearchFilters,
 } from './filters';
 import { managePushHistory, setDocumentTitle } from '../utils/helpers';
+import { TABS } from '../constants';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
+};
+
+const getCleanPathName = history => {
+  if (history?.location?.pathname) {
+    const { pathname } = history.location;
+    return pathname.replace(/\/$/, '');
+  }
+  return '';
 };
 
 export const updateUrlParams = (
@@ -27,6 +36,13 @@ export const updateUrlParams = (
     searchQuery.name !== null &&
     searchQuery.name !== undefined &&
     queryParams.search === 'name'
+  ) {
+    queryParams.name = searchQuery.name;
+  }
+
+  if (
+    searchQuery.name &&
+    queryParams.search === TABS.schoolAndEmployerPrograms
   ) {
     queryParams.name = searchQuery.name;
   }
@@ -52,10 +68,18 @@ export const updateUrlParams = (
       ? { ...buildSearchFilters(filters), excludedSchoolTypes: clonedFilters }
       : buildSearchFilters(filters);
 
-  const url = appendQuery('/', {
+  let url = appendQuery('/', {
     ...queryParams,
     ...ClonedBuildSearchFilters,
   });
+
+  if (
+    tab === TABS.schoolAndEmployerPrograms ||
+    tab === TABS.schoolAndEmployerName
+  ) {
+    const pathName = getCleanPathName(history);
+    url = `${pathName}${url}`;
+  }
 
   managePushHistory(history, url);
   setDocumentTitle();

@@ -17,6 +17,7 @@ import {
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
   ERROR_MESSAGES,
+  TABS,
   lacpCategoryList,
 } from '../constants';
 
@@ -508,6 +509,13 @@ export const isSearchByNamePage = () => {
 export const isSearchByLocationPage = () => {
   return currentTab() === 'location';
 };
+// school_and_employer_name
+export const isSchoolAndEmployerProgram = () => {
+  return currentTab() === 'school_and_employer_program';
+};
+export const isSchoolAndEmployerName = () => {
+  return currentTab() === 'school_and_employer_name' || currentTab() === null;
+};
 
 export const giDocumentTitle = () => {
   let crumbLiEnding = 'GI Bill® Comparison Tool ';
@@ -517,6 +525,18 @@ export const giDocumentTitle = () => {
     crumbLiEnding += '(Search By Name)';
   } else if (searchByLocationPage) {
     crumbLiEnding += '(Search By Location)';
+  }
+  return crumbLiEnding;
+};
+
+export const giDocumentTitleSchoolsAndEmployers = () => {
+  let crumbLiEnding = 'Schools and employers ';
+  const schoolAndEmployerProgram = isSchoolAndEmployerProgram();
+  const schoolAndEmployerName = isSchoolAndEmployerName();
+  if (schoolAndEmployerProgram) {
+    crumbLiEnding += '(Search By Program)';
+  } else if (schoolAndEmployerName) {
+    crumbLiEnding += '(Search By Name)';
   }
   return crumbLiEnding;
 };
@@ -1047,4 +1067,15 @@ export const toTitleCase = str => {
   });
 
   return titled.join(' ');
+};
+
+export const convertSchoolsAndEmployersTabIndexToText = tabIndex => {
+  switch (tabIndex) {
+    case 0:
+      return TABS.schoolAndEmployerName;
+    case 1:
+      return TABS.schoolAndEmployerPrograms;
+    default:
+      return tabIndex.toString();
+  }
 };

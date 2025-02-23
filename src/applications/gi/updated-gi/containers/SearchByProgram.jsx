@@ -1,24 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   VaButton,
   VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import { geolocateUser, fetchSearchByLocationResults } from '../../actions';
 import { UseMyLocation } from '../components/school-and-employers/UseMyLocation';
 import { UseMyLocationModal } from '../components/school-and-employers/UseMyLocationModal';
 import { DISTANCE_DROPDOWN_OPTIONS } from '../../constants';
+import { updateUrlParams } from '../../selectors/search';
+import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 
-const SearchByProgram = () => {
-  const locationRef = useRef(null);
+const SearchByProgram = ({
+  dispatchShowFiltersBeforeResult,
+  dispatchFetchSearchByNameResults,
+  search,
+}) => {
   const dispatch = useDispatch();
-  const search = useSelector(state => state.search);
+  const locationRef = useRef(null);
   const [distance, setDistance] = useState(search.query.distance);
   const [location, setLocation] = useState(search.query.location);
   const [programName, setProgramName] = useState(null);
   const [searchDirty, setSearchDirty] = useState(false);
+  const { version } = useSelector(state => state.preview);
+  const filters = useSelector(state => state.filters);
+  const history = useHistory();
 
   const focusLocationInput = () => {
     locationRef?.current?.shadowRoot?.querySelector('input').focus();
@@ -34,17 +44,40 @@ const SearchByProgram = () => {
     dispatch(geolocateUser());
   };
 
+  const doSearch = value => {
+    const searchName = value || search.query.name;
+    dispatchFetchSearchByNameResults(searchName, 1, filters, version);
+    const clonedFilters = filters;
+    clonedFilters.excludedSchoolTypes = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
+      exclusion => !clonedFilters.excludedSchoolTypes.includes(exclusion),
+    );
+
+    updateUrlParams(
+      history,
+      search.tab,
+      {
+        ...search.query,
+        name: searchName,
+      },
+      clonedFilters,
+      version,
+    );
+  };
+
   const handleSearch = () => {
     setSearchDirty(true);
-
     // API call should not be made if there is an error in the form
     if (isFormError()) return;
-
-    const description = programName;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': 'nameSearch',
+      'gibct-form-value': programName,
+    });
+    dispatchShowFiltersBeforeResult();
+    doSearch(programName);
     dispatch(
-      fetchSearchByLocationResults(location, distance, null, null, description),
+      fetchSearchByLocationResults(location, distance, null, null, programName),
     );
-    // Show program results...
   };
 
   useEffect(
@@ -117,6 +150,12 @@ const SearchByProgram = () => {
       />
     </div>
   );
+};
+
+SearchByProgram.propTypes = {
+  dispatchFetchSearchByNameResults: PropTypes.func.isRequired,
+  dispatchShowFiltersBeforeResult: PropTypes.func.isRequired,
+  search: PropTypes.object.isRequired,
 };
 
 export default SearchByProgram;
