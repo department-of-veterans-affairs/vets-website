@@ -1,0 +1,7 @@
+{
+  "appName": "Debt Help Options",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "debt-help-options",
+  "rootUrl": "/manage-va-debt/debt-help-options",
+  "productId": "2a188e78-8922-48af-9520-f062effbbeca"
+}
