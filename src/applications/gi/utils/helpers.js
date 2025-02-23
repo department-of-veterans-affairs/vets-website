@@ -648,6 +648,7 @@ export const handleLcResultsSearch = (
   name,
   state = 'all',
   initialCategory = 'all',
+  page = 1,
 ) => {
   let categoryParams = '';
 
@@ -661,7 +662,7 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&`.concat(
+    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
       categoryParams,
     ),
     {
@@ -776,11 +777,14 @@ export const formatProgramType = (programType = '') => {
     return 'On-the-job training/Apprenticeships';
   }
 
-  return programType
+  const lowerJoined = programType
+    .toLowerCase()
     .split('-')
-    .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .filter(Boolean)
     .join(' ');
+
+  if (!lowerJoined) return '';
+  return lowerJoined.charAt(0).toUpperCase() + lowerJoined.slice(1);
 };
 
 export const generateMockPrograms = numPrograms => {

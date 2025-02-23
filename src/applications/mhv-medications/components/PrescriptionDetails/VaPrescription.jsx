@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
-import { VaAccordion } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAccordion,
+  VaAlert,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import {
   validateField,
@@ -11,6 +14,7 @@ import {
   dateFormat,
   createOriginalFillRecord,
   pharmacyPhoneNumber,
+  isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -19,15 +23,18 @@ import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
   selectRefillContentFlag,
+  selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
+import CallPharmacyPhone from '../shared/CallPharmacyPhone';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -48,6 +55,7 @@ const VaPrescription = prescription => {
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+  const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
   const determineStatus = () => {
     if (pendingRenewal) {
@@ -132,6 +140,42 @@ const VaPrescription = prescription => {
                     prescriptionName={prescription.prescriptionName}
                   />
                 )}
+                {showRefillProgressContent &&
+                  isRefillRunningLate && (
+                    <h2
+                      className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                      data-testid="check-status-text"
+                    >
+                      {latestTrackingStatus
+                        ? 'Check the status of your next refill'
+                        : 'Refill request status'}
+                    </h2>
+                  )}
+                {showRefillProgressContent &&
+                  isRefillRunningLate && (
+                    <VaAlert
+                      data-testid="rx-details-refill-alert"
+                      status="warning"
+                      className="vads-u-margin-bottom--2"
+                      uswds
+                    >
+                      <h3 slot="headline">
+                        Your refill request for this medication is taking longer
+                        than expected
+                      </h3>
+                      <p>
+                        Call your VA pharmacy{' '}
+                        {pharmacyPhone && (
+                          <CallPharmacyPhone
+                            cmopDivisionPhone={pharmacyPhone}
+                            page={pageType.DETAILS}
+                          />
+                        )}
+                        to check on your refill, if you haven’t received it in
+                        the mail yet.
+                      </p>
+                    </VaAlert>
+                  )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
                   data-testid="recent-rx"
