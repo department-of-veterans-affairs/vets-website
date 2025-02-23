@@ -6,6 +6,7 @@ import {
   mockApiRequest,
   resetFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import RefillPrescriptions from '../../containers/RefillPrescriptions';
 import reducer from '../../reducers';
 import prescriptions from '../fixtures/refillablePrescriptionsList.json';
@@ -92,7 +93,7 @@ describe('Refill Prescriptions Component', () => {
       },
       true,
     );
-    expect(screen.getByText('Sorry — we can’t find that page')).to.exist;
+    expect(screen.getByText(pageNotFoundHeading)).to.exist;
   });
 
   it('Mocks API Request', async () => {
