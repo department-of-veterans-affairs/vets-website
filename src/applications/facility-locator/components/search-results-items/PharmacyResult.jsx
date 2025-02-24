@@ -22,11 +22,7 @@ const PharmacyResult = ({ isMobile = false, provider, query }) => {
         {provider.attributes.orgName && <h6>{provider.attributes.orgName}</h6>}
         <LocationDistance distance={provider.distance} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink
-          location={provider}
-          from="SearchResult"
-          query={query}
-        />
+        <LocationDirectionsLink location={provider} query={query} />
         <LocationPhoneLink
           location={provider}
           from="SearchResult"
