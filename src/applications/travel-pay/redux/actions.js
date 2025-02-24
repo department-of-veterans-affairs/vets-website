@@ -85,7 +85,7 @@ export function submitMileageOnlyClaim(datetime) {
 
       const apptUrl = `${environment.API_URL}/travel_pay/v0/claims`;
       const response = await apiRequest(apptUrl, options);
-      dispatch(submitClaimSuccess(response.data));
+      dispatch(submitClaimSuccess(response));
     } catch (error) {
       dispatch(submitClaimFailure(error));
     }
