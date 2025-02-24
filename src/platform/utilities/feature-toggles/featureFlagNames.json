@@ -286,8 +286,6 @@
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingContactInfoFlow": "veteran_onboarding_contact_info_flow",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
-  "veteranStatusCardUseLighthouse": "veteran_status_card_use_lighthouse",
-  "veteranStatusCardUseLighthouseFrontend": "veteran_status_card_use_lighthouse_frontend",
   "virtualAgentComponentTesting": "virtual_agent_component_testing",
   "virtualAgentEnableMsftPvaTesting": "virtual_agent_enable_msft_pva_testing",
   "virtualAgentEnableNluPvaTesting": "virtual_agent_enable_nlu_pva_testing",
