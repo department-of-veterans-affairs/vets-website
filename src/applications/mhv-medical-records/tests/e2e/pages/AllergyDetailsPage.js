@@ -48,13 +48,13 @@ class AllergyDetailsPage extends BaseDetailsPage {
   };
 
   verifyBreadcrumbs = breadcrumbsText => {
-    cy.get('[data-testid="mr-breadcrumbs"]').contains(`${breadcrumbsText}`, {
+    cy.get('[data-testid="breadcrumbs"]').contains(`${breadcrumbsText}`, {
       matchCase: false,
     });
   };
 
   clickBreadcrumbs = breadcrumb => {
-    cy.get('[data-testid="mr-breadcrumbs"]')
+    cy.get('[data-testid="breadcrumbs"]')
       .find('a')
       .contains(breadcrumb)
       .click({ waitForAnimations: true });

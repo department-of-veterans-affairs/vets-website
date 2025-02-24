@@ -172,7 +172,7 @@ describe('MrBreadcrumbs component', () => {
       },
     );
     const { getByTestId } = screen;
-    expect(getByTestId('mr-breadcrumbs')).to.exist;
+    expect(getByTestId('breadcrumbs')).to.exist;
   });
 
   it('tests the time frame in the url logic', () => {

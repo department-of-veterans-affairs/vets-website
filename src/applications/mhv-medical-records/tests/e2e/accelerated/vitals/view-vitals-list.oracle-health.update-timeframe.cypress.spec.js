@@ -46,21 +46,14 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.checkUrl({ timeFrame: '2020-01' });
 
-    // This is checking that the breadcrumbs are correct
-    cy.get('va-breadcrumbs')
-      .shadow()
-      .find('li')
-      .eq(3)
+    cy.get('[data-testid="breadcrumbs"]')
       .find('a')
-      .should('be.visible')
       .should('have.attr', 'href')
-      .and('include', '/vitals?timeFrame=2020-01');
+      .and('include', '/my-health/medical-records/vitals');
 
-    cy.get('va-breadcrumbs')
-      .shadow()
-      .find('li')
-      .eq(3)
+    cy.get('[data-testid="breadcrumbs"]')
       .find('a')
+      .contains('Back')
       .click();
 
     // Maintaining the same timeFrame across page clicks
