@@ -39,12 +39,20 @@ export const Data = {
   PENDING_RENEW_TEXT: 'This is a renewal you requested.',
   PENDING_ALERT_WITHIN_SEVEN_DAYS:
     'Your VA pharmacy is reviewing this prescription',
+  DELAY_ALERT_BANNER: 'Some refills are taking longer than expected',
+  DELAY_ALERT_DETAILS_BANNER:
+    'Your refill request for this medication is taking longer than expected',
+  CHECK_STATUS_HEADER: 'Check the status of your next refill',
 };
 export const Paths = {
   LANDING_LIST:
     '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   MED_LIST:
     '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+  EMPTY_MED_LIST:
+    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
+  DELAY_ALERT:
+    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
   SORT_BY_NAME:
     'my_health/v1/prescriptions?page=1&per_page=10&sort[]=prescription_name&sort[]=dispensed_date',
   SORT_BY_LAST_FILLED:
