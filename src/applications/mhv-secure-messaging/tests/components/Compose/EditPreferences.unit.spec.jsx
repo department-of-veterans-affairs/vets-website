@@ -57,7 +57,7 @@ describe('EditPreferences component', () => {
   it('should not render when the isSignatureSettingsEnabled flag is enabled', () => {
     const customState = {
       featureToggles: {
-        featureTogglesLoading: false,
+        loading: false,
       },
     };
     customState.featureToggles.mhv_secure_messaging_signature_settings = true;
@@ -71,7 +71,7 @@ describe('EditPreferences component', () => {
   it('should not render when the featureToggles is loading', () => {
     const customState = {
       featureToggles: {
-        featureTogglesLoading: true,
+        loading: true,
       },
     };
     customState.featureToggles.mhv_secure_messaging_signature_settings = true;
