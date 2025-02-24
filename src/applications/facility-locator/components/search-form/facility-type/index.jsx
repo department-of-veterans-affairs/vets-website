@@ -36,10 +36,11 @@ const FacilityType = ({
       )}
     >
       <VaSelect
-        uswds
         required
         id="facility-type-dropdown"
-        className={showError ? 'vads-u-padding-left--1p5' : null}
+        className={classNames('vads-u-width--full', {
+          'vads-u-padding-left--1p5': showError,
+        })}
         label="Facility type"
         value={facilityType || ''}
         onVaSelect={e => handleFacilityTypeChange(e)}

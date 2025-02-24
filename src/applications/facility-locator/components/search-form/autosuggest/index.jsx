@@ -79,7 +79,7 @@ function Autosuggest({
   return (
     <div
       id={`${inputId}-autosuggest-container`}
-      className={classNames('autosuggest-container', 'vads-u-width--full', {
+      className={classNames('autosuggest-container', {
         'usa-input-error': showError,
       })}
     >

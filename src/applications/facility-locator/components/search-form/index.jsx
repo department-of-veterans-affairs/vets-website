@@ -93,6 +93,15 @@ const SearchForm = props => {
       }
     }
 
+    if (
+      vamcAutoSuggestEnabled &&
+      facilityType === LocationType.HEALTH &&
+      !serviceType
+    ) {
+      focusElement('#vamc-services-autosuggest-container');
+      return;
+    }
+
     if (!searchString) {
       updateReduxState('searchString');
       focusElement('#street-city-state-zip');

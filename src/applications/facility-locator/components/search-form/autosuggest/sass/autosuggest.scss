@@ -150,6 +150,17 @@ div[id$="-autosuggest-container"] {
   }
 }
 
+div#street-city-state-zip-autosuggest-container {
+  @media (min-width: $small-desktop-screen) {
+    max-width: 418px;
+    width: 418px;
+  }
+
+  input {
+    max-width: 100%;
+  }
+}
+
 div#vamc-services-autosuggest-container {
   max-width: 436px;
 
@@ -160,7 +171,7 @@ div#vamc-services-autosuggest-container {
   }
 
   &.usa-input-error {
-    margin: -30px 16px 0 0 !important;
+    margin: -30px 0 0 0 !important;
   }
 
   &.usa-input-error + #facility-search {

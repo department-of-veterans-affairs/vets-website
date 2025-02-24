@@ -81,6 +81,7 @@ const ServiceType = ({
     <div className="service-type-dropdown-container">
       <label htmlFor="service-type-dropdown">Service type</label>
       <select
+        className="vads-u-width--full"
         id="service-type-dropdown"
         disabled={disabled || !facilityType}
         value={serviceType || ''}

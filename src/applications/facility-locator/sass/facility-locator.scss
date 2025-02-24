@@ -252,17 +252,13 @@ $text-color: rgba(27, 27, 27, 1);
       select,
       va-select,
       .input-container {
-        max-width: none;
         padding: 0 0.7em;
-
-        @media (min-width: $small-desktop-screen) {
-          max-width: 418px;
-          width: 418px;
-          margin-right: 18px;
-        }
       }
 
-      #facility-type-dropdown::part(select) {
+      input,
+      select,
+      va-select,
+      .input-container,#facility-type-dropdown::part(select) {
         @media (max-width: $small-desktop-screen) {
           max-width: 100%;
         }
@@ -325,21 +321,23 @@ $text-color: rgba(27, 27, 27, 1);
       }
 
       #search-controls-bottom-row {
-        & > div {
-          margin-bottom: 24px;
-
-          @media (min-width: $small-desktop-screen) {
-            margin-bottom: 0;
-          }
-        }
-
         @media (min-width: $small-desktop-screen) {
           display: flex;
           flex-direction: row;
         }
+
+        & > div {
+          margin-bottom: 24px;
+
+          @media (min-width: $small-desktop-screen) {
+            margin-right: 16px;
+            margin-bottom: 0;
+          }
+        }
       }
 
       #facility-search {
+        width: 72px;
         margin-right: 0;
         margin-bottom: 0;
       }
