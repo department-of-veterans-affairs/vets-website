@@ -79,7 +79,7 @@ const PersonalInformationSection = ({ dob }) => {
         }
       }
     },
-    [messagingSignatureName, location.hash],
+    [messagingSignatureName, location],
   );
 
   const updatedCardFields = useMemo(
