@@ -138,10 +138,5 @@ export const searchAddresses = async addressTerm => {
       proximity: 'ip',
     })
     .send();
-  // TODO: display error message if geolocation fails?
-  // .catch(error => error);
-  if (!response?.body?.features) {
-    return [];
-  }
-  return response.body.features;
+  return response?.body?.features ?? [];
 };

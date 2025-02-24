@@ -41,6 +41,7 @@ function Autosuggest({
   stateReducer = srClearOnBlur,
   isLoading = false,
   loadingMessage = '',
+  useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
 }) {
   const {
@@ -76,7 +77,11 @@ function Autosuggest({
         'usa-input-error': showError,
       })}
     >
-      <div className={`${inputId}-autosuggest-label-container`}>
+      <div
+        className={`${inputId}-autosuggest-label-container ${
+          useProgressiveDisclosure ? 'fl-sm-desktop' : ''
+        }`}
+      >
         <label className={`${inputId}-label`} {...getLabelProps()}>
           {label}
         </label>
