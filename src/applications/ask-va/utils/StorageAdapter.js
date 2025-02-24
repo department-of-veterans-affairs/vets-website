@@ -206,7 +206,10 @@ export class StorageAdapter {
   }
 }
 
-export const vadxPreferencesStorage = new StorageAdapter('vadx', 'preferences');
+export const askVAAttachmentStorage = new StorageAdapter(
+  'askVA',
+  'attachments',
+);
 
 // PropTypes for components using the storage adapter
 export const StorageAdapterPropTypes = {

@@ -13,6 +13,9 @@ if (!process.env.NODE_ENV === 'test') {
     sessionSampleRate: 100,
     forwardConsoleLogs: ['error'],
     telemetrySampleRate: 100,
+    forwardErrorsToLogs: true,
+    forwardReports: [],
+    sampleRate: 100,
   });
 }
 
