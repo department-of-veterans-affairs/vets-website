@@ -7,6 +7,7 @@ import {
   detailPage,
   introPage,
   namePage,
+  summaryPage,
 } from 'applications/simple-forms-form-engine/shared/config/pages/employmentHistory';
 
 describe('datePage', () => {
@@ -98,5 +99,21 @@ describe('namePage', () => {
         nounSingular: options.nounSingular,
       }),
     ).to.eq(true);
+  });
+});
+
+describe('summaryPage', () => {
+  it('includes the proper attributes', () => {
+    const options = {
+      required: true,
+    };
+
+    const employerSummary = summaryPage(options);
+
+    expect(employerSummary.schema.properties['view:hasEmployers']).to.eq(
+      webComponentPatterns.arrayBuilderYesNoSchema,
+    );
+    expect(employerSummary.uiSchema['view:hasEmployers']).to.not.eq(undefined);
+    expect(employerSummary.path).to.eq('employers-summary');
   });
 });

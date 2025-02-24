@@ -168,10 +168,7 @@ describe('listLoopPages', () => {
   it('includes a summary page', () => {
     const { employerSummary } = listLoopPages(optional, arrayBuilderStub);
 
-    expect(employerSummary.schema.properties['view:hasEmployers']).to.eq(
-      webComponentPatterns.arrayBuilderYesNoSchema,
-    );
-    expect(employerSummary.uiSchema['view:hasEmployers']).to.not.eq(undefined);
+    expect(employerSummary.path).to.eq('employers');
   });
 
   context('when the variation is employment history', () => {

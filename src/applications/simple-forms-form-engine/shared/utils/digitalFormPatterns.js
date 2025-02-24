@@ -93,40 +93,13 @@ export const listLoopPages = (
     },
   };
 
-  const { datePage, detailPage, introPage, namePage } = employmentHistory;
-
-  /** @type {PageSchema} */
-  const summaryPage = {
-    path: optional ? 'employers' : 'employers-summary',
-    schema: {
-      type: 'object',
-      properties: {
-        'view:hasEmployers': webComponentPatterns.arrayBuilderYesNoSchema,
-      },
-      required: ['view:hasEmployers'],
-    },
-    title: optional ? 'Your employers' : 'Review your employers',
-    uiSchema: {
-      'view:hasEmployers': webComponentPatterns.arrayBuilderYesNoUI(
-        options,
-        {
-          title:
-            'Were you employed by the VA, others or self-employed at any time during the last 12 months?',
-          labels: {
-            Y: 'Yes, I have employment to report',
-            N: 'No, I don’t have any employment to report',
-          },
-        },
-        {
-          title: 'Do you have another employer to report?',
-          labels: {
-            Y: 'Yes, I have another employment to report',
-            N: 'No, I don’t have another employment to report',
-          },
-        },
-      ),
-    },
-  };
+  const {
+    datePage,
+    detailPage,
+    introPage,
+    namePage,
+    summaryPage,
+  } = employmentHistory;
 
   /** @returns {FormConfigPages} */
   const pageBuilderCallback = pageBuilder => {
@@ -139,7 +112,7 @@ export const listLoopPages = (
 
     return {
       ...pages,
-      employerSummary: pageBuilder.summaryPage(summaryPage),
+      employerSummary: pageBuilder.summaryPage(summaryPage(options)),
       employerNamePage: pageBuilder.itemPage(namePage(options)),
       employerDatePage: pageBuilder.itemPage(datePage),
       employerDetailPage: pageBuilder.itemPage(detailPage),
