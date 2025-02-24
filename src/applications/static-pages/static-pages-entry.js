@@ -97,7 +97,6 @@ import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
 
-import create1010DAccess from './ivc-champva/10-10D/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F2Access from './ivc-champva/10-7959f-2/entry';
@@ -242,7 +241,6 @@ createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
-create1010DAccess(store, widgetTypes.FORM_1010D);
 create107959CAccess(store, widgetTypes.FORM_107959C);
 create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F2Access(store, widgetTypes.FORM_107959F2);
