@@ -89,13 +89,13 @@ export default function ReferralAppointments() {
     <>
       <Switch>
         <Route path={`${basePath.url}/review/`} search={id}>
-          <ReviewAndConfirm currentReferral={referral.data} />
+          <ReviewAndConfirm currentReferral={referral?.data} />
         </Route>
         <Route path={`${basePath.url}/date-time/`} search={id}>
-          <ChooseDateAndTime currentReferral={referral.data} />
+          <ChooseDateAndTime currentReferral={referral?.data} />
         </Route>
         <Route path={`${basePath.url}`} search={id}>
-          <ScheduleReferral currentReferral={referral.data} />
+          <ScheduleReferral currentReferral={referral?.data} />
         </Route>
       </Switch>
     </>
