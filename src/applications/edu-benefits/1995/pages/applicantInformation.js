@@ -1,7 +1,7 @@
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { genderLabels } from '../../utils/labels';
-import { SeventeenOrOlder } from '../../1990/helpers';
+import { SeventeenOrOlder } from '../helpers';
 
 export const uiSchema = {
   veteranFullName: {
