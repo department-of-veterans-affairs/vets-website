@@ -1583,13 +1583,13 @@
     {
     "domain": "www.benefits.va.gov",
     "src": "/manchester",
-    "dest": "/manchester-va-regional-benefit-office",
+    "dest": "/manchester-va-regional-benefit-office/",
     "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/ROMANCHESTER",
-    "dest": "/manchester-va-regional-benefit-office",
+    "dest": "/manchester-va-regional-benefit-office/",
     "catchAll": true
   }
 ]
