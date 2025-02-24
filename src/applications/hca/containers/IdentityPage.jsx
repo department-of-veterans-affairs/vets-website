@@ -12,7 +12,10 @@ import {
   resetEnrollmentStatus as resetEnrollmentStatusAction,
 } from '../utils/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
-import { selectEnrollmentStatus } from '../utils/selectors';
+import {
+  selectEnrollmentStatus,
+  selectFeatureToggles,
+} from '../utils/selectors';
 import useAfterRenderEffect from '../hooks/useAfterRenderEffect';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
 import VerificationPageDescription from '../components/IdentityPage/VerificationPageDescription';
@@ -26,6 +29,7 @@ const IdentityPage = props => {
     fetchAttempted,
     isUserInMPI,
   } = useSelector(selectEnrollmentStatus);
+  const { isPerformanceAlertEnabled } = useSelector(selectFeatureToggles);
   const { data: formData } = useSelector(state => state.form);
   const loggedIn = useSelector(isLoggedIn);
   const [localData, setLocalData] = useState({});
@@ -93,7 +97,7 @@ const IdentityPage = props => {
    */
   useEffect(
     () => {
-      if (loggedIn) {
+      if (loggedIn || isPerformanceAlertEnabled) {
         router.push('/');
       } else {
         const { resetEnrollmentStatus } = props;
@@ -102,7 +106,7 @@ const IdentityPage = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn],
+    [loggedIn, isPerformanceAlertEnabled],
   );
 
   // trigger prefill and navigation if enrollment status criteria is met
