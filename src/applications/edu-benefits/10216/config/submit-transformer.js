@@ -5,8 +5,11 @@ import { calculatedPercentage } from '../utilities';
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
     let clonedData = _.cloneDeep(formData);
+    delete clonedData.statementOfTruthCertified;
     delete clonedData.studentRatioCalcChapter.studentPercentageCalc;
-
+    let today = new Date();
+    const offset = today.getTimezoneOffset();
+    today = new Date(today.getTime() - offset * 60 * 1000);
     clonedData = {
       ...clonedData,
       studentRatioCalcChapter: {
@@ -17,6 +20,7 @@ export function transform(formConfig, form) {
         numOfStudent: Number(clonedData.studentRatioCalcChapter.numOfStudent),
         VABeneficiaryStudentsPercentage: calculatedPercentage(clonedData),
       },
+      dateSigned: today.toISOString().split('T')[0],
     };
     return clonedData;
   };
