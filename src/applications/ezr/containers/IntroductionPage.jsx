@@ -8,20 +8,45 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
-import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import ProcessDescription from '../components/IntroductionPage/ProcessDescription';
 import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInfo';
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
 
-const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
-  const { isLoading } = useSelector(selectEnrollmentStatus);
-  const { isUserLOA1, isUserLOA3 } = useSelector(selectAuthStatus);
+const IntroductionPage = ({
+  fetchEnrollmentStatus,
+  route,
+  user: originalUser,
+}) => {
+  const {
+    isLoading: enrollmentStatusLoading,
+    hasPreferredFacility,
+  } = useSelector(selectEnrollmentStatus);
+  const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
+
+  // Determine if the user should be routed to a different page
+  const shouldRedirectToMyHealth = isUserLOA3 && !hasPreferredFacility;
+  const shouldRedirectToVerify = !isUserLOA3;
+
+  useEffect(
+    () => {
+      if (process.env.NODE_ENV !== 'test') {
+        if (shouldRedirectToVerify) {
+          window.location.replace('/verify-identity');
+        } else if (shouldRedirectToMyHealth) {
+          window.location.replace('/my-health');
+        }
+      }
+    },
+    [shouldRedirectToMyHealth, shouldRedirectToVerify],
+  );
 
   useEffect(
     () => {
@@ -29,52 +54,82 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [isUserLOA3],
+    [isUserLOA3, fetchEnrollmentStatus],
   );
 
+  const pageContent = (
+    <div className="ezr-intro schemaform-intro">
+      <DowntimeNotification
+        appTitle={content['form-title']}
+        dependencies={[externalServices['1010ezr']]}
+      >
+        {enrollmentStatusLoading ? (
+          <va-loading-indicator message={content['load-enrollment-status']} />
+        ) : (
+          <>
+            <ProcessDescription />
+            {!isUserLOA3 ? (
+              <VerifyAlert
+                status="info"
+                heading="Please verify your identity to access this form"
+                learnMoreUrl="/verify-identity"
+                headingLevel={3}
+                dataTestId="ezr-identity-alert"
+              />
+            ) : (
+              <SaveInProgressInfo {...sipProps} />
+            )}
+            <OMBInfo />
+          </>
+        )}
+      </DowntimeNotification>
+    </div>
+  );
+
+  const requiredLoginProps = {
+    verify: true,
+    authRequired: 3,
+    serviceRequired: 'identity-proofed',
+    user: originalUser,
+  };
+
   return (
-    <>
-      <div className="ezr-intro schemaform-intro">
-        <DowntimeNotification
-          appTitle={content['form-title']}
-          dependencies={[externalServices['1010ezr']]}
-        >
-          {isLoading ? (
-            <va-loading-indicator message={content['load-enrollment-status']} />
-          ) : (
-            <>
-              <ProcessDescription />
-              {isUserLOA1 ? (
-                <div className="vads-u-margin-y--4">
-                  <VerifyAlert
-                    headingLevel={3}
-                    dataTestId="ezr-identity-alert"
-                  />
-                </div>
-              ) : (
-                <SaveInProgressInfo {...sipProps} />
-              )}
-              <OMBInfo />
-            </>
-          )}
-        </DowntimeNotification>
-      </div>
-    </>
+    <RequiredLoginView {...requiredLoginProps}>{pageContent}</RequiredLoginView>
   );
 };
 
 IntroductionPage.propTypes = {
   fetchEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
+  user: PropTypes.object,
 };
 
 const mapDispatchToProps = {
   fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
+const mapStateToProps = state => {
+  // Mock the state in development mode
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      user: {
+        profile: {
+          verified: true,
+          loa: { current: 3 },
+          services: ['identity-proofed'],
+          loading: false,
+        },
+        login: { currentlyLoggedIn: true },
+      },
+    };
+  }
+  return {
+    user: state.user,
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(IntroductionPage);
