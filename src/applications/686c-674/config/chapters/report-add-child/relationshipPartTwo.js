@@ -9,8 +9,8 @@ import { generateHelpText } from '../../helpers';
 const CommonEvidenceInfo = (
   <>
     <p>
-      Based on your answers, you’ll need to submit a copy of this child’s birth
-      certificate to add them as your dependent.
+      Based on your answers, you’ll need to submit additional evidence to add
+      this child as your dependent.
     </p>
     <p>We’ll ask you to submit this document at the end of this form.</p>
   </>
@@ -38,7 +38,7 @@ const StepchildAdditionalEvidence = (
   </div>
 );
 
-export const relationship = {
+export const relationshipPartTwo = {
   uiSchema: {
     ...titleUI({
       title: 'Your relationship to this child',
@@ -47,7 +47,6 @@ export const relationship = {
       title: 'What’s your relationship to this child?',
       description: generateHelpText('Check all that apply'),
       labels: {
-        biological: 'They’re my biological child',
         adopted: 'They’re my adopted child',
         stepchild: 'They’re my stepchild',
       },
@@ -72,19 +71,6 @@ export const relationship = {
         },
       },
     },
-    'view:adoptedAdditionalEvidenceDescription': {
-      'ui:description': AdoptedAdditionalEvidence,
-      'ui:options': {
-        hideIf: (rawForm, rawIndex) => {
-          const index = parseInt(rawIndex, 10);
-          let form = rawForm;
-          if (Number.isFinite(index)) {
-            form = rawForm?.childrenToAdd?.[index];
-          }
-          return !form?.relationshipToChild?.adopted;
-        },
-      },
-    },
     'view:stepchildAdditionalEvidenceDescription': {
       'ui:description': StepchildAdditionalEvidence,
       'ui:options': {
@@ -98,24 +84,33 @@ export const relationship = {
         },
       },
     },
+    'view:adoptedAdditionalEvidenceDescription': {
+      'ui:description': AdoptedAdditionalEvidence,
+      'ui:options': {
+        hideIf: (rawForm, rawIndex) => {
+          const index = parseInt(rawIndex, 10);
+          let form = rawForm;
+          if (Number.isFinite(index)) {
+            form = rawForm?.childrenToAdd?.[index];
+          }
+          return !form?.relationshipToChild?.adopted;
+        },
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      relationshipToChild: checkboxGroupSchema([
-        'biological',
-        'adopted',
-        'stepchild',
-      ]),
+      relationshipToChild: checkboxGroupSchema(['adopted', 'stepchild']),
       'view:commonEvidenceInfo': {
         type: 'object',
         properties: {},
       },
-      'view:adoptedAdditionalEvidenceDescription': {
+      'view:stepchildAdditionalEvidenceDescription': {
         type: 'object',
         properties: {},
       },
-      'view:stepchildAdditionalEvidenceDescription': {
+      'view:adoptedAdditionalEvidenceDescription': {
         type: 'object',
         properties: {},
       },
