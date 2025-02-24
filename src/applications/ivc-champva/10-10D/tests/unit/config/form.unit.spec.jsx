@@ -114,7 +114,7 @@ testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page14.schema,
   formConfig.chapters.applicantInformation.pages.page14.uiSchema,
-  2,
+  1,
   'Applicant - SSN and VA File Num',
   { applicants },
 );

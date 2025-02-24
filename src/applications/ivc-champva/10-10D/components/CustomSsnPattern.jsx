@@ -1,3 +1,4 @@
+import get from 'platform/utilities/data/get';
 import {
   vaFileNumberUI,
   ssnUI,
@@ -15,8 +16,14 @@ export const ssnOrVaFileNumberCustomUI = () => {
       },
     },
     'ui:options': {
-      updateSchema: (_formData, _schema, _uiSchema, _index, _path) => {
-        const required = ['ssn'];
+      updateSchema: (formData, _schema, _uiSchema, index, path) => {
+        const { ssn, vaFileNumber } = get(path, formData) ?? {};
+
+        let required = ['ssn'];
+        if (!ssn && vaFileNumber) {
+          required = ['vaFileNumber'];
+        }
+
         return {
           ..._schema,
           required,
