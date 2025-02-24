@@ -47,7 +47,7 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  if (isExpired(referral.data)) {
+  if (isExpired(referral?.data)) {
     return (
       <va-alert-expandable
         status="warning"
