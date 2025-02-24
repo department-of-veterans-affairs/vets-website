@@ -1,9 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { setFocus } from '../utils/page';
 
 export default function Notification({ body, title, type, onClose }) {
   const closeable = !!onClose;
+
+  const focusAlert = () => {
+    setTimeout(() => {
+      setFocus('.claims-alert');
+    }, 500);
+  };
 
   return (
     <VaAlert
@@ -13,6 +20,7 @@ export default function Notification({ body, title, type, onClose }) {
       onCloseEvent={onClose}
       status={type}
       visible
+      onVa-component-did-load={focusAlert}
     >
       <h2 slot="headline">{title}</h2>
       <p className="vads-u-margin-y--0">{body}</p>

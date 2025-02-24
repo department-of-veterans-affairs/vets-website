@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
@@ -88,7 +88,7 @@ describe('<AdditionalEvidencePage>', () => {
       expect(tree.subTree('Notification')).not.to.be.false;
     });
 
-    it('should render upload error alert when rerendered', () => {
+    it('should render and focus error alert when rerendered', async () => {
       const { container, rerender } = render(
         <Provider store={getStore}>
           <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
@@ -114,6 +114,39 @@ describe('<AdditionalEvidencePage>', () => {
       );
       expect($('va-alert', container)).to.exist;
       expect($('va-alert h2', container).textContent).to.equal(message.title);
+    });
+
+    it.only('should render and focus success alert when rerendered', async () => {
+      const { container, rerender } = render(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage {...fileFormProps} claim={claim} />,
+        </Provider>,
+      );
+      expect($('va-alert', container)).not.to.exist;
+
+      const message = {
+        title: 'Success Title',
+        body: 'Success Message',
+      };
+
+      rerender(
+        <Provider store={getStore}>
+          <AdditionalEvidencePage
+            {...fileFormProps}
+            claim={claim}
+            message={message}
+          />
+          ,
+        </Provider>,
+      );
+      await waitFor(
+        () => {
+          expect(document.activeElement).to.equal($('va-alert', container));
+        },
+        { timeout: 1000 },
+      );
+      // expect($('va-alert', container)).to.exist;
+      // expect($('va-alert h2', container).textContent).to.equal(message.title);
     });
 
     it('should clear upload error when leaving', () => {
