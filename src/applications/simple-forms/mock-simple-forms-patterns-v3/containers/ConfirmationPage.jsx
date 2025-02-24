@@ -5,7 +5,7 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const { submission, data } = form;
+  const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
@@ -14,7 +14,6 @@ export const ConfirmationPage = props => {
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      submitterName={data.fullName}
     />
   );
 };
