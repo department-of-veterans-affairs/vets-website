@@ -112,6 +112,20 @@ jobs:
           check_title: 'App Isolation Annotations'
           input_json: './isolation-annotations.json'
 
+      - name: Create e2e annotations file
+        if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
+        run: |
+          echo "$SKIPPED_E2E_ANNOTATIONS_JSON" > skipped-e2e-annotations.json
+          cat skipped-e2e-annotations.json
+
+      - name: Annotate files that contain skipped e2e tests
+        if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
+        uses: ./.github/workflows/annotations
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          check_title: 'Skipped e2e Annotations'
+          input_json: './skipped-e2e-annotations.json'
+
   eslint-disable-check:
     name: ESLint Disable Check
     runs-on: ubuntu-latest
