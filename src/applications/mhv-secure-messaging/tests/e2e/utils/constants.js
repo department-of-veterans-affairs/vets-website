@@ -159,6 +159,7 @@ export const Locators = {
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
+    EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
   },
   ALERTS: {
     HEADER: `#heading`,
@@ -372,6 +373,7 @@ export const Data = {
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
+  EDIT_SIGNATURE: `Edit signature for all messages`,
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -387,6 +389,10 @@ export const Data = {
     DELETE_CHANGES: 'Delete changes',
     KEEP_EDITING: 'Keep editing',
     SAVE_DRAFT_WO_ATTCH: `Save draft without attachments`,
+  },
+  LINKS: {
+    PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
+    LEGACY_PREFERENCES: 'mhv-portal-web/preferences',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {
