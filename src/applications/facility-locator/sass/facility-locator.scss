@@ -257,10 +257,11 @@ $text-color: rgba(27, 27, 27, 1);
 
       input,
       select,
-      va-select,
-      .input-container,#facility-type-dropdown::part(select) {
-        @media (max-width: $small-desktop-screen) {
+      .input-container,
+      va-select::part(select) {
+        @media (max-width: 1023px) {
           max-width: 100%;
+          width: 100%;
         }
       }
 
@@ -330,6 +331,7 @@ $text-color: rgba(27, 27, 27, 1);
           margin-bottom: 24px;
 
           @media (min-width: $small-desktop-screen) {
+            flex-basis: 50%;
             margin-right: 16px;
             margin-bottom: 0;
           }
@@ -337,9 +339,14 @@ $text-color: rgba(27, 27, 27, 1);
       }
 
       #facility-search {
-        width: 72px;
+        width: 100%;
+        max-width: 100%;
         margin-right: 0;
         margin-bottom: 0;
+
+        @media (min-width: $small-desktop-screen) {
+          width: 72px;
+        }
       }
     }
   }
