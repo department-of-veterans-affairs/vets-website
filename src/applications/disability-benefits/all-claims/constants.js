@@ -427,7 +427,7 @@ export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
 
 export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
   va: 'VA or military treatment providers',
-  nonVA: 'Non-VA treatment providers or Vet Centers',
+  nonVa: 'Non-VA treatment providers or Vet Centers',
   none: 'None',
 });
 
@@ -440,7 +440,7 @@ export const TREATMENT_RECEIVED_VA = Object.freeze({
 });
 
 export const TREATMENT_RECEIVED_NON_VA = Object.freeze({
-  nonVA: 'Non-VA health care providers',
+  nonVa: 'Non-VA health care providers',
   vaCenters: 'VA Vet Centers',
 });
 

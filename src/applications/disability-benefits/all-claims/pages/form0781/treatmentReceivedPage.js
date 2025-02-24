@@ -26,7 +26,7 @@ export const uiSchema = {
       hideIf: formData => showConflictingAlert(formData) === false,
     },
   },
-  treatmentReceivedVAProvider: checkboxGroupUI({
+  treatmentReceivedVaProvider: checkboxGroupUI({
     title: TREATMENT_RECEIVED_SUBTITLES.va,
     labelHeaderLevel: '4',
     labels: {
@@ -34,7 +34,7 @@ export const uiSchema = {
     },
     required: false,
   }),
-  treatmentReceivedNonVAProvider: checkboxGroupUI({
+  treatmentReceivedNonVaProvider: checkboxGroupUI({
     title: TREATMENT_RECEIVED_SUBTITLES.nonVA,
     labelHeaderLevel: '4',
     labels: {
@@ -60,10 +60,10 @@ export const schema = {
       type: 'object',
       properties: {},
     },
-    treatmentReceivedVAProvider: checkboxGroupSchema(
+    treatmentReceivedVaProvider: checkboxGroupSchema(
       Object.keys(TREATMENT_RECEIVED_VA),
     ),
-    treatmentReceivedNonVAProvider: checkboxGroupSchema(
+    treatmentReceivedNonVaProvider: checkboxGroupSchema(
       Object.keys(TREATMENT_RECEIVED_NON_VA),
     ),
     'view:treatmentNoneCheckbox': checkboxGroupSchema(['none']),

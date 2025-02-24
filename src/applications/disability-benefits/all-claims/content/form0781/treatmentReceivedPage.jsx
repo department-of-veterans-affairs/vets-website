@@ -46,19 +46,19 @@ function hasSelectedNoneCheckbox(formData) {
  * @returns {object}
  */
 function treatmentReceivedSections(formData) {
-  const treatmentReceivedVAProviderSelected = Object.values(
-    formData.treatmentReceivedVAProvider || {},
+  const treatmentReceivedVaProviderSelected = Object.values(
+    formData.treatmentReceivedVaProvider || {},
   ).some(selected => selected === true);
 
-  const treatmentReceivedNonVAProviderSelected = Object.values(
-    formData.treatmentReceivedNonVAProvider || {},
+  const treatmentReceivedNonVaProviderSelected = Object.values(
+    formData.treatmentReceivedNonVaProvider || {},
   ).some(selected => selected === true);
 
   const noneSelected = hasSelectedNoneCheckbox(formData);
 
   return {
-    treatmentReceivedVAProvider: treatmentReceivedVAProviderSelected,
-    treatmentReceivedNonVAProvider: treatmentReceivedNonVAProviderSelected,
+    treatmentReceivedVaProvider: treatmentReceivedVaProviderSelected,
+    treatmentReceivedNonVaProvider: treatmentReceivedNonVaProviderSelected,
     none: noneSelected,
   };
 }
@@ -71,10 +71,10 @@ function treatmentReceivedSections(formData) {
 export function hasSelectedProviders(formData) {
   const selections = treatmentReceivedSections(formData);
   const {
-    treatmentReceivedVAProvider,
-    treatmentReceivedNonVAProvider,
+    treatmentReceivedVaProvider,
+    treatmentReceivedNonVaProvider,
   } = selections;
-  return [treatmentReceivedVAProvider, treatmentReceivedNonVAProvider].some(
+  return [treatmentReceivedVaProvider, treatmentReceivedNonVaProvider].some(
     selection => selection === true,
   );
 }
@@ -105,11 +105,11 @@ export function validateProviders(errors, formData) {
   // add error with no message to each checked section
   if (isConflicting === true) {
     errors['view:treatmentNoneCheckbox'].addError(' ');
-    if (selections.treatmentReceivedVAProvider === true) {
-      errors.treatmentReceivedVAProvider.addError(' ');
+    if (selections.treatmentReceivedVaProvider === true) {
+      errors.treatmentReceivedVaProvider.addError(' ');
     }
-    if (selections.treatmentReceivedNonVAProvider === true) {
-      errors.treatmentReceivedNonVAProvider.addError(' ');
+    if (selections.treatmentReceivedNonVaProvider === true) {
+      errors.treatmentReceivedNonVaProvider.addError(' ');
     }
   }
 }
