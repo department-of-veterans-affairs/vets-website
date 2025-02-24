@@ -7,6 +7,7 @@ import {
   identificationInformation,
   nameAndDateOfBirth,
 } from '../config/pages';
+import customStepPage from '../config/pages/customStepPage';
 
 /** @type {SchemaOptions} */
 const defaultSchema = {
@@ -50,7 +51,7 @@ export const customStepPages = chapter => {
   const pages = {};
   chapter.pages.forEach(page => {
     // This assumes every pageTitle within a chapter is unique.
-    pages[camelCase(page.pageTitle)] = { title: page.pageTitle };
+    pages[camelCase(page.pageTitle)] = customStepPage(page);
   });
 
   return pages;
