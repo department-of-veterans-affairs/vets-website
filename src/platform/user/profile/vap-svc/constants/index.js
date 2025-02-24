@@ -159,7 +159,7 @@ export const API_ROUTES = {
   ADDRESSES: '/profile/addresses',
   PREFERRED_NAME: '/profile/preferred_names',
   GENDER_IDENTITY: '/profile/gender_identities',
-  MESSAGING_SIGNATURE: '/messaging/messages/signature',
+  MESSAGING_SIGNATURE: '/messaging/preferences/signature',
 };
 
 export const VAP_SERVICE_INITIALIZATION_STATUS = {

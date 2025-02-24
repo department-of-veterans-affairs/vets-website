@@ -111,11 +111,11 @@ export const personalInformationFormSchemas = {
     properties: {
       signatureName: {
         type: 'string',
-        maxLength: 50,
+        maxLength: 60,
       },
       signatureTitle: {
         type: 'string',
-        maxLength: 50,
+        maxLength: 60,
       },
     },
   },
@@ -165,14 +165,14 @@ export const personalInformationUiSchemas = {
     },
   },
   messagingSignature: {
-    'ui:description': `Enter both fields for a signature or leave blank for no signature.`,
+    'ui:description': `Both fields are required to save a signature.`,
     signatureName: {
       'ui:widget': TextWidget,
-      'ui:title': `Signature name (50 characters maximum)`,
+      'ui:title': `Signature name (60 characters maximum)`,
     },
     signatureTitle: {
       'ui:widget': TextWidget,
-      'ui:title': `Signature title (50 characters maximum)`,
+      'ui:title': `Signature title (60 characters maximum)`,
     },
   },
 };

@@ -91,12 +91,10 @@ const PersonalInformationSection = ({ dob }) => {
         },
       ];
 
-      if (
-        messagingSignatureEnabled &&
-        isMessagingServiceEnabled &&
-        messagingSignature?.signatureName &&
-        messagingSignature?.signatureTitle
-      ) {
+      if (messagingSignatureEnabled && isMessagingServiceEnabled) {
+        const signaturePresent =
+          messagingSignature?.signatureName?.trim() &&
+          messagingSignature?.signatureTitle?.trim();
         return [
           ...cardFields,
           {
@@ -107,6 +105,7 @@ const PersonalInformationSection = ({ dob }) => {
             value: (
               <ProfileInformationFieldController
                 fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
+                isDeleteDisabled={!signaturePresent}
               />
             ),
           },
@@ -117,8 +116,8 @@ const PersonalInformationSection = ({ dob }) => {
     [
       dob,
       isMessagingServiceEnabled,
-      messagingSignature,
       messagingSignatureEnabled,
+      messagingSignature,
     ],
   );
 
