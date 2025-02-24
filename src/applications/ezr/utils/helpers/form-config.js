@@ -20,15 +20,6 @@ export function isMissingVeteranGender(formData) {
 }
 
 /**
- * Helper that determines if the form data is missing the Veteran's birth sex
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the viewfield is empty
- */
-export function isSigiEnabled(formData) {
-  return formData['view:isSigiEnabled'];
-}
-
-/**
  * Helper that determines if the Veteran's home and mailing address are the same
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the viewfield is set to `false`
