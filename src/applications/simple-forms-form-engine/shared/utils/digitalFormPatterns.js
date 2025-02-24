@@ -1,6 +1,7 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
+import { camelCase } from 'lodash';
 import {
   employmentHistory,
   identificationInformation,
@@ -12,8 +13,7 @@ const defaultSchema = {
   type: 'object',
 };
 
-// This chapter contains only one page. This is often referred to as a single
-// response step.
+// This chapter contains only one page.
 /** @returns {FormConfigPages} */
 const singlePageChapter = ({ id, pageTitle, schema, uiSchema }) => ({
   [id]: {
@@ -46,7 +46,15 @@ export const addressPages = ({ additionalFields, id, pageTitle }) => {
 };
 
 /** @returns {FormConfigPages} */
-export const customStepPages = _chapter => {};
+export const customStepPages = chapter => {
+  const pages = {};
+  chapter.pages.forEach(page => {
+    // This assumes every pageTitle within a chapter is unique.
+    pages[camelCase(page.pageTitle)] = { title: page.pageTitle };
+  });
+
+  return pages;
+};
 
 /** @returns {FormConfigPages} */
 export const phoneAndEmailPages = ({ additionalFields, id, pageTitle }) => {
