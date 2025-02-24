@@ -209,6 +209,19 @@ export class ConfirmationPage extends React.Component {
 
   createFilterText() {
     const resultsText = this.state.resultsCount === 1 ? 'result' : 'results';
+    const filterValue =
+      this.state.filterValue === 'isTimeSensitive'
+        ? 'time-sensitive'
+        : this.state.filterValue;
+    let sortValue;
+    if (this.state.sortValue === 'alphabetical') {
+      sortValue = 'alphabetically by benefit name';
+    } else if (this.state.sortValue === 'isTimeSensitive') {
+      sortValue = 'by time-sensitive';
+    } else {
+      sortValue = `alphabetically by benefit ${this.state.sortValue}`;
+    }
+
     const count =
       this.props.location.query.allBenefits === 'true'
         ? this.state.benefitsList.length
@@ -216,10 +229,7 @@ export class ConfirmationPage extends React.Component {
     return (
       <>
         Showing {count} {resultsText}, filtered to show{' '}
-        <b>{this.state.filterValue} results</b>, sorted{' '}
-        {this.state.sortValue === 'alphabetical'
-          ? 'alphabetically by benefit name'
-          : `alphabetically by benefit ${this.state.sortValue}`}
+        <b>{filterValue} results</b>, sorted {sortValue}
       </>
     );
   }
@@ -403,7 +413,7 @@ export class ConfirmationPage extends React.Component {
                   Type
                 </option>
                 <option key="isTimeSensitive" value="isTimeSensitive">
-                  Time Sensitive
+                  Time-sensitive
                 </option>
               </VaSelect>
               <br />
