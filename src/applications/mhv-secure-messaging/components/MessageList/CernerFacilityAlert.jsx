@@ -52,7 +52,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
               </>
             )}
             {cernerFacilitiesNames?.length === 1 && (
-              <p data-testId="single-cerner-facility-text">
+              <p data-testid="single-cerner-facility-text">
                 To send a secure message to a provider at{' '}
                 <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
               </p>

@@ -78,7 +78,7 @@ const CernerFacilityAlert = ({ linkPath, pageName }) => {
               </>
             )}
             {cernerFacilitiesNames?.length === 1 && (
-              <p data-testId="single-cerner-facility-text">
+              <p data-testid="single-cerner-facility-text">
                 {`Some of your medical records may be in a different portal. To
                 get your ${pageName} from`}{' '}
                 <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.

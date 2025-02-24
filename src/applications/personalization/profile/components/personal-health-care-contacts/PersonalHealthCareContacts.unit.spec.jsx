@@ -21,7 +21,7 @@ const stateFn = ({
   vaPatient = true,
 } = {}) => ({
   featureToggles: {
-    mhv_secure_messaging_signature_settings: true,
+    mhv_secure_messaging_signature_settings: false,
   },
   profileContacts: {
     data,
