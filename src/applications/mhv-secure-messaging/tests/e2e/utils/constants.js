@@ -41,7 +41,7 @@ export const Paths = {
     MESSAGE_FOLDERS_2: '/my_health/v1/messaging/folders/-2*',
     FEATURE_TOGGLES: '/v0/feature_toggles?*',
     MESSAGE_THREADS: '/my_health/v1/messaging/threads/',
-    MESSAGE_SIGNATURE: '/my_health/v1/messaging/messages/signature',
+    MESSAGE_SIGNATURE: '/my_health/v1/messaging/preferences/signature',
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
