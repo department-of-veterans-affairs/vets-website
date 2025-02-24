@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 function formatDiplomaDate(dateString) {
-  const dateObj = new Date(dateString);
-  const year = dateObj.getUTCFullYear();
-  const month = `0${dateObj.getMonth() + 1}`.slice(-2);
-  const day = `0${dateObj.getDate()}`.slice(-2);
+  if (!dateString || typeof dateString !== 'string') return '';
+  const [year, month, day] = dateString?.split('-');
   return `${month}/${day}/${year}`;
 }
 
