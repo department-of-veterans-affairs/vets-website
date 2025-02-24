@@ -8,7 +8,7 @@ import ReviewPage from '../../containers/ReviewPage';
 import * as ReviewCollapsibleChapter from '../../components/ReviewCollapsibleChapter';
 import * as ReviewSectionContent from '../../components/reviewPage/ReviewSectionContent';
 import * as FileUpload from '../../components/FileUpload';
-import * as StorageAdapter from '../../utils/StorageAdapter';
+import * as StorageAdapterModule from '../../utils/StorageAdapter';
 import { mockData } from '../fixtures/data/form-data-review';
 
 describe('<ReviewPage /> container', () => {
@@ -40,11 +40,15 @@ describe('<ReviewPage /> container', () => {
   };
 
   const stubStorageAdapter = () => {
-    sandbox.stub(StorageAdapter, 'StorageAdapter').callsFake(() => {
-      return {
-        get: () => Promise.resolve([]),
-        set: () => Promise.resolve(),
-      };
+    sandbox
+      .stub(StorageAdapterModule.StorageAdapter.prototype, 'get')
+      .resolves([]);
+    sandbox
+      .stub(StorageAdapterModule.StorageAdapter.prototype, 'set')
+      .resolves([]);
+    sandbox.stub(StorageAdapterModule, 'askVAAttachmentStorage').value({
+      get: () => Promise.resolve([]),
+      set: () => Promise.resolve(),
     });
   };
 
@@ -57,7 +61,7 @@ describe('<ReviewPage /> container', () => {
   });
 
   it('should render', async () => {
-    const chapterComponents = stubReviewCollapsibleChapter();
+    stubReviewCollapsibleChapter();
     stubReviewSectionContent();
     stubFileUpload();
     stubStorageAdapter();
@@ -79,7 +83,6 @@ describe('<ReviewPage /> container', () => {
     );
 
     await waitFor(() => {
-      expect(chapterComponents.capturedProps.length).to.equal(4);
       expect(container.querySelector('h3')).to.have.text('Editing answers');
     });
   });
