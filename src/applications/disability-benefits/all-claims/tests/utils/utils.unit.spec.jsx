@@ -421,6 +421,41 @@ describe('526 helpers', () => {
       const formData = {};
       expect(needsToEnter781a(formData)).to.be.false;
     });
+
+    describe('PTSD flow migration', () => {
+      const ptsdFormData = {
+        newDisabilities: [
+          {
+            condition: 'Ptsd personal trauma',
+          },
+        ],
+        'view:selectablePtsdTypes': {
+          'view:mstPtsdType': true,
+        },
+      };
+
+      describe('when the modern 0781 flow is enabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: true,
+          ...ptsdFormData,
+        };
+
+        it('should return false so the legacy PTSD flow is hidden', () => {
+          expect(needsToEnter781a(ptsdFormDataModernFlowEnabled)).to.be.false;
+        });
+      });
+
+      describe('when the modern 0781 flow is disabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: false,
+          ...ptsdFormData,
+        };
+
+        it('should return true so the legacy PTSD flow is visible', () => {
+          expect(needsToEnter781a(ptsdFormDataModernFlowEnabled)).to.be.true;
+        });
+      });
+    });
   });
 
   describe('isUploading781Form', () => {
@@ -560,6 +595,44 @@ describe('isAnswering781Questions', () => {
     };
     expect(isAnswering781Questions(1)(formData)).to.be.false;
   });
+
+  describe('PTSD flow migration', () => {
+    const ptsdFormData = {
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
+      'view:selectablePtsdTypes': {
+        'view:combatPtsdType': true,
+      },
+      'view:upload781Choice': 'answerQuestions',
+    };
+
+    describe('when the modern 0781 flow is enabled', () => {
+      const ptsdFormDataModernFlowEnabled = {
+        syncModern0781Flow: true,
+        ...ptsdFormData,
+      };
+
+      it('should return false so the legacy 0781 pages are hidden', () => {
+        expect(isAnswering781Questions(0)(ptsdFormDataModernFlowEnabled)).to.be
+          .false;
+      });
+    });
+
+    describe('when the modern 0781 flow is disabled', () => {
+      const ptsdFormDataModernFlowDisabled = {
+        syncModern0781Flow: false,
+        ...ptsdFormData,
+      };
+
+      it('should return true so the legacy 0781 flow is visible', () => {
+        expect(isAnswering781Questions(0)(ptsdFormDataModernFlowDisabled)).to.be
+          .true;
+      });
+    });
+  });
 });
 
 describe('isAnswering781Questions', () => {
@@ -667,6 +740,47 @@ describe('isAnswering781aQuestions', () => {
         },
       };
       expect(isUploading781aSupportingDocuments(0)(formData)).to.be.true;
+    });
+  });
+
+  describe('PTSD flow migration', () => {
+    const ptsdFormData = {
+      newDisabilities: [
+        {
+          condition: 'Ptsd personal trauma',
+        },
+      ],
+      'view:selectablePtsdTypes': {
+        'view:assaultPtsdType': true,
+      },
+      'view:upload781aChoice': 'answerQuestions',
+      secondaryIncident0: {
+        'view:uploadSources': true,
+      },
+    };
+
+    describe('when the modern 0781 flow is enabled', () => {
+      const ptsdFormDataModernFlowEnabled = {
+        syncModern0781Flow: true,
+        ...ptsdFormData,
+      };
+
+      it('should return false so the legacy 0781a pages are hidden', () => {
+        expect(isAnswering781aQuestions(0)(ptsdFormDataModernFlowEnabled)).to.be
+          .false;
+      });
+    });
+
+    describe('when the modern 0781 flow is disabled', () => {
+      const ptsdFormDataModernFlowDisabled = {
+        syncModern0781Flow: false,
+        ...ptsdFormData,
+      };
+
+      it('should return true so the legacy 0781a flow is visible', () => {
+        expect(isAnswering781aQuestions(0)(ptsdFormDataModernFlowDisabled)).to
+          .true;
+      });
     });
   });
 
@@ -1194,6 +1308,42 @@ describe('skip PTSD questions', () => {
         .add(90, 'days')
         .format('YYYY-MM-DD');
       expect(hasNewPtsdDisability(getPtsdData(date, true))).to.be.false;
+    });
+
+    describe('PTSD flow migration', () => {
+      const ptsdFormData = {
+        'view:isBddData': false,
+        // Set service end to date in the past; Benefits Delivery Discharge claims never go through the PTSD flow
+        serviceInformation: {
+          servicePeriods: [{ dateRange: { to: '2020-01-01' } }],
+        },
+        'view:claimType': { 'view:claimingnew': true },
+        newDisabilities: [{ condition: 'PTSD' }],
+      };
+
+      describe('when the modern 0781 flow is enabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: true,
+          ...ptsdFormData,
+        };
+
+        it('should return false so the legacy PTSD flow is hidden', () => {
+          expect(hasNewPtsdDisability(ptsdFormDataModernFlowEnabled)).to.be
+            .false;
+        });
+      });
+
+      describe('when the modern 0781 flow is disabled', () => {
+        const ptsdFormDataModernFlowEnabled = {
+          syncModern0781Flow: false,
+          ...ptsdFormData,
+        };
+
+        it('should return true so the legacy PTSD flow is visible', () => {
+          expect(hasNewPtsdDisability(ptsdFormDataModernFlowEnabled)).to.be
+            .true;
+        });
+      });
     });
   });
 
