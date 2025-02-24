@@ -111,7 +111,7 @@ const App = ({ formEnabled }) => {
       <h3>Option 2: By fax</h3>
       <p>
         Fax your completed application and supporting documents to{' '}
-        <va-telephone contact="3033317809" />.
+        <va-telephone contact="3033317807" />.
       </p>
     </>
   );

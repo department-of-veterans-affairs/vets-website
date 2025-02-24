@@ -19,6 +19,7 @@ export default function SupportingDocumentsPage({
     disableLinks: false,
     setFormData,
     showConsent: false,
+    showMail: true,
     fileNameMap: prefixFileNames(data, requiredFiles),
     requiredFiles,
     nonListNameKey: 'applicantName',

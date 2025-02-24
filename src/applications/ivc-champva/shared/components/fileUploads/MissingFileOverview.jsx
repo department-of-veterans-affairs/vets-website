@@ -73,16 +73,7 @@ const mailInfo = (address, officeName, faxNum, preamble, appType) => {
         </p>
       </address>
       Or fax it to:
-      {officeName ? (
-        <>
-          <br />
-          {officeName}
-          <br />
-          {faxNumMarkup}
-        </>
-      ) : (
-        <> {faxNumMarkup}</>
-      )}
+      {officeName ? <>{faxNumMarkup}</> : <> {faxNumMarkup}</>}
     </>
   );
 };
