@@ -15,7 +15,7 @@ const ConfirmationPage = () => {
   const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
-  const submitterFullName = form.data?.fullName;
+  const submitterFullName = form.data?.veteranFullName;
 
   return (
     <ConfirmationPageView

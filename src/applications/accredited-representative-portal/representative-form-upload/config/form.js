@@ -5,6 +5,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import * as uploadPageModule from '../pages/upload';
 import * as claimantInformationModule from '../pages/claimantInformation';
+// import * as claimantInformationModule from '../pages/claimantInformationPage/claimantInformation'
+import * as veteranInformationModule from '../pages/veteranInformation';
+import * as isVeteranModule from '../pages/isVeteranPage';
 import GetFormHelp from '../../../accreditation/21a/components/common/GetFormHelp';
 
 import { SAVE_IN_PROGRESS_CONFIG } from './constants';
@@ -26,7 +29,13 @@ const {
   claimantInformationPage,
   ClaimantInformationPage,
 } = claimantInformationModule;
+const {
+  veteranInformationPage,
+  VeteranInformationPage,
+} = veteranInformationModule;
 const { uploadPage, UploadPage } = uploadPageModule;
+const { isVeteranPage } = isVeteranModule;
+// debugger
 /** @type {FormConfig} */
 const formConfig = {
   // formId: VA_FORM_IDS.FORM_21_686C,
@@ -63,7 +72,37 @@ const formConfig = {
   },
   defaultDefinitions: {},
   chapters: {
-    // claimantInformationChapter
+    isVeteranChapter: {
+      title: 'Who is the claimant?',
+      pages: {
+        isVeteranPage: {
+          path: 'is-veteran',
+          title: 'Who is the claimant?',
+          uiSchema: isVeteranPage.uiSchema,
+          schema: isVeteranPage.schema,
+          // CustomPage: IsVeteranPage,
+        },
+      },
+    },
+    veteranInformationChapter: {
+      title: 'Veteran Information',
+      pages: {
+        veteranInformation: {
+          path: 'veteran-information',
+          title: 'Veteran information',
+          uiSchema: veteranInformationPage.uiSchema,
+          depends: formData => {
+            return formData.isVeteran === true;
+          },
+          schema: veteranInformationPage.schema,
+          CustomPage: VeteranInformationPage,
+          scrollAndFocusTarget,
+          // we want req'd fields prefilled for LOCAL testing/previewing
+          // one single initialData prop here will suffice for entire form
+          initialData: getMockData(mockData, isLocalhost),
+        },
+      },
+    },
     claimantInformationChapter: {
       title: 'Claimant Information',
       pages: {
@@ -71,6 +110,9 @@ const formConfig = {
           path: 'claimant-information',
           title: 'Claimant information',
           uiSchema: claimantInformationPage.uiSchema,
+          depends: formData => {
+            return formData.isVeteran === false;
+          },
           schema: claimantInformationPage.schema,
           CustomPage: ClaimantInformationPage,
           scrollAndFocusTarget,
@@ -87,6 +129,9 @@ const formConfig = {
           path: 'upload',
           title: 'Upload Your File',
           uiSchema: uploadPage.uiSchema,
+          // depends: formData => {
+          //   return formData.ssn == '796126859'
+          // },
           schema: uploadPage.schema,
           CustomPage: UploadPage,
           scrollAndFocusTarget,

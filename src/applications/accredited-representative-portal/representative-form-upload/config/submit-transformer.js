@@ -23,7 +23,16 @@ const transformForSubmit = (formConfig, form) => {
   );
 
   const { formNumber, subTitle } = getFormContent();
-  const { idNumber = {}, address = {}, fullName = {}, email } = transformedData;
+  const {
+    veteranSsn = {},
+    address = {},
+    veteranFullName = {},
+    email,
+    veteranDateOfBirth,
+    claimantDateOfBirth,
+    claimantFullName,
+    claimantSsn,
+  } = transformedData;
   const { confirmationCode } = transformedData.uploadedFile;
 
   return JSON.stringify({
@@ -31,10 +40,14 @@ const transformForSubmit = (formConfig, form) => {
     formNumber,
     formName: subTitle,
     formData: {
-      idNumber,
+      veteranSsn,
       postalCode: address.postalCode,
-      fullName,
+      veteranFullName,
       email,
+      veteranDateOfBirth,
+      claimantDateOfBirth,
+      claimantFullName,
+      claimantSsn,
     },
   });
 };

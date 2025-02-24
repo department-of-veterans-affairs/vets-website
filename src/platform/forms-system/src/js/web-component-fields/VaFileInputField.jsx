@@ -44,7 +44,7 @@ const VaFileInputField = props => {
   const onFileUploaded = async uploadedFile => {
     if (uploadedFile.file) {
       const {
-        confirmationCode,
+        // confirmationCode,
         isEncrypted,
         name,
         size,
@@ -52,6 +52,7 @@ const VaFileInputField = props => {
         errorMessage,
       } = uploadedFile;
       setError(errorMessage);
+      const confirmationCode = uploadedFile.confirmation_code;
       props.childrenProps.onChange({
         confirmationCode,
         isEncrypted,

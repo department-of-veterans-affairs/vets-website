@@ -600,7 +600,7 @@ export function getFileError(file) {
   if (file.isEncrypted && !file.confirmationCode && !file.password) {
     return MISSING_PASSWORD_ERROR;
   }
-  if (!file.confirmationCode) {
+  if (!file.confirmationCode && !file.confirmation_code) {
     return NOT_UPLOADED;
   }
 
