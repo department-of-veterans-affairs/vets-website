@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   focusElement,
   waitForRenderThenFocus,
@@ -49,6 +50,12 @@ const FolderThreadListView = props => {
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
+  );
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
   );
 
   const displayingNumberOfThreadsSelector =
@@ -136,7 +143,13 @@ const FolderThreadListView = props => {
     () => {
       if (folderId !== (null || undefined)) {
         if (folder.name === convertPathNameToTitleCase(location.pathname)) {
-          updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
+          updatePageTitle(
+            `${removeLandingPageFF ? 'Messages: ' : ''}${folder.name} ${
+              removeLandingPageFF
+                ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
+                : PageTitles.PAGE_TITLE_TAG
+            }`,
+          );
         }
         if (folderId !== threadSort?.folderId) {
           let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;

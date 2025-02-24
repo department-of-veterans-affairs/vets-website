@@ -6,6 +6,7 @@ import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-t
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
+import FolderLoadPage from './FolderLoadPage';
 
 class PatientMessageCustomFolderPage {
   folder = mockFolders.data[mockFolders.data.length - 1];
@@ -93,6 +94,7 @@ class PatientMessageCustomFolderPage {
       `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads*`,
       threadResponse,
     ).as('customFolderThread');
+    FolderLoadPage.loadFolders();
 
     cy.get(`[data-testid=${folderName}]`).click({ force: true });
 

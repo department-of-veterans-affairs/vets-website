@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import recordEvent from 'platform/monitoring/record-event';
@@ -28,6 +29,12 @@ const Folders = () => {
 
   const { noAssociations, allTriageGroupsBlocked } = useSelector(
     state => state.sm.recipients,
+  );
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
   );
 
   // clear out alerts if user navigates away from this component
@@ -58,10 +65,16 @@ const Folders = () => {
             ? 'h1'
             : alertVisible?.isActive && 'va-alert';
         focusElement(document.querySelector(alertSelector));
-        updatePageTitle(PageTitles.MY_FOLDERS_PAGE_TITLE_TAG);
+        updatePageTitle(
+          `${removeLandingPageFF ? 'Messages: ' : ''} ${
+            removeLandingPageFF
+              ? PageTitles.NEW_MY_FOLDERS_PAGE_TITLE_TAG
+              : PageTitles.MY_FOLDERS_PAGE_TITLE_TAG
+          }`,
+        );
       }
     },
-    [alertList, folders, isModalVisible],
+    [alertList, folders, isModalVisible, removeLandingPageFF],
   );
 
   const openNewModal = () => {
@@ -97,7 +110,7 @@ const Folders = () => {
     return (
       <>
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
-          {Breadcrumbs.FOLDERS.label}
+          {removeLandingPageFF ? 'Messages: ' : ''} {Breadcrumbs.FOLDERS.label}
         </h1>
         {(noAssociations || allTriageGroupsBlocked) && (
           <BlockedTriageGroupAlert
