@@ -758,12 +758,12 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
   };
 };
 
-export const updateCheckboxes = (categories, checkedList) => {
+export const createCheckboxes = (categories, checkedList) => {
   const valuesToCheck = ['license', 'certification', 'prep course'];
 
   let allValuesIncluded;
 
-  if (categories[0] === 'all') {
+  if (checkedList[0] === 'all') {
     allValuesIncluded = true;
   } else {
     allValuesIncluded = valuesToCheck.every(value =>
@@ -785,6 +785,20 @@ export const updateCheckboxes = (categories, checkedList) => {
     };
   });
 };
+
+export function formatList(array) {
+  if (array.length === 1) {
+    return array[0];
+  }
+  if (array.length === 2) {
+    return `${array[0]} or ${array[1]}`;
+  }
+
+  const lastItem = array[array.length - 1];
+  const otherItems = array.slice(0, -1);
+
+  return `${otherItems.join(', ')} or ${lastItem}`;
+}
 
 export const showMultipleNames = (suggestions, nameInput) => {
   let final = [];

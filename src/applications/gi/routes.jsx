@@ -60,7 +60,7 @@ const BuildRoutes = () => {
             )}
             {lcToggleValue && (
               <Route
-                path="/licenses-certifications-and-prep-courses/results/:id"
+                path="/licenses-certifications-and-prep-courses/results/:id/:name"
                 component={LicenseCertificationSearchResult}
               />
             )}

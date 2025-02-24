@@ -9,14 +9,11 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 import PropTypes from 'prop-types';
 import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
 import {
-  capitalizeFirstLetter,
-  formatResultCount,
   handleLcResultsSearch,
   isSmallScreen,
-  mappedStates,
   showLcParams,
   showMultipleNames,
-  updateCheckboxes,
+  createCheckboxes,
   updateStateDropdown,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
@@ -24,6 +21,7 @@ import { lacpCategoryList } from '../constants';
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
 import FilterControls from '../components/FilterControls';
+import LicenseCertificationSearchInfo from '../components/LicenseCertificationSearchInfo';
 
 export default function LicenseCertificationSearchResults() {
   const location = useLocation();
@@ -57,7 +55,7 @@ export default function LicenseCertificationSearchResults() {
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
   const [categoryCheckboxes, setCategoryCheckboxes] = useState(
-    updateCheckboxes(lacpCategoryList, categoryParams),
+    createCheckboxes(lacpCategoryList, categoryParams),
   );
   const [filterLocation, setFilterLocation] = useState(stateParam);
   const [dropdown, setDropdown] = useState(() => {
@@ -157,7 +155,7 @@ export default function LicenseCertificationSearchResults() {
     );
   };
 
-  const handleChange = e => {
+  const handleStateChange = e => {
     setFilterLocation(e.target.value);
   };
 
@@ -195,7 +193,7 @@ export default function LicenseCertificationSearchResults() {
   const handleCheckboxGroupChange = e => {
     const { name, checked } = e.target;
 
-    const updatedCheckboxes = categoryCheckboxes.map(categoryCheckbox => {
+    const newCheckboxes = categoryCheckboxes.map(categoryCheckbox => {
       if (name === 'all') {
         return {
           ...categoryCheckbox,
@@ -224,16 +222,15 @@ export default function LicenseCertificationSearchResults() {
       };
     });
 
-    setCategoryCheckboxes(updatedCheckboxes);
+    setCategoryCheckboxes(newCheckboxes);
   };
 
   const handleResetSearch = () => {
     setAllowUpdate(true);
     setActiveCategories([initialCategoryParam]);
     setCategoryCheckboxes(
-      updateCheckboxes(lacpCategoryList, [initialCategoryParam]),
+      createCheckboxes(lacpCategoryList, [initialCategoryParam]),
     );
-    // setDropdown(updateStateDropdown());
     setFilterLocation('all');
     handleLcResultsSearch(
       history,
@@ -241,155 +238,6 @@ export default function LicenseCertificationSearchResults() {
       nameParam,
       'all',
       initialCategoryParam,
-    );
-  };
-
-  const renderSearchInfo = () => {
-    const valuesToCheck = ['license', 'certification', 'prep course'];
-
-    const allValuesIncluded = valuesToCheck.every(value =>
-      activeCategories.includes(value),
-    );
-
-    return (
-      <>
-        {allValuesIncluded ? (
-          <span className="info-option vads-u-padding-right--0p5">
-            "<strong>All</strong>
-            ",
-          </span>
-        ) : (
-          activeCategories.map((category, index) => {
-            return (
-              <span
-                className="info-option vads-u-padding-right--0p5"
-                key={index}
-              >
-                "
-                <strong key={index}>
-                  {capitalizeFirstLetter(category, ['course'])}
-                </strong>
-                "
-                {(index !== activeCategories.length - 1 || nameParam) && <>,</>}
-              </span>
-            );
-          })
-        )}
-        <span className="info-option">
-          {nameParam && (
-            <>
-              {' '}
-              "<strong>{nameParam}</strong>"{' '}
-            </>
-          )}
-          {!previousRouteHome && <>,</>}{' '}
-        </span>
-        {!previousRouteHome && (
-          <span className="info-option">
-            "
-            <strong>
-              {stateParam === 'all'
-                ? 'All'
-                : mappedStates.find(state => stateParam === state.optionValue)
-                    .optionLabel}
-            </strong>
-            "{' '}
-          </span>
-        )}
-      </>
-    );
-  };
-
-  function formatArrayWithOr(array) {
-    if (array.length === 1) {
-      return array[0];
-    }
-    if (array.length === 2) {
-      return `${array[0]} or ${array[1]}`;
-    }
-
-    const lastItem = array[array.length - 1];
-    const otherItems = array.slice(0, -1);
-
-    return `${otherItems.join(', ')} or ${lastItem}`;
-  }
-
-  const renderNoResults = (name, state) => {
-    const formatState = () => {
-      if (state === 'all') {
-        return 'all';
-      }
-      return (
-        <>
-          "
-          <strong>
-            {
-              mappedStates.find(
-                mappedState => mappedState.optionValue === stateParam,
-              ).optionLabel
-            }
-          </strong>
-          "
-        </>
-      );
-    };
-
-    const formattedCategories = formatArrayWithOr(
-      activeCategories.filter(activeCategory => activeCategory !== 'all'),
-    );
-
-    const formatName = () => {
-      if (name) {
-        return (
-          <>
-            for "<strong>{nameParam}</strong>"
-          </>
-        );
-      }
-
-      return null;
-    };
-
-    const classes =
-      'vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4';
-
-    if (activeCategories.length === 0) {
-      return (
-        <p className={classes}>
-          To see your results, select a category type filter and update search
-          or select reset search.
-        </p>
-      );
-    }
-
-    if (formatState() === 'all') {
-      return (
-        <p className={classes}>
-          There is no {formattedCategories} available {formatName()}.
-        </p>
-      );
-    }
-    if (activeCategories.includes('certification')) {
-      if (activeCategories.length > 1) {
-        return (
-          <p className={classes}>
-            There is no {formattedCategories} {formatName()} available in the
-            state of {formatState()}. All certifications are available
-            nationwide.
-          </p>
-        );
-      }
-      return (
-        <p className={classes}>
-          There is no certification available {formatName()}.
-        </p>
-      );
-    }
-    return (
-      <p className={classes}>
-        There is no {formattedCategories} {formatName()} available in the state
-        of {formatState()}.
-      </p>
     );
   };
 
@@ -456,23 +304,15 @@ export default function LicenseCertificationSearchResults() {
               </div>
 
               <div className="lc-result-info-wrapper row">
-                <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                  {filteredResults.length === 0 ? (
-                    <>{renderNoResults(nameParam, stateParam)}</>
-                  ) : (
-                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
-                      Showing{' '}
-                      <>
-                        {`${formatResultCount(
-                          filteredResults,
-                          currentPage,
-                          itemsPerPage,
-                        )} of ${filteredResults.length} results for `}
-                        {renderSearchInfo()}
-                      </>
-                    </p>
-                  )}
-                </div>
+                <LicenseCertificationSearchInfo
+                  filteredResults={filteredResults}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  activeCategories={activeCategories}
+                  nameParam={nameParam}
+                  stateParam={stateParam}
+                  previousRouteHome={previousRouteHome}
+                />
               </div>
 
               <>
@@ -504,7 +344,7 @@ export default function LicenseCertificationSearchResults() {
                           categoryCheckboxes={categoryCheckboxes}
                           handleCheckboxGroupChange={handleCheckboxGroupChange}
                           dropdown={dropdown}
-                          handleDropdownChange={handleChange}
+                          handleDropdownChange={handleStateChange}
                           filterLocation={filterLocation}
                         />
                       </LicenseCertificationFilterAccordion>
