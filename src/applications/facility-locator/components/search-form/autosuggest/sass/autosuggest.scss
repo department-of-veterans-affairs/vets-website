@@ -4,6 +4,7 @@
 div[id$="-autosuggest-container"] {
   &.usa-input-error {
     margin-top: 0 !important;
+    margin-bottom: 24px;
     padding-top: 0; // matching style to VaSelect use of usa-error
     right: 0;
   }
@@ -146,5 +147,38 @@ div[id$="-autosuggest-container"] {
         }
       }
     }
+  }
+}
+
+div#street-city-state-zip-autosuggest-container {
+  @media (min-width: $small-desktop-screen) {
+    max-width: 418px;
+    width: 418px;
+  }
+
+  input {
+    max-width: 100%;
+  }
+}
+
+div#vamc-services-autosuggest-container {
+  max-width: 436px;
+
+  .autosuggest-input-container {
+    @media (min-width: $small-desktop-screen) {
+      margin-bottom: 0;
+    }
+  }
+
+  &.usa-input-error {
+    margin: -30px 16px 0 0 !important;
+  }
+
+  &.usa-input-error + #facility-search {
+    margin-bottom: 10px !important;
+  }
+
+  .autosuggest-input-container {
+    margin-top: .3rem !important;
   }
 }

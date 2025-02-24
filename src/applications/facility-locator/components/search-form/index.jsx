@@ -1,24 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import classNames from 'classnames';
-import {
-  VaModal,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  healthServices,
-  benefitsServices,
-  urgentCareServices,
-  facilityTypesOptions,
-  emergencyCareServices,
-  nonPPMSfacilityTypeOptions,
-} from '../../config';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { LocationType } from '../../constants';
-import CCServiceTypeAhead from './service-type/CCServiceTypeAhead';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
-import AddressAutosuggest from './location/AddressAutosuggest';
+import ServiceType from './service-type';
+import FacilityType from './facility-type';
+import LocationInput from './location';
 
 const SearchForm = props => {
   const {
@@ -32,11 +21,13 @@ const SearchForm = props => {
     onChange,
     onSubmit,
     selectMobileMapPin,
+    suppressPPMS,
+    vamcAutoSuggestEnabled,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const [vamcAutoSuggestError, setVamcAutoSuggestError] = useState(false);
   const locationInputFieldRef = useRef(null);
-
   const onlySpaces = str => /^\s+$/.test(str);
 
   const handleQueryChange = e => {
@@ -102,6 +93,16 @@ const SearchForm = props => {
       }
     }
 
+    if (
+      vamcAutoSuggestEnabled &&
+      facilityType === LocationType.HEALTH &&
+      !serviceType
+    ) {
+      setVamcAutoSuggestError(true);
+      focusElement('#vamc-services-autosuggest-container');
+      return;
+    }
+
     if (!searchString) {
       updateReduxState('searchString');
       focusElement('#street-city-state-zip');
@@ -143,201 +144,13 @@ const SearchForm = props => {
 
   const handleClearInput = () => {
     clearSearchText();
+
     // optional chaining not allowed
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }
+
     focusElement('#street-city-state-zip');
-  };
-
-  const renderLocationInputField = () => {
-    if (facilitiesUseAddressTypeahead) {
-      return (
-        <AddressAutosuggest
-          geolocateUser={geolocateUser}
-          inputRef={locationInputFieldRef}
-          onClearClick={handleClearInput}
-          onChange={onChange}
-          currentQuery={currentQuery}
-        />
-      );
-    }
-    const {
-      locationChanged,
-      searchString,
-      geolocationInProgress,
-    } = currentQuery;
-    const showError =
-      locationChanged &&
-      !geolocationInProgress &&
-      (!searchString || searchString.length === 0);
-    return (
-      <div
-        className={classNames('vads-u-margin--0', {
-          'usa-input-error': showError,
-        })}
-      >
-        <div id="location-input-field">
-          <label
-            htmlFor="street-city-state-zip"
-            id="street-city-state-zip-label"
-          >
-            <span id="city-state-zip-text">City, state or postal code</span>{' '}
-            <span className="form-required-span">(*Required)</span>
-          </label>
-          {geolocationInProgress ? (
-            <div className="use-my-location-link">
-              <va-icon icon="autorenew" size={3} />
-              <span aria-live="assertive">Finding your location...</span>
-            </div>
-          ) : (
-            <button
-              onClick={handleGeolocationButtonClick}
-              type="button"
-              className="use-my-location-link"
-              aria-describedby="city-state-zip-text"
-            >
-              <va-icon icon="near_me" size={3} />
-              Use my location
-            </button>
-          )}
-        </div>
-        {showError && (
-          <span className="usa-input-error-message" role="alert">
-            <span className="sr-only">Error</span>
-            Please fill in a city, state, or postal code.
-          </span>
-        )}
-        <div className="input-container">
-          <input
-            id="street-city-state-zip"
-            ref={locationInputFieldRef}
-            name="street-city-state-zip"
-            type="text"
-            onChange={handleQueryChange}
-            onBlur={handleLocationBlur}
-            value={searchString}
-            title="Your location: Street, City, State or Postal code"
-          />
-          {searchString?.length > 0 && (
-            <button
-              aria-label="Clear your city, state or postal code"
-              type="button"
-              id="clear-input"
-              className="clear-button"
-              onClick={handleClearInput}
-            >
-              <va-icon icon="cancel" size={3} />
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  const renderFacilityTypeDropdown = () => {
-    const { suppressPPMS } = props;
-    const { facilityType, isValid, facilityTypeChanged } = currentQuery;
-    const locationOptions = suppressPPMS
-      ? nonPPMSfacilityTypeOptions
-      : facilityTypesOptions;
-    const showError = !isValid && facilityTypeChanged && !facilityType;
-
-    if (suppressPPMS) {
-      delete locationOptions.pharmacy;
-    }
-
-    const options = Object.keys(locationOptions).map(facility => (
-      <option key={facility} value={facility}>
-        {locationOptions[facility]}
-      </option>
-    ));
-
-    return (
-      <div
-        className={classNames(
-          'input-clear',
-          'vads-u-margin--0',
-          `facility-type-dropdown-val-${facilityType || 'none'}`,
-        )}
-      >
-        <VaSelect
-          uswds
-          required
-          id="facility-type-dropdown"
-          className={showError ? 'vads-u-padding-left--1p5' : null}
-          label="Facility Type"
-          value={facilityType || ''}
-          onVaSelect={e => handleFacilityTypeChange(e)}
-          error={showError ? 'Please choose a facility type.' : null}
-        >
-          {options}
-        </VaSelect>
-      </div>
-    );
-  };
-
-  const renderServiceTypeDropdown = () => {
-    const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
-    const disabled = ![
-      LocationType.HEALTH,
-      LocationType.URGENT_CARE,
-      LocationType.CC_PROVIDER,
-      LocationType.EMERGENCY_CARE,
-    ].includes(facilityType);
-
-    const showError = serviceTypeChanged && !disabled && !serviceType;
-    const filteredHealthServices = healthServices;
-
-    let services;
-    // Determine what service types to display for the location type (if any).
-    switch (facilityType) {
-      case LocationType.HEALTH:
-        services = filteredHealthServices;
-        break;
-      case LocationType.URGENT_CARE:
-        services = urgentCareServices;
-        break;
-      case LocationType.EMERGENCY_CARE:
-        services = emergencyCareServices;
-        break;
-      case LocationType.BENEFITS:
-        services = benefitsServices;
-        break;
-      case LocationType.CC_PROVIDER:
-        return (
-          <div className="typeahead">
-            <CCServiceTypeAhead
-              handleServiceTypeChange={handleServiceTypeChange}
-              initialSelectedServiceType={serviceType}
-              showError={showError}
-            />
-          </div>
-        );
-      default:
-        services = {};
-    }
-
-    // Create option elements for each VA service type.
-    const options = Object.keys(services).map(service => (
-      <option key={service} value={service} style={{ fontWeight: 'bold' }}>
-        {services[service]}
-      </option>
-    ));
-
-    return (
-      <span className="service-type-dropdown-container">
-        <label htmlFor="service-type-dropdown">Service type</label>
-        <select
-          id="service-type-dropdown"
-          disabled={disabled || !facilityType}
-          value={serviceType || ''}
-          onChange={handleServiceTypeChange}
-        >
-          {options}
-        </select>
-      </span>
-    );
   };
 
   // Set focus in the location field when manual geocoding completes
@@ -407,11 +220,33 @@ const SearchForm = props => {
         id="facility-search-controls"
         onSubmit={handleSubmit}
       >
-        <div className="columns">
-          {renderLocationInputField()}
+        <div>
+          <LocationInput
+            currentQuery={currentQuery}
+            facilitiesUseAddressTypeahead={facilitiesUseAddressTypeahead}
+            geolocateUser={geolocateUser}
+            handleClearInput={handleClearInput}
+            handleGeolocationButtonClick={handleGeolocationButtonClick}
+            handleLocationBlur={handleLocationBlur}
+            handleQueryChange={handleQueryChange}
+            locationInputFieldRef={locationInputFieldRef}
+            onChange={onChange}
+          />
           <div id="search-controls-bottom-row">
-            {renderFacilityTypeDropdown()}
-            {renderServiceTypeDropdown()}
+            <FacilityType
+              currentQuery={currentQuery}
+              handleFacilityTypeChange={handleFacilityTypeChange}
+              suppressPPMS={suppressPPMS}
+            />
+            <ServiceType
+              currentQuery={currentQuery}
+              handleServiceTypeChange={handleServiceTypeChange}
+              onChange={onChange}
+              selectedServiceType={selectedServiceType}
+              setVamcAutoSuggestError={setVamcAutoSuggestError}
+              vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
+              vamcAutoSuggestError={vamcAutoSuggestError}
+            />
             <input id="facility-search" type="submit" value="Search" />
           </div>
         </div>

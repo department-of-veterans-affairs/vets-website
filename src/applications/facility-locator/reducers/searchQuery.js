@@ -19,6 +19,7 @@ import {
 export const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
+  vamcServiceDisplay: null,
   facilityType: null,
   position: {
     latitude: 40.17887331434698,

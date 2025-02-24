@@ -38,6 +38,7 @@ import {
 import {
   facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
+  facilityLocatorAutosuggestVAMCServices,
   facilityLocatorMobileMapUpdate,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
@@ -217,7 +218,8 @@ const FacilitiesMap = props => {
     const bounds = map.getBounds();
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': currentQuery.facilityType,
+      'fl-search-fac-type': currentQuery
+      .facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
 
@@ -472,6 +474,7 @@ const FacilitiesMap = props => {
           onSubmit={handleSearch}
           selectMobileMapPin={props.selectMobileMapPin}
           suppressPPMS={props.suppressPPMS}
+          vamcAutoSuggestEnabled={props.vamcAutoSuggestEnabled}
         />
         {(isEmergencyCareType || isCppEmergencyCareTypes) && (
           <VaAlert
@@ -752,6 +755,8 @@ const mapStateToProps = state => ({
   specialties: state.searchQuery.specialties,
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
+  vamcAutoSuggestEnabled: true,
+  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
