@@ -12,9 +12,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123123123"
-        },
+        "applicantSSN": "123123123",
         "applicantName": {
           "first": "Applicant1",
           "last": "Jones"
@@ -64,9 +62,7 @@
           "state": "AL",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123234123"
-        },
+        "applicantSSN": "123234123",
         "applicantName": {
           "first": "Applicant2",
           "last": "Jones"
@@ -122,9 +118,7 @@
           "state": "AL",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "876123876"
-        },
+        "applicantSSN": "876123876",
         "applicantName": {
           "first": "Applicant3",
           "last": "Jones"

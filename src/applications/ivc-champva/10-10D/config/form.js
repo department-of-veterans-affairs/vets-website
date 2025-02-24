@@ -23,6 +23,8 @@ import {
   radioUI,
   titleSchema,
   titleUI,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
@@ -637,13 +639,13 @@ const formConfig = {
                   ({ formData }) =>
                     `${applicantWording(formData)} identification information`,
                 ),
-                applicantSSN: ssnOrVaFileNumberCustomUI(),
+                applicantSSN: ssnUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantSSN'], {
             titleSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnSchema,
           }),
         },
         page15a: {

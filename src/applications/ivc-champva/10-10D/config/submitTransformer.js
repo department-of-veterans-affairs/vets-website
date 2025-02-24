@@ -47,7 +47,7 @@ function transformApplicants(applicants) {
   applicants.forEach(app => {
     let transformedApp = {
       ...app,
-      ssnOrTin: app.applicantSSN?.ssn ?? '',
+      ssnOrTin: app.applicantSSN ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
