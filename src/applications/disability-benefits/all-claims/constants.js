@@ -417,7 +417,7 @@ export const OFFICIAL_REPORT_TYPES = Object.freeze({
   none: 'No report',
 });
 
-export const BEHAVIOR_CHANGE_TYPES_WITH_SECTION = Object.freeze({
+export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
   reassignment: 'workBehaviors',
   absences: 'workBehaviors',
   performance: 'workBehaviors',
@@ -432,12 +432,11 @@ export const BEHAVIOR_CHANGE_TYPES_WITH_SECTION = Object.freeze({
   socialEconomic: 'otherBehaviors',
   relationships: 'otherBehaviors',
   misconduct: 'otherBehaviors',
-  unlisted: 'otherBehaviors',
 });
 
 export const MH_0781_URL_PREFIX = 'mental-health-form-0781';
 
-export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
+export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
   work: 'Behavioral changes related to work',
   health: 'Behavioral changes related to health',
   other: 'Other behavioral changes',

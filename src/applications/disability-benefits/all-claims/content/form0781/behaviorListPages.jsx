@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { ALL_BEHAVIOR_CHANGE_DESCRIPTIONS } from '../../constants';
+import {
+  ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
+  MH_0781_URL_PREFIX,
+} from '../../constants';
 
 // intro page
 export const behaviorPageTitle = 'Behavioral changes';
@@ -207,10 +210,12 @@ export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
 function getDescriptionForBehavior(behaviors, descriptions, details) {
   const newObj = {};
 
-  Object.keys(descriptions).forEach(behaviorDescription => {
-    if (behaviorDescription in behaviors) {
-      newObj[behaviorDescription] =
-        details[behaviorDescription] || 'Optional description not provided.';
+  Object.keys(descriptions).forEach(behaviorType => {
+    if (behaviorType in behaviors) {
+      const capitalizedBehaviorType =
+        behaviorType.charAt(0).toUpperCase() + behaviorType.slice(1);
+      newObj[capitalizedBehaviorType] =
+        details[behaviorType] || 'Optional description not provided.';
     }
   });
   return newObj;
@@ -219,15 +224,15 @@ function getDescriptionForBehavior(behaviors, descriptions, details) {
 function behaviorSummariesList(obj) {
   return (
     <>
-      {Object.entries(obj).map(([key, value, index]) => (
-        <div key={`${key}-${index}`}>
-          <h4>{key}</h4>
-          <p>{value}</p>
+      {Object.entries(obj).map(([behaviorType, description, index]) => (
+        <div key={`${behaviorType}-${index}`}>
+          <h4>{behaviorType}</h4>
+          <p>{description}</p>
         </div>
       ))}
       <Link
         to={{
-          pathname: 'mental-health-form-0781/behavior-changes-list',
+          pathname: `${MH_0781_URL_PREFIX}/behavior-changes-list`,
           search: '?redirect',
         }}
       >

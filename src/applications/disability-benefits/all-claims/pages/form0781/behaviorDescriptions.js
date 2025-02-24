@@ -4,7 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  BEHAVIOR_CHANGE_TYPES_WITH_SECTION,
+  LISTED_BEHAVIOR_TYPES_WITH_SECTION,
   MH_0781_URL_PREFIX,
   ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
 } from '../../constants';
@@ -18,17 +18,17 @@ import {
 
 /**
  * Make the uiSchema for a description page for each behavior type
- * @param {string} behavior - behavior type
+ * @param {string} behaviorType
  * @returns {object} uiSchema object
  */
-function makeUiSchema(behavior) {
+function makeUiSchema(behaviorType) {
   return {
     'ui:title': titleWithTag(
-      ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behavior],
+      ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType],
       form0781HeadingTag,
     ),
     behaviorsDetails: {
-      [behavior]: textareaUI({
+      [behaviorType]: textareaUI({
         title: behaviorDescriptionPageDescription,
       }),
     },
@@ -40,18 +40,18 @@ function makeUiSchema(behavior) {
 
 /**
  * Make the uiSchema for a description page for each behavior type
- * @param {string} behavior - behavior type
+ * @param {string} behaviorType
  * @returns {object} - schema object
  */
 
-function makeSchema(behavior) {
+function makeSchema(behaviorType) {
   return {
     type: 'object',
     properties: {
       behaviorsDetails: {
         type: 'object',
         properties: {
-          [behavior]: textareaSchema,
+          [behaviorType]: textareaSchema,
         },
       },
       'view:mentalHealthSupportAlert': {
@@ -63,7 +63,7 @@ function makeSchema(behavior) {
 }
 
 /**
- * Make all the page configurations for each behavior description pages. Example
+ * Make all the page configurations for each behavior description page. Example
  * {
  *  'reassignmentDescriptionPage': {
  *    title: 'Reassignment,
@@ -73,30 +73,28 @@ function makeSchema(behavior) {
  *    depends: [Function: depends]
  *  },
  *  'absencesDescriptionPage': {
- *    ... // continue for the rest of the 13 behaviors
+ *    ... // continue for the rest of the listed behavior types
  *  }
  * }
  *
- * @returns an object with a page object for each details page
+ * @returns an object with a page object for each behavior description page
  */
 export function makePages() {
   const behaviorChangeTypesList = Object.entries(
-    BEHAVIOR_CHANGE_TYPES_WITH_SECTION,
-  )
-    .filter(([behavior]) => behavior !== 'unlisted')
-    .map(([behavior, section], index) => {
-      const pageName = `behavior-changes-${index + 1}-description`;
-      return {
-        [pageName]: {
-          title: ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behavior],
-          path: `${MH_0781_URL_PREFIX}/${pageName}`,
-          uiSchema: makeUiSchema(behavior),
-          schema: makeSchema(behavior),
-          depends: formData =>
-            showBehaviorDescriptionsPage(formData, behavior, section),
-        },
-      };
-    });
+    LISTED_BEHAVIOR_TYPES_WITH_SECTION,
+  ).map(([behaviorType, behaviorSection], index) => {
+    const pageName = `behavior-changes-${index + 1}-description`;
+    return {
+      [pageName]: {
+        title: ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType],
+        path: `${MH_0781_URL_PREFIX}/${pageName}`,
+        uiSchema: makeUiSchema(behaviorType),
+        schema: makeSchema(behaviorType),
+        depends: formData =>
+          showBehaviorDescriptionsPage(formData, behaviorSection, behaviorType),
+      },
+    };
+  });
 
   return Object.assign({}, ...behaviorChangeTypesList);
 }

@@ -7,17 +7,12 @@ import Sinon from 'sinon';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { inputVaTextInput } from '@department-of-veterans-affairs/platform-testing/helpers';
 
-import * as reassignmentDescriptionPage from '../../../pages/form0781/behaviorChangeDescriptions/reassignmentDescriptionPage';
-
-import * as unlistedDescriptionPage from '../../../pages/form0781/behaviorChangeDescriptions/unlistedDescriptionPage';
+import * as unlistedBehaviorDescriptionPage from '../../../pages/form0781/unlistedBehaviorDescriptionPage';
 
 import * as behaviorListPages from '../../../content/form0781/behaviorListPages';
 
 describe('Behavioral description pages', () => {
-  const allBehaviorDescriptionPages = [
-    reassignmentDescriptionPage,
-    unlistedDescriptionPage,
-  ];
+  const allBehaviorDescriptionPages = [unlistedBehaviorDescriptionPage];
 
   allBehaviorDescriptionPages.forEach(page => {
     const { schema, uiSchema } = page;
