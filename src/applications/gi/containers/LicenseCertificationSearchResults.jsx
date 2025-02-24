@@ -16,6 +16,7 @@ import {
   mappedStates,
   showLcParams,
   showMultipleNames,
+  updateCheckboxes,
   updateStateDropdown,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
@@ -24,42 +25,6 @@ import LicesnseCertificationServiceError from '../components/LicesnseCertificati
 import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
 import FilterControls from '../components/FilterControls';
 
-const checkboxMap = (categories, checkedList) => {
-  const valuesToCheck = ['license', 'certification', 'prep course'];
-
-  const allValuesIncluded = valuesToCheck.every(value =>
-    checkedList.includes(value),
-  );
-
-  return [
-    {
-      name: categories[0],
-      checked: checkedList.includes(categories[0]) || allValuesIncluded,
-      label: capitalizeFirstLetter(categories[0]),
-    },
-    {
-      name: categories[1],
-      checked:
-        checkedList.includes(categories[1]) ||
-        checkedList.includes(categories[0]),
-      label: capitalizeFirstLetter(categories[1]),
-    },
-    {
-      name: categories[2],
-      checked:
-        checkedList.includes(categories[2]) ||
-        checkedList.includes(categories[0]),
-      label: capitalizeFirstLetter(categories[2]),
-    },
-    {
-      name: categories[3],
-      checked:
-        checkedList.includes(categories[3]) ||
-        checkedList.includes(categories[0]),
-      label: capitalizeFirstLetter(categories[3]),
-    },
-  ];
-};
 export default function LicenseCertificationSearchResults() {
   const location = useLocation();
   const history = useHistory();
@@ -92,7 +57,7 @@ export default function LicenseCertificationSearchResults() {
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
   const [categoryCheckboxes, setCategoryCheckboxes] = useState(
-    checkboxMap(lacpCategoryList, categoryParams),
+    updateCheckboxes(lacpCategoryList, categoryParams),
   );
   const [filterLocation, setFilterLocation] = useState(stateParam);
   const [dropdown, setDropdown] = useState(() => {
@@ -266,7 +231,7 @@ export default function LicenseCertificationSearchResults() {
     setAllowUpdate(true);
     setActiveCategories([initialCategoryParam]);
     setCategoryCheckboxes(
-      checkboxMap(lacpCategoryList, [initialCategoryParam]),
+      updateCheckboxes(lacpCategoryList, [initialCategoryParam]),
     );
     // setDropdown(updateStateDropdown());
     setFilterLocation('all');
@@ -450,8 +415,6 @@ export default function LicenseCertificationSearchResults() {
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search results
           </h1>
-          {/* </div> */}
-          {/* <div className="row"> */}
           <p className="vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--7 ">
             We didn't find any results for "<strong>{nameParam}</strong>
             ." Please{' '}

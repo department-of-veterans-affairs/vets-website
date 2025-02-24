@@ -758,6 +758,34 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
   };
 };
 
+export const updateCheckboxes = (categories, checkedList) => {
+  const valuesToCheck = ['license', 'certification', 'prep course'];
+
+  let allValuesIncluded;
+
+  if (categories[0] === 'all') {
+    allValuesIncluded = true;
+  } else {
+    allValuesIncluded = valuesToCheck.every(value =>
+      checkedList.includes(value),
+    );
+  }
+
+  return categories.map(category => {
+    let checked = checkedList.includes(category);
+
+    if (allValuesIncluded) {
+      checked = true;
+    }
+
+    return {
+      name: category,
+      checked,
+      label: capitalizeFirstLetter(category),
+    };
+  });
+};
+
 export const showMultipleNames = (suggestions, nameInput) => {
   let final = [];
 
