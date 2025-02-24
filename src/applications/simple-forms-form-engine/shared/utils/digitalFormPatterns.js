@@ -46,6 +46,9 @@ export const addressPages = ({ additionalFields, id, pageTitle }) => {
 };
 
 /** @returns {FormConfigPages} */
+export const customStepPages = _chapter => {};
+
+/** @returns {FormConfigPages} */
 export const phoneAndEmailPages = ({ additionalFields, id, pageTitle }) => {
   const schema = {
     ...defaultSchema,
