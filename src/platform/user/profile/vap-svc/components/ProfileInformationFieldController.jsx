@@ -171,13 +171,28 @@ class ProfileInformationFieldController extends React.Component {
         this.props.fieldName,
       );
     }
-    this.props.createTransaction(
-      this.props.apiRoute,
-      'DELETE',
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
+    if (this.props.fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
+      this.props.createTransaction(
+        this.props.apiRoute,
+        'POST',
+        this.props.fieldName,
+        {
+          ...payload,
+          signatureName: null,
+          signatureTitle: null,
+          includeSignature: false,
+        },
+        this.props.analyticsSectionName,
+      );
+    } else {
+      this.props.createTransaction(
+        this.props.apiRoute,
+        'DELETE',
+        this.props.fieldName,
+        payload,
+        this.props.analyticsSectionName,
+      );
+    }
   };
 
   confirmDeleteAction = e => {

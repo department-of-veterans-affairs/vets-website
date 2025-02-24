@@ -1,6 +1,13 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import set from 'lodash/set';
 import { apiRequest } from '../../../utilities/api';
 import { API_ROUTES } from '../vap-svc/constants';
+import {
+  VAP_SERVICE_TRANSACTION_REQUESTED,
+  VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
+  VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
+  clearTransaction,
+} from '../vap-svc/actions';
 
 export const FETCHING_MHV_ACCOUNT = 'FETCHING_MHV_ACCOUNT';
 export const FETCH_MHV_ACCOUNT_FAILURE = 'FETCH_MHV_ACCOUNT_FAILURE';
@@ -41,7 +48,7 @@ export const getMessagingSignature = () => {
 
       dispatch({
         type: FETCH_MESSAGING_SIGNATURE,
-        payload: response.data,
+        payload: response.data.attributes,
       });
     } catch (error) {
       dispatch({
@@ -49,6 +56,77 @@ export const getMessagingSignature = () => {
         payload: {
           message: error.message || 'Failed to retrieve messaging signature',
         },
+      });
+    }
+  };
+};
+/**
+ * Update message signature from user preferences.
+ * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
+ */
+export const updateMessagingSignature = (
+  signature,
+  fieldName,
+  method = 'POST',
+) => {
+  const includeSignature =
+    !!signature?.signatureName?.trim() && !!signature?.signatureTitle?.trim();
+
+  const signatureObject = {
+    signatureName: includeSignature ? signature.signatureName : null,
+    signatureTitle: includeSignature ? signature.signatureTitle : null,
+    includeSignature,
+  };
+  return async dispatch => {
+    try {
+      dispatch({
+        type: VAP_SERVICE_TRANSACTION_REQUESTED,
+        fieldName,
+        method,
+      });
+
+      const response = await apiRequest(
+        `${myHealthApiBasePath}${API_ROUTES.MESSAGING_SIGNATURE}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(signatureObject),
+        },
+      );
+
+      // clearTransaction uses this transactionId in a lookup to remove it
+      set(
+        response,
+        'data.attributes.transactionId',
+        `${fieldName}_${response?.attributes?.[fieldName].sourceDate}`,
+      );
+
+      dispatch({
+        type: VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
+        fieldName,
+        transaction: response,
+      });
+
+      dispatch({
+        type: FETCH_MESSAGING_SIGNATURE,
+        payload: response.data.attributes,
+      });
+
+      dispatch(clearTransaction(response));
+    } catch (error) {
+      // dispatch({
+      //   type: FETCH_MESSAGING_SIGNATURE,
+      //   payload: {
+      //     message: error.message || 'Failed to retrieve messaging signature',
+      //   },
+      // });
+      dispatch({
+        type: VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
+        error,
+        fieldName,
       });
     }
   };
