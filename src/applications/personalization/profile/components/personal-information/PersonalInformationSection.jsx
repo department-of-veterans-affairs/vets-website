@@ -47,6 +47,8 @@ const PersonalInformationSection = ({ dob }) => {
     state => state.user?.profile?.mhvAccount?.messagingSignature,
   );
 
+  // test
+
   useEffect(
     () => {
       if (
