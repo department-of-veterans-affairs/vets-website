@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect, useDispatch, useSelector } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
@@ -32,6 +34,7 @@ const LegalNameDescription = () => (
 
 const PersonalInformationSection = ({ dob }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const messagingSignatureEnabled = useSelector(
     state =>
       state.featureToggles[
@@ -46,6 +49,7 @@ const PersonalInformationSection = ({ dob }) => {
   const messagingSignature = useSelector(
     state => state.user?.profile?.mhvAccount?.messagingSignature,
   );
+  const messagingSignatureName = messagingSignature?.signatureName;
 
   useEffect(
     () => {
@@ -62,6 +66,20 @@ const PersonalInformationSection = ({ dob }) => {
       messagingSignature,
       messagingSignatureEnabled,
     ],
+  );
+
+  useEffect(
+    () => {
+      const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
+      if (messagingSignatureName !== null && location.hash === fieldName) {
+        const targetElement = document.querySelector(fieldName);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+          focusElement(targetElement.querySelector('h2'));
+        }
+      }
+    },
+    [messagingSignatureName, location.hash],
   );
 
   const updatedCardFields = useMemo(
