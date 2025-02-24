@@ -6,6 +6,8 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { MemoryRouter, Route } from 'react-router-dom';
+import sinon from 'sinon';
+import { act } from 'react-dom/test-utils';
 import NationalExamDetails from '../../containers/NationalExamDetails';
 
 const mockStore = configureStore([thunk]);
@@ -13,6 +15,11 @@ const mockStore = configureStore([thunk]);
 describe('NationalExamDetails', () => {
   let store;
   let initialState;
+  let addEventListenerSpy;
+  let removeEventListenerSpy;
+  let originalInnerWidth;
+  let mockVaTableInner;
+  let mockUsaTable;
 
   beforeEach(() => {
     initialState = {
@@ -24,10 +31,36 @@ describe('NationalExamDetails', () => {
 
       disconnect() {}
     };
+    addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+
+    // Preserve original window.innerWidth so we can restore it later
+    originalInnerWidth = global.innerWidth;
+
+    // Mock your table in the shadow DOM
+    mockUsaTable = { classList: { add: sinon.spy(), remove: sinon.spy() } };
+
+    mockVaTableInner = {
+      shadowRoot: {
+        querySelector: sinon.stub().returns(mockUsaTable),
+      },
+    };
+
+    // Stub document.querySelector so it returns our fake va-table-inner
+    sinon.stub(document, 'querySelector').callsFake(selector => {
+      if (selector === '.exams-table va-table-inner') {
+        return mockVaTableInner;
+      }
+      return null;
+    });
   });
 
   afterEach(() => {
     cleanup();
+    addEventListenerSpy.restore();
+    removeEventListenerSpy.restore();
+    document.querySelector.restore();
+    global.innerWidth = originalInnerWidth;
   });
 
   const mountComponent = (examId = '1@acce9') => {
@@ -246,47 +279,83 @@ describe('NationalExamDetails', () => {
     expect(ulList.text()).to.contain('$100');
     wrapper.unmount();
   });
-  // UPDATE TEST TO PASS
-  // it('should handle dynamic table class changes (smoke test for resizing)', async () => {
-  //   const mockExamDetails = {
-  //     name: 'Sample National Exam',
-  //     tests: [
-  //       {
-  //         name: 'Test A',
-  //         beginDate: '2020-01-01',
-  //         endDate: '2020-12-31',
-  //         fee: '100',
-  //       },
-  //     ],
-  //     institution: {
-  //       name: 'Sample Institution',
-  //       physicalAddress: {
-  //         address1: '123 Main St',
-  //         city: 'Anytown',
-  //         state: 'VA',
-  //         zip: '12345',
-  //         country: 'USA',
-  //       },
-  //       webAddress: 'www.sample.org',
-  //     },
-  //   };
+  it('adds and removes the resize event listener on mount/unmount', () => {
+    const wrapper = mountComponent();
+    expect(addEventListenerSpy.calledWith('resize')).to.be.true;
+    wrapper.unmount();
+    expect(removeEventListenerSpy.calledWith('resize')).to.be.true;
+  });
 
-  //   store = mockStore({
-  //     nationalExams: {
-  //       ...initialState.nationalExams,
-  //       examDetails: mockExamDetails,
-  //     },
-  //   });
+  it('sets table to borderless and removes bordered classes when width >= 481px', () => {
+    global.innerWidth = 800;
+    mountComponent();
+    expect(mockUsaTable.classList.remove.calledWith('usa-table--bordered')).to
+      .be.true;
+    expect(mockUsaTable.classList.add.calledWith('usa-table--borderless')).to.be
+      .true;
+  });
+  it('sets table to bordered classes when width < 481px', async () => {
+    // 1. Force window.innerWidth = 480:
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 480,
+    });
+    store = mockStore({
+      nationalExams: {
+        examDetails: {
+          name: 'Sample National Exam',
+          tests: [
+            {
+              name: 'Test A',
+              beginDate: '2020-01-01',
+              endDate: '2020-12-31',
+              fee: '100',
+            },
+            {
+              name: 'Test B',
+              beginDate: '2020-01-01',
+              endDate: '2020-12-31',
+              fee: '200',
+            },
+          ],
+          institution: {
+            name: 'Sample Institution',
+            physicalAddress: {
+              address1: '123 Main St',
+              city: 'Anytown',
+              state: 'VA',
+              zip: '12345',
+              country: 'USA',
+            },
+            webAddress: 'www.sample.org',
+          },
+        },
+        loadingDetails: false,
+        error: null,
+      },
+    });
 
-  //   const wrapper = mountComponent();
-  //   expect(wrapper.find('va-table').exists()).to.be.true;
+    // 3. Mount inside an `act` so the effect can run:
+    let wrapper;
+    await act(async () => {
+      wrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={['/national-exams/123']}>
+            <Route path="/national-exams/:examId">
+              <NationalExamDetails />
+            </Route>
+          </MemoryRouter>
+        </Provider>,
+      );
+    });
 
-  //   act(() => {
-  //     global.innerWidth = 479;
-  //     global.dispatchEvent(new Event('resize'));
-  //   });
-  //   wrapper.update();
-  //   expect(wrapper.exists()).to.be.true;
-  //   wrapper.unmount();
-  // });
+    wrapper.update();
+    expect(mockUsaTable.classList.add.calledWith('usa-table--bordered')).to.be
+      .true;
+    expect(mockUsaTable.classList.remove.calledWith('usa-table--borderless')).to
+      .be.true;
+
+    wrapper.unmount();
+  });
 });
