@@ -5,6 +5,7 @@ import { isMobile } from 'react-device-detect'; // Adding this library for acces
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { datadogLogs } from '@datadog/browser-logs';
 
 // Hooks
 import useBotPonyFill from '../hooks/useBotPonyfill';
@@ -94,6 +95,8 @@ const WebChat = ({
   const isDatadogLoggingEnabled = useToggleValue(
     TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
   );
+
+  datadogLogs.logger.info('Ding! Test message');
 
   validateParameters({
     csrfToken,

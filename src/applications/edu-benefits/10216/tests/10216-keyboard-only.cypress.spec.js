@@ -129,5 +129,15 @@ describe('22-10216 Edu form', () => {
       'include',
       '/confirmation',
     );
+    cy.injectAxeThenAxeCheck();
+    cy.tabToElement('[data-testid="print-page"]');
+    cy.realPress('Enter');
+    cy.injectAxeThenAxeCheck();
+    cy.tabToElement('[text="Go to VA Form 22-10215 now"]');
+    cy.realPress('Enter');
+    cy.url().should(
+      'include',
+      '/education/apply-for-education-benefits/application/10215',
+    );
   });
 });

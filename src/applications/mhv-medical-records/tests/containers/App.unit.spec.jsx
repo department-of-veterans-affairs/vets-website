@@ -42,13 +42,13 @@ describe('App', () => {
       },
       profile: {
         services: [backendServices.MEDICAL_RECORDS],
+        verified: true,
+        mhvAccountState: 'MULTIPLE',
       },
     },
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_to_va_gov_release: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
     mr: {
       breadcrumbs: {
