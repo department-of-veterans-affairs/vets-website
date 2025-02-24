@@ -7,8 +7,8 @@ import {
   treatmentReceivedDescription,
   treatmentReceivedNoneLabel,
   treatmentReceivedTitle,
-  validateBehaviorSelections,
-  behaviorListValidationError,
+  validateProviders,
+  providerListValidationError,
   showConflictingAlert,
 } from '../../content/form0781/treatmentReceivedPage';
 import {
@@ -21,7 +21,7 @@ export const uiSchema = {
   'ui:title': titleWithTag(treatmentReceivedTitle, form0781HeadingTag),
   'ui:description': treatmentReceivedDescription,
   'view:conflictingResponseAlert': {
-    'ui:description': behaviorListValidationError,
+    'ui:description': providerListValidationError,
     'ui:options': {
       hideIf: formData => showConflictingAlert(formData) === false,
     },
@@ -42,7 +42,7 @@ export const uiSchema = {
     },
     required: false,
   }),
-  'view:noneCheckbox': checkboxGroupUI({
+  'view:treatmentNoneCheckbox': checkboxGroupUI({
     title: TREATMENT_RECEIVED_SUBTITLES.none,
     labelHeaderLevel: '4',
     labels: {
@@ -50,7 +50,7 @@ export const uiSchema = {
     },
     required: false,
   }),
-  'ui:validations': [validateBehaviorSelections],
+  'ui:validations': [validateProviders],
 };
 
 export const schema = {
@@ -66,6 +66,6 @@ export const schema = {
     treatmentReceivedNonVAProvider: checkboxGroupSchema(
       Object.keys(TREATMENT_RECEIVED_NON_VA),
     ),
-    'view:noneCheckbox': checkboxGroupSchema(['none']),
+    'view:treatmentNoneCheckbox': checkboxGroupSchema(['none']),
   },
 };
