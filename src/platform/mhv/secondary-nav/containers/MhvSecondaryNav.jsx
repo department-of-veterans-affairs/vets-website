@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { toggleValuesSelector } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { selectRemoveLandingPageFlag } from '~/applications/mhv-medications/util/selectors';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
@@ -51,8 +52,15 @@ export const mhvSecNavItems = [
  */
 const MhvSecondaryNav = () => {
   const { loading = true } = useSelector(toggleValuesSelector);
+  const items = [...mhvSecNavItems];
 
-  return <MhvSecondaryNavMenu items={mhvSecNavItems} loading={loading} />;
+  // TODO: remove and use mhvSecNavItems const directly once mhvMedicationsRemoveLandingPage is turned on in production
+  const removeMedicationsLandingPage = useSelector(selectRemoveLandingPageFlag);
+  if (removeMedicationsLandingPage) {
+    items[3].href = '/my-health/medications';
+  }
+
+  return <MhvSecondaryNavMenu items={items} loading={loading} />;
 };
 
 export default MhvSecondaryNav;
