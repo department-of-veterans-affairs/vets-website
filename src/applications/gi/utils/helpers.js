@@ -675,11 +675,11 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
   if (currentPage * itemsPerPage > results.length - 1) {
     return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
       results.length
-    }  `;
+    }`;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
-    itemsPerPage}  `;
+    itemsPerPage}`;
 };
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states)
@@ -787,6 +787,10 @@ export const createCheckboxes = (categories, checkedList) => {
 };
 
 export function formatList(array) {
+  if (!array || array.length === 0) {
+    return '';
+  }
+
   if (array.length === 1) {
     return array[0];
   }

@@ -178,7 +178,7 @@ export default function LicenseCertificationSearchResults() {
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
 
-  const handleRouteChange = (e, id, name) => {
+  const handleGoToDetails = (e, id, name) => {
     e.preventDefault();
     history.push(
       `/licenses-certifications-and-prep-courses/results/${id}/${name}`,
@@ -383,7 +383,7 @@ export default function LicenseCertificationSearchResults() {
                                 }`}
                                 type="secondary"
                                 onClick={e =>
-                                  handleRouteChange(
+                                  handleGoToDetails(
                                     e,
                                     result.enrichedId,
                                     result.lacNm,
