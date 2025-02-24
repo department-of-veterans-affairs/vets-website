@@ -1,5 +1,4 @@
 import AlertMhvBasicAccount from './AlertMhvBasicAccount';
-import AlertMhvRegistration from './AlertMhvRegistration';
 import AlertNotVerified from './AlertNotVerified';
 import AlertUnregistered from './AlertUnregistered';
 import AlertVerifyAndRegister from './AlertVerifyAndRegister';
@@ -9,7 +8,6 @@ import AlertAccountApiAlert from './AlertAccountApiAlert';
 
 export {
   AlertMhvBasicAccount,
-  AlertMhvRegistration,
   AlertNotVerified,
   AlertUnregistered,
   AlertVerifyAndRegister,
