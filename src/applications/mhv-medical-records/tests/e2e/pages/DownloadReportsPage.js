@@ -33,6 +33,10 @@ class DownloadReportsPage {
     cy.get('[data-testid="downloadSelfEnteredButton"]').should('be.visible');
   };
 
+  clickSelfEnteredDownloadButton = () => {
+    cy.get('[data-testid="downloadSelfEnteredButton"]').click();
+  };
+
   updateDateGenerated = arr => {
     const newDate = new Date();
     return arr.map(item => {
