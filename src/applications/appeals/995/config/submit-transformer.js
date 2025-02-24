@@ -7,6 +7,7 @@ import {
   getEvidence,
   getForm4142,
   getPhone,
+  getMstData,
 } from '../utils/submit';
 
 import { addIncludedIssues, getTimeZone } from '../../shared/utils/submit';
@@ -25,6 +26,7 @@ export function transform(formConfig, form) {
         : 'compensation',
       ...getClaimantData(formData),
       ...getHomeless(formData),
+      ...getMstData(formData),
 
       veteran: {
         timezone: getTimeZone(),
