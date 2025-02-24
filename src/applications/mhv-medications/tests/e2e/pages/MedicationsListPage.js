@@ -185,9 +185,8 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}"]`)
-      .first()
-      .click({ waitForAnimations: true });
+      .find(`[href="/health-care/refill-track-prescriptions"]`)
+      .should('be.visible');
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
