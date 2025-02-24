@@ -37,11 +37,7 @@ const mockStore = configureStore([thunk]);
 describe('NationalExamsList', () => {
   let store;
   const initialState = {
-    nationalExams: {
-      nationalExams: mockExams,
-      loading: false,
-      error: null,
-    },
+    nationalExams: { nationalExams: mockExams, loading: false, error: null },
   };
 
   beforeEach(() => {
@@ -53,7 +49,11 @@ describe('NationalExamsList', () => {
   });
 
   const mountComponent = (location = { search: '' }) => {
-    store = mockStore({ nationalExams: { ...initialState.nationalExams } });
+    store = mockStore({
+      nationalExams: {
+        ...initialState.nationalExams,
+      },
+    });
 
     return mount(
       <Provider store={store}>
@@ -113,7 +113,9 @@ describe('NationalExamsList', () => {
     const itemsPerPage = 10;
 
     wrapper.find('VaPagination').prop('onPageSelect')({
-      detail: { page: newPage },
+      detail: {
+        page: newPage,
+      },
     });
     wrapper.update();
     await new Promise(resolve => setTimeout(resolve, 0));
@@ -157,7 +159,11 @@ describe('NationalExamsList', () => {
   });
   it('should hide the loading indicator once loading is complete', () => {
     store = mockStore({
-      nationalExams: { nationalExams: mockExams, loading: true, error: null },
+      nationalExams: {
+        nationalExams: mockExams,
+        loading: true,
+        error: null,
+      },
     });
 
     const wrapper = mount(
@@ -180,7 +186,9 @@ describe('NationalExamsList', () => {
       },
     });
 
-    wrapper.setProps({ store });
+    wrapper.setProps({
+      store,
+    });
 
     // Check if loading indicator is no longer present
     expect(wrapper.find('va-loading-indicator').exists()).to.be.false;
@@ -221,8 +229,39 @@ describe('NationalExamsList', () => {
     wrapper.unmount();
   });
   it('should correctly reflect the page number in URL query parameters', () => {
-    const wrapper = mountComponent({ search: '?page=2' });
+    const wrapper = mountComponent({
+      search: '?page=2',
+    });
     expect(wrapper.find(VaPagination).props().page).to.equal(2);
+    wrapper.unmount();
+  });
+  it('should navigate to the correct national exam details page when an exam link is clicked', () => {
+    const testExam = mockExams[0];
+    const expectedExamName = formatNationalExamName(testExam.name);
+    const expectedEncodedName = encodeURIComponent(expectedExamName);
+    const expectedPath = `/national-exams/${
+      testExam.enrichedId
+    }?examName=${expectedEncodedName}`;
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/national-exams']}>
+          <NationalExamsList />
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    const firstExamLink = wrapper
+      .find('va-card')
+      .find('va-link')
+      .at(0);
+    firstExamLink.simulate('click', { preventDefault() {} });
+    const memoryRouter = wrapper.find(MemoryRouter).instance();
+    expect(
+      memoryRouter.history.location.pathname +
+        memoryRouter.history.location.search,
+    ).to.equal(expectedPath);
+
     wrapper.unmount();
   });
 });

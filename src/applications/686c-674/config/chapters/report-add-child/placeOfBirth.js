@@ -12,7 +12,7 @@ export const placeOfBirth = {
     ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
     birthLocation: {
       outsideUsa: {
-        'ui:title': 'They were born outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {

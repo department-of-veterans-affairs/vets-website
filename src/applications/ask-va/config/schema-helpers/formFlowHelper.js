@@ -116,7 +116,7 @@ const ch3Pages = {
     title: CHAPTER_3.DEATH_DATE.TITLE,
     uiSchema: deathDatePage.uiSchema,
     schema: deathDatePage.schema,
-    depends: form => form.aboutTheVeteran.isVeteranDeceased === true,
+    depends: form => form.aboutTheVeteran?.isVeteranDeceased === true,
   },
   veteransPostalCode: {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,

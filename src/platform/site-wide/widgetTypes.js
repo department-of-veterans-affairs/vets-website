@@ -46,7 +46,6 @@ export default {
   FORM_264555_CTA: 'form264555',
   FORM_400247_CTA: 'form400247',
   FORM_UPLOAD: 'form-upload',
-  FORM_1010D: 'form1010d',
   FORM_107959C: 'form107959c',
   FORM_107959A: 'form107959a',
   FORM_107959F2: 'form107959f2',

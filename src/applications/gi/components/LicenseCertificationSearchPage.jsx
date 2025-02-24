@@ -6,15 +6,6 @@ import { handleLcResultsSearch, updateQueryParam } from '../utils/helpers';
 
 const faqs = [
   {
-    question: 'What is the difference between a license and certification?',
-    answer: (
-      <p className="faq-answer">
-        A license is granted by the state or a governing authority; whereas, a
-        certification is granted by professional organizations or associations.
-      </p>
-    ),
-  },
-  {
     question: 'What will my benefits cover?',
     answer: (
       <p className="faq-answer">
@@ -51,21 +42,30 @@ const faqs = [
     ),
   },
   {
-    question: 'What is a prep course?',
-    answer: (
-      <p className="faq-answer">
-        A preparatory course (prep course) is a course that prepares students
-        for success tied to a specific license or certification.
-      </p>
-    ),
-  },
-  {
     question: 'Can I get paid to take a test more than once?',
     answer: (
       <p className="faq-answer">
         If you fail a license or certification test, we will pay again. If the
         license or certification expires, you can take it again and we’ll pay
         for the renewal.
+      </p>
+    ),
+  },
+  {
+    question: 'What is the difference between a license and certification?',
+    answer: (
+      <p className="faq-answer">
+        A license is granted by the state or a governing authority; whereas, a
+        certification is granted by professional organizations or associations.
+      </p>
+    ),
+  },
+  {
+    question: 'What is a prep course?',
+    answer: (
+      <p className="faq-answer">
+        A preparatory course (prep course) is a course that prepares students
+        for success tied to a specific license or certification.
       </p>
     ),
   },
