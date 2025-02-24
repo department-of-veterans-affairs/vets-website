@@ -282,7 +282,7 @@ export const chapterTitles = {
   relationshipToTheVeteran: '',
   veteransInformation: '',
   familyMembersInformation: '',
-  yourInformation: '',
+  yourInformation: 'Your information',
   yourLocationOfResidence: '',
   yourPostalCode: 'Your postal code',
   yourBranchOfService: '',

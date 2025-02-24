@@ -16,7 +16,6 @@ import {
   mappedStates,
   showLcParams,
   showMultipleNames,
-  updateQueryParam,
   updateStateDropdown,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
@@ -61,7 +60,6 @@ const checkboxMap = (categories, checkedList) => {
     },
   ];
 };
-// export default function LicenseCertificationSearchResults({ flag }) {
 export default function LicenseCertificationSearchResults() {
   const location = useLocation();
   const history = useHistory();
@@ -201,7 +199,6 @@ export default function LicenseCertificationSearchResults() {
 
     setAllowUpdate(true);
     setActiveCategories(categoryNames);
-    updateQueryParam(history, location, newParams);
     handleLcResultsSearch(
       history,
       newParams.category,
@@ -220,10 +217,16 @@ export default function LicenseCertificationSearchResults() {
       category: categoryParams,
       name: nameParam,
       state: stateParam,
-      page,
     };
 
-    updateQueryParam(history, location, newParams);
+    handleLcResultsSearch(
+      history,
+      newParams.category,
+      newParams.name,
+      newParams.state,
+      initialCategoryParam,
+      page,
+    );
     setCurrentPage(page);
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
