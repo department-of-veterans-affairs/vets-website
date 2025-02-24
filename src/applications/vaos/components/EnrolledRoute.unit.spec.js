@@ -5,6 +5,7 @@ import { waitFor } from '@testing-library/dom';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
+import Sinon from 'sinon';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -28,13 +29,40 @@ const initialState = {
       verified: true,
       services: [backendServices.USER_PROFILE, backendServices.FACILITIES],
       facilities: [{ facilityId: '983', isCerner: false }],
+      loa: { current: 3 },
     },
   },
 };
 
 describe('VAOS Component: EnrolledRoute', () => {
+  let orig;
   beforeEach(() => {
+    // This does not working:
+    // const stub = Sinon.stub(window.location, 'replace');
+    //
+    // The following error occurs:
+    // TypeError: Cannot redefine property: replace
+
+    // So, doing this instead.
+    // Save original location object...
+    orig = { ...window.location };
+
+    // Delete location object and redefine it
+    delete window.location;
+    window.location = {
+      pathname: '/',
+      replace: Sinon.stub().callsFake(path => {
+        window.location.pathname += path;
+        window.location.search = path.slice(path.indexOf('?'));
+      }),
+    };
+
     mockFetch();
+  });
+
+  afterEach(() => {
+    // Restore location object
+    window.location = { ...orig };
   });
 
   it('should render route when logged in', async () => {
@@ -87,7 +115,7 @@ describe('VAOS Component: EnrolledRoute', () => {
     });
   });
 
-  it('should render can’t find any VA medical facility registrations message', async () => {
+  it("should redirect to '/my-health'", async () => {
     const myInitialState = {
       ...initialState,
       user: {
@@ -110,13 +138,7 @@ describe('VAOS Component: EnrolledRoute', () => {
       },
     );
 
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          /We’re sorry. We can’t find any VA medical facility registrations for you/,
-        ),
-      ).to.be.ok;
-    });
+    expect(window.location.replace.lastCall.args[0]).to.equal('/my-health');
     expect(screen.queryByText('Child content')).not.to.exist;
   });
 });
