@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -52,38 +52,6 @@ const NationalExamDetails = () => {
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Remove this once the table width is updated in the component
-  useLayoutEffect(
-    // eslint-disable-next-line consistent-return
-    () => {
-      if (!error) {
-        const observer = new MutationObserver(() => {
-          const vaTableInner = document.querySelector(
-            '.exams-table va-table-inner',
-          );
-          if (vaTableInner?.shadowRoot) {
-            const { shadowRoot } = vaTableInner;
-            const usaTable = shadowRoot.querySelector('.usa-table');
-            if (usaTable) {
-              usaTable.style.width = '100%';
-            }
-          }
-        });
-
-        const vaTable = document.querySelector('.exams-table va-table');
-        if (vaTable) {
-          observer.observe(vaTable, {
-            attributes: true,
-            childList: true,
-            subtree: true,
-          });
-        }
-        return () => observer.disconnect();
-      }
-    },
-    [examDetails, error],
-  );
 
   if (error) {
     return (
