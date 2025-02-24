@@ -31,7 +31,7 @@ const SchoolStateOrResidencyStateCustomPage = props => {
       [selectName]: selectedValue,
     };
 
-    onChange({ ...formData, stateOrResidency });
+    onChange({ ...formData, stateOrResidency, stateOfTheSchool: null });
   };
 
   return (
