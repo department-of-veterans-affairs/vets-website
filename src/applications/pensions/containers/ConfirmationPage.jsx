@@ -82,7 +82,9 @@ const ConfirmationPage = ({ route }) => {
             Your information for this application
           </h3>
           <h4>Your name</h4>
-          <p>{fullName}</p>
+          <p className="name dd-privacy-hidden" data-dd-action-name="full name">
+            {fullName}
+          </p>
           <h4>Date you submitted your application</h4>
           <p>{submittedAt}</p>
           {confirmationNumber && (
@@ -279,23 +281,25 @@ const ConfirmationPage = ({ route }) => {
               </p>
             </va-alert>
             <h4>Bank account you provided in your VA pension application</h4>
-            <p className="va-address-block">
+            <p className="va-address-block dd-privacy-hidden">
               {data.bankAccount.bankName && (
-                <>
+                <span data-dd-action-name="bank name">
                   {data.bankAccount.bankName}
                   <br />
-                </>
+                </span>
               )}
               {data.bankAccount.accountNumber ? (
-                <>
+                <span data-dd-action-name="bank account number">
                   {obfuscateAccountNumber(data.bankAccount.accountNumber)}
                   <br />
-                </>
+                </span>
               ) : null}
-              {data.bankAccount.accountType
-                ? `${data.bankAccount.accountType.charAt(0).toUpperCase() +
-                    data.bankAccount.accountType.slice(1)} Account`
-                : null}
+              {data.bankAccount.accountType ? (
+                <span data-dd-action-name="bank account type">
+                  {`${data.bankAccount.accountType.charAt(0).toUpperCase() +
+                    data.bankAccount.accountType.slice(1)} Account`}
+                </span>
+              ) : null}
             </p>
             <p>
               If you currently receive VA benefit payments through direct

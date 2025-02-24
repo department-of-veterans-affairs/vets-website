@@ -21,9 +21,11 @@ const IntroductionPage = ({ router }) => {
   return (
     <article className="schemaform-intro vads-u-padding-bottom--3 mobile-lg:vads-u-padding-bottom--6">
       <FormTitle title="Apply for the IBM SkillsBuild program" />
-      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)
-      </p>
+      <div className="schemaform-title vads-u-display--inline">
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--4 schemaform-subtitle">
+          IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)
+        </p>
+      </div>
       <p>
         The IBM SkillsBuild program is a free online training program that helps
         you develop skills to start or advance your career in technology.
