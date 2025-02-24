@@ -282,6 +282,7 @@
   "vaOnlineSchedulingRemovePodiatry": "vaos_online_scheduling_remove_podiatry",
   "vaOnlineSchedulingUseVaDate": "vaos_online_scheduling_use_va_date",
   "vaOnlineSchedulingPastApptDateRange": "va_online_scheduling_past_appt_date_range",
+  "vaOnlineSchedulingFeSourceOfTruth": "va_online_scheduling_fe_source_of_truth",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingContactInfoFlow": "veteran_onboarding_contact_info_flow",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
