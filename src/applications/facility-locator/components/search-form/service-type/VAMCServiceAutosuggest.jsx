@@ -5,12 +5,15 @@ import useServiceType, {
 } from '../../../hooks/useServiceType';
 import Autosuggest from '../autosuggest';
 
-const VAMCServiceAutosuggest = ({ onChange }) => {
+const VAMCServiceAutosuggest = ({
+  onChange,
+  setVamcAutoSuggestError,
+  vamcAutoSuggestError,
+}) => {
   const { serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [options, setOptions] = useState([]);
-  const [showServicesError, setShowServicesError] = useState(false);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
 
   const allServicesOption = {
@@ -45,10 +48,12 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
     });
 
     if (serviceOptions?.length) {
-      setOptions([allServicesOption, ...serviceOptions]);
+      const availableOptions = [allServicesOption, ...serviceOptions];
+
+      setOptions(availableOptions);
 
       if (!allVAMCServices?.length) {
-        setAllVAMCServices([allServicesOption, ...serviceOptions]);
+        setAllVAMCServices(availableOptions);
       }
     }
   };
@@ -63,13 +68,13 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
       setInputValue(null);
       setSelectedService(null);
       setOptions(allVAMCServices);
-      setShowServicesError(true);
+      setVamcAutoSuggestError(false);
     },
-    [onChange],
+    [allVAMCServices, onChange],
   );
 
   const handleServiceTypeChange = e => {
-    setShowServicesError(false);
+    setVamcAutoSuggestError(false);
     setInputValue(e.inputValue?.trimStart());
 
     if (inputValue?.length >= 2) {
@@ -114,21 +119,21 @@ const VAMCServiceAutosuggest = ({ onChange }) => {
           <span className="form-required-span">(*Required)</span>
         </>
       )}
-      minCharacters={2}
       noItemsMessage="No results found. Search for a different service."
       onClearClick={handleClearClick}
       onInputValueChange={handleServiceTypeChange}
       options={options}
       selectedItem={selectedService}
       showDownCaret
-      showError={showServicesError}
+      showError={vamcAutoSuggestError}
       shouldShowNoResults
     />
   )
 };
 
 VAMCServiceAutosuggest.propTypes = {
-  selectedServiceType: PropTypes.string,
+  setVamcAutoSuggestError: PropTypes.func,
+  vamcAutoSuggestError: PropTypes.bool,
   onChange: PropTypes.func,
 }
 

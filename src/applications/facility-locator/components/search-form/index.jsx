@@ -26,8 +26,8 @@ const SearchForm = props => {
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
+  const [vamcAutoSuggestError, setVamcAutoSuggestError] = useState(false);
   const locationInputFieldRef = useRef(null);
-
   const onlySpaces = str => /^\s+$/.test(str);
 
   const handleQueryChange = e => {
@@ -98,6 +98,7 @@ const SearchForm = props => {
       facilityType === LocationType.HEALTH &&
       !serviceType
     ) {
+      setVamcAutoSuggestError(true);
       focusElement('#vamc-services-autosuggest-container');
       return;
     }
@@ -242,7 +243,9 @@ const SearchForm = props => {
               handleServiceTypeChange={handleServiceTypeChange}
               onChange={onChange}
               selectedServiceType={selectedServiceType}
+              setVamcAutoSuggestError={setVamcAutoSuggestError}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
+              vamcAutoSuggestError={vamcAutoSuggestError}
             />
             <input id="facility-search" type="submit" value="Search" />
           </div>
