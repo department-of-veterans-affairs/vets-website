@@ -146,7 +146,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     );
 
     expect(reasonHeading).to.contain.text(
-      'Details you’d like to share with your provider',
+      'Details to share with your provider',
     );
     expect(screen.baseElement).to.contain.text('Routine/Follow-up');
     expect(screen.baseElement).to.contain.text('I need an appt');
