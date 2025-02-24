@@ -25,17 +25,16 @@ export const submitPOARequest = async formData => {
 
   try {
     const response = await apiRequest(requestUrl, apiSettings);
+    const parsedResponse = await response.json();
 
     if (!response.ok) {
-      const errorBody = await response.json();
-
       const errorMessage = `Error on API request to ${requestUrl}: ${
         response.statusText
-      }. ${errorBody.error || 'Unknown error'}`;
+      }. ${parsedResponse.error || 'Unknown error'}`;
       throw new Error(errorMessage);
     }
 
-    return await response.json();
+    return parsedResponse;
   } catch (error) {
     Sentry.captureException(new Error(`Submit POA Request Error: ${error}`));
 
