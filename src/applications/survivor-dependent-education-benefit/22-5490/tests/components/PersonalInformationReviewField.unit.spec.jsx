@@ -19,7 +19,7 @@ describe('PersonalInformationReviewField component', () => {
       },
     },
   };
-  xit('renders the PersonalInformationReviewField footer', () => {
+  it('renders the PersonalInformationReviewField footer', () => {
     const store = mockStore(initialState);
 
     const wrapper = mount(
