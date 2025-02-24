@@ -229,7 +229,11 @@ class SaveInProgressIntro extends React.Component {
         </>
       ) : (
         <va-alert-sign-in
-          variant="signInOptional"
+          variant={
+            this.props.hideUnauthedStartLink
+              ? 'signInRequired'
+              : 'signInOptional'
+          }
           time-limit={retentionPeriod}
           heading-level={this.props.headingLevel}
           no-sign-in-link=""
