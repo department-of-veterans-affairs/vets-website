@@ -26,12 +26,13 @@ import {
 } from '../config/helpers';
 import {
   envUrl,
-  mockTestingFlagforAPI,
+  getMockTestingFlagforAPI,
   RESPONSE_PAGE,
   URL,
 } from '../constants';
 import manifest from '../manifest.json';
 import { mockInquiryResponse, mockAttachmentResponse } from '../utils/mockData';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const getReplySubHeader = messageType => {
   if (!messageType) return 'No messageType';
@@ -47,7 +48,6 @@ const ResponseInboxPage = ({ router }) => {
   const [sendReply, setSendReply] = useState({ reply: '', files: [] });
   const [loading, setLoading] = useState(true);
   const [inquiryData, setInquiryData] = useState(null);
-  // const [fileUploadError, setFileUploadError] = useState([]);
 
   const getLastSegment = () => {
     const pathArray = window.location.pathname.split('/');
@@ -56,12 +56,11 @@ const ResponseInboxPage = ({ router }) => {
   const inquiryId = getLastSegment();
 
   const postApiData = useCallback(
-    url => {
-      const localStorageFiles = localStorage.getItem('askVAFiles');
-      const parsedLocalStoragefiles = JSON.parse(localStorageFiles);
+    async url => {
+      const files = await askVAAttachmentStorage.get('attachments');
       const transformedResponse = {
         ...sendReply,
-        files: getFiles(parsedLocalStoragefiles),
+        files: getFiles(files),
       };
       const options = {
         method: 'POST',
@@ -73,12 +72,12 @@ const ResponseInboxPage = ({ router }) => {
 
       setLoading(true);
 
-      if (mockTestingFlagforAPI) {
+      if (getMockTestingFlagforAPI()) {
         // Simulate API delay
         return new Promise(resolve => {
           setTimeout(() => {
             setLoading(false);
-            localStorage.removeItem('askVAFiles');
+            askVAAttachmentStorage.clear();
             resolve(mockInquiryResponse);
             router.push('/response-sent');
           }, 500);
@@ -88,12 +87,12 @@ const ResponseInboxPage = ({ router }) => {
       return apiRequest(url, options)
         .then(() => {
           setLoading(false);
-          localStorage.removeItem('askVAFiles');
+          askVAAttachmentStorage.clear();
           router.push('/response-sent');
         })
         .catch(() => {
           setLoading(false);
-          localStorage.removeItem('askVAFiles');
+          askVAAttachmentStorage.clear();
           setError(true);
         });
     },
@@ -119,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (mockTestingFlagforAPI) {
+    if (getMockTestingFlagforAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -150,10 +149,10 @@ const ResponseInboxPage = ({ router }) => {
     link.remove();
   };
 
-  const getDownloadData = useCallback(url => {
+  const getDownloadData = url => {
     setError(false);
 
-    if (mockTestingFlagforAPI) {
+    if (getMockTestingFlagforAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -171,7 +170,7 @@ const ResponseInboxPage = ({ router }) => {
       .catch(() => {
         setError(true);
       });
-  }, []);
+  };
 
   const handleRetry = () => {
     if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
