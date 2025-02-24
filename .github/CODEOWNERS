@@ -107,6 +107,7 @@ src/applications/pensions @department-of-veterans-affairs/pension-and-burials @d
 
 # Dependent Benefits Experience
 src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
+src/applications/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
 
 # VSA Debt
 
