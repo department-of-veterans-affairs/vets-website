@@ -72,7 +72,7 @@ const PersonalInformationSection = ({ dob }) => {
     () => {
       const fieldName = `#${FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE]}`;
       if (messagingSignatureName !== null && location.hash === fieldName) {
-        const targetElement = document.querySelector(fieldName);
+        const targetElement = document?.querySelector(fieldName);
         if (targetElement) {
           targetElement.scrollIntoView({ behavior: 'smooth' });
           focusElement(targetElement.querySelector('h2'));

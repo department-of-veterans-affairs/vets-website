@@ -4,8 +4,7 @@ import { selectSignature } from '../../selectors';
 import useFeatureToggles from '../../hooks/useFeatureToggles';
 
 const EditSignatureLink = () => {
-  const signature = useSelector(state => selectSignature(state));
-  const includeSignature = signature?.includeSignature;
+  const { includeSignature } = useSelector(selectSignature);
   const {
     isSignatureSettingsEnabled,
     featureTogglesLoading,

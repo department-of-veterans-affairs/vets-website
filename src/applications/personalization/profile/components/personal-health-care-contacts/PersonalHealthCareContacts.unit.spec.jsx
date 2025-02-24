@@ -20,6 +20,9 @@ const stateFn = ({
   data = contacts.data,
   vaPatient = true,
 } = {}) => ({
+  featureToggles: {
+    mhv_secure_messaging_signature_settings: true,
+  },
   profileContacts: {
     data,
     loading,
