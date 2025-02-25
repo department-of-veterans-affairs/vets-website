@@ -1,7 +1,6 @@
 {
   "representativeSubmissionMethod": "digital",
   "view:addressAuthorizationPolicy": {},
-  "representativeSubmissionMethod": "online",
   "authorizeAddressRadio": "Yes, they can change my address if it’s incorrect or outdated",
   "view:authorizationNote3": {},
   "view:authorizeRecordsSelect": {},
