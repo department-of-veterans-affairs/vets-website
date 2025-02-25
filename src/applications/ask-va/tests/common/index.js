@@ -4,7 +4,7 @@ import { userData } from '../fixtures/data/mock-form-data';
 
 export const createMockStore = ({
   askVA,
-  currentlyLoggedIn,
+  currentlyLoggedIn = true,
   formData = {},
   form,
   path = '',
