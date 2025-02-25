@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
   getNextPagePath,
   getPreviousPagePath,
 } from 'platform/forms-system/src/js/routing';
-import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import AuthProfileInformation from '../components/VeteranInformation/AuthProfileInformation';
@@ -44,13 +43,6 @@ const PersonalInformationPage = ({ location, route, router }) => {
     }),
     [formData, pageList, pathname, router],
   );
-
-  useEffect(() => {
-    const breadcrumbs = document.querySelector('.va-nav-breadcrumbs-list');
-    if (document.activeElement !== breadcrumbs) {
-      focusElement('.va-nav-breadcrumbs-list');
-    }
-  }, []);
 
   return (
     <>
