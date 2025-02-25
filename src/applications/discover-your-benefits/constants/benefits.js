@@ -334,6 +334,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.STILL_SERVING,
+        characterOfDischargeTypes.BAD_CONDUCT,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [
@@ -342,9 +343,8 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
+    applyNowURL: 'https://www.va.gov/disability/how-to-file-claim',
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -665,7 +665,7 @@ export const BENEFITS_LIST = [
     applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
   },
   {
-    name: 'Burial in a VA national cemetery',
+    name: 'VA national cemetery burial',
     category: categories.BURIALS,
     id: 'BUR',
     description:
