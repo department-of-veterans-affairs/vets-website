@@ -135,13 +135,15 @@ const BenefitPaymentsAndDebt = ({
             </DashboardWidgetWrapper>
           </>
         )}
-        <DashboardWidgetWrapper>
-          {showGenericDebtCard ? (
-            <GenericDebtCard />
-          ) : (
-            <DebtsCard debts={debts} />
-          )}
-        </DashboardWidgetWrapper>
+        {debtsCount > 0 && (
+          <DashboardWidgetWrapper>
+            {showGenericDebtCard ? (
+              <GenericDebtCard />
+            ) : (
+              <DebtsCard debts={debts} />
+            )}
+          </DashboardWidgetWrapper>
+        )}
         {copaysCount > 0 && (
           <>
             <DashboardWidgetWrapper>
