@@ -7,6 +7,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { generatePDF } from '../api/generatePDF';
+import { submitPOARequest } from '../api/submitPOARequest';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { preparerIsVeteran, formIs2122A } from '../utilities/helpers';
@@ -44,7 +45,6 @@ import SelectOrganization from '../components/SelectOrganization';
 import RepresentativeSubmissionMethod from '../components/RepresentativeSubmissionMethod';
 
 import SubmissionError from '../components/SubmissionError';
-import { submitPOARequest } from '../api/submitPOARequest';
 
 // const mockData = initialData;
 
@@ -60,15 +60,13 @@ const formConfig = {
     submitButtonText: 'Continue',
   },
   submit: async form => {
-    if (form.data.representativeSubmissionMethod === 'online') {
+    await generatePDF(form.data);
+
+    if (form.data.representativeSubmissionMethod === 'digital') {
       await submitPOARequest(form.data);
-    } else {
-      await generatePDF(form.data);
     }
 
-    return Promise.resolve({
-      attributes: { confirmationNumber: '123123123' },
-    });
+    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } }); // I'm not sure what this confirmation number is about
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
