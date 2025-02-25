@@ -909,6 +909,10 @@ class MedicationsListPage {
   verifyStartANewMessageLinkOnListPage = () => {
     cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
   };
+
+  verifyTitleNotesOnListPage = text => {
+    cy.get('[data-testid="Title-Notes"]').should('contain', text);
+  };
 }
 
 export default MedicationsListPage;
