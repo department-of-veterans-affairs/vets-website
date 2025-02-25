@@ -64,7 +64,7 @@ const FileUpload = props => {
   const onDeleteFile = index => {
     const fileToDelete = files[index];
     if (fileToDelete) {
-      const updatedFiles = files.filter((fileItem, idx) => idx !== index);
+      const updatedFiles = files.filter((file, idx) => idx !== index);
       setFiles(updatedFiles);
       updateFormData(updatedFiles);
     }
