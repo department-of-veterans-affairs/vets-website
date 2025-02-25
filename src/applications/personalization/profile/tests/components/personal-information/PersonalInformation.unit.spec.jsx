@@ -195,9 +195,11 @@ describe('<PersonalInformation />', () => {
 
     mockApiRequest({
       data: {
-        signatureName: 'Abraham Lincoln',
-        signatureTitle: 'Veteran',
-        includeSignature: true,
+        attributes: {
+          signatureName: 'Abraham Lincoln',
+          signatureTitle: 'Veteran',
+          includeSignature: true,
+        },
       },
     });
     const screen = setup({
@@ -208,6 +210,7 @@ describe('<PersonalInformation />', () => {
     await waitFor(() => {
       expect(screen.getByTestId('messagingSignature')).to.exist;
     });
+    screen.debug(undefined, 10000);
     const messagingSignatureSection = screen.getByTestId('messagingSignature');
     expect(messagingSignatureSection.textContent).to.contain('Abraham Lincoln');
     expect(messagingSignatureSection.textContent).to.contain('Veteran');
