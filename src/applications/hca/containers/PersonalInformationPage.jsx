@@ -13,8 +13,6 @@ import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';
 
 const PersonalInformationPage = ({ location, route, router }) => {
-  const { pathname } = location;
-  const { pageList } = route;
   const { authUser, formData, guestUser } = useSelector(state => {
     return {
       authUser: {
@@ -28,17 +26,17 @@ const PersonalInformationPage = ({ location, route, router }) => {
   });
 
   const handlers = useMemo(
-    () => ({
-      goBack: () => {
-        const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
-        router.push(prevPagePath);
-      },
-      goForward: () => {
-        const nextPagePath = getNextPagePath(pageList, formData, pathname);
-        router.push(nextPagePath);
-      },
-    }),
-    [formData, pageList, pathname, router],
+    () => {
+      const { pathname } = location;
+      const { pageList } = route;
+      return {
+        goBack: () =>
+          router.push(getPreviousPagePath(pageList, formData, pathname)),
+        goForward: () =>
+          router.push(getNextPagePath(pageList, formData, pathname)),
+      };
+    },
+    [formData, location, route, router],
   );
 
   return (
