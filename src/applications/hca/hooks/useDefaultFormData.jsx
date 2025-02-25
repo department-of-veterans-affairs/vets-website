@@ -23,11 +23,15 @@ export const useDefaultFormData = () => {
   }));
   const dispatch = useDispatch();
 
-  const { veteranFullName } = stateData.formData;
-
   useEffect(
     () => {
-      const { isLoggedIn, featureToggles, formData, totalRating } = stateData;
+      const {
+        isLoggedIn,
+        featureToggles,
+        formData,
+        totalRating,
+        veteranDateOfBirth,
+      } = stateData;
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
         'view:totalDisabilityRating': totalRating,
@@ -37,7 +41,7 @@ export const useDefaultFormData = () => {
       const userData = isLoggedIn
         ? {
             'view:veteranInformation': {
-              veteranDateOfBirth: stateData.veteranDateOfBirth,
+              veteranDateOfBirth,
             },
           }
         : {};
@@ -50,6 +54,6 @@ export const useDefaultFormData = () => {
         }),
       );
     },
-    [dispatch, stateData, veteranFullName],
+    [dispatch, stateData, stateData.formData.veteranFullName],
   );
 };
