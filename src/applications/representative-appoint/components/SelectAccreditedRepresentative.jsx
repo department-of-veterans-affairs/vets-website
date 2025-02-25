@@ -12,7 +12,7 @@ import SearchResult from './SearchResult';
 import SearchInput from './SearchInput';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { SearchResultsHeader } from './SearchResultsHeader';
-import { isVSORepresentative } from '../utilities/helpers';
+import { formIs2122 } from '../utilities/helpers';
 
 const SelectAccreditedRepresentative = props => {
   const {
@@ -73,8 +73,8 @@ const SelectAccreditedRepresentative = props => {
     const selection = formData['view:selectedRepresentative'];
 
     const repTypeChanged =
-      isVSORepresentative(currentSelectedRep.current) !==
-      isVSORepresentative(newSelection);
+      formIs2122(currentSelectedRep.current) !== formIs2122(newSelection);
+
     const noSelectionExists = !selection && !selectionMade;
     const noNewSelection =
       !newSelection || newSelection === currentSelectedRep.current;
@@ -205,7 +205,10 @@ const SelectAccreditedRepresentative = props => {
             currentSelectedRep={currentSelectedRep.current}
             goToPath={goToPath}
             handleSelectRepresentative={handleSelectRepresentative}
-            userIsDigitalSubmitEligible={formData?.userIsDigitalSubmitEligible}
+            userIsDigitalSubmitEligible={
+              formData?.userIsDigitalSubmitEligible &&
+              formData?.['view:v2IsEnabled']
+            }
           />
         ))}
       <p className="vads-u-margin-y--4">

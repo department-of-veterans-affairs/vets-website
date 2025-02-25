@@ -18,7 +18,7 @@ import NoResultsMessage from '../components/NoResultsMessage';
 import PaginationWrapper from '../components/PaginationWrapper';
 import ResultsList from '../components/ResultsList';
 import SearchAreaControl from '../components/SearchAreaControl';
-import SearchControls from '../components/SearchControls';
+import SearchForm from '../components/search-form';
 import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
@@ -36,6 +36,7 @@ import {
   updateSearchQuery,
 } from '../actions';
 import {
+  facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
   facilityLocatorMobileMapUpdate,
   facilityLocatorPredictiveLocationSearch,
@@ -459,10 +460,11 @@ const FacilitiesMap = props => {
             description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
           />
         )}
-        <SearchControls
+        <SearchForm
           clearGeocodeError={props.clearGeocodeError}
           clearSearchText={props.clearSearchText}
           currentQuery={currentQuery}
+          facilitiesUseAddressTypeahead={props.facilitiesUseAddressTypeahead}
           geolocateUser={props.geolocateUser}
           isMobile={isMobile}
           mobileMapUpdateEnabled={mobileMapUpdateEnabled}
@@ -740,6 +742,7 @@ const FacilitiesMap = props => {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
+  facilitiesUseAddressTypeahead: facilitiesUseAddressTypeahead(state),
   mobileMapPinSelected: state.searchResult.mobileMapPinSelected,
   mobileMapUpdateEnabled: facilityLocatorMobileMapUpdate(state),
   pagination: state.searchResult.pagination,
