@@ -360,7 +360,20 @@ describe('actionCreators', () => {
       actions.addCompareInstitution(institution)(dispatch);
     });
   });
+  describe('updateQueryParams', () => {
+    it('should dispatch UPDATE_QUERY_PARAMS with the correct payload', () => {
+      const mockDispatch = sinon.spy();
+      const queryParams = { key: 'value', anotherKey: 'anotherValue' };
 
+      actions.updateQueryParams(queryParams)(mockDispatch);
+
+      expect(mockDispatch.calledOnce).to.be.true;
+      expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+        type: 'UPDATE_QUERY_PARAMS',
+        payload: queryParams,
+      });
+    });
+  });
   describe('clearGeocodeError action creato', () => {
     it('should clear code error', () => {
       const expectedActions = [{ type: 'GEOCODE_CLEAR_ERROR' }];
