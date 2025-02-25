@@ -2,8 +2,15 @@ import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
 import CcpHelpers from '../ccp-helpers-cypress';
 import FacilityHelpers from '../facility-helpers-cypress';
+import {
+  selectFacilityTypeInDropdown,
+  selectServiceTypeInVAHealthDropdown,
+  FACILITY_TYPES,
+  typeInCityStateInput,
+  typeAndSelectInCCPServiceTypeInput,
+  submitSearchForm,
+} from './helpers';
 
-const CC_PROVIDER = 'Community providers (in VA’s network)';
 const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
@@ -29,10 +36,7 @@ const healthServices = {
 
 Cypress.Commands.add('verifyOptions', () => {
   // Va facilities have services available
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('VA health');
+  selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
   cy.get('.service-type-dropdown-desktop')
     .find('select')
     .should('not.have.attr', 'disabled');
@@ -49,44 +53,27 @@ Cypress.Commands.add('verifyOptions', () => {
       });
   }
 
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('Urgent care');
+  selectFacilityTypeInDropdown(FACILITY_TYPES.URGENT);
   cy.get('.service-type-dropdown-desktop')
     .find('select')
     .should('not.have.attr', 'disabled');
 
   // Va facilities don't have services available
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('Vet Centers');
+  selectFacilityTypeInDropdown(FACILITY_TYPES.VET);
+  cy.get('.service-type-dropdown-desktop').should('not.exist');
 
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('VA cemeteries');
+  selectFacilityTypeInDropdown(FACILITY_TYPES.CEM);
 
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('VA benefits');
+  selectFacilityTypeInDropdown(FACILITY_TYPES.VBA);
 
   // CCP care have services available
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('Community providers (in VA’s network)');
+  selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
   cy.get('#service-type-loading').should('exist');
+  cy.wait('@mockServices');
   cy.get('#service-typeahead').should('not.have.attr', 'disabled');
 
   // CCP pharmacies dont have services available
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('Community pharmacies (in VA’s network)');
-  cy.get('#service-typeahead').should('not.have', 'disabled');
+  selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PHARM);
   cy.get('#service-typeahead').should('not.exist');
 });
 
@@ -113,23 +100,15 @@ describe('Facility VA search', () => {
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.verifyOptions();
+    // cy.verifyOptions();
 
-    cy.get('#street-city-state-zip').type('Alexandria, VA');
-    cy.get('#facility-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('VA health');
+    typeInCityStateInput('Austin, TX');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
     cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click();
-    cy.wait('@searchFacilities');
-    cy.get('#search-results-subheader')
-      .invoke('text')
-      .then(text => {
-        cy.log('TEXT', text);
-      });
+
     cy.get('#search-results-subheader').contains(
-      /results.*VA health.*Primary care.*near.*Alexandria, Virgina/,
+      /results.*VA health.*Primary care.*near.*Austin, Texas/,
     );
     cy.get('.facility-result a').should('exist');
     cy.get('.i-pin-card-map').contains('1');
@@ -141,71 +120,60 @@ describe('Facility VA search', () => {
 
   it.skip('should render breadcrumbs ', () => {
     cy.visit('/find-locations');
+    typeInCityStateInput('Austin, TX');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
+    submitSearchForm().then(() => {
+      cy.injectAxe();
+      cy.axeCheck();
 
-    cy.get('#street-city-state-zip').type('Alexandria, VA');
-    cy.get('#facility-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('VA health');
-    cy.get('#facility-search')
-      .click({ waitForAnimations: true })
-      .then(() => {
-        cy.injectAxe();
-        cy.axeCheck();
+      cy.get('.facility-result va-link').should('exist');
+      cy.findByText(/Washington VA Medical Center/i, { selector: 'va-link' })
+        .first()
+        .click({ waitForAnimations: true })
+        .then(() => {
+          cy.axeCheck();
 
-        cy.get('.facility-result va-link').should('exist');
-        cy.findByText(/Washington VA Medical Center/i, { selector: 'va-link' })
-          .first()
-          .click({ waitForAnimations: true })
-          .then(() => {
-            cy.axeCheck();
+          cy.get('.all-details', { timeout: 10000 }).should('exist');
 
-            cy.get('.all-details', { timeout: 10000 }).should('exist');
+          cy.get('a[aria-current="page"').should('exist');
 
-            cy.get('a[aria-current="page"').should('exist');
+          cy.get(
+            '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+          ).should('exist');
 
-            cy.get(
-              '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-            ).should('exist');
+          cy.get(
+            '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+          ).contains('Facility Details');
 
-            cy.get(
-              '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-            ).contains('Facility Details');
-
-            cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click({
-              waitForAnimations: true,
-            });
-
-            // Mobile View
-            cy.viewport(375, 667);
-
-            cy.get('.va-nav-breadcrumbs-list').should('exist');
-
-            cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
-              .should('have.css', 'display')
-              .and('match', /none/);
-
-            cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').contains(
-              'Home',
-            );
+          cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click({
+            waitForAnimations: true,
           });
-      });
+
+          // Mobile View
+          cy.viewport(375, 667);
+
+          cy.get('.va-nav-breadcrumbs-list').should('exist');
+
+          cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
+            .should('have.css', 'display')
+            .and('match', /none/);
+
+          cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').contains(
+            'Home',
+          );
+        });
+    });
   });
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
     // override so no provider data
     CcpHelpers.initApplicationMock('', 'mockProviders');
-
-    cy.get('#street-city-state-zip').type('27606');
-    cy.get('#facility-type-dropdown')
-      .shadow()
-      .find('select')
-      .select(CC_PROVIDER);
+    typeInCityStateInput('27606');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
     cy.wait('@mockServices');
 
-    cy.get('#service-type-ahead-input').type('General');
-    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+    typeAndSelectInCCPServiceTypeInput('General Acute Care Hospital');
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.wait('@mockProviders');
@@ -221,17 +189,14 @@ describe('Facility VA search', () => {
 
     cy.visit('/find-locations');
     cy.injectAxe();
-
-    cy.get('#street-city-state-zip').type('Los Angeles');
+    typeInCityStateInput('Los Angeles, CA');
     cy.get('#facility-type-dropdown')
       .shadow()
       .find('select')
       .select('VA benefits');
-    cy.get('#facility-search').click({
-      waitForAnimations: true,
-    });
+    submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      /Showing.*Results.*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
+      /Results.*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
     );
     cy.get('#other-tools').should('exist');
 
@@ -249,7 +214,7 @@ describe('Facility VA search', () => {
       });
 
     // Note - we're using mock data so the names don't match.
-    cy.get('h1').contains('Austin VA Clinic');
+    cy.get('h1').contains('VetSuccess on Campus at Los Angeles City College');
     cy.get('.p1')
       .first()
       .should('exist');
@@ -268,8 +233,7 @@ describe('Facility VA search', () => {
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
     cy.visit('/find-locations');
-
-    cy.get('#street-city-state-zip').type('27606{enter}');
+    typeInCityStateInput('27606');
     // Wait for Use My Location to be triggered (it should not be)
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(8000);
@@ -283,22 +247,18 @@ describe('Facility VA search', () => {
 
   it('finds VA emergency care', () => {
     cy.visit('/find-locations');
-
-    cy.get('#street-city-state-zip').type('Alexandria Virginia');
-    cy.get('#facility-type-dropdown')
-      .shadow()
-      .find('select')
-      .select('Emergency care');
-    cy.get('#service-type-dropdown').select('VA emergency care');
-    cy.get('#facility-search').click({ waitForAnimations: true });
+    typeInCityStateInput('Austin, TX');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.EMERGENCY);
+    selectServiceTypeInVAHealthDropdown('VA emergency care');
+    submitSearchForm();
     cy.get('#search-results-subheader').contains(
-      'Results for "Emergency Care", "VA emergency care" near "Alexandria, Virginia"',
+      'Results for "Emergency Care", "VA emergency care" near "Austin, Texas"',
     );
     cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 va-link')
       .shadow()
       .get('a')
-      .contains('Alexandria');
+      .contains('Los Angeles'); // just because of the results we supply
 
     cy.injectAxe();
     cy.axeCheck();

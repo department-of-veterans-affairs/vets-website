@@ -431,83 +431,81 @@ const resultsData = {
       },
     },
     {
-      data: {
+      id: 'vba_344l',
+      type: 'facility',
+      attributes: {
+        classification: 'VetSuccess On Campus',
+        distance: null,
+        facilityType: 'va_benefits_facility',
         id: 'vba_344l',
-        type: 'facility',
-        attributes: {
-          classification: 'VetSuccess On Campus',
-          distance: null,
-          facilityType: 'va_benefits_facility',
-          id: 'vba_344l',
-          lat: 34.0865467,
-          long: -118.2930592,
-          mobile: null,
-          name: 'VetSuccess on Campus at Los Angeles City College',
-          operationalHoursSpecialInstructions: null,
-          uniqueId: '344l',
-          visn: null,
-          website: null,
-          tmpCovidOnlineScheduling: null,
-          access: {
-            health: [],
-            effectiveDate: '',
+        lat: 34.0865467,
+        long: -118.2930592,
+        mobile: null,
+        name: 'VetSuccess on Campus at Los Angeles City College',
+        operationalHoursSpecialInstructions: null,
+        uniqueId: '344l',
+        visn: null,
+        website: null,
+        tmpCovidOnlineScheduling: null,
+        access: {
+          health: [],
+          effectiveDate: '',
+        },
+        address: {
+          physical: {
+            zip: '90029',
+            city: 'Los Angeles',
+            state: 'CA',
+            address1: '855 North Vermont',
           },
-          address: {
-            physical: {
-              zip: '90029',
-              city: 'Los Angeles',
-              state: 'CA',
-              address1: '855 North Vermont',
+        },
+        feedback: [],
+        hours: {
+          monday: '9:00 a.m. - 5:30 p.m.',
+          tuesday: 'Closed',
+          wednesday: 'Closed',
+          thursday: 'Closed',
+          friday: 'Closed',
+          saturday: 'Closed',
+          sunday: 'Closed',
+        },
+        operatingStatus: {
+          code: 'VIRTUAL_CARE',
+          additionalInfo:
+            "We're not open for in-person service at this time. Our staff are still available by phone and by our online customer service tool.",
+        },
+        phone: {
+          main: '323-953-4000, ext. 1253',
+        },
+        services: {
+          benefits: [
+            {
+              name: 'ApplyingForBenefits',
+              serviceId: 'applyingForBenefits',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/applyingForBenefits',
             },
-          },
-          feedback: [],
-          hours: {
-            monday: '9:00 a.m. - 5:30 p.m.',
-            tuesday: 'Closed',
-            wednesday: 'Closed',
-            thursday: 'Closed',
-            friday: 'Closed',
-            saturday: 'Closed',
-            sunday: 'Closed',
-          },
-          operatingStatus: {
-            code: 'VIRTUAL_CARE',
-            additionalInfo:
-              "We're not open for in-person service at this time. Our staff are still available by phone and by our online customer service tool.",
-          },
-          phone: {
-            main: '323-953-4000, ext. 1253',
-          },
-          services: {
-            benefits: [
-              {
-                name: 'ApplyingForBenefits',
-                serviceId: 'applyingForBenefits',
-                link:
-                  'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/applyingForBenefits',
-              },
-              {
-                name: 'EducationAndCareerCounseling',
-                serviceId: 'educationAndCareerCounseling',
-                link:
-                  'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationAndCareerCounseling',
-              },
-              {
-                name: 'EducationClaimAssistance',
-                serviceId: 'educationClaimAssistance',
-                link:
-                  'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationClaimAssistance',
-              },
-              {
-                name: 'VocationalRehabilitationAndEmploymentAssistance',
-                serviceId: 'vocationalRehabilitationAndEmploymentAssistance',
-                link:
-                  'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/vocationalRehabilitationAndEmploymentAssistance',
-              },
-            ],
-            link:
-              'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services',
-          },
+            {
+              name: 'EducationAndCareerCounseling',
+              serviceId: 'educationAndCareerCounseling',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationAndCareerCounseling',
+            },
+            {
+              name: 'EducationClaimAssistance',
+              serviceId: 'educationClaimAssistance',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationClaimAssistance',
+            },
+            {
+              name: 'VocationalRehabilitationAndEmploymentAssistance',
+              serviceId: 'vocationalRehabilitationAndEmploymentAssistance',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/vocationalRehabilitationAndEmploymentAssistance',
+            },
+          ],
+          link:
+            'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services',
         },
       },
     },
