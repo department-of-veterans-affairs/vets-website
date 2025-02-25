@@ -1,13 +1,25 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import sinon from 'sinon';
 import { ChildAdditionalEvidence } from '../../components/ChildAdditionalEvidence';
 
 describe('ChildAdditionalEvidence', () => {
   let container;
 
   beforeEach(() => {
-    ({ container } = render(<ChildAdditionalEvidence />));
+    const generateStore = ({ featureToggles = {} } = {}) => ({
+      dispatch: sinon.spy(),
+      subscribe: sinon.spy(),
+      getState: () => ({ featureToggles }),
+    });
+    const mockStore = generateStore();
+    ({ container } = render(
+      <Provider store={mockStore}>
+        <ChildAdditionalEvidence />
+      </Provider>,
+    ));
   });
 
   it('should render the introductory text', () => {
