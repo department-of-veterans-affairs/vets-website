@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { formatDateTime, getDaysLeft } from '../util/dates';
 import { TRAVEL_PAY_INFO_LINK } from '../constants';
 import FutureAppointmentAlert from './alerts/FutureAppointmentAlert';
+import OutOfBoundsAppointmentAlert from './alerts/OutOfBoundsAppointmentAlert';
 
 export const AppointmentDetails = ({ appointment }) => {
   const [formattedDate] = formatDateTime(appointment.localStartTime);
@@ -68,11 +69,14 @@ export const AppointmentInfoText = ({ appointment, isPast }) => {
         )}
       {daysLeft === 0 &&
         !appointment.travelPayClaim?.claim && (
-          <p>
-            It has been more than 30 days since your appointment. We still
-            encourage you to file now but we may not be able to approve your
-            claim.
-          </p>
+          <>
+            <OutOfBoundsAppointmentAlert />
+            <p>
+              It has been more than 30 days since your appointment. We still
+              encourage you to file now but we may not be able to approve your
+              claim.
+            </p>
+          </>
         )}
 
       <va-link
