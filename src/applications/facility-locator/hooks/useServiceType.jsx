@@ -45,7 +45,7 @@ const matchHelper = (term, hsdatum) => {
     nameMatch: termMatcher(regexTerm, hsdatum, 0),
     akaMatch: termMatcher(regexTerm, hsdatum, 1),
     commonCondMatch: hsdatum[2].findIndex(commonCond =>
-      commonCond.toLowerCase().startsWith(term.toLowerCase()),
+      commonCond.toLowerCase().includes(term.toLowerCase()),
     ),
     descriptionMatch: termMatcher(term, hsdatum, 10, true),
     tricareDescriptionMatch: termMatcher(term, hsdatum, 11, true),
@@ -129,6 +129,8 @@ export default function useServiceType() {
   const dispatch = useDispatch();
   const selector = vaHealthServicesData;
 
+  const allServicesOptionForVamc = ['All VA health services'];
+
   // const selector = useSelector(
   //   state => state.drupalStaticData.vaHealthServicesData || [],
   // );
@@ -157,11 +159,23 @@ export default function useServiceType() {
           facilityType,
         );
 
-        return sortServices(filteredServices);
+        const sortedServices = sortServices(filteredServices);
+
+        if (facilityType === FACILITY_TYPE_FILTERS.VAMC) {
+          return [allServicesOptionForVamc, ...sortedServices];
+        }
+
+        return sortedServices;
       }
 
       if (selector.data) {
-        return filterMatches(selector, term, facilityType);
+        const matches = filterMatches(selector, term, facilityType);
+
+        if (facilityType) {
+          return [allServicesOptionForVamc, ...matches];
+        }
+
+        return matches;
       }
 
       return [];

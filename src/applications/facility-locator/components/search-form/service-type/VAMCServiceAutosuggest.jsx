@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import useServiceType, {
   FACILITY_TYPE_FILTERS,
@@ -15,11 +15,6 @@ const VAMCServiceAutosuggest = ({
   const [selectedService, setSelectedService] = useState(null);
   const [options, setOptions] = useState([]);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
-
-  const allServicesOption = {
-    id: 'all',
-    toDisplay: 'All VA health services',
-  };
 
   const getServices = input => {
     const services = serviceTypeFilter(
@@ -48,12 +43,10 @@ const VAMCServiceAutosuggest = ({
     });
 
     if (serviceOptions?.length) {
-      const availableOptions = [allServicesOption, ...serviceOptions];
-
-      setOptions(availableOptions);
+      setOptions(serviceOptions);
 
       if (!allVAMCServices?.length) {
-        setAllVAMCServices(availableOptions);
+        setAllVAMCServices(serviceOptions);
       }
     }
   };
@@ -69,28 +62,31 @@ const VAMCServiceAutosuggest = ({
   // The searchInitiated variable is only used for this purpose so we reset it at the bottom
   useEffect(
     () => {
-      const displayOptions = options?.map(service => service.toDisplay);
-      const typedValueHasNoMatch =
-        inputValue?.length && !displayOptions.includes(inputValue);
+      if (searchInitiated) {
+        const selectedValueFromDropdown = options?.filter(
+          service => service.toDisplay === inputValue,
+        )?.[0];
 
-      if (searchInitiated && (typedValueHasNoMatch || !inputValue)) {
-        setInputValue('All VA health services');
+        const typedValueHasNoMatch =
+          inputValue?.length &&
+          inputValue !== selectedValueFromDropdown?.toDisplay;
+
+        if (typedValueHasNoMatch || !inputValue) {
+          setInputValue('All VA health services');
+        }
       }
 
       setSearchInitiated(false);
     },
-    [inputValue, options, searchInitiated],
+    [searchInitiated],
   );
 
-  const handleClearClick = useCallback(
-    () => {
-      onChange({ serviceType: null });
-      setInputValue(null);
-      setSelectedService(null);
-      setOptions(allVAMCServices);
-    },
-    [allVAMCServices, onChange],
-  );
+  const handleClearClick = () => {
+    onChange({ serviceType: null, vamcServiceDisplay: null });
+    setInputValue(null);
+    setSelectedService(null);
+    setOptions(allVAMCServices);
+  };
 
   const handleServiceTypeChange = e => {
     setInputValue(e.inputValue?.trimStart());
@@ -125,7 +121,7 @@ const VAMCServiceAutosuggest = ({
         spellCheck: 'false',
       }}
       handleOnSelect={handleServiceTypeSelection}
-      initialSelectedItem={allServicesOption}
+      initialSelectedItem={options?.[0]}
       errorMessage={null}
       inputId="vamc-services"
       inputValue={inputValue || ''}
@@ -148,6 +144,6 @@ VAMCServiceAutosuggest.propTypes = {
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
   onChange: PropTypes.func,
-}
+};
 
 export default VAMCServiceAutosuggest;
