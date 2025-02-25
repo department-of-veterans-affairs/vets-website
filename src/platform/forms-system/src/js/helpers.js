@@ -413,6 +413,158 @@ export const pureWithDeepEquals = shouldUpdate(
   (props, nextProps) => !deepEquals(props, nextProps),
 );
 
+// Define valid schema types as a frozen constant
+const VALID_SCHEMA_TYPES = Object.freeze([
+  'string',
+  'boolean',
+  'integer',
+  'object',
+  'array',
+  'number',
+]);
+
+/**
+ * Validates schema type property
+ *
+ * @param {Object} schema - The schema to validate
+ * @param {Array} path    - Current path in the schema
+ * @returns {Array}       - Array of error messages
+ */
+function validateType(schema, path) {
+  const errors = [];
+
+  if (!schema.type) {
+    errors.push(`Missing type in ${path.join('.')} schema.`);
+    return errors;
+  }
+
+  if (Array.isArray(schema.type)) {
+    schema.type.forEach(t => {
+      if (
+        (typeof t !== 'string' && t !== ArrayBuffer) ||
+        (typeof t === 'string' && !VALID_SCHEMA_TYPES.includes(t))
+      ) {
+        errors.push(`Invalid type "${t}" in ${path.join('.')} schema.`);
+      }
+    });
+  } else if (typeof schema.type !== 'string') {
+    errors.push(`Invalid type in ${path.join('.')} schema.`);
+  }
+
+  return errors;
+}
+
+/**
+ * Determines if a schema is of object type
+ *
+ * @param {Object} schema - The schema to check
+ * @returns {boolean}     - True if the schema is an object type
+ */
+function isObjectType(schema) {
+  return (
+    schema.type === 'object' ||
+    (Array.isArray(schema.type) && schema.type.includes('object'))
+  );
+}
+
+/**
+ * Validates object type schemas
+ *
+ * @param {Object} schema       - The schema to validate
+ * @param {Array} path          - Current path in the schema
+ * @param {Function} validateFn - The schema validation function
+ * @returns {Array}             - Array of error messages
+ */
+function validateObject(schema, path, validateFn) {
+  const errors = [];
+
+  if (!isObjectType(schema)) {
+    return errors;
+  }
+
+  if (typeof schema.properties !== 'object') {
+    errors.push(`Missing object properties in ${path.join('.')} schema.`);
+    return errors;
+  }
+
+  Object.keys(schema.properties).forEach(propName => {
+    const propertyErrors = validateFn(schema.properties[propName], [
+      ...path,
+      propName,
+    ]);
+    errors.push(...propertyErrors);
+  });
+
+  return errors;
+}
+
+/**
+ * Determines if a schema is of array type
+ *
+ * @param {Object} schema - The schema to check
+ * @returns {boolean}     - True if the schema is an array type
+ */
+function isArrayType(schema) {
+  return (
+    schema.type === 'array' ||
+    (Array.isArray(schema.type) && schema.type.includes('array'))
+  );
+}
+
+/**
+ * Validates array type schemas
+ *
+ * @param {Object} schema       - The schema to validate
+ * @param {Array} path          - Current path in the schema
+ * @param {Function} validateFn - The schema validation function
+ * @returns {Array}             - Array of error messages
+ */
+function validateArray(schema, path, validateFn) {
+  const errors = [];
+
+  if (!isArrayType(schema)) {
+    return errors;
+  }
+
+  if (Array.isArray(schema.items)) {
+    if (!schema.additionalItems) {
+      errors.push(
+        `${path.join(
+          '.',
+        )} should contain additionalItems when items is an array.`,
+      );
+    }
+
+    schema.items.forEach((item, index) => {
+      const itemErrors = validateFn(item, [...path, 'items', index]);
+      errors.push(...itemErrors);
+    });
+  } else if (typeof schema.items === 'object') {
+    if (schema.additionalItems) {
+      errors.push(
+        `${path.join(
+          '.',
+        )} should not contain additionalItems when items is an object.`,
+      );
+    }
+
+    const itemErrors = validateFn(schema.items, [...path, 'items']);
+    errors.push(...itemErrors);
+  } else {
+    errors.push(`Missing items schema in ${path.join('.')}.`);
+  }
+
+  if (schema.additionalItems) {
+    const additionalItemsErrors = validateFn(schema.additionalItems, [
+      ...path,
+      'additionalItems',
+    ]);
+    errors.push(...additionalItemsErrors);
+  }
+
+  return errors;
+}
+
 /**
  * Recursively checks to see if the schema is valid.
  *
@@ -420,75 +572,31 @@ export const pureWithDeepEquals = shouldUpdate(
  *  stop everything.
  *
  * @param {Object} schema - The schema in question
- * @return {bool}         - true if we succeed
+ * @param {Array} errors  - Collection of validation errors
+ * @param {Array} path    - Current path in the schema
+ * @return {boolean}      - true if we succeed
  * @throws {Error}        - If the schema is invalid
  */
 export function checkValidSchema(schema, errors = [], path = ['root']) {
-  if (typeof schema.type !== 'string') {
-    errors.push(`Missing type in ${path.join('.')} schema.`);
-  }
-
-  if (schema.type === 'object') {
-    if (typeof schema.properties !== 'object') {
-      errors.push(`Missing object properties in ${path.join('.')} schema.`);
-    } else {
-      Object.keys(schema.properties).forEach(propName => {
-        checkValidSchema(schema.properties[propName], errors, [
-          ...path,
-          propName,
-        ]);
-      });
-    }
-  }
-
-  if (schema.type === 'array') {
-    // We check this both before items is turned into additionalItems and after,
-    //  so we need to account for it being both an object and an array.
-    if (Array.isArray(schema.items)) {
-      if (!schema.additionalItems) {
-        errors.push(
-          `${path.join(
-            '.',
-          )} should contain additionalItems when items is an array.`,
-        );
-      }
-      schema.items.forEach((item, index) => {
-        checkValidSchema(item, errors, [...path, 'items', index]);
-      });
-    } else if (typeof schema.items === 'object') {
-      if (schema.additionalItems) {
-        errors.push(
-          `${path.join(
-            '.',
-          )} should not contain additionalItems when items is an object.`,
-        );
-      }
-      checkValidSchema(schema.items, errors, [...path, 'items']);
-    } else {
-      errors.push(`Missing items schema in ${path.join('.')}.`);
-    }
-
-    // Check additionalItems
-    if (schema.additionalItems) {
-      checkValidSchema(schema.additionalItems, errors, [
-        ...path,
-        'additionalItems',
-      ]);
-    }
-  }
+  errors.push(...validateType(schema, path));
+  errors.push(
+    ...validateObject(schema, path, (s, p) => checkValidSchema(s, errors, p)),
+  );
+  errors.push(
+    ...validateArray(schema, path, (s, p) => checkValidSchema(s, errors, p)),
+  );
 
   // We’ve recursed all the way back down to ['root']; throw an error containing
   //  all the error messages.
   if (path.length === 1 && errors.length > 0) {
-    // console.log(`Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(' ')} -- ${path.join('.')}`);
     throw new Error(
       `Error${errors.length > 1 ? 's' : ''} found in schema: ${errors.join(
         ' ',
       )}`,
     );
-  } else {
-    return true;
   }
+
+  return true;
 }
 
 export function setArrayRecordTouched(prefix, index) {

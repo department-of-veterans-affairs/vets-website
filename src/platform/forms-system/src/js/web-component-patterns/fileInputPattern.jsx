@@ -120,6 +120,9 @@ export const fileInputSchema = {
     confirmationCode: {
       type: 'string',
     },
+    contents: {
+      type: ['string', ArrayBuffer],
+    },
     isEncrypted: {
       type: 'boolean',
     },
