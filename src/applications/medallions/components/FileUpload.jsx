@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaFileInputMultiple } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
 import FileList from './FileList';
 
-// Helper function: Convert bytes to MB (correct conversion factor)
+// Helper: convert bytes to MB
 const getFileSizeMB = size => size / 1048576;
 
 // Download link component with file size text
@@ -28,16 +28,6 @@ DownloadLink.propTypes = {
   fileSize: PropTypes.number,
 };
 
-// Generate an array of IDs
-const idList = numberOfIDs =>
-  Array.from({ length: numberOfIDs }, i => `medallions_upload_${i}`);
-
-// Helpers to get/set files in localStorage
-const getLocalFiles = () => {
-  const stored = localStorage.getItem('medallionsFiles');
-  return stored ? JSON.parse(stored) : [];
-};
-
 const setLocalFiles = files => {
   localStorage.setItem('medallionsFiles', JSON.stringify(files));
 };
@@ -55,15 +45,14 @@ const FileUpload = props => {
 
   const firstInputID = 'medallions_upload_first';
   const errorMessage = 'File must be less than 25 MB';
-  const uploadIDs = idList(10);
 
-  const [attachments, setAttachments] = useState([]);
-  const [existingFiles, setExistingFiles] = useState([]);
+  // Unified state for all files (both existing and newly added)
+  const [files, setFiles] = useState(formData.supportingDocuments || []);
   const [fileErrors, setFileErrors] = useState([]);
 
   // Update Redux formData with new file attachments
-  const updateFormData = files => {
-    const updatedFormData = set('supportingDocuments', files, formData);
+  const updateFormData = updatedFiles => {
+    const updatedFormData = set('supportingDocuments', updatedFiles, formData);
     dispatch(setData(updatedFormData));
   };
 
@@ -71,33 +60,23 @@ const FileUpload = props => {
     setFileErrors(prevErrors => prevErrors.filter(id => id !== fileID));
   };
 
-  const deleteExistingFile = fileID => {
-    const updatedFiles = getLocalFiles().filter(file => file.fileID !== fileID);
-    setLocalFiles(updatedFiles);
-    const newExistingFiles = existingFiles.filter(
-      file => file.fileID !== fileID,
-    );
-    setExistingFiles(newExistingFiles);
-    updateFormData(newExistingFiles);
-  };
-
-  const onDeleteExistingFile = index => {
-    const fileToDelete = existingFiles[index];
+  // Delete file by its index in the unified files array
+  const onDeleteFile = index => {
+    const fileToDelete = files[index];
     if (fileToDelete) {
-      deleteExistingFile(fileToDelete.fileID);
+      const updatedFiles = files.filter((fileItem, idx) => idx !== index);
+      setFiles(updatedFiles);
+      updateFormData(updatedFiles);
     }
   };
 
-  // inside the FileUpload component
+  const onReplaceFile = (fileIndex, event) => {
+    const { files: fileList } = event.detail;
+    if (fileList && fileList[0]) {
+      const newFile = fileList[0];
 
-  const onReplaceExistingFile = (fileIndex, event) => {
-    const { files } = event.detail;
-    if (files && files[0]) {
-      const newFile = files[0];
-
-      // Check file size (should be less than 25 MB)
+      // Validate file size (< 25 MB)
       if (getFileSizeMB(newFile.size) > 25) {
-        // Set error for the file index (or use an identifier if needed)
         setFileErrors(prevErrors =>
           Array.from(new Set([...prevErrors, fileIndex])),
         );
@@ -112,43 +91,38 @@ const FileUpload = props => {
           fileSize: newFile.size,
           fileType: newFile.type,
           base64: base64Img,
-          // Keep the same fileID as the file being replaced
-          fileID: existingFiles[fileIndex].fileID,
+          // Preserve the fileID so any key-based logic stays intact
+          fileID: files[fileIndex].fileID,
         };
 
-        // Create updated file list with the replaced file
-        const updatedFiles = existingFiles.map(
+        const updatedFiles = files.map(
           (file, idx) => (idx === fileIndex ? replacedFile : file),
         );
-
-        // Update localStorage, component state, and Redux formData
         setLocalFiles(updatedFiles);
-        setExistingFiles(updatedFiles);
+        setFiles(updatedFiles);
         updateFormData(updatedFiles);
       };
       reader.readAsDataURL(newFile);
     }
   };
 
+  // Remove file using its fileID (used when a file input is cleared)
   const onRemoveFile = fileID => {
     if (fileErrors.includes(fileID)) {
       clearError(fileID);
     } else {
-      const updatedFiles = getLocalFiles().filter(
-        file => file.fileID !== fileID,
-      );
-      setLocalFiles(updatedFiles);
-      const newAttachments = attachments.filter(file => file.fileID !== fileID);
-      setAttachments(newAttachments);
-      updateFormData(newAttachments);
+      const updatedFiles = files.filter(file => file.fileID !== fileID);
+      setFiles(updatedFiles);
+      updateFormData(updatedFiles);
     }
   };
 
+  // Add a new file from the file input
   const onAddFile = event => {
-    const { files } = event.detail;
+    const { files: fileList } = event.detail;
     const inputID = event.srcElement['data-testid'];
 
-    if (files?.[0] && getFileSizeMB(files[0].size) > 25) {
+    if (fileList?.[0] && getFileSizeMB(fileList[0].size) > 25) {
       setFileErrors(prevErrors =>
         Array.from(new Set([...prevErrors, inputID])),
       );
@@ -157,77 +131,43 @@ const FileUpload = props => {
 
     if (fileErrors.includes(inputID)) clearError(inputID);
 
-    if (files?.length) {
-      const currentFile = files[0];
+    if (fileList?.length) {
+      const currentFile = fileList[0];
       const reader = new FileReader();
-      reader.readAsDataURL(currentFile);
       reader.onload = () => {
         const base64Img = reader.result;
-        const imgData = {
+        const newFileData = {
           fileName: currentFile.name,
           fileSize: currentFile.size,
           fileType: currentFile.type,
           base64: base64Img,
           fileID: _.uniqueId(inputID),
         };
-
-        // Update localStorage
-        const updatedFiles = [...getLocalFiles(), imgData];
-        setLocalFiles(updatedFiles);
-
-        // Update attachments state and Redux formData
-        const newAttachments = [...attachments, imgData];
-        setAttachments(newAttachments);
-        updateFormData(newAttachments);
+        const updatedFiles = [...files, newFileData];
+        setFiles(updatedFiles);
+        updateFormData(updatedFiles);
       };
+      reader.readAsDataURL(currentFile);
     } else {
       onRemoveFile(inputID);
     }
   };
 
-  // Load files from localStorage on component mount
-  const loadExistingFiles = () => {
-    const storedFiles = getLocalFiles();
-    if (storedFiles?.length) {
-      setExistingFiles(storedFiles);
-    }
-  };
-
-  useEffect(() => {
-    if (existingFiles.length === 0) {
-      loadExistingFiles();
-    }
-  }, []); // Run once on mount
-
-  const renderDynamicFileInputs = () =>
-    attachments.map((attachment, i) => (
-      <VaFileInput
-        key={i}
-        accept={acceptFileTypes}
-        data-testid={uploadIDs[i]}
-        error={fileErrors.includes(uploadIDs[i]) ? errorMessage : ''}
-        aria-label={label}
-        name="usa-file-input"
-        onVaChange={onAddFile}
-        uswds
-      />
-    ));
-
   return (
     <div>
       <div className="usa-form-group">
-        {existingFiles.length > 0 && (
+        {files.length > 0 && (
           <FileList
-            files={existingFiles}
-            onReplace={onReplaceExistingFile}
-            onDelete={onDeleteExistingFile}
+            files={files}
+            onReplace={onReplaceFile}
+            onDelete={onDeleteFile}
             editMode={editMode}
             path={path}
           />
         )}
         {(editMode || path !== '/review-and-submit') && (
           <>
-            <VaFileInput
+            <VaFileInputMultiple
               className="vads-u-margin-y--neg1"
               accept={acceptFileTypes}
               multiple="multiple"
@@ -239,7 +179,6 @@ const FileUpload = props => {
               onVaChange={onAddFile}
               uswds
             />
-            {renderDynamicFileInputs()}
           </>
         )}
       </div>

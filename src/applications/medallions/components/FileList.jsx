@@ -6,7 +6,7 @@ const FileList = ({ files, onReplace, onDelete, editMode, path }) => (
   <>
     {files.map((file, index) => (
       <FileListItem
-        key={index}
+        key={file.fileID}
         file={file}
         index={index}
         onReplace={onReplace}
