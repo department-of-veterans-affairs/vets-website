@@ -1,95 +1,82 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn } from 'platform/user/selectors';
-import {
-  fetchEnrollmentStatus,
-  resetEnrollmentStatus as resetEnrollmentStatusAction,
-} from '../utils/actions';
+import { fetchEnrollmentStatus, resetEnrollmentStatus } from '../utils/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
-import {
-  selectEnrollmentStatus,
-  selectFeatureToggles,
-} from '../utils/selectors';
+import { selectEnrollmentStatus } from '../utils/selectors';
 import useAfterRenderEffect from '../hooks/useAfterRenderEffect';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
 import VerificationPageDescription from '../components/IdentityPage/VerificationPageDescription';
 import FormFooter from '../components/FormFooter';
 
-const IdentityPage = props => {
-  const { router } = props;
-  const {
-    statusCode,
-    vesRecordFound,
-    fetchAttempted,
-    isUserInMPI,
-  } = useSelector(selectEnrollmentStatus);
-  const { isPerformanceAlertEnabled } = useSelector(selectFeatureToggles);
-  const { data: formData } = useSelector(state => state.form);
-  const loggedIn = useSelector(isLoggedIn);
+const IdentityPage = ({ location, route, router }) => {
+  const stateData = useSelector(state => ({
+    formData: state.form.data,
+    loggedIn: isLoggedIn(state),
+    statusCode: selectEnrollmentStatus(state).statusCode,
+    isUserInMPI: selectEnrollmentStatus(state).isUserInMPI,
+    fetchAttempted: selectEnrollmentStatus(state).fetchAttempted,
+    vesRecordFound: selectEnrollmentStatus(state).vesRecordFound,
+  }));
   const [localData, setLocalData] = useState({});
+  const dispatch = useDispatch();
 
-  /**
-   * declare event handlers
-   *  - onChange - fired when data from local form components is updated
-   *  - onSubmit - fired on click of continue button - validates form data
-   *  - goToNextPage - fired on successful enrollment status API return - go to the first page in the form
-   *  - triggerPrefill - fired on successful enrollment status API return - prefill form data based on inputs from identity form
-   *  - showSignInModal - fired on click of sign in button - show modal for logging into VA.gov
-   */
-  const handlers = {
-    onChange: data => {
-      setLocalData(data);
-    },
-    onSubmit: data => {
-      const { submitIDForm } = props;
-      const { formData: dataToSubmit } = data;
-      recordEvent({ event: 'hca-continue-application' });
-      submitIDForm(dataToSubmit);
-    },
-    goToNextPage: () => {
-      const {
-        location: { pathname },
-        route: { pageList },
-      } = props;
-      const nextPagePath = getNextPagePath(pageList, formData, pathname);
-      router.push(nextPagePath);
-    },
-    triggerPrefill: () => {
-      const { setFormData } = props;
-      const { veteranFullName } = formData;
-      const fullName = {
-        ...veteranFullName,
-        first: localData.firstName,
-        middle: localData.middleName,
-        last: localData.lastName,
-        suffix: localData.suffix,
-      };
-      const {
-        dob: veteranDateOfBirth,
-        ssn: veteranSocialSecurityNumber,
-      } = localData;
-      setFormData({
-        ...formData,
-        veteranDateOfBirth,
-        'view:isUserInMvi': isUserInMPI,
-        'view:veteranInformation': {
-          veteranFullName: fullName,
-          veteranDateOfBirth,
-          veteranSocialSecurityNumber,
+  const handlers = useMemo(
+    () => {
+      return {
+        onChange: data => setLocalData(data),
+        onSubmit: data => {
+          recordEvent({ event: 'hca-continue-application' });
+          dispatch(fetchEnrollmentStatus(data.formData));
         },
-      });
+        goToNextPage: () => {
+          const { pathname } = location;
+          const { pageList } = route;
+          router.push(getNextPagePath(pageList, stateData.formData, pathname));
+        },
+        triggerPrefill: () => {
+          const fullName = {
+            ...stateData.formData.veteranFullName,
+            first: localData.firstName,
+            middle: localData.middleName,
+            last: localData.lastName,
+            suffix: localData.suffix,
+          };
+          const {
+            dob: veteranDateOfBirth,
+            ssn: veteranSocialSecurityNumber,
+          } = localData;
+          dispatch(
+            setData({
+              ...stateData.formData,
+              veteranDateOfBirth,
+              'view:isUserInMvi': stateData.isUserInMPI,
+              'view:veteranInformation': {
+                veteranFullName: fullName,
+                veteranDateOfBirth,
+                veteranSocialSecurityNumber,
+              },
+            }),
+          );
+        },
+        showSignInModal: () => dispatch(toggleLoginModal(true)),
+      };
     },
-    showSignInModal: () => {
-      const { toggleLoginModal } = props;
-      toggleLoginModal(true);
-    },
-  };
+    [
+      dispatch,
+      localData,
+      location,
+      route,
+      router,
+      stateData.formData,
+      stateData.isUserInMPI,
+    ],
+  );
 
   /**
    * reset enrollment status data on when first loading the page if user is
@@ -97,32 +84,29 @@ const IdentityPage = props => {
    */
   useEffect(
     () => {
-      if (loggedIn || isPerformanceAlertEnabled) {
+      if (stateData.loggedIn) {
         router.push('/');
       } else {
-        const { resetEnrollmentStatus } = props;
-        resetEnrollmentStatus();
-        focusElement('.va-nav-breadcrumbs-list');
+        dispatch(resetEnrollmentStatus());
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [loggedIn, isPerformanceAlertEnabled],
+    [dispatch, router, stateData.loggedIn],
   );
 
   // trigger prefill and navigation if enrollment status criteria is met
   useAfterRenderEffect(
     () => {
-      if (fetchAttempted) {
-        const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
-        const canGoToNext = !vesRecordFound || statusCode === noneOfTheAbove;
+      if (stateData.fetchAttempted) {
+        const canGoToNext =
+          !stateData.vesRecordFound ||
+          stateData.statusCode === HCA_ENROLLMENT_STATUSES.noneOfTheAbove;
         if (canGoToNext) {
           handlers.triggerPrefill();
           handlers.goToNextPage();
         }
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [fetchAttempted],
+    [stateData.fetchAttempted],
   );
 
   return (
@@ -143,22 +127,8 @@ const IdentityPage = props => {
 
 IdentityPage.propTypes = {
   location: PropTypes.object,
-  resetEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
   router: PropTypes.object,
-  setFormData: PropTypes.func,
-  submitIDForm: PropTypes.func,
-  toggleLoginModal: PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  resetEnrollmentStatus: resetEnrollmentStatusAction,
-  setFormData: setData,
-  submitIDForm: fetchEnrollmentStatus,
-  toggleLoginModal: toggleLoginModalAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(IdentityPage);
+export default IdentityPage;
