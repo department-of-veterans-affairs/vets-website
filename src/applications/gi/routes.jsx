@@ -17,7 +17,7 @@ import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
+  const giCtCollab = true;
   const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,

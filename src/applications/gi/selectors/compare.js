@@ -86,7 +86,7 @@ export const getCompareCalculatorState = (
 export const updateUrlParams = (facilityCodes, version) => {
   return version
     ? appendQuery(
-        '/compare/',
+        `/compare/`,
         {
           facilities: facilityCodes.join(','),
           version,
@@ -94,7 +94,7 @@ export const updateUrlParams = (facilityCodes, version) => {
         { encodeComponents: false },
       )
     : appendQuery(
-        '/compare/',
+        `/compare/`,
         {
           facilities: facilityCodes.join(','),
         },
