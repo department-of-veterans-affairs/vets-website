@@ -103,9 +103,7 @@ class IntroductionPage extends React.Component {
             downtime={this.props.route.formConfig.downtime}
             pageList={this.props.route.pageList}
             startText="Add or remove a dependent"
-          >
-            <p>Test message</p>
-          </SaveInProgressIntro>
+          />
           <div className="omb-info--container vads-u-padding-left--0">
             <va-omb-info
               res-burden={30}

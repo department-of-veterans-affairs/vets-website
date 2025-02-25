@@ -12,14 +12,14 @@ export default function CustomTopContent() {
   useEffect(() => {
     const handleClose = () => setIsVisible(false);
 
-    const alertElement = document.querySelector('va-alert');
-    if (alertElement) {
-      alertElement.addEventListener('closeEvent', handleClose);
+    const alert = document.querySelector('va-alert');
+    if (alert) {
+      alert.addEventListener('closeEvent', handleClose);
     }
 
     return () => {
-      if (alertElement) {
-        alertElement.removeEventListener('closeEvent', handleClose);
+      if (alert) {
+        alert.removeEventListener('closeEvent', handleClose);
       }
     };
   }, []);
