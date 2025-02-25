@@ -93,14 +93,18 @@ describe('Redux - actions', () => {
 
     it('should call correct actions for claim submission failure', async () => {
       const mockDispatch = sinon.spy();
-      apiStub.resolves({ data: { message: 'success!' } });
+      apiStub.resolves({ claimId: '1234' });
 
       await submitMileageOnlyClaim('2024-05-26T16:40:45.781Z')(mockDispatch);
 
       expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_STARTED' })).to
         .be.true;
-      expect(mockDispatch.calledWithMatch({ type: 'SUBMIT_CLAIM_SUCCESS' })).to
-        .be.true;
+      expect(
+        mockDispatch.calledWithMatch({
+          type: 'SUBMIT_CLAIM_SUCCESS',
+          payload: { claimId: '1234' },
+        }),
+      ).to.be.true;
     });
   });
 });

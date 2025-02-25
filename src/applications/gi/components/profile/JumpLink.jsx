@@ -16,6 +16,12 @@ export default function JumpLink({
   const jumpLinkClicked = e => {
     e?.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
+    setTimeout(() => {
+      const sectionHeading = document.querySelector(`#${jumpToId} h2`);
+      if (sectionHeading) {
+        sectionHeading.focus();
+      }
+    }, 300);
   };
 
   const handleClick = e => {

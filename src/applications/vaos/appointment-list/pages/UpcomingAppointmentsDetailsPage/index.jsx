@@ -127,7 +127,8 @@ export default function UpcomingAppointmentsDetailsPage() {
   );
   if (appointmentDetailsStatus === FETCH_STATUS.failed && isBadAppointmentId) {
     return (
-      <PageLayout showBreadcrumbs showNeedHelp>
+      <PageLayout showNeedHelp>
+        <br />
         <div aria-atomic="true" aria-live="assertive">
           <InfoAlert
             status="error"
