@@ -99,4 +99,21 @@ describe('Introduction page', () => {
 
     expect(screen.getByText('We need to wait to file your claim')).to.exist;
   });
+
+  it('should show warning alert if appointment was >30 days ago', () => {
+    const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: mockAppt,
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(screen.getByText('Your appointment is older than 30 days')).to.exist;
+  });
 });
