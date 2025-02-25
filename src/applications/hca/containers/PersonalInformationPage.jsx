@@ -13,8 +13,7 @@ import GuestVerifiedInformation from '../components/VeteranInformation/GuestVeri
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';
 
-const PersonalInformationPage = props => {
-  const { location, route, router } = props;
+const PersonalInformationPage = ({ location, route, router }) => {
   const { pathname } = location;
   const { pageList } = route;
   const { formData, veteranFullName, veteranDateOfBirth } = useSelector(
