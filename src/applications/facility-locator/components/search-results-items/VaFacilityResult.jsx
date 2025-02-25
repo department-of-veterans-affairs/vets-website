@@ -70,7 +70,10 @@ const VaFacilityResult = ({
           showHealthConnectNumber={showHealthConnectNumber}
         />
         {isCemetery && (
-          <va-link href={website} text="Learn more about burial status" />
+          <Link to={`facility/${location.id}`}>
+            Learn more about burial status
+          </Link>
+          // <va-link href={website} text="Learn more about burial status" />
         )}
       </>
     </div>
