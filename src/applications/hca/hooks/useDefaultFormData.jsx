@@ -14,48 +14,42 @@ import { validateVeteranDob } from '../utils/validation';
  * for that data for proper submission.
  */
 export const useDefaultFormData = () => {
-  const { totalRating } = useSelector(state => state.disabilityRating);
-  const { data: formData } = useSelector(state => state.form);
-  const featureToggles = useSelector(selectFeatureToggles);
-  const { dob: veteranDob } = useSelector(selectProfile);
-  const { isLoggedIn } = useSelector(selectAuthStatus);
+  const stateData = useSelector(state => ({
+    formData: state.form.data,
+    featureToggles: selectFeatureToggles(state),
+    isLoggedIn: selectAuthStatus(state).isLoggedIn,
+    totalRating: parseInt(state.disabilityRating.totalRating, 10) || 0,
+    veteranDateOfBirth: validateVeteranDob(selectProfile(state).dob),
+  }));
   const dispatch = useDispatch();
 
-  const { veteranFullName } = formData;
-  const { isInsuranceV2Enabled, isRegOnlyEnabled } = featureToggles;
-
-  const setFormData = dataToSet => dispatch(setData(dataToSet));
+  const { veteranFullName } = stateData.formData;
 
   useEffect(
     () => {
+      const { isLoggedIn, featureToggles, formData, totalRating } = stateData;
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
-        'view:isRegOnlyEnabled': isRegOnlyEnabled,
-        'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
-        'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
+        'view:totalDisabilityRating': totalRating,
+        'view:isRegOnlyEnabled': featureToggles.isRegOnlyEnabled,
+        'view:isInsuranceV2Enabled': featureToggles.isInsuranceV2Enabled,
       };
       const userData = isLoggedIn
         ? {
             'view:veteranInformation': {
-              veteranDateOfBirth: validateVeteranDob(veteranDob),
+              veteranDateOfBirth: stateData.veteranDateOfBirth,
             },
           }
         : {};
 
-      setFormData({
-        ...formData,
-        ...userData,
-        ...defaultViewFields,
-      });
+      dispatch(
+        setData({
+          ...formData,
+          ...userData,
+          ...defaultViewFields,
+        }),
+      );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      isLoggedIn,
-      veteranDob,
-      veteranFullName,
-      isRegOnlyEnabled,
-      isInsuranceV2Enabled,
-      totalRating,
-    ],
+    [dispatch, stateData, veteranFullName],
   );
 };
