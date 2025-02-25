@@ -12,8 +12,9 @@ import UnverifiedAlert from '../mhv-signin-cta/components/messages/UnverifiedAle
 /**
  * MHV Signin CTA widget. This widget displays an alert if the user is not authenticated or verified.
  * Otherwise, it displays provided HTML content.
- * @property {HTMLElement} noAlertContent optional content to display if no alerts are shown
- * @property {String} signInServiceName the signin service name is available
+ * @property {string} linkText the CTA-link text
+ * @property {string} linkUrl the CTA-link
+ * @property {String} serviceName the signin service name, if available
  * @property {bool} userIsLoggedIn true if the user is logged in
  * @property {bool} userIsVerified true if the user is verified
  * @property {string} headingLevel the heading level
@@ -59,6 +60,8 @@ export const MhvSimpleSigninCallToAction = ({
 
 MhvSimpleSigninCallToAction.propTypes = {
   headingLevel: PropTypes.string,
+  linkText: PropTypes.string,
+  linkUrl: PropTypes.string,
   noAlertContent: PropTypes.instanceOf(HTMLElement),
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,
