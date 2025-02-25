@@ -4,7 +4,6 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import prefillTransformer from './prefill-transformer';
 
 import applicantInfoConfirmInfo from '../pages/applicantInfoConfirmInfo';
 import mailingAddress from '../pages/mailingAddress';
@@ -23,7 +22,6 @@ const formConfig = {
   trackingPrefix: 'memorials-1330m',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  prefillTransformer,
   dev: {
     showNavLinks: true,
     collapsibleNavLinks: true,
@@ -55,14 +53,19 @@ const formConfig = {
           title: 'Confirm the personal information we have on file for you',
           uiSchema: applicantInfoConfirmInfo.uiSchema,
           schema: applicantInfoConfirmInfo.schema,
-          // depends: formData => formContext.isLoggedIn,
+          // THIS IS WHERE I'M TRYING TO IMPLEMENT ISLOGGEDIN LOGIC
+          // THIS applicantConfirmPersonalInfo PAGE SHOULD ONLY SHOW WHEN
+          // THE USER IS LOGGED IN
+          appStateSelector: state => ({
+            isLoggedIn: state.user.login.currentlyLoggedIn,
+          }),
+          depends: formData => formData.isLoggedIn === true,
         },
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',
           title: 'Your relationship to the Veteran',
           uiSchema: applicantRelationToVet.uiSchema,
           schema: applicantRelationToVet.schema,
-          // depends: formData => formContext.isLoggedIn,
         },
         applicantRelationToVetOrg: {
           path: 'applicant-relation-to-vet-org',
@@ -70,7 +73,6 @@ const formConfig = {
           uiSchema: applicantRelationToVetOrg.uiSchema,
           schema: applicantRelationToVetOrg.schema,
           depends: formData =>
-            // formContext.isLoggedIn &&
             ['repOfCemetery', 'repOfFuneralHome'].includes(
               formData.relationToVetRadio,
             ),
@@ -80,9 +82,7 @@ const formConfig = {
           title: 'Your organization',
           uiSchema: applicantRelationToVetOrg2.uiSchema,
           schema: applicantRelationToVetOrg2.schema,
-          depends: formData =>
-            // formContext.isLoggedIn &&
-            formData.relationToVetRadio === 'repOfVSO',
+          depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
       },
     },
