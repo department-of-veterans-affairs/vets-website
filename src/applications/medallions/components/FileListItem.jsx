@@ -25,7 +25,6 @@ const FileListItem = ({ index, file, onReplace, onDelete, editMode, path }) => {
       }}
       uswds
       onVaChange={onChange}
-      value={file}
     />
   );
 };
