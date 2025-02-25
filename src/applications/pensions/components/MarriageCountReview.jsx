@@ -21,7 +21,7 @@ const MarriageCountReview = ({ data, editPage }) => {
           secondary
           class="edit-page float-right"
           onClick={editPage}
-          label={content.edit}
+          label={`${content.edit} ${content.title}`}
           text={content.edit}
         />
       </div>
