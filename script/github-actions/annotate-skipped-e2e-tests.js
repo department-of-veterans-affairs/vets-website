@@ -8,16 +8,11 @@ const path = require('path');
 
 const cypressSpecs = process.argv[2] || 'src';
 
-const APPS_NOT_ISOLATED = process.env.APPS_NOT_ISOLATED
-  ? JSON.parse(process.env.APPS_NOT_ISOLATED)
-  : [];
 const CHANGED_FILES = process.env.CHANGED_FILES
   ? process.env.CHANGED_FILES.split(' ')
   : [];
 
-const matchingFiles = CHANGED_FILES.filter(filePath =>
-  APPS_NOT_ISOLATED.some(app => filePath.includes(app)),
-);
+const matchingFiles = CHANGED_FILES;
 
 function getSpecFiles(dir) {
   let results = [];
