@@ -48,7 +48,7 @@ describe('Radiology Images List container', () => {
   it('displays the test name as an h1', () => {
     const screen = setup();
     const testName = screen.getByText(
-      `Images: ${initialState.mr.labsAndTests.labsAndTestsDetails.name}`,
+      `${initialState.mr.labsAndTests.labsAndTestsDetails.name}`,
       { exact: true, selector: 'h1' },
     );
     expect(testName).to.exist;
