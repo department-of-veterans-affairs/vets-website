@@ -62,6 +62,11 @@ const VAMCServiceAutosuggest = ({
     getServices();
   }, []);
 
+  // If the user has not typed a service at all, or types something that does not
+  // match any of the services, we'll search for "All VA health services" when the
+  // search button is clicked. This just prefills the input with that text so it won't
+  // be a confusing experience for the user.
+  // The searchInitiated variable is only used for this purpose so we reset it at the bottom
   useEffect(
     () => {
       const displayOptions = options?.map(service => service.toDisplay);
@@ -71,6 +76,8 @@ const VAMCServiceAutosuggest = ({
       if (searchInitiated && (typedValueHasNoMatch || !inputValue)) {
         setInputValue('All VA health services');
       }
+
+      setSearchInitiated(false);
     },
     [inputValue, options, searchInitiated],
   );
