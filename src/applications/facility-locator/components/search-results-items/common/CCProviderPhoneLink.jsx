@@ -19,7 +19,7 @@ const CCProviderPhoneLink = ({ location, query }) => {
 
   return (
     <div>
-      {renderPhoneNumber('Main number', null, phone, true, location)}
+      {renderPhoneNumber('Main number', null, phone, location)}
       <p>
         <strong>Telecommunications Relay Services (using TTY):</strong>{' '}
         <va-telephone tty contact="711" />
