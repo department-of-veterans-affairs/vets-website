@@ -567,14 +567,16 @@ describe('VAOS Page: AppointmentsPage', () => {
 
         await screen.findByRole('heading', { name: 'Appointments' });
 
-        expect(await screen.findByTestId('review-requests-and-referrals')).to
-          .exist;
+        waitFor(async () => {
+          expect(await screen.findByTestId('review-requests-and-referrals')).to
+            .exist;
 
-        expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
-          .exist;
+          expect(screen.queryByRole('link', { name: /Pending \(1\)/ })).not.to
+            .exist;
 
-        // Then it should display the referral task card
-        expect(await screen.findByTestId('referral-task-card')).to.exist;
+          // Then it should display the referral task card
+          expect(await screen.findByTestId('referral-task-card')).to.exist;
+        });
       });
     });
   });

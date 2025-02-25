@@ -21,7 +21,7 @@ export default function ReferralTaskCardWithReferral() {
   const id = params.get('id');
   const { data: referral, error, isLoading } = useGetReferralByIdQuery(id);
 
-  if (id && isLoading) {
+  if (id && isLoading && referral?.data) {
     return (
       <va-loading-indicator
         data-testid="loading-indicator"
@@ -31,7 +31,7 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  if (id && error) {
+  if (id && error && referral?.data) {
     return (
       <va-alert
         data-testid="referral-error"
