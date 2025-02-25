@@ -181,6 +181,7 @@ const FacilitiesMap = props => {
 
   const handleSearch = async () => {
     resetMapElements();
+
     const { currentQuery } = props;
     const { facilityType, serviceType, searchString } = currentQuery;
     const expandedRadius = facilityType === 'benefits' && !serviceType;
@@ -218,8 +219,7 @@ const FacilitiesMap = props => {
     const bounds = map.getBounds();
     recordEvent({
       event: 'fl-search',
-      'fl-search-fac-type': currentQuery
-      .facilityType,
+      'fl-search-fac-type': currentQuery.facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
 

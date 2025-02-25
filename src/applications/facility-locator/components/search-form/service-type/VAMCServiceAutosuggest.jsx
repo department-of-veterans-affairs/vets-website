@@ -7,8 +7,8 @@ import Autosuggest from '../autosuggest';
 
 const VAMCServiceAutosuggest = ({
   onChange,
-  setVamcAutoSuggestError,
-  vamcAutoSuggestError,
+  searchInitiated,
+  setSearchInitiated,
 }) => {
   const { serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
@@ -62,22 +62,33 @@ const VAMCServiceAutosuggest = ({
     getServices();
   }, []);
 
+  useEffect(
+    () => {
+      const displayOptions = options?.map(service => service.toDisplay);
+      const typedValueHasNoMatch =
+        inputValue?.length && !displayOptions.includes(inputValue);
+
+      if (searchInitiated && (typedValueHasNoMatch || !inputValue)) {
+        setInputValue('All VA health services');
+      }
+    },
+    [inputValue, options, searchInitiated],
+  );
+
   const handleClearClick = useCallback(
     () => {
       onChange({ serviceType: null });
       setInputValue(null);
       setSelectedService(null);
       setOptions(allVAMCServices);
-      setVamcAutoSuggestError(false);
     },
     [allVAMCServices, onChange],
   );
 
   const handleServiceTypeChange = e => {
-    setVamcAutoSuggestError(false);
     setInputValue(e.inputValue?.trimStart());
 
-    if (inputValue?.length >= 2) {
+    if (e.inputValue?.length >= 2) {
       getServices(e.inputValue);
     }
 
@@ -108,32 +119,27 @@ const VAMCServiceAutosuggest = ({
       }}
       handleOnSelect={handleServiceTypeSelection}
       initialSelectedItem={allServicesOption}
-      errorMessage="Start typing and select a service type."
+      errorMessage={null}
       inputId="vamc-services"
       inputValue={inputValue || ''}
       keepDataOnBlur
       /* eslint-disable prettier/prettier */
-      label={(
-        <>
-          <span>Service type</span>{' '}
-          <span className="form-required-span">(*Required)</span>
-        </>
-      )}
+      label="Service type"
       noItemsMessage="No results found. Search for a different service."
       onClearClick={handleClearClick}
       onInputValueChange={handleServiceTypeChange}
       options={options}
       selectedItem={selectedService}
       showDownCaret
-      showError={vamcAutoSuggestError}
+      showError={false}
       shouldShowNoResults
     />
   )
 };
 
 VAMCServiceAutosuggest.propTypes = {
-  setVamcAutoSuggestError: PropTypes.func,
-  vamcAutoSuggestError: PropTypes.bool,
+  searchInitiated: PropTypes.bool,
+  setSearchInitiated: PropTypes.func,
   onChange: PropTypes.func,
 }
 

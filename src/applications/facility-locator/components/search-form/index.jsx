@@ -26,8 +26,8 @@ const SearchForm = props => {
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
-  const [vamcAutoSuggestError, setVamcAutoSuggestError] = useState(false);
   const locationInputFieldRef = useRef(null);
+  const [searchInitiated, setSearchInitiated] = useState(false);
   const onlySpaces = str => /^\s+$/.test(str);
 
   const handleQueryChange = e => {
@@ -93,16 +93,6 @@ const SearchForm = props => {
       }
     }
 
-    if (
-      vamcAutoSuggestEnabled &&
-      facilityType === LocationType.HEALTH &&
-      !serviceType
-    ) {
-      setVamcAutoSuggestError(true);
-      focusElement('#vamc-services-autosuggest-container');
-      return;
-    }
-
     if (!searchString) {
       updateReduxState('searchString');
       focusElement('#street-city-state-zip');
@@ -131,6 +121,7 @@ const SearchForm = props => {
       selectMobileMapPin(null);
     }
 
+    setSearchInitiated(true);
     onSubmit();
   };
 
@@ -242,10 +233,10 @@ const SearchForm = props => {
               currentQuery={currentQuery}
               handleServiceTypeChange={handleServiceTypeChange}
               onChange={onChange}
+              searchInitiated={searchInitiated}
               selectedServiceType={selectedServiceType}
-              setVamcAutoSuggestError={setVamcAutoSuggestError}
+              setSearchInitiated={setSearchInitiated}
               vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
-              vamcAutoSuggestError={vamcAutoSuggestError}
             />
             <input id="facility-search" type="submit" value="Search" />
           </div>

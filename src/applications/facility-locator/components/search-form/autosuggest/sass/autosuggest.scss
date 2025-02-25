@@ -58,6 +58,10 @@ div[id$="-autosuggest-container"] {
         width: 418px;
       }
 
+      @media (min-width: $large-screen) {
+        width: 431px;
+      }
+
       .dropdown-option {
         z-index: 1011;
         border: 2px solid var(--vads-color-white);
@@ -154,6 +158,11 @@ div#street-city-state-zip-autosuggest-container {
   @media (min-width: $small-desktop-screen) {
     max-width: 418px;
     width: 418px;
+  }
+
+  @media (min-width: $large-screen) {
+    max-width: 431px;
+    width: 431px;
   }
 
   input {

@@ -15,9 +15,9 @@ const ServiceType = ({
   currentQuery,
   handleServiceTypeChange,
   onChange,
-  setVamcAutoSuggestError,
+  searchInitiated,
+  setSearchInitiated,
   vamcAutoSuggestEnabled,
-  vamcAutoSuggestError,
 }) => {
   const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
 
@@ -26,8 +26,8 @@ const ServiceType = ({
     return (
       <VAMCServiceAutosuggest
         onChange={onChange}
-        setVamcAutoSuggestError={setVamcAutoSuggestError}
-        vamcAutoSuggestError={vamcAutoSuggestError}
+        searchInitiated={searchInitiated}
+        setSearchInitiated={setSearchInitiated}
       />
     );
   }
@@ -97,10 +97,10 @@ const ServiceType = ({
 ServiceType.propTypes = {
   currentQuery: CurrentQueryTypes,
   handleServiceTypeChange: PropTypes.func,
+  searchInitiated: PropTypes.bool,
   selectedServiceType: PropTypes.string,
-  setVamcAutoSuggestError: PropTypes.func,
+  setSearchInitiated: PropTypes.func,
   vamcAutoSuggestEnabled: PropTypes.bool,
-  vamcAutoSuggestError: PropTypes.bool,
   onChange: PropTypes.func,
 };
 
