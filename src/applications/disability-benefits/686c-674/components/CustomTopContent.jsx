@@ -1,0 +1,43 @@
+import React, { useState, useEffect } from 'react';
+import { V2_LAUNCH_DATE } from '../config/constants';
+
+export default function CustomTopContent() {
+  const hideAlert =
+    window.location.pathname.includes('/introduction') ||
+    window.location.pathname.includes('/review-and-submit') ||
+    window.location.pathname.includes('/form-saved');
+
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const handleClose = () => setIsVisible(false);
+
+    const alertElement = document.querySelector('va-alert');
+    if (alertElement) {
+      alertElement.addEventListener('closeEvent', handleClose);
+    }
+
+    return () => {
+      if (alertElement) {
+        alertElement.removeEventListener('closeEvent', handleClose);
+      }
+    };
+  }, []);
+
+  return hideAlert || !isVisible ? null : (
+    <div className="vads-u-margin-bottom--4">
+      <va-alert
+        slim
+        closeable
+        visible={isVisible}
+        close-btn-aria-label="Close notification"
+      >
+        <p className="vads-u-margin-y--0p5">
+          This form will be undergoing maintenance on {V2_LAUNCH_DATE}. During
+          this time, you may be redirected to the start of the form to review
+          your information before submitting.
+        </p>
+      </va-alert>
+    </div>
+  );
+}
