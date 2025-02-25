@@ -1,4 +1,3 @@
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as Sentry from '@sentry/browser';
 import { pdfTransform } from '../utilities/pdfTransform';
@@ -10,11 +9,13 @@ export const submitPOARequest = async formData => {
   const apiSettings = {
     mode: 'cors',
     method: 'POST',
+    credentials: 'include',
     headers: {
       'X-Key-Inflection': 'camel',
       'Sec-Fetch-Mode': 'cors',
       'Content-Type': 'application/json',
       'Source-App-Name': manifest.entryName,
+      'X-CSRF-Token': localStorage.getItem('csrfToken'),
     },
     body: JSON.stringify(transformedFormData),
   };
@@ -24,7 +25,7 @@ export const submitPOARequest = async formData => {
   }/representation_management/v0/power_of_attorney_requests`;
 
   try {
-    const response = await apiRequest(requestUrl, apiSettings);
+    const response = await fetch(requestUrl, apiSettings);
     const parsedResponse = await response.json();
 
     if (!response.ok) {
@@ -37,7 +38,6 @@ export const submitPOARequest = async formData => {
     return parsedResponse;
   } catch (error) {
     Sentry.captureException(new Error(`Submit POA Request Error: ${error}`));
-
     throw error;
   }
 };
