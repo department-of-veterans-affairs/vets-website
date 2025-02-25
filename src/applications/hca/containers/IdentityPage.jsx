@@ -27,46 +27,44 @@ const IdentityPage = ({ location, route, router }) => {
   const dispatch = useDispatch();
 
   const handlers = useMemo(
-    () => {
-      return {
-        onChange: data => setLocalData(data),
-        onSubmit: data => {
-          recordEvent({ event: 'hca-continue-application' });
-          dispatch(fetchEnrollmentStatus(data.formData));
-        },
-        goToNextPage: () => {
-          const { pathname } = location;
-          const { pageList } = route;
-          router.push(getNextPagePath(pageList, stateData.formData, pathname));
-        },
-        triggerPrefill: () => {
-          const fullName = {
-            ...stateData.formData.veteranFullName,
-            first: localData.firstName,
-            middle: localData.middleName,
-            last: localData.lastName,
-            suffix: localData.suffix,
-          };
-          const {
-            dob: veteranDateOfBirth,
-            ssn: veteranSocialSecurityNumber,
-          } = localData;
-          dispatch(
-            setData({
-              ...stateData.formData,
+    () => ({
+      onChange: data => setLocalData(data),
+      onSubmit: data => {
+        recordEvent({ event: 'hca-continue-application' });
+        dispatch(fetchEnrollmentStatus(data.formData));
+      },
+      goToNextPage: () => {
+        const { pathname } = location;
+        const { pageList } = route;
+        router.push(getNextPagePath(pageList, stateData.formData, pathname));
+      },
+      triggerPrefill: () => {
+        const fullName = {
+          ...stateData.formData.veteranFullName,
+          first: localData.firstName,
+          middle: localData.middleName,
+          last: localData.lastName,
+          suffix: localData.suffix,
+        };
+        const {
+          dob: veteranDateOfBirth,
+          ssn: veteranSocialSecurityNumber,
+        } = localData;
+        dispatch(
+          setData({
+            ...stateData.formData,
+            veteranDateOfBirth,
+            'view:isUserInMvi': stateData.isUserInMPI,
+            'view:veteranInformation': {
+              veteranFullName: fullName,
               veteranDateOfBirth,
-              'view:isUserInMvi': stateData.isUserInMPI,
-              'view:veteranInformation': {
-                veteranFullName: fullName,
-                veteranDateOfBirth,
-                veteranSocialSecurityNumber,
-              },
-            }),
-          );
-        },
-        showSignInModal: () => dispatch(toggleLoginModal(true)),
-      };
-    },
+              veteranSocialSecurityNumber,
+            },
+          }),
+        );
+      },
+      showSignInModal: () => dispatch(toggleLoginModal(true)),
+    }),
     [
       dispatch,
       localData,
