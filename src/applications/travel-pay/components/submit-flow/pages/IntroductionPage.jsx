@@ -5,12 +5,14 @@ import { useSelector } from 'react-redux';
 import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
-import { isPastAppt } from '../../../util/dates';
+import { isPastAppt, getDaysLeft } from '../../../util/dates';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
 
 const IntroductionPage = ({ onStart }) => {
   const { data, error, isLoading } = useSelector(selectAppointment);
+  const daysLeft = getDaysLeft(data?.localStartTime);
+  const isOutOfBounds = daysLeft === 0 && !data.travelPayClaim?.claim;
 
   return (
     <div>
@@ -24,7 +26,11 @@ const IntroductionPage = ({ onStart }) => {
       )}
       {error && <AppointmentErrorAlert />}
       {data && (
-        <AppointmentInfoText appointment={data} isPast={isPastAppt(data)} />
+        <AppointmentInfoText
+          appointment={data}
+          isPast={isPastAppt(data)}
+          isOutOfBounds={isOutOfBounds}
+        />
       )}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
@@ -46,6 +52,7 @@ const IntroductionPage = ({ onStart }) => {
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
           {data &&
+            !isOutOfBounds &&
             isPastAppt(data) && (
               <va-link-action
                 onClick={e => onStart(e)}
