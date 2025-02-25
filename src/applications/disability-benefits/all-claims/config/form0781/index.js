@@ -12,6 +12,8 @@ import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
 import * as reassignmentDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/reassignmentDescriptionPage';
 import * as unlistedDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/unlistedDescriptionPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
+import * as supportingEvidencePage from '../../pages/form0781/supportingEvidencePage';
+
 import {
   showForm0781Pages,
   showManualUpload0781Page,
@@ -36,6 +38,7 @@ import {
   unlistedPageTitle,
   behaviorSummaryPageTitle,
 } from '../../content/form0781/behaviorListPages';
+import { supportingEvidencePageTitle } from '../../content/form0781/supportingEvidencePage';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
 
@@ -123,6 +126,13 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorSummaryPage(formData),
     uiSchema: behaviorSummaryPage.uiSchema,
     schema: behaviorSummaryPage.schema,
+  },
+  supportingEvidencePage: {
+    title: supportingEvidencePageTitle,
+    path: 'mental-health-form-0781/supporting-evidence',
+    depends: formData => showBehaviorSummaryPage(formData),
+    uiSchema: supportingEvidencePage.uiSchema,
+    schema: supportingEvidencePage.schema,
   },
   // Conclusion Pages
   consentPage: {
