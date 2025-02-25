@@ -5,11 +5,17 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
+import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { parse } from 'date-fns';
+import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ResponseInboxPage from '../../containers/ResponseInboxPage';
 import { mockInquiryResponse } from '../../utils/mockData';
 import { convertDateForInquirySubheader } from '../../config/helpers';
+import * as FileUploadModule from '../../components/FileUpload';
+import * as constants from '../../constants';
+import { createMockStore, mockRouterProps } from '../common';
 
 describe('ResponseInboxPage', () => {
   // TODO: This check for mock data use needs to be replaced.
@@ -26,11 +32,17 @@ describe('ResponseInboxPage', () => {
   let props;
   let fetchStub;
   let environmentStub;
+  let apiRequestStub;
+  let FileUploadStub;
 
   beforeEach(() => {
     fetchStub = sinon.stub(global, 'fetch');
+    apiRequestStub = sinon.stub(apiModule, 'apiRequest');
     environmentStub = sinon.stub(environment, 'API_URL');
     environmentStub.returns(HOST_FOR_TST_MOCK_DATA);
+    FileUploadStub = sinon
+      .stub(FileUploadModule, 'default')
+      .callsFake(() => <div>FileUpload</div>);
 
     props = {
       data: {},
@@ -63,10 +75,13 @@ describe('ResponseInboxPage', () => {
   });
 
   afterEach(() => {
+    apiRequestStub.restore();
     fetchStub.restore();
     environmentStub.restore();
     store.clearActions();
+    FileUploadStub.restore();
     window.location = originalWindowLocation;
+    localStorage.removeItem('askVAFiles');
   });
 
   // TODO: Can the component be driven by the router or component state
@@ -104,6 +119,18 @@ describe('ResponseInboxPage', () => {
     updateStore(customState);
 
     return mount(
+      <Provider store={store}>
+        <MemoryRouter>
+          <ResponseInboxPage {...props} />
+        </MemoryRouter>
+      </Provider>,
+    );
+  };
+
+  const renderWithStore = (customState = {}) => {
+    updateStore(customState);
+
+    return render(
       <Provider store={store}>
         <MemoryRouter>
           <ResponseInboxPage {...props} />
@@ -160,13 +187,9 @@ describe('ResponseInboxPage', () => {
 
   it('should render error state', async () => {
     overridePathname('/contact-us/ask-va/introduction/111');
+    apiRequestStub.rejects();
 
     const wrapper = mountWithStore();
-
-    fetchStub.resolves({
-      ok: false,
-      json: () => Promise.reject(new Error('API Error')),
-    });
 
     await new Promise(resolve => setTimeout(resolve, 0));
     wrapper.update();
@@ -177,18 +200,11 @@ describe('ResponseInboxPage', () => {
 
   it('should render with data using API response', async () => {
     overridePathname('/contact-us/ask-va/introduction/222');
-    fetchStub.resolves({
-      ok: true,
-      headers: {
-        get: param => (param === 'Content-Type' ? `application/json` : ''),
-      },
-      json: () => Promise.resolve(mockInquiryResponse),
-    });
+    apiRequestStub.resolves(mockInquiryResponse);
 
     const wrapper = mountWithStore();
 
     await new Promise(resolve => setTimeout(resolve, 0));
-    // await new Promise(resolve => setImmediate(resolve));
     wrapper.update();
 
     expect(wrapper.find('h2').length).to.be.greaterThan(0);
@@ -229,19 +245,11 @@ describe('ResponseInboxPage', () => {
   it('should render with data using mockApiData', async () => {
     overridePathname('/contact-us/ask-va/introduction/333');
     environmentStub.returns(HOST_FOR_APP_MOCK_DATA); // TODO: Revisit. joehall-tw
-
-    fetchStub.resolves({
-      ok: true,
-      headers: {
-        get: param => (param === 'Content-Type' ? `application/json` : ''),
-      },
-      json: () => Promise.resolve(mockInquiryResponse),
-    });
+    apiRequestStub.resolves(mockInquiryResponse);
 
     const wrapper = mountWithStore();
 
     await new Promise(resolve => setTimeout(resolve, 0));
-    // await new Promise(resolve => setImmediate(resolve));
     wrapper.update();
 
     expect(wrapper.find('h2').length).to.be.greaterThan(0);
@@ -275,71 +283,222 @@ describe('ResponseInboxPage', () => {
     wrapper.unmount();
   });
 
-  // it.skip('should render with inquiries', async () => {
-  //   overridePathname('/contact-us/ask-va/introduction/');
+  it('should render with inquiries', async () => {
+    overridePathname('/user/dashboard/A-20241219-308852');
+    apiRequestStub.resolves(mockInquiryResponse);
 
-  //   console.log('-------------------------');
-  //   console.log('--- RENDERS WITH INQs ---');
-  //   console.log('-------------------------');
+    const { container, getByRole } = renderWithStore();
 
-  //   fetchStub.resolves({
-  //     ok: true,
-  //     // json: () => Promise.resolve({ data: mockInquiryResponse.data }),
-  //     json: () => Promise.resolve(mockInquiries),
-  //   });
+    await waitFor(() => {
+      getByRole('heading', { name: 'Question details', level: 1 });
+      getByRole('heading', { name: 'Your conversation', level: 2 });
+      getByRole('heading', { name: 'Send a reply', level: 2 });
+      expect(
+        container.querySelector('va-accordion-item[header="Your question"]'),
+      ).to.exist;
+    });
+  });
 
-  //   const wrapper = mountWithStore();
+  it('should render with inquiries using mockTestingFlagForAPI', async () => {
+    const mockTestingFlagStub = sinon
+      .stub(constants, 'getMockTestingFlagforAPI')
+      .returns(true);
+    overridePathname('/user/dashboard/A-20241219-308852');
+    apiRequestStub.resolves(mockInquiryResponse);
 
-  //   await new Promise(resolve => setTimeout(resolve, 0));
-  //   // await new Promise(resolve => setImmediate(resolve));
-  //   wrapper.update();
+    const { container, getByRole } = renderWithStore();
 
-  //   console.log(wrapper.debug());
-  //   console.log('-------------------');
+    await waitFor(() => {
+      getByRole('heading', { name: 'Question details', level: 1 });
+      getByRole('heading', { name: 'Your conversation', level: 2 });
+      getByRole('heading', { name: 'Send a reply', level: 2 });
+      expect(
+        container.querySelector('va-accordion-item[header="Your question"]'),
+      ).to.exist;
+      mockTestingFlagStub.restore();
+    });
+  });
 
-  //   expect(wrapper.find('h2').text()).to.equal('Your questions');
-  //   // expect(wrapper.find('va-accordion-item').length).to.equal(
-  //   //   mockInquiryResponse.data.attributes.correspondences.data.length + 1,
-  //   // );
-  //   wrapper.unmount();
-  // });
+  it('should be able to download an attachment', async () => {
+    overridePathname('/user/dashboard/A-20241219-308852');
+    apiRequestStub.callsFake(url => {
+      if (url.includes('download')) {
+        return Promise.resolve({
+          ok: true,
+          headers: {
+            get: param => (param === 'Content-Type' ? `application/json` : ''),
+          },
+          json: () =>
+            Promise.resolve({
+              data: {
+                attributes: {
+                  fileName: 'test-upload-pdf.pdf',
+                  fileContent: 'test-file-content',
+                },
+              },
+            }),
+        });
+      }
+      return Promise.resolve(mockInquiryResponse);
+    });
+    const createElementSpy = sinon.spy(document, 'createElement');
 
-  // TODO: I'm not 100% confident that this is a great test. Revist?
-  //       Seems like postApiData in component still isn't triggered.
-  //       joehall-tw
-  it('should handle form submission', async () => {
-    overridePathname('/contact-us/ask-va/introduction/444');
+    const { container, findByText } = renderWithStore();
 
-    fetchStub.resolves({
-      ok: true,
-      headers: {
-        get: param => (param === 'Content-Type' ? `application/json` : ''),
-      },
-      json: () => Promise.resolve(mockInquiryResponse),
+    await findByText('Your conversation');
+
+    userEvent.click(
+      container.querySelector(
+        'va-accordion-item[subheader="Jan. 5, 2025 at 9:56 p.m. E.T"]',
+      ),
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector('va-link[text="test-upload-pdf.pdf"]')).to
+        .exist;
     });
 
-    const wrapper = mountWithStore();
+    userEvent.click(
+      container.querySelector('va-link[text="test-upload-pdf.pdf"]'),
+    );
 
-    await new Promise(resolve => setTimeout(resolve, 0));
-    // await new Promise(resolve => setImmediate(resolve));
-    wrapper.update();
-
-    fetchStub.restore();
-    fetchStub.resolves({
-      ok: true,
-      headers: {
-        get: param => (param === 'Content-Type' ? `application/json` : ''),
-      },
-      json: () => Promise.resolve({}),
+    await waitFor(() => {
+      // Download link manually created and removed from DOM
+      expect(createElementSpy.called).to.be.true;
     });
 
-    wrapper.find('va-textarea').simulate('change', {
-      target: { value: 'Test reply' },
+    createElementSpy.restore();
+  });
+
+  it('should be able to download an attachment using mockTestingFlagForAPI', async () => {
+    overridePathname('/user/dashboard/A-20241219-308852');
+    const mockTestingFlagStub = sinon
+      .stub(constants, 'getMockTestingFlagforAPI')
+      .returns(true);
+    const createElementSpy = sinon.spy(document, 'createElement');
+
+    const { container, findByText } = renderWithStore();
+
+    await findByText('Your conversation');
+
+    userEvent.click(
+      container.querySelector(
+        'va-accordion-item[subheader="Jan. 5, 2025 at 9:56 p.m. E.T"]',
+      ),
+    );
+
+    await waitFor(() => {
+      expect(container.querySelector('va-link[text="test-upload-pdf.pdf"]')).to
+        .exist;
     });
 
-    wrapper.find('va-button[aria-label="Submit reply"]').simulate('click');
+    userEvent.click(
+      container.querySelector('va-link[text="test-upload-pdf.pdf"]'),
+    );
 
-    expect(fetchStub.called).to.be.true;
-    wrapper.unmount();
+    await waitFor(() => {
+      // Download link manually created and removed from DOM
+      expect(createElementSpy.called).to.be.true;
+    });
+
+    createElementSpy.restore();
+    mockTestingFlagStub.restore();
+  });
+
+  it('should be able to type a reply and click send', async () => {
+    overridePathname('/user/dashboard/A-20241219-308852');
+    apiRequestStub.resolves(mockInquiryResponse);
+    const createElementSpy = sinon.spy(document, 'createElement');
+
+    const testStore = createMockStore();
+    const pushSpy = sinon.spy();
+
+    const { container, findByText } = render(
+      <Provider store={testStore}>
+        <ResponseInboxPage
+          {...props}
+          router={{
+            ...mockRouterProps,
+            push: pushSpy,
+          }}
+        />
+      </Provider>,
+    );
+
+    await findByText('Send a reply');
+    const input = container.querySelector('va-textarea');
+    input.value = 'Test reply';
+    const event = new CustomEvent('input', {
+      bubbles: true,
+      detail: { value: 'Test reply' },
+    });
+
+    input.dispatchEvent(event);
+
+    await waitFor(() => {
+      expect(container.querySelector('va-textarea').value).to.equal(
+        'Test reply',
+      );
+    });
+
+    userEvent.click(
+      container.querySelector('va-button[aria-label="Submit reply"]'),
+    );
+
+    await waitFor(() => {
+      expect(pushSpy.firstCall.args[0]).to.equal('/response-sent');
+    });
+
+    createElementSpy.restore();
+  });
+
+  it('should be able to type a reply and click send using getMockTestingFlagforAPI', async () => {
+    overridePathname('/user/dashboard/A-20241219-308852');
+    const mockTestingFlagStub = sinon
+      .stub(constants, 'getMockTestingFlagforAPI')
+      .returns(true);
+    const createElementSpy = sinon.spy(document, 'createElement');
+
+    const testStore = createMockStore();
+    const pushSpy = sinon.spy();
+
+    const { container, findByText } = render(
+      <Provider store={testStore}>
+        <ResponseInboxPage
+          {...props}
+          router={{
+            ...mockRouterProps,
+            push: pushSpy,
+          }}
+        />
+      </Provider>,
+    );
+
+    await findByText('Send a reply');
+    const input = container.querySelector('va-textarea');
+    input.value = 'Test reply';
+    const event = new CustomEvent('input', {
+      bubbles: true,
+      detail: { value: 'Test reply' },
+    });
+
+    input.dispatchEvent(event);
+
+    await waitFor(() => {
+      expect(container.querySelector('va-textarea').value).to.equal(
+        'Test reply',
+      );
+    });
+
+    userEvent.click(
+      container.querySelector('va-button[aria-label="Submit reply"]'),
+    );
+
+    await waitFor(() => {
+      expect(pushSpy.firstCall.args[0]).to.equal('/response-sent');
+    });
+
+    createElementSpy.restore();
+    mockTestingFlagStub.restore();
   });
 });

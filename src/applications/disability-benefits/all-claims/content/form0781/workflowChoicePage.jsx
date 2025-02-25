@@ -18,7 +18,9 @@ const conditionSelections = formData => {
       <p>You selected these new conditions for your disability claim:</p>
       <ul>
         {conditions.map((condition, index) => (
-          <li key={index}>{condition}</li>
+          <li key={index}>
+            <strong>{condition}</strong>
+          </li>
         ))}
       </ul>
     </div>
@@ -36,9 +38,9 @@ export const workflowChoicePageDescription = formData => {
         claim (VA Form 21-0781).
       </p>
       <p>
-        This additional form is optional. In this additional form, we ask you
-        about the traumatic events you experienced and any behavioral changes
-        that you experienced afterwards.
+        <strong>This additional form is optional.</strong> In this form, we ask
+        you about the traumatic events you experienced and any behavioral
+        changes that you experienced afterwards.
       </p>
       <p>
         We encourage you to complete this form if it applies to you. The
@@ -151,3 +153,35 @@ export const traumaticEventsExamples = (
     </va-accordion-item>
   </va-accordion>
 );
+
+export const mstAlert = () => {
+  return (
+    <>
+      <va-alert-expandable
+        status="info"
+        trigger="Learn more about treatment for military sexual trauma"
+      >
+        <p>
+          If you experienced military sexual trauma (MST), we provide treatment
+          for any physical or mental health conditions related to your
+          experiences.
+        </p>
+        <br />
+        <p>
+          You don’t need to file a disability claim or have a disability rating
+          to get care. These services are available to Veterans regardless of
+          discharge status. You may be able to receive MST-related health care
+          even if you’re not eligible for other VA health care.
+        </p>
+        <br />
+        <p>
+          <va-link
+            external
+            href="https://www.va.gov/health-care/health-needs-conditions/military-sexual-trauma/"
+            text="Learn more about MST-related benefits and services"
+          />
+        </p>
+      </va-alert-expandable>
+    </>
+  );
+};
