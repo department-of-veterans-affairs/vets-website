@@ -83,10 +83,10 @@ export const getCompareCalculatorState = (
   };
 };
 
-export const updateUrlParams = (facilityCodes, version, giCtCollab) => {
+export const updateUrlParams = (facilityCodes, version) => {
   return version
     ? appendQuery(
-        `${giCtCollab ? 'schools-and-employers' : ''}/compare/`,
+        '/compare/',
         {
           facilities: facilityCodes.join(','),
           version,
@@ -94,7 +94,7 @@ export const updateUrlParams = (facilityCodes, version, giCtCollab) => {
         { encodeComponents: false },
       )
     : appendQuery(
-        `${giCtCollab ? 'schools-and-employers' : ''}/compare/`,
+        '/compare/',
         {
           facilities: facilityCodes.join(','),
         },

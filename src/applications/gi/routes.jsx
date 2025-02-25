@@ -28,7 +28,7 @@ const BuildRoutes = () => {
 
   return (
     <>
-      { isUpdatedGi ? (
+      {isUpdatedGi && (
         <NewGiApp>
           <Switch>
             <Route exact path="/">
@@ -39,7 +39,8 @@ const BuildRoutes = () => {
             </Route>
           </Switch>
         </NewGiApp>
-      ) : giCtCollab ? (
+      )}
+      {giCtCollab && (
         <Switch>
           <Route exact path="/">
             <NewGiApp>
@@ -51,6 +52,10 @@ const BuildRoutes = () => {
               <Redirect
                 from="/profile/:facilityCode"
                 to="/institution/:facilityCode"
+              />
+              <Redirect
+                from="/institution/:facilityCode"
+                to="/schools-and-employers/institution/:facilityCode"
               />
               {toggleGiProgramsFlag && (
                 <Route
@@ -67,12 +72,7 @@ const BuildRoutes = () => {
                 render={({ match }) => <ComparePage match={match} />}
               />
               <Route
-                exact
                 path="/schools-and-employers"
-                render={({ match }) => <SearchPage match={match} />}
-              />
-              <Route
-                path="/schools-and-employers/"
                 render={({ match }) => <SearchPage match={match} />}
               />
               {lcToggleValue && (
@@ -116,72 +116,61 @@ const BuildRoutes = () => {
             </Switch>
           </GiBillApp>
         </Switch>
-      ) : (
-        <GiBillApp>
-          <Switch>
-            <Redirect
-              from="/profile/:facilityCode"
-              to="/institution/:facilityCode"
-            />
-            {toggleGiProgramsFlag && (
-              <Route
-                path="/institution/:facilityCode/:programType"
-                render={({ match }) => <ProgramsList match={match} />}
-              />
-            )}
-            <Route
-              path="/institution/:facilityCode"
-              render={({ match }) => <ProfilePage match={match} />}
-            />
-            {lcToggleValue && (
-              <Route
-                key="lc-search"
-                exact
-                path="/lc-search"
-                render={({ match }) => (
-                  <LicenseCertificationSearchPage
-                    match={match}
-                    flag="singleFetch"
-                  />
-                )}
-              />
-            )}
-            {lcToggleValue && (
-              <Route
-                key="lc-search-results"
-                exact
-                path="/lc-search/results"
-                render={({ match }) => (
-                  <LicenseCertificationSearchResults
-                    match={match}
-                    flag="singleFetch"
-                  />
-                )}
-              />
-            )}
-            {lcToggleValue && (
-              <Route
-                key="lc-search-result"
-                path="/lc-search/results/:id"
-                component={LicenseCertificationSearchResult}
-              />
-            )}
-            <Route
-              path="/national-exams/:examId"
-              component={NationalExamDetails}
-            />
-            <Route path="/national-exams" component={NationalExamsList} />
-            <Route
-              path="/compare"
-              render={({ match }) => <ComparePage match={match} />}
-            />
-            <Route
-              path="/"
-              render={({ match }) => <SearchPage match={match} />}
-            />
-          </Switch>
-        </GiBillApp>
       )}
+      {!giCtCollab &&
+        !isUpdatedGi && (
+          <GiBillApp>
+            <Switch>
+              <Redirect
+                from="/profile/:facilityCode"
+                to="/institution/:facilityCode"
+              />
+              {toggleGiProgramsFlag && (
+                <Route
+                  path="/institution/:facilityCode/:programType"
+                  render={({ match }) => <ProgramsList match={match} />}
+                />
+              )}
+              <Route
+                path="/institution/:facilityCode"
+                render={({ match }) => <ProfilePage match={match} />}
+              />
+              {lcToggleValue && (
+                <Route
+                  exact
+                  path="/licenses-certifications-and-prep-courses"
+                  component={LicenseCertificationSearchPage}
+                />
+              )}
+              {lcToggleValue && (
+                <Route
+                  exact
+                  path="/licenses-certifications-and-prep-courses/results"
+                  component={LicenseCertificationSearchResults}
+                />
+              )}
+              {lcToggleValue && (
+                <Route
+                  path="/licenses-certifications-and-prep-courses/results/:id/:name"
+                  component={LicenseCertificationSearchResult}
+                />
+              )}
+              <Route
+                path="/national-exams/:examId"
+                component={NationalExamDetails}
+              />
+              <Route path="/national-exams" component={NationalExamsList} />
+              <Route
+                path="/compare"
+                render={({ match }) => <ComparePage match={match} />}
+              />
+              <Route
+                path="/"
+                render={({ match }) => <SearchPage match={match} />}
+              />
+            </Switch>
+          </GiBillApp>
+        )}
     </>
   );
 };
