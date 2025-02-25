@@ -17,7 +17,6 @@ import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionError
 
 import Breadcrumbs from '../components/Breadcrumbs';
 import { selectAppointment } from '../redux/selectors';
-import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
 
 const SubmitFlowWrapper = () => {
@@ -169,13 +168,6 @@ const SubmitFlowWrapper = () => {
           {!isUnsupportedClaimType &&
             !submissionError &&
             pageList[pageIndex].component}
-          <div className="vads-u-margin-top--4">
-            <va-need-help>
-              <div slot="content">
-                <HelpTextManage />
-              </div>
-            </va-need-help>
-          </div>
         </div>
       </article>
     </Element>
