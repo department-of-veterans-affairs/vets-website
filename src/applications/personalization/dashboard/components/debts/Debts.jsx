@@ -9,8 +9,20 @@ import {
 } from '~/applications/personalization/dashboard/actions/debts';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
-import GenericDebtCard from './GenericDebtCard';
+import DebtsCard from './DebtsCard';
 import CopaysCard from './CopaysCard';
+import GenericDebtCard from './GenericDebtCard';
+
+const NoOutstandingDebtsText = () => {
+  return (
+    <p
+      className="vads-u-margin-bottom--2p5 vads-u-margin-top--0"
+      data-testid="no-outstanding-debts-text"
+    >
+      You have no overpayment debts or copays to show.
+    </p>
+  );
+};
 
 const OutstandingDebtsError = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -60,14 +72,22 @@ const BenefitPaymentsAndDebt = ({
   copays,
   hasDebtError,
   hasCopayError,
+  getDebts,
   getCopays,
   shouldShowLoadingIndicator,
 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
+
   useEffect(
     () => {
+      if (!showGenericDebtCard) {
+        getDebts();
+      }
+
       getCopays();
     },
-    [getCopays],
+    [getDebts, getCopays, showGenericDebtCard],
   );
 
   const debtsCount = debts?.length || 0;
@@ -87,6 +107,10 @@ const BenefitPaymentsAndDebt = ({
     );
   }
 
+  const hasNoOutstandingDebts = () => {
+    return !hasDebtError && !hasCopayError && debtsCount < 1 && copaysCount < 1;
+  };
+
   return (
     <div
       className="health-care-wrapper vads-u-margin-top--6 vads-u-margin-bottom-3"
@@ -94,7 +118,7 @@ const BenefitPaymentsAndDebt = ({
     >
       <h2>Outstanding debts</h2>
       <div className="vads-l-row">
-        {hasCopayError && (
+        {(hasCopayError || hasDebtError) && (
           <>
             <DashboardWidgetWrapper>
               <OutstandingDebtsError />
@@ -104,8 +128,19 @@ const BenefitPaymentsAndDebt = ({
             </DashboardWidgetWrapper>
           </>
         )}
+        {hasNoOutstandingDebts() && (
+          <>
+            <DashboardWidgetWrapper>
+              <NoOutstandingDebtsText />
+            </DashboardWidgetWrapper>
+          </>
+        )}
         <DashboardWidgetWrapper>
-          <GenericDebtCard />
+          {showGenericDebtCard ? (
+            <GenericDebtCard />
+          ) : (
+            <DebtsCard debts={debts} />
+          )}
         </DashboardWidgetWrapper>
         {copaysCount > 0 && (
           <>
