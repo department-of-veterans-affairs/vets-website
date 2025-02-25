@@ -22,7 +22,7 @@ describe('App component', () => {
       },
       profile: {
         loa: {
-          current: 1,
+          current: null,
         },
       },
     },

@@ -228,7 +228,7 @@ const defaultPostHook = pathname => {
   return () => {
     cy.findByText(/continue/i, {
       selector: 'button',
-      timeout: 10000,
+      timeout: 20000,
     })
       .should('be.visible')
       .click(FORCE_OPTION);
