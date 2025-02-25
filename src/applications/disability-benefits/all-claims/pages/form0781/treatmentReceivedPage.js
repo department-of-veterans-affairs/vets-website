@@ -35,7 +35,7 @@ export const uiSchema = {
     required: false,
   }),
   treatmentReceivedNonVaProvider: checkboxGroupUI({
-    title: TREATMENT_RECEIVED_SUBTITLES.nonVA,
+    title: TREATMENT_RECEIVED_SUBTITLES.nonVa,
     labelHeaderLevel: '4',
     labels: {
       ...TREATMENT_RECEIVED_NON_VA,
