@@ -4,9 +4,9 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import { uploadStore } from 'platform/forms-system/test/config/helpers';
-import { institutionOfficial } from '../../pages/institutionOfficial';
+import { certifyingOfficial } from '../../pages/institutionOfficial';
 
-const { uiSchema, schema } = institutionOfficial;
+const { uiSchema, schema } = certifyingOfficial;
 
 describe('Institution Official Page', () => {
   it('should have the correct uiSchema and schema', () => {

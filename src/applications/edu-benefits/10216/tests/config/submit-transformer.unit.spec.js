@@ -34,6 +34,7 @@ describe('transform function', () => {
               beneficiaryStudent: 75,
               VABeneficiaryStudentsPercentage: '75.0%',
             },
+            dateSigned: '2025-02-25',
           }),
         },
       }),
