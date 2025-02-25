@@ -26,7 +26,7 @@ describe('Confirmation page', () => {
     });
   });
 
-  it('should logged in specific wording', () => {
+  it('should show logged in specific wording', () => {
     const { props, mockStore } = getData({ loggedIn: true });
     const { getByText } = render(
       <Provider store={mockStore}>
