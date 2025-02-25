@@ -24,7 +24,11 @@ const EmergencyCareResult = ({ isMobile = false, provider, query }) => {
         <LocationDistance distance={provider.distance} />
         <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink location={provider} query={query} />
+        <LocationDirectionsLink
+          location={provider}
+          from="SearchResult"
+          query={query}
+        />
         <LocationPhoneLink
           location={provider}
           from="SearchResult"
