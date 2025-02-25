@@ -4,7 +4,7 @@ import textInput from '../components/textInput';
 
 /** @returns {PageSchema} */
 export default ({ components, bodyText, pageTitle }) => {
-  const schema = { properties: {}, required: [] };
+  const schema = { properties: {}, required: [], type: 'object' };
   const uiSchema = {
     ...webComponentPatterns.titleUI(pageTitle, bodyText),
   };
