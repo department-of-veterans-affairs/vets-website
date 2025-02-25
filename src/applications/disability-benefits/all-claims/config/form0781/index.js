@@ -82,12 +82,6 @@ export const form0781PagesConfig = {
     uiSchema: behaviorListPage.uiSchema,
     schema: behaviorListPage.schema,
   },
-  treatmentReceivedPage: {
-    path: 'mental-health-form-0781/treatment-received',
-    depends: formData => showBehaviorListPage(formData),
-    uiSchema: treatmentReceivedPage.uiSchema,
-    schema: treatmentReceivedPage.schema,
-  },
   reassignmentDescriptionPage: {
     path: 'mental-health-form-0781/behavior-changes-1-description',
     depends: formData => showReassignmentDescriptionPage(formData),
@@ -105,6 +99,12 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorSummaryPage(formData),
     uiSchema: behaviorSummaryPage.uiSchema,
     schema: behaviorSummaryPage.schema,
+  },
+  treatmentReceivedPage: {
+    path: 'mental-health-form-0781/treatment-received',
+    depends: formData => showBehaviorSummaryPage(formData),
+    uiSchema: treatmentReceivedPage.uiSchema,
+    schema: treatmentReceivedPage.schema,
   },
   // Conclusion Pages
   consentPage: {
