@@ -56,10 +56,10 @@ const formConfig = {
           // THIS IS WHERE I'M TRYING TO IMPLEMENT ISLOGGEDIN LOGIC
           // THIS applicantConfirmPersonalInfo PAGE SHOULD ONLY SHOW WHEN
           // THE USER IS LOGGED IN
-          appStateSelector: state => ({
-            isLoggedIn: state.user.login.currentlyLoggedIn,
-          }),
-          depends: formData => formData.isLoggedIn === true,
+          // appStateSelector: state => ({
+          //   isLoggedIn: state.user.login.currentlyLoggedIn,
+          // }),
+          // depends: formData => formData.isLoggedIn === true,
         },
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',

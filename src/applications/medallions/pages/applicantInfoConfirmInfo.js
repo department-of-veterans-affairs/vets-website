@@ -1,6 +1,6 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import ApplicantInfoNoteDescription from '../components/ApplicantInfoNoteDescription';
+import ApplicantInfoNoteDescription from '../components/applicantInfoNoteDescription';
 
 /** @type {PageSchema} */
 export default {
