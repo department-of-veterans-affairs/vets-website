@@ -51,7 +51,7 @@ export const uiSchema = {
       providerFacilityName: {
         'ui:title': 'Name of private provider or hospital',
       },
-      treatmentLocation0781related: {
+      treatmentLocation0781Related: {
         ...yesNoUI({
           title:
             'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
@@ -126,11 +126,11 @@ export const schema = {
           'providerFacilityName',
           'treatmentDateRange',
           'providerFacilityAddress',
-          'treatmentLocation0781related',
+          'treatmentLocation0781Related',
         ],
         properties: {
           providerFacilityName,
-          treatmentLocation0781related: {
+          treatmentLocation0781Related: {
             type: 'boolean',
             properties: {},
           },

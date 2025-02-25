@@ -38,7 +38,7 @@ export const uiSchema = {
       'ui:order': [
         'treatmentCenterName',
         'treatedDisabilityNames',
-        'treatmentLocation0781related',
+        'treatmentLocation0781Related',
         'treatmentDateRange',
         'treatmentCenterAddress',
       ],
@@ -63,7 +63,7 @@ export const uiSchema = {
           required: 'Please select at least one condition',
         },
       },
-      treatmentLocation0781related: {
+      treatmentLocation0781Related: {
         ...yesNoUI({
           title:
             'Did you receive treatment at this facility related to the impact of any of your traumatic events?',
@@ -122,7 +122,7 @@ export const schema = {
         properties: {
           treatmentCenterName:
             vaTreatmentFacilities.items.properties.treatmentCenterName,
-          treatmentLocation0781related: {
+          treatmentLocation0781Related: {
             type: 'boolean',
             properties: {},
           },
