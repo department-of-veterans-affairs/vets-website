@@ -18,7 +18,6 @@ export default function SupportingDocumentsPage({
     disableLinks: false,
     setFormData,
     showConsent: false,
-    showMail: true,
     fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
     requiredFiles: REQUIRED_FILES,
   });
