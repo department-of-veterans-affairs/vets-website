@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import ProgressButton from '~/platform/forms-system/src/js/components/ProgressButton';
 import { Title } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
 
 /**
@@ -11,13 +12,15 @@ import { Title } from '~/platform/forms-system/src/js/web-component-patterns/tit
  * array in the form data. The array is populated with objects representing each marriage.
  */
 
-const MarriageCount = ({
-  data,
-  onReviewPage,
-  goBack,
-  goForward,
-  setFormData,
-}) => {
+const MarriageCount = props => {
+  const {
+    data,
+    onReviewPage,
+    goBack,
+    goForward,
+    setFormData,
+    updatePage,
+  } = props;
   const { marriages = [] } = data;
   const MAXIMUM_MARRIAGE_COUNT = 10;
 
@@ -68,6 +71,14 @@ const MarriageCount = ({
       setMarriageCount(value);
       setError(validateMarriageCount(value));
     },
+    onEdit: event => {
+      const validationError = validateMarriageCount(marriageCount);
+      if (validationError) {
+        setError(validationError);
+        return;
+      }
+      updatePage(event);
+    },
     onSubmit: event => {
       event.preventDefault();
       const validationError = validateMarriageCount(marriageCount);
@@ -81,7 +92,13 @@ const MarriageCount = ({
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const updateButton = (
-    <va-button type="submit">Review update button</va-button>
+    <ProgressButton
+      submitButton
+      onButtonClick={handlers.onEdit}
+      buttonText="Update page"
+      buttonClass="usa-button-primary"
+      ariaLabel="Update marriage information"
+    />
   );
 
   return (
@@ -116,6 +133,7 @@ MarriageCount.propTypes = {
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  updatePage: PropTypes.bool,
   onReviewPage: PropTypes.bool,
 };
 
