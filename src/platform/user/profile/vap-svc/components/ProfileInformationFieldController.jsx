@@ -55,6 +55,7 @@ import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformation
 
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
+import { updateMessagingSignature } from '../../actions/mhv';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -172,17 +173,15 @@ class ProfileInformationFieldController extends React.Component {
       );
     }
     if (this.props.fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
-      this.props.createTransaction(
-        this.props.apiRoute,
-        'POST',
-        this.props.fieldName,
+      this.props.updateMessagingSignature(
         {
           ...payload,
           signatureName: null,
           signatureTitle: null,
           includeSignature: false,
         },
-        this.props.analyticsSectionName,
+        this.props.fieldName,
+        'POST',
       );
     } else {
       this.props.createTransaction(
@@ -543,6 +542,7 @@ ProfileInformationFieldController.propTypes = {
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
+  updateMessagingSignature: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -612,6 +612,7 @@ const mapDispatchToProps = {
   refreshTransaction,
   openModal,
   createTransaction,
+  updateMessagingSignature,
 };
 
 export default connect(

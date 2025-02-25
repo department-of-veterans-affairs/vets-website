@@ -117,12 +117,6 @@ export const updateMessagingSignature = (
 
       dispatch(clearTransaction(response));
     } catch (error) {
-      // dispatch({
-      //   type: FETCH_MESSAGING_SIGNATURE,
-      //   payload: {
-      //     message: error.message || 'Failed to retrieve messaging signature',
-      //   },
-      // });
       dispatch({
         type: VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
         error,
