@@ -28,6 +28,7 @@
               "id": "074",
               "type": "organization",
               "attributes": {
+                "canAcceptDigitalPoaRequests": true,
                 "name": "American Legion",
                 "addressLine1": "1608 K St NW",
                 "addressLine2": null,
@@ -51,6 +52,7 @@
               "id": "064",
               "type": "organization",
               "attributes": {
+                "canAcceptDigitalPoaRequests": false,
                 "name": "National Association of County Veterans Service Officers",
                 "addressLine1": "25 Mass Ave NW",
                 "addressLine2": "Ste 500",
@@ -104,6 +106,7 @@
               "id": "074",
               "type": "organization",
               "attributes": {
+                "canAcceptDigitalPoaRequests": true,
                 "name": "American Legion",
                 "addressLine1": "1654 Q St NW",
                 "addressLine2": null,
@@ -127,6 +130,7 @@
               "id": "020",
               "type": "organization",
               "attributes": {
+                "canAcceptDigitalPoaRequests": false,
                 "name": "Department of Veterans Services",
                 "addressLine1": "110 9th Ave S Rm C-166",
                 "addressLine2": null,
