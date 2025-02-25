@@ -48,14 +48,19 @@ export const Nav = () => {
       </div>
 
       {profile && (
-        <div className="nav__container-secondary">
+        <div className="nav__container-secondary" data-testid="desktop-nav-row">
           <div className="nav__container vads-u-display--flex">
-            <Link className="nav__btn desktop" to="/poa-requests">
+            <Link
+              className="nav__btn desktop"
+              to="/poa-requests"
+              data-testid="desktop-poa-link"
+            >
               Power of Attorney Requests
             </Link>
             <Link
               to="/get-help"
               className="nav__btn desktop vads-u-display--none"
+              data-testid="desktop-help-link"
             >
               Get Help
             </Link>
