@@ -34,12 +34,7 @@ import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 import formConfig from '../config/form';
 import { DownloadLink, formatDate } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
-import {
-  URL,
-  envUrl,
-  mockTestingFlagforAPI,
-  pronounLabels,
-} from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
 import {
   chapterTitles,
@@ -99,15 +94,15 @@ const ReviewPage = props => {
     }
   };
 
-  const getPronouns = (list = {}) => {
-    const pronounList = [];
-    Object.keys(list).forEach(item => {
-      if (list[item]) {
-        pronounList.push(` ${pronounLabels[item]}`);
-      }
-    });
-    return pronounList.toString();
-  };
+  // const getPronouns = (list = {}) => {
+  //   const pronounList = [];
+  //   Object.keys(list).forEach(item => {
+  //     if (list[item]) {
+  //       pronounList.push(` ${pronounLabels[item]}`);
+  //     }
+  //   });
+  //   return pronounList.toString();
+  // };
 
   const getUploadedFiles = async () => {
     const storedFile = await askVAAttachmentStorage.get('attachments');
@@ -902,17 +897,17 @@ const ReviewPage = props => {
                           data: props.formData.preferredName,
                           key: 'yourContactInformation',
                         },
-                        {
-                          name: 'Pronouns',
-                          data: getPronouns(props.formData.pronouns),
-                          key: 'yourContactInformation',
-                        },
-                        {
-                          name:
-                            "My pronouns aren't listed, and are written here",
-                          data: props.formData.pronounsNotListedText,
-                          key: 'yourContactInformation',
-                        },
+                        // {
+                        //   name: 'Pronouns',
+                        //   data: getPronouns(props.formData.pronouns),
+                        //   key: 'yourContactInformation',
+                        // },
+                        // {
+                        //   name:
+                        //     "My pronouns aren't listed, and are written here",
+                        //   data: props.formData.pronounsNotListedText,
+                        //   key: 'yourContactInformation',
+                        // },
                       ]}
                     />
                   ) : (
