@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+// import { useSelector } from 'react-redux';
+// import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { V2_LAUNCH_DATE } from '../config/constants';
 
 export default function CustomTopContent() {
+  // TODO: Add flipper logic
+  // console.log(useSelector(toggleValues));
   const hideAlert =
     window.location.pathname.includes('/introduction') ||
     window.location.pathname.includes('/review-and-submit') ||
