@@ -7,6 +7,7 @@ import MockDate from 'mockdate';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 
 import reducer from '../../redux/reducer';
 import App from '../../containers/App';
@@ -148,7 +149,7 @@ describe('App', () => {
       reducers: reducer,
     });
     await waitFor(() => {
-      expect(screen.findByText(/we can’t find that page/i)).to.exist;
+      expect(screen.findByTestId(pageNotFoundTestId)).to.exist;
     });
   });
 });

@@ -34,8 +34,12 @@ const SubTopicSelectPage = props => {
     const selected = apiData.find(
       subtopic => subtopic.attributes.name === selectedValue,
     );
-    onChange({ ...formData, selectSubtopic: selectedValue });
-    dispatch(setSubtopicID(selected.id));
+    dispatch(setSubtopicID(selected.id)); // askVA store subtopicID
+    onChange({
+      ...formData,
+      selectSubtopic: selectedValue,
+      subtopicId: selected.id,
+    });
   };
 
   const getApiData = url => {
@@ -131,7 +135,7 @@ function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
     formData: state.form.data,
-    topicID: state.askVA.topicID,
+    topicID: state.form.data.topicId,
   };
 }
 

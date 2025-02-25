@@ -53,8 +53,7 @@ const UnauthContent = () => (
       </li>
       <li>
         You have a verified <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
-        account or a Premium <strong>DS Logon</strong> or{' '}
-        <strong>My HealtheVet</strong> account
+        account or a Premium <strong>DS Logon</strong>
       </li>
     </ul>
     <p>
