@@ -55,12 +55,17 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
   };
 
   const getAvailableForms = () => {
-    return apiRequest('/form1095_bs/available_forms').then(response => {
-      if (response.errors || response.availableForms.length === 0) {
-        updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-      }
-      return response.availableForms;
-    });
+    return apiRequest('/form1095_bs/available_forms')
+      .then(response => {
+        if (response.errors || response.availableForms.length === 0) {
+          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+        }
+        return response.availableForms;
+      })
+      .catch(() => {
+        updateFormError({ error: true, type: 'not found' });
+        return null; // Return null in case of an error
+      });
   };
 
   useEffect(

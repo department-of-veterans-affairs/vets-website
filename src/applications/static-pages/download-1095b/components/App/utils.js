@@ -31,7 +31,7 @@ export const LastUpdatedComponent = props => {
 export const notFoundComponent = () => {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>
-      <h4 id="track-your-status-on-mobile" slot="headline">
+      <h4 slot="headline">
         You don’t have a 1095-B tax form available right now
       </h4>
       <p className="vads-u-margin-y--0">
