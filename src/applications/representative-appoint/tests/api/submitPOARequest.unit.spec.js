@@ -1,44 +1,52 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
 import * as Sentry from '@sentry/browser';
 import { submitPOARequest } from '../../api/submitPOARequest';
 import formData from '../fixtures/data/form-data.json';
 
 describe('submitPOARequest', () => {
   let sandbox;
+  let fetchStub;
+  let fakeResponse;
+
+  before(() => {
+    if (typeof global.fetch !== 'function') {
+      global.fetch = () => Promise.resolve();
+    }
+  });
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    fetchStub = sandbox.stub(global, 'fetch');
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
+  function createFakeResponse(ok, statusText, responseData) {
+    return {
+      ok,
+      statusText,
+      json: sinon.stub().resolves(responseData),
+    };
+  }
+
   it('should return parsed JSON when the response is ok', async () => {
     const fakeResponseData = { success: true, data: 'some data' };
-    const fakeResponse = {
-      ok: true,
-      statusText: 'OK',
-      json: () => Promise.resolve(fakeResponseData),
-    };
-
-    mockApiRequest(fakeResponse);
+    fakeResponse = createFakeResponse(true, 'OK', fakeResponseData);
+    fetchStub.resolves(fakeResponse);
 
     const result = await submitPOARequest(formData);
     expect(result).to.deep.equal(fakeResponseData);
+    expect(fetchStub.calledOnce).to.be.true;
+    expect(fakeResponse.json.calledOnce).to.be.true;
   });
 
   it('should throw an error when the response is not ok', async () => {
     const fakeErrorResponse = { error: 'Invalid form data' };
-    const fakeResponse = {
-      ok: false,
-      statusText: 'Bad Request',
-      json: () => Promise.resolve(fakeErrorResponse),
-    };
-
-    mockApiRequest(fakeResponse);
+    fakeResponse = createFakeResponse(false, 'Bad Request', fakeErrorResponse);
+    fetchStub.resolves(fakeResponse);
 
     try {
       await submitPOARequest(formData);
@@ -46,13 +54,15 @@ describe('submitPOARequest', () => {
     } catch (error) {
       expect(error.message).to.include('Bad Request');
       expect(error.message).to.include('Invalid form data');
+      expect(fetchStub.calledOnce).to.be.true;
+      expect(fakeResponse.json.calledOnce).to.be.true;
     }
   });
 
-  it('should handle errors thrown by apiRequest', async () => {
+  it('should handle errors thrown by fetch', async () => {
     const captureExceptionStub = sandbox.stub(Sentry, 'captureException');
-
-    mockApiRequest(Promise.reject(new Error('Network error')));
+    const fakeError = new Error('Network error');
+    fetchStub.rejects(fakeError);
 
     try {
       await submitPOARequest(formData);
@@ -60,6 +70,7 @@ describe('submitPOARequest', () => {
     } catch (error) {
       expect(error.message).to.include('Network error');
       expect(captureExceptionStub.calledOnce).to.be.true;
+      expect(fetchStub.calledOnce).to.be.true;
     }
   });
 });
