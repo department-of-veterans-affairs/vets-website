@@ -4,8 +4,10 @@ import { useSelector } from 'react-redux';
 
 import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
-import AppointmentDetails from '../../AppointmentDetails';
 import { selectAppointment } from '../../../redux/selectors';
+import { isPastAppt } from '../../../util/dates';
+import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
+import { AppointmentInfoText } from '../../AppointmentDetails';
 
 const IntroductionPage = ({ onStart }) => {
   const { data, error, isLoading } = useSelector(selectAppointment);
@@ -21,8 +23,9 @@ const IntroductionPage = ({ onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {data && <AppointmentDetails appointment={data} />}
-
+      {data && (
+        <AppointmentInfoText appointment={data} isPast={isPastAppt(data)} />
+      )}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
       </h2>
@@ -33,7 +36,7 @@ const IntroductionPage = ({ onStart }) => {
             your direct deposit set up, you can file a reimbursement claim now.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/#eligibility-for-general-health"
+            href={`${TRAVEL_PAY_INFO_LINK}#eligibility-for-general-health`}
             text="Travel reimbursement eligibility"
           />
         </va-process-list-item>
@@ -42,14 +45,14 @@ const IntroductionPage = ({ onStart }) => {
             If you’re only claiming mileage, you can file online right now.
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
-          {!error && (
-            <va-link-action
-              onClick={e => onStart(e)}
-              href="javascript0:void"
-              text="File a mileage only claim"
-            />
-          )}
-
+          {data &&
+            isPastAppt(data) && (
+              <va-link-action
+                onClick={e => onStart(e)}
+                href="javascript0:void"
+                text="File a mileage only claim"
+              />
+            )}
           <p>
             If you’re claiming other expenses, like lodging, meals, or tolls,
             you will need receipts for these expenses. You can file online
@@ -57,7 +60,7 @@ const IntroductionPage = ({ onStart }) => {
             or in person.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+            href={TRAVEL_PAY_INFO_LINK}
             text="Learn how to file claims for other expenses"
           />
         </va-process-list-item>

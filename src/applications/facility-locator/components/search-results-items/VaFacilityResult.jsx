@@ -73,7 +73,6 @@ const VaFacilityResult = ({
           <Link to={`facility/${location.id}`}>
             Learn more about burial status
           </Link>
-          // <va-link href={website} text="Learn more about burial status" />
         )}
       </>
     </div>

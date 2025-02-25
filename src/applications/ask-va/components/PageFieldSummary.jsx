@@ -17,7 +17,7 @@ const PageFieldSummary = props => {
 
   return (
     <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-      {currentPage[0]?.chapterTitle === alertPage[0].chapterTitle && (
+      {currentPage[0]?.chapterTitle === alertPage[0]?.chapterTitle && (
         <va-alert
           className="vads-u-margin-bottom--1"
           close-btn-aria-label="Close notification"

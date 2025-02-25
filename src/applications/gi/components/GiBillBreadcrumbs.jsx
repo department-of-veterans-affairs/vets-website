@@ -11,9 +11,13 @@ const GiBillBreadcrumbs = () => {
   const nationalExamsDetailMatch = useRouteMatch('/national-exams/:examId');
   const profileMatch = useRouteMatch('/institution/:facilityCode');
   const compareMatch = useRouteMatch('/compare');
-  const lcMatch = useRouteMatch('/lc-search');
-  const lcResultsMatch = useRouteMatch('/lc-search/results');
-  const lcResultInfoMatch = useRouteMatch('/lc-search/:type/:id');
+  const lcMatch = useRouteMatch('/licenses-certifications-and-prep-courses');
+  const lcResultsMatch = useRouteMatch(
+    '/licenses-certifications-and-prep-courses/results',
+  );
+  const lcResultInfoMatch = useRouteMatch(
+    '/licenses-certifications-and-prep-courses/results/:id/:name',
+  );
   const query = new URLSearchParams(location.search);
   const selectedExamName = query.get('examName') || '';
 
@@ -61,7 +65,7 @@ const GiBillBreadcrumbs = () => {
       href: `/institution/${ProgramsTypeMatch.params.facilityCode}/${
         ProgramsTypeMatch.params.programType
       }`,
-      label: formatedProgramType,
+      label: `${formatedProgramType} programs`,
     });
   }
   if (compareMatch) {
@@ -72,19 +76,21 @@ const GiBillBreadcrumbs = () => {
   }
   if (lcMatch) {
     crumbs.push({
-      href: '/education/gi-bill-comparison-tool/lc-search',
-      label: 'Licenses & Certifications',
+      href:
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses',
+      label: 'Licenses, certifications, and prep courses',
     });
   }
   if (lcResultsMatch) {
     crumbs.push({
-      href: '/education/gi-bill-comparison-tool/lc-search/results',
+      href:
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results',
       label: 'Search results',
     });
   }
   if (lcResultInfoMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/lc-search/results/${
+      href: `/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/${
         lcResultInfoMatch.params.type
       }/${lcResultInfoMatch.params.id}/${lcResultInfoMatch.params.name}`,
       label: lcResultInfoMatch.params.name,
