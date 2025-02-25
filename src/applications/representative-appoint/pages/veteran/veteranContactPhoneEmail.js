@@ -21,7 +21,7 @@ export const uiSchema = {
   }),
   veteranEmail: emailUI({
     required: formData =>
-      formData?.['view:isLOA3'] &&
+      formData?.['view:isUserLOA3'] &&
       formData.representativeSubmissionMethod === 'online',
   }),
 };

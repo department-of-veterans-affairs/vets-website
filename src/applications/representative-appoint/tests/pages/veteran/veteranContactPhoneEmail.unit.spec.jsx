@@ -41,7 +41,7 @@ describe('Veteran Contact Phone Email page', () => {
 
   it('should require email when LOA3 is true and representative submission method is online', () => {
     const formData = {
-      'view:isLOA3': true,
+      'view:isUserLOA3': true,
       representativeSubmissionMethod: 'online',
     };
 
@@ -68,7 +68,7 @@ describe('Veteran Contact Phone Email page', () => {
 
   it('should NOT require email when LOA3 is false or representative submission method is not online', () => {
     const formData = {
-      'view:isLOA3': false,
+      'view:isUserLOA3': false,
       representativeSubmissionMethod: 'mail',
     };
 

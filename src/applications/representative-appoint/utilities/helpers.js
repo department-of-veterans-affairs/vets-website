@@ -299,3 +299,18 @@ export const entityAcceptsDigitalPoaRequests = entity => {
   }
   return false;
 };
+
+export const filterOrganizations = formData => {
+  const organizations =
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
+  const submissionMethod = formData.representativeSubmissionMethod;
+
+  if (submissionMethod === 'online') {
+    return organizations?.filter(
+      org => org.attributes?.canAcceptDigitalPoaRequests === true,
+    );
+  }
+
+  return organizations;
+};
