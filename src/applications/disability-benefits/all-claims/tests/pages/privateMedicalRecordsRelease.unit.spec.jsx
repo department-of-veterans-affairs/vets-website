@@ -12,47 +12,47 @@ import formConfig from '../../config/form.js';
 import initialData from '../initialData.js';
 import { form0781WorkflowChoices } from '../../content/form0781/workflowChoicePage';
 
+const {
+  schema,
+  uiSchema,
+  arrayPath,
+} = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
+
+const claimType = {
+  'view:claimType': {
+    'view:claimingIncrease': true,
+    'view:claimingNew': false,
+  },
+};
+const newClaimTypeOnly = {
+  'view:claimType': {
+    'view:claimingNew': true,
+  },
+};
+const ratedDisabilities = [
+  {
+    name: 'Post traumatic stress disorder',
+    'view:selected': true,
+  },
+  {
+    name: 'Intervertebral disc syndrome',
+    'view:selected': true,
+  },
+  {
+    name: 'Diabetes Melitus',
+    'view:selected': true,
+  },
+];
+
+const newDisabilities = [
+  {
+    cause: 'NEW',
+    condition: 'asthma',
+    'view:descriptionInfo': {},
+  },
+];
+
 describe('Disability benefits 4142 provider medical records facility information', () => {
-  const {
-    schema,
-    uiSchema,
-    arrayPath,
-  } = formConfig.chapters.supportingEvidence.pages.privateMedicalRecordsRelease;
-
-  const claimType = {
-    'view:claimType': {
-      'view:claimingIncrease': true,
-      'view:claimingNew': false,
-    },
-  };
-  const newClaimTypeOnly = {
-    'view:claimType': {
-      'view:claimingNew': true,
-    },
-  };
-  const ratedDisabilities = [
-    {
-      name: 'Post traumatic stress disorder',
-      'view:selected': true,
-    },
-    {
-      name: 'Intervertebral disc syndrome',
-      'view:selected': true,
-    },
-    {
-      name: 'Diabetes Melitus',
-      'view:selected': true,
-    },
-  ];
-
-  const newDisabilities = [
-    {
-      cause: 'NEW',
-      condition: 'asthma',
-      'view:descriptionInfo': {},
-    },
-  ];
-
   it('should render 4142 form', () => {
     const form = mount(
       <DefinitionTester
@@ -157,6 +157,35 @@ describe('Disability benefits 4142 provider medical records facility information
     form.unmount();
   });
 
+  it('does not submit (and renders error messages) when limited consent option chosen and no fields touched', () => {
+    const submit = sinon.spy();
+
+    const form = mount(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={{
+          'view:limitedConsent': true,
+        }}
+        formData={initialData}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    form.find('form').simulate('submit');
+    expect(submit.called).to.be.false;
+
+    expect(form.find('.usa-input-error').length).to.equal(8);
+
+    expect(form.find('input').length).to.equal(8); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
+    form.unmount();
+  });
+});
+
+describe('0781 question', () => {
   it('should render with 0781 questions when feature is enabled, user opted into 0781, and has new disabilites', () => {
     const form = mount(
       <DefinitionTester
@@ -238,33 +267,6 @@ describe('Disability benefits 4142 provider medical records facility information
       />,
     );
     expect(form.find('va-radio').length).to.equal(0); // 0781 question VA radio button
-    form.unmount();
-  });
-
-  it('does not submit (and renders error messages) when limited consent option chosen and no fields touched', () => {
-    const submit = sinon.spy();
-
-    const form = mount(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          'view:limitedConsent': true,
-        }}
-        formData={initialData}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(submit.called).to.be.false;
-
-    expect(form.find('.usa-input-error').length).to.equal(8);
-
-    expect(form.find('input').length).to.equal(8); // non-checkbox inputs
-    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 });
