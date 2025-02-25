@@ -12,7 +12,9 @@ export default function Notification({
   const closeable = !!onClose;
   useEffect(() => {
     if (typeof onSetFocus === 'function') {
-      onSetFocus();
+      setTimeout(() => {
+        onSetFocus();
+      });
     }
   });
 

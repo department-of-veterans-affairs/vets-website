@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { setFocus } from '../../utils/page';
 
 import Notification from '../../components/Notification';
@@ -45,7 +45,7 @@ describe('<Notification>', () => {
     getByText(body);
   });
 
-  it('should render alert and focus', () => {
+  it('should render alert and focus', async () => {
     const setAlertFocus = () => {
       setFocus('.claims-alert');
     };
@@ -56,6 +56,8 @@ describe('<Notification>', () => {
 
     const selector = container.querySelector('va-alert');
     expect(selector).to.exist;
-    expect(document.activeElement).to.equal(selector);
+    await waitFor(() => {
+      expect(document.activeElement).to.equal(selector);
+    });
   });
 });

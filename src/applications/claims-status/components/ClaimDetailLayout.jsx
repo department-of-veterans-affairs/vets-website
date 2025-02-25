@@ -20,7 +20,7 @@ import TabNav from './TabNav';
 const focusHeader = () => {
   setFocus('.claim-contentions-header');
 };
-const focusNotifcationAlert = () => {
+const focusNotificationAlert = () => {
   setFocus('.claims-alert');
 };
 
@@ -67,7 +67,7 @@ export default function ClaimDetailLayout(props) {
             body={message.body}
             type={message.type}
             onClose={clearNotification}
-            onSetFocus={focusNotifcationAlert}
+            onSetFocus={focusNotificationAlert}
           />
         )}
         <h1 className="claim-title">

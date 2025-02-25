@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { within } from '@testing-library/react';
+import { within, waitFor } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -127,7 +127,7 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.subTree('Notification')).not.to.be.false;
   });
 
-  it('should render Notification and set focus on it', () => {
+  it('should render Notification and set focus on it', async () => {
     const claim = {
       attributes: {
         claimType: 'Compensation',
@@ -145,7 +145,9 @@ describe('<ClaimDetailLayout>', () => {
 
     const selector = container.querySelector('va-alert');
     expect(selector).to.exist;
-    expect(document.activeElement).to.equal(selector);
+    await waitFor(() => {
+      expect(document.activeElement).to.equal(selector);
+    });
   });
 
   describe('<ClaimsBreadcrumbs>', () => {
