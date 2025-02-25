@@ -11,7 +11,7 @@ const checkOpt = {
   waitForAnimations: true,
 };
 
-describe.skip('NOD contact info loop', () => {
+describe('NOD contact info loop', () => {
   const MAIN_CONTACT_PATH = `${NOD_BASE_URL}${CONTACT_INFO_PATH}`;
 
   beforeEach(() => {
