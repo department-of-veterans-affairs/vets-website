@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -17,25 +17,40 @@ const PersonalInformationPage = props => {
   const { location, route, router } = props;
   const { pathname } = location;
   const { pageList } = route;
-  const { data: formData } = useSelector(state => state.form);
-  const { userFullName, dob } = useSelector(state => state.user.profile);
+  const { formData, veteranFullName, veteranDateOfBirth } = useSelector(
+    state => ({
+      formData: state.form.data,
+      veteranFullName: state.user.profile.userFullName,
+      veteranDateOfBirth: state.user.profile.dob,
+    }),
+  );
+
   const authUser = {
-    veteranFullName: userFullName,
-    veteranDateOfBirth: dob,
+    veteranFullName,
+    veteranDateOfBirth,
     totalDisabilityRating: formData['view:totalDisabilityRating'],
   };
   const guestUser = formData['view:veteranInformation'];
-  const goBack = () => {
-    const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
-    router.push(prevPagePath);
-  };
-  const goForward = () => {
-    const nextPagePath = getNextPagePath(pageList, formData, pathname);
-    router.push(nextPagePath);
-  };
+
+  const handlers = useMemo(
+    () => ({
+      goBack: () => {
+        const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
+        router.push(prevPagePath);
+      },
+      goForward: () => {
+        const nextPagePath = getNextPagePath(pageList, formData, pathname);
+        router.push(nextPagePath);
+      },
+    }),
+    [formData, pageList, pathname, router],
+  );
 
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    const breadcrumbs = document.querySelector('.va-nav-breadcrumbs-list');
+    if (document.activeElement !== breadcrumbs) {
+      focusElement('.va-nav-breadcrumbs-list');
+    }
   }, []);
 
   return (
@@ -51,7 +66,10 @@ const PersonalInformationPage = props => {
           ) : (
             <GuestVerifiedInformation user={guestUser} />
           )}
-          <FormNavButtons goBack={goBack} goForward={goForward} />
+          <FormNavButtons
+            goBack={handlers.goBack}
+            goForward={handlers.goForward}
+          />
         </div>
       </div>
       <FormFooter />
