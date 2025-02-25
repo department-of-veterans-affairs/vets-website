@@ -21,14 +21,10 @@ const PersonalAuthenticatedInformation = ({
     router.push('/');
   };
 
-  const {
-    first,
-    last,
-    dateOfBirth,
-    socialOrServiceNum,
-  } = formData.aboutYourself;
+  const { first, last, dateOfBirth, socialOrServiceNum } =
+    formData.aboutYourself || {};
 
-  const { ssn, serviceNumber } = socialOrServiceNum;
+  const { ssn, serviceNumber } = socialOrServiceNum || {};
 
   const dateOfBirthFormatted = !dateOfBirth
     ? '-'

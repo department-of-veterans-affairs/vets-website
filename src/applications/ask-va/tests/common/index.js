@@ -6,6 +6,7 @@ export const createMockStore = ({
   askVA,
   currentlyLoggedIn,
   formData = {},
+  form,
   path = '',
   viewedPages,
   openChapters,
@@ -31,7 +32,7 @@ export const createMockStore = ({
       },
       ...askVA,
     },
-    form: {
+    form: form || {
       data: formData,
       reviewPageView: {
         viewedPages: viewedPages || new Set(),

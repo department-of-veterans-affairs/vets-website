@@ -5,6 +5,9 @@ export const getData = ({
   isVerified = true,
   data = {},
   contestableIssues = {},
+  loaLevel,
+  signInServiceName,
+  loading = false,
 } = {}) => ({
   props: {
     loggedIn,
@@ -26,6 +29,7 @@ export const getData = ({
           currentlyLoggedIn: loggedIn,
         },
         profile: {
+          loading,
           savedForms: [],
           prefillsAvailable: [],
           verified: isVerified,
@@ -33,6 +37,12 @@ export const getData = ({
             first: 'Peter',
             middle: 'B',
             last: 'Parker',
+          },
+          loa: {
+            current: loaLevel,
+          },
+          signIn: {
+            serviceName: signInServiceName,
           },
         },
       },
