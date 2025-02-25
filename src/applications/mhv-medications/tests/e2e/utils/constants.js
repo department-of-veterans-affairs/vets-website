@@ -43,6 +43,7 @@ export const Data = {
   DELAY_ALERT_DETAILS_BANNER:
     'Your refill request for this medication is taking longer than expected',
   CHECK_STATUS_HEADER: 'Check the status of your next refill',
+  HELP_TEXT: 'Need help?',
 };
 export const Paths = {
   LANDING_LIST:

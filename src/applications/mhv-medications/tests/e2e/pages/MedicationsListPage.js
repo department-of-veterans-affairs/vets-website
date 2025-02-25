@@ -794,6 +794,9 @@ class MedicationsListPage {
   };
 
   visitMedicationsListPageURL = medication => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, medication).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -893,6 +896,18 @@ class MedicationsListPage {
     cy.get(`[data-testid="refill-alert-link-${prescriptionId}"]`).click({
       force: true,
     });
+  };
+
+  verifyNeedHelpSectionOnListPage = text => {
+    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+  };
+
+  verifyGoToUseMedicationLinkOnListPage = () => {
+    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+  };
+
+  verifyStartANewMessageLinkOnListPage = () => {
+    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
   };
 }
 
