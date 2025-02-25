@@ -1,9 +1,6 @@
 {
   "formData": {
-    "certifierRelationship": {
-      "relationshipToVeteran": { "applicant": true }
-    },
-    "certifierEmail": "mail@mail.com"
+    "certifierRole": "other"
   },
   "metadata": {
     "version": 0,
