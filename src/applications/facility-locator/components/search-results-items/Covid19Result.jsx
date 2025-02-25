@@ -67,7 +67,11 @@ const Covid19Result = ({ index, isMobile = false, location, query }) => {
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} query={query} />
+        <LocationDirectionsLink
+          location={location}
+          from="SearchResult"
+          query={query}
+        />
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}

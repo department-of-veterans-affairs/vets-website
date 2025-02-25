@@ -46,7 +46,6 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           location={result}
           query={searchQuery}
           showHealthConnectNumber={showHealthConnectNumber}
-          isCemetery={searchQuery.facilityType === 'cemetery'}
         />
       );
     case 'provider':
@@ -120,7 +119,6 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           key={result.id}
           location={result}
           query={searchQuery}
-          isCemetery={false}
         />
       );
     case 'urgent_care':
@@ -142,7 +140,6 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           key={result.id}
           location={result}
           query={searchQuery}
-          isCemetery={false}
         />
       );
     default:

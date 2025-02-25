@@ -4,7 +4,13 @@ import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
 
-export const renderPhoneNumber = (title, subTitle = null, phone, location) => {
+export const renderPhoneNumber = (
+  title,
+  subTitle = null,
+  phone,
+  from,
+  location,
+) => {
   if (!phone) {
     return null;
   }
@@ -26,6 +32,9 @@ export const renderPhoneNumber = (title, subTitle = null, phone, location) => {
 
   return (
     <p data-testid={title}>
+      {from === 'FacilityDetail' && (
+        <va-icon class="vads-u-margin-right--0p5" icon="phone" size="3" />
+      )}
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
       {processed ? (
@@ -54,6 +63,7 @@ export const renderPhoneNumber = (title, subTitle = null, phone, location) => {
 
 const LocationPhoneLink = ({
   location,
+  from,
   query,
   showHealthConnectNumber = false,
 }) => {
@@ -72,18 +82,20 @@ const LocationPhoneLink = ({
 
   return (
     <div className="facility-phone-group">
-      {renderPhoneNumber('Main number', null, phone.main, location)}
+      {renderPhoneNumber('Main number', null, phone.main, from, location)}
       {showHealthConnectNumber &&
         renderPhoneNumber(
           'VA health connect',
           null,
           phone.healthConnect,
+          from,
           location,
         )}
       {renderPhoneNumber(
         'Mental health',
         null,
         phone.mentalHealthClinic,
+        from,
         location,
       )}
       <p>
