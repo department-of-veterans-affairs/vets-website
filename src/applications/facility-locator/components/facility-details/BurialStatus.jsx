@@ -27,7 +27,7 @@ function BurialStatus({ facility }) {
 
   return (
     <div className="vads-u-padding-bottom--1">
-      <h2 className="vads-u-font-size--h3">Burial space</h2>
+      <h2>Burial space</h2>
       <div>
         <p>
           <strong>{statusTitle}</strong>
