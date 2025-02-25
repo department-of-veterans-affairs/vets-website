@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { mapProgramTypeToName, mapToDashedName } from '../../utils/helpers';
 
 const Programs = ({ programTypes, facilityCode }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
+
   return (
     <>
       <p>
@@ -16,20 +20,23 @@ const Programs = ({ programTypes, facilityCode }) => {
           key={index}
           className="program-link-wrapper vads-u-display--flex vads-u-justify-content--space-between"
         >
+          <p className="vads-u-font-weight--bold vads-u-padding-right--2">
+            {mapProgramTypeToName(programType)}
+          </p>
           <Link
             to={{
-              pathname: `/institution/${facilityCode}/${mapToDashedName(
-                programType,
-              )
+              pathname: `${
+                giCtCollab ? '/schools-and-employers' : ''
+              }/institution/${facilityCode}/${mapToDashedName(programType)
                 .trim()
                 .toLowerCase()
                 .replace(/\s+/g, '-')
                 .replace(/\//g, '-')}`,
             }}
-            className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--2"
+            className="vads-u-display--flex vads-u-align-items--center"
             data-testid="program-link"
           >
-            See {mapProgramTypeToName(programType)} programs
+            See All
           </Link>
         </span>
       ))}

@@ -1,16 +1,24 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { useRouteMatch } from 'react-router-dom';
-import { giDocumentTitle, formatProgramType } from '../utils/helpers';
+import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import {
+  isSearchByNamePage,
+  isSearchByLocationPage,
+  formatProgramType,
+} from '../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
+  const location = useLocation();
+
+  const schoolsEmployersMatch = useRouteMatch('/schools-and-employers');
+  const profileMatch = useRouteMatch('/institution/:facilityCode');
+  const compareMatch = location.pathname.includes('/compare');
   const ProgramsTypeMatch = useRouteMatch(
     '/institution/:facilityCode/:programType',
   );
-  const nationalExamsMatch = useRouteMatch('/national-exams');
-  const nationalExamsDetailMatch = useRouteMatch('/national-exams/:examId');
-  const profileMatch = useRouteMatch('/institution/:facilityCode');
-  const compareMatch = useRouteMatch('/compare');
   const lcMatch = useRouteMatch('/licenses-certifications-and-prep-courses');
   const lcResultsMatch = useRouteMatch(
     '/licenses-certifications-and-prep-courses/results',
@@ -18,13 +26,16 @@ const GiBillBreadcrumbs = () => {
   const lcResultInfoMatch = useRouteMatch(
     '/licenses-certifications-and-prep-courses/results/:id/:name',
   );
+
+  const nationalExamsMatch = useRouteMatch('/national-exams');
+  const nationalExamsDetailMatch = useRouteMatch('/national-exams/:examId');
   const query = new URLSearchParams(location.search);
   const selectedExamName = query.get('examName') || '';
 
-  const crumbLiEnding = giDocumentTitle();
   const formatedProgramType = formatProgramType(
     ProgramsTypeMatch?.params?.programType,
   );
+
   const crumbs = [
     {
       href: '/',
@@ -36,15 +47,26 @@ const GiBillBreadcrumbs = () => {
     },
     {
       href: '/education/gi-bill-comparison-tool/',
-      label: crumbLiEnding,
+      label: 'GI Bill® Comparison Tool',
     },
   ];
 
+  if (schoolsEmployersMatch) {
+    const searchByName = isSearchByNamePage();
+    const searchByLocationPage = isSearchByLocationPage();
+    crumbs.push({
+      href: '/education/gi-bill-comparison-tool/schools-and-employers',
+      label: `Schools and employers ${searchByName ? '(Search by name)' : ''}${
+        searchByLocationPage ? '(Search by location}' : ''
+      }`,
+    });
+  }
+
   if (profileMatch) {
     crumbs.push({
-      href: `/education/gi-bill-comparison-tool/institution/${
-        profileMatch.params.facilityCode
-      }`,
+      href: `/education/gi-bill-comparison-tool/${
+        giCtCollab ? 'schools-and-employers/' : ''
+      }institution/${profileMatch.params.facilityCode}`,
       label: 'Institution details',
     });
   }
@@ -62,9 +84,9 @@ const GiBillBreadcrumbs = () => {
   }
   if (ProgramsTypeMatch) {
     crumbs.push({
-      href: `/institution/${ProgramsTypeMatch.params.facilityCode}/${
-        ProgramsTypeMatch.params.programType
-      }`,
+      href: `${giCtCollab ? '/schools-and-employers' : ''}/institution/${
+        ProgramsTypeMatch.params.facilityCode
+      }/${ProgramsTypeMatch.params.programType}`,
       label: `${formatedProgramType} programs`,
     });
   }
