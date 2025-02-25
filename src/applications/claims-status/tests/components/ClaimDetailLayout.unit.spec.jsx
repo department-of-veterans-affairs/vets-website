@@ -127,6 +127,27 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.subTree('Notification')).not.to.be.false;
   });
 
+  it('should render Notification and set focus on it', () => {
+    const claim = {
+      attributes: {
+        claimType: 'Compensation',
+        claimDate: '2025-02-01',
+      },
+    };
+    const message = {
+      title: 'Test',
+      body: 'Testing',
+    };
+
+    const { container } = renderWithRouter(
+      <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />,
+    );
+
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(document.activeElement).to.equal(selector);
+  });
+
   describe('<ClaimsBreadcrumbs>', () => {
     it('should render default breadcrumbs for the Your Claims list page while loading', () => {
       const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);

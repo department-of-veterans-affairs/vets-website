@@ -1,16 +1,20 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setFocus } from '../utils/page';
 
-export default function Notification({ body, title, type, onClose }) {
+export default function Notification({
+  body,
+  title,
+  type,
+  onClose,
+  onSetFocus,
+}) {
   const closeable = !!onClose;
-
-  const focusAlert = () => {
-    setTimeout(() => {
-      setFocus('.claims-alert');
-    }, 500);
-  };
+  useEffect(() => {
+    if (typeof onSetFocus === 'function') {
+      onSetFocus();
+    }
+  });
 
   return (
     <VaAlert
@@ -20,7 +24,6 @@ export default function Notification({ body, title, type, onClose }) {
       onCloseEvent={onClose}
       status={type}
       visible
-      onVa-component-did-load={focusAlert}
     >
       <h2 slot="headline">{title}</h2>
       <p className="vads-u-margin-y--0">{body}</p>
@@ -28,13 +31,14 @@ export default function Notification({ body, title, type, onClose }) {
   );
 }
 
+Notification.defaultProps = {
+  type: 'success',
+};
+
 Notification.propTypes = {
   body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string,
   onClose: PropTypes.func,
-};
-
-Notification.defaultProps = {
-  type: 'success',
+  onSetFocus: PropTypes.func,
 };

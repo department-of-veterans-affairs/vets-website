@@ -106,6 +106,7 @@ class AdditionalEvidencePage extends React.Component {
       );
     } else {
       const { message, filesNeeded } = this.props;
+
       content = (
         <div className="additional-evidence-container">
           {message && (
