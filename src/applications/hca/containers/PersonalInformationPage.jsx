@@ -15,20 +15,17 @@ import content from '../locales/en/content.json';
 const PersonalInformationPage = ({ location, route, router }) => {
   const { pathname } = location;
   const { pageList } = route;
-  const { formData, veteranFullName, veteranDateOfBirth } = useSelector(
-    state => ({
+  const { authUser, formData, guestUser } = useSelector(state => {
+    return {
+      authUser: {
+        veteranFullName: state.user.profile.userFullName,
+        veteranDateOfBirth: state.user.profile.dob,
+        totalDisabilityRating: state.form.data['view:totalDisabilityRating'],
+      },
+      guestUser: state.form.data['view:veteranInformation'],
       formData: state.form.data,
-      veteranFullName: state.user.profile.userFullName,
-      veteranDateOfBirth: state.user.profile.dob,
-    }),
-  );
-
-  const authUser = {
-    veteranFullName,
-    veteranDateOfBirth,
-    totalDisabilityRating: formData['view:totalDisabilityRating'],
-  };
-  const guestUser = formData['view:veteranInformation'];
+    };
+  });
 
   const handlers = useMemo(
     () => ({
