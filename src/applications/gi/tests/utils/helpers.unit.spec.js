@@ -34,6 +34,13 @@ import {
   formatNationalExamName,
   formatAddress,
   toTitleCase,
+  formatList,
+  createCheckboxes,
+  updateStateDropdown,
+  formatResultCount,
+  filterSuggestions,
+  showMultipleNames,
+  formatDollarAmountWithCents,
 } from '../../utils/helpers';
 
 describe('GIBCT helpers:', () => {
@@ -949,6 +956,215 @@ describe('GIBCT helpers:', () => {
     it('should trim leading and trailing whitespace and capitalize correctly', () => {
       expect(toTitleCase('   123 main street   ')).to.equal('123 Main Street');
       expect(toTitleCase('\t456 elm avenue\n')).to.equal('456 Elm Avenue');
+    });
+  });
+
+  describe('formatList', () => {
+    it('should handle various array lengths', () => {
+      expect(formatList([])).to.equal('');
+      expect(formatList(['one'])).to.equal('one');
+      expect(formatList(['one', 'two'])).to.equal('one or two');
+      expect(formatList(['one', 'two', 'three'])).to.equal('one, two or three');
+      expect(formatList(['one', 'two', 'three', 'four'])).to.equal(
+        'one, two, three or four',
+      );
+    });
+  });
+
+  describe('createCheckboxes', () => {
+    const categories = ['license', 'certification', 'prep course'];
+
+    it('should create checkboxes with correct checked states', () => {
+      const checkedList = ['license', 'certification'];
+      const result = createCheckboxes(categories, checkedList);
+
+      expect(result).to.deep.equal([
+        { name: 'license', checked: true, label: 'License' },
+        { name: 'certification', checked: true, label: 'Certification' },
+        { name: 'prep course', checked: false, label: 'Prep Course' },
+      ]);
+    });
+
+    it('should check all boxes when checkedList includes "all"', () => {
+      const result = createCheckboxes(categories, ['all']);
+
+      expect(result.every(box => box.checked)).to.be.true;
+    });
+  });
+
+  describe('updateStateDropdown', () => {
+    const mockMultiples = [
+      { state: 'CA', eduLacTypeNm: 'License' },
+      { state: 'NY', eduLacTypeNm: 'License' },
+      { state: 'TX', eduLacTypeNm: 'Certification' },
+    ];
+
+    it('should filter states and set current selection', () => {
+      const result = updateStateDropdown(mockMultiples, 'CA');
+
+      expect(result.options).to.include.deep.members([
+        { optionValue: 'all', optionLabel: 'All' },
+        { optionValue: 'CA', optionLabel: 'California' },
+        { optionValue: 'NY', optionLabel: 'New York' },
+      ]);
+      expect(result.current.optionValue).to.equal('CA');
+    });
+
+    it('should exclude certification states', () => {
+      const result = updateStateDropdown(mockMultiples);
+      const txOption = result.options.find(opt => opt.optionValue === 'TX');
+      expect(txOption).to.be.undefined;
+    });
+  });
+
+  describe('formatResultCount', () => {
+    it('should format counts correctly', () => {
+      const results = Array(25).fill({});
+
+      expect(formatResultCount(results, 1, 10)).to.equal('1 - 10');
+      expect(formatResultCount(results, 2, 10)).to.equal('11 - 20');
+      expect(formatResultCount(results, 3, 10)).to.equal('21 - 25');
+    });
+  });
+
+  describe('filterSuggestions', () => {
+    const suggestions = [
+      {
+        enrichedId: '3@a5de3',
+        lacNm: 'HVAC/R Class A',
+        eduLacTypeNm: 'License',
+        state: 'AR',
+      },
+      {
+        enrichedId: '82@ddbed',
+        lacNm: 'Safety Director Certificate',
+        eduLacTypeNm: 'Certification',
+        state: 'NC',
+      },
+      {
+        enrichedId: '2469@78799',
+        lacNm: 'REGISTERED PROFESSIONAL NURSE',
+        eduLacTypeNm: 'License',
+        state: 'MO',
+      },
+      {
+        enrichedId: '4367@fd631',
+        lacNm: 'PREP-FLORIDA FOUNDATION PLUS-ONLINE HOME INSPECTIO',
+        eduLacTypeNm: 'Prep Course',
+        state: 'MO',
+      },
+    ];
+
+    it('should return all results when no filters are applied', () => {
+      const results = filterSuggestions(suggestions, '', ['all'], 'all');
+      expect(results).to.deep.equal(suggestions);
+    });
+
+    it('should filter by name case-insensitively', () => {
+      const results = filterSuggestions(suggestions, 'HVAC', ['all'], 'all');
+      expect(results).to.have.length(1);
+      expect(results[0].lacNm).to.equal('HVAC/R Class A');
+
+      const results2 = filterSuggestions(suggestions, 'hvac', ['all'], 'all');
+      expect(results2).to.have.length(1);
+      expect(results2[0].lacNm).to.equal('HVAC/R Class A');
+    });
+
+    it('should filter by category', () => {
+      const results = filterSuggestions(suggestions, '', ['license'], 'all');
+      expect(results).to.have.length(2);
+      expect(results.every(r => r.eduLacTypeNm === 'License')).to.be.true;
+    });
+
+    it('should filter by state except for certifications', () => {
+      const results = filterSuggestions(suggestions, '', ['all'], 'MO');
+      expect(results).to.have.length(3);
+      // Should include both MO items and the certification (which ignores state)
+      expect(results.some(r => r.eduLacTypeNm === 'Certification')).to.be.true;
+      expect(results.filter(r => r.state === 'MO')).to.have.length(2);
+    });
+
+    it('should combine name, category, and state filters', () => {
+      const results = filterSuggestions(
+        suggestions,
+        'nurse',
+        ['license'],
+        'MO',
+      );
+      expect(results).to.have.length(1);
+      expect(results[0].lacNm).to.equal('REGISTERED PROFESSIONAL NURSE');
+      expect(results[0].eduLacTypeNm).to.equal('License');
+      expect(results[0].state).to.equal('MO');
+    });
+
+    it('should return empty array when no matches found', () => {
+      const results = filterSuggestions(
+        suggestions,
+        'nonexistent',
+        ['all'],
+        'all',
+      );
+      expect(results).to.have.length(0);
+    });
+  });
+
+  describe('showMultipleNames', () => {
+    const suggestions = [
+      { lacNm: 'HVAC/R Class A' },
+      { lacNm: 'Safety Director Certificate' },
+      { lacNm: 'REGISTERED PROFESSIONAL NURSE' },
+      { lacNm: 'PREP-FLORIDA FOUNDATION PLUS' },
+    ];
+
+    it('should return empty array when suggestions or nameInput is missing', () => {
+      expect(showMultipleNames(null, 'test')).to.deep.equal([]);
+      expect(showMultipleNames(suggestions, '')).to.deep.equal([]);
+      expect(showMultipleNames(suggestions, null)).to.deep.equal([]);
+    });
+
+    it('should filter suggestions case-insensitively by name input', () => {
+      const results = showMultipleNames(suggestions, 'hvac');
+      expect(results).to.have.length(1);
+      expect(results[0].lacNm).to.equal('HVAC/R Class A');
+
+      const results2 = showMultipleNames(suggestions, 'SAFETY');
+      expect(results2).to.have.length(1);
+      expect(results2[0].lacNm).to.equal('Safety Director Certificate');
+    });
+
+    it('should return multiple matches when applicable', () => {
+      const results = showMultipleNames(suggestions, 'a');
+      expect(results.length).to.be.greaterThan(1);
+    });
+  });
+
+  describe('formatDollarAmountWithCents', () => {
+    it('should return message when value is falsy', () => {
+      const message = 'Not Available';
+      expect(formatDollarAmountWithCents(null, message)).to.equal(message);
+      expect(formatDollarAmountWithCents(undefined, message)).to.equal(message);
+      expect(formatDollarAmountWithCents('', message)).to.equal(message);
+      expect(formatDollarAmountWithCents(0, message)).to.equal(message);
+    });
+
+    it('should format whole numbers correctly', () => {
+      expect(formatDollarAmountWithCents(1000, 'N/A')).to.equal('$1,000.00');
+      expect(formatDollarAmountWithCents(1, 'N/A')).to.equal('$1.00');
+    });
+
+    it('should format decimal numbers correctly', () => {
+      expect(formatDollarAmountWithCents(1000.5, 'N/A')).to.equal('$1,000.50');
+      expect(formatDollarAmountWithCents(1000.55, 'N/A')).to.equal('$1,000.55');
+      expect(formatDollarAmountWithCents(1000.555, 'N/A')).to.equal(
+        '$1,000.56',
+      );
+    });
+
+    it('should handle string number inputs', () => {
+      expect(formatDollarAmountWithCents('1000', 'N/A')).to.equal('$1,000.00');
+      expect(formatDollarAmountWithCents('1000.5', 'N/A')).to.equal(
+        '$1,000.50',
+      );
     });
   });
 });
