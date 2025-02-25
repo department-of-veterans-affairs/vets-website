@@ -81,6 +81,6 @@ export const AppointmentInfoText = ({ appointment, isPast, isOutOfBounds }) => {
 
 AppointmentInfoText.propTypes = {
   appointment: PropTypes.object,
-  isPast: PropTypes.bool,
   isOutOfBounds: PropTypes.bool,
+  isPast: PropTypes.bool,
 };
