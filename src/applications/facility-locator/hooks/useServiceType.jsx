@@ -20,7 +20,7 @@ export const FACILITY_TYPE_FILTERS = {
  */
 const termMatcher = (term, hsdatum, index, includes = false) => {
   if (includes) {
-    return hsdatum[index]?.toLowerCase().includes(term) ? 1 : -1;
+    return hsdatum[index]?.toLowerCase().includes(term?.toLowerCase()) ? 1 : -1;
   }
 
   const returnMatch = hsdatum[index]?.toLowerCase().search(term);
@@ -35,7 +35,7 @@ const termMatcher = (term, hsdatum, index, includes = false) => {
 /** function matchHelper
  * @param { string } term
  * @param {[string, string, string[], string, string, boolean, boolean, boolean, boolean, number, string, string]} hsdatum
- * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
+ * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
  */
 const matchHelper = (term, hsdatum) => {
   const safeRegexTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -47,17 +47,15 @@ const matchHelper = (term, hsdatum) => {
     commonCondMatch: hsdatum[2].findIndex(commonCond =>
       commonCond.toLowerCase().startsWith(term.toLowerCase()),
     ),
-    apiIdMatch: termMatcher(regexTerm, hsdatum, 3),
     descriptionMatch: termMatcher(term, hsdatum, 10, true),
-    tricareDescriptionMatch: termMatcher(true, hsdatum, 11, true),
+    tricareDescriptionMatch: termMatcher(term, hsdatum, 11, true),
     hsdatum,
   };
 
   if (
     returnMatcher.nameMatch >= 0 ||
     returnMatcher.akaMatch >= 0 ||
-    returnMatcher.commonCondMatch >= 0 ||
-    returnMatcher.apiIdMatch >= 0
+    returnMatcher.commonCondMatch >= 0
   ) {
     returnMatcher.priorityMatch = 1;
     returnMatcher.secondaryMatch = 0;
@@ -146,7 +144,7 @@ export default function useServiceType() {
    * function serviceTypeFilter
    * @param { string } term
    * @param { string? } facilityType
-   * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, apiIdMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }[]}
+   * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }[]}
    */
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
