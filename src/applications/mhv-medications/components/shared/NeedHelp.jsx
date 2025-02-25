@@ -14,7 +14,7 @@ const NeedHelp = page => {
       </p>
       <va-link
         href="/health-care/refill-track-prescriptions"
-        text="Go to Use medications"
+        text="Learn more about managing medications online"
         data-testid="go-to-use-medications-link"
         data-dd-action-name={
           page === pageType.LIST
