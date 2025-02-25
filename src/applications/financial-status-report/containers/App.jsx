@@ -167,6 +167,7 @@ const App = ({
       isStartingOver,
       setFormData,
       showReviewPageNavigationFeature,
+      showStreamlinedWaiver,
       showUpdatedExpensePages,
     ],
   );
