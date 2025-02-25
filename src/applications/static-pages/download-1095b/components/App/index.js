@@ -63,7 +63,7 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
         return response.availableForms;
       })
       .catch(() => {
-        updateFormError({ error: true, type: 'not found' });
+        updateFormError({ error: true, type: errorTypes.NOT_FOUND });
         return null; // Return null in case of an error
       });
   };
