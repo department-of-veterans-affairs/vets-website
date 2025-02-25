@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -14,36 +14,34 @@ import { validateVeteranDob } from '../utils/validation';
  * for that data for proper submission.
  */
 export const useDefaultFormData = () => {
-  const stateData = useSelector(state => ({
-    formData: state.form.data,
-    featureToggles: selectFeatureToggles(state),
-    isLoggedIn: selectAuthStatus(state).isLoggedIn,
-    totalRating: parseInt(state.disabilityRating.totalRating, 10) || 0,
-    veteranDateOfBirth: validateVeteranDob(selectProfile(state).dob),
-  }));
   const dispatch = useDispatch();
+
+  const formData = useSelector(state => state.form.data);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const isLoggedIn = useSelector(state => selectAuthStatus(state).isLoggedIn);
+  const disabilityRating = useSelector(
+    state => state.disabilityRating.totalRating,
+  );
+  const profileDob = useSelector(state => selectProfile(state).dob);
+
+  const totalRating = useMemo(() => parseInt(disabilityRating, 10) || 0, [
+    disabilityRating,
+  ]);
+  const veteranDateOfBirth = useMemo(() => validateVeteranDob(profileDob), [
+    profileDob,
+  ]);
 
   useEffect(
     () => {
-      const {
-        isLoggedIn,
-        featureToggles,
-        formData,
-        totalRating,
-        veteranDateOfBirth,
-      } = stateData;
+      const { isInsuranceV2Enabled, isRegOnlyEnabled } = featureToggles;
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
         'view:totalDisabilityRating': totalRating,
-        'view:isRegOnlyEnabled': featureToggles.isRegOnlyEnabled,
-        'view:isInsuranceV2Enabled': featureToggles.isInsuranceV2Enabled,
+        'view:isRegOnlyEnabled': isRegOnlyEnabled,
+        'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
       };
       const userData = isLoggedIn
-        ? {
-            'view:veteranInformation': {
-              veteranDateOfBirth,
-            },
-          }
+        ? { 'view:veteranInformation': { veteranDateOfBirth } }
         : {};
 
       dispatch(
@@ -54,6 +52,13 @@ export const useDefaultFormData = () => {
         }),
       );
     },
-    [dispatch, stateData, stateData.formData.veteranFullName],
+    [
+      dispatch,
+      featureToggles,
+      formData,
+      isLoggedIn,
+      totalRating,
+      veteranDateOfBirth,
+    ],
   );
 };
