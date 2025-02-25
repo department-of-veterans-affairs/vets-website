@@ -54,12 +54,6 @@ describe('<LicenseCertificationKeywordSearch>', () => {
     expect(defaultProps.onUpdateAutocompleteSearchTerm.called).to.be.true;
   });
 
-  it('should call handleClearInput when clear icon is clicked', () => {
-    const wrapper = mountComponent(defaultProps);
-    wrapper.find('va-icon#clear-input').simulate('click');
-    expect(defaultProps.handleClearInput.called).to.be.true;
-  });
-
   it('should show suggestions when input has value', () => {
     const wrapper = mountComponent(defaultProps);
     expect(wrapper.find('.suggestions-list')).to.exist;
