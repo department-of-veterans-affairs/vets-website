@@ -13,7 +13,6 @@ const GenericDebtCard = () => {
 
   return (
     <va-card
-      show-shadow
       className="vads-u-display--flex vads-u-width--full vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-align-items--flex-start vads-u-padding--1"
       data-testid="debt-card"
     >
