@@ -18,6 +18,7 @@ import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medic
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
 import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
 import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
+import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
 import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
 // Health care facility widgets.
 import createBasicFacilityListWidget from './facilities/basicFacilityList';
@@ -202,6 +203,10 @@ createScheduleViewVAAppointmentsPage(
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
+createModernSecureMessagingPage(
+  store,
+  widgetTypes.MODERN_SECURE_MESSAGING_PAGE,
+);
 createSituationUpdatesBanner(store, widgetTypes.SITUATION_UPDATES_BANNER);
 createViewTestAndLabResultsPage(
   store,
