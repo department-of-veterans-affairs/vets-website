@@ -85,9 +85,6 @@ const AddressPage = ({
   return (
     <div>
       <VaRadio
-        use-forms-pattern="single"
-        form-heading="Did you travel from your home address?"
-        form-heading-level={1}
         id="address"
         onVaValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
@@ -96,11 +93,11 @@ const AddressPage = ({
         data-testid="address-test-id"
         error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
-        hint=""
-        label=""
-        label-header-level=""
+        hint={null}
+        label="Did you travel from your home address?"
+        label-header-level="1"
       >
-        <div slot="form-description">
+        <div className="vads-u-margin-y--2">
           <p>
             Answer “Yes” if you traveled from the address listed here and you
             confirm that it’s not a Post Office box.
@@ -153,7 +150,7 @@ const AddressPage = ({
             If you traveled from a different address, you can’t file a claim in
             this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the
+          But you can file your claim online through the
           <va-link
             external
             href={BTSSS_PORTAL_URL}

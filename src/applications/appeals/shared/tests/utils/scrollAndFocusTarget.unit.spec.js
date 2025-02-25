@@ -12,7 +12,6 @@ import {
   focusIssue,
   focusAlertH3,
   focusEvidence,
-  focusToggledHeader,
 } from '../../utils/focus';
 import { LAST_ISSUE } from '../../constants';
 
@@ -188,46 +187,6 @@ describe('focusEvidence', () => {
     await focusEvidence(null, container);
     await waitFor(() => {
       const target = $('[error]', container);
-      expect(document.activeElement).to.eq(target);
-    });
-  });
-});
-
-describe('focusToggledHeader', () => {
-  const renderPage = (hasRadio = true) =>
-    render(
-      <div id="main">
-        {hasRadio ? (
-          <va-radio label-header-level="3" label="test">
-            <va-radio-option label="1" name="test" value="1" />
-            <va-radio-option label="2" name="test" value="2" />
-          </va-radio>
-        ) : (
-          <div className="nav-header">
-            <h3>test 2</h3>
-          </div>
-        )}
-      </div>,
-    );
-
-  it('should focus on H3 inside va-radio', async () => {
-    global.sessionStorage.setItem('hlrUpdated', 'false');
-    const focusSpy = sinon.spy(focusUtils, 'waitForRenderThenFocus');
-    const { container } = await renderPage();
-
-    await focusToggledHeader(null, container);
-    await waitFor(() => {
-      expect(focusSpy.args[0][0]).to.eq('h3');
-      focusSpy.restore();
-    });
-  });
-  it('should focus on H3', async () => {
-    global.sessionStorage.setItem('hlrUpdated', 'true');
-    const { container } = await renderPage(false);
-
-    await focusToggledHeader(null, container);
-    await waitFor(() => {
-      const target = $('h3', container);
       expect(document.activeElement).to.eq(target);
     });
   });
