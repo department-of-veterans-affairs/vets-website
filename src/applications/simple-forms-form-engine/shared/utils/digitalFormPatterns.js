@@ -3,11 +3,11 @@ import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-b
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
 import { camelCase } from 'lodash';
 import {
+  customStepPage,
   employmentHistory,
   identificationInformation,
   nameAndDateOfBirth,
 } from '../config/pages';
-import customStepPage from '../config/pages/customStepPage';
 
 /** @type {SchemaOptions} */
 const defaultSchema = {
