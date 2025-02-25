@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import {
   ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
   MH_0781_URL_PREFIX,
 } from '../../constants';
 
@@ -91,7 +92,7 @@ export const behaviorListAdditionalInformation = (
 );
 
 export const behaviorListNoneLabel =
-  'PLACEHOLDER I didn’t experience any of these behavioral changes.';
+  'I didn’t experience any behavioral changes after my traumatic events.';
 
 export const behaviorListValidationError = (
   <va-alert status="error" uswds>
@@ -200,51 +201,56 @@ export const behaviorDescriptionPageDescription =
 export const behaviorDescriptionPageHint =
   'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
 
-export const unlistedPageTitle = 'Other behavioral changes';
+export const unlistedPageTitle = BEHAVIOR_LIST_SECTION_SUBTITLES.other;
 export const unlistedDescriptionPageDescription =
   'Describe the other behavioral changes  you experienced that were not in the list  of behavioral change types provided. (Optional)';
 
 // behavior summary page
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
 
-function getDescriptionForBehavior(behaviors, descriptions, details) {
-  const newObj = {};
+function getDescriptionForBehavior(selectedBehaviors, behaviorDetails) {
+  const allBehaviorDescriptions = ALL_BEHAVIOR_CHANGE_DESCRIPTIONS;
 
-  Object.keys(descriptions).forEach(behaviorType => {
-    if (behaviorType in behaviors) {
-      const capitalizedBehaviorType =
-        behaviorType.charAt(0).toUpperCase() + behaviorType.slice(1);
-      newObj[capitalizedBehaviorType] =
-        details[behaviorType] || 'Optional description not provided.';
+  const newObject = {};
+  Object.keys(allBehaviorDescriptions).forEach(behaviorType => {
+    if (behaviorType in selectedBehaviors) {
+      const behaviorDescription =
+        behaviorType === 'unlisted'
+          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : allBehaviorDescriptions[behaviorType];
+      newObject[behaviorDescription] =
+        behaviorDetails[behaviorType] || 'Optional description not provided.';
     }
   });
-  return newObj;
+  return newObject;
 }
 
-function behaviorSummariesList(obj) {
+function behaviorSummariesList(behaviorAndDetails) {
   return (
     <>
-      {Object.entries(obj).map(([behaviorType, description, index]) => (
-        <div key={`${behaviorType}-${index}`}>
-          <h4>{behaviorType}</h4>
-          <p>{description}</p>
-        </div>
-      ))}
-      <Link
-        to={{
-          pathname: `${MH_0781_URL_PREFIX}/behavior-changes-list`,
-          search: '?redirect',
-        }}
-      >
-        Edit behavioral changes
-      </Link>
+      {Object.entries(behaviorAndDetails).map(
+        ([behaviorType, details, index]) => (
+          <div key={`${behaviorType}-${index}`}>
+            <h4>{behaviorType}</h4>
+            <p className="multiline-ellipsis-4">{details}</p>
+          </div>
+        ),
+      )}
+      <div className="vads-u-margin-top--2">
+        <Link
+          to={{
+            pathname: `${MH_0781_URL_PREFIX}/behavior-changes-list`,
+            search: '?redirect',
+          }}
+        >
+          Edit behavioral changes
+        </Link>
+      </div>
     </>
   );
 }
 
 export const summarizeBehaviors = formData => {
-  const allBehaviorDescriptions = ALL_BEHAVIOR_CHANGE_DESCRIPTIONS;
-
   const allBehaviorTypes = {
     ...formData.workBehaviors,
     ...formData.healthBehaviors,
@@ -260,7 +266,6 @@ export const summarizeBehaviors = formData => {
 
   const selectedBehaviorsWithDetails = getDescriptionForBehavior(
     allSelectedBehaviorTypes,
-    allBehaviorDescriptions,
     formData.behaviorsDetails,
   );
 
