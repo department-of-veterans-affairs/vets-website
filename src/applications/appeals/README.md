@@ -17,7 +17,7 @@
   ```
 - Run mock server (start new form)
   ```bash
-  yarn mock-api --responses ./src/applications/appeals/shared/tests/mock-api-full-data.js
+  yarn mock-api --responses ./src/applications/appeals/shared/tests/mock-api.js
   ```
 - Run mock server (save-in-progress with max data)
   ```bash
