@@ -130,9 +130,19 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: Get changed apps
+        id: get-changed-apps
+        continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
              
-      - name: Check for apps in changed files that are not isolated
+      - name: Check for apps in changed files that have skipped tests
         run: node script/github-actions/annotate-skipped-e2e-tests.js
+        env:
+          CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
         
       - name: Create e2e annotations file  
         if: ${{ env.SKIPPED_E2E_ANNOTATIONS_JSON != '[]' }}
