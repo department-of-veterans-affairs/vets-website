@@ -2,16 +2,17 @@ import React from 'react';
 
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
+// import submitForm from './submitForm';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
 
 // Components
 import GetFormHelp from '../components/GetFormHelp';
-import StatementOfTruth from '../components/StatementOfTruth';
 import SubmissionInstructions from '../components/SubmissionInstructions';
 
 // Pages
@@ -20,6 +21,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   institutionDetails,
+  institutionOfficial,
   ProgramIntro,
   programInfo,
   ProgramSummary,
@@ -50,10 +52,10 @@ const { date } = commonDefinitions;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
+  // submit: submitForm,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  transformForSubmit: transform,
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -62,8 +64,14 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   preSubmitInfo: {
-    required: true,
-    CustomComponent: StatementOfTruth,
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      messageAriaDescribedby:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      fullNamePath: 'certifyingOfficial',
+    },
   },
   customText: {
     reviewPageTitle: 'Review',
@@ -86,12 +94,19 @@ const formConfig = {
   defaultDefinitions: {
     date,
   },
+  transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution details',
       pages: {
+        institutionOfficial: {
+          path: 'institution-details-1',
+          title: 'Tell us about yourself',
+          uiSchema: institutionOfficial.uiSchema,
+          schema: institutionOfficial.schema,
+        },
         institutionDetails: {
-          path: 'institution-details',
+          path: 'institution-details-2',
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
