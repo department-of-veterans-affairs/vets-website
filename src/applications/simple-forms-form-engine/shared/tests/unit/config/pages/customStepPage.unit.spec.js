@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as titlePattern from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import * as textInput from 'applications/simple-forms-form-engine/shared/config/components/textInput';
 import customStepPage from 'applications/simple-forms-form-engine/shared/config/pages/customStepPage';
 
 describe('customStepPage', () => {
@@ -70,6 +71,20 @@ describe('customStepPage', () => {
   });
 
   context('when component is a text input', () => {
-    it('calls the correct function');
+    let spy;
+
+    beforeEach(() => {
+      spy = sinon.spy(textInput, 'default');
+    });
+
+    afterEach(() => {
+      spy.restore();
+    });
+
+    it('calls the correct function', () => {
+      customStepPage(normalizedPage);
+
+      expect(spy.calledWithMatch(normalizedPage.components[0])).to.eq(true);
+    });
   });
 });

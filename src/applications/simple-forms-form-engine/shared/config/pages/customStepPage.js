@@ -1,5 +1,6 @@
 import { camelCase, kebabCase } from 'lodash';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
+import textInput from '../components/textInput';
 
 /** @returns {PageSchema} */
 export default ({ components, bodyText, pageTitle }) => {
@@ -12,8 +13,12 @@ export default ({ components, bodyText, pageTitle }) => {
     // This assumes every component on a page will have a unique label.
     const key = camelCase(component.label);
 
-    schema.properties[key] = {};
-    uiSchema[key] = {};
+    // This will eventually become a switch statement or its own function as
+    // more components get added.
+    const [componentSchema, componentUiSchema] = textInput(component);
+
+    schema.properties[key] = componentSchema;
+    uiSchema[key] = componentUiSchema;
 
     if (component.required) {
       schema.required.push(key);
