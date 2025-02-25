@@ -55,7 +55,7 @@ export function ComparePage({
   const [currentXScroll, setCurrentXScroll] = useState(0);
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
   const headerRef = useRef(null);
   const scrollHeaderRef = useRef(null);
   const scrollPageRef = useRef(null);
@@ -225,7 +225,7 @@ export function ComparePage({
             const newSelected = selected.filter(
               facilityCode => facilityCode !== promptingFacilityCode,
             );
-            history.replace(updateUrlParams(newSelected, version, isUpdatedGi));
+            history.replace(updateUrlParams(newSelected, version, giCtCollab));
             dispatchRemoveCompareInstitution(promptingFacilityCode);
           }}
           onCancel={() => setPromptingFacilityCode(null)}

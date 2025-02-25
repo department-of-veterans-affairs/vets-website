@@ -43,7 +43,7 @@ export function CompareDrawer({
   };
   const [scrollable, setScrollable] = useState(tooTall());
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
 
   const renderBlanks = () => {
     const blanks = [];
@@ -221,7 +221,7 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    history.push(updateUrlParams(loaded, preview.version, isUpdatedGi));
+    history.push(updateUrlParams(loaded, preview.version, giCtCollab));
   };
 
   const headerLabelClasses = classNames('header-label', {

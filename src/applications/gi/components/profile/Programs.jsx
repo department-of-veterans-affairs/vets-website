@@ -6,7 +6,7 @@ import { mapProgramTypeToName, mapToDashedName } from '../../utils/helpers';
 
 const Programs = ({ programTypes, facilityCode }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
 
   return (
     <>
@@ -26,7 +26,7 @@ const Programs = ({ programTypes, facilityCode }) => {
           <Link
             to={{
               pathname: `${
-                isUpdatedGi ? '/schools-and-employers' : ''
+                giCtCollab ? '/schools-and-employers' : ''
               }/institution/${facilityCode}/${mapToDashedName(programType)
                 .trim()
                 .toLowerCase()

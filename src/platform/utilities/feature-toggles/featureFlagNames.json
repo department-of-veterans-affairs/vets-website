@@ -301,5 +301,6 @@
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
   "toggleGiProgramsFlag": "toggle_gi_programs_flag",
   "facilityLocatorMobileMapUpdate": "facility_locator_mobile_map_update",
-  "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
+  "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program",
+  "giCtCollab": "gi_ct_collab"
 }

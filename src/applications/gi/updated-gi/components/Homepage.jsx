@@ -17,7 +17,7 @@ const HomePage = () => {
         <LinkWithDescription
           text="Schools and employers"
           description="Search and compare public and private schools. Filter by on-the-job training, apprenticeships, and more."
-          link="/schools-and-employers"
+          link="schools-and-employers"
         />
         <LinkWithDescription
           text="Licenses and certifications"
@@ -27,7 +27,7 @@ const HomePage = () => {
         <LinkWithDescription
           text="National Exams"
           description="Take national exams such as SAT, ACT, GRE, GMAT, and more. You can submit a form to get reimbursed."
-          link="/national-exams"
+          link="national-exams"
         />
       </div>
     </div>

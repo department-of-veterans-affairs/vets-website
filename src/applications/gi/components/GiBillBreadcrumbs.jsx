@@ -10,7 +10,7 @@ import {
 
 const GiBillBreadcrumbs = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
   const location = useLocation();
   const ProgramsTypeMatch = useRouteMatch(
     '/institution/:facilityCode/:programType',
@@ -54,14 +54,14 @@ const GiBillBreadcrumbs = () => {
   if (profileMatch) {
     crumbs.push({
       href: `/education/gi-bill-comparison-tool/${
-        isUpdatedGi ? 'schools-and-employers/' : ''
+        giCtCollab ? 'schools-and-employers/' : ''
       }institution/${profileMatch.params.facilityCode}`,
       label: 'Institution details',
     });
   }
   if (ProgramsTypeMatch) {
     crumbs.push({
-      href: `${isUpdatedGi ? '/schools-and-employers' : ''}/institution/${
+      href: `${giCtCollab ? '/schools-and-employers' : ''}/institution/${
         ProgramsTypeMatch.params.facilityCode
       }/${ProgramsTypeMatch.params.programType}`,
       label: `${formatedProgramType}`,
