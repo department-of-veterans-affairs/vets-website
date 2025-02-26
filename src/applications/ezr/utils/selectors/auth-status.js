@@ -11,15 +11,6 @@ import {
  * @returns {Object} - authentication properties to use in components
  */
 export function selectAuthStatus(state) {
-  // Mock auth status in development
-  if (process.env.NODE_ENV === 'development') {
-    return {
-      isUserLOA1: false,
-      isUserLOA3: true,
-      isLoggedOut: false,
-    };
-  }
-
   const isLoggedOut = !isProfileLoading(state) && !isLoggedIn(state);
   return {
     isUserLOA1: !isLoggedOut && isLOA1(state),
