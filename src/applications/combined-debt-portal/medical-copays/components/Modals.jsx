@@ -215,7 +215,7 @@ Modals.Rights = () => (
         By Phone: Contact VA at
         <va-telephone
           international
-          contact="8884001238"
+          contact={CONTACTS.HEALTH_RESOURCE_CENTER}
           className="vads-u-margin-x--0p5"
         />
       </li>
