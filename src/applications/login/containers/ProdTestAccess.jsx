@@ -25,7 +25,7 @@ export default function ProdTestAccess() {
     });
     login({
       policy: 'mhv',
-      queryParams: { operation: 'myhealthevet_test_account' },
+      queryParams: { operation: 'production_test_account' },
     });
   };
 
