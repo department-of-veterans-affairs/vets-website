@@ -8,6 +8,15 @@ const path = require('path');
 
 const cypressSpecs = process.argv[2] || 'src';
 
+const CHANGED_APPS = process.env.CHANGED_FILES
+  ? process.env.CHANGED_FILES.split(' ').map(filePath =>
+      filePath
+        .split('/')
+        .slice(0, 3)
+        .join('/'),
+    )
+  : [];
+
 function getSpecFiles(dir) {
   let results = [];
   const list = fs.readdirSync(dir);
@@ -53,8 +62,10 @@ let collectedAnnotations = [];
 
 if (specFiles.length > 0) {
   specFiles.forEach(file => {
-    const annotations = checkSpecsForSkips(file);
-    collectedAnnotations = collectedAnnotations.concat(annotations);
+    if (CHANGED_APPS.some(appPath => file.startsWith(appPath))) {
+      const annotations = checkSpecsForSkips(file);
+      collectedAnnotations = collectedAnnotations.concat(annotations);
+    }
   });
 }
 
