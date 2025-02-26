@@ -209,6 +209,16 @@ function handleNext(onClickNext, months, setMonths) {
   setMonths(updatedMonths);
 }
 
+function checkSelection(date, upcomingAppointments) {
+  const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
+  const appointments = upcomingAppointments[d1.format('YYYY-MM')];
+
+  return appointments?.some(appointment => {
+    const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
+    return d1.isSame(d2);
+  });
+}
+
 /**
  * Calendar widget
  *
@@ -238,6 +248,7 @@ function handleNext(onClickNext, months, setMonths) {
  * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
+  appointmentSelectionErrorMsg = 'You already have an appointment scheduled at this time. Please select another day or time.',
   availableSlots,
   id,
   disabled,
@@ -260,6 +271,7 @@ function CalendarWidget({
   timezone,
   value = [],
   showWeekends = false,
+  upcomingAppointments = [],
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -272,7 +284,13 @@ function CalendarWidget({
   const maxMonth = getMaxMonth(maxDate, overrideMaxDays);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
-  const hasError = (required && showValidation) || exceededMaximumSelections;
+  let hasError = (required && showValidation) || exceededMaximumSelections;
+
+  const isAppointmentSelectionError = checkSelection(
+    value[0],
+    upcomingAppointments,
+  );
+  if (isAppointmentSelectionError) hasError = isAppointmentSelectionError;
 
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
@@ -302,6 +320,7 @@ function CalendarWidget({
           >
             {showValidation && requiredMessage}
             {exceededMaximumSelections && maxSelectionsError}
+            {isAppointmentSelectionError && appointmentSelectionErrorMsg}
           </span>
         )}
         {months.map(
@@ -392,6 +411,7 @@ function CalendarWidget({
 
 CalendarWidget.propTypes = {
   id: PropTypes.string.isRequired,
+  appointmentSelectionErrorMsg: PropTypes.string,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
       start: PropTypes.string.isRequired,
@@ -414,6 +434,7 @@ CalendarWidget.propTypes = {
   showWeekends: PropTypes.bool,
   startMonth: PropTypes.string,
   timezone: PropTypes.string,
+  upcomingAppointments: PropTypes.object,
   value: PropTypes.array,
   onChange: PropTypes.func,
   onNextMonth: PropTypes.func,

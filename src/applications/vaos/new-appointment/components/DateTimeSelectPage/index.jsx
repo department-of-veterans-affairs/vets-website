@@ -27,6 +27,7 @@ import { getRealFacilityId } from '../../../utils/appointment';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import useIsInitialLoad from '../../../hooks/useIsInitialLoad';
 import { getPageTitle } from '../../newAppointmentFlow';
+import { selectUpcomingAppointments } from '../../../appointment-list/redux/selectors';
 
 const pageKey = 'selectDateTime';
 
@@ -130,6 +131,7 @@ export default function DateTimeSelectPage() {
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const eligibility = useSelector(selectEligibility);
   const clinic = useSelector(state => getChosenClinicInfo(state));
+  const upcomingAppointments = useSelector(selectUpcomingAppointments);
 
   useEffect(
     () => {
@@ -244,6 +246,7 @@ export default function DateTimeSelectPage() {
             startMonth={startMonth}
             showValidation={submitted && !selectedDates?.length}
             showWeekends
+            upcomingAppointments={upcomingAppointments}
           />
         </>
       )}
