@@ -112,6 +112,7 @@ export default function CompareHeader({
                   <div className="header-fields vads-u-display--flex vads-u-flex-direction--column vads-u-justify-content--space-between vads-u-height--full">
                     <div className="institution-name">
                       <Link
+                        data-testid="compare-header-link"
                         to={{
                           pathname: profileLink,
                           state: { prevPath: location.pathname },
