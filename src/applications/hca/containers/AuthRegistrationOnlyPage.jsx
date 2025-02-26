@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getPreviousPagePath } from 'platform/forms-system/src/js/routing';
@@ -9,17 +9,15 @@ import content from '../locales/en/content.json';
 
 const AuthRegistrationOnlyPage = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);
-  const handlers = useMemo(
-    () => {
-      const { pathname } = location;
-      const { pageList } = route;
-      return {
-        goBack: () =>
-          router.push(getPreviousPagePath(pageList, formData, pathname)),
-      };
-    },
-    [formData, location, route, router],
+
+  const goBack = useCallback(
+    () =>
+      router.push(
+        getPreviousPagePath(route.pageList, formData, location.pathname),
+      ),
+    [formData, location.pathname, route.pageList, router],
   );
+
   return (
     <>
       <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
@@ -28,7 +26,7 @@ const AuthRegistrationOnlyPage = ({ location, route, router }) => {
           <div className="small-6 medium-5 columns">
             <ProgressButton
               buttonClass="hca-button-progress usa-button-secondary"
-              onButtonClick={handlers.goBack}
+              onButtonClick={goBack}
               buttonText={content['button-back']}
               beforeText="«"
             />
