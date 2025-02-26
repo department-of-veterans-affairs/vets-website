@@ -29,11 +29,13 @@ const GiBillBreadcrumbs = () => {
   const lcResultInfoMatch = useRouteMatch(
     '/licenses-certifications-and-prep-courses/results/:id/:name',
   );
-
   const nationalExamsMatch = useRouteMatch('/national-exams');
   const nationalExamsDetailMatch = useRouteMatch('/national-exams/:examId');
+
   const query = new URLSearchParams(location.search);
   const selectedExamName = query.get('examName') || '';
+  const searchByName = isSearchByNamePage();
+  const searchByLocationPage = isSearchByLocationPage();
 
   const formatedProgramType = formatProgramType(
     ProgramsTypeMatch?.params?.programType,
@@ -50,13 +52,23 @@ const GiBillBreadcrumbs = () => {
     },
     {
       href: '/education/gi-bill-comparison-tool/',
-      label: 'GI Bill® Comparison Tool',
+      label: `GI Bill® Comparison Tool ${
+        searchByName &&
+        !schoolsEmployersMatch &&
+        !location.pathname.includes('institution')
+          ? '(Search by name)'
+          : ''
+      }${
+        searchByLocationPage &&
+        !schoolsEmployersMatch &&
+        !location.pathname.includes('institution')
+          ? '(Search by location}'
+          : ''
+      }`,
     },
   ];
 
   if (schoolsEmployersMatch) {
-    const searchByName = isSearchByNamePage();
-    const searchByLocationPage = isSearchByLocationPage();
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/schools-and-employers',
       label: `Schools and employers ${
