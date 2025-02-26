@@ -9,15 +9,17 @@ import {
   emergencyCareServices,
 } from '../config';
 import { LocationType } from '../constants';
+import { PaginationTypes } from '../types';
 
 export const SearchResultsHeader = ({
-  results,
-  facilityType,
-  serviceType,
   context,
+  facilityType,
   inProgress,
-  specialtyMap,
   pagination,
+  results,
+  serviceType,
+  specialtyMap,
+  vamcServiceDisplay,
 }) => {
   const noResultsFound = !results || !results.length;
 
@@ -43,9 +45,14 @@ export const SearchResultsHeader = ({
     }
 
     if (facilityType === LocationType.HEALTH) {
+      if (vamcServiceDisplay) {
+        return vamcServiceDisplay;
+      }
+
       if (!rawServiceType) {
         return healthServices.All;
       }
+
       return healthServices[rawServiceType];
     }
 
@@ -126,11 +133,14 @@ export const SearchResultsHeader = ({
 };
 
 SearchResultsHeader.propTypes = {
-  results: PropTypes.array,
-  facilityType: PropTypes.string,
-  serviceType: PropTypes.string,
   context: PropTypes.string,
+  facilityType: PropTypes.string,
+  inProgress: PropTypes.bool,
+  pagination: PaginationTypes,
+  results: PropTypes.array,
+  serviceType: PropTypes.string,
   specialtyMap: PropTypes.object,
+  vamcServiceDisplay: PropTypes.string,
 };
 
 // Only re-render if results or inProgress props have changed
@@ -143,6 +153,7 @@ const areEqual = (prevProps, nextProps) => {
 
 const mapStateToProps = state => ({
   specialtyMap: state.searchQuery.specialties,
+  vamcServiceDisplay: state.searchQuery?.vamcServiceDisplay,
 });
 
 export default React.memo(
