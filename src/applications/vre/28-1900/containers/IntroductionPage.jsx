@@ -126,9 +126,9 @@ const IntroductionPage = props => {
       />
       <div className="omb-info--container vads-u-margin-top--1p5 vads-u-padding-left--0">
         <va-omb-info
-          res-burden={15}
+          res-burden={10}
           omb-number="2900-0009"
-          exp-date="11/30/2022"
+          exp-date="08/31/2025"
         />
       </div>
       <h2 className="vads-u-font-size--h3">To apply by mail</h2>

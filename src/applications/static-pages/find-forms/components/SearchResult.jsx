@@ -1,12 +1,15 @@
-import React from 'react';
-import { format, parseISO, isAfter } from 'date-fns';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { format, parseISO, isAfter } from 'date-fns';
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import * as customPropTypes from '../prop-types';
+import { FormTypes, FormMetaInfoTypes } from '../types';
 import { FORM_MOMENT_PRESENTATION_DATE_FORMAT } from '../constants';
 import FormTitle from './FormTitle';
+import { checkFormValidity } from '../api';
+import { createLogMessage } from '../helpers/sentryLogger';
+import InvalidFormAlert from './InvalidFormAlert';
 
 // helper for replacing the form title to keep same domain for testing in non production
 const regulateURL = url => {
@@ -44,7 +47,7 @@ const deriveLanguageTranslation = (lang = 'en', whichNode, formName) => {
     },
     en: {
       goToOnlineTool: `Fill out VA Form ${formName} online`,
-      downloadVaForm: `Download VA Form ${formName}`,
+      downloadVaForm: `Download VA Form ${formName} (PDF)`,
     },
   };
 
@@ -105,7 +108,10 @@ const deriveRelatedTo = ({
 
   if (relatedTo) {
     return (
-      <div className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+      <div
+        className="vads-u-margin-top--1 vads-u-margin-bottom--2"
+        data-e2e-id="related-to"
+      >
         <span className="vads-u-font-weight--bold">Related to:</span>{' '}
         {relatedTo}
       </div>
@@ -115,12 +121,9 @@ const deriveRelatedTo = ({
   return null;
 };
 
-const SearchResult = ({
-  form,
-  formMetaInfo,
-  toggleModalState,
-  setPrevFocusedLink,
-}) => {
+const SearchResult = ({ form, formMetaInfo, setModalState }) => {
+  const [pdfError, setPdfError] = useState(false);
+
   if (!form?.attributes) {
     return null;
   }
@@ -143,7 +146,6 @@ const SearchResult = ({
   const relativeFormToolUrl = formToolUrl
     ? replaceWithStagingDomain(formToolUrl)
     : formToolUrl;
-  const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
 
   const relatedTo = deriveRelatedTo({
     vaFormAdministration,
@@ -154,9 +156,32 @@ const SearchResult = ({
   const recordGAEvent = (eventTitle, eventUrl, eventType) =>
     recordGAEventHelper({ ...formMetaInfo, eventTitle, eventUrl, eventType });
 
-  const pdfDownloadHandler = () => {
-    setPrevFocusedLink(`pdf-link-${id}`);
-    toggleModalState(formName, url, pdfLabel);
+  const pdfDownloadHandler = async () => {
+    const {
+      formPdfIsValid,
+      formPdfUrlIsValid,
+      networkRequestError,
+    } = await checkFormValidity(form, 'Form Search Results');
+
+    if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
+      setPdfError(false);
+      setModalState({
+        formId: `pdf-link-${id}`,
+        formName,
+        formUrl: url,
+        isOpen: true,
+      });
+    } else {
+      createLogMessage(
+        url,
+        form,
+        formPdfIsValid,
+        formPdfUrlIsValid,
+        networkRequestError,
+      );
+
+      setPdfError(true);
+    }
   };
 
   return (
@@ -168,7 +193,7 @@ const SearchResult = ({
         recordGAEvent={recordGAEvent}
         formName={formName}
       />
-      <div className="vads-u-margin-y--1 vsa-from-last-updated">
+      <div className="vads-u-margin-y--1" data-e2e-id="form-revision-date">
         <span className="vads-u-font-weight--bold">Form revision date:</span>{' '}
         {lastRevisionOn
           ? format(
@@ -193,35 +218,39 @@ const SearchResult = ({
         </div>
       ) : null}
       <div className="vads-u-margin-y--0">
-        <button
-          className="va-button-link"
-          data-testid={`pdf-link-${id}`}
-          id={`pdf-link-${id}`}
-          onKeyDown={event => {
-            if (event === 13) {
-              pdfDownloadHandler();
-            }
-          }}
-          onClick={pdfDownloadHandler}
-        >
-          <va-icon icon="file_download" size="3" />
-          <span
-            lang={language}
-            className="vads-u-text-decoration--underline vads-u-margin-left--0p5"
+        {pdfError && (
+          <InvalidFormAlert downloadUrl={url} isRelatedForm={false} />
+        )}
+        {!pdfError && (
+          <button
+            className="va-button-link"
+            data-testid={`pdf-link-${id}`}
+            id={`pdf-link-${id}`}
+            onKeyDown={event => {
+              if (event === 13) {
+                pdfDownloadHandler();
+              }
+            }}
+            onClick={pdfDownloadHandler}
           >
-            {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
-          </span>
-        </button>
+            <va-icon icon="file_download" size="3" />
+            <span
+              lang={language}
+              className="vads-u-text-decoration--underline vads-u-margin-left--0p5"
+            >
+              {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
+            </span>
+          </button>
+        )}
       </div>
     </li>
   );
 };
 
 SearchResult.propTypes = {
-  form: customPropTypes.Form.isRequired,
-  formMetaInfo: customPropTypes.FormMetaInfo,
-  setPrevFocusedLink: PropTypes.func,
-  toggleModalState: PropTypes.func,
+  form: FormTypes,
+  formMetaInfo: FormMetaInfoTypes,
+  setModalState: PropTypes.func,
 };
 
 export default SearchResult;

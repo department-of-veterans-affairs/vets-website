@@ -6,6 +6,9 @@ export const baseURL = '/ask_va_api/v0';
 
 export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
 
+// Overridable for testing
+export const getMockTestingFlagforAPI = () => mockTestingFlagforAPI;
+
 export const URL = {
   GET_CATEGORIES: `${baseURL}/contents?type=category${
     mockTestingFlagforAPI ? '&user_mock_data=true' : ''
@@ -70,6 +73,8 @@ export const branchesOfService = [
 ];
 
 // Categories
+export const CategoryDebt =
+  'Debt for benefit overpayments and health care copay bills';
 export const CategoryEducation = 'Education benefits and work study';
 export const CategoryHealthCare = 'Health care';
 export const CategoryVeteranReadinessAndEmployment =
@@ -89,6 +94,8 @@ export const TopicSpeciallyAdapatedHousing =
 export const TopicAppraisals = 'Appraisals';
 export const TopicEducationBenefitsAndWorkStudy =
   'Education benefits and work study';
+export const TopicEducationBenefitOverpayments =
+  'Education benefit overpayments (for school officials)';
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
