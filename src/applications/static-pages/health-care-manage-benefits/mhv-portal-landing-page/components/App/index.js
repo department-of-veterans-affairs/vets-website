@@ -7,17 +7,18 @@ import {
   isLoggedIn,
   isLOA3,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-
 // Relative imports.
 import { MhvSimpleSigninCallToAction } from 'applications/static-pages/mhv-simple-signin-cta';
+
+export const linkText = 'Go to My HealtheVet on VA.gov';
+export const linkUrl = '/my-health';
 
 export const App = ({ serviceName, userIsLoggedIn, userIsVerified }) => {
   return (
     <MhvSimpleSigninCallToAction
       headingLevel="3"
-      serviceDescription="send secure messages"
-      linkText="Go to your messages"
-      linkUrl="/my-health/secure-messages/inbox"
+      linkText={linkText}
+      linkUrl={linkUrl}
       serviceName={serviceName}
       userIsLoggedIn={userIsLoggedIn}
       userIsVerified={userIsVerified}

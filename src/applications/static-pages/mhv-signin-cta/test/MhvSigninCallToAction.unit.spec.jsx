@@ -52,6 +52,7 @@ describe('MHV Signin CTA', () => {
     const mockStore = configureStore([]);
     const serviceDescription = 'order supplies';
     const linkText = 'order medical supplies';
+    const defaultLinkText = 'Order hearing aid and CPAP supplies online';
 
     /**
      * Creates an HTML Collection with a div and a link.
@@ -105,7 +106,7 @@ describe('MHV Signin CTA', () => {
       expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
     });
 
-    it('verified user', async () => {
+    it('verified user with noAlertContent', async () => {
       const { queryByTestId, queryByRole } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
@@ -120,6 +121,22 @@ describe('MHV Signin CTA', () => {
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
       expect(queryByRole('link', { name: RegExp(linkText) })).to.exist;
+    });
+
+    it('verified user without noAlertContent', async () => {
+      const { queryByTestId, queryByRole } = render(
+        <Provider store={mockStore()}>
+          <MhvSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn
+            userIsVerified
+            serviceName={CSP_IDS.ID_ME}
+          />
+        </Provider>,
+      );
+      expect(queryByTestId('mhv-unverified-alert')).to.be.null;
+      expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
+      expect(queryByRole('link', { name: RegExp(defaultLinkText) })).to.exist;
     });
   });
 });

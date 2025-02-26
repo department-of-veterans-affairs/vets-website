@@ -4,50 +4,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { MhvSimpleSigninCallToAction, mapStateToProps } from '../index';
+import { MhvSimpleSigninCallToAction } from '../index';
 
 describe('MHV Signin CTA', () => {
-  describe('map state properties', () => {
-    it('user not logged in', () => {
-      const state = {
-        user: {
-          login: {
-            currentlyLoggedIn: false,
-          },
-          profile: {
-            loa: {
-              current: null,
-            },
-          },
-        },
-      };
-      const result = mapStateToProps(state);
-      expect(result.userIsLoggedIn).to.eql(false);
-    });
-
-    it('user logged in', () => {
-      const state = {
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-          profile: {
-            loa: {
-              current: 3,
-            },
-            signIn: {
-              serviceName: CSP_IDS.ID_ME,
-            },
-          },
-        },
-      };
-      const result = mapStateToProps(state);
-      expect(result.userIsLoggedIn).to.eql(true);
-      expect(result.serviceName).to.eql(CSP_IDS.ID_ME);
-      expect(result.userIsVerified).to.eql(true);
-    });
-  });
-
   describe('render widget', () => {
     const mockStore = configureStore([]);
     const serviceDescription = 'order supplies';
