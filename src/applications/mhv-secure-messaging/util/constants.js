@@ -22,7 +22,7 @@ export const DefaultFolders = {
   INBOX: {
     id: 0,
     header: 'Inbox',
-    desc: '',
+    desc: 'Communicate securely with your VA health care team.',
   },
   SENT: {
     id: -1,

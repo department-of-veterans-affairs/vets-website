@@ -201,7 +201,7 @@ const EditContactList = () => {
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
       />
-      <h1>{`${removeLandingPageFF ? `Messages: ` : ''}Contact List`}</h1>
+      <h1>{`${removeLandingPageFF ? `Messages: ` : ''}Contact list`}</h1>
       <AlertBackgroundBox closeable focus />
 
       <div
