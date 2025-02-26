@@ -12,7 +12,9 @@ const CHANGED_FILES = process.env.CHANGED_FILES
   ? process.env.CHANGED_FILES.split(' ')
   : [];
 
-const matchingFiles = CHANGED_FILES;
+const changedDirectories = Array.from(
+  new Set(CHANGED_FILES.map(filePath => path.dirname(filePath))),
+);
 
 function getSpecFiles(dir) {
   let results = [];
@@ -59,7 +61,7 @@ let collectedAnnotations = [];
 
 if (specFiles.length > 0) {
   specFiles.forEach(file => {
-    if (matchingFiles.some(changedFile => file.includes(changedFile))) {
+    if (changedDirectories.some(changedFile => file.includes(changedFile))) {
       const annotations = checkSpecsForSkips(file);
       collectedAnnotations = collectedAnnotations.concat(annotations);
     }
