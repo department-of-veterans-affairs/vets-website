@@ -1,11 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { signInServiceName } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
-import {
-  isLoggedIn,
-  isLOA3,
-} from '@department-of-veterans-affairs/platform-user/selectors';
 import UnauthenticatedAlert from '../mhv-signin-cta/components/messages/UnauthenticatedAlert';
 import UnverifiedAlert from '../mhv-signin-cta/components/messages/UnverifiedAlert';
 
@@ -50,7 +44,7 @@ export const MhvSimpleSigninCallToAction = ({
     );
   }
 
-  // Display the provided content. Note these are HTMLElements and not React.
+  // Display the application links
   return (
     <a className="vads-c-action-link--green" href={linkUrl}>
       {linkText}
@@ -62,24 +56,10 @@ MhvSimpleSigninCallToAction.propTypes = {
   headingLevel: PropTypes.string,
   linkText: PropTypes.string,
   linkUrl: PropTypes.string,
-  noAlertContent: PropTypes.instanceOf(HTMLElement),
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,
   userIsVerified: PropTypes.bool,
 };
 
-/**
- * Map state properties.
- * @param {Object} state the current state
- * @returns state properties
- */
-export const mapStateToProps = state => {
-  return {
-    serviceName: signInServiceName(state),
-    userIsLoggedIn: isLoggedIn(state),
-    userIsVerified: isLOA3(state),
-  };
-};
-
-export default connect(mapStateToProps)(MhvSimpleSigninCallToAction);
+export default MhvSimpleSigninCallToAction;
