@@ -1,6 +1,5 @@
 import React from 'react';
 
-// behavior list page
 export const supportingEvidencePageTitle =
   'Select supporting documents about your mental health conditions';
 
@@ -18,17 +17,54 @@ export const supportingEvidenceDescription = (
   </>
 );
 
-export const behaviorListAdditionalInformation = (
+export const supportingEvidenceBuddyStatement = (
   <va-additional-info
     class="vads-u-margin-y--3"
-    trigger="Why we’re asking this question"
+    trigger="Learn more about buddy statements"
+  >
+    <div>
+      <p className="vads-u-margin-top--0">
+        A buddy statement is a written statement from someone who knows about
+        your condition or related events.
+      </p>
+      <p>
+        Someone can provide a buddy statement to support your claim in either of
+        these 2 ways:
+      </p>
+      <ul>
+        <li>
+          <va-link
+            external
+            href="https://www.va.gov/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction"
+            text="Find your nearest VA medical center"
+          />
+          , <strong>or</strong>
+        </li>
+        <li>
+          Give you a PDF version of their completed VA Form 21-10210 to upload
+          on the next screen
+          <va-link
+            external
+            href="https://www.va.gov/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction"
+            text="Get VA Form 21-10210 to download"
+          />
+        </li>
+      </ul>
+    </div>
+  </va-additional-info>
+);
+
+export const supportingEvidenceAdditionalInformation = (
+  <va-additional-info
+    class="vads-u-margin-y--3"
+    trigger="Why we’re asking this"
   >
     <div>
       <p className="vads-u-margin-top--0">
         We understand that traumatic events from your military service may not
-        have been reported or documented. In these situations, the information
-        you provide about your behavioral changes will help us understand your
-        situation and identify evidence to support your claim.
+        have been reported or documented. In these situations, the supporting
+        documents you provide will help us understand your situation and
+        identify evidence to support your claim.
       </p>
     </div>
   </va-additional-info>

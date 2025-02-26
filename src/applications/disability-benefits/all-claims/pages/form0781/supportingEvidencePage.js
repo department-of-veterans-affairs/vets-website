@@ -6,9 +6,10 @@ import { titleWithTag, form0781HeadingTag } from '../../content/form0781';
 import {
   supportingEvidenceDescription,
   supportingEvidenceNoneLabel,
-  behaviorListAdditionalInformation,
+  supportingEvidenceAdditionalInformation,
   supportingEvidencePageTitle,
   validateSupportingEvidenceSelections,
+  supportingEvidenceBuddyStatement,
   behaviorListValidationError,
   showConflictingAlert,
 } from '../../content/form0781/supportingEvidencePage';
@@ -69,8 +70,11 @@ export const uiSchema = {
     },
     required: false,
   }),
-  'view:behaviorAdditionalInformation': {
-    'ui:description': behaviorListAdditionalInformation,
+  'view:supportingEvidenceBuddyStatement': {
+    'ui:description': supportingEvidenceBuddyStatement,
+  },
+  'view:supportingEvidenceAdditionalInformation': {
+    'ui:description': supportingEvidenceAdditionalInformation,
   },
   'ui:validations': [validateSupportingEvidenceSelections],
 };
@@ -95,7 +99,11 @@ export const schema = {
       Object.keys(SUPPORTING_EVIDENCE_OTHER),
     ),
     'view:supportingEvidenceNoneCheckbox': checkboxGroupSchema(['none']),
-    'view:behaviorAdditionalInformation': {
+    'view:supportingEvidenceBuddyStatement': {
+      type: 'object',
+      properties: {},
+    },
+    'view:supportingEvidenceAdditionalInformation': {
       type: 'object',
       properties: {},
     },
