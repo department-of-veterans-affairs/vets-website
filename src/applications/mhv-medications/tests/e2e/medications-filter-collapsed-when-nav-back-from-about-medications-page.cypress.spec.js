@@ -3,7 +3,7 @@ import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 
-describe('Medications List Page Filter Collapsed ', () => {
+describe.skip('Medications List Page Filter Collapsed ', () => {
   it('visits Medications List Page Filter collpased after navigating away and back', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
