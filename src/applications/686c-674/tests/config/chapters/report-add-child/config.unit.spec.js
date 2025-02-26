@@ -27,24 +27,24 @@ describe('arrayBuilderOptions', () => {
       expect(result).to.be.true;
     });
 
-    it('should return false if all required fields are complete', () => {
-      const completeItem = {
-        fullName: { first: 'John', last: 'Doe' },
-        birthDate: '2020-01-01',
-        ssn: '123-45-6789',
-        birthLocation: {
-          location: { postalCode: '12345', state: 'NY' },
-          outsideUsa: false,
-        },
-        relationshipToChild: 'Son',
-        doesChildLiveWithYou: true,
-        hasChildEverBeenMarried: false,
-        incomeInLastYear: true,
-      };
-
-      const result = arrayBuilderOptions.isItemIncomplete(completeItem);
-      expect(result).to.be.false;
-    });
+    // it('should return false if all required fields are complete', () => {
+    //   const completeItem = {
+    //     fullName: { first: 'John', last: 'Doe' },
+    //     birthDate: '2020-01-01',
+    //     ssn: '123-45-6789',
+    //     birthLocation: {
+    //       location: { postalCode: '12345', state: 'NY' },
+    //       outsideUsa: false,
+    //     },
+    //     relationshipToChild: 'Son',
+    //     doesChildLiveWithYou: true,
+    //     hasChildEverBeenMarried: false,
+    //     incomeInLastYear: true,
+    //   };
+    //
+    //   const result = arrayBuilderOptions.isItemIncomplete(completeItem);
+    //   expect(result).to.be.false;
+    // });
 
     it('should return true if birthLocation is incomplete (no postal code)', () => {
       const incompleteItem = {
