@@ -12,8 +12,8 @@ import {
   otherReportTypesQuestion,
   otherReportTypesExamples,
   validateReportSelections,
-  reportTypeValidationError,
-  showConflictingAlert,
+  // reportTypeValidationError,
+  // showConflictingAlert,
 } from '../../content/officialReport';
 import {
   titleWithTag,
@@ -39,15 +39,15 @@ export const officialReport = {
       editTitle: 'official report details',
     }),
     'ui:description': officialReportsDescription(),
-    'view:conflictingResponseAlert': {
-      'ui:description': reportTypeValidationError,
-      'ui:options': {
-        hideIf: (formData, index, fullData) => {
-          const data = fullData.events?.[index];
-          return showConflictingAlert(data) === false;
-        },
-      },
-    },
+    // 'view:conflictingResponseAlert': {
+    //   'ui:description': reportTypeValidationError,
+    //   'ui:options': {
+    //     hideIf: (formData, index, fullData) => {
+    //       const data = fullData.events?.[index];
+    //       return showConflictingAlert(data) === false;
+    //     },
+    //   },
+    // },
     otherReports: checkboxGroupUI({
       title: reportTypesQuestion,
       hint: reportTypesHint,
@@ -66,10 +66,10 @@ export const officialReport = {
   schema: {
     type: 'object',
     properties: {
-      'view:conflictingResponseAlert': {
-        type: 'object',
-        properties: {},
-      },
+      // 'view:conflictingResponseAlert': {
+      //   type: 'object',
+      //   properties: {},
+      // },
       otherReports: checkboxGroupSchema(Object.keys(OTHER_REPORT_TYPES)),
       unlistedReport: {
         type: 'string',
@@ -89,15 +89,15 @@ export const officialReportMst = {
       editTitle: 'official report details',
     }),
     'ui:description': officialReportsDescription('mst'),
-    'view:conflictingResponseAlert': {
-      'ui:description': reportTypeValidationError,
-      'ui:options': {
-        hideIf: (formData, index, fullData) => {
-          const data = fullData.events?.[index];
-          return showConflictingAlert(data) === false;
-        },
-      },
-    },
+    // 'view:conflictingResponseAlert': {
+    //   'ui:description': reportTypeValidationError,
+    //   'ui:options': {
+    //     hideIf: (formData, index, fullData) => {
+    //       const data = fullData.events?.[index];
+    //       return showConflictingAlert(data) === false;
+    //     },
+    //   },
+    // },
     militaryReports: checkboxGroupUI({
       title: reportTypesQuestion,
       hint: reportTypesHint,
@@ -123,10 +123,10 @@ export const officialReportMst = {
   schema: {
     type: 'object',
     properties: {
-      'view:conflictingResponseAlert': {
-        type: 'object',
-        properties: {},
-      },
+      // 'view:conflictingResponseAlert': {
+      //   type: 'object',
+      //   properties: {},
+      // },
       militaryReports: checkboxGroupSchema(Object.keys(MILITARY_REPORT_TYPES)),
       otherReports: checkboxGroupSchema(Object.keys(OTHER_REPORT_TYPES)),
       unlistedReport: {
