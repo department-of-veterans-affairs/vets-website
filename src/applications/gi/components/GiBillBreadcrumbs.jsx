@@ -14,7 +14,10 @@ const GiBillBreadcrumbs = () => {
   const location = useLocation();
 
   const schoolsEmployersMatch = useRouteMatch('/schools-and-employers');
-  const profileMatch = useRouteMatch('/institution/:facilityCode');
+  const profileMatch = useRouteMatch(
+    '/institution/:facilityCode' ||
+      '/schools-and-employers/institution/:facilityCode',
+  );
   const compareMatch = location.pathname.includes('/compare');
   const ProgramsTypeMatch = useRouteMatch(
     '/institution/:facilityCode/:programType',
@@ -56,9 +59,11 @@ const GiBillBreadcrumbs = () => {
     const searchByLocationPage = isSearchByLocationPage();
     crumbs.push({
       href: '/education/gi-bill-comparison-tool/schools-and-employers',
-      label: `Schools and employers ${searchByName ? '(Search by name)' : ''}${
-        searchByLocationPage ? '(Search by location}' : ''
-      }`,
+      label: `Schools and employers ${
+        searchByName && !location.pathname.includes('institution')
+          ? '(Search by name)'
+          : ''
+      }${searchByLocationPage ? '(Search by location}' : ''}`,
     });
   }
 

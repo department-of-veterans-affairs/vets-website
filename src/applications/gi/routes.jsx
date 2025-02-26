@@ -17,11 +17,9 @@ import HomePage from './updated-gi/components/Homepage';
 
 const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const giCtCollab = true;
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
   const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
-  const lcToggleValue = useToggleValue(
-    TOGGLE_NAMES.giComparisonToolLceToggleFlag,
-  );
+  const lcToggleValue = true;
   const toggleGiProgramsFlag = useToggleValue(
     TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
   );
@@ -77,34 +75,21 @@ const BuildRoutes = () => {
               />
               {lcToggleValue && (
                 <Route
-                  key="lc-search"
                   exact
-                  path="/lc-search"
-                  render={({ match }) => (
-                    <LicenseCertificationSearchPage
-                      match={match}
-                      flag="singleFetch"
-                    />
-                  )}
+                  path="/licenses-certifications-and-prep-courses"
+                  component={LicenseCertificationSearchPage}
                 />
               )}
               {lcToggleValue && (
                 <Route
-                  key="lc-search-results"
                   exact
-                  path="/lc-search/results"
-                  render={({ match }) => (
-                    <LicenseCertificationSearchResults
-                      match={match}
-                      flag="singleFetch"
-                    />
-                  )}
+                  path="/licenses-certifications-and-prep-courses/results"
+                  component={LicenseCertificationSearchResults}
                 />
               )}
               {lcToggleValue && (
                 <Route
-                  key="lc-search-result"
-                  path="/lc-search/results/:id"
+                  path="/licenses-certifications-and-prep-courses/results/:id/:name"
                   component={LicenseCertificationSearchResult}
                 />
               )}
