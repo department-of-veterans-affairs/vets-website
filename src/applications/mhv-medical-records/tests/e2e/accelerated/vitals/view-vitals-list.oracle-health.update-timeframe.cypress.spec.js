@@ -46,12 +46,12 @@ describe('Medical Records View Vitals', () => {
 
     Vitals.checkUrl({ timeFrame: '2020-01' });
 
-    cy.get('[data-testid="breadcrumbs"]')
+    cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
       .should('have.attr', 'href')
       .and('include', '/my-health/medical-records/vitals');
 
-    cy.get('[data-testid="breadcrumbs"]')
+    cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
       .contains('Back')
       .click();
