@@ -14,8 +14,12 @@ function AddressAutosuggest({
   currentQuery,
   geolocateUser,
   inputRef,
+  isMobile,
+  isSmallDesktop,
+  isTablet,
   onClearClick,
   onChange,
+  useProgressiveDisclosure,
 }) {
   const [inputValue, setInputValue] = useState(null);
   const { locationChanged, searchString, geolocationInProgress } = currentQuery;
@@ -80,7 +84,10 @@ function AddressAutosuggest({
           }
           setIsGeocoding(false);
         })
-        .catch(() => setIsGeocoding(false));
+        .catch(() => {
+          onChange({ error: true });
+          setIsGeocoding(false);
+        });
     }
   };
 
@@ -180,6 +187,10 @@ function AddressAutosuggest({
         <UseMyLocation
           onClick={handleGeolocationButtonClick}
           geolocationInProgress={currentQuery.geolocationInProgress}
+          useProgressiveDisclosure={useProgressiveDisclosure}
+          isSmallDesktop={isSmallDesktop}
+          isTablet={isTablet}
+          isMobile={isMobile}
         />
       )}
       /* eslint-enable prettier/prettier */
@@ -189,6 +200,7 @@ function AddressAutosuggest({
       shouldShowNoResults
       isLoading={isGeocoding}
       loadingMessage="Searching..."
+      useProgressiveDisclosure={useProgressiveDisclosure || false}
     />
   );
 }
@@ -202,6 +214,10 @@ AddressAutosuggest.propTypes = {
   }),
   geolocateUser: PropTypes.func,
   inputRef: PropTypes.object,
+  isMobile: PropTypes.bool,
+  isSmallDesktop: PropTypes.bool,
+  isTablet: PropTypes.bool,
+  useProgressiveDisclosure: PropTypes.bool,
   onClearClick: PropTypes.func,
 };
 
