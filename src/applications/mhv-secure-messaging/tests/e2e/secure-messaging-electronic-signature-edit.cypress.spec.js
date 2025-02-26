@@ -25,7 +25,7 @@ describe('EDIT SIGNATURE FEATURE', () => {
   it('verify "Edit signature" link', () => {
     const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
       'mhv_secure_messaging_signature_settings',
-      'true',
+      true,
     );
 
     SecureMessagingSite.login(updatedFeatureTogglesResponse);
