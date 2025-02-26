@@ -7,20 +7,23 @@ function isItemIncomplete(item) {
     !item?.birthDate ||
     !item?.ssn ||
     !item?.birthLocation?.location?.city ||
-    (item?.birthLocation?.outsideUsa === false &&
+    (!item?.birthLocation?.outsideUsa &&
       !item?.birthLocation?.location?.state) ||
     (item?.birthLocation?.outsideUsa === true &&
       !item?.birthLocation?.location?.country) ||
     !item?.birthLocation?.location?.postalCode ||
+    typeof item?.isBiologicalChild === 'undefined' ||
+    typeof item?.isBiologicalChildOfSpouse === 'undefined' ||
+    (item?.isBiologicalChild === false &&
+      (typeof item?.relationshipToChild !== 'object' ||
+        item?.relationshipToChild === null ||
+        Object.keys(item?.relationshipToChild).length === 0)) ||
     !item?.dateEnteredHousehold ||
     !item?.biologicalParentName?.first ||
     !item?.biologicalParentName?.last ||
     !item?.biologicalParentDob ||
     !item?.biologicalParentSsn ||
-    (item?.isBiologicalChild === false &&
-      (typeof item?.relationshipToChild !== 'object' ||
-        item?.relationshipToChild === null ||
-        Object.keys(item?.relationshipToChild).length === 0)) ||
+    typeof item?.doesChildHaveDisability === 'undefined' ||
     (item?.doesChildHaveDisability === true &&
       typeof item?.doesChildHavePermanentDisability === 'undefined') ||
     typeof item?.doesChildLiveWithYou === 'undefined' ||
