@@ -18,7 +18,7 @@ const responses = {
   },
   'GET /v0/form1095_bs/available_forms': (_req, res) => {
     return res.json({
-      availableForms: [{ year: 2020, lastUpdated: '2025-02-03T18:50:40.548Z' }],
+      availableForms: [{ year: 2024, lastUpdated: '2025-02-03T18:50:40.548Z' }],
     });
   },
   'GET /v0/user': (_req, res) => {

@@ -29,18 +29,24 @@ describe('<ConfirmationPage>', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
   it('should render with data', () => {
+    const router = {
+      push: () => {},
+    };
     const { container } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage router={router} />
       </Provider>,
     );
     expect(container).to.exist;
   });
   it('should print the page', () => {
     const printSpy = sinon.spy(window, 'print');
+    const router = {
+      push: () => {},
+    };
     const { getByTestId } = render(
       <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage />
+        <ConfirmationPage router={router} />
       </Provider>,
     );
     expect(getByTestId('print-page')).to.exist;
