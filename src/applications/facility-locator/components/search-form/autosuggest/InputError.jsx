@@ -1,20 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function AddressInputError({ showError }) {
+function InputError({ errorMessage, showError }) {
   if (!showError) {
     return null;
   }
+
   return (
     <span className="usa-input-error-message" role="alert">
       <span className="sr-only">Error</span>
-      Enter a zip code or a city and state in the search box
+      {errorMessage}
     </span>
   );
 }
 
-AddressInputError.propTypes = {
-  showError: PropTypes.bool,
+InputError.propTypes = {
+  errorMessage: PropTypes.string.isRequired,
+  showError: PropTypes.bool.isRequired,
 };
 
-export default AddressInputError;
+export default InputError;

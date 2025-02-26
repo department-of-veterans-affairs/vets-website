@@ -246,7 +246,6 @@ export const SearchFormTypes = {
  * inputRef: not required, use only if you programmatically need to focus the input or get something from it
  * isLoading: data is loading - to be shown in place of no results if no results is to be shown
  * labelSibling: optional element to render next to the label
- * minCharacters: optional minimum number of characters to start an action
  * noItemsMessage: message to show when no items are found (an error)
  * showDownCaret: optional flag to show the down caret/arrow
  * showError: optional flag to show the error state
@@ -256,9 +255,9 @@ export const SearchFormTypes = {
 export const AutosuggestProps = {
   AutosuggestOptionComponent: PropTypes.elementType,
   clearOnEscape: PropTypes.bool,
-  defaultSelectedItem: PropTypes.object,
   downshiftInputProps: PropTypes.object,
   handleOnSelect: PropTypes.func.isRequired,
+  initialSelectedItem: PropTypes.object,
   inputContainerClassName: PropTypes.string,
   inputError: PropTypes.element,
   inputId: PropTypes.string,
@@ -271,7 +270,6 @@ export const AutosuggestProps = {
   label: PropTypes.element.isRequired,
   labelSibling: PropTypes.element,
   loadingMessage: PropTypes.string,
-  minCharacters: PropTypes.number,
   noItemsMessage: PropTypes.string,
   onClearClick: PropTypes.func.isRequired,
   onInputValueChange: PropTypes.func.isRequired,

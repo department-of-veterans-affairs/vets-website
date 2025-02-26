@@ -284,6 +284,7 @@ $text-color: rgba(27, 27, 27, 1);
     input {
       width: 100%;
       max-width: none;
+
       @media screen and (min-width: $small-desktop-screen) {
         max-width: 418px;
       }
@@ -331,14 +332,17 @@ $text-color: rgba(27, 27, 27, 1);
     .service-type-dropdown-tablet {
       width: 100%;
       flex-basis: 100%;
+
       @media (min-width: $small-desktop-screen) {
         flex-basis: 50%;
       }
     }
+
     .service-type-dropdown-desktop {
       flex-basis: 100%;
       width: 100%;
     }
+
     .usa-input-error {
       right: 0;
     }
@@ -347,11 +351,14 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+
       @media (min-width: $small-desktop-screen) {
         flex-basis: 50%;
       }
+
       &.facility-error {
         margin-top: 0px;
+
         @media screen and (min-width: $small-desktop-screen) {
           margin-left: 12px;
         }
@@ -363,6 +370,7 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+
       &.facility-error {
         margin-top: -8px;
       }
@@ -372,6 +380,7 @@ $text-color: rgba(27, 27, 27, 1);
       width: 100%;
       flex-basis: 100%;
       margin-top: -24px;
+
       &.facility-error {
         @media screen and (min-width: $tablet) {
           margin-top: 0px;
@@ -389,6 +398,7 @@ $text-color: rgba(27, 27, 27, 1);
       &.usa-input-error {
         margin-bottom: 24px;
         padding-bottom: 0;
+
         .input-container {
           margin-bottom: 0;
           max-width: calc(418px - 0.9375rem - 4px);
@@ -424,6 +434,7 @@ $text-color: rgba(27, 27, 27, 1);
 
       @media (min-width: $small-desktop-screen) {
         margin: 0 0 0 20px;
+
         &.fl-sm-desktop {
           flex-direction: column;
           align-items: flex-start;
@@ -458,6 +469,7 @@ $text-color: rgba(27, 27, 27, 1);
       @media screen and (max-width: $small-desktop-screen) {
         margin-top: 0;
       }
+
       @media (min-width: $small-desktop-screen) {
         display: flex;
         flex-direction: row;
@@ -465,6 +477,7 @@ $text-color: rgba(27, 27, 27, 1);
         align-items: flex-end;
       }
     }
+
     p.service-hint-text {
       color: $vads-label-hint-text-color-on-light;
       margin: 0.5em 0;
@@ -508,15 +521,19 @@ $text-color: rgba(27, 27, 27, 1);
       border: 1px solid var(--vads-color-primary-dark);
     }
   }
+
   .typeahead-mobile,
   .typeahead-desktop {
     flex-basis: 100%;
   }
+
   .typeahead-tablet {
     flex-basis: 100%;
+
     @media (min-width: $small-desktop-screen) {
       flex-basis: 50%;
     }
+
     &:has(.usa-input-error) {
       margin-bottom: 24px;
     }
@@ -695,9 +712,11 @@ $text-color: rgba(27, 27, 27, 1);
 
 #search-area-control-container {
   z-index: 1;
+
   va-button {
     margin: 0 !important;
     padding: 0px 0 0px 8px !important;
+
     .usa-button {
       margin: 0 !important;
       width: 100% !important;
