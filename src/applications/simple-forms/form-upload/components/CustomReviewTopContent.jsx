@@ -56,7 +56,7 @@ const CustomReviewTopContent = () => {
   const filePayload = {
     name: uploadedFile?.name,
     size: uploadedFile?.size,
-    type: uploadedFile?.type,
+    type: '',
   };
 
   return (
