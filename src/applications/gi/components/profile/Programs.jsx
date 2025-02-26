@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { mapProgramTypeToName, mapToDashedName } from '../../utils/helpers';
 
 const Programs = ({ programTypes, facilityCode }) => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
-
   return (
     <>
       <p>
@@ -22,9 +18,9 @@ const Programs = ({ programTypes, facilityCode }) => {
         >
           <Link
             to={{
-              pathname: `${
-                giCtCollab ? '/schools-and-employers' : ''
-              }/institution/${facilityCode}/${mapToDashedName(programType)
+              pathname: `../institution/${facilityCode}/${mapToDashedName(
+                programType,
+              )
                 .trim()
                 .toLowerCase()
                 .replace(/\s+/g, '-')
