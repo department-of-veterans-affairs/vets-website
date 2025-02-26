@@ -36,4 +36,3 @@ export const verifyVaFileNumber = () => async dispatch => {
     dispatch({ type: VERIFY_VA_FILE_NUMBER_SUCCEEDED, response });
   }
 };
-// test change
