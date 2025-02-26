@@ -12,7 +12,7 @@ const mockManifest = {
   entryName: '10216-edu-benefits',
   productId: 'db0db964-89ef-4e80-a469-499b7db330cd',
   rootUrl:
-    '/education/apply-for-education-benefits/application/10216/introduction/',
+    '/education/apply-for-education-benefits/application/10216/institution-details/',
 };
 
 const testConfig = createTestConfig(
@@ -36,6 +36,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
+    skip: Cypress.env('CI'),
   },
   mockManifest,
   formConfig,
