@@ -4,6 +4,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const Modals = ({ children, title }) => {
   const [visible, setVisible] = useState(false);
@@ -214,7 +215,7 @@ Modals.Rights = () => (
         By Phone: Contact VA at
         <va-telephone
           international
-          contact="8884001238"
+          contact={CONTACTS.HEALTH_RESOURCE_CENTER}
           className="vads-u-margin-x--0p5"
         />
       </li>
@@ -255,7 +256,7 @@ Modals.Rights = () => (
       accessing forms online, contact VA at
       <va-telephone
         international
-        contact="8664001238"
+        contact={CONTACTS.HEALTH_RESOURCE_CENTER}
         className="vads-u-margin-left--0p5"
       />
       .
@@ -272,7 +273,7 @@ Modals.Rights = () => (
       have not already designated a representative, contact VA at
       <va-telephone
         international
-        contact="8664001238"
+        contact={CONTACTS.HEALTH_RESOURCE_CENTER}
         className="vads-u-margin--0p5"
       />
       to request the necessary forms. If an attorney or accredited agent
@@ -305,7 +306,7 @@ Modals.Rights = () => (
       or call toll free at
       <va-telephone
         international
-        contact="8664001238"
+        contact={CONTACTS.HEALTH_RESOURCE_CENTER}
         className="vads-u-margin-x--0p5"
       />
       to obtain a copy by mail. Furnishing the check information is voluntary,
@@ -322,7 +323,7 @@ Modals.Rights = () => (
       contact VA at
       <va-telephone
         international
-        contact="8664001238"
+        contact={CONTACTS.HEALTH_RESOURCE_CENTER}
         className="vads-u-margin-left--0p5"
       />
       .
