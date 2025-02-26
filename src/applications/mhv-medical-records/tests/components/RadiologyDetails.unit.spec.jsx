@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach, it } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -12,7 +11,6 @@ import radiologyMhvWithImagesNew from '../fixtures/radiologyMhvWithImagesNew.jso
 import radiologyMhvWithImageError from '../fixtures/radiologyMhvWithImageError.json';
 import images from '../fixtures/images.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
-import * as helpers from '../../util/helpers';
 import {
   convertCvixRadiologyRecord,
   convertMhvRadiologyRecord,
@@ -30,8 +28,6 @@ describe('Radiology details component - images', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -145,8 +141,6 @@ describe('Radiology details component - image with error', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -203,8 +197,6 @@ describe('Radiology details component - new image', () => {
     featureToggles: {
       // eslint-disable-next-line camelcase
       mhv_medical_records_allow_txt_downloads: true,
-      // eslint-disable-next-line camelcase
-      mhv_integration_medical_records_to_phase_1: true,
     },
   };
 
@@ -336,16 +328,6 @@ describe('Radiology details component', () => {
   it('should display a download started message when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;
-  });
-
-  it('should show a request images button', async () => {
-    const sendDataDogActionStub = sinon.stub(helpers, 'sendDataDogAction');
-
-    fireEvent.click(screen.getByTestId('radiology-images-link'));
-    await waitFor(() => {
-      expect(sendDataDogActionStub.calledOnce).to.be.true;
-      sendDataDogActionStub.restore();
-    });
   });
 });
 

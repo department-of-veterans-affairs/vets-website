@@ -8,6 +8,7 @@ describe('hca FeatureToggles selector', () => {
       hca_reg_only_enabled: true,
       hca_insurance_v2_enabled: false,
       hca_browser_monitoring_enabled: true,
+      hca_performance_alert_enabled: false,
       hca_enrollment_status_override_enabled: false,
       loading: false,
     },
@@ -18,6 +19,7 @@ describe('hca FeatureToggles selector', () => {
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
+        isPerformanceAlertEnabled: false,
         isESOverrideEnabled: false,
         isInsuranceV2Enabled: false,
         isRegOnlyEnabled: true,

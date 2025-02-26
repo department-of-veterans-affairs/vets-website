@@ -54,9 +54,14 @@ const NationalExamsList = () => {
     }, 0);
   };
 
-  const handleRouteChange = examId => event => {
+  const handleRouteChange = exam => event => {
     event.preventDefault();
-    history.push(`/national-exams/${examId}`);
+    const selectedExamName = formatNationalExamName(exam.name);
+    history.push(
+      `/national-exams/${exam.enrichedId}?examName=${encodeURIComponent(
+        selectedExamName,
+      )}`,
+    );
   };
 
   const NationalExamsInfo = () => (
@@ -155,7 +160,7 @@ const NationalExamsList = () => {
                   message-aria-describedby={`View test amount details for ${formatNationalExamName(
                     exam.name,
                   )}`}
-                  onClick={handleRouteChange(exam.enrichedId)}
+                  onClick={handleRouteChange(exam)}
                 />
               </va-card>
             </li>

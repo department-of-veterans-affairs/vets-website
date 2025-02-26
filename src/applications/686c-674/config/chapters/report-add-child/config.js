@@ -19,8 +19,7 @@ export const arrayBuilderOptions = {
       isBirthLocationIncomplete ||
       !item?.relationshipToChild ||
       typeof item?.doesChildLiveWithYou !== 'boolean' ||
-      typeof item?.hasChildEverBeenMarried !== 'boolean' ||
-      typeof item?.incomeInLastYear !== 'boolean'
+      typeof item?.hasChildEverBeenMarried !== 'boolean'
     );
   },
   maxItems: 10,
