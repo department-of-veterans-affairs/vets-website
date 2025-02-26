@@ -90,7 +90,7 @@ export const buildMarker = (
         );
 
         if (searchResultsContainer) {
-          searchResultsContainer.scrollTop = locationElement.offsetTop;
+          searchResultsContainer.scrollTop = locationElement.offsetTop - 8;
         }
       }
     });

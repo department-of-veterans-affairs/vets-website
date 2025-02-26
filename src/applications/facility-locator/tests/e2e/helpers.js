@@ -30,11 +30,21 @@ export const MOBILE_TAB_BUTTON = 'button[class*="segment"]';
 
 export const MOBILE_MAP_RESULT_CONTAINER = '.mobile-search-result';
 
-export const typeInCityStateInput = value =>
+// Error message that appears if something is blank or incorrect in the search form
+export const SEARCH_FORM_ERROR_MESSAGE = '.usa-input-error-message';
+
+export const typeInCityStateInput = (value, shouldCloseDropdown = false) => {
   cy.get(CITY_STATE_ZIP_INPUT).type(value);
+  if (shouldCloseDropdown) {
+    cy.get(CITY_STATE_ZIP_INPUT).type('{esc}'); // close the dropdown in case of autosuggest
+  }
+};
 
 export const typeAndSelectInCCPServiceTypeInput = value => {
   cy.get(CCP_SERVICE_TYPE_INPUT).type(value);
+  // value must be the exact term, not a portion of the text so
+  // "General" may be what you type above, but it won't find "General Acute Care Hospital"
+  // So you must type and find the same text
   cy.findByText(value)
     .eq(0)
     .click();
@@ -51,12 +61,18 @@ export const FACILITY_TYPES = {
   VET: 'Vet Centers',
 };
 
-export const selectFacilityTypeInDropdown = value =>
+// using the va-select or VaSelect with a shadow and select an item
+export const findSelectInVaSelect = dropdownName =>
   cy
-    .get(FACILITY_TYPE_DROPDOWN)
+    .get(dropdownName)
     .shadow()
-    .find('select')
-    .select(value);
+    .find('select');
+
+export const vaSelectSelect = (value, dropdownName) =>
+  findSelectInVaSelect(dropdownName).select(value);
+
+export const selectFacilityTypeInDropdown = value =>
+  vaSelectSelect(value, FACILITY_TYPE_DROPDOWN);
 
 export const selectServiceTypeInVAHealthDropdown = value =>
   cy.get(VA_HEALTH_SERVICE_DROPDOWN).select(value);
@@ -192,3 +208,6 @@ export const verifyElementShouldContainText = (selector, text) =>
     .should('exist')
     .and('be.visible')
     .and('contain.text', text);
+
+export const errorMessageContains = text =>
+  verifyElementShouldContainText(SEARCH_FORM_ERROR_MESSAGE, text);

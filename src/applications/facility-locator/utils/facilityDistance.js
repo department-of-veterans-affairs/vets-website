@@ -1,5 +1,5 @@
 import { toRadians } from 'platform/utilities/facilities-and-mapbox';
-import { MIN_RADIUS, MIN_RADIUS_CCP } from '../constants';
+import { MIN_RADIUS, MIN_RADIUS_CCP, MIN_RADIUS_EXP } from '../constants';
 
 export function distBetween(lat1, lng1, lat2, lng2) {
   const R = 3959; // radius in miles
@@ -17,23 +17,24 @@ export function distBetween(lat1, lng1, lat2, lng2) {
   return R * c;
 }
 
-export const radiusFromBoundingBox = (fbox, ccp = false) => {
+export const radiusFromBoundingBox = (
+  fbox,
+  ccp = false,
+  useProgressiveDisclosure = false,
+) => {
   let radius = distBetween(
     fbox[0].bbox[1],
     fbox[0].bbox[0],
     fbox[0].bbox[3],
     fbox[0].bbox[2],
   );
-
-  if (ccp && radius < MIN_RADIUS_CCP) {
+  if (useProgressiveDisclosure && radius < MIN_RADIUS_EXP) {
+    radius = MIN_RADIUS_EXP;
+  } else if (ccp && radius < MIN_RADIUS_CCP) {
     radius = MIN_RADIUS_CCP;
   } else if (!ccp && radius < MIN_RADIUS) {
     radius = MIN_RADIUS;
   }
 
-  if (ccp) {
-    return Math.max(radius, MIN_RADIUS_CCP);
-  }
-
-  return Math.max(radius, MIN_RADIUS);
+  return radius;
 };

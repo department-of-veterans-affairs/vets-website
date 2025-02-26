@@ -149,48 +149,364 @@ const resultsData = {
       },
     },
     {
-      id: 'vba_343z',
-      type: 'va_facilities',
+      id: 'vha_688',
+      type: 'facility',
       attributes: {
-        uniqueId: '343z',
-        name: 'VetSuccess on Campus at Los Angeles City College',
-        facilityType: 'va_benefits_facility',
-        classification: 'VETSUCCESS ON CAMPUS',
-        website: null,
-        lat: 40.17887331434698,
-        long: -99.27246093750001,
+        classification: 'VA Medical Center (VAMC)',
+        distance: null,
+        facilityType: 'va_health_facility',
+        id: 'vha_688',
+        lat: 38.929401,
+        long: -77.0111955,
+        mobile: false,
+        name: 'Washington VA Medical Center',
+        operationalHoursSpecialInstructions: [
+          'Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m.',
+        ],
+        uniqueId: '688',
+        visn: '5',
+        website:
+          'https://www.va.gov/washington-dc-health-care/locations/washington-va-medical-center/',
+        tmpCovidOnlineScheduling: null,
+        access: {
+          health: [],
+          effectiveDate: '',
+        },
         address: {
           physical: {
-            address1: '855 North Vermont',
-            address2: '',
-            address3: null,
-            city: 'Los Angeles',
-            state: 'CA',
-            zip: '90029',
+            zip: '20422-0001',
+            city: 'Washington',
+            state: 'DC',
+            address1: '50 Irving Street, Northwest',
           },
-          mailing: {},
         },
-        phone: {
-          main: '323-953-4000 Ext 1253',
-          fax: '',
+        feedback: {
+          health: {
+            primaryCareUrgent: 0.6800000071525574,
+            primaryCareRoutine: 0.8199999928474426,
+            specialtyCareUrgent: 0.7400000095367432,
+            specialtyCareRoutine: 0.7900000214576721,
+          },
+          effectiveDate: '2025-02-04',
         },
         hours: {
-          monday: 'Closed',
+          monday: '24/7',
+          tuesday: '24/7',
+          wednesday: '24/7',
+          thursday: '24/7',
+          friday: '24/7',
+          saturday: '24/7',
+          sunday: '24/7',
+        },
+        operatingStatus: {
+          code: 'NORMAL',
+        },
+        phone: {
+          fax: '202-745-8530',
+          main: '202-745-8000',
+          pharmacy: '202-745-8235',
+          afterHours: '202-745-8000',
+          patientAdvocate: '202-745-8588',
+          mentalHealthClinic: '202-745-8000, ext. 58127',
+          enrollmentCoordinator: '202-745-8000 x56333',
+          healthConnect: '855-679-0250',
+        },
+        services: {
+          health: [
+            {
+              name: 'Advice nurse',
+              serviceId: 'adviceNurse',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/adviceNurse',
+            },
+            {
+              name: 'Anesthesia',
+              serviceId: 'anesthesia',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/anesthesia',
+            },
+            {
+              name: 'Audiology',
+              serviceId: 'audiology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/audiology',
+            },
+            {
+              name: 'Cardiology',
+              serviceId: 'cardiology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/cardiology',
+            },
+            {
+              name: 'CaregiverSupport',
+              serviceId: 'caregiverSupport',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/caregiverSupport',
+            },
+            {
+              name: 'COVID-19 vaccines',
+              serviceId: 'covid19Vaccine',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/covid19Vaccine',
+            },
+            {
+              name: 'Dental/oral surgery',
+              serviceId: 'dental',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/dental',
+            },
+            {
+              name: 'Dermatology',
+              serviceId: 'dermatology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/dermatology',
+            },
+            {
+              name: 'Emergency care',
+              serviceId: 'emergencyCare',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/emergencyCare',
+            },
+            {
+              name: 'Gastroenterology',
+              serviceId: 'gastroenterology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/gastroenterology',
+            },
+            {
+              name: 'Geriatrics',
+              serviceId: 'geriatrics',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/geriatrics',
+            },
+            {
+              name: 'Gynecology',
+              serviceId: 'gynecology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/gynecology',
+            },
+            {
+              name: 'Hematology/oncology',
+              serviceId: 'hematology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hematology',
+            },
+            {
+              name: 'Homeless Veteran care',
+              serviceId: 'homeless',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/homeless',
+            },
+            {
+              name: 'Palliative and hospice care',
+              serviceId: 'hospice',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hospice',
+            },
+            {
+              name: 'HospitalMedicine',
+              serviceId: 'hospitalMedicine',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/hospitalMedicine',
+            },
+            {
+              name: 'Laboratory and pathology',
+              serviceId: 'laboratory',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/laboratory',
+            },
+            {
+              name: 'Mental health care',
+              serviceId: 'mentalHealth',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/mentalHealth',
+            },
+            {
+              name: 'Nutrition, food, and dietary care',
+              serviceId: 'nutrition',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/nutrition',
+            },
+            {
+              name: 'Ophthalmology',
+              serviceId: 'ophthalmology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/ophthalmology',
+            },
+            {
+              name: 'Optometry',
+              serviceId: 'optometry',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/optometry',
+            },
+            {
+              name: 'Orthopedics',
+              serviceId: 'orthopedics',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/orthopedics',
+            },
+            {
+              name: 'Patient advocates',
+              serviceId: 'patientAdvocates',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/patientAdvocates',
+            },
+            {
+              name: 'Pharmacy',
+              serviceId: 'pharmacy',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/pharmacy',
+            },
+            {
+              name: 'Physical medicine and rehabilitation',
+              serviceId: 'physicalMedicine',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/physicalMedicine',
+            },
+            {
+              name: 'Podiatry',
+              serviceId: 'podiatry',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/podiatry',
+            },
+            {
+              name: 'Primary care',
+              serviceId: 'primaryCare',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/primaryCare',
+            },
+            {
+              name: 'Psychology',
+              serviceId: 'psychology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/psychology',
+            },
+            {
+              name: 'Rehabilitation and extended care',
+              serviceId: 'rehabilitation',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/rehabilitation',
+            },
+            {
+              name: 'Suicide prevention',
+              serviceId: 'suicidePrevention',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/suicidePrevention',
+            },
+            {
+              name: 'Surgery',
+              serviceId: 'surgery',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/surgery',
+            },
+            {
+              name: 'Returning service member care',
+              serviceId: 'transitionCounseling',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/transitionCounseling',
+            },
+            {
+              name: 'Transplant surgery',
+              serviceId: 'transplantSurgery',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/transplantSurgery',
+            },
+            {
+              name: 'Urology',
+              serviceId: 'urology',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/urology',
+            },
+            {
+              name: 'Women Veteran care',
+              serviceId: 'womensHealth',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services/womensHealth',
+            },
+          ],
+          link:
+            'https://api.va.gov/services/va_facilities/v1/facilities/vha_688/services',
+          lastUpdated: '2025-02-19',
+        },
+      },
+    },
+    {
+      id: 'vba_344l',
+      type: 'facility',
+      attributes: {
+        classification: 'VetSuccess On Campus',
+        distance: null,
+        facilityType: 'va_benefits_facility',
+        id: 'vba_344l',
+        lat: 34.0865467,
+        long: -118.2930592,
+        mobile: null,
+        name: 'VetSuccess on Campus at Los Angeles City College',
+        operationalHoursSpecialInstructions: null,
+        uniqueId: '344l',
+        visn: null,
+        website: null,
+        tmpCovidOnlineScheduling: null,
+        access: {
+          health: [],
+          effectiveDate: '',
+        },
+        address: {
+          physical: {
+            zip: '90029',
+            city: 'Los Angeles',
+            state: 'CA',
+            address1: '855 North Vermont',
+          },
+        },
+        feedback: [],
+        hours: {
+          monday: '9:00 a.m. - 5:30 p.m.',
           tuesday: 'Closed',
-          wednesday: '9:00AM-4:00PM',
+          wednesday: 'Closed',
           thursday: 'Closed',
           friday: 'Closed',
           saturday: 'Closed',
           sunday: 'Closed',
         },
-        services: {
-          benefits: {
-            other: '',
-            standard: [],
-          },
+        operatingStatus: {
+          code: 'VIRTUAL_CARE',
+          additionalInfo:
+            "We're not open for in-person service at this time. Our staff are still available by phone and by our online customer service tool.",
         },
-        feedback: {},
-        access: {},
+        phone: {
+          main: '323-953-4000, ext. 1253',
+        },
+        services: {
+          benefits: [
+            {
+              name: 'ApplyingForBenefits',
+              serviceId: 'applyingForBenefits',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/applyingForBenefits',
+            },
+            {
+              name: 'EducationAndCareerCounseling',
+              serviceId: 'educationAndCareerCounseling',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationAndCareerCounseling',
+            },
+            {
+              name: 'EducationClaimAssistance',
+              serviceId: 'educationClaimAssistance',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/educationClaimAssistance',
+            },
+            {
+              name: 'VocationalRehabilitationAndEmploymentAssistance',
+              serviceId: 'vocationalRehabilitationAndEmploymentAssistance',
+              link:
+                'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services/vocationalRehabilitationAndEmploymentAssistance',
+            },
+          ],
+          link:
+            'https://api.va.gov/services/va_facilities/v1/facilities/vba_344l/services',
+        },
       },
     },
   ],
@@ -215,13 +531,15 @@ const resultsData = {
 };
 
 // Create API routes
-function initApplicationMock() {
-  cy.intercept('GET', '/v0/facilities/va', resultsData);
+function initApplicationMock(name = 'searchFacilities') {
+  cy.intercept('POST', '/facilities_api/v2/va', resultsData).as(name);
 
   return resultsData.data.map((cur, i) =>
-    cy.intercept('GET', `/v0/facilities/va/${resultsData.data[i].id}`, {
-      data: resultsData.data[i],
-    }),
+    cy
+      .intercept('GET', `/facilities_api/v2/va/${resultsData.data[i].id}`, {
+        data: resultsData.data[i],
+      })
+      .as(`${name}${i}`),
   );
 }
 
