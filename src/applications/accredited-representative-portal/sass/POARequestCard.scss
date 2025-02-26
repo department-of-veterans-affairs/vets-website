@@ -43,6 +43,10 @@
     &:visited {
       color: inherit;
     }
+
+    &:hover {
+      text-decoration: none;
+    }
   }
   &__sort-by {
     display: flex;
