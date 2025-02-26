@@ -410,7 +410,7 @@ export const BreadcrumbViews = {
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-padding-y--0p5',
 };
 
-// When RemoveLandingPage work is complete, replace the following constants with the NEW_ versions
+// When RemoveLandingPage (removeLandingPageFF / mhvSecureMessagingRemoveLandingPage) work is complete, replace the following constants with the NEW_ versions
 export const PageTitles = {
   /// /////////////////////////
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
