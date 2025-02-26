@@ -1,8 +1,10 @@
 {
   "data": {
-    "signatureName": "Name",
-    "includeSignature": true,
-    "signatureTitle": "TitleTest"
+    "attributes": {
+      "signatureName": "Name",
+      "includeSignature": true,
+      "signatureTitle": "TitleTest"
+    }
   },
   "errors": {},
   "metadata": {}
