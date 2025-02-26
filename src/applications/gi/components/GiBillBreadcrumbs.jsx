@@ -55,6 +55,8 @@ const GiBillBreadcrumbs = () => {
       href: '/education/gi-bill-comparison-tool/',
       label: `GI Bill® Comparison Tool ${
         searchByName &&
+        !nationalExamsMatch &&
+        !lcMatch &&
         !schoolsEmployersMatch &&
         !location.pathname.includes('institution')
           ? '(Search by name)'

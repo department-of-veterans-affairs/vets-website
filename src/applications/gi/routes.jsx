@@ -22,7 +22,10 @@ const BuildRoutes = () => {
   const lcToggleValue = useToggleValue(
     TOGGLE_NAMES.giComparisonToolLceToggleFlag,
   );
-  const toggleGiProgramsFlag = true;
+  const toggleGiProgramsFlag = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
+  );
+
   return (
     <>
       {isUpdatedGi && (
