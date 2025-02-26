@@ -61,14 +61,6 @@ const MrBreadcrumbs = () => {
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
-        } else if (urlVitalsDate) {
-          const backToVitalsDateCrumb = {
-            ...Breadcrumbs[feature],
-            href: `${removeTrailingSlash(
-              Breadcrumbs[feature].href,
-            )}?timeFrame=${urlVitalsDate}`,
-          };
-          dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
@@ -101,6 +93,9 @@ const MrBreadcrumbs = () => {
       ? history.goBack()
       : `/${locationBasePath}`;
 
+  // eslint-disable-next-line no-console
+  console.log('This is it', location.pathname, urlVitalsDate);
+
   if (
     location.pathname.includes(
       `/${locationBasePath}/${labId ||
@@ -108,8 +103,7 @@ const MrBreadcrumbs = () => {
         summaryId ||
         allergyId ||
         conditionId}`,
-    ) ||
-    location.pathname.includes('/vitals/')
+    )
   ) {
     return (
       <div
@@ -122,6 +116,30 @@ const MrBreadcrumbs = () => {
         </span>
         <Link
           to={backToImagesBreadcrumb}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
+          }}
+        >
+          Back
+        </Link>
+      </div>
+    );
+  }
+  if (location.pathname.includes('/vitals/')) {
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="mr-breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link
+          to={`${backToImagesBreadcrumb}${
+            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
+          }`}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
             backToAllergiesBreadcrumb();
