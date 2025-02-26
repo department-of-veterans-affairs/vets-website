@@ -20,12 +20,14 @@ export function transformFacilityV2(facility) {
   return {
     resourceType: 'Location',
     id: facility.id,
-    vistaId: facility.vistaSite,
+    vistaId: facility.vistaSite || facility.vista_site,
     name: facility.name,
     identifier: [
       {
         system: 'http://med.va.gov/fhir/urn',
-        value: `urn:va:division:${facility.vistaSite}:${facility.id}`,
+        value: `urn:va:division:${facility.vistaSite || facility.vista_site}:${
+          facility.id
+        }`,
       },
       {
         system: VHA_FHIR_ID,
@@ -43,10 +45,13 @@ export function transformFacilityV2(facility) {
       latitude: facility.lat,
     },
     address: {
-      line: facility.physicalAddress?.line,
-      city: facility.physicalAddress?.city,
-      state: facility.physicalAddress?.state,
-      postalCode: facility.physicalAddress?.postalCode,
+      line: facility.physicalAddress?.line || facility.physical_address?.line,
+      city: facility.physicalAddress?.city || facility.physical_address?.city,
+      state:
+        facility.physicalAddress?.state || facility.physical_address?.state,
+      postalCode:
+        facility.physicalAddress?.postalCode ||
+        facility.physical_address?.postalCode,
     },
     website: facility.website,
   };
