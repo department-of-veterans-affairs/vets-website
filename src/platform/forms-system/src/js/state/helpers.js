@@ -96,12 +96,12 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
   return schema;
 }
 
-export function isContentExpanded(data, matcher, formData, index, fullData) {
+export function isContentExpanded(data, matcher, formData) {
   if (typeof matcher === 'undefined') {
     return !!data;
   }
   if (typeof matcher === 'function') {
-    return matcher(data, formData, index, fullData);
+    return matcher(data, formData);
   }
 
   return data === matcher;
@@ -121,7 +121,6 @@ export function setHiddenFields(
   formData,
   path = [],
   fullData,
-  indexParam,
 ) {
   if (!uiSchema) {
     return schema;
@@ -133,13 +132,10 @@ export function setHiddenFields(
 
   let updatedSchema = schema;
   const hideIf = get(['ui:options', 'hideIf'], uiSchema);
-  let index = path.reduce(
+  const index = path.reduce(
     (current, next) => (typeof next === 'number' ? next : current),
     null,
   );
-  if (typeof index !== 'number') {
-    index = indexParam;
-  }
 
   if (hideIf && hideIf(formData, index, fullData)) {
     if (!updatedSchema['ui:hidden']) {
@@ -154,17 +150,16 @@ export function setHiddenFields(
     ['ui:options', 'expandUnderCondition'],
     uiSchema,
   );
-  if (expandUnder) {
-    const isExpanded = isContentExpanded(
+  if (
+    expandUnder &&
+    !isContentExpanded(
       containingObject[expandUnder],
       expandUnderCondition,
       formData,
-      index,
-      fullData,
-    );
-    const isCollapsed = !isExpanded;
-    if (updatedSchema['ui:collapsed'] !== isCollapsed) {
-      updatedSchema = set('ui:collapsed', isCollapsed, updatedSchema);
+    )
+  ) {
+    if (!updatedSchema['ui:collapsed']) {
+      updatedSchema = set('ui:collapsed', true, updatedSchema);
     }
   } else if (updatedSchema['ui:collapsed']) {
     updatedSchema = unset('ui:collapsed', updatedSchema);
@@ -179,7 +174,6 @@ export function setHiddenFields(
           formData,
           path.concat(next),
           fullData,
-          index,
         );
 
         if (newSchema !== updatedSchema.properties[next]) {
@@ -206,7 +200,6 @@ export function setHiddenFields(
         formData,
         path.concat(idx),
         fullData,
-        idx,
       ),
     );
 
@@ -652,14 +645,7 @@ export function updateSchemasAndData(
   newSchema = updateRequiredFields(newSchema, uiSchema, formData);
 
   // Update the schema with any fields that are now hidden because of the data change
-  newSchema = setHiddenFields(
-    newSchema,
-    uiSchema,
-    formData,
-    [],
-    fullData,
-    index,
-  );
+  newSchema = setHiddenFields(newSchema, uiSchema, formData, [], fullData);
 
   // Update the uiSchema and  schema with any general updates based on the new data
   const newUiSchema = updateUiSchema(
@@ -726,12 +712,8 @@ export function recalculateSchemaAndData(initialState) {
      * an issue in the schema recalculation is presented in the next conditional statements
      * if two pages (one active, one inactive) use the same data keys in their respective
      * schemas. Thus we should not need to recalculate inactive pages any further.
-     *
-     * pages that are arrays (have page.arrayPath) are an exception to this rule, because
-     * we can't necessarily determine if the page is active without index information,
-     * so continue with the recalculation for these pages.
      */
-    if (!isActivePage(page, formData) && !page.arrayPath) {
+    if (!isActivePage(page, formData)) {
       return newState;
     }
 
