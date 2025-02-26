@@ -40,13 +40,13 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
 
   describe('License & Certification Search Results Page', () => {
     beforeEach(() => {
-      cy.intercept('GET', '**/v1/gi/lcpe/search*', {
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs*', {
         statusCode: 200,
         body: lcListMockData,
       }).as('lcSearch');
 
       cy.visit(
-        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses?name=security',
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results?name=security',
       );
       cy.wait('@lcSearch');
       cy.wait('@featureToggles');
@@ -67,7 +67,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
     });
 
     it('displays loading state while fetching results', () => {
-      cy.intercept('GET', '**/v1/gi/lcpe/search*', {
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs*', {
         delayMs: 2000,
         statusCode: 200,
         body: lcListMockData,
@@ -98,13 +98,13 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
 
   describe('License & Certification Detail Page', () => {
     beforeEach(() => {
-      cy.intercept('GET', '**/v1/gi/lcpe/search/detail/*', {
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs*', {
         statusCode: 200,
         body: lcDetailsMockData,
       }).as('lcDetails');
 
       cy.visit(
-        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/123',
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/1@sec*',
       );
       cy.wait('@lcDetails');
       cy.wait('@featureToggles');
@@ -123,13 +123,13 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
     });
 
     it('displays error state when details fetch fails', () => {
-      cy.intercept('GET', '**/v1/gi/lcpe/search/detail/*', {
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs', {
         statusCode: 500,
         body: { error: 'Internal Server Error' },
       }).as('lcDetailsError');
 
       cy.visit(
-        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/123',
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/1@sec*',
       );
       cy.wait('@lcDetailsError');
 
