@@ -75,8 +75,8 @@ const YellowRibbonSelector = ({ programs }) => {
     'Bachelors',
     'Undergraduate',
     'Masters',
-    'Doctoral',
     'Graduate',
+    'Doctoral',
     'Other',
   ];
 
@@ -247,22 +247,22 @@ const YellowRibbonSelector = ({ programs }) => {
           >
             <ul className="getting-started-with-benefits-li">
               <li>
-                <strong>Degree level:</strong> Type of degree such as
+                <strong>Degree level:</strong> type of degree such as
                 Undergraduate, Graduate, Masters, or Doctoral
               </li>
               <li>
-                <strong>College or professional school:</strong> A school within
+                <strong>College or professional school:</strong> a school within
                 a college or university that has a specialized professional or
                 academic focus
               </li>
               <li>
-                <strong>Funding available:</strong> Total number of students
+                <strong>Funding available:</strong> total number of students
                 eligible to receive funding
               </li>
               <li>
-                <strong>Max school contribution:</strong> Maximum amount the IHL
-                will contribute per student each academic year toward unmet
-                tuition and fee costs
+                <strong>Max school contribution:</strong> maximum amount the
+                institution of higher learning will contribute per student each
+                academic year toward unmet tuition and fee costs
               </li>
             </ul>
           </va-additional-info>
