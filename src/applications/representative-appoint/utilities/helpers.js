@@ -306,7 +306,7 @@ export const filterOrganizations = formData => {
       ?.data;
   const submissionMethod = formData.representativeSubmissionMethod;
 
-  if (submissionMethod === 'online') {
+  if (submissionMethod === 'digital') {
     return organizations?.filter(
       org => org.attributes?.canAcceptDigitalPoaRequests === true,
     );

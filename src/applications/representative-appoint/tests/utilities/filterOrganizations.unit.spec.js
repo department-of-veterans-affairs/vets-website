@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { filterOrganizations } from '../../utilities/helpers';
 
 describe('filterOrganizations', () => {
-  it('should return all organizations if representativeSubmissionMethod is not "online"', () => {
+  it('should return all organizations if representativeSubmissionMethod is not "digital"', () => {
     const formData = {
       representativeSubmissionMethod: 'mail',
       'view:selectedRepresentative': {
@@ -36,9 +36,9 @@ describe('filterOrganizations', () => {
     expect(result[1].attributes.name).to.equal('Org 2');
   });
 
-  it('should return only organizations that can accept digital POA requests if representativeSubmissionMethod is "online"', () => {
+  it('should return only organizations that can accept digital POA requests if representativeSubmissionMethod is "digital"', () => {
     const formData = {
-      representativeSubmissionMethod: 'online',
+      representativeSubmissionMethod: 'digital',
       'view:selectedRepresentative': {
         attributes: {
           accreditedOrganizations: {
@@ -77,9 +77,9 @@ describe('filterOrganizations', () => {
     expect(result[1].attributes.name).to.equal('Org 3');
   });
 
-  it('should return an empty array if no organizations can accept digital POA requests and representativeSubmissionMethod is "online"', () => {
+  it('should return an empty array if no organizations can accept digital POA requests and representativeSubmissionMethod is "digital"', () => {
     const formData = {
-      representativeSubmissionMethod: 'online',
+      representativeSubmissionMethod: 'digital',
       'view:selectedRepresentative': {
         attributes: {
           accreditedOrganizations: {
