@@ -10,7 +10,8 @@ configureMockApi();
 
 export const userPromise = (async () => {
   try {
-    const user = await api.getUser();
+    const userResponse = await api.getUser();
+    const user = await userResponse.json();
 
     /**
      * If using a mock API response for `getUser`, the dev should also disable
