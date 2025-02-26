@@ -61,6 +61,14 @@ const MrBreadcrumbs = () => {
             )}?page=${pageNumber}`,
           };
           dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
+        } else if (urlVitalsDate) {
+          const backToVitalsDateCrumb = {
+            ...Breadcrumbs[feature],
+            href: `${removeTrailingSlash(
+              Breadcrumbs[feature].href,
+            )}?timeFrame=${urlVitalsDate}`,
+          };
+          dispatch(setBreadcrumbs([backToVitalsDateCrumb, detailCrumb]));
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
