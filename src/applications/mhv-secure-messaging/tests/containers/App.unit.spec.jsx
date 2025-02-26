@@ -288,7 +288,14 @@ describe('App', () => {
   });
 
   it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox if feature flags are enabled', async () => {
-    const customState = { ...initialState, featureToggles: [] };
+    const customState = {
+      ...initialState,
+      featureToggles: [],
+      sm: {
+        ...initialState.sm,
+        app: { isPilot: true },
+      },
+    };
 
     global.window.location = {
       replace: sinon.spy(),
@@ -311,9 +318,11 @@ describe('App', () => {
 
     expect(queryByText('Messages', { selector: 'h1', exact: true }));
     expect(window.location.replace.called).to.be.true;
-    expect(window.location.replace.args[0][0]).to.equal(
-      '/my-health/secure-messages-pilot/inbox/',
-    );
+    await waitFor(() => {
+      expect(window.location.replace.args[0][0]).to.equal(
+        '/my-health/secure-messages-pilot/inbox/',
+      );
+    });
   });
 
   it('should NOT redirect user to /my-health/secure-messages/inbox if feature flag is disabled', async () => {
