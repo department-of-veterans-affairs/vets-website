@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useHistory } from 'react-router-dom';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { isSmallScreen } from '../utils/helpers';
@@ -16,7 +16,7 @@ export function CompareDrawer({
   alwaysDisplay = false,
   dispatchCompareDrawerOpened,
 }) {
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const { loaded, institutions } = compare.search;
   const { open } = compare;
@@ -219,7 +219,7 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    navigate(
+    history.push(
       `${
         giCtCollab ? '/schools-and-employers' : ''
       }/compare/?facilities=${loaded.join(',')}`,
