@@ -40,9 +40,6 @@ function checkSpecsForSkips(file) {
   const e2eAnnotations = [];
   lines.forEach((line, index) => {
     if (line.includes('describe.skip(') || line.includes('it.skip(')) {
-      // console.log(
-      //   `::warning file=${file},line=${index + 1}::Skipped e2e test found.`,
-      // );
       e2eAnnotations.push({
         path: file,
         start_line: index + 1,
