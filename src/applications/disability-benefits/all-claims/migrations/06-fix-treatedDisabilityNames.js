@@ -4,7 +4,7 @@ import { sippableId } from '../utils';
 
 export default function fixTreatedDisabilityNamesKey(savedData) {
   const formData = clone(savedData.formData);
-  const facilities = formData.vaTreatmentFacilities || [];
+  const facilities = formData.vaTreatmentFacilities;
   const powDisabilities = formData['view:isPow']?.powDisabilities;
   if (facilities) {
     formData.vaTreatmentFacilities = facilities.map(entry => ({
