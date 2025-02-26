@@ -28,6 +28,7 @@ function signatureValidator(signatureName, formData) {
   const name = Object.values(formData?.applicantName || { empty: '' })
     .filter(el => el)
     .join('')
+    .replaceAll(' ', '')
     .toLowerCase();
   if (signatureName.replaceAll(' ', '').toLowerCase() !== name) {
     return `Please enter your full name exactly as entered on the form: ${nameWording(
