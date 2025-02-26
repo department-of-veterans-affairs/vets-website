@@ -662,7 +662,7 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
+    `/licenses-certifications-and-prep-courses/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
       categoryParams,
     ),
     {
@@ -675,11 +675,11 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
   if (currentPage * itemsPerPage > results.length - 1) {
     return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
       results.length
-    }  `;
+    }`;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
-    itemsPerPage}  `;
+    itemsPerPage}`;
 };
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states)
@@ -757,6 +757,52 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
           },
   };
 };
+
+export const createCheckboxes = (categories, checkedList) => {
+  const valuesToCheck = ['license', 'certification', 'prep course'];
+
+  let allValuesIncluded;
+
+  if (checkedList[0] === 'all') {
+    allValuesIncluded = true;
+  } else {
+    allValuesIncluded = valuesToCheck.every(value =>
+      checkedList.includes(value),
+    );
+  }
+
+  return categories.map(category => {
+    let checked = checkedList.includes(category);
+
+    if (allValuesIncluded) {
+      checked = true;
+    }
+
+    return {
+      name: category,
+      checked,
+      label: capitalizeFirstLetter(category),
+    };
+  });
+};
+
+export function formatList(array) {
+  if (!array || array.length === 0) {
+    return '';
+  }
+
+  if (array.length === 1) {
+    return array[0];
+  }
+  if (array.length === 2) {
+    return `${array[0]} or ${array[1]}`;
+  }
+
+  const lastItem = array[array.length - 1];
+  const otherItems = array.slice(0, -1);
+
+  return `${otherItems.join(', ')} or ${lastItem}`;
+}
 
 export const showMultipleNames = (suggestions, nameInput) => {
   let final = [];

@@ -76,7 +76,7 @@ const responses = {
   },
 
   // Submitting a new claim
-  'POST /travel_pay/v0/claims': { data: { claimId: '12345' } },
+  'POST /travel_pay/v0/claims': { claimId: '12345' },
   // 'POST /travel_pay/v0/claims': (req, res) => {
   //   return res.status(502).json({
   //     errors: [

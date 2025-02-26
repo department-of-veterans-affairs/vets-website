@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { toggleValuesSelector } from '~/platform/utilities/feature-toggles/useFeatureToggle';
-import { selectRemoveLandingPageFlag } from '~/applications/mhv-medications/util/selectors';
 import MhvSecondaryNavMenu from '../components/MhvSecondaryNavMenu';
 
 const actionPrefix = 'MHV Secondary Nav';
@@ -29,6 +28,7 @@ export const mhvSecNavItems = [
     actionName: `${actionPrefix} - Messages`,
     icon: 'forum',
     href: `/my-health/secure-messages`,
+    appRootUrl: '/my-health/secure-messages',
   },
   {
     title: 'Medications',
@@ -51,16 +51,33 @@ export const mhvSecNavItems = [
  * @returns the navigation bar
  */
 const MhvSecondaryNav = () => {
-  const { loading = true } = useSelector(toggleValuesSelector);
-  const items = [...mhvSecNavItems];
+  const {
+    loading = true,
+    mhvMedicationsRemoveLandingPage = false,
+    mhvSecureMessagingRemoveLandingPage = false,
+  } = useSelector(toggleValuesSelector);
 
-  // TODO: remove and use mhvSecNavItems const directly once mhvMedicationsRemoveLandingPage is turned on in production
-  const removeMedicationsLandingPage = useSelector(selectRemoveLandingPageFlag);
-  if (removeMedicationsLandingPage) {
-    items[3].href = '/my-health/medications';
-  }
+  const updatedNavItems = mhvSecNavItems.map(item => {
+    // Current URL: /my-health/secure-messages
+    // Replace with milestone1 URL: /my-health/secure-messages/inbox
+    if (
+      mhvSecureMessagingRemoveLandingPage &&
+      item.href === '/my-health/secure-messages'
+    ) {
+      return { ...item, href: '/my-health/secure-messages/inbox' };
+    }
+    // Current URL: /my-health/medications/about
+    // Replace with milestone1 URL: /my-health/medications
+    if (
+      mhvMedicationsRemoveLandingPage &&
+      item.href === '/my-health/medications/about'
+    ) {
+      return { ...item, href: '/my-health/medications' };
+    }
+    return item;
+  });
 
-  return <MhvSecondaryNavMenu items={items} loading={loading} />;
+  return <MhvSecondaryNavMenu items={updatedNavItems} loading={loading} />;
 };
 
 export default MhvSecondaryNav;

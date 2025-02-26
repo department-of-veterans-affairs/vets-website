@@ -1,6 +1,26 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 export const ChildAdditionalEvidence = () => {
+  const formData = useSelector(state => {
+    return state?.form?.data || {};
+  });
+
+  const livesOutsideUSA =
+    formData?.veteranContactInformation?.veteranAddress?.country !== 'USA';
+  const childrenToAdd = formData?.childrenToAdd || [];
+  const hasStepChild = childrenToAdd.some(
+    childFormData => childFormData?.relationshipToChild?.stepchild,
+  );
+  const hasAdoptedChild = childrenToAdd.some(
+    childFormData => childFormData?.relationshipToChild?.adopted,
+  );
+  const hasDisabledChild = childrenToAdd.some(
+    childFormData => childFormData?.doesChildHavePermanentDisability,
+  );
+
+  const showBirthCertificate = livesOutsideUSA || hasStepChild;
+
   return (
     <div>
       <p>
@@ -17,34 +37,42 @@ export const ChildAdditionalEvidence = () => {
           id="supporting-evidence"
           header="Supporting evidence you need to submit"
         >
-          <ul>
-            <li>A copy of your child’s birth certificate</li>
-            <li>
-              Copies of medical records that document your child’s permanent
-              physical or mental disability, and
-              <ul>
-                <li>
-                  A statement from your child’s doctor that shows the type and
-                  severity of the child’s physical or mental disability
-                </li>
-              </ul>
-            </li>
-            <li>
-              A copy of one of these documents:
-              <ul>
-                <li>
-                  The final decree of adoption, <strong>or</strong>
-                </li>
-                <li>
-                  The adoptive placement agreement, <strong>or</strong>
-                </li>
-                <li>
-                  The interlocutory decree of adoptions, <strong>or</strong>
-                </li>
-                <li>The revised birth certificate</li>
-              </ul>
-            </li>
-          </ul>
+          {showBirthCertificate && (
+            <ul>
+              <li>A copy of your child’s birth certificate</li>
+            </ul>
+          )}
+          {hasDisabledChild && (
+            <ul>
+              <li>
+                Copies of medical records that document your child’s permanent
+                physical or mental disability, <strong>and</strong>
+              </li>
+              <li>
+                A statement from your child’s doctor that shows the type and
+                severity of the child’s physical or mental disability
+              </li>
+            </ul>
+          )}
+          {hasAdoptedChild && (
+            <ul>
+              <li>
+                A copy of one of these documents:
+                <ul>
+                  <li>
+                    The final decree of adoption, <strong>or</strong>
+                  </li>
+                  <li>
+                    The adoptive placement agreement, <strong>or</strong>
+                  </li>
+                  <li>
+                    The interlocutory decree of adoptions, <strong>or</strong>
+                  </li>
+                  <li>The revised birth certificate</li>
+                </ul>
+              </li>
+            </ul>
+          )}
         </va-accordion-item>
       </va-accordion>
       <h3>Submit your files online</h3>

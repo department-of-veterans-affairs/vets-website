@@ -46,6 +46,13 @@ const SearchControls = props => {
     dispatch(geoLocateUser());
   };
 
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   useEffect(
     () => {
       const getLocation = async () => {
@@ -105,6 +112,7 @@ const SearchControls = props => {
             name="street-city-state-zip"
             type="search"
             onChange={handleQueryChange}
+            onKeyDown={handleKeyDown}
             value={queryState}
             title="Your location: Street, City, State or Postal code"
           />

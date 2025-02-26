@@ -150,7 +150,7 @@ const AddressPage = ({
             If you traveled from a different address, you can’t file a claim in
             this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the
+          But you can file your claim online through the
           <va-link
             external
             href={BTSSS_PORTAL_URL}
