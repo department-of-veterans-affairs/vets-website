@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getPreviousPagePath } from 'platform/forms-system/src/js/routing';
@@ -7,15 +7,19 @@ import RegistrationOnlyAlert from '../components/FormAlerts/RegistrationOnlyAler
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';
 
-const AuthRegistrationOnlyPage = props => {
-  const { location, route, router } = props;
+const AuthRegistrationOnlyPage = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);
-  const goBack = () => {
-    const { pathname } = location;
-    const { pageList } = route;
-    const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
-    router.push(prevPagePath);
-  };
+  const handlers = useMemo(
+    () => {
+      const { pathname } = location;
+      const { pageList } = route;
+      return {
+        goBack: () =>
+          router.push(getPreviousPagePath(pageList, formData, pathname)),
+      };
+    },
+    [formData, location, route, router],
+  );
   return (
     <>
       <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
@@ -24,7 +28,7 @@ const AuthRegistrationOnlyPage = props => {
           <div className="small-6 medium-5 columns">
             <ProgressButton
               buttonClass="hca-button-progress usa-button-secondary"
-              onButtonClick={goBack}
+              onButtonClick={handlers.goBack}
               buttonText={content['button-back']}
               beforeText="«"
             />
