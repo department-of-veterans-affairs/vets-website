@@ -128,7 +128,6 @@
       "view:hasPrivateMedicalRecords": true,
       "view:hasOtherEvidence": true
     },
-
     "view:evidenceTypeHelp": {},
     "view:unemployable": false,
     "view:aidAndAttendance": true,
