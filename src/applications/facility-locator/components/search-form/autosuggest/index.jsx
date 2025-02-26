@@ -5,6 +5,7 @@ import { itemToString as toDisplay } from './helpers';
 import InputWithClear from './InputWithClear';
 import AutosuggestOption from './AutosuggestOption';
 import AutosuggestOptions from './AutosuggestOptions';
+import InputError from './InputError';
 import './sass/autosuggest.scss';
 import { AutosuggestProps } from '../../../types';
 import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
@@ -12,7 +13,6 @@ import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 function Autosuggest({
   // downshift props
   handleOnSelect,
-  defaultSelectedItem,
   inputValue,
   itemToString = toDisplay,
   onInputValueChange,
@@ -20,7 +20,8 @@ function Autosuggest({
   onClearClick,
   inputContainerClassName = 'input-container', // allows to work with fixed width from facility-locator
   inputId = 'autosuggest-input',
-  inputError,
+  inputRef,
+  errorMessage,
   label,
   labelSibling = null,
   showDownCaret = true,
@@ -28,7 +29,6 @@ function Autosuggest({
   downshiftInputProps,
   // options for the autosuggest to show
   options,
-  minCharacters = 3, // only trigger update after n=3 characters
   noItemsMessage = 'No results found',
   shouldShowNoResults = true,
   // showError - use the usa-input-error class to show the error
@@ -43,6 +43,7 @@ function Autosuggest({
   loadingMessage = '',
   useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
+  showOptionsRestriction = undefined,
 }) {
   const {
     isOpen,
@@ -58,7 +59,6 @@ function Autosuggest({
     itemToString,
     inputId,
     onSelectedItemChange: handleOnSelect,
-    defaultSelectedItem,
     onInputValueChange,
     inputValue,
     isItemDisabled,
@@ -69,6 +69,12 @@ function Autosuggest({
     onClearClick();
     selectItem(null);
   };
+
+  let shouldBeShown = isOpen;
+
+  if (showOptionsRestriction !== undefined) {
+    shouldBeShown = isOpen && showOptionsRestriction;
+  }
 
   return (
     <div
@@ -87,13 +93,14 @@ function Autosuggest({
         </label>
         {labelSibling}
       </div>
-      {inputError}
+      <InputError errorMessage={errorMessage} showError={showError || false} />
       <div className="autosuggest-input-container">
         <InputWithClear
           getInputProps={getInputProps}
           getToggleButtonProps={getToggleButtonProps}
           className={inputContainerClassName}
           inputId={inputId}
+          inputRef={inputRef}
           isOpen={isOpen}
           showDownCaret={showDownCaret}
           showClearButton={!!inputValue}
@@ -104,7 +111,7 @@ function Autosuggest({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           options={options}
-          isShown={isOpen && !!inputValue && inputValue.length >= minCharacters}
+          isShown={shouldBeShown}
           itemToString={itemToString}
           noItemsMessage={noItemsMessage} // to display when no items are found - disabled item
           getMenuProps={getMenuProps}
