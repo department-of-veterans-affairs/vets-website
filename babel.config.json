@@ -118,8 +118,6 @@
           "@department-of-veterans-affairs/platform-user/authentication/selectors": "./src/platform/user/authentication/selectors.js",
           "@department-of-veterans-affairs/platform-user/authentication/utilities": "./src/platform/user/authentication/utilities.js",
           "@department-of-veterans-affairs/platform-user/cerner-dsot/selectors": "./src/platform/user/cerner-dsot/selectors.js",
-          "@department-of-veterans-affairs/platform-user/transitionModal": "./src/platform/user/authentication/components/account-transition/TransitionModal.jsx",
-          "@department-of-veterans-affairs/platform-user/transitionSuccessModal": "./src/platform/user/authentication/components/account-transition/TransitionSuccessModal.jsx",
           "@department-of-veterans-affairs/platform-user/CreateAccountLink": "./src/platform/user/authentication/components/CreateAccountLink.jsx",
           "@department-of-veterans-affairs/platform-user/VerifyAccountLink": "./src/platform/user/authentication/components/VerifyAccountLink.jsx",
           "@department-of-veterans-affairs/platform-user/DowntimeBanner": "./src/platform/user/authentication/components/DowntimeBanner.js",

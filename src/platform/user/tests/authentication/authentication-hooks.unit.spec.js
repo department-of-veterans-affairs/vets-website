@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 import {
   useIdentityVerificationURL,
+  useInternalTestingAuth,
   onVerifyClick,
 } from '../../authentication/hooks';
 
@@ -78,6 +79,29 @@ describe('authentication - hooks', () => {
         expect(result.current?.href).to.include('state=');
         expect(result.current?.href).to.include('code_challenge=');
       });
+    });
+  });
+
+  describe('useInternalTestingAuth', () => {
+    const oldLocation = global.window.location;
+
+    afterEach(() => {
+      global.window.location = oldLocation;
+    });
+
+    it('should return an href for mhv_verified + app=vaoccmobile', async () => {
+      window.location = new URL(
+        'https://dev.va.gov/sign-in/?application=vaoccmobile',
+      );
+      const { result, waitForNextUpdate } = renderHook(() =>
+        useInternalTestingAuth({ queryParams: { application: 'vaoccmobile' } }),
+      );
+
+      await waitForNextUpdate();
+
+      expect(result.current?.href).to.eql(
+        'https://dev-api.va.gov/v1/sessions/mhv_verified/new?application=vaoccmobile',
+      );
     });
   });
   describe('onVerifyClick', () => {

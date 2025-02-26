@@ -10,8 +10,6 @@
     "./authentication/utilities": "./authentication/utilities.js",
     "./authentication/hooks": "./authentication/hooks/index.js",
     "./cerner-dsot/selectors": "./cerner-dsot/selectors.js",
-    "./transitionModal": "./authentication/components/account-transition/TransitionModal.jsx",
-    "./transitionSuccessModal": "./authentication/components/account-transition/TransitionSuccessModal.jsx",
     "./CreateAccountLink": "./authentication/components/CreateAccountLink.jsx",
     "./VerifyAccountLink": "./authentication/components/VerifyAccountLink.jsx",
     "./DowntimeBanner": "./authentication/components/DowntimeBanner.js",

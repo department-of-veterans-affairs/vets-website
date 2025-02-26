@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { signupOrVerify } from '../utilities';
+import { signupOrVerify, sessionTypeUrl } from '../utilities';
 
 export function onVerifyClick({ useOAuth, policy }) {
   if (useOAuth) {
@@ -35,4 +35,27 @@ export function useIdentityVerificationURL({ policy, useOAuth }) {
 
   const onClick = useCallback(onVerifyClick, [useOAuth, policy]);
   return { href, onClick };
+}
+
+/**
+ *
+ * @returns href
+ */
+export function useInternalTestingAuth({ queryParams = {} } = {}) {
+  const [href, setHref] = useState('');
+
+  useEffect(() => {
+    async function generateURL() {
+      const url = await sessionTypeUrl({
+        type: 'mhv',
+        useOauth: false,
+        queryParams,
+      });
+
+      setHref(url);
+    }
+    generateURL();
+  });
+
+  return { href };
 }

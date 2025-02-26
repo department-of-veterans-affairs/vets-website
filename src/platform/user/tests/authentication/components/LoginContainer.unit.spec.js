@@ -2,9 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import LoginContainer, {
-  logoSrc,
-} from 'platform/user/authentication/components/LoginContainer';
+import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 
 let oldWindow;
 const fakeWindow = () => {
@@ -26,21 +24,12 @@ describe('LoginContainer', () => {
   beforeEach(() => {
     fakeWindow();
   });
-
   afterEach(() => {
     global.window = oldWindow;
   });
 
-  it('should render', async () => {
-    const wrapper = shallow(<LoginContainer />);
-    const img = wrapper.find('img');
-
-    expect(img.prop('src')).eql(`${logoSrc}`);
-    wrapper.unmount();
-  });
-
   it('should NOT render the VA logo on the Unified Sign in Page', () => {
-    global.window.location = '/sign-in/application=mhv';
+    global.window.location = '/sign-in/?application=mhv';
     const wrapper = shallow(<LoginContainer isUnifiedSignIn />);
     const img = wrapper.find('img');
     expect(img.exists()).to.be.false;
