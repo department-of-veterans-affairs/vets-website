@@ -36,42 +36,58 @@ const SmBreadcrumbs = () => {
     },
     [location],
   );
-
   const pathsWithShortBreadcrumb = [
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
     Constants.Paths.CONTACT_LIST,
+    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+    `${Constants.Paths.REPLY}${locationChildPath}/`,
   ];
-
-  const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(
-    `/${locationBasePath}/`,
-  );
-
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
     Constants.Paths.CONTACT_LIST,
+    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+    `${Constants.Paths.REPLY}${locationChildPath}/`,
   ];
-
-  const backBreadcrumb = pathsWithBackBreadcrumb.includes(
-    `/${locationBasePath}/`,
-  );
+  const crumbPath = `/${locationBasePath}/${
+    locationChildPath ? `${locationChildPath}/` : ''
+  }`;
+  const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
+  const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
 
   const navigateBack = useCallback(
     () => {
-      if (
-        `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST &&
-        previousUrl === Constants.Paths.COMPOSE &&
-        activeDraftId
-      ) {
+      const isContactList =
+        `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
+      const isCompose = previousUrl === Constants.Paths.COMPOSE;
+      const isSentFolder =
+        crumb.href ===
+        `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.SENT.id}`;
+      const isInboxFolder =
+        crumb.href ===
+        `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
+      const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
+
+      if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
-      } else if (previousUrl !== Constants.Paths.CONTACT_LIST) {
-        history.push(previousUrl);
-      } else {
+      } else if (crumb.href === Constants.Paths.FOLDERS) {
+        history.push(Constants.Paths.FOLDERS);
+      } else if (isSentFolder && !isReplyPath) {
+        history.push(Constants.Paths.SENT);
+      } else if (isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
+      } else {
+        history.push(
+          previousUrl !== Constants.Paths.CONTACT_LIST
+            ? previousUrl
+            : Constants.Paths.INBOX,
+        );
       }
     },
-    [activeDraftId, history, locationBasePath, previousUrl],
+    [activeDraftId, crumb.href, history, locationBasePath, previousUrl],
   );
 
   useEffect(
@@ -219,9 +235,7 @@ const SmBreadcrumbs = () => {
               </Link>
             ) : (
               <Link to={crumb.href} className="vads-u-font-size--md">
-                {`Back to ${
-                  removeLandingPageFF ? `Messages: ${crumb.label}` : crumb.label
-                }`}
+                {`Back to ${crumb.label}`}
               </Link>
             )}
           </span>
