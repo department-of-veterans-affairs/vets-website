@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
 import { isProductionOrTestProdEnv } from '../../utils/helpers';
@@ -16,12 +16,8 @@ export default function JumpLink({
   const jumpLinkClicked = e => {
     e?.preventDefault();
     scrollTo(jumpToId, getScrollOptions());
-    setTimeout(() => {
-      const sectionHeading = document.querySelector(`#${jumpToId} h2`);
-      if (sectionHeading) {
-        sectionHeading.focus();
-      }
-    }, 300);
+    const sectionHeading = document.querySelector(`#${jumpToId} h2`);
+    focusElement(sectionHeading);
   };
 
   const handleClick = e => {

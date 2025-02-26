@@ -18,6 +18,8 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
+import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
+
 import { createSelector } from 'reselect';
 
 import fullSchema from '../22-5490-schema.json';
@@ -111,6 +113,28 @@ function phoneUISchema(category) {
   }
 
   return schema;
+}
+
+const stateRequiredCountries = new Set(['USA']);
+function customValidateAddress(errors, addressData, formData, currentSchema) {
+  if (
+    stateRequiredCountries.has(addressData.country) &&
+    addressData.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a state');
+  }
+  let isValidPostalCode = true;
+  if (addressData.country === 'USA') {
+    isValidPostalCode = isValidUSZipCode(addressData.postalCode);
+  }
+  if (addressData.country === 'CAN') {
+    isValidPostalCode = isValidCanPostalCode(addressData.postalCode);
+  }
+
+  if (addressData.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
 }
 
 function phoneSchema() {
@@ -911,12 +935,23 @@ const formConfig = {
               },
               address: {
                 ...address.uiSchema('', false, null, true),
+                'ui:validations': [customValidateAddress],
                 'ui:options': {
                   updateSchema: (formData, addressSchema) => {
                     const livesOnMilitaryBase =
                       formData?.mailingAddressInput?.livesOnMilitaryBase;
                     const country =
                       formData?.mailingAddressInput?.address?.country || 'USA';
+
+                    const required = (addressSchema.required || []).filter(
+                      field => field !== 'state',
+                    );
+
+                    // Only add state as required for USA or military base
+                    if (livesOnMilitaryBase || country === 'USA') {
+                      required.push('state');
+                    }
+
                     if (livesOnMilitaryBase) {
                       return {
                         ...addressSchema,
@@ -952,6 +987,7 @@ const formConfig = {
                     }
                     return {
                       ...addressSchema,
+                      required,
                       properties: {
                         ...addressSchema.properties,
                         state: stateSchema,
@@ -1087,9 +1123,6 @@ const formConfig = {
                       }
                     },
                   ],
-                  'ui:required': formData =>
-                    formData?.mailingAddressInput?.livesOnMilitaryBase ||
-                    formData?.mailingAddressInput?.address?.country === 'USA',
                 },
                 postalCode: {
                   'ui:errorMessages': {
