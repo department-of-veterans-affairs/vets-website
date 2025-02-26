@@ -8,14 +8,6 @@ const path = require('path');
 
 const cypressSpecs = process.argv[2] || 'src';
 
-const CHANGED_FILES = process.env.CHANGED_FILES
-  ? process.env.CHANGED_FILES.split(' ')
-  : [];
-
-const changedDirectories = Array.from(
-  new Set(CHANGED_FILES.map(filePath => path.dirname(filePath))),
-);
-
 function getSpecFiles(dir) {
   let results = [];
   const list = fs.readdirSync(dir);
@@ -61,10 +53,8 @@ let collectedAnnotations = [];
 
 if (specFiles.length > 0) {
   specFiles.forEach(file => {
-    if (changedDirectories.some(changedFile => file.includes(changedFile))) {
-      const annotations = checkSpecsForSkips(file);
-      collectedAnnotations = collectedAnnotations.concat(annotations);
-    }
+    const annotations = checkSpecsForSkips(file);
+    collectedAnnotations = collectedAnnotations.concat(annotations);
   });
 }
 
