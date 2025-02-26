@@ -10,7 +10,7 @@ export const FACILITY_LISTING_CONTAINER = '.facility-result';
 export const FACILITY_DISTANCE = '[data-testid="fl-results-distance"]';
 export const FACILITY_ADDRESS = '[data-testid="facility-result-address"]';
 export const DIRECTIONS_LINK = 'va-link[text="Get directions on Google Maps"]';
-export const MAIN_NUMBER = '[data-testid="Main number"]';
+export const MAIN_PHONE = '[data-testid="Main phone"]';
 export const VA_HEALTH_CONNECT_NUMBER = '[data-testid="VA health connect"]';
 export const MENTAL_HEALTH_NUMBER = '[data-testid="Mental health"]';
 export const TTY_NUMBER = 'va-telephone[contact="711"]';
@@ -30,11 +30,21 @@ export const MOBILE_TAB_BUTTON = 'button[class*="segment"]';
 
 export const MOBILE_MAP_RESULT_CONTAINER = '.mobile-search-result';
 
-export const typeInCityStateInput = value =>
+// Error message that appears if something is blank or incorrect in the search form
+export const SEARCH_FORM_ERROR_MESSAGE = '.usa-input-error-message';
+
+export const typeInCityStateInput = (value, shouldCloseDropdown = false) => {
   cy.get(CITY_STATE_ZIP_INPUT).type(value);
+  if (shouldCloseDropdown) {
+    cy.get(CITY_STATE_ZIP_INPUT).type('{esc}'); // close the dropdown in case of autosuggest
+  }
+};
 
 export const typeAndSelectInCCPServiceTypeInput = value => {
   cy.get(CCP_SERVICE_TYPE_INPUT).type(value);
+  // value must be the exact term, not a portion of the text so
+  // "General" may be what you type above, but it won't find "General Acute Care Hospital"
+  // So you must type and find the same text
   cy.findByText(value)
     .eq(0)
     .click();
@@ -51,12 +61,18 @@ export const FACILITY_TYPES = {
   VET: 'Vet Centers',
 };
 
-export const selectFacilityTypeInDropdown = value =>
+// using the va-select or VaSelect with a shadow and select an item
+export const findSelectInVaSelect = dropdownName =>
   cy
-    .get(FACILITY_TYPE_DROPDOWN)
+    .get(dropdownName)
     .shadow()
-    .find('select')
-    .select(value);
+    .find('select');
+
+export const vaSelectSelect = (value, dropdownName) =>
+  findSelectInVaSelect(dropdownName).select(value);
+
+export const selectFacilityTypeInDropdown = value =>
+  vaSelectSelect(value, FACILITY_TYPE_DROPDOWN);
 
 export const selectServiceTypeInVAHealthDropdown = value =>
   cy.get(VA_HEALTH_SERVICE_DROPDOWN).select(value);
@@ -65,11 +81,11 @@ export const submitSearchForm = () =>
   cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
 
 export const verifyMainNumber = number => {
-  cy.get(MAIN_NUMBER)
+  cy.get(MAIN_PHONE)
     .should('exist')
-    .and('contain.text', 'Main number');
+    .and('contain.text', 'Main phone');
 
-  cy.get(`${MAIN_NUMBER} va-telephone`)
+  cy.get(`${MAIN_PHONE} va-telephone`)
     .eq(0)
     .shadow()
     .find('a')
@@ -192,3 +208,6 @@ export const verifyElementShouldContainText = (selector, text) =>
     .should('exist')
     .and('be.visible')
     .and('contain.text', text);
+
+export const errorMessageContains = text =>
+  verifyElementShouldContainText(SEARCH_FORM_ERROR_MESSAGE, text);

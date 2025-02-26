@@ -102,7 +102,7 @@ const YourVAHealthFacilityPage = props => {
   return (
     <>
       <h3>{getHealthFacilityTitle(data)}</h3>
-      <form className="rjsf">
+      <div className="rjsf">
         <p className="vads-u-margin-top--3 vads-u-margin-bottom--2">
           {CHAPTER_3.YOUR_VA_HEALTH_FACILITY.DESCRIPTION}
         </p>
@@ -133,7 +133,7 @@ const YourVAHealthFacilityPage = props => {
         {currentPath !== '/review-then-submit' && (
           <FormNavButtons goBack={goBack} goForward={() => checkInput(data)} />
         )}
-      </form>
+      </div>
     </>
   );
 };

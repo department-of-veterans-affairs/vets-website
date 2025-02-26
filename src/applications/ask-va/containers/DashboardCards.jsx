@@ -5,7 +5,7 @@ import {
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { compareDesc, parse } from 'date-fns';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import {
@@ -56,7 +56,7 @@ const DashboardCards = () => {
     return { transformedInquiries, uniqueCategories };
   };
 
-  const getApiData = url => {
+  const getApiData = useCallback(url => {
     setLoading(true);
 
     const processData = data => {
@@ -81,12 +81,20 @@ const DashboardCards = () => {
         setLoading(false);
         hasError(true);
       });
-  };
-
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
   }, []);
+
+  useEffect(
+    () => {
+      // Focus element if we're on the main dashboard
+      if (window.location.pathname.includes('introduction')) {
+        focusElement('.schemaform-title > h1');
+      }
+
+      // Always fetch inquiries data regardless of route
+      getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
+    },
+    [getApiData],
+  );
 
   const filterAndSortInquiries = loa => {
     return inquiries
