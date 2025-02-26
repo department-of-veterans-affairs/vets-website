@@ -13,6 +13,7 @@ import {
   PageTitles,
   ParentComponent,
 } from '../util/constants';
+import { getPageTitle } from '../util/helpers';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CreateFolderModal from '../components/Modals/CreateFolderModal';
@@ -56,6 +57,13 @@ const Folders = () => {
     [dispatch, location, isModalVisible],
   );
 
+  const pageTitleTag = getPageTitle(
+    removeLandingPageFF,
+    null,
+    PageTitles,
+    location.pathname,
+  );
+
   useEffect(
     () => {
       if (!isModalVisible) {
@@ -65,16 +73,10 @@ const Folders = () => {
             ? 'h1'
             : alertVisible?.isActive && 'va-alert';
         focusElement(document.querySelector(alertSelector));
-        updatePageTitle(
-          `${removeLandingPageFF ? 'Messages: ' : ''} ${
-            removeLandingPageFF
-              ? PageTitles.NEW_MY_FOLDERS_PAGE_TITLE_TAG
-              : PageTitles.MY_FOLDERS_PAGE_TITLE_TAG
-          }`,
-        );
+        updatePageTitle(pageTitleTag);
       }
     },
-    [alertList, folders, isModalVisible, removeLandingPageFF],
+    [alertList, folders, isModalVisible, pageTitleTag, removeLandingPageFF],
   );
 
   const openNewModal = () => {

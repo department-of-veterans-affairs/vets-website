@@ -21,6 +21,7 @@ import {
   RecipientStatus,
   Recipients,
 } from '../../util/constants';
+import { getPageTitle } from '../../util/helpers';
 import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 
@@ -84,19 +85,15 @@ const ReplyForm = props => {
     [drafts, recipients],
   );
 
+  const pageTitleTag = getPageTitle(removeLandingPageFF, null, PageTitles);
+
   useEffect(
     () => {
       setSubject(replyMessage.subject);
       setCategory(replyMessage.category);
-      updatePageTitle(
-        `${removeLandingPageFF ? 'Messages: ' : ''}${
-          removeLandingPageFF
-            ? PageTitles.NEW_CONVERSATION_TITLE_TAG
-            : PageTitles.CONVERSATION_TITLE_TAG
-        }`,
-      );
+      updatePageTitle(pageTitleTag);
     },
-    [removeLandingPageFF, replyMessage],
+    [pageTitleTag, removeLandingPageFF, replyMessage],
   );
 
   useEffect(

@@ -25,7 +25,11 @@ import ThreadsList from '../components/ThreadList/ThreadsList';
 import { getListOfThreads, setThreadSortOrder } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase, scrollTo } from '../util/helpers';
+import {
+  convertPathNameToTitleCase,
+  scrollTo,
+  getPageTitle,
+} from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -139,17 +143,17 @@ const FolderThreadListView = props => {
     [dispatch, location.pathname, params.folderId],
   );
 
+  const pageTitleTag = getPageTitle(
+    removeLandingPageFF,
+    folder?.name,
+    PageTitles,
+  );
+
   useEffect(
     () => {
       if (folderId !== (null || undefined)) {
         if (folder.name === convertPathNameToTitleCase(location.pathname)) {
-          updatePageTitle(
-            `${removeLandingPageFF ? 'Messages: ' : ''}${folder.name} ${
-              removeLandingPageFF
-                ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-                : PageTitles.PAGE_TITLE_TAG
-            }`,
-          );
+          updatePageTitle(pageTitleTag);
         }
         if (folderId !== threadSort?.folderId) {
           let sortOption = threadSortingOptions.SENT_DATE_DESCENDING.value;

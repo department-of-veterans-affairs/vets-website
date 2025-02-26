@@ -19,7 +19,7 @@ import {
   ParentComponent,
   downtimeNotificationParams,
 } from '../../util/constants';
-import { handleHeader } from '../../util/helpers';
+import { handleHeader, getPageTitle } from '../../util/helpers';
 import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
@@ -91,19 +91,18 @@ const FolderHeader = props => {
     [folderDescription],
   );
 
+  const pageTitleTag = getPageTitle(
+    removeLandingPageFF,
+    folder.name,
+    PageTitles,
+  );
   useEffect(
     () => {
       if (location.pathname.includes(folder?.folderId)) {
-        updatePageTitle(
-          `${removeLandingPageFF ? 'Messages: ' : ''}${folder.name} ${
-            removeLandingPageFF
-              ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
-              : PageTitles.PAGE_TITLE_TAG
-          }`,
-        );
+        updatePageTitle(pageTitleTag);
       }
     },
-    [folder, location.pathname, removeLandingPageFF],
+    [folder, location.pathname, pageTitleTag, removeLandingPageFF],
   );
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(

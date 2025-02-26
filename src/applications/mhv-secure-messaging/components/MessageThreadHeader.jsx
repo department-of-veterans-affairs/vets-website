@@ -15,7 +15,7 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import { scrollIfFocusedAndNotInView } from '../util/helpers';
+import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
@@ -92,18 +92,13 @@ const MessageThreadHeader = props => {
 
   const categoryLabel = Categories[category];
 
+  const pageTitleTag = getPageTitle(removeLandingPageFF, null, PageTitles);
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${removeLandingPageFF ? 'Messages: ' : ''}${
-          removeLandingPageFF
-            ? PageTitles.NEW_CONVERSATION_TITLE_TAG
-            : PageTitles.CONVERSATION_TITLE_TAG
-        }`,
-      );
+      updatePageTitle(pageTitleTag);
     },
-    [categoryLabel, message, removeLandingPageFF, subject],
+    [categoryLabel, message, pageTitleTag, removeLandingPageFF, subject],
   );
 
   useEffect(() => {
