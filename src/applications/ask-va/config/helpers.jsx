@@ -228,21 +228,24 @@ export const contactRules = {
   },
 };
 
-export const getContactMethods = (category, topic) => {
-  // const contactRules = initializeContactRules();
-  const allContactMethods = {
-    PHONE: 'Phone call',
-    EMAIL: 'Email',
-    US_MAIL: 'U.S. mail',
-  };
+export const getContactMethods = (contactPreferences = []) => {
+  let contactMethods = {};
 
-  if (contactRules[category] && contactRules[category][topic]) {
-    return contactRules[category][topic].reduce((acc, method) => {
-      acc[method] = allContactMethods[method];
-      return acc;
-    }, {});
+  if (contactPreferences.length > 0) {
+    contactPreferences.forEach(item => {
+      if (item === 'Phone') contactMethods.PHONE = 'Phone call';
+      if (item === 'Email') contactMethods.EMAIL = 'Email';
+      if (item === 'USMail') contactMethods.US_MAIL = 'U.S. mail';
+    });
+  } else {
+    contactMethods = {
+      PHONE: 'Phone call',
+      EMAIL: 'Email',
+      US_MAIL: 'U.S. mail',
+    };
   }
-  return allContactMethods;
+
+  return contactMethods;
 };
 
 export const isEqualToOnlyEmail = obj => {

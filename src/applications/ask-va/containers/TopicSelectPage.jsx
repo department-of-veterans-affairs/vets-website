@@ -63,6 +63,7 @@ const TopicSelectPage = props => {
         ...formData,
         selectTopic: selectedValue,
         topicId: selected.id,
+        contactPreferences: selected.attributes.contactPreferences,
       });
     }
   };

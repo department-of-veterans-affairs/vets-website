@@ -492,7 +492,8 @@ const ReviewPage = props => {
                         {
                           name: 'Social Security number',
                           data: maskSocial(
-                            props.formData.aboutYourself.socialOrServiceNum.ssn,
+                            props.formData.aboutYourself.socialOrServiceNum
+                              ?.ssn,
                           ),
                           key: 'aboutYourselfRelationshipFamilyMember',
                         },
@@ -500,7 +501,7 @@ const ReviewPage = props => {
                           name: 'Service Number',
                           data:
                             props.formData.aboutYourself.socialOrServiceNum
-                              .serviceNumber,
+                              ?.serviceNumber,
                           key: 'aboutYourselfGeneral',
                         },
                         {
