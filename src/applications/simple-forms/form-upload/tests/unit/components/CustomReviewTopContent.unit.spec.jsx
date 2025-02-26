@@ -33,7 +33,7 @@ const mockStore = withPhoneNumber => ({
         metadata: {},
       },
       data: {
-        uploadedFile: { name: 'test-file.png', size: 800 },
+        uploadedFile: { name: 'test-file.png', size: 800, type: 'image/png' },
         idNumber: { ssn: '234232345' },
         address: { postalCode: '55555' },
         fullName: { first: 'John', last: 'Veteran' },
@@ -66,28 +66,20 @@ describe('CustomReviewTopContent', () => {
   });
 
   describe('renderFileInfo', () => {
-    it('renders the correct card', () => {
+    it('renders the correct component', () => {
       const { container } = subject();
 
-      const card = $('va-card', container);
-      expect(card).to.exist;
+      const component = $('va-file-input', container);
+      expect(component).to.exist;
     });
 
-    it('renders the correct icon', () => {
+    it('renders the file input component', () => {
       const { container } = subject();
+      const fileInput = $('va-file-input', container);
 
-      const card = $('va-card', container);
-      const icon = $('va-icon', card);
-
-      expect(icon).to.exist;
-      expect(icon).to.have.attr('icon', 'file_present');
-    });
-
-    it('renders the correct file data', () => {
-      const { getByText } = subject();
-
-      expect(getByText('test-file.png')).to.exist;
-      expect(getByText('800 B')).to.exist;
+      expect(fileInput).to.exist;
+      expect(fileInput).to.have.attr('read-only', 'true');
+      expect(fileInput).to.have.attr('uswds', 'true');
     });
   });
 
