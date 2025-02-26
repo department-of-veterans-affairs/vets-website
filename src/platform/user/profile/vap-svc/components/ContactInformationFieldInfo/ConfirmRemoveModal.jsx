@@ -29,8 +29,7 @@ const ConfirmRemoveModal = ({
           uswds
         >
           <p className="vads-u-margin-top--1">
-            Your signature will no longer appear on every outgoing secure
-            message.
+            Your signature will no longer appear on outgoing secure messages.
           </p>
           <p className="vads-u-margin-top--1">
             You can always come back to your profile later if you want to add
