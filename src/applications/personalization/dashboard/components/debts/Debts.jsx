@@ -11,6 +11,7 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import DebtsCard from './DebtsCard';
 import CopaysCard from './CopaysCard';
+import GenericDebtCard from './GenericDebtCard';
 
 const NoOutstandingDebtsText = () => {
   return (
@@ -75,12 +76,18 @@ const BenefitPaymentsAndDebt = ({
   getCopays,
   shouldShowLoadingIndicator,
 }) => {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showGenericDebtCard = useToggleValue(TOGGLE_NAMES.showGenericDebtCard);
+
   useEffect(
     () => {
-      getDebts();
+      if (!showGenericDebtCard) {
+        getDebts();
+      }
+
       getCopays();
     },
-    [getDebts, getCopays],
+    [getDebts, getCopays, showGenericDebtCard],
   );
 
   const debtsCount = debts?.length || 0;
@@ -127,6 +134,11 @@ const BenefitPaymentsAndDebt = ({
               <NoOutstandingDebtsText />
             </DashboardWidgetWrapper>
           </>
+        )}
+        {showGenericDebtCard && (
+          <DashboardWidgetWrapper>
+            <GenericDebtCard />
+          </DashboardWidgetWrapper>
         )}
         {debtsCount > 0 && (
           <DashboardWidgetWrapper>

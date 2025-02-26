@@ -2,6 +2,8 @@ export const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
 export const FORM_103542_LINK = '/find-forms/about-form-10-3542/';
 export const FIND_FACILITY_TP_CONTACT_LINK =
   '/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp';
+export const TRAVEL_PAY_INFO_LINK =
+  '/health-care/get-reimbursed-for-travel-pay/';
 
 export const STATUS_GROUPINGS = [
   {
