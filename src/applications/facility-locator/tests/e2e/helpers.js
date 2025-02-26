@@ -10,7 +10,7 @@ export const FACILITY_LISTING_CONTAINER = '.facility-result';
 export const FACILITY_DISTANCE = '[data-testid="fl-results-distance"]';
 export const FACILITY_ADDRESS = '[data-testid="facility-result-address"]';
 export const DIRECTIONS_LINK = 'va-link[text="Get directions on Google Maps"]';
-export const MAIN_NUMBER = '[data-testid="Main number"]';
+export const MAIN_PHONE = '[data-testid="Main phone"]';
 export const VA_HEALTH_CONNECT_NUMBER = '[data-testid="VA health connect"]';
 export const MENTAL_HEALTH_NUMBER = '[data-testid="Mental health"]';
 export const TTY_NUMBER = 'va-telephone[contact="711"]';
@@ -65,11 +65,11 @@ export const submitSearchForm = () =>
   cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
 
 export const verifyMainNumber = number => {
-  cy.get(MAIN_NUMBER)
+  cy.get(MAIN_PHONE)
     .should('exist')
-    .and('contain.text', 'Main number');
+    .and('contain.text', 'Main phone');
 
-  cy.get(`${MAIN_NUMBER} va-telephone`)
+  cy.get(`${MAIN_PHONE} va-telephone`)
     .eq(0)
     .shadow()
     .find('a')
