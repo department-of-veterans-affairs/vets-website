@@ -19,22 +19,26 @@ import {
 } from '../../content/form0781';
 import { MILITARY_REPORT_TYPES, OTHER_REPORT_TYPES } from '../../constants';
 
-const summaryPageTitleWithTag = titleWithTag(
-  eventsListPageTitle,
-  form0781HeadingTag,
-);
 const isReviewAndSubmitPage = () => {
   const pathParts = window.location.pathname.split('/');
   return pathParts[pathParts.length - 1] === 'review-and-submit';
 };
-const summaryTitleUI = (summaryTitle, fallbackTitle) => {
-  return () => (isReviewAndSubmitPage() ? fallbackTitle : summaryTitle);
+const summaryTitleUI = (summaryTitle, reviewAndSubmitTitle) => {
+  return () => (isReviewAndSubmitPage() ? reviewAndSubmitTitle : summaryTitle);
 };
-const summaryDescriptionUI = (description, fallback = null) => {
-  return () => (isReviewAndSubmitPage() ? fallback : description());
+const summaryDescriptionUI = (
+  description,
+  reviewAndSubmitDescription = null,
+) => {
+  return () =>
+    isReviewAndSubmitPage() ? reviewAndSubmitDescription : description();
 };
-const isMstEvent = formData =>
-  isCompletingForm0781(formData) && formData.eventTypes?.mst;
+
+export const isMstEvent = formData => Boolean(formData.eventTypes?.mst);
+export const summaryPageTitleWithTag = titleWithTag(
+  eventsListPageTitle,
+  form0781HeadingTag,
+);
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -43,7 +47,7 @@ export const options = {
   nounPlural: 'events',
   useButtonInsteadOfYesNo: true,
   required: false,
-  maxItems: 3,
+  maxItems: 20,
   text: {
     summaryTitle: summaryTitleUI(summaryPageTitleWithTag, eventsListPageTitle),
     summaryTitleWithoutItems: summaryPageTitleWithTag,
