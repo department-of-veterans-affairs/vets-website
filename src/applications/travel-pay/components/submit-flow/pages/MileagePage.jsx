@@ -48,9 +48,6 @@ const MileagePage = ({
   return (
     <div>
       <VaRadio
-        use-forms-pattern="single"
-        form-heading="Are you claiming only mileage?"
-        form-heading-level={1}
         id="mileage"
         onVaValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
@@ -59,11 +56,11 @@ const MileagePage = ({
         data-testid="mileage-test-id"
         error={requiredAlert ? 'You must make a selection to continue.' : null}
         header-aria-describedby={null}
-        hint=""
-        label=""
-        label-header-level=""
+        hint={null}
+        label="Are you claiming only mileage?"
+        label-header-level="1"
       >
-        <div slot="form-description">
+        <div className="vads-u-margin-y--2">
           <hr className="vads-u-margin-y--0" />
           <p>
             For your appointment on{' '}
@@ -120,7 +117,7 @@ const MileagePage = ({
             If you need to submit receipts for other expenses like tolls, meals,
             or lodging, you can’t file a claim in this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the{' '}
+          But you can file your claim online through the{' '}
           <va-link
             external
             href={BTSSS_PORTAL_URL}

@@ -1,11 +1,14 @@
 import React from 'react';
+import { SearchAreaControlTypes } from '../types';
 import { MAX_SEARCH_AREA } from '../constants';
 
 const SearchAreaControl = ({
-  isMobile,
-  isEnabled,
   handleSearchArea,
+  isEnabled,
+  isMobile,
+  mobileMapUpdateEnabled,
   query,
+  selectMobileMapPin,
 }) => {
   const containerClass = () => {
     const mobileClass = isMobile
@@ -19,10 +22,15 @@ const SearchAreaControl = ({
     return `${mobileClass} ${radiusClass}`;
   };
 
-  const buttonClass = `usa-button${!isEnabled ? ' fl-disabled' : ''}`;
+  const buttonClass = `${!isEnabled ? ' fl-disabled' : ''}`;
 
   const handleClick = e => {
     if (e) e.preventDefault();
+
+    if (isMobile && mobileMapUpdateEnabled) {
+      selectMobileMapPin(null);
+    }
+
     if (isEnabled) {
       handleSearchArea();
     }
@@ -37,8 +45,9 @@ const SearchAreaControl = ({
   return (
     <div id="search-area-control-container" className={containerClass()}>
       <va-button
+        key={`search-area-control-${isEnabled}`}
         id="search-area-control"
-        className={buttonClass}
+        class={buttonClass}
         text={buttonLabel()}
         disabled={!isEnabled}
         ariaLive="assertive"
@@ -48,5 +57,7 @@ const SearchAreaControl = ({
     </div>
   );
 };
+
+SearchAreaControl.propTypes = SearchAreaControlTypes;
 
 export default SearchAreaControl;

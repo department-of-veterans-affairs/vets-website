@@ -1,6 +1,13 @@
 import MockDate from 'mockdate';
 import { expect } from 'chai';
-import { getDateFilters, formatDateTime, getDaysLeft } from '../../util/dates';
+import {
+  getDateFilters,
+  formatDateTime,
+  getDaysLeft,
+  isPastAppt,
+} from '../../util/dates';
+
+const appointment = require('../fixtures/appointment.json');
 
 function formatDateRange(dateRange) {
   const [startDay, startTime] = formatDateTime(dateRange.start);
@@ -227,6 +234,47 @@ describe('getDaysLeft', () => {
     MockDate.set('2024-06-25T14:00:00Z');
     const actual = getDaysLeft('2024-05-05T14:00:00Z');
     expect(actual).to.eq(0);
+  });
+});
+
+describe('isPastAppt', () => {
+  const appt = appointment.data.attributes;
+  const videoAppt = { ...appt, kind: 'telehealth' };
+
+  // The date in the appt is "2024-12-30T14:00:00Z"
+
+  afterEach(() => {
+    MockDate.reset();
+  });
+
+  it('returns true for appointment last month', () => {
+    MockDate.set('2025-01-30T15:00:00Z');
+    expect(isPastAppt(appt)).to.be.true;
+  });
+
+  it('returns false for appointment in the future', () => {
+    MockDate.set('2024-12-01T15:00:00Z');
+    expect(isPastAppt(appt)).to.be.false;
+  });
+
+  it('returns true for clinic appt 2 hours ago', () => {
+    MockDate.set('2024-12-30T16:00:00Z');
+    expect(isPastAppt(appt)).to.be.true;
+  });
+
+  it('returns false for clinic appt 30 minutes ago', () => {
+    MockDate.set('2024-12-30T14:30:00Z');
+    expect(isPastAppt(appt)).to.be.false;
+  });
+
+  it('returns true for video appt 5 hours ago', () => {
+    MockDate.set('2024-12-30T19:00:00Z');
+    expect(isPastAppt(videoAppt)).to.be.true;
+  });
+
+  it('returns false for video appt 2 hours ago', () => {
+    MockDate.set('2024-12-30T16:00:00Z');
+    expect(isPastAppt(videoAppt)).to.be.false;
   });
 });
 

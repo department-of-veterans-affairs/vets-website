@@ -177,7 +177,6 @@ FormNav.propTypes = {
       reviewPageTitle: PropTypes.string,
     }),
     urlPrefix: PropTypes.string,
-    useCustomScrollAndFocus: PropTypes.bool,
   }).isRequired,
   currentPath: PropTypes.string,
   formData: PropTypes.shape({}),

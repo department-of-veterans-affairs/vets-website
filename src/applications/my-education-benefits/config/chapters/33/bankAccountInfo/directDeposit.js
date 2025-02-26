@@ -32,7 +32,7 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
-const directDeposit33 = {
+const preFilledDirectDeposit33 = {
   uiSchema: {
     'view:directDeposit': {
       'ui:title': (
@@ -144,4 +144,4 @@ const directDeposit33 = {
   },
 };
 
-export default directDeposit33;
+export default preFilledDirectDeposit33;

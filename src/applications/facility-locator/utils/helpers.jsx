@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { first, includes, last, split, toLower } from 'lodash';
+import { focusElement } from 'platform/utilities/ui';
 import { recordMarkerEvents } from './analytics';
 
 // https://stackoverflow.com/a/50171440/1000622
@@ -28,27 +29,72 @@ export const clearLocationMarkers = () => {
   );
 };
 
-export const buildMarker = (type, values) => {
+export const buildMarker = (
+  type,
+  values,
+  selectMobileMapPin,
+  facilityLocatorMobileMapUpdate,
+) => {
   if (type === 'location') {
     const { loc, attrs } = values;
     const markerElement = document.createElement('span');
-    markerElement.className = 'i-pin-card-map';
+
     markerElement.style.cursor = 'pointer';
     markerElement.textContent = attrs.letter;
+    markerElement.className = `i-pin-card-map pin-${attrs.letter}`;
+
     markerElement.addEventListener('click', function() {
+      if (facilityLocatorMobileMapUpdate) {
+        const activePin = document.getElementById('active-pin');
+
+        if (activePin) {
+          activePin.removeAttribute('id');
+        }
+
+        this.id = 'active-pin';
+
+        markerElement.style.fontWeight = 'bold';
+
+        selectMobileMapPin({
+          ...loc,
+          markerText: attrs.letter,
+          attributes: {
+            ...loc.attributes,
+            distance: loc.distance,
+          },
+        });
+
+        setTimeout(() => {
+          const providerName = document?.getElementById('fl-provider-name');
+
+          if (providerName !== document?.activeElement) {
+            focusElement(providerName);
+          }
+        }, 200);
+      }
+
       const locationElement = document.getElementById(loc.id);
+
       if (locationElement) {
         Array.from(document.getElementsByClassName('facility-result')).forEach(
           e => {
             e.classList.remove('active');
           },
         );
+
         locationElement.classList.add('active');
         recordMarkerEvents(loc);
-        document.getElementById('searchResultsContainer').scrollTop =
-          locationElement.offsetTop;
+
+        const searchResultsContainer = document.getElementById(
+          'searchResultsContainer',
+        );
+
+        if (searchResultsContainer) {
+          searchResultsContainer.scrollTop = locationElement.offsetTop - 8;
+        }
       }
     });
+
     return markerElement;
   }
 

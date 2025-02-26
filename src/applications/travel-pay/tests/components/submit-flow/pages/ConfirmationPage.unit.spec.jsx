@@ -48,6 +48,8 @@ describe('Confirmation page', () => {
         '[text="Learn how to set up direct deposit for travel pay reimbursement"]',
       ),
     ).to.exist;
+
+    expect($('va-alert[status="success"]')).to.exist;
   });
 
   it('should render practictioner name if available', () => {

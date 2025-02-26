@@ -51,12 +51,7 @@ import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import { appStateSelector } from '../../shared/utils/issues';
 import reviewErrors from '../../shared/content/reviewErrors';
-import {
-  focusH3,
-  focusToggledHeader,
-  focusOnAlert,
-  focusIssue,
-} from '../../shared/utils/focus';
+import { focusH3, focusOnAlert, focusIssue } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -155,7 +150,7 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          scrollAndFocusTarget: focusToggledHeader, // focusH3,
+          scrollAndFocusTarget: focusH3,
         },
         ...contactInfo,
       },
@@ -221,7 +216,7 @@ const formConfig = {
           // new page choices: 'yes' or 'no'
           CustomPage: InformalConference,
           CustomPageReview: InformalConferenceReview,
-          scrollAndFocusTarget: focusToggledHeader,
+          scrollAndFocusTarget: focusH3,
         },
         conferenceContact: {
           path: 'informal-conference/contact',
