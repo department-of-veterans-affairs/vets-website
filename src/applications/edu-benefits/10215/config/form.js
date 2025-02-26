@@ -58,7 +58,9 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ({ router, route }) => (
+    <ConfirmationPage router={router} route={route} />
+  ),
   formId: '22-10215',
   saveInProgress: {},
   version: 0,
