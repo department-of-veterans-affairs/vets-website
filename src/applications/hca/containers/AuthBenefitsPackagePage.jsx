@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -16,6 +16,7 @@ import content from '../locales/en/content.json';
 
 const AuthBenefitsPackagePage = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);
+  const [localData, setLocalData] = useState({});
   const dispatch = useDispatch();
 
   const uiSchema = {
@@ -41,6 +42,7 @@ const AuthBenefitsPackagePage = ({ location, route, router }) => {
         ...formData,
         'view:vaBenefitsPackage': data['view:vaBenefitsPackage'],
       };
+      setLocalData(data);
       dispatch(setData(dataToSet));
     },
     [dispatch, formData],
@@ -66,7 +68,7 @@ const AuthBenefitsPackagePage = ({ location, route, router }) => {
             uiSchema={uiSchema}
             onSubmit={onSubmit}
             onChange={onChange}
-            data={formData}
+            data={localData}
           >
             <FormNavButtons goBack={goBack} submitToContinue />
           </SchemaForm>
