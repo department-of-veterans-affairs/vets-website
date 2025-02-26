@@ -19,7 +19,9 @@ const BuildRoutes = () => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
   const isUpdatedGi = useToggleValue(TOGGLE_NAMES.isUpdatedGi);
-  const lcToggleValue = true;
+  const lcToggleValue = useToggleValue(
+    TOGGLE_NAMES.giComparisonToolLceToggleFlag,
+  );
   const toggleGiProgramsFlag = useToggleValue(
     TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
   );
