@@ -93,9 +93,6 @@ const MrBreadcrumbs = () => {
       ? history.goBack()
       : `/${locationBasePath}`;
 
-  // eslint-disable-next-line no-console
-  console.log('This is it', location.pathname, urlVitalsDate);
-
   if (
     location.pathname.includes(
       `/${locationBasePath}/${labId ||
