@@ -20,6 +20,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import InstitutionDetails from '../pages/institutionDetails';
 import studentRatioCalc from '../pages/studentRatioCalc';
 import submitForm from './submitForm';
+import { certifyingOfficial } from '../pages/institutionOfficial';
 
 const { date, dateRange } = commonDefinitions;
 
@@ -62,13 +63,29 @@ const formConfig = {
     date,
     dateRange,
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      messageAriaDescribedby:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      fullNamePath: 'certifyingOfficial',
+    },
+  },
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution Details',
       pages: {
-        institutionDetails: {
+        certifyingOfficial: {
           path: 'institution-details',
+          title: 'Tell us about yourself',
+          uiSchema: certifyingOfficial.uiSchema,
+          schema: certifyingOfficial.schema,
+        },
+        institutionDetails: {
+          path: 'institution-details-1',
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
             const isAccredited = await validateFacilityCode(formData);
