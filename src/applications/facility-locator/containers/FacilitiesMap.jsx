@@ -41,6 +41,7 @@ import {
 import {
   facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
+  facilityLocatorAutosuggestVAMCServices,
   facilityLocatorMobileMapUpdate,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
@@ -476,6 +477,7 @@ const FacilitiesMap = props => {
               onSubmit={handleSearch}
               selectMobileMapPin={props.selectMobileMapPin}
               suppressPPMS={props.suppressPPMS}
+              vamcAutoSuggestEnabled={props.vamcAutoSuggestEnabled}
               useProgressiveDisclosure={useProgressiveDisclosure}
             />
             <EmergencyCareAlert
@@ -886,6 +888,8 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vamcAutoSuggestEnabled: true,
+  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
