@@ -241,17 +241,15 @@ const SmBreadcrumbs = () => {
           </span>
         </nav>
       ) : (
-        <>
-          <VaBreadcrumbs
-            breadcrumbList={newCrumbsList}
-            label="Breadcrumb"
-            home-veterans-affairs
-            onRouteChange={handleRoutechange}
-            className="mobile-lg:vads-u-margin-y--2"
-            dataTestid="sm-breadcrumbs"
-            uswds
-          />
-        </>
+        <VaBreadcrumbs
+          breadcrumbList={newCrumbsList}
+          label="Breadcrumb"
+          home-veterans-affairs
+          onRouteChange={handleRoutechange}
+          className="mobile-lg:vads-u-margin-y--2"
+          dataTestid="sm-breadcrumbs"
+          uswds
+        />
       )}
     </div>
   );
