@@ -53,11 +53,6 @@ const IntroductionPage = ({
         return;
       }
 
-      // Redirect unverified users to identity verification
-      if (!isUserLOA3) {
-        window.location.replace('/verify-identity');
-      }
-
       // Redirect verified users without preferred facility to health dashboard
       if (isUserLOA3 && !hasPreferredFacility) {
         window.location.replace('/my-health');
