@@ -23,12 +23,15 @@ import {
   radioUI,
   titleSchema,
   titleUI,
+  ssnUI,
+  ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 import CustomPrefillMessage from '../components/CustomPrefillAlert';
+import { flattenApplicantSSN } from './migrations';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -178,7 +181,8 @@ const formConfig = {
       saved: 'Your CHAMPVA benefits application has been saved.',
     },
   },
-  version: 0,
+  version: 1,
+  migrations: [flattenApplicantSSN],
   prefillEnabled: true,
   prefillTransformer,
   savedFormMessages: {
@@ -637,13 +641,13 @@ const formConfig = {
                   ({ formData }) =>
                     `${applicantWording(formData)} identification information`,
                 ),
-                applicantSSN: ssnOrVaFileNumberCustomUI(),
+                applicantSSN: ssnUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantSSN'], {
             titleSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnSchema,
           }),
         },
         page15a: {

@@ -489,6 +489,18 @@ class MedicationsRefillPage {
   verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
     cy.get('[data-testid="alert-banner"]').should('contain', rxName);
   };
+
+  verifyNeedHelpSectionOnRefillPage = text => {
+    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+  };
+
+  verifyGoToUseMedicationLinkOnRefillPage = () => {
+    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+  };
+
+  verifyStartANewMessageLinkOnRefillPage = () => {
+    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+  };
 }
 
 export default MedicationsRefillPage;
