@@ -43,6 +43,10 @@
     &:visited {
       color: inherit;
     }
+
+    &:hover {
+      text-decoration: none;
+    }
   }
   &__sort-by {
     display: flex;
@@ -114,6 +118,22 @@
         align-items: center;
         margin-top: 8px;
         flex-wrap: wrap;
+      }
+
+      &--submission-status {
+        font-weight: 700;
+
+        @media (min-width: $small-desktop-screen) {
+          display: flex;
+          align-items: center;
+        }
+
+        [icon="error"] {
+          color: $vads-color-error;
+        }
+        [icon] {
+          margin-right: 6px;
+        }
       }
 
       &--label {

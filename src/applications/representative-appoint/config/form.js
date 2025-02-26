@@ -7,6 +7,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { generatePDF } from '../api/generatePDF';
+import { submitPOARequest } from '../api/submitPOARequest';
 import NextStepsPage from '../containers/NextStepsPage';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { preparerIsVeteran, formIs2122A } from '../utilities/helpers';
@@ -61,7 +62,11 @@ const formConfig = {
   submit: async form => {
     await generatePDF(form.data);
 
-    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } });
+    if (form.data.representativeSubmissionMethod === 'digital') {
+      await submitPOARequest(form.data);
+    }
+
+    return Promise.resolve({ attributes: { confirmationNumber: '123123123' } }); // I'm not sure what this confirmation number is about
   },
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
