@@ -24,7 +24,7 @@ signature field and NOT check that it matched a previously entered string.
  * @param {object} formData standard formData object
  * @returns Either a string representing an error, or undefined (representing a match)
  */
-function signatureValidator(signatureName, formData) {
+export function signatureValidator(signatureName, formData) {
   const name = Object.values(formData?.applicantName || { empty: '' })
     .filter(el => el)
     .join('')
