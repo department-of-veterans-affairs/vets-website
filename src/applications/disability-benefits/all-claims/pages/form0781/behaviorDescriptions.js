@@ -9,7 +9,10 @@ import {
   ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
 } from '../../constants';
 import { showBehaviorDescriptionsPage } from '../../utils/form0781';
-import { behaviorDescriptionPageDescription } from '../../content/form0781/behaviorListPages';
+import {
+  behaviorDescriptionPageDescription,
+  behaviorDescriptionPageHint,
+} from '../../content/form0781/behaviorListPages';
 import {
   titleWithTag,
   form0781HeadingTag,
@@ -30,6 +33,7 @@ function makeUiSchema(behaviorType) {
     behaviorsDetails: {
       [behaviorType]: textareaUI({
         title: behaviorDescriptionPageDescription,
+        hint: behaviorDescriptionPageHint,
       }),
     },
     'view:mentalHealthSupportAlert': {

@@ -203,7 +203,7 @@ export const behaviorDescriptionPageHint =
 
 export const unlistedPageTitle = BEHAVIOR_LIST_SECTION_SUBTITLES.other;
 export const unlistedDescriptionPageDescription =
-  'Describe the other behavioral changes  you experienced that were not in the list  of behavioral change types provided. (Optional)';
+  'Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided. (Optional)';
 
 // behavior summary page
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';

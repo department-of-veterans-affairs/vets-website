@@ -5,6 +5,7 @@ import {
 import {
   unlistedPageTitle,
   unlistedDescriptionPageDescription,
+  behaviorDescriptionPageHint,
 } from '../../content/form0781/behaviorListPages';
 import {
   titleWithTag,
@@ -17,6 +18,7 @@ export const uiSchema = {
   behaviorsDetails: {
     unlisted: textareaUI({
       title: unlistedDescriptionPageDescription,
+      hint: behaviorDescriptionPageHint,
     }),
   },
   'view:mentalHealthSupportAlert': {
