@@ -1,0 +1,43 @@
+{
+  "data": {
+    "enrichedId": "1@sec",
+    "lacNm": "Security+ Certification",
+    "eduLacTypeNm": "Certification",
+    "institution": {
+      "name": "CompTIA",
+      "physicalAddress": {
+        "address1": "3500 Lacey Road",
+        "address2": "Suite 100",
+        "city": "Downers Grove",
+        "state": "IL",
+        "zip": "60515",
+        "country": "USA"
+      },
+      "mailingAddress": {
+        "address1": "3500 Lacey Road",
+        "address2": "Suite 100",
+        "city": "Downers Grove",
+        "state": "IL",
+        "zip": "60515",
+        "country": "USA"
+      },
+      "webAddress": "https://www.comptia.org"
+    },
+    "tests": [
+      {
+        "name": "CompTIA Security+ Certification Exam",
+        "fee": "370",
+        "beginDate": "01-JAN-20",
+        "endDate": "31-DEC-23",
+        "description": "CompTIA Security+ is a global certification that validates the baseline skills necessary to perform core security functions"
+      },
+      {
+        "name": "CompTIA Security+ Retake Exam",
+        "fee": "225",
+        "beginDate": "01-JAN-20",
+        "endDate": "31-DEC-23",
+        "description": "Retake exam for failed attempts"
+      }
+    ]
+  }
+}

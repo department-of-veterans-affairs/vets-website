@@ -1,0 +1,58 @@
+{
+  "data": {
+    "items": [
+      {
+        "enrichedId": "1@sec",
+        "lacNm": "Security+ Certification",
+        "eduLacTypeNm": "Certification",
+        "state": null,
+        "institution": {
+          "name": "CompTIA",
+          "physicalAddress": {
+            "address1": "3500 Lacey Road",
+            "address2": "Suite 100",
+            "city": "Downers Grove",
+            "state": "IL",
+            "zip": "60515",
+            "country": "USA"
+          }
+        }
+      },
+      {
+        "enrichedId": "2@sec",
+        "lacNm": "Security Guard Training",
+        "eduLacTypeNm": "License",
+        "state": "NY",
+        "institution": {
+          "name": "NY Department of State",
+          "physicalAddress": {
+            "address1": "123 State Street",
+            "city": "Albany",
+            "state": "NY",
+            "zip": "12207",
+            "country": "USA"
+          }
+        }
+      },
+      {
+        "enrichedId": "3@sec",
+        "lacNm": "CISSP Certification Prep Course",
+        "eduLacTypeNm": "Prep Course",
+        "state": null,
+        "institution": {
+          "name": "(ISC)²",
+          "physicalAddress": {
+            "address1": "311 Park Place Blvd",
+            "city": "Clearwater",
+            "state": "FL",
+            "zip": "33759",
+            "country": "USA"
+          }
+        }
+      }
+    ],
+    "totalItems": 15,
+    "currentPage": 1,
+    "perPage": 10
+  }
+}
