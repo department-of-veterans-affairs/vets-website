@@ -34,6 +34,7 @@ AppRoute.propTypes = {
 
 const AuthorizedRoutes = () => {
   const location = useLocation();
+  const isPilot = useSelector(state => state.sm.app.isPilot);
   const contactListPage = useSelector(
     state =>
       state.featureToggles[
@@ -55,7 +56,7 @@ const AuthorizedRoutes = () => {
 
   if (removeLandingPage && location.pathname === `/`) {
     const basePath = `${
-      cernerPilotSmFeatureFlag && window.location.pathname.includes('pilot')
+      cernerPilotSmFeatureFlag && isPilot
         ? pilotManifest.rootUrl
         : manifest.rootUrl
     }${Paths.INBOX}`;
