@@ -316,7 +316,17 @@ ${record.results}`;
 
   const imageAlertError = imageRequest => (
     <>
-      <p>To review and download your images, you’ll need to request them.</p>
+      {notificationStatus ? (
+        <p>
+          After you request images, it may take serveral hours for us to load
+          them here. We’ll send you an email when your images are ready.
+        </p>
+      ) : (
+        <p>
+          After you request images, it may take serveral hours for us to load
+          them here.
+        </p>
+      )}
       {imageAlert(ERROR_REQUEST_AGAIN)}
       <va-button
         class="vads-u-margin-top--2"
