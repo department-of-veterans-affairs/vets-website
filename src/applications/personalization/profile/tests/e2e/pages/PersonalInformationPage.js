@@ -12,7 +12,7 @@ class PersonalInformationPage {
     return cy.get(`h1`);
   };
 
-  load = featureToggles => {
+  load = (togglesResponse = mockToggles, signatureResponse = mockSignature) => {
     cy.intercept('v0/profile/full_name', mockFullNameSucess).as(`full_name`);
 
     cy.intercept(
@@ -35,10 +35,10 @@ class PersonalInformationPage {
     cy.intercept(
       `GET`,
       `/my_health/v1/messaging/preferences/signature`,
-      mockSignature,
+      signatureResponse,
     );
 
-    SecureMessagingSite.login(featureToggles);
+    SecureMessagingSite.login(togglesResponse);
 
     cy.visit(`/profile/personal-information`);
 
@@ -53,6 +53,23 @@ class PersonalInformationPage {
         features: [...mockToggles.data.features, ...toggles],
       },
     };
+  };
+
+  verifyInterface = () => {
+    cy.get(`h2`)
+      .should('be.visible')
+      .and('contain.text', 'Messaging signature');
+    cy.get('#edit-messaging-signature')
+      .should('be.visible')
+      .and('have.text', 'Edit');
+    cy.get(`[aria-label="Remove Messaging signature"]`)
+      .should('be.visible')
+      .and('have.text', 'Remove');
+    cy.get(`[data-testid="messagingSignature"]`).should(
+      `contain.text`,
+      `${mockSignature.data.attributes.signatureName}` +
+        `${mockSignature.data.attributes.signatureTitle}`,
+    );
   };
 }
 
