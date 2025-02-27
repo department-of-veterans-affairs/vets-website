@@ -2,6 +2,7 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import moment from 'moment';
+import { format, subDays, addDays } from 'date-fns';
 import React from 'react';
 import reducers from '../../../redux/reducer';
 import {
@@ -305,5 +306,70 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     expect(screen.findAllByLabelText(/canceled Community care/i));
     expect(screen.baseElement).to.contain.text('Community care');
+  });
+  it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
+    const myInitialState = {
+      ...initialState,
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        vaOnlineSchedulingStatusImprovement: false,
+      },
+    };
+    const now = new Date();
+    const start = subDays(now, 30);
+    const end = addDays(now, 395);
+    const appointment = getVAOSAppointmentMock();
+    appointment.id = '123';
+    appointment.attributes = {
+      ...appointment.attributes,
+      kind: 'telehealth',
+      status: 'booked',
+      locationId: '983',
+      location: {
+        id: '983',
+        type: 'appointments',
+        attributes: {
+          id: '983',
+          vistaSite: '983',
+          name: 'Cheyenne VA Medical Center',
+          lat: 39.744507,
+          long: -104.830956,
+          phone: { main: '307-778-7550' },
+          physicalAddress: {
+            line: ['2360 East Pershing Boulevard'],
+            city: 'Cheyenne',
+            state: 'WY',
+            postalCode: '82001-5356',
+          },
+        },
+      },
+      localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
+      start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+      end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+    };
+
+    mockAppointmentsApi({
+      start: format(subDays(now, 120), 'yyyy-MM-dd'),
+      end: format(now, 'yyyy-MM-dd'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
+    mockVAOSAppointmentsFetch({
+      start: format(start, 'yyyy-MM-dd'),
+      end: format(end, 'yyyy-MM-dd'),
+      requests: [appointment],
+      statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+    });
+
+    const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
+      initialState: myInitialState,
+      reducers,
+    });
+
+    await screen.findAllByText('VA appointment');
+    expect(screen.baseElement).to.contain.text('Cheyenne VA Medical Center');
   });
 });
