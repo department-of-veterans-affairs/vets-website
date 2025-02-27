@@ -32,6 +32,8 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.injectAxeThenAxeCheck();
     });
 
+    // TODO: displays error state when details fetch fails
+
     it('renders the search page header and description correctly', () => {
       cy.get('h1')
         .should('exist')
@@ -57,18 +59,16 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    // TODO: Add test for pagination
+    // TODO: updates results correctly when category checkboxes are changed
+    // TODO: updates results correctly when state dropdown is changed
+    // TODO: displays error state when details fetch fails
 
     // it('displays search results with pagination', () => {
     it('displays search results', () => {
+      // TODO: update test "displays search results with pagination"
+
       cy.get('h1').should('contain.text', 'Search results');
       cy.get('va-card').should('have.length', 10);
-
-      // cy.get('va-pagination')
-      //   .shadow()
-      //   .find('[aria-label="Next page"]')
-      //   .click();
-      // cy.get('#results-summary').should('not.contain', 'Showing 1-10');
     });
 
     it('displays loading state while fetching results', () => {
@@ -87,20 +87,6 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.wait('@lcSearchDelayed');
       cy.get('va-loading-indicator').should('not.exist');
     });
-
-    // TODO: Add test for filter updates
-
-    // it('handles filter updates correctly', () => {
-    //   cy.get('.filter-your-results')
-    //     .should('exist')
-    //     .within(() => {
-    //       cy.get('va-checkbox')
-    //         .second()
-    //         .click();
-    //       cy.contains('Update Search').click();
-    //     });
-    //   cy.wait('@lcSearch');
-    // });
   });
 
   describe('License & Certification Detail Page', () => {
@@ -133,6 +119,8 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
         });
     });
 
+    // TODO: does not display tests in a table if there is one test.
+    // TODO: displays tests in a table if there are multiple tests.
     it('displays error state when details fetch fails', () => {
       cy.intercept('GET', '**/v1/gi/lcpe/lacs/3871@4494f', {
         statusCode: 500,
