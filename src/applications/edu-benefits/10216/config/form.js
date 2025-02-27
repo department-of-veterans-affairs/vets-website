@@ -48,6 +48,9 @@ const formConfig = {
     //   saved: 'Your education benefits application has been saved.',
     // },
   },
+  customText: {
+    reviewPageTitle: 'Review',
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {

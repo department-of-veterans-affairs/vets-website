@@ -404,7 +404,7 @@ export const searchFolderAdvanced = (folderId, query, isPilot) => {
  * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
  */
 export const getSignature = () => {
-  return apiRequest(`${apiBasePath}/messaging/messages/signature`, {
+  return apiRequest(`${apiBasePath}/messaging/preferences/signature`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
