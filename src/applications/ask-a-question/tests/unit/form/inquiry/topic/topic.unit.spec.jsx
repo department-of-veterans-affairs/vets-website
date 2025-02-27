@@ -1,9 +1,9 @@
+import { expect } from 'chai';
 import {
   filterTopicArrayByLabel,
   getTopicsWithSubtopicsByCategory,
   isValidFacilityCode,
 } from '../../../../../form/inquiry/topic/topic';
-import { expect } from 'chai';
 
 describe('topic', () => {
   const testSchema = {

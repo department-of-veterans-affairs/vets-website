@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import formConfig from '../../10203/config/form';
+import formConfig from '../config/form';
 
 import { transform } from '../submit-transformer';
 
