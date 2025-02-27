@@ -38,7 +38,7 @@ import getProfileInfoFieldAttributes from '../util/getProfileInfoFieldAttributes
 //
 // Given a valid entry from the vap-svc/constants FIELD
 // NAMES, it will return a string like `#edit-mobile-phone-number`
-import { getEditButtonId } from '../util/id-factory';
+import { getEditButtonId, getRemoveButtonId } from '../util/id-factory';
 import {
   isFailedTransaction,
   isPendingTransaction,
@@ -175,9 +175,8 @@ class ProfileInformationFieldController extends React.Component {
     if (this.props.fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
       this.props.updateMessagingSignature(
         {
-          ...payload,
-          signatureName: null,
-          signatureTitle: null,
+          signatureName: '',
+          signatureTitle: '',
           includeSignature: false,
         },
         this.props.fieldName,
@@ -390,6 +389,7 @@ class ProfileInformationFieldController extends React.Component {
                 <button
                   aria-label={`Remove ${title}`}
                   type="button"
+                  id={getRemoveButtonId(fieldName)}
                   className="mobile-lg:vads-u-margin--0 usa-button-secondary"
                   onClick={this.handleDeleteInitiated}
                 >

@@ -54,7 +54,7 @@ export const getMessagingSignature = () => {
       dispatch({
         type: FETCH_MESSAGING_SIGNATURE,
         payload: {
-          message: error.message || 'Failed to retrieve messaging signature',
+          error: error.message || 'Failed to retrieve messaging signature',
         },
       });
     }
@@ -69,14 +69,6 @@ export const updateMessagingSignature = (
   fieldName,
   method = 'POST',
 ) => {
-  const includeSignature =
-    !!signature?.signatureName?.trim() && !!signature?.signatureTitle?.trim();
-
-  const signatureObject = {
-    signatureName: includeSignature ? signature.signatureName : null,
-    signatureTitle: includeSignature ? signature.signatureTitle : null,
-    includeSignature,
-  };
   return async dispatch => {
     try {
       dispatch({
@@ -93,7 +85,7 @@ export const updateMessagingSignature = (
             'Content-Type': 'application/json',
             Accept: 'application/json',
           },
-          body: JSON.stringify(signatureObject),
+          body: JSON.stringify(signature),
         },
       );
 
