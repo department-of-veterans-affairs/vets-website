@@ -41,7 +41,7 @@ import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
 const initialState = {
   pending: null,
   pendingStatus: FETCH_STATUS.notStarted,
-  confirmed: null,
+  confirmed: [],
   confirmedStatus: FETCH_STATUS.notStarted,
   past: null,
   providerData: null,

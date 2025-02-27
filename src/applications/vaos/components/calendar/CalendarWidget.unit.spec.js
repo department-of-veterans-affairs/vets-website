@@ -49,7 +49,7 @@ describe('VAOS Component: CalendarWidget', () => {
 
       return (
         <CalendarWidget
-          maxSelections="1"
+          maxSelections={1}
           availableSlots={availableSlots}
           value={data?.selectedDates}
           id="dateTime"
