@@ -35,8 +35,9 @@ const VACCINES_LABEL = 'Go to your vaccines';
 const ALLERGIES_AND_REACTIONS_LABEL = 'Go to your allergies and reactions';
 const HEALTH_CONDITIONS_LABEL = 'Go to your health conditions';
 const VITALS_LABEL = 'Go to your vitals';
-const MEDICAL_RECORDS_SETTINGS_LABEL = 'Go to your medical records settings';
 const MEDICAL_RECORDS_DOWNLOAD_LABEL =
+  'Go to download your medical records reports';
+const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
 
 const LandingPage = () => {
@@ -104,7 +105,8 @@ const LandingPage = () => {
           render={renderMHVDowntime}
         />
         <p className="va-introtext vads-u-margin-bottom--0">
-          Review, print, and download your VA medical records.
+          Review, print, and download your VA medical records. Tell your
+          provider about any changes in your health at each appointment.
         </p>
       </section>
 
@@ -369,7 +371,7 @@ const LandingPage = () => {
 
           <section className="vads-u-padding-bottom--3">
             <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-              Manage your medical records settings
+              Manage your electronic sharing settings
             </h2>
             <p className="vads-u-margin-bottom--2">
               Review and update your medical records sharing and notification
@@ -387,7 +389,7 @@ const LandingPage = () => {
             </Link>
           </section>
 
-          <section className="vads-u-margin-x--1p5 vads-u-margin-y--3">
+          <section className="vads-u-margin-y--3">
             <h3 className="vads-u-padding-bottom--0p5 vads-u-border-bottom--2px vads-u-border-color--primary">
               Need help?
             </h3>
