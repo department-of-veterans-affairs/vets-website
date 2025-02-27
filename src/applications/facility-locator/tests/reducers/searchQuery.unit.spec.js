@@ -204,7 +204,8 @@ describe('search query reducer', () => {
       type: FETCH_SPECIALTIES_FAILED,
     });
 
-    expect(state.error).to.eql(true);
+    expect(state.error).to.eql(true); // can be removed when dependent on the following only
+    expect(state.fetchSvcsError).to.eql(true); // added
     expect(state.fetchSvcsInProgress).to.eql(false);
   });
 

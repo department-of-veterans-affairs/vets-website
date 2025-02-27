@@ -16,7 +16,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'isUpdatedGi', value: true }],
+        features: [{ name: 'gi_comparison_tool_lce_toggle_flag', value: true }],
       },
     }).as('featureToggles');
   });
