@@ -70,7 +70,9 @@ describe('LoginContainer', () => {
 
   it('should render a va-accordion when application is vaoccmobile', () => {
     global.window.location = '/sign-in/?application=vaoccmobile';
-    const wrapper = shallow(<LoginContainer />);
+    const wrapper = shallow(
+      <LoginContainer isUnifiedSignIn externalApplication="vaoccmobile" />,
+    );
     const loginInfo = wrapper.find('va-accordion');
     expect(loginInfo).to.not.be.null;
     wrapper.unmount();
