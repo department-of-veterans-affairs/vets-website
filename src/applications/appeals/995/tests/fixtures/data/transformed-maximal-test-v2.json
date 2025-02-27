@@ -32,7 +32,7 @@
         "I AM STAYING WITH A FRIEND OR FAMILY MEMBER, BECAUSE I AM UNABLE TO OWN A HOME RIGHT NOW",
         "IN THE NEXT 30 DAYS, I WILL HAVE TO LEAVE A FACILITY, LIKE A HOMELESS SHELTER",
         "IN THE NEXT 30 DAYS, I WILL LOSE MY HOME",
-        "I HAVE ANOTHER HOUSING RISK NOT LISTED HERE"
+        "OTHER"
       ],
       "homelessLivingSituationOther": "Lorem ipsum",
       "homelessPointOfContact": "John Doe",
