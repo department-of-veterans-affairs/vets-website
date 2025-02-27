@@ -1,10 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+// Utils
+import {
+  clearGeocodeError,
+  clearSearchText,
+  geolocateUser,
+  getProviderSpecialties,
+} from '../../actions';
+import { facilityLocatorAutosuggestVAMCServices } from '../../utils/featureFlagSelectors';
 import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
+
+// Components
 import BottomRow from './BottomRow';
 import FacilityType from './facility-type';
 import LocationInput from './location';
@@ -12,12 +24,8 @@ import ServiceType from './service-type';
 
 const SearchForm = props => {
   const {
-    clearGeocodeError,
-    clearSearchText,
     currentQuery,
     facilitiesUseAddressTypeahead,
-    geolocateUser,
-    getProviderSpecialties,
     isMobile,
     isSmallDesktop,
     isTablet,
@@ -28,6 +36,7 @@ const SearchForm = props => {
     suppressPPMS,
     useProgressiveDisclosure,
     vamcAutoSuggestEnabled,
+    vamcServiceDisplay,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -139,11 +148,12 @@ const SearchForm = props => {
     recordEvent({
       event: 'fl-get-geolocation',
     });
-    geolocateUser();
+
+    props.geolocateUser();
   };
 
   const handleClearInput = () => {
-    clearSearchText();
+    props.clearSearchText();
     // optional chaining not allowed
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
@@ -207,7 +217,7 @@ const SearchForm = props => {
       />
       <ServiceType
         currentQuery={currentQuery}
-        getProviderSpecialties={getProviderSpecialties}
+        getProviderSpecialties={props.getProviderSpecialties}
         handleServiceTypeChange={handleServiceTypeChange}
         isMobile={isMobile}
         isSmallDesktop={isSmallDesktop}
@@ -217,6 +227,7 @@ const SearchForm = props => {
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
         vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
+        vamcServiceDisplay={vamcServiceDisplay}
       />
     </>
   );
@@ -236,7 +247,7 @@ const SearchForm = props => {
             ? 'We need to use your location'
             : "We couldn't locate you"
         }
-        onCloseEvent={() => clearGeocodeError()}
+        onCloseEvent={() => props.clearGeocodeError()}
         status="warning"
         visible={currentQuery.geocodeError > 0}
       >
@@ -285,6 +296,22 @@ const SearchForm = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  vamcAutoSuggestEnabled: true,
+  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
+  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay,
+});
+
+const mapDispatchToProps = {
+  clearGeocodeError,
+  clearSearchText,
+  geolocateUser,
+  getProviderSpecialties,
+};
+
 SearchForm.propTypes = SearchFormTypes;
 
-export default SearchForm;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchForm);

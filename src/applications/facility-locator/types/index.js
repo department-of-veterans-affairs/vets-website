@@ -198,15 +198,12 @@ export const RouterTypes = PropTypes.shape({
 });
 
 export const FacilitiesMapTypes = {
-  clearGeocodeError: PropTypes.func,
   clearSearchResults: PropTypes.func,
-  clearSearchText: PropTypes.func,
   currentQuery: CurrentQueryTypes,
   facilityLocatorMobileMapUpdate: PropTypes.bool,
   fetchVaFacility: PropTypes.func,
   genBBoxFromAddress: PropTypes.func,
   genSearchAreaFromCenter: PropTypes.func,
-  geolocateUser: PropTypes.func,
   location: LocationTypes,
   mapMoved: PropTypes.func,
   pagination: PaginationTypes,
@@ -234,6 +231,23 @@ export const SearchFormTypes = {
   onSubmit: PropTypes.func,
   selectMobileMapPin: PropTypes.func,
   suppressPPMS: PropTypes.bool,
+  vamcServiceDisplay: PropTypes.string,
+};
+
+export const ServiceTypeInputTypes = {
+  currentQuery: CurrentQueryTypes,
+  getProviderSpecialties: PropTypes.func,
+  handleServiceTypeChange: PropTypes.func,
+  isMobile: PropTypes.bool,
+  isSmallDesktop: PropTypes.bool,
+  isTablet: PropTypes.bool,
+  results: ResultsTypes,
+  searchInitiated: PropTypes.bool,
+  selectedServiceType: PropTypes.string,
+  setSearchInitiated: PropTypes.func,
+  useProgressiveDisclosure: PropTypes.bool,
+  vamcAutoSuggestEnabled: PropTypes.bool,
+  onChange: PropTypes.func,
 };
 
 /**
