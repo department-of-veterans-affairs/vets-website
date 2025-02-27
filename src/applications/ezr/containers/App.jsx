@@ -24,7 +24,7 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const { loading: isLoadingFeatures, isProdEnabled } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -39,8 +39,8 @@ const App = props => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [isUserLOA3],
   );
 
@@ -60,7 +60,6 @@ const App = props => {
         const defaultViewFields = {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
-          'view:isSigiEnabled': isSigiEnabled,
           'view:householdEnabled': !!canSubmitFinancialInfo,
         };
 
@@ -107,7 +106,6 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
-    isSigiEnabled: state.featureToggles.hcaSigiEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,

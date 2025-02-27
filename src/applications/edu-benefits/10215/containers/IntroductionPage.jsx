@@ -13,7 +13,7 @@ const IntroductionPage = ({ router }) => {
 
   const startForm = event => {
     event.preventDefault();
-    router.push('/institution-details');
+    router.push('/institution-details-1');
   };
 
   return (
