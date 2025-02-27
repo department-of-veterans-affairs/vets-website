@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { LocationType } from '../../../constants';
 import CCServiceTypeAhead from './CCServiceTypeAhead';
@@ -9,7 +8,7 @@ import {
   urgentCareServices,
   emergencyCareServices,
 } from '../../../config';
-import { CurrentQueryTypes } from '../../../types';
+import { ServiceTypeInputTypes } from '../../../types';
 import ServicesLoadingOrShow from './ServicesLoadingOrShow';
 import VAMCServiceAutosuggest from './VAMCServiceAutosuggest';
 
@@ -25,6 +24,7 @@ const ServiceType = ({
   setSearchInitiated,
   useProgressiveDisclosure,
   vamcAutoSuggestEnabled,
+  vamcServiceDisplay,
 }) => {
   const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
 
@@ -35,6 +35,7 @@ const ServiceType = ({
         onChange={onChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
+        vamcServiceDisplay={vamcServiceDisplay}
       />
     );
   }
@@ -146,19 +147,6 @@ const ServiceType = ({
   );
 };
 
-ServiceType.propTypes = {
-  currentQuery: CurrentQueryTypes,
-  getProviderSpecialties: PropTypes.func,
-  handleServiceTypeChange: PropTypes.func,
-  isMobile: PropTypes.bool,
-  isSmallDesktop: PropTypes.bool,
-  isTablet: PropTypes.bool,
-  searchInitiated: PropTypes.bool,
-  selectedServiceType: PropTypes.string,
-  setSearchInitiated: PropTypes.func,
-  useProgressiveDisclosure: PropTypes.bool,
-  vamcAutoSuggestEnabled: PropTypes.bool,
-  onChange: PropTypes.func,
-};
+ServiceType.propTypes = ServiceTypeInputTypes;
 
 export default ServiceType;
