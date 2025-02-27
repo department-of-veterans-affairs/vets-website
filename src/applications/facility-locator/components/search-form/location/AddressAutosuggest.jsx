@@ -3,6 +3,7 @@ import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import UseMyLocation from './UseMyLocation';
+import AddressInputError from './AddressInputError';
 import { searchAddresses } from '../../../utils/mapHelpers';
 import Autosuggest from '../autosuggest';
 
@@ -182,7 +183,7 @@ function AddressAutosuggest({
         },
       }}
       onClearClick={inputClearClick}
-      errorMessage="Enter a zip code or a city and state in the search box"
+      inputError={<AddressInputError showError={showAddressError || false} />}
       showError={showAddressError}
       inputId="street-city-state-zip"
       inputRef={inputRef}
