@@ -291,8 +291,13 @@ const responses = {
       });
     }
 
-    // Request, not Facility 983
-    if (!isDirect && !req.query.facility_id.startsWith('983')) {
+    // Request, not Facility 983, not Facility 692 (OH)
+    if (
+      !isDirect &&
+      (!req.query.facility_id.startsWith('983') ||
+        !req.query.facility_id.startsWith('692'))
+      // req.query.facility_id.startsWith('692GA')
+    ) {
       ineligibilityReasons.push({
         coding: [
           {
