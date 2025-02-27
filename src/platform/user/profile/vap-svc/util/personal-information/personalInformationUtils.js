@@ -61,6 +61,8 @@ const allLabels = {
   sexualOrientation: sexualOrientationLabels,
 };
 
+const signatureErrorMessage = 'Both fields are required to save a signature.';
+
 export const personalInformationFormSchemas = {
   preferredName: {
     type: 'object',
@@ -112,10 +114,12 @@ export const personalInformationFormSchemas = {
     properties: {
       signatureName: {
         type: 'string',
+        pattern: /^(?!\s*$).+/,
         maxLength: 60,
       },
       signatureTitle: {
         type: 'string',
+        pattern: /^(?!\s*$).+/,
         maxLength: 60,
       },
     },
@@ -172,14 +176,16 @@ export const personalInformationUiSchemas = {
       'ui:widget': TextWidget,
       'ui:title': `Signature name (60 characters maximum)`,
       'ui:errorMessages': {
-        required: 'Both fields are required to save a signature.',
+        required: signatureErrorMessage,
+        pattern: signatureErrorMessage,
       },
     },
     signatureTitle: {
       'ui:widget': TextWidget,
       'ui:title': `Signature title (60 characters maximum)`,
       'ui:errorMessages': {
-        required: 'Both fields are required to save a signature.',
+        required: signatureErrorMessage,
+        pattern: signatureErrorMessage,
       },
     },
   },

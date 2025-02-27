@@ -210,7 +210,6 @@ describe('<PersonalInformation />', () => {
     await waitFor(() => {
       expect(screen.getByTestId('messagingSignature')).to.exist;
     });
-    screen.debug(undefined, 10000);
     const messagingSignatureSection = screen.getByTestId('messagingSignature');
     expect(messagingSignatureSection.textContent).to.contain('Abraham Lincoln');
     expect(messagingSignatureSection.textContent).to.contain('Veteran');
