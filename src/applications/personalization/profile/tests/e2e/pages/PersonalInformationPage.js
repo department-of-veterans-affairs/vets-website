@@ -4,6 +4,7 @@ import mockPersonalInformation from '../../fixtures/personal-information-success
 import mockServiceHistory from '../../fixtures/service-history-success.json';
 import mockDisabilityRating from '../../fixtures/disability-rating-success.json';
 import mockStatusInfo from '../../fixtures/status-info.json';
+import mockToggles from '../../fixtures/personal-information-feature-toggles.json';
 
 class PersonalInformationPage {
   getPageHeader = () => {
@@ -47,6 +48,16 @@ class PersonalInformationPage {
     cy.visit(`/profile/personal-information`);
 
     this.getPageHeader().should(`have.text`, `Personal information`);
+  };
+
+  updateFeatureToggles = toggles => {
+    return {
+      ...mockToggles,
+      data: {
+        ...mockToggles.data,
+        features: [...mockToggles.data.features, ...toggles],
+      },
+    };
   };
 }
 
