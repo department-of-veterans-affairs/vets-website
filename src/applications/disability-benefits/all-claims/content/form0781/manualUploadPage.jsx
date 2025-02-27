@@ -1,8 +1,6 @@
 import React from 'react';
 
-export const manualUploadPageTitle = (
-  <div className="vads-u-font-size--h3">Upload VA Form 21-0781</div>
-);
+export const manualUploadPageTitle = 'Upload VA Form 21 -0781';
 
 export const manualUploadPageDescription = (
   <>

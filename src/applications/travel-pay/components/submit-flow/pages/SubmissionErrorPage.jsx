@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 
 const SubmissionErrorPage = () => {
   useEffect(() => {
@@ -23,11 +24,11 @@ const SubmissionErrorPage = () => {
           tool right now. Please try again later.
         </p>
         <p>
-          Or you can still file within 30 days of the appointment through the
-          Beneficiary Travel Self Service System (BTSSS).
+          Or you can still file for this appointment through the Beneficiary
+          Travel Self Service System (BTSSS).
         </p>
         <va-link
-          href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+          href={TRAVEL_PAY_INFO_LINK}
           text="Find out how to file for travel reimbursement"
         />
       </va-alert>
