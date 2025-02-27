@@ -73,6 +73,8 @@ export const branchesOfService = [
 ];
 
 // Categories
+export const CategoryDebt =
+  'Debt for benefit overpayments and health care copay bills';
 export const CategoryEducation = 'Education benefits and work study';
 export const CategoryHealthCare = 'Health care';
 export const CategoryVeteranReadinessAndEmployment =
@@ -92,6 +94,8 @@ export const TopicSpeciallyAdapatedHousing =
 export const TopicAppraisals = 'Appraisals';
 export const TopicEducationBenefitsAndWorkStudy =
   'Education benefits and work study';
+export const TopicEducationBenefitOverpayments =
+  'Education benefit overpayments (for school officials)';
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [

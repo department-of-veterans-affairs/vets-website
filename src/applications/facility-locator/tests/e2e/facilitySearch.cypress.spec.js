@@ -34,13 +34,13 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('VA health');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have.attr', 'disabled');
   const hServices = Object.keys(healthServices);
 
   for (let i = 0; i < hServices.length; i++) {
-    cy.get('.service-type-dropdown-container')
+    cy.get('.service-type-dropdown-tablet')
       .find('select')
       .children()
       .eq(i)
@@ -54,7 +54,7 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Urgent care');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have.attr', 'disabled');
 
@@ -63,21 +63,21 @@ Cypress.Commands.add('verifyOptions', () => {
     .shadow()
     .find('select')
     .select('Vet Centers');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.facility-type-dropdown')
     .find('select')
     .should('not.have', 'disabled');
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA cemeteries');
-  cy.get('.service-type-dropdown-container')
+  cy.get('.service-type-dropdown-tablet')
     .find('select')
     .should('not.have', 'disabled');
   cy.get('#facility-type-dropdown')
     .shadow()
     .find('select')
     .select('VA benefits');
-  cy.get('.service-type-dropdown-container') // remember to remove when we allow selection again for VA Benefits
+  cy.get('.service-type-dropdown-tablet') // remember to remove when we allow selection again for VA Benefits
     .find('select')
     .should('have.attr', 'disabled');
 

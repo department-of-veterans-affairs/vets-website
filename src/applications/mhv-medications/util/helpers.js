@@ -8,6 +8,7 @@ import {
   medicationsUrls,
   PRINT_FORMAT,
   DOWNLOAD_FORMAT,
+  dispStatusObj,
 } from './constants';
 
 /**
@@ -221,9 +222,15 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  * @param {Object} location - The location object from React Router, containing the current pathname.
  * @param {String} prescriptionId - A prescription object, used for the details page.
  * @param {Object} pagination - The pagination object used for the prescription list page.
+ * @param {Boolean} removeLandingPage - mhvMedicationsRemoveLandingPage feature flag value (to be removed once turned on in prod)
  * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
  */
-export const createBreadcrumbs = (location, prescription, currentPage) => {
+export const createBreadcrumbs = (
+  location,
+  prescription,
+  currentPage,
+  removeLandingPage,
+) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
@@ -237,11 +244,13 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   ];
   const {
     subdirectories,
+    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
     MEDICATIONS_ABOUT,
     MEDICATIONS_URL,
     MEDICATIONS_REFILL,
   } = medicationsUrls;
 
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   if (pathname.includes(subdirectories.ABOUT)) {
     return [
       ...defaultBreadcrumbs,
@@ -250,7 +259,9 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   }
   if (pathname === subdirectories.BASE) {
     return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      ...(!removeLandingPage
+        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
+        : []),
       {
         href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
         label: 'Medications',
@@ -259,7 +270,9 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   }
   if (pathname === subdirectories.REFILL) {
     return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      ...(!removeLandingPage
+        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
+        : [{ href: MEDICATIONS_URL, label: 'Medications' }]),
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
     ]);
   }
@@ -522,4 +535,26 @@ export const categorizePrescriptions = ([refillable, renewable], rx) => {
     return [[...refillable, rx], renewable];
   }
   return [refillable, [...renewable, rx]];
+};
+
+/**
+ * @param {Object} rx prescription object
+ * @returns {Boolean}
+ */
+export const isRefillTakingLongerThanExpected = rx => {
+  if (!rx) {
+    return false;
+  }
+
+  const refillDate = rx.refillDate || rx.rxRfRecords[0]?.refillDate;
+  const refillSubmitDate =
+    rx.refillSubmitDate || rx.rxRfRecords[0]?.refillSubmitDate;
+  const sevenDaysAgoDate = new Date().setDate(new Date().getDate() - 7);
+
+  return (
+    (rx.dispStatus === dispStatusObj.refillinprocess &&
+      Date.now() > Date.parse(refillDate)) ||
+    (rx.dispStatus === dispStatusObj.submitted &&
+      Date.parse(refillSubmitDate) < sevenDaysAgoDate)
+  );
 };

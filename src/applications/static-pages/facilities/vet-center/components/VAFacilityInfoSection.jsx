@@ -11,7 +11,7 @@ function VAFacilityInfoSection(props) {
       <VAFacilityTitle vaFacility={vaFacility} />
       <VAFacilityAddress vaFacility={vaFacility} />
       <VAFacilityPhone
-        phoneTitle="Main number"
+        phoneTitle="Main phone"
         phoneNumber={
           vaFacility.entityBundle === 'vet_center_cap'
             ? mainPhone
