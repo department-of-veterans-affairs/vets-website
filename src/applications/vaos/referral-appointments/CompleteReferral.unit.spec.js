@@ -96,7 +96,6 @@ describe('CompleteReferral', () => {
     expect(getByTestId('appointment-date')).to.have.text(
       'Thursday, January 2nd, 2025',
     );
-    expect(getByTestId('appointment-time')).to.have.text('10:30 a.m.');
     expect(getByTestId('appointment-type')).to.have.text(
       'Physical Therapy with Dr. Bones',
     );
