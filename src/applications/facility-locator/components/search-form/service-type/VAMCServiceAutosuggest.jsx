@@ -13,7 +13,6 @@ const VAMCServiceAutosuggest = ({
 }) => {
   const { serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
-  const [selectedService, setSelectedService] = useState(null);
   const [options, setOptions] = useState([]);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
   const inputRef = useRef(null);
@@ -80,13 +79,12 @@ const VAMCServiceAutosuggest = ({
 
       setSearchInitiated(false);
     },
-    [searchInitiated],
+    [options, searchInitiated],
   );
 
   const handleClearClick = () => {
     onChange({ serviceType: null, vamcServiceDisplay: null });
     setInputValue(null);
-    setSelectedService(null);
     setOptions(allVAMCServices);
 
     if (inputRef?.current) {
@@ -94,28 +92,39 @@ const VAMCServiceAutosuggest = ({
     }
   };
 
-  const handleServiceTypeChange = e => {
-    setInputValue(e.inputValue?.trimStart());
+  const handleInputValueChange = e => {
+    // The autosuggest component runs both handleOnSelect and onInputValueChange
+    // when a dropdown value is selected. This creates problems for this component,
+    // so we limit this function's purpose to only handle typing and not selection
+    if (e.type === '__input_change__') {
+      const userInput = e.inputValue?.trimStart();
+      setInputValue(userInput);
 
-    if (e.inputValue?.length >= 2) {
-      getServices(e.inputValue);
-    }
+      const selectedItemId = e?.selectedItem?.id;
+      const selectedItemDisplay = e?.selectedItem?.toDisplay;
 
-    if (!e.inputValue?.trimStart()) {
-      handleClearClick();
+      if (userInput.length >= 2) {
+        getServices(
+          selectedItemDisplay === e.inputValue ? selectedItemId : e.inputValue,
+        );
+      }
+
+      if (!userInput) {
+        handleClearClick();
+      }
     }
   };
 
-  const handleServiceTypeSelection = event => {
+  const handleDropdownSelection = event => {
     const { selectedItem } = event;
 
     if (selectedItem && selectedItem?.serviceId) {
+      setInputValue(selectedItem?.toDisplay);
+
       onChange({
         serviceType: selectedItem.serviceId,
         vamcServiceDisplay: selectedItem.toDisplay,
       });
-
-      setSelectedService(selectedItem);
     }
   };
 
@@ -126,20 +135,18 @@ const VAMCServiceAutosuggest = ({
         disabled: false,
         spellCheck: 'false',
       }}
-      handleOnSelect={handleServiceTypeSelection}
+      handleOnSelect={handleDropdownSelection}
       initialSelectedItem={options?.[0]}
-      errorMessage={null}
       inputId="vamc-services"
       inputRef={inputRef}
       inputValue={inputValue || ''}
       keepDataOnBlur
       /* eslint-disable prettier/prettier */
-      label="Service type"
+      label={<span>Service type</span>}
       noItemsMessage="No results found. Search for a different service."
       onClearClick={handleClearClick}
-      onInputValueChange={handleServiceTypeChange}
+      onInputValueChange={handleInputValueChange}
       options={options}
-      selectedItem={selectedService}
       showDownCaret
       showError={false}
       shouldShowNoResults
