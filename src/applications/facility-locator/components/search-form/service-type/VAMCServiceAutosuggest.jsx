@@ -149,7 +149,6 @@ const VAMCServiceAutosuggest = ({
       inputRef={inputRef}
       inputValue={inputValue || ''}
       keepDataOnBlur
-      /* eslint-disable prettier/prettier */
       label={<span>Service type</span>}
       noItemsMessage="No results found. Search for a different service."
       onClearClick={handleClearClick}
@@ -159,7 +158,7 @@ const VAMCServiceAutosuggest = ({
       showError={false}
       shouldShowNoResults
     />
-  )
+  );
 };
 
 VAMCServiceAutosuggest.propTypes = {
@@ -170,7 +169,7 @@ VAMCServiceAutosuggest.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay
+  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay,
 });
 
 export default connect(mapStateToProps)(VAMCServiceAutosuggest);
