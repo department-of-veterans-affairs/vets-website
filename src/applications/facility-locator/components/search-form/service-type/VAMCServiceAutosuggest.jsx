@@ -10,12 +10,19 @@ const VAMCServiceAutosuggest = ({
   onChange,
   searchInitiated,
   setSearchInitiated,
+  vamcServiceDisplay,
 }) => {
   const { serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
   const [options, setOptions] = useState([]);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
   const inputRef = useRef(null);
+
+  // Handles edge cases where the form might be re-rendered between
+  // viewpoints or for any other reason and the autosuggest input is lost
+  if (!inputValue && vamcServiceDisplay) {
+    setInputValue(vamcServiceDisplay);
+  }
 
   const getServices = input => {
     const services = serviceTypeFilter(
@@ -157,6 +164,7 @@ const VAMCServiceAutosuggest = ({
 VAMCServiceAutosuggest.propTypes = {
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
+  vamcServiceDisplay: PropTypes.string,
   onChange: PropTypes.func,
 };
 

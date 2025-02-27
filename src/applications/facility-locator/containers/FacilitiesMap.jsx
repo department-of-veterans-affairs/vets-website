@@ -25,15 +25,11 @@ import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
 import {
-  clearGeocodeError,
-  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  getProviderSpecialties,
-  geolocateUser,
   mapMoved,
   selectMobileMapPin,
   updateSearchQuery,
@@ -41,7 +37,6 @@ import {
 import {
   facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
-  facilityLocatorAutosuggestVAMCServices,
   facilityLocatorMobileMapUpdate,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
@@ -461,14 +456,10 @@ const FacilitiesMap = props => {
               <PpmsServiceError currentQuery={props.currentQuery} />
             ) : null}
             <SearchForm
-              clearGeocodeError={props.clearGeocodeError}
-              clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
               facilitiesUseAddressTypeahead={
                 props.facilitiesUseAddressTypeahead
               }
-              geolocateUser={props.geolocateUser}
-              getProviderSpecialties={props.getProviderSpecialties}
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
@@ -477,7 +468,6 @@ const FacilitiesMap = props => {
               onSubmit={handleSearch}
               selectMobileMapPin={props.selectMobileMapPin}
               suppressPPMS={props.suppressPPMS}
-              vamcAutoSuggestEnabled={props.vamcAutoSuggestEnabled}
               useProgressiveDisclosure={useProgressiveDisclosure}
             />
             <EmergencyCareAlert
@@ -892,19 +882,13 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
-  vamcAutoSuggestEnabled: true,
-  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
-  clearGeocodeError,
   clearSearchResults,
-  clearSearchText,
   fetchVAFacility,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  geolocateUser,
-  getProviderSpecialties,
   mapMoved,
   searchWithBounds,
   selectMobileMapPin,
