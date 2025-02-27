@@ -5,12 +5,14 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+import applicantNameAndDateOfBirth from '../pages/applicantNameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
 import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
 import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
+import applicantContactInfo from '../pages/applicantContactInfo';
+import applicantContactInfo2 from '../pages/applicantContactInfo2';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -48,18 +50,21 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
+        // 1
+        applicantName: {
+          path: 'applicant-name',
+          title: 'Your name',
+          uiSchema: applicantNameAndDateOfBirth.uiSchema,
+          schema: applicantNameAndDateOfBirth.schema,
         },
+        // 2
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',
           title: 'Your relationship to the Veteran',
           uiSchema: applicantRelationToVet.uiSchema,
           schema: applicantRelationToVet.schema,
         },
+        // 3
         applicantRelationToVetOrg: {
           path: 'applicant-relation-to-vet-org',
           title: 'Your organization',
@@ -70,6 +75,7 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
+        // 3.5
         applicantRelationToVetOrg2: {
           path: 'applicant-relation-to-vet-org-2',
           title: 'Your organization',
@@ -77,6 +83,38 @@ const formConfig = {
           schema: applicantRelationToVetOrg2.schema,
           depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
+        // 4
+        applicantContactInfo: {
+          path: 'applicant-contact-info',
+          title: 'Your contact information',
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
+          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+        },
+        // 4.5
+        applicantContactInfo2: {
+          path: 'applicant-contact-info-2',
+          title: 'Your organizations contact information',
+          uiSchema: applicantContactInfo2.uiSchema,
+          schema: applicantContactInfo2.schema,
+          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+        },
+        // 5 Mailing Address
+        // applicantContactInfo2: {
+        //   path: 'applicant-contact-info-2',
+        //   title: 'Your organizations contact information',
+        //   uiSchema: applicantContactInfo2.uiSchema,
+        //   schema: applicantContactInfo2.schema,
+        //   // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+        // },
+        // // 5.5 Mailing Address 2
+        // applicantContactInfo2: {
+        //   path: 'applicant-contact-info-2',
+        //   title: 'Your organizations contact information',
+        //   uiSchema: applicantContactInfo2.uiSchema,
+        //   schema: applicantContactInfo2.schema,
+        //   // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+        // },
       },
     },
     veteranInformation: {
