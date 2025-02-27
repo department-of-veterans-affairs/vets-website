@@ -378,6 +378,7 @@ const SearchForm = props => {
                 className={isMobile ? 'typeahead-mobile' : 'typeahead-tablet'}
               >
                 <CCServiceTypeAhead
+                  key="prog-disc-service-type-ahead"
                   getProviderSpecialties={getProviderSpecialties}
                   handleServiceTypeChange={handleServiceTypeChange}
                   initialSelectedServiceType={serviceType}
@@ -399,12 +400,13 @@ const SearchForm = props => {
             })}
           >
             <CCServiceTypeAhead
+              key="prog-disc-service-type-ahead"
               getProviderSpecialties={getProviderSpecialties}
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
               isSmallDesktop={isSmallDesktop}
               showError={showError}
-              useProgressiveDisclosure={false}
+              useProgressiveDisclosure
             />
           </div>
         );

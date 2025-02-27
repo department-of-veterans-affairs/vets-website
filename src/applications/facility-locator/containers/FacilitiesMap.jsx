@@ -208,7 +208,6 @@ const FacilitiesMap = props => {
     updateUrlParams({
       address: searchString,
     });
-
     props.genBBoxFromAddress(
       {
         ...currentQuery,
@@ -384,7 +383,7 @@ const FacilitiesMap = props => {
     calculateSearchArea() < MAX_SEARCH_AREA &&
     props.currentQuery.facilityType &&
     (props.currentQuery.facilityType === 'provider'
-      ? props.currentQuery.serviceType
+      ? !!props.currentQuery.serviceType
       : true);
 
   const renderView = () => {
@@ -532,6 +531,7 @@ const FacilitiesMap = props => {
                         mapboxGlContainer={mapboxGlContainer}
                         map={map}
                         mobile={false}
+                        mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
@@ -560,6 +560,7 @@ const FacilitiesMap = props => {
                   mapboxGlContainer={mapboxGlContainer}
                   map={map}
                   mobile={false}
+                  movileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
@@ -599,6 +600,7 @@ const FacilitiesMap = props => {
                         mapboxGlContainer={mapboxGlContainer}
                         map={map}
                         mobile
+                        movileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
@@ -647,6 +649,7 @@ const FacilitiesMap = props => {
                     mapboxGlContainer={mapboxGlContainer}
                     map={map}
                     mobile
+                    mobileMapUpdateEnabled
                     results={results}
                     searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
                     shouldRenderSearchArea={!!map && shouldRenderSearchArea()}

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import {
   isPostcode,
@@ -10,7 +9,6 @@ import {
   BOUNDING_RADIUS,
   EXPANDED_BOUNDING_RADIUS,
   LocationType,
-  MIN_RADIUS_CCP,
   MIN_RADIUS_EXP,
   MIN_RADIUS_NCA,
 } from '../../constants';
@@ -69,7 +67,7 @@ export const genBBoxFromAddress = (
         const coordinates = features[0].center;
         const zipCode = zip.text || features[0].place_name;
         // [[minLon,minLat],[maxLon,maxLat]]
-        const featureBox = features[0].box;
+        const featureBox = features?.[0]?.bbox ?? features[0].bbox;
         dispatch({
           type: GEOCODE_COMPLETE,
           payload: query.usePredictiveGeolocation
@@ -81,51 +79,43 @@ export const genBBoxFromAddress = (
               }))
             : [],
         });
-
-        let searchBoundingRadiusLat = expandedRadius
+        const { facilityType } = query;
+        const PPMSTypes = [
+          LocationType.CC_PROVIDER,
+          LocationType.URGENT_CARE_PHARMACIES,
+        ];
+        let searchBoundingRadius = expandedRadius
           ? EXPANDED_BOUNDING_RADIUS
           : BOUNDING_RADIUS;
-        let searchBoundingRadiusLong = searchBoundingRadiusLat;
-        if (query.facilityType === LocationType.CEMETERY && coordinates) {
-          const [, lat] = coordinates;
-          searchBoundingRadiusLat = MIN_RADIUS_NCA / 69;
-          searchBoundingRadiusLong = MIN_RADIUS_NCA / (69 * Math.cos(lat));
+
+        // latitude is divided into 111.11 km or ~69 mi
+        if (facilityType === LocationType.CEMETERY && coordinates) {
+          searchBoundingRadius = MIN_RADIUS_NCA / 69;
         } else if (
-          query.facilityType === LocationType.CC_PROVIDER &&
+          useProgressiveDisclosure &&
+          !PPMSTypes.includes(facilityType) &&
           coordinates
         ) {
-          // console.log('HEREZXZX');
-          const [, lat] = coordinates;
-          searchBoundingRadiusLat = MIN_RADIUS_CCP / 69;
-          searchBoundingRadiusLong = MIN_RADIUS_CCP / (69 * Math.cos(lat));
-          // console.log('HEREZXZX', {
-          //   searchBoundingRadiusLat,
-          //   searchBoundingRadiusLong,
-          // });
-        } else if (useProgressiveDisclosure && coordinates) {
-          const [, lat] = coordinates;
-          searchBoundingRadiusLat = MIN_RADIUS_EXP / 69;
-          searchBoundingRadiusLong = MIN_RADIUS_EXP / (69 * Math.cos(lat));
+          searchBoundingRadius = MIN_RADIUS_EXP / 69;
         }
 
-        // console.log('searchBoundingRadiusLat', searchBoundingRadiusLat);
-        // console.log('searchBoundingRadiusLong', searchBoundingRadiusLong);
         let minBounds = [
-          coordinates[0] - searchBoundingRadiusLong,
-          coordinates[1] - searchBoundingRadiusLat,
-          coordinates[0] + searchBoundingRadiusLong,
-          coordinates[1] + searchBoundingRadiusLat,
+          coordinates[0] - searchBoundingRadius,
+          coordinates[1] - searchBoundingRadius,
+          coordinates[0] + searchBoundingRadius,
+          coordinates[1] + searchBoundingRadius,
         ];
 
         if (featureBox) {
           minBounds = [
-            Math.min(featureBox[0], coordinates[0] - searchBoundingRadiusLong),
-            Math.min(featureBox[1], coordinates[1] - searchBoundingRadiusLat),
-            Math.max(featureBox[2], coordinates[0] + searchBoundingRadiusLong),
-            Math.max(featureBox[3], coordinates[1] + searchBoundingRadiusLat),
+            Math.min(featureBox[0], minBounds[0]),
+            Math.min(featureBox[1], minBounds[1]),
+            Math.max(featureBox[2], minBounds[2]),
+            Math.max(featureBox[3], minBounds[3]),
           ];
         }
-        const [radius] = radiusFromBoundingBox(
+
+        const [, radius] = radiusFromBoundingBox(
           [{ ...features[0], bbox: minBounds }],
           query?.facilityType,
           useProgressiveDisclosure,
@@ -156,11 +146,8 @@ export const genBBoxFromAddress = (
             searchArea: null,
           },
         });
-
-        console.log('DONE');
       })
       .catch(_e => {
-        console.log({ _e });
         dispatch({ type: GEOCODE_FAILED });
         dispatch({ type: SEARCH_FAILED, error: { type: 'mapBox' } });
       });
