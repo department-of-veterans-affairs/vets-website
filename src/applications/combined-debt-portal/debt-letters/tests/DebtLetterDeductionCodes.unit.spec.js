@@ -8,7 +8,7 @@ import {
 describe('deduction-codes', () => {
   describe('deductionCodes', () => {
     it('should have the correct number of codes', () => {
-      expect(Object.keys(deductionCodes).length).to.eq(7);
+      expect(Object.keys(deductionCodes).length).to.eq(28);
     });
 
     it('should have the correct descriptions for each code', () => {

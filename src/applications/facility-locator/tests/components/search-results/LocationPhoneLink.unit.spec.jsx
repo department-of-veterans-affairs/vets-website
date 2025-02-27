@@ -32,7 +32,7 @@ describe('LocationPhoneLink', () => {
         .find('strong')
         .at(0)
         .text(),
-    ).to.equal('Main number: ');
+    ).to.equal('Main phone: ');
     expect(
       wrapper
         .find('strong')
