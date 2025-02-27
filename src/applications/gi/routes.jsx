@@ -64,11 +64,15 @@ const BuildRoutes = () => {
                 component={LicenseCertificationSearchResult}
               />
             )}
-            <Route
-              path="/national-exams/:examId"
-              component={NationalExamDetails}
-            />
-            <Route path="/national-exams" component={NationalExamsList} />
+            {lcToggleValue && (
+              <Route
+                path="/national-exams/:examId"
+                component={NationalExamDetails}
+              />
+            )}
+            {lcToggleValue && (
+              <Route path="/national-exams" component={NationalExamsList} />
+            )}
             <Route
               path="/compare"
               render={({ match }) => <ComparePage match={match} />}
