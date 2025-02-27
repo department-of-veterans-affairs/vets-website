@@ -256,6 +256,7 @@
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
   "vaDependentsV2": "va_dependents_v2",
+  "vaDependentsV2Banner": "va_dependents_v2_banner",
   "vaOnlineScheduling": "va_online_scheduling",
   "vaOnlineSchedulingBookingExclusion": "va_online_scheduling_booking_exclusion\t",
   "vaOnlineSchedulingBreadcrumbUrlUpdate": "va_online_scheduling_breadcrumb_url_update",
