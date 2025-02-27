@@ -1,3 +1,5 @@
+import { isPastAppt } from './dates';
+
 const timezones = require('./timezones.json');
 
 export const getPractionerName = practitioners => {
@@ -16,4 +18,68 @@ export function getTimezoneByFacilityId(id) {
   }
 
   return timezones[id.substr(0, 3)];
+}
+
+function getAtlasLocation(appt) {
+  const { atlas } = appt.telehealth;
+  return {
+    id: atlas.siteCode,
+    resourceType: 'Location',
+    address: {
+      line: [atlas.address.streetAddress],
+      city: atlas.address.city,
+      state: atlas.address.state,
+      postalCode: atlas.address.zipCode,
+    },
+    position: {
+      longitude: atlas.address.longitude,
+      latitude: atlas.address.latitude,
+    },
+  };
+}
+
+export function transformVAOSAppointment(appt) {
+  // This is only used for isCompAndPen
+  const serviceCategoryName = appt.serviceCategory?.[0]?.text || 'undefined';
+  const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
+
+  // TODO: verify Atlas visits
+  // I think Atlas is the video visit at a VA facility
+  // Which I think makes it eligible?
+  const isAtlas = !!appt.telehealth?.atlas;
+
+  const isPast = isPastAppt(appt);
+
+  // This property will be helpful for complex claims
+  // Adding now because we might need to specifically exclude them until then?
+  const isCC = appt.kind ? appt.kind === 'cc' : null;
+
+  // Not sure if this is needed or not.
+  const reasonForAppointment = appt.reasonForAppointment
+    ? appt.reasonForAppointment
+    : null;
+
+  return {
+    // All original appt info
+    ...appt,
+
+    // Add additional fields
+    isPast,
+    isCC,
+
+    // These next bits are all about atlas video visits
+    isAtlas,
+    // TODO: this might interfere with current facility name text in the app
+    // The important bit is `atlas.siteCode` which we might be able to display?
+    // otherwise it's just the street address, etc.
+    atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
+
+    isCompAndPen, // This might come in handy?
+    reasonForAppointment, // Not sure if we need this?
+
+    practitionerName:
+      appt.practitioners && typeof appt.practitioners !== 'undefined'
+        ? getPractionerName(appt.practitioners)
+        : undefined,
+  };
 }
