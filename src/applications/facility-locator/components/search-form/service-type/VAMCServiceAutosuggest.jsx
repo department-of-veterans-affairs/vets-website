@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import useServiceType, {
   FACILITY_TYPE_FILTERS,
@@ -17,12 +18,6 @@ const VAMCServiceAutosuggest = ({
   const [options, setOptions] = useState([]);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
   const inputRef = useRef(null);
-
-  // Handles edge cases where the form might be re-rendered between
-  // viewpoints or for any other reason and the autosuggest input is lost
-  if (!inputValue && vamcServiceDisplay) {
-    setInputValue(vamcServiceDisplay);
-  }
 
   const getServices = input => {
     const services = serviceTypeFilter(
@@ -61,6 +56,12 @@ const VAMCServiceAutosuggest = ({
 
   useEffect(() => {
     getServices();
+
+    // Handles edge cases where the form might be re-rendered between
+    // viewpoints or for any other reason and the autosuggest input is lost
+    if (!inputValue && vamcServiceDisplay) {
+      setInputValue(vamcServiceDisplay);
+    }
   }, []);
 
   // If the user has not typed a service at all, or types something that does not
@@ -125,11 +126,11 @@ const VAMCServiceAutosuggest = ({
   const handleDropdownSelection = event => {
     const { selectedItem } = event;
 
-    if (selectedItem && selectedItem?.serviceId) {
-      setInputValue(selectedItem?.toDisplay);
+    if (selectedItem?.toDisplay) {
+      setInputValue(selectedItem.toDisplay);
 
       onChange({
-        serviceType: selectedItem.serviceId,
+        serviceType: selectedItem?.serviceId,
         vamcServiceDisplay: selectedItem.toDisplay,
       });
     }
@@ -168,4 +169,8 @@ VAMCServiceAutosuggest.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default VAMCServiceAutosuggest;
+const mapStateToProps = state => ({
+  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay
+});
+
+export default connect(mapStateToProps)(VAMCServiceAutosuggest);
