@@ -65,7 +65,7 @@ const OverviewPage = () => {
     // let's tryy this for now
     const downloadAnchor = document.createElement('a');
     downloadAnchor.href = pdfDownloadUrl;
-    downloadAnchor.download = 'CombinedStatements.pdf';
+    downloadAnchor.download = 'CombinedStatement.pdf';
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     document.body.removeChild(downloadAnchor);
@@ -114,7 +114,7 @@ const OverviewPage = () => {
             {showOneVADebtLetterDownload ? (
               <VaButton
                 onClick={downloadPDF}
-                text="View Combined Statements"
+                text="View combined statement"
                 secondary
               />
             ) : null}
