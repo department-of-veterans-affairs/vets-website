@@ -154,7 +154,7 @@ const GiBillBreadcrumbs = () => {
 
   return (
     <div className="row">
-      <VaBreadcrumbs uswds breadcrumbList={crumbs} />
+      <VaBreadcrumbs uswds breadcrumbList={crumbs} wrapping={true} />
     </div>
   );
 };
