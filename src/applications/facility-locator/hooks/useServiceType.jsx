@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect } from 'react';
+import environment from 'platform/utilities/environment';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
 import vaHealthServicesData from '../tests/hooks/test-va-healthcare-services.json';
 
@@ -111,7 +112,7 @@ export const filterMatches = (selector, term, facilityType) => {
   return selectorFiltered;
 };
 
-export const sortServices = services => {
+export const alphabetizeServices = services => {
   return services.sort((a, b) => {
     if (a[0] < b[0]) {
       return -1;
@@ -127,13 +128,15 @@ export const sortServices = services => {
 
 export default function useServiceType() {
   const dispatch = useDispatch();
-  const selector = vaHealthServicesData;
-
   const allServicesOptionForVamc = ['All VA health services'];
+  const localEnv = environment?.BUILDTYPE === 'localhost';
+  let selector = useSelector(
+    state => state.drupalStaticData.vaHealthServicesData || [],
+  );
 
-  // const selector = useSelector(
-  //   state => state.drupalStaticData.vaHealthServicesData || [],
-  // );
+  if (localEnv) {
+    selector = vaHealthServicesData;
+  }
 
   useEffect(
     () => {
@@ -159,7 +162,7 @@ export default function useServiceType() {
           facilityType,
         );
 
-        const sortedServices = sortServices(filteredServices);
+        const sortedServices = alphabetizeServices(filteredServices);
 
         if (
           facilityType === FACILITY_TYPE_FILTERS.VAMC &&
@@ -174,7 +177,7 @@ export default function useServiceType() {
       if (selector.data) {
         const matches = filterMatches(selector, term, facilityType);
 
-        if (facilityType && matches?.length) {
+        if (facilityType === FACILITY_TYPE_FILTERS.VAMC && matches?.length) {
           return [allServicesOptionForVamc, ...matches];
         }
 
