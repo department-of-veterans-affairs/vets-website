@@ -281,7 +281,7 @@ export async function fetchFlowEligibilityAndClinics({
   );
 
   // We don't want to make unnecessary api calls if DS is turned off
-  if (directSchedulingAvailable) {
+  if (directSchedulingAvailable && !isCerner) {
     apiCalls.clinics = getAvailableHealthcareServices({
       facilityId: location.id,
       typeOfCare,
