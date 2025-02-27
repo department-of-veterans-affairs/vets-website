@@ -9,7 +9,17 @@ import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardC
 import { currency } from '../utils/page';
 
 // Define the Chapter 33 debt codes
-const CHAPTER_33_DEBT_CODES = ['70', '71', '72', '73', '74', '75'];
+const CHAPTER_33_DEBT_CODES = [
+  '71',
+  '72',
+  '73',
+  '74',
+  '75',
+  '76',
+  '77',
+  '78',
+  '79',
+];
 
 const DebtDetailsCard = ({ debt }) => {
   const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];

@@ -24,6 +24,17 @@ const testConfig = createTestConfig(
 
     pageHooks: pageHooks(cy),
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'disability_compensation_sync_modern_0781_flow',
+              value: false,
+            },
+          ],
+        },
+      });
       cy.login(mockUser);
       setup(cy);
     },
