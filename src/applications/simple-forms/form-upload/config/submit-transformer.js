@@ -9,7 +9,7 @@ const transformForSubmit = (formConfig, form) => {
   const { formNumber, subTitle } = getFormContent();
   const { idNumber = {}, address = {}, fullName = {}, email } = transformedData;
   const { confirmationCode } = transformedData.uploadedFile;
-  //  debugger
+
   return JSON.stringify({
     confirmationCode,
     formNumber,

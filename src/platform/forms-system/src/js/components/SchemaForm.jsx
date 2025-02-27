@@ -199,7 +199,7 @@ class SchemaForm extends React.Component {
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
-    // debugger
+
     return (
       <Form
         safeRenderCompletion={safeRenderCompletion}

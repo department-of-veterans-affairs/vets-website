@@ -17,7 +17,6 @@ const prefillTransformer = (pages, formData, metadata, state) => {
     zip: profileZip,
   } = profile;
 
-  // debugger
   return {
     pages,
     formData: {
