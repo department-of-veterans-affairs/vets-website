@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
 import { isPastAppt, getDaysLeft } from '../../../util/dates';
@@ -96,12 +95,6 @@ const IntroductionPage = ({ onStart }) => {
           exp-date="11/30/2027"
         />
       </div>
-
-      <va-need-help>
-        <div slot="content">
-          <HelpTextManage />
-        </div>
-      </va-need-help>
     </div>
   );
 };
