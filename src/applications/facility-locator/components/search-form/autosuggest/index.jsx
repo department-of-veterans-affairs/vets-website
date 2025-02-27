@@ -5,7 +5,6 @@ import { itemToString as toDisplay } from './helpers';
 import InputWithClear from './InputWithClear';
 import AutosuggestOption from './AutosuggestOption';
 import AutosuggestOptions from './AutosuggestOptions';
-import InputError from './InputError';
 import './sass/autosuggest.scss';
 import { AutosuggestProps } from '../../../types';
 import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
@@ -19,9 +18,9 @@ function Autosuggest({
   // input props
   onClearClick,
   inputContainerClassName = 'input-container', // allows to work with fixed width from facility-locator
+  inputError,
   inputId = 'autosuggest-input',
   inputRef,
-  errorMessage,
   label,
   labelSibling = null,
   showDownCaret = true,
@@ -60,6 +59,7 @@ function Autosuggest({
     inputId,
     onSelectedItemChange: handleOnSelect,
     onInputValueChange,
+    inputRef,
     inputValue,
     isItemDisabled,
     stateReducer: keepDataOnBlur ? srKeepOnBlur : stateReducer,
@@ -93,7 +93,7 @@ function Autosuggest({
         </label>
         {labelSibling}
       </div>
-      <InputError errorMessage={errorMessage} showError={showError || false} />
+      {inputError}
       <div className="autosuggest-input-container">
         <InputWithClear
           getInputProps={getInputProps}
