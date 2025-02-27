@@ -57,7 +57,7 @@ describe('VAOS Component: ReferralTaskCard', () => {
     ).to.exist;
     expect(
       screen.getByText(
-        `We’ve approved your referral for 1 appointment with a community care provider. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
+        `We’ve approved your community care referral. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
       ),
     ).to.exist;
     expect(screen.queryByTestId(`referral-task-card-schedule-referral-${uuid}`))
