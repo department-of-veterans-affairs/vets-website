@@ -28,6 +28,7 @@ import { createMockClinic } from '../../../tests/mocks/data';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingDirect: true,
+    vaOnlineSchedulingUseVaDate: true,
   },
   user: {
     profile: {
