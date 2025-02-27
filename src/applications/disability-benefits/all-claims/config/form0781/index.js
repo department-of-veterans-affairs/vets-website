@@ -9,6 +9,7 @@ import * as additionalInformationPage from '../../pages/form0781/additionalInfor
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
 import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
+import * as treatmentReceivedPage from '../../pages/form0781/treatmentReceivedPage';
 import * as reassignmentDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/reassignmentDescriptionPage';
 import * as unlistedDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/unlistedDescriptionPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
@@ -123,6 +124,12 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorSummaryPage(formData),
     uiSchema: behaviorSummaryPage.uiSchema,
     schema: behaviorSummaryPage.schema,
+  },
+  treatmentReceivedPage: {
+    path: 'mental-health-form-0781/treatment-received',
+    depends: formData => showBehaviorSummaryPage(formData),
+    uiSchema: treatmentReceivedPage.uiSchema,
+    schema: treatmentReceivedPage.schema,
   },
   // Conclusion Pages
   consentPage: {
