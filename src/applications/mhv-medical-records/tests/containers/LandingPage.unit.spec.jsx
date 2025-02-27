@@ -197,34 +197,14 @@ describe('Landing Page', () => {
     // ).to.eq(2);
   });
 
-  it('displays Questions about this medical records tool section', () => {
+  it('displays a help section', () => {
     const screen = renderWithStoreAndRouter(<LandingPage />, {});
 
     expect(
-      screen.getByText('Questions about this medical records tool', {
-        selector: 'h2',
+      screen.getByText('Need help?', {
+        selector: 'h3',
         exact: true,
       }),
-    ).to.exist;
-
-    expect(
-      screen.getByText(
-        'Where can I find health information I entered myself?',
-        {
-          selector: 'h3',
-          exact: true,
-        },
-      ),
-    ).to.exist;
-
-    expect(
-      screen.getAllByText(
-        'Go to your medical records on the My HealtheVet website',
-        {
-          selector: 'a',
-          exact: true,
-        },
-      ),
     ).to.exist;
   });
 });
