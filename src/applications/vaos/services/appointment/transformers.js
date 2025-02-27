@@ -110,7 +110,7 @@ function getAtlasLocation(appt) {
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
   const isCC = appt.kind === 'cc';
-  const isVideo = appt.kind === 'telehealth';
+  const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
   const isRequest =
