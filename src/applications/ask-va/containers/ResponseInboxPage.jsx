@@ -26,7 +26,7 @@ import {
 } from '../config/helpers';
 import {
   envUrl,
-  mockTestingFlagforAPI,
+  getMockTestingFlagforAPI,
   RESPONSE_PAGE,
   URL,
 } from '../constants';
@@ -72,7 +72,7 @@ const ResponseInboxPage = ({ router }) => {
 
       setLoading(true);
 
-      if (mockTestingFlagforAPI) {
+      if (getMockTestingFlagforAPI()) {
         // Simulate API delay
         return new Promise(resolve => {
           setTimeout(() => {
@@ -118,7 +118,7 @@ const ResponseInboxPage = ({ router }) => {
     setLoading(true);
     setError(false);
 
-    if (mockTestingFlagforAPI) {
+    if (getMockTestingFlagforAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
@@ -140,9 +140,9 @@ const ResponseInboxPage = ({ router }) => {
       });
   }, []);
 
-  const getDownload = (fileName, filePath) => {
+  const getDownload = (fileName, fileContent) => {
     const link = document.createElement('a');
-    link.href = `data:image/png;base64,${filePath}`;
+    link.href = `data:image/png;base64,${fileContent}`;
     link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();
@@ -152,12 +152,15 @@ const ResponseInboxPage = ({ router }) => {
   const getDownloadData = url => {
     setError(false);
 
-    if (mockTestingFlagforAPI) {
+    if (getMockTestingFlagforAPI()) {
       // Simulate API delay
       return new Promise(resolve => {
         setTimeout(() => {
-          const res = mockAttachmentResponse.data;
-          getDownload(res.attributes.fileName, res.attributes.fileContent);
+          const res = mockAttachmentResponse;
+          getDownload(
+            res.data.attributes.fileName,
+            res.data.attributes.fileContent,
+          );
           resolve(mockAttachmentResponse);
         }, 500);
       });
@@ -165,7 +168,10 @@ const ResponseInboxPage = ({ router }) => {
 
     return apiRequest(url)
       .then(res => {
-        getDownload(res.attributes.fileName, res.attributes.fileContent);
+        getDownload(
+          res.data.attributes.fileName,
+          res.data.attributes.fileContent,
+        );
       })
       .catch(() => {
         setError(true);

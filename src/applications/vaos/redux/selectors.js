@@ -126,6 +126,9 @@ export const selectFeatureUseVaDate = state =>
 export const selectFeaturePastApptDateRange = state =>
   toggleValues(state).vaOnlineSchedulingPastApptDateRange;
 
+export const selectFeatureFeSourceOfTruth = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
+
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
 
