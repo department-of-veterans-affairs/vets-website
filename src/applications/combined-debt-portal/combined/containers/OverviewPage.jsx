@@ -118,7 +118,7 @@ const OverviewPage = () => {
                 secondary
               />
             ) : null}
-            <h2>What to do if you have qußestions about your debt and bills</h2>
+            <h2>What to do if you have questions about your debt and bills</h2>
             <h3>Questions about benefit debt</h3>
             <p>
               Call the Debt Management Center (DMC) at{' '}
