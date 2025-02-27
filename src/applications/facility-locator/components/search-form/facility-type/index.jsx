@@ -23,10 +23,6 @@ const FacilityType = ({
     : facilityTypesOptions;
   const showError = !isValid && facilityTypeChanged && !facilityType;
 
-  if (suppressPPMS) {
-    delete locationOptions.pharmacy;
-  }
-
   const options = Object.keys(locationOptions).map(facility => (
     <option key={facility} value={facility}>
       {locationOptions[facility]}
@@ -47,6 +43,7 @@ const FacilityType = ({
           'facility-error': showError,
         },
       )}
+      data-testid="facility-type"
     >
       <VaSelect
         key={showError ? 'select-with-error' : 'select-without-error'}
