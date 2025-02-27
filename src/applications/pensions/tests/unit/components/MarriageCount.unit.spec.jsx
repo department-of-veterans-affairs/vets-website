@@ -114,4 +114,32 @@ describe('Marriage count component', () => {
       // assert that data equals { marriages: [{}] }
     });
   });
+  it('should initialize count to 2 when there are 2 marriages in data', async () => {
+    const goForwardSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const initialData = {
+      marriages: [{ id: 1, spouse: 'Alice' }, { id: 2, spouse: 'Bob' }],
+    };
+    const { data } = getData({ loggedIn: false, formData: initialData });
+    const store = mockStore(data);
+    const { container } = render(
+      <Provider store={store}>
+        <MarriageCount
+          {...defaultProps}
+          data={initialData}
+          goForward={goForwardSpy}
+          setFormData={setFormDataSpy}
+        />
+      </Provider>,
+    );
+
+    const input = container.querySelector(
+      'va-text-input[name="root_marriage_count_value"]',
+    );
+    expect(input).to.exist;
+
+    await waitFor(() => {
+      expect(input.getAttribute('value')).to.equal('2');
+    });
+  });
 });

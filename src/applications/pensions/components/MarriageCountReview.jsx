@@ -42,7 +42,7 @@ const MarriageCountReview = ({ data, editPage }) => {
 
 MarriageCountReview.propTypes = {
   data: PropTypes.shape({
-    marriages: PropTypes.number,
+    marriages: PropTypes.array,
   }),
   editPage: PropTypes.func,
 };

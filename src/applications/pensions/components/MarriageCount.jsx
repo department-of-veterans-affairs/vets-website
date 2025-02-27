@@ -53,10 +53,10 @@ const MarriageCount = props => {
         ) {
           setFormData({
             ...data,
-            marriages: Array.from(
-              { length: count },
-              (_, i) => marriages[i] || {},
-            ),
+            marriages:
+              marriages.length > count
+                ? marriages.slice(marriages.length - count) // Remove from the beginning when reducing
+                : [...Array(count - marriages.length).fill({}), ...marriages], // Add empty objects at the beginning when increasing
           });
         }
         prevMarriageCountRef.current = marriageCount;
@@ -133,7 +133,7 @@ MarriageCount.propTypes = {
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
-  updatePage: PropTypes.bool,
+  updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,
 };
 
