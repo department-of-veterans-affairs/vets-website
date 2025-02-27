@@ -79,6 +79,11 @@ describe('VAOS Page: PreferredDatePageVaDate', () => {
     // );
     // expect(screen.history.push.called).to.be.false;
     expect(screen.history.push.called).to.be.true;
+
+    // Do not record preferred-date-modified event
+    expect(window.dataLayer).not.to.deep.include({
+      event: 'vaos-preferred-date-modified',
+    });
   });
 
   it('it should not submit with past date', async () => {
@@ -138,5 +143,9 @@ describe('VAOS Page: PreferredDatePageVaDate', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() => expect(screen.history.push.called).to.be.true);
+    // Record preferred-date-modified event
+    expect(window.dataLayer).to.deep.include({
+      event: 'vaos-preferred-date-modified',
+    });
   });
 });

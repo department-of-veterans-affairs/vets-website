@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
 import { VaDateField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
-import { useHistory } from 'react-router-dom';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   addDays,
   format,
@@ -11,17 +9,21 @@ import {
   parse,
   startOfDay,
 } from 'date-fns';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { GA_PREFIX } from '../../utils/constants';
 import FormButtons from '../../components/FormButtons';
-import { getFormData, selectPageChangeInProgress } from '../redux/selectors';
-import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import useFormState from '../../hooks/useFormState';
+import { scrollAndFocus } from '../../utils/scrollAndFocus';
+import { getFormData, selectPageChangeInProgress } from '../redux/selectors';
 
+import { getPageTitle } from '../newAppointmentFlow';
 import {
   openFormPage,
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
 } from '../redux/actions';
-import { getPageTitle } from '../newAppointmentFlow';
 
 const initialSchema = {
   type: 'object',
@@ -62,6 +64,7 @@ const uiSchema = {
 const pageKey = 'preferredDate';
 
 export default function PreferredDatePageVaDate() {
+  const defaultDate = format(addDays(new Date(), 1), 'yyyy-MM-dd');
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
   const pageChangeInProgress = useSelector(selectPageChangeInProgress);
   const dispatch = useDispatch();
@@ -71,9 +74,7 @@ export default function PreferredDatePageVaDate() {
     uiSchema,
     initialData: {
       ...currentData,
-      preferredDate:
-        currentData.preferredDate ||
-        format(addDays(new Date(), 1), 'yyyy-MM-dd'),
+      preferredDate: currentData.preferredDate || defaultDate,
     },
   });
 
@@ -93,9 +94,12 @@ export default function PreferredDatePageVaDate() {
           title="Type of appointment"
           schema={schema}
           uiSchema={uiSchema}
-          onSubmit={() =>
-            dispatch(routeToNextAppointmentPage(history, pageKey, data))
-          }
+          onSubmit={() => {
+            if (data.preferredDate !== defaultDate) {
+              recordEvent({ event: `${GA_PREFIX}-preferred-date-modified` });
+            }
+            dispatch(routeToNextAppointmentPage(history, pageKey, data));
+          }}
           onChange={newData => setData(newData)}
           data={data}
         >
