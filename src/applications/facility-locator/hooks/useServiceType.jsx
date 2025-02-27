@@ -161,7 +161,10 @@ export default function useServiceType() {
 
         const sortedServices = sortServices(filteredServices);
 
-        if (facilityType === FACILITY_TYPE_FILTERS.VAMC) {
+        if (
+          facilityType === FACILITY_TYPE_FILTERS.VAMC &&
+          sortedServices?.length
+        ) {
           return [allServicesOptionForVamc, ...sortedServices];
         }
 
@@ -171,7 +174,7 @@ export default function useServiceType() {
       if (selector.data) {
         const matches = filterMatches(selector, term, facilityType);
 
-        if (facilityType) {
+        if (facilityType && matches?.length) {
           return [allServicesOptionForVamc, ...matches];
         }
 
