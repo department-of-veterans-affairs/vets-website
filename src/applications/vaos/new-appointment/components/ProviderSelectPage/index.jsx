@@ -16,6 +16,7 @@ export default function SelectProviderPage() {
     patientProviderRelationships,
     typeOfCare,
     selectedFacility,
+    eligibility,
   } = useGetPatientRelationships();
 
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
@@ -57,7 +58,9 @@ export default function SelectProviderPage() {
         <ProviderCard key={index} provider={provider} />
       ))}
 
-      <ScheduleWithDifferentProvider />
+      <ScheduleWithDifferentProvider
+        eligibility={(eligibility, selectedFacility)}
+      />
     </div>
   );
 }
