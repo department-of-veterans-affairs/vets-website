@@ -8,7 +8,7 @@ import { getFormNumber, mask, formattedPhoneNumber } from '../helpers';
 import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
-  const { form } = useSelector(state => state || {});
+  const { data: formData } = useSelector(state => state?.form || {});
   const {
     uploadedFile,
     idNumber,
@@ -16,7 +16,7 @@ const CustomReviewTopContent = () => {
     fullName,
     phoneNumber,
     email,
-  } = form?.data;
+  } = formData;
 
   const renderPersonalInfo = () => (
     <div>
