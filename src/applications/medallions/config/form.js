@@ -8,6 +8,9 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import applicantRelationToVet from '../pages/applicantRelationToVet';
+import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
+import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -54,14 +57,14 @@ const formConfig = {
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',
           title: 'Your relationship to the Veteran',
-          // uiSchema: applicantRelationToVet.uiSchema,
-          // schema: applicantRelationToVet.schema,
+          uiSchema: applicantRelationToVet.uiSchema,
+          schema: applicantRelationToVet.schema,
         },
         applicantRelationToVetOrg: {
           path: 'applicant-relation-to-vet-org',
           title: 'Your organization',
-          // uiSchema: applicantRelationToVetOrg.uiSchema,
-          // schema: applicantRelationToVetOrg.schema,
+          uiSchema: applicantRelationToVetOrg.uiSchema,
+          schema: applicantRelationToVetOrg.schema,
           depends: formData =>
             ['repOfCemetery', 'repOfFuneralHome'].includes(
               formData.relationToVetRadio,
@@ -70,8 +73,8 @@ const formConfig = {
         applicantRelationToVetOrg2: {
           path: 'applicant-relation-to-vet-org-2',
           title: 'Your organization',
-          // uiSchema: applicantRelationToVetOrg2.uiSchema,
-          // schema: applicantRelationToVetOrg2.schema,
+          uiSchema: applicantRelationToVetOrg2.uiSchema,
+          schema: applicantRelationToVetOrg2.schema,
           depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
       },
