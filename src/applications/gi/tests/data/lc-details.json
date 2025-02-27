@@ -1,5 +1,5 @@
 {
-  "data": {
+  "lac": {
     "enrichedId": "1@sec",
     "lacNm": "Security+ Certification",
     "eduLacTypeNm": "Certification",
@@ -26,17 +26,11 @@
     "tests": [
       {
         "name": "CompTIA Security+ Certification Exam",
-        "fee": "370",
-        "beginDate": "01-JAN-20",
-        "endDate": "31-DEC-23",
-        "description": "CompTIA Security+ is a global certification that validates the baseline skills necessary to perform core security functions"
+        "fee": "370"
       },
       {
         "name": "CompTIA Security+ Retake Exam",
-        "fee": "225",
-        "beginDate": "01-JAN-20",
-        "endDate": "31-DEC-23",
-        "description": "Retake exam for failed attempts"
+        "fee": "225"
       }
     ]
   }
