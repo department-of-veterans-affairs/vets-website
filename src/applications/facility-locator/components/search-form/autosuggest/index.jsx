@@ -82,6 +82,7 @@ function Autosuggest({
       className={classNames('autosuggest-container', 'vads-u-width--full', {
         'usa-input-error': showError,
       })}
+      data-testid="autosuggest-container"
     >
       <div
         className={`${inputId}-autosuggest-label-container ${

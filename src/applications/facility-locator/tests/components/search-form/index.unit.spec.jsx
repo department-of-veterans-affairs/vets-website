@@ -2,7 +2,7 @@ import React from 'react';
 
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import SearchForm from '../../../components/search-form';
+import { SearchForm } from '../../../components/search-form';
 import { benefitsServices } from '../../../config';
 
 describe('SearchForm', () => {
