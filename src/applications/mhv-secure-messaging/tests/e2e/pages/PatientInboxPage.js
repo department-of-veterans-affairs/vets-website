@@ -84,11 +84,9 @@ class PatientInboxPage {
       this.mockRecipients,
     ).as('recipients');
 
-    cy.intercept(
-      'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
+      'signature',
+    );
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX, {
       onBeforeLoad: win => {
