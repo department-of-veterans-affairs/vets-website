@@ -4,6 +4,7 @@ import mockPersonalInformation from '../../fixtures/personal-information-success
 import mockServiceHistory from '../../fixtures/service-history-success.json';
 import mockDisabilityRating from '../../fixtures/disability-rating-success.json';
 import mockStatusInfo from '../../fixtures/status-info.json';
+import mockSignature from '../../fixtures/personal-information-signature.json';
 import mockToggles from '../../fixtures/personal-information-feature-toggles.json';
 
 class PersonalInformationPage {
@@ -31,17 +32,11 @@ class PersonalInformationPage {
 
     cy.intercept(`GET`, `/v0/profile/status/`, mockStatusInfo).as(`status`);
 
-    cy.intercept(`GET`, `/my_health/v1/messaging/preferences/signature`, {
-      data: {
-        id: '',
-        type: 'message_signature',
-        attributes: {
-          signatureName: 'Name',
-          signatureTitle: 'TestTitle',
-          includeSignature: true,
-        },
-      },
-    });
+    cy.intercept(
+      `GET`,
+      `/my_health/v1/messaging/preferences/signature`,
+      mockSignature,
+    );
 
     SecureMessagingSite.login(featureToggles);
 
