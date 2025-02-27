@@ -62,7 +62,7 @@ describe('transform function', () => {
               VABeneficiaryStudentsPercentage: 99,
             },
             transformForSubmitCalled: true,
-            dateSigned: '2025-02-26',
+            dateSigned: utilities.dateSigned(),
           },
         },
       },
