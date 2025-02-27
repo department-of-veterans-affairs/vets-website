@@ -43,6 +43,9 @@ describe('VAOS Component: CalendarWidget', () => {
     const TestPageStub = () => {
       const dispatch = useDispatch();
       const data = useSelector(state => state.newAppointment.data);
+      const isAppointmentSelectionError = useSelector(
+        state => state.newAppointment.isAppointmentSelectionError,
+      );
 
       return (
         <CalendarWidget
@@ -69,6 +72,7 @@ describe('VAOS Component: CalendarWidget', () => {
           showValidation={submitted && !data?.selectedDates?.length}
           showWeekends
           upcomingAppointments={upcomingAppointments}
+          isAppointmentSelectionError={isAppointmentSelectionError}
         />
       );
     };

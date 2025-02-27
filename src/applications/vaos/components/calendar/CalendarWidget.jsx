@@ -2,13 +2,13 @@
  * Shared calendar widget component used by the VAOS application.
  * @module components/calendar
  */
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import classNames from 'classnames';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
-import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
+import CalendarRow from './CalendarRow';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
 
 /**
@@ -209,16 +209,6 @@ function handleNext(onClickNext, months, setMonths) {
   setMonths(updatedMonths);
 }
 
-function checkSelection(date, upcomingAppointments) {
-  const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
-  const appointments = upcomingAppointments[d1.format('YYYY-MM')];
-
-  return appointments?.some(appointment => {
-    const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
-    return d1.isSame(d2);
-  });
-}
-
 /**
  * Calendar widget
  *
@@ -272,6 +262,7 @@ function CalendarWidget({
   value = [],
   showWeekends = false,
   upcomingAppointments = [],
+  isAppointmentSelectionError,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -284,13 +275,10 @@ function CalendarWidget({
   const maxMonth = getMaxMonth(maxDate, overrideMaxDays);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
-  let hasError = (required && showValidation) || exceededMaximumSelections;
-
-  const isAppointmentSelectionError = checkSelection(
-    value[0],
-    upcomingAppointments,
-  );
-  if (isAppointmentSelectionError) hasError = isAppointmentSelectionError;
+  const hasError =
+    (required && showValidation) ||
+    exceededMaximumSelections ||
+    isAppointmentSelectionError;
 
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
@@ -381,7 +369,11 @@ function CalendarWidget({
                                 onChange(value.concat(date));
                               }
                             } else {
-                              onChange([date]);
+                              onChange(
+                                [date],
+                                maxSelections,
+                                upcomingAppointments,
+                              );
                             }
                           }}
                           hasError={hasError}
@@ -420,6 +412,7 @@ CalendarWidget.propTypes = {
   ),
   disabled: PropTypes.bool,
   disabledMessage: PropTypes.object,
+  isAppointmentSelectionError: PropTypes.bool,
   maxDate: PropTypes.string,
   maxSelections: PropTypes.number,
   maxSelectionsError: PropTypes.string,
