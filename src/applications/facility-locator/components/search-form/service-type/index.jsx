@@ -24,7 +24,6 @@ const ServiceType = ({
   setSearchInitiated,
   useProgressiveDisclosure,
   vamcAutoSuggestEnabled,
-  vamcServiceDisplay,
 }) => {
   const { facilityType, serviceType, serviceTypeChanged } = currentQuery;
 
@@ -35,7 +34,6 @@ const ServiceType = ({
         onChange={onChange}
         searchInitiated={searchInitiated}
         setSearchInitiated={setSearchInitiated}
-        vamcServiceDisplay={vamcServiceDisplay}
       />
     );
   }

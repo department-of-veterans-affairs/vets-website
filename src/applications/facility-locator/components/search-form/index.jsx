@@ -36,7 +36,6 @@ const SearchForm = props => {
     suppressPPMS,
     useProgressiveDisclosure,
     vamcAutoSuggestEnabled,
-    vamcServiceDisplay,
   } = props;
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
@@ -241,7 +240,6 @@ const SearchForm = props => {
         setSearchInitiated={setSearchInitiated}
         useProgressiveDisclosure={useProgressiveDisclosure}
         vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
-        vamcServiceDisplay={vamcServiceDisplay}
       />
     </>
   );
@@ -311,9 +309,7 @@ const SearchForm = props => {
 };
 
 const mapStateToProps = state => ({
-  vamcAutoSuggestEnabled: true,
-  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
-  vamcServiceDisplay: state.searchQuery.vamcServiceDisplay,
+  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
