@@ -34,18 +34,14 @@ class GeneralFunctionsPage {
     };
   };
 
-  updateFeatureToggles = (name, value) => {
+  // param [ArrayOfObjects{name: string, value: any}]
+  // returns {Object} - the updated mock toggles object.
+  updateFeatureToggles = toggles => {
     return {
       ...mockToggles,
       data: {
         ...mockToggles.data,
-        features: [
-          ...mockToggles.data.features,
-          {
-            name,
-            value,
-          },
-        ],
+        features: [...mockToggles.data.features, ...toggles],
       },
     };
   };
