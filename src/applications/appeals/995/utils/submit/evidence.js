@@ -15,6 +15,7 @@ import { getFacilityType } from './facilities';
 
 import '../../../shared/definitions';
 import { fixDateFormat } from '../../../shared/utils/replace';
+import { removeEmptyEntries } from '../../../shared/utils/submit';
 
 /**
  * @typedef VALocation
@@ -182,10 +183,10 @@ export const getEvidence = formData => {
               // providing one; with the new form, these dates will not be
               // required. Leaving this as is until LH provides the new API
               evidenceDates: [
-                {
+                removeEmptyEntries({
                   startDate: fixDateFormat(from),
                   endDate: fixDateFormat(to),
-                },
+                }),
               ],
               noTreatmentDates: location.noDate,
             },

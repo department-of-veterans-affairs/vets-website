@@ -211,10 +211,12 @@ describe('getEvidence', () => {
             attributes: {
               locationAndName: 'test 3',
               evidenceDates: [
-                {
-                  startDate: newForm ? '' : '2022-05-05',
-                  endDate: newForm ? '' : '2022-06-06',
-                },
+                newForm
+                  ? {}
+                  : {
+                      startDate: '2022-05-05',
+                      endDate: '2022-06-06',
+                    },
               ],
               noTreatmentDates: true,
             },
