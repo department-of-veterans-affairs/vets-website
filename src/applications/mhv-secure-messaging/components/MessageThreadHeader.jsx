@@ -9,7 +9,6 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
-  PageTitles,
   Recipients,
   ParentComponent,
   RecipientStatus,
@@ -92,13 +91,13 @@ const MessageThreadHeader = props => {
 
   const categoryLabel = Categories[category];
 
-  const pageTitleTag = getPageTitle(removeLandingPageFF, null, PageTitles);
   useEffect(
     () => {
+      const pageTitleTag = getPageTitle({ removeLandingPageFF });
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitleTag);
     },
-    [categoryLabel, message, pageTitleTag, removeLandingPageFF, subject],
+    [categoryLabel, message, removeLandingPageFF, subject],
   );
 
   useEffect(() => {

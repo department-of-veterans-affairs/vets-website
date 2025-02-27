@@ -16,7 +16,6 @@ import ReplyDrafts from './ReplyDrafts';
 import MessageActionButtons from '../MessageActionButtons';
 import {
   BlockedTriageAlertStyles,
-  PageTitles,
   ParentComponent,
   RecipientStatus,
   Recipients,
@@ -85,15 +84,14 @@ const ReplyForm = props => {
     [drafts, recipients],
   );
 
-  const pageTitleTag = getPageTitle(removeLandingPageFF, null, PageTitles);
-
   useEffect(
     () => {
+      const pageTitleTag = getPageTitle({ removeLandingPageFF });
       setSubject(replyMessage.subject);
       setCategory(replyMessage.category);
       updatePageTitle(pageTitleTag);
     },
-    [pageTitleTag, removeLandingPageFF, replyMessage],
+    [removeLandingPageFF, replyMessage],
   );
 
   useEffect(

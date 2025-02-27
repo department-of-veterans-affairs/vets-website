@@ -36,24 +36,34 @@ const SmBreadcrumbs = () => {
     },
     [location],
   );
+
   const pathsWithShortBreadcrumb = [
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
     Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
+    ...(removeLandingPageFF
+      ? [
+          `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+          `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+          `${Constants.Paths.REPLY}${locationChildPath}/`,
+        ]
+      : []),
   ];
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
     Constants.Paths.CONTACT_LIST,
-    `${Constants.Paths.FOLDERS}${locationChildPath}/`,
-    `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
-    `${Constants.Paths.REPLY}${locationChildPath}/`,
+    ...(removeLandingPageFF
+      ? [
+          `${Constants.Paths.FOLDERS}${locationChildPath}/`,
+          `${Constants.Paths.MESSAGE_THREAD}${locationChildPath}/`,
+          `${Constants.Paths.REPLY}${locationChildPath}/`,
+        ]
+      : []),
   ];
+
   const crumbPath = `/${locationBasePath}/${
-    locationChildPath ? `${locationChildPath}/` : ''
+    removeLandingPageFF && locationChildPath ? `${locationChildPath}/` : ''
   }`;
   const shortenBreadcrumb = pathsWithShortBreadcrumb.includes(crumbPath);
   const backBreadcrumb = pathsWithBackBreadcrumb.includes(crumbPath);
@@ -73,11 +83,14 @@ const SmBreadcrumbs = () => {
 
       if (isContactList && isCompose && activeDraftId) {
         history.push(`${Constants.Paths.MESSAGE_THREAD}${activeDraftId}/`);
-      } else if (crumb.href === Constants.Paths.FOLDERS) {
+      } else if (
+        removeLandingPageFF &&
+        crumb.href === Constants.Paths.FOLDERS
+      ) {
         history.push(Constants.Paths.FOLDERS);
-      } else if (isSentFolder && !isReplyPath) {
+      } else if (removeLandingPageFF && isSentFolder && !isReplyPath) {
         history.push(Constants.Paths.SENT);
-      } else if (isInboxFolder && !isReplyPath) {
+      } else if (removeLandingPageFF && isInboxFolder && !isReplyPath) {
         history.push(Constants.Paths.INBOX);
       } else {
         history.push(
@@ -87,7 +100,14 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [activeDraftId, crumb.href, history, locationBasePath, previousUrl],
+    [
+      activeDraftId,
+      crumb.href,
+      history,
+      locationBasePath,
+      previousUrl,
+      removeLandingPageFF,
+    ],
   );
 
   useEffect(
@@ -230,6 +250,7 @@ const SmBreadcrumbs = () => {
                   navigateBack();
                 }}
                 className="vads-u-font-size--md"
+                data-testid="sm-breadcrumbs-back"
               >
                 Back
               </Link>

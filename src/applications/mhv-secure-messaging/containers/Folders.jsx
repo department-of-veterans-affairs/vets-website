@@ -10,7 +10,6 @@ import { closeAlert } from '../actions/alerts';
 import {
   BlockedTriageAlertStyles,
   Breadcrumbs,
-  PageTitles,
   ParentComponent,
 } from '../util/constants';
 import { getPageTitle } from '../util/helpers';
@@ -57,13 +56,6 @@ const Folders = () => {
     [dispatch, location, isModalVisible],
   );
 
-  const pageTitleTag = getPageTitle(
-    removeLandingPageFF,
-    null,
-    PageTitles,
-    location.pathname,
-  );
-
   useEffect(
     () => {
       if (!isModalVisible) {
@@ -72,11 +64,23 @@ const Folders = () => {
           folders !== undefined && !alertVisible?.isActive
             ? 'h1'
             : alertVisible?.isActive && 'va-alert';
+
+        const pageTitleTag = getPageTitle({
+          removeLandingPageFF,
+          pathname: location.pathname,
+        });
+
         focusElement(document.querySelector(alertSelector));
         updatePageTitle(pageTitleTag);
       }
     },
-    [alertList, folders, isModalVisible, pageTitleTag, removeLandingPageFF],
+    [
+      alertList,
+      folders,
+      isModalVisible,
+      location.pathname,
+      removeLandingPageFF,
+    ],
   );
 
   const openNewModal = () => {

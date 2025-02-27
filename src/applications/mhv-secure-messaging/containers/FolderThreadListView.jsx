@@ -13,7 +13,6 @@ import {
   Alerts,
   Paths,
   threadSortingOptions,
-  PageTitles,
   THREADS_PER_PAGE_DEFAULT,
 } from '../util/constants';
 import useInterval from '../hooks/use-interval';
@@ -143,16 +142,14 @@ const FolderThreadListView = props => {
     [dispatch, location.pathname, params.folderId],
   );
 
-  const pageTitleTag = getPageTitle(
-    removeLandingPageFF,
-    folder?.name,
-    PageTitles,
-  );
-
   useEffect(
     () => {
       if (folderId !== (null || undefined)) {
         if (folder.name === convertPathNameToTitleCase(location.pathname)) {
+          const pageTitleTag = getPageTitle({
+            removeLandingPageFF,
+            folderName: folder.name,
+          });
           updatePageTitle(pageTitleTag);
         }
         if (folderId !== threadSort?.folderId) {

@@ -5,6 +5,7 @@ import {
   Paths,
   RecipientStatus,
   Recipients,
+  PageTitles,
 } from './constants';
 
 /**
@@ -221,27 +222,24 @@ export const handleHeader = (folderId, folder) => {
   };
 };
 
-export const getPageTitle = (
-  removeLandingPageFF,
-  folderName,
-  pageTitles,
-  pathname,
-) => {
+export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
   if (folderName) {
     const titleTag = removeLandingPageFF
-      ? pageTitles?.NEW_MESSAGE_PAGE_TITLE_TAG
-      : pageTitles.PAGE_TITLE_TAG;
-    return `Messages: ${folderName}${titleTag}`;
+      ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
+      : PageTitles.PAGE_TITLE_TAG;
+    return `${
+      removeLandingPageFF ? `Messages: ` : ''
+    }${folderName} ${titleTag}`;
   }
 
   const folderTitleTag = removeLandingPageFF
-    ? pageTitles?.NEW_MY_FOLDERS_PAGE_TITLE_TAG
-    : pageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
+    ? PageTitles.NEW_MY_FOLDERS_PAGE_TITLE_TAG
+    : PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
   const conversationTitleTag = removeLandingPageFF
-    ? pageTitles?.NEW_CONVERSATION_TITLE_TAG
-    : pageTitles.CONVERSATION_TITLE_TAG;
+    ? PageTitles.NEW_CONVERSATION_TITLE_TAG
+    : PageTitles.CONVERSATION_TITLE_TAG;
 
-  return `Messages: ${
+  return `${removeLandingPageFF ? `Messages: ` : ''} ${
     pathname === Paths.FOLDERS ? folderTitleTag : conversationTitleTag
   }`;
 };

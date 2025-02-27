@@ -15,7 +15,6 @@ import {
 import {
   BlockedTriageAlertStyles,
   DefaultFolders as Folders,
-  PageTitles,
   ParentComponent,
   downtimeNotificationParams,
 } from '../../util/constants';
@@ -91,18 +90,17 @@ const FolderHeader = props => {
     [folderDescription],
   );
 
-  const pageTitleTag = getPageTitle(
-    removeLandingPageFF,
-    folder.name,
-    PageTitles,
-  );
   useEffect(
     () => {
       if (location.pathname.includes(folder?.folderId)) {
+        const pageTitleTag = getPageTitle({
+          removeLandingPageFF,
+          folderName: folder.name,
+        });
         updatePageTitle(pageTitleTag);
       }
     },
-    [folder, location.pathname, pageTitleTag, removeLandingPageFF],
+    [folder, location.pathname, removeLandingPageFF],
   );
 
   const { folderName, ddTitle, ddPrivacy } = handleHeader(
