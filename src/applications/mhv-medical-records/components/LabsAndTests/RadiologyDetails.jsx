@@ -213,7 +213,7 @@ ${record.results}`;
       <va-link
         className="vads-u-margin-top--1"
         href="www.va.gov/profile/notifications"
-        text="Go back to the previous version of My HealtheVet"
+        text="Go to notification settings"
       />
     </>
   );
