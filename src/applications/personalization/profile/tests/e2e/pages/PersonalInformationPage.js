@@ -62,13 +62,13 @@ class PersonalInformationPage {
     cy.get('#edit-messaging-signature')
       .should('be.visible')
       .and('have.text', 'Edit');
-    cy.get(`[aria-label="Remove Messaging signature"]`)
+    cy.get(`#remove-messaging-signature`)
       .should('be.visible')
       .and('have.text', 'Remove');
     cy.get(`[data-testid="messagingSignature"]`).should(
       `contain.text`,
-      `${mockSignature.data.attributes.signatureName}` +
-        `${mockSignature.data.attributes.signatureTitle}`,
+      `${mockSignature.data.attributes.signatureName +
+        mockSignature.data.attributes.signatureTitle}`,
     );
   };
 }
