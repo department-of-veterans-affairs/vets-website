@@ -4,6 +4,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import { countryValueToName } from '../utils/addresses';
 import addressPage from '../pages/addressPage';
@@ -121,7 +122,11 @@ const submit = form => {
 
 const downtime = {
   requiredForPrefill: true,
-  dependencies: [externalServices.mdot],
+  dependencies: [
+    process.env.NODE_ENV === 'production'
+      ? externalServices.mdot
+      : externalServices.stagingMdot,
+  ],
   // message: '',
 };
 
