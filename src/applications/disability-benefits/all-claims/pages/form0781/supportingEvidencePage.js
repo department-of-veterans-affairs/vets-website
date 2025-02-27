@@ -10,7 +10,7 @@ import {
   supportingEvidencePageTitle,
   validateSupportingEvidenceSelections,
   supportingEvidenceBuddyStatement,
-  behaviorListValidationError,
+  supportingEvidenceValidationError,
   showConflictingAlert,
 } from '../../content/form0781/supportingEvidencePage';
 import {
@@ -25,7 +25,7 @@ export const uiSchema = {
   'ui:title': titleWithTag(supportingEvidencePageTitle, form0781HeadingTag),
   'ui:description': supportingEvidenceDescription,
   'view:conflictingResponseAlert': {
-    'ui:description': behaviorListValidationError,
+    'ui:description': supportingEvidenceValidationError,
     'ui:options': {
       hideIf: formData => showConflictingAlert(formData) === false,
     },

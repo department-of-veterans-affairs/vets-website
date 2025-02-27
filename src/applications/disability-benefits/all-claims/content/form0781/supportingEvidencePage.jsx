@@ -9,11 +9,17 @@ export const supportingEvidenceDescription = (
       Select all the types of supporting documents you plan to submit to support
       your claim for mental health conditions.
     </p>
-    <p>
-      Submitting supporting documents is optional. If you plan to submit these
-      documents later, we’ll send you a letter with instructions for how to
-      submit them.
-    </p>
+    <p>Submitting supporting documents is optional.</p>
+    <ul>
+      <li>
+        If you wish to include these documents with your submission, you’ll be
+        able to upload them in <strong>Section 4: Supporting evidence.</strong>
+      </li>
+      <li>
+        If you plan to submit these documents later we’ll mail you a letter with
+        instructions once we’ve received your claim.
+      </li>
+    </ul>
   </>
 );
 
@@ -36,7 +42,7 @@ export const supportingEvidenceBuddyStatement = (
           <va-link
             external
             href="https://www.va.gov/supporting-forms-for-claims/lay-witness-statement-form-21-10210/introduction"
-            text="Find your nearest VA medical center"
+            text="Complete VA Form 21-10210 online"
           />
           , <strong>or</strong>
         </li>
@@ -73,7 +79,7 @@ export const supportingEvidenceAdditionalInformation = (
 export const supportingEvidenceNoneLabel =
   'I don’t have any supporting documents to submit.';
 
-export const behaviorListValidationError = (
+export const supportingEvidenceValidationError = (
   <va-alert status="error" uswds>
     <p className="vads-u-font-size--base">
       You selected one or more documents. You also selected "I don’t have any
@@ -95,7 +101,7 @@ function hasSelectedNoneCheckbox(formData) {
 }
 
 /**
- * Returns an object with behavior section properties and boolean value if selections present within each section
+ * Returns an object with evidence properties and boolean value if selections present within each section
  * @param {object} formData
  * @returns {object}
  */
@@ -128,11 +134,11 @@ function selectedDocumentsSections(formData) {
 }
 
 /**
- * Returns true if any selected behavior types, false otherwise
+ * Returns true if any selected supporting evidence, false otherwise
  * @param {object} formData
  * @returns {boolean}
  */
-export function hasSelectedBehaviors(formData) {
+export function hasSelectedSupportingEvidence(formData) {
   const selections = selectedDocumentsSections(formData);
   const {
     supportingEvidenceReports,
@@ -149,20 +155,20 @@ export function hasSelectedBehaviors(formData) {
 }
 
 /**
- * Returns true if 'none' checkbox and other behavior types are selected
+ * Returns true if 'none' checkbox and other supporting evidence is selected
  * @param {object} formData
  * @returns {boolean}
  */
 
 export function showConflictingAlert(formData) {
   const noneSelected = hasSelectedNoneCheckbox(formData);
-  const somethingSelected = hasSelectedBehaviors(formData);
+  const somethingSelected = hasSelectedSupportingEvidence(formData);
 
   return !!(noneSelected && somethingSelected);
 }
 
 /**
- * Validates that the 'none' checkbox is not selected if behavior types are also selected
+ * Validates that the 'none' checkbox is not selected if supporting evidence is also selected
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */

@@ -9,21 +9,22 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-import * as behaviorListPage from '../../../pages/form0781/behaviorListPage';
+import * as supportingEvidencePage from '../../../pages/form0781/supportingEvidencePage';
 import {
-  validateBehaviorSelections,
-  behaviorListPageTitle,
+  validateSupportingEvidenceSelections,
+  supportingEvidencePageTitle,
   showConflictingAlert,
-} from '../../../content/form0781/behaviorListPages';
+} from '../../../content/form0781/supportingEvidencePage';
 import {
-  BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
-  BEHAVIOR_CHANGES_WORK,
-  BEHAVIOR_CHANGES_HEALTH,
-  BEHAVIOR_CHANGES_OTHER,
+  SUPPORTING_EVIDENCE_SUBTITLES,
+  SUPPORTING_EVIDENCE_REPORT,
+  SUPPORTING_EVIDENCE_RECORD,
+  SUPPORTING_EVIDENCE_WITNESS,
+  SUPPORTING_EVIDENCE_OTHER,
 } from '../../../constants';
 
-describe('Behavior List Page', () => {
-  const { schema, uiSchema } = behaviorListPage;
+describe('Supporting Evidence Page', () => {
+  const { schema, uiSchema } = supportingEvidencePage;
 
   it('should define a uiSchema object', () => {
     expect(uiSchema).to.be.an('object');
@@ -72,26 +73,29 @@ describe('Behavior List Page', () => {
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={{}} />,
     );
 
-    getByText(behaviorListPageTitle);
+    getByText(supportingEvidencePageTitle);
 
-    expect($$('va-checkbox-group', container).length).to.equal(4);
+    expect($$('va-checkbox-group', container).length).to.equal(5);
 
     // fail fast - verify the correct number of checkboxes are present
-    expect($$('va-checkbox', container).length).to.equal(16);
+    expect($$('va-checkbox', container).length).to.equal(11);
 
     // verify subtitles for checkbox sections are present
-    Object.values(BEHAVIOR_LIST_BEHAVIOR_SUBTITLES).forEach(option => {
+    Object.values(SUPPORTING_EVIDENCE_SUBTITLES).forEach(option => {
       expect($$(`va-checkbox[title="${option}"]`, container)).to.exist;
     });
 
     // verify each checkbox exists with user facing label
-    Object.values(BEHAVIOR_CHANGES_WORK).forEach(option => {
+    Object.values(SUPPORTING_EVIDENCE_REPORT).forEach(option => {
       expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
     });
-    Object.values(BEHAVIOR_CHANGES_HEALTH).forEach(option => {
+    Object.values(SUPPORTING_EVIDENCE_RECORD).forEach(option => {
       expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
     });
-    Object.values(BEHAVIOR_CHANGES_OTHER).forEach(option => {
+    Object.values(SUPPORTING_EVIDENCE_WITNESS).forEach(option => {
+      expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
+    });
+    Object.values(SUPPORTING_EVIDENCE_OTHER).forEach(option => {
       expect($$(`va-checkbox[label="${option}"]`, container)).to.exist;
     });
     expect($$(`va-checkbox[label="none"]`, container)).to.exist;
@@ -101,33 +105,47 @@ describe('Behavior List Page', () => {
 describe('validating selections', () => {
   describe('invalid: conflicting selections', () => {
     const errors = {
-      'view:noneCheckbox': {
+      'view:supportingEvidenceNoneCheckbox': {
         addError: sinon.spy(),
       },
-      workBehaviors: { addError: sinon.spy() },
-      healthBehaviors: { addError: sinon.spy() },
-      otherBehaviors: { addError: sinon.spy() },
+      supportingEvidenceReports: { addError: sinon.spy() },
+      supportingEvidenceRecords: { addError: sinon.spy() },
+      supportingEvidenceWitness: { addError: sinon.spy() },
+      supportingEvidenceOther: { addError: sinon.spy() },
     };
-    it('should show alert and add errors when none and behaviors are selected', () => {
+    it('should show alert and add errors when none and supporting evidence is selected', () => {
       const formData = {
         syncModern0781Flow: true,
-        workBehaviors: {
-          reassignment: true,
-          absences: false,
+        supportingEvidenceReports: {
+          police: true,
         },
-        otherBehaviors: {
-          unlisted: true,
+        supportingEvidenceRecords: {
+          physicians: false,
+          counseling: false,
+          crisis: false,
         },
-        'view:noneCheckbox': { none: true },
+        supportingEvidenceWitness: {
+          family: true,
+          faculty: true,
+          service: false,
+          clergy: true,
+        },
+        supportingEvidenceOther: {
+          personal: false,
+          documents: true,
+        },
+        'view:supportingEvidenceNoneCheckbox': { none: true },
       };
 
-      validateBehaviorSelections(errors, formData);
+      validateSupportingEvidenceSelections(errors, formData);
 
       // errors
-      expect(errors.workBehaviors.addError.called).to.be.true;
-      expect(errors.healthBehaviors.addError.called).to.be.false;
-      expect(errors.otherBehaviors.addError.called).to.be.true;
-      expect(errors['view:noneCheckbox'].addError.called).to.be.true;
+      expect(errors.supportingEvidenceReports.addError.called).to.be.true;
+      expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
+      expect(errors.supportingEvidenceWitness.addError.called).to.be.true;
+      expect(errors.supportingEvidenceOther.addError.called).to.be.true;
+      expect(errors['view:supportingEvidenceNoneCheckbox'].addError.called).to
+        .be.true;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.true;
@@ -136,52 +154,55 @@ describe('validating selections', () => {
 
   describe('valid selections', () => {
     const errors = {
-      'view:noneCheckbox': {
+      'view:supportingEvidenceNoneCheckbox': {
         addError: sinon.spy(),
       },
-      workBehaviors: { addError: sinon.spy() },
-      healthBehaviors: { addError: sinon.spy() },
-      otherBehaviors: { addError: sinon.spy() },
+      supportingEvidenceReports: { addError: sinon.spy() },
+      supportingEvidenceRecords: { addError: sinon.spy() },
+      supportingEvidenceWitness: { addError: sinon.spy() },
+      supportingEvidenceOther: { addError: sinon.spy() },
     };
-    it('should not show alert or add errors when none is selected and with no other selected behaviors', () => {
+    it('should not show alert or add errors when none is selected and with no other selected supporting evidence', () => {
       const formData = {
         syncModern0781Flow: true,
-        workBehaviors: {
-          reassignment: false,
-          absences: false,
+        supportingEvidenceReports: {
+          police: false,
         },
-        'view:noneCheckbox': { none: true },
+        'view:supportingEvidenceNoneCheckbox': { none: true },
       };
 
-      validateBehaviorSelections(errors, formData);
+      validateSupportingEvidenceSelections(errors, formData);
 
       // errors
-      expect(errors.workBehaviors.addError.called).to.be.false;
-      expect(errors.healthBehaviors.addError.called).to.be.false;
-      expect(errors.otherBehaviors.addError.called).to.be.false;
-      expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+      expect(errors.supportingEvidenceReports.addError.called).to.be.false;
+      expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
+      expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
+      expect(errors.supportingEvidenceOther.addError.called).to.be.false;
+      expect(errors['view:supportingEvidenceNoneCheckbox'].addError.called).to
+        .be.false;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.false;
     });
 
-    it('should not show alert or add errors when none is unselected and behaviors are selected', () => {
+    it('should not show alert or add errors when none is unselected and supporting evidence is selected', () => {
       const formData = {
         syncModern0781Flow: true,
-        workBehaviors: {
-          reassignment: false,
-          absences: true,
+        supportingEvidenceReports: {
+          police: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:supportingEvidenceNoneCheckbox': { none: false },
       };
 
-      validateBehaviorSelections(errors, formData);
+      validateSupportingEvidenceSelections(errors, formData);
 
       // errors
-      expect(errors.workBehaviors.addError.called).to.be.false;
-      expect(errors.healthBehaviors.addError.called).to.be.false;
-      expect(errors.otherBehaviors.addError.called).to.be.false;
-      expect(errors['view:noneCheckbox'].addError.called).to.be.false;
+      expect(errors.supportingEvidenceReports.addError.called).to.be.false;
+      expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
+      expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
+      expect(errors.supportingEvidenceOther.addError.called).to.be.false;
+      expect(errors['view:supportingEvidenceNoneCheckbox'].addError.called).to
+        .be.false;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.false;

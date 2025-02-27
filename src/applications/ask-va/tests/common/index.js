@@ -4,8 +4,9 @@ import { userData } from '../fixtures/data/mock-form-data';
 
 export const createMockStore = ({
   askVA,
-  currentlyLoggedIn,
+  currentlyLoggedIn = true,
   formData = {},
+  form,
   path = '',
   viewedPages,
   openChapters,
@@ -31,7 +32,7 @@ export const createMockStore = ({
       },
       ...askVA,
     },
-    form: {
+    form: form || {
       data: formData,
       reviewPageView: {
         viewedPages: viewedPages || new Set(),

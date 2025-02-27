@@ -330,16 +330,11 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    const {
-      signatureName,
-      signatureTitle,
-      includeSignature,
-    } = mockSignature.data;
+    const { signatureName, signatureTitle } = mockSignature.data.attributes;
     cy.get(Locators.FIELDS.MESSAGE_BODY).should(
       'have.attr',
       'value',
-      `${includeSignature &&
-        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
+      `\n\n\n${signatureName}\n${signatureTitle}\n${url}`,
     );
   };
 
