@@ -21,15 +21,15 @@ const defaultMockStore = ({
   sisEnabled = true,
   authBroker = 'sis',
 } = {}) => ({
-  profile: {
-    loading: false,
-    session: {
-      authBroker,
-      ssoe: authBroker !== 'sis',
-      transactionid: authBroker !== 'sis' ? 'fake_tx_id' : null,
-    },
-  },
   user: {
+    profile: {
+      loading: false,
+      session: {
+        authBroker,
+        ssoe: authBroker !== 'sis',
+        transactionid: authBroker !== 'sis' ? 'fake_tx_id' : null,
+      },
+    },
     login: {
       currentlyLoggedIn: isLoggedIn,
       hasCheckedKeepAlive: false,
