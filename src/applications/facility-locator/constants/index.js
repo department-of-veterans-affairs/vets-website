@@ -58,7 +58,7 @@ export const LOCATION_OPTIONS = [
 /**
  * Defines the ± change in bounding box size for the map when changing zoom
  */
-export const BOUNDING_RADIUS = 0.75;
+export const BOUNDING_RADIUS = 0.45;
 export const EXPANDED_BOUNDING_RADIUS = 1.4;
 
 /**
@@ -201,7 +201,7 @@ export const MAX_SEARCH_AREA = 500;
  * Min radius search area in miles
  */
 export const MIN_RADIUS = 10;
-export const MIN_RADIUS_CCP = 20;
-export const MIN_RADIUS_EXP = 60; // Expanded search radius - due to new map configurations
-
+export const MIN_RADIUS_CCP = 40;
+export const MIN_RADIUS_EXP = 55; // Expanded search radius - due to new map configurations
+export const MIN_RADIUS_NCA = 110; // National Cemetery Administration
 export const Covid19Vaccine = 'Covid19Vaccine';
