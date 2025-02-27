@@ -31,11 +31,18 @@ describe('getHomeless', () => {
 
   it('should return an empty object if not in new form flow', () => {
     expect(getHomeless({})).to.eql({});
+    expect(getHomeless({ livingSituation: {} })).to.eql({});
     expect(setup({ toggle: false })).to.eql({});
     expect(setup({ toggle: false, homeless: true })).to.eql({});
   });
 
   it('should return an only homeless value', () => {
+    expect(
+      getHomeless({
+        [SC_NEW_FORM_DATA]: true,
+        housingRisk: true,
+      }),
+    ).to.eql({ homeless: true });
     expect(setup()).to.deep.equal({ homeless: true });
     expect(setup({ homeless: false })).to.deep.equal({ homeless: false });
     expect(setup({})).to.deep.equal({ homeless: true });
