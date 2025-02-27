@@ -110,7 +110,7 @@ describe('IntroductionPage', () => {
     );
     expect($('va-process-list', container)).to.exist;
     expect($('va-omb-info', container)).to.exist;
-    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
+    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
   });
 
   it('should render start action links', () => {

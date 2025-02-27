@@ -36,3 +36,9 @@ export const isDateThirtyDaysOld = (dateOfCalculation, termStartDate) => {
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
   return diffDays >= 30;
 };
+
+export const dateSigned = () => {
+  const date = new Date();
+  date.setDate(date.getDate() + 365);
+  return date.toISOString().split('T')[0];
+};
