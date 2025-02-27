@@ -1,7 +1,9 @@
 import React from 'react';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
+import * as authUtilities from 'platform/user/authentication/utilities';
 import MhvTemporaryAccess from '../../containers/MhvTemporaryAccess';
 
 describe('MhvTemporaryAccess', () => {
@@ -21,13 +23,24 @@ describe('MhvTemporaryAccess', () => {
     expect(description).to.exist;
   });
 
-  it('renders button', () => {
+  it('renders button and calls login with correct parameters on click', async () => {
+    const loginStub = sinon.stub(authUtilities, 'login');
     const screen = renderInReduxProvider(<MhvTemporaryAccess />);
     const signInHeading = screen.getByText(/sign in/i);
     expect(signInHeading).to.exist;
-    const accessButton = screen.getByTestId('accessMhvBtn');
+    const accessButton = await screen.findByTestId('accessMhvBtn');
     expect(accessButton).to.exist;
+
     fireEvent.click(accessButton);
+
+    await waitFor(() => {
+      sinon.assert.calledOnce(loginStub);
+      sinon.assert.calledWith(loginStub, {
+        policy: 'mhv',
+        queryParams: { operation: 'mhv_exception' },
+      });
+    });
+    loginStub.restore();
   });
 
   it('renders having trouble section', () => {
