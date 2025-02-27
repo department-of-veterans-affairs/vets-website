@@ -10,8 +10,12 @@ export const treatmentReceivedDescription = (
       of your traumatic events including any behavioral changes you experienced.
     </p>
     <p>
-      If you did not receive any treatment for any of your traumatic events,
-      select ‘I didn’t receive treatment for my traumatic events.’
+      If you didn’t receive any treatment for your traumatic events, select{' '}
+      <strong>‘I didn’t receive treatment for my traumatic events.’</strong>
+    </p>
+    <p>
+      You’ll be able to upload or request records from these treatment providers
+      for VA to review in <strong>Section 4: Supporting evidence</strong>
     </p>
   </>
 );
@@ -22,10 +26,10 @@ export const treatmentReceivedNoneLabel =
 export const providerListValidationError = (
   <va-alert status="error" uswds>
     <p className="vads-u-font-size--base">
-      You selected one or more providers. You also selected "I didn’t receive
-      treatment for my traumatic events." Revise your selection so they don’t
-      conflict to continue.
+      You selected one or more types of reports for this event, but you also
+      selected ‘I don’t have any supporting documents to submit.’
     </p>
+    <p>Revise your selection so they don’t conflict to continue.</p>
   </va-alert>
 );
 
