@@ -3,16 +3,16 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-// import {
-//   applicantRelationToVetRadio,
-//   validateVetRadioOtherComment,
-// } from '../utils/helpers';
+import {
+  applicantRelationToVetRadio,
+  validateVetRadioOtherComment,
+} from '../utils/helpers';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
     ...titleUI('Your relationship to the veteran'),
-    // relationToVetRadio: applicantRelationToVetRadio.relationToVetRadio,
+    relationToVetRadio: applicantRelationToVetRadio.relationToVetRadio,
     otherRelation: {
       'ui:title': 'Describe your relationship to the Veteran',
       'ui:widget': 'textarea',
@@ -46,5 +46,5 @@ export default {
       },
     },
   },
-  //   validateVetRadioOtherComment,
+  validateVetRadioOtherComment,
 };
