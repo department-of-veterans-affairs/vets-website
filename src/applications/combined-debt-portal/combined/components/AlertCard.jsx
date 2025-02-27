@@ -44,7 +44,7 @@ const AlertCard = ({ appType }) => {
           <p>
             If you continue having trouble viewing information about your
             copays, call the VA Health Resource Center at{' '}
-            <va-telephone contact="8664001238" /> (
+            <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
             <va-telephone contact={CONTACTS[711]} tty />
             ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
           </p>
