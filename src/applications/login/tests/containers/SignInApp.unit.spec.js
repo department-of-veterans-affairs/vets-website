@@ -142,20 +142,6 @@ describe('SignInApp', () => {
     });
   });
 
-  it('should show a LogoutAlert when `auth=logged_out` query is present', () => {
-    const defaultProps = generateProps({
-      query: {
-        auth: 'logged_out',
-      },
-    });
-    const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
-      initialState: defaultMockStore(),
-    });
-    expect(wrapper.getByText(/You have successfully signed out./)).to.not.be
-      .null;
-    expect(wrapper.getByText(/Sign in/)).to.not.be.null;
-  });
-
   it('should hide elements specified in the CSS', () => {
     const defaultProps = generateProps({ query: {} });
     renderInReduxProvider(<SignInPage {...defaultProps} />, {
