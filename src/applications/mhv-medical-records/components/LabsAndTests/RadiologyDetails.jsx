@@ -12,8 +12,6 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -200,22 +198,21 @@ ${record.results}`;
     <>
       {notificationStatus ? (
         <p>
-          <strong>Note: </strong> If you don’t want to get email notifications
-          for images anymore, you can change your notification settings on the
-          previous version of My HealtheVet.
+          <strong>Note: </strong> If you do not want us to notifiy you about
+          images, change your settings in your profile.
         </p>
       ) : (
         <>
           <h3>Get email notifications for images</h3>
           <p>
             If you want us to email you when your images are ready, change your
-            notification settings on the previous version of My HealtheVet.
+            notification settings in your profile.
           </p>
         </>
       )}
       <va-link
         className="vads-u-margin-top--1"
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
+        href="www.va.gov/profile/notifications"
         text="Go back to the previous version of My HealtheVet"
       />
     </>
