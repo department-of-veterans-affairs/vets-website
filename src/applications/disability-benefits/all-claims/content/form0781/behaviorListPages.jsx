@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import {
   ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
   BEHAVIOR_LIST_SECTION_SUBTITLES,
+  LISTED_BEHAVIOR_TYPES_WITH_SECTION,
   MH_0781_URL_PREFIX,
 } from '../../constants';
 
@@ -202,6 +203,11 @@ export const behaviorDescriptionPageHint =
   'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
 
 export const unlistedPageTitle = BEHAVIOR_LIST_SECTION_SUBTITLES.other;
+
+// the unlisted description page is after all the listed behaviors
+export const unlistedDescriptionPageNumber =
+  Object.keys(LISTED_BEHAVIOR_TYPES_WITH_SECTION).length + 1;
+
 export const unlistedDescriptionPageDescription =
   'Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided. (Optional)';
 

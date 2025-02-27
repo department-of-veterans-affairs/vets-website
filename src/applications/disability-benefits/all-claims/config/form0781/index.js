@@ -33,6 +33,7 @@ import {
   behaviorPageTitle,
   behaviorListPageTitle,
   unlistedPageTitle,
+  unlistedDescriptionPageNumber,
   behaviorSummaryPageTitle,
 } from '../../content/form0781/behaviorListPages';
 import { consentPageTitle } from '../../content/form0781/consentPage';
@@ -105,7 +106,7 @@ export const form0781PagesConfig = {
   ...behaviorDescriptions.makePages(),
   unlistedBehaviorDescriptionPage: {
     title: unlistedPageTitle,
-    path: 'mental-health-form-0781/behavior-changes-15-description',
+    path: `mental-health-form-0781/behavior-changes-${unlistedDescriptionPageNumber}-description`,
     depends: formData => showUnlistedDescriptionPage(formData),
     uiSchema: unlistedBehaviorDescriptionPage.uiSchema,
     schema: unlistedBehaviorDescriptionPage.schema,
