@@ -206,7 +206,7 @@ createScheduleViewVAAppointmentsPage(
 );
 createModernScheduleViewVAAppointmentsPage(
   store,
-  widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+  widgetTypes.MODERN_SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
 createModernSecureMessagingPage(

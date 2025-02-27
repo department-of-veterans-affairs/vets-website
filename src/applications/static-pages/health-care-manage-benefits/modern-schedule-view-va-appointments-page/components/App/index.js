@@ -22,7 +22,7 @@ export const App = ({ serviceName, userIsLoggedIn, userIsVerified }) => {
     />
   );
 };
-App.displayName = 'ScheduleAppointmentsWidget';
+App.displayName = 'ModernScheduleAppointmentsWidget';
 
 App.propTypes = {
   serviceName: PropTypes.string,
