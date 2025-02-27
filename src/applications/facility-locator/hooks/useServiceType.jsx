@@ -2,6 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect } from 'react';
 import environment from 'platform/utilities/environment';
 import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/drupal-static-data/source-files/va-health-services/connect';
+
+// Note: this file is hard-coded with data from https://www.va.gov/data/cms/va-healthcare-services.json
+// It should be updated periodically, especially when local changes are made that affect the matching logic so we can be
+// sure our code handles what services actually exist in prod
 import vaHealthServicesData from '../tests/hooks/test-va-healthcare-services.json';
 
 export const FACILITY_TYPE_FILTERS = {

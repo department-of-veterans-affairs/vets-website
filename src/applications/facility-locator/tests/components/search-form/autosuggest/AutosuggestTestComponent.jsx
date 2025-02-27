@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Autosuggest from '../../../components/search-form/autosuggest';
+import Autosuggest from '../../../../components/search-form/autosuggest';
 
 export default function AutosuggestTestComponent({ keepDataOnBlur = false }) {
   const [value, setValue] = useState('beginning input');
