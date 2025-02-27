@@ -4,7 +4,7 @@ import notCernerUser from '../../fixtures/user/notCerner.json';
 import features from '../../fixtures/feature-toggles/enabled.json';
 import staticEhrData from '../../fixtures/vamc-ehr-static.json';
 
-const TEST_URL = '/health-care/schedule-view-va-appointments/';
+const TEST_URL = '/health-care/modern-schedule-view-va-appointments/';
 
 const setup = ({ authenticated, isLOA3 = true } = {}) => {
   // Mock feature toggles route.
