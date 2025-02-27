@@ -22,7 +22,7 @@ import FacilityType from './facility-type';
 import LocationInput from './location';
 import ServiceType from './service-type';
 
-const SearchForm = props => {
+export const SearchForm = props => {
   const {
     currentQuery,
     facilitiesUseAddressTypeahead,
