@@ -40,6 +40,7 @@ const VaFileInputField = props => {
   const { formNumber } = props?.uiOptions;
   const { fileUploadUrl } = mappedProps;
   const [error, setError] = useState(mappedProps.error);
+  const [isUploading, setIsUploading] = useState(false);
 
   const onFileUploaded = async uploadedFile => {
     if (uploadedFile.file) {
@@ -53,7 +54,7 @@ const VaFileInputField = props => {
       } = uploadedFile;
 
       setError(errorMessage);
-
+      setIsUploading(false);
       props.childrenProps.onChange({
         confirmationCode,
         isEncrypted,
@@ -86,7 +87,7 @@ const VaFileInputField = props => {
         formNumber,
         fileFromEvent,
         onFileUploaded,
-        () => setError(null),
+        () => setIsUploading(true),
       ),
     );
   };
@@ -97,7 +98,13 @@ const VaFileInputField = props => {
       error={error}
       uploadedFile={mappedProps.uploadedFile}
       onVaChange={handleVaChange}
-    />
+    >
+      {isUploading ? (
+        <div>
+          <em>Uploading...</em>
+        </div>
+      ) : null}
+    </VaFileInput>
   );
 };
 
