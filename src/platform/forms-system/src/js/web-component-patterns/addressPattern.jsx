@@ -229,6 +229,9 @@ export function addressUI(options) {
   let cachedPath;
   let cityMaxLength = 100;
 
+  const requireStateForAllCountries =
+    options?.requireStateForAllCountries || false;
+
   const omit = key => options?.omit?.includes(key);
   let customRequired = key => options?.required?.[key];
   if (options?.required === false) {
@@ -443,6 +446,11 @@ export function addressUI(options) {
         if (customRequired('state')) {
           return customRequired('state')(formData, index);
         }
+
+        if (requireStateForAllCountries) {
+          return true;
+        }
+
         if (cachedPath) {
           const { country } = get(cachedPath, formData) ?? {};
           return country && country === USA.value;
