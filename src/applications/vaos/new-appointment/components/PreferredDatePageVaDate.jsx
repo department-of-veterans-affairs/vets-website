@@ -6,6 +6,7 @@ import {
   format,
   isAfter,
   isBefore,
+  isValid,
   parse,
   startOfDay,
 } from 'date-fns';
@@ -47,6 +48,9 @@ const uiSchema = {
     'ui:validations': [
       (errors, preferredDate) => {
         const date = parse(preferredDate, 'yyyy-MM-dd', new Date());
+        if (!isValid(date)) {
+          errors.addError('Please enter a valid date ');
+        }
         const today = startOfDay(new Date());
         if (isBefore(date, today)) {
           errors.addError('Please enter a future date ');

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { addDays, format } from 'date-fns';
+import { addDays, addYears, format, isAfter, set } from 'date-fns';
 
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
@@ -128,7 +128,35 @@ describe('VAOS Page: PreferredDatePageVaDate', () => {
     expect(screen.history.push.called).to.be.false;
   });
 
-  it('should submit with valid data', async () => {
+  it('it should not submit with invalid date', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<PreferredDatePageVaDate />, {
+      store,
+    });
+
+    let date = new Date();
+    if (isAfter(date, set(date, { month: 1, date: 27 }))) {
+      date = addYears(date, 1);
+    }
+
+    await screen.findByText(/Continue/);
+    const vaDate = screen.container.querySelector('va-date');
+    vaDate.__events.dateChange({
+      target: {
+        // the next February 31th is not a valid date
+        value: `${format(date, 'yyyy')}-02-31`,
+      },
+    });
+    fireEvent.click(screen.getByText(/Continue/));
+    // Assertion currently disabled due to
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
+    // expect(await screen.findByRole('alert')).to.contain.text(
+    //   'Please enter a valid date ',
+    // );
+    expect(screen.history.push.called).to.be.false;
+  });
+
+  it('should submit with valid date', async () => {
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<PreferredDatePageVaDate />, {
       store,
