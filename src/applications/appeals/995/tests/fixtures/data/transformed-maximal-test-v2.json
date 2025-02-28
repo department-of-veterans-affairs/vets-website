@@ -32,15 +32,13 @@
         "I AM STAYING WITH A FRIEND OR FAMILY MEMBER, BECAUSE I AM UNABLE TO OWN A HOME RIGHT NOW",
         "IN THE NEXT 30 DAYS, I WILL HAVE TO LEAVE A FACILITY, LIKE A HOMELESS SHELTER",
         "IN THE NEXT 30 DAYS, I WILL LOSE MY HOME",
-        "I HAVE ANOTHER HOUSING RISK NOT LISTED HERE"
+        "OTHER"
       ],
       "homelessLivingSituationOther": "Lorem ipsum",
       "homelessPointOfContact": "John Doe",
       "homelessPointOfContactPhone": {
         "areaCode": "800",
-        "countryCode": "",
-        "phoneNumber": "5551212",
-        "phoneNumberExt": ""
+        "phoneNumber": "5551212"
       },
       "mstUpcomingEventDisclosure": "I REVOKE PRIOR CONSENT",
       "evidenceSubmission": {
@@ -65,12 +63,7 @@
             "type": "retrievalEvidence",
             "attributes": {
               "locationAndName": "VAMC Location 2",
-              "evidenceDates": [
-                {
-                  "startDate": "",
-                  "endDate": ""
-                }
-              ],
+              "evidenceDates": [{}],
               "noTreatmentDates": true
             }
           }
