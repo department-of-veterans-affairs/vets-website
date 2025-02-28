@@ -25,6 +25,7 @@ module.exports = {
     __API__: true,
     __MEGAMENU_CONFIG__: true,
     __REGISTRY__: true,
+    shallow: true,
   },
   settings: {
     'import/resolver': {
