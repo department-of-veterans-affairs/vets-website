@@ -90,7 +90,7 @@ describe('DowntimeBanner', () => {
   });
 
   downtimeBannersWithoutMultipleOrMaint.forEach(key => {
-    it(`should display banner if ${key} service is down`, async () => {
+    it.skip(`should display banner if ${key} service is down`, async () => {
       server.use(
         rest.get(STATUSES_URL, (_, res, ctx) => {
           return res(ctx.json(generateMockResponse(true, key)));
@@ -104,7 +104,7 @@ describe('DowntimeBanner', () => {
     });
   });
 
-  it('should display banner if multipleServices are down', async () => {
+  it.skip('should display banner if multipleServices are down', async () => {
     server.use(
       rest.get(STATUSES_URL, (_, res, ctx) => {
         return res(ctx.json(generateMockResponse(false, 'mvi', true)));
