@@ -61,7 +61,7 @@ const MileagePage = ({
         label-header-level="1"
       >
         <div className="vads-u-margin-y--2">
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
           <p>
             For your appointment on{' '}
             <strong>
@@ -72,7 +72,7 @@ const MileagePage = ({
             </strong>
           </p>
           <p>{data.reasonForAppointment}</p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
         <va-radio-option
           label="Yes"
