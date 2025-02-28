@@ -84,7 +84,7 @@ describe('Landing Page', () => {
     );
   });
 
-  it('displays features as h2s with links below when feature flags are true', () => {
+  it('displays features when feature flags are true', () => {
     const customState = {
       drupalStaticData: {
         vamcEhrData: {
@@ -105,6 +105,8 @@ describe('Landing Page', () => {
         mhv_medical_records_display_vitals: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_settings_page: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_update_landing_page: true,
       },
       ...initialState,
     };
@@ -189,11 +191,8 @@ describe('Landing Page', () => {
         name: 'Go to manage your electronic sharing settings',
       }),
     ).to.exist;
-  });
 
-  it('displays a help section', () => {
-    const screen = renderWithStoreAndRouter(<LandingPage />, {});
-
+    // help section
     expect(
       screen.getByText('Need help?', {
         selector: 'h3',
