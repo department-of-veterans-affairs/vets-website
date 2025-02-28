@@ -31,7 +31,7 @@ export const workflowChoicePageDescription = formData => {
   return (
     <>
       {conditionSelections(formData)}
-      <h4>When to consider adding VA Form 21-0781 to your claim.</h4>
+      <h4>When to consider adding VA Form 21-0781 to your claim</h4>
       <p>
         We offer this optional form for you to share more supporting information
         about certain conditions. If your claim includes a new mental health
