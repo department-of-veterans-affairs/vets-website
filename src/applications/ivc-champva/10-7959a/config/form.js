@@ -144,7 +144,7 @@ const formConfig = {
       },
     },
     sponsorInformation: {
-      title: 'Sponsor name',
+      title: 'Sponsor information',
       pages: {
         page2: {
           path: 'sponsor-info',
