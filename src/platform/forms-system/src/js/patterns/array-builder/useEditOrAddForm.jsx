@@ -2,6 +2,26 @@ import { useState, useEffect, useCallback } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import { updateSchemasAndData } from 'platform/forms-system/src/js/state/helpers';
 
+const newFullDataWithArrayItemUpdated = (
+  fullData,
+  arrayPath,
+  index,
+  newItemData,
+) => {
+  let newFullData = fullData;
+
+  if (fullData?.[arrayPath]?.[index]) {
+    newFullData = {
+      ...fullData,
+      [arrayPath]: fullData[arrayPath].map((item, i) => {
+        return i === index ? newItemData : item;
+      }),
+    };
+  }
+
+  return newFullData;
+};
+
 /**
  * Custom hook for handling form state for edit or add form pages.
  * Uses local state in edit mode, and persist to redux only after
@@ -33,6 +53,7 @@ export function useEditOrAddForm({
   onChange,
   onSubmit,
   index,
+  arrayPath,
 }) {
   // These states are only used in edit mode
   const [localData, setLocalData] = useState(null);
@@ -71,6 +92,13 @@ export function useEditOrAddForm({
         // We run updateSchemasAndData before setting data in case
         // there are updateSchema, replaceSchema, updateUiSchema,
         // or other dynamic properties
+        const newFullData = newFullDataWithArrayItemUpdated(
+          fullData,
+          arrayPath,
+          index,
+          updatedData,
+        );
+
         const {
           data: newData,
           schema: newSchema,
@@ -80,7 +108,7 @@ export function useEditOrAddForm({
           localUiSchema,
           updatedData,
           false,
-          fullData,
+          newFullData,
           index,
         );
         setLocalData(newData);
@@ -93,7 +121,16 @@ export function useEditOrAddForm({
         });
       }
     },
-    [isEdit, localSchema, localUiSchema, onChange, data, fullData, index],
+    [
+      isEdit,
+      localSchema,
+      localUiSchema,
+      onChange,
+      data,
+      fullData,
+      index,
+      arrayPath,
+    ],
   );
 
   const handleOnSubmit = useCallback(
