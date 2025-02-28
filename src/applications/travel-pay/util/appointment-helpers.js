@@ -43,21 +43,16 @@ export function transformVAOSAppointment(appt) {
   const serviceCategoryName = appt.serviceCategory?.[0]?.text || 'undefined';
   const isCompAndPen = serviceCategoryName === 'COMPENSATION & PENSION';
 
-  // TODO: verify Atlas visits
+  // TODO: verify if Atlas visits are eligible
   // I think Atlas is the video visit at a VA facility
   // Which I think makes it eligible?
   const isAtlas = !!appt.telehealth?.atlas;
 
-  const isPast = isPastAppt(appt);
+  const isPast = !!isPastAppt(appt);
 
   // This property will be helpful for complex claims
   // Adding now because we might need to specifically exclude them until then?
-  const isCC = appt.kind ? appt.kind === 'cc' : null;
-
-  // Not sure if this is needed or not.
-  const reasonForAppointment = appt.reasonForAppointment
-    ? appt.reasonForAppointment
-    : null;
+  const isCC = appt.kind === 'cc';
 
   return {
     // All original appt info
@@ -75,7 +70,6 @@ export function transformVAOSAppointment(appt) {
     atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
 
     isCompAndPen, // This might come in handy?
-    reasonForAppointment, // Not sure if we need this?
 
     practitionerName:
       appt.practitioners && typeof appt.practitioners !== 'undefined'
