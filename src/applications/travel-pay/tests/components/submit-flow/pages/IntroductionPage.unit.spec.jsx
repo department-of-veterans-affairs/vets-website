@@ -89,7 +89,7 @@ describe('Introduction page', () => {
     ).to.exist;
   });
 
-  it('should show alert if appointment is not past', () => {
+  it('should show future appt alert if appointment is not past', () => {
     MockDate.set('2024-12-28');
     const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
       initialState: {
@@ -97,7 +97,10 @@ describe('Introduction page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: mockAppt,
+            data: {
+              ...mockAppt,
+              isPast: false,
+            },
           },
         },
       },
