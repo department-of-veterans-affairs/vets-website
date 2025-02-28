@@ -16,7 +16,9 @@ export const ChildAdditionalEvidence = () => {
     childFormData => childFormData?.relationshipToChild?.adopted,
   );
   const hasDisabledChild = childrenToAdd.some(
-    childFormData => childFormData?.doesChildHavePermanentDisability,
+    childFormData =>
+      childFormData?.doesChildHaveDisability &&
+      childFormData?.doesChildHavePermanentDisability,
   );
 
   const showBirthCertificate = livesOutsideUSA || hasStepChild;
