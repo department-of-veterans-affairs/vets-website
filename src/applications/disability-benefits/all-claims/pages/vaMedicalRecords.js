@@ -31,7 +31,6 @@ export const uiSchema = {
       showSave: true,
       reviewMode: true,
       confirmRemove: true,
-      useVaCards: true,
       updateSchema: (formData, schema) => ({
         ...schema,
         minItems: hasVAEvidence(formData) ? 1 : 0,
