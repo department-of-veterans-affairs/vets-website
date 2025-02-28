@@ -1,15 +1,18 @@
 /**
- * Run mock appeals server using
- * > yarn mock-api --responses ./src/applications/appeals/shared/tests/mock-api.js
+ * Run mock appeals server with max data using
+ * > yarn mock-api --responses ./src/applications/appeals/shared/tests/mock-api-full-data.js
  * Run this in browser console
  * > localStorage.setItem('hasSession', true)
  */
 const dateFns = require('date-fns');
 const delay = require('mocker-api/lib/delay');
 
-const mockSipGet = require('./fixtures/mocks/prefill.json');
 const mockSipPut = require('./fixtures/mocks/put-progress-forms.json');
 const mockUser = require('./fixtures/mocks/user.json');
+
+const mockScMax = require('../../995/tests/fixtures/data/maximal-test-v2.json');
+const mockHlrMax = require('../../996/tests/fixtures/data/maximal-test-v2.json');
+const mockNodMax = require('../../10182/tests/fixtures/data/maximal-test.json');
 
 const validDate = offset =>
   dateFns.format(dateFns.add(new Date(), { months: offset }), 'yyyy-MM-dd');
@@ -31,12 +34,12 @@ const issues = {
         latestIssuesInChain: [
           {
             id: null,
-            approxDecisionDate: validDate,
+            approxDecisionDate: validDate(-2),
           },
         ],
         decisionIssueId: null,
         ratingDecisionReferenceId: null,
-        approxDecisionDate: validDate,
+        approxDecisionDate: validDate(-2),
         rampClaimId: null,
         titleOfActiveReview: null,
         sourceReviewType: null,
@@ -66,20 +69,81 @@ const itf = {
   },
 };
 
+const createSip = data => ({
+  formData: data.data,
+  metadata: {
+    version: 0,
+    prefill: true,
+    returnUrl: '/veteran-information',
+  },
+});
+
+/**
+ *
+ * @param {String} inProgressFormId - pass in '20-0995', '20-0996', or '10182'
+ * @returns mock user data with inProgressForms
+ */
+const userData = () => {
+  const lastUpdated = new Date().getTime();
+  const twoMonthsAgo = dateFns.getUnixTime(
+    dateFns.add(new Date(), { months: -2 }),
+  );
+
+  const sipData = form => ({
+    form,
+    metadata: {
+      version: 1,
+      returnUrl: '/veteran-information',
+      savedAt: new Date().getTime(),
+      submission: {
+        status: false,
+        errorMessage: false,
+        id: false,
+        timestamp: false,
+        hasAttemptedSubmit: false,
+      },
+      createdAt: twoMonthsAgo,
+      expiresAt: dateFns.getUnixTime(dateFns.add(new Date(), { years: 1 })),
+      lastUpdated: twoMonthsAgo,
+      inProgressFormId: 1234,
+    },
+    lastUpdated,
+  });
+
+  return {
+    data: {
+      ...mockUser.data,
+      attributes: {
+        ...mockUser.data.attributes,
+        inProgressForms: [
+          sipData('20-0995'),
+          sipData('20-0996'),
+          sipData('10182'),
+        ],
+      },
+    },
+  };
+};
+
 const responses = {
-  'GET /v0/user': mockUser,
+  'GET /v0/user': userData(),
   'GET /v0/feature_toggles': {
     data: {
-      features: [{ name: 'placeholderToggle', value: false }],
+      features: [
+        { name: 'sc_new_form', value: true },
+        { name: 'hlrConfirmationUpdate', value: true },
+        { name: 'nodConfirmationUpdate', value: true },
+        { name: 'scConfirmationUpdate', value: true },
+      ],
     },
   },
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /data/cms/vamc-ehr.json': {},
 
-  'GET /v0/in_progress_forms/20-0995': mockSipGet,
-  'GET /v0/in_progress_forms/20-0996': mockSipGet,
-  'GET /v0/in_progress_forms/10182': mockSipGet,
+  'GET /v0/in_progress_forms/20-0995': createSip(mockScMax),
+  'GET /v0/in_progress_forms/20-0996': createSip(mockHlrMax),
+  'GET /v0/in_progress_forms/10182': createSip(mockNodMax),
 
   'PUT /v0/in_progress_forms/20-0995': mockSipPut,
   'PUT /v0/in_progress_forms/20-0996': mockSipPut,

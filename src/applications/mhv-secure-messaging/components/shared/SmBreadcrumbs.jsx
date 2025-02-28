@@ -37,6 +37,30 @@ const SmBreadcrumbs = () => {
     [location],
   );
 
+  const newCrumbsList = useMemo(
+    () => {
+      let updatedCrumbsList = crumbsList;
+
+      if (removeLandingPageFF) {
+        updatedCrumbsList = updatedCrumbsList?.filter(
+          item => item.label !== 'Messages',
+        );
+      }
+
+      return updatedCrumbsList?.map(item => ({
+        ...item,
+        ...(removeLandingPageFF
+          ? {
+              label: `${item?.href !== '/my-health' ? 'Messages: ' : ''}${
+                item?.label
+              }`,
+            }
+          : {}),
+      }));
+    },
+    [crumbsList, removeLandingPageFF],
+  );
+
   const pathsWithShortBreadcrumb = [
     Constants.Paths.MESSAGE_THREAD,
     Constants.Paths.REPLY,
@@ -72,12 +96,13 @@ const SmBreadcrumbs = () => {
     () => {
       const isContactList =
         `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST;
+
       const isCompose = previousUrl === Constants.Paths.COMPOSE;
       const isSentFolder =
-        crumb.href ===
+        crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.SENT.id}`;
       const isInboxFolder =
-        crumb.href ===
+        crumb?.href ===
         `${Constants.Paths.FOLDERS}${Constants.DefaultFolders.INBOX.id}`;
       const isReplyPath = `/${locationBasePath}/` === Constants.Paths.REPLY;
 
@@ -100,14 +125,7 @@ const SmBreadcrumbs = () => {
         );
       }
     },
-    [
-      activeDraftId,
-      crumb.href,
-      history,
-      locationBasePath,
-      previousUrl,
-      removeLandingPageFF,
-    ],
+    [activeDraftId, crumb?.href, history, locationBasePath, previousUrl],
   );
 
   useEffect(
@@ -206,26 +224,6 @@ const SmBreadcrumbs = () => {
     const { href } = detail;
     history.push(href);
   };
-
-  const newCrumbsList = useMemo(
-    () => {
-      let updatedCrumbsList = crumbsList;
-
-      if (removeLandingPageFF) {
-        updatedCrumbsList = updatedCrumbsList.filter(
-          item => item.label !== 'Messages',
-        );
-      }
-
-      return updatedCrumbsList.map(item => ({
-        ...item,
-        label: `${
-          removeLandingPageFF && item.href !== '/my-health' ? 'Messages: ' : ''
-        }${item.label}`,
-      }));
-    },
-    [crumbsList, removeLandingPageFF],
-  );
 
   return (
     <div>
