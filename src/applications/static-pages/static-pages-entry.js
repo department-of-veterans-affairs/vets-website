@@ -17,6 +17,7 @@ import openShareLink from './widget-creators/social-share-links';
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
 import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createModernRefillTrackPrescriptionsPage from './health-care-manage-benefits/modern-refill-track-prescriptions-page';
 import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
 import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
 import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
@@ -202,6 +203,10 @@ createRefillTrackPrescriptionsPage(
 createScheduleViewVAAppointmentsPage(
   store,
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createModernRefillTrackPrescriptionsPage(
+  store,
+  widgetTypes.MODERN_REFILL_TRACK_PRESCRIPTIONS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
 createModernSecureMessagingPage(
