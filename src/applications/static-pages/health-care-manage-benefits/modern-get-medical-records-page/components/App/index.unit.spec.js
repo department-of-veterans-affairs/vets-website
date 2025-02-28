@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { App, linkText, mapStateToProps } from './index';
 
-describe('MHV Portal Landing Page', () => {
+describe('Modern Get Medical Records Page', () => {
   describe('map state properties', () => {
     it('user not logged in', () => {
       const state = {
