@@ -68,12 +68,12 @@ describe('LoginContainer', () => {
     wrapper.unmount();
   });
 
-  it('should render a va-accordion when application is vaoccmobile', () => {
+  it('should render a va-link "VA staff" when application is vaoccmobile', () => {
     global.window.location = '/sign-in/?application=vaoccmobile';
     const wrapper = shallow(
       <LoginContainer isUnifiedSignIn externalApplication="vaoccmobile" />,
     );
-    const loginInfo = wrapper.find('va-accordion');
+    const loginInfo = wrapper.find('va-link[text="VA staff"]');
     expect(loginInfo).to.not.be.null;
     wrapper.unmount();
   });
