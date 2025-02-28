@@ -40,6 +40,8 @@ const SearchForm = props => {
     useProgressiveDisclosure,
   } = props;
 
+  // console.log({ getProviderSpecialties: getProviderSpecialties() });
+
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
 
@@ -370,6 +372,7 @@ const SearchForm = props => {
         if (useProgressiveDisclosure) {
           return (
             <ServicesLoadingOrShow
+              currentQuery={currentQuery}
               serviceType="ppms_services"
               getProviderSpecialties={getProviderSpecialties}
             >
@@ -406,7 +409,7 @@ const SearchForm = props => {
               initialSelectedServiceType={serviceType}
               isSmallDesktop={isSmallDesktop}
               showError={showError}
-              useProgressiveDisclosure
+              useProgressiveDisclosure={useProgressiveDisclosure}
             />
           </div>
         );

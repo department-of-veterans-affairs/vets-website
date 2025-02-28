@@ -22,6 +22,16 @@ class CCServiceTypeAhead extends Component {
     this.getServices();
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      !this.props.useProgressiveDisclosure &&
+      !prevProps.currentQuery?.specialties &&
+      this.state.services.length === 0
+    ) {
+      this.getServices();
+    }
+  }
+
   getServices = async () => {
     const {
       currentQuery,
