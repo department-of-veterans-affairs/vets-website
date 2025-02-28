@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
+import environment from '~/platform/utilities/environment';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import {
   isValidComponent,
-  checkDevModeGuards,
   redirectToIntro,
   renderComponent,
   getCurrentPath,
@@ -20,7 +20,7 @@ import {
  *
  * The checks are performed in the following order:
  * 1. Component validation - ensures the component prop is a valid React component
- * 2. Development mode check - if enabled with ?disableRouteGuards=true, bypasses remaining checks
+ * 2. Environment check - if running in localhost environment, bypasses remaining checks
  * 3. User state validation - checks user object and loading state
  * 4. Route validation - ensures the route exists and is accessible
  * 5. Authentication checks:
@@ -29,7 +29,7 @@ import {
  *    - User must be verified
  *
  * Notes:
- * - In development mode, the ?disableRouteGuards=true flag bypasses auth checks
+ * - In localhost environment, authentication checks are automatically bypassed
  * - The introduction page is always accessible without authentication
  * - Invalid or non-existent routes will redirect to the introduction page
  * - If any check fails, the user is redirected to the introduction page
@@ -53,7 +53,7 @@ const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
   }
 
   // Check for dev mode and URL flag before any auth checks
-  const disableGuards = checkDevModeGuards();
+  const disableGuards = environment.isLocalhost;
 
   /* istanbul ignore next */
   /**

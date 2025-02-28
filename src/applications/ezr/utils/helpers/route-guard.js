@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
+import environment from '~/platform/utilities/environment';
 import content from '../../locales/en/content.json';
 
 /**
@@ -12,7 +13,8 @@ import content from '../../locales/en/content.json';
  * - IDENTITY_PROOFED: user has completed identity proofing
  * - USER_PROFILE: user has a profile in the system
  *
- * If any of these services are not available, the application will not function.
+ * Note: These requirements are automatically bypassed in localhost environment
+ * to facilitate development and testing.
  */
 export const serviceRequired = [
   backendServices.FACILITIES,
@@ -37,16 +39,6 @@ export const isValidComponent = component =>
  */
 export const getCurrentPath = () =>
   typeof window !== 'undefined' ? window.location.pathname : '';
-
-/**
- * Checks if route guards should be disabled in development mode
- * @returns {boolean} True if guards should be disabled
- */
-export const checkDevModeGuards = () => {
-  const devMode = process.env.NODE_ENV === 'development';
-  const urlParams = new URLSearchParams(window?.location?.search || '');
-  return devMode && urlParams.has('disableRouteGuards');
-};
 
 /**
  * Redirects to the introduction page
@@ -95,15 +87,20 @@ export const renderComponent = (Component, props) => {
 };
 
 /**
- * Creates a protected route object with authentication checks
+ * Creates a protected route object with authentication checks.
+ * Routes are protected by default except in two cases:
+ * 1. The application is running in localhost environment (for development)
+ * 2. The route is the introduction page
+ *
  * @param {Object} route - The route to protect
  * @returns {Object} The protected route object
  */
 export const createProtectedRoute = route => {
-  const disableGuards = checkDevModeGuards();
-
-  // Don't protect routes if guards are disabled or it's the introduction page
-  if (disableGuards || route.path?.includes(content.routes.introduction)) {
+  // Don't protect routes if environment is Localhost or it's the introduction page
+  if (
+    environment.isLocalhost ||
+    route.path?.includes(content.routes.introduction)
+  ) {
     return route;
   }
 

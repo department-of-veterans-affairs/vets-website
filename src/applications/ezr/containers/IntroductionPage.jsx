@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
-
+import environment from '~/platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import {
   DowntimeNotification,
@@ -9,7 +9,6 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { isProfileLoading } from 'platform/user/selectors';
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
@@ -18,15 +17,21 @@ import ProcessDescription from '../components/IntroductionPage/ProcessDescriptio
 import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInfo';
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
+import { serviceRequired } from '../utils/helpers/route-guard';
+import { mockUser } from '../utils/test/mock-user';
 
-const serviceRequired = [
-  backendServices.FACILITIES,
-  // backendServices.FORM_PREFILL,
-  backendServices.IDENTITY_PROOFED,
-  // backendServices.SAVE_IN_PROGRESS,
-  backendServices.USER_PROFILE,
-];
-
+/**
+ * Introduction page component for the EZR form.
+ *
+ * Features:
+ * - Displays process description and form information
+ * - Shows identity verification alert for non-LOA3 users (except in localhost)
+ * - Handles enrollment status loading and display
+ * - Manages save-in-progress functionality
+ *
+ * Note: Identity verification requirements are automatically bypassed
+ * in localhost environment to facilitate development and testing.
+ */
 const IntroductionPage = ({
   fetchEnrollmentStatus,
   route,
@@ -82,7 +87,7 @@ const IntroductionPage = ({
         ) : (
           <>
             <ProcessDescription />
-            {!isUserLOA3 ? (
+            {!isUserLOA3 && !environment.isLocalhost ? (
               <VerifyAlert
                 status="info"
                 heading="Please verify your identity to access this form"
@@ -122,39 +127,9 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  if (isDevelopment) {
-    return {
-      user: {
-        profile: {
-          verified: true,
-          loa: { current: 3, highest: 3 },
-          services: ['identity-proofed', 'facilities', 'user-profile'],
-          loading: false,
-          accountType: null,
-          email: null,
-          gender: null,
-          status: null,
-          userFullName: {
-            first: null,
-            middle: null,
-            last: null,
-            suffix: null,
-          },
-          vapContactInfo: {},
-          session: {},
-          prefillsAvailable: [],
-          savedForms: [],
-        },
-        login: {
-          currentlyLoggedIn: true,
-          hasCheckedKeepAlive: true,
-        },
-      },
-    };
+  if (process.env.NODE_ENV === 'development') {
+    return { user: mockUser };
   }
-
   return { user: state.user };
 };
 
