@@ -28,6 +28,7 @@ const claimInfo = {
 const mockAppt = {
   start: '2024-12-30T14:00:00Z',
   localStartTime: '2024-12-30T08:00:00.000-06:00',
+  isPast: true,
   location: {
     id: '983',
     type: 'appointments',
@@ -71,7 +72,6 @@ describe('Appointment info text', () => {
             metadata: claimMeta,
           },
         }}
-        isPast
       />,
     );
 
@@ -88,7 +88,6 @@ describe('Appointment info text', () => {
             metadata: claimMeta,
           },
         }}
-        isPast
       />,
     );
 
@@ -102,11 +101,11 @@ describe('Appointment info text', () => {
       <AppointmentInfoText
         appointment={{
           ...mockAppt,
+          isPast: false,
           travelPayClaim: {
             metadata: claimMeta,
           },
         }}
-        isPast={false}
       />,
     );
 
@@ -123,7 +122,6 @@ describe('Appointment info text', () => {
             claim: claimInfo,
           },
         }}
-        isPast
       />,
     );
 

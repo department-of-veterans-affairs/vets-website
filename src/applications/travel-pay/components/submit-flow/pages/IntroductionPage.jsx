@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
-import { isPastAppt } from '../../../util/dates';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
 
@@ -23,9 +22,7 @@ const IntroductionPage = ({ onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {data && (
-        <AppointmentInfoText appointment={data} isPast={isPastAppt(data)} />
-      )}
+      {data && <AppointmentInfoText appointment={data} />}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
       </h2>
@@ -46,7 +43,7 @@ const IntroductionPage = ({ onStart }) => {
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
           {data &&
-            isPastAppt(data) && (
+            data.isPast && (
               <va-link-action
                 onClick={e => onStart(e)}
                 href="javascript0:void"

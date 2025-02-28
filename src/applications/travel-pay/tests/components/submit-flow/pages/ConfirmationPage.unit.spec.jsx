@@ -61,6 +61,7 @@ describe('Confirmation page', () => {
             error: null,
             data: {
               ...appointment,
+              practitionersName: 'First Middle Last',
               practitioners: [
                 {
                   name: { family: 'Last', given: ['First', 'Middle'] },
