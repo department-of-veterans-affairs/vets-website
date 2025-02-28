@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBackendStatuses as getBackendStatusAction } from 'platform/monitoring/external-services/actions';
@@ -23,16 +22,9 @@ export default function DowntimeBanners() {
   }, []); // only on load
 
   // mimics the mvi service error if we don't get an OK response from vets-api
-  const isApiDown = () => {
-    console.log('wow');
-    console.log({ isLocalhost });
-    console.log({ loading });
-    console.log({ statuses });
-    console.log(
-      !isLocalhost && !loading && (!statuses || statuses?.length === 0),
-    );
-    return !isLocalhost && !loading && (!statuses || statuses?.length === 0);
-  };
+  const isApiDown = () =>
+    !isLocalhost && !loading && (!statuses || statuses?.length === 0);
+
   return (
     <div className="downtime-notification row vads-u-margin-top--2">
       <div className="sign-in-wrapper">
