@@ -6,7 +6,6 @@ import PatientMessagesSentPage from './pages/PatientMessageSentPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import PatientMessageTrashPage from './pages/PatientMessageTrashPage';
 import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPage';
-import mockToggles from './fixtures/toggles-response.json';
 import ContactListPage from './pages/ContactListPage';
 
 describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
@@ -15,6 +14,10 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
       [
         {
           name: 'mhv_secure_messaging_remove_landing_page',
+          value: true,
+        },
+        {
+          name: 'mhv_secure_messaging_edit_contact_list',
           value: true,
         },
       ],
@@ -79,36 +82,18 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
     PatientInboxPage.loadSingleThread();
     cy.get(`h1`).should(`contain.text`, `Messages:`);
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
-});
 
-// TODO change updatedFeatureToggle
-//  (according to updated "GeneralFunctionsPage.updateFeatureToggles" method)
-//  response and add test below to first describe
-describe(`SM CONTACT LIST PAGE UPDATES`, () => {
   it(`verify contact list page details`, () => {
-    const updatedFeatureToggle = {
-      ...mockToggles,
-      data: {
-        ...mockToggles.data,
-        features: [
-          ...mockToggles.data.features,
-          {
-            name: 'mhv_secure_messaging_edit_contact_list',
-            value: true,
-          },
-          {
-            name: 'mhv_secure_messaging_remove_landing_page',
-            value: true,
-          },
-        ],
-      },
-    };
-
-    SecureMessagingSite.login(updatedFeatureToggle);
     ContactListPage.loadContactList();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Contact list`);
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
