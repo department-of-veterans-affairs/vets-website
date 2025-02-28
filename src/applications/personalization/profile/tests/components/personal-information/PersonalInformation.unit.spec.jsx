@@ -195,11 +195,9 @@ describe('<PersonalInformation />', () => {
 
     mockApiRequest({
       data: {
-        attributes: {
-          signatureName: 'Abraham Lincoln',
-          signatureTitle: 'Veteran',
-          includeSignature: true,
-        },
+        signatureName: 'Abraham Lincoln',
+        signatureTitle: 'Veteran',
+        includeSignature: true,
       },
     });
     const screen = setup({
