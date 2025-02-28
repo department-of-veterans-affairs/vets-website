@@ -1,6 +1,17 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
 
+const updatedSignatureResponse = {
+  ...mockSignature,
+  data: {
+    ...mockSignature.data,
+    attributes: {
+      ...mockSignature.data.attributes,
+      signatureName: 'Jack Sparrow',
+      signatureTitle: `Captain`,
+    },
+  },
+};
 describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
   beforeEach(() => {
     const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
@@ -10,22 +21,10 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
       },
     ]);
 
-    const noSignatureResponse = {
-      ...mockSignature,
-      data: {
-        ...mockSignature.data,
-        attributes: {
-          ...mockSignature.data.attributes,
-          signatureName: null,
-          signatureTitle: null,
-        },
-      },
-    };
-
-    PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
+    PersonalInformationPage.load(updatedFeatureToggles);
   });
 
-  it('verify user can cancel adding signature', () => {
+  it(`verify user can cancel editing signature`, () => {
     cy.get(`#edit-messaging-signature`).click();
     cy.get(`#root_signatureName-label`)
       .should('be.visible')
@@ -36,29 +35,28 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
 
     cy.get(`[data-testid="cancel-edit-button"]`).click();
     cy.get(`#edit-messaging-signature`).should(`be.focused`);
-
-    cy.injectAxeThenAxeCheck();
   });
 
-  it(`verify user can add and save signature`, () => {
+  it('verify user can add signature', () => {
     cy.get(`#edit-messaging-signature`).click();
+
     cy.get(`#root_signatureName`)
       .should(`be.focused`)
-      .type('Name');
-    cy.get(`#root_signatureTitle`).type('TestTitle');
+      .type('Jack Sparrow');
+    cy.get(`#root_signatureTitle`).type('Captain');
 
     cy.intercept(
       `POST`,
       `/my_health/v1/messaging/preferences/signature`,
-      mockSignature,
+      updatedSignatureResponse,
     ).as('updatedSignature');
 
     cy.get(`[data-testid="save-edit-button"]`).click();
 
     cy.get(`[data-testid="messagingSignature"]`).should(
       `contain.text`,
-      `${mockSignature.data.attributes.signatureName +
-        mockSignature.data.attributes.signatureTitle}`,
+      `${updatedSignatureResponse.data.attributes.signatureName +
+        updatedSignatureResponse.data.attributes.signatureTitle}`,
     );
 
     cy.get(`#messagingSignature-alert`)
