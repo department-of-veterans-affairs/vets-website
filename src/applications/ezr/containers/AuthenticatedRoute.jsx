@@ -52,7 +52,7 @@ const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
     return null;
   }
 
-  // Check for dev mode and URL flag before any auth checks
+  // Check if running in localhost environment before any auth checks
   const disableGuards = environment.isLocalhost;
 
   /* istanbul ignore next */
@@ -63,8 +63,8 @@ const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
    *
    * Logged information includes:
    * - Development mode status
-   * - URL parameters and route guard status
-   * - Current route path and full URL
+   * - Environment and authentication status
+   * - Current route path and location
    * - Component validity
    * - User authentication state (LOA3, profile, verification)
    *
@@ -72,11 +72,11 @@ const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
    * 1. Authentication checks are failing unexpectedly
    * 2. Routes are not being protected as expected
    * 3. Redirects are happening at unexpected times
-   * 4. The dev mode route guard toggle isn't working
+   * 4. The localhost environment detection isn't working
    */
   // console.log('[DEBUG] AuthenticatedRoute.jsx check:', {
   //   devMode: process.env.NODE_ENV === 'development',
-  //   urlParams: window?.location?.search,
+  //   environment: environment.isLocalhost,
   //   disableGuards,
   //   pathname: window?.location?.pathname,
   //   component: !!Component,
@@ -87,7 +87,7 @@ const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
   //   userVerified: user?.profile?.verified,
   // });
 
-  // In dev mode with flag, bypass ALL auth checks immediately
+  // In localhost environment, bypass ALL auth checks
   if (disableGuards) {
     return <Component {...rest} />;
   }

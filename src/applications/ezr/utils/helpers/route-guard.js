@@ -13,8 +13,11 @@ import content from '../../locales/en/content.json';
  * - IDENTITY_PROOFED: user has completed identity proofing
  * - USER_PROFILE: user has a profile in the system
  *
- * Note: These requirements are automatically bypassed in localhost environment
- * to facilitate development and testing.
+ * Development Mode Behavior:
+ * - In localhost environment (environment.isLocalhost), these service requirements
+ *   are automatically bypassed to facilitate development and testing
+ * - No URL parameters or manual configuration needed for local development
+ * - Service requirements are enforced in all other environments
  */
 export const serviceRequired = [
   backendServices.FACILITIES,
@@ -88,9 +91,15 @@ export const renderComponent = (Component, props) => {
 
 /**
  * Creates a protected route object with authentication checks.
+ *
  * Routes are protected by default except in two cases:
- * 1. The application is running in localhost environment (for development)
+ * 1. The application is running in localhost environment (environment.isLocalhost)
  * 2. The route is the introduction page
+ *
+ * Development Mode Behavior:
+ * - In localhost: all routes are accessible without authentication
+ * - In other environments: full authentication required
+ * - Introduction page: always accessible in all environments
  *
  * @param {Object} route - The route to protect
  * @returns {Object} The protected route object

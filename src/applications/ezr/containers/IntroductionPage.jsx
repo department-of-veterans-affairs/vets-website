@@ -25,12 +25,18 @@ import { mockUser } from '../utils/test/mock-user';
  *
  * Features:
  * - Displays process description and form information
- * - Shows identity verification alert for non-LOA3 users (except in localhost)
+ * - Shows identity verification alert for non-LOA3 users
  * - Handles enrollment status loading and display
  * - Manages save-in-progress functionality
  *
- * Note: Identity verification requirements are automatically bypassed
- * in localhost environment to facilitate development and testing.
+ * Development Mode Behavior:
+ * - In localhost environment (environment.isLocalhost):
+ *   - Identity verification alert is hidden
+ *   - Mock user data is provided automatically
+ *   - All features are accessible without authentication
+ * - In other environments:
+ *   - Full identity verification required
+ *   - Real user data and authentication enforced
  */
 const IntroductionPage = ({
   fetchEnrollmentStatus,

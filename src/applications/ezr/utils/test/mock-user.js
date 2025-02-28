@@ -3,11 +3,14 @@
  *
  * This data simulates a fully authenticated user with:
  * - LOA3 verification
- * - Required services enabled
+ * - Required services enabled (facilities, identity-proofed, user-profile)
  * - Basic profile structure
  *
- * Used automatically in development environment to bypass
- * authentication requirements and facilitate testing.
+ * Usage:
+ * - Automatically applied in localhost environment
+ * - Provides consistent test data for local development
+ * - Bypasses need for real authentication in development
+ * - Not used in any other environment
  *
  * @type {Object}
  */
