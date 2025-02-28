@@ -2,13 +2,13 @@
  * Shared calendar widget component used by the VAOS application.
  * @module components/calendar
  */
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import classNames from 'classnames';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
-import CalendarRow from './CalendarRow';
 import CalendarNavigation from './CalendarNavigation';
+import CalendarRow from './CalendarRow';
 import CalendarWeekdayHeader from './CalendarWeekdayHeader';
 
 /**
@@ -238,6 +238,7 @@ function handleNext(onClickNext, months, setMonths) {
  * @returns {JSX.Element} props.Calendar Calendar Widget
  */
 function CalendarWidget({
+  appointmentSelectionErrorMsg = 'You already have an appointment scheduled at this time. Please select another day or time.',
   availableSlots,
   id,
   disabled,
@@ -260,6 +261,8 @@ function CalendarWidget({
   timezone,
   value = [],
   showWeekends = false,
+  upcomingAppointments = [],
+  isAppointmentSelectionError,
 }) {
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(() => {
     if (value.length > 0) {
@@ -272,7 +275,10 @@ function CalendarWidget({
   const maxMonth = getMaxMonth(maxDate, overrideMaxDays);
   const [months, setMonths] = useState([moment(startMonth || minDate)]);
   const exceededMaximumSelections = value.length > maxSelections;
-  const hasError = (required && showValidation) || exceededMaximumSelections;
+  const hasError =
+    (required && showValidation) ||
+    exceededMaximumSelections ||
+    isAppointmentSelectionError;
 
   const calendarCss = classNames('vaos-calendar__calendars vads-u-flex--1', {
     'vaos-calendar__disabled': disabled,
@@ -302,6 +308,7 @@ function CalendarWidget({
           >
             {showValidation && requiredMessage}
             {exceededMaximumSelections && maxSelectionsError}
+            {isAppointmentSelectionError && appointmentSelectionErrorMsg}
           </span>
         )}
         {months.map(
@@ -362,7 +369,11 @@ function CalendarWidget({
                                 onChange(value.concat(date));
                               }
                             } else {
-                              onChange([date]);
+                              onChange(
+                                [date],
+                                maxSelections,
+                                upcomingAppointments,
+                              );
                             }
                           }}
                           hasError={hasError}
@@ -392,6 +403,7 @@ function CalendarWidget({
 
 CalendarWidget.propTypes = {
   id: PropTypes.string.isRequired,
+  appointmentSelectionErrorMsg: PropTypes.string,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
       start: PropTypes.string.isRequired,
@@ -400,6 +412,7 @@ CalendarWidget.propTypes = {
   ),
   disabled: PropTypes.bool,
   disabledMessage: PropTypes.object,
+  isAppointmentSelectionError: PropTypes.bool,
   maxDate: PropTypes.string,
   maxSelections: PropTypes.number,
   maxSelectionsError: PropTypes.string,
@@ -414,6 +427,7 @@ CalendarWidget.propTypes = {
   showWeekends: PropTypes.bool,
   startMonth: PropTypes.string,
   timezone: PropTypes.string,
+  upcomingAppointments: PropTypes.object,
   value: PropTypes.array,
   onChange: PropTypes.func,
   onNextMonth: PropTypes.func,

@@ -150,7 +150,10 @@ export function getChosenSlot(state) {
 
 export function getDateTimeSelect(state, pageKey) {
   const newAppointment = getNewAppointment(state);
-  const { appointmentSlotsStatus } = newAppointment;
+  const {
+    appointmentSlotsStatus,
+    isAppointmentSelectionError,
+  } = newAppointment;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const { availableSlots } = newAppointment;
@@ -170,6 +173,7 @@ export function getDateTimeSelect(state, pageKey) {
     timezone,
     timezoneDescription,
     typeOfCareId,
+    isAppointmentSelectionError,
   };
 }
 
