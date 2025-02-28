@@ -440,6 +440,8 @@ export function addressUI(options) {
   }
 
   if (!omit('state')) {
+    const maxStateLength = options?.maxStateLength;
+
     uiSchema.state = {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index) => {
@@ -528,6 +530,7 @@ export function addressUI(options) {
           return {
             type: 'string',
             title: 'State/Province/Region',
+            maxLength: maxStateLength,
           };
         },
       },
