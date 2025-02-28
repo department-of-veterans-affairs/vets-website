@@ -36,6 +36,8 @@ import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
+import ProcessList from '../components/shared/ProcessList';
+import { refillProcessStepGuide } from '../util/processListData';
 
 const RefillPrescriptions = ({ isLoadingList = true }) => {
   // Hooks
@@ -335,6 +337,9 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
               <RenewablePrescriptions
                 renewablePrescriptionsList={fullRenewList}
               />
+            )}
+            {showRefillProgressContent && (
+              <ProcessList stepGuideProps={refillProcessStepGuide} />
             )}
             {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
           </>
