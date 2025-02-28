@@ -48,9 +48,10 @@ export default function CustomTopContent() {
         close-btn-aria-label="Close notification"
       >
         <p className="vads-u-margin-y--0p5">
-          This form will be undergoing maintenance on {V2_LAUNCH_DATE}. During
-          this time, you may be redirected to the start of the form to review
-          your information before submitting.
+          This form will be undergoing maintenance on{' '}
+          <strong>{V2_LAUNCH_DATE}</strong>. During this time, you may be
+          redirected to the start of the form to review your information before
+          submitting.
         </p>
       </va-alert>
     </div>
