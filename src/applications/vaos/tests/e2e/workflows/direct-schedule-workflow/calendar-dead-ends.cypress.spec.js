@@ -95,7 +95,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -145,7 +145,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -193,7 +193,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -268,7 +268,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -318,7 +318,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
@@ -366,7 +366,7 @@ describe('VAOS direct schedule flow - calendar dead ends', () => {
           .clickNextButton();
 
         PreferredDatePageObject.assertUrl()
-          .typeDate({ date: moment() })
+          .typeDate({ date: new Date() })
           .clickNextButton();
 
         DateTimeSelectPageObject.assertUrl()
