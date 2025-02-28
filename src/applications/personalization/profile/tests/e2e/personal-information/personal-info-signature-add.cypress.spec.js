@@ -2,7 +2,7 @@ import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
 
 describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
-  it('verify user can add signature', () => {
+  beforeEach(() => {
     const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
       {
         name: 'mhv_secure_messaging_signature_settings',
@@ -23,7 +23,8 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
     };
 
     PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
-
+  });
+  it('verify user can cancel adding signature', () => {
     cy.get(`#edit-messaging-signature`).click();
     cy.get(`#root_signatureName-label`)
       .should('be.visible')
@@ -32,6 +33,14 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
       .should('be.visible')
       .and('contain.text', `(*Required)`);
 
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+    cy.get(`#edit-messaging-signature`).should(`be.focused`);
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it(`verify user can add and save signature`, () => {
+    cy.get(`#edit-messaging-signature`).click();
     cy.get(`#root_signatureName`)
       .should(`be.focused`)
       .type('Name');
