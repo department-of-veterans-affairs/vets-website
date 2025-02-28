@@ -62,6 +62,7 @@ export default {
   MEDICAL_COPAYS_CTA: 'medical-copays-cta',
   MHV_SIGNIN_CTA: 'mhv-signin-cta',
   MHV_PORTAL_LANDING_PAGE: 'mhv-portal-landing-page',
+  MODERN_GET_MEDICAL_RECORDS_PAGE: 'modern-get-medical-records-page',
   MODERN_SECURE_MESSAGING_PAGE: 'modern-secure-messaging-page',
   OPT_OUT_APP_STATUS: 'opt-out-app-status',
   OTHER_FACILITY_LOCATIONS_LIST: 'other-facility-locations-list',
