@@ -1,12 +1,26 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { apiRequestWithUrl } from 'applications/vaos/services/utils';
 
 export const vaosApi = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: `${environment.API_URL}` }),
+  baseQuery: () => ({ data: null }),
   endpoints: builder => ({
     getReferralById: builder.query({
-      query: referralId => `/vaos/v2/epsApi/referrals/${referralId}`,
+      async queryFn(referralId) {
+        try {
+          const data = await apiRequestWithUrl(
+            `/vaos/v2/epsApi/referrals/${referralId}`,
+            {
+              method: 'GET',
+            },
+          );
+          return { data };
+        } catch (error) {
+          return {
+            error: { status: error.status || 500, message: error.message },
+          };
+        }
+      },
     }),
   }),
 });
