@@ -72,10 +72,12 @@ describe('Appointment info text', () => {
           },
         }}
         isPast
+        isOutOfBounds
       />,
     );
 
-    expect(screen.getByText(/It has been more than 30 days/i)).to.exist;
+    expect(screen.getByText(/Your appointment is older than 30 days/i)).to
+      .exist;
   });
 
   it('should render correct text for if appt is less than 30 days old', () => {
