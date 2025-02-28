@@ -1,4 +1,5 @@
 import { getAppUrl } from 'platform/utilities/registry-helpers';
+import content from '../locales/en/content.json';
 
 // declare previous year for form questions and content
 export const LAST_YEAR = new Date().getFullYear() - 1;
@@ -16,6 +17,11 @@ export const APP_URLS = {
   hca: getAppUrl('hca'),
   profile: getAppUrl('profile'),
   verify: getAppUrl('verify'),
+};
+
+export const DOWNLOAD_ERRORS_BY_CODE = {
+  '5': content['alert-download-message--500'],
+  generic: content['alert-download-message--generic'],
 };
 
 // declare view fields for use in household section
