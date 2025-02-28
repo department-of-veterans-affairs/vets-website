@@ -152,7 +152,7 @@ describe('Landing Page', () => {
       }),
     ).to.exist;
     expect(
-      screen.getByText('Manage your medical records settings', {
+      screen.getByText('Manage your electronic sharing settings', {
         selector: 'h2',
         exact: true,
       }),
@@ -186,15 +186,9 @@ describe('Landing Page', () => {
     ).to.exist;
     expect(
       screen.getByRole('link', {
-        name: 'Go to your medical records settings',
+        name: 'Go to manage your electronic sharing settings',
       }),
     ).to.exist;
-    // expect(
-    //   screen.getAllByText('Go to your medical records settings', {
-    //     selector: 'a',
-    //     exact: true,
-    //   }).length,
-    // ).to.eq(2);
   });
 
   it('displays a help section', () => {
