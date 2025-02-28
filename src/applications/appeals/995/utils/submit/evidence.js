@@ -185,10 +185,13 @@ export const getEvidence = formData => {
           // Because of Lighthouse's schema, don't include `evidenceDates` if no
           // date is provided
           if (showNewFormContent) {
-            if (location.noDate) {
+            // Only startDate (from) is required, remove evidenceDates if
+            // undefined
+            if (location.noDate || !from) {
               delete entry.attributes.evidenceDates;
             }
-            entry.attributes.noTreatmentDates = location.noDate;
+            // noDate can be undefined; so fallback to false due to LH schema
+            entry.attributes.noTreatmentDates = location.noDate || false;
           }
           list.push(entry);
         }
