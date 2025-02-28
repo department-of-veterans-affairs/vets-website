@@ -7,7 +7,7 @@ import { setupServer } from 'msw/node';
 import environment from '~/platform/utilities/environment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
-import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
+// import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
 import { statuses } from './fixtures/mock-downtime';
 
 const STATUSES_URL = `${environment.API_URL}/v0/backend_statuses`;
@@ -69,9 +69,9 @@ describe('DowntimeBanner', () => {
     server.close();
   });
 
-  const downtimeBannersWithoutMultipleOrMaint = Object.keys(
-    DOWNTIME_BANNER_CONFIG,
-  ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
+  // const downtimeBannersWithoutMultipleOrMaint = Object.keys(
+  //   DOWNTIME_BANNER_CONFIG,
+  // ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));
 
   it('should NOT display banner if statuses are active', () => {
     server.use(
@@ -89,31 +89,31 @@ describe('DowntimeBanner', () => {
     ).to.not.exist;
   });
 
-  downtimeBannersWithoutMultipleOrMaint.forEach(key => {
-    it.skip(`should display banner if ${key} service is down`, async () => {
-      server.use(
-        rest.get(STATUSES_URL, (_, res, ctx) => {
-          return res(ctx.json(generateMockResponse(true, key)));
-        }),
-      );
-      const { findByText } = renderInReduxProvider(<DowntimeBanners />);
+  // downtimeBannersWithoutMultipleOrMaint.forEach(key => {
+  //   it.skip(`should display banner if ${key} service is down`, async () => {
+  //     server.use(
+  //       rest.get(STATUSES_URL, (_, res, ctx) => {
+  //         return res(ctx.json(generateMockResponse(true, key)));
+  //       }),
+  //     );
+  //     const { findByText } = renderInReduxProvider(<DowntimeBanners />);
 
-      const expectedText = DOWNTIME_BANNER_CONFIG[key].headline;
+  //     const expectedText = DOWNTIME_BANNER_CONFIG[key].headline;
 
-      expect(await findByText(expectedText)).to.exist;
-    });
-  });
+  //     expect(await findByText(expectedText)).to.exist;
+  //   });
+  // });
 
-  it.skip('should display banner if multipleServices are down', async () => {
-    server.use(
-      rest.get(STATUSES_URL, (_, res, ctx) => {
-        return res(ctx.json(generateMockResponse(false, 'mvi', true)));
-      }),
-    );
-    const { findByText } = renderInReduxProvider(<DowntimeBanners />);
+  // it.skip('should display banner if multipleServices are down', async () => {
+  //   server.use(
+  //     rest.get(STATUSES_URL, (_, res, ctx) => {
+  //       return res(ctx.json(generateMockResponse(false, 'mvi', true)));
+  //     }),
+  //   );
+  //   const { findByText } = renderInReduxProvider(<DowntimeBanners />);
 
-    const expectedText = DOWNTIME_BANNER_CONFIG.multipleServices.headline;
+  //   const expectedText = DOWNTIME_BANNER_CONFIG.multipleServices.headline;
 
-    expect(await findByText(expectedText)).to.exist;
-  });
+  //   expect(await findByText(expectedText)).to.exist;
+  // });
 });
