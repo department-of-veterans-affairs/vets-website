@@ -115,7 +115,10 @@ describe('Introduction page', () => {
           appointment: {
             isLoading: true,
             error: null,
-            data: mockAppt,
+            data: {
+              ...mockAppt,
+              isPast: true,
+            },
           },
         },
       },
