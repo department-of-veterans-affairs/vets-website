@@ -144,17 +144,86 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
     });
 
     it('displays license/certification details correctly', () => {
-      cy.get('h1').should('exist');
+      cy.get('h1')
+        .should('exist')
+        .and('contain.text', 'General Electrician');
       cy.get('.lc-result-details')
         .should('exist')
         .within(() => {
-          cy.get('h2').should('exist');
+          cy.get('h2')
+            .should('exist')
+            .and('contain.text', 'Certification');
           cy.get('h3')
             .contains('Admin info')
             .should('be.visible');
+          cy.get('.name-wrapper').should('contain.text', 'Comptia');
+          cy.contains(
+            'Certification tests are available to be taken nationally',
+          ).should('be.visible');
+          cy.get('va-link')
+            .shadow()
+            .find('a')
+            .should(
+              'have.attr',
+              'href',
+              'https://www.va.gov/find-forms/about-form-22-0803/',
+            )
+            .and('contain.text', 'Get VA Form22-0803 to download');
           cy.get('h3')
             .contains('Test info')
             .should('be.visible');
+        });
+    });
+
+    it('renders test details correctly when there is only one test', () => {
+      // Intercept with single test data
+      const singleTestData = {
+        lac: {
+          enrichedId: '1@sec',
+          lacNm: 'General Electrician',
+          eduLacTypeNm: 'Certification',
+          institution: {
+            name: 'CompTIA',
+            physicalAddress: {
+              address1: '3500 Lacey Road',
+              city: 'Downers Grove',
+              state: 'IL',
+              zip: '60515',
+            },
+            mailingAddress: {
+              address1: '3500 Lacey Road',
+              city: 'Downers Grove',
+              state: 'IL',
+              zip: '60515',
+            },
+          },
+          tests: [
+            {
+              name: 'CompTIA General Electrician Exam',
+              fee: '370',
+            },
+          ],
+        },
+      };
+
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs/3871@4494f', {
+        statusCode: 200,
+        body: singleTestData,
+      }).as('lcDetailsSingle');
+
+      cy.visit(
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results/3871@4494f/GENERAL%20ELECTRICIAN',
+      );
+      cy.wait('@lcDetailsSingle');
+
+      cy.get('.single-test-wrapper')
+        .should('exist')
+        .within(() => {
+          cy.get('h4').should(
+            'contain.text',
+            'Test name: CompTIA General Electrician Exam',
+          );
+          cy.get('.fee').should('contain.text', 'Fee: $370.00');
         });
     });
 
