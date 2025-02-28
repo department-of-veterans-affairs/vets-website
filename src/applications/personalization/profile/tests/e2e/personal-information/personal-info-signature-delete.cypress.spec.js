@@ -12,10 +12,12 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
 
     PersonalInformationPage.load(updatedFeatureToggles);
   });
+
   it('verify user can cancel delete signature', () => {
+    // close modal by cancel btn
     cy.get(`#remove-messaging-signature`).click();
 
-    cy.get(`.va-modal-close`).should(`be.focused`);
+    cy.get(`.first-focusable-child`).should(`be.focused`);
 
     cy.get(`#heading`).should(`have.text`, `Remove signature?`);
     cy.get(`[modal-title="Remove signature?"] > p`).should(
@@ -27,11 +29,18 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
       `have.text`,
       `Yes, remove my signature`,
     );
+
     cy.get(`[modal-title="Remove signature?"] > div > va-button`)
       .shadow()
       .find(`button`)
       .should(`have.text`, `No, cancel this change`)
       .click();
+
+    cy.get('#edit-messaging-signature').should('be.focused');
+
+    // close modal by cross btn
+    cy.get(`#remove-messaging-signature`).click();
+    cy.get(`.first-focusable-child`).click();
 
     cy.get('#edit-messaging-signature').should('be.focused');
 
