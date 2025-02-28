@@ -20,6 +20,7 @@ export const MAPBOX_QUERY_TYPES = [
   'postcode',
   'locality',
   'country',
+  'neighborhood',
 ];
 
 export const getFeaturesFromAddress = query => {
