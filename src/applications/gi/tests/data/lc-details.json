@@ -4,7 +4,7 @@
     "lacNm": "General Electrician",
     "eduLacTypeNm": "Certification",
     "institution": {
-      "name": "CompTIA",
+      "name": "Electric School",
       "physicalAddress": {
         "address1": "3500 Lacey Road",
         "address2": "Suite 100",
@@ -25,11 +25,11 @@
     },
     "tests": [
       {
-        "name": "CompTIA Security+ Certification Exam",
+        "name": "Comp Security+ Certification Exam",
         "fee": "370"
       },
       {
-        "name": "CompTIA Security+ Retake Exam",
+        "name": "Comp Security+ Retake Exam",
         "fee": "225"
       }
     ]

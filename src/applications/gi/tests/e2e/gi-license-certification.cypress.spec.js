@@ -156,7 +156,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
           cy.get('h3')
             .contains('Admin info')
             .should('be.visible');
-          cy.get('.name-wrapper').should('contain.text', 'Comptia');
+          cy.get('.name-wrapper').should('contain.text', 'Electric School');
           cy.contains(
             'Certification tests are available to be taken nationally',
           ).should('be.visible');
@@ -183,7 +183,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
           lacNm: 'General Electrician',
           eduLacTypeNm: 'Certification',
           institution: {
-            name: 'CompTIA',
+            name: 'Electric School',
             physicalAddress: {
               address1: '3500 Lacey Road',
               city: 'Downers Grove',
@@ -199,7 +199,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
           },
           tests: [
             {
-              name: 'CompTIA General Electrician Exam',
+              name: 'General Electrician Exam',
               fee: '370',
             },
           ],
@@ -221,14 +221,11 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
         .within(() => {
           cy.get('h4').should(
             'contain.text',
-            'Test name: CompTIA General Electrician Exam',
+            'Test name: General Electrician Exam',
           );
           cy.get('.fee').should('contain.text', 'Fee: $370.00');
         });
     });
-
-    // TODO: does not display tests in a table if there is one test.
-    // TODO: displays tests in a table if there are multiple tests.
 
     it('displays error state when details fetch fails', () => {
       cy.intercept('GET', '**/v1/gi/lcpe/lacs/3871@4494f', {
