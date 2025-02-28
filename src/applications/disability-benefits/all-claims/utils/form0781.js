@@ -6,7 +6,7 @@ import { isClaimingIncrease, isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
 import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
-
+// test
 /**
  * Helper method to determine if a series of veteran selections match ONLY
  * the condition of type === combat
