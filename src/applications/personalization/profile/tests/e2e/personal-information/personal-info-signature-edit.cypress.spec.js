@@ -35,6 +35,8 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
 
     cy.get(`[data-testid="cancel-edit-button"]`).click();
     cy.get(`#edit-messaging-signature`).should(`be.focused`);
+
+    cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can add signature', () => {
