@@ -347,6 +347,11 @@ $text-color: rgba(27, 27, 27, 1);
       right: 0;
     }
 
+    #facility-type-dropdown::part(select) {
+      width: 100%;
+      max-width: 100%;
+    }
+
     .facility-type-dropdown {
       width: 100%;
       flex-basis: 100%;
