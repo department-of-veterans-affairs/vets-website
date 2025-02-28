@@ -7,7 +7,6 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import mockStatus from './fixtures/mocks/profile-status.json';
-import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
 import copays from './fixtures/mocks/copays.json';
 import incomeLimit from './fixtures/mocks/incomeLimit.json';
@@ -27,6 +26,10 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
+            {
+              name: 'show_financial_status_report_streamlined_waiver',
+              value: true,
+            },
           ],
         },
       });
@@ -42,7 +45,14 @@ const testConfig = createTestConfig(
 
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
-        cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
+        cy.intercept('GET', '/v0/in_progress_forms/5655', {
+          formData: testData,
+          metadata: {
+            version: 0,
+            prefill: true,
+            returnUrl: '/veteran-information',
+          },
+        });
       });
 
       cy.intercept('GET', '/v0/debts', debts);
@@ -70,22 +80,8 @@ const testConfig = createTestConfig(
           .first()
           .click();
       },
-      'all-available-debts': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get(`[data-testid="copay-selection-checkbox"]`)
-            .eq(0)
-            .shadow()
-            .find('input[type=checkbox]')
-            .check({ force: true });
-          cy.get('.usa-button-primary').click();
-        });
-      },
       'dependents-count': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#dependent-count')
-            .shadow()
-            .find('input')
-            .type('2');
           cy.get('va-button[data-testid="custom-button-group-button"]')
             .shadow()
             .find('button:contains("Continue")')
@@ -94,14 +90,6 @@ const testConfig = createTestConfig(
       },
       'dependent-ages': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#dependentAge-0')
-            .shadow()
-            .find('input')
-            .type('12');
-          cy.get('#dependentAge-1')
-            .shadow()
-            .find('input')
-            .type('17');
           cy.get('va-button[data-testid="custom-button-group-button"]')
             .shadow()
             .find('button:contains("Continue")')
@@ -114,36 +102,6 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .check({ force: true });
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'additional-income-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-text-input[name="Social Security"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('4639.90');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'cash-on-hand': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#cash')
-            .first()
-            .shadow()
-            .find('input')
-            .type('125');
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'cash-in-bank': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('#cash')
-            .first()
-            .shadow()
-            .find('input')
-            .type('329.12');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -166,22 +124,6 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'monetary-asset-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-text-input')
-            .as('numberInputs')
-            .should('have.length', 2);
-          cy.get(`[name="U.S. Savings Bonds"]`)
-            .shadow()
-            .find('input')
-            .type('135');
-          cy.get(`[name="Retirement accounts (401k, IRAs, 403b, TSP)"]`)
-            .shadow()
-            .find('input')
-            .type('3500');
-          cy.get('.usa-button-primary').click();
-        });
-      },
       'other-income-summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-button[data-testid="custom-button-group-button"]')
@@ -197,16 +139,6 @@ const testConfig = createTestConfig(
             .find('input[type="checkbox"]')
             .check({ force: true });
 
-          cy.get('.usa-button-primary').click();
-        });
-      },
-      'other-expenses-values': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('va-text-input[name="Clothing"]')
-            .first()
-            .shadow()
-            .find('input')
-            .type('6759');
           cy.get('.usa-button-primary').click();
         });
       },
