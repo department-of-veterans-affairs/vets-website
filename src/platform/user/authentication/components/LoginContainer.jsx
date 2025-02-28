@@ -49,11 +49,9 @@ export default function LoginContainer({
         {isUnifiedSignIn &&
           isOccMobile && (
             <div className="row">
-              <va-accordion disable-analytics open-single>
-                <va-accordion-item header="Internal testing only">
-                  <va-link href={href} text="Sign in for testing" />
-                </va-accordion-item>
-              </va-accordion>
+              <div className="columns">
+                <va-link href={href} text="VA staff" />
+              </div>
             </div>
           )}
       </section>

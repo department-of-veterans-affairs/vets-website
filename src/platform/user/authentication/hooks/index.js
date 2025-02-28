@@ -42,7 +42,9 @@ export function useIdentityVerificationURL({ policy, useOAuth }) {
  * @param {Object} queryParams - Used for unit testing ONLY
  * @returns {String} URL for VA OCC Mobile test accounts
  */
-export function useInternalTestingAuth({ queryParams = {} } = {}) {
+export function useInternalTestingAuth({
+  queryParams = { operation: 'myhealthevet_test_account' },
+} = {}) {
   const [href, setHref] = useState('');
 
   useEffect(() => {
