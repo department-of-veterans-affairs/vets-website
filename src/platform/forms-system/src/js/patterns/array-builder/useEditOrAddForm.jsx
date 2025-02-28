@@ -60,6 +60,14 @@ export function useEditOrAddForm({
   const [localSchema, setLocalSchema] = useState(null);
   const [localUiSchema, setLocalUiSchema] = useState(null);
 
+  useEffect(() => {
+    if (!isEdit) {
+      // this will reevaluate the schema and data for conditionals
+      onChange(data);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(
     () => {
       if (isEdit) {
