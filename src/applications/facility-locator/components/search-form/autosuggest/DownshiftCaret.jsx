@@ -19,6 +19,7 @@ function DownshiftCaret({
         className="downshift-caret-button"
         {...getToggleButtonProps()}
         type="button"
+        data-e2e-id="autosuggest-arrow-button"
       >
         {isOpen ? (
           <va-icon icon="expand_less" size="3" />
