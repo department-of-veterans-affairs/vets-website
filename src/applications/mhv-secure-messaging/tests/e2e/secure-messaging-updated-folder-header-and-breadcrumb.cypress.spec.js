@@ -12,8 +12,12 @@ import ContactListPage from './pages/ContactListPage';
 describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
   beforeEach(() => {
     const updatedFeatureTogglesResponse = GeneralFunctionsPage.updateFeatureToggles(
-      'mhv_secure_messaging_remove_landing_page',
-      true,
+      [
+        {
+          name: 'mhv_secure_messaging_remove_landing_page',
+          value: true,
+        },
+      ],
     );
     SecureMessagingSite.login(updatedFeatureTogglesResponse);
     PatientInboxPage.loadInboxMessages();
