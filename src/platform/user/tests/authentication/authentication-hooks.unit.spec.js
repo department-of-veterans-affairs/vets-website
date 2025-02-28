@@ -116,9 +116,8 @@ describe('authentication - hooks', () => {
 
       await waitForNextUpdate();
 
-      expect(result.current).to.eql(
-        'https://dev-api.va.gov/v1/sessions/mhv_verified/new?application=vaoccmobile',
-      );
+      expect(result.current).to.include('application=vaoccmobile');
+      expect(result.current).to.include('operation=myhealthevet_test_account');
     });
   });
 });
