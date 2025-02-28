@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-// import { useSelector } from 'react-redux';
-// import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { useSelector } from 'react-redux';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { V2_LAUNCH_DATE } from '../config/constants';
 
 export default function CustomTopContent() {
-  // TODO: Add flipper logic
-  // console.log(useSelector(toggleValues));
+  const { vaDependentsV2Banner } = useSelector(toggleValues);
+
   const hideAlert =
     window.location.pathname.includes('/introduction') ||
     window.location.pathname.includes('/review-and-submit') ||
     window.location.pathname.includes('/form-saved');
 
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(vaDependentsV2Banner);
 
   useEffect(() => {
     const handleClose = () => setIsVisible(false);
@@ -27,6 +27,17 @@ export default function CustomTopContent() {
       }
     };
   }, []);
+
+  useEffect(
+    () => {
+      if (vaDependentsV2Banner) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    },
+    [vaDependentsV2Banner],
+  );
 
   return hideAlert || !isVisible ? null : (
     <div className="vads-u-margin-bottom--4">
