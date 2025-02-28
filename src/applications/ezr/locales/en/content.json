@@ -1,4 +1,7 @@
 {
+  "routes": {
+    "introduction": "/my-health/update-benefits-information-form-10-10ezr/introduction"
+  },
   "alert-downtime-title": "This application is down for maintenance",
   "alert-downtime-message": "We\u2019re sorry. This application is currently down while we fix a few things. We\u2019ll be back up as soon as we can.",
   "alert-enrollment-title": "Our records show that you\u2019re not enrolled in VA health care",
