@@ -122,13 +122,45 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    // TODO: updates results correctly when category checkboxes are changed
-    // TODO: updates results correctly when state dropdown is changed
-
-    // TODO: update test "displays search results with pagination"
     it('displays search results', () => {
       cy.get('h1').should('contain.text', 'Search results');
       cy.get('va-card').should('have.length', 10);
+    });
+
+    it('updates results correctly when category checkboxes and state dropdown are changed', () => {
+      // Change category checkboxes using VA checkbox components
+      cy.get('va-checkbox[name="all"]')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .uncheck({ force: true });
+      cy.get('va-checkbox[name="license"]')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .check({ force: true });
+      cy.get('va-checkbox[name="certification"]')
+        .shadow()
+        .find('input[type="checkbox"]')
+        .uncheck({ force: true });
+
+      cy.get('.state-dropdown select#State').select('CA', { force: true });
+
+      cy.get('.update-results-button-after').click();
+
+      cy.url().should('include', 'category=license');
+      cy.url().should('include', 'state=CA');
+
+      cy.get('va-card')
+        .should('exist')
+        .each($card => {
+          // Verify each result shows "License" as type
+          cy.wrap($card)
+            .find('h4.lc-card-subheader')
+            .should('contain.text', 'License');
+          // Verify state is California
+          cy.wrap($card)
+            .find('p.state')
+            .should('contain.text', 'California');
+        });
     });
 
     it('displays loading state while fetching results', () => {
