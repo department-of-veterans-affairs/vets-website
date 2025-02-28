@@ -44,7 +44,7 @@ describe('FacilityType', () => {
       );
 
       const dropdown = screen.getByTestId('facility-type');
-      expect(dropdown.classList.contains('facility-type-dropdown'));
+      expect(dropdown.classList.contains('facility-type-dropdown')).to.be.true;
 
       expectOptions(screen, 9);
     });
@@ -65,7 +65,7 @@ describe('FacilityType', () => {
       );
 
       const dropdown = screen.getByTestId('facility-type');
-      expect(dropdown.classList.contains('facility-error'));
+      expect(dropdown.classList.contains('facility-error')).to.be.true;
 
       expectOptions(screen, 9);
     });
@@ -106,7 +106,8 @@ describe('FacilityType', () => {
       );
 
       const dropdown = screen.getByTestId('facility-type');
-      expect(dropdown.classList.contains('facility-type-dropdown-tablet'));
+      expect(dropdown.classList.contains('facility-type-dropdown-tablet')).to.be
+        .true;
 
       expectOptions(screen, 9);
     });
@@ -127,7 +128,8 @@ describe('FacilityType', () => {
       );
 
       const dropdown = screen.getByTestId('facility-type');
-      expect(dropdown.classList.contains('facility-type-dropdown-mobile'));
+      expect(dropdown.classList.contains('facility-type-dropdown-mobile')).to.be
+        .true;
 
       expectOptions(screen, 9);
     });
@@ -148,7 +150,8 @@ describe('FacilityType', () => {
       );
 
       const dropdown = screen.getByTestId('facility-type');
-      expect(dropdown.classList.contains('facility-type-dropdown-desktop'));
+      expect(dropdown.classList.contains('facility-type-dropdown-desktop')).to
+        .be.true;
 
       expectOptions(screen, 9);
     });

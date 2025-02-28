@@ -77,6 +77,7 @@ const ServiceType = ({
             <div
               id="service-typeahead-container"
               className={isMobile ? 'typeahead-mobile' : 'typeahead-tablet'}
+              data-testid="cc-service-typeahead-pd"
             >
               <CCServiceTypeAhead
                 handleServiceTypeChange={handleServiceTypeChange}
@@ -97,6 +98,7 @@ const ServiceType = ({
               isTablet || (isSmallDesktop && !useProgressiveDisclosure),
             'typeahead-desktop': isSmallDesktop && useProgressiveDisclosure,
           })}
+          data-testid="cc-service-typeahead"
         >
           <CCServiceTypeAhead
             handleServiceTypeChange={handleServiceTypeChange}
@@ -131,6 +133,7 @@ const ServiceType = ({
         'service-type-dropdown-desktop':
           isSmallDesktop && useProgressiveDisclosure,
       })}
+      data-testid={disabled ? 'disabled-service-type-dropdown' : 'service-type'}
     >
       <label htmlFor="service-type-dropdown">Service type</label>
       <select
