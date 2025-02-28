@@ -425,6 +425,25 @@ export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
   none: 'None',
 });
 
+export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
+  va: 'VA or military treatment providers',
+  nonVa: 'Non-VA treatment providers or Vet Centers',
+  none: 'None',
+});
+
+export const TREATMENT_RECEIVED_VA = Object.freeze({
+  medicalCenter: 'VA medical centers (also called a VAMC)',
+  communityOutpatient:
+    'Community-based outpatient clinics (also called a CBOC)',
+  vaPaid: 'VA paid community care providers',
+  dod: 'Department of Defense military treatment facilities (also called MTFs)',
+});
+
+export const TREATMENT_RECEIVED_NON_VA = Object.freeze({
+  nonVa: 'Non-VA health care providers',
+  vaCenters: 'VA Vet Centers',
+});
+
 export const BEHAVIOR_CHANGES_WORK = Object.freeze({
   reassignment:
     'Request for a change in occupational series or duty assignment',
