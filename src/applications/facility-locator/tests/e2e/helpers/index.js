@@ -7,8 +7,11 @@ export const CCP_SERVICE_TYPE_INPUT = '#service-type-ahead-input';
 export const SEARCH_BUTTON = '#facility-search';
 export const SEARCH_AVAILABLE = '#search-available-service-prompt';
 export const NO_SERVICE = '#could-not-find-service-prompt';
+
 export const AUTOSUGGEST_INPUT = '[data-testid="input-with-clear"]';
 export const AUTOSUGGEST_ARROW = '[data-e2e-id="autosuggest-arrow-button"]';
+export const AUTOSUGGEST_CLEAR = '#clear-vamc-services';
+export const OPTIONS = 'p[role="option"]';
 
 export const FACILITY_LISTING_CONTAINER = '.facility-result';
 export const FACILITY_DISTANCE = '[data-testid="fl-results-distance"]';
@@ -44,6 +47,9 @@ export const typeInCityStateInput = (value, shouldCloseDropdown = false) => {
     cy.get(CITY_STATE_ZIP_INPUT).type('{esc}'); // close the dropdown in case of autosuggest
   }
 };
+
+export const typeInAutosuggestInput = value =>
+  cy.get(AUTOSUGGEST_INPUT).type(value);
 
 export const typeAndSelectInCCPServiceTypeInput = value => {
   cy.get(CCP_SERVICE_TYPE_INPUT).type(value);

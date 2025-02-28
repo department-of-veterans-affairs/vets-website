@@ -150,7 +150,7 @@ const VAMCServiceAutosuggest = ({
       inputValue={inputValue || ''}
       keepDataOnBlur
       label={<span>Service type</span>}
-      noItemsMessage="No results found. Search for a different service."
+      noItemsMessage="No results found."
       onClearClick={handleClearClick}
       onInputValueChange={handleInputValueChange}
       options={options}

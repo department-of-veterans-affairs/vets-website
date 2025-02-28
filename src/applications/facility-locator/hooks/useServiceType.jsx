@@ -158,6 +158,10 @@ export default function useServiceType() {
    */
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
+      if (term === allServicesOptionForVamc[0]) {
+        return [allServicesOptionForVamc];
+      }
+
       if (!selector || selector.loading) return [];
 
       // initial load of services

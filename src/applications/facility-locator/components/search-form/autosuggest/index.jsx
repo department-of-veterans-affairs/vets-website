@@ -59,7 +59,6 @@ function Autosuggest({
     inputId,
     onSelectedItemChange: handleOnSelect,
     onInputValueChange,
-    inputRef,
     inputValue,
     isItemDisabled,
     stateReducer: keepDataOnBlur ? srKeepOnBlur : stateReducer,

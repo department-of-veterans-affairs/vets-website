@@ -35,19 +35,77 @@ describe('VA health services autosuggest', () => {
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.HEALTH);
       h.verifyElementExists(h.AUTOSUGGEST_INPUT);
 
+      // Open dropdown with no search, verify services are available inside, search
       h.clickElement(h.AUTOSUGGEST_ARROW);
+      verifyDropdownIsOpen();
+      h.verifyElementByText('All VA health services').click();
+      verifyDropdownIsClosed();
 
+      h.submitSearchForm();
+
+      h.verifyElementShouldContainString(
+        h.SEARCH_RESULTS_SUMMARY,
+        'results for "VA health", "All VA health services" near "Atlanta, Georgia',
+      );
+
+      h.clickElement(h.AUTOSUGGEST_CLEAR);
+
+      // Type a string, select a result and search
+      h.typeInAutosuggestInput('Pol');
       verifyDropdownIsOpen();
 
-      h.verifyElementByText('All VA health services').click();
+      cy.get(h.AUTOSUGGEST_INPUT).type(
+        '{downArrow}{downArrow}{downArrow}{enter}',
+      );
 
       verifyDropdownIsClosed();
 
       h.submitSearchForm();
 
-      h.verifyElementShouldContainText(
+      h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        'No results found',
+        'results for "VA health", "Polytrauma and traumatic brain injury (TBI and multiple traumas)" near "Atlanta, Georgia"',
+      );
+
+      h.clickElement(h.AUTOSUGGEST_ARROW);
+
+      cy.get(h.OPTIONS).should('have.length', 3);
+
+      // Erase part of the full service name in the input to verify
+      // that the filter runs again and returns no results
+      cy.get(h.AUTOSUGGEST_INPUT)
+        .focus()
+        .type('{backspace}{backspace}{backspace}');
+
+      h.verifyElementByText('No results found.');
+
+      h.clickElement(h.AUTOSUGGEST_CLEAR);
+
+      // New search with a different service
+      h.typeInAutosuggestInput('cancer');
+
+      verifyDropdownIsOpen();
+
+      h.verifyElementByText('Cancer care').click();
+
+      verifyDropdownIsClosed();
+
+      h.clickElement(h.AUTOSUGGEST_CLEAR);
+
+      // New search with an invalid service
+      h.typeInAutosuggestInput('INVALID');
+
+      h.verifyElementByText('No results found.');
+
+      // Click out of the autosuggest input and search
+      // to verify that "All VA health services" is used for the search
+      cy.get('.desktop-search-controls-container').click();
+
+      h.submitSearchForm();
+
+      h.verifyElementShouldContainString(
+        h.SEARCH_RESULTS_SUMMARY,
+        'results for "VA health", "All VA health services" near "Atlanta, Georgia"',
       );
     });
   });
