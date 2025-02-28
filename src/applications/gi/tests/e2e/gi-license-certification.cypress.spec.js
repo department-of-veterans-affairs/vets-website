@@ -33,6 +33,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
     });
 
     // TODO: displays error state when details fetch fails
+    // TODO: displays typeahead suggestions filttered by category when user types in search box
 
     it('renders the search page header and description correctly', () => {
       cy.get('h1')
@@ -41,6 +42,26 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.get('p.lc-description')
         .first()
         .should('contain.text', 'Use the search tool to find out which tests');
+    });
+
+    it('displays error state when fetching results fails', () => {
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs*', {
+        statusCode: 500,
+        body: { error: 'Internal Server Error' },
+      }).as('lcError');
+
+      cy.visit(
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses',
+      );
+      cy.wait('@lcError');
+
+      cy.get('va-alert')
+        .should('exist')
+        .and('be.visible')
+        .and(
+          'contain.text',
+          `We can't load the licenses and certifications details`,
+        );
     });
   });
 
@@ -63,10 +84,8 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
     // TODO: updates results correctly when state dropdown is changed
     // TODO: displays error state when details fetch fails
 
-    // it('displays search results with pagination', () => {
+    // TODO: update test "displays search results with pagination"
     it('displays search results', () => {
-      // TODO: update test "displays search results with pagination"
-
       cy.get('h1').should('contain.text', 'Search results');
       cy.get('va-card').should('have.length', 10);
     });
@@ -79,13 +98,33 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       }).as('lcSearchDelayed');
 
       cy.visit(
-        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses',
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results',
       );
       cy.get('va-loading-indicator')
         .should('exist')
         .and('be.visible');
       cy.wait('@lcSearchDelayed');
       cy.get('va-loading-indicator').should('not.exist');
+    });
+
+    it('displays error state when fetching results fails', () => {
+      cy.intercept('GET', '**/v1/gi/lcpe/lacs*', {
+        statusCode: 500,
+        body: { error: 'Internal Server Error' },
+      }).as('lcError');
+
+      cy.visit(
+        '/education/gi-bill-comparison-tool/licenses-certifications-and-prep-courses/results',
+      );
+      cy.wait('@lcError');
+
+      cy.get('va-alert')
+        .should('exist')
+        .and('be.visible')
+        .and(
+          'contain.text',
+          `We can't load the licenses and certifications details`,
+        );
     });
   });
 
@@ -121,6 +160,7 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
 
     // TODO: does not display tests in a table if there is one test.
     // TODO: displays tests in a table if there are multiple tests.
+
     it('displays error state when details fetch fails', () => {
       cy.intercept('GET', '**/v1/gi/lcpe/lacs/3871@4494f', {
         statusCode: 500,
