@@ -63,7 +63,6 @@
             "type": "retrievalEvidence",
             "attributes": {
               "locationAndName": "VAMC Location 2",
-              "evidenceDates": [{}],
               "noTreatmentDates": true
             }
           }
