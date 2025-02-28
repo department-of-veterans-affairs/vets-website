@@ -7,6 +7,8 @@ export const CCP_SERVICE_TYPE_INPUT = '#service-type-ahead-input';
 export const SEARCH_BUTTON = '#facility-search';
 export const SEARCH_AVAILABLE = '#search-available-service-prompt';
 export const NO_SERVICE = '#could-not-find-service-prompt';
+export const AUTOSUGGEST_INPUT = '[data-testid="input-with-clear"]';
+export const AUTOSUGGEST_ARROW = '[data-e2e-id="autosuggest-arrow-button"]';
 
 export const FACILITY_LISTING_CONTAINER = '.facility-result';
 export const FACILITY_DISTANCE = '[data-testid="fl-results-distance"]';
