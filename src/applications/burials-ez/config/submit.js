@@ -2,6 +2,10 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
+import {
+  ensureValidCSRFToken,
+  handleInvalidCSRF,
+} from '../utils/ensureValidCSRFToken';
 
 export function replacer(key, value) {
   // clean up empty objects, which we have no reason to send
@@ -28,7 +32,9 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(form, formConfig) {
+export async function submit(form, formConfig) {
+  await ensureValidCSRFToken();
+
   const headers = { 'Content-Type': 'application/json' };
 
   const body = transform(formConfig, form);
@@ -47,6 +53,8 @@ export function submit(form, formConfig) {
   };
 
   const onFailure = respOrError => {
+    handleInvalidCSRF(respOrError);
+
     if (respOrError instanceof Response && respOrError.status === 429) {
       const error = new Error('vets_throttled_error_burial');
       error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
