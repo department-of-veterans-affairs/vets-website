@@ -133,7 +133,7 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       title: 'Child’s disability',
       path: '686-report-add-child/:index/disability-part-two',
       uiSchema: disabilityPartTwo.uiSchema,
-      schema: disabilityPartOne.schema,
+      schema: disabilityPartTwo.schema,
     }),
     addChildAdditionalInformationPartOne: pages.itemPage({
       depends: formData =>
