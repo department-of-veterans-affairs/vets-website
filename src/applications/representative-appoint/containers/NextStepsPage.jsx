@@ -30,7 +30,7 @@ export default function NextStepsPage() {
   return (
     <div>
       <FormTitle
-        title="Get help from a VA accredited representative or VSO"
+        title="Request help from a VA accredited representative or VSO"
         subTitle={getFormSubtitle(formData)}
       />
       <h2>Your next steps</h2>
