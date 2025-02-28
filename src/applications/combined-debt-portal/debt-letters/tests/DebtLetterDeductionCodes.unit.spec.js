@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
-} from '../const/deduction-codes/index.js';
+} from '../const/deduction-codes/index';
 
 describe('deduction-codes', () => {
   describe('deductionCodes', () => {

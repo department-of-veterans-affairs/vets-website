@@ -61,6 +61,42 @@
       "slackGroup": "@cto-health-products"
     },
     {
+      "rootFolder": "dhp-connected-devices",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "disability-benefits",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "discharge-wizard",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "discover-your-benefits",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "dispute-debt",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "ds-playground",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "ds-v3-playground",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "e-folders",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "edu-benefits",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "education-letters",
       "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
       "continuousDeployment": false
