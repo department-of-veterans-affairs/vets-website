@@ -25,10 +25,17 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
     PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
 
     cy.get(`#edit-messaging-signature`).click();
+    cy.get(`#root_signatureName-label`)
+      .should('be.visible')
+      .and('contain.text', `(*Required)`);
+    cy.get(`#root_signatureTitle-label`)
+      .should('be.visible')
+      .and('contain.text', `(*Required)`);
+
     cy.get(`#root_signatureName`)
       .should(`be.focused`)
-      .type('Jack Sparrow');
-    cy.get(`#root_signatureTitle`).type('Captain');
+      .type('Name');
+    cy.get(`#root_signatureTitle`).type('TestTitle');
 
     cy.intercept(
       `POST`,
