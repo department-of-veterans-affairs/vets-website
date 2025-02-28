@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ProcessList = ({ stepGuideProps }) => {
   const { title, processSteps } = stepGuideProps;
@@ -15,6 +16,10 @@ const ProcessList = ({ stepGuideProps }) => {
       </va-process-list>
     </section>
   );
+};
+
+ProcessList.propTypes = {
+  stepGuideProps: PropTypes.object,
 };
 
 export default ProcessList;
