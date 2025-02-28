@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router';
 import {
-  BEHAVIOR_CHANGES_WORK,
-  BEHAVIOR_CHANGES_HEALTH,
-  BEHAVIOR_CHANGES_OTHER,
+  ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
+  LISTED_BEHAVIOR_TYPES_WITH_SECTION,
+  MH_0781_URL_PREFIX,
 } from '../../constants';
 
 // intro page
@@ -92,7 +93,7 @@ export const behaviorListAdditionalInformation = (
 );
 
 export const behaviorListNoneLabel =
-  'PLACEHOLDER I didn’t experience any of these behavioral changes.';
+  'I didn’t experience any behavioral changes after my traumatic events.';
 
 export const behaviorListValidationError = (
   <va-alert status="error" uswds>
@@ -197,59 +198,65 @@ export function validateBehaviorSelections(errors, formData) {
 // behavior description pages
 export const behaviorDescriptionPageDescription =
   'Describe the behavioral change you experienced. (Optional)';
-export const unlistedDescriptionPageDescription =
-  'PLACEHOLDER Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided. (Optional)';
 
 export const behaviorDescriptionPageHint =
   'You can tell us approximately when this change happened, whether any records exist, or anything else about the change you experienced.';
 
-export const reassignmentPageTitle = BEHAVIOR_CHANGES_WORK.reassignment;
+export const unlistedPageTitle = BEHAVIOR_LIST_SECTION_SUBTITLES.other;
 
-export const unlistedPageTitle = 'Other behavioral changes';
+// the unlisted description page is after all the listed behaviors
+export const unlistedDescriptionPageNumber =
+  Object.keys(LISTED_BEHAVIOR_TYPES_WITH_SECTION).length + 1;
+
+export const unlistedDescriptionPageDescription =
+  'Describe the other behavioral changes you experienced that were not in the list of behavioral change types provided. (Optional)';
 
 // behavior summary page
 export const behaviorSummaryPageTitle = 'Summary of behavioral changes';
 
-function getDescriptionForBehavior(behaviors, descriptions, details) {
-  const newObj = {};
+function getDescriptionForBehavior(selectedBehaviors, behaviorDetails) {
+  const allBehaviorDescriptions = ALL_BEHAVIOR_CHANGE_DESCRIPTIONS;
 
-  Object.keys(descriptions).forEach(behaviorDescription => {
-    if (behaviorDescription in behaviors) {
-      newObj[behaviorDescription] =
-        details[behaviorDescription] || 'Optional description not provided.';
+  const newObject = {};
+  Object.keys(allBehaviorDescriptions).forEach(behaviorType => {
+    if (behaviorType in selectedBehaviors) {
+      const behaviorDescription =
+        behaviorType === 'unlisted'
+          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : allBehaviorDescriptions[behaviorType];
+      newObject[behaviorDescription] =
+        behaviorDetails[behaviorType] || 'Optional description not provided.';
     }
   });
-  return newObj;
+  return newObject;
 }
 
-function behaviorSummariesList(obj) {
+function behaviorSummariesList(behaviorAndDetails) {
   return (
     <>
-      {Object.entries(obj).map(([key, value, index]) => (
-        <div key={`${key}-${index}`}>
-          <h4>{key}</h4>
-          <p>{value}</p>
-        </div>
-      ))}
-      <Link
-        to={{
-          pathname: 'mental-health-form-0781/behavior-changes-list',
-          search: '?redirect',
-        }}
-      >
-        Edit behavioral changes
-      </Link>
+      {Object.entries(behaviorAndDetails).map(
+        ([behaviorType, details, index]) => (
+          <div key={`${behaviorType}-${index}`}>
+            <h4>{behaviorType}</h4>
+            <p className="multiline-ellipsis-4">{details}</p>
+          </div>
+        ),
+      )}
+      <div className="vads-u-margin-top--2">
+        <Link
+          to={{
+            pathname: `${MH_0781_URL_PREFIX}/behavior-changes-list`,
+            search: '?redirect',
+          }}
+        >
+          Edit behavioral changes
+        </Link>
+      </div>
     </>
   );
 }
 
 export const summarizeBehaviors = formData => {
-  const allBehaviorDescriptions = {
-    ...BEHAVIOR_CHANGES_WORK,
-    ...BEHAVIOR_CHANGES_HEALTH,
-    ...BEHAVIOR_CHANGES_OTHER,
-  };
-
   const allBehaviorTypes = {
     ...formData.workBehaviors,
     ...formData.healthBehaviors,
@@ -265,7 +272,6 @@ export const summarizeBehaviors = formData => {
 
   const selectedBehaviorsWithDetails = getDescriptionForBehavior(
     allSelectedBehaviorTypes,
-    allBehaviorDescriptions,
     formData.behaviorsDetails,
   );
 
