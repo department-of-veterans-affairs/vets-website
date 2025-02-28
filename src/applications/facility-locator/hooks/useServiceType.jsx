@@ -134,6 +134,7 @@ export default function useServiceType() {
   const dispatch = useDispatch();
   const allServicesOptionForVamc = ['All VA health services'];
   const localEnv = environment?.BUILDTYPE === 'localhost';
+
   let selector = useSelector(
     state => state.drupalStaticData.vaHealthServicesData || [],
   );
