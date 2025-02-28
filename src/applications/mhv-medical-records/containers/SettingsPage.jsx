@@ -2,8 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   fetchSharingStatus,
@@ -17,7 +15,6 @@ import { sendDataDogAction } from '../util/helpers';
 const SettingsPage = () => {
   const dispatch = useDispatch();
 
-  const fullState = useSelector(state => state);
   const isSharing = useSelector(state => state.mr.sharing.isSharing);
   const statusError = useSelector(state => state.mr.sharing.statusError);
 
@@ -228,16 +225,9 @@ const SettingsPage = () => {
   return (
     <div className="settings vads-u-margin-bottom--5">
       <section>
-        <h1>Medical records settings</h1>
-        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-family--serif medium-screen:vads-u-font-size--lg">
-          Learn how to manage your medical records sharing and notification
-          settings.
-        </p>
+        <h1>Manage your electronic sharing settings</h1>
       </section>
       <section>
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Manage your electronic sharing setting
-        </h2>
         <p>
           If your sharing setting is “opted in,” we securely share your
           electronic health information with participating non-VA health care
@@ -280,25 +270,6 @@ const SettingsPage = () => {
             </ul>
           </va-additional-info>
         </div>
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Manage your notification settings
-        </h2>
-        <p>
-          You can sign up to get email notifications when medical images you
-          requested are available. You can also opt out of email notifications
-          at any time.
-        </p>
-        <p>
-          To review or update your notification settings, go to your profile
-          page on the My HealtheVet website.
-        </p>
-        <p>
-          <ExternalLink
-            ddTag="Go to your profile on MHV"
-            href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
-            text="Go to your profile on the My Healthevet website"
-          />
-        </p>
       </section>
     </div>
   );
