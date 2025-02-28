@@ -11,7 +11,7 @@ describe('VAOS Component: ErrorAlert', () => {
     expect(screen.getByTestId('error')).to.exist;
     expect(screen.getByTestId('error-body')).to.exist;
     expect(screen.getByTestId('error-body').textContent).to.equal(
-      'Something went wrong on our end. Please refresh the page and try again.',
+      'Something went wrong on our end. Please try again later.',
     );
   });
 
