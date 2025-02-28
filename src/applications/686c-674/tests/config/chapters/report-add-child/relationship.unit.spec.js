@@ -21,7 +21,7 @@ describe('686 add child relationship', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.addChild.pages.addChildRelationship;
+  } = formConfig.chapters.addChild.pages.addChildRelationshipPartOne;
 
   it('should render', () => {
     const form = render(
@@ -38,6 +38,6 @@ describe('686 add child relationship', () => {
     );
 
     const formDOM = getFormDOM(form);
-    expect(formDOM.querySelectorAll('va-checkbox').length).to.eq(3);
+    expect(formDOM.querySelectorAll('va-radio-option').length).to.eq(2);
   });
 });

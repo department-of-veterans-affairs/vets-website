@@ -1,3 +1,5 @@
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+
 export const AXE_CONTEXT = '.secure-messaging-container';
 
 export const Paths = {
@@ -39,7 +41,7 @@ export const Paths = {
     MESSAGE_FOLDERS_2: '/my_health/v1/messaging/folders/-2*',
     FEATURE_TOGGLES: '/v0/feature_toggles?*',
     MESSAGE_THREADS: '/my_health/v1/messaging/threads/',
-    MESSAGE_SIGNATURE: '/my_health/v1/messaging/messages/signature',
+    MESSAGE_SIGNATURE: '/my_health/v1/messaging/preferences/signature',
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
     SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
@@ -157,6 +159,7 @@ export const Locators = {
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
     CRUMBS_BACK: '.sm-breadcrumb-list-item',
     OLD_VERSION: `.welcome-message > p > a`,
+    EDIT_SIGNATURE: `div.vads-u-margin-top--2`,
   },
   ALERTS: {
     HEADER: `#heading`,
@@ -308,7 +311,7 @@ export const Alerts = {
   OLD_MSG_HEAD: 'This conversation is too old for new replies',
   OLD_MSG_SUBHEAD:
     "The last message in this conversation is more than 45 days old. If you want to continue this conversation, you'll need to start a new message.",
-  PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
+  PAGE_NOT_FOUND: pageNotFoundHeading,
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,
   EL_SIGN: `Messages to this team require a signature. We added a signature box to this page.`,
@@ -370,6 +373,7 @@ export const Data = {
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
+  EDIT_SIGNATURE: `Edit signature for all messages`,
   BUTTONS: {
     ATTACH_FILE: 'Attach file',
     SEND: `Send`,
@@ -385,6 +389,10 @@ export const Data = {
     DELETE_CHANGES: 'Delete changes',
     KEEP_EDITING: 'Keep editing',
     SAVE_DRAFT_WO_ATTCH: `Save draft without attachments`,
+  },
+  LINKS: {
+    PROFILE_SIGNATURE: `/profile/personal-information#messaging-signature`,
+    LEGACY_PREFERENCES: 'mhv-portal-web/preferences',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
   URL: {

@@ -20,6 +20,7 @@ const [
   address,
   phoneAndEmail,
   listLoop,
+  customStep,
 ] = normalizedForm.chapters;
 
 describe('createFormConfig', () => {
@@ -127,6 +128,18 @@ describe('formatPages', () => {
       formatPages(address);
 
       expect(spy.calledWith(address)).to.eq(true);
+    });
+  });
+
+  context('when digital_form_custom_step', () => {
+    beforeEach(() => {
+      spy = sinon.spy(digitalFormPatterns, 'customStepPages');
+    });
+
+    it('calls customStepPages', () => {
+      formatPages(customStep);
+
+      expect(spy.calledWith(customStep)).to.eq(true);
     });
   });
 

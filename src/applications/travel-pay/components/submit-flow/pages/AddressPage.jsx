@@ -102,7 +102,7 @@ const AddressPage = ({
             Answer “Yes” if you traveled from the address listed here and you
             confirm that it’s not a Post Office box.
           </p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
           <p className="vads-u-margin-top--2">
             <strong>Home address</strong>
             <br />
@@ -123,7 +123,7 @@ const AddressPage = ({
             {`${address.city}, ${address.stateCode} ${address.zipCode}`}
             <br />
           </p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
         <va-radio-option
           label="Yes"
@@ -150,7 +150,7 @@ const AddressPage = ({
             If you traveled from a different address, you can’t file a claim in
             this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the
+          But you can file your claim online through the
           <va-link
             external
             href={BTSSS_PORTAL_URL}

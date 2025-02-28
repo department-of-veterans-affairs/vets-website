@@ -8,6 +8,7 @@ import {
   expiresSoon,
   formatStatus,
   resolutionDate,
+  BANNER_TYPES,
 } from '../utilities/poaRequests';
 import api from '../utilities/api';
 import ProcessingBanner from '../components/ProcessingBanner';
@@ -47,12 +48,6 @@ const DECISION_OPTIONS = {
     reason: null,
   },
   ...DECLINATION_OPTIONS,
-};
-
-// processing will show up once rep accepts the request. Once it is accepted there will be a green status alert that says accepted - see decision_types above
-const BANNER_TYPES = {
-  PROCESSING: 'PENDING',
-  FAILED: 'FAILED',
 };
 
 const PROCESSING_BANNER = {
@@ -152,9 +147,6 @@ const POARequestDetailsPage = () => {
 
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
-  const statusCheck =
-    poaRequestSubmission === BANNER_TYPES.PROCESSING ? 'processing' : poaStatus;
-
   return (
     <section className="poa-request-details">
       <h1
@@ -167,7 +159,7 @@ const POARequestDetailsPage = () => {
         {claimantLastName}, {claimantFirstName}
         {poaStatus !== 'expired' && (
           <span
-            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--${statusCheck.toLowerCase()} ${poaRequestSubmission ===
+            className={`usa-label vads-u-font-family--sans poa-request-details__status status status--processing ${poaRequestSubmission ===
               BANNER_TYPES.FAILED && 'vads-u-display--none'}`}
           >
             {poaRequestSubmission === BANNER_TYPES.PROCESSING
@@ -200,7 +192,13 @@ const POARequestDetailsPage = () => {
             </>
           )}
           {poaStatus === 'acceptance' && (
-            <>
+            <span
+              className={
+                (poaRequestSubmission === BANNER_TYPES.PROCESSING ||
+                  poaRequestSubmission === BANNER_TYPES.FAILED) &&
+                'vads-u-display--none'
+              }
+            >
               <p className="poa-request-details__title">
                 <va-icon
                   icon="check_circle"
@@ -209,7 +207,7 @@ const POARequestDetailsPage = () => {
                 Request accepted on
               </p>
               {resolutionDate(poaRequest.resolution?.createdAt, poaStatus.id)}
-            </>
+            </span>
           )}
           {poaStatus === 'expiration' && (
             <>
@@ -305,19 +303,17 @@ const POARequestDetailsPage = () => {
               <li>
                 <p>Name</p>
                 <p>
-                  {poaRequest?.power_of_attorney_form?.veteran?.name?.last},{' '}
-                  {poaRequest?.power_of_attorney_form?.veteran?.name?.first}
+                  {poaRequest?.powerOfAttorneyForm?.veteran?.name?.last},{' '}
+                  {poaRequest?.powerOfAttorneyForm?.veteran?.name?.first}
                 </p>
               </li>
               <li>
                 <p>Last 4 digits of Social security number</p>
-                <p>{poaRequest?.power_of_attorney_form?.veteran?.ssn}</p>
+                <p>{poaRequest?.powerOfAttorneyForm?.veteran?.ssn}</p>
               </li>
               <li>
                 <p>Last 4 digits of VA file number</p>
-                <p>
-                  {poaRequest?.power_of_attorney_form?.veteran?.vaFileNumber}
-                </p>
+                <p>{poaRequest?.powerOfAttorneyForm?.veteran?.vaFileNumber}</p>
               </li>
             </ul>
           </>

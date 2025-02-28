@@ -61,7 +61,7 @@ const MileagePage = ({
         label-header-level="1"
       >
         <div className="vads-u-margin-y--2">
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
           <p>
             For your appointment on{' '}
             <strong>
@@ -72,7 +72,7 @@ const MileagePage = ({
             </strong>
           </p>
           <p>{data.reasonForAppointment}</p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
         <va-radio-option
           label="Yes"
@@ -117,7 +117,7 @@ const MileagePage = ({
             If you need to submit receipts for other expenses like tolls, meals,
             or lodging, you can’t file a claim in this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the{' '}
+          But you can file your claim online through the{' '}
           <va-link
             external
             href={BTSSS_PORTAL_URL}

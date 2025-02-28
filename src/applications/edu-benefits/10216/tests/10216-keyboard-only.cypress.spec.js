@@ -48,10 +48,18 @@ describe('22-10216 Edu form', () => {
     // // Institution details page
     cy.url().should(
       'include',
-      formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
+      formConfig.chapters.institutionDetailsChapter.pages.institutionOfficial
         .path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.tabToElement('input[name="root_certifyingOfficial_first"]');
+    cy.typeInFocused('John');
+    cy.tabToElement('input[name="root_certifyingOfficial_last"]');
+    cy.typeInFocused('Doe');
+    cy.tabToElement('input[name="root_certifyingOfficial_title"]');
+    cy.typeInFocused('Director');
+    cy.tabToContinueForm();
+
     cy.tabToElement('input[name="root_institutionDetails_institutionName"]');
     cy.typeInFocused(
       'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',
@@ -128,6 +136,16 @@ describe('22-10216 Edu form', () => {
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
       '/confirmation',
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.tabToElement('[data-testid="print-page"]');
+    cy.realPress('Enter');
+    cy.injectAxeThenAxeCheck();
+    cy.tabToElement('[text="Go to VA Form 22-10215 now"]');
+    cy.realPress('Enter');
+    cy.url().should(
+      'include',
+      '/education/apply-for-education-benefits/application/10215',
     );
   });
 });

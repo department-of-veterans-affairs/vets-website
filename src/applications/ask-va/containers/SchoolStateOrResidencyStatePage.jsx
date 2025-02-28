@@ -7,19 +7,21 @@ import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { CHAPTER_3 } from '../constants';
 
+const isValid = formData =>
+  formData.stateOrResidency?.schoolState ||
+  formData.stateOrResidency?.residencyState;
+
 const SchoolStateOrResidencyStateCustomPage = props => {
   const { id, onChange, goBack, formData, goForward } = props;
   const [validationError, setValidationError] = useState(false);
 
-  const showError = data => {
-    if (
-      data.stateOrResidency?.schoolState ||
-      data.stateOrResidency?.residencyState
-    ) {
+  const onContinue = data => {
+    if (isValid(data)) {
       goForward(data);
+    } else {
+      focusElement('#school-state-res-state');
+      setValidationError(true);
     }
-    focusElement('#school-state-res-state');
-    return setValidationError(true);
   };
 
   const handleChange = event => {
@@ -31,7 +33,14 @@ const SchoolStateOrResidencyStateCustomPage = props => {
       [selectName]: selectedValue,
     };
 
-    onChange({ ...formData, stateOrResidency });
+    const newFormData = {
+      ...formData,
+      stateOrResidency,
+      stateOfTheSchool: null,
+    };
+    const isError = !isValid(newFormData);
+    setValidationError(isError);
+    onChange(newFormData);
   };
 
   return (
@@ -110,7 +119,7 @@ const SchoolStateOrResidencyStateCustomPage = props => {
         <FormNavButtons
           className="vads-u-margin-top--3"
           goBack={goBack}
-          goForward={() => showError(formData)}
+          goForward={() => onContinue(formData)}
         />
       </form>
     </>
