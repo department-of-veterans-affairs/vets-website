@@ -1,22 +1,31 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { format } from 'date-fns';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import ReferralLayout from './components/ReferralLayout';
-import { setFormCurrentPage } from './redux/actions';
-import { routeToCCPage } from './flow';
-import CCAppointmentCard from './components/CCAppointmentCard';
+import { setFormCurrentPage, startNewAppointmentFlow } from './redux/actions';
+// eslint-disable-next-line import/no-restricted-paths
+import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
 import {
   getAppointmentCreateStatus,
   getReferralAppointmentInfo,
 } from './redux/selectors';
-import { FETCH_STATUS } from '../utils/constants';
+import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
+
+function handleScheduleClick(dispatch) {
+  return () => {
+    recordEvent({
+      event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
+    });
+    dispatch(startNewAppointmentFlow());
+  };
+}
 
 export default function CompleteReferral() {
-  const history = useHistory();
   const dispatch = useDispatch();
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+  const { root, typeOfCare } = useSelector(getNewAppointmentFlow);
   const {
     appointmentInfoError,
     appointmentInfoTimeout,
@@ -60,10 +69,18 @@ export default function CompleteReferral() {
     );
   }
 
-  const { provider, slots } = referralAppointmentInfo;
+  const { appointment, provider } = referralAppointmentInfo;
+
+  const appointmentDate = format(
+    new Date(appointment.startDate),
+    'EEEE, MMMM do, yyyy',
+  );
+  const appointmentTime = format(new Date(appointment.startDate), 'h:mm aaaa');
 
   return (
     <ReferralLayout
+      hasEyebrow
+      heading="Your appointment is scheduled"
       apiFailure={
         appointmentInfoError &&
         appointmentCreateStatus !== FETCH_STATUS.succeeded
@@ -75,58 +92,88 @@ export default function CompleteReferral() {
       }
     >
       {!!referralLoaded && (
-        <CCAppointmentCard>
+        <>
+          <p>We’ve confirmed your appointment.</p>
           <div
-            data-testid="referral-content"
-            className="vads-u-background-color--success-lighter  vads-u-padding-x--2 vads-u-padding-y--1 vads-u-margin-y--2p5"
+            className="vads-u-margin-top--6 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+            data-testid="appointment-block"
           >
-            <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--2p5 vads-u-font-size--md">
-              We’ve scheduled and confirmed your appointment.
-            </h3>
-            <>
+            <p
+              className="vads-u-margin-bottom--0 vads-u-font-family--serif"
+              data-testid="appointment-date"
+            >
+              {appointmentDate}
+            </p>
+            <h2
+              className="vads-u-margin-top--0 vads-u-margin-bottom-1"
+              data-testid="appointment-time"
+            >
+              {appointmentTime}
+            </h2>
+            <strong data-testid="appointment-type">
+              {appointment.typeOfCare} with{' '}
+              {provider.individualProviders[0].name}
+            </strong>
+            <p
+              className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--0"
+              data-testid="appointment-modality"
+            >
+              <span className="vads-u-margin-right--1">
+                <va-icon
+                  icon="location_city"
+                  aria-hidden="true"
+                  data-testid="appointment-icon"
+                  size={3}
+                />
+              </span>
+              {appointment.modality} at {provider.location.name}
+            </p>
+            <p
+              className="vads-u-margin-left--4 vads-u-margin-top--0p5"
+              data-testid="appointment-clinic"
+            >
+              Clinic: {provider.providerOrganization.name}
+            </p>
+            <p>
               <va-link
-                href="#"
-                data-testid="review-appointments-link"
-                onClick={e => {
-                  e.preventDefault();
-                  routeToCCPage(history, 'appointments');
-                }}
-                text="Review your appointments"
+                href={`/appointments/${appointment.id}`}
+                data-testid="cc-details-link"
+                text="Details"
               />
-            </>
+            </p>
           </div>
-          <h5 className="vads-u-margin-bottom--0p5">When</h5>
-          <p
-            data-testid="appointment-date-time"
-            className="vads-u-margin-top--0 vads-u-margin-bottom--1"
-          >
-            {`${format(new Date(slots.slots[0].start), 'EEEE, MMMM dd, yyyy')}`}
-            <br />
-          </p>
-          <h5 className="vads-u-margin-bottom--0p5">What</h5>
-          <h5 className="vads-u-margin-bottom--0p5">Who</h5>
-          <p data-testid="provider-name" className="vads-u-margin--0">
-            {provider.providerOrganization.name}
-          </p>
-          <h5 className="vads-u-margin-bottom--0p5">Where to attend</h5>
-          <p data-testid="provider-org-name" className="vads-u-margin--0">
-            {provider.location.name}
-          </p>
-          <p data-testid="provider-address" className="vads-u-margin--0">
-            {provider.location.address}
-          </p>
-          <h5 className="vads-u-margin-bottom--0p5">Need to make changes?</h5>
-          <p data-testid="changes-copy" className="vads-u-margin--0">
-            Contact this referring VA facility if you need to reschedule or
-            cancel your appointment and notify the VA of any changes.
-          </p>
-          <p
-            className="vads-u-margin-bottom--0 vads-u-margin-top--1p5"
-            data-testid="provider-facility-org-name"
-          >
-            {`Faciliy: ${provider.location.name}`}
-          </p>
-        </CCAppointmentCard>
+          <div className="vads-u-margin-top--6">
+            <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+              Manage your appointments
+            </h2>
+            <hr
+              aria-hidden="true"
+              className="vads-u-margin-y--1p5 vads-u-border-color--primary"
+            />
+            <p>
+              <va-link
+                text="Review your appointments"
+                data-testid="view-appointments-link"
+                href={`${root.url}`}
+              />
+            </p>
+            <p>
+              <va-link
+                text="Schedule a new appointment"
+                data-testid="schedule-appointment-link"
+                href={`${root.url}${typeOfCare.url}`}
+                onClick={handleScheduleClick(dispatch)}
+              />
+            </p>
+            <p>
+              <va-link
+                text="Review Referrals and Requests"
+                data-testid="return-to-referrals-link"
+                href={`${root.url}/referrals-requests`}
+              />
+            </p>
+          </div>
+        </>
       )}
     </ReferralLayout>
   );
