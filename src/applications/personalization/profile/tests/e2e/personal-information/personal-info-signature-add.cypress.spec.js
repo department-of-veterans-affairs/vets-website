@@ -1,8 +1,8 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
 
-describe('PERSONAL INFORMATION SIGNATURE', () => {
-  it('verify signature content', () => {
+describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
+  it('verify user can add signature', () => {
     const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
       {
         name: 'mhv_secure_messaging_signature_settings',
@@ -41,7 +41,7 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
       `POST`,
       `/my_health/v1/messaging/preferences/signature`,
       mockSignature,
-    ).as('updatedSugnature');
+    ).as('updatedSignature');
 
     cy.get(`[data-testid="save-edit-button"]`).click();
 
