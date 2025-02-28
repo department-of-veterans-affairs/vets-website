@@ -60,7 +60,7 @@ describe('ProcessList Component using step guide data', () => {
     });
 
     const thirdStep = screen.getByText(
-      'Prescriptions usually arrive within 3 to 5 days after shipping.',
+      'Prescriptions usually arrive within 3 to 5 days after shipping. You can find tracking information in your prescription details.',
     );
 
     expect(firstStep).to.exist;
