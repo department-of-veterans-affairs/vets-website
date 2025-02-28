@@ -37,23 +37,30 @@ export const BuildPageBase = ({
 
   const fullContactPath = `${routeMetadata?.urlPrefix || ''}${contactPath}`;
 
-  useEffect(() => {
-    if (headerRef?.current) {
-      focusElement(headerRef?.current);
-    }
-  }, [headerRef]);
-
-  useEffect(() => {
-    const shouldFocusOnHeaderRef =
-      prevModalState === 'addressValidation' && modalState === 'mailingAddress';
-
-    // we do this to make sure focus is set when cancelling out of address validation UI
-    if (shouldFocusOnHeaderRef) {
-      setTimeout(() => {
+  useEffect(
+    () => {
+      if (headerRef?.current) {
         focusElement(headerRef?.current);
-      }, 250);
-    }
-  }, [modalState, prevModalState]);
+      }
+    },
+    [headerRef],
+  );
+
+  useEffect(
+    () => {
+      const shouldFocusOnHeaderRef =
+        prevModalState === 'addressValidation' &&
+        modalState === 'mailingAddress';
+
+      // we do this to make sure focus is set when cancelling out of address validation UI
+      if (shouldFocusOnHeaderRef) {
+        setTimeout(() => {
+          focusElement(headerRef?.current);
+        }, 250);
+      }
+    },
+    [modalState, prevModalState],
+  );
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
   const returnPath = onReviewPage ? '/review-and-submit' : fullContactPath;
@@ -78,6 +85,11 @@ export const BuildPageBase = ({
   return (
     <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
       <InitializeVAPServiceID>
+        <va-alert status="info" visible slim>
+          <p className="vads-u-margin--0">
+            Any changes you make will also be reflected on your VA.gov profile.
+          </p>
+        </va-alert>
         <Heading ref={headerRef} className="vads-u-font-size--h3">
           {title}
         </Heading>
