@@ -216,7 +216,7 @@ export const FacilitiesMapTypes = {
   route: PropTypes.any,
   routeParams: PropTypes.any,
   router: RouterTypes,
-  searchError: PropTypes.shape(PropTypes.any),
+  searchError: PropTypes.string,
   searchWithBounds: PropTypes.func,
   selectedResult: PropTypes.any,
   specialties: PropTypes.any,
@@ -280,6 +280,7 @@ export const AutosuggestProps = {
   showDownCaret: PropTypes.bool,
   showError: PropTypes.bool,
   stateReducer: PropTypes.func,
+  useProgressiveDisclosure: PropTypes.bool,
 };
 
 export const SearchAreaControlTypes = {
