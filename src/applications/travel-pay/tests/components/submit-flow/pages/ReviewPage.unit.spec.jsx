@@ -32,14 +32,16 @@ const mockAppt = {
   },
 };
 
-const practitionersList = [
-  {
-    name: {
-      family: 'BERNARDO',
-      given: ['KENNETH J'],
-    },
-  },
-];
+// const practitionersList = [
+//   {
+//     name: {
+//       family: 'BERNARDO',
+//       given: ['KENNETH J'],
+//     },
+//   },
+// ];
+
+const practitioner = 'Kenneth J. Bernardo';
 
 const onSubmitSpy = sinon.spy();
 const setIsAgreementCheckedSpy = sinon.spy();
@@ -60,7 +62,7 @@ describe('Revew page', () => {
         appointment: {
           isLoading: false,
           error: null,
-          data: { ...mockAppt, practitioners: pract },
+          data: { ...mockAppt, practitionerName: pract || undefined },
         },
         claimSubmission: {
           isSubmitting: false,
@@ -112,7 +114,7 @@ describe('Revew page', () => {
 
   it('should render properly with practitioners if present', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
-      initialState: getData({ pract: practitionersList }),
+      initialState: getData({ pract: practitioner }),
       reducers: reducer,
     });
 

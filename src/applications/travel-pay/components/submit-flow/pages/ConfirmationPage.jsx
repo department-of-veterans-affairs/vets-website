@@ -39,7 +39,7 @@ const ConfirmationPage = () => {
             {data.location?.attributes?.name
               ? `at ${data.location.attributes.name}`
               : ''}{' '}
-            {data.practitionersName ? `with ${data.practitionersName}` : ''} on{' '}
+            {data.practitionerName ? `with ${data.practitionerName}` : ''} on{' '}
             {formattedDate} at {formattedTime}.
           </p>
         </va-alert>
