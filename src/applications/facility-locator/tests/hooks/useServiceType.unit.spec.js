@@ -26,10 +26,12 @@ describe('filterMatches (VAMC)', () => {
     it('should return the correct match for a search term', () => {
       const results = filterMatches(vaHealthcareServices, 'cancer', 'vamc');
       const expected = [
+        'Urology',
         'Gastroenterology',
-        'Cancer care',
-        'Surgical oncology',
         'Dermatology',
+        'Cancer care',
+        'Thoracic surgery',
+        'Surgical oncology',
         'Hematology/oncology',
         'Radiation oncology',
       ];
@@ -50,7 +52,10 @@ describe('filterMatches (VAMC)', () => {
 
     it('should return the correct match for a search term', () => {
       const results = filterMatches(vaHealthcareServices, 'disability', 'vamc');
-      const expected = ['Physical medicine and rehabilitation'];
+      const expected = [
+        'Physical medicine and rehabilitation',
+        'Adaptive sports',
+      ];
 
       expect(getServiceNamesOnly(results)).to.eql(expected);
     });
