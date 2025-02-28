@@ -73,6 +73,8 @@ export default {
   REPRESENTATIVE_STATUS: 'representative-status',
   RESOURCES_AND_SUPPORT_SEARCH: 'resources-and-support-search',
   SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE: 'schedule-view-va-appointments-page',
+  MODERN_SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE:
+    'modern-schedule-view-va-appointments-page',
   SCO_ANNOUNCEMENTS: 'sco-announcements',
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
