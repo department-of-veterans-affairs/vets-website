@@ -32,9 +32,6 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.injectAxeThenAxeCheck();
     });
 
-    // TODO: displays error state when details fetch fails
-    // TODO: displays typeahead suggestions filttered by category when user types in search box
-
     it('renders the search page header and description correctly', () => {
       cy.get('h1')
         .should('exist')
@@ -42,6 +39,51 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
       cy.get('p.lc-description')
         .first()
         .should('contain.text', 'Use the search tool to find out which tests');
+    });
+
+    it('displays typeahead suggestions when user types in search box', () => {
+      cy.get('#keyword-search input').type('electric');
+
+      cy.get('.suggestions-list').should('be.visible');
+
+      cy.get('.suggestions-list .suggestion')
+        .first()
+        .find('.keyword-suggestion-container')
+        .within(() => {
+          cy.contains('electric');
+          cy.contains('results').should('be.visible');
+        });
+
+      cy.get('.suggestions-list .suggestion')
+        .should('have.length.at.least', 2)
+        .each(($suggestion, index) => {
+          if (index > 0) {
+            cy.wrap($suggestion)
+              .invoke('text')
+              .should('match', /electric/i);
+          }
+        });
+
+      cy.get('#clear-input').click();
+      cy.get('.suggestions-list').should('not.exist');
+    });
+
+    it('redirects to results page with search parameters when form is submitted', () => {
+      cy.get('#keyword-search input').type('electric');
+
+      cy.get('select.dropdown-filter').select('License');
+
+      cy.get('va-button')
+        .contains('Submit')
+        .click();
+
+      cy.url().should('include', '/results');
+      cy.url().should('include', 'name=electric');
+      cy.url().should('include', 'category=license');
+
+      cy.get('h1').should('contain.text', 'Search results');
+
+      cy.get('va-card').should('exist');
     });
 
     it('displays error state when fetching results fails', () => {
@@ -82,7 +124,6 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
 
     // TODO: updates results correctly when category checkboxes are changed
     // TODO: updates results correctly when state dropdown is changed
-    // TODO: displays error state when details fetch fails
 
     // TODO: update test "displays search results with pagination"
     it('displays search results', () => {
@@ -176,7 +217,6 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
     });
 
     it('renders test details correctly when there is only one test', () => {
-      // Intercept with single test data
       const singleTestData = {
         lac: {
           enrichedId: '1@sec',
