@@ -36,13 +36,15 @@ class PersonalInformationPage {
       `GET`,
       `/my_health/v1/messaging/preferences/signature`,
       signatureResponse,
-    );
+    ).as(`signature`);
 
     SecureMessagingSite.login(togglesResponse);
 
     cy.visit(`/profile/personal-information`);
 
     this.getPageHeader().should(`have.text`, `Personal information`);
+
+    cy.wait(`@signature`);
   };
 
   updateFeatureToggles = toggles => {

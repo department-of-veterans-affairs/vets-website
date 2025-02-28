@@ -12,7 +12,7 @@ const updatedSignatureResponse = {
     },
   },
 };
-describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
+describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
   beforeEach(() => {
     const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
       {
@@ -39,7 +39,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('verify user can add signature', () => {
+  it('verify user can edit and save signature', () => {
     cy.get(`#edit-messaging-signature`).click();
 
     cy.get(`#root_signatureName`)

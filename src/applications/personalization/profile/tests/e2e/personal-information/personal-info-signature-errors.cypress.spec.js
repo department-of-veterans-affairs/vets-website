@@ -1,0 +1,82 @@
+import PersonalInformationPage from '../pages/PersonalInformationPage';
+// import mockSignature from '../../fixtures/personal-information-signature.json';
+
+describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
+  beforeEach(() => {
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
+      {
+        name: 'mhv_secure_messaging_signature_settings',
+        value: true,
+      },
+    ]);
+
+    // const noSignatureResponse = {
+    //   ...mockSignature,
+    //   data: {
+    //     ...mockSignature.data,
+    //     attributes: {
+    //       ...mockSignature.data.attributes,
+    //       signatureName: null,
+    //       signatureTitle: null,
+    //     },
+    //   },
+    // };
+
+    PersonalInformationPage.load(updatedFeatureToggles);
+  });
+
+  it('verify empty fields alerts', () => {
+    cy.get(`#edit-messaging-signature`).click();
+    cy.get(`#root_signatureName`).clear();
+    cy.get(`#root_signatureTitle`).clear();
+    cy.get(`[data-testid="save-edit-button"]`).click({
+      waitForAnimations: true,
+    });
+
+    cy.get('[role="alert"]').each(el => {
+      cy.wrap(el).should(
+        `have.text`,
+        `Error Both fields are required to save a signature.`,
+      );
+    });
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('verify edit signature alerts', () => {
+    cy.get(`#edit-messaging-signature`).click();
+    cy.get(`#root_signatureName`)
+      .clear()
+      .type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
+    // verify alert modal details
+    cy.get(`.first-focusable-child`).should(`be.focused`);
+    cy.get(`[data-testid="confirm-cancel-modal"]`)
+      .shadow()
+      .find(`h2`)
+      .should(`have.text`, `Cancel changes?`);
+    cy.get(`[data-testid="confirm-cancel-modal"]`)
+      .find(`p`)
+      .should(
+        `contain.text`,
+        `You haven't finished editing and saving the changes to your messaging signature. If you cancel now, we won't save your changes.`,
+      );
+    cy.get(`[data-testid="confirm-cancel-modal"]`)
+      .shadow()
+      .find(`va-button`)
+      .find(`button`, { includeShadowDom: true })
+      .first()
+      .should(`have.text`, `Yes, cancel my changes`);
+    cy.get(`[data-testid="confirm-cancel-modal"]`)
+      .shadow()
+      .find(`va-button`)
+      .find(`button`, { includeShadowDom: true })
+      .last()
+      .should(`have.text`, `No, go back to editing`);
+
+    // click cancel changes
+
+    cy.injectAxeThenAxeCheck();
+  });
+});
