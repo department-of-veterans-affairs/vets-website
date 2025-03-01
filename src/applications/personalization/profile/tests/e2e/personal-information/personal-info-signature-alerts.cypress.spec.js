@@ -26,7 +26,7 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
   });
 
   it('verify empty fields alerts', () => {
-    cy.get(`#edit-messaging-signature`).click();
+    cy.get(`#edit-messages-signature`).click();
     cy.get(`#root_signatureName`).clear();
     cy.get(`#root_signatureTitle`).clear();
     cy.get(`[data-testid="save-edit-button"]`).click({
@@ -44,7 +44,7 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
   });
 
   it('verify edit signature alerts', () => {
-    cy.get(`#edit-messaging-signature`).click();
+    cy.get(`#edit-messages-signature`).click();
     cy.get(`#root_signatureName`)
       .clear()
       .type('Jack Sparrow');
@@ -60,22 +60,25 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
       .find(`p`)
       .should(
         `contain.text`,
-        `You haven't finished editing and saving the changes to your messaging signature. If you cancel now, we won't save your changes.`,
+        `You haven't finished editing and saving the changes to your messages signature. If you cancel now, we won't save your changes.`,
       );
-    cy.get(`[data-testid="confirm-cancel-modal"]`)
-      .shadow()
-      .find(`va-button`)
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
       .find(`button`, { includeShadowDom: true })
       .first()
       .should(`have.text`, `Yes, cancel my changes`);
-    cy.get(`[data-testid="confirm-cancel-modal"]`)
-      .shadow()
-      .find(`va-button`)
+
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
       .find(`button`, { includeShadowDom: true })
       .last()
       .should(`have.text`, `No, go back to editing`);
 
     // click cancel changes
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .first()
+      .click();
+
+    cy.get(`#edit-messages-signature`).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });

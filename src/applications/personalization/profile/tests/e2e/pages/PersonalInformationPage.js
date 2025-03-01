@@ -58,13 +58,13 @@ class PersonalInformationPage {
   };
 
   verifyInterface = () => {
-    cy.get(`h2`)
+    cy.get(`#messaging-signature > h2`)
       .should('be.visible')
-      .and('contain.text', 'Messaging signature');
-    cy.get('#edit-messaging-signature')
+      .and('contain.text', 'Messages signature');
+    cy.get('#edit-messages-signature')
       .should('be.visible')
       .and('have.text', 'Edit');
-    cy.get(`#remove-messaging-signature`)
+    cy.get(`#remove-messages-signature`)
       .should('be.visible')
       .and('have.text', 'Remove');
     cy.get(`[data-testid="messagingSignature"]`).should(

@@ -25,7 +25,7 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
   });
 
   it(`verify user can cancel editing signature`, () => {
-    cy.get(`#edit-messaging-signature`).click();
+    cy.get(`#edit-messages-signature`).click();
     cy.get(`#root_signatureName-label`)
       .should('be.visible')
       .and('contain.text', `(*Required)`);
@@ -34,13 +34,13 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
       .and('contain.text', `(*Required)`);
 
     cy.get(`[data-testid="cancel-edit-button"]`).click();
-    cy.get(`#edit-messaging-signature`).should(`be.focused`);
+    cy.get(`#edit-messages-signature`).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
 
   it('verify user can edit and save signature', () => {
-    cy.get(`#edit-messaging-signature`).click();
+    cy.get(`#edit-messages-signature`).click();
 
     cy.get(`#root_signatureName`)
       .should(`be.focused`)
@@ -64,7 +64,7 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE', () => {
     cy.get(`#messagingSignature-alert`)
       .should(`be.visible`)
       .and('have.text', `Update saved.`);
-    cy.get(`#edit-messaging-signature`).should(`be.focused`);
+    cy.get(`#edit-messages-signature`).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });

@@ -15,7 +15,7 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
 
   it('verify user can cancel delete signature', () => {
     // close modal by cancel btn
-    cy.get(`#remove-messaging-signature`).click();
+    cy.get(`#remove-messages-signature`).click();
 
     cy.get(`.first-focusable-child`).should(`be.focused`);
 
@@ -36,13 +36,13 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
       .should(`have.text`, `No, cancel this change`)
       .click();
 
-    cy.get('#edit-messaging-signature').should('be.focused');
+    cy.get('#edit-messages-signature').should('be.focused');
 
     // close modal by cross btn
-    cy.get(`#remove-messaging-signature`).click();
+    cy.get(`#remove-messages-signature`).click();
     cy.get(`.first-focusable-child`).click();
 
-    cy.get('#edit-messaging-signature').should('be.focused');
+    cy.get('#edit-messages-signature').should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -66,17 +66,17 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
       noSignatureResponse,
     ).as('updatedSignature');
 
-    cy.get(`#remove-messaging-signature`).click();
+    cy.get(`#remove-messages-signature`).click();
     cy.get(`[modal-title="Remove signature?"] > div > button`).click();
 
     cy.get(`#messagingSignature-alert`)
       .should(`be.visible`)
       .and('have.text', `Update saved.`);
-    cy.get(`#edit-messaging-signature`).should(`be.focused`);
+    cy.get(`#edit-messages-signature`).should(`be.focused`);
 
     cy.get(`[data-testid="messagingSignature"]`).should(
       `contain.text`,
-      `Choose edit to add a messaging signature.`,
+      `Choose edit to add a messages signature.`,
     );
     cy.injectAxeThenAxeCheck();
   });
