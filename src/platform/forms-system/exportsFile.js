@@ -184,8 +184,6 @@ export {
 
 export { default as TextWidget } from './src/js/widgets/TextWidget';
 
-export { default as ArrayCountWidget } from './src/js/widgets/ArrayCountWidget';
-
 export {
   closeReviewChapter,
   openReviewChapter,
