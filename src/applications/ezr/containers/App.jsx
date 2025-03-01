@@ -7,7 +7,7 @@ import { setData } from 'platform/forms-system/src/js/actions';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
-import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
+import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
