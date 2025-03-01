@@ -182,44 +182,63 @@ describe('getEvidence', () => {
         retrieveFrom: [
           {
             type: 'retrievalEvidence',
-            attributes: {
-              locationAndName: 'test 1',
-              evidenceDates: [
-                {
-                  startDate: newForm ? '2002-05-01' : '2022-01-05',
-                  endDate: newForm ? '2002-05-01' : '2022-02-02',
+            attributes: newForm
+              ? {
+                  locationAndName: 'test 1',
+                  evidenceDates: [
+                    {
+                      startDate: '2002-05-01',
+                      endDate: '2002-05-01',
+                    },
+                  ],
+                  noTreatmentDates: false,
+                }
+              : {
+                  locationAndName: 'test 1',
+                  evidenceDates: [
+                    {
+                      startDate: '2022-01-05',
+                      endDate: '2022-02-02',
+                    },
+                  ],
                 },
-              ],
-              noTreatmentDates: false,
-            },
           },
           {
             type: 'retrievalEvidence',
-            attributes: {
-              locationAndName: 'test 2',
-              evidenceDates: [
-                {
-                  startDate: newForm ? '2002-07-01' : '2022-03-03',
-                  endDate: newForm ? '2002-07-01' : '2022-04-04',
+            attributes: newForm
+              ? {
+                  locationAndName: 'test 2',
+                  evidenceDates: [
+                    {
+                      startDate: '2002-07-01',
+                      endDate: '2002-07-01',
+                    },
+                  ],
+                  noTreatmentDates: false,
+                }
+              : {
+                  locationAndName: 'test 2',
+                  evidenceDates: [
+                    {
+                      startDate: '2022-03-03',
+                      endDate: '2022-04-04',
+                    },
+                  ],
                 },
-              ],
-              noTreatmentDates: false,
-            },
           },
           {
             type: 'retrievalEvidence',
-            attributes: {
-              locationAndName: 'test 3',
-              evidenceDates: [
-                newForm
-                  ? {}
-                  : {
+            attributes: newForm
+              ? { locationAndName: 'test 3', noTreatmentDates: true }
+              : {
+                  locationAndName: 'test 3',
+                  evidenceDates: [
+                    {
                       startDate: '2022-05-05',
                       endDate: '2022-06-06',
                     },
-              ],
-              noTreatmentDates: true,
-            },
+                  ],
+                },
           },
         ],
       },
