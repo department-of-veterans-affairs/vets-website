@@ -30,7 +30,7 @@ AppointmentDetails.propTypes = {
   appointment: PropTypes.object,
 };
 
-export const AppointmentInfoText = ({ appointment, isPast, isOutOfBounds }) => {
+export const AppointmentInfoText = ({ appointment, isOutOfBounds }) => {
   const daysLeft = getDaysLeft(appointment.localStartTime);
 
   if (appointment.travelPayClaim?.claim) {
@@ -50,7 +50,7 @@ export const AppointmentInfoText = ({ appointment, isPast, isOutOfBounds }) => {
     );
   }
 
-  if (!isPast) {
+  if (!appointment.isPast) {
     return <FutureAppointmentAlert />;
   }
 
