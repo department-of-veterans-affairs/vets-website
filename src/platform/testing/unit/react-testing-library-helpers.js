@@ -7,6 +7,7 @@ import { isPlainObject } from 'lodash';
 import { render as rtlRender } from '@testing-library/react';
 
 import { commonReducer } from 'platform/startup/store';
+import { vaosApi } from 'applications/vaos/redux/api/vaosApi';
 import { createTestHistory } from './helpers';
 
 /**
@@ -39,7 +40,7 @@ export function renderInReduxProvider(
     createStore(
       combineReducers({ ...commonReducer, ...reducers }),
       initialState,
-      applyMiddleware(thunk),
+      applyMiddleware(thunk, vaosApi.middleware),
     );
   const Wrapper = ({ children }) => {
     return <Provider store={testStore}>{children}</Provider>;
@@ -81,7 +82,7 @@ export function renderWithStoreAndRouter(
     createStore(
       combineReducers({ ...commonReducer, ...reducers }),
       initialState,
-      applyMiddleware(thunk),
+      applyMiddleware(thunk, vaosApi.middleware),
     );
 
   const historyObject = history || createTestHistory(path);
