@@ -5,6 +5,8 @@ export const FACILITY_TYPE_DROPDOWN = '#facility-type-dropdown';
 export const VA_HEALTH_SERVICE_DROPDOWN = '#service-type-dropdown';
 export const CCP_SERVICE_TYPE_INPUT = '#service-type-ahead-input';
 export const SEARCH_BUTTON = '#facility-search';
+export const SEARCH_AVAILABLE = '#search-available-service-prompt';
+export const NO_SERVICE = '#could-not-find-service-prompt';
 
 export const FACILITY_LISTING_CONTAINER = '.facility-result';
 export const FACILITY_DISTANCE = '[data-testid="fl-results-distance"]';
@@ -35,6 +37,7 @@ export const SEARCH_FORM_ERROR_MESSAGE = '.usa-input-error-message';
 
 export const typeInCityStateInput = (value, shouldCloseDropdown = false) => {
   cy.get(CITY_STATE_ZIP_INPUT).type(value);
+
   if (shouldCloseDropdown) {
     cy.get(CITY_STATE_ZIP_INPUT).type('{esc}'); // close the dropdown in case of autosuggest
   }
@@ -49,6 +52,15 @@ export const typeAndSelectInCCPServiceTypeInput = value => {
     .eq(0)
     .click();
 };
+
+export const typeInCCPServiceTypeInput = value =>
+  cy.get(CCP_SERVICE_TYPE_INPUT).type(value);
+
+export const clearInput = selector =>
+  cy
+    .get(selector)
+    .clear()
+    .should('be.empty');
 
 export const FACILITY_TYPES = {
   HEALTH: 'VA health',
@@ -79,6 +91,12 @@ export const selectServiceTypeInVAHealthDropdown = value =>
 
 export const submitSearchForm = () =>
   cy.get(SEARCH_BUTTON).click({ waitForAnimations: true });
+
+export const clickElement = selector =>
+  cy
+    .get(selector)
+    .should('be.visible')
+    .click({ waitForAnimations: true });
 
 export const verifyMainNumber = number => {
   cy.get(MAIN_PHONE)
@@ -195,6 +213,12 @@ export const awaitMapRender = () =>
   // eslint-disable-next-line cypress/no-unnecessary-waiting
   cy.wait(3000);
 
+export const verifyElementExists = selector =>
+  cy
+    .get(selector)
+    .should('exist')
+    .and('be.visible');
+
 export const verifyElementByText = text =>
   cy
     .findByText(text)
@@ -209,5 +233,23 @@ export const verifyElementShouldContainText = (selector, text) =>
     .and('be.visible')
     .and('contain.text', text);
 
+export const verifyElementShouldContainString = (selector, regex) =>
+  cy
+    .get(selector)
+    .should('exist')
+    .and('be.visible')
+    .contains(regex);
+
+export const verifyElementDoesNotExist = selector =>
+  cy.get(selector).should('not.exist');
+
+export const verifyElementIsNotDisabled = selector =>
+  cy.get(selector).should('not.be.disabled');
+
 export const errorMessageContains = text =>
   verifyElementShouldContainText(SEARCH_FORM_ERROR_MESSAGE, text);
+
+export const elementIsFocused = selector =>
+  cy.get(selector).should('be.focused');
+
+export const focusElement = selector => cy.get(selector).focus();
