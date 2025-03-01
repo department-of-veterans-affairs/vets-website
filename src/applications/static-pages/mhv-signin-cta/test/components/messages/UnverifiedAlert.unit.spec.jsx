@@ -1,96 +1,71 @@
 import React from 'react';
-import createMockStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { waitFor, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import UnverifiedAlert, {
-  headingPrefix,
-  mhvHeadingPrefix,
-} from '../../../components/messages/UnverifiedAlert';
+import UnverifiedAlert from '../../../components/messages/UnverifiedAlert';
 
-const mockStore = createMockStore([]);
+const generateStore = ({ serviceName = 'idme' } = {}) => ({
+  user: { profile: { signIn: { serviceName } } },
+});
 
 describe('Unverified Alert component', () => {
-  it('renders without service description', () => {
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert />
-      </Provider>,
-    );
-    expect(getByRole('heading', { level: 3, name: headingPrefix })).to.exist;
+  const initialState = generateStore();
+  afterEach(cleanup);
+
+  it('renders', () => {
+    const { container } = renderInReduxProvider(<UnverifiedAlert />, {
+      initialState,
+    });
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
   });
 
-  it('with service description', () => {
-    const serviceDescription = 'order supplies';
-
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert serviceDescription={serviceDescription} />
-      </Provider>,
+  it('with header level 3', () => {
+    const { container } = renderInReduxProvider(
+      <UnverifiedAlert headerLevel={3} />,
+      {
+        initialState,
+      },
     );
-    const expectedHeadline = `${headingPrefix} to ${serviceDescription}`;
-    expect(getByRole('heading', { name: expectedHeadline })).to.exist;
-  });
-
-  it('with header level 4', () => {
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert headerLevel={4} />
-      </Provider>,
-    );
-    expect(getByRole('heading', { level: 4, name: headingPrefix })).to.exist;
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('heading-level')).to.eql('3');
   });
 
   it('renders MHV account alert', () => {
-    const { getByRole, getByText } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.MHV} />
-      </Provider>,
-    );
-    expect(getByRole('heading', { level: 3, name: mhvHeadingPrefix })).to.exist;
-    expect(getByText(/You have 2 options/)).to.exist;
+    const { container } = renderInReduxProvider(<UnverifiedAlert />, {
+      initialState: generateStore({ serviceName: CSP_IDS.MHV }),
+    });
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.eql('signInEither');
   });
 
   it('renders alert for Login.gov account', () => {
-    const { getByRole, queryByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.LOGIN_GOV} />
-      </Provider>,
-    );
-    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
-    expect(queryByRole('button', { name: /Verify with ID.me/ })).not.to.exist;
+    const { container } = renderInReduxProvider(<UnverifiedAlert />, {
+      initialState: generateStore({ serviceName: CSP_IDS.LOGIN_GOV }),
+    });
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.eql('verifyLoginGov');
   });
 
   it('renders alert for ID.me account', () => {
-    const { getByRole, queryByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.ID_ME} />
-      </Provider>,
-    );
-    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
-    expect(queryByRole('button', { name: /Verify with Login.gov/ })).not.to
-      .exist;
-  });
-
-  it('renders alert for MHV Basic account', () => {
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert signInService={CSP_IDS.MHV} />
-      </Provider>,
-    );
-    expect(getByRole('button', { name: /Verify with ID.me/ })).to.exist;
-    expect(getByRole('button', { name: /Verify with Login.gov/ })).to.exist;
+    const { container } = renderInReduxProvider(<UnverifiedAlert />, {
+      initialState: generateStore({ serviceName: CSP_IDS.ID_ME }),
+    });
+    const signInAlert = container.querySelector('va-alert-sign-in');
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('variant')).to.eql('verifyIdMe');
   });
 
   it('reports analytics', async () => {
     const recordEventSpy = sinon.spy();
-    render(
-      <Provider store={mockStore()}>
-        <UnverifiedAlert recordEvent={recordEventSpy} />
-      </Provider>,
-    );
+    renderInReduxProvider(<UnverifiedAlert recordEvent={recordEventSpy} />, {
+      initialState,
+    });
     await waitFor(() => {
       expect(recordEventSpy.calledOnce).to.be.true;
     });
