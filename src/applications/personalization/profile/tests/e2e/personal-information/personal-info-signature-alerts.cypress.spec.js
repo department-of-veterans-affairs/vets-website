@@ -1,8 +1,8 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
-// import mockSignature from '../../fixtures/personal-information-signature.json';
+import mockSignature from '../../fixtures/personal-information-signature.json';
 
 describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
-  beforeEach(() => {
+  it('verify empty fields alerts', () => {
     const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
       {
         name: 'mhv_secure_messaging_signature_settings',
@@ -10,22 +10,8 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
       },
     ]);
 
-    // const noSignatureResponse = {
-    //   ...mockSignature,
-    //   data: {
-    //     ...mockSignature.data,
-    //     attributes: {
-    //       ...mockSignature.data.attributes,
-    //       signatureName: null,
-    //       signatureTitle: null,
-    //     },
-    //   },
-    // };
-
     PersonalInformationPage.load(updatedFeatureToggles);
-  });
 
-  it('verify empty fields alerts', () => {
     cy.get(`#edit-messages-signature`).click();
     cy.get(`#root_signatureName`).clear();
     cy.get(`#root_signatureTitle`).clear();
@@ -42,15 +28,52 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
 
     cy.injectAxeThenAxeCheck();
   });
+});
 
-  it('verify edit signature alerts', () => {
+describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
+  beforeEach(() => {
+    const noSignatureResponse = {
+      ...mockSignature,
+      data: {
+        ...mockSignature.data,
+        attributes: {
+          ...mockSignature.data.attributes,
+          signatureName: null,
+          signatureTitle: null,
+        },
+      },
+    };
+
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
+      {
+        name: 'mhv_secure_messaging_signature_settings',
+        value: true,
+      },
+    ]);
+    PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
+  });
+
+  it('verify alert modal details', () => {});
+});
+
+describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
+  beforeEach(() => {
+    const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
+      {
+        name: 'mhv_secure_messaging_signature_settings',
+        value: true,
+      },
+    ]);
+    PersonalInformationPage.load(updatedFeatureToggles);
+  });
+
+  it('verify alert modal details', () => {
     cy.get(`#edit-messages-signature`).click();
     cy.get(`#root_signatureName`)
       .clear()
       .type('Jack Sparrow');
     cy.get(`[data-testid="cancel-edit-button"]`).click();
 
-    // verify alert modal details
     cy.get(`.first-focusable-child`).should(`be.focused`);
     cy.get(`[data-testid="confirm-cancel-modal"]`)
       .shadow()
@@ -72,13 +95,39 @@ describe('PERSONAL INFORMATION SIGNATURE ALERTS', () => {
       .last()
       .should(`have.text`, `No, go back to editing`);
 
-    // click cancel changes
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('verify user can cancel changes', () => {
+    cy.get(`#edit-messages-signature`).click();
+    cy.get(`#root_signatureName`)
+      .clear()
+      .type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
     cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
       .find(`button`, { includeShadowDom: true })
       .first()
       .click();
 
     cy.get(`#edit-messages-signature`).should(`be.focused`);
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('verify user can back to editing', () => {
+    cy.get(`#edit-messages-signature`).click();
+    cy.get(`#root_signatureName`)
+      .clear()
+      .type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .last()
+      .click();
+
+    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
