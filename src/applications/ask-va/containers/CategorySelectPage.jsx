@@ -48,6 +48,7 @@ const CategorySelectPage = props => {
         categoryId: selected.id,
         selectCategory: selectedValue,
         allowAttachments: selected.attributes.allowAttachments,
+        contactPreferences: selected.attributes.contactPreferences,
       });
     }
   };
