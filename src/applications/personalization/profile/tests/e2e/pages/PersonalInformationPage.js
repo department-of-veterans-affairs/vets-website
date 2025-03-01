@@ -57,10 +57,31 @@ class PersonalInformationPage {
     };
   };
 
-  verifyInterface = () => {
+  verifyNoSignatureInterface = () => {
     cy.get(`#messaging-signature > h2`)
       .should('be.visible')
       .and('contain.text', 'Messages signature');
+    cy.get(`#messaging-signature > span`)
+      .should('be.visible')
+      .and(
+        'contain.text',
+        'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
+      );
+    cy.get('#edit-messages-signature')
+      .should('be.visible')
+      .and('have.text', 'Edit');
+  };
+
+  verifyExistingSignatureInterface = () => {
+    cy.get(`#messaging-signature > h2`)
+      .should('be.visible')
+      .and('contain.text', 'Messages signature');
+    cy.get(`#messaging-signature > span`)
+      .should('be.visible')
+      .and(
+        'contain.text',
+        'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
+      );
     cy.get('#edit-messages-signature')
       .should('be.visible')
       .and('have.text', 'Edit');

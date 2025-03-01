@@ -53,7 +53,65 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
     PersonalInformationPage.load(updatedFeatureToggles, noSignatureResponse);
   });
 
-  it('verify alert modal details', () => {});
+  it('verify alert modal details', () => {
+    cy.get(`#edit-messages-signature`).click();
+    cy.get(`#root_signatureName`).type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
+    // verify alert details
+    cy.get(`.first-focusable-child`).should(`be.focused`);
+    cy.get(`[data-testid="confirm-cancel-modal"]`)
+      .shadow()
+      .find(`h2`)
+      .should(`have.text`, `Cancel changes?`);
+    cy.get(`[data-testid="confirm-cancel-modal"]`)
+      .find(`p`)
+      .should(
+        `contain.text`,
+        `You haven't finished editing and saving the changes to your messages signature. If you cancel now, we won't save your changes.`,
+      );
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .first()
+      .should(`have.text`, `Yes, cancel my changes`);
+
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .last()
+      .should(`have.text`, `No, go back to editing`);
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('verify user can cancel changes', () => {
+    cy.get(`#edit-messages-signature`).click();
+    cy.get(`#root_signatureName`).type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .first()
+      .click();
+
+    cy.get(`#edit-messages-signature`).should(`be.focused`);
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('verify user can back to editing', () => {
+    cy.get(`#edit-messages-signature`).click();
+    cy.get(`#root_signatureName`).type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
+    cy.get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .last()
+      .click();
+
+    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
+
+    cy.injectAxeThenAxeCheck();
+  });
 });
 
 describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
@@ -74,6 +132,7 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
       .type('Jack Sparrow');
     cy.get(`[data-testid="cancel-edit-button"]`).click();
 
+    // verify alert details
     cy.get(`.first-focusable-child`).should(`be.focused`);
     cy.get(`[data-testid="confirm-cancel-modal"]`)
       .shadow()
