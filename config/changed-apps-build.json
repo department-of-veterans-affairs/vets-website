@@ -98,28 +98,31 @@
     },
     {
       "rootFolder": "education-letters",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "enrollment-verification",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "ezr",
-      "slackGroup": "@1010-fe-dev",
-      "continuousDeployment": false
+      "slackGroup": "@1010-fe-dev"
+    },
+    {
+      "rootFolder": "facility-locator",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "financial-status-report",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "fry-dea",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "gi",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "hca",
@@ -131,8 +134,11 @@
     },
     {
       "rootFolder": "income-and-asset-statement",
-      "slackGroup": "<@C0667PCPVLM>",
-      "continuousDeployment": false
+      "slackGroup": "<@C0667PCPVLM>"
+    },
+    {
+      "rootFolder": "ivc-champva",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "letters",
