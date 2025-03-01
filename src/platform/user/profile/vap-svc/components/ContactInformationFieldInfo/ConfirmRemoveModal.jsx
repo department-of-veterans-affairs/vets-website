@@ -15,6 +15,7 @@ const ConfirmRemoveModal = ({
   onHide,
 }) => {
   if (!isVisible) {
+    // test
     return null;
   }
   return (

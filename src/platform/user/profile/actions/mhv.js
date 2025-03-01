@@ -22,6 +22,8 @@ export function fetchMHVAccount() {
   };
 }
 
+// test
+
 /**
  * Get message signature from user preferences.
  * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
