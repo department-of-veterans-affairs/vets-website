@@ -1,9 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import recordEvent from 'platform/monitoring/record-event';
 import SearchByName from './SearchByName';
 import SearchByProgram from './SearchByProgram';
+import {
+  changeSearchTab,
+  enterPreviewMode,
+  exitPreviewMode,
+  fetchConstants,
+  fetchSearchByNameResults,
+  filterBeforeResultFlag,
+} from '../../actions';
+import { updateUrlParams } from '../../selectors/search';
+import {
+  convertSchoolsAndEmployersTabIndexToText,
+  isSmallScreen,
+} from '../../utils/helpers';
+import NameSearchResults from '../../containers/search/NameSearchResults';
 
 const SchoolAndEmployers = () => {
+  const search = useSelector(state => state.search);
+  const preview = useSelector(state => state.preview);
+  const filters = useSelector(state => state.filters);
+  const dispatch = useDispatch();
   const [currentTab, setCurrentTab] = useState(0);
   const tabPanelClassList =
     'vads-u-border-bottom--1px vads-u-border-left--1px vads-u-border-right--1px vads-u-border-color--primary medium-screen:vads-u-padding--4 mobile:vads-u-padding--2';
@@ -12,6 +33,39 @@ const SchoolAndEmployers = () => {
   const inactiveTabClassList = `${baseTabClassList} vads-u-background-color--base-lightest vads-u-border-color--base-lightest vads-u-border-bottom--1px`;
   const activeTabClassList = `${baseTabClassList} vads-u-border-color--primary`;
   const inactiveTabText = 'vads-u-color--gray-dark vads-u-margin--0';
+  const { version } = preview;
+  const history = useHistory();
+  const { error } = search;
+  const versionChange = version && version !== preview.version?.id;
+  const shouldExitPreviewMode = preview.display && !version;
+  const shouldEnterPreviewMode = !preview.display && versionChange;
+  const [smallScreen /* , setSmallScreen */] = useState(isSmallScreen());
+
+  useEffect(
+    () => {
+      if (shouldExitPreviewMode) {
+        dispatch(exitPreviewMode());
+      } else if (shouldEnterPreviewMode) {
+        dispatch(enterPreviewMode(version));
+      } else {
+        dispatch(fetchConstants());
+      }
+    },
+    [shouldExitPreviewMode, shouldEnterPreviewMode, dispatch, version],
+  );
+
+  const tabChange = selectedTab => {
+    const selectedTabText = convertSchoolsAndEmployersTabIndexToText(
+      selectedTab,
+    );
+    recordEvent({
+      event: 'nav-tab-click',
+      'tab-text': `Search by ${selectedTab}`,
+    });
+    setCurrentTab(selectedTab);
+    dispatch(changeSearchTab(selectedTabText));
+    updateUrlParams(history, selectedTabText, search.query, filters, version);
+  };
 
   return (
     <div className="schools-employers-tabs-container">
@@ -21,7 +75,7 @@ const SchoolAndEmployers = () => {
         employers.
       </p>
       <div className="vads-u-margin-top--5 vads-u-margin-bottom--3">
-        <Tabs onSelect={firstTab => setCurrentTab(firstTab)}>
+        <Tabs onSelect={tabChange}>
           <TabList
             className="vads-l-row vads-u-padding--0 vads-u-margin--0"
             style={{ listStyle: 'none', cursor: 'pointer' }}
@@ -63,9 +117,33 @@ const SchoolAndEmployers = () => {
             <SearchByName />
           </TabPanel>
           <TabPanel className={currentTab === 1 ? tabPanelClassList : null}>
-            <SearchByProgram />
+            <SearchByProgram
+              dispatchShowFiltersBeforeResult={() =>
+                dispatch(filterBeforeResultFlag())
+              }
+              dispatchFetchSearchByNameResults={(
+                searchName,
+                page,
+                currentFilters,
+                currentVersion,
+              ) =>
+                dispatch(
+                  fetchSearchByNameResults(
+                    searchName,
+                    page,
+                    currentFilters,
+                    currentVersion,
+                  ),
+                )
+              }
+              search={search}
+            />
           </TabPanel>
         </Tabs>
+      </div>
+      <div className="search-box">
+        {!error &&
+          !smallScreen && <NameSearchResults smallScreen={smallScreen} />}
       </div>
     </div>
   );
