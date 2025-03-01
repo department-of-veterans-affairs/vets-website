@@ -3,6 +3,7 @@ import serviceHistory from '@@profile/tests/fixtures/service-history-success.jso
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import manifest from 'applications/personalization/dashboard/manifest.json';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import paymentHistory from '../fixtures/test-empty-payments-response.json';
 import formStatusesNoError from '../fixtures/form-statuses-no-errors.json';
 import formStatusesWithError from '../fixtures/form-statuses-with-errors.json';
@@ -138,6 +139,70 @@ describe('The My VA Dashboard', () => {
         /you have no benefit applications or forms to show/i,
       ).should('exist');
       cy.findAllByTestId('missing-application-help').should('have.length', 1);
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+  });
+
+  describe('a submitted form is received and has a PDF download link', () => {
+    beforeEach(() => {
+      cy.intercept('GET', '/v0/feature_toggles*', {
+        data: {
+          features: [
+            {
+              name: featureFlagNames.myVaFormPdfLink,
+              value: true,
+            },
+          ],
+        },
+      });
+      cy.intercept('/v0/my_va/submission_statuses', formStatusesNoError);
+      cy.intercept('POST', '/v0/my_va/submission_pdf_urls', {
+        statusCode: 200,
+        body: {
+          url:
+            'https://example.com/form_21-10210_vagov_123fake-submission-id-567.pdf',
+        },
+      }).as('pdfEndpoint');
+
+      cy.login(mockUser);
+      cy.visit(manifest.rootUrl);
+    });
+
+    it('should show success message if download works', () => {
+      cy.findAllByTestId('submitted-application').should('have.length', 4);
+      cy.get('button')
+        .contains('Download your completed form (PDF)')
+        .should('be.visible')
+        .click();
+      cy.wait('@pdfEndpoint')
+        .its('response.statusCode')
+        .should('eq', 200);
+      cy.readFile(
+        `${Cypress.config(
+          'downloadsFolder',
+        )}/Form_22-1990_3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80.pdf`,
+      ).should('exist');
+      cy.get('va-alert[status="success"]').should('be.visible');
+      cy.injectAxe();
+      cy.axeCheck();
+    });
+
+    it('should show error alert if API call fails', () => {
+      cy.intercept('/v0/my_va/submission_pdf_urls', {
+        statusCode: 400,
+        body: { error: 'bad request' },
+      }).as('getPdfUrlError');
+      cy.findAllByTestId('submitted-application').should('have.length', 4);
+      cy.get('button')
+        .contains('Download your completed form (PDF)')
+        .click();
+      cy.wait('@getPdfUrlError')
+        .its('response.statusCode')
+        .should('eq', 400);
+      cy.get('va-alert[status="error"]')
+        .should('be.visible')
+        .and('contain', "can't download");
       cy.injectAxe();
       cy.axeCheck();
     });
