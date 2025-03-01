@@ -1,6 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { API_ROUTES } from 'platform/user/profile/vap-svc/constants';
 import { DefaultFolders, threadSortingOptions } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
@@ -405,7 +404,7 @@ export const searchFolderAdvanced = (folderId, query, isPilot) => {
  * @returns {Object} signature object {data: {signatureName, includeSignature, signatureTitle}, errors:{}, metadata: {}}
  */
 export const getSignature = () => {
-  return apiRequest(`${apiBasePath}${API_ROUTES.MESSAGING_SIGNATURE}`, {
+  return apiRequest(`${apiBasePath}/messaging/preferences/signature`, {
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
