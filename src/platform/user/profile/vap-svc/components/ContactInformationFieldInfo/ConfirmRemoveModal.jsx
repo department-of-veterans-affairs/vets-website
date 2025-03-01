@@ -18,62 +18,102 @@ const ConfirmRemoveModal = ({
     return null;
   }
   return (
-    <VaModal
-      modalTitle="Are you sure?"
-      className="overflow-auto"
-      status="warning"
-      visible={isVisible}
-      onCloseEvent={onHide}
-      uswds
-    >
-      <div>
-        This will remove your {title.toLowerCase()} across these VA benefits and
-        services:
-      </div>
-      <ul>
-        {isEnrolledInVAHealthCare && (
-          <li>
-            VA health care (including prescriptions, appointment reminders, lab
-            and test results, and communications from your VA medical center)
-          </li>
-        )}
-        <li>Disability compensation</li>
-        <li>Pension benefits</li>
-        <li>Claims and appeals</li>
-        <li>Veteran Readiness and Employment (VR&E)</li>
-        {fieldName === FIELD_NAMES.EMAIL ||
-        fieldName === FIELD_NAMES.MOBILE_PHONE ? (
-          <li>
-            Some VA notifications. This means you’ll stop getting any VA{' '}
-            {fieldName === FIELD_NAMES.EMAIL ? 'email' : 'text'} notifications
-            you signed up for.
-          </li>
-        ) : (
-          undefined
-        )}
-      </ul>
-      <p className="vads-u-margin-top--1">
-        {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
-      </p>
-      <div>
-        <LoadingButton
-          isLoading={isLoading}
-          onClick={deleteAction}
-          aria-label="Yes, remove my information"
-          loadingText="Removing your information"
+    <>
+      {fieldName === FIELD_NAMES.MESSAGING_SIGNATURE ? (
+        <VaModal
+          modalTitle="Remove signature?"
+          className="overflow-auto"
+          status="warning"
+          visible={isVisible}
+          onCloseEvent={onHide}
+          uswds
         >
-          Yes, remove my information
-        </LoadingButton>
+          <p className="vads-u-margin-top--1">
+            Your signature will no longer appear on outgoing secure messages.
+          </p>
+          <p className="vads-u-margin-top--1">
+            You can always come back to your profile later if you want to add
+            this signature again.
+          </p>
+          <div>
+            <LoadingButton
+              isLoading={isLoading}
+              onClick={deleteAction}
+              aria-label="Yes, remove my signature"
+              loadingText="Removing your signature"
+            >
+              Yes, remove my signature
+            </LoadingButton>
 
-        {!isLoading && (
-          <va-button
-            secondary
-            onClick={cancelAction}
-            text="No, cancel this change"
-          />
-        )}
-      </div>
-    </VaModal>
+            {!isLoading && (
+              <va-button
+                secondary
+                onClick={cancelAction}
+                text="No, cancel this change"
+              />
+            )}
+          </div>
+        </VaModal>
+      ) : (
+        <VaModal
+          modalTitle="Are you sure?"
+          className="overflow-auto"
+          status="warning"
+          visible={isVisible}
+          onCloseEvent={onHide}
+          uswds
+        >
+          <div>
+            This will remove your {title.toLowerCase()} across these VA benefits
+            and services:
+          </div>
+          <ul>
+            {isEnrolledInVAHealthCare && (
+              <li>
+                VA health care (including prescriptions, appointment reminders,
+                lab and test results, and communications from your VA medical
+                center)
+              </li>
+            )}
+            <li>Disability compensation</li>
+            <li>Pension benefits</li>
+            <li>Claims and appeals</li>
+            <li>Veteran Readiness and Employment (VR&E)</li>
+            {fieldName === FIELD_NAMES.EMAIL ||
+            fieldName === FIELD_NAMES.MOBILE_PHONE ? (
+              <li>
+                Some VA notifications. This means you’ll stop getting any VA{' '}
+                {fieldName === FIELD_NAMES.EMAIL ? 'email' : 'text'}{' '}
+                notifications you signed up for.
+              </li>
+            ) : (
+              undefined
+            )}
+          </ul>
+          <p className="vads-u-margin-top--1">
+            {`You can always come back to your profile later if you want to add this ${title.toLowerCase()} again.`}
+          </p>
+          <div>
+            <LoadingButton
+              isLoading={isLoading}
+              onClick={deleteAction}
+              aria-label="Yes, remove my information"
+              loadingText="Removing your information"
+            >
+              Yes, remove my information
+            </LoadingButton>
+
+            {!isLoading && (
+              <va-button
+                secondary
+                onClick={cancelAction}
+                text="No, cancel this change"
+              />
+            )}
+          </div>
+        </VaModal>
+      )}
+    </>
   );
 };
 

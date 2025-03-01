@@ -143,9 +143,13 @@ export const getProfileInfoFieldAttributes = fieldName => {
         apiRoute = API_ROUTES.MESSAGING_SIGNATURE;
         title = FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE];
         convertCleanDataToPayload = payload => {
+          const includeSignature =
+            !!payload?.signatureName?.trim() &&
+            !!payload?.signatureTitle?.trim();
           return {
             signatureName: payload?.signatureName,
             signatureTitle: payload?.signatureTitle,
+            includeSignature,
           };
         };
         break;
