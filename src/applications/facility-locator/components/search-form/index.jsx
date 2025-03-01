@@ -40,6 +40,8 @@ const SearchForm = props => {
     useProgressiveDisclosure,
   } = props;
 
+  // console.log({ getProviderSpecialties: getProviderSpecialties() });
+
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
 
@@ -370,6 +372,7 @@ const SearchForm = props => {
         if (useProgressiveDisclosure) {
           return (
             <ServicesLoadingOrShow
+              currentQuery={currentQuery}
               serviceType="ppms_services"
               getProviderSpecialties={getProviderSpecialties}
             >
@@ -378,6 +381,8 @@ const SearchForm = props => {
                 className={isMobile ? 'typeahead-mobile' : 'typeahead-tablet'}
               >
                 <CCServiceTypeAhead
+                  key="prog-disc-service-type-ahead"
+                  getProviderSpecialties={getProviderSpecialties}
                   handleServiceTypeChange={handleServiceTypeChange}
                   initialSelectedServiceType={serviceType}
                   isSmallDesktop={isSmallDesktop}
@@ -398,12 +403,13 @@ const SearchForm = props => {
             })}
           >
             <CCServiceTypeAhead
+              key="prog-disc-service-type-ahead"
+              getProviderSpecialties={getProviderSpecialties}
               handleServiceTypeChange={handleServiceTypeChange}
               initialSelectedServiceType={serviceType}
               isSmallDesktop={isSmallDesktop}
               showError={showError}
-              useProgressiveDisclosure={false}
-              getProviderSpecialties={getProviderSpecialties}
+              useProgressiveDisclosure={useProgressiveDisclosure}
             />
           </div>
         );

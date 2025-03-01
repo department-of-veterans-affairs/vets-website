@@ -5,7 +5,13 @@ import {
   CountriesList,
   mapboxClient,
 } from 'platform/utilities/facilities-and-mapbox';
-import { BOUNDING_RADIUS, EXPANDED_BOUNDING_RADIUS } from '../../constants';
+import {
+  BOUNDING_RADIUS,
+  EXPANDED_BOUNDING_RADIUS,
+  LocationType,
+  MIN_RADIUS_EXP,
+  MIN_RADIUS_NCA,
+} from '../../constants';
 import {
   GEOCODE_STARTED,
   SEARCH_FAILED,
@@ -60,7 +66,8 @@ export const genBBoxFromAddress = (
           features[0].context?.find(v => v.id.includes('postcode')) || {};
         const coordinates = features[0].center;
         const zipCode = zip.text || features[0].place_name;
-        const featureBox = features[0].box;
+        // [[minLon,minLat],[maxLon,maxLat]]
+        const featureBox = features?.[0]?.bbox ?? features[0].bbox;
         dispatch({
           type: GEOCODE_COMPLETE,
           payload: query.usePredictiveGeolocation
@@ -72,10 +79,25 @@ export const genBBoxFromAddress = (
               }))
             : [],
         });
-
-        const searchBoundingRadius = expandedRadius
+        const { facilityType } = query;
+        const PPMSTypes = [
+          LocationType.CC_PROVIDER,
+          LocationType.URGENT_CARE_PHARMACIES,
+        ];
+        let searchBoundingRadius = expandedRadius
           ? EXPANDED_BOUNDING_RADIUS
           : BOUNDING_RADIUS;
+
+        // latitude is divided into 111.11 km or ~69 mi
+        if (facilityType === LocationType.CEMETERY && coordinates) {
+          searchBoundingRadius = MIN_RADIUS_NCA / 69;
+        } else if (
+          useProgressiveDisclosure &&
+          !PPMSTypes.includes(facilityType) &&
+          coordinates
+        ) {
+          searchBoundingRadius = MIN_RADIUS_EXP / 69;
+        }
 
         let minBounds = [
           coordinates[0] - searchBoundingRadius,
@@ -86,17 +108,16 @@ export const genBBoxFromAddress = (
 
         if (featureBox) {
           minBounds = [
-            Math.min(featureBox[0], coordinates[0] - searchBoundingRadius),
-            Math.min(featureBox[1], coordinates[1] - searchBoundingRadius),
-            Math.max(featureBox[2], coordinates[0] + searchBoundingRadius),
-            Math.max(featureBox[3], coordinates[1] + searchBoundingRadius),
+            Math.min(featureBox[0], minBounds[0]),
+            Math.min(featureBox[1], minBounds[1]),
+            Math.max(featureBox[2], minBounds[2]),
+            Math.max(featureBox[3], minBounds[3]),
           ];
         }
-        const radius = radiusFromBoundingBox(
-          features?.[0]?.bbox
-            ? features
-            : [{ ...features[0], bbox: minBounds }],
-          query?.facilityType === 'provider',
+
+        const [, radius] = radiusFromBoundingBox(
+          [{ ...features[0], bbox: minBounds }],
+          query?.facilityType,
           useProgressiveDisclosure,
         );
         dispatch({
