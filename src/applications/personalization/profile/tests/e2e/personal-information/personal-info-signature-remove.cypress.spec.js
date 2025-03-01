@@ -1,7 +1,7 @@
 import PersonalInformationPage from '../pages/PersonalInformationPage';
 import mockSignature from '../../fixtures/personal-information-signature.json';
 
-describe('PERSONAL INFORMATION SIGNATURE', () => {
+describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
   beforeEach(() => {
     const updatedFeatureToggles = PersonalInformationPage.updateFeatureToggles([
       {
@@ -13,8 +13,7 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
     PersonalInformationPage.load(updatedFeatureToggles);
   });
 
-  it('verify user can cancel delete signature', () => {
-    // close modal by cancel btn
+  it('verify remove alert details', () => {
     cy.get(`#remove-messages-signature`).click();
 
     cy.get(`.first-focusable-child`).should(`be.focused`);
@@ -33,7 +32,16 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
     cy.get(`[modal-title="Remove signature?"] > div > va-button`)
       .shadow()
       .find(`button`)
-      .should(`have.text`, `No, cancel this change`)
+      .should(`have.text`, `No, cancel this change`);
+  });
+
+  it('verify user can cancel remove signature', () => {
+    // close modal by cancel btn
+    cy.get(`#remove-messages-signature`).click();
+
+    cy.get(`[modal-title="Remove signature?"] > div > va-button`)
+      .shadow()
+      .find(`button`)
       .click();
 
     cy.get('#edit-messages-signature').should('be.focused');
@@ -47,7 +55,7 @@ describe('PERSONAL INFORMATION SIGNATURE', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('verify user can delete signature', () => {
+  it('verify user can remove signature', () => {
     const noSignatureResponse = {
       ...mockSignature,
       data: {
