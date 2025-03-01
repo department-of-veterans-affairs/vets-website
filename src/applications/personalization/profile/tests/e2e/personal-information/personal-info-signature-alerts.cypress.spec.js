@@ -84,6 +84,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
   });
 
   it('verify user can cancel changes', () => {
+    // close modal by cancel btn
     cy.get(`#edit-messages-signature`).click();
     cy.get(`#root_signatureName`).type('Jack Sparrow');
     cy.get(`[data-testid="cancel-edit-button"]`).click();
@@ -94,6 +95,14 @@ describe('PERSONAL INFORMATION ADD SIGNATURE ALERTS', () => {
       .click();
 
     cy.get(`#edit-messages-signature`).should(`be.focused`);
+
+    // close modal by cross btn
+    cy.get(`#edit-messages-signature`).click();
+    cy.get(`#root_signatureName`).type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
+    cy.get(`.first-focusable-child`).click();
+    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
@@ -158,6 +167,7 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
   });
 
   it('verify user can cancel changes', () => {
+    // close modal by cancel btn
     cy.get(`#edit-messages-signature`).click();
     cy.get(`#root_signatureName`)
       .clear()
@@ -170,6 +180,16 @@ describe('PERSONAL INFORMATION EDIT SIGNATURE ALERTS', () => {
       .click();
 
     cy.get(`#edit-messages-signature`).should(`be.focused`);
+
+    // close modal by cross btn
+    cy.get(`#edit-messages-signature`).click();
+    cy.get(`#root_signatureName`)
+      .clear()
+      .type('Jack Sparrow');
+    cy.get(`[data-testid="cancel-edit-button"]`).click();
+
+    cy.get(`.first-focusable-child`).click();
+    cy.get(`[data-testid="cancel-edit-button"]`).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
   });
