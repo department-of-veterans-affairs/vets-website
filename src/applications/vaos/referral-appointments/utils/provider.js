@@ -107,6 +107,9 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -176,6 +179,9 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -245,6 +251,9 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -314,6 +323,9 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -383,6 +395,9 @@ const draftAppointments = {
       id: 'timeout-appointment-id',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -452,6 +467,9 @@ const draftAppointments = {
       id: 'eps-error-appointment-id',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',

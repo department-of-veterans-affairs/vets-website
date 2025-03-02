@@ -129,7 +129,12 @@ class LocatorApi {
       fetch(url, api.settings)
         .then(res => res.json())
         .then(
-          data => resolve(data.data.map(specialty => specialty.attributes)),
+          data => {
+            if (data.errors?.length) {
+              return reject(data.errors[0]);
+            }
+            return resolve(data.data.map(specialty => specialty.attributes));
+          },
           error => reject(error),
         );
     });
