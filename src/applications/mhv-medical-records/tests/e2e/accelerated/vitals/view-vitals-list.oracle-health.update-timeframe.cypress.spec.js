@@ -49,7 +49,7 @@ describe('Medical Records View Vitals', () => {
     cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
       .should('have.attr', 'href')
-      .and('include', '/my-health/medical-records/vitals');
+      .and('include', '/vitals?timeFrame=2020-01');
 
     cy.get('[data-testid="mr-breadcrumbs"]')
       .find('a')
