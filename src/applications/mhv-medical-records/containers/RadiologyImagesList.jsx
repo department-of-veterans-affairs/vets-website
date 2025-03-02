@@ -121,7 +121,7 @@ const RadiologyImagesList = ({ isTesting }) => {
     <>
       <PrintHeader />
       <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
-        {radiologyDetails.name}
+        {imageList && imageList.length > 0 && 'Images:'} {radiologyDetails.name}
       </h1>
       <DateSubheading
         label="Date and time performed"
