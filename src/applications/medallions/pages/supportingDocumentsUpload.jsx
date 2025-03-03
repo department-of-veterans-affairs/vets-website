@@ -1,7 +1,7 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import FileUpload from '../components/FileUpload';
 import { supportingDocsInfo } from '../utils/helpers';
+import { fileUploadUi } from '../utils/upload';
 
 const description = formData => {
   return (
@@ -24,13 +24,7 @@ export default {
   uiSchema: {
     ...titleUI('Upload your supporting documents'),
     'ui:description': formData => description(formData),
-    supportingDocuments: {
-      'ui:title': 'Upload documents',
-      'ui:field': FileUpload,
-      'ui:options': {
-        keepInPageOnReview: true,
-      },
-    },
+    supportingDocuments: fileUploadUi({}),
   },
   schema: {
     type: 'object',
