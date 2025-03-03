@@ -512,6 +512,7 @@ export const convertMilitaryHistory = responseObject => {
     locationOfService:
       mapValue(Const.MILITARY_HISTORY_LOCATION, record.serviceLocation) ||
       NONE_ENTERED,
+    onboardShip: record.onboardShip || NONE_ENTERED,
     militaryOccupationalSpecialty: record.occupationSpecialty || NONE_ENTERED,
     assignment: record.serviceAssignment || NONE_ENTERED,
     exposures: record.exposures || NONE_ENTERED,

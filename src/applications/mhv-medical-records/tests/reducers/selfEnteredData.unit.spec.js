@@ -1116,6 +1116,7 @@ describe('convertMilitaryHistory', () => {
         rank: 'Sergeant',
         exposuresExist: 'Yes',
         locationOfService: 'Overseas',
+        onboardShip: 'Yes',
         militaryOccupationalSpecialty: 'Infantry',
         assignment: 'Combat Operations',
         exposures: 'Burn pits',
