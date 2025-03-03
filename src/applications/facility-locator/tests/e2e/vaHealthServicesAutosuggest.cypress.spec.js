@@ -103,6 +103,8 @@ describe('VA health services autosuggest', () => {
 
       h.submitSearchForm();
 
+      h.verifyElementExists(h.SEARCH_RESULTS_SUMMARY);
+
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
         'results for "VA health", "All VA health services" near "Atlanta, Georgia"',
