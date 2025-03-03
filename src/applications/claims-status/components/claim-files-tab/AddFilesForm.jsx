@@ -327,7 +327,6 @@ AddFilesForm.propTypes = {
   onFieldChange: PropTypes.func.isRequired,
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  additionalEvidencePage: PropTypes.bool,
   backUrl: PropTypes.string,
   mockReadAndCheckFile: PropTypes.func,
   progress: PropTypes.number,
