@@ -46,7 +46,7 @@ export const RadioCategories = {
     id: 'category-general',
     value: 'OTHER',
     label: 'General',
-    description: 'Ask questions about non urgent, non-emergency issues',
+    description: 'Ask questions about non-urgent, non-emergency issues',
   },
   COVID: {
     id: 'category-COVID',
