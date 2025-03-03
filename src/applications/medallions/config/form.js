@@ -91,7 +91,10 @@ const formConfig = {
           title: 'Your contact information',
           uiSchema: applicantContactInfo.uiSchema,
           schema: applicantContactInfo.schema,
-          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ),
         },
         // 4.5 (use email and phone number patterns)
         applicantContactInfo2: {
@@ -99,7 +102,10 @@ const formConfig = {
           title: 'Your organizations contact information',
           uiSchema: applicantContactInfo2.uiSchema,
           schema: applicantContactInfo2.schema,
-          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+          depends: formData =>
+            ['repOfVSO', 'repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
         // 5 Mailing Address
         applicantMailingAddress: {
@@ -107,7 +113,10 @@ const formConfig = {
           title: 'Your mailing address',
           uiSchema: applicantMailingAddress.uiSchema,
           schema: applicantMailingAddress.schema,
-          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+          depends: formData =>
+            ['familyMember', 'personalRep', 'other'].includes(
+              formData.relationToVetRadio,
+            ),
         },
         // // 5.5 Mailing Address 2
         applicantMailingAddress2: {
@@ -115,7 +124,10 @@ const formConfig = {
           title: 'Your organization’s mailing address ',
           uiSchema: applicantMailingAddress2.uiSchema,
           schema: applicantMailingAddress2.schema,
-          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+          depends: formData =>
+            ['repOfVSO', 'repOfCemetery', 'repOfFuneralHome'].includes(
+              formData.relationToVetRadio,
+            ),
         },
       },
     },
