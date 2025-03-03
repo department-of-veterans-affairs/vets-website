@@ -179,10 +179,10 @@ export const formConfig = {
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
-      title: 'What would you like to do?',
+      title: 'Add or remove dependents',
       pages: {
         addOrRemoveDependents: {
-          title: 'What do you like to do?',
+          title: 'Add or remove dependents',
           path: 'options-selection',
           uiSchema: addOrRemoveDependents.uiSchema,
           schema: addOrRemoveDependents.schema,

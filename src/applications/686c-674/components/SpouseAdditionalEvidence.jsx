@@ -26,6 +26,7 @@ export const SpouseAdditionalEvidence = () => {
         <va-accordion-item
           id="supporting-evidence"
           header="Supporting evidence you need to submit"
+          header-level="3"
         >
           <ul>
             <li>
