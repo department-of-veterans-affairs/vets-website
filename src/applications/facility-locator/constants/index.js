@@ -202,6 +202,6 @@ export const MAX_SEARCH_AREA = 500;
  */
 export const MIN_RADIUS = 10;
 export const MIN_RADIUS_CCP = 40;
-export const MIN_RADIUS_EXP = 55; // Expanded search radius - due to new map configurations
-export const MIN_RADIUS_NCA = 120; // National Cemetery Administration
+export const MIN_RADIUS_EXP = 49; // Expanded search radius - due to new map configurations
+export const MIN_RADIUS_NCA = 133; // National Cemetery Administration
 export const Covid19Vaccine = 'Covid19Vaccine';

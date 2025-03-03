@@ -40,8 +40,6 @@ const SearchForm = props => {
     useProgressiveDisclosure,
   } = props;
 
-  // console.log({ getProviderSpecialties: getProviderSpecialties() });
-
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
 

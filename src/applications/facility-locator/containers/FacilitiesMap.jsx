@@ -560,7 +560,7 @@ const FacilitiesMap = props => {
                   mapboxGlContainer={mapboxGlContainer}
                   map={map}
                   mobile={false}
-                  movileMapUpdateEnabled={mobileMapUpdateEnabled}
+                  mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
@@ -600,7 +600,7 @@ const FacilitiesMap = props => {
                         mapboxGlContainer={mapboxGlContainer}
                         map={map}
                         mobile
-                        movileMapUpdateEnabled={mobileMapUpdateEnabled}
+                        mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
