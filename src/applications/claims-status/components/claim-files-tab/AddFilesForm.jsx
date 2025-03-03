@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   VaFileInput,
@@ -7,6 +8,7 @@ import {
   VaSelect,
   VaTextInput,
   VaButton,
+  VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -53,6 +55,8 @@ class AddFilesForm extends React.Component {
       showRemoveFileModal: false,
       removeFileIndex: null,
       removeFileName: null,
+      checkBoxChecked: false,
+      checkBoxErrorMessage: null,
     };
   }
 
@@ -78,6 +82,13 @@ class AddFilesForm extends React.Component {
       value: password,
       dirty: true,
     });
+  };
+
+  handleCheckboxChange = () => {
+    this.setState(prevState => ({
+      checkBoxChecked: !prevState.checkBoxChecked,
+      checkBoxErrorMessage: null,
+    }));
   };
 
   add = async files => {
@@ -149,6 +160,27 @@ class AddFilesForm extends React.Component {
     this.props.onDirtyFields();
   };
 
+  submitWithCheckbox = () => {
+    const { files } = this.props;
+    const hasPasswords = files.every(
+      file => !file.isEncrypted || (file.isEncrypted && file.password.value),
+    );
+
+    if (!this.state.checkBoxChecked) {
+      this.setState({
+        checkBoxErrorMessage: 'Please check the box',
+      });
+    } else {
+      if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
+        this.setState({ canShowUploadModal: true });
+        this.props.onSubmit();
+        return;
+      }
+
+      this.props.onDirtyFields();
+    }
+  };
+
   removeFileConfirmation = (fileIndex, fileName) => {
     this.setState({
       showRemoveFileModal: true,
@@ -164,18 +196,61 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <VaFileInput
-            id="file-upload"
-            className="vads-u-margin-bottom--3"
-            error={this.getErrorMessage()}
-            label="Upload additional evidence"
-            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-            onVaChange={e => this.add(e.detail.files)}
-            name="fileUpload"
-            additionalErrorClass="claims-upload-input-error-message"
-            aria-describedby="file-requirements"
-          />
+          <Toggler.Hoc
+            toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
+          >
+            {toggleValue => {
+              if (toggleValue && !this.props.additionalEvidencePage) {
+                return (
+                  <div>
+                    <h2>Upload Documents</h2>
+                    <p>
+                      If you have a document to upload, you can do that here.
+                    </p>
+                    <VaFileInput
+                      id="file-upload"
+                      className="vads-u-margin-bottom--3"
+                      error={this.getErrorMessage()}
+                      label="Upload document(s)"
+                      hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
+                      accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                      onVaChange={e => this.add(e.detail.files)}
+                      name="fileUpload"
+                      additionalErrorClass="claims-upload-input-error-message"
+                      aria-describedby="file-requirements"
+                      uswds
+                    />
+                    <VaCheckbox
+                      label="The files I uploaded support this claim  "
+                      required
+                      className="vads-u-margin-bottom--3"
+                      checked={this.state.checkBoxChecked}
+                      onVaChange={this.handleCheckboxChange}
+                      error={
+                        !this.state.checkBoxChecked
+                          ? this.state.checkBoxErrorMessage
+                          : null
+                      }
+                    />
+                  </div>
+                );
+              }
+              return (
+                <VaFileInput
+                  id="file-upload"
+                  className="vads-u-margin-bottom--3"
+                  error={this.getErrorMessage()}
+                  label="Upload additional evidence"
+                  hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
+                  accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                  onVaChange={e => this.add(e.detail.files)}
+                  name="fileUpload"
+                  additionalErrorClass="claims-upload-input-error-message"
+                  aria-describedby="file-requirements"
+                />
+              );
+            }}
+          </Toggler.Hoc>
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
@@ -251,11 +326,29 @@ class AddFilesForm extends React.Component {
             </div>
           ),
         )}
-        <VaButton
-          id="submit"
-          text="Submit files for review"
-          onClick={this.submit}
-        />
+        <Toggler.Hoc
+          toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
+        >
+          {toggleValue => {
+            if (toggleValue && !this.props.additionalEvidencePage) {
+              return (
+                <VaButton
+                  id="submit"
+                  text="Submit files for review"
+                  onClick={this.submitWithCheckbox}
+                />
+              );
+            }
+            return (
+              <VaButton
+                id="submit"
+                text="Submit files for review"
+                onClick={this.submit}
+              />
+            );
+          }}
+        </Toggler.Hoc>
+
         <va-additional-info
           class="vads-u-margin-y--3"
           trigger="Need to mail your files?"
@@ -301,6 +394,7 @@ AddFilesForm.propTypes = {
   onFieldChange: PropTypes.func.isRequired,
   onRemoveFile: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  additionalEvidencePage: PropTypes.bool,
   backUrl: PropTypes.string,
   mockReadAndCheckFile: PropTypes.func,
   progress: PropTypes.number,

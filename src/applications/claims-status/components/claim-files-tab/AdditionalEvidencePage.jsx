@@ -162,6 +162,7 @@ class AdditionalEvidencePage extends React.Component {
                 onFieldChange={this.props.updateField}
                 onCancel={this.props.cancelUpload}
                 onDirtyFields={this.props.setFieldsDirty}
+                additionalEvidencePage
               />
             </>
           ) : (

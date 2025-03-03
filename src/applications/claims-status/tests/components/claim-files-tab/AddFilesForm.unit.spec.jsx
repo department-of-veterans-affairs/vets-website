@@ -5,6 +5,7 @@ import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import userEvent from '@testing-library/user-event';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import sinon from 'sinon';
 
@@ -12,7 +13,8 @@ import {
   fileTypeSignatures,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import AddFilesForm from '../../../components/claim-files-tab/AddFilesForm';
 import {
   MAX_FILE_SIZE_BYTES,
@@ -31,6 +33,13 @@ const byName = name => {
 };
 
 describe('<AddFilesForm>', () => {
+  const getStore = (cstFriendlyEvidenceRequests = true) =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
+      },
+    }));
   context('tests using render()', () => {
     const fileFormProps = {
       field: { value: '', dirty: false },
@@ -271,6 +280,16 @@ describe('<AddFilesForm>', () => {
     });
   });
 
+  context('when cstFriendlyEvidenceRequests is true', () => {
+    it('should render checkbox', () => {
+      const { container } = render(
+        <Provider store={getStore()}>
+          <AddFilesForm />
+        </Provider>,
+      );
+      expect(VaCheckbox, container).to.exist;
+    });
+  });
   it('should not add an invalid file type', () => {
     const files = [];
     const field = { value: '', dirty: false };
