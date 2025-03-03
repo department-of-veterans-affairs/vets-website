@@ -67,7 +67,7 @@
     "watch": "node ./script/watch.js",
     "watch:no-server": "yarn build:webpack --watch --stats=minimal",
     "watch:review": "node ./script/run-review-instance-api.js",
-    "bill:test": "yarn test:unit --log-level=error /Users/billtran/Sites/civic-actions/vets-website/src/applications/combined-debt-portal/combined/tests/unit/combinedHelpers.unit.spec.js"
+    "bill:test": "yarn test:unit --log-level=error /Users/billtran/Sites/civic-actions/vets-website/src/applications/vaos/referral-appointments/components/ReferralTaskCardWithReferral.unit.spec.js"
   },
   "repository": {
     "type": "git",

@@ -8,13 +8,14 @@ export const vaosApi = createApi({
     getReferralById: builder.query({
       async queryFn(referralId) {
         try {
-          const data = await apiRequestWithUrl(
+          const response = await apiRequestWithUrl(
             `/vaos/v2/epsApi/referrals/${referralId}`,
             {
               method: 'GET',
             },
           );
-          return { data };
+
+          return JSON.parse(response.body);
         } catch (error) {
           return {
             error: { status: error.status || 500, message: error.message },
