@@ -12,6 +12,8 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
 import DownloadingRecordsInfo from '../shared/DownloadingRecordsInfo';
@@ -50,6 +52,14 @@ const RadiologyDetails = props => {
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
       ],
   );
+
+  // const allowMarchUpdates = useSelector(
+  //   state =>
+  //     state.featureToggles[
+  //       FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+  //     ],
+  // );
+  const allowMarchUpdates = true;
 
   const dispatch = useDispatch();
   const elementRef = useRef(null);
@@ -197,24 +207,46 @@ ${record.results}`;
   const notificationContent = () => (
     <>
       {notificationStatus ? (
-        <p>
-          <strong>Note: </strong> If you do not want us to notifiy you about
-          images, change your settings in your profile.
-        </p>
+        <>
+          {allowMarchUpdates ? (
+            <p>
+              <strong>Note: </strong> If you do not want us to notifiy you about
+              images, change your settings in your profile.
+            </p>
+          ) : (
+            <p>
+              <strong>Note: </strong>
+              If you don’t want to get email notifications for images anymore,
+              you can change your notification settings on the previous version
+              of My HealtheVet.
+            </p>
+          )}
+        </>
       ) : (
         <>
           <h3>Get email notifications for images</h3>
           <p>
             If you want us to email you when your images are ready, change your
-            notification settings in your profile.
+            notification settings
+            {allowMarchUpdates
+              ? ` in your profile.`
+              : ` on the previous version of My HealtheVet.`}
           </p>
         </>
       )}
-      <va-link
-        className="vads-u-margin-top--1"
-        href="www.va.gov/profile/notifications"
-        text="Go to notification settings"
-      />
+      {allowMarchUpdates ? (
+        <va-link
+          className="vads-u-margin-top--1"
+          href="www.va.gov/profile/notifications"
+          text="Go to notification settings"
+        />
+      ) : (
+        <va-link
+          className="vads-u-margin-top--1"
+          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
+          text="Go back to the previous version of My HealtheVet"
+        />
+      )}
     </>
   );
 
@@ -316,17 +348,7 @@ ${record.results}`;
 
   const imageAlertError = imageRequest => (
     <>
-      {notificationStatus ? (
-        <p>
-          After you request images, it may take serveral hours for us to load
-          them here. We’ll send you an email when your images are ready.
-        </p>
-      ) : (
-        <p>
-          After you request images, it may take serveral hours for us to load
-          them here.
-        </p>
-      )}
+      <p>To review and download your images, you’ll need to request them.</p>
       {imageAlert(ERROR_REQUEST_AGAIN)}
       <va-button
         class="vads-u-margin-top--2"
