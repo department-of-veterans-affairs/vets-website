@@ -501,6 +501,26 @@ class MedicationsRefillPage {
   verifyStartANewMessageLinkOnRefillPage = () => {
     cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
   };
+
+  verifyHowRefillProcessWorksListHeaderTextOnRefillPage = text => {
+    cy.get('[data-testid="progress-list-header"]').should('contain', text);
+  };
+
+  verifyProcessStepOneHeaderOnRefillPage = text => {
+    cy.get('[header="You request a refill"]').should('contain', text);
+  };
+
+  verifyProcessStepTwoHeaderOnRefillPage = text => {
+    cy.get('[header="We process your refill request"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeHeaderOnRefillPage = text => {
+    cy.get('[header="We ship your refill to you"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeNoteOnRefillPage = text => {
+    cy.get('[header="We ship your refill to you"]').should('contain', text);
+  };
 }
 
 export default MedicationsRefillPage;
