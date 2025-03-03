@@ -77,6 +77,7 @@ export function transformVAOSAppointment(appt) {
   const daysSinceAppt = isPast
     ? differenceInCalendarDays(new Date(), new Date(appt.localStartTime))
     : null;
+  const isOutOfBounds = daysSinceAppt ? daysSinceAppt > 30 : false;
 
   // This property will be helpful for complex claims
   // Adding now because we might need to specifically exclude them until then?
@@ -89,6 +90,7 @@ export function transformVAOSAppointment(appt) {
     // Add additional fields
     isPast,
     daysSinceAppt,
+    isOutOfBounds,
     isCC,
 
     // These next bits are all about atlas video visits

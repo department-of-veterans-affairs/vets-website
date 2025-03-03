@@ -117,6 +117,8 @@ describe('transformVAOSAppointment', () => {
     expect(transformedAppt.isPast).to.be.true;
     expect(transformedAppt).to.have.property('daysSinceAppt');
     expect(transformedAppt.daysSinceAppt).to.eq(16);
+    expect(transformedAppt).to.have.property('isOutOfBounds');
+    expect(transformedAppt.isOutOfBounds).to.false;
     expect(transformedAppt).to.have.property('isCC');
     expect(transformedAppt.isCC).to.be.false;
     expect(transformedAppt).to.have.property('isAtlas');
@@ -203,6 +205,16 @@ describe('transformVAOSAppointment', () => {
     expect(transformedAppt.practitionerName).to.eq('First Middle Last');
   });
 
+  it('returns isOutOfBounds:true for appt more than 30 days old', () => {
+    MockDate.set('2025-02-30T16:00:00Z');
+
+    const transformedAppt = transformVAOSAppointment(appt);
+
+    expect(transformedAppt.isPast).to.be.true;
+    expect(transformedAppt.daysSinceAppt).to.eq(62);
+    expect(transformedAppt.isOutOfBounds).to.be.true;
+  });
+
   it('returns isPast:false for a future appt', () => {
     MockDate.set('2024-11-30T16:00:00Z');
 
@@ -210,5 +222,6 @@ describe('transformVAOSAppointment', () => {
 
     expect(transformedAppt.isPast).to.be.false;
     expect(transformedAppt.daysSinceAppt).to.be.null;
+    expect(transformedAppt.isOutOfBounds).to.be.false;
   });
 });
