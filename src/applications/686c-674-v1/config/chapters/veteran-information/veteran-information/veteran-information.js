@@ -1,4 +1,4 @@
-import { veteranInformation } from '../../../utilities';
+import { veteranInformation } from '../../../utilities.js';
 import VeteranInformationComponent from './VeteranInformationComponent.js';
 
 export const schema = {

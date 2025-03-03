@@ -1,6 +1,6 @@
+import environment from 'platform/utilities/environment';
 import { netWorthCalculation, netWorthTitle } from './helpers';
 import { householdIncome } from '../../utilities';
-import environment from 'platform/utilities/environment';
 
 export const schema = householdIncome;
 
