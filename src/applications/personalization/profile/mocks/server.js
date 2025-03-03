@@ -106,7 +106,6 @@ const responses = {
             profileShowNoValidationKeyAddressAlert: false,
             profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
-            veteranOnboardingContactInfoFlow: true,
             veteranStatusCardUseLighthouse: true,
             veteranStatusCardUseLighthouseFrontend: true,
           }),
