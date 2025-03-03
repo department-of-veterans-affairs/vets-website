@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import {
@@ -25,18 +25,17 @@ const PersonalInformationPage = ({ location, route, router }) => {
     };
   });
 
-  const handlers = useMemo(
-    () => {
-      const { pathname } = location;
-      const { pageList } = route;
-      return {
-        goBack: () =>
-          router.push(getPreviousPagePath(pageList, formData, pathname)),
-        goForward: () =>
-          router.push(getNextPagePath(pageList, formData, pathname)),
-      };
-    },
-    [formData, location, route, router],
+  const goBack = useCallback(
+    () =>
+      router.push(
+        getPreviousPagePath(route.pageList, formData, location.pathname),
+      ),
+    [formData, location.pathname, route.pageList, router],
+  );
+  const goForward = useCallback(
+    () =>
+      router.push(getNextPagePath(route.pageList, formData, location.pathname)),
+    [formData, location.pathname, route.pageList, router],
   );
 
   return (
@@ -52,10 +51,7 @@ const PersonalInformationPage = ({ location, route, router }) => {
           ) : (
             <GuestVerifiedInformation user={guestUser} />
           )}
-          <FormNavButtons
-            goBack={handlers.goBack}
-            goForward={handlers.goForward}
-          />
+          <FormNavButtons goBack={goBack} goForward={goForward} />
         </div>
       </div>
       <FormFooter />
