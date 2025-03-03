@@ -79,10 +79,7 @@ describe('Components and Utility Functions', () => {
 
   describe('getContactMethods', () => {
     it('should return correct methods for a given category and topic', () => {
-      const methods = getContactMethods(
-        'Disability compensation',
-        'Aid and Attendance or Housebound benefits',
-      );
+      const methods = getContactMethods(['Email', 'Phone', 'USMail']);
       expect(methods).to.deep.equal({
         EMAIL: 'Email',
         PHONE: 'Phone call',
@@ -90,11 +87,8 @@ describe('Components and Utility Functions', () => {
       });
     });
 
-    it('should return all methods if category or topic not found', () => {
-      const methods = getContactMethods(
-        'Nonexistent Category',
-        'Nonexistent Topic',
-      );
+    it('should return all methods if category or topic contact preferences not found', () => {
+      const methods = getContactMethods();
       expect(methods).to.deep.equal({
         EMAIL: 'Email',
         PHONE: 'Phone call',

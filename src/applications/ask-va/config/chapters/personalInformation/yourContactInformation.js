@@ -72,8 +72,7 @@ const yourContactInformationPage = {
     'ui:options': {
       updateSchema: (formData, formSchema) => {
         const updatedCategoryTopicContactPreferences = getContactMethods(
-          formData.selectCategory,
-          formData.selectTopic,
+          formData.contactPreferences,
         );
         if (
           formData.personalRelationship ===

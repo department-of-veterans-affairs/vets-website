@@ -48,6 +48,7 @@ const CategorySelectPage = props => {
         selectCategory: '',
         allowAttachments: false,
         categoryRequiresSignIn: false,
+        contactPreferences: null,
       });
       return;
     }
@@ -69,6 +70,7 @@ const CategorySelectPage = props => {
       categoryId: selected.id,
       selectCategory: selectedValue,
       allowAttachments: selected.attributes.allowAttachments,
+        contactPreferences: selected.attributes.contactPreferences,
       categoryRequiresSignIn:
         selected.attributes.requiresAuthentication && !isLoggedIn,
     });
