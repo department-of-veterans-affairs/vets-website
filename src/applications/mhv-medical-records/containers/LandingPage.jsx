@@ -41,8 +41,9 @@ const VACCINES_LABEL = 'Go to your vaccines';
 const ALLERGIES_AND_REACTIONS_LABEL = 'Go to your allergies and reactions';
 const HEALTH_CONDITIONS_LABEL = 'Go to your health conditions';
 const VITALS_LABEL = 'Go to your vitals';
-const MEDICAL_RECORDS_DOWNLOAD_LABEL =
+const MEDICAL_RECORDS_DOWNLOAD_LABEL_MAR_17 =
   'Go to download your medical records reports';
+const MEDICAL_RECORDS_DOWNLOAD_LABEL = 'Go to your medical records settings';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
 
@@ -116,8 +117,14 @@ const LandingPage = () => {
           render={renderMHVDowntime}
         />
         <p className="va-introtext vads-u-margin-bottom--0">
-          Review, print, and download your VA medical records. Tell your
-          provider about any changes in your health at each appointment.
+          {displayMarch17Updates ? (
+            <>
+              Review, print, and download your VA medical records. Tell your
+              provider about any changes in your health at each appointment.
+            </>
+          ) : (
+            <>Review, print, and download your VA medical records.</>
+          )}
         </p>
       </section>
 
@@ -353,52 +360,102 @@ const LandingPage = () => {
             </section>
           )}
 
-          <div className="vads-u-display--block vads-u-width--full vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-top--4 vads-u-margin-top--1p5" />
+          {!displayMarch17Updates && (
+            <>
+              <section>
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Manage your medical records settings
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  Review and update your medical records sharing and
+                  notification settings.
+                </p>
+                <Link
+                  to="/settings"
+                  className="vads-c-action-link--blue"
+                  data-testid="settings-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+                  }}
+                >
+                  {MEDICAL_RECORDS_SETTINGS_LABEL}
+                </Link>
+              </section>
+              <section>
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Download your medical records reports
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  Download full reports of your medical records or your self
+                  entered health information.
+                </p>
+                <p
+                  data-testid="go-to-mhv-download-records"
+                  className="vads-u-margin-bottom--2"
+                >
+                  <Link
+                    to="/download"
+                    className="vads-c-action-link--blue"
+                    data-testid="go-to-download-mr-reports"
+                    onClick={() => {
+                      sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                    }}
+                  >
+                    {MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                  </Link>
+                </p>
+              </section>
+            </>
+          )}
 
-          <section className="vads-u-padding-top--1p5">
-            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-              Download your medical records
-            </h2>
-            <p className="vads-u-margin-bottom--2">
-              Download full reports of your VA medical records or your
-              self-entered health information.
-            </p>
-            <p
-              data-testid="go-to-mhv-download-records"
-              className="vads-u-margin-bottom--2"
-            >
-              <Link
-                to="/download"
-                className="vads-c-action-link--blue"
-                data-testid="go-to-download-mr-reports"
-                onClick={() => {
-                  sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
-                }}
-              >
-                {MEDICAL_RECORDS_DOWNLOAD_LABEL}
-              </Link>
-            </p>
-          </section>
-
-          <section className="vads-u-padding-bottom--3">
-            <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-              Manage your electronic sharing settings
-            </h2>
-            <p className="vads-u-margin-bottom--2">
-              Review and update your medical records sharing and notification
-              settings.
-            </p>
-            <Link
-              to="/settings"
-              className="vads-c-action-link--blue"
-              data-testid="settings-landing-page-link"
-              onClick={() => {
-                sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
-              }}
-            >
-              {MEDICAL_RECORDS_SETTINGS_LABEL}
-            </Link>
-          </section>
+          {displayMarch17Updates && (
+            <>
+              <div className="vads-u-display--block vads-u-width--full vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-top--4 vads-u-margin-top--1p5" />
+              <section className="vads-u-padding-top--1p5">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Download your medical records
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  Download full reports of your VA medical records or your
+                  self-entered health information.
+                </p>
+                <p
+                  data-testid="go-to-mhv-download-records"
+                  className="vads-u-margin-bottom--2"
+                >
+                  <Link
+                    to="/download"
+                    className="vads-c-action-link--blue"
+                    data-testid="go-to-download-mr-reports"
+                    onClick={() => {
+                      sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                    }}
+                  >
+                    {MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                  </Link>
+                </p>
+              </section>
+              <section className="vads-u-padding-bottom--3">
+                <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+                  Manage your electronic sharing settings
+                </h2>
+                <p className="vads-u-margin-bottom--2">
+                  Review and update your medical records sharing and
+                  notification settings.
+                </p>
+                <Link
+                  to="/settings"
+                  className="vads-c-action-link--blue"
+                  data-testid="settings-landing-page-link"
+                  onClick={() => {
+                    sendDataDogAction(MEDICAL_RECORDS_SETTINGS_LABEL);
+                  }}
+                >
+                  {MEDICAL_RECORDS_SETTINGS_LABEL}
+                </Link>
+              </section>
+            </>
+          )}
 
           {displayMarch17Updates ? (
             <section className="vads-u-margin-y--3">
@@ -469,10 +526,16 @@ const LandingPage = () => {
                         <Link
                           to="/download"
                           onClick={() => {
-                            sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
+                            sendDataDogAction(
+                              displayMarch17Updates
+                                ? MEDICAL_RECORDS_DOWNLOAD_LABEL_MAR_17
+                                : MEDICAL_RECORDS_DOWNLOAD_LABEL,
+                            );
                           }}
                         >
-                          {MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                          {displayMarch17Updates
+                            ? MEDICAL_RECORDS_DOWNLOAD_LABEL_MAR_17
+                            : MEDICAL_RECORDS_DOWNLOAD_LABEL}
                         </Link>
                       </p>
                     </div>
