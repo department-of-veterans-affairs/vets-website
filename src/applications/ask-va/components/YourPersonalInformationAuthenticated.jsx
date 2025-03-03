@@ -13,9 +13,14 @@ const PersonalAuthenticatedInformation = ({
   isLoggedIn,
   router,
 }) => {
-  if (!isLoggedIn || !hasPrefillInformation(formData)) {
-    goForward(formData);
-  }
+  useEffect(
+    () => {
+      if (!isLoggedIn || !hasPrefillInformation(formData)) {
+        goForward(formData);
+      }
+    },
+    [isLoggedIn, formData, goForward],
+  );
 
   const handleGoBack = () => {
     router.push('/');
