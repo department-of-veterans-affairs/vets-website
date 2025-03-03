@@ -75,6 +75,8 @@ export default {
   SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE: 'schedule-view-va-appointments-page',
   MODERN_SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE:
     'modern-schedule-view-va-appointments-page',
+  MODERN_REFILL_TRACK_PRESCRIPTIONS_PAGE:
+    'modern-refill-track-prescriptions-page',
   SCO_ANNOUNCEMENTS: 'sco-announcements',
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
