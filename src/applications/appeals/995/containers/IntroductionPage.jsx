@@ -148,7 +148,7 @@ const IntroductionPage = props => {
                 Private medical records and hospital reports that relate to your
                 claimed condition or show that your disability has gotten worse
               </p>
-              <p className="vads-u-margin-bottom--0">
+              <p>
                 Supporting statements from family, friends, coworkers, clergy,
                 or law enforcement personnel with knowledge about how and when
                 your disability happened or how it has gotten worse
@@ -156,10 +156,7 @@ const IntroductionPage = props => {
             </div>
           </va-additional-info>
         </va-process-list-item>
-        <va-process-list-item
-          class="vads-u-padding-bottom--0"
-          header="Start your Supplemental Claim"
-        >
+        <va-process-list-item header="Start your Supplemental Claim">
           <p>
             We’ll take you through each step of the process. It should take
             about 15 minutes.

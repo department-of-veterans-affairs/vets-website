@@ -12,15 +12,15 @@ import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 function Autosuggest({
   // downshift props
   handleOnSelect,
-  defaultSelectedItem,
   inputValue,
   itemToString = toDisplay,
   onInputValueChange,
   // input props
   onClearClick,
   inputContainerClassName = 'input-container', // allows to work with fixed width from facility-locator
-  inputId = 'autosuggest-input',
   inputError,
+  inputId = 'autosuggest-input',
+  inputRef,
   label,
   labelSibling = null,
   showDownCaret = true,
@@ -41,6 +41,7 @@ function Autosuggest({
   stateReducer = srClearOnBlur,
   isLoading = false,
   loadingMessage = '',
+  useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
 }) {
   const {
@@ -57,7 +58,6 @@ function Autosuggest({
     itemToString,
     inputId,
     onSelectedItemChange: handleOnSelect,
-    defaultSelectedItem,
     onInputValueChange,
     inputValue,
     isItemDisabled,
@@ -76,7 +76,11 @@ function Autosuggest({
         'usa-input-error': showError,
       })}
     >
-      <div className={`${inputId}-autosuggest-label-container`}>
+      <div
+        className={`${inputId}-autosuggest-label-container ${
+          useProgressiveDisclosure ? 'fl-sm-desktop' : ''
+        }`}
+      >
         <label className={`${inputId}-label`} {...getLabelProps()}>
           {label}
         </label>
@@ -89,6 +93,7 @@ function Autosuggest({
           getToggleButtonProps={getToggleButtonProps}
           className={inputContainerClassName}
           inputId={inputId}
+          inputRef={inputRef}
           isOpen={isOpen}
           showDownCaret={showDownCaret}
           showClearButton={!!inputValue}

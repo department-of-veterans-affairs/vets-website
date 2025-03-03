@@ -57,7 +57,7 @@ ComboAlert.Zero = () => {
         </li>
         <li className="vads-u-font-family--sans">
           <strong>For medical copay bills</strong>, call the VA Resource Center
-          at <va-telephone contact="8664001238" /> (
+          at <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
           <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>

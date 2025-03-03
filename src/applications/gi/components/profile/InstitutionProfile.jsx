@@ -208,7 +208,7 @@ export default function InstitutionProfile({
               The Yellow Ribbon Program can help reduce your out-of-pocket
               tuition and fee costs at participating colleges and universities.
               By enrolling, you'll benefit from a contribution made by the
-              school. The VA will match this contribution
+              school. VA will match this contribution
               {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`},
               covering up to the full cost of tuition and fees.
             </p>

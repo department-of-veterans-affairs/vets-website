@@ -7,9 +7,11 @@ import {
   useLocation,
   Redirect,
 } from 'react-router-dom';
-// import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { selectIsCernerOnlyPatient } from 'platform/user/cerner-dsot/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureUseVaDate,
+} from '../redux/selectors';
 import { selectIsNewAppointmentStarted } from './redux/selectors';
 import newAppointmentReducer from './redux/reducer';
 import FormLayout from './components/FormLayout';
@@ -20,6 +22,7 @@ import TypeOfSleepCarePage from './components/TypeOfSleepCarePage';
 import TypeOfEyeCarePage from './components/TypeOfEyeCarePage';
 import TypeOfAudiologyCarePage from './components/TypeOfAudiologyCarePage';
 import PreferredDatePage from './components/PreferredDatePage';
+import PreferredDatePageVaDate from './components/PreferredDatePageVaDate';
 import DateTimeRequestPage from './components/DateTimeRequestPage';
 import VARequest from './components/DateTimeRequestPage/VA';
 import CCRequest from './components/DateTimeRequestPage/CommunityCare';
@@ -45,6 +48,7 @@ export function NewAppointment() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const featureUseVaDate = useSelector(state => selectFeatureUseVaDate(state));
   const match = useRouteMatch();
   const location = useLocation();
   const [crumb, setCrumb] = useState('Schedule an appointment');
@@ -105,7 +109,13 @@ export function NewAppointment() {
             />
           </Route>
           <Route path={`${match.url}/preferred-date`}>
-            <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
+            {featureUseVaDate ? (
+              <PreferredDatePageVaDate
+                changeCrumb={newTitle => setCrumb(newTitle)}
+              />
+            ) : (
+              <PreferredDatePage changeCrumb={newTitle => setCrumb(newTitle)} />
+            )}
           </Route>
           <Route path={`${match.url}/date-time`}>
             <DateTimeSelectPage changeCrumb={newTitle => setCrumb(newTitle)} />
