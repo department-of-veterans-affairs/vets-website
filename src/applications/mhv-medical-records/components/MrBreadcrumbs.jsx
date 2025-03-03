@@ -2,6 +2,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
@@ -22,6 +23,13 @@ const MrBreadcrumbs = () => {
       return pathElements;
     },
     [location],
+  );
+
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
   );
 
   const textContent = document.querySelector('h1')?.textContent;
@@ -72,6 +80,12 @@ const MrBreadcrumbs = () => {
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
+      } else if (feature === 'SETTINGS' && !allowMarchUpdates) {
+        dispatch(
+          setBreadcrumbs([
+            { ...Breadcrumbs[feature], label: 'Medical records settings' },
+          ]),
+        );
       } else {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
