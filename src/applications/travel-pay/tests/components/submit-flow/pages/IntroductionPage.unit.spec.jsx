@@ -57,6 +57,8 @@ describe('Introduction page', () => {
             data: {
               ...mockAppt,
               isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
             },
           },
         },
@@ -100,6 +102,8 @@ describe('Introduction page', () => {
             data: {
               ...mockAppt,
               isPast: false,
+              daysSinceAppt: null,
+              isOutOfBounds: false,
             },
           },
         },
@@ -121,6 +125,8 @@ describe('Introduction page', () => {
             data: {
               ...mockAppt,
               isPast: true,
+              daysSinceAppt: 60,
+              isOutOfBounds: true,
             },
           },
         },
