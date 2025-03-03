@@ -3,6 +3,8 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
+
 import fullSchema from 'vets-json-schema/dist/MDOT-schema.json';
 import { countryValueToName } from '../utils/addresses';
 import addressPage from '../pages/addressPage';
@@ -118,7 +120,14 @@ const submit = form => {
     .catch(onFailure);
 };
 
+const downtime = {
+  requiredForPrefill: true,
+  dependencies: [externalServices.mdot],
+  message: '',
+};
+
 const formConfig = {
+  downtime,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
