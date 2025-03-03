@@ -1,0 +1,28 @@
+/** Applied overrides for components utilized for the application download link **/
+
+.hca-application--download {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+
+  .loading-indicator {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    margin: 0 0.625rem 0 0;
+  }
+
+  .loading-indicator-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+  }
+
+  .loading-indicator-container .loading-indicator::after {
+    align-self: center;
+    height: 0.625rem;
+    width: 0.625rem;
+  }
+}
