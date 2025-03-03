@@ -48,10 +48,18 @@ describe('22-10216 Edu form', () => {
     // // Institution details page
     cy.url().should(
       'include',
-      formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
+      formConfig.chapters.institutionDetailsChapter.pages.institutionOfficial
         .path,
     );
     cy.injectAxeThenAxeCheck();
+    cy.tabToElement('input[name="root_certifyingOfficial_first"]');
+    cy.typeInFocused('John');
+    cy.tabToElement('input[name="root_certifyingOfficial_last"]');
+    cy.typeInFocused('Doe');
+    cy.tabToElement('input[name="root_certifyingOfficial_title"]');
+    cy.typeInFocused('Director');
+    cy.tabToContinueForm();
+
     cy.tabToElement('input[name="root_institutionDetails_institutionName"]');
     cy.typeInFocused(
       'DEPARTMENT OF VETERANS AFFAIRS-OFFICE OF INFORMATION AND TECHNOLOGY',

@@ -3,6 +3,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   addressPages,
+  customStepPages,
   listLoopPages,
   personalInfoPages,
   phoneAndEmailPages,
@@ -19,6 +20,8 @@ export const formatPages = chapter => {
   switch (chapter.type) {
     case 'digital_form_address':
       return addressPages(chapter);
+    case 'digital_form_custom_step':
+      return customStepPages(chapter);
     case 'digital_form_list_loop':
       return listLoopPages(chapter);
     case 'digital_form_phone_and_email':

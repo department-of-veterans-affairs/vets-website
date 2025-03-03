@@ -4,13 +4,13 @@ import { MAX_LENGTH } from '../../../shared/constants';
 import { getHomeless } from './homeless';
 import { getAddress, getPhone, getEmail } from './veteran';
 import {
-  TEMP_DATE,
   getTreatmentDate,
   hasDuplicateLocation,
   hasDuplicateFacility,
   getEvidence,
   getForm4142,
 } from './evidence';
+import { getMstData } from './mst';
 
 /**
  * @typedef ClaimantData
@@ -51,6 +51,6 @@ export {
   hasDuplicateLocation,
   hasDuplicateFacility,
   getEvidence,
+  getMstData,
   getForm4142,
-  TEMP_DATE,
 };

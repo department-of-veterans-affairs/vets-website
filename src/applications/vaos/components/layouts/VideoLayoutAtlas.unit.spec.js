@@ -44,6 +44,8 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
 
       const store = createTestStore(state);
       const appointment = {
+        type: 'VA',
+        modality: 'vaVideoCareAtAnAtlasLocation',
         videoData: {
           atlasConfirmationCode: '1234',
           atlasLocation: {
@@ -69,9 +71,15 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
           isPendingAppointment: false,
           isUpcomingAppointment: true,
           isVideo: true,
+          isCerner: false,
           apiData: {},
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'VA',
+        modality: 'vaVideoCareAtAnAtlasLocation',
+        isCerner: false,
       };
 
       // Act
@@ -116,36 +124,42 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-any',
+        ...nullAttributes,
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-expected-type-of-care',
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
+        ...nullAttributes,
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-expected-provider',
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-provider',
+        ...nullAttributes,
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-expected-clinic-phone',
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-clinic-phone',
+        ...nullAttributes,
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-expected-facility-details',
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-facility-details',
+        ...nullAttributes,
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-expected-facility-phone',
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-facility-phone',
+        ...nullAttributes,
       });
     });
 

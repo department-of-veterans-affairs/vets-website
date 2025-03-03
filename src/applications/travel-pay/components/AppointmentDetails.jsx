@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { formatDateTime, getDaysLeft } from '../util/dates';
 import { TRAVEL_PAY_INFO_LINK } from '../constants';
 import FutureAppointmentAlert from './alerts/FutureAppointmentAlert';
+import OutOfBoundsAppointmentAlert from './alerts/OutOfBoundsAppointmentAlert';
 
 export const AppointmentDetails = ({ appointment }) => {
   const [formattedDate] = formatDateTime(appointment.localStartTime);
@@ -29,7 +30,7 @@ AppointmentDetails.propTypes = {
   appointment: PropTypes.object,
 };
 
-export const AppointmentInfoText = ({ appointment, isPast }) => {
+export const AppointmentInfoText = ({ appointment, isPast, isOutOfBounds }) => {
   const daysLeft = getDaysLeft(appointment.localStartTime);
 
   if (appointment.travelPayClaim?.claim) {
@@ -66,24 +67,20 @@ export const AppointmentInfoText = ({ appointment, isPast }) => {
             </p>
           </>
         )}
-      {daysLeft === 0 &&
-        !appointment.travelPayClaim?.claim && (
-          <p>
-            It has been more than 30 days since your appointment. We still
-            encourage you to file now but we may not be able to approve your
-            claim.
-          </p>
-        )}
-
-      <va-link
-        text="Learn how to file your travel reimbursement claim online"
-        href={TRAVEL_PAY_INFO_LINK}
-      />
+      {isOutOfBounds ? (
+        <OutOfBoundsAppointmentAlert />
+      ) : (
+        <va-link
+          text="Learn how to file your travel reimbursement claim online"
+          href={TRAVEL_PAY_INFO_LINK}
+        />
+      )}
     </>
   );
 };
 
 AppointmentInfoText.propTypes = {
   appointment: PropTypes.object,
+  isOutOfBounds: PropTypes.bool,
   isPast: PropTypes.bool,
 };

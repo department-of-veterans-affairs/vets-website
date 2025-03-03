@@ -800,129 +800,169 @@ describe('actionCreators', () => {
   });
 
   describe('fetchLicenseCertificationResults action creator', () => {
-    // it('dispatches FETCH_LC_RESULTS_SUCCEEDED on successful fetch', () => {
-    //   const mockFetch = sinon.stub(global, 'fetch');
-    //   const mockDispatch = sinon.spy();
-    //   const mockResponse = {
-    //     ok: true,
-    //     json: sinon.stub().returns(
-    //       Promise.resolve({
-    //         data: [
-    //           { id: 1, name: 'Sample Certification', type: 'certification' },
-    //         ],
-    //       }),
-    //     ),
-    //   };
+    describe('fetchAndFilterLacpResults action creator', () => {
+      afterEach(() => {
+        if (global.fetch.restore) {
+          global.fetch.restore();
+        }
+      });
 
-    //   mockFetch.resolves(mockResponse);
+      it('dispatches FETCH_LC_RESULTS_SUCCEEDED on successful fetch', async () => {
+        const mockDispatch = sinon.spy();
+        const mockResponse = {
+          ok: true,
+          json: sinon
+            .stub()
+            .resolves({ lacs: [{ id: 'abc', name: 'Sample' }] }),
+        };
+        const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
 
-    //   return actions
-    //     .fetchLicenseCertificationResults()(mockDispatch)
-    //     .then(() => {
-    //       expect(
-    //         mockDispatch.calledWith({
-    //           type: 'FETCH_LC_RESULTS_SUCCEEDED',
-    //           payload: [
-    //             { id: 1, name: 'Sample Certification', type: 'certification' },
-    //           ],
-    //         }),
-    //       ).to.be.true;
-    //       mockFetch.restore();
-    //     });
-    // });
+        const name = 'dummyName';
+        const lacpType = 'certification';
+        const location = 'TX';
 
-    it('dispatches FETCH_LC_RESULTS_FAILED on fetch error', () => {
-      const mockFetch = sinon.stub(global, 'fetch');
-      const mockDispatch = sinon.spy();
-      const error = new Error('Failed to fetch');
-
-      mockFetch.rejects(error);
-
-      return actions
-        .fetchLicenseCertificationResults('SampleName', 'certification')(
+        await actions.fetchAndFilterLacpResults(name, lacpType, location)(
           mockDispatch,
-        )
-        .catch(() => {
-          expect(
-            mockDispatch.calledWith({
-              type: 'FETCH_LC_RESULTS_FAILED',
-              payload: 'Failed to fetch',
-            }),
-          ).to.be.true;
-          mockFetch.restore();
+        );
+
+        expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULTS_STARTED,
         });
+
+        expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULTS_SUCCEEDED,
+          payload: [{ id: 'abc', name: 'Sample' }],
+        });
+        const expectedURL = `${
+          api.url
+        }/lcpe/lacs?type=${lacpType}&location=${location}&name=${name}`;
+        expect(fetchStub.calledWithExactly(expectedURL, api.settings)).to.be
+          .true;
+
+        fetchStub.restore();
+      });
+      it('dispatches FETCH_LC_RESULTS_FAILED when response is not ok', async () => {
+        const mockDispatch = sinon.spy();
+        const errorMessage = 'Internal Server Error';
+        const mockResponse = new Response(null, {
+          status: 500,
+          statusText: errorMessage,
+        });
+        const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
+
+        await actions.fetchAndFilterLacpResults('myName', 'license', 'VA')(
+          mockDispatch,
+        );
+
+        expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULTS_STARTED,
+        });
+        expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULTS_FAILED,
+          payload: errorMessage,
+        });
+
+        fetchStub.restore();
+      });
+
+      it('dispatches FETCH_LC_RESULTS_FAILED on promise reject (network error)', async () => {
+        const mockDispatch = sinon.spy();
+        const error = new Error('Network Error');
+        const fetchStub = sinon.stub(global, 'fetch').rejects(error);
+
+        await actions
+          .fetchAndFilterLacpResults('dummy', 'all', 'all')(mockDispatch)
+          .catch(() => {});
+
+        expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULTS_STARTED,
+        });
+        expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+          type: actions.FETCH_LC_RESULTS_FAILED,
+          payload: 'Network Error',
+        });
+
+        fetchStub.restore();
+      });
     });
   });
 
   describe('fetchLcResult action creator', () => {
-    // it('dispatches FETCH_LC_RESULT_SUCCEEDED on successful fetch', () => {
-    //   const mockFetch = sinon.stub(global, 'fetch');
-    //   const mockDispatch = sinon.spy();
-    //   const mockResponse = {
-    //     ok: true,
-    //     json: sinon.stub().returns(
-    //       Promise.resolve({
-    //         data: { id: 1, detail: 'Sample License/Certification Result' },
-    //       }),
-    //     ),
-    //   };
-
-    //   mockFetch.resolves(mockResponse);
-
-    //   return actions
-    //     .fetchLcResult(1)(mockDispatch)
-    //     .then(() => {
-    //       expect(
-    //         mockDispatch.calledWith({
-    //           type: 'FETCH_LC_RESULT_SUCCEEDED',
-    //           payload: { id: 1, detail: 'Sample License/Certification Result' },
-    //         }),
-    //       ).to.be.true;
-    //       mockFetch.restore();
-    //     });
-    // });
-
-    it('dispatches FETCH_LC_RESULT_FAILED on fetch error', () => {
-      const mockFetch = sinon.stub(global, 'fetch');
-      const mockDispatch = sinon.spy();
-      const error = new Error('Fetch failed');
-
-      mockFetch.rejects(error);
-
-      return actions
-        .fetchLcResult('sample-link')(mockDispatch)
-        .catch(() => {
-          expect(
-            mockDispatch.calledWith({
-              type: 'FETCH_LC_RESULT_FAILED',
-              payload: 'Fetch failed',
-            }),
-          ).to.be.true;
-          mockFetch.restore();
-        });
+    afterEach(() => {
+      if (global.fetch.restore) {
+        global.fetch.restore();
+      }
     });
-    it('dispatches FETCH_LC_RESULT_FAILED when response is not ok', () => {
-      const mockFetch = sinon.stub(global, 'fetch');
+
+    it('dispatches FETCH_LC_RESULT_SUCCEEDED on successful fetch (res.ok)', async () => {
+      const mockDispatch = sinon.spy();
+      const mockResponse = {
+        ok: true,
+        json: sinon.stub().resolves({
+          lac: { id: 123, name: 'Test LAC' },
+        }),
+      };
+      const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
+
+      const testId = '123';
+      await actions.fetchLcResult(testId)(mockDispatch);
+
+      expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+        type: actions.FETCH_LC_RESULT_STARTED,
+      });
+
+      expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+        type: actions.FETCH_LC_RESULT_SUCCEEDED,
+        payload: { id: 123, name: 'Test LAC' },
+      });
+
+      const expectedURL = `${api.url}/lcpe/lacs/${testId}`;
+      expect(fetchStub.calledWithExactly(expectedURL, api.settings)).to.be.true;
+
+      fetchStub.restore();
+    });
+
+    it('dispatches FETCH_LC_RESULT_FAILED when response is not ok', async () => {
       const mockDispatch = sinon.spy();
       const errorMessage = 'Internal Server Error';
       const mockResponse = new Response(null, {
         status: 500,
         statusText: errorMessage,
       });
+      const fetchStub = sinon.stub(global, 'fetch').resolves(mockResponse);
 
-      mockFetch.resolves(mockResponse);
+      await actions.fetchLcResult('999')(mockDispatch);
 
-      return actions
-        .fetchLcResult('sample-link')(mockDispatch)
-        .then(() => {
-          expect(
-            mockDispatch.calledWith({
-              type: 'FETCH_LC_RESULT_FAILED',
-              payload: errorMessage,
-            }),
-          ).to.be.true;
-          mockFetch.restore();
-        });
+      expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+        type: actions.FETCH_LC_RESULT_STARTED,
+      });
+      expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+        type: actions.FETCH_LC_RESULT_FAILED,
+        payload: errorMessage,
+      });
+
+      fetchStub.restore();
+    });
+
+    it('dispatches FETCH_LC_RESULT_FAILED on fetch error (promise rejection)', async () => {
+      const mockDispatch = sinon.spy();
+      const fetchError = new Error('Network Failed');
+
+      const fetchStub = sinon.stub(global, 'fetch').rejects(fetchError);
+
+      await actions
+        .fetchLcResult('555')(mockDispatch)
+        .catch(() => {});
+
+      expect(mockDispatch.firstCall.args[0]).to.deep.equal({
+        type: actions.FETCH_LC_RESULT_STARTED,
+      });
+      expect(mockDispatch.secondCall.args[0]).to.deep.equal({
+        type: actions.FETCH_LC_RESULT_FAILED,
+        payload: 'Network Failed',
+      });
+
+      fetchStub.restore();
     });
   });
   describe('fetchInstitutionPrograms action creator', () => {

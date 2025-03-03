@@ -15,8 +15,10 @@ import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
 // Health Care | Manage Benefits widgets.
 import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medical-records-page';
+import createModernGetMedicalRecordsPage from './health-care-manage-benefits/modern-get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
 import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createModernScheduleViewVAAppointmentsPage from './health-care-manage-benefits/modern-schedule-view-va-appointments-page';
 import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
 import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
 import createViewTestAndLabResultsPage from './health-care-manage-benefits/view-test-and-lab-results-page';
@@ -195,6 +197,10 @@ createEventsPage(store, widgetTypes.EVENTS);
 createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createGetMedicalRecordsPage(store, widgetTypes.GET_MEDICAL_RECORDS_PAGE);
+createModernGetMedicalRecordsPage(
+  store,
+  widgetTypes.MODERN_GET_MEDICAL_RECORDS_PAGE,
+);
 createRefillTrackPrescriptionsPage(
   store,
   widgetTypes.REFILL_TRACK_PRESCRIPTIONS_PAGE,
@@ -202,6 +208,10 @@ createRefillTrackPrescriptionsPage(
 createScheduleViewVAAppointmentsPage(
   store,
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createModernScheduleViewVAAppointmentsPage(
+  store,
+  widgetTypes.MODERN_SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
 );
 createSecureMessagingPage(store, widgetTypes.SECURE_MESSAGING_PAGE);
 createModernSecureMessagingPage(

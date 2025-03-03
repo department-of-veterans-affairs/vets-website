@@ -52,9 +52,6 @@ export const HAS_REDIRECTED = 'hasRedirected';
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
 
-export const REGEX_COMMA = /[, ]/g;
-export const REGEX_EMPTY_DATE = /(--|-00-00)/;
-
 export const errorMessages = {
   evidence: {
     // VA evidence

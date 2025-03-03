@@ -7,10 +7,12 @@ import mockMultiThreadResponse from '../fixtures/pilot-responses/multi-message-t
 
 describe('Secure Messaging Pilot feature flag', () => {
   const currentDate = GeneralFunctionsPage.getDateFormat();
-  const mockPilotFeatureToggles = GeneralFunctionsPage.updateFeatureToggles(
-    'mhv_secure_messaging_cerner_pilot',
-    true,
-  );
+  const mockPilotFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: 'mhv_secure_messaging_cerner_pilot',
+      value: true,
+    },
+  ]);
 
   it('pilot ON inbox page view', () => {
     mockMultiThreadResponse.data[0].attributes.sentDate = currentDate;

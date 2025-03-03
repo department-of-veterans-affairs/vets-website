@@ -99,4 +99,43 @@ describe('<LicenseCertificationSearchInfo/>', () => {
     );
     wrapper.unmount();
   });
+  it('should return "all" when state is "all"', () => {
+    const props = {
+      ...defaultProps,
+      activeCategories: ['license'],
+      nameParam: '',
+      stateParam: 'all',
+    };
+    const wrapper = shallow(<LicenseCertificationSearchInfo {...props} />);
+    expect(wrapper.text()).to.contain('There is no license available');
+    wrapper.unmount();
+  });
+
+  it('should format name correctly when name is provided', () => {
+    const props = {
+      ...defaultProps,
+      activeCategories: ['license'],
+      nameParam: 'Test Course',
+      stateParam: 'all',
+    };
+    const wrapper = shallow(<LicenseCertificationSearchInfo {...props} />);
+    expect(wrapper.text()).to.contain('for "Test Course"');
+    wrapper.unmount();
+  });
+
+  it('should render single certification message when only certification is selected and state is not all', () => {
+    const props = {
+      ...defaultProps,
+      filteredResults: [],
+      activeCategories: ['certification'],
+      nameParam: 'Test Cert',
+      stateParam: 'NY',
+    };
+    const wrapper = shallow(<LicenseCertificationSearchInfo {...props} />);
+    const text = wrapper.text();
+    expect(text).to.contain('There is no certification available');
+    expect(text).to.contain('for "Test Cert"');
+    expect(text).to.not.contain('available in the state of');
+    wrapper.unmount();
+  });
 });

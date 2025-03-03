@@ -5,18 +5,20 @@ import {
 import {
   unlistedPageTitle,
   unlistedDescriptionPageDescription,
-} from '../../../content/form0781/behaviorListPages';
+  behaviorDescriptionPageHint,
+} from '../../content/form0781/behaviorListPages';
 import {
   titleWithTag,
   form0781HeadingTag,
   mentalHealthSupportAlert,
-} from '../../../content/form0781';
+} from '../../content/form0781';
 
 export const uiSchema = {
   'ui:title': titleWithTag(unlistedPageTitle, form0781HeadingTag),
   behaviorsDetails: {
     unlisted: textareaUI({
       title: unlistedDescriptionPageDescription,
+      hint: behaviorDescriptionPageHint,
     }),
   },
   'view:mentalHealthSupportAlert': {

@@ -21,11 +21,9 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.contain(
-            `\n\n\nName\nTitleTest${mockRequest.body} `,
-          );
+          expect(request.body).to.contain(mockRequest.body);
           expect(request.category).to.eq(mockRequest.category);
-          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
         }
       });
@@ -330,16 +328,11 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    const {
-      signatureName,
-      signatureTitle,
-      includeSignature,
-    } = mockSignature.data;
+    const { signatureName, signatureTitle } = mockSignature.data.attributes;
     cy.get(Locators.FIELDS.MESSAGE_BODY).should(
       'have.attr',
       'value',
-      `${includeSignature &&
-        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
+      `\n\n\n${signatureName}\n${signatureTitle}\n${url}`,
     );
   };
 

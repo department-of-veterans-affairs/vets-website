@@ -5,10 +5,12 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 
 describe('SM RECIPIENTS GROUPING ON COMPOSE', () => {
-  const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles(
-    `mhv_secure_messaging_recipient_opt_groups`,
-    true,
-  );
+  const updatedFeatureToggles = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: `mhv_secure_messaging_recipient_opt_groups`,
+      value: true,
+    },
+  ]);
   beforeEach(() => {
     SecureMessagingSite.login(updatedFeatureToggles);
     PatientInboxPage.loadInboxMessages();

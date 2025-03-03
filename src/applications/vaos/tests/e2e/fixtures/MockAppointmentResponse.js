@@ -381,6 +381,7 @@ export default class MockAppointmentResponse {
 
   setUrl(value = 'test.com') {
     this.attributes.telehealth = {
+      ...this.attributes.telehealth,
       url: value,
     };
 

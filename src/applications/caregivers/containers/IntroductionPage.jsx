@@ -58,7 +58,7 @@ export const IntroductionPage = props => {
         <va-omb-info
           res-burden={15}
           omb-number="2900-0768"
-          exp-date="04/30/2024"
+          exp-date="01/31/2027"
           class="omb-info--container vads-u-padding-left--0 vads-u-margin-top--4"
         >
           <CaregiversPrivacyActStatement />

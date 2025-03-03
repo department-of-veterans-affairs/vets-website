@@ -21,7 +21,12 @@ export default function MhvTemporaryAccess() {
       <h2>Sign in</h2>
       <div className="vads-u-margin-y--2">
         <va-button
-          onClick={() => login({ policy: 'mhv' })}
+          onClick={() =>
+            login({
+              policy: 'mhv',
+              queryParams: { operation: 'mhv_exception' },
+            })
+          }
           text="My HealtheVet"
           data-testid="accessMhvBtn"
         />

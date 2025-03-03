@@ -16,7 +16,6 @@ import newContactMethod33 from './chapters/33/contactInfo/newContactMethod';
 import serviceHistory33 from './chapters/33/serviceHistory/serviceHistory';
 import additionalConsiderations33 from './chapters/33/additionalConsiderations/additionalConsiderations';
 import directDeposit33 from './chapters/33/bankAccountInfo/directDeposit';
-import preFilledDirectDeposit33 from './chapters/33/bankAccountInfo/preFilledDirectDeposit';
 
 import benefitSelection from './chapters/benefitSelection';
 
@@ -168,19 +167,11 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        standardDirectDeposit: {
+        directDeposit: {
           path: 'direct-deposit',
           title: 'Direct deposit',
-          depends: formData => !formData.showDgiDirectDeposit1990EZ,
           uiSchema: directDeposit33.uiSchema,
           schema: directDeposit33.schema,
-        },
-        preFilledDirectDeposit: {
-          path: 'direct-deposit/review',
-          title: 'Direct deposit',
-          depends: formData => formData.showDgiDirectDeposit1990EZ,
-          uiSchema: preFilledDirectDeposit33.uiSchema,
-          schema: preFilledDirectDeposit33.schema,
         },
       },
     },

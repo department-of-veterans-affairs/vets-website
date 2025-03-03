@@ -87,6 +87,11 @@
     "widgetType": "schedule-view-va-appointments-page"
   },
   {
+    "appName": "Schedule And View VA Appointments Online",
+    "rootUrl": "/health-care/modern-schedule-view-va-appointments",
+    "widgetType": "modern-schedule-view-va-appointments-page"
+  },
+  {
     "appName": "VA Pittsburgh Health Care",
     "rootUrl": "/pittsburgh-health-care",
     "widgetType": "side-nav",

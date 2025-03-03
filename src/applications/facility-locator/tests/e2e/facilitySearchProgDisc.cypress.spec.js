@@ -220,7 +220,7 @@ describe('Facility VA search', () => {
       .should('exist');
     cy.get('.facility-phone-group').should('exist');
     cy.get('va-link')
-      .eq(1)
+      .eq(0)
       .shadow()
       .get('a')
       .contains(/Get directions/i);

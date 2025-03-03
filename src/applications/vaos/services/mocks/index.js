@@ -413,7 +413,7 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
-    let successPollCount = 5; // The number of times to poll before returning a confirmed appointment
+    let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
 
     if (appointmentId === 'timeout-appointment-id') {

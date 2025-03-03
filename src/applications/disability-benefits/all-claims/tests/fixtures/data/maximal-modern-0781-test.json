@@ -381,6 +381,19 @@
     "view:noneCheckbox": {
       "none": false
     },
+    "treatmentReceivedNonVaProvider": {
+      "nonVa": true,
+      "vaCenters": true
+    },
+    "treatmentReceivedVaProvider": {
+      "medicalCenter": true,
+      "communityOutpatient": true,
+      "vaPaid": true,
+      "dod": true
+    },
+    "view:treatmentNoneCheckbox": {
+      "none": false
+    },
     "optionIndicator": "yes",
     "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
     "view:ancillaryFormsWizardIntro": {},

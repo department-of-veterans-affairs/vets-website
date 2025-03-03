@@ -12,16 +12,14 @@ import formConfig from '../../../../config/form';
 const defaultStore = createCommonStore();
 
 const formData = {
-  'view:selectable686Options': {
-    addChild: true,
-  },
   childrenToAdd: [{}],
 };
-describe('686 add child relationship', () => {
+
+describe('686 add child disability part two', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.addChild.pages.addChildRelationshipPartOne;
+  } = formConfig.chapters.addChild.pages.disabilityPartTwo;
 
   it('should render', () => {
     const form = render(

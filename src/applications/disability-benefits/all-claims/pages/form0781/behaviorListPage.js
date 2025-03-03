@@ -18,7 +18,7 @@ import {
   showConflictingAlert,
 } from '../../content/form0781/behaviorListPages';
 import {
-  BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
@@ -34,7 +34,7 @@ export const uiSchema = {
     },
   },
   workBehaviors: checkboxGroupUI({
-    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.work,
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.work,
     labelHeaderLevel: '4',
     labels: {
       ...BEHAVIOR_CHANGES_WORK,
@@ -42,7 +42,7 @@ export const uiSchema = {
     required: false,
   }),
   healthBehaviors: checkboxGroupUI({
-    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.health,
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.health,
     labelHeaderLevel: '4',
     labels: {
       ...BEHAVIOR_CHANGES_HEALTH,
@@ -50,7 +50,7 @@ export const uiSchema = {
     required: false,
   }),
   otherBehaviors: checkboxGroupUI({
-    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.other,
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.other,
     labelHeaderLevel: '4',
     labels: {
       ...BEHAVIOR_CHANGES_OTHER,
@@ -58,10 +58,10 @@ export const uiSchema = {
     required: false,
   }),
   unlistedBehaviors: textUI({
-    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.unlisted,
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.unlisted,
   }),
   'view:noneCheckbox': checkboxGroupUI({
-    title: BEHAVIOR_LIST_BEHAVIOR_SUBTITLES.none,
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.none,
     labelHeaderLevel: '4',
     labels: {
       none: behaviorListNoneLabel,

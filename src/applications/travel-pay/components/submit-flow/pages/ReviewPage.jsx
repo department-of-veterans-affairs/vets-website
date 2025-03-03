@@ -46,7 +46,7 @@ const ReviewPage = ({
       <p>Confirm the information is correct before you submit your claim.</p>
 
       <h2 className="vads-u-margin-bottom--0">Claims</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         What you’re claiming
       </h3>
@@ -63,14 +63,14 @@ const ReviewPage = ({
       </p>
 
       <h2 className="vads-u-margin-bottom--0">Travel method</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         How you traveled
       </h3>
       <p className="vads-u-margin-y--0">In your own vehicle</p>
 
       <h2 className="vads-u-margin-bottom--0">Starting address</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         Where you traveled from
       </h3>

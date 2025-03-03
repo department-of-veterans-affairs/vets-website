@@ -37,6 +37,7 @@ const AccessGuardWrapper = ({ children }) => {
 const routes = (
   <AccessGuardWrapper>
     <Switch>
+      {/* TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod */}
       <AppRoute exact path={['/about', '/about/*']} key="LandingPage">
         <LandingPage />
       </AppRoute>

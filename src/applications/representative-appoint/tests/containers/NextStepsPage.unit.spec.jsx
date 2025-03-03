@@ -24,7 +24,7 @@ describe('<NextStepsPage />', () => {
     );
 
     expect($('h1', container).textContent).to.eq(
-      'Get help from a VA accredited representative or VSO',
+      'Request help from a VA accredited representative or VSO',
     );
     expect($('h2', container).textContent).to.eq('Your next steps');
   });

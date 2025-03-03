@@ -12,9 +12,7 @@
           "state": "AK",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123123123"
-        },
+        "applicantSSN": "123123123",
         "applicantName": {
           "first": "Certifier",
           "last": "Jones",
