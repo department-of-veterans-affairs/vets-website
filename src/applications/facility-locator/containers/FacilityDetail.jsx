@@ -66,7 +66,7 @@ class FacilityDetail extends Component {
           <MetaTags>
             <meta
               name="description"
-              content="We help Veterans, service members, and their families access VA benefits and services. Benefits we can help with include disability compensation, education benefits, life insurance, pensions, and home loans."
+              content="We help Veterans, service members, and their families access VA benefits and services. Benefits we can help with include disability compensation, education benefits, life insurance, pensions, and home loans. Find a benefit office near you or sign up for updates."
             />
           </MetaTags>
         )}
