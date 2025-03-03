@@ -80,10 +80,10 @@ const GroupedMedications = props => {
                 </dd>
                 <dd>Quantity: {rx.quantity}</dd>
                 <dd>
-                  Prescribed on: {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
+                  Prescribed on {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
                 </dd>
                 <dd>
-                  Prescribed by:{' '}
+                  Prescribed by{' '}
                   {(rx.providerFirstName && rx.providerLastName) || EMPTY_FIELD}
                 </dd>
               </dl>

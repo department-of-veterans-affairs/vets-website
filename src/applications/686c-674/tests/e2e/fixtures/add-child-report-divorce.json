@@ -15,6 +15,7 @@
           "city": "test city",
           "postalCode": "43242"
         },
+        "doesChildHaveDisability": false,
         "doesChildLiveWithYou": false,
         "hasChildEverBeenMarried": false,
         "isBiologicalChild": true,

@@ -106,10 +106,8 @@ describe('getHomeless', () => {
       homeless: true,
       homelessPointOfContact: 'John Doe',
       homelessPointOfContactPhone: {
-        countryCode: '',
         areaCode: '800',
         phoneNumber: '5551212',
-        phoneNumberExt: '',
       },
     });
   });
@@ -135,10 +133,8 @@ describe('getHomeless', () => {
       homelessLivingSituationOther: 'lorem ipsum',
       homelessPointOfContact: 'John Doe',
       homelessPointOfContactPhone: {
-        countryCode: '',
         areaCode: '442',
         phoneNumber: '012345678901',
-        phoneNumberExt: '',
       },
     });
   });

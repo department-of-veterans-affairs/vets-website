@@ -40,10 +40,11 @@ export const getTreatmentDate = (type, showNewFormContent, location) => {
   if (showNewFormContent && noDate) {
     return '';
   }
-
-  return showNewFormContent && treatmentDate.length === 7
-    ? `${treatmentDate}-01`
-    : evidenceDates[type] || '';
+  const date =
+    showNewFormContent && treatmentDate.length === 7
+      ? `${treatmentDate}-01`
+      : evidenceDates[type] || '';
+  return fixDateFormat(date);
 };
 
 export const hasDuplicateLocation = (
@@ -131,10 +132,6 @@ export const hasDuplicateLocation = (
             {
               "startDate": "2010-01-06",
               "endDate": "2010-01-07"
-            },
-            {
-              "startDate": "2010-04-15",
-              "endDate": "2010-04-18"
             }
           ],
           noTreatmentDates: false
@@ -168,28 +165,35 @@ export const getEvidence = formData => {
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {
         if (!hasDuplicateLocation(list, location, showNewFormContent)) {
-          // Temporary transformation of `treatmentDate` (YYYY-MM) to
-          // `evidenceDates` range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
+          // Transformation of `treatmentDate` (YYYY-MM) to `evidenceDates`
+          // range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
           const from = getTreatmentDate('from', showNewFormContent, location);
           const to = getTreatmentDate('to', showNewFormContent, location);
-          list.push({
+
+          const entry = {
             type: 'retrievalEvidence',
             attributes: {
               // We're not including the issues here - it's only in the form to
               // make the UX consistent with the private records location pages
               locationAndName: location.locationAndName,
               // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-              // providing one; with the new form, these dates will not be
-              // required. Leaving this as is until LH provides the new API
-              evidenceDates: [
-                {
-                  startDate: fixDateFormat(from),
-                  endDate: fixDateFormat(to),
-                },
-              ],
-              noTreatmentDates: location.noDate,
+              // providing one because of UX considerations
+              evidenceDates: [{ startDate: from, endDate: to }],
             },
-          });
+          };
+
+          // Because of Lighthouse's schema, don't include `evidenceDates` if no
+          // date is provided
+          if (showNewFormContent) {
+            // Only startDate (from) is required, remove evidenceDates if
+            // undefined
+            if (location.noDate || !from) {
+              delete entry.attributes.evidenceDates;
+            }
+            // noDate can be undefined; so fallback to false due to LH schema
+            entry.attributes.noTreatmentDates = location.noDate || false;
+          }
+          list.push(entry);
         }
         return list;
       },
