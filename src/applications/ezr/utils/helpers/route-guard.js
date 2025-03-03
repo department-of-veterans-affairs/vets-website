@@ -105,11 +105,13 @@ export const renderComponent = (Component, props) => {
  * @returns {Object} The protected route object
  */
 export const createProtectedRoute = route => {
-  // Don't protect routes if environment is Localhost or it's the introduction page
-  if (
-    environment.isLocalhost ||
-    route.path?.includes(content.routes.introduction)
-  ) {
+  // Always allow access to introduction page
+  if (route.path?.includes(content.routes.introduction)) {
+    return route;
+  }
+
+  // Don't protect routes in localhost environment
+  if (environment.isLocalhost) {
     return route;
   }
 
