@@ -1,4 +1,4 @@
-import { isPastAppt } from './dates';
+import { addMinutes, differenceInCalendarDays, isBefore } from 'date-fns';
 
 const timezones = require('./timezones.json');
 
@@ -38,6 +38,31 @@ function getAtlasLocation(appt) {
   };
 }
 
+export function getDaysLeft(datetimeString) {
+  const apptDate = new Date(datetimeString);
+  const daysSinceAppt = differenceInCalendarDays(new Date(), apptDate);
+
+  return daysSinceAppt > 30 ? 0 : 30 - daysSinceAppt;
+}
+
+export function isPastAppt(appointment) {
+  const isVideo = appointment.kind && appointment.kind === 'telehealth';
+  const threshold = isVideo ? 240 : 60;
+
+  const TZ = getTimezoneByFacilityId(appointment.locationId);
+
+  const startDate = TZ
+    ? new Date(appointment.start).toLocaleString('en-US', {
+        timeZone: TZ,
+      })
+    : new Date(appointment.start).toLocaleString();
+  const now = TZ
+    ? new Date().toLocaleString('en-US', { timeZone: TZ })
+    : new Date().toLocaleString();
+
+  return isBefore(addMinutes(new Date(startDate), threshold), new Date(now));
+}
+
 export function transformVAOSAppointment(appt) {
   // This is only used for isCompAndPen
   const serviceCategoryName = appt.serviceCategory?.[0]?.text || 'undefined';
@@ -49,6 +74,9 @@ export function transformVAOSAppointment(appt) {
   const isAtlas = !!appt.telehealth?.atlas;
 
   const isPast = !!isPastAppt(appt);
+  const daysSinceAppt = isPast
+    ? differenceInCalendarDays(new Date(), new Date(appt.localStartTime))
+    : null;
 
   // This property will be helpful for complex claims
   // Adding now because we might need to specifically exclude them until then?
@@ -60,6 +88,7 @@ export function transformVAOSAppointment(appt) {
 
     // Add additional fields
     isPast,
+    daysSinceAppt,
     isCC,
 
     // These next bits are all about atlas video visits
