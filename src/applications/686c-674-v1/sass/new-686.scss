@@ -2,10 +2,10 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
-@import "../../../../platform/forms/sass/m-schemaform";
+@import "../../../platform/forms/sass/m-schemaform";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
-@import "../../../../platform/forms/sass/m-form-confirmation";
+@import "../../../platform/forms/sass/m-form-confirmation";
 
 // accessibility fix
 div.review {
