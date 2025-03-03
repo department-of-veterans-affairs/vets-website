@@ -108,6 +108,16 @@ class GeneralFunctionsPage {
       endMonth,
     };
   };
+
+  verifyLastBreadCrumb = value => {
+    cy.get(`.usa-breadcrumb__link`)
+      .last()
+      .should(`have.text`, value);
+  };
+
+  verifyPageTitle = value => {
+    cy.title().should(`contain`, value);
+  };
 }
 
 export default new GeneralFunctionsPage();
