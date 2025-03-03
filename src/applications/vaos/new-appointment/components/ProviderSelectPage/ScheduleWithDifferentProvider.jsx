@@ -1,6 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { getFacilityPhone } from '../../../services/location';
+import FacilityPhone from '../../../components/FacilityPhone';
 
-export default function ScheduleWithDifferentProvider() {
+export default function ScheduleWithDifferentProvider({
+  eligibility,
+  selectedFacility,
+}) {
+  const facilityPhone = getFacilityPhone(selectedFacility);
+
   return (
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
@@ -11,8 +19,7 @@ export default function ScheduleWithDifferentProvider() {
       </h3>
       <p className="vads-u-margin-y--0">
         Call and ask to schedule with that provider:{' '}
-        <va-telephone contact="1231231234" /> (
-        <va-telephone contact="711" tty />)
+        <FacilityPhone contact={facilityPhone} icon={false} />
       </p>
 
       <h3 className="vads-u-font-size--h4 vads-u-margin-bottom--0 vads-u-margin-top--1">
@@ -26,3 +33,8 @@ export default function ScheduleWithDifferentProvider() {
     </>
   );
 }
+
+ScheduleWithDifferentProvider.propTypes = {
+  eligibility: PropTypes.object.isRequired,
+  selectedFacility: PropTypes.object.isRequired,
+};
