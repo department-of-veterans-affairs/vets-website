@@ -45,6 +45,12 @@ export const Data = {
   CHECK_STATUS_HEADER: 'Check the status of your next refill',
   HELP_TEXT: 'Need help?',
   LIST_PAGE_TITLE_NOTES: 'Bring your medications list',
+  PROGRESS_LIST_HEADER: 'How the refill process works',
+  STEP_ONE_HEADER: 'You request a refill',
+  STEP_TWO_HEADER: 'We process your refill request',
+  STEP_THREE_HEADER: 'We ship your refill to you',
+  STEP_THREE_NOTE:
+    'Remember to request your next refill at least 15 days before ',
 };
 export const Paths = {
   LANDING_LIST:

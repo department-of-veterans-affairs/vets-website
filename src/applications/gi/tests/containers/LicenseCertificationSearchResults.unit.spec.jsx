@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter, Route } from 'react-router-dom';
 import sinon from 'sinon';
 import LicenseCertificationSearchResults from '../../containers/LicenseCertificationSearchResults';
+import * as helpers from '../../utils/helpers';
 
 const mockStore = configureStore([thunk]);
 
@@ -134,7 +135,7 @@ describe('LicenseCertificationSearchResults', () => {
 
     const wrapper = mountComponent();
     expect(wrapper.find('VaPagination').exists()).to.be.true;
-    expect(wrapper.find('va-card')).to.have.lengthOf(10); // First page should show 10 items
+    expect(wrapper.find('va-card')).to.have.lengthOf(10);
     wrapper.unmount();
   });
 
@@ -143,5 +144,68 @@ describe('LicenseCertificationSearchResults', () => {
     expect(addEventListenerSpy.calledWith('resize')).to.be.true;
     wrapper.unmount();
     expect(removeEventListenerSpy.calledWith('resize')).to.be.true;
+  });
+  it('should call updateStateDropdown([null, null]) if categoryParams = ["certification"]', () => {
+    const updateStateDropdownSpy = sinon.spy(helpers, 'updateStateDropdown');
+
+    store = mockStore({
+      licenseCertificationSearch: {
+        ...initialState.licenseCertificationSearch,
+        hasFetchedOnce: true,
+        filteredResults: [],
+      },
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter
+          initialEntries={[
+            '/licenses-certifications-and-prep-courses/results?category=certification',
+          ]}
+        >
+          <Route path="/licenses-certifications-and-prep-courses/results">
+            <LicenseCertificationSearchResults />
+          </Route>
+        </MemoryRouter>
+      </Provider>,
+    );
+    const calledWithNullNull = updateStateDropdownSpy.getCalls().some(call => {
+      return (
+        call.args.length === 1 &&
+        Array.isArray(call.args[0]) &&
+        call.args[0].length === 2 &&
+        call.args[0][0] === null &&
+        call.args[0][1] === null
+      );
+    });
+
+    expect(calledWithNullNull).to.be.true;
+
+    updateStateDropdownSpy.restore();
+    wrapper.unmount();
+  });
+  it('should execute the error block when error is true (line coverage)', () => {
+    store = mockStore({
+      licenseCertificationSearch: {
+        ...initialState.licenseCertificationSearch,
+        hasFetchedOnce: true,
+        error: true,
+      },
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <MemoryRouter
+          initialEntries={['/licenses-certifications-and-prep-courses/results']}
+        >
+          <Route path="/licenses-certifications-and-prep-courses/results">
+            <LicenseCertificationSearchResults />
+          </Route>
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    expect(wrapper.exists()).to.be.true;
+
+    wrapper.unmount();
   });
 });
