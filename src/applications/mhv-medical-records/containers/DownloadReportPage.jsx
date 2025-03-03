@@ -66,7 +66,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     mr: {
       downloads: {
         generatingCCD,
-        timestampCCD,
         error: ccdError,
         bbDownloadSuccess: successfulBBDownload,
       },
@@ -313,16 +312,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           visibility={generatingCCD}
         />
       </div>
-      {!generatingCCD && (
-        <div id="generating-ccd-downloading-indicator">
-          <DownloadSuccessAlert
-            ccd
-            completed
-            className="vads-u-margin-bottom--1"
-            visibility={timestampCCD}
-          />
-        </div>
-      )}
 
       {accessErrors()}
 
