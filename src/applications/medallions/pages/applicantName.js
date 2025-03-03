@@ -1,6 +1,5 @@
 import {
   firstNameLastNameNoSuffixUI,
-  // firstNameLastNameNoSuffixSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 

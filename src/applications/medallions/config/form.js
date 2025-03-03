@@ -52,21 +52,21 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        // 1
+        // 1 DONE
         applicantName: {
           path: 'applicant-name',
           title: 'Your name',
           uiSchema: applicantName.uiSchema,
           schema: applicantName.schema,
         },
-        // 2
+        // 2 DONE
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',
           title: 'Your relationship to the Veteran',
           uiSchema: applicantRelationToVet.uiSchema,
           schema: applicantRelationToVet.schema,
         },
-        // 3
+        // 3 DONE
         applicantRelationToVetOrg: {
           path: 'applicant-relation-to-vet-org',
           title: 'Your organization',
@@ -77,7 +77,7 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
-        // 3.5
+        // 3.5 DONE
         applicantRelationToVetOrg2: {
           path: 'applicant-relation-to-vet-org-2',
           title: 'Your organization',

@@ -1,6 +1,5 @@
 import {
   textUI,
-  textSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -17,7 +16,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      yourOrgText: textSchema,
+      yourOrgText: {
+        type: 'string',
+        maxLength: 60,
+      },
     },
     required: ['yourOrgText'],
   },
