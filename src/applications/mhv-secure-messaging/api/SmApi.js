@@ -4,6 +4,7 @@ import { DefaultFolders, threadSortingOptions } from '../util/constants';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 const REQUIRES_OH_MESSAGES_PARAM = 'requires_oh_messages=1';
+// test
 
 /**
  * Gets the folder list for the current user.
