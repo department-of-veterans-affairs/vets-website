@@ -186,11 +186,11 @@ const SettingsPage = () => {
         }}
         onPrimaryButtonClick={() => {
           handleUpdateSharing(isSharing);
-          sendDataDogAction(primaryButtonText);
+          sendDataDogAction(`${primaryButtonText} - Modal`);
         }}
         onSecondaryButtonClick={() => {
           handleCloseModal();
-          sendDataDogAction(secondaryButtonText);
+          sendDataDogAction(`${secondaryButtonText} - Modal`);
         }}
         primaryButtonText={primaryButtonText}
         secondaryButtonText={secondaryButtonText}
