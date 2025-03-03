@@ -8,6 +8,8 @@ import SettingsPage from '../../containers/SettingsPage';
 
 describe('SettingsPage container opted in with opt in status error', () => {
   const initialState = {
+    // eslint-disable-next-line camelcase
+    featureToggles: { mhv_medical_records_update_landing_page: true },
     mr: {
       sharing: {
         statusError: { type: 'optin' },
