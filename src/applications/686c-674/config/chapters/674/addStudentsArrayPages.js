@@ -383,7 +383,7 @@ export const studentAttendancePage = {
           'Has the student attended school continuously since they started school?',
         required: () => true,
         description: generateHelpText(
-          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year, like winter break or summer break',
+          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year like winter break or summer break',
         ),
       }),
     },
