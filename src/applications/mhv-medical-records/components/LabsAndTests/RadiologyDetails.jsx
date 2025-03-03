@@ -53,13 +53,12 @@ const RadiologyDetails = props => {
       ],
   );
 
-  // const allowMarchUpdates = useSelector(
-  //   state =>
-  //     state.featureToggles[
-  //       FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
-  //     ],
-  // );
-  const allowMarchUpdates = true;
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
+  );
 
   const dispatch = useDispatch();
   const elementRef = useRef(null);
