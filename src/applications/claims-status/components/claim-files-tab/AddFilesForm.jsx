@@ -8,7 +8,6 @@ import {
   VaSelect,
   VaTextInput,
   VaButton,
-  VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -55,8 +54,6 @@ class AddFilesForm extends React.Component {
       showRemoveFileModal: false,
       removeFileIndex: null,
       removeFileName: null,
-      checkBoxChecked: false,
-      checkBoxErrorMessage: null,
     };
   }
 
@@ -82,13 +79,6 @@ class AddFilesForm extends React.Component {
       value: password,
       dirty: true,
     });
-  };
-
-  handleCheckboxChange = () => {
-    this.setState(prevState => ({
-      checkBoxChecked: !prevState.checkBoxChecked,
-      checkBoxErrorMessage: null,
-    }));
   };
 
   add = async files => {
@@ -160,27 +150,6 @@ class AddFilesForm extends React.Component {
     this.props.onDirtyFields();
   };
 
-  submitWithCheckbox = () => {
-    const { files } = this.props;
-    const hasPasswords = files.every(
-      file => !file.isEncrypted || (file.isEncrypted && file.password.value),
-    );
-
-    if (!this.state.checkBoxChecked) {
-      this.setState({
-        checkBoxErrorMessage: 'Please check the box',
-      });
-    } else {
-      if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
-        this.setState({ canShowUploadModal: true });
-        this.props.onSubmit();
-        return;
-      }
-
-      this.props.onDirtyFields();
-    }
-  };
-
   removeFileConfirmation = (fileIndex, fileName) => {
     this.setState({
       showRemoveFileModal: true,
@@ -219,18 +188,6 @@ class AddFilesForm extends React.Component {
                       additionalErrorClass="claims-upload-input-error-message"
                       aria-describedby="file-requirements"
                       uswds
-                    />
-                    <VaCheckbox
-                      label="The files I uploaded support this claim  "
-                      required
-                      className="vads-u-margin-bottom--3"
-                      checked={this.state.checkBoxChecked}
-                      onVaChange={this.handleCheckboxChange}
-                      error={
-                        !this.state.checkBoxChecked
-                          ? this.state.checkBoxErrorMessage
-                          : null
-                      }
                     />
                   </div>
                 );
@@ -335,7 +292,7 @@ class AddFilesForm extends React.Component {
                 <VaButton
                   id="submit"
                   text="Submit files for review"
-                  onClick={this.submitWithCheckbox}
+                  onClick={this.submit}
                 />
               );
             }

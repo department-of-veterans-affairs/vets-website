@@ -5,7 +5,6 @@ import { fireEvent } from '@testing-library/dom';
 import { render } from '@testing-library/react';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import userEvent from '@testing-library/user-event';
-import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import sinon from 'sinon';
 
@@ -281,15 +280,17 @@ describe('<AddFilesForm>', () => {
   });
 
   context('when cstFriendlyEvidenceRequests is true', () => {
-    it('should render checkbox', () => {
-      const { container } = render(
+    it('should render updated file input section ui', () => {
+      const { getByText } = render(
         <Provider store={getStore()}>
           <AddFilesForm />
         </Provider>,
       );
-      expect(VaCheckbox, container).to.exist;
+      getByText('Upload Documents');
+      getByText('Upload document(s)');
     });
   });
+
   it('should not add an invalid file type', () => {
     const files = [];
     const field = { value: '', dirty: false };
