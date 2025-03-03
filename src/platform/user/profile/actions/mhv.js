@@ -10,7 +10,7 @@ export const FETCH_MESSAGING_SIGNATURE = 'FETCH_MESSAGING_SIGNATURE';
 const baseUrl = '/mhv_account';
 const myHealthApiBasePath = `${environment.API_URL}/my_health/v1`;
 
-// test
+// test 2
 
 export function fetchMHVAccount() {
   return dispatch => {
