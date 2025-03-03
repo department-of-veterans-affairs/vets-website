@@ -12,7 +12,6 @@ import { selectVAPResidentialAddress } from 'platform/user/selectors';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
-import { getPractionerName } from '../../../util/appointment-helpers';
 
 const ReviewPage = ({
   address,
@@ -55,11 +54,8 @@ const ReviewPage = ({
         {data.location?.attributes?.name
           ? ` at ${data.location.attributes.name}`
           : ''}{' '}
-        {data.practitioners?.length > 0 &&
-        typeof data.practitioners[0].name !== 'undefined'
-          ? `with ${getPractionerName(data.practitioners)}`
-          : ''}{' '}
-        on {formattedDate} at {formattedTime}.
+        {data.practitionerName ? `with ${data.practitionerName}` : ''} on{' '}
+        {formattedDate} at {formattedTime}.
       </p>
 
       <h2 className="vads-u-margin-bottom--0">Travel method</h2>
