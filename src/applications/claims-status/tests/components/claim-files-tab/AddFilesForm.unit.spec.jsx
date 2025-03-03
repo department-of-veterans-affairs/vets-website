@@ -85,7 +85,9 @@ describe('<AddFilesForm>', () => {
 
     it('should render component', () => {
       const { container, getAllByRole } = render(
-        <AddFilesForm {...fileFormProps} />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} />
+        </Provider>,
       );
 
       expect($('.add-files-form', container)).to.exist;
@@ -97,19 +99,27 @@ describe('<AddFilesForm>', () => {
 
     it('uploading modal should not be visible', () => {
       const { container } = render(
-        <AddFilesForm {...fileFormProps} uploading />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} uploading />
+        </Provider>,
       );
       expect($('#upload-status', container).visible).to.be.false;
     });
 
     it('remove files modal should not be visible', () => {
-      const { container } = render(<AddFilesForm {...fileFormProps} />);
+      const { container } = render(
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} />
+        </Provider>,
+      );
       expect($('#remove-file', container).visible).to.be.false;
     });
 
     it('should include mail info additional info', () => {
       const { getByText, getAllByRole } = render(
-        <AddFilesForm {...fileFormProps} />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} />
+        </Provider>,
       );
       getByText(
         /Please upload your documents online here to help us process your claim quickly./i,
@@ -129,11 +139,13 @@ describe('<AddFilesForm>', () => {
       const onDirtyFields = sinon.spy();
 
       const { container } = render(
-        <AddFilesForm
-          {...fileFormProps}
-          onSubmit={onSubmit}
-          onDirtyFields={onDirtyFields}
-        />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm
+            {...fileFormProps}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+          />
+        </Provider>,
       );
 
       fireEvent.click($('#submit', container));
@@ -147,22 +159,26 @@ describe('<AddFilesForm>', () => {
       const onDirtyFields = sinon.spy();
 
       const { container, rerender } = render(
-        <AddFilesForm
-          {...fileFormProps}
-          onSubmit={onSubmit}
-          onDirtyFields={onDirtyFields}
-        />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm
+            {...fileFormProps}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+          />
+        </Provider>,
       );
 
       // Rerender component with new props and submit the file upload
       rerender(
-        <AddFilesForm
-          {...fileFormProps}
-          files={[file]}
-          onSubmit={onSubmit}
-          onDirtyFields={onDirtyFields}
-          uploading
-        />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm
+            {...fileFormProps}
+            files={[file]}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+            uploading
+          />
+        </Provider>,
       );
 
       // select doc type
@@ -180,22 +196,26 @@ describe('<AddFilesForm>', () => {
       const onDirtyFields = sinon.spy();
 
       const { container, rerender } = render(
-        <AddFilesForm
-          {...fileFormProps}
-          onSubmit={onSubmit}
-          onDirtyFields={onDirtyFields}
-        />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm
+            {...fileFormProps}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+          />
+        </Provider>,
       );
 
       // Rerender component with new props and submit the file upload
       rerender(
-        <AddFilesForm
-          {...fileFormProps}
-          files={[fileWithPassword]}
-          onSubmit={onSubmit}
-          onDirtyFields={onDirtyFields}
-          uploading
-        />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm
+            {...fileFormProps}
+            files={[fileWithPassword]}
+            onSubmit={onSubmit}
+            onDirtyFields={onDirtyFields}
+            uploading
+          />
+        </Provider>,
       );
 
       // select doc type
@@ -217,7 +237,9 @@ describe('<AddFilesForm>', () => {
 
     it('should mask filenames from Datadog (no PII)', () => {
       const { container } = render(
-        <AddFilesForm {...fileFormProps} files={[file]} />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} files={[file]} />
+        </Provider>,
       );
       expect(
         $('.document-title', container).getAttribute('data-dd-privacy'),
@@ -226,7 +248,9 @@ describe('<AddFilesForm>', () => {
 
     it('should add a valid file', () => {
       const { container, rerender, getByText } = render(
-        <AddFilesForm {...fileFormProps} />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} />
+        </Provider>,
       );
       const fileInput = $('#file-upload', container);
 
@@ -234,13 +258,19 @@ describe('<AddFilesForm>', () => {
       userEvent.upload(fileInput, file);
       expect(fileInput.files[0]).to.equal(file);
       expect(fileInput.files.length).to.equal(1);
-      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
+      rerender(
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} files={[file]} uploading />
+        </Provider>,
+      );
       getByText('hello.jpg');
     });
 
     it('should add a valid file and change it', () => {
       const { container, rerender, getByText } = render(
-        <AddFilesForm {...fileFormProps} />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} />
+        </Provider>,
       );
 
       const fileInput = $('#file-upload', container);
@@ -249,20 +279,30 @@ describe('<AddFilesForm>', () => {
       userEvent.upload(fileInput, file);
       expect(fileInput.files[0]).to.equal(file);
       expect(fileInput.files.length).to.equal(1);
-      rerender(<AddFilesForm {...fileFormProps} files={[file]} uploading />);
+      rerender(
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} files={[file]} uploading />
+        </Provider>,
+      );
       getByText('hello.jpg');
       // Change the file
       userEvent.upload(fileInput, file2);
       expect(fileInput.files[0]).to.equal(file2);
       expect(fileInput.files.length).to.equal(1);
-      rerender(<AddFilesForm {...fileFormProps} files={[file2]} uploading />);
+      rerender(
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} files={[file2]} uploading />
+        </Provider>,
+      );
       getByText('hello2.jpg');
     });
 
     it('should add multiple valid files', () => {
       const files = [];
       const { container, getByText, rerender } = render(
-        <AddFilesForm {...fileFormProps} files={files} />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} files={files} />
+        </Provider>,
       );
       const fileInput = $('#file-upload', container);
 
@@ -272,7 +312,9 @@ describe('<AddFilesForm>', () => {
       expect(fileInput.files[0][0]).to.equal(file);
       expect(fileInput.files[0][1]).to.equal(file2);
       rerender(
-        <AddFilesForm {...fileFormProps} files={[file, file2]} uploading />,
+        <Provider store={getStore(false)}>
+          <AddFilesForm {...fileFormProps} files={[file, file2]} uploading />
+        </Provider>,
       );
       getByText('hello.jpg');
       getByText('hello2.jpg');
@@ -280,14 +322,26 @@ describe('<AddFilesForm>', () => {
   });
 
   context('when cstFriendlyEvidenceRequests is true', () => {
+    const fileFormProps = {
+      field: { value: '', dirty: false },
+      files: [],
+      onSubmit: () => {},
+      onAddFile: () => {},
+      onRemoveFile: () => {},
+      onFieldChange: () => {},
+      onCancel: () => {},
+      removeFile: () => {},
+      onDirtyFields: () => {},
+    };
+
     it('should render updated file input section ui', () => {
       const { getByText } = render(
         <Provider store={getStore()}>
-          <AddFilesForm />
+          <AddFilesForm {...fileFormProps} />
         </Provider>,
       );
       getByText('Upload Documents');
-      getByText('Upload document(s)');
+      getByText('If you have a document to upload, you can do that here.');
     });
   });
 

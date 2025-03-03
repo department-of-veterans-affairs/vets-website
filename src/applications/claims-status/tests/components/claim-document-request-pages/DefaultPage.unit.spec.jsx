@@ -103,7 +103,9 @@ describe('<DefaultPage>', () => {
     );
 
     const { getByText, container } = renderWithRouter(
-      <DefaultPage {...defaultProps} item={item} />,
+      <Provider store={getStore(false)}>
+        <DefaultPage {...defaultProps} item={item} />
+      </Provider>,
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
@@ -135,7 +137,9 @@ describe('<DefaultPage>', () => {
       date: '2024-03-07',
     };
     const { getByText, container } = renderWithRouter(
-      <DefaultPage {...defaultProps} item={item} />,
+      <Provider store={getStore()}>
+        <DefaultPage {...defaultProps} item={item} />
+      </Provider>,
     );
     expect($('#default-page', container)).to.exist;
     expect($('.add-files-form', container)).to.exist;
