@@ -122,11 +122,7 @@ const submit = form => {
 
 const downtime = {
   requiredForPrefill: true,
-  dependencies: [
-    process.env.NODE_ENV === 'production'
-      ? externalServices.mdot
-      : externalServices.stagingMdot,
-  ],
+  dependencies: [externalServices.mdot],
   // message: '',
 };
 

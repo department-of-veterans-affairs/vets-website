@@ -6,6 +6,7 @@ const commonResponses = require('../../../platform/testing/local-dev-mock-api/co
 const featureToggles = require('./feature-toggles/index');
 const user = require('./user/index');
 const mdot = require('./mdot/index');
+const maintenance_windows = require('./maintenance-windows');
 
 const toggleVeteranNotFoundError = false;
 const toggleInternalServerError = false;
@@ -56,6 +57,7 @@ const responses = {
       },
     },
   },
+  'GET /v0/maintenance_windows': maintenance_windows,
 };
 
 module.exports = delay(responses, 2000);

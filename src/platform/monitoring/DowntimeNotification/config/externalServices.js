@@ -80,7 +80,7 @@ export default {
   tc: 'tc',
   // MDOT/ROES/DLC
   mdot: 'mdot',
-  stagingMdot: 'staging_mdot',
+  // stagingMdot: 'staging_mdot', // unnecessary
 
   // Sources for VA Profile services:
   VAPRO_PROFILE_PAGE: 'vapro_profile_page',
