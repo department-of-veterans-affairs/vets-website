@@ -62,7 +62,7 @@ const TopicSelectPage = props => {
 
     onChange({
       ...formData,
-              contactPreferences: selected.attributes.contactPreferences,
+      contactPreferences: selected.attributes.contactPreferences,
       selectTopic: selectedValue,
       topicId: selected.id,
       topicRequiresSignIn:
