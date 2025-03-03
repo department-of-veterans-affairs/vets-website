@@ -43,7 +43,8 @@ const HEALTH_CONDITIONS_LABEL = 'Go to your health conditions';
 const VITALS_LABEL = 'Go to your vitals';
 const MEDICAL_RECORDS_DOWNLOAD_LABEL_MAR_17 =
   'Go to download your medical records reports';
-const MEDICAL_RECORDS_DOWNLOAD_LABEL = 'Go to your medical records settings';
+const MEDICAL_RECORDS_DOWNLOAD_LABEL =
+  'Go to download your medical records reports';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
   'Go to manage your electronic sharing settings';
 
