@@ -19,13 +19,7 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { Element } from 'platform/utilities/scroll';
 
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
-
-// import { AddressView } from '@department-of-veterans-affairs/platform-user/exports';
-// import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import AddressView from 'platform/user/profile/vap-svc/components/AddressField/AddressView';
-
-// import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
-// import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
@@ -38,9 +32,12 @@ import {
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
+  getPhoneString,
 } from 'platform/forms-system/src/js/utilities/data/profile';
 import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { ContactInfoLoader } from './ContactInfoLoader';
 import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
 
@@ -269,7 +266,14 @@ const ContactInfoBase = ({
               <VaLink
                 href={`${pathname}/edit-mailing-address`}
                 label={content.editMailingAddress}
-                text={content.edit}
+                text={
+                  isFieldEmpty(
+                    dataWrap[keys.address],
+                    FIELD_NAMES.MAILING_ADDRESS,
+                  )
+                    ? content.add
+                    : content.edit
+                }
                 onClick={e => {
                   e.preventDefault();
                   router.push(`${pathname}/edit-mailing-address`);
@@ -300,7 +304,11 @@ const ContactInfoBase = ({
               <VaLink
                 href={`${pathname}/edit-home-phone`}
                 label={content.editHomePhone}
-                text={content.edit}
+                text={
+                  getPhoneString(dataWrap[keys.homePhone])
+                    ? content.edit
+                    : content.add
+                }
                 onClick={e => {
                   e.preventDefault();
                   router.push(`${pathname}/edit-home-phone`);
@@ -331,7 +339,11 @@ const ContactInfoBase = ({
               <VaLink
                 href={`${pathname}/edit-mobile-phone`}
                 label={content.editMobilePhone}
-                text={content.edit}
+                text={
+                  getPhoneString(dataWrap[keys.mobilePhone])
+                    ? content.edit
+                    : content.add
+                }
                 onClick={e => {
                   e.preventDefault();
                   router.push(`${pathname}/edit-mobile-phone`);
@@ -359,7 +371,11 @@ const ContactInfoBase = ({
               <VaLink
                 href={`${pathname}/edit-email-address`}
                 label={content.editEmail}
-                text={content.edit}
+                text={
+                  isFieldEmpty(dataWrap[keys.email], FIELD_NAMES.EMAIL)
+                    ? content.add
+                    : content.edit
+                }
                 onClick={e => {
                   e.preventDefault();
                   router.push(`${pathname}/edit-email-address`);
