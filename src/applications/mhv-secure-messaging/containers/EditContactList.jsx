@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -48,6 +49,13 @@ const EditContactList = () => {
   const { allFacilities, blockedFacilities, allRecipients, error } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
+
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
 
   const isContactListChanged = useMemo(
     () => !_.isEqual(allRecipients, allTriageTeams),
@@ -126,7 +134,13 @@ const EditContactList = () => {
 
   useEffect(() => {
     updatePageTitle(
-      `${ParentComponent.CONTACT_LIST} ${PageTitles.PAGE_TITLE_TAG}`,
+      `${removeLandingPageFF ? 'Messages: ' : ''}${
+        ParentComponent.CONTACT_LIST
+      } ${
+        removeLandingPageFF
+          ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
+          : PageTitles.PAGE_TITLE_TAG
+      }`,
     );
     focusElement(document.querySelector('h1'));
   }, []);
@@ -187,7 +201,7 @@ const EditContactList = () => {
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
       />
-      <h1>Contact list</h1>
+      <h1>{`${removeLandingPageFF ? `Messages: ` : ''}Contact list`}</h1>
       <AlertBackgroundBox closeable focus />
 
       <div
