@@ -2,6 +2,16 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 export const marriageTypeInformation = (
+  <>
+    <p>
+      Based on your answer, you’ll need to submit additional documents to add
+      your spouse as a dependent.
+    </p>
+    <p>We’ll ask you to submit these documents at the end of this form.</p>
+  </>
+);
+
+const baseMessage = (
   <div>
     <p>
       Based on your answer, you’ll need to submit additional documents to add
@@ -11,27 +21,17 @@ export const marriageTypeInformation = (
   </div>
 );
 
-const baseMessage = (
-  <>
-    <p>
-      Based on your answer, you’ll need to submit additional documents to add
-      your spouse as a dependent.
-    </p>
-    <p>We’ll ask you to submit these documents at the end of this form.</p>
-  </>
-);
-
 const typeProxy = (
-  <>
+  <div>
     <p>
       You’ll need to submit copies of all documents and certificates issued in
       connection with your proxy marriage.
     </p>
-  </>
+  </div>
 );
 
 const typeCommonLaw = (
-  <>
+  <div>
     <p>You’ll need to submit copies of all these documents:</p>
     <ul>
       <li>
@@ -63,11 +63,11 @@ const typeCommonLaw = (
         </a>
       </li>
     </ul>
-  </>
+  </div>
 );
 
 const typeTribal = (
-  <>
+  <div>
     <p>You’ll need to submit copies of all these documents:</p>
     <ul>
       <li>
@@ -92,7 +92,7 @@ const typeTribal = (
         happened, and the person’s authority for conducting the ceremony
       </li>
     </ul>
-  </>
+  </div>
 );
 
 export const marriageTypeLabels = {
@@ -135,10 +135,15 @@ export const SupportingEvidenceNeeded = () => {
   };
 
   return (
-    <>
+    <div
+      aria-live="polite"
+      aria-atomic="true"
+      aria-relevant="additions text"
+      key={data}
+    >
       {baseMessage}
-      {Object.keys(lookup)?.includes(data) ? lookup[data] : null}
-    </>
+      <div>{lookup[data] || null}</div>
+    </div>
   );
 };
 
