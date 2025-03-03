@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-
+import sinon from 'sinon';
 import _ from 'platform/utilities/data';
 
 import formConfig from '../../config/form';
@@ -11,7 +11,14 @@ import {
   setActionTypes,
   filterServicePeriods,
   cleanUpPersonsInvolved,
+  transformTreatmentFacilities,
+  transformProviderFacility,
+  transformVaFacility,
+  extractDateParts,
+  determineTraumaTreatment,
+  addForm4142,
   addForm0781,
+  addForm0781V2,
 } from '../../utils/submit';
 import {
   PTSD_INCIDENT_ITERATION,
@@ -324,6 +331,64 @@ describe('cleanUpPersonsInvolved', () => {
   });
 });
 
+describe('addForm4142', () => {
+  it('should return the formData as is if providerFacility is undefined', () => {
+    const formData = {};
+    const result = addForm4142(formData);
+    expect(result).to.equal(formData);
+  });
+
+  it('should include limitedConsent if provided', () => {
+    const formData = {
+      providerFacility: [{ name: 'Facility A' }],
+      limitedConsent: true,
+    };
+
+    const result = addForm4142(formData);
+    expect(result.form4142.limitedConsent).to.equal(true);
+  });
+
+  it('should delete providerFacility if syncModern0781Flow is false', () => {
+    const formData = {
+      syncModern0781Flow: false,
+      providerFacility: [{ name: 'Facility A' }],
+    };
+
+    const result = addForm4142(formData);
+    expect(result).to.not.have.property('providerFacility');
+  });
+
+  it('should retain providerFacility if syncModern0781Flow is true', () => {
+    const formData = {
+      syncModern0781Flow: true,
+      providerFacility: [{ name: 'Facility A' }],
+    };
+    const transformedFacility = [
+      {
+        name: 'Facility A',
+        treatmentDateRange: [undefined],
+      },
+    ];
+    const stub = sinon
+      .stub(addForm4142, 'transformProviderFacilities')
+      .returns(transformedFacility);
+    const result = addForm4142(formData);
+    expect(result.form4142.providerFacility).to.deep.equal(transformedFacility);
+    stub.restore();
+  });
+
+  it('should return an object without providerFacility if it is not transformed and syncModern0781Flow is false', () => {
+    const formData = {
+      providerFacility: [{ name: 'Facility A' }],
+      syncModern0781Flow: false,
+    };
+
+    const result = addForm4142(formData);
+    expect(result).to.not.have.property('providerFacility');
+    expect(result.form4142).to.have.property('providerFacility');
+  });
+});
+
 describe('addForm0781', () => {
   it('should return an empty object', () => {
     expect(addForm0781({})).to.deep.equal({});
@@ -470,5 +535,276 @@ describe('addForm0781', () => {
         remarks: 'additionalRemarks781',
       },
     });
+  });
+});
+
+describe('transformTreatmentFacilities', () => {
+  it('should return an empty array if both providerFacilities and vaFacilities are empty', () => {
+    const result = transformTreatmentFacilities([], []);
+    expect(result).to.be.an('array').that.is.empty;
+  });
+
+  it('should filter out facilities where `treatmentLocation0781Related` is false', () => {
+    const providerFacilities = [
+      {
+        treatmentLocation0781Related: false,
+        providerFacilityName: 'Provider Facility 1',
+      },
+      {
+        treatmentLocation0781Related: true,
+        providerFacilityName: 'Provider Facility 2',
+      },
+    ];
+    const vaFacilities = [
+      {
+        treatmentLocation0781Related: false,
+        treatmentCenterName: 'VA Facility 1',
+      },
+      {
+        treatmentLocation0781Related: true,
+        treatmentCenterName: 'VA Facility 2',
+      },
+    ];
+    const result = transformTreatmentFacilities(
+      providerFacilities,
+      vaFacilities,
+    );
+    expect(result).to.have.lengthOf(2);
+    expect(result[0].facilityInfo).to.include('Provider Facility 2');
+    expect(result[1].facilityInfo).to.include('VA Facility 2');
+  });
+
+  it('should correctly transform a provider facility', () => {
+    const providerFacility = {
+      treatmentLocation0781Related: true,
+      providerFacilityName: 'Provider Facility 1',
+      providerFacilityAddress: {
+        street: '123 Main St',
+        city: 'Somewhere',
+        state: 'CA',
+        postalCode: '12345',
+        country: 'USA',
+      },
+      treatmentDateRange: { from: '2022-05-15' },
+    };
+
+    const transformed = transformProviderFacility(providerFacility);
+
+    expect(transformed)
+      .to.have.property('facilityInfo')
+      .that.includes('Provider Facility 1');
+    expect(transformed).to.have.property('treatmentMonth', '05');
+    expect(transformed).to.have.property('treatmentYear', '2022');
+  });
+
+  it('should correctly transform a VA facility', () => {
+    const vaFacility = {
+      treatmentLocation0781Related: true,
+      treatmentCenterName: 'VA Center 1',
+      treatmentCenterAddress: {
+        city: 'Another City',
+        state: 'NY',
+        country: 'USA',
+      },
+      treatmentDateRange: { from: '2023-08-22' },
+    };
+
+    const transformed = transformVaFacility(vaFacility);
+
+    expect(transformed)
+      .to.have.property('facilityInfo')
+      .that.includes('VA Center 1');
+    expect(transformed).to.have.property('treatmentMonth', '08');
+    expect(transformed).to.have.property('treatmentYear', '2023');
+  });
+
+  it('should correctly combine provider and VA facilities', () => {
+    const providerFacilities = [
+      {
+        treatmentLocation0781Related: true,
+        providerFacilityName: 'Provider Facility 1',
+      },
+      {
+        treatmentLocation0781Related: false,
+        providerFacilityName: 'Provider Facility 2',
+      },
+    ];
+    const vaFacilities = [
+      {
+        treatmentLocation0781Related: true,
+        treatmentCenterName: 'VA Facility 1',
+      },
+      {
+        treatmentLocation0781Related: true,
+        treatmentCenterName: 'VA Facility 2',
+      },
+    ];
+
+    const result = transformTreatmentFacilities(
+      providerFacilities,
+      vaFacilities,
+    );
+    expect(result).to.have.lengthOf(3);
+    expect(result[0].facilityInfo).to.include('Provider Facility 1');
+    expect(result[1].facilityInfo).to.include('VA Facility 1');
+    expect(result[2].facilityInfo).to.include('VA Facility 2');
+  });
+});
+
+describe('extractDateParts', () => {
+  it('should return empty strings if the date string is invalid or missing', () => {
+    const result = extractDateParts('invalid-date');
+    expect(result).to.deep.equal({ treatmentMonth: '', treatmentYear: '' });
+  });
+
+  it('should correctly extract the month and year from a valid date string', () => {
+    const result = extractDateParts('2022-05-15');
+    expect(result).to.deep.equal({
+      treatmentMonth: '05',
+      treatmentYear: '2022',
+    });
+  });
+
+  it('should return empty strings if the date string is undefined', () => {
+    const result = extractDateParts(undefined);
+    expect(result).to.deep.equal({ treatmentMonth: '', treatmentYear: '' });
+  });
+});
+
+describe('determineTraumaTreatment', () => {
+  it('should return true if view:treatmentNoneCheckbox is checked (true)', () => {
+    const formData = { 'view:treatmentNoneCheckbox': true };
+
+    const result = determineTraumaTreatment(formData);
+
+    expect(result).to.equal(true);
+  });
+
+  it('should return false if treatment has been received by VA provider', () => {
+    const formData = { treatmentReceivedVaProvider: { someProvider: true } };
+
+    const result = determineTraumaTreatment(formData);
+
+    expect(result).to.equal(false);
+  });
+
+  it('should return false if treatment has been received by non-VA provider', () => {
+    const formData = {
+      treatmentReceivedNonVaProvider: { someOtherProvider: true },
+    };
+
+    const result = determineTraumaTreatment(formData);
+
+    expect(result).to.equal(false);
+  });
+
+  it('should return undefined if treatmentNoneCheckbox is not checked and no treatment was received', () => {
+    const formData = {
+      treatmentReceivedVaProvider: {},
+      treatmentReceivedNonVaProvider: {},
+    };
+
+    const result = determineTraumaTreatment(formData);
+
+    expect(result).to.equal(undefined);
+  });
+});
+
+describe('addForm0781V2', () => {
+  const formData = {
+    syncModern0781Flow: true,
+    eventTypes: ['eventType1'],
+    events: ['event1'],
+    workBehaviors: ['workBehavior1'],
+    healthBehaviors: ['healthBehavior1'],
+    otherBehaviors: ['otherBehavior1'],
+    behaviorsDetails: 'details',
+    supportingEvidenceReports: ['report1'],
+    supportingEvidenceRecords: ['record1'],
+    supportingEvidenceWitness: ['witness1'],
+    supportingEvidenceOther: 'otherEvidence',
+    supportingEvidenceUnlisted: 'unlistedEvidence',
+    treatmentReceivedVaProvider: true,
+    treatmentReceivedNonVaProvider: true,
+    treatmentReceivedNone: true,
+    providerFacility: ['facility1'],
+    vaTreatmentFacilities: [],
+    optionIndicator: 'option1',
+    additionalInformation: 'info',
+  };
+
+  it('should return the same object if syncModern0781Flow is false', () => {
+    const formDataSyncModern0781False = {
+      syncModern0781Flow: false,
+      eventTypes: ['eventType1'],
+      workBehaviors: ['workBehavior1'],
+    };
+
+    const result = addForm0781V2(formDataSyncModern0781False);
+
+    expect(result).to.deep.equal(formDataSyncModern0781False);
+  });
+
+  it('should clone the object and add the form0781 property if syncModern0781Flow is true', () => {
+    const result = addForm0781V2(formData);
+
+    expect(result).to.have.property('form0781');
+    expect(result.form0781).to.deep.include({
+      eventTypes: formData.eventTypes,
+      events: formData.events,
+      workBehaviors: formData.workBehaviors,
+      healthBehaviors: formData.healthBehaviors,
+      otherBehaviors: formData.otherBehaviors,
+      behaviorsDetails: formData.behaviorsDetails,
+      supportingEvidenceReports: formData.supportingEvidenceReports,
+      supportingEvidenceRecords: formData.supportingEvidenceRecords,
+      supportingEvidenceWitness: formData.supportingEvidenceWitness,
+      supportingEvidenceOther: formData.supportingEvidenceOther,
+      supportingEvidenceUnlisted: formData.supportingEvidenceUnlisted,
+      traumaTreatment: result.form0781.traumaTreatment,
+      treatmentReceivedVaProvider: formData.treatmentReceivedVaProvider,
+      treatmentReceivedNonVaProvider: formData.treatmentReceivedNonVaProvider,
+      treatmentReceivedNone: formData.treatmentReceivedNone,
+      treatmentProvidersDetails: result.form0781.treatmentProvidersDetails,
+      optionIndicator: formData.optionIndicator,
+      additionalInformation: formData.additionalInformation,
+    });
+  });
+
+  it('should remove the specified properties from the cloned data', () => {
+    const result = addForm0781V2(formData);
+
+    expect(result).to.not.have.property('eventTypes');
+    expect(result).to.not.have.property('events');
+    expect(result).to.not.have.property('workBehaviors');
+    expect(result).to.not.have.property('healthBehaviors');
+    expect(result).to.not.have.property('otherBehaviors');
+    expect(result).to.not.have.property('behaviorsDetails');
+    expect(result).to.not.have.property('supportingEvidenceReports');
+    expect(result).to.not.have.property('supportingEvidenceRecords');
+    expect(result).to.not.have.property('supportingEvidenceWitness');
+    expect(result).to.not.have.property('supportingEvidenceOther');
+    expect(result).to.not.have.property('supportingEvidenceUnlisted');
+    expect(result).to.not.have.property('treatmentReceivedVaProvider');
+    expect(result).to.not.have.property('treatmentReceivedNonVaProvider');
+    expect(result).to.not.have.property('treatmentReceivedNone');
+    expect(result).to.not.have.property('providerFacility');
+    expect(result).to.not.have.property('optionIndicator');
+    expect(result).to.not.have.property('additionalInformation');
+  });
+
+  it('should only add treatmentProvidersDetails if providerFacility or vaTreatmentFacilities exist', () => {
+    const result = addForm0781V2(formData);
+
+    expect(result.form0781).to.have.property('treatmentProvidersDetails');
+
+    formData.providerFacility = [];
+    formData.vaTreatmentFacilities = ['vaFacility1'];
+
+    const resultWithVaFacilities = addForm0781V2(formData);
+
+    expect(resultWithVaFacilities.form0781).to.have.property(
+      'treatmentProvidersDetails',
+    );
   });
 });

@@ -25,6 +25,7 @@ import {
   addPTSDCause,
   addForm4142,
   addForm0781,
+  addForm0781V2,
   addForm8940,
   addFileAttachments,
 } from './utils/submit';
@@ -276,6 +277,7 @@ export function transform(formConfig, form) {
     sanitizeHomelessnessContact,
     addForm4142,
     addForm0781,
+    addForm0781V2,
     addForm8940,
     addFileAttachments,
     fullyDevelopedClaim,
