@@ -37,7 +37,7 @@ export default function ReferralAppointments() {
 
   useEffect(
     () => {
-      if (referral?.data) {
+      if (referral) {
         scrollAndFocus('h1');
       } else if (error) {
         scrollAndFocus('h2');
@@ -50,7 +50,7 @@ export default function ReferralAppointments() {
     return <Redirect from={basePath.url} to="/" />;
   }
 
-  if (!referral?.data && error) {
+  if (!referral && error) {
     // Referral Layout shows the error component is apiFailure is true
     return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
@@ -65,7 +65,7 @@ export default function ReferralAppointments() {
     );
   }
 
-  if ((!referral?.data || isLoading) && !appointmentId) {
+  if ((!referral || isLoading) && !appointmentId) {
     // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">
@@ -89,13 +89,13 @@ export default function ReferralAppointments() {
     <>
       <Switch>
         <Route path={`${basePath.url}/review/`} search={id}>
-          <ReviewAndConfirm currentReferral={referral?.data} />
+          <ReviewAndConfirm currentReferral={referral} />
         </Route>
         <Route path={`${basePath.url}/date-time/`} search={id}>
-          <ChooseDateAndTime currentReferral={referral?.data} />
+          <ChooseDateAndTime currentReferral={referral} />
         </Route>
         <Route path={`${basePath.url}`} search={id}>
-          <ScheduleReferral currentReferral={referral?.data} />
+          <ScheduleReferral currentReferral={referral} />
         </Route>
       </Switch>
     </>
