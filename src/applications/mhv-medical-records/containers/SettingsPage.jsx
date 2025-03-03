@@ -175,7 +175,7 @@ const SettingsPage = () => {
     const title = `Opt ${
       isSharing ? 'out of' : 'back in to'
     } sharing your electronic health information?`;
-    const primaryButtonText = isSharing ? 'Opt out - Modal' : 'Opt in - Modal';
+    const primaryButtonText = isSharing ? 'Opt out' : 'Opt in';
     const secondaryButtonText = isSharing ? "Don't opt out" : "Don't opt in";
     return (
       <VaModal
