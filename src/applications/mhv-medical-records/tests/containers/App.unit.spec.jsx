@@ -144,6 +144,10 @@ describe('App', () => {
       expect(
         screen.queryByText(
           'Review, print, and download your VA medical records.',
+          {
+            selector: 'p',
+            exact: false,
+          },
         ),
       ).to.be.null;
     });
@@ -171,6 +175,10 @@ describe('App', () => {
       expect(
         screen.getAllByText(
           'Review, print, and download your VA medical records.',
+          {
+            selector: 'p',
+            exact: false,
+          },
         ),
       );
       expect(screen.getByRole('navigation', { name: 'My HealtheVet' }));
