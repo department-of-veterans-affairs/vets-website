@@ -6,7 +6,7 @@ export const AdditionalEvidence = Component => (
     <p>When you upload evidence, note:</p>
     <ul>
       <li>
-        We can only testaccept <strong>JPEG, JPG, PNG or PDF</strong> file types
+        We can only accept <strong>JPEG, JPG, PNG or PDF</strong> file types
       </li>
       <li>
         You can upload one or more files, but they have to add up to{' '}
