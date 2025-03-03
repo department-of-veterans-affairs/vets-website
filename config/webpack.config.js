@@ -68,6 +68,9 @@ function getEntryManifests(entry) {
   let entryManifests = allManifests;
   if (entry) {
     const entryNames = entry.split(',').map(name => name.trim());
+    if (entryNames.indexOf('static-pages') === -1) {
+      entryNames.push('static-pages');
+    }
     entryManifests = allManifests.filter(manifest =>
       entryNames.includes(manifest.entryName),
     );

@@ -2,6 +2,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
@@ -22,6 +23,13 @@ const MrBreadcrumbs = () => {
       return pathElements;
     },
     [location],
+  );
+
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
   );
 
   const textContent = document.querySelector('h1')?.textContent;
@@ -72,6 +80,12 @@ const MrBreadcrumbs = () => {
         } else {
           dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
         }
+      } else if (feature === 'SETTINGS' && !allowMarchUpdates) {
+        dispatch(
+          setBreadcrumbs([
+            { ...Breadcrumbs[feature], label: 'Medical records settings' },
+          ]),
+        );
       } else {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
@@ -121,6 +135,30 @@ const MrBreadcrumbs = () => {
         </span>
         <Link
           to={backToImagesBreadcrumb}
+          onClick={() => {
+            handleDataDogAction({ locationBasePath, locationChildPath });
+            backToAllergiesBreadcrumb();
+          }}
+        >
+          Back
+        </Link>
+      </div>
+    );
+  }
+  if (location.pathname.includes('/vitals/')) {
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="mr-breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link
+          to={`${backToImagesBreadcrumb}${
+            urlVitalsDate ? `?timeFrame=${urlVitalsDate}` : ''
+          }`}
           onClick={() => {
             handleDataDogAction({ locationBasePath, locationChildPath });
             backToAllergiesBreadcrumb();
