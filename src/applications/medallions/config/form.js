@@ -13,6 +13,8 @@ import applicantRelationToVetOrg from '../pages/applicantRelationToVetOrg';
 import applicantRelationToVetOrg2 from '../pages/applicantRelationToVetOrg2';
 import applicantContactInfo from '../pages/applicantContactInfo';
 import applicantContactInfo2 from '../pages/applicantContactInfo2';
+import applicantMailingAddress from '../pages/applicantMailingAddress';
+import applicantMailingAddress2 from '../pages/applicantMailingAddress2';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -83,7 +85,7 @@ const formConfig = {
           schema: applicantRelationToVetOrg2.schema,
           depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
-        // 4
+        // 4 (use email and phone number patterns)
         applicantContactInfo: {
           path: 'applicant-contact-info',
           title: 'Your contact information',
@@ -91,7 +93,7 @@ const formConfig = {
           schema: applicantContactInfo.schema,
           // depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
-        // 4.5
+        // 4.5 (use email and phone number patterns)
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
           title: 'Your organizations contact information',
@@ -100,21 +102,21 @@ const formConfig = {
           // depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
         // 5 Mailing Address
-        // applicantContactInfo2: {
-        //   path: 'applicant-contact-info-2',
-        //   title: 'Your organizations contact information',
-        //   uiSchema: applicantContactInfo2.uiSchema,
-        //   schema: applicantContactInfo2.schema,
-        //   // depends: formData => formData.relationToVetRadio === 'repOfVSO',
-        // },
+        applicantMailingAddress: {
+          path: 'applicant--mailing-address',
+          title: 'Your mailing address',
+          uiSchema: applicantMailingAddress.uiSchema,
+          schema: applicantMailingAddress.schema,
+          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+        },
         // // 5.5 Mailing Address 2
-        // applicantContactInfo2: {
-        //   path: 'applicant-contact-info-2',
-        //   title: 'Your organizations contact information',
-        //   uiSchema: applicantContactInfo2.uiSchema,
-        //   schema: applicantContactInfo2.schema,
-        //   // depends: formData => formData.relationToVetRadio === 'repOfVSO',
-        // },
+        applicantMailingAddress2: {
+          path: 'applicant-mailing-address-2',
+          title: 'Your organization’s mailing address ',
+          uiSchema: applicantMailingAddress2.uiSchema,
+          schema: applicantMailingAddress2.schema,
+          // depends: formData => formData.relationToVetRadio === 'repOfVSO',
+        },
       },
     },
     veteranInformation: {

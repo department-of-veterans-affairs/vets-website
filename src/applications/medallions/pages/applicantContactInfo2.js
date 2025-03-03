@@ -1,20 +1,27 @@
 import {
-  firstNameLastNameNoSuffixUI,
-  firstNameLastNameNoSuffixSchema,
+  emailUI,
+  phoneUI,
+  phoneSchema,
+  emailSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your name'),
-    firstLastName: firstNameLastNameNoSuffixUI(),
+    ...titleUI(
+      'Your organization’s contact information',
+      'We’ll contact your organization at the email address and phone number you provide here.',
+    ),
+    yourContactInfoEmail: emailUI(),
+    yourContactInfoPhone: phoneUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      firstLastName: firstNameLastNameNoSuffixSchema,
+      yourContactInfoEmail: emailSchema,
+      yourContactInfoPhone: phoneSchema,
     },
-    required: ['firstLastName'],
+    // required: ['yourContactInfoEmail, yourContactInforPhone'],
   },
 };
