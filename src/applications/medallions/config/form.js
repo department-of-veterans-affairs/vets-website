@@ -5,7 +5,7 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import applicantNameAndDateOfBirth from '../pages/applicantNameAndDateOfBirth';
+import applicantName from '../pages/applicantName';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import applicantRelationToVet from '../pages/applicantRelationToVet';
@@ -56,8 +56,8 @@ const formConfig = {
         applicantName: {
           path: 'applicant-name',
           title: 'Your name',
-          uiSchema: applicantNameAndDateOfBirth.uiSchema,
-          schema: applicantNameAndDateOfBirth.schema,
+          uiSchema: applicantName.uiSchema,
+          schema: applicantName.schema,
         },
         // 2
         applicantRelationToVet: {
