@@ -6,15 +6,27 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import sinon from 'sinon';
 import LicenseCertificationTestInfo from '../../components/LicenseCertificationTestInfo';
 
 const mockStore = configureStore([thunk]);
 
 describe('<LicenseCertificationTestInfo>', () => {
   let store;
+  let container;
+  const OriginalMutationObserver = global.MutationObserver;
 
   beforeEach(() => {
     store = mockStore({});
+    container = document.createElement('div');
+    container.className = 'table-wrapper';
+    document.body.appendChild(container);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(container);
+    container = null;
+    global.MutationObserver = OriginalMutationObserver;
   });
 
   const mountComponent = props => {
@@ -51,7 +63,7 @@ describe('<LicenseCertificationTestInfo>', () => {
   it('should render table view for multiple tests', () => {
     const wrapper = mountComponent({ tests: multipleTests });
     expect(wrapper.find('va-table')).to.exist;
-    expect(wrapper.find('va-table-row')).to.have.lengthOf(11); // 10 items + header
+    expect(wrapper.find('va-table-row')).to.have.lengthOf(11);
   });
 
   it('should show pagination for more than 10 tests', () => {
@@ -76,5 +88,166 @@ describe('<LicenseCertificationTestInfo>', () => {
     pagination.props().onPageSelect({ detail: { page: 2 } });
     wrapper.update();
     expect(wrapper.text()).to.include('Test 11');
+  });
+
+  it('should set usaTable width to "100%" when observer callback is invoked', () => {
+    let observerInstance;
+    const observeSpy = sinon.spy();
+    const disconnectSpy = sinon.spy();
+
+    function FakeMutationObserver(callback) {
+      this.callback = callback;
+      this.observe = observeSpy;
+      this.disconnect = disconnectSpy;
+      observerInstance = this;
+    }
+    FakeMutationObserver.prototype.takeRecords = () => [];
+    global.MutationObserver = FakeMutationObserver;
+
+    const vaTable = document.createElement('va-table');
+    container.appendChild(vaTable);
+
+    const vaTableInner = document.createElement('va-table-inner');
+    const fakeShadowRoot = document.createElement('div');
+    const usaTable = document.createElement('div');
+    usaTable.className = 'usa-table';
+    fakeShadowRoot.appendChild(usaTable);
+    Object.defineProperty(vaTableInner, 'shadowRoot', {
+      value: fakeShadowRoot,
+      configurable: true,
+    });
+    container.appendChild(vaTableInner);
+    const wrapper = mountComponent({ tests: multipleTests });
+
+    expect(observeSpy.calledOnce).to.be.true;
+
+    observerInstance.callback();
+    expect(usaTable.style.width).to.equal('100%');
+
+    wrapper.unmount();
+  });
+
+  it('should call observer.disconnect on component unmount', () => {
+    // eslint-disable-next-line no-unused-vars, no-empty-pattern
+    let observerInstance;
+    const observeSpy = sinon.spy();
+    const disconnectSpy = sinon.spy();
+
+    function FakeMutationObserver(callback) {
+      this.callback = callback;
+      this.observe = observeSpy;
+      this.disconnect = disconnectSpy;
+      observerInstance = this;
+    }
+    FakeMutationObserver.prototype.takeRecords = () => [];
+    global.MutationObserver = FakeMutationObserver;
+
+    const vaTable = document.createElement('va-table');
+    container.appendChild(vaTable);
+
+    const vaTableInner = document.createElement('va-table-inner');
+    const fakeShadowRoot = document.createElement('div');
+    const usaTable = document.createElement('div');
+    usaTable.className = 'usa-table';
+    fakeShadowRoot.appendChild(usaTable);
+    Object.defineProperty(vaTableInner, 'shadowRoot', {
+      value: fakeShadowRoot,
+      configurable: true,
+    });
+    container.appendChild(vaTableInner);
+
+    const wrapper = mountComponent({
+      tests: multipleTests,
+    });
+    wrapper.unmount();
+
+    expect(disconnectSpy.calledOnce).to.be.true;
+  });
+  it('should add "usa-table--bordered" and remove "usa-table--borderless" on mobile view', () => {
+    const vaTableInner = document.createElement('va-table-inner');
+    const fakeShadowRoot = document.createElement('div');
+    const usaTable = document.createElement('div');
+    usaTable.className = 'usa-table';
+    fakeShadowRoot.appendChild(usaTable);
+    Object.defineProperty(vaTableInner, 'shadowRoot', {
+      value: fakeShadowRoot,
+      configurable: true,
+    });
+    container.appendChild(vaTableInner);
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 480,
+    });
+
+    const wrapper = mountComponent({ tests: multipleTests });
+
+    window.dispatchEvent(new Event('resize'));
+
+    expect(usaTable.classList.contains('usa-table--bordered')).to.be.true;
+    expect(usaTable.classList.contains('usa-table--borderless')).to.be.false;
+
+    wrapper.unmount();
+  });
+
+  it('should add "usa-table--borderless" and remove "usa-table--bordered" on desktop view', () => {
+    const vaTableInner = document.createElement('va-table-inner');
+    const fakeShadowRoot = document.createElement('div');
+    const usaTable = document.createElement('div');
+    usaTable.className = 'usa-table';
+    fakeShadowRoot.appendChild(usaTable);
+    Object.defineProperty(vaTableInner, 'shadowRoot', {
+      value: fakeShadowRoot,
+      configurable: true,
+    });
+    container.appendChild(vaTableInner);
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1024,
+    });
+
+    const wrapper = mountComponent({ tests: multipleTests });
+
+    window.dispatchEvent(new Event('resize'));
+
+    expect(usaTable.classList.contains('usa-table--borderless')).to.be.true;
+    expect(usaTable.classList.contains('usa-table--bordered')).to.be.false;
+
+    wrapper.unmount();
+  });
+
+  it('should remove the resize event listener on component unmount', () => {
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+
+    const vaTableInner = document.createElement('va-table-inner');
+    const fakeShadowRoot = document.createElement('div');
+    const usaTable = document.createElement('div');
+    usaTable.className = 'usa-table';
+    fakeShadowRoot.appendChild(usaTable);
+    Object.defineProperty(vaTableInner, 'shadowRoot', {
+      value: fakeShadowRoot,
+      configurable: true,
+    });
+    container.appendChild(vaTableInner);
+
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 1024,
+    });
+
+    const wrapper = mountComponent({ tests: multipleTests });
+
+    expect(addEventListenerSpy.calledWith('resize')).to.be.true;
+
+    wrapper.unmount();
+    expect(removeEventListenerSpy.calledWith('resize')).to.be.true;
+
+    addEventListenerSpy.restore();
+    removeEventListenerSpy.restore();
   });
 });
