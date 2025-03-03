@@ -94,7 +94,7 @@ describe('MrBreadcrumbs component', () => {
         reducers: reducer,
       },
     );
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 
@@ -134,7 +134,7 @@ describe('MrBreadcrumbs component', () => {
         reducers: reducer,
       },
     );
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 
@@ -238,7 +238,7 @@ describe('MrBreadcrumbs component', () => {
       </MemoryRouter>,
     );
 
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 });
