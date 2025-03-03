@@ -53,6 +53,9 @@ const App = ({
   const showUpdatedExpensePages = useToggleValue(
     TOGGLE_NAMES.financialStatusReportExpensesUpdate,
   );
+  const showStreamlinedWaiver = useToggleValue(
+    TOGGLE_NAMES.showFinancialStatusReportStreamlinedWaiver,
+  );
 
   // Set the document title based on the current page
   useDocumentTitle(location);
@@ -152,7 +155,7 @@ const App = ({
       setFormData({
         ...formData,
         'view:enhancedFinancialStatusReport': true,
-        'view:streamlinedWaiver': true,
+        'view:streamlinedWaiver': showStreamlinedWaiver,
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
         'view:showUpdatedExpensePages': showUpdatedExpensePages,
@@ -164,6 +167,7 @@ const App = ({
       isStartingOver,
       setFormData,
       showReviewPageNavigationFeature,
+      showStreamlinedWaiver,
       showUpdatedExpensePages,
     ],
   );

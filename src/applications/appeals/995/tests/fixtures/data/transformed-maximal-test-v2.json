@@ -56,14 +56,14 @@
                   "startDate": "2001-01-01",
                   "endDate": "2001-01-01"
                 }
-              ]
+              ],
+              "noTreatmentDates": false
             }
           },
           {
             "type": "retrievalEvidence",
             "attributes": {
               "locationAndName": "VAMC Location 2",
-              "evidenceDates": [{}],
               "noTreatmentDates": true
             }
           }

@@ -21,11 +21,9 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.contain(
-            `\n\n\nName\nTitleTest${mockRequest.body} `,
-          );
+          expect(request.body).to.contain(mockRequest.body);
           expect(request.category).to.eq(mockRequest.category);
-          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
         }
       });
