@@ -31,8 +31,8 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
   const renderMultipleFacilities = () => (
     <>
       <p>
-        Some of your messages may be in a different portal. To view or manage
-        messages at these facilities, go to My VA Health
+        Some of your secure messages may be in a different portal. To view or
+        manage secure messages at these facilities, go to My VA Health:
       </p>
       <ul>
         {cernerFacilitiesNames.map((facilityName, i) => (
@@ -46,9 +46,9 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
 
   const renderSingleFacility = () => (
     <p data-testId="single-cerner-facility-text">
-      Some of your messages may be in a different portal. To send a secure
-      message to a provider at <strong>{cernerFacilitiesNames[0]}</strong>, go
-      to My VA Health.
+      Some of your secure messages may be in a different portal. To send a
+      secure message to a provider at{' '}
+      <strong>{cernerFacilitiesNames[0]}</strong>, go to My VA Health.
     </p>
   );
 
