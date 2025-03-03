@@ -63,6 +63,12 @@ describe('Cerner Facility Alert', () => {
     expect(screen.getByText('VA Spokane health care')).to.exist;
     expect(screen.getByText('VA Walla Walla health care')).to.exist;
     expect(screen.getByText('VA Southern Oregon health care')).to.exist;
+    expect(screen.queryByText('VA Puget Sound health care')).to.not.exist;
+    expect(
+      screen.queryByText(
+        'Some of your messages may be in a different portal. To view or manage messages at these facilities, go to My VA Health',
+      ),
+    ).to.exist;
   });
 
   it(`renders CernerFacilityAlert with 1 facility if cernerFacilities.length === 1`, async () => {
@@ -75,7 +81,8 @@ describe('Cerner Facility Alert', () => {
     expect(
       screen.getByTestId('single-cerner-facility-text').textContent,
     ).to.contain(
-      'To send a secure message to a provider at VA Spokane health care, go to My VA Health.',
+      'Some of your messages may be in a different portal. To send a secure message to a provider at VA Spokane health care, go to My VA Health.',
     );
+    expect(screen.queryByRole('ul')).to.not.exist;
   });
 });
