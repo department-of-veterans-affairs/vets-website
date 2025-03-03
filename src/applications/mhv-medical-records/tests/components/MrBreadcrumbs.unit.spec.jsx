@@ -177,6 +177,8 @@ describe('MrBreadcrumbs component', () => {
 
   it('tests the time frame in the url logic', () => {
     const initialState = {
+      // eslint-disable-next-line camelcase
+      featureToggles: { mhv_medical_records_update_landing_page: true },
       mr: {
         pageTracker: {},
         breadcrumbs: {

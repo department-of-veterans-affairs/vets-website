@@ -436,7 +436,7 @@ export const Breadcrumbs = {
   VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
   SETTINGS: {
     href: Paths.SETTINGS,
-    label: 'Medical records settings',
+    label: 'Manage your electronic sharing settings',
     isRouterLink: true,
   },
   DOWNLOAD: {

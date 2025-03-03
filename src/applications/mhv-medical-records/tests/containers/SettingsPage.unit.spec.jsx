@@ -8,6 +8,8 @@ import SettingsPage from '../../containers/SettingsPage';
 
 describe('SettingsPage container opted in with opt in status error', () => {
   const initialState = {
+    // eslint-disable-next-line camelcase
+    featureToggles: { mhv_medical_records_update_landing_page: true },
     mr: {
       sharing: {
         statusError: { type: 'optin' },
@@ -29,7 +31,8 @@ describe('SettingsPage container opted in with opt in status error', () => {
   });
 
   it('displays sharing status', () => {
-    expect(screen.getByText('Manage your electronic sharing setting')).to.exist;
+    expect(screen.getByText('Manage your electronic sharing settings')).to
+      .exist;
   });
 
   it('displays no action available header', () => {

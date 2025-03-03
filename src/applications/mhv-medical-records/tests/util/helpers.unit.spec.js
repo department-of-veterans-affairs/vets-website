@@ -687,7 +687,9 @@ describe('handleDataDogAction', () => {
     const tag = handleDataDogAction({
       locationBasePath: 'settings',
     });
-    expect(tag).to.equal('Breadcrumb - Medical records settings');
+    expect(tag).to.equal(
+      'Breadcrumb - Manage your electronic sharing settings',
+    );
   });
 
   it('should return a tag for the downloads page', () => {
