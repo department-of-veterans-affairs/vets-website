@@ -10,6 +10,7 @@ import {
   getAppointmentInfo,
 } from '../../services/referral';
 import { filterReferrals } from '../utils/referrals';
+import { STARTED_NEW_APPOINTMENT_FLOW } from '../../redux/sitewide';
 
 export const SET_FORM_CURRENT_PAGE = 'SET_FORM_CURRENT_PAGE';
 export const CREATE_REFERRAL_APPOINTMENT = 'CREATE_REFERRAL_APPOINTMENT';
@@ -203,6 +204,12 @@ export function setSelectedSlot(slot) {
 export function setInitReferralFlow() {
   return {
     type: SET_INIT_REFERRAL_FLOW,
+  };
+}
+
+export function startNewAppointmentFlow() {
+  return {
+    type: STARTED_NEW_APPOINTMENT_FLOW,
   };
 }
 
