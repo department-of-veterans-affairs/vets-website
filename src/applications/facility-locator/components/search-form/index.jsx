@@ -273,7 +273,7 @@ export const SearchForm = props => {
         <LocationInput
           currentQuery={currentQuery}
           facilitiesUseAddressTypeahead={facilitiesUseAddressTypeahead}
-          geolocateUser={geolocateUser}
+          geolocateUser={props.geolocateUser}
           handleClearInput={handleClearInput}
           handleGeolocationButtonClick={handleGeolocationButtonClick}
           handleLocationBlur={handleLocationBlur}
