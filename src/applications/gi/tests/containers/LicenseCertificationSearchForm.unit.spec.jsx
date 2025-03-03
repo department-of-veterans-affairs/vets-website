@@ -11,6 +11,7 @@ import sinon from 'sinon';
 import LicenseCertificationSearchForm from '../../containers/LicenseCertificationSearchForm';
 import Dropdown from '../../components/Dropdown';
 import LicenseCertificationKeywordSearch from '../../components/LicenseCertificationKeywordSearch';
+import { updateCategoryDropdown } from '../../utils/helpers';
 
 const mockStore = configureStore([thunk]);
 
@@ -136,6 +137,80 @@ describe('LicenseCertificationSearchForm', () => {
     // Verify store actions
     const actions = store.getActions();
     expect(actions.length).to.be.greaterThan(0);
+
+    wrapper.unmount();
+  });
+  it('should update dropdown value when handleChange is triggered', () => {
+    const wrapper = mountComponent();
+    const dropdown = wrapper.find(Dropdown);
+    dropdown.prop('onChange')({ target: { value: 'new-category' } });
+    wrapper.update();
+    const expectedValue = updateCategoryDropdown('new-category').current
+      .optionValue;
+    expect(wrapper.find(Dropdown).prop('value')).to.equal(expectedValue);
+    wrapper.unmount();
+  });
+
+  it('should update the keyword search input when onSelection is triggered', () => {
+    const wrapper = mountComponent();
+    const keywordSearch = wrapper.find(LicenseCertificationKeywordSearch);
+    keywordSearch.prop('onSelection')({
+      selected: { lacNm: 'selected-name' },
+    });
+    wrapper.update();
+    expect(
+      wrapper.find(LicenseCertificationKeywordSearch).prop('inputValue'),
+    ).to.equal('selected-name');
+    wrapper.unmount();
+  });
+
+  it('should reset the form when the reset button is clicked', () => {
+    const wrapper = mountComponent();
+
+    const keywordSearch = wrapper.find(LicenseCertificationKeywordSearch);
+    keywordSearch.prop('onUpdateAutocompleteSearchTerm')('test-name');
+    const dropdown = wrapper.find(Dropdown);
+    dropdown.prop('onChange')({ target: { value: 'test-category' } });
+    wrapper.update();
+
+    expect(
+      wrapper.find(LicenseCertificationKeywordSearch).prop('inputValue'),
+    ).to.equal('test-name');
+    const expectedDropdownValue = updateCategoryDropdown('test-category')
+      .current.optionValue;
+    expect(wrapper.find(Dropdown).prop('value')).to.equal(
+      expectedDropdownValue,
+    );
+
+    wrapper
+      .find('va-button')
+      .at(1)
+      .simulate('click');
+    wrapper.update();
+
+    expect(
+      wrapper.find(LicenseCertificationKeywordSearch).prop('inputValue'),
+    ).to.equal('');
+    const defaultDropdownValue = updateCategoryDropdown().current.optionValue;
+    expect(wrapper.find(Dropdown).prop('value')).to.equal(defaultDropdownValue);
+
+    wrapper.unmount();
+  });
+  it('should initialize state from URL query parameters', () => {
+    const categoryParam = 'test-category';
+    const nameParam = 'test-name';
+    const path = `/licenses-certifications-and-prep-courses?category=${categoryParam}&name=${nameParam}`;
+
+    const wrapper = mountComponent(path);
+    wrapper.update();
+    const expectedDropdownValue = updateCategoryDropdown(categoryParam).current
+      .optionValue;
+    expect(wrapper.find(Dropdown).prop('value')).to.equal(
+      expectedDropdownValue,
+    );
+    expect(
+      wrapper.find(LicenseCertificationKeywordSearch).prop('inputValue'),
+    ).to.equal(nameParam);
 
     wrapper.unmount();
   });
