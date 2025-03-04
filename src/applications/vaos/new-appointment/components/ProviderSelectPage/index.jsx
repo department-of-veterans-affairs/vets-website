@@ -6,17 +6,23 @@ import { getPageTitle } from '../../newAppointmentFlow';
 import ProviderCard from './ProviderCard';
 import ScheduleWithDifferentProvider from './ScheduleWithDifferentProvider';
 import { useGetPatientRelationships } from '../../hooks/useGetPatientRelationships';
+import {
+  selectEligibility,
+  selectTypeOfCare,
+  selectChosenFacilityInfo,
+} from '../../redux/selectors';
 
 const pageKey = 'selectProvider';
 
 export default function SelectProviderPage() {
+  const typeOfCare = useSelector(selectTypeOfCare);
+  const eligibility = useSelector(selectEligibility);
+  const selectedFacility = useSelector(selectChosenFacilityInfo);
+
   const {
     loading,
     patientRelationshipsError,
     patientProviderRelationships,
-    typeOfCare,
-    selectedFacility,
-    eligibility,
   } = useGetPatientRelationships();
 
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
@@ -59,7 +65,8 @@ export default function SelectProviderPage() {
       ))}
 
       <ScheduleWithDifferentProvider
-        eligibility={(eligibility, selectedFacility)}
+        eligibility={eligibility}
+        selectedFacility={selectedFacility}
       />
     </div>
   );
