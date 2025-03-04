@@ -48,10 +48,9 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
         .then(response => {
           if (response.errors || response.availableForms.length === 0) {
             updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+            return false;
           }
-          return response.availableForms === null
-            ? false
-            : response.availableForms;
+          return response.availableForms;
         })
         .catch(() => {
           updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
