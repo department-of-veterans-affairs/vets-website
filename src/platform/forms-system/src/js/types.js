@@ -249,7 +249,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: number) => boolean,
+ *   'ui:required'?: (formData: any, index: number, fullData: any) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
