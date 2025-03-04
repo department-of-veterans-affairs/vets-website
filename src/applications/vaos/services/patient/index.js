@@ -275,11 +275,6 @@ export async function fetchFlowEligibilityAndClinics({
   const directTypeOfCareSettings =
     location.legacyVAR.settings?.[typeOfCare.id]?.direct;
 
-  // eslint-disable-next-line no-console
-  console.log(
-    `directTypeOfCareSettings: ${JSON.stringify(directTypeOfCareSettings)}`,
-  );
-
   // We don't want to make unnecessary api calls if DS is turned off
   if (directSchedulingAvailable && !isCerner) {
     apiCalls.clinics = getAvailableHealthcareServices({
@@ -413,9 +408,6 @@ export async function fetchFlowEligibilityAndClinics({
       recordEligibilityFailure('direct-no-matching-past-clinics');
     }
   }
-
-  // eslint-disable-next-line no-console
-  console.log(`eligibility: ${JSON.stringify(eligibility)}`);
 
   logEligibilityExplanation(location, typeOfCare, eligibility);
 
