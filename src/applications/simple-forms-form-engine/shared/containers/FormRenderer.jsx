@@ -74,6 +74,9 @@ const FormRenderer = ({ formId, rootUrl, trackingPrefix, breadcrumbs }) => {
 };
 
 FormRenderer.propTypes = {
+  breadcrumbs: PropTypes.arrayOf(
+    PropTypes.shape({ label: PropTypes.string, href: PropTypes.string }),
+  ),
   formId: PropTypes.string,
   rootUrl: PropTypes.string,
   trackingPrefix: PropTypes.string,
