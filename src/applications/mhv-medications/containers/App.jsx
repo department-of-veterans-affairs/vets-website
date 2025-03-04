@@ -19,6 +19,7 @@ import {
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { medicationsUrls } from '../util/constants';
+import { selectRemoveLandingPageFlag } from '../util/selectors';
 
 const App = ({ children }) => {
   const location = useLocation();
@@ -36,6 +37,7 @@ const App = ({ children }) => {
     },
     state => state.featureToggles,
   );
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
   const datadogRumConfig = {
     applicationId: '2b875bc2-034a-445b-868c-d43bec8928d1',
@@ -66,11 +68,12 @@ const App = ({ children }) => {
     );
   }
 
-  if (
-    !appEnabled &&
-    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
-  ) {
-    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
+  const homeURL = removeLandingPage
+    ? medicationsUrls.MEDICATIONS_URL
+    : medicationsUrls.MEDICATIONS_ABOUT;
+
+  if (!appEnabled && window.location.pathname !== homeURL) {
+    window.location.replace(homeURL);
     return <></>;
   }
 
