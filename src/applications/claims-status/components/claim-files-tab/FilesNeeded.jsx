@@ -6,6 +6,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   truncateDescription,
   isAutomated5103Notice,
+  buildDateFormatter,
 } from '../../utils/helpers';
 import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
@@ -14,6 +15,9 @@ export default function FilesNeeded({ item, previousPage = null }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cst5103UpdateEnabled = useToggleValue(
     TOGGLE_NAMES.cst5103UpdateEnabled,
+  );
+  const cstFriendlyEvidenceRequests = useToggleValue(
+    TOGGLE_NAMES.cstFriendlyEvidenceRequests,
   );
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
@@ -41,7 +45,7 @@ export default function FilesNeeded({ item, previousPage = null }) {
       ? itemWithNewDescription.description
       : truncateDescription(item.description); // Truncating the item description to only 200 characters incase it is long
   };
-
+  const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   return (
     <va-alert
       data-testid={`item-${item.id}`}
@@ -51,9 +55,12 @@ export default function FilesNeeded({ item, previousPage = null }) {
       <h4 slot="headline" className="alert-title">
         {getItemDisplayName()}
       </h4>
-      {!isAutomated5103Notice(item.displayName) && (
-        <DueDate date={item.suspenseDate} />
+      {!isAutomated5103Notice(item.displayName) &&
+        !cstFriendlyEvidenceRequests && <DueDate date={item.suspenseDate} />}
+      {cstFriendlyEvidenceRequests && (
+        <p className="vads-u-font-size--h3">Respond by {formattedDueDate}</p>
       )}
+
       <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
@@ -67,7 +74,7 @@ export default function FilesNeeded({ item, previousPage = null }) {
             }
           }}
         >
-          Details
+          {cstFriendlyEvidenceRequests ? 'About this request' : 'Details'}
         </Link>
       </div>
     </va-alert>

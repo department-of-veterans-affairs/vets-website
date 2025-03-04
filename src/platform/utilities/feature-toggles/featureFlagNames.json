@@ -44,6 +44,7 @@
   "coeAccess": "coe_access",
   "combinedDebtPortalAccess": "combined_debt_portal_access",
   "confirmationPageNew": "confirmation_page_new",
+  "cstFriendlyEvidenceRequests": "cst_friendly_evidence_requests",
   "cst5103UpdateEnabled": "cst_5103_update_enabled",
   "cstClaimPhases": "cst_claim_phases",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
@@ -310,6 +311,7 @@
   "showRudisill1995": "show_rudisill_1995",
   "mhvCredentialButtonDisabled": "mhv_credential_button_disabled",
   "toggleGiProgramsFlag": "toggle_gi_programs_flag",
+  "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program"
   "showAboutYellowRibbonProgram": "show_about_yellow_ribbon_program",
   "giCtCollab": "gi_ct_collab"
 }
