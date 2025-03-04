@@ -39,7 +39,7 @@ const { isVeteranPage } = isVeteranModule;
 /** @type {FormConfig} */
 const formConfig = {
   // formId: VA_FORM_IDS.FORM_21_686C,
-  formId: 'REPRESENTATIVE-FORM-UPLOAD-FLOW',
+  formId: formNumber,
   version: 0,
   footerContent: FormFooter,
   rootUrl: manifest.rootUrl,

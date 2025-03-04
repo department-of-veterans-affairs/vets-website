@@ -21,10 +21,6 @@ import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
 
-// import claimantSubPageSchema2 from "./claimantInformationPage/claimantInformationSchema";
-// import claimantSubPageUI2 from './claimantInformationPage/claimantSubPageUI2'
-// debugger
-
 function claimantFormatTitle(name) {
   return `Claimant ${name}`;
 }
