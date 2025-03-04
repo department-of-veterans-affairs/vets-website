@@ -213,16 +213,13 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
     if (formError.type === errorTypes.SYSTEM_ERROR) {
       return systemErrorComponent;
     }
-    if (profile.isLoggedIn) {
-      if (!displayToggle) {
-        return unavailableComponent();
-      }
-      if (formError.type === errorTypes.NOT_FOUND) {
-        return notFoundComponent();
-      }
-      return downloadForm;
+    if (!displayToggle) {
+      return unavailableComponent();
     }
-    return null;
+    if (formError.type === errorTypes.NOT_FOUND) {
+      return notFoundComponent();
+    }
+    return downloadForm;
   };
 
   // determine what to render
