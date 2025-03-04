@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import { CONTACTS } from '../../utils/imports';
-import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
 const SubmissionErrorAlert = () => {
   useEffect(() => {
@@ -43,9 +42,6 @@ const SubmissionErrorAlert = () => {
               text="Learn more about how to apply by phone, mail, or in person"
             />
           </p>
-          <div className="application--download">
-            <ApplicationDownloadLink />
-          </div>
         </div>
       </va-alert>
     </div>
