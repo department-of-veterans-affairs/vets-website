@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
-import { trackingConfig } from './TrackingInfo';
+import { trackingConfig } from '../../util/constants';
 
 const ProcessList = ({ stepGuideProps }) => {
   const {
