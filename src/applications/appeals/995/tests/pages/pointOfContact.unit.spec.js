@@ -172,6 +172,10 @@ describe('Supplemental Claims point of contact page', () => {
     expect(options.updateUiSchema(_, data)).to.deep.equal({
       'ui:errorMessages': baseUiSchemaErrors.phone,
     });
+    expect(options.updateUiSchema()).to.deep.equal({
+      'ui:errorMessages': baseUiSchemaErrors.phone,
+    });
+    expect(options.updateSchema()).to.deep.equal(phoneSchema);
     expect(options.updateSchema(_, _, _, 0, '', data)).to.deep.equal(
       phoneSchema,
     );
