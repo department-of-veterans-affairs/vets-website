@@ -19,7 +19,7 @@ const Programs = ({ programTypes, facilityCode }) => {
         >
           <Link
             to={{
-              pathname: `/institution/${facilityCode}/${mapToDashedName(
+              pathname: `../institution/${facilityCode}/${mapToDashedName(
                 programType,
               )
                 .trim()
