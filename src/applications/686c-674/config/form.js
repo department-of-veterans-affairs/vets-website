@@ -1081,9 +1081,20 @@ export const formConfig = {
           schema: spouseAdditionalEvidence.schema,
         },
         childAdditionalEvidence: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
-            formData?.['view:addOrRemoveDependents']?.add,
+          depends: formData => {
+            const pageCondition = formData?.childrenToAdd?.some(
+              child =>
+                child?.relationshipToChild?.stepchild ||
+                child?.relationshipToChild?.adopted ||
+                child?.doesChildHaveDisability,
+            );
+
+            return (
+              isChapterFieldRequired(formData, TASK_KEYS.addChild) &&
+              formData?.['view:addOrRemoveDependents']?.add &&
+              pageCondition
+            );
+          },
           title: 'Additional evidence needed to add child',
           path: 'add-child-evidence',
           uiSchema: finalChildAdditionalEvidence.uiSchema,
