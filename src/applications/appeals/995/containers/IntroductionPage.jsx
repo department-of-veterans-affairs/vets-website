@@ -30,7 +30,7 @@ const IntroductionPage = props => {
     pageList,
     pathname: '/introduction',
     prefillEnabled,
-    startText: 'Start your Claim',
+    startText: 'Start your claim',
     useActionLinks: true,
   };
 
@@ -85,10 +85,8 @@ const IntroductionPage = props => {
             </div>
           </va-additional-info>
           <p>
-            You can file a Supplemental Claim if you have new and relevant
-            evidence that we didn’t have when we reviewed your case before. You
-            can file your claim anytime, but we recommend you file within 1 year
-            from the date on your decision letter.
+            You can file your claim anytime, but we recommend you file within 1
+            year from the date on your decision letter.
           </p>
           <p>
             <strong>Note:</strong> You can’t file a Supplemental Claim if you
