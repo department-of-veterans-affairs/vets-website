@@ -50,7 +50,7 @@ export const generateSelfEnteredData = ({
       type: selfEnteredTypes.ALLERGIES,
       title: `Self-entered ${selfEnteredTypes.ALLERGIES}`,
       subtitles: [
-        'Remember to share all information about your allergies with your health care team',
+        'Remember to share all information about your allergies with your health care team.',
         `Showing ${allergies.length} records, from newest to oldest`,
       ],
       records: allergies.map(record => generateAllergiesContent(record)),
@@ -172,7 +172,7 @@ export const generateSelfEnteredData = ({
       type: selfEnteredTypes.TREATMENT_FACILITIES,
       title: `Self-entered ${selfEnteredTypes.TREATMENT_FACILITIES}`,
       subtitles: [
-        `Showing ${treatmentFacilities.length} records, from newest to oldest`,
+        `Showing ${treatmentFacilities.length} records, alphabetically by name`,
       ],
       records: treatmentFacilities.map(record =>
         generateTreatmentFacilitiesContent(record),
