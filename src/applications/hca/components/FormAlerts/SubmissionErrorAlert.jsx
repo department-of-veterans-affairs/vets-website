@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import { CONTACTS } from '../../utils/imports';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
@@ -43,9 +44,13 @@ const SubmissionErrorAlert = () => {
               text="Learn more about how to apply by phone, mail, or in person"
             />
           </p>
-          <div className="application--download">
-            <ApplicationDownloadLink />
-          </div>
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.hcaDownloadCompletedPdf}>
+            <Toggler.Enabled>
+              <div className="hca-application--download">
+                <ApplicationDownloadLink />
+              </div>
+            </Toggler.Enabled>
+          </Toggler>
         </div>
       </va-alert>
     </div>
