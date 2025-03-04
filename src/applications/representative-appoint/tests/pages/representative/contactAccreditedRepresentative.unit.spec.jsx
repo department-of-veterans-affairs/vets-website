@@ -111,8 +111,7 @@ describe('<ContactAccreditedRepresentative>', () => {
       fireEvent.click(getByText('Back'));
 
       await waitFor(() => {
-        expect(goToPathSpy.calledWith('/representative-select?review=true')).to
-          .be.true;
+        expect(goToPathSpy.calledWith('/representative-select')).to.be.true;
       });
     });
 
@@ -139,9 +138,8 @@ describe('<ContactAccreditedRepresentative>', () => {
       fireEvent.click(getByText('Continue'));
 
       await waitFor(() => {
-        expect(
-          goToPathSpy.calledWith('/representative-organization?review=true'),
-        ).to.be.true;
+        expect(goToPathSpy.calledWith('/representative-organization')).to.be
+          .true;
       });
     });
 
