@@ -126,7 +126,7 @@ export default function LicenseCertificationSearchForm() {
                 text="Submit"
                 onClick={() => handleSearch(dropdown.current.optionValue, name)}
               />
-              <VaButton text="Reset Search" secondary onClick={handleReset} />
+              <VaButton text="Reset search" secondary onClick={handleReset} />
             </div>
           </form>
         )}

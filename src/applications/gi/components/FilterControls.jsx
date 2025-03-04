@@ -1,4 +1,4 @@
-import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import Dropdown from './Dropdown';
 
@@ -12,31 +12,27 @@ function FilterControls({
   return (
     <div>
       <>
-        <VaCheckboxGroup
-          onVaChange={e => handleCheckboxGroupChange(e)}
-          options={categoryCheckboxes}
-          label="Category"
-          label-header-level="3"
-          class="category-checkbox-group vads-u-margin-top--0"
-        >
-          {categoryCheckboxes.map((option, index) => {
-            return (
-              <va-checkbox
-                key={index}
-                label={option.label}
-                name={option.name}
-                checked={option.checked}
-                class="category-checkbox"
-              />
-            );
-          })}
-        </VaCheckboxGroup>
+        <h3 className="vads-u-margin-bottom--3 vads-u-margin-top--0p5">
+          Category type
+        </h3>
+        {categoryCheckboxes.map((option, index) => {
+          return (
+            <VaCheckbox
+              key={index}
+              label={option.label}
+              name={option.name}
+              checked={option.checked}
+              className="category-checkbox"
+              onVaChange={e => handleCheckboxGroupChange(e)}
+            />
+          );
+        })}
       </>
 
       <>
-        <h3 className="vads-u-margin-bottom--0">State</h3>
+        <h3 className="vads-u-margin-bottom--2">State</h3>
         <Dropdown
-          label="Applies to only license and prep course category type. All certifications are available nationwide."
+          label="Applies to only license and prep course category type. Certifications are available nationwide."
           name={dropdown.label}
           alt="Filter results by state"
           options={dropdown.options}
@@ -44,6 +40,7 @@ function FilterControls({
           onChange={handleDropdownChange}
           className="state-dropdown"
           visible
+          boldLabel
         />
       </>
     </div>

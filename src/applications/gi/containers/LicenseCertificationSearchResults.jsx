@@ -331,7 +331,7 @@ export default function LicenseCertificationSearchResults() {
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
-                        button="Update Search"
+                        button="Update search"
                         buttonLabel="Filter your results"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
