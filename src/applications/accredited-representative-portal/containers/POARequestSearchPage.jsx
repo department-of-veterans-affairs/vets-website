@@ -4,7 +4,9 @@ import {
   useSearchParams,
   redirect,
   Link,
+  useNavigation,
 } from 'react-router-dom';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import api from '../utilities/api';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
@@ -70,7 +72,6 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       id={`tab-${tabStatus}`}
       aria-controls={`tabpanel-${tabStatus}`}
       aria-selected={active ? 'true' : 'false'}
-      aria-label={`View requests marked as ${tabStatus}`}
     >
       {children}
     </Link>
@@ -80,7 +81,7 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
-
+  const navigation = useNavigation();
   return (
     <section className="poa-request">
       <h1
@@ -118,56 +119,59 @@ const POARequestSearchPage = () => {
             Processed
           </StatusTabLink>
         </div>
+        {navigation.state === 'loading' ? (
+          <VaLoadingIndicator message="Loading..." />
+        ) : (
+          <div
+            className={searchStatus}
+            id={`tabpanel-${searchStatus}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${searchStatus}`}
+          >
+            {(() => {
+              switch (searchStatus) {
+                case STATUSES.PENDING:
+                  return (
+                    <>
+                      <h2
+                        data-testid="poa-requests-table-heading"
+                        className="poa-request__tab-heading"
+                      >
+                        Pending POA requests
+                      </h2>
+                      <SortForm
+                        asc={SORT_BY.CREATED_ASC}
+                        desc={SORT_BY.CREATED_DESC}
+                        ascOption={PENDING.ASC_OPTION}
+                        descOption={PENDING.DESC_OPTION}
+                      />
+                    </>
+                  );
+                case STATUSES.PROCESSED:
+                  return (
+                    <>
+                      <h2
+                        data-testid="poa-requests-table-heading"
+                        className="poa-request__tab-heading"
+                      >
+                        Processed POA requests
+                      </h2>
+                      <SortForm
+                        asc={SORT_BY.RESOLVED_ASC}
+                        desc={SORT_BY.RESOLVED_DESC}
+                        ascOption={PROCESSED.ASC_OPTION}
+                        descOption={PROCESSED.DESC_OPTION}
+                      />
+                    </>
+                  );
+                default:
+                  throw new Error(`Unexpected status: ${searchStatus}`);
+              }
+            })()}
 
-        <div
-          className={searchStatus}
-          id={`tabpanel-${searchStatus}`}
-          role="tabpanel"
-          aria-labelledby={`tab-${searchStatus}`}
-        >
-          {(() => {
-            switch (searchStatus) {
-              case STATUSES.PENDING:
-                return (
-                  <>
-                    <h2
-                      data-testid="poa-requests-table-heading"
-                      className="poa-request__tab-heading"
-                    >
-                      Pending POA requests
-                    </h2>
-                    <SortForm
-                      asc={SORT_BY.CREATED_ASC}
-                      desc={SORT_BY.CREATED_DESC}
-                      ascOption={PENDING.ASC_OPTION}
-                      descOption={PENDING.DESC_OPTION}
-                    />
-                  </>
-                );
-              case STATUSES.PROCESSED:
-                return (
-                  <>
-                    <h2
-                      data-testid="poa-requests-table-heading"
-                      className="poa-request__tab-heading"
-                    >
-                      Processed POA requests
-                    </h2>
-                    <SortForm
-                      asc={SORT_BY.RESOLVED_ASC}
-                      desc={SORT_BY.RESOLVED_DESC}
-                      ascOption={PROCESSED.ASC_OPTION}
-                      descOption={PROCESSED.DESC_OPTION}
-                    />
-                  </>
-                );
-              default:
-                throw new Error(`Unexpected status: ${searchStatus}`);
-            }
-          })()}
-
-          <SearchResults poaRequests={poaRequests} />
-        </div>
+            <SearchResults poaRequests={poaRequests} />
+          </div>
+        )}
       </div>
     </section>
   );

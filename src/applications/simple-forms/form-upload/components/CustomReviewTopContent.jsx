@@ -40,7 +40,7 @@ const CustomReviewTopContent = () => {
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             <span
               className="vads-u-font-weight--bold"
-              style={{ 'word-break': 'break-all' }}
+              style={{ wordBreak: 'break-all' }}
             >
               {file.name}
             </span>
@@ -86,12 +86,15 @@ const CustomReviewTopContent = () => {
       </div>
     </div>
   );
+
+  const formNumber = getFormNumber().toLowerCase();
+
   return (
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Personal information</h3>
         <EditLink
-          href={`/${getFormNumber()}/name-and-zip-code`}
+          href={`/${formNumber}/name-and-zip-code`}
           label="Edit Personal information"
         />
       </div>
@@ -106,17 +109,14 @@ const CustomReviewTopContent = () => {
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Contact information</h3>
         <EditLink
-          href={`/${getFormNumber()}/phone-number-and-email`}
+          href={`/${formNumber}/phone-number-and-email`}
           label="Edit Contact information"
         />
       </div>
       {renderContactInfo()}
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h3>Uploaded file</h3>
-        <EditLink
-          href={`/${getFormNumber()}/upload`}
-          label="Edit Uploaded file"
-        />
+        <EditLink href={`/${formNumber}/upload`} label="Edit Uploaded file" />
       </div>
       {uploadedFile && renderFileInfo(uploadedFile)}
     </>
