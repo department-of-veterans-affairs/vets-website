@@ -5,9 +5,6 @@ import sinon from 'sinon';
 
 // Mock the Header component
 import * as Header from '../../../components/Header';
-
-sinon.stub(Header, 'default').returns(<div data-testid="mock-header" />);
-
 import ErrorBoundary from '../../../components/ErrorBoundary';
 
 describe('ErrorBoundary', () => {
@@ -15,6 +12,7 @@ describe('ErrorBoundary', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    sinon.stub(Header, 'default').returns(<div data-testid="mock-header" />);
   });
 
   afterEach(() => {
