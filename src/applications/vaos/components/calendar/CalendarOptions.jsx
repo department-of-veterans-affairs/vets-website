@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
+import { CalendarContext } from './CalendarContext';
 import CalendarOptionsSlots from './CalendarOptionsSlots';
 
 const smallMediaQuery = '(min-width: 481px)';
@@ -9,7 +12,8 @@ const smallDesktopMediaQuery = '(min-width: 1008px)';
 function calculateRowSize() {
   if (matchMedia(smallDesktopMediaQuery).matches) {
     return 4;
-  } else if (matchMedia(smallMediaQuery).matches) {
+  }
+  if (matchMedia(smallMediaQuery).matches) {
     return 3;
   }
 
@@ -29,7 +33,14 @@ export default function CalendarOptions({
   timezone,
   id,
   showWeekends,
+  buttonRef,
+  optionsHeight,
+  setOptionsHeight,
 }) {
+  const {
+    isAppointmentSelectionError,
+    appointmentSelectionErrorMsg,
+  } = useContext(CalendarContext);
   // Because we need to conditionally apply classes to get the right padding
   // and border radius for each cell, we need to know when the page size trips
   // a breakpoint
@@ -51,6 +62,30 @@ export default function CalendarOptions({
       smallDesktopMatcher.removeListener(updateRowSize);
     };
   }, []);
+
+  useEffect(() => {
+    if (optionsHeightRef?.current && buttonRef?.current) {
+      const newHeight =
+        optionsHeightRef.current.getBoundingClientRect().height +
+        buttonRef.current.getBoundingClientRect().height +
+        10;
+
+      if (newHeight !== optionsHeight) {
+        setOptionsHeight(() => {
+          return newHeight;
+        });
+      }
+    }
+  });
+
+  let showError = false;
+  const d1 = moment(currentlySelectedDate, 'YYYY-MM-DD');
+
+  if (selectedDates.length > 0) {
+    const d2 = moment(selectedDates[0], 'YYYY-MM-DD');
+    showError = d1.isSame(d2);
+  }
+
   const containerClasses = classNames('vaos-calendar__options-container');
 
   return (
@@ -59,6 +94,32 @@ export default function CalendarOptions({
       id={`vaos-options-container-${currentlySelectedDate}`}
       ref={optionsHeightRef}
     >
+      {showError &&
+        isAppointmentSelectionError && (
+          <div
+            className={classNames(
+              'usa-input-error',
+              'vads-u-margin-top--0',
+              'vads-u-margin-bottom--0',
+              'vads-u-padding-top--0',
+              'vads-u-padding-bottom--0',
+              'medium-screen:vads-u-margin-left--1',
+              'vads-u-margin-left--0p5',
+            )}
+            style={{ position: 'static' }}
+          >
+            <span
+              className={classNames(
+                'vaos-calendar__validation-msg, usa-input-error-message',
+                {},
+              )}
+              style={{ position: 'static' }}
+              role="alert"
+            >
+              {appointmentSelectionErrorMsg}
+            </span>
+          </div>
+        )}
       <fieldset>
         <legend className="vads-u-visibility--screen-reader">
           Please select an option for this date
@@ -85,7 +146,7 @@ export default function CalendarOptions({
             rowSize={rowSize}
             selectedCellIndex={selectedCellIndex}
             maxSelections={maxSelections}
-            hasError={hasError}
+            hasError={hasError || showError}
             onChange={handleSelectOption}
             timezone={timezone}
             showWeekends={showWeekends}
@@ -95,3 +156,18 @@ export default function CalendarOptions({
     </div>
   );
 }
+CalendarOptions.propTypes = {
+  availableSlots: PropTypes.array,
+  currentlySelectedDate: PropTypes.string,
+  handleSelectOption: PropTypes.func,
+  hasError: PropTypes.bool,
+  id: PropTypes.string,
+  maxSelections: PropTypes.number,
+  optionsHeight: PropTypes.number,
+  renderOptions: PropTypes.func,
+  selectedCellIndex: PropTypes.number,
+  selectedDates: PropTypes.array,
+  setOptionsHeight: PropTypes.func,
+  showWeekends: PropTypes.bool,
+  timezone: PropTypes.string,
+};
