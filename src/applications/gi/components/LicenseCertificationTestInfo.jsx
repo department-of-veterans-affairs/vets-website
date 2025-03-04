@@ -134,7 +134,7 @@ function LcTestInfo({ tests }) {
         <div className="single-test-wrapper">
           <h4 className="vads-u-margin-top--1p5">Test name: {tests[0].name}</h4>
           {/* <p className="fee">Fee {formatCurrency(tests[0].fee)}</p> */}
-          <p className="vads-u-margin-y--0">
+          <p className="fee vads-u-margin-y--0">
             Fee:{' '}
             {formatDollarAmountWithCents(
               tests[0].fee,
