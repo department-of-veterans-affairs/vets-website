@@ -1,5 +1,6 @@
-import SecureMessagingSite from '../../../../../mhv-secure-messaging/tests/e2e/sm_site/SecureMessagingSite';
-import mockFullNameSucess from '../../fixtures/full-name-success.json';
+import directDepositMocks from '@@profile/mocks/endpoints/direct-deposits';
+import { mvhUser } from '@@profile/mocks/endpoints/user';
+import mockFullNameSuccess from '../../fixtures/full-name-success.json';
 import mockPersonalInformation from '../../fixtures/personal-information-success.json';
 import mockServiceHistory from '../../fixtures/service-history-success.json';
 import mockDisabilityRating from '../../fixtures/disability-rating-success.json';
@@ -13,7 +14,7 @@ class PersonalInformationPage {
   };
 
   load = (togglesResponse = mockToggles, signatureResponse = mockSignature) => {
-    cy.intercept('v0/profile/full_name', mockFullNameSucess).as(`full_name`);
+    cy.intercept('v0/profile/full_name', mockFullNameSuccess).as(`full_name`);
 
     cy.intercept(
       'GET',
@@ -38,7 +39,10 @@ class PersonalInformationPage {
       signatureResponse,
     ).as(`signature`);
 
-    SecureMessagingSite.login(togglesResponse);
+    cy.intercept(`GET`, `/v0/feature_toggles*`, togglesResponse);
+    cy.intercept('GET', 'v0/profile/direct_deposits', directDepositMocks.base);
+
+    cy.login(mvhUser);
 
     cy.visit(`/profile/personal-information`);
 
