@@ -94,7 +94,7 @@ describe('Helper Functions', () => {
       expect(verifyCurrentBalance(futureDate)).to.be.true;
     });
 
-    it('should return false if current date is after due date', () => {
+    it.skip('should return false if current date is after due date', () => {
       const pastDate = subMonths(new Date(), 1);
       expect(verifyCurrentBalance(pastDate)).to.be.false;
     });

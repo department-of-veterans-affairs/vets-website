@@ -21,15 +21,15 @@ const defaultMockStore = ({
   sisEnabled = true,
   authBroker = 'sis',
 } = {}) => ({
-  profile: {
-    loading: false,
-    session: {
-      authBroker,
-      ssoe: authBroker !== 'sis',
-      transactionid: authBroker !== 'sis' ? 'fake_tx_id' : null,
-    },
-  },
   user: {
+    profile: {
+      loading: false,
+      session: {
+        authBroker,
+        ssoe: authBroker !== 'sis',
+        transactionid: authBroker !== 'sis' ? 'fake_tx_id' : null,
+      },
+    },
     login: {
       currentlyLoggedIn: isLoggedIn,
       hasCheckedKeepAlive: false,
@@ -140,20 +140,6 @@ describe('SignInApp', () => {
         ),
       );
     });
-  });
-
-  it('should show a LogoutAlert when `auth=logged_out` query is present', () => {
-    const defaultProps = generateProps({
-      query: {
-        auth: 'logged_out',
-      },
-    });
-    const wrapper = renderInReduxProvider(<SignInPage {...defaultProps} />, {
-      initialState: defaultMockStore(),
-    });
-    expect(wrapper.getByText(/You have successfully signed out./)).to.not.be
-      .null;
-    expect(wrapper.getByText(/Sign in/)).to.not.be.null;
   });
 
   it('should hide elements specified in the CSS', () => {

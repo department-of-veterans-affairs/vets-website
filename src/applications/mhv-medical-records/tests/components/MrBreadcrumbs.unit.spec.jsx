@@ -94,7 +94,7 @@ describe('MrBreadcrumbs component', () => {
         reducers: reducer,
       },
     );
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 
@@ -134,7 +134,7 @@ describe('MrBreadcrumbs component', () => {
         reducers: reducer,
       },
     );
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 
@@ -177,6 +177,8 @@ describe('MrBreadcrumbs component', () => {
 
   it('tests the time frame in the url logic', () => {
     const initialState = {
+      // eslint-disable-next-line camelcase
+      featureToggles: { mhv_medical_records_update_landing_page: true },
       mr: {
         pageTracker: {},
         breadcrumbs: {
@@ -238,7 +240,7 @@ describe('MrBreadcrumbs component', () => {
       </MemoryRouter>,
     );
 
-    const header = screen.getByTestId('breadcrumbs');
+    const header = screen.getByTestId('mr-breadcrumbs');
     expect(header).to.exist;
   });
 });
