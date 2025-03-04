@@ -85,7 +85,7 @@ const formConfig = {
           schema: applicantRelationToVetOrg2.schema,
           depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
-        // 4 (use email and phone number patterns)
+        // 4 DONE
         applicantContactInfo: {
           path: 'applicant-contact-info',
           title: 'Your contact information',
@@ -96,7 +96,7 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
-        // 4.5 (use email and phone number patterns)
+        // 4.5 DONE
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
           title: 'Your organizations contact information',
