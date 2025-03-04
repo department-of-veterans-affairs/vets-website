@@ -2,13 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getFacilityPhone } from '../../../services/location';
 import FacilityPhone from '../../../components/FacilityPhone';
+import { ELIGIBILITY_REASONS } from '../../../utils/constants';
 
 export default function ScheduleWithDifferentProvider({
   eligibility,
   selectedFacility,
 }) {
   const facilityPhone = getFacilityPhone(selectedFacility);
+  const overRequestLimit =
+    eligibility.requestReasons[0] === ELIGIBILITY_REASONS.overRequestLimit;
 
+  if (overRequestLimit) {
+    return (
+      <>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
+          If you want to schedule with a different provider
+        </h2>
+        <p className="vads-u-margin-y--0">
+          Call and ask to schedule with that provider:{' '}
+          <FacilityPhone contact={facilityPhone} icon={false} />
+        </p>
+      </>
+    );
+  }
   return (
     <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--2">
