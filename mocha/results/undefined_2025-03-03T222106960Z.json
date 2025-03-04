@@ -1,0 +1,1160 @@
+{
+  "stats": {
+    "suites": 27,
+    "tests": 27,
+    "passes": 27,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-03-03T22:21:07.054Z",
+    "end": "2025-03-03T22:21:07.179Z",
+    "duration": 125,
+    "testsRegistered": 27,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "532d0503-631c-4fdd-b19f-fe6f098d9d3a",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [
+        {
+          "title": "\"before each\" hook: beforeEach in \"{root}\"",
+          "fullTitle": "\"before each\" hook: beforeEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 4,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cov_5fzq6lsur().f[20]++;\ncov_5fzq6lsur().s[70]++;\nsetupJSDom();\ncov_5fzq6lsur().s[71]++;\nresetFetch();\ncov_5fzq6lsur().s[72]++;\ncleanupStorage();\ncov_5fzq6lsur().s[73]++;\nif (isStressTest == 'false') {\n  cov_5fzq6lsur().b[12][0]++;\n  cov_5fzq6lsur().s[74]++;\n  checkAllowList(this);\n} else {\n  cov_5fzq6lsur().b[12][1]++;\n}\ncov_5fzq6lsur().s[75]++;\nif ((cov_5fzq6lsur().b[14][0]++, process.env.CI) || (cov_5fzq6lsur().b[14][1]++, ['trace', 'debug'].includes(process.env.LOG_LEVEL))) {\n  cov_5fzq6lsur().b[13][0]++;\n  cov_5fzq6lsur().s[76]++;\n  console.log('running: ', this.currentTest.file.slice(this.currentTest.file.indexOf('src')));\n} else {\n  cov_5fzq6lsur().b[13][1]++;\n}",
+          "err": {},
+          "uuid": "b694f071-3a87-4fc4-b8bb-bb6328576ab4",
+          "parentUUID": "532d0503-631c-4fdd-b19f-fe6f098d9d3a",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after each\" hook: afterEach in \"{root}\"",
+          "fullTitle": "\"after each\" hook: afterEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cov_5fzq6lsur().f[21]++;\ncov_5fzq6lsur().s[77]++;\ncleanupStorage();\ncov_5fzq6lsur().s[78]++;\nflushPromises();",
+          "err": {},
+          "uuid": "57be9daf-b619-42d9-8adc-9486db81112e",
+          "parentUUID": "532d0503-631c-4fdd-b19f-fe6f098d9d3a",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "be73c9e3-e845-40a9-bda0-6609237c6676",
+          "title": "AdditionalContacts",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/AskQuestions/additionalContacts.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/AskQuestions/additionalContacts.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "AdditionalContacts renders without crashing",
+              "timedOut": false,
+              "duration": 3,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_additionalContacts.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "4c54d8e4-bcec-44cc-b590-a12f3416952c",
+              "parentUUID": "be73c9e3-e845-40a9-bda0-6609237c6676",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4c54d8e4-bcec-44cc-b590-a12f3416952c"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 3,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "e26c79da-944a-4a8f-acf1-fad734eb1313",
+          "title": "CallUs",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/AskQuestions/callUs.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/AskQuestions/callUs.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "CallUs renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_callUs.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "1d027773-0b45-4dc1-835f-536dc25267f5",
+              "parentUUID": "e26c79da-944a-4a8f-acf1-fad734eb1313",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "1d027773-0b45-4dc1-835f-536dc25267f5"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "13778e6e-88fd-4819-a4ac-084a8785ca54",
+          "title": "AskQuestions",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/AskQuestions/index.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/AskQuestions/index.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "AskQuestions renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_index.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "21deb898-08c1-4159-a830-4ce62cb73b13",
+              "parentUUID": "13778e6e-88fd-4819-a4ac-084a8785ca54",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "21deb898-08c1-4159-a830-4ce62cb73b13"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "05e1201d-704d-4c3e-b0bb-3910f9168250",
+          "title": "MessageUs",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/AskQuestions/messageUs.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/AskQuestions/messageUs.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "MessageUs renders without crashing",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_messageUs.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "bd76d0ed-5442-4b9e-bde8-e0115503272b",
+              "parentUUID": "05e1201d-704d-4c3e-b0bb-3910f9168250",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "bd76d0ed-5442-4b9e-bde8-e0115503272b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "7e0b4951-88b1-4ffd-863e-e7fc7a7524d2",
+          "title": "ScoResourceMatrix",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/AskQuestions/scoResourceMatrix.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/AskQuestions/scoResourceMatrix.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "ScoResourceMatrix renders without crashing",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_scoResourceMatrix.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "ddf3351b-20a4-41e9-91dc-9c192e5ab434",
+              "parentUUID": "7e0b4951-88b1-4ffd-863e-e7fc7a7524d2",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ddf3351b-20a4-41e9-91dc-9c192e5ab434"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "8fc00461-bb61-4372-bc13-514f01709de0",
+          "title": "FollowUs",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/ConnectWithUs/followUs.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/ConnectWithUs/followUs.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "FollowUs renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_followUs.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "d615278d-6707-427c-9232-2fff96c6c344",
+              "parentUUID": "8fc00461-bb61-4372-bc13-514f01709de0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d615278d-6707-427c-9232-2fff96c6c344"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "411c63cf-f0f6-4fb8-abd6-749c7716cce2",
+          "title": "GetGovDeliveryUpdates",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/ConnectWithUs/getGovDeliveryUpdates.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/ConnectWithUs/getGovDeliveryUpdates.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "GetGovDeliveryUpdates renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_getGovDeliveryUpdates.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "3ccc6cb1-163b-40b4-a598-80cb310ba889",
+              "parentUUID": "411c63cf-f0f6-4fb8-abd6-749c7716cce2",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3ccc6cb1-163b-40b4-a598-80cb310ba889"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "986b23c6-d1e6-4a1f-94d8-26eff9919a48",
+          "title": "ConnectWithUs",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/ConnectWithUs/index.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/ConnectWithUs/index.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "ConnectWithUs renders without crashing",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_index.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "8a254f83-f4a3-46de-9926-45f6ff8214b2",
+              "parentUUID": "986b23c6-d1e6-4a1f-94d8-26eff9919a48",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "8a254f83-f4a3-46de-9926-45f6ff8214b2"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "8e6a872c-2416-4802-8779-f7b47b4536da",
+          "title": "HubRail",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/index.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/index.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "HubRail renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_index.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "33c74248-415a-4c98-a17a-dd2ddd3682d4",
+              "parentUUID": "8e6a872c-2416-4802-8779-f7b47b4536da",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "33c74248-415a-4c98-a17a-dd2ddd3682d4"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "43667e6e-afbf-4dca-af10-c037a3246310",
+          "title": "AverageProcessingTime",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/SchoolCertifyingOfficialHandbook.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/SchoolCertifyingOfficialHandbook.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "AverageProcessingTime renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_SchoolCertifyingOfficialHandbook.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "11379714-f965-4c52-bd70-f1bd1ed9bfd6",
+              "parentUUID": "43667e6e-afbf-4dca-af10-c037a3246310",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "11379714-f965-4c52-bd70-f1bd1ed9bfd6"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "2537dca5-e09f-4c5d-a787-eace01f99ccd",
+          "title": "LiSpanAndVaLink",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/liSpanAndVaLink.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/liSpanAndVaLink.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "LiSpanAndVaLink renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_liSpanAndVaLink.default, {\n  href: \"https://demo.com/\",\n  hrefText: \"Sample Text\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "7504a53c-180c-4d35-8718-f5a46b0b0269",
+              "parentUUID": "2537dca5-e09f-4c5d-a787-eace01f99ccd",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7504a53c-180c-4d35-8718-f5a46b0b0269"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "390325fb-3cfc-4aca-abbc-66bbda85e87c",
+          "title": "LiSpanAndVaLinkAndPTag",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/liSpanAndVaLinkAndPTag.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/liSpanAndVaLinkAndPTag.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "LiSpanAndVaLinkAndPTag renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_liSpanAndVaLinkAndPTag.default, {\n  href: \"https://demo.com/\",\n  hrefText: \"Sample Text\",\n  pText: \"Sample P text\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "7f648e51-bb64-4a97-be1f-19d38c4171bc",
+              "parentUUID": "390325fb-3cfc-4aca-abbc-66bbda85e87c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7f648e51-bb64-4a97-be1f-19d38c4171bc"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "44cd8e6f-1263-45d5-9baf-a6bb3f1be90b",
+          "title": "liText",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/liText.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/liText.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "liText renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_liText.default, {\n  text: \"sample text\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "7d717ee4-70d3-4237-84c6-493c17455380",
+              "parentUUID": "44cd8e6f-1263-45d5-9baf-a6bb3f1be90b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7d717ee4-70d3-4237-84c6-493c17455380"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "0056ad5d-e9ca-42b2-89df-46d6be810299",
+          "title": "LiVaIconAndVaLink",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/liVaIconAndVaLink.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/liVaIconAndVaLink.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "LiVaIconAndVaLink renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_liVaIconAndVaLink.default, {\n  href: \"https://demo.com/\",\n  hrefText: \"Sample Text\",\n  iconName: \"Sample Icon\",\n  text: \"Sample Icon\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "ec051605-1687-45e1-9a16-b6289cb684a2",
+              "parentUUID": "0056ad5d-e9ca-42b2-89df-46d6be810299",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ec051605-1687-45e1-9a16-b6289cb684a2"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "d0fe9dd6-4d74-4991-ba97-4f8a338da736",
+          "title": "liVaLink",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/liVaLink.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/liVaLink.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "liVaLink renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_liVaLink.default, {\n  href: \"https://demo.com/\",\n  text: \"Sample text\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "fc05161e-af86-46df-9081-382f3a47aea4",
+              "parentUUID": "d0fe9dd6-4d74-4991-ba97-4f8a338da736",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fc05161e-af86-46df-9081-382f3a47aea4"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "d49a3354-f070-4718-b4a8-770c8789bd74",
+          "title": "LiVaLinkAndVaTelephone",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/liVaLinkAndVaTelephone.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/liVaLinkAndVaTelephone.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "LiVaLinkAndVaTelephone renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_liVaLinkAndVaTelephone.default, {\n  phoneNumber: \"111-111-1111\",\n  text: \"Sample Text\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "f8c03211-24e0-4de8-82c2-19f4c7ee8bee",
+              "parentUUID": "d49a3354-f070-4718-b4a8-770c8789bd74",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f8c03211-24e0-4de8-82c2-19f4c7ee8bee"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "45eb1999-49ed-41be-bd09-fde4204a50b9",
+          "title": "MainContentSubDiv",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/mainContentSubDiv.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/mainContentSubDiv.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "MainContentSubDiv renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_mainContentSubDiv.default, {\n  id: \"sample id\",\n  header: \"Sample Header\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "f88f1f9d-f352-4a8f-9c06-4a171cafee78",
+              "parentUUID": "45eb1999-49ed-41be-bd09-fde4204a50b9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f88f1f9d-f352-4a8f-9c06-4a171cafee78"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "4042f4de-7fc6-4edb-9d32-f3631c206ee2",
+          "title": "MainContentSubSection",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/HubRail/shared/mainContentSubSection.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/HubRail/shared/mainContentSubSection.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "MainContentSubSection renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_mainContentSubSection.default, {\n  id: \"Sample Id\",\n  header: \"Sample Header Title\"\n}));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "061feac5-3b58-4eea-b449-a3777f8b33b0",
+              "parentUUID": "4042f4de-7fc6-4edb-9d32-f3631c206ee2",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "061feac5-3b58-4eea-b449-a3777f8b33b0"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "56d54f3c-b865-4ccb-af37-99a3491abe68",
+          "title": "ArrowRightBlueSVG",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/MainContent/ArrowRightBlueSVG.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/MainContent/ArrowRightBlueSVG.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "ArrowRightBlueSVG renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_ArrowRightBlueSVG.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "bb7a5d0d-2355-4e6d-8e5c-85c70f5fad5f",
+              "parentUUID": "56d54f3c-b865-4ccb-af37-99a3491abe68",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "bb7a5d0d-2355-4e6d-8e5c-85c70f5fad5f"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "2efce7be-7cb8-4a11-a93e-95abe73ad5a1",
+          "title": "MainContent",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/MainContent/index.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/MainContent/index.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "MainContent renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_index.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "761826a9-7ae6-4e2a-be53-8dddbbe4d341",
+              "parentUUID": "2efce7be-7cb8-4a11-a93e-95abe73ad5a1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "761826a9-7ae6-4e2a-be53-8dddbbe4d341"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "cadfb5a4-8d71-4049-bf86-3ef063c49a00",
+          "title": "OtherResources",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/MainContent/Update/OtherResources.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/MainContent/Update/OtherResources.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "OtherResources renders without crashing",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_OtherResources.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "97d2166d-6ae0-420b-aa61-372ea5b42d95",
+              "parentUUID": "cadfb5a4-8d71-4049-bf86-3ef063c49a00",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "97d2166d-6ae0-420b-aa61-372ea5b42d95"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "9ea68ba4-967e-4580-b2e5-db9766361489",
+          "title": "ProgramApprovalInformation",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/MainContent/Update/ProgramApprovalInformation.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/MainContent/Update/ProgramApprovalInformation.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "ProgramApprovalInformation renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_ProgramApprovalInformation.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "80c05e65-7809-4516-bb51-0e35305f288d",
+              "parentUUID": "9ea68ba4-967e-4580-b2e5-db9766361489",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "80c05e65-7809-4516-bb51-0e35305f288d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "087b327b-36be-4eb2-897a-fdb179b7c5fe",
+          "title": "ScoHandbooks",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/MainContent/Update/ScoHandbooks.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/MainContent/Update/ScoHandbooks.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "ScoHandbooks renders without crashing",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_ScoHandbooks.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "3a299c80-addc-45e0-9616-4374a22f3701",
+              "parentUUID": "087b327b-36be-4eb2-897a-fdb179b7c5fe",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3a299c80-addc-45e0-9616-4374a22f3701"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "3c0eae10-57c1-45cf-8149-5162f9e57b68",
+          "title": "TrainingAndWebinar",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/MainContent/Update/TrainingAndWebinar.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/MainContent/Update/TrainingAndWebinar.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "TrainingAndWebinar renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_TrainingAndWebinar.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "2994172b-c644-4f1a-aaec-a53bc62194ee",
+              "parentUUID": "3c0eae10-57c1-45cf-8149-5162f9e57b68",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "2994172b-c644-4f1a-aaec-a53bc62194ee"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "08a0f9ac-9d2d-41b1-bf27-416e11e902f8",
+          "title": "UploadFileToVa",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/MainContent/Update/UploadFileToVa.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/MainContent/Update/UploadFileToVa.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "UploadFileToVa renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_UploadFileToVa.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "2a40d267-d862-482b-ae41-47e77e263cc7",
+              "parentUUID": "08a0f9ac-9d2d-41b1-bf27-416e11e902f8",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "2a40d267-d862-482b-ae41-47e77e263cc7"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "9c3972b3-5d51-46cf-b079-b6edc1b1b355",
+          "title": "ResourcesForSchoolTitle",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/components/ResourcesForSchoolTitle.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/components/ResourcesForSchoolTitle.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "ResourcesForSchoolTitle renders without crashing",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_ResourcesForSchoolTitle.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "334e3d19-9d4f-4e08-8462-aecd30d240aa",
+              "parentUUID": "9c3972b3-5d51-46cf-b079-b6edc1b1b355",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "334e3d19-9d4f-4e08-8462-aecd30d240aa"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "4d9e6ecf-c2c5-4134-8617-40f11d5da046",
+          "title": "App",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/sco/tests/containers/App.unit.spec.jsx",
+          "file": "/src/applications/sco/tests/containers/App.unit.spec.jsx",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "renders without crashing",
+              "fullTitle": "App renders without crashing",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var tree = (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_App.default, null));\n(0, _chai.expect)(tree.exists()).to.be.true;\ntree.unmount();",
+              "err": {},
+              "uuid": "435ba9a0-8d5e-4f0e-97ba-ed8538dbcbf3",
+              "parentUUID": "4d9e6ecf-c2c5-4134-8617-40f11d5da046",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "435ba9a0-8d5e-4f0e-97ba-ed8538dbcbf3"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 10000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.7.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "undefined_2025-03-03T222106960Z",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "min",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "consoleReporter": "min",
+        "reportDir": "mocha/results",
+        "reportFilename": "undefined_2025-03-03T222106960Z",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

@@ -1,0 +1,513 @@
+{
+  "stats": {
+    "suites": 9,
+    "tests": 10,
+    "passes": 10,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-03-03T22:26:46.568Z",
+    "end": "2025-03-03T22:26:46.635Z",
+    "duration": 67,
+    "testsRegistered": 10,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "94a6de5d-7dc2-4771-8f05-6c85d367160a",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [
+        {
+          "title": "\"before each\" hook: beforeEach in \"{root}\"",
+          "fullTitle": "\"before each\" hook: beforeEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 2,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cov_5fzq6lsur().f[20]++;\ncov_5fzq6lsur().s[70]++;\nsetupJSDom();\ncov_5fzq6lsur().s[71]++;\nresetFetch();\ncov_5fzq6lsur().s[72]++;\ncleanupStorage();\ncov_5fzq6lsur().s[73]++;\nif (isStressTest == 'false') {\n  cov_5fzq6lsur().b[12][0]++;\n  cov_5fzq6lsur().s[74]++;\n  checkAllowList(this);\n} else {\n  cov_5fzq6lsur().b[12][1]++;\n}\ncov_5fzq6lsur().s[75]++;\nif ((cov_5fzq6lsur().b[14][0]++, process.env.CI) || (cov_5fzq6lsur().b[14][1]++, ['trace', 'debug'].includes(process.env.LOG_LEVEL))) {\n  cov_5fzq6lsur().b[13][0]++;\n  cov_5fzq6lsur().s[76]++;\n  console.log('running: ', this.currentTest.file.slice(this.currentTest.file.indexOf('src')));\n} else {\n  cov_5fzq6lsur().b[13][1]++;\n}",
+          "err": {},
+          "uuid": "e6ebe899-6c6f-41ed-b810-d00150e5b02c",
+          "parentUUID": "94a6de5d-7dc2-4771-8f05-6c85d367160a",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after each\" hook: afterEach in \"{root}\"",
+          "fullTitle": "\"after each\" hook: afterEach in \"{root}\"",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cov_5fzq6lsur().f[21]++;\ncov_5fzq6lsur().s[77]++;\ncleanupStorage();\ncov_5fzq6lsur().s[78]++;\nflushPromises();",
+          "err": {},
+          "uuid": "bcb007fd-2a2e-4820-a110-2e04ebc05c98",
+          "parentUUID": "94a6de5d-7dc2-4771-8f05-6c85d367160a",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "02e76178-3cd0-4381-812f-ff11991e3aed",
+          "title": "Actions",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+          "file": "/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "6da33eb2-687f-45cd-9bc1-375687346e92",
+              "title": "fetchResultsAction",
+              "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+              "file": "/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return an action in the shape we expect",
+                  "fullTitle": "Actions fetchResultsAction should return an action in the shape we expect",
+                  "timedOut": false,
+                  "duration": 2,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cov_pb79cmqkz().f[2]++;\nvar options = (cov_pb79cmqkz().s[3]++, {\n  category: 'Health',\n  hideFetchingState: true,\n  platform: 'iOS'\n});\nvar action = (cov_pb79cmqkz().s[4]++, (0, _index.fetchResultsAction)(options));\ncov_pb79cmqkz().s[5]++;\n(0, _chai.expect)(action).to.be.deep.equal({\n  options: options,\n  type: _constants.FETCH_RESULTS\n});",
+                  "err": {},
+                  "uuid": "cdbec070-d4d6-4015-9c6c-b1fdc645acb1",
+                  "parentUUID": "6da33eb2-687f-45cd-9bc1-375687346e92",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "cdbec070-d4d6-4015-9c6c-b1fdc645acb1"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 2,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "b6677f1d-59c4-4028-a119-fc5ae0d921db",
+              "title": "fetchResultsFailure",
+              "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+              "file": "/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return an action in the shape we expect",
+                  "fullTitle": "Actions fetchResultsFailure should return an action in the shape we expect",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cov_pb79cmqkz().f[4]++;\nvar action = (cov_pb79cmqkz().s[8]++, (0, _index.fetchResultsFailure)('test'));\ncov_pb79cmqkz().s[9]++;\n(0, _chai.expect)(action).to.be.deep.equal({\n  error: 'test',\n  type: _constants.FETCH_RESULTS_FAILURE\n});",
+                  "err": {},
+                  "uuid": "1ceda454-492e-453e-af52-57a6d9af7448",
+                  "parentUUID": "b6677f1d-59c4-4028-a119-fc5ae0d921db",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "1ceda454-492e-453e-af52-57a6d9af7448"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "54466d86-9192-433b-acba-4f5967003a5f",
+              "title": "fetchResultsSuccess",
+              "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+              "file": "/src/applications/third-party-app-directory/actions/index.unit.spec.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return an action in the shape we expect",
+                  "fullTitle": "Actions fetchResultsSuccess should return an action in the shape we expect",
+                  "timedOut": false,
+                  "duration": 1,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "cov_pb79cmqkz().f[6]++;\nvar response = (cov_pb79cmqkz().s[12]++, {\n  results: [],\n  totalResults: 0\n});\nvar action = (cov_pb79cmqkz().s[13]++, (0, _index.fetchResultsSuccess)(response));\ncov_pb79cmqkz().s[14]++;\n(0, _chai.expect)(action).to.be.deep.equal({\n  response: response,\n  type: _constants.FETCH_RESULTS_SUCCESS\n});",
+                  "err": {},
+                  "uuid": "a35a1a80-860d-45f3-bc59-0b2385279d22",
+                  "parentUUID": "54466d86-9192-433b-acba-4f5967003a5f",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "a35a1a80-860d-45f3-bc59-0b2385279d22"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 1,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "09d9d6eb-15e5-4987-83ee-5aa2f6a80df1",
+          "title": "api functions",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/api/index.unit.spec.js",
+          "file": "/src/applications/third-party-app-directory/api/index.unit.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before each\" hook in \"api functions\"",
+              "fullTitle": "api functions \"before each\" hook in \"api functions\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cov_11iw4ywzvu().f[1]++;",
+              "err": {},
+              "uuid": "15ed5491-55cf-4e7d-95e7-0eba9abc7f3d",
+              "parentUUID": "09d9d6eb-15e5-4987-83ee-5aa2f6a80df1",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after each\" hook in \"api functions\"",
+              "fullTitle": "api functions \"after each\" hook in \"api functions\"",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cov_11iw4ywzvu().f[2]++;",
+              "err": {},
+              "uuid": "c5cd5ae8-b4ff-4f16-860f-75e89782a58f",
+              "parentUUID": "09d9d6eb-15e5-4987-83ee-5aa2f6a80df1",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "c2a17df7-2f1f-428f-bbe1-a99346a73d4c",
+              "title": "fetchResults",
+              "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/api/index.unit.spec.js",
+              "file": "/src/applications/third-party-app-directory/api/index.unit.spec.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return a normalized API response",
+                  "fullTitle": "api functions fetchResults should return a normalized API response",
+                  "timedOut": false,
+                  "duration": 4,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, \"next\", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, \"throw\", n); } _next(void 0); });",
+                  "err": {},
+                  "uuid": "5717cf79-5ebb-42b6-8883-16678c2928d5",
+                  "parentUUID": "c2a17df7-2f1f-428f-bbe1-a99346a73d4c",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "5717cf79-5ebb-42b6-8883-16678c2928d5"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 4,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            },
+            {
+              "uuid": "7e15001c-6b7b-4f56-ace8-bd0d3ce41843",
+              "title": "fetchScopes",
+              "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/api/index.unit.spec.js",
+              "file": "/src/applications/third-party-app-directory/api/index.unit.spec.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should return an array of scopes",
+                  "fullTitle": "api functions fetchScopes should return an array of scopes",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, \"next\", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, \"throw\", n); } _next(void 0); });",
+                  "err": {},
+                  "uuid": "5fb01610-f592-44a8-99d0-50a72f5e66da",
+                  "parentUUID": "7e15001c-6b7b-4f56-ace8-bd0d3ce41843",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "5fb01610-f592-44a8-99d0-50a72f5e66da"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 0,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 10000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "3e405599-2dea-4bfc-b4fc-ed1e0ede873b",
+          "title": "<SearchResult>",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/components/SearchResult/index.unit.spec.js",
+          "file": "/src/applications/third-party-app-directory/components/SearchResult/index.unit.spec.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should render",
+              "fullTitle": "<SearchResult> should render",
+              "timedOut": false,
+              "duration": 4,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cov_i1pu1gpqz().f[1]++;\nvar wrapper = (cov_i1pu1gpqz().s[3]++, (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_index.SearchResult, props)));\nvar initialText = (cov_i1pu1gpqz().s[4]++, wrapper.text());\ncov_i1pu1gpqz().s[5]++;\n(0, _chai.expect)(initialText).to.include(props.item.name);\ncov_i1pu1gpqz().s[6]++;\n(0, _chai.expect)(initialText).to.not.include(props.item.description);\ncov_i1pu1gpqz().s[7]++;\nwrapper.unmount();",
+              "err": {},
+              "uuid": "716b3e27-7123-4ffa-87a0-fcfbbcb8c871",
+              "parentUUID": "3e405599-2dea-4bfc-b4fc-ed1e0ede873b",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "should toggle to display additional app information",
+              "fullTitle": "<SearchResult> should toggle to display additional app information",
+              "timedOut": false,
+              "duration": 5,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cov_i1pu1gpqz().f[2]++;\nvar wrapper = (cov_i1pu1gpqz().s[9]++, (0, _enzyme.shallow)(/*#__PURE__*/_react.default.createElement(_index.SearchResult, props)));\ncov_i1pu1gpqz().s[10]++;\n(0, _chai.expect)(wrapper.find('va-icon').props().icon).to.equal('expand_more');\ncov_i1pu1gpqz().s[11]++;\nwrapper.find('button').simulate('click');\nvar additionalText = (cov_i1pu1gpqz().s[12]++, wrapper.text());\ncov_i1pu1gpqz().s[13]++;\n(0, _chai.expect)(wrapper.find('va-icon').props().icon).to.equal('expand_less');\ncov_i1pu1gpqz().s[14]++;\n(0, _chai.expect)(additionalText).to.include(props.item.description);\ncov_i1pu1gpqz().s[15]++;\nwrapper.unmount();",
+              "err": {},
+              "uuid": "de8526d4-11ec-4a94-ba9d-a3dfd63b0a9e",
+              "parentUUID": "3e405599-2dea-4bfc-b4fc-ed1e0ede873b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "716b3e27-7123-4ffa-87a0-fcfbbcb8c871",
+            "de8526d4-11ec-4a94-ba9d-a3dfd63b0a9e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 9,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        },
+        {
+          "uuid": "6ce73eca-c853-44ee-9fb4-2ca365c3aaed",
+          "title": "reducer",
+          "fullFile": "/Users/jacobpenner/repos/ad_hoc/va/vets-website/src/applications/third-party-app-directory/reducers/index.unit.spec.js",
+          "file": "/src/applications/third-party-app-directory/reducers/index.unit.spec.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "returns the default state",
+              "fullTitle": "reducer returns the default state",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cov_o6ekm0tin().f[1]++;\nvar emptyAction = (cov_o6ekm0tin().s[2]++, {});\nvar result = (cov_o6ekm0tin().s[3]++, (0, _index.thirdPartyAppsReducer)(undefined, emptyAction));\ncov_o6ekm0tin().s[4]++;\n(0, _chai.expect)(result).to.be.deep.equal({\n  error: '',\n  fetching: false,\n  results: undefined,\n  scopes: {},\n  totalResults: undefined\n});",
+              "err": {},
+              "uuid": "3436363e-4093-4341-a163-dde3f70d7e73",
+              "parentUUID": "6ce73eca-c853-44ee-9fb4-2ca365c3aaed",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "fetches results",
+              "fullTitle": "reducer fetches results",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cov_o6ekm0tin().f[2]++;\nvar action = (cov_o6ekm0tin().s[6]++, {\n  type: _constants.FETCH_RESULTS,\n  options: {\n    category: 'health',\n    hideFetchingState: true,\n    platform: 'ios'\n  }\n});\nvar state = (cov_o6ekm0tin().s[7]++, (0, _index.thirdPartyAppsReducer)(undefined, action));\ncov_o6ekm0tin().s[8]++;\n(0, _chai.expect)(state).to.be.deep.equal({\n  error: '',\n  fetching: false,\n  results: undefined,\n  scopes: {},\n  totalResults: undefined\n});",
+              "err": {},
+              "uuid": "d536b9d4-c48e-45d2-8ad0-1f836965d34d",
+              "parentUUID": "6ce73eca-c853-44ee-9fb4-2ca365c3aaed",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "receives results",
+              "fullTitle": "reducer receives results",
+              "timedOut": false,
+              "duration": 0,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cov_o6ekm0tin().f[3]++;\nvar initialState = (cov_o6ekm0tin().s[10]++, {\n  fetching: true,\n  results: undefined\n});\nvar action = (cov_o6ekm0tin().s[11]++, {\n  type: _constants.FETCH_RESULTS_SUCCESS,\n  response: {\n    results: []\n  }\n});\nvar state = (cov_o6ekm0tin().s[12]++, (0, _index.thirdPartyAppsReducer)(initialState, action));\ncov_o6ekm0tin().s[13]++;\n(0, _chai.expect)(state.fetching).to.be.false;\ncov_o6ekm0tin().s[14]++;\n(0, _chai.expect)(state.results).to.be.instanceOf(Object);",
+              "err": {},
+              "uuid": "c13576c5-2aad-4d54-92f8-deb1ef192250",
+              "parentUUID": "6ce73eca-c853-44ee-9fb4-2ca365c3aaed",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "3436363e-4093-4341-a163-dde3f70d7e73",
+            "d536b9d4-c48e-45d2-8ad0-1f836965d34d",
+            "c13576c5-2aad-4d54-92f8-deb1ef192250"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 10000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 10000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.7.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "undefined_2025-03-03T222646504Z",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "min",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "consoleReporter": "min",
+        "reportDir": "mocha/results",
+        "reportFilename": "undefined_2025-03-03T222646504Z",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
