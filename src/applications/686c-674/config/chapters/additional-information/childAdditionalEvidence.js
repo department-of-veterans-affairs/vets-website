@@ -15,7 +15,10 @@ const schema = {
 };
 
 const uiSchema = {
-  ...titleUI('Upload your supporting evidence to add your child'),
+  ...titleUI({
+    title: 'Upload your supporting evidence to add your child',
+    headingLevel: 3,
+  }),
   'view:additionalEvidenceDescription': {
     'ui:description': ChildAdditionalEvidence,
   },

@@ -77,6 +77,14 @@ export const placeOfBirth = {
       'ui:description': generateHelpText(
         "Based on your answers, you’ll need to submit a copy of this child's birth certificate to add them as your dependent. We’ll ask you to submit this document at the end of this form.",
       ),
+      'ui:options': {
+        hideIf: (_formData, _index, fullFormData) =>
+          !(
+            fullFormData?.veteranContactInformation?.veteranAddress?.country !==
+              'USA' ||
+            fullFormData?.veteranContactInformation?.veteranAddress?.isMilitary
+          ),
+      },
     },
   },
   schema: {
