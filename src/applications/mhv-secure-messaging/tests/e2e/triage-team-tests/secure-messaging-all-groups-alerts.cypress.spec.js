@@ -1,18 +1,18 @@
 import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import noAssociationResponse from '../fixtures/no-goups-association.json';
+import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 import { AXE_CONTEXT, Locators, Paths, Alerts } from '../utils/constants';
 
 describe('SM TRIAGE GROUPS ALERTS', () => {
   it('user not associated with any group', () => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadPageForNoProvider(noAssociationResponse);
+    PatientInboxPage.loadPageForNoProvider(mockNoRecipients);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
       .should('contain.text', Alerts.NO_ASSOCIATION.AT_ALL_HEADER);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`p`)
       .should(`be.visible`)
       .and(`contain.text`, Alerts.NO_ASSOCIATION.PARAGRAPH);
@@ -31,9 +31,9 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
 
   it('user blocked from all groups', () => {
     const allBlockedResponse = {
-      ...noAssociationResponse,
+      ...mockNoRecipients,
       meta: {
-        ...noAssociationResponse.meta,
+        ...mockNoRecipients.meta,
         associatedTriageGroups: 7,
         associatedBlockedTriageGroups: 7,
       },
@@ -42,11 +42,11 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadPageForNoProvider(allBlockedResponse);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
       .should('contain.text', Alerts.BLOCKED.HEADER);
 
-    cy.get(Locators.ALERTS.TRIAGE_GROUP)
+    cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`p`)
       .should(`be.visible`)
       .and(`contain.text`, Alerts.BLOCKED.ALL_PARAGRAPH);
