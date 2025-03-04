@@ -365,7 +365,7 @@ export async function fetchFlowEligibilityAndClinics({
       );
     }
 
-    if (!results.clinics.length && !isCerner) {
+    if (!results.clinics?.length && !isCerner) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noClinics);
       recordEligibilityFailure(
