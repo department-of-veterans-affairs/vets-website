@@ -31,6 +31,10 @@ export const supportingDocsInfo = formData => {
       >
         Learn more about these supporting documents (opens in a new tab)
       </a>
+      <p>
+        If you don’t have these supporting documents, apply anyway. We’ll try to
+        get them for you.
+      </p>
       {formData && ( // This needs to be changed to check if the user is a rep once that data gets built out
         <div
           style={{
@@ -40,7 +44,7 @@ export const supportingDocsInfo = formData => {
           <va-accordion open-single>
             <va-accordion-item
               bordered="true"
-              header="If you’re a personal representative of the applicant"
+              header="If you’re a personal representative of the Veteran"
               id="first"
             >
               <p>

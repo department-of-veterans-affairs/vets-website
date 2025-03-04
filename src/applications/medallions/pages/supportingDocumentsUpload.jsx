@@ -15,6 +15,11 @@ const description = formData => {
         <strong>Note:</strong> If you want to mail or fax your documents, we’ll
         provide instructions after you submit this form.
       </p>
+      <p style={{ marginBottom: 0 }}>Select a file to upload</p>
+      <p style={{ color: '#757575', margin: 0 }}>
+        You can upload a .jpg, .pdf, or .png file. A .jpg or .png file must be
+        less than 50MB. A .pdf file must be less than 100MB.
+      </p>
     </div>
   );
 };
@@ -25,6 +30,7 @@ export default {
     ...titleUI('Upload your supporting documents'),
     'ui:description': formData => description(formData),
     supportingDocuments: fileUploadUi({}),
+    hint: 'Hello World',
   },
   schema: {
     type: 'object',

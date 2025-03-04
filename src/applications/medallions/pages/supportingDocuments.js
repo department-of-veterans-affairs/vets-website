@@ -4,7 +4,7 @@ import { supportingDocsInfo } from '../utils/helpers';
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Supporting Documents'),
+    ...titleUI('Supporting documents'),
     'ui:description': formData => supportingDocsInfo(formData),
   },
   schema: {
