@@ -4,6 +4,7 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../containers/GetFormHelp';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
@@ -40,6 +41,7 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  getHelp: GetFormHelp,
   defaultDefinitions: {},
   chapters: {
     applicantInformation: {
