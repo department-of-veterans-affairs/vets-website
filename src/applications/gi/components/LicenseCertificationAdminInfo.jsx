@@ -17,8 +17,8 @@ function LicenseCertificationAdminInfo({ institution, type }) {
       </div>
       {type === 'Certification' ? (
         <p className="vads-u-margin-bottom--0">
-          Certification tests are available to be taken nationally, search for a
-          testing site near you.
+          Certification tests are available nationally. Search for a testing
+          site using your preferred search engine.
         </p>
       ) : (
         <>
@@ -40,8 +40,9 @@ function LicenseCertificationAdminInfo({ institution, type }) {
           <>
             <p className="vads-u-margin-bottom--0 usa-width-two-thirds">
               Print and fill out form Request for Reimbursement of Licensing or
-              Certification Test Fees. Send the completed application to the
-              Regional Processing Office for your region listed in the form.
+              Certification Test Fees after you've taken the test. Send the
+              completed application to the Regional Processing Office for your
+              region listed in the form.
             </p>
             <p className="vads-u-margin-y--p5">
               <va-link

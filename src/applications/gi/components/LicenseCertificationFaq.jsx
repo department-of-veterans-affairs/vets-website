@@ -145,7 +145,9 @@ export default function LicenseCertificationFaq() {
               onClick={() => handleFaqClick(index)}
               onKeyDown={e => handleKeyDown(e, index)}
             >
-              <div className="vads-u-padding-y--3">{faq.answer}</div>
+              <div className="vads-u-padding-bottom--2p5 vads-u-padding-top--1">
+                {faq.answer}
+              </div>
             </va-accordion-item>
           );
         })}
