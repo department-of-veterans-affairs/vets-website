@@ -9,6 +9,7 @@ describe('<AlertBox>', () => {
     const props = {
       isVisible: true,
       scrollOnShow: true,
+      status: 'info',
     };
     const tree = shallow(<AlertBox {...props} />);
     const spyScrollToAlert = sinon.spy(tree.instance(), 'scrollToAlert');
@@ -22,7 +23,9 @@ describe('<AlertBox>', () => {
   });
   it('calls scrollAlert when isVisible is true and OnShow is provided', () => {
     const scrollAlertSpy = sinon.spy(AlertBox.prototype, 'scrollToAlert');
-    const tree = mount(<AlertBox isVisible={false} scrollOnShow={false} />);
+    const tree = mount(
+      <AlertBox isVisible={false} scrollOnShow={false} status="info" />,
+    );
 
     tree.setProps({ isVisible: true, scrollOnShow: true });
     expect(scrollAlertSpy.calledOnce).to.be.true;
@@ -30,7 +33,9 @@ describe('<AlertBox>', () => {
     tree.unmount();
   });
   it('should show closeButton if onCloseAlert is provided', () => {
-    const tree = mount(<AlertBox isVisible scrollOnShow onCloseAlert />);
+    const tree = mount(
+      <AlertBox isVisible scrollOnShow onCloseAlert={() => {}} status="info" />,
+    );
     const btn = tree.find('button.va-alert-close');
     expect(btn).to.have.lengthOf(1);
     expect(btn.find('va-icon')).to.have.lengthOf(1);

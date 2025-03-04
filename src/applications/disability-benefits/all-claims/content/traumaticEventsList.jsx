@@ -29,35 +29,24 @@ export const eventsListDescription = () => {
 export const maxEventsAlert = () => {
   return (
     <>
-      <p>You’ve added the maximum number of traumatic events for this claim.</p>
+      <p>
+        Our online claim supports up to 20 events. If you need to add more,
+        here’s what to do:
+      </p>
       <ul>
         <li>
-          To revise your traumatic events you may edit or delete an event before
-          continuing.
+          Edit or delete an event in your list and replace it with another, or
         </li>
         <li>
-          You may also print this form, fill it out, and mail it to us.{' '}
+          Download a PDF of VA Form 21-0781 and follow the instructions to send
+          your completed form to us by mail.{' '}
           <va-link
             external
             href="https://www.va.gov/find-forms/about-form-21-0781/"
-            text="Get VA Form 21-0781"
+            text="Get VA Form 21-0781 to download"
           />
         </li>
       </ul>
-      <p>
-        <strong>
-          Send your completed form and supporting documents to this address:
-        </strong>
-      </p>
-      <p>
-        Department of Veterans Affairs
-        <br />
-        Evidence Intake Center
-        <br />
-        P.O. Box 4444
-        <br />
-        Janesville, WI 53547-4444
-      </p>
     </>
   );
 };

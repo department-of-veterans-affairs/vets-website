@@ -5,7 +5,7 @@ import { connect, useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
-import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
+import { FIELD_IDS, FIELD_NAMES, FIELD_TITLES } from '@@vap-svc/constants';
 import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
@@ -14,6 +14,7 @@ import featureFlagNames from '@department-of-veterans-affairs/platform-utilities
 import { ProfileInfoCard } from '../ProfileInfoCard';
 import LegalName from './LegalName';
 import DisabilityRating from './DisabilityRating';
+import MessagingSignature from './MessagingSignature';
 
 const LegalNameDescription = () => (
   <va-additional-info trigger="How to update your legal name" uswds>
@@ -50,6 +51,7 @@ const PersonalInformationSection = ({ dob }) => {
     state => state.user?.profile?.mhvAccount?.messagingSignature,
   );
   const messagingSignatureName = messagingSignature?.signatureName;
+  const hasMessagingSignatureError = messagingSignature?.error !== undefined;
 
   useEffect(
     () => {
@@ -109,22 +111,22 @@ const PersonalInformationSection = ({ dob }) => {
         },
       ];
 
-      if (
-        messagingSignatureEnabled &&
-        isMessagingServiceEnabled &&
-        messagingSignature?.signatureName &&
-        messagingSignature?.signatureTitle
-      ) {
+      if (messagingSignatureEnabled && isMessagingServiceEnabled) {
+        const signaturePresent =
+          messagingSignature?.signatureName?.trim() &&
+          messagingSignature?.signatureTitle?.trim();
         return [
           ...cardFields,
           {
-            title: 'Messaging signature',
+            title: FIELD_TITLES[FIELD_NAMES.MESSAGING_SIGNATURE],
             description:
               'You can add a signature and signature title to be automatically added to all outgoing secure messages.',
             id: FIELD_IDS[FIELD_NAMES.MESSAGING_SIGNATURE],
             value: (
-              <ProfileInformationFieldController
+              <MessagingSignature
+                hasError={hasMessagingSignatureError}
                 fieldName={FIELD_NAMES.MESSAGING_SIGNATURE}
+                signaturePresent={signaturePresent}
               />
             ),
           },
@@ -134,9 +136,10 @@ const PersonalInformationSection = ({ dob }) => {
     },
     [
       dob,
+      hasMessagingSignatureError,
       isMessagingServiceEnabled,
-      messagingSignature,
       messagingSignatureEnabled,
+      messagingSignature,
     ],
   );
 

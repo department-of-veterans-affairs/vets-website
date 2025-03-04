@@ -1,0 +1,37 @@
+{
+  "lac": {
+    "enrichedId": "3871@4494f",
+    "lacNm": "General Electrician",
+    "eduLacTypeNm": "Certification",
+    "institution": {
+      "name": "Electric School",
+      "physicalAddress": {
+        "address1": "3500 Lacey Road",
+        "address2": "Suite 100",
+        "city": "Downers Grove",
+        "state": "IL",
+        "zip": "60515",
+        "country": "USA"
+      },
+      "mailingAddress": {
+        "address1": "3500 Lacey Road",
+        "address2": "Suite 100",
+        "city": "Downers Grove",
+        "state": "IL",
+        "zip": "60515",
+        "country": "USA"
+      },
+      "webAddress": "https://www.comptia.org"
+    },
+    "tests": [
+      {
+        "name": "Comp Security+ Certification Exam",
+        "fee": "370"
+      },
+      {
+        "name": "Comp Security+ Retake Exam",
+        "fee": "225"
+      }
+    ]
+  }
+}

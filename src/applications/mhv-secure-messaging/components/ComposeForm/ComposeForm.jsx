@@ -240,7 +240,7 @@ const ComposeForm = props => {
           category,
           body: `${messageBody} ${
             electronicSignature
-              ? `\n\n${electronicSignature}\nSigned electronically on ${today}.`
+              ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
               : ``
           }`,
           subject,

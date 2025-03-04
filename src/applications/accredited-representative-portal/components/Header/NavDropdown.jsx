@@ -73,12 +73,7 @@ const NavDropdown = ({
         )}
 
         {secondaryIcon && (
-          <va-icon
-            icon={secondaryIcon}
-            size={2}
-            srtext={srText}
-            class={iconClassName}
-          />
+          <va-icon icon={secondaryIcon} size={2} class={iconClassName} />
         )}
       </button>
       {isDropdownOpen && (

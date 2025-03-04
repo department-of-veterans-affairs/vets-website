@@ -93,6 +93,8 @@ export const uiSchema = {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
         keepInPageOnReview: true,
+        hideIf: formData =>
+          formData?.reportDivorce?.reasonMarriageEnded !== 'Other',
       },
     },
   },

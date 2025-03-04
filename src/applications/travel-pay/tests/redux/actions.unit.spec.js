@@ -8,6 +8,18 @@ import {
   submitMileageOnlyClaim,
 } from '../../redux/actions';
 
+const mockAppt = {
+  start: '2024-12-30T14:00:00Z',
+  localStartTime: '2024-12-30T08:00:00.000-06:00',
+  location: {
+    id: '983',
+    type: 'appointments',
+    attributes: {
+      name: 'Cheyenne VA Medical Center',
+    },
+  },
+};
+
 describe('Redux - actions', () => {
   let apiStub;
 
@@ -51,7 +63,7 @@ describe('Redux - actions', () => {
   describe('Appointments', () => {
     it('should call correct actions for GET appointments success', async () => {
       const mockDispatch = sinon.spy();
-      apiStub.resolves({ data: { message: 'success!' } });
+      apiStub.resolves({ data: { attributes: { ...mockAppt } } });
 
       await getAppointmentData(123)(mockDispatch);
 

@@ -77,7 +77,7 @@ describe('MHV Portal Landing Page', () => {
       expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
     });
 
-    it('renders verified user without noAlertContent', async () => {
+    it('renders CTA-link for verified user', async () => {
       const { queryByTestId, queryByRole } = render(
         <Provider store={mockStore()}>
           <App userIsLoggedIn userIsVerified serviceName={CSP_IDS.ID_ME} />

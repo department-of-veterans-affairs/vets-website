@@ -1,0 +1,136 @@
+{
+  "lacs": [
+    {
+      "enrichedId": "14@418bc",
+      "lacNm": "Cybersecurity Professional Certificate Bootcamp",
+      "eduLacTypeNm": "Certification",
+      "state": "TN"
+    },
+    {
+      "enrichedId": "3859@058dc",
+      "lacNm": "FORTINET CERTIFIED NETWORK SECURITY ADMINISTRATOR",
+      "eduLacTypeNm": "Certification",
+      "state": "CA"
+    },
+    {
+      "enrichedId": "4366@b0f6b",
+      "lacNm": "NORTH DAKOTA REAL ESTATE PRE-LICENSE COURSE",
+      "eduLacTypeNm": "Prep Course",
+      "state": "ND"
+    },
+    {
+      "enrichedId": "3871@4494f",
+      "lacNm": "GENERAL ELECTRICIAN",
+      "eduLacTypeNm": "License",
+      "state": "CA"
+    },
+    {
+      "enrichedId": "3862@70364",
+      "lacNm": "SHRM CERTIFIED PROFESSIONAL",
+      "eduLacTypeNm": "Certification",
+      "state": "VA"
+    },
+    {
+      "enrichedId": "3693@d0ff8",
+      "lacNm": "MSSC PRODUCTION TECHNICIAN CERTIFICATION",
+      "eduLacTypeNm": "Certification",
+      "state": "VA"
+    },
+    {
+      "enrichedId": "3689@f69d3",
+      "lacNm": "CERTIFIED LOGISTICS ASSOCIATE",
+      "eduLacTypeNm": "License",
+      "state": "VA"
+    },
+    {
+      "enrichedId": "3610@5a833",
+      "lacNm": "CERTIFIED PUBLIC ACCOUNTANT",
+      "eduLacTypeNm": "License",
+      "state": "CA"
+    },
+    {
+      "enrichedId": "4379@97c9c",
+      "lacNm": "ADD-ON-LICENSE PATHWAY-ELEMENTARY EDUCATION",
+      "eduLacTypeNm": "Prep Course",
+      "state": "WI"
+    },
+    {
+      "enrichedId": "3864@3a4d4",
+      "lacNm": "TOGAF 9 CERTIFIED",
+      "eduLacTypeNm": "Certification",
+      "state": "CA"
+    },
+    {
+      "enrichedId": "159@8ad7c",
+      "lacNm": "Attorney",
+      "eduLacTypeNm": "License",
+      "state": "NM"
+    },
+    {
+      "enrichedId": "4327@fbc5e",
+      "lacNm": "Chartered Market Technician Certificate",
+      "eduLacTypeNm": "Certification",
+      "state": "NY"
+    },
+    {
+      "enrichedId": "4381@baeb0",
+      "lacNm": "COMPUTER SCIENCE CERTIFICATION PATHWAY-COMPUTER SC",
+      "eduLacTypeNm": "Prep Course",
+      "state": "WI"
+    },
+    {
+      "enrichedId": "98@1336b",
+      "lacNm": "Certified Manager of Animal Resources",
+      "eduLacTypeNm": "Certification",
+      "state": "TN"
+    },
+    {
+      "enrichedId": "4329@52e49",
+      "lacNm": "NURSING HOME ADMINISTRATOR",
+      "eduLacTypeNm": "License",
+      "state": "OH"
+    },
+    {
+      "enrichedId": "4334@7b107",
+      "lacNm": "Emergency Medical Technician - Basic",
+      "eduLacTypeNm": "License",
+      "state": "OH"
+    },
+    {
+      "enrichedId": "4344@cbeff",
+      "lacNm": "PROFESSIONAL ENGINEER",
+      "eduLacTypeNm": "License",
+      "state": "OH"
+    },
+    {
+      "enrichedId": "4353@e674a",
+      "lacNm": "COSMETOLOGIST EXAM AND LICENSE",
+      "eduLacTypeNm": "License",
+      "state": "OH"
+    },
+    {
+      "enrichedId": "4392@68b80",
+      "lacNm": "PREP-5 DAY HOME INSPECTION TEST PREP COURSE",
+      "eduLacTypeNm": "Prep Course",
+      "state": "WI"
+    },
+    {
+      "enrichedId": "4397@7a8bc",
+      "lacNm": "PREP-APICS LOGISTICS TRANS AND DIS CLTD TEST PREP",
+      "eduLacTypeNm": "Prep Course",
+      "state": "WI"
+    },
+    {
+      "enrichedId": "33@9f97e",
+      "lacNm": "Certified Safety Manager",
+      "eduLacTypeNm": "Certification",
+      "state": "NC"
+    },
+    {
+      "enrichedId": "38@93601",
+      "lacNm": "COVID 19 Infectious Disease Prevention Specialist",
+      "eduLacTypeNm": "Certification",
+      "state": "NC"
+    }
+  ]
+}

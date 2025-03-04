@@ -7,7 +7,7 @@ const {
 } = formConfig.chapters.contactInformationChapter.pages.contactInformationPage;
 
 const pageTestExpectation = {
-  numberOfWebComponentErrors: 1,
+  numberOfWebComponentErrors: 2,
   numberOfWebComponentFields: 2,
   pageTitle: 'Phone and email address',
   schema,

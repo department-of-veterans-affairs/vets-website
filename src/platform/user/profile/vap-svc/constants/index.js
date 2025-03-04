@@ -94,7 +94,7 @@ export const FIELD_TITLES = Object.freeze({
   [FIELD_NAMES.PRONOUNS]: 'Pronouns',
   [FIELD_NAMES.GENDER_IDENTITY]: 'Gender identity',
   [FIELD_NAMES.SEXUAL_ORIENTATION]: 'Sexual orientation',
-  [FIELD_NAMES.MESSAGING_SIGNATURE]: 'Messaging signature',
+  [FIELD_NAMES.MESSAGING_SIGNATURE]: 'Messages signature',
   [FIELD_NAMES.HOME_PHONE]: 'Home phone number',
   [FIELD_NAMES.MOBILE_PHONE]: 'Mobile phone number',
   [FIELD_NAMES.WORK_PHONE]: 'Work phone number',
@@ -159,7 +159,7 @@ export const API_ROUTES = {
   ADDRESSES: '/profile/addresses',
   PREFERRED_NAME: '/profile/preferred_names',
   GENDER_IDENTITY: '/profile/gender_identities',
-  MESSAGING_SIGNATURE: '/messaging/messages/signature',
+  MESSAGING_SIGNATURE: '/messaging/preferences/signature',
 };
 
 export const VAP_SERVICE_INITIALIZATION_STATUS = {

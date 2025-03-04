@@ -22,7 +22,7 @@ describe('Interstitial page header', () => {
     expect(continueButton).to.have.attribute('data-dd-action-name');
 
     expect(continueButton.nextSibling.textContent).to.contain(
-      'If you need help sooner, use one of these urgent communication options:',
+      'If you need help sooner, use one of these urgent communications options:',
     );
     expect(
       document.querySelector(

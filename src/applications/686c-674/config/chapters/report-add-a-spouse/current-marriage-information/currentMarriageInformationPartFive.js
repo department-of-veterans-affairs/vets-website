@@ -37,6 +37,9 @@ export const uiSchema = {
         'OTHER',
       expandUnder: 'currentSpouseReasonForSeparation',
       expandUnderCondition: 'OTHER',
+      hideIf: formData =>
+        formData?.doesLiveWithSpouse?.currentSpouseReasonForSeparation !==
+        'OTHER',
       showFieldLabel: true,
       keepInPageOnReview: true,
       classNames: 'vads-u-margin-top--2',

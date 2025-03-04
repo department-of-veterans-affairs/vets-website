@@ -24,7 +24,7 @@ export const stepchild = {
     ...titleUI({
       title: "Child's biological parents",
     }),
-    isBiologicalChild: yesNoUI({
+    isBiologicalChildOfSpouse: yesNoUI({
       title: 'Is this child the biological child of your current spouse?',
       required,
       errorMessages: {
@@ -68,7 +68,7 @@ export const stepchild = {
   schema: {
     type: 'object',
     properties: {
-      isBiologicalChild: yesNoSchema,
+      isBiologicalChildOfSpouse: yesNoSchema,
       dateEnteredHousehold: currentOrPastDateSchema,
       'view:biologicalParentInfo': {
         type: 'object',

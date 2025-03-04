@@ -29,7 +29,6 @@ const createReferralListItem = (
     UUID: uuid,
     ReferralDate: startDate,
     CategoryOfCare: categoryOfCare,
-    numberOfAppointments: 5,
     ReferralExpirationDate:
       expirationDate || format(addMonths(relativeDate, 6), mydFormat),
     providerId,
@@ -89,7 +88,6 @@ const createReferralById = (
     },
     ReferralStatus: 'open',
     UUID: uuid,
-    numberOfAppointments: 1,
     providerName: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
     providerLocation: 'FHA South Melbourne Medical Complex',
     providerId,

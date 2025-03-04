@@ -28,7 +28,7 @@ const radioLabels = {
 };
 
 const hintText =
-  'This includes any coverage through a family member, health insurance from an employer, and supplemental or secondary insurance. You can add up to 2 health insurance policies';
+  'This includes any coverage through a family member, health insurance from an employer, and supplemental or secondary insurance.';
 
 const yesNoContent = {
   title:

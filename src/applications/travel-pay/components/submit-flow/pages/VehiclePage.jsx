@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import {
-  VaButtonPair,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
+
 import { BTSSS_PORTAL_URL } from '../../../constants';
+import SmocRadio from '../../SmocRadio';
 
 const VehiclePage = ({
   pageIndex,
@@ -40,32 +39,13 @@ const VehiclePage = ({
 
   return (
     <div>
-      <VaRadio
-        id="vehicle"
-        onVaValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
+      <SmocRadio
+        name="vehicle"
         value={yesNo.vehicle}
-        data-testid="vehicle-test-id"
-        error={requiredAlert ? 'You must make a selection to continue.' : null}
-        header-aria-describedby={null}
-        hint={null}
         label="Did you travel in your own vehicle?"
-        label-header-level="1"
-      >
-        <va-radio-option
-          label="Yes"
-          value="yes"
-          key="vehicle-yes"
-          name="vehicle"
-          checked={yesNo.vehicle === 'yes'}
-        />
-        <va-radio-option
-          key="vehicle-no"
-          name="vehicle"
-          checked={yesNo.vehicle === 'no'}
-          label="No"
-          value="no"
-        />
-      </VaRadio>
+        error={requiredAlert}
+        onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
+      />
 
       <va-additional-info
         class="vads-u-margin-y--3"

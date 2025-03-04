@@ -47,7 +47,7 @@ const InterstitialPage = props => {
         </button>
 
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--2">
-          If you need help sooner, use one of these urgent communication
+          If you need help sooner, use one of these urgent communications
           options:
         </h2>
         <ul className="vads-u-margin--0">
