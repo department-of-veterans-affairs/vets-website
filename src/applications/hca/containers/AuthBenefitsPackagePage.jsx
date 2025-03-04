@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,40 +19,38 @@ const AuthBenefitsPackagePage = ({ location, route, router }) => {
   const [localData, setLocalData] = useState({});
   const dispatch = useDispatch();
 
-  const uiSchema = useMemo(
-    () => ({
-      ...definition.uiSchema,
-      ...titleUI({
-        title: content['benefits--reg-only-title'],
-        description: content['benefits--reg-only-description'],
-        headerLevel: 2,
-        headerStyleLevel: 3,
-      }),
+  const uiSchema = {
+    ...definition.uiSchema,
+    ...titleUI({
+      title: content['benefits--reg-only-title'],
+      description: content['benefits--reg-only-description'],
+      headerLevel: 2,
+      headerStyleLevel: 3,
     }),
-    [],
-  );
+  };
 
-  const handlers = useMemo(
-    () => {
-      const { pathname } = location;
-      const { pageList } = route;
-      return {
-        goBack: () =>
-          router.push(getPreviousPagePath(pageList, formData, pathname)),
-        onChange: data => {
-          setLocalData(data);
-          dispatch(
-            setData({
-              ...formData,
-              'view:vaBenefitsPackage': data['view:vaBenefitsPackage'],
-            }),
-          );
-        },
-        onSubmit: () =>
-          router.push(getNextPagePath(pageList, formData, pathname)),
+  const goBack = useCallback(
+    () =>
+      router.push(
+        getPreviousPagePath(route.pageList, formData, location.pathname),
+      ),
+    [formData, location.pathname, route.pageList, router],
+  );
+  const onChange = useCallback(
+    data => {
+      const dataToSet = {
+        ...formData,
+        'view:vaBenefitsPackage': data['view:vaBenefitsPackage'],
       };
+      setLocalData(data);
+      dispatch(setData(dataToSet));
     },
-    [dispatch, formData, location, route, router],
+    [dispatch, formData],
+  );
+  const onSubmit = useCallback(
+    () =>
+      router.push(getNextPagePath(route.pageList, formData, location.pathname)),
+    [formData, location.pathname, route.pageList, router],
   );
 
   return (
@@ -68,11 +66,11 @@ const AuthBenefitsPackagePage = ({ location, route, router }) => {
             title="Benefits package form"
             schema={definition.schema}
             uiSchema={uiSchema}
-            onSubmit={handlers.onSubmit}
-            onChange={handlers.onChange}
+            onSubmit={onSubmit}
+            onChange={onChange}
             data={localData}
           >
-            <FormNavButtons goBack={handlers.goBack} submitToContinue />
+            <FormNavButtons goBack={goBack} submitToContinue />
           </SchemaForm>
         </div>
       </div>
