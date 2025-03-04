@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -48,21 +48,23 @@ describe('App component', () => {
   };
 
   describe('when not authenticated', () => {
-    it('renders the sign-in alert', () => {
+    it('renders the sign-in alert', async () => {
       store = mockStore(unauthenticatedState);
       const { container } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
-      expect($('va-button', container).outerHTML).to.contain(
-        'Sign in or create an account',
-      );
+      await waitFor(() => {
+        expect($('va-button', container).outerHTML).to.contain(
+          'Sign in or create an account',
+        );
+      });
     });
   });
-  describe('when not authenticated', () => {
+  describe('when not verified', () => {
     describe('when using ID.me', () => {
-      it('renders the sign-in alert', () => {
+      it('renders the sign-in alert', async () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'idme';
         store = mockStore(testState);
@@ -71,11 +73,13 @@ describe('App component', () => {
             <App />
           </Provider>,
         );
-        expect($('.idme-verify-button', container).outerHTML).to.exist;
+        await waitFor(() => {
+          expect($('.idme-verify-button', container).outerHTML).to.exist;
+        });
       });
     });
     describe('when using Login.gov', () => {
-      it('renders the sign-in alert', () => {
+      it('renders the sign-in alert', async () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'logingov';
         store = mockStore(testState);
@@ -84,11 +88,13 @@ describe('App component', () => {
             <App />
           </Provider>,
         );
-        expect($('.logingov-verify-button', container).outerHTML).to.exist;
+        await waitFor(() => {
+          expect($('.logingov-verify-button', container).outerHTML).to.exist;
+        });
       });
     });
     describe('when not using ID.me or Login.gov', () => {
-      it('renders the sign-in alert', () => {
+      it('renders the sign-in alert', async () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'mhv';
         store = mockStore(testState);
@@ -97,8 +103,10 @@ describe('App component', () => {
             <App />
           </Provider>,
         );
-        expect($('.logingov-verify-button', container).outerHTML).to.exist;
-        expect($('.idme-verify-button', container).outerHTML).to.exist;
+        await waitFor(() => {
+          expect($('.logingov-verify-button', container).outerHTML).to.exist;
+          expect($('.idme-verify-button', container).outerHTML).to.exist;
+        });
       });
     });
   });
