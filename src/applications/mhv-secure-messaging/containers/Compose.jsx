@@ -5,7 +5,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
-import { getAllTriageTeamRecipients } from '../actions/recipients';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
@@ -41,7 +40,6 @@ const Compose = () => {
       if (location.pathname === Paths.COMPOSE) {
         dispatch(clearThread());
         setDraftType('compose');
-        dispatch(getAllTriageTeamRecipients());
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
