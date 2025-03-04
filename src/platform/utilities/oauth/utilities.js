@@ -177,10 +177,12 @@ export function buildTokenRequest({
 
   if (!code || !codeVerifier) return null;
 
+  const clientId = sessionStorage.getItem(COOKIES.CI) || CLIENT_IDS.VAWEB;
+
   // Build the authorization URL
   const oAuthParams = {
     [OAUTH_KEYS.GRANT_TYPE]: OAUTH_ALLOWED_PARAMS.AUTH_CODE,
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(CLIENT_IDS.VAWEB),
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(redirectUri),
     [OAUTH_KEYS.CODE]: code,
     [OAUTH_KEYS.CODE_VERIFIER]: codeVerifier,

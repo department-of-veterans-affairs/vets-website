@@ -22,7 +22,7 @@ export const DefaultFolders = {
   INBOX: {
     id: 0,
     header: 'Inbox',
-    desc: '',
+    desc: 'Communicate securely with your VA health care team.',
   },
   SENT: {
     id: -1,
@@ -410,7 +410,9 @@ export const BreadcrumbViews = {
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-padding-y--0p5',
 };
 
+// When RemoveLandingPage (removeLandingPageFF / mhvSecureMessagingRemoveLandingPage) work is complete, replace the following constants with the NEW_ versions
 export const PageTitles = {
+  /// /////////////////////////
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
   PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
   CONVERSATION_TITLE_TAG:
@@ -419,6 +421,10 @@ export const PageTitles = {
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
     'More folders - MHV Secure Messaging | Veterans Affairs',
+  /// //////////////////////////
+  NEW_MESSAGE_PAGE_TITLE_TAG: ' | Veterans Affairs',
+  NEW_MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
+  NEW_CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
 };
 
 export const Recipients = {
@@ -488,4 +494,13 @@ export const filterDescription = {
   noMsgId: 'Enter information from one of these fields: To, from, or subject',
   withMsgId:
     'Enter information from one of these fields: To, from, message ID, or subject',
+};
+
+export const smFooter = {
+  NEED_HELP: 'Need help?',
+  HAVE_QUESTIONS: 'Have questions about how messages works?',
+  LEARN_MORE: 'Learn more about messages',
+  CONTACT_FACILITY:
+    'Want to send a message to a care team that’s not on your list? Contact your VA health facility. Ask for the My HealtheVet coordinator or secure messaging administrator.',
+  FIND_FACILITY: 'Find your VA health facility',
 };

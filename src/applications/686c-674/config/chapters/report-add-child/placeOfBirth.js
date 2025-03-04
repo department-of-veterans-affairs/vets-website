@@ -12,7 +12,7 @@ export const placeOfBirth = {
     ...arrayBuilderItemSubsequentPageTitleUI('Child’s birth place?'),
     birthLocation: {
       outsideUsa: {
-        'ui:title': 'They were born outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {
@@ -21,7 +21,7 @@ export const placeOfBirth = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where they were married',
+            required: 'Enter the city where the child was born',
           },
           'ui:webComponentField': VaTextInputField,
         },

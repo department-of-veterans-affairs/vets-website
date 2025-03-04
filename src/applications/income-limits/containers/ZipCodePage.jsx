@@ -144,12 +144,10 @@ const ZipCodePage = ({
           id="zipCode"
           inputmode="numeric"
           label="Zip code"
-          max={99999}
-          min={0}
           name="zipCode"
           onBlur={onBlurInput}
           onInput={onZipInput}
-          uswds
+          required
           value={zipCode || ''}
         />
         {!submitting && (
@@ -159,7 +157,6 @@ const ZipCodePage = ({
             onPrimaryClick={onContinueClick}
             onSecondaryClick={onBackClick}
             continue
-            uswds
           />
         )}
         {submitting && (

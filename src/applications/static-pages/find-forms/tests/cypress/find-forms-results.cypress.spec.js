@@ -1,66 +1,60 @@
-import chunk from 'lodash/chunk';
 import stub from '../../constants/stub.json';
 import { FAF_SORT_OPTIONS } from '../../constants';
-import { SELECTORS as s } from './helpers';
+import * as h from './helpers';
 
-describe('functionality of Find Forms', () => {
-  it('search the form and expect dom to have elements', () => {
+describe('find forms search results', () => {
+  it('should properly display search results', () => {
     cy.intercept('GET', '/v0/forms?query=health', stub).as('getFindAForm');
     cy.visit('/find-forms/');
-    cy.get(s.APP);
+    cy.injectAxeThenAxeCheck();
 
-    cy.get(s.FINDFORM_INPUT_ROOT)
-      .shadow()
-      .find('input')
-      .scrollIntoView()
-      .clear()
-      .focus()
-      .type('health', { force: true })
-      .should('not.be.disabled');
-
-    cy.get(s.FINDFORM_INPUT_ROOT)
-      .shadow()
-      .find(s.FINDFORM_SEARCH)
-      .should('exist')
-      .click();
+    h.typeSearchTerm('health');
+    h.clickSearch();
 
     cy.wait('@getFindAForm');
+    cy.get(h.SEARCH_RESULT_TITLE).should('exist');
 
-    cy.get(`${s.SEARCH_RESULT_TITLE}`).should('exist');
+    h.validateSearchResult(
+      '10-252',
+      'Authorization to Release Protected Health Information to State/Local Public Health Authorities',
+      'November 2020',
+      'Health care, Records',
+      0,
+      true,
+    );
 
-    cy.injectAxe();
-    cy.axeCheck();
+    h.goToNextPage();
 
-    // iterate through all pages and ensure each form download link is present on each form result.
-    const validForms = stub.data.filter(form => form.attributes.validPdf);
+    h.validateSearchResult(
+      '10-9050',
+      'Health Care Personnel Influenza Vaccination Form Appendix B',
+      'August 2020',
+      'Veterans Health Administration',
+      3,
+      false,
+    );
 
-    const pageLength = 10;
-    const pages = chunk(validForms, pageLength);
+    h.goToPrevPage();
 
-    pages.forEach((page, pageNumber) => {
-      page.forEach(form => {
-        cy.get(`button[data-testid="pdf-link-${form.id}"]`).should('exist');
-      });
-
-      const nextPage = pageNumber + 1;
-      const hasNextPage = nextPage < pages.length;
-
-      if (hasNextPage) {
-        cy.get(s.NEXT_PAGE)
-          .click()
-          .then(() => cy.axeCheck());
-      }
-    });
+    h.validateSearchResult(
+      '10-10EZ',
+      'Instructions and Enrollment Application for Health Benefits',
+      'January 2020',
+      'Health care',
+      8,
+      true,
+      'Fill out VA Form 10-10EZ online',
+    );
 
     // Ensure Sort Widget exists
-    cy.get(`${s.SORT_SELECT_WIDGET}`);
-    cy.get(`${s.SORT_SELECT_WIDGET}`)
+    cy.get(`${h.SORT_SELECT_WIDGET}`);
+    cy.get(`${h.SORT_SELECT_WIDGET}`)
       .shadow()
       .get(`option`)
       // Finds both the shadow DOM option and the React Fiber option, so have to multiply 'expected' by 2,
       // and plus 1 due to the DST component adding a default select option to the dropdown
       .should('have.length', FAF_SORT_OPTIONS.length * 2 + 1);
-    cy.get(`${s.SORT_SELECT_WIDGET}`)
+    cy.get(`${h.SORT_SELECT_WIDGET}`)
       .shadow()
       .get('option')
       .should('be.selected')
@@ -73,25 +67,22 @@ describe('functionality of Find Forms', () => {
     );
 
     cy.visit('/find-forms/?q=health');
-    cy.get('button[data-testid^="pdf-link"]').then($links => {
-      const randomIndex = Math.floor(Math.random() * $links.length);
-      cy.wrap($links)
-        .eq(randomIndex)
-        .scrollIntoView()
-        .click({ force: true });
-    });
+    cy.injectAxeThenAxeCheck();
+    cy.get('button[data-testid^="pdf-link"]')
+      .eq(0)
+      .click({ force: true });
 
-    const modal = () => cy.get(s.MODAL, { timeout: 25000 });
+    const modal = () => cy.get(h.MODAL, { timeout: 25000 });
 
     modal()
       .scrollIntoView()
       .within(() => {
-        cy.get(s.ADOBE_LINK)
+        cy.get(h.ADOBE_LINK)
           .should('contain.text', 'Get Acrobat Reader for free from Adobe')
           .should('have.attr', 'href')
           .and('include', 'https://get.adobe.com/reader/');
 
-        cy.get(s.MODAL_DOWNLOAD_LINK)
+        cy.get(h.MODAL_DOWNLOAD_LINK)
           .should('contain.text', 'Download VA Form 10-252')
           .should('have.attr', 'href')
           .and(
@@ -99,12 +90,11 @@ describe('functionality of Find Forms', () => {
             'https://www.va.gov/vaforms/medical/pdf/10-252%20Authorization%20To%20Release%20Protected%20Health%20Information%20To%20State%20Local%20Public%20Authorities.pdf',
           );
 
-        cy.get(s.MODAL_CLOSE_BUTTON).click();
+        cy.get(h.MODAL_CLOSE_BUTTON).click();
       });
 
-    cy.get(s.MODAL).should('not.be.visible');
+    cy.get(h.MODAL).should('not.be.visible');
 
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
