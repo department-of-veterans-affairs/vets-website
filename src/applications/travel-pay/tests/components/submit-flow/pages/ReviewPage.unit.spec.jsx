@@ -10,6 +10,7 @@ import reducer from '../../../../redux/reducer';
 
 const home = {
   addressLine1: '345 Home Address St.',
+  addressLine2: 'Apt. 3B',
   addressPou: 'RESIDENCE/CHOICE',
   addressType: 'DOMESTIC',
   city: 'San Francisco',
@@ -32,14 +33,7 @@ const mockAppt = {
   },
 };
 
-const practitionersList = [
-  {
-    name: {
-      family: 'BERNARDO',
-      given: ['KENNETH J'],
-    },
-  },
-];
+const practitioner = 'Kenneth J. Bernardo';
 
 const onSubmitSpy = sinon.spy();
 const setIsAgreementCheckedSpy = sinon.spy();
@@ -60,7 +54,7 @@ describe('Revew page', () => {
         appointment: {
           isLoading: false,
           error: null,
-          data: { ...mockAppt, practitioners: pract },
+          data: { ...mockAppt, practitionerName: pract },
         },
         claimSubmission: {
           isSubmitting: false,
@@ -86,20 +80,21 @@ describe('Revew page', () => {
     });
 
     expect(screen.getByText('Review your travel claim')).to.exist;
-    expect(screen.findByText(/with Kenneth J. Bernardo/i)).to.exist;
-    expect(screen.findByText(/How you traveled/)).to.exist;
-    expect(screen.findByText(/Where you traveled from/)).to.exist;
-    expect(screen.findByText(/345 Home Address St./i)).to.exist;
-    expect(screen.findByText(/Apt. 3B/i)).to.exist;
-    expect(
-      screen.findByText(/You must accept the beneficiary travel agreement/i),
-    ).to.exist;
+    expect(screen.queryByText(/with Kenneth J. Bernardo/i)).to.not.exist;
+    expect(screen.getByText(/How you traveled/)).to.exist;
+    expect(screen.getByText(/Where you traveled from/)).to.exist;
+    expect(screen.getByText(/345 Home Address St./i)).to.exist;
+    expect(screen.getByText(/Apt. 3B/i)).to.exist;
     // Check that text from the travel agreement is rendering
-    expect(screen.findByText(/I have incurred a cost/i)).to.exist;
+    expect(screen.getByText(/I have incurred a cost/i)).to.exist;
 
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;
     expect(checkbox).to.have.attribute('checked', 'false');
+    expect(checkbox).to.have.attribute(
+      'error',
+      'You must accept the beneficiary travel agreement before continuing.',
+    );
 
     expect($('va-button-pair')).to.exist;
 
@@ -112,26 +107,28 @@ describe('Revew page', () => {
 
   it('should render properly with practitioners if present', async () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
-      initialState: getData({ pract: practitionersList }),
+      initialState: getData({ pract: practitioner }),
       reducers: reducer,
     });
 
     expect(screen.getByText('Review your travel claim')).to.exist;
-    expect(screen.findByText(/What you’re claiming/i)).to.exist;
-    expect(screen.findByText(/What you’re claiming/i)).to.exist;
-    expect(screen.findByText(/How you traveled/)).to.exist;
-    expect(screen.findByText(/Where you traveled from/)).to.exist;
-    expect(screen.findByText(/345 Home Address St./i)).to.exist;
-    expect(screen.findByText(/Apt. 3B/i)).to.exist;
-    expect(
-      screen.findByText(/You must accept the beneficiary travel agreement/i),
-    ).to.exist;
+    expect(screen.getByText(/with Kenneth J. Bernardo/i)).to.exist;
+    expect(screen.getByText(/What you’re claiming/i)).to.exist;
+    expect(screen.getByText(/What you’re claiming/i)).to.exist;
+    expect(screen.getByText(/How you traveled/)).to.exist;
+    expect(screen.getByText(/Where you traveled from/)).to.exist;
+    expect(screen.getByText(/345 Home Address St./i)).to.exist;
+    expect(screen.getByText(/Apt. 3B/i)).to.exist;
     // Check that text from the travel agreement is rendering
-    expect(screen.findByText(/I have incurred a cost/i)).to.exist;
+    expect(screen.getByText(/I have incurred a cost/i)).to.exist;
 
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;
     expect(checkbox).to.have.attribute('checked', 'false');
+    expect(checkbox).to.have.attribute(
+      'error',
+      'You must accept the beneficiary travel agreement before continuing.',
+    );
 
     expect($('va-button-pair')).to.exist;
 
