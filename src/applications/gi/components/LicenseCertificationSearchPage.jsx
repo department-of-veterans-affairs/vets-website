@@ -19,9 +19,10 @@ export default function LicenseCertificationSearchPage() {
             Use the search tool to find out which tests or related prep courses
             are reimbursable. If you don’t see a test or prep course listed, it
             may be a valid test that’s not yet approved. We encourage you to
-            submit an application for reimbursement. We’ll prorate the
-            entitlement charges based on the actual amount of the fee charged
-            for the test.
+            submit an application for reimbursement. We may adjust the
+            entitlement charges according to the actual payment. The
+            reimbursement covered by VA may differ from the actual cost of the
+            test.
             <br />
             <br /> Tests to obtain licenses tend to be state-specific, while
             certifications are valid nationally. Be aware of the requirements

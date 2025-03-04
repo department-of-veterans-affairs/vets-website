@@ -54,7 +54,7 @@ export default function LicenseCertificationKeywordSearch({
               className="lc-search-label"
               htmlFor="lc-search"
             >
-              License/Certification Name
+              License/Certification/Prep course name
             </label>
             <div className="additional-info-wrapper">
               <VaAdditionalInfo
