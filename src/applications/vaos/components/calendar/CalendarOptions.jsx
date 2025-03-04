@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect, useState } from 'react';
 import { CalendarContext } from './CalendarContext';
@@ -78,14 +77,6 @@ export default function CalendarOptions({
     }
   });
 
-  let showError = false;
-  const d1 = moment(currentlySelectedDate, 'YYYY-MM-DD');
-
-  if (selectedDates.length > 0) {
-    const d2 = moment(selectedDates[0], 'YYYY-MM-DD');
-    showError = d1.isSame(d2);
-  }
-
   const containerClasses = classNames('vaos-calendar__options-container');
 
   return (
@@ -94,32 +85,31 @@ export default function CalendarOptions({
       id={`vaos-options-container-${currentlySelectedDate}`}
       ref={optionsHeightRef}
     >
-      {showError &&
-        isAppointmentSelectionError && (
-          <div
+      {isAppointmentSelectionError && (
+        <div
+          className={classNames(
+            'usa-input-error',
+            'vads-u-margin-top--0',
+            'vads-u-margin-bottom--0',
+            'vads-u-padding-top--0',
+            'vads-u-padding-bottom--0',
+            'medium-screen:vads-u-margin-left--1',
+            'vads-u-margin-left--0p5',
+          )}
+          style={{ position: 'static' }}
+        >
+          <span
             className={classNames(
-              'usa-input-error',
-              'vads-u-margin-top--0',
-              'vads-u-margin-bottom--0',
-              'vads-u-padding-top--0',
-              'vads-u-padding-bottom--0',
-              'medium-screen:vads-u-margin-left--1',
-              'vads-u-margin-left--0p5',
+              'vaos-calendar__validation-msg, usa-input-error-message',
+              {},
             )}
             style={{ position: 'static' }}
+            role="alert"
           >
-            <span
-              className={classNames(
-                'vaos-calendar__validation-msg, usa-input-error-message',
-                {},
-              )}
-              style={{ position: 'static' }}
-              role="alert"
-            >
-              {appointmentSelectionErrorMsg}
-            </span>
-          </div>
-        )}
+            {appointmentSelectionErrorMsg}
+          </span>
+        </div>
+      )}
       <fieldset>
         <legend className="vads-u-visibility--screen-reader">
           Please select an option for this date
@@ -146,7 +136,7 @@ export default function CalendarOptions({
             rowSize={rowSize}
             selectedCellIndex={selectedCellIndex}
             maxSelections={maxSelections}
-            hasError={hasError || showError}
+            hasError={hasError || isAppointmentSelectionError}
             onChange={handleSelectOption}
             timezone={timezone}
             showWeekends={showWeekends}
