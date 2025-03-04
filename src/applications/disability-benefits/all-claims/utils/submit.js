@@ -255,10 +255,10 @@ export const stringifyRelatedDisabilities = formData => {
       facility,
     ),
   );
-  if (newVAFacilities.length === 0 || clonedData.syncModern0781Flow === false) {
-    delete clonedData.vaTreatmentFacilities;
-  } else {
+  if (newVAFacilities.length) {
     clonedData.vaTreatmentFacilities = newVAFacilities;
+  } else {
+    delete clonedData.vaTreatmentFacilities;
   }
   return clonedData;
 };
