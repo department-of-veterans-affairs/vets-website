@@ -56,6 +56,10 @@
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
 
+  &:has(.nav__container-secondary) {
+    border-bottom: none;
+  }
+
   &__container-primary {
     padding: 8px 16px;
     @media (min-width: $medium-screen) {
@@ -64,9 +68,6 @@
   }
   &__container-secondary {
     background-color: var(--vads-color-primary-darker);
-    @media (min-width: $medium-screen) {
-      padding: 4px 0;
-    }
   }
 
   &__sign-in {
@@ -80,7 +81,7 @@
 
     li {
       border-bottom: 4px solid $vads-color-white;
-      padding: 12px 0;
+      padding: 16px 0;
 
       &:first-child {
         border: none;
@@ -138,11 +139,20 @@
     padding: 12px 20px;
     font-weight: 700;
     text-decoration: none;
-    border-radius: 4px;
     height: 40px;
     display: flex;
     align-items: center;
     margin-left: auto;
+
+    &.is--sign-in {
+      border-radius: 4px;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background-color: $vads-color-primary-darker !important;
+      }
+    }
 
     &.is--open {
       margin-bottom: 0;
@@ -161,8 +171,15 @@
 
     &--user {
       background-color: transparent;
+      [icon="account_circle"] {
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
       &:hover {
         background-color: transparent !important;
+        border-radius: 0;
 
         @media (min-width: $medium-screen) {
           background-color: $vads-color-primary !important;
@@ -202,6 +219,7 @@
       &:hover {
         background-color: $vads-color-primary;
         color: $vads-color-white;
+        text-decoration: none;
       }
     }
   }
@@ -240,6 +258,10 @@
       background-color: $vads-color-primary;
       color: $vads-color-white;
     }
+
+    .nav__user-menu & {
+      right: 0;
+    }
   }
 
   .mobile {
@@ -252,4 +274,8 @@
       display: none !important;
     }
   }
+}
+.usa-icon {
+  width: 22px;
+  height: 22px;
 }

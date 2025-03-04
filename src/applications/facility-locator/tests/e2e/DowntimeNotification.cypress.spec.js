@@ -1,6 +1,6 @@
 import moment from 'moment';
 import Timeouts from 'platform/testing/e2e/timeouts';
-import FacilityHelpers from 'applications/facility-locator/tests/facility-helpers-cypress';
+import FacilityHelpers from './helpers/facility-helpers-cypress';
 
 Cypress.Commands.add('createDowntimeNotificationIntercept', data => {
   cy.intercept('GET', '/v0/maintenance_windows', { data });

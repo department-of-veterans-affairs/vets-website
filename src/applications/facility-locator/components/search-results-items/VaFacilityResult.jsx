@@ -13,10 +13,12 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationPhoneLink from './common/LocationPhoneLink';
 
 const VaFacilityResult = ({
+  index,
+  isMobile = false,
   location,
   query,
-  index,
   showHealthConnectNumber,
+  isCemetery = false,
 }) => {
   const { name, website, operatingStatus } = location.attributes;
 
@@ -38,6 +40,7 @@ const VaFacilityResult = ({
         {isVADomain(website) ? (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
           >
@@ -46,6 +49,7 @@ const VaFacilityResult = ({
         ) : (
           <h3
             className="vads-u-margin-y--0"
+            id={isMobile ? 'fl-provider-name' : undefined}
             onClick={clickHandler}
             onKeyDown={clickHandler}
           >
@@ -58,13 +62,18 @@ const VaFacilityResult = ({
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from="SearchResult" />
+        <LocationDirectionsLink location={location} query={query} />
         <LocationPhoneLink
           location={location}
           from="SearchResult"
           query={query}
           showHealthConnectNumber={showHealthConnectNumber}
         />
+        {isCemetery && (
+          <Link to={`facility/${location.id}`}>
+            Learn more about burial status
+          </Link>
+        )}
       </>
     </div>
   );
@@ -72,12 +81,14 @@ const VaFacilityResult = ({
 
 VaFacilityResult.propTypes = {
   index: PropTypes.number,
+  isMobile: PropTypes.bool,
   location: PropTypes.object,
   query: PropTypes.object,
   showHealthConnectNumber: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
   ]),
+  isCemetery: PropTypes.bool,
 };
 
 export default VaFacilityResult;

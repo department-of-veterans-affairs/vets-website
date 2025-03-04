@@ -107,6 +107,9 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -176,6 +179,9 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -245,6 +251,9 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
@@ -314,6 +323,153 @@ const draftAppointments = {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
+    },
+    provider: {
+      id: '9mN718pH',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
+      isActive: true,
+      individualProviders: [
+        {
+          name: 'Dr. Bones',
+          npi: '91560381x',
+        },
+      ],
+      providerOrganization: {
+        name: 'Meridian Health (Sandbox 5vuTac8v)',
+      },
+      location: {
+        name: 'FHA South Melbourne Medical Complex',
+        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+        latitude: 28.08061,
+        longitude: -80.60322,
+        timezone: 'America/New_York',
+      },
+      networkIds: ['sandboxnetwork-5vuTac8v'],
+      schedulingNotes:
+        'New patients need to send their previous records to the office prior to their appt.',
+      appointmentTypes: [
+        {
+          id: 'ov',
+          name: 'Office Visit',
+          isSelfSchedulable: true,
+        },
+      ],
+      specialties: [
+        {
+          id: '208800000X',
+          name: 'Urology',
+        },
+      ],
+      visitMode: 'phone',
+      features: {
+        isDigital: true,
+        directBooking: {
+          isEnabled: true,
+          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
+        },
+      },
+    },
+    slots: {
+      count: 2,
+      slots: [],
+    },
+    drivetime: {
+      origin: {
+        latitude: 40.7128,
+        longitude: -74.006,
+      },
+      destination: {
+        distanceInMiles: 313,
+        driveTimeInSecondsWithoutTraffic: 19096,
+        driveTimeInSecondsWithTraffic: 19561,
+        latitude: 44.475883,
+        longitude: -73.212074,
+      },
+    },
+  },
+  timeout: {
+    appointment: {
+      id: 'timeout-appointment-id',
+      state: 'draft',
+      patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
+    },
+    provider: {
+      id: '9mN718pH',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
+      isActive: true,
+      individualProviders: [
+        {
+          name: 'Dr. Bones',
+          npi: '91560381x',
+        },
+      ],
+      providerOrganization: {
+        name: 'Meridian Health (Sandbox 5vuTac8v)',
+      },
+      location: {
+        name: 'FHA South Melbourne Medical Complex',
+        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+        latitude: 28.08061,
+        longitude: -80.60322,
+        timezone: 'America/New_York',
+      },
+      networkIds: ['sandboxnetwork-5vuTac8v'],
+      schedulingNotes:
+        'New patients need to send their previous records to the office prior to their appt.',
+      appointmentTypes: [
+        {
+          id: 'ov',
+          name: 'Office Visit',
+          isSelfSchedulable: true,
+        },
+      ],
+      specialties: [
+        {
+          id: '208800000X',
+          name: 'Urology',
+        },
+      ],
+      visitMode: 'phone',
+      features: {
+        isDigital: true,
+        directBooking: {
+          isEnabled: true,
+          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
+        },
+      },
+    },
+    slots: {
+      count: 2,
+      slots: [],
+    },
+    drivetime: {
+      origin: {
+        latitude: 40.7128,
+        longitude: -74.006,
+      },
+      destination: {
+        distanceInMiles: 313,
+        driveTimeInSecondsWithoutTraffic: 19096,
+        driveTimeInSecondsWithTraffic: 19561,
+        latitude: 44.475883,
+        longitude: -73.212074,
+      },
+    },
+  },
+  'eps-error': {
+    appointment: {
+      id: 'eps-error-appointment-id',
+      state: 'draft',
+      patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',

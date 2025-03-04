@@ -1,10 +1,12 @@
 import {
+  addMinutes,
   differenceInCalendarDays,
   endOfQuarter,
   endOfYear,
   format,
   getQuarter,
   getYear,
+  isBefore,
   startOfQuarter,
   startOfYear,
   subMonths,
@@ -13,9 +15,13 @@ import {
 } from 'date-fns';
 
 import { utcToZonedTime } from 'date-fns-tz';
+import { getTimezoneByFacilityId } from './appointment-helpers';
 
-export function formatDateTime(datetimeString) {
-  const dateTime = new Date(datetimeString);
+export function formatDateTime(datetimeString, stripUTCIndicator = false) {
+  const str = stripUTCIndicator
+    ? (datetimeString ?? '').split('Z')[0]
+    : datetimeString;
+  const dateTime = new Date(str);
   const formattedDate = format(dateTime, 'eeee, MMMM d, yyyy');
   const formattedTime = format(dateTime, 'h:mm a');
 
@@ -81,4 +87,22 @@ export function getDaysLeft(datetimeString) {
   const daysSinceAppt = differenceInCalendarDays(new Date(), apptDate);
 
   return daysSinceAppt > 30 ? 0 : 30 - daysSinceAppt;
+}
+
+export function isPastAppt(appointment) {
+  const isVideo = appointment.kind && appointment.kind === 'telehealth';
+  const threshold = isVideo ? 240 : 60;
+
+  const TZ = getTimezoneByFacilityId(appointment.locationId);
+
+  const startDate = TZ
+    ? new Date(appointment.start).toLocaleString('en-US', {
+        timeZone: TZ,
+      })
+    : new Date(appointment.start).toLocaleString();
+  const now = TZ
+    ? new Date().toLocaleString('en-US', { timeZone: TZ })
+    : new Date().toLocaleString();
+
+  return isBefore(addMinutes(new Date(startDate), threshold), new Date(now));
 }

@@ -2,18 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  VaButtonPair,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import {
-  selectVAPMailingAddress,
-  selectVAPResidentialAddress,
-} from 'platform/user/selectors';
+import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 import { BTSSS_PORTAL_URL } from '../../../constants';
+import SmocRadio from '../../SmocRadio';
 
 const AddressPage = ({
   address,
@@ -57,21 +52,29 @@ const AddressPage = ({
     return (
       <>
         <h1 className="vads-u-margin-bottom--2">
-          Did you travel from your home address?
+          We can’t file this claim in this tool at this time
         </h1>
         <va-alert
           close-btn-aria-label="Close notification"
           status="warning"
           visible
         >
-          <h2 slot="headline">You don’t have an address on file</h2>
-          <p className="vads-u-margin-y--0">
-            We’re sorry, we don’t have an address on file for you and can’t file
-            a claim in this tool right now.
+          <h2 slot="headline">We need your home address</h2>
+          <p className="vads-u-margin-y--1">
+            After your home address is in your profile, come back to your
+            appointment to start your claim.
           </p>
+          <va-link
+            href="/profile/contact-information"
+            text="Update your address"
+          />
         </va-alert>
         <HelpTextModalities />
+        <h2 className="vads-u-font-size--h4">
+          How can I get help with my claim?
+        </h2>
         <HelpTextGeneral />
+        <br />
         <va-button back onClick={handlers.onBack} class="vads-u-margin-y--2" />
       </>
     );
@@ -79,28 +82,21 @@ const AddressPage = ({
 
   return (
     <div>
-      <VaRadio
-        use-forms-pattern="single"
-        form-heading="Did you travel from your home address?"
-        form-heading-level={1}
-        id="address"
-        onVaValueChange={e => {
+      <SmocRadio
+        name="address"
+        value={yesNo.address}
+        error={requiredAlert}
+        label="Did you travel from your home address?"
+        onValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
         }}
-        value={yesNo.address}
-        data-testid="address-test-id"
-        error={requiredAlert ? 'You must make a selection to continue.' : null}
-        header-aria-describedby={null}
-        hint=""
-        label=""
-        label-header-level=""
       >
-        <div slot="form-description">
+        <div className="vads-u-margin-y--2">
           <p>
             Answer “Yes” if you traveled from the address listed here and you
             confirm that it’s not a Post Office box.
           </p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
           <p className="vads-u-margin-top--2">
             <strong>Home address</strong>
             <br />
@@ -121,23 +117,9 @@ const AddressPage = ({
             {`${address.city}, ${address.stateCode} ${address.zipCode}`}
             <br />
           </p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
-        <va-radio-option
-          label="Yes"
-          value="yes"
-          key="address-yes"
-          name="address"
-          checked={yesNo.address === 'yes'}
-        />
-        <va-radio-option
-          key="address-no"
-          name="address"
-          checked={yesNo.address === 'no'}
-          label="No"
-          value="no"
-        />
-      </VaRadio>
+      </SmocRadio>
 
       <va-additional-info
         class="vads-u-margin-y--3"
@@ -148,7 +130,7 @@ const AddressPage = ({
             If you traveled from a different address, you can’t file a claim in
             this tool right now.
           </strong>{' '}
-          But you can file your claim online, within 30 days, through the
+          But you can file your claim online through the
           <va-link
             external
             href={BTSSS_PORTAL_URL}
@@ -179,9 +161,8 @@ AddressPage.propTypes = {
 
 function mapStateToProps(state) {
   const homeAddress = selectVAPResidentialAddress(state);
-  const mailingAddress = selectVAPMailingAddress(state);
   return {
-    address: homeAddress || mailingAddress,
+    address: homeAddress,
   };
 }
 

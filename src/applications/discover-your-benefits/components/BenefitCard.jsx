@@ -11,16 +11,12 @@ const BenefitCard = ({ benefit }) => {
     applyNowURL,
   } = benefit;
 
-  const renderLink = (url, text, label) => {
+  const renderLink = (url, text, label, action = false) => {
     if (url) {
-      return (
-        <va-link
-          href={url}
-          text={text}
-          label={label}
-          type="secondary"
-          external
-        />
+      return action === true ? (
+        <va-link-action href={url} text={text} label={label} type="secondary" />
+      ) : (
+        <va-link active href={url} text={text} label={label} />
       );
     }
     return null;
@@ -45,12 +41,22 @@ const BenefitCard = ({ benefit }) => {
           <span>{name}</span>
         </h3>
         <p className="vads-u-margin-y--0">{description}</p>
-        <div>
-          <div className="vads-u-margin-right--2">
-            {renderLink(learnMoreURL, 'Learn more', `Learn more about ${name}`)}
+        <div className="link-container">
+          <div className="vads-u-margin-right--2 vads-u-margin-bottom--1">
+            {renderLink(
+              learnMoreURL,
+              'Learn more',
+              `Learn more about ${name}`,
+              false,
+            )}
           </div>
           <div>
-            {renderLink(applyNowURL, 'Apply now', `Apply now for ${name}`)}
+            {renderLink(
+              applyNowURL,
+              'Apply now',
+              `Apply now for ${name}`,
+              true,
+            )}
           </div>
         </div>
       </va-card>

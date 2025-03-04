@@ -10,11 +10,6 @@ const appointment = {
   location: { attributes: { name: 'VA location name' } },
   start: '2025-01-15T21:39:27.698Z',
   localStartTime: '2025-01-15T21:39:27+08:00',
-  practitioners: [
-    {
-      name: { family: 'Last', given: ['First', 'Middle'] },
-    },
-  ],
 };
 
 describe('Confirmation page', () => {
@@ -53,6 +48,8 @@ describe('Confirmation page', () => {
         '[text="Learn how to set up direct deposit for travel pay reimbursement"]',
       ),
     ).to.exist;
+
+    expect($('va-alert[status="success"]')).to.exist;
   });
 
   it('should render practictioner name if available', () => {
@@ -62,7 +59,14 @@ describe('Confirmation page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: appointment,
+            data: {
+              ...appointment,
+              practitioners: [
+                {
+                  name: { family: 'Last', given: ['First', 'Middle'] },
+                },
+              ],
+            },
           },
           claimSubmission: {
             isSubmitting: false,

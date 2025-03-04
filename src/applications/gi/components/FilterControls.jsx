@@ -17,7 +17,7 @@ function FilterControls({
           options={categoryCheckboxes}
           label="Category"
           label-header-level="3"
-          class="vads-u-margin-top--0"
+          class="category-checkbox-group vads-u-margin-top--0"
         >
           {categoryCheckboxes.map((option, index) => {
             return (
@@ -26,6 +26,7 @@ function FilterControls({
                 label={option.label}
                 name={option.name}
                 checked={option.checked}
+                class="category-checkbox"
               />
             );
           })}
@@ -35,7 +36,7 @@ function FilterControls({
       <>
         <h3 className="vads-u-margin-bottom--0">State</h3>
         <Dropdown
-          label="Applies to only license and prep course category type. Certifications are available nationwide."
+          label="Applies to only license and prep course category type. All certifications are available nationwide."
           name={dropdown.label}
           alt="Filter results by state"
           options={dropdown.options}

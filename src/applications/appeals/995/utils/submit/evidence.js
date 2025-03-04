@@ -11,11 +11,11 @@ import {
   getOtherEvidence,
   getPrivateEvidence,
 } from '../evidence';
+import { getFacilityType } from './facilities';
 
 import '../../../shared/definitions';
 import { fixDateFormat } from '../../../shared/utils/replace';
 
-export const TEMP_DATE = '2006-06-06';
 /**
  * @typedef VALocation
  * @type {Object}
@@ -35,47 +35,60 @@ export const TEMP_DATE = '2006-06-06';
  * @param {VALocation} location
  * @returns {String} YYYY-MM-DD (including day for date comparisons)
  */
-export const getTreatmentDate = ({ treatmentDate = '', noDate } = {}) => {
-  // return a made up date until we know what the final API looks like
-  return !noDate && treatmentDate.length === 7
-    ? fixDateFormat(`${treatmentDate}-01`)
-    : TEMP_DATE; // change this once we know the final API
+export const getTreatmentDate = (type, showNewFormContent, location) => {
+  const { treatmentDate = '', evidenceDates = {}, noDate } = location;
+  if (showNewFormContent && noDate) {
+    return '';
+  }
+  const date =
+    showNewFormContent && treatmentDate.length === 7
+      ? `${treatmentDate}-01`
+      : evidenceDates[type] || '';
+  return fixDateFormat(date);
 };
 
-export const hasDuplicateLocation = (list, currentLocation, newForm = false) =>
-  !!list.find(location => {
-    const { locationAndName, evidenceDates } = location.attributes;
-    return (
-      buildVaLocationString(
-        {
-          locationAndName,
-          evidenceDates: newForm
-            ? {}
-            : {
-                from: evidenceDates?.[0]?.startDate,
-                to: evidenceDates?.[0]?.endDate,
-              },
-          treatmentDate: newForm ? getTreatmentDate(location.attributes) : '',
-        },
-        ',',
-        { includeIssues: false },
-      ) ===
-      buildVaLocationString(
-        {
-          locationAndName: currentLocation.locationAndName,
-          evidenceDates: newForm
-            ? {}
-            : {
-                from: currentLocation.evidenceDates?.from,
-                to: currentLocation.evidenceDates?.to,
-              },
-          treatmentDate: newForm ? getTreatmentDate(currentLocation) : '',
-        },
-        ',',
-        { includeIssues: false },
-      )
-    );
+export const hasDuplicateLocation = (
+  list,
+  currentLocation,
+  newForm = false,
+) => {
+  const currentString = buildVaLocationString({
+    data: {
+      ...currentLocation,
+      evidenceDates: {
+        from: getTreatmentDate('from', newForm, currentLocation),
+        to: getTreatmentDate('to', newForm, currentLocation),
+      },
+    },
+    joiner: ',',
+    includeIssues: false,
+    newForm,
   });
+
+  return list.some(location => {
+    const data = {
+      ...location.attributes,
+      evidenceDates: location.attributes.evidenceDates?.[0] || {},
+      noDate: location.attributes.noTreatmentDates,
+    };
+
+    const locationString = buildVaLocationString({
+      data: {
+        ...data,
+        evidenceDates: {
+          from: getTreatmentDate('startDate', newForm, data),
+          to: getTreatmentDate('endDate', newForm, data),
+        },
+      },
+      joiner: ',',
+      includeIssues: false,
+      wrapped: true,
+      newForm,
+    });
+
+    return locationString === currentString;
+  });
+};
 
 /**
  * @typedef EvidenceSubmission
@@ -119,12 +132,9 @@ export const hasDuplicateLocation = (list, currentLocation, newForm = false) =>
             {
               "startDate": "2010-01-06",
               "endDate": "2010-01-07"
-            },
-            {
-              "startDate": "2010-04-15",
-              "endDate": "2010-04-18"
             }
-          ]
+          ],
+          noTreatmentDates: false
         }
       }
     ]
@@ -140,37 +150,50 @@ export const getEvidence = formData => {
   };
   const showNewFormContent = showScNewForm(formData);
   // Add VA evidence data
+
+  if (showNewFormContent) {
+    const types = getFacilityType(formData);
+    if (Object.keys(types).length) {
+      evidenceSubmission.treatmentLocations = types.treatmentLocations;
+      evidenceSubmission.treatmentLocationOther = types.treatmentLocationOther;
+    }
+  }
+
   const locations = getVAEvidence(formData);
   if (locations.length) {
     evidenceSubmission.evidenceType.push('retrieval');
     evidenceSubmission.retrieveFrom = formData.locations.reduce(
       (list, location) => {
         if (!hasDuplicateLocation(list, location, showNewFormContent)) {
-          // Temporary transformation of `treatmentDate` (YYYY-MM) to
-          // `evidenceDates` range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
-          const from = showNewFormContent
-            ? getTreatmentDate(location)
-            : location.evidenceDates?.from;
-          const to = showNewFormContent
-            ? getTreatmentDate(location)
-            : location.evidenceDates?.to;
-          list.push({
+          // Transformation of `treatmentDate` (YYYY-MM) to `evidenceDates`
+          // range { from: 'YYYY-MM-DD', to: 'YYYY-MM-DD' }
+          const from = getTreatmentDate('from', showNewFormContent, location);
+          const to = getTreatmentDate('to', showNewFormContent, location);
+
+          const entry = {
             type: 'retrievalEvidence',
             attributes: {
               // We're not including the issues here - it's only in the form to
               // make the UX consistent with the private records location pages
               locationAndName: location.locationAndName,
               // Lighthouse wants between 1 and 4 evidenceDates, but we're only
-              // providing one; with the new form, these dates will not be
-              // required. Leaving this as is until LH provides the new API
-              evidenceDates: [
-                {
-                  startDate: fixDateFormat(from),
-                  endDate: fixDateFormat(to),
-                },
-              ],
+              // providing one because of UX considerations
+              evidenceDates: [{ startDate: from, endDate: to }],
             },
-          });
+          };
+
+          // Because of Lighthouse's schema, don't include `evidenceDates` if no
+          // date is provided
+          if (showNewFormContent) {
+            // Only startDate (from) is required, remove evidenceDates if
+            // undefined
+            if (location.noDate || !from) {
+              delete entry.attributes.evidenceDates;
+            }
+            // noDate can be undefined; so fallback to false due to LH schema
+            entry.attributes.noTreatmentDates = location.noDate || false;
+          }
+          list.push(entry);
         }
         return list;
       },

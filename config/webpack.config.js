@@ -68,6 +68,9 @@ function getEntryManifests(entry) {
   let entryManifests = allManifests;
   if (entry) {
     const entryNames = entry.split(',').map(name => name.trim());
+    if (entryNames.indexOf('static-pages') === -1) {
+      entryNames.push('static-pages');
+    }
     entryManifests = allManifests.filter(manifest =>
       entryNames.includes(manifest.entryName),
     );
@@ -439,6 +442,9 @@ module.exports = async (env = {}) => {
         util: require.resolve('util/'),
         zlib: require.resolve('browserify-zlib'),
         'process/browser': require.resolve('process/browser'),
+        os: require.resolve('os-browserify/browser'),
+        http: require.resolve('stream-http'),
+        https: require.resolve('https-browserify'),
       },
       symlinks: false,
     },

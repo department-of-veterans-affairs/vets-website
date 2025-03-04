@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import {
@@ -38,7 +38,6 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -129,7 +128,6 @@ const LOA1Content = ({
   dismissWelcomeModal,
   user,
 }) => {
-  const signInService = useSelector(signInServiceName);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showWelcomeToMyVaMessage = useToggleValue(
     TOGGLE_NAMES.veteranOnboardingShowWelcomeMessageToNewUsers,
@@ -148,10 +146,7 @@ const LOA1Content = ({
     <>
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <IdentityNotVerified
-            headline="Verify your identity to access more VA.gov tools and features"
-            signInService={signInService}
-          />
+          <IdentityNotVerified />
         </div>
       </div>
 
@@ -193,8 +188,8 @@ LOA1Content.propTypes = {
   dismissWelcomeModal: PropTypes.func,
   isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
-  welcomeModalVisible: PropTypes.bool,
   user: PropTypes.object,
+  welcomeModalVisible: PropTypes.bool,
 };
 
 const Dashboard = ({
