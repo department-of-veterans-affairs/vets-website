@@ -60,7 +60,7 @@ describe('<LicenseCertificationFilterAccordion>', () => {
   it('should toggle expanded state on button click', () => {
     const wrapper = mountComponent({ ...defaultProps, expanded: false });
 
-    const button = wrapper.find('button[data-testid="update-tuition-housing"]');
+    const button = wrapper.find('button[data-testid="update-lc-search"]');
     button.simulate('click');
 
     expect(defaultProps.onClick.calledOnce).to.be.true;
@@ -89,23 +89,17 @@ describe('<LicenseCertificationFilterAccordion>', () => {
 
     expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
 
-    wrapper
-      .find('button[data-testid="update-tuition-housing"]')
-      .simulate('click');
+    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
     expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.false;
 
-    wrapper
-      .find('button[data-testid="update-tuition-housing"]')
-      .simulate('click');
+    wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
     expect(wrapper.find('.usa-accordion-content').props().hidden).to.be.true;
   });
   it('should not throw an error if onClick is undefined', () => {
     const wrapper = mountComponent({ ...defaultProps, onClick: undefined });
 
     expect(() => {
-      wrapper
-        .find('button[data-testid="update-tuition-housing"]')
-        .simulate('click');
+      wrapper.find('button[data-testid="update-lc-search"]').simulate('click');
     }).to.not.throw();
   });
 });
