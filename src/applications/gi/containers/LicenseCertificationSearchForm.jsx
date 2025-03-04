@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -133,7 +132,3 @@ export default function LicenseCertificationSearchForm() {
     </>
   );
 }
-
-LicenseCertificationSearchForm.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-};

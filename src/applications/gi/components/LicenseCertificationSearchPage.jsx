@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import LicenseCertificationSearchForm from '../containers/LicenseCertificationSearchForm';
 import LicenseCertificationFaq from './LicenseCertificationFaq';
 
@@ -40,7 +39,3 @@ export default function LicenseCertificationSearchPage() {
     </div>
   );
 }
-
-LicenseCertificationSearchPage.propTypes = {
-  flag: PropTypes.string.isRequired,
-};

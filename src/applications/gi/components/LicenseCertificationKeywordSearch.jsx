@@ -142,8 +142,18 @@ export default function LicenseCertificationKeywordSearch({
 }
 
 LicenseCertificationKeywordSearch.propTypes = {
+  handleClearInput: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired,
   onSelection: PropTypes.func.isRequired,
-  inputValue: PropTypes.string,
-  suggestions: PropTypes.array,
-  onUpdateAutocompleteSearchTerm: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func.isRequired,
+  suggestions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      lacNm: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      state: PropTypes.string,
+      type: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };

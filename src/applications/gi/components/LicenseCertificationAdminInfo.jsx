@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { capitalizeFirstLetter } from '../utils/helpers';
 
 function LicenseCertificationAdminInfo({ institution, type }) {
@@ -55,7 +56,7 @@ function LicenseCertificationAdminInfo({ institution, type }) {
           <>
             <p className="vads-u-margin-bottom--0 usa-width-two-thirds">
               Print and fill out form Request for Reimbursement of Preparatory
-              (Prep) Course for Licensing or Certification Test after you’ve
+              (Prep) Course for Licensing or Certification Test after you've
               taken the test. Send the completed application to the Regional
               Processing Office for your region listed in the form.
             </p>
@@ -71,5 +72,18 @@ function LicenseCertificationAdminInfo({ institution, type }) {
     </div>
   );
 }
+
+LicenseCertificationAdminInfo.propTypes = {
+  institution: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    mailingAddress: PropTypes.shape({
+      address1: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      state: PropTypes.string.isRequired,
+      zip: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  type: PropTypes.oneOf(['License', 'Certification', 'Prep Course']).isRequired,
+};
 
 export default LicenseCertificationAdminInfo;

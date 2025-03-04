@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   formatDollarAmountWithCents,
@@ -146,5 +147,14 @@ function LcTestInfo({ tests }) {
     </div>
   );
 }
+
+LcTestInfo.propTypes = {
+  tests: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      fee: PropTypes.number,
+    }),
+  ).isRequired,
+};
 
 export default LcTestInfo;

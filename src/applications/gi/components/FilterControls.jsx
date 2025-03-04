@@ -1,5 +1,6 @@
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dropdown from './Dropdown';
 
 function FilterControls({
@@ -46,5 +47,27 @@ function FilterControls({
     </div>
   );
 }
+
+FilterControls.propTypes = {
+  categoryCheckboxes: PropTypes.arrayOf(
+    PropTypes.shape({
+      checked: PropTypes.bool.isRequired,
+      label: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  dropdown: PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    options: PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+  }).isRequired,
+  filterLocation: PropTypes.string.isRequired,
+  handleCheckboxGroupChange: PropTypes.func.isRequired,
+  handleDropdownChange: PropTypes.func.isRequired,
+};
 
 export default FilterControls;
