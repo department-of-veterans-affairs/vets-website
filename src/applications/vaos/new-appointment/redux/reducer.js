@@ -112,6 +112,7 @@ const initialState = {
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
   facilityPageSortMethod: null,
   isNewAppointmentStarted: false,
+  isAppointmentSelectionError: false,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -655,6 +656,7 @@ export default function formReducer(state = initialState, action) {
           ...state.data,
           selectedDates: action.selectedDates,
         },
+        isAppointmentSelectionError: action.isAppointmentSelectionError,
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {
