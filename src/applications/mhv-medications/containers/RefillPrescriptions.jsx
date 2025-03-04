@@ -189,6 +189,10 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         </div>
       );
     }
+    const stepGuideProps = {
+      processSteps: refillProcessStepGuide.processSteps,
+      title: refillProcessStepGuide.title,
+    };
     return (
       <div>
         <h1
@@ -339,7 +343,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
               />
             )}
             {showRefillProgressContent && (
-              <ProcessList stepGuideProps={refillProcessStepGuide} />
+              <ProcessList stepGuideProps={stepGuideProps} />
             )}
             {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
           </>
