@@ -18,8 +18,11 @@ export const uiSchema = {
     ),
   },
   homeAddress: addressUI({
+    requireStateForAllCountries: true,
+    maxStateLength: 2,
     labels: {
-      militaryCheckbox: `This address is on a United States military base outside of the U.S.`,
+      militaryCheckbox:
+        'This address is on a United States military base outside of the U.S.',
     },
   }),
 };
