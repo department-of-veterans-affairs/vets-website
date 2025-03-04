@@ -2,10 +2,7 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
-import {
-  ensureValidCSRFToken,
-  handleInvalidCSRF,
-} from '../ensureValidCSRFToken';
+import { ensureValidCSRFToken } from '../ensureValidCSRFToken';
 
 const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
 
@@ -50,30 +47,41 @@ export async function submit(
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 
-  return apiRequest(`${environment.API_URL}${apiPath}`, {
-    body,
-    headers,
-    method: 'POST',
-    mode: 'cors',
-  })
-    .then(resp => {
+  const sendRequest = () =>
+    apiRequest(`${environment.API_URL}${apiPath}`, {
+      body,
+      headers,
+      method: 'POST',
+      mode: 'cors',
+    }).then(resp => {
       window.dataLayer.push({
         event: `${formConfig.trackingPrefix}-submission-successful`,
       });
       return resp.data.attributes;
-    })
-    .catch(respOrError => {
-      handleInvalidCSRF(respOrError);
-
-      if (respOrError instanceof Response && respOrError.status === 429) {
-        const error = new Error('vets_throttled_error_pensions');
-        error.extra = parseInt(
-          respOrError.headers.get('x-ratelimit-reset'),
-          10,
-        );
-
-        return Promise.reject(error);
-      }
-      return Promise.reject(respOrError);
     });
+
+  const onFailure = respOrError => {
+    if (respOrError instanceof Response && respOrError.status === 429) {
+      const error = new Error('vets_throttled_error_pensions');
+      error.extra = parseInt(respOrError.headers.get('x-ratelimit-reset'), 10);
+
+      return Promise.reject(error);
+    }
+    return Promise.reject(respOrError);
+  };
+
+  return sendRequest().catch(respOrError => {
+    // if it's a CSRF error, clear CSRF and retry once
+    const errorResponse = respOrError?.errors?.[0];
+    if (
+      errorResponse?.status === '403' &&
+      errorResponse?.detail === 'Invalid Authenticity Token'
+    ) {
+      localStorage.setItem('csrfToken', '');
+      return sendRequest().catch(onFailure);
+    }
+
+    // in other cases, handle error regularly
+    return onFailure(respOrError);
+  });
 }
