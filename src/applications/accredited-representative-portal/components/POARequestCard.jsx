@@ -19,7 +19,6 @@ const POARequestCard = ({ poaRequest }) => {
     poaRequest.resolution?.decisionType || poaRequest.resolution?.type;
   const poaRequestSubmission =
     poaRequest?.powerOfAttorneyFormSubmission?.status;
-
   return (
     <li>
       <va-card class="poa-request__card">
@@ -32,7 +31,6 @@ const POARequestCard = ({ poaRequest }) => {
           {formatStatus(poaStatus)}
         </span>
         <Link to={`/poa-requests/${poaRequest.id}`}>
-          <span className="sr-only">View details for </span>
           <h3
             data-testid={`poa-request-card-${poaRequest.id}-name`}
             className="poa-request__card-title vads-u-font-size--h4"
