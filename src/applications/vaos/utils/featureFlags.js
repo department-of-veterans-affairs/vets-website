@@ -25,7 +25,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: false },
   { name: 'vaOnlineSchedulingOhRequest', value: false },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
-  { name: 'vaOnlineSchedulingUseVaDate', value: true },
+  { name: 'vaosOnlineSchedulingUseVADate', value: true },
   { name: 'vaOnlineSchedulingPastApptDateRange', value: true },
   { name: 'vaOnlineSchedulingFeSourceOfTruth', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
