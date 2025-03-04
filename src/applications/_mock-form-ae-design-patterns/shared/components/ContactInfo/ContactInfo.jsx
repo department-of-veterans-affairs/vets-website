@@ -258,6 +258,8 @@ const ContactInfoBase = ({
         <va-card class="vads-u-margin-bottom--3">
           <Headers name="header-address" className={headerClassNames}>
             {content.mailingAddress}
+            {!requiredKeys.includes(FIELD_NAMES.MAILING_ADDRESS) &&
+              ' (optional)'}
           </Headers>
           {showSuccessAlertInField('address', content.mailingAddress)}
           <AddressView data={dataWrap[keys.address]} />
@@ -294,6 +296,7 @@ const ContactInfoBase = ({
             className={`${headerClassNames} vads-u-margin-top--0p5`}
           >
             {content.homePhone}
+            {!requiredKeys.includes(FIELD_NAMES.HOME_PHONE) && ' (optional)'}
           </Headers>
           {showSuccessAlertInField('home-phone', content.homePhone)}
           <span className="dd-privacy-hidden" data-dd-action-name="home phone">
@@ -326,6 +329,7 @@ const ContactInfoBase = ({
         <va-card class="vads-u-margin-bottom--3">
           <Headers name="header-mobile-phone" className={headerClassNames}>
             {content.mobilePhone}
+            {!requiredKeys.includes(FIELD_NAMES.MOBILE_PHONE) && ' (optional)'}
           </Headers>
           {showSuccessAlertInField('mobile-phone', content.mobilePhone)}
           <span
@@ -361,6 +365,7 @@ const ContactInfoBase = ({
         <va-card>
           <Headers name="header-email" className={headerClassNames}>
             {content.email}
+            {!requiredKeys.includes(FIELD_NAMES.EMAIL) && ' (optional)'}
           </Headers>
           {showSuccessAlertInField('email', content.email)}
           <span className="dd-privacy-hidden" data-dd-action-name="email">
