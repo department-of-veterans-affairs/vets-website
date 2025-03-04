@@ -29,8 +29,8 @@ const responses = {
 
   'GET /v0/user': (_req, res) => {
     // example user data cases
-    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
-    // return res.json(user.loa1User); // LOA1 user w/id.me
+    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserLoginGov); // LOA1 user w/login.gov
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv

@@ -33,39 +33,44 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
   const [formError, updateFormError] = useState({ error: false, type: '' });
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
-  const [availableForms, setAvailableForms] = useState(null);
   const profile = useSelector(state => selectAuthStatus(state));
   const isAppLoading = useMemo(
     () => {
-      return profile.isLoadingProfile || availableForms === null;
+      return profile.isLoadingProfile;
     },
-    [profile, availableForms],
+    [profile],
   );
 
-  useEffect(() => {
-    const getAvailableForms = () => {
-      return apiRequest('/form1095_bs/available_forms')
-        .then(response => {
-          if (response.errors || response.availableForms.length === 0) {
-            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-            return false;
-          }
-          return response.availableForms;
-        })
-        .catch(() => {
-          updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
-          return false; // Return false in case of an error
-        });
-    };
-
-    getAvailableForms().then(forms => {
-      setAvailableForms(forms);
-      const mostRecentYearData = forms[0];
-      if (mostRecentYearData?.year) {
-        updateYear(mostRecentYearData.year);
+  useEffect(
+    () => {
+      if (profile.isUserLOA3 !== true || displayToggle !== true) {
+        return;
       }
-    });
-  }, []);
+
+      const getAvailableForms = () => {
+        return apiRequest('/form1095_bs/available_forms')
+          .then(response => {
+            if (response.errors || response.availableForms.length === 0) {
+              updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+              return false;
+            }
+            return response.availableForms;
+          })
+          .catch(() => {
+            updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
+            return false; // Return false in case of an error
+          });
+      };
+
+      getAvailableForms().then(forms => {
+        const mostRecentYearData = forms[0];
+        if (mostRecentYearData?.year) {
+          updateYear(mostRecentYearData.year);
+        }
+      });
+    },
+    [profile.isUserLOA3, displayToggle],
+  );
 
   useEffect(
     () => {
