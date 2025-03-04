@@ -59,7 +59,7 @@ export function useInternalTestingAuth({
     }
 
     generateURL();
-  });
+  }, []);
 
   return href;
 }

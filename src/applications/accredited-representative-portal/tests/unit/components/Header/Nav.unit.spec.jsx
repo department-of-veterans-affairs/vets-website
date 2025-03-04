@@ -9,7 +9,7 @@ describe('Nav', () => {
     const { getByTestId } = renderTestComponent(<Nav />);
     const logo = getByTestId('mobile-logo');
     expect(logo).to.exist;
-    expect(logo.alt).to.eq('Veteran Affairs logo');
+    expect(logo.alt).to.eq('Veteran Affairs');
     expect(logo.src).to.include('/img/va.svg');
   });
 
@@ -18,7 +18,7 @@ describe('Nav', () => {
     const logo = getByTestId('desktop-logo');
     expect(logo).to.exist;
     expect(logo.alt).to.eq(
-      'VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs',
+      'VA Accredited Representative Portal, U.S. Department of Veterans Affairs',
     );
     expect(logo.src).to.include('/img/arp-header-logo-dark.svg');
   });
