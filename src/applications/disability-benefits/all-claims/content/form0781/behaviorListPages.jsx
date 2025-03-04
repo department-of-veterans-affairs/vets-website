@@ -48,14 +48,9 @@ export const behaviorIntroDescription = (
 export const behaviorIntroCombatDescription = (
   <>
     <p>
-      PLACEHOLDER The next few questions are about behavioral changes you
-      experienced after your traumatic experiences
-    </p>
-    <p>
-      PLACEHOLDER Since you said your traumatic experiences were related to
-      combat only, these questions are optional. You don’t need to answer them.
-      If we need more information, we’ll contact you after you submit your
-      claim.
+      We’ll now ask you a few questions about the behavioral changes you
+      experienced after combat events. You can choose to answer these questions
+      or skip them. If we need more information, we’ll contact you.
     </p>
   </>
 );
