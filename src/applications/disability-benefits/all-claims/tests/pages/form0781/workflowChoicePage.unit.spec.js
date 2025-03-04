@@ -44,7 +44,7 @@ describe('Form 0781 workflow choice page', () => {
       );
 
       const conditionsParagraph = getByText(
-        /You selected these new conditions for your disability claim:/,
+        /Your claim includes these new conditions:/,
       );
 
       const listElement = within(conditionsParagraph.parentElement).getByRole(
@@ -79,7 +79,7 @@ describe('Form 0781 workflow choice page', () => {
     );
 
     const conditionsParagraph = getByText(
-      /You selected these new conditions for your disability claim:/,
+      /Your claim includes these new conditions:/,
     );
 
     const listElement = within(conditionsParagraph.parentElement).getByRole(
@@ -114,7 +114,7 @@ describe('Form 0781 workflow choice page', () => {
       />,
     );
 
-    getByText('Statement about mental health conditions (VA Form 21-0781)');
+    getByText('Adding VA Form 21-0781 to support new mental health conditions');
 
     const radioButtons = $$('va-radio');
     expect(radioButtons.length).to.equal(1);
