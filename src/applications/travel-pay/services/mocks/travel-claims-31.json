@@ -3,7 +3,7 @@
     {
       "id": "f33ef640-000f-4ecf-82b8-1c50df13d178",
       "claimNumber": "c68baadf-3d95-45d5-857b-eca5bef6d4a5",
-      "claimStatus": "Claim Submitted",
+      "claimStatus": "Claim submitted",
       "appointmentDateTime": "2022-08-03T17:14:41.248Z",
       "facilityName": "Cheyenne VA Medical Center",
       "createdOn": "2022-08-04T17:14:41.248Z",
@@ -21,7 +21,7 @@
     {
       "id": "16cbc3d0-56de-4d86-abf3-ed0f6908ee53",
       "claimNumber": "5b550fe7-6985-4a69-953a-472d5cf85921",
-      "claimStatus": "In Process",
+      "claimStatus": "In process",
       "appointmentDateTime": "2023-02-23T22:22:52.549Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2023-02-24T22:22:52.549Z",
@@ -57,7 +57,7 @@
     {
       "id": "3158ca03-e28b-49f9-ab6f-10ad809de7a4",
       "claimNumber": "a9777414-b4b5-4830-84f7-61016027c7c4",
-      "claimStatus": "Claim Submitted",
+      "claimStatus": "Claim submitted",
       "appointmentDateTime": "2023-05-21T03:51:41.364Z",
       "facilityName": "Minnepolis VA Medical Center",
       "createdOn": "2023-05-22T03:51:41.364Z",
@@ -66,7 +66,7 @@
     {
       "id": "6091a6b0-3277-4d93-85f5-f7c0d027a7d7",
       "claimNumber": "73611905-71bf-46ed-b1ec-e790593b8565",
-      "claimStatus": "Claim Submitted",
+      "claimStatus": "Claim submitted",
       "appointmentDateTime": "2023-12-28T22:00:57.915Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2023-12-29T22:00:57.915Z",
@@ -75,7 +75,7 @@
     {
       "id": "10776be0-6d84-4a34-a0b1-3ae9671a696f",
       "claimNumber": "f88ab233-a1f4-40b1-9fe7-77c7a2ce3f33",
-      "claimStatus": "Claim Submitted",
+      "claimStatus": "Claim submitted",
       "appointmentDateTime": "2023-05-17T17:14:31.111Z",
       "facilityName": "Cheyenne VA Medical Center",
       "createdOn": "2023-05-18T17:14:31.111Z",
@@ -84,7 +84,7 @@
     {
       "id": "cd758e94-2b33-4557-b265-df5fb2c60ac7",
       "claimNumber": "167e4ca9-0a34-4afe-a82d-be9c0d4d9fd1",
-      "claimStatus": "In Manual Review",
+      "claimStatus": "In manual review",
       "appointmentDateTime": "2022-08-11T17:06:37.779Z",
       "facilityName": "Dubuque VA Clinic",
       "createdOn": "2022-08-12T17:06:37.779Z",
@@ -93,7 +93,7 @@
     {
       "id": "4b99039f-208f-4c07-90b8-498f8466233e",
       "claimNumber": "f291241d-af4e-439c-84fc-26b49931f4f2",
-      "claimStatus": "In Manual Review",
+      "claimStatus": "In manual review",
       "appointmentDateTime": "2023-06-09T02:15:33.073Z",
       "facilityName": "Cheyenne VA Medical Center",
       "createdOn": "2023-06-10T02:15:33.073Z",
@@ -111,7 +111,7 @@
     {
       "id": "487b542c-9012-4361-8c8b-bc5e74b39fbc",
       "claimNumber": "047b4e31-e736-4a5f-97d1-39a4429560a3",
-      "claimStatus": "In Process",
+      "claimStatus": "In process",
       "appointmentDateTime": "2022-02-02T22:05:35.445Z",
       "facilityName": "Dubuque VA Clinic",
       "createdOn": "2022-02-03T22:05:35.445Z",
@@ -147,7 +147,7 @@
     {
       "id": "d3df2f2f-df82-47f6-a7de-cfadd15c8a32",
       "claimNumber": "64f35723-0934-4b23-9f8c-4ed857bfd854",
-      "claimStatus": "On Hold",
+      "claimStatus": "On hold",
       "appointmentDateTime": "2022-12-05T19:56:45.678Z",
       "facilityName": "Dubuque VA Clinic",
       "createdOn": "2022-12-06T19:56:45.678Z",
@@ -165,7 +165,7 @@
     {
       "id": "e0c80c02-a877-42dc-a79f-309f667aba6c",
       "claimNumber": "6d2b333b-904a-4c23-af12-5e41ca26ec96",
-      "claimStatus": "On Hold",
+      "claimStatus": "On hold",
       "appointmentDateTime": "2022-11-21T11:37:34.744Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2022-11-22T11:37:34.744Z",
@@ -174,7 +174,7 @@
     {
       "id": "8b0b1410-a1b8-4110-aa49-6ed8dee0f6f8",
       "claimNumber": "d9f52e9d-cd4a-4861-a052-c422e6e4d5e0",
-      "claimStatus": "On Hold",
+      "claimStatus": "On hold",
       "appointmentDateTime": "2023-06-06T18:07:11.788Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2023-06-07T18:07:11.788Z",
@@ -183,7 +183,7 @@
     {
       "id": "20d73591-ff18-4b66-9838-1429ebbf1b6e",
       "claimNumber": "eeef2e5a-1990-45f0-a469-43096739289c",
-      "claimStatus": "Claim Submitted",
+      "claimStatus": "Claim submitted",
       "appointmentDateTime": "2024-05-26T16:40:45.781Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2024-05-27T16:40:45.781Z",
@@ -192,7 +192,7 @@
     {
       "id": "15c3c8ca-f203-42f2-952d-377319c938fe",
       "claimNumber": "955dfc18-42e9-4224-9b73-fa967743ee4d",
-      "claimStatus": "On Hold",
+      "claimStatus": "On hold",
       "appointmentDateTime": "2023-04-10T00:05:00.807Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2023-04-11T00:05:00.807Z",
@@ -201,7 +201,7 @@
     {
       "id": "6c3ce588-53ea-402e-824f-3360950a6071",
       "claimNumber": "50904ca3-d304-4310-8212-6bb1018339de",
-      "claimStatus": "On Hold",
+      "claimStatus": "On hold",
       "appointmentDateTime": "2023-09-02T02:15:48.558Z",
       "facilityName": "Cheyenne VA Medical Center",
       "createdOn": "2023-09-03T02:15:48.558Z",
@@ -228,7 +228,7 @@
     {
       "id": "27555077-cdb9-48f4-a4af-2f0df5b3313b",
       "claimNumber": "1f1d3fef-60fd-4f19-b6ea-1ddf11e9f6ca",
-      "claimStatus": "In Process",
+      "claimStatus": "In process",
       "appointmentDateTime": "2023-05-08T21:53:31.155Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2023-05-09T21:53:31.155Z",
@@ -237,7 +237,7 @@
     {
       "id": "894a6a37-c238-4203-b8d2-5afc9f4d2f37",
       "claimNumber": "133c8c47-358e-4c1e-bd47-7af2683417bd",
-      "claimStatus": "In Manual Review",
+      "claimStatus": "In manual review",
       "appointmentDateTime": "2022-10-22T06:12:32.848Z",
       "facilityName": "Cheyenne VA Medical Center",
       "createdOn": "2022-10-23T06:12:32.848Z",
@@ -255,7 +255,7 @@
     {
       "id": "8a1e5156-5c5f-41ac-a8be-83c8ec290bf9",
       "claimNumber": "fbe6ea52-aa3c-4cd2-adfe-7c158a8ad1da",
-      "claimStatus": "In Process",
+      "claimStatus": "In process",
       "appointmentDateTime": "2024-02-26T11:43:11.048Z",
       "facilityName": "Tomah VA Medical Center",
       "createdOn": "2024-02-27T11:43:11.048Z",
@@ -264,7 +264,7 @@
     {
       "id": "6a5302bb-f6ee-4cf9-89b7-7b2775f056bd",
       "claimNumber": "ec8b6f84-7a29-4e30-9800-d6ff2dd6cc7e",
-      "claimStatus": "In Manual Review",
+      "claimStatus": "In manual review",
       "appointmentDateTime": "2023-03-08T07:09:22.642Z",
       "facilityName": "Cheyenne VA Medical Center",
       "createdOn": "2023-03-09T07:09:22.642Z",
