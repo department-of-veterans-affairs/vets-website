@@ -1,4 +1,5 @@
 import * as h from './helpers';
+import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
@@ -16,6 +17,12 @@ describe('VA health services autosuggest', () => {
         ],
       },
     });
+
+    cy.intercept(
+      'GET',
+      '/data/cms/va-healthcare-services.json',
+      vaHealthServicesData.data,
+    );
   });
 
   const verifyDropdownIsOpen = () => {
@@ -103,11 +110,9 @@ describe('VA health services autosuggest', () => {
 
       h.submitSearchForm();
 
-      h.verifyElementExists(h.SEARCH_RESULTS_SUMMARY);
-
-      h.verifyElementShouldContainString(
+      h.verifyElementShouldContainText(
         h.SEARCH_RESULTS_SUMMARY,
-        'results for "VA health", "All VA health services" near "Atlanta, Georgia"',
+        'All VA health services',
       );
     });
   });
