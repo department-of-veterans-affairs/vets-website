@@ -15,14 +15,8 @@ export default function BurialsApp({ location, children }) {
     burialFormEnabled,
     burialDocumentUploadUpdate,
     burialLocationOfDeathUpdate,
-    burialModuleEnabled,
   } = useSelector(state => state?.featureToggles);
   const dispatch = useDispatch();
-
-  // Conditional to use new Burial module path in vets-api if enabled
-  formConfig.submitUrl = burialModuleEnabled
-    ? '/burials/v0/claims'
-    : '/v0/burial_claims';
 
   useBrowserMonitoring();
 
