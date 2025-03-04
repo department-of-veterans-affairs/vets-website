@@ -1,5 +1,6 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import {
+  isPostcode,
   MAPBOX_QUERY_TYPES,
   CountriesList,
   mapboxClient,
@@ -23,7 +24,11 @@ const mbxClient = mbxGeo(mapboxClient);
  * @param {Object<T>} query Current searchQuery state (`searchQuery.searchString` at a minimum)
  * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
-export const genBBoxFromAddress = (query, expandedRadius = false) => {
+export const genBBoxFromAddress = (
+  query,
+  expandedRadius = false,
+  useProgressiveDisclosure = false,
+) => {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
@@ -38,10 +43,7 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
 
     // commas can be stripped from query if Mapbox is returning unexpected results
     let types = MAPBOX_QUERY_TYPES;
-    // check for postcode search
-    const isPostcode = query.searchString.match(/^\s*\d{5}\s*$/);
-
-    if (isPostcode) {
+    if (isPostcode(query.searchString?.trim() || '')) {
       types = ['postcode'];
     }
     mbxClient
@@ -95,6 +97,7 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
             ? features
             : [{ ...features[0], bbox: minBounds }],
           query?.facilityType === 'provider',
+          useProgressiveDisclosure,
         );
         dispatch({
           type: SEARCH_QUERY_UPDATED,

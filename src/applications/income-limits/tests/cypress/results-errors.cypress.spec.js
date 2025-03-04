@@ -87,7 +87,7 @@ describe('retrieving results - errors', () => {
       h.verifyLoadingIndicatorShown();
 
       h.checkServiceAlertText(
-        `We've run into a problemYour information couldn’t go through. Select a year again.`,
+        `We've run into a problemYour information couldn’t go through. Enter a valid four digit year again.`,
       );
       h.verifyLoadingIndicatorNotShown();
     });

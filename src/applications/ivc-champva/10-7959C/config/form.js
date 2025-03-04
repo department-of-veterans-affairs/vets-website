@@ -94,7 +94,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959c],
   },
   preSubmitInfo: {
     required: true,
@@ -125,7 +125,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: 'File for CHAMPVA Other Health Insurance Certification',
+  title: 'Submit other health insurance VA Form 10-7959c',
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {

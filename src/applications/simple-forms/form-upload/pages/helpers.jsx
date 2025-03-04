@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FormNavButtons, SchemaForm } from 'platform/forms-system/exportsFile';
+import { scrollAndFocus } from 'platform/utilities/ui';
 import { getAlert, getFormNumber, onClickContinue } from '../helpers';
 
 export const CustomTopContent = () => {
@@ -8,10 +9,11 @@ export const CustomTopContent = () => {
   const breadcrumbs = [
     { href: '/', label: 'VA.gov home' },
     { href: '/find-forms', label: 'Find a VA form' },
-    {
-      href: `/find-forms/upload`,
-      label: `Upload VA forms`,
-    },
+    // TODO: Restore this breadcrumb when the static content at /find-forms/upload plays nicely with the Form Upload tool
+    // {
+    //   href: `/find-forms/upload`,
+    //   label: `Upload VA forms`,
+    // },
     {
       href: `/find-forms/upload/${formNumber}/introduction`,
       label: `Upload form ${formNumber}`,
@@ -31,6 +33,15 @@ export const CustomTopContent = () => {
 /** @type {CustomPageType} */
 export const CustomAlertPage = props => {
   const [continueClicked, setContinueClicked] = useState(false);
+  useEffect(
+    () => {
+      const focusSelector = document.querySelector("va-alert[status='error']");
+      if (focusSelector && continueClicked && !window.Cypress) {
+        scrollAndFocus(focusSelector);
+      }
+    },
+    [continueClicked],
+  );
 
   return (
     <div className="form-panel">
