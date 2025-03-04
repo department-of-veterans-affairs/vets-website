@@ -6,8 +6,9 @@ export const LAST_YEAR = new Date().getFullYear() - 1;
 
 // declare API endpoint routes
 export const API_ENDPOINTS = {
-  enrollmentStatus: '/health_care_applications/enrollment_status',
   downloadPdf: '/health_care_applications/download_pdf',
+  enrollmentStatus: '/health_care_applications/enrollment_status',
+  facilities: '/health_care_applications/facilities',
 };
 
 // declare global app URLs for use with content links
