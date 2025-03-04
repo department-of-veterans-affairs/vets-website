@@ -12,7 +12,7 @@ describe('ErrorBoundary', () => {
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    sinon.stub(Header, 'default').returns(<div data-testid="mock-header" />);
+    sandbox.stub(Header, 'default').returns(<div data-testid="mock-header" />);
   });
 
   afterEach(() => {
