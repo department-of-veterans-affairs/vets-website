@@ -20,9 +20,9 @@ describe('VA health services autosuggest', () => {
 
     cy.intercept(
       'GET',
-      '/data/cms/va-healthcare-services.json',
+      '**/data/cms/va-healthcare-services.json',
       vaHealthServicesData,
-    );
+    ).as('vaHealthServices');
   });
 
   const verifyDropdownIsOpen = () => {
@@ -40,6 +40,9 @@ describe('VA health services autosuggest', () => {
 
       h.typeInCityStateInput('Atlanta, GA');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.HEALTH);
+
+      cy.wait('@vaHealthServices');
+
       h.verifyElementExists(h.AUTOSUGGEST_INPUT);
 
       // Open dropdown with no search, verify services are available inside, search

@@ -137,31 +137,27 @@ const VAMCServiceAutosuggest = ({
   };
 
   return (
-    <>
-      <p>options: {options?.[0]}</p>
-      <p>input value: {inputValue}</p>
-      <Autosuggest
-        downshiftInputProps={{
-          autoCorrect: 'off',
-          disabled: false,
-          spellCheck: 'false',
-        }}
-        handleOnSelect={handleDropdownSelection}
-        initialSelectedItem={options?.[0]}
-        inputId="vamc-services"
-        inputRef={inputRef}
-        inputValue={inputValue || ''}
-        keepDataOnBlur
-        label={<span>Service type</span>}
-        noItemsMessage="No results found."
-        onClearClick={handleClearClick}
-        onInputValueChange={handleInputValueChange}
-        options={options}
-        showDownCaret
-        showError={false}
-        shouldShowNoResults
-      />
-    </>
+    <Autosuggest
+      downshiftInputProps={{
+        autoCorrect: 'off',
+        disabled: false,
+        spellCheck: 'false',
+      }}
+      handleOnSelect={handleDropdownSelection}
+      initialSelectedItem={options?.[0]}
+      inputId="vamc-services"
+      inputRef={inputRef}
+      inputValue={inputValue || ''}
+      keepDataOnBlur
+      label={<span>Service type</span>}
+      noItemsMessage="No results found."
+      onClearClick={handleClearClick}
+      onInputValueChange={handleInputValueChange}
+      options={options}
+      showDownCaret
+      showError={false}
+      shouldShowNoResults
+    />
   );
 };
 
