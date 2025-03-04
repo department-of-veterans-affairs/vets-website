@@ -1,5 +1,4 @@
 const winston = require('winston');
-const fs = require('fs');
 const path = require('path');
 
 const ENV_FILE = path.join(
@@ -28,21 +27,10 @@ function isLocalHost() {
   return host === 'localhost';
 }
 
-function getVersionNumber() {
-  /**
-   * This function reads the version number from the package.json file
-   * and returns it as a string.
-   */
-
-  const packageJson = fs.readFileSync('package.json');
-  const { version } = JSON.parse(packageJson);
-  return version;
-}
-
 function getDatadogTags() {
   return process.env.DATADOG_TAGS
-    ? `version:${getVersionNumber()},${process.env.DATADOG_TAGS}`
-    : `version:${getVersionNumber()}`;
+    ? `version:1.0.1,${process.env.DATADOG_TAGS}`
+    : `version:1.0.1`;
 }
 
 function buildDefaultLoggerOptions() {
@@ -104,7 +92,6 @@ function setLoggerOutput(logger) {
 
 module.exports = {
   buildDefaultLoggerOptions,
-  getVersionNumber,
   createLogger,
   setLoggerOutput,
   getDatadogTags,
