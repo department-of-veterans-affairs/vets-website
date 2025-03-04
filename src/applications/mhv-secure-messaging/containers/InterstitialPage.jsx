@@ -64,13 +64,13 @@ const InterstitialPage = props => {
           </li>
           <li className="vads-u-margin--0">
             <p className="vads-u-margin-top--1p5 vads-u-margin-bottom--0">
-              <strong>If you think your life or health is in danger, </strong>{' '}
-              call
+              <strong>If you think your life or health is in danger, </strong>
+              {` call `}
               <va-telephone
                 contact="911"
                 data-dd-action-name="911 link on Interstital Page"
               />
-              or go to the nearest emergency room.
+              {` or go to the nearest emergency room.`}
             </p>
           </li>
         </ul>
