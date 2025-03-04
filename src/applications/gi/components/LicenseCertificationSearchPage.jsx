@@ -12,10 +12,10 @@ export default function LicenseCertificationSearchPage() {
     <div className="lc-page-wrapper">
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
         <div className="row ">
-          <h1 className="mobile-lg:vads-u-text-align--left vads-l-col--12 medium-screen:vads-l-col--7">
+          <h1 className="mobile-lg:vads-u-text-align--left usa-width-two-thirds">
             Licenses, certifications, and prep courses
           </h1>
-          <p className="lc-description vads-l-col--12 medium-screen:vads-l-col--7">
+          <p className="lc-description usa-width-two-thirds">
             Use the search tool to find out which tests or related prep courses
             are reimbursable. If you don’t see a test or prep course listed, it
             may be a valid test that’s not yet approved. We encourage you to

@@ -133,7 +133,7 @@ export default function LicenseCertificationFaq() {
   };
 
   return (
-    <>
+    <div className="usa-width-two-thirds">
       <h2 className="vads-u-margin-y--0 vads-u-padding-bottom--2">FAQs</h2>
       <va-accordion open-single class="">
         {faqs.map((faq, index) => {
@@ -150,6 +150,6 @@ export default function LicenseCertificationFaq() {
           );
         })}
       </va-accordion>
-    </>
+    </div>
   );
 }

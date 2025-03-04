@@ -265,7 +265,7 @@ export default function LicenseCertificationSearchResults() {
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search results
           </h1>
-          <p className="vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--7 ">
+          <p className="vads-u-margin-top--0 usa-width-two-thirds ">
             We didn't find any results for "<strong>{nameParam}</strong>
             ." Please{' '}
             <va-link
