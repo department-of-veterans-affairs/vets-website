@@ -5,7 +5,6 @@ import {
   includeHouseholdInformation,
   isMissingVeteranDob,
   isMissingVeteranGender,
-  isSigiEnabled,
   hasDifferentHomeAddress,
   showFinancialStatusAlert,
   spouseDidNotCohabitateWithVeteran,
@@ -56,22 +55,6 @@ describe('ezr form config helpers', () => {
       const formData = { 'view:userGender': 'F' };
       it('should return `false`', () => {
         expect(isMissingVeteranGender(formData)).to.be.false;
-      });
-    });
-  });
-
-  context('when `isSigiEnabled` executes', () => {
-    context('when value is `true`', () => {
-      const formData = { 'view:isSigiEnabled': true };
-      it('should return `true`', () => {
-        expect(isSigiEnabled(formData)).to.be.true;
-      });
-    });
-
-    context('when value is `false`', () => {
-      const formData = { 'view:isSigiEnabled': false };
-      it('should return `false`', () => {
-        expect(isSigiEnabled(formData)).to.be.false;
       });
     });
   });

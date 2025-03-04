@@ -1,0 +1,231 @@
+{
+  "form526": {
+    "standardClaim": true,
+    "isVaEmployee": true,
+    "homelessOrAtRisk": "homeless",
+    "homelessHousingSituation": "other",
+    "otherHomelessHousing": "Under a bridge",
+    "needToLeaveHousing": true,
+    "homelessnessContact": {
+      "name": "Name Here and invalid chars with email elmer fud com",
+      "phoneNumber": "1231231234"
+    },
+    "bankAccountType": "Checking",
+    "bankAccountNumber": "1233",
+    "bankRoutingNumber": "123123123",
+    "bankName": "Bigbank Co.",
+    "phoneAndEmail": {
+      "primaryPhone": "4445551212",
+      "emailAddress": "test2@test1.net"
+    },
+    "mailingAddress": {
+      "country": "USA",
+      "addressLine1": "123 Main",
+      "city": "Bigcity",
+      "state": "AK",
+      "zipCode": "12345"
+    },
+    "forwardingAddress": {
+      "country": "USA",
+      "addressLine1": "321 Secondary",
+      "city": "Smallcity",
+      "state": "NY",
+      "zipCode": "54321",
+      "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
+    },
+    "syncModern0781Flow": true,
+    "eventTypes": {
+      "combat": true,
+      "mst": true,
+      "nonMst": true,
+      "other": true
+    },
+    "events": [
+      {
+        "details": "Briefly describe what happened during your traumatic event in the military.",
+        "location": "Where did the event happen?",
+        "otherReports": "Other official report type not listed here",
+        "timing": "When did the event happen?",
+        "reports": {
+          "restricted": true,
+          "unrestricted": true,
+          "police": true,
+          "none": true
+        },
+        "agency": "Name of the agency that issued the report",
+        "city": "report city",
+        "state": "report state",
+        "township": "report township",
+        "country": "USA"
+      }
+    ],
+    "workBehaviors": {
+      "absences": true,
+      "performance": true,
+      "reassignment": true
+    },
+    "healthBehaviors": {
+      "appetite": true,
+      "consultations": true,
+      "episodes": true,
+      "medications": true,
+      "pregnancy": true,
+      "screenings": true,
+      "selfMedication": true,
+      "substances": true
+    },
+    "otherBehaviors": {
+      "misconduct": true,
+      "relationships": true,
+      "socialEconomic": true,
+      "unlisted": true
+    },
+    "treatmentReceivedNonVaProvider": {
+      "nonVa": true,
+      "vaCenters": true
+    },
+    "treatmentReceivedVaProvider": {
+      "medicalCenter": true,
+      "communityOutpatient": true,
+      "vaPaid": true,
+      "dod": true
+    },
+    "optionIndicator": "yes",
+    "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
+    "none": false,
+    "vaTreatmentFacilities": [
+      {
+        "treatmentCenterName": "Treatment Center the First",
+        "treatmentDateRange": { "from": "2008-01-XX" },
+        "treatmentCenterAddress": {
+          "country": "USA",
+          "city": "Bigcity",
+          "state": "AK"
+        },
+        "treatedDisabilityNames": [
+          "Diabetes mellitus0",
+          "Diabetes mellitus1",
+          "heart attack (myocardial infarction)"
+        ],
+        "treatmentLocation0781Related": true
+      },
+      {
+        "treatmentCenterName": "Treatment Center the Second",
+        "treatmentDateRange": { "from": "2010-01-XX" },
+        "treatmentCenterAddress": {
+          "country": "Uganda",
+          "city": "Ugandan City"
+        },
+        "treatedDisabilityNames": [
+          "asthma",
+          "heart attack (myocardial infarction)",
+          "ankylosis in knee, bilateral"
+        ],
+        "treatmentLocation0781Related": false
+      }
+    ],
+    "confinements": [
+      { "from": "2016-01-01", "to": "2017-01-01" },
+      { "from": "2017-01-06", "to": "2017-04-01" }
+    ],
+    "ratedDisabilities": [
+      {
+        "name": "Diabetes mellitus0",
+        "ratedDisabilityId": "0",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "INCREASE"
+      },
+      {
+        "name": "Diabetes mellitus1",
+        "ratedDisabilityId": "1",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "INCREASE"
+      },
+      {
+        "name": "De-selected",
+        "ratedDisabilityId": "2",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "NONE"
+      },
+      {
+        "name": "Not selected",
+        "ratedDisabilityId": "3",
+        "diagnosticCode": 5238,
+        "disabilityActionType": "NONE"
+      }
+    ],
+    "serviceInformation": {
+      "reservesNationalGuardService": {
+        "obligationTermOfServiceDateRange": {
+          "from": "2007-05-22",
+          "to": "2008-06-05"
+        },
+        "unitName": "Seal Team Six"
+      },
+      "servicePeriods": [
+        {
+          "serviceBranch": "Air Force",
+          "dateRange": { "from": "2001-03-21", "to": "2014-07-21" }
+        },
+        {
+          "serviceBranch": "Air National Guard",
+          "dateRange": { "from": "2015-01-01", "to": "2017-05-13" }
+        }
+      ]
+    },
+    "newPrimaryDisabilities": [
+      {
+        "cause": "NEW",
+        "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
+        "condition": "asthma"
+      },
+      {
+        "cause": "WORSENED",
+        "worsenedDescription": "My knee was strained in the service",
+        "worsenedEffects": "It wasn't great before, but it got bad enough I needed a replacement. Now I have to take medication for it. I think. That makes sense, right?",
+        "condition": "ankylosis in knee, bilateral",
+        "specialIssues": ["POW"]
+      },
+      {
+        "cause": "VA",
+        "vaMistreatmentDescription": "A thing happened.",
+        "vaMistreatmentLocation": "Somewhereville",
+        "vaMistreatmentDate": "A while ago",
+        "condition": "heart attack (myocardial infarction)",
+        "specialIssues": ["POW"]
+      },
+      {
+        "cause": "NEW",
+        "primaryDescription": "Secondary to Diabetes Mellitus0\nAgain, this doesn't really make sense.",
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)"
+      }
+    ],
+    "attachments": [
+      {
+        "name": "AngleSettingJig_9_25_15.pdf",
+        "confirmationCode": "544f14cc-4e51-4661-b8f4-d79f71567491",
+        "attachmentId": "L107"
+      },
+      {
+        "name": "image.png",
+        "confirmationCode": "fa0c0f47-a42f-4bbc-88f3-873c5bea6ce7",
+        "attachmentId": "L023"
+      },
+      {
+        "name": "lolwut.png",
+        "confirmationCode": "552067b2-9c5d-4bd8-bcd8-bc621b51a145",
+        "attachmentId": "L015"
+      },
+      {
+        "name": "image (1).png",
+        "confirmationCode": "0496e5c2-0675-4a43-83d6-e1eeabd4ea0e",
+        "attachmentId": "L070"
+      },
+      {
+        "name": "Success.jpg",
+        "confirmationCode": "de89492d-2d3f-4486-a73d-1fa4868aa49d",
+        "attachmentId": "L023"
+      }
+    ]
+  }
+}

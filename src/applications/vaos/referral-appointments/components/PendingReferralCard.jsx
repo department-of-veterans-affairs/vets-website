@@ -6,18 +6,15 @@ import ListItem from '../../components/ListItem';
 import AppointmentRow from '../../components/AppointmentRow';
 import AppointmentColumn from '../../components/AppointmentColumn';
 
-const PendingReferralCard = ({ referral, handleClick, index }) => {
+const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
   const idClickable = `id-${referral.UUID.replace('.', '\\.')}`;
   const isCanceled = referral.status === 'cancelled';
   const typeOfCareName = referral.CategoryOfCare;
 
-  const link = `schedule-referral/?id=${referral.UUID}`;
-
-  const appointmentString =
-    referral.numberOfAppointments === 1
-      ? '1 appointment'
-      : `${referral.numberOfAppointments} appointments`;
+  const link = `schedule-referral?id=${
+    referral.UUID
+  }&referrer=referrals-requests`;
 
   const parsedDate = parseISO(referral.ReferralExpirationDate);
   const expiration = format(parsedDate, 'MMMM d, yyyy');
@@ -50,7 +47,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                     canceled={isCanceled}
                   >
                     <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
-                      {`You have been approved for ${appointmentString}. All appointments for this referral must be scheduled by ${expiration}.`}
+                      {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${expiration}.`}
                     </span>
                   </AppointmentColumn>
                 </AppointmentRow>
@@ -69,7 +66,7 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
                   aria-describedby={`vaos-referral-detail-${referral.UUID}`}
                   message-aria-describedby="Custom message"
                   text="Schedule your appointment"
-                  onClick={e => handleClick(e, referral.UUID)}
+                  onClick={e => e.preventDefault()}
                 />
               </AppointmentColumn>
             </AppointmentRow>
@@ -81,7 +78,6 @@ const PendingReferralCard = ({ referral, handleClick, index }) => {
 };
 
 PendingReferralCard.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   referral: PropTypes.object.isRequired,
 };
