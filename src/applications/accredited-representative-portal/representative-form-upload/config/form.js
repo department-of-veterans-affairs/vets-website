@@ -5,7 +5,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import * as uploadPageModule from '../pages/upload';
 import * as claimantInformationModule from '../pages/claimantInformation';
-// import * as claimantInformationModule from '../pages/claimantInformationPage/claimantInformation'
 import * as veteranInformationModule from '../pages/veteranInformation';
 import * as isVeteranModule from '../pages/isVeteranPage';
 import GetFormHelp from '../../../accreditation/21a/components/common/GetFormHelp';
@@ -138,18 +137,6 @@ const formConfig = {
         },
       },
     },
-    //   title: 'Upload',
-    //   pages: {
-    //     uploadPage: {
-    //       path: 'upload',
-    //       title: 'Upload Your File',
-    //       uiSchema: uploadPage.uiSchema,
-    //       schema: uploadPage.schema,
-    //       CustomPage: UploadPage,
-    //       scrollAndFocusTarget,
-    //     },
-    //   },
-    // },
   },
 };
 
