@@ -52,21 +52,18 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
-        // 1 DONE
         applicantName: {
           path: 'applicant-name',
           title: 'Your name',
           uiSchema: applicantName.uiSchema,
           schema: applicantName.schema,
         },
-        // 2 DONE
         applicantRelationToVet: {
           path: 'applicant-relation-to-vet',
           title: 'Your relationship to the Veteran',
           uiSchema: applicantRelationToVet.uiSchema,
           schema: applicantRelationToVet.schema,
         },
-        // 3 DONE
         applicantRelationToVetOrg: {
           path: 'applicant-relation-to-vet-org',
           title: 'Your organization',
@@ -77,7 +74,6 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
-        // 3.5 DONE
         applicantRelationToVetOrg2: {
           path: 'applicant-relation-to-vet-org-2',
           title: 'Your organization',
@@ -85,7 +81,6 @@ const formConfig = {
           schema: applicantRelationToVetOrg2.schema,
           depends: formData => formData.relationToVetRadio === 'repOfVSO',
         },
-        // 4 DONE
         applicantContactInfo: {
           path: 'applicant-contact-info',
           title: 'Your contact information',
@@ -96,7 +91,6 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
-        // 4.5 DONE
         applicantContactInfo2: {
           path: 'applicant-contact-info-2',
           title: 'Your organizations contact information',
@@ -107,9 +101,8 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
-        // 5 Mailing Address
         applicantMailingAddress: {
-          path: 'applicant--mailing-address',
+          path: 'applicant-mailing-address',
           title: 'Your mailing address',
           uiSchema: applicantMailingAddress.uiSchema,
           schema: applicantMailingAddress.schema,
@@ -118,7 +111,6 @@ const formConfig = {
               formData.relationToVetRadio,
             ),
         },
-        // // 5.5 Mailing Address 2
         applicantMailingAddress2: {
           path: 'applicant-mailing-address-2',
           title: 'Your organization’s mailing address ',

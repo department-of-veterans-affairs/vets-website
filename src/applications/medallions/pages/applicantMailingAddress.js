@@ -1,6 +1,6 @@
 import {
-  addressSchema,
-  addressUI,
+  addressNoMilitarySchema,
+  addressNoMilitaryUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
@@ -11,15 +11,15 @@ export default {
       'Your mailing address',
       'We’ll mail information about this application to the address you provide here.',
     ),
-    address: addressUI({
-      omit: ['street3', 'isMilitary'],
+    address: addressNoMilitaryUI({
+      omit: ['street3'],
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      address: addressSchema({
-        omit: ['street3', 'isMilitary'],
+      address: addressNoMilitarySchema({
+        omit: ['street3'],
       }),
     },
   },
