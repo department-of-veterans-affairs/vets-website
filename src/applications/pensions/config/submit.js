@@ -2,6 +2,10 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { format } from 'date-fns-tz';
+import {
+  ensureValidCSRFToken,
+  handleInvalidCSRF,
+} from '../ensureValidCSRFToken';
 
 const usaPhoneKeys = ['phone', 'mobilePhone', 'dayPhone', 'nightPhone'];
 
@@ -36,7 +40,13 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(form, formConfig, apiPath = '/pensions/v0/claims') {
+export async function submit(
+  form,
+  formConfig,
+  apiPath = '/pensions/v0/claims',
+) {
+  await ensureValidCSRFToken();
+
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 
@@ -53,6 +63,8 @@ export function submit(form, formConfig, apiPath = '/pensions/v0/claims') {
       return resp.data.attributes;
     })
     .catch(respOrError => {
+      handleInvalidCSRF(respOrError);
+
       if (respOrError instanceof Response && respOrError.status === 429) {
         const error = new Error('vets_throttled_error_pensions');
         error.extra = parseInt(
