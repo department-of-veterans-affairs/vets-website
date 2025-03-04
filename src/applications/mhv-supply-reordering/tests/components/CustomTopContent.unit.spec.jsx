@@ -15,7 +15,7 @@ describe('CustomTopContent', () => {
     expect(breadcrumbs).to.exist;
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/","label":"VA.gov Home"},{"href":"/my-health","label":"My HealtheVet"},{"href":"/my-health/order-supplies","label":"Order medical supplies"}]',
+      '[{"href":"/","label":"VA.gov Home"},{"href":"/my-health","label":"My HealtheVet"},{"href":"/my-health/order-medical-supplies","label":"Order medical supplies"}]',
     );
   });
 
@@ -25,7 +25,7 @@ describe('CustomTopContent', () => {
     expect(breadcrumbs).to.exist;
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/","label":"VA.gov Home"},{"href":"/my-health","label":"My HealtheVet"},{"href":"/my-health/order-supplies","label":"Order medical supplies"}]',
+      '[{"href":"/","label":"VA.gov Home"},{"href":"/my-health","label":"My HealtheVet"},{"href":"/my-health/order-medical-supplies","label":"Order medical supplies"}]',
     );
   });
 
