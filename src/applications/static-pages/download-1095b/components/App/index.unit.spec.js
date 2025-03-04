@@ -50,11 +50,14 @@ describe('App component', () => {
   describe('when not authenticated', () => {
     it('renders the sign-in alert', async () => {
       store = mockStore(unauthenticatedState);
-      const { container } = render(
+      const { container, queryByText } = render(
         <Provider store={store}>
           <App />
         </Provider>,
       );
+      await waitFor(() => {
+        expect(queryByText('Loading')).not.to.exist;
+      });
       await waitFor(() => {
         expect($('va-button', container).outerHTML).to.contain(
           'Sign in or create an account',
@@ -68,11 +71,14 @@ describe('App component', () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'idme';
         store = mockStore(testState);
-        const { container } = render(
+        const { container, queryByText } = render(
           <Provider store={store}>
             <App />
           </Provider>,
         );
+        await waitFor(() => {
+          expect(queryByText('Loading')).not.to.exist;
+        });
         await waitFor(() => {
           expect($('.idme-verify-button', container).outerHTML).to.exist;
         });
@@ -83,11 +89,14 @@ describe('App component', () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'logingov';
         store = mockStore(testState);
-        const { container } = render(
+        const { container, queryByText } = render(
           <Provider store={store}>
             <App />
           </Provider>,
         );
+        await waitFor(() => {
+          expect(queryByText('Loading')).not.to.exist;
+        });
         await waitFor(() => {
           expect($('.logingov-verify-button', container).outerHTML).to.exist;
         });
@@ -98,11 +107,14 @@ describe('App component', () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'mhv';
         store = mockStore(testState);
-        const { container } = render(
+        const { container, queryByText } = render(
           <Provider store={store}>
             <App />
           </Provider>,
         );
+        await waitFor(() => {
+          expect(queryByText('Loading')).not.to.exist;
+        });
         await waitFor(() => {
           expect($('.logingov-verify-button', container).outerHTML).to.exist;
           expect($('.idme-verify-button', container).outerHTML).to.exist;
