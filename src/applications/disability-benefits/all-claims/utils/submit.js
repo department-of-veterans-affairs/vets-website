@@ -506,7 +506,7 @@ export const determineTraumaTreatment = formData => {
     Object.values(formData.treatmentReceivedVaProvider || {}).some(Boolean) ||
     Object.values(formData.treatmentReceivedNonVaProvider || {}).some(Boolean);
 
-  if (formData['view:treatmentNoneCheckbox']) {
+  if (formData['view:treatmentNoneCheckbox']?.none === true) {
     return true;
   }
   if (hasTreatmentReceived) {
@@ -551,6 +551,7 @@ export const addForm0781V2 = formData => {
     ...(clonedData.supportingEvidenceUnlisted && {
       supportingEvidenceUnlisted: clonedData.supportingEvidenceUnlisted,
     }),
+    supportingEvidenceNone: clonedData['view:supportingEvidenceNoneCheckbox'],
     traumaTreatment: determineTraumaTreatment(clonedData),
     ...(clonedData.treatmentReceivedVaProvider && {
       treatmentReceivedVaProvider: clonedData.treatmentReceivedVaProvider,

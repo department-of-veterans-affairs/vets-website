@@ -673,7 +673,7 @@ describe('extractDateParts', () => {
 
 describe('determineTraumaTreatment', () => {
   it('should return true if view:treatmentNoneCheckbox is checked (true)', () => {
-    const formData = { 'view:treatmentNoneCheckbox': true };
+    const formData = { 'view:treatmentNoneCheckbox': { none: true } };
 
     const result = determineTraumaTreatment(formData);
 
@@ -724,8 +724,10 @@ describe('addForm0781V2', () => {
     supportingEvidenceWitness: ['witness1'],
     supportingEvidenceOther: 'otherEvidence',
     supportingEvidenceUnlisted: 'unlistedEvidence',
+    'view:supportingEvidenceNoneCheckbox': { none: true },
     treatmentReceivedVaProvider: true,
     treatmentReceivedNonVaProvider: true,
+    'view:treatmentNoneCheckbox': { none: true },
     treatmentReceivedNone: true,
     providerFacility: ['facility1'],
     vaTreatmentFacilities: [],
@@ -761,6 +763,7 @@ describe('addForm0781V2', () => {
       supportingEvidenceWitness: formData.supportingEvidenceWitness,
       supportingEvidenceOther: formData.supportingEvidenceOther,
       supportingEvidenceUnlisted: formData.supportingEvidenceUnlisted,
+      supportingEvidenceNone: formData['view:supportingEvidenceNoneCheckbox'],
       traumaTreatment: result.form0781.traumaTreatment,
       treatmentReceivedVaProvider: formData.treatmentReceivedVaProvider,
       treatmentReceivedNonVaProvider: formData.treatmentReceivedNonVaProvider,
