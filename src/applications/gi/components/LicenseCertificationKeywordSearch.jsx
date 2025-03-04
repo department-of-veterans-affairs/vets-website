@@ -54,7 +54,7 @@ export default function LicenseCertificationKeywordSearch({
               className="lc-search-label"
               htmlFor="lc-search"
             >
-              License/Certification Name
+              License/Certification/Prep course name
             </label>
             <div className="additional-info-wrapper">
               <VaAdditionalInfo
@@ -142,8 +142,18 @@ export default function LicenseCertificationKeywordSearch({
 }
 
 LicenseCertificationKeywordSearch.propTypes = {
+  handleClearInput: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  inputValue: PropTypes.string.isRequired,
   onSelection: PropTypes.func.isRequired,
-  inputValue: PropTypes.string,
-  suggestions: PropTypes.array,
-  onUpdateAutocompleteSearchTerm: PropTypes.func,
+  onUpdateAutocompleteSearchTerm: PropTypes.func.isRequired,
+  suggestions: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      lacNm: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      state: PropTypes.string,
+      type: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };

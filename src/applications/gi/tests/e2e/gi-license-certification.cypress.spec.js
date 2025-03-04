@@ -228,9 +228,9 @@ describe('GI Bill Comparison Tool - License & Certification Pages', () => {
             .contains('Admin info')
             .should('be.visible');
           cy.get('.name-wrapper').should('contain.text', 'Electric School');
-          cy.contains(
-            'Certification tests are available to be taken nationally',
-          ).should('be.visible');
+          cy.contains('Certification tests are available nationally').should(
+            'be.visible',
+          );
           cy.get('va-link')
             .shadow()
             .find('a')

@@ -103,7 +103,7 @@ describe('LicenseCertificationSearchResults', () => {
     expect(
       wrapper
         .find('h3')
-        .at(1)
+        .at(2)
         .text(),
     ).to.equal('Test Certification');
     expect(
