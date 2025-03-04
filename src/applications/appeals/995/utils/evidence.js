@@ -13,7 +13,7 @@ export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
 export const hasPrivateLimitation = formData =>
   showScNewForm(formData) &&
   hasPrivateEvidence(formData) &&
-  formData?.[EVIDENCE_LIMIT] !== false;
+  formData?.[EVIDENCE_LIMIT];
 export const hasNewPrivateLimitation = formData =>
   showScNewForm(formData) && hasPrivateEvidence(formData);
 export const hasOriginalPrivateLimitation = formData =>
