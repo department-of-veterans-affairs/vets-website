@@ -47,27 +47,20 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
         return;
       }
 
-      const getAvailableForms = () => {
-        return apiRequest('/form1095_bs/available_forms')
-          .then(response => {
-            if (response.errors || response.availableForms.length === 0) {
-              updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-              return false;
-            }
-            return response.availableForms;
-          })
-          .catch(() => {
-            updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
-            return false; // Return false in case of an error
-          });
-      };
-
-      getAvailableForms().then(forms => {
-        const mostRecentYearData = forms[0];
-        if (mostRecentYearData?.year) {
-          updateYear(mostRecentYearData.year);
-        }
-      });
+      apiRequest('/form1095_bs/available_forms')
+        .then(response => {
+          if (response.errors || response.availableForms.length === 0) {
+            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+          }
+          // return response.availableForms;
+          const mostRecentYearData = response.availableForms[0];
+          if (mostRecentYearData?.year) {
+            updateYear(mostRecentYearData.year);
+          }
+        })
+        .catch(() => {
+          updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
+        });
     },
     [profile.isUserLOA3, displayToggle],
   );
