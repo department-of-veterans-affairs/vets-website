@@ -1,10 +1,12 @@
 import React from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { giDocumentTitleSchoolsAndEmployers } from '../../utils/helpers';
 
 const GiBillBreadcrumbs = () => {
   const history = useHistory();
   const { pathname } = useLocation();
+  const crumbLiEnding = giDocumentTitleSchoolsAndEmployers();
   const isSchools = pathname.includes('schools-and-employers');
 
   const crumbs = [
@@ -26,7 +28,7 @@ const GiBillBreadcrumbs = () => {
   if (isSchools)
     crumbs.push({
       href: '/schools-and-employers',
-      label: 'Schools and employers',
+      label: crumbLiEnding,
       isRouterLink: true,
     });
 

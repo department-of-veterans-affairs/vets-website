@@ -50,6 +50,8 @@ export const TypeList = ['place', 'region', 'postcode', 'locality'];
 export const TABS = Object.freeze({
   name: 'name',
   location: 'location',
+  schoolAndEmployerName: 'school_and_employer_name',
+  schoolAndEmployerPrograms: 'school_and_employer_program',
 });
 
 export const LC_TABS = {
