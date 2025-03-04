@@ -62,7 +62,7 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
     getAvailableForms().then(forms => {
       setAvailableForms(forms);
       const mostRecentYearData = forms[0];
-      if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
+      if (mostRecentYearData?.year) {
         updateYear(mostRecentYearData.year);
       }
     });
