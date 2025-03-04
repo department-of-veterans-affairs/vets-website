@@ -24,9 +24,10 @@ describe('Secure Messaging Inbox Cerner', () => {
 
     cy.get(Locators.ALERTS.CERNER_ALERT).should('be.visible');
 
-    cy.contains('h2', 'Make sure you’re in the right health portal').should(
-      'be.visible',
-    );
+    cy.contains(
+      'h2',
+      'To send a secure message to a provider at these facilities, go to My VA Health',
+    ).should('be.visible');
 
     cy.get('[data-testid="cerner-facility"]').should(
       'have.length',
