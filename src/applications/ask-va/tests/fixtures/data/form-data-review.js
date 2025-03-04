@@ -451,4 +451,17 @@ export const mockData = {
       hasUnviewedPages: true,
     },
   ],
+  user: {
+    login: {
+      currentlyLoggedIn: true,
+      hasCheckedKeepAlive: false,
+    },
+    profile: {
+      accountUuid: 'e7a9d766-8f42-4096-9ee2-b034cefc47ad',
+      loa: {
+        current: 3,
+        highest: 3,
+      },
+    },
+  },
 };

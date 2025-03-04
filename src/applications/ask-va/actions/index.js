@@ -11,6 +11,7 @@ export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 export const SET_LOCATION_SEARCH = 'SET_LOCATION_SEARCH';
 export const SET_VA_HEALTH_FACILITY = 'SET_VA_HEALTH_FACILITY';
 export const REMOVE_ASK_VA_FORM = 'REMOVE_ASK_VA_FORM';
+export const CLEAR_FORM_DATA = 'CLEAR_FORM_DATA';
 
 export function setCategoryID(id) {
   return { type: SET_CATEGORY_ID, payload: id };
@@ -66,3 +67,7 @@ export function removeAskVaForm(formId) {
       });
   };
 }
+
+export const clearFormData = () => ({
+  type: CLEAR_FORM_DATA,
+});
