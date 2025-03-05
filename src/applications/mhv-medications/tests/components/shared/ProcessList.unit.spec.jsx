@@ -55,7 +55,7 @@ describe('ProcessList Component using step guide data', () => {
           'When our pharmacy starts processing your request, the status will change to',
         ) &&
         element.querySelector('strong')?.textContent ===
-          'Active: Refill in process.'
+          'Active: Refill in Process.'
       );
     });
 
@@ -100,7 +100,7 @@ describe('ProcessList Component using step guide data', () => {
 
   it('renders the correct content for Active: Refill in process status', () => {
     const activeRefillData = {
-      status: 'Active: Refill in process',
+      status: 'Active: Refill in Process',
       refillSubmitDate: '2025-02-24T03:39:11Z',
     };
 
