@@ -28,8 +28,6 @@ export const createCauseFollowUpTitles = formData => {
   return causeTitle[formData.cause];
 };
 
-// TODO: [Fix the formData prop on edit so that it contains all form data](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/689)
-// formData contains all form data on add and only item data on edit which results in the need for the conditional below
 const createCauseFollowUpConditional = (index, fullData, causeType) => {
   const cause = fullData?.[arrayBuilderOptions.arrayPath][index]?.cause;
   return cause !== causeType;
@@ -62,16 +60,10 @@ const causeFollowUpPage = {
     primaryDescription: textareaUI({
       title:
         'Briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
-      hideIf: (_formData, index, fullData) => {
-        // console.log('hideIf fullData', fullData);
-        // console.log('hideIf index', index);
-        return createCauseFollowUpConditional(index, fullData, 'NEW');
-      },
-      required: (_formData, index, fullData) => {
-        // console.log('required fullData', fullData);
-        // console.log('required index', index);
-        return !createCauseFollowUpConditional(index, fullData, 'NEW');
-      },
+      hideIf: (_formData, index, fullData) =>
+        createCauseFollowUpConditional(index, fullData, 'NEW'),
+      required: (_formData, index, fullData) =>
+        !createCauseFollowUpConditional(index, fullData, 'NEW'),
       charcount: true,
     }),
     causedByCondition: selectUI({
