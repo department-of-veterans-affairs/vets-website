@@ -19,8 +19,8 @@ export default function DefaultPage({
   progress,
   uploading,
 }) {
-  const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-  const formattedRequestedDate = buildDateFormatter()(item.requestedDate);
+  const dateFormatter = buildDateFormatter();
+
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
       <Toggler.Enabled>
@@ -28,7 +28,7 @@ export default function DefaultPage({
           <h1 className="claims-header">{item.displayName}</h1>
           {item.status === 'NEEDED_FROM_YOU' ? (
             <p className="vads-u-font-size--h3">
-              Respond by {formattedDueDate}
+              Respond by {dateFormatter(item.suspenseDate)}
             </p>
           ) : null}
           {item.status === 'NEEDED_FROM_OTHERS' ? (
@@ -43,10 +43,10 @@ export default function DefaultPage({
           <p>{scrubDescription(item.description)}</p>
           <h3>Learn about this request in your claim letter</h3>
           <p>
-            On {formattedRequestedDate}, we mailed you a letter titled, “Request
-            for Specific Evidence or Information,” which may include more
-            details about this request. You can access this and all your claim
-            letters online.
+            On {dateFormatter(item.requestedDate)}, we mailed you a letter
+            titled, “Request for Specific Evidence or Information,” which may
+            include more details about this request. You can access this and all
+            your claim letters online.
           </p>
           <va-link
             text="Your claim letters"
