@@ -2,13 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { dateFormat } from '../../util/helpers';
 import { trackingConfig } from '../../util/constants';
+import { pageType } from '../../util/dataDogConstants';
+import CallPharmacyPhone from './CallPharmacyPhone';
 
 const ProcessList = ({ stepGuideProps }) => {
   const {
     dispensedDate,
     prescriptionName,
+    pharmacyPhone,
     processSteps,
     title,
+    refillDate,
     refillSubmitDate,
     status,
     trackingList,
@@ -44,7 +48,14 @@ const ProcessList = ({ stepGuideProps }) => {
   };
 
   const renderProcessList = () => {
-    switch (status) {
+    let dispStatus;
+    if (status === 'Active' && completeDateTime) {
+      dispStatus = 'Shipped';
+    } else {
+      dispStatus = status;
+    }
+
+    switch (dispStatus) {
       case 'Shipped':
         return (
           <>
@@ -143,7 +154,7 @@ const ProcessList = ({ stepGuideProps }) => {
           </>
         );
 
-      case 'Active: Refill in process':
+      case 'Active: Refill in Process':
         return (
           <>
             <va-process-list>
@@ -160,8 +171,12 @@ const ProcessList = ({ stepGuideProps }) => {
                 status-text="Step 2: In process"
               >
                 <p>
-                  We expect to fill it on Month DD, YYYY. If you need it sooner,
-                  call your VA pharmacy at 123-456-7890.
+                  We expect to fill it on {dateFormat(refillDate)}. If you need
+                  it sooner, call your VA pharmacy
+                  <CallPharmacyPhone
+                    cmopDivisionPhone={pharmacyPhone}
+                    page={pageType.REFILL}
+                  />
                 </p>
               </va-process-list-item>
               <va-process-list-item
@@ -209,7 +224,7 @@ const ProcessList = ({ stepGuideProps }) => {
 
   return (
     <section>
-      <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
+      <div className="no-print vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4 vads-u-border-bottom--1px vads-u-border-color--gray-light" />
       <h2
         className="vads-u-margin-top--0 vads-u-margin-bottom--3"
         data-testid="progress-list-header"
@@ -222,12 +237,7 @@ const ProcessList = ({ stepGuideProps }) => {
 };
 
 ProcessList.propTypes = {
-  dispensedDate: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  processSteps: PropTypes.array,
-  refillSubmitDate: PropTypes.string,
-  status: PropTypes.string,
-  trackingList: PropTypes.array,
+  stepGuideProps: PropTypes.object.isRequired,
 };
 
 export default ProcessList;

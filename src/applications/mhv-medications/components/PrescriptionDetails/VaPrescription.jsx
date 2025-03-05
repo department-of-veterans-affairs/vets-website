@@ -60,6 +60,22 @@ const VaPrescription = prescription => {
     prescription?.trackingList?.[0] &&
     prescription?.dispStatus === 'Active: Submitted';
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
+
+  const isCriteriaMetToDisplayProcessList = () => {
+    const { dispStatus, trackingList } = prescription; // Accessing prescription directly
+    const hasTrackingList = Boolean(trackingList); // Check if trackingList is present
+
+    return (
+      dispStatus === 'Active' ||
+      dispStatus === 'Active: Submitted' ||
+      dispStatus === 'Active: Refill in Process' ||
+      (dispStatus === 'Active' &&
+        hasTrackingList &&
+        trackingList[0]?.completeDateTime) ||
+      (dispStatus === 'Active: Submitted' && hasTrackingList)
+    );
+  };
+
   const determineStatus = () => {
     if (pendingRenewal) {
       return (
@@ -91,12 +107,10 @@ const VaPrescription = prescription => {
     title: showTrackingAlert
       ? 'Check the status of your next refill'
       : 'Refill request status',
-    status:
-      prescription?.dispStatus === 'Active' &&
-      prescription?.trackingList[0]?.completeDateTime
-        ? 'Shipped'
-        : prescription?.dispStatus,
+    status: prescription?.dispStatus,
+    pharmacyPhone,
     prescriptionName: prescription?.prescriptionName,
+    refillDate: prescription?.refillDate,
     refillSubmitDate: prescription?.refillSubmitDate,
     trackingList: prescription?.trackingList,
   };
@@ -127,6 +141,15 @@ const VaPrescription = prescription => {
       );
     }
     return <></>;
+  };
+
+  const getPrescriptionStatusHeading = () => {
+    if (isCriteriaMetToDisplayProcessList()) {
+      return '';
+    }
+    return latestTrackingStatus
+      ? 'Check the status of your next refill'
+      : 'Refill request status';
   };
 
   const content = () => {
@@ -183,20 +206,18 @@ const VaPrescription = prescription => {
             {showGroupingContent && (
               <>
                 {displayTrackingAlert()}
-                {showRefillProgressContent && (
-                  <ProcessList stepGuideProps={stepGuideProps} />
-                )}
                 {showRefillProgressContent &&
-                  isRefillRunningLate && (
-                    <h2
-                      className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
-                      data-testid="check-status-text"
-                    >
-                      {latestTrackingStatus
-                        ? 'Check the status of your next refill'
-                        : 'Refill request status'}
-                    </h2>
+                  isCriteriaMetToDisplayProcessList() && (
+                    <ProcessList stepGuideProps={stepGuideProps} />
                   )}
+                {isRefillRunningLate && (
+                  <h2
+                    className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                    data-testid="check-status-text"
+                  >
+                    {getPrescriptionStatusHeading()}
+                  </h2>
+                )}
                 {showRefillProgressContent &&
                   isRefillRunningLate && (
                     <VaAlert
