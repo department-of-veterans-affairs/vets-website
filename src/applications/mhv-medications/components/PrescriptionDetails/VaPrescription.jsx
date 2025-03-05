@@ -61,21 +61,6 @@ const VaPrescription = prescription => {
     prescription?.dispStatus === 'Active: Submitted';
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
-  const isCriteriaMetToDisplayProcessList = () => {
-    const { dispStatus, trackingList } = prescription;
-    const hasTrackingList = Boolean(trackingList);
-
-    return (
-      dispStatus === 'Active' ||
-      dispStatus === 'Active: Submitted' ||
-      dispStatus === 'Active: Refill in Process' ||
-      (dispStatus === 'Active' &&
-        hasTrackingList &&
-        trackingList[0]?.completeDateTime) ||
-      (dispStatus === 'Active: Submitted' && hasTrackingList)
-    );
-  };
-
   const determineStatus = () => {
     if (pendingRenewal) {
       return (
@@ -103,16 +88,12 @@ const VaPrescription = prescription => {
   };
 
   const stepGuideProps = {
-    dispensedDate: prescription?.dispensedDate,
+    prescription,
     title: showTrackingAlert
       ? 'Check the status of your next refill'
       : 'Refill request status',
-    status: prescription?.dispStatus,
     pharmacyPhone,
-    prescriptionName: prescription?.prescriptionName,
-    refillDate: prescription?.refillDate,
-    refillSubmitDate: prescription?.refillSubmitDate,
-    trackingList: prescription?.trackingList,
+    isRefillRunningLate,
   };
 
   const displayTrackingAlert = () => {
@@ -144,7 +125,7 @@ const VaPrescription = prescription => {
   };
 
   const getPrescriptionStatusHeading = () => {
-    if (isCriteriaMetToDisplayProcessList()) {
+    if (!isRefillRunningLate) {
       return '';
     }
     return latestTrackingStatus
@@ -206,10 +187,7 @@ const VaPrescription = prescription => {
             {showGroupingContent && (
               <>
                 {displayTrackingAlert()}
-                {showRefillProgressContent &&
-                  isCriteriaMetToDisplayProcessList() && (
-                    <ProcessList stepGuideProps={stepGuideProps} />
-                  )}
+
                 {isRefillRunningLate && (
                   <h2
                     className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
@@ -218,6 +196,7 @@ const VaPrescription = prescription => {
                     {getPrescriptionStatusHeading()}
                   </h2>
                 )}
+
                 {showRefillProgressContent &&
                   isRefillRunningLate && (
                     <VaAlert
@@ -246,6 +225,9 @@ const VaPrescription = prescription => {
                       </p>
                     </VaAlert>
                   )}
+                {showRefillProgressContent && (
+                  <ProcessList stepGuideProps={stepGuideProps} />
+                )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
                   data-testid="recent-rx"
