@@ -10,4 +10,5 @@ const status = runCommandSync(
   `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --quiet --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.js" --spec '${tests}'`,
 );
 
+// This is a throwaway comment for testing
 process.exit(status);
