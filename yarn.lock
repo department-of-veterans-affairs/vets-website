@@ -2805,7 +2805,7 @@
 
 "@department-of-veterans-affairs/component-library@^49.3.0":
   version "49.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-49.3.0.tgz#06377bd81d1161e9b56efef627f0ab6735528dd7"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-49.3.0.tgz#06377bd81d1161e9b56efef627f0ab6735528dd7"
   integrity sha512-dLWAV/PT0IhxTQ7bTWvKdMvmh4KhaMpIWJvfSb27jKDh41/tMFRy1wn3upBLlY1tmnc3EfG9fM3ddk2b1us7ug==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
@@ -2817,7 +2817,7 @@
 
 "@department-of-veterans-affairs/css-library@^0.19.0":
   version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.19.0.tgz#35e7cef1a045d4d182a6adeb5aac91dcd94994ac"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.19.0.tgz#35e7cef1a045d4d182a6adeb5aac91dcd94994ac"
   integrity sha512-NaPNmMsky2XMD5LUnpsvGEa/yN9VEv9vs8m21+E21R9f/DiEfEKQRie3X42Yt1RXsHqPXwfxg7XSGgh2+EnKQg==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
