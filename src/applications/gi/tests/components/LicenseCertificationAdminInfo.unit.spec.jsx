@@ -45,7 +45,7 @@ describe('<LicenseCertificationAdminInfo/>', () => {
     const wrapper = shallow(<LicenseCertificationAdminInfo {...props} />);
     expect(wrapper.find('.va-address-block').exists()).to.be.false;
     expect(wrapper.text()).to.contain(
-      'Certification tests are available to be taken nationally',
+      'Certification tests are available nationally. Search for a testing site using your preferred search engine.',
     );
     wrapper.unmount();
   });

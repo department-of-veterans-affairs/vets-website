@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const workflowChoicePageTitle =
-  'Statement about mental health conditions (VA Form 21-0781)';
+  'Adding VA Form 21-0781 to support new mental health conditions';
 
 // Lists new conditions the veteran has claimed
 // The user should not get to this page if these conditions are not present
@@ -15,7 +15,7 @@ const conditionSelections = formData => {
 
   return (
     <div>
-      <p>You selected these new conditions for your disability claim:</p>
+      <p>Your claim includes these new conditions:</p>
       <ul>
         {conditions.map((condition, index) => (
           <li key={index}>
@@ -31,30 +31,38 @@ export const workflowChoicePageDescription = formData => {
   return (
     <>
       {conditionSelections(formData)}
+      <h4>When to consider adding VA Form 21-0781 to your claim</h4>
       <p>
-        If any of these are diagnosed mental health conditions related to a
-        traumatic event you experienced during military service, you can
-        complete an additional form to provide more information to support your
-        claim (VA Form 21-0781).
+        We offer this optional form for you to share more supporting information
+        about certain conditions. If your claim includes a new mental health
+        condition (like PTSD, major depression, or generalized anxiety disorder)
+        that’s related to a traumatic event you experienced during military
+        service, we encourage you to submit this form.
       </p>
       <p>
-        <strong>This additional form is optional.</strong> In this form, we ask
-        you about the traumatic events you experienced and any behavioral
-        changes that you experienced afterwards.
+        We’ll need to ask you about the traumatic events you experienced and any
+        behavioral changes that you experienced as a result. Answer as many or
+        as few of the questions that you feel comfortable answering. We’ll use
+        any information you can share to support your claim.
       </p>
       <p>
-        We encourage you to complete this form if it applies to you. The
-        information you provide supports your claim for these conditions. In
-        this form, you can also choose to only provide responses for the
-        questions you’re comfortable answering.
+        To answer all the questions, you’ll likely need about 45 minutes. You
+        can answer the questions online. Or, you can fill out a PDF version of
+        the form and upload it as part of your online submission.
       </p>
-      <p>Completing this additional form should take about 45 minutes.</p>
+      <p>
+        <va-link
+          external
+          href="https://www.va.gov/find-forms/about-form-21-0781/"
+          text="Get VA Form 21-0781 to download"
+        />
+      </p>
     </>
   );
 };
 
 export const form0781WorkflowChoiceDescription =
-  'Do you want to provide more information about your mental health conditions?';
+  'Do you want to add VA Form 21-0781?';
 
 export const form0781WorkflowChoices = {
   COMPLETE_ONLINE_FORM: 'optForOnlineForm0781',
@@ -64,11 +72,11 @@ export const form0781WorkflowChoices = {
 
 export const form0781WorkflowChoiceLabels = Object.freeze({
   [form0781WorkflowChoices.COMPLETE_ONLINE_FORM]:
-    'Yes, I want to complete VA Form 21-0781 online',
+    'Yes, and I want to answer the questions online.',
   [form0781WorkflowChoices.SUBMIT_PAPER_FORM]:
-    'Yes, but I’ve already filled out a PDF of VA Form 21-0781 and I want to upload it to my claim',
+    'Yes, and I want to fill out a PDF to upload.',
   [form0781WorkflowChoices.OPT_OUT_OF_FORM0781]:
-    'No, I don’t want to complete VA Form 21-0781 (opt out)',
+    'No, I don’t want to add this form to my claim.',
 });
 
 export const traumaticEventsExamples = (
