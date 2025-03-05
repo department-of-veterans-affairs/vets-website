@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
 import { setupServer } from 'msw/node';
@@ -176,6 +176,30 @@ describe('App component', () => {
       container.querySelector(
         'va-link[text="Download PDF (best for printing)"]',
       );
+    });
+
+    describe('when the forms endpoint fails', () => {
+      it('renders an error alert', async () => {
+        store = mockStore(authedAndVerifiedState);
+        server.use(
+          rest.get(
+            'https://dev-api.va.gov/v0/form1095_bs/available_forms',
+            (_, res, ctx) => {
+              return res(ctx.status(500));
+            },
+          ),
+        );
+        const { queryByText } = render(
+          <Provider store={store}>
+            <App />
+          </Provider>,
+        );
+        await waitFor(() => {
+          expect(queryByText('Loading')).not.to.exist;
+        });
+        screen.debug();
+        expect(queryByText('System error')).to.exist;
+      });
     });
   });
 });
