@@ -97,7 +97,7 @@ export const arrayBuilderOptions = {
   nounPlural: 'children',
   required: true,
   isItemIncomplete,
-  maxItems: 10,
+  maxItems: 20,
   text: {
     getItemName: () => {
       return 'Child';
