@@ -8,6 +8,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import VaTextInputField from '~/platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import { merge } from 'lodash';
 
 import { dateOfDeathValidation } from '../helpers';
@@ -35,6 +37,17 @@ export default {
         },
         state: {
           'ui:title': 'Birth state',
+          'ui:options': {
+            replaceSchema: _uiSchema => {
+              const ui = _uiSchema;
+
+              ui['ui:webComponentField'] = VaTextInputField;
+              return {
+                type: 'string',
+                maxLength: 100,
+              };
+            },
+          },
         },
       },
     ),

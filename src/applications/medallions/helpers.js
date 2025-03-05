@@ -20,8 +20,3 @@ export function dateOfDeathValidation(errors, fields) {
     );
   }
 }
-
-// export function isValidVAFileNumber(value) {
-//     // return /^\d{7-9}$/.test(value);
-//     return false;
-//   }

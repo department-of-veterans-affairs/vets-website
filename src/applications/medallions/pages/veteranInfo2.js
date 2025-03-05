@@ -6,8 +6,6 @@ import {
 
 import { merge } from 'lodash';
 
-// import { isValidVAFileNumber } from '../helpers';
-
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -17,18 +15,29 @@ export default {
     ),
     veteranId: merge({}, ssnOrVaFileNumberNoHintUI(), {
       ssn: {
-        // 'ui:required': false,
         'ui:errorMessages': {
           pattern:
             'Please enter a valid 9 digit Social Security number (dashes allowed)',
         },
       },
-      // vaFileNumber: {
-      //   'ui:errorMessages': {
-      //     pattern: 'The VA file number must be 7 to 9 digits',
-      //   },
-      //   'ui:validations': [isValidVAFileNumber],
-      // }
+      vaFileNumber: {
+        'ui:errorMessages': {
+          pattern: 'The VA file number must be 7 to 9 digits',
+        },
+        'ui:options': {
+          hideEmptyValueInReview: false,
+        },
+      },
+      'ui:options': {
+        updateSchema: _schema => {
+          const required = [];
+
+          return {
+            ..._schema,
+            required,
+          };
+        },
+      },
     }),
   },
   schema: {
@@ -41,9 +50,10 @@ export default {
           },
           vaFileNumber: {
             maxLength: 9,
+            pattern: '^\\d{7,9}$',
           },
         },
-        required: [''],
+        required: [],
       }),
     },
   },
