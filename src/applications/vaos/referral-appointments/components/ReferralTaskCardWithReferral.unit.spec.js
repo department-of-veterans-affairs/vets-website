@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import MockDate from 'mockdate';
 import { waitFor } from '@testing-library/dom';
+import * as utils from 'applications/vaos/services/utils';
 import {
   renderWithStoreAndRouter,
   createTestStore,
@@ -12,32 +13,27 @@ import ReferralTaskCardWithReferral from './ReferralTaskCardWithReferral';
 import { createReferralById } from '../utils/referrals';
 
 describe('VAOS Component: ReferralTaskCardWithReferral', () => {
-  let fetchStub;
+  let apiRequestWithUrlStub;
 
   beforeEach(() => {
     MockDate.set('2025-01-01');
-    fetchStub = sinon.stub(global, 'fetch');
+    apiRequestWithUrlStub = sinon.stub(utils, 'apiRequestWithUrl');
   });
 
   afterEach(() => {
     MockDate.reset();
-    fetchStub.restore();
+    apiRequestWithUrlStub.restore();
   });
 
   it('should display the task card when the referral is fetched successfully', async () => {
     const store = createTestStore();
 
-    fetchStub.resolves(
-      new Response(
-        JSON.stringify({
-          data: createReferralById(
-            '2024-11-29',
-            'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-          ),
-        }),
-        { status: 200 },
+    apiRequestWithUrlStub.resolves({
+      data: createReferralById(
+        '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
-    );
+    });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
@@ -49,17 +45,12 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
   it('should not display anything when url parameter is not populated', async () => {
     const store = createTestStore();
-    fetchStub.resolves(
-      new Response(
-        JSON.stringify({
-          data: createReferralById(
-            '2024-11-29',
-            'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-          ),
-        }),
-        { status: 200 },
+    apiRequestWithUrlStub.resolves({
+      data: createReferralById(
+        '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
-    );
+    });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
@@ -79,19 +70,14 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
   it('should display the expired alert when referral is expired', async () => {
     const store = createTestStore();
 
-    fetchStub.resolves(
-      new Response(
-        JSON.stringify({
-          data: createReferralById(
-            '2024-11-29',
-            'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-            '111',
-            '2024-12-01',
-          ),
-        }),
-        { status: 200 },
+    apiRequestWithUrlStub.resolves({
+      data: createReferralById(
+        '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
+        '111',
+        '2024-12-01',
       ),
-    );
+    });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
@@ -105,17 +91,12 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
   it('should display the loading component when fetch status is loading', async () => {
     const store = createTestStore();
-    fetchStub.resolves(
-      new Response(
-        JSON.stringify({
-          data: createReferralById(
-            '2024-11-29',
-            'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-          ),
-        }),
-        { status: 200 },
+    apiRequestWithUrlStub.resolves({
+      data: createReferralById(
+        '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
-    );
+    });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
@@ -126,17 +107,13 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
   it('should display the loading component when fetch status is notStarted', async () => {
     const store = createTestStore();
-    fetchStub.resolves(
-      new Response(
-        JSON.stringify({
-          data: createReferralById(
-            '2024-11-29',
-            'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
-          ),
-        }),
-        { status: 200 },
+
+    apiRequestWithUrlStub.resolves({
+      data: createReferralById(
+        '2024-11-29',
+        'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
       ),
-    );
+    });
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
@@ -147,7 +124,7 @@ describe('VAOS Component: ReferralTaskCardWithReferral', () => {
 
   it('should display the error alert when fetch fails', async () => {
     const store = createTestStore();
-    fetchStub.rejects(new Error('Internal Server Error'));
+    apiRequestWithUrlStub.rejects(new Error('Internal Server Error'));
 
     const screen = renderWithStoreAndRouter(<ReferralTaskCardWithReferral />, {
       store,
