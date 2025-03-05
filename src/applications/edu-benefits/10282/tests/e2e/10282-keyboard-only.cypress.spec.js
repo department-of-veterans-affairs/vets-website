@@ -2,9 +2,10 @@ import maximalData from '../fixtures/data/maximal-test.json';
 import formConfig from '../../config/form';
 
 describe('22-10282 Edu form', () => {
-  beforeEach(function() {
+  beforeEach(() => {
     if (Cypress.env('CI')) this.skip();
   });
+
   it('should be keyboard-only navigable', () => {
     // Go to application, should go to intro page
     cy.visit(
@@ -12,7 +13,8 @@ describe('22-10282 Edu form', () => {
     );
     cy.injectAxeThenAxeCheck();
     // Tab to and press 'Start your application'
-    cy.realPress(['Tab', 'Enter']);
+    cy.repeatKey('Tab', 2);
+    cy.realPress(['Enter']);
 
     // Applicant name page
     cy.url().should(
