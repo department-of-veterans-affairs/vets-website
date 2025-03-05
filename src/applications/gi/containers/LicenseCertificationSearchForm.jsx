@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -126,14 +125,10 @@ export default function LicenseCertificationSearchForm() {
                 text="Submit"
                 onClick={() => handleSearch(dropdown.current.optionValue, name)}
               />
-              <VaButton text="Reset Search" secondary onClick={handleReset} />
+              <VaButton text="Reset search" secondary onClick={handleReset} />
             </div>
           </form>
         )}
     </>
   );
 }
-
-LicenseCertificationSearchForm.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-};

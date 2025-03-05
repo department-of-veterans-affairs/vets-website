@@ -205,7 +205,7 @@ const YellowRibbonSelector = ({ programs }) => {
             <VaButton
               onClick={handleDisplayResults}
               secondary
-              text="Display Results"
+              text="Display results"
               className="degree-selector-btn vads-u-margin-left--2p5"
             />
           </div>
