@@ -1,12 +1,12 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Locators, Alerts } from '../utils/constants';
-import PatientSearchPage from '../pages/PatientSearchPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
+describe('SM CUSTOM FOLDER ADD FILTER CUSTOM DATE RANGE', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -17,25 +17,25 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
   });
 
   it('verify advanced filter form elements', () => {
-    PatientSearchPage.verifyStartDateFormElements();
-    PatientSearchPage.verifyEndDateFormElements();
+    PatientFilterPage.verifyStartDateFormElements();
+    PatientFilterPage.verifyEndDateFormElements();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify month and day range', () => {
-    PatientSearchPage.verifyMonthFilterRange(14);
-    PatientSearchPage.verifyDayFilterRange(2);
+    PatientFilterPage.verifyMonthFilterRange(14);
+    PatientFilterPage.verifyDayFilterRange(2);
 
-    PatientSearchPage.selectStartMonth(`February`);
-    PatientSearchPage.verifyDayFilterRange(31);
+    PatientFilterPage.selectStartMonth(`February`);
+    PatientFilterPage.verifyDayFilterRange(31);
 
-    PatientSearchPage.selectStartMonth(`June`);
-    PatientSearchPage.verifyDayFilterRange(32);
+    PatientFilterPage.selectStartMonth(`June`);
+    PatientFilterPage.verifyDayFilterRange(32);
 
-    PatientSearchPage.selectStartMonth(`October`);
-    PatientSearchPage.verifyDayFilterRange(33);
+    PatientFilterPage.selectStartMonth(`October`);
+    PatientFilterPage.verifyDayFilterRange(33);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -44,23 +44,23 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
   it(`verify errors`, () => {
     cy.get(Locators.BUTTONS.FILTER).click();
 
-    PatientSearchPage.getRequiredFieldError(
+    PatientFilterPage.getRequiredFieldError(
       Locators.BLOCKS.FILTER_START_DATE,
     ).should(`have.text`, Alerts.DATE_FILTER.EMPTY_START_DATE);
 
-    PatientSearchPage.getRequiredFieldError(
+    PatientFilterPage.getRequiredFieldError(
       Locators.BLOCKS.FILTER_END_DATE,
     ).should(`have.text`, Alerts.DATE_FILTER.EMPTY_END_DATE);
 
-    PatientSearchPage.selectStartMonth('April');
-    PatientSearchPage.selectEndMonth('February');
+    PatientFilterPage.selectStartMonth('April');
+    PatientFilterPage.selectEndMonth('February');
     cy.get(Locators.BUTTONS.FILTER).click();
 
-    PatientSearchPage.getRequiredFieldError(
+    PatientFilterPage.getRequiredFieldError(
       Locators.BLOCKS.FILTER_START_DATE,
     ).should(`include.text`, Alerts.DATE_FILTER.INVALID_START_DATE);
 
-    PatientSearchPage.getRequiredFieldError(
+    PatientFilterPage.getRequiredFieldError(
       Locators.BLOCKS.FILTER_END_DATE,
     ).should(`include.text`, Alerts.DATE_FILTER.INVALID_END_DATE);
 
@@ -69,10 +69,10 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
   });
 
   it('verify clear filters button', () => {
-    PatientSearchPage.selectStartMonth(`February`);
-    PatientSearchPage.selectStartDay(`2`);
-    PatientSearchPage.selectEndMonth('April');
-    PatientSearchPage.selectEndDay(`11`);
+    PatientFilterPage.selectStartMonth(`February`);
+    PatientFilterPage.selectStartDay(`2`);
+    PatientFilterPage.selectEndMonth('April');
+    PatientFilterPage.selectEndDay(`11`);
     cy.get(Locators.CLEAR_FILTERS).click();
     cy.get(Locators.FIELDS.DATE_RANGE_OPTION).should(
       `have.attr`,
@@ -87,7 +87,7 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
   });
 
   it('verify search results', () => {
-    const searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+    const searchResultResponse = PatientFilterPage.createDateFilterMockResponse(
       2,
       1,
     );
@@ -95,18 +95,18 @@ describe('SM INBOX ADVANCED CUSTOM DATE RANGE SEARCH', () => {
       new Date(),
     );
 
-    PatientSearchPage.selectStartMonth(startMonth);
-    PatientSearchPage.selectStartDay(`1`);
-    PatientSearchPage.getStartYear(year);
-    PatientSearchPage.selectEndMonth(endMonth);
-    PatientSearchPage.selectEndDay(`11`);
-    PatientSearchPage.getEndYear(year);
+    PatientFilterPage.selectStartMonth(startMonth);
+    PatientFilterPage.selectStartDay(`1`);
+    PatientFilterPage.getStartYear(year);
+    PatientFilterPage.selectEndMonth(endMonth);
+    PatientFilterPage.selectEndDay(`11`);
+    PatientFilterPage.getEndYear(year);
 
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifyMessageDate(2);
-    PatientSearchPage.verifySearchMessageLabel(
+    PatientFilterPage.verifyFilterResponseLength(searchResultResponse);
+    PatientFilterPage.verifyMessageDate(2);
+    PatientFilterPage.verifyFilterMessageLabel(
       searchResultResponse,
       `${startMonth} 1st ${year} to ${endMonth} 11th ${year}`,
     );

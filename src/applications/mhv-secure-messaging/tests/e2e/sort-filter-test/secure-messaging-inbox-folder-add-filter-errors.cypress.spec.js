@@ -3,6 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import mockMessages from '../fixtures/messages-response.json';
 import { AXE_CONTEXT, Locators } from '../utils/constants';
 import PatientErrorPage from '../pages/PatientErrorPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 
 describe('Secure Messaging Inbox', () => {
   it('Secure Messaging Inbox Filter Validation', () => {
@@ -10,7 +11,7 @@ describe('Secure Messaging Inbox', () => {
     const messageDetails = PatientInboxPage.getNewMessageDetails();
 
     PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
-    PatientInboxPage.clickAdditionalFilterButton();
+    PatientFilterPage.clickAdditionalFilterButton();
     PatientInboxPage.selectDateRange('Custom');
 
     cy.get(Locators.FROM_TO_DATES_CONTAINER)
