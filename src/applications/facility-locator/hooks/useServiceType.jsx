@@ -6,7 +6,7 @@ import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/
 // Note: this file is hard-coded with data from https://www.va.gov/data/cms/va-healthcare-services.json
 // It should be updated periodically, especially when local changes are made that affect the matching logic so we can be
 // sure our code handles what services actually exist in prod
-import vaHealthServicesData from '../tests/hooks/test-va-healthcare-services.json';
+import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
 
 export const FACILITY_TYPE_FILTERS = {
   VET_CENTER: 'vet_center',
@@ -140,7 +140,7 @@ export default function useServiceType() {
   );
 
   if (localEnv) {
-    selector = vaHealthServicesData;
+    selector = vaHealthcareServices;
   }
 
   useEffect(
@@ -161,8 +161,6 @@ export default function useServiceType() {
       if (term === allServicesOptionForVamc[0]) {
         return [allServicesOptionForVamc];
       }
-
-      if (!selector || selector.loading) return [];
 
       // initial load of services
       if (!term?.length && facilityType && selector.data) {
@@ -192,14 +190,13 @@ export default function useServiceType() {
 
         return matches;
       }
-
       return [];
     },
     [selector],
   );
 
   return {
-    isServiceTypeFilterLoading: selector.isLoading,
+    selector,
     serviceTypeFilter,
   };
 }

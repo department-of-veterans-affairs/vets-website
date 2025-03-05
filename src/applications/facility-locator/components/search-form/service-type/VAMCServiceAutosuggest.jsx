@@ -13,7 +13,7 @@ const VAMCServiceAutosuggest = ({
   setSearchInitiated,
   vamcServiceDisplay,
 }) => {
-  const { serviceTypeFilter } = useServiceType();
+  const { selector, serviceTypeFilter } = useServiceType();
   const [inputValue, setInputValue] = useState(null);
   const [options, setOptions] = useState([]);
   const [allVAMCServices, setAllVAMCServices] = useState([]);
@@ -54,15 +54,20 @@ const VAMCServiceAutosuggest = ({
     }
   };
 
-  useEffect(() => {
-    getServices();
+  useEffect(
+    () => {
+      if (selector?.data) {
+        getServices();
+      }
 
-    // Handles edge cases where the form might be re-rendered between
-    // viewpoints or for any other reason and the autosuggest input is lost
-    if (!inputValue && vamcServiceDisplay) {
-      setInputValue(vamcServiceDisplay);
-    }
-  }, []);
+      // Handles edge cases where the form might be re-rendered between
+      // viewpoints or for any other reason and the autosuggest input is lost
+      if (!inputValue && vamcServiceDisplay) {
+        setInputValue(vamcServiceDisplay);
+      }
+    },
+    [selector],
+  );
 
   // If the user has not typed a service at all, or types something that does not
   // match any of the services, we'll search for "All VA health services" when the
