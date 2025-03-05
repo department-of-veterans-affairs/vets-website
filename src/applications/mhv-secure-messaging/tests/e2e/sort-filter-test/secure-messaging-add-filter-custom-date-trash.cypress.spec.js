@@ -43,6 +43,16 @@ describe('SM TRASH ADD FILTER CUSTOM DATE RANGE', () => {
   it(`verify errors`, () => {
     cy.get(Locators.BUTTONS.FILTER).click();
 
+    cy.get(Locators.FROM_TO_DATES_CONTAINER)
+      .find('legend')
+      .eq(0)
+      .should('have.text', 'Start date (*Required)');
+
+    cy.get(Locators.FROM_TO_DATES_CONTAINER)
+      .find('legend')
+      .eq(1)
+      .should('have.text', 'End date (*Required)');
+
     PatientFilterPage.getRequiredFieldError(
       Locators.BLOCKS.FILTER_START_DATE,
     ).should(`have.text`, Alerts.DATE_FILTER.EMPTY_START_DATE);
