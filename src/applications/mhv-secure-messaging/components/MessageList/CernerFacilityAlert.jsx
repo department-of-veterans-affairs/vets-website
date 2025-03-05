@@ -55,7 +55,7 @@ const CernerFacilityAlert = ({ cernerFacilities }) => {
   return (
     <>
       <va-alert
-        className="vads-u-margin-bottom--2"
+        class="vads-u-margin-bottom--3 vads-u-margin-top--2"
         status="warning"
         background-only
         close-btn-aria-label="Close notification"
