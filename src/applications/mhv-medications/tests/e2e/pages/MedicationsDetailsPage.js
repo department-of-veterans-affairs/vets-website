@@ -2,6 +2,7 @@ import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
 import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
+import rxDetails from '../fixtures/active-submitted-prescription-details.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -588,7 +589,7 @@ class MedicationsDetailsPage {
   };
 
   verifyCheckStatusHeaderTextOnDetailsPage = text => {
-    cy.get('[data-testid="check-status-text"]').should('have.text', text);
+    cy.get('[data-testid="progress-list-header"]').should('have.text', text);
   };
 
   verifyPharmacyPhoneNumberOnDelayAlert = phoneNumber => {
@@ -631,6 +632,13 @@ class MedicationsDetailsPage {
 
   verifyActiveRefillInProcessStepThreeOnDetailsPage = text => {
     cy.get('[data-testid="progress-step-three"]').should('contain', text);
+  };
+
+  verifyTrackingForSubmittedRefillOnDetailsPage = () => {
+    cy.get('[data-testid="rx-name"]').should(
+      'contain',
+      `${rxDetails.data.attributes.prescriptionName}`,
+    );
   };
 }
 
