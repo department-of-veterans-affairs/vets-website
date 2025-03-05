@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -78,7 +77,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const fullState = useSelector(state => state);
 
   // Extract user info
-  const name = formatName(userProfile.userFullName);
+  const firstName = userProfile.userFullName.first;
+  const lastName = userProfile.userFullName.last;
   const dob = formatUserDob(userProfile); // Example DOB
 
   // Extract all SEI domain data
@@ -171,7 +171,8 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           const pdfData = {
             recordSets: generateSelfEnteredData(seiRecords),
             ...scaffold,
-            name,
+            firstName,
+            lastName,
             dob,
             lastUpdated: UNKNOWN,
           };

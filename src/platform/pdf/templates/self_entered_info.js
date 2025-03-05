@@ -126,14 +126,11 @@ const generateTitleSection = (doc, parent, data) => {
   );
   titleSection.add(
     doc.struct('P', () => {
-      const nameParts = data.name.split(', '); // Split the name by comma and space
-      const formattedName = `Name: ${nameParts[1]} ${nameParts[0]}`; // Rearrange to "Veteran Maveteran"
-
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          formattedName, // Use the formatted name
+          `Name: ${data.firstName} ${data.lastName}`,
           config.margins.left,
           doc.y,
           subTitleOptions,
