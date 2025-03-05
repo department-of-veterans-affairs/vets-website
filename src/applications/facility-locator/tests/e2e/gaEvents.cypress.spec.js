@@ -35,7 +35,7 @@ for (const featureSet of featuresToTest) {
 
       cy.window().then(win => {
         // Search
-        cy.get('#street-city-state-zip').type('Austin, TX');
+        cy.get('#street-city-state-zip').type('Austin, TX{enter}');
         cy.get('#facility-type-dropdown')
           .shadow()
           .find('select')
@@ -66,6 +66,11 @@ for (const featureSet of featuresToTest) {
         [...Array(5)].forEach(_ =>
           cy.get('.mapboxgl-ctrl-zoom-in').click({ waitForAnimations: true }),
         );
+
+        cy.get('#mapbox-gl-container')
+          .should('exist')
+          .scrollIntoView();
+
         cy.get('#mapbox-gl-container', { timeout: 10000 }).should(() => {
           assertDataLayerEvent(win, 'fl-map-zoom-in');
         });
