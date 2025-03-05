@@ -66,7 +66,8 @@
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node ./script/watch.js",
     "watch:no-server": "yarn build:webpack --watch --stats=minimal",
-    "watch:review": "node ./script/run-review-instance-api.js"
+    "watch:review": "node ./script/run-review-instance-api.js",
+    "bill:test": "yarn test:unit --log-level=error /Users/billtran/Sites/civic-actions/vets-website/src/applications/vaos/referral-appointments/components/ReferralTaskCardWithReferral.unit.spec.js"
   },
   "repository": {
     "type": "git",
@@ -262,8 +263,8 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^49.2.0",
-    "@department-of-veterans-affairs/css-library": "^0.18.0",
+    "@department-of-veterans-affairs/component-library": "^49.3.0",
+    "@department-of-veterans-affairs/css-library": "^0.19.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",

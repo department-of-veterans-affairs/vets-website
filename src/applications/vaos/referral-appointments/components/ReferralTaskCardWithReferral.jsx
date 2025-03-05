@@ -19,7 +19,9 @@ export default function ReferralTaskCardWithReferral() {
 
   const params = new URLSearchParams(search);
   const id = params.get('id');
-  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id);
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
+    skip: !id,
+  });
 
   if (id && isLoading) {
     return (

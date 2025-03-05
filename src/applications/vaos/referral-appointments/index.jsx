@@ -33,7 +33,9 @@ export default function ReferralAppointments() {
   const [, appointmentId] = pathname.split('/schedule-referral/complete/');
   const { appointmentInfoLoading } = useSelector(getReferralAppointmentInfo);
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
-  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id);
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
+    skip: !id,
+  });
 
   useEffect(
     () => {
