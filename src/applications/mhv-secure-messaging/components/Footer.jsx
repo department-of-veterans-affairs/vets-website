@@ -37,7 +37,7 @@ const Footer = () => {
             <HorizontalRule />
             <p className="vads-u-margin--0">{HAVE_QUESTIONS}</p>
             <p className="vads-u-margin-top--2">
-              <a href="/health-care/secure-messaging">{LEARN_MORE}</a>
+              <a href="/health-care/send-receive-messages/">{LEARN_MORE}</a>
             </p>
             <p className="vads-u-margin-top--1">{CONTACT_FACILITY}</p>
             <p className="vads-u-margin-top--1">
