@@ -20,7 +20,7 @@ module.exports = [
   { name: 'vaOnlineSchedulingBookingExclusion', value: false },
   { name: 'vaOnlineSchedulingStaticLandingPage', value: true },
   { name: 'vaOnlineSchedulingDatadogRum', value: true },
-  { name: 'vaOnlineSchedulingCCDirectScheduling', value: true },
+  { name: 'vaOnlineSchedulingCCDirectScheduling', value: false },
   { name: 'vaOnlineSchedulingRecentLocationsFilter', value: false },
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: false },
   { name: 'vaOnlineSchedulingOhRequest', value: false },
