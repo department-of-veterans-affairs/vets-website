@@ -223,14 +223,14 @@ export const handleHeader = (folderId, folder) => {
 };
 
 export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
-  const defaultFolderHeaders = [
+  const systemFolderHeaders = [
     Folders.INBOX.header,
     Folders.SENT.header,
     Folders.DRAFTS.header,
     Folders.DELETED.header,
   ];
 
-  const isCustomFolder = !defaultFolderHeaders.includes(folderName);
+  const isCustomFolder = !systemFolderHeaders.includes(folderName);
 
   if (folderName) {
     const titleTag = removeLandingPageFF
