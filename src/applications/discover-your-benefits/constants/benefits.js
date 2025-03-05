@@ -30,6 +30,7 @@ export const goalTypes = Object.freeze({
   CAREER: 'CAREER',
   HEALTH: 'HEALTH',
   UNDERSTAND: 'UNDERSTAND',
+  PLAN: 'PLAN',
 });
 
 export const goalTypeLabels = Object.freeze({
@@ -39,6 +40,7 @@ export const goalTypeLabels = Object.freeze({
   CAREER: 'Start a new career',
   HEALTH: 'Take care of my health and well-being',
   UNDERSTAND: 'Understand my benefits',
+  PLAN: "Plan for my and my family's future",
 });
 
 export const militaryServiceTimeServedLabels = Object.freeze({
@@ -514,7 +516,11 @@ export const BENEFITS_LIST = [
       "With Veterans’ Group Life Insurance (VGLI), you may be able to keep your life insurance coverage after you leave the military for as long as you continue to pay the premiums. You can start a new VGLI application or you can convert Servicemembers' Group Life Insurance (SGLI) to VGLI.",
     isTimeSensitive: true,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.UNDERSTAND,
+        goalTypes.PLAN,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -539,7 +545,11 @@ export const BENEFITS_LIST = [
       "Note: You must already have a VA service-connected disability rating to be approved for Veterans Affairs Life Insurance (VALife). VALife provides low-cost coverage to Veterans with service-connected disabilities. Find out if you're eligible and how to apply.",
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [
+        goalTypes.RETIREMENT,
+        goalTypes.UNDERSTAND,
+        goalTypes.PLAN,
+      ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
