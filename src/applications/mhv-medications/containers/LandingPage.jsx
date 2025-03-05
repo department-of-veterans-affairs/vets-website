@@ -692,7 +692,7 @@ const LandingPage = () => {
   }
 
   if (removeLandingPage) {
-    return <Redirect to={medicationsUrls.MEDICATIONS_URL} />;
+    return <Redirect to="/" />;
   }
 
   return (
