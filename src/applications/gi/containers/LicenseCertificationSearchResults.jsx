@@ -6,7 +6,6 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import PropTypes from 'prop-types';
 import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
 import {
   handleLcResultsSearch,
@@ -265,7 +264,7 @@ export default function LicenseCertificationSearchResults() {
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search results
           </h1>
-          <p className="vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--7 ">
+          <p className="vads-u-margin-top--0 usa-width-two-thirds ">
             We didn't find any results for "<strong>{nameParam}</strong>
             ." Please{' '}
             <va-link
@@ -276,15 +275,18 @@ export default function LicenseCertificationSearchResults() {
             and try using different words or checking the spelling of the words
             you're using.
             <p className="">
-              If you don't see a test or prep course listed, it may be a valid
-              test that's not yet approved. We encourage you to submit an
-              application for reimbursement. If approved, we'll prorate the
-              entitlement charges based on the actual amount of the fee charged
-              for the test.{' '}
+              If you don’t see a test or prep course listed, it may be a valid
+              test that’s not yet approved. For license or certification, take
+              the test, then apply for approval by submitting VA Form 22-0803.{' '}
               <va-link
+                text="Get VA Form 22-0803 to download."
                 href="https://www.va.gov/find-forms/about-form-22-0803/"
-                text="Find out how to get reimbursed for
-                licenses, certifications and prep courses."
+              />{' '}
+              For prep course, take the course, then apply for approval by
+              submitting VA Form 22-10272.{' '}
+              <va-link
+                text="Get VA Form 22-10272 to download."
+                href="https://www.va.gov/find-forms/about-form-22-10272/"
               />
             </p>
           </p>
@@ -328,7 +330,7 @@ export default function LicenseCertificationSearchResults() {
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
-                        button="Update Search"
+                        button="Update search"
                         buttonLabel="Filter your results"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
@@ -415,8 +417,3 @@ export default function LicenseCertificationSearchResults() {
     </div>
   );
 }
-
-LicenseCertificationSearchResults.propTypes = {
-  flag: PropTypes.string,
-  // error: Proptypes // verify error Proptypes
-};

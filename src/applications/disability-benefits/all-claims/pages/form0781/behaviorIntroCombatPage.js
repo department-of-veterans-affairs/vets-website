@@ -16,11 +16,12 @@ export const uiSchema = {
   'ui:title': titleWithTag(behaviorPageTitle, form0781HeadingTag),
   'ui:description': behaviorIntroCombatDescription,
   'view:answerCombatBehaviorQuestions': radioUI({
-    title: 'Do you want to answer additional questions?',
+    title: 'Do you want to answer questions about behavioral changes?',
+    labelHeaderLevel: '4',
     required: () => true,
     labels: {
-      true: 'Yes',
-      false: 'No',
+      true: 'Yes, I want to answer these questions.',
+      false: 'No, I want to skip these questions.',
     },
   }),
   'view:mentalHealthSupportAlert': {
