@@ -33,40 +33,37 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
   const [formError, updateFormError] = useState({ error: false, type: '' });
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
-  const [availableForms, setAvailableForms] = useState(null);
   const profile = useSelector(state => selectAuthStatus(state));
   const isAppLoading = useMemo(
     () => {
-      return profile.isLoadingProfile || availableForms === null;
+      return profile.isLoadingProfile;
     },
-    [profile, availableForms],
+    [profile],
   );
 
-  useEffect(() => {
-    const getAvailableForms = () => {
-      return apiRequest('/form1095_bs/available_forms')
+  useEffect(
+    () => {
+      if (profile.isUserLOA3 !== true || displayToggle !== true) {
+        return;
+      }
+
+      apiRequest('/form1095_bs/available_forms')
         .then(response => {
           if (response.errors || response.availableForms.length === 0) {
             updateFormError({ error: true, type: errorTypes.NOT_FOUND });
           }
-          return response.availableForms === null
-            ? false
-            : response.availableForms;
+          // return response.availableForms;
+          const mostRecentYearData = response.availableForms[0];
+          if (mostRecentYearData?.year) {
+            updateYear(mostRecentYearData.year);
+          }
         })
         .catch(() => {
           updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
-          return false; // Return false in case of an error
         });
-    };
-
-    getAvailableForms().then(forms => {
-      setAvailableForms(forms);
-      const mostRecentYearData = forms[0];
-      if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
-        updateYear(mostRecentYearData.year);
-      }
-    });
-  }, []);
+    },
+    [profile.isUserLOA3, displayToggle],
+  );
 
   useEffect(
     () => {
@@ -214,16 +211,13 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
     if (formError.type === errorTypes.SYSTEM_ERROR) {
       return systemErrorComponent;
     }
-    if (profile.isLoggedIn) {
-      if (!displayToggle) {
-        return unavailableComponent();
-      }
-      if (formError.type === errorTypes.NOT_FOUND) {
-        return notFoundComponent();
-      }
-      return downloadForm;
+    if (!displayToggle) {
+      return unavailableComponent();
     }
-    return null;
+    if (formError.type === errorTypes.NOT_FOUND) {
+      return notFoundComponent();
+    }
+    return downloadForm;
   };
 
   // determine what to render
