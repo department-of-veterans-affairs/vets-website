@@ -24,7 +24,7 @@ describe('Secure Messaging Inbox Message Sort', () => {
     cy.contains(smFooter.CONTACT_FACILITY).should(`be.visible`);
     cy.contains(smFooter.LEARN_MORE)
       .should(`be.visible`)
-      .and(`have.attr`, `href`, Paths.HEALTH_CARE_SECURE_MSG);
+      .and(`have.attr`, `href`, Paths.HEALTH_CARE_SEND_RECEIVE_MSG);
     cy.contains(smFooter.FIND_FACILITY)
       .should(`be.visible`)
       .and(`have.attr`, `href`, Paths.FIND_LOCATION);
