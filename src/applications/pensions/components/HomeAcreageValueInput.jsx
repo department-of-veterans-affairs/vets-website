@@ -102,7 +102,7 @@ const HomeAcreageValueInput = props => {
       }}
       buttonText="Update page"
       buttonClass="usa-button-primary"
-      ariaLabel="Update Home acreage value page"
+      ariaLabel="Update home acreage value"
     />
   );
 
