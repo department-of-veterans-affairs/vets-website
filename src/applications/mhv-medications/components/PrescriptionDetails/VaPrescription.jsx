@@ -62,8 +62,8 @@ const VaPrescription = prescription => {
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
   const isCriteriaMetToDisplayProcessList = () => {
-    const { dispStatus, trackingList } = prescription; // Accessing prescription directly
-    const hasTrackingList = Boolean(trackingList); // Check if trackingList is present
+    const { dispStatus, trackingList } = prescription;
+    const hasTrackingList = Boolean(trackingList);
 
     return (
       dispStatus === 'Active' ||
