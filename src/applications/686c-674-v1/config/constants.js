@@ -26,3 +26,5 @@ export const MARRIAGE_TYPES = {
 };
 
 export const NETWORTH_VALUE = '159,240';
+
+export const V2_LAUNCH_DATE = 'March 11th, 2025'; // TBD - update after V2 launch
