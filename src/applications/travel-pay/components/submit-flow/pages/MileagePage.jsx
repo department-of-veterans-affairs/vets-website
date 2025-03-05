@@ -5,8 +5,8 @@ import { useSelector } from 'react-redux';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
-import { BTSSS_PORTAL_URL } from '../../../constants';
 import { selectAppointment } from '../../../redux/selectors';
 import SmocRadio from '../../SmocRadio';
 
@@ -97,14 +97,7 @@ const MileagePage = ({
             If you need to submit receipts for other expenses like tolls, meals,
             or lodging, you can’t file a claim in this tool right now.
           </strong>{' '}
-          But you can file your claim online through the{' '}
-          <va-link
-            external
-            href={BTSSS_PORTAL_URL}
-            text="Beneficiary Travel Self Service System (BTSSS)"
-          />
-          . Or you can use VA Form 10-3542 to submit a claim by mail or in
-          person.
+          <HelpTextOptions />
         </p>
       </va-additional-info>
 

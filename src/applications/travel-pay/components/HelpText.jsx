@@ -75,3 +75,19 @@ export const HelpTextModalities = () => {
     </div>
   );
 };
+
+export const HelpTextOptions = () => (
+  <>
+    But you can file your claim online through the
+    <va-link
+      external
+      href={BTSSS_PORTAL_URL}
+      text="Beneficiary Travel Self Service System (BTSSS)"
+    />
+    .{' '}
+    <p>
+      Or you can use VA Form 10-3542 to submit a claim by mail or in person.
+    </p>
+    <va-link href={FORM_103542_LINK} text="Learn more about VA Form 10-3542" />
+  </>
+);
