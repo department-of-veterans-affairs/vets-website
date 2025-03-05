@@ -30,14 +30,3 @@ export const ensureValidCSRFToken = async () => {
     });
   }
 };
-
-export const handleInvalidCSRF = error => {
-  const errorResponse = error?.errors?.[0];
-
-  if (
-    errorResponse?.status === '403' &&
-    errorResponse?.detail === 'Invalid Authenticity Token'
-  ) {
-    localStorage.setItem('csrfToken', '');
-  }
-};

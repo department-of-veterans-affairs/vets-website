@@ -58,27 +58,44 @@ describe('Burials helpers', () => {
         },
       );
     });
+    describe('on 403 Invalid Authenticity Token error', () => {
+      it('should reset csrfToken', async () => {
+        expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+        const invalidAuthenticityTokenResponse = {
+          errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
+        };
+        apiRequestStub.onFirstCall().rejects(invalidAuthenticityTokenResponse);
 
-    it('should reset csrfToken on 403 Invalid Authenticity Token error', async () => {
-      expect(localStorage.getItem('csrfToken')).to.eql('my-token');
-      const invalidAuthenticityTokenResponse = {
-        errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
-      };
-      apiRequestStub.onFirstCall().rejects(invalidAuthenticityTokenResponse);
+        await submit(form, formConfig);
 
-      await submit(form, formConfig).then(
-        () => {
-          expect.fail();
-        },
-        err => {
-          expect(err).to.equal(invalidAuthenticityTokenResponse);
-        },
-      );
+        await waitFor(() => {
+          // Submission attempt -> CSRF refresh -> submission attempt
+          expect(apiRequestStub.callCount).to.equal(3);
+        });
+      });
 
-      expect(localStorage.getItem('csrfToken')).to.eql('');
+      it('should only retry once', async () => {
+        expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+        const invalidAuthenticityTokenResponse = {
+          errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
+        };
+        apiRequestStub.onFirstCall().rejects(invalidAuthenticityTokenResponse);
+        apiRequestStub.onSecondCall().resolves({});
+        apiRequestStub.onThirdCall().rejects({ message: 'fake error' });
 
-      await waitFor(() => {
-        expect(apiRequestStub.callCount).to.equal(1);
+        await submit(form, formConfig).then(
+          () => {
+            expect.fail();
+          },
+          err => {
+            expect(err.message).to.equal('fake error');
+          },
+        );
+
+        await waitFor(() => {
+          // Submission attempt -> CSRF refresh -> submission attempt
+          expect(apiRequestStub.callCount).to.equal(3);
+        });
       });
     });
   });
