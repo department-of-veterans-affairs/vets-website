@@ -158,11 +158,6 @@ export const IntroductionPage = props => {
               your form. But you’ll lose any information you already filled in.
             </p>
 
-            <VaButton
-              onClick={onSignInButtonClick}
-              text="Sign in to start your form"
-            />
-
             <p>
               <Link
                 to="/name-and-date-of-birth?loggedIn=false"
@@ -171,6 +166,11 @@ export const IntroductionPage = props => {
                 Start your application without signing in
               </Link>
             </p>
+
+            <VaButton
+              onClick={onSignInButtonClick}
+              text="Sign in to start your form"
+            />
           </va-alert>
         </>
       ) : (
