@@ -66,10 +66,7 @@ export const AppointmentInfoText = ({ appointment }) => {
             claim.
           </p>
           <va-link
-            text="Learn how to file your travel reimbursement claim online"
-            href={TRAVEL_PAY_INFO_LINK}
-          />
-          <va-link
+            external
             text="Learn how to file your travel reimbursement claim online"
             href={TRAVEL_PAY_INFO_LINK}
           />
