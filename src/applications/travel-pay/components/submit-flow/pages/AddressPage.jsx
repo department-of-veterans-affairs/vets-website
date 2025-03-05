@@ -93,7 +93,7 @@ const AddressPage = ({
       >
         <div className="vads-u-margin-y--2">
           <p>
-            Answer “Yes” if you traveled from the address listed here and you
+            Answer “yes” if you traveled from the address listed here and you
             confirm that it’s not a Post Office box.
           </p>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />

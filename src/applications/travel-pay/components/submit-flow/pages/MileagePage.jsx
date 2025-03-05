@@ -48,7 +48,7 @@ const MileagePage = ({
       <SmocRadio
         name="mileage"
         value={yesNo.mileage}
-        label="Are you claiming only mileage?"
+        label="Are you only claiming mileage?"
         error={requiredAlert}
         onValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
@@ -77,7 +77,7 @@ const MileagePage = ({
         <ul>
           <li>We pay round-trip mileage for your scheduled appointments.</li>
           <li>
-            We may only pay return mileage for unscheduled appointments, like
+            We may only pay return mileage for unscheduled appointments like
             walk-ins and labs.
           </li>
         </ul>

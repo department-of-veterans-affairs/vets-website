@@ -64,7 +64,7 @@ export const HelpTextModalities = () => {
         </li>
         <li>
           <p className="vads-u-margin-y--2">
-            VA Form 10-3542 by mail, fax, email, or in person
+            By mail, fax, email, or in person with the VA Form 10-3542
           </p>
           <va-link
             href={FORM_103542_LINK}
