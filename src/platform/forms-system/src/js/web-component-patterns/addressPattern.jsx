@@ -232,6 +232,8 @@ export function addressUI(options) {
   const requireStateForAllCountries =
     options?.requireStateForAllCountries || false;
 
+  const maxStateLength = options?.maxStateLength || 100;
+
   const omit = key => options?.omit?.includes(key);
   let customRequired = key => options?.required?.[key];
   if (options?.required === false) {
@@ -440,8 +442,6 @@ export function addressUI(options) {
   }
 
   if (!omit('state')) {
-    const maxStateLength = options?.maxStateLength;
-
     uiSchema.state = {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index) => {
