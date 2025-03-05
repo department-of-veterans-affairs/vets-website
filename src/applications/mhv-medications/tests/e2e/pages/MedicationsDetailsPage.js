@@ -589,7 +589,7 @@ class MedicationsDetailsPage {
   };
 
   verifyCheckStatusHeaderTextOnDetailsPage = text => {
-    cy.get('[data-testid="progress-list-header"]').should('have.text', text);
+    cy.get('[data-testid="check-status-text"]').should('have.text', text);
   };
 
   verifyPharmacyPhoneNumberOnDelayAlert = phoneNumber => {
