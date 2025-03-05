@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   capitalizeFirstLetter,
   formatList,
@@ -170,3 +171,17 @@ export default function LicenseCertificationSearchInfo({
     </div>
   );
 }
+
+LicenseCertificationSearchInfo.propTypes = {
+  activeCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentPage: PropTypes.number.isRequired,
+  filteredResults: PropTypes.array.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  nameParam: PropTypes.string,
+  previousRouteHome: PropTypes.bool.isRequired,
+  stateParam: PropTypes.string.isRequired,
+};
+
+LicenseCertificationSearchInfo.defaultProps = {
+  nameParam: '',
+};

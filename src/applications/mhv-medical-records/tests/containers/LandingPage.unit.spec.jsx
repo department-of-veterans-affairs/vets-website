@@ -84,7 +84,7 @@ describe('Landing Page', () => {
     );
   });
 
-  it('displays features as h2s with links below when feature flags are true', () => {
+  it('displays features when feature flags are true', () => {
     const customState = {
       drupalStaticData: {
         vamcEhrData: {
@@ -105,6 +105,8 @@ describe('Landing Page', () => {
         mhv_medical_records_display_vitals: true,
         // eslint-disable-next-line camelcase
         mhv_medical_records_display_settings_page: true,
+        // eslint-disable-next-line camelcase
+        mhv_medical_records_update_landing_page: true,
       },
       ...initialState,
     };
@@ -152,7 +154,7 @@ describe('Landing Page', () => {
       }),
     ).to.exist;
     expect(
-      screen.getByText('Manage your medical records settings', {
+      screen.getByText('Manage your electronic sharing settings', {
         selector: 'h2',
         exact: true,
       }),
@@ -186,45 +188,16 @@ describe('Landing Page', () => {
     ).to.exist;
     expect(
       screen.getByRole('link', {
-        name: 'Go to your medical records settings',
+        name: 'Go to manage your electronic sharing settings',
       }),
     ).to.exist;
-    // expect(
-    //   screen.getAllByText('Go to your medical records settings', {
-    //     selector: 'a',
-    //     exact: true,
-    //   }).length,
-    // ).to.eq(2);
-  });
 
-  it('displays Questions about this medical records tool section', () => {
-    const screen = renderWithStoreAndRouter(<LandingPage />, {});
-
+    // help section
     expect(
-      screen.getByText('Questions about this medical records tool', {
-        selector: 'h2',
+      screen.getByText('Need help?', {
+        selector: 'h3',
         exact: true,
       }),
-    ).to.exist;
-
-    expect(
-      screen.getByText(
-        'Where can I find health information I entered myself?',
-        {
-          selector: 'h3',
-          exact: true,
-        },
-      ),
-    ).to.exist;
-
-    expect(
-      screen.getAllByText(
-        'Go to your medical records on the My HealtheVet website',
-        {
-          selector: 'a',
-          exact: true,
-        },
-      ),
     ).to.exist;
   });
 });
