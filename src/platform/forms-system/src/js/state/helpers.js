@@ -660,7 +660,7 @@ export function updateSchemasAndData(
   );
 
   // Update the schema with any fields that are now hidden because of the data change
-  newSchema = setHiddenFields(newSchema, uiSchema, formData, [index], fullData);
+  newSchema = setHiddenFields(newSchema, uiSchema, formData, [], fullData);
 
   // Update the uiSchema and  schema with any general updates based on the new data
   const newUiSchema = updateUiSchema(
