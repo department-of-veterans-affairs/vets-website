@@ -11,18 +11,12 @@ export default {
       ...firstNameLastNameNoSuffixUI(),
       first: {
         'ui:title': 'First name',
-        'ui:options': {
-          maxLength: 15,
-        },
         'ui:errorMessages': {
           required: 'Enter a first name',
         },
       },
       last: {
         'ui:title': 'Last name',
-        'ui:options': {
-          maxLength: 25,
-        },
         'ui:errorMessages': {
           required: 'Enter a last name',
         },
