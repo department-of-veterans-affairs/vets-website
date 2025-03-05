@@ -148,6 +148,11 @@ export const formerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        hideIf: (formData, index) =>
+          !(
+            formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
+              'Other' || formData?.reasonMarriageEnded === 'Other'
+          ),
         keepInPageOnReview: true,
       },
     },

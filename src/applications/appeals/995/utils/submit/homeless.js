@@ -82,12 +82,13 @@ export const getHomeless = formData => {
       );
       if (phone) {
         result.homelessPointOfContactPhone = {
-          // Lighthouse combines these values into a string, it doesn't matter how
-          // we split it up; or, if we're processing a US or international phone
-          countryCode: '',
+          // Lighthouse combines these values into a string, it doesn't matter
+          // how we split it up; or, if we're processing a US or international
+          // phone. Also, don't submit empty strings
+          // countryCode: '',
+          // phoneNumberExt: '',
           areaCode: phone.substring(0, 3),
           phoneNumber: phone.substring(3, phone.length),
-          phoneNumberExt: '',
         };
       }
     }

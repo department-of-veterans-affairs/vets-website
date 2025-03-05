@@ -1,4 +1,5 @@
 import React from 'react';
+import MockDate from 'mockdate';
 import { expect } from 'chai';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -19,6 +20,10 @@ const mockAppt = {
 };
 
 describe('Introduction page', () => {
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   const props = {
     onStart: () => {},
   };
@@ -42,13 +47,19 @@ describe('Introduction page', () => {
   });
 
   it('should render with link to file a claim if data has loaded', () => {
+    MockDate.set('2025-01-05');
     const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
       initialState: {
         travelPay: {
           appointment: {
             isLoading: true,
             error: null,
-            data: mockAppt,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
+            },
           },
         },
       },
@@ -80,7 +91,8 @@ describe('Introduction page', () => {
     ).to.exist;
   });
 
-  it('should show alert if appointment is not past', () => {
+  it('should show future appt alert if appointment is not past', () => {
+    MockDate.set('2024-12-28');
     const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
       initialState: {
         travelPay: {
@@ -88,8 +100,10 @@ describe('Introduction page', () => {
             isLoading: false,
             error: null,
             data: {
-              kind: 'clinic',
-              start: '2050-01-01T14:00:00Z',
+              ...mockAppt,
+              isPast: false,
+              daysSinceAppt: null,
+              isOutOfBounds: false,
             },
           },
         },
@@ -98,5 +112,28 @@ describe('Introduction page', () => {
     });
 
     expect(screen.getByText('We need to wait to file your claim')).to.exist;
+  });
+
+  it('should show warning alert if appointment was >30 days ago', () => {
+    MockDate.set('2025-02-28');
+    const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
+      initialState: {
+        travelPay: {
+          appointment: {
+            isLoading: true,
+            error: null,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 60,
+              isOutOfBounds: true,
+            },
+          },
+        },
+      },
+      reducers: reducer,
+    });
+
+    expect(screen.getByText('Your appointment is older than 30 days')).to.exist;
   });
 });

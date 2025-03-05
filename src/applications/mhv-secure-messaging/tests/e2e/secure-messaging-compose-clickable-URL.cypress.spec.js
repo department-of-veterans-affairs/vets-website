@@ -17,7 +17,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     };
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
     PatientInterstitialPage.getContinueButton().click();
-    PatientComposePage.selectRecipient(requestBodyUpdated.recipientId);
+    PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory(requestBodyUpdated.category);
     PatientComposePage.getMessageSubjectField().type(
       `${requestBodyUpdated.subject}`,
@@ -27,7 +27,7 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       { force: true },
     );
     PatientComposePage.verifyClickableURLinMessageBody(
-      `\n${requestBodyUpdated.body}`,
+      `${requestBodyUpdated.body}`,
     );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

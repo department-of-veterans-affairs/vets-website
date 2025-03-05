@@ -1,7 +1,7 @@
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
 import mockLaLocation from '../../constants/mock-la-location.json';
-import CcpHelpers from '../ccp-helpers-cypress';
-import FacilityHelpers from '../facility-helpers-cypress';
+import CcpHelpers from './helpers/ccp-helpers-cypress';
+import FacilityHelpers from './helpers/facility-helpers-cypress';
 import {
   selectFacilityTypeInDropdown,
   selectServiceTypeInVAHealthDropdown,

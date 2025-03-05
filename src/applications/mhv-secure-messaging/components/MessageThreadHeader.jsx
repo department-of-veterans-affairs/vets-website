@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useLocation } from 'react-router-dom';
 import { format, addDays } from 'date-fns';
@@ -8,13 +9,12 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import MessageActionButtons from './MessageActionButtons';
 import {
   Categories,
-  PageTitles,
   Recipients,
   ParentComponent,
   RecipientStatus,
   BlockedTriageAlertStyles,
 } from '../util/constants';
-import { scrollIfFocusedAndNotInView } from '../util/helpers';
+import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
@@ -42,6 +42,12 @@ const MessageThreadHeader = props => {
   const [currentRecipient, setCurrentRecipient] = useState(null);
 
   const messages = useSelector(state => state.sm.threadDetails.messages);
+  const removeLandingPageFF = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
+      ],
+  );
 
   useEffect(
     () => {
@@ -87,10 +93,11 @@ const MessageThreadHeader = props => {
 
   useEffect(
     () => {
+      const pageTitleTag = getPageTitle({ removeLandingPageFF });
       focusElement(document.querySelector('h1'));
-      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
+      updatePageTitle(pageTitleTag);
     },
-    [categoryLabel, message, subject],
+    [categoryLabel, message, removeLandingPageFF, subject],
   );
 
   useEffect(() => {
@@ -108,7 +115,11 @@ const MessageThreadHeader = props => {
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
           data-dd-privacy="mask"
         >
-          {categoryLabel}: {subject}
+          {`${
+            removeLandingPageFF
+              ? `Messages: ${categoryLabel} - ${subject}`
+              : `${categoryLabel}: ${subject}`
+          }`}
         </h1>
 
         <CannotReplyAlert

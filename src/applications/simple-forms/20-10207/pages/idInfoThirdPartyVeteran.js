@@ -1,4 +1,6 @@
 import {
+  emailSchema,
+  emailUI,
   firstNameLastNameNoSuffixSchema,
   firstNameLastNameNoSuffixUI,
   radioSchema,
@@ -17,6 +19,7 @@ export default {
   uiSchema: {
     ...titleUI('Your name'),
     thirdPartyFullName: firstNameLastNameNoSuffixUI(),
+    thirdPartyEmailAddress: emailUI({ title: 'Email' }),
     thirdPartyType: radioUI({
       title: 'How are you representing the Veteran?',
       labels: THIRD_PARTY_TYPE_VETERAN_LABELS,
@@ -33,12 +36,17 @@ export default {
     type: 'object',
     properties: {
       thirdPartyFullName: firstNameLastNameNoSuffixSchema,
+      thirdPartyEmailAddress: emailSchema,
       thirdPartyType: radioSchema(Object.values(THIRD_PARTY_TYPES)),
       'view:additionalInfoThirdPartyType': {
         type: 'object',
         properties: {},
       },
     },
-    required: ['thirdPartyFullName', 'thirdPartyType'],
+    required: [
+      'thirdPartyFullName',
+      'thirdPartyType',
+      'thirdPartyEmailAddress',
+    ],
   },
 };
