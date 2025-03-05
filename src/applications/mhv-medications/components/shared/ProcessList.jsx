@@ -50,6 +50,7 @@ const ProcessList = ({ stepGuideProps }) => {
           <>
             <va-process-list>
               <va-process-list-item
+                data-testid="progress-step-one"
                 checkmark
                 header="We received your refill request"
                 status-text={`Step 1: Completed on ${dateFormat(
@@ -57,6 +58,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 )}`}
               />
               <va-process-list-item
+                data-testid="progress-step-two"
                 checkmark
                 header="We processed your refill"
                 status-text={`Step 2: Completed on ${dateFormat(
@@ -64,6 +66,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 )}`}
               />
               <va-process-list-item
+                data-testid="progress-step-three"
                 checkmark
                 header="We shipped your refill"
                 status-text={`Step 3: Completed on ${dateFormat(
@@ -115,6 +118,7 @@ const ProcessList = ({ stepGuideProps }) => {
           <>
             <va-process-list>
               <va-process-list-item
+                data-testid="submitted-step-one"
                 checkmark
                 header="We received your refill request"
                 status-text={`Step 1: Completed on ${dateFormat(
@@ -124,11 +128,13 @@ const ProcessList = ({ stepGuideProps }) => {
                 <p>Check back for updates.</p>
               </va-process-list-item>
               <va-process-list-item
+                data-testid="submitted-step-two"
                 pending
                 header="We will process your refill request"
                 status-text="Step 2: Not started"
               />
               <va-process-list-item
+                data-testid="submitted-step-three"
                 pending
                 header="We will ship your refill"
                 status-text="Step 3: Not started"
@@ -179,6 +185,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 )}`}
               />
               <va-process-list-item
+                data-testid="active-step-two"
                 checkmark
                 header="We processed your refill"
                 status-text={`Step 2: Completed on ${dateFormat(
@@ -186,6 +193,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 )}`}
               />
               <va-process-list-item
+                data-testid="active-step-three"
                 pending
                 header="We will ship your refill"
                 status-text="Step 3: Not started"

@@ -597,6 +597,41 @@ class MedicationsDetailsPage {
       .find('[href="tel:+14106366899"]')
       .should('contain', phoneNumber);
   };
+
+  verifyProcessStepOneHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="submitted-step-one"]').should('contain', text);
+  };
+
+  verifyProcessStepTwoHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="submitted-step-two"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="submitted-step-three"]').should('contain', text);
+  };
+
+  verifyActiveRxStepOneProgressTrackerOnDetailsPage = text => {
+    cy.get('[header="We received your refill request"]').should(
+      'contain',
+      text,
+    );
+  };
+
+  verifyActiveRxStepTwoProgressTrackerOnDetailsPage = text => {
+    cy.get('[data-testid="active-step-two"]').should('contain', text);
+  };
+
+  verifyActiveRxStepThreeProgressTrackerOnDetailsPage = text => {
+    cy.get('[data-testid="active-step-three"]').should('contain', text);
+  };
+
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = text => {
+    cy.get('[data-testid="progress-step-two"]').should('contain', text);
+  };
+
+  verifyActiveRefillInProcessStepThreeOnDetailsPage = text => {
+    cy.get('[data-testid="progress-step-three"]').should('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;
