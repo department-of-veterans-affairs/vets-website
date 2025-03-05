@@ -15,7 +15,7 @@ describe('<LicenseCertificationFaq />', () => {
   it('should render all FAQ items', () => {
     const wrapper = shallow(<LicenseCertificationFaq />);
     const accordionItems = wrapper.find('va-accordion-item');
-    expect(accordionItems).to.have.length(5);
+    expect(accordionItems).to.have.length(6);
     wrapper.unmount();
   });
 
@@ -25,6 +25,7 @@ describe('<LicenseCertificationFaq />', () => {
       'What will my benefits cover?',
       'How do I get reimbursed for the licenses, certifications, and prep courses?',
       'Can I get paid to take a test more than once?',
+      'How do I apply for a license, certification, or prep course to be approved?',
       'What is the difference between a license and certification?',
       'What is a prep course?',
     ];

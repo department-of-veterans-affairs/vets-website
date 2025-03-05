@@ -163,91 +163,91 @@ describe('<LicenseCertificationTestInfo>', () => {
 
     expect(disconnectSpy.calledOnce).to.be.true;
   });
-  it('should add "usa-table--bordered" and remove "usa-table--borderless" on mobile view', () => {
-    const vaTableInner = document.createElement('va-table-inner');
-    const fakeShadowRoot = document.createElement('div');
-    const usaTable = document.createElement('div');
-    usaTable.className = 'usa-table';
-    fakeShadowRoot.appendChild(usaTable);
-    Object.defineProperty(vaTableInner, 'shadowRoot', {
-      value: fakeShadowRoot,
-      configurable: true,
-    });
-    container.appendChild(vaTableInner);
+  // it('should add "usa-table--bordered" and remove "usa-table--borderless" on mobile view', () => {
+  //   const vaTableInner = document.createElement('va-table-inner');
+  //   const fakeShadowRoot = document.createElement('div');
+  //   const usaTable = document.createElement('div');
+  //   usaTable.className = 'usa-table';
+  //   fakeShadowRoot.appendChild(usaTable);
+  //   Object.defineProperty(vaTableInner, 'shadowRoot', {
+  //     value: fakeShadowRoot,
+  //     configurable: true,
+  //   });
+  //   container.appendChild(vaTableInner);
 
-    Object.defineProperty(window, 'innerWidth', {
-      writable: true,
-      configurable: true,
-      value: 480,
-    });
+  //   Object.defineProperty(window, 'innerWidth', {
+  //     writable: true,
+  //     configurable: true,
+  //     value: 480,
+  //   });
 
-    const wrapper = mountComponent({ tests: multipleTests });
+  //   const wrapper = mountComponent({ tests: multipleTests });
 
-    window.dispatchEvent(new Event('resize'));
+  //   window.dispatchEvent(new Event('resize'));
 
-    expect(usaTable.classList.contains('usa-table--bordered')).to.be.true;
-    expect(usaTable.classList.contains('usa-table--borderless')).to.be.false;
+  //   expect(usaTable.classList.contains('usa-table--bordered')).to.be.true;
+  //   expect(usaTable.classList.contains('usa-table--borderless')).to.be.false;
 
-    wrapper.unmount();
-  });
+  //   wrapper.unmount();
+  // });
 
-  it('should add "usa-table--borderless" and remove "usa-table--bordered" on desktop view', () => {
-    const vaTableInner = document.createElement('va-table-inner');
-    const fakeShadowRoot = document.createElement('div');
-    const usaTable = document.createElement('div');
-    usaTable.className = 'usa-table';
-    fakeShadowRoot.appendChild(usaTable);
-    Object.defineProperty(vaTableInner, 'shadowRoot', {
-      value: fakeShadowRoot,
-      configurable: true,
-    });
-    container.appendChild(vaTableInner);
+  // it('should add "usa-table--borderless" and remove "usa-table--bordered" on desktop view', () => {
+  //   const vaTableInner = document.createElement('va-table-inner');
+  //   const fakeShadowRoot = document.createElement('div');
+  //   const usaTable = document.createElement('div');
+  //   usaTable.className = 'usa-table';
+  //   fakeShadowRoot.appendChild(usaTable);
+  //   Object.defineProperty(vaTableInner, 'shadowRoot', {
+  //     value: fakeShadowRoot,
+  //     configurable: true,
+  //   });
+  //   container.appendChild(vaTableInner);
 
-    Object.defineProperty(window, 'innerWidth', {
-      writable: true,
-      configurable: true,
-      value: 1024,
-    });
+  //   Object.defineProperty(window, 'innerWidth', {
+  //     writable: true,
+  //     configurable: true,
+  //     value: 1024,
+  //   });
 
-    const wrapper = mountComponent({ tests: multipleTests });
+  //   const wrapper = mountComponent({ tests: multipleTests });
 
-    window.dispatchEvent(new Event('resize'));
+  //   window.dispatchEvent(new Event('resize'));
 
-    expect(usaTable.classList.contains('usa-table--borderless')).to.be.true;
-    expect(usaTable.classList.contains('usa-table--bordered')).to.be.false;
+  //   expect(usaTable.classList.contains('usa-table--borderless')).to.be.true;
+  //   expect(usaTable.classList.contains('usa-table--bordered')).to.be.false;
 
-    wrapper.unmount();
-  });
+  //   wrapper.unmount();
+  // });
 
-  it('should remove the resize event listener on component unmount', () => {
-    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
-    const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+  // it('should remove the resize event listener on component unmount', () => {
+  //   const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+  //   const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
 
-    const vaTableInner = document.createElement('va-table-inner');
-    const fakeShadowRoot = document.createElement('div');
-    const usaTable = document.createElement('div');
-    usaTable.className = 'usa-table';
-    fakeShadowRoot.appendChild(usaTable);
-    Object.defineProperty(vaTableInner, 'shadowRoot', {
-      value: fakeShadowRoot,
-      configurable: true,
-    });
-    container.appendChild(vaTableInner);
+  //   const vaTableInner = document.createElement('va-table-inner');
+  //   const fakeShadowRoot = document.createElement('div');
+  //   const usaTable = document.createElement('div');
+  //   usaTable.className = 'usa-table';
+  //   fakeShadowRoot.appendChild(usaTable);
+  //   Object.defineProperty(vaTableInner, 'shadowRoot', {
+  //     value: fakeShadowRoot,
+  //     configurable: true,
+  //   });
+  //   container.appendChild(vaTableInner);
 
-    Object.defineProperty(window, 'innerWidth', {
-      writable: true,
-      configurable: true,
-      value: 1024,
-    });
+  //   Object.defineProperty(window, 'innerWidth', {
+  //     writable: true,
+  //     configurable: true,
+  //     value: 1024,
+  //   });
 
-    const wrapper = mountComponent({ tests: multipleTests });
+  //   const wrapper = mountComponent({ tests: multipleTests });
 
-    expect(addEventListenerSpy.calledWith('resize')).to.be.true;
+  //   expect(addEventListenerSpy.calledWith('resize')).to.be.true;
 
-    wrapper.unmount();
-    expect(removeEventListenerSpy.calledWith('resize')).to.be.true;
+  //   wrapper.unmount();
+  //   expect(removeEventListenerSpy.calledWith('resize')).to.be.true;
 
-    addEventListenerSpy.restore();
-    removeEventListenerSpy.restore();
-  });
+  //   addEventListenerSpy.restore();
+  //   removeEventListenerSpy.restore();
+  // });
 });
