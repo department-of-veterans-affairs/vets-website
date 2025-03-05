@@ -19,10 +19,6 @@ export const marriageEndDetails = {
           required: 'Enter the date the marriage ended',
         },
       }),
-      // 'ui:errorMessages': {
-      //   pattern: 'Enter a valid date',
-      //   required: 'Enter the date the marriage ended',
-      // },
     },
     marriageEndReason: {
       ...radioUI({
