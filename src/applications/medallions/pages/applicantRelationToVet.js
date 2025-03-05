@@ -1,6 +1,7 @@
 import {
   radioSchema,
   titleUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
@@ -11,11 +12,11 @@ import {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Your relationship to the veteran'),
+    ...titleUI('Your relationship to the Veteran'),
     relationToVetRadio: applicantRelationToVetRadio.relationToVetRadio,
     otherRelation: {
       'ui:title': 'Describe your relationship to the Veteran',
-      'ui:widget': 'textarea',
+      'ui:webComponentField': [textUI],
       'ui:required': formData => formData.relationToVetRadio === 'other',
       'ui:options': {
         expandUnder: 'relationToVetRadio',
