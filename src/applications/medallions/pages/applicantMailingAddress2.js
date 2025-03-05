@@ -4,6 +4,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { merge } from 'lodash';
+
 /** @type {PageSchema} */
 export default {
   uiSchema: {
@@ -18,9 +20,28 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      address: addressNoMilitarySchema({
-        omit: ['street3'],
-      }),
+      address: merge(
+        {},
+        addressNoMilitarySchema({
+          omit: ['street3'],
+        }),
+        {
+          properties: {
+            street: {
+              maxLength: 35,
+            },
+            street2: {
+              maxLength: 35,
+            },
+            city: {
+              maxLength: 20,
+            },
+            postalCode: {
+              maxLength: 5,
+            },
+          },
+        },
+      ),
     },
   },
 };
