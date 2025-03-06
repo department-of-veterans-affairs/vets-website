@@ -29,6 +29,7 @@ const mockUser = {
         'edu-benefits',
         'evss-claims',
         'user-profile',
+        'identity-proofed',
         'rx',
         'messaging',
       ],

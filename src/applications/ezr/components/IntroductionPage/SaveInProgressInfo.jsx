@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { selectEnrollmentStatus } from '../../utils/selectors/entrollment-status';
+import { selectEnrollmentStatus } from '../../utils/selectors/enrollment-status';
 import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
