@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Autosuggest from '../../../components/search-form/autosuggest';
+import Autosuggest from '../../../../components/search-form/autosuggest';
 import AutosuggestTestComponent from './AutosuggestTestComponent';
 
 describe('<Autosuggest inputId="any">', () => {

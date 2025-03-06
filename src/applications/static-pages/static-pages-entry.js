@@ -18,6 +18,7 @@ import createGetMedicalRecordsPage from './health-care-manage-benefits/get-medic
 import createModernGetMedicalRecordsPage from './health-care-manage-benefits/modern-get-medical-records-page';
 import createRefillTrackPrescriptionsPage from './health-care-manage-benefits/refill-track-prescriptions-page';
 import createScheduleViewVAAppointmentsPage from './health-care-manage-benefits/schedule-view-va-appointments-page';
+import createModernRefillTrackPrescriptionsPage from './health-care-manage-benefits/modern-refill-track-prescriptions-page';
 import createModernScheduleViewVAAppointmentsPage from './health-care-manage-benefits/modern-schedule-view-va-appointments-page';
 import createSecureMessagingPage from './health-care-manage-benefits/secure-messaging-page';
 import createModernSecureMessagingPage from './health-care-manage-benefits/modern-secure-messaging-page';
@@ -208,6 +209,10 @@ createRefillTrackPrescriptionsPage(
 createScheduleViewVAAppointmentsPage(
   store,
   widgetTypes.SCHEDULE_VIEW_VA_APPOINTMENTS_PAGE,
+);
+createModernRefillTrackPrescriptionsPage(
+  store,
+  widgetTypes.MODERN_REFILL_TRACK_PRESCRIPTIONS_PAGE,
 );
 createModernScheduleViewVAAppointmentsPage(
   store,
