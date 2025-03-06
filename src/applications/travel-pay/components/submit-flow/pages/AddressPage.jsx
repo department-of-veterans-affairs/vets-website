@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  VaButtonPair,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 import { BTSSS_PORTAL_URL } from '../../../constants';
+import SmocRadio from '../../SmocRadio';
 
 const AddressPage = ({
   address,
@@ -84,25 +82,21 @@ const AddressPage = ({
 
   return (
     <div>
-      <VaRadio
-        id="address"
-        onVaValueChange={e => {
+      <SmocRadio
+        name="address"
+        value={yesNo.address}
+        error={requiredAlert}
+        label="Did you travel from your home address?"
+        onValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
         }}
-        value={yesNo.address}
-        data-testid="address-test-id"
-        error={requiredAlert ? 'You must make a selection to continue.' : null}
-        header-aria-describedby={null}
-        hint={null}
-        label="Did you travel from your home address?"
-        label-header-level="1"
       >
         <div className="vads-u-margin-y--2">
           <p>
             Answer “Yes” if you traveled from the address listed here and you
             confirm that it’s not a Post Office box.
           </p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
           <p className="vads-u-margin-top--2">
             <strong>Home address</strong>
             <br />
@@ -123,23 +117,9 @@ const AddressPage = ({
             {`${address.city}, ${address.stateCode} ${address.zipCode}`}
             <br />
           </p>
-          <hr className="vads-u-margin-y--0" />
+          <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
-        <va-radio-option
-          label="Yes"
-          value="yes"
-          key="address-yes"
-          name="address"
-          checked={yesNo.address === 'yes'}
-        />
-        <va-radio-option
-          key="address-no"
-          name="address"
-          checked={yesNo.address === 'no'}
-          label="No"
-          value="no"
-        />
-      </VaRadio>
+      </SmocRadio>
 
       <va-additional-info
         class="vads-u-margin-y--3"

@@ -69,6 +69,7 @@ describe('transformForSubmit', () => {
         first: 'Joe',
         last: 'Third-Party',
       },
+      thirdPartyEmailAddress: 'joe.thirdparty@test.com',
       thirdPartyType: 'representative',
     };
 

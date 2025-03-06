@@ -27,22 +27,48 @@ describe('arrayBuilderOptions', () => {
       expect(result).to.be.true;
     });
 
-    it('should return false if all required fields are complete', () => {
-      const completeItem = {
+    it('should return false if all required fields for a child are complete', () => {
+      const completeChild = {
         fullName: { first: 'John', last: 'Doe' },
-        birthDate: '2020-01-01',
-        ssn: '123-45-6789',
+        birthDate: '2000-02-01',
+        ssn: '432432432',
         birthLocation: {
-          location: { postalCode: '12345', state: 'NY' },
+          location: {
+            city: 'Fakesville',
+            state: 'AK',
+            postalCode: '43222',
+          },
           outsideUsa: false,
         },
-        relationshipToChild: 'Son',
-        doesChildLiveWithYou: true,
+        isBiologicalChild: true,
+        isBiologicalChildOfSpouse: false,
+        relationshipToChild: { stepchild: true },
+        dateEnteredHousehold: '2023-02-01',
+        biologicalParentName: {
+          first: 'Jane',
+          last: 'Doe',
+        },
+        biologicalParentDob: '1990-02-01',
+        biologicalParentSsn: '432432432',
+        doesChildHaveDisability: false,
+        doesChildLiveWithYou: false,
         hasChildEverBeenMarried: false,
-        incomeInLastYear: true,
+        incomeInLastYear: 'Y',
+        livingWith: {
+          first: 'John',
+          last: 'Doe II',
+        },
+        address: {
+          country: 'DZA',
+          street: 'test address',
+          city: 'test city',
+          postalCode: '43242',
+        },
+        'view:isUnmarriedAndInSchool': 'Y',
+        'view:hasReceivedBenefits': 'N',
       };
 
-      const result = arrayBuilderOptions.isItemIncomplete(completeItem);
+      const result = arrayBuilderOptions.isItemIncomplete(completeChild);
       expect(result).to.be.false;
     });
 

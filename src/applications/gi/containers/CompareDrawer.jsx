@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
+import { useHistory } from 'react-router-dom';
 import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { isSmallScreen } from '../utils/helpers';
-import { updateUrlParams } from '../selectors/compare';
 
 export function CompareDrawer({
   compare,
@@ -15,9 +15,9 @@ export function CompareDrawer({
   displayed,
   alwaysDisplay = false,
   dispatchCompareDrawerOpened,
-  preview,
 }) {
   const history = useHistory();
+
   const { loaded, institutions } = compare.search;
   const { open } = compare;
   const [promptingFacilityCode, setPromptingFacilityCode] = useState(null);
@@ -40,6 +40,8 @@ export function CompareDrawer({
     return open && maxDrawerHeight >= window.innerHeight;
   };
   const [scrollable, setScrollable] = useState(tooTall());
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const giCtCollab = useToggleValue(TOGGLE_NAMES.giCtCollab);
 
   const renderBlanks = () => {
     const blanks = [];
@@ -217,7 +219,11 @@ export function CompareDrawer({
   }
 
   const openCompare = () => {
-    history.push(updateUrlParams(loaded, preview.version));
+    history.push(
+      `${
+        giCtCollab ? '/schools-and-employers' : ''
+      }/compare/?facilities=${loaded.join(',')}`,
+    );
   };
 
   const headerLabelClasses = classNames('header-label', {
@@ -321,7 +327,6 @@ export function CompareDrawer({
 
 const mapStateToProps = state => ({
   compare: state.compare,
-  preview: state.preview,
   displayed:
     state.search.location.results.length > 0 ||
     state.search.name.results.length > 0 ||
@@ -338,7 +343,6 @@ CompareDrawer.propTypes = {
   dispatchCompareDrawerOpened: PropTypes.func.isRequired,
   dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
   displayed: PropTypes.bool.isRequired,
-  preview: PropTypes.object.isRequired,
   alwaysDisplay: PropTypes.bool,
 };
 

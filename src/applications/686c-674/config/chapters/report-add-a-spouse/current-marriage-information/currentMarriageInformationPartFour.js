@@ -49,6 +49,8 @@ export const uiSchema = {
       expandUnderCondition: 'OTHER',
       showFieldLabel: true,
       keepInPageOnReview: true,
+      hideIf: formData =>
+        formData?.currentMarriageInformation?.type !== 'OTHER',
     }),
     'view:marriageTypeInformation': {
       'ui:description': <SupportingEvidenceNeeded />,
