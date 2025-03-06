@@ -96,7 +96,7 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
   );
 
-  logger.info('Winston logger: Ding! Test message');
+  logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
 
   validateParameters({
     csrfToken,

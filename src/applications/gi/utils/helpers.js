@@ -511,6 +511,10 @@ export const isSearchByLocationPage = () => {
 
 export const giDocumentTitle = () => {
   let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const isUpdatedGi = window.location.pathname.includes(
+    'schools-and-employers',
+  );
+  if (isUpdatedGi) crumbLiEnding += '- Schools and employers ';
   const searchByName = isSearchByNamePage();
   const searchByLocationPage = isSearchByLocationPage();
   if (searchByName) {

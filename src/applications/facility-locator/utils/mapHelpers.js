@@ -60,7 +60,6 @@ export const reverseGeocode = async (lon, lat, types) => {
     .reverseGeocode({ query: [lon, lat], types })
     .send()
     .catch();
-
   if (
     response.body &&
     response.body.features &&
@@ -91,7 +90,11 @@ export const reverseGeocode = async (lon, lat, types) => {
  *
  * @returns {String} The best approximation of the address for the coordinates
  */
-export const reverseGeocodeBox = (bounds, types = 'address,postcode') => {
+
+export const reverseGeocodeBox = (
+  bounds,
+  types = MAPBOX_QUERY_TYPES.join(','),
+) => {
   const { lon, lat } = getBoxCenter(bounds);
   return reverseGeocode(lon, lat, types.split(','));
 };
