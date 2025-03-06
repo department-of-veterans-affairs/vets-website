@@ -31,7 +31,8 @@ import {
  *    - User must be verified
  *
  * Notes:
- * - In localhost environment, authentication checks are automatically bypassed
+ * - In localhost environment, authentication checks are bypassed only when the feature toggle is off
+ * - In all other environments (dev, staging, production, review instances), authentication is always enforced
  * - The introduction page is always accessible without authentication
  * - Invalid or non-existent routes will redirect to the introduction page
  * - If any check fails, the user is redirected to the introduction page
@@ -59,13 +60,14 @@ const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
   }
 
   // Only bypass guards in localhost, not in dev or review instances
-  const disableGuards = environment.isLocalhost() || !isRouteGuardEnabled;
+  // This ensures that Review Instances and other higher environments enforce authentication
+  const disableGuards = environment.isLocalhost() && !isRouteGuardEnabled;
 
   // Get current path for intro page check
   const currentPath = getCurrentPath();
 
   // Bypass auth checks in any of these cases:
-  // 1. Guards are disabled (localhost or feature toggle off)
+  // 1. Guards are disabled (only in localhost AND when feature toggle is off)
   // 2. Current path is the intro page
   if (disableGuards || currentPath === INTRO_URL) {
     return <Component {...rest} />;
