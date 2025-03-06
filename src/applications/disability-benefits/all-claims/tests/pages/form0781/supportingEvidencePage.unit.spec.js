@@ -78,7 +78,7 @@ describe('Supporting Evidence Page', () => {
     expect($$('va-checkbox-group', container).length).to.equal(5);
 
     // fail fast - verify the correct number of checkboxes are present
-    expect($$('va-checkbox', container).length).to.equal(11);
+    expect($$('va-checkbox', container).length).to.equal(10);
 
     // verify subtitles for checkbox sections are present
     Object.values(SUPPORTING_EVIDENCE_SUBTITLES).forEach(option => {
@@ -105,7 +105,7 @@ describe('Supporting Evidence Page', () => {
 describe('validating selections', () => {
   describe('invalid: conflicting selections', () => {
     const errors = {
-      'view:supportingEvidenceNoneCheckbox': {
+      supportingEvidenceNoneCheckbox: {
         addError: sinon.spy(),
       },
       supportingEvidenceReports: { addError: sinon.spy() },
@@ -131,10 +131,9 @@ describe('validating selections', () => {
           clergy: true,
         },
         supportingEvidenceOther: {
-          personal: false,
-          documents: true,
+          personal: true,
         },
-        'view:supportingEvidenceNoneCheckbox': { none: true },
+        supportingEvidenceNoneCheckbox: { none: true },
       };
 
       validateSupportingEvidenceSelections(errors, formData);
@@ -144,8 +143,7 @@ describe('validating selections', () => {
       expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
       expect(errors.supportingEvidenceWitness.addError.called).to.be.true;
       expect(errors.supportingEvidenceOther.addError.called).to.be.true;
-      expect(errors['view:supportingEvidenceNoneCheckbox'].addError.called).to
-        .be.true;
+      expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.true;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.true;
@@ -154,7 +152,7 @@ describe('validating selections', () => {
 
   describe('valid selections', () => {
     const errors = {
-      'view:supportingEvidenceNoneCheckbox': {
+      supportingEvidenceNoneCheckbox: {
         addError: sinon.spy(),
       },
       supportingEvidenceReports: { addError: sinon.spy() },
@@ -168,7 +166,7 @@ describe('validating selections', () => {
         supportingEvidenceReports: {
           police: false,
         },
-        'view:supportingEvidenceNoneCheckbox': { none: true },
+        supportingEvidenceNoneCheckbox: { none: true },
       };
 
       validateSupportingEvidenceSelections(errors, formData);
@@ -178,8 +176,7 @@ describe('validating selections', () => {
       expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
       expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
       expect(errors.supportingEvidenceOther.addError.called).to.be.false;
-      expect(errors['view:supportingEvidenceNoneCheckbox'].addError.called).to
-        .be.false;
+      expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.false;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.false;
@@ -191,7 +188,7 @@ describe('validating selections', () => {
         supportingEvidenceReports: {
           police: true,
         },
-        'view:supportingEvidenceNoneCheckbox': { none: false },
+        supportingEvidenceNoneCheckbox: { none: false },
       };
 
       validateSupportingEvidenceSelections(errors, formData);
@@ -201,8 +198,7 @@ describe('validating selections', () => {
       expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
       expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
       expect(errors.supportingEvidenceOther.addError.called).to.be.false;
-      expect(errors['view:supportingEvidenceNoneCheckbox'].addError.called).to
-        .be.false;
+      expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.false;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.false;
