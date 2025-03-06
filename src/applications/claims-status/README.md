@@ -51,7 +51,7 @@ This tool allows va users to check the status of thier VA claim, decision review
 4. You’ll be logged into localhost and the page will spin since we are only running certain services. Change the url to <http://localhost:3001/track-claims/your-claims/>  and you will be directed to the Claim Status Tool service.
 
 ### How to login into localhost with mocked-auth and view the claim status tool with a staging user
-1. In `vets-api` go to `lib/lighthouse/benefits_claims/service.rb` and change the line that says `@icn = icn` to an icn from a user in staging (EX: `@icn = '1012830774V793840' # icn for user 23`)
+1. In `vets-api` go to `lib/lighthouse/benefits_claims/service.rb` and change the line that says `@icn = icn` to an icn from a user in staging (EX: `@icn = 'STAGING_USER_ICN'`)
 2. In your `config/settings.local.yml` you can change your use_mocks to be false for benefits_claims
 3. Run `vets-api`
 4. Select ID.me from the drop down list and click the ‘Sign in with mocked authentication’ button.
