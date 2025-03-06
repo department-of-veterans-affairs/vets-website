@@ -153,6 +153,7 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();
