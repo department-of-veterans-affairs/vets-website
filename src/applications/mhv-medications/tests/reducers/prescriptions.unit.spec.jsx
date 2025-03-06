@@ -58,6 +58,29 @@ describe('Prescriptions reducer', () => {
     expect(state).to.deep.equal(rxState);
   });
 
+  it('should change refillAlertList when GET_REFILL_ALERT_LIST action is passed', () => {
+    const refillAlertList = [
+      {
+        prescriptionId: 123456,
+        prescriptionName: 'Test name 1',
+      },
+      {
+        prescriptionId: 234567,
+        prescriptionName: 'Test name 2',
+      },
+    ];
+    const rxState = {
+      ...initialState,
+      refillAlertList,
+      apiError: false,
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_REFILL_ALERT_LIST,
+      response: refillAlertList,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+
   it('should change refillableList and renewableList when GET_REFILLABLE_LIST action is passed', () => {
     const refillablePrescriptionsList = paginatedSortedListApiResponse.data
       .map(rx => {

@@ -67,7 +67,7 @@ const responses = {
     return res.json({
       id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
       claimNumber: 'TC0928098230498',
-      claimStatus: 'Claim Submitted',
+      claimStatus: 'Claim submitted',
       appointmentDateTime: '2024-05-26T16:40:45.781Z',
       facilityName: 'Tomah VA Medical Center',
       createdOn: '2024-05-27T16:40:45.781Z',
@@ -76,7 +76,7 @@ const responses = {
   },
 
   // Submitting a new claim
-  'POST /travel_pay/v0/claims': { data: { claimId: '12345' } },
+  'POST /travel_pay/v0/claims': { claimId: '12345' },
   // 'POST /travel_pay/v0/claims': (req, res) => {
   //   return res.status(502).json({
   //     errors: [

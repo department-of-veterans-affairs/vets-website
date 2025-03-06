@@ -164,12 +164,13 @@ describe('YourVAHealthFacilityPage', () => {
       );
       expect(radio).to.exist;
       const option = container.querySelector(
-        'va-radio-option[value="vba_349b"]',
+        'va-radio-option[value="vba_349b - VA Regional Benefit Satellite Office at Austin VA Clinic, Austin, TX 78744"]',
       );
       expect(option).to.exist;
       radio.__events.vaValueChange({
         detail: {
-          value: 'vba_349b',
+          value:
+            'vba_349b - VA Regional Benefit Satellite Office at Austin VA Clinic, Austin, TX 78744',
         },
         target: {
           textContent:
@@ -214,7 +215,7 @@ describe('YourVAHealthFacilityPage', () => {
       );
       expect(radio).to.exist;
       const option = container.querySelector(
-        'va-radio-option[value="vba_349b"]',
+        'va-radio-option[value="vba_349b - VA Regional Benefit Satellite Office at Austin VA Clinic, Austin, TX 78744"]',
       );
       expect(option).to.exist;
     });
@@ -245,7 +246,7 @@ describe('YourVAHealthFacilityPage', () => {
       );
       expect(radio).to.exist;
       const option = container.querySelector(
-        'va-radio-option[value="vba_349b"]',
+        'va-radio-option[value="vba_349b - VA Regional Benefit Satellite Office at Austin VA Clinic, Austin, TX 78744"]',
       );
       expect(option).to.exist;
     });

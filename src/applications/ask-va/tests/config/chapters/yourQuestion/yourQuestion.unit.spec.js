@@ -1,27 +1,19 @@
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import configureStore from 'redux-mock-store';
 import formConfig from '../../../../config/form';
+import { createMockStore } from '../../../common';
 
 const {
   schema,
   uiSchema,
 } = formConfig.chapters.yourQuestionPart2.pages.question;
 
-const mockStore = configureStore([]);
-
 describe('yourQuestionPage', () => {
-  const store = mockStore({
-    navigation: {
-      route: {
-        path: '/test-path',
-      },
-    },
-  });
+  const store = createMockStore();
 
   it('should render', () => {
     const { container } = render(

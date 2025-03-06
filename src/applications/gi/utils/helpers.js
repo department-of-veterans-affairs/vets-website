@@ -511,6 +511,10 @@ export const isSearchByLocationPage = () => {
 
 export const giDocumentTitle = () => {
   let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const isUpdatedGi = window.location.pathname.includes(
+    'schools-and-employers',
+  );
+  if (isUpdatedGi) crumbLiEnding += '- Schools and employers ';
   const searchByName = isSearchByNamePage();
   const searchByLocationPage = isSearchByLocationPage();
   if (searchByName) {
@@ -614,7 +618,7 @@ export const updateQueryParam = (history, location, newParams) => {
   const searchParams = new URLSearchParams(location.search);
 
   Object.entries(newParams).forEach(([key, value]) => {
-    searchParams.set(key, value);
+    searchParams.set(key, encodeURIComponent(value));
   });
 
   history.push({
@@ -627,7 +631,13 @@ export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
   const categories = searchParams.getAll('category');
 
-  const nameParam = searchParams.get('name') ?? '';
+  const rawName = location.search.split('name=')[1]?.split('&')[0] ?? '';
+
+  // Decode the name while preserving + characters
+  const nameParam = decodeURIComponent(rawName)
+    .replace(/%20/g, ' ')
+    .replace(/%2B/g, '+');
+
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
   const initialCategoryParam = searchParams.get('initial') ?? 'all';
@@ -662,7 +672,7 @@ export const handleLcResultsSearch = (
   });
 
   history.push(
-    `/lc-search/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
+    `/licenses-certifications-and-prep-courses/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
       categoryParams,
     ),
     {
@@ -675,11 +685,11 @@ export const formatResultCount = (results, currentPage, itemsPerPage) => {
   if (currentPage * itemsPerPage > results.length - 1) {
     return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
       results.length
-    }  `;
+    }`;
   }
 
   return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
-    itemsPerPage}  `;
+    itemsPerPage}`;
 };
 
 export const mappedStates = Object.entries(ADDRESS_DATA.states)
@@ -758,6 +768,52 @@ export const updateStateDropdown = (multiples = [], selected = 'all') => {
   };
 };
 
+export const createCheckboxes = (categories, checkedList) => {
+  const valuesToCheck = ['license', 'certification', 'prep course'];
+
+  let allValuesIncluded;
+
+  if (checkedList[0] === 'all') {
+    allValuesIncluded = true;
+  } else {
+    allValuesIncluded = valuesToCheck.every(value =>
+      checkedList.includes(value),
+    );
+  }
+
+  return categories.map(category => {
+    let checked = checkedList.includes(category);
+
+    if (allValuesIncluded) {
+      checked = true;
+    }
+
+    return {
+      name: category,
+      checked,
+      label: capitalizeFirstLetter(category),
+    };
+  });
+};
+
+export function formatList(array) {
+  if (!array || array.length === 0) {
+    return '';
+  }
+
+  if (array.length === 1) {
+    return array[0];
+  }
+  if (array.length === 2) {
+    return `${array[0]} or ${array[1]}`;
+  }
+
+  const lastItem = array[array.length - 1];
+  const otherItems = array.slice(0, -1);
+
+  return `${otherItems.join(', ')} or ${lastItem}`;
+}
+
 export const showMultipleNames = (suggestions, nameInput) => {
   let final = [];
 
@@ -777,11 +833,14 @@ export const formatProgramType = (programType = '') => {
     return 'On-the-job training/Apprenticeships';
   }
 
-  return programType
+  const lowerJoined = programType
+    .toLowerCase()
     .split('-')
-    .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .filter(Boolean)
     .join(' ');
+
+  if (!lowerJoined) return '';
+  return lowerJoined.charAt(0).toUpperCase() + lowerJoined.slice(1);
 };
 
 export const generateMockPrograms = numPrograms => {

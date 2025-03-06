@@ -12,5 +12,13 @@ export const facilityLocatorPredictiveLocationSearch = state =>
 export const facilitiesUseAddressTypeahead = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesUseAddressTypeahead];
 
+export const facilitiesUseFlProgressiveDisclosure = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.facilitiesUseFlProgressiveDisclosure];
+
 export const facilityLocatorMobileMapUpdate = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.facilityLocatorMobileMapUpdate];
+
+export const facilityLocatorAutosuggestVAMCServices = state =>
+  toggleValues(state)[
+    FEATURE_FLAG_NAMES.facilitiesAutoSuggestVAMCServicesEnabled
+  ];

@@ -54,7 +54,7 @@ export const setupPages = formConfig => {
 };
 
 export const getPageKeysForReview = config => {
-  const pages = Object.entries(config.chapters);
+  const pages = Object.entries(config.chapters) || [];
   const titles = pages.map(item => Object.keys(item[1].pages));
   return titles.flat();
 };
@@ -282,7 +282,7 @@ export const chapterTitles = {
   relationshipToTheVeteran: '',
   veteransInformation: '',
   familyMembersInformation: '',
-  yourInformation: '',
+  yourInformation: 'Your information',
   yourLocationOfResidence: '',
   yourPostalCode: 'Your postal code',
   yourBranchOfService: '',

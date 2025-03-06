@@ -10,6 +10,7 @@ import { waitFor } from '@testing-library/dom';
 import App from '../../containers/App';
 import reducer from '../../reducers';
 import pilotRoutes from '../../pilot/routes';
+import { PageTitles } from '../../util/constants';
 
 describe('App', () => {
   let oldLocation;
@@ -267,6 +268,115 @@ describe('App', () => {
     await waitFor(() => {
       expect(window.location.replace.called).to.be.true;
     });
+  });
+
+  it('redirects user to /my-health/secure-messages/inbox if feature flag is enabled', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = true;
+
+    renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+    expect(window.location.replace.called).to.be.true;
+    expect(window.location.replace.args[0][0]).to.equal(
+      '/my-health/secure-messages/inbox/',
+    );
+  });
+
+  it('redirects user with pilot environment access to /my-health/secure-messages-pilot/inbox if feature flags are enabled', async () => {
+    const customState = {
+      ...initialState,
+      featureToggles: [],
+      sm: {
+        ...initialState.sm,
+        app: { isPilot: true },
+      },
+    };
+
+    global.window.location = {
+      replace: sinon.spy(),
+      pathname: '/secure-messaging-pilot/',
+    };
+
+    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = true;
+
+    const { queryByText } = renderWithStoreAndRouter(
+      <App isPilot removeLandingPage />,
+      {
+        initialState: customState,
+        reducers: reducer,
+        path: `/`,
+      },
+    );
+
+    expect(queryByText('Messages', { selector: 'h1', exact: true }));
+    expect(window.location.replace.called).to.be.true;
+    await waitFor(() => {
+      expect(window.location.replace.args[0][0]).to.equal(
+        '/my-health/secure-messages-pilot/inbox/',
+      );
+    });
+  });
+
+  it('should NOT redirect user to /my-health/secure-messages/inbox if feature flag is disabled', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+    global.window.location = {
+      replace: sinon.spy(),
+      pathname: '/secure-messages/',
+      href: 'https://www.va.gov/my-health/secure-messages/inbox',
+    };
+
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = false;
+
+    const { getByText } = renderWithStoreAndRouter(<App />, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+
+    expect(getByText('Messages', { selector: 'h1', exact: true }));
+    expect(window.location.replace.called).to.be.false;
+    expect(window.location.pathname).to.equal('/secure-messages/');
+    expect(global.document.title).to.equal(
+      `${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
+    );
+  });
+
+  it('should NOT redirect user to /my-health/secure-messages-pilot/inbox if feature flag is disabled', async () => {
+    const customState = { ...initialState, featureToggles: [] };
+
+    global.window.location = {
+      replace: sinon.spy(),
+      pathname: '/secure-messages-pilot/',
+      href: 'https://www.va.gov/my-health/secure-messages-pilot/inbox',
+    };
+
+    customState.featureToggles[`${'mhv_secure_messaging_cerner_pilot'}`] = true;
+    customState.featureToggles[
+      `${'mhv_secure_messaging_remove_landing_page'}`
+    ] = false;
+
+    const { getByText } = renderWithStoreAndRouter(pilotRoutes, {
+      initialState: customState,
+      reducers: reducer,
+      path: `/`,
+    });
+
+    expect(getByText('Messages', { selector: 'h1', exact: true }));
+    expect(window.location.replace.called).to.be.false;
+    expect(window.location.pathname).to.equal('/secure-messages-pilot/');
+    expect(global.document.title).to.equal(
+      `${PageTitles.DEFAULT_PAGE_TITLE_TAG}`,
+    );
   });
 
   it('should NOT redirect to the SM info page if the user is whitelisted or the feature flag is enabled', () => {

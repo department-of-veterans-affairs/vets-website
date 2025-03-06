@@ -102,29 +102,3 @@ export function formatARN(arnString = '') {
   val = val.replace(/^(.{3})-(.{2})(.{1,4})$/, '$1-$2-$3');
   return val;
 }
-
-let timer;
-/**
- * Custom focus - focuses on a page's H3 by default (unique header) if it exists
- * will fall back to the breadcrumb H2 (Step _ of _). This function is called
- * only if the formConfig includes a `useCustomScrollAndFocus: true`, then it
- * checks the page's `scrollAndFocusTarget` setting which is either a string or
- * function to allow for custom focus management, e.g. returning to a page after
- * editing a value to ensure focus is returned to the edit link
- * @param {String|Function} scrollAndFocusTarget - Custom focus target
- * @param {Number} pageIndex - index inside of a page array loop
- */
-export function customScrollAndFocus(scrollAndFocusTarget, pageIndex) {
-  if (timer) clearTimeout(timer); // simple debounce
-  timer = setTimeout(() => {
-    if (typeof scrollAndFocusTarget === 'string') {
-      scrollAndFocus(document.querySelector(scrollAndFocusTarget));
-    } else if (typeof scrollAndFocusTarget === 'function') {
-      scrollAndFocusTarget(pageIndex);
-    } else {
-      scrollTo('topContentElement', getScrollOptions());
-      // h3 should be a unique header on the page
-      focusByOrder(['#main h3', defaultFocusSelector]);
-    }
-  }, 150);
-}

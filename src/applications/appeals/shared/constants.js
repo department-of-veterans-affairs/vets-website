@@ -123,7 +123,7 @@ export const REGEXP = {
   APOSTROPHE: /\u2019/g,
   COMMA: /[, ]/g,
   DASH: /-/g,
-  EMPTY_DATE: /(--|-00-00)/,
+  EMPTY_DATE: /^(-|--|-00-00)$/,
   NON_DIGIT: /\D/g,
   PERCENT: /(\s|\b)percent(\s|\b)/gi,
   WHITESPACE: /\s+/g,

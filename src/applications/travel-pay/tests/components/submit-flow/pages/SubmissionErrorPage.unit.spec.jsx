@@ -17,7 +17,7 @@ it('should render submission error page with expected links', () => {
 
   expect(
     screen.container.querySelector(
-      '[href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"]',
+      '[href="/health-care/get-reimbursed-for-travel-pay/"]',
       '[text="Find out how to file for travel reimbursement"]',
     ),
   ).to.exist;

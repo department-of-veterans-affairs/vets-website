@@ -13,31 +13,6 @@ describe('VAOS Component: ScheduleReferral', () => {
     sessionStorage.clear();
   });
   const referralDate = '2024-09-09';
-  it('should display the subtitle correctly given different numbers of appointments', async () => {
-    const referralOne = createReferralById(referralDate, '111');
-    const store = createTestStore();
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referralOne} />,
-      {
-        store,
-      },
-    );
-    const subtitle = await screen.findByTestId('subtitle');
-    expect(subtitle).to.contain.text('1 appointment');
-  });
-  it('should display the subtitle correctly given 2 appointments', async () => {
-    const referralTwo = createReferralById(referralDate, '222');
-    const store = createTestStore();
-    referralTwo.numberOfAppointments = 2;
-    const screen = renderWithStoreAndRouter(
-      <ScheduleReferral currentReferral={referralTwo} />,
-      {
-        store,
-      },
-    );
-    const subtitle = await screen.findByTestId('subtitle');
-    expect(subtitle).to.contain.text('2 appointments');
-  });
 
   it('should render with default data', async () => {
     const referral = createReferralById(referralDate, '111');

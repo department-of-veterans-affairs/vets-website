@@ -1,7 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 import { LocationForHoursTypes } from '../types';
-import { LocationType } from '../constants';
+import { FacilityType, LocationType } from '../constants';
 import { formatOperatingHours } from '../utils/helpers';
 
 const LocationHours = ({ location }) => {
@@ -41,6 +41,8 @@ const LocationHours = ({ location }) => {
 
   const facilityType = get(location, 'attributes.facilityType');
   const isVetCenter = facilityType === LocationType.VET_CENTER;
+  const isCemetery = facilityType === FacilityType.VA_CEMETERY;
+  const title = isCemetery ? 'Open for visitation' : 'Hours of operation';
 
   if ((Array.isArray(hoursInfo) && !hoursInfo.length) || !hoursInfo) {
     return null;
@@ -48,7 +50,7 @@ const LocationHours = ({ location }) => {
 
   return (
     <div id="hours-op">
-      <h3 className="highlight">Hours of operation</h3>
+      <h3>{title}</h3>
       {renderHoursByDay()}
       {isVetCenter && (
         <p>

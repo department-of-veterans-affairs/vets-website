@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getNextPagePath,
   getPreviousPagePath,
 } from 'platform/forms-system/src/js/routing';
-import { focusElement } from 'platform/utilities/ui';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -15,48 +14,46 @@ import definition from '../config/chapters/vaBenefits/benefitsPackage';
 import FormFooter from '../components/FormFooter';
 import content from '../locales/en/content.json';
 
-const AuthBenefitsPackagePage = props => {
-  const { location, route, router } = props;
-  const { pathname } = location;
-  const { pageList } = route;
-  const { schema } = definition;
-  const uiSchema = {
-    ...definition.uiSchema,
-    ...titleUI({
-      title: content['benefits--reg-only-title'],
-      description: content['benefits--reg-only-description'],
-      headerLevel: 2,
-      headerStyleLevel: 3,
-    }),
-  };
-
+const AuthBenefitsPackagePage = ({ location, route, router }) => {
   const { data: formData } = useSelector(state => state.form);
   const [localData, setLocalData] = useState({});
   const dispatch = useDispatch();
 
-  const setFormData = dataToSet => dispatch(setData(dataToSet));
+  const uiSchema = useMemo(
+    () => ({
+      ...definition.uiSchema,
+      ...titleUI({
+        title: content['benefits--reg-only-title'],
+        description: content['benefits--reg-only-description'],
+        headerLevel: 2,
+        headerStyleLevel: 3,
+      }),
+    }),
+    [],
+  );
 
-  const handlers = {
-    goBack: () => {
-      const prevPagePath = getPreviousPagePath(pageList, formData, pathname);
-      router.push(prevPagePath);
+  const handlers = useMemo(
+    () => {
+      const { pathname } = location;
+      const { pageList } = route;
+      return {
+        goBack: () =>
+          router.push(getPreviousPagePath(pageList, formData, pathname)),
+        onChange: data => {
+          setLocalData(data);
+          dispatch(
+            setData({
+              ...formData,
+              'view:vaBenefitsPackage': data['view:vaBenefitsPackage'],
+            }),
+          );
+        },
+        onSubmit: () =>
+          router.push(getNextPagePath(pageList, formData, pathname)),
+      };
     },
-    onChange: data => {
-      setLocalData(data);
-      setFormData({
-        ...formData,
-        'view:vaBenefitsPackage': data['view:vaBenefitsPackage'],
-      });
-    },
-    onSubmit: () => {
-      const nextPagePath = getNextPagePath(pageList, formData, pathname);
-      router.push(nextPagePath);
-    },
-  };
-
-  useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
-  }, []);
+    [dispatch, formData, location, route, router],
+  );
 
   return (
     <>
@@ -69,7 +66,7 @@ const AuthBenefitsPackagePage = props => {
           <SchemaForm
             name="Benefits package form"
             title="Benefits package form"
-            schema={schema}
+            schema={definition.schema}
             uiSchema={uiSchema}
             onSubmit={handlers.onSubmit}
             onChange={handlers.onChange}

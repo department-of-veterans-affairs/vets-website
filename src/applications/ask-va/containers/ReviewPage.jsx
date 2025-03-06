@@ -21,7 +21,6 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import Scroll from 'react-scroll';
-import { StorageAdapter } from '../../_mock-form-ae-design-patterns/vadx/utils/StorageAdapter';
 import {
   closeReviewChapter,
   openReviewChapter,
@@ -33,14 +32,9 @@ import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
 import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 import formConfig from '../config/form';
-import { DownloadLink } from '../config/helpers';
+import { DownloadLink, formatDate } from '../config/helpers';
 import submitTransformer from '../config/submit-transformer';
-import {
-  URL,
-  envUrl,
-  mockTestingFlagforAPI,
-  pronounLabels,
-} from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockSubmitResponse } from '../utils/mockData';
 import {
   chapterTitles,
@@ -49,6 +43,7 @@ import {
   getPageKeysForReview,
   pagesToMoveConfig,
 } from '../utils/reviewPageHelper';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const { scroller } = Scroll;
 
@@ -58,7 +53,6 @@ const ReviewPage = props => {
   const [editSection, setEditSection] = useState([]);
   const [attachments, setAttachments] = useState([]);
   const [editAttachments, setEditAttachments] = useState(false);
-  const askVAAttachmentStorage = new StorageAdapter('askVA', 'attachments');
 
   const dispatch = useDispatch();
 
@@ -75,6 +69,22 @@ const ReviewPage = props => {
 
   const getYesOrNoFromBool = answer => (answer ? 'Yes' : 'No');
 
+  const convertDate = dob => {
+    if (dob) {
+      const bDay = dob.split('-');
+      const date = `${bDay[1]}/${bDay[2]}/${bDay[0]}`;
+      return formatDate(date, 'long');
+    }
+    return null;
+  };
+
+  const maskSocial = ssn => {
+    if (ssn) {
+      return `•••-••-${ssn.slice(-4)}`;
+    }
+    return null;
+  };
+
   const handleToggleChapter = ({ name, open, pageKeys }) => {
     if (open) {
       dispatch(closeReviewChapter(name, pageKeys));
@@ -84,15 +94,15 @@ const ReviewPage = props => {
     }
   };
 
-  const getPronouns = (list = {}) => {
-    const pronounList = [];
-    Object.keys(list).forEach(item => {
-      if (list[item]) {
-        pronounList.push(` ${pronounLabels[item]}`);
-      }
-    });
-    return pronounList.toString();
-  };
+  // const getPronouns = (list = {}) => {
+  //   const pronounList = [];
+  //   Object.keys(list).forEach(item => {
+  //     if (list[item]) {
+  //       pronounList.push(` ${pronounLabels[item]}`);
+  //     }
+  //   });
+  //   return pronounList.toString();
+  // };
 
   const getUploadedFiles = async () => {
     const storedFile = await askVAAttachmentStorage.get('attachments');
@@ -126,7 +136,10 @@ const ReviewPage = props => {
   };
 
   const editAll = (pageKeys, title) => {
-    if (title === chapterTitles.yourContactInformation) {
+    if (
+      title === chapterTitles.yourContactInformation ||
+      title === chapterTitles.yourInformation
+    ) {
       handleEdit(pageKeys[0], true, null);
     } else {
       pageKeys.forEach(key => handleEdit(key, true, null));
@@ -438,25 +451,97 @@ const ReviewPage = props => {
             .filter(chapter => chapter.name === 'yourInformation')
             .map(chapter => {
               return (
-                <ReviewCollapsibleChapter
-                  key={chapter.name}
-                  expandedPages={chapter.expandedPages}
-                  chapterFormConfig={chapter.formConfig}
-                  chapterKey={chapter.name}
-                  form={props.form}
-                  formContext={props.formContext}
-                  onEdit={handleEdit}
-                  showButtons
-                  open={chapter.open}
-                  pageKeys={chapter.pageKeys}
-                  pageList={getPageKeysForReview(formConfig)}
-                  setData={(...args) => handleSetData(...args)}
-                  setValid={props.setValid}
-                  toggleButtonClicked={() => handleToggleChapter(chapter)}
-                  uploadFile={props.uploadFile}
-                  viewedPages={new Set(getPageKeysForReview(formConfig))}
-                  hasUnviewedPages={chapter.hasUnviewedPages}
-                />
+                <>
+                  <div
+                    name={`chapter${
+                      chapterTitles.yourInformation
+                    }ScrollElement`}
+                    key={chapter.name}
+                  />
+                  {!editSection.includes(chapterTitles.yourInformation) ? (
+                    <ReviewSectionContent
+                      title={chapterTitles.yourInformation}
+                      editSection={editAll}
+                      keys={chapter.pageKeys}
+                      items={[
+                        {
+                          name: 'First name',
+                          data: props.formData.aboutYourself.first,
+                          key: 'aboutYourself',
+                        },
+                        {
+                          name: 'Middle name',
+                          data: props.formData.aboutYourself.middle,
+                          key: 'aboutYourselfRelationshipFamilyMember',
+                        },
+                        {
+                          name: 'Last name',
+                          data: props.formData.aboutYourself.last,
+                          key: 'aboutYourselfGeneral',
+                        },
+                        {
+                          name: 'Suffix',
+                          data: props.formData.aboutYourself.suffix,
+                          key: 'aboutYourselfGeneral',
+                        },
+                        {
+                          name: 'Social Security number',
+                          data: maskSocial(
+                            props.formData.aboutYourself.socialOrServiceNum.ssn,
+                          ),
+                          key: 'aboutYourselfRelationshipFamilyMember',
+                        },
+                        {
+                          name: 'Service Number',
+                          data:
+                            props.formData.aboutYourself.socialOrServiceNum
+                              .serviceNumber,
+                          key: 'aboutYourselfGeneral',
+                        },
+                        {
+                          name: 'Date of birth',
+                          data: convertDate(
+                            props.formData.aboutYourself.dateOfBirth,
+                          ),
+                          key: 'aboutYourselfRelationshipFamilyMember',
+                        },
+                        {
+                          name: 'Branch of service',
+                          data: props.formData.aboutYourself.branchOfService,
+                          key: 'aboutYourselfGeneral',
+                        },
+                      ]}
+                    />
+                  ) : (
+                    <>
+                      <ReviewCollapsibleChapter
+                        key={chapter.name}
+                        expandedPages={chapter.expandedPages}
+                        chapterFormConfig={chapter.formConfig}
+                        chapterKey={chapter.name}
+                        form={props.form}
+                        formContext={props.formContext}
+                        onEdit={handleEdit}
+                        showButtons={false}
+                        open={chapter.open}
+                        pageKeys={chapter.pageKeys}
+                        pageList={getPageKeysForReview(formConfig)}
+                        setData={(...args) => handleSetData(...args)}
+                        setValid={props.setValid}
+                        toggleButtonClicked={() => handleToggleChapter(chapter)}
+                        uploadFile={props.uploadFile}
+                        viewedPages={new Set(getPageKeysForReview(formConfig))}
+                        hasUnviewedPages={chapter.hasUnviewedPages}
+                      />
+                      <SaveCancelButtons
+                        closeSection={closeAll}
+                        keys={chapter.pageKeys}
+                        title={chapterTitles.yourInformation}
+                        scroll={scrollToChapter}
+                      />
+                    </>
+                  )}
+                </>
               );
             })}
 
@@ -812,17 +897,17 @@ const ReviewPage = props => {
                           data: props.formData.preferredName,
                           key: 'yourContactInformation',
                         },
-                        {
-                          name: 'Pronouns',
-                          data: getPronouns(props.formData.pronouns),
-                          key: 'yourContactInformation',
-                        },
-                        {
-                          name:
-                            "My pronouns aren't listed, and are written here",
-                          data: props.formData.pronounsNotListedText,
-                          key: 'yourContactInformation',
-                        },
+                        // {
+                        //   name: 'Pronouns',
+                        //   data: getPronouns(props.formData.pronouns),
+                        //   key: 'yourContactInformation',
+                        // },
+                        // {
+                        //   name:
+                        //     "My pronouns aren't listed, and are written here",
+                        //   data: props.formData.pronounsNotListedText,
+                        //   key: 'yourContactInformation',
+                        // },
                       ]}
                     />
                   ) : (

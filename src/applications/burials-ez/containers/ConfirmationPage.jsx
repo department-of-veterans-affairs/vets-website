@@ -97,7 +97,10 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
       <ul className="claim-list">
         <li>
           <h3>Who submitted this form</h3>
-          <span>
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="claimant full name"
+          >
             {claimantName?.first} {claimantName?.middle} {claimantName?.last}{' '}
             {claimantName?.suffix}
           </span>
@@ -112,7 +115,10 @@ const ConfirmationPage = ({ form, isLoggedIn, route }) => {
         </li>
         <li>
           <h3>Deceased Veteran</h3>
-          <span>
+          <span
+            className="dd-privacy-hidden"
+            data-dd-action-name="deceased veteran full name"
+          >
             {veteranName.first} {veteranName.middle} {veteranName.last}{' '}
             {veteranName.suffix}
           </span>

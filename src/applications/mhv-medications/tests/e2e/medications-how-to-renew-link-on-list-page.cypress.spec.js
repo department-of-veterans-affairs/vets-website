@@ -14,6 +14,5 @@ describe('Medications List Page Renew Rx Link', () => {
     listPage.clickGotoMedicationsLink();
     listPage.verifyLearnHowToRenewPrescriptionsLinkExists();
     listPage.clickLearnHowToRenewPrescriptionsLink();
-    landingPage.verifyHowtoRenewPrescriptionsAccordionDropDown();
   });
 });

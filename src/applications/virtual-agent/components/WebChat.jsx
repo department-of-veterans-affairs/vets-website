@@ -5,7 +5,6 @@ import { isMobile } from 'react-device-detect'; // Adding this library for acces
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { datadogLogs } from '@datadog/browser-logs';
 
 // Hooks
 import useBotPonyFill from '../hooks/useBotPonyfill';
@@ -31,6 +30,7 @@ import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedI
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
 import validateParameters from '../utils/validateParameters';
+import logger from '../utils/logger';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -96,7 +96,7 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
   );
 
-  datadogLogs.logger.info('Ding! Test message');
+  logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
 
   validateParameters({
     csrfToken,

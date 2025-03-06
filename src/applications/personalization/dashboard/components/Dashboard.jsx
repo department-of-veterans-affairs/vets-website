@@ -188,8 +188,8 @@ LOA1Content.propTypes = {
   dismissWelcomeModal: PropTypes.func,
   isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
-  welcomeModalVisible: PropTypes.bool,
   user: PropTypes.object,
+  welcomeModalVisible: PropTypes.bool,
 };
 
 const Dashboard = ({

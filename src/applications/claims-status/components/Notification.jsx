@@ -1,9 +1,22 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export default function Notification({ body, title, type, onClose }) {
+export default function Notification({
+  body,
+  title,
+  type,
+  onClose,
+  onSetFocus,
+}) {
   const closeable = !!onClose;
+  useEffect(() => {
+    if (typeof onSetFocus === 'function') {
+      setTimeout(() => {
+        onSetFocus();
+      });
+    }
+  });
 
   return (
     <VaAlert
@@ -20,13 +33,14 @@ export default function Notification({ body, title, type, onClose }) {
   );
 }
 
+Notification.defaultProps = {
+  type: 'success',
+};
+
 Notification.propTypes = {
   body: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string,
   onClose: PropTypes.func,
-};
-
-Notification.defaultProps = {
-  type: 'success',
+  onSetFocus: PropTypes.func,
 };
