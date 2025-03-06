@@ -73,7 +73,12 @@ export function useEditOrAddForm({
         // We run updateSchemasAndData before setting data in case
         // there are updateSchema, replaceSchema, updateUiSchema,
         // or other dynamic properties
-        let newFullData = fullData;
+
+        // array builder will always have an arrayPath, but
+        // in case other components use this hook, we need to
+        // set full data to the updated data since we're dealing
+        // with local data.
+        let newFullData = updatedData;
 
         if (arrayPath) {
           newFullData = replaceItemInFormData({
