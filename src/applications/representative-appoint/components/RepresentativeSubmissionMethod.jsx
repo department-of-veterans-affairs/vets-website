@@ -45,6 +45,7 @@ const RepresentativeSubmissionMethod = props => {
       <h3>Select how to submit your request</h3>
       <VaRadio
         error={error}
+        name="repSubmissionMethod"
         label="How do you want to submit your request?"
         required
         onVaValueChange={handleRadioSelect}

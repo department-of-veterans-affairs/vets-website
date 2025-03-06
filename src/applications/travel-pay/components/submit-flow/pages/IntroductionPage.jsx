@@ -4,14 +4,11 @@ import { useSelector } from 'react-redux';
 
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
-import { isPastAppt, getDaysLeft } from '../../../util/dates';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
 
 const IntroductionPage = ({ onStart }) => {
   const { data, error, isLoading } = useSelector(selectAppointment);
-  const daysLeft = getDaysLeft(data?.localStartTime);
-  const isOutOfBounds = daysLeft === 0 && !data.travelPayClaim?.claim;
 
   return (
     <div>
@@ -24,13 +21,7 @@ const IntroductionPage = ({ onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {data && (
-        <AppointmentInfoText
-          appointment={data}
-          isPast={isPastAppt(data)}
-          isOutOfBounds={isOutOfBounds}
-        />
-      )}
+      {data && <AppointmentInfoText appointment={data} />}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
       </h2>
@@ -41,6 +32,7 @@ const IntroductionPage = ({ onStart }) => {
             your direct deposit set up, you can file a reimbursement claim now.
           </p>
           <va-link
+            external
             href={`${TRAVEL_PAY_INFO_LINK}#eligibility-for-general-health`}
             text="Travel reimbursement eligibility"
           />
@@ -51,8 +43,8 @@ const IntroductionPage = ({ onStart }) => {
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
           {data &&
-            !isOutOfBounds &&
-            isPastAppt(data) && (
+            !data.isOutOfBounds &&
+            data.isPast && (
               <va-link-action
                 onClick={e => onStart(e)}
                 href="javascript0:void"
@@ -66,6 +58,7 @@ const IntroductionPage = ({ onStart }) => {
             or in person.
           </p>
           <va-link
+            external
             href={TRAVEL_PAY_INFO_LINK}
             text="Learn how to file claims for other expenses"
           />

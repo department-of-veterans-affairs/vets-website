@@ -5,6 +5,7 @@ import ApiInitializer from './utilities/ApiInitializer';
 
 describe('Submit Mileage Only Claims', () => {
   beforeEach(() => {
+    cy.clock(new Date(2025, 0, 15), ['Date']);
     cy.intercept('/data/cms/vamc-ehr.json', {});
     ApiInitializer.initializeFeatureToggle.withAllFeatures();
     ApiInitializer.initializeAppointment.happyPath();
@@ -12,6 +13,10 @@ describe('Submit Mileage Only Claims', () => {
     cy.visit(`${rootUrl}/file-new-claim/12345`);
     cy.wait(['@featureToggles', '@appointment']);
     cy.injectAxeThenAxeCheck();
+  });
+
+  afterEach(() => {
+    cy.clock().invoke('restore');
   });
 
   it('defaults to the Introduction page', () => {

@@ -61,11 +61,7 @@ describe('Confirmation page', () => {
             error: null,
             data: {
               ...appointment,
-              practitioners: [
-                {
-                  name: { family: 'Last', given: ['First', 'Middle'] },
-                },
-              ],
+              practitionerName: 'First Middle Last',
             },
           },
           claimSubmission: {
