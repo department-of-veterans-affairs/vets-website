@@ -797,7 +797,7 @@ const formConfig = {
                   ],
                 },
                 street2: {
-                  'ui:title': 'Street address line 2 (optional)',
+                  'ui:title': 'Street address line 2',
                   'ui:validations': [
                     (errors, fieldValue) => {
                       // Optional check for whitespace
