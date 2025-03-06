@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
+import { useCombobox } from 'downshift-v9';
 import useServiceType, {
   FACILITY_TYPE_FILTERS,
 } from '../../../hooks/useServiceType';
@@ -109,7 +110,7 @@ const VAMCServiceAutosuggest = ({
     // The autosuggest component runs both handleOnSelect and onInputValueChange
     // when a dropdown value is selected. This creates problems for this component,
     // so we limit this function's purpose to only handle typing and not selection
-    if (e.type === '__input_change__') {
+    if (e.type === useCombobox.stateChangeTypes.InputChange) {
       const userInput = e.inputValue?.trimStart();
       setInputValue(userInput);
 
