@@ -23,8 +23,8 @@ export default function transform(form) {
         );
     }
     if (program.fte) {
-      program.fte.nonSupported = parseInt(program.fte.nonSupported, 10);
-      program.fte.supported = parseInt(program.fte.supported, 10);
+      program.fte.nonSupported = parseInt(program.fte.nonSupported, 10) || 0;
+      program.fte.supported = parseInt(program.fte.supported, 10) || 0;
     }
     return program;
   });
@@ -41,7 +41,7 @@ export default function transform(form) {
   const offset = today.getTimezoneOffset();
   today = new Date(today.getTime() - offset * 60 * 1000);
   // eslint-disable-next-line prefer-destructuring
-  formData.data.dateSigned = today.toISOString().split('T')[0];
+  // formData.data.dateSigned = today.toISOString().split('T')[0];
 
   return JSON.stringify({
     educationBenefitsClaim: {

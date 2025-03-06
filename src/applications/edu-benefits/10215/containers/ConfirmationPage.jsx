@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
+import environment from 'platform/utilities/environment';
 import GetFormHelp from '../components/GetFormHelp';
 
 export const ConfirmationPage = ({ router, route }) => {
+  const [claimId, setClaimId] = React.useState(null);
   const form = useSelector(state => state?.form);
   const { submission } = form;
 
@@ -14,6 +16,19 @@ export const ConfirmationPage = ({ router, route }) => {
     e.preventDefault();
     router.push('/review-and-submit');
   };
+  console.log(submission, "submmmmmm");
+  useEffect(
+    () => {
+      if (submission?.response?.id) {
+        localStorage.setItem(
+          '10215ClaimId',
+          JSON.stringify(submission?.response?.id),
+        );
+      }
+      setClaimId(JSON.parse(localStorage.getItem('10215ClaimId')));
+    },
+    [submission],
+  );
 
   const childContent = (
     <div>
@@ -37,7 +52,9 @@ export const ConfirmationPage = ({ router, route }) => {
             </p>
             <p>
               <va-link
-                href="https://iam.education.va.gov/"
+                href={`${
+                  environment.API_URL
+                }/v0/education_benefits_claims/download_pdf/${claimId}`}
                 text="Download VA Form 22-10215"
                 download
               />

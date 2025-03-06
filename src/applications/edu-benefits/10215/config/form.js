@@ -7,7 +7,7 @@ import environment from 'platform/utilities/environment';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import manifest from '../manifest.json';
-// import submitForm from './submitForm';
+import submitForm from './submitForm';
 import transform from './transform';
 import { getFTECalcs } from '../helpers';
 
@@ -36,7 +36,7 @@ export const arrayBuilderOptions = {
     getItemName: item => item.programName,
     cardDescription: item => {
       const percent = getFTECalcs(item).supportedFTEPercent;
-      return percent ? `${percent} supported student FTE` : null;
+      return percent ? `${percent} supported student FTE` : 0;
     },
     summaryTitle: props =>
       location?.pathname.includes('review-and-submit')
@@ -53,9 +53,9 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
-  // submit: submitForm,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitForm,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
@@ -66,14 +66,14 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   preSubmitInfo: {
-    statementOfTruth: {
-      heading: 'Certification statement',
-      body:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
-      messageAriaDescribedby:
-        'I hereby certify that the calculations above are true and correct in content and policy.',
-      fullNamePath: 'certifyingOfficial',
-    },
+    // statementOfTruth: {
+    //   heading: 'Certification statement',
+    //   body:
+    //     'I hereby certify that the calculations above are true and correct in content and policy.',
+    //   messageAriaDescribedby:
+    //     'I hereby certify that the calculations above are true and correct in content and policy.',
+    //   fullNamePath: 'certifyingOfficial',
+    // },
   },
   customText: {
     reviewPageTitle: 'Review',
@@ -101,14 +101,14 @@ const formConfig = {
     institutionDetailsChapter: {
       title: 'Institution details',
       pages: {
-        institutionOfficial: {
-          path: 'institution-details-1',
-          title: 'Tell us about yourself',
-          uiSchema: institutionOfficial.uiSchema,
-          schema: institutionOfficial.schema,
-        },
+        // institutionOfficial: {
+        //   path: 'institution-details-1',
+        //   title: 'Tell us about yourself',
+        //   uiSchema: institutionOfficial.uiSchema,
+        //   schema: institutionOfficial.schema,
+        // },
         institutionDetails: {
-          path: 'institution-details-2',
+          path: 'institution-details-1',
           title: 'Institution details',
           uiSchema: institutionDetails.uiSchema,
           schema: institutionDetails.schema,
