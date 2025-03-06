@@ -40,7 +40,7 @@ const setIsAgreementCheckedSpy = sinon.spy();
 const setPageIndexSpy = sinon.spy();
 const setYesNoSpy = sinon.spy();
 
-describe('Revew page', () => {
+describe('Review page', () => {
   const getData = ({ homeAddress = home, pract } = {}) => {
     return {
       user: {
