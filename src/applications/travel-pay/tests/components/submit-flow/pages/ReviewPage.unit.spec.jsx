@@ -1,7 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
@@ -98,9 +97,7 @@ describe('Review page', () => {
 
     await checkbox.__events.vaChange();
 
-    await waitFor(() => {
-      expect(setIsAgreementCheckedSpy.called).to.be.true;
-    });
+    expect(setIsAgreementCheckedSpy.called).to.be.true;
   });
 
   it('should render properly with practitioners if present', async () => {
@@ -129,9 +126,7 @@ describe('Review page', () => {
 
     await checkbox.__events.vaChange();
 
-    await waitFor(() => {
-      expect(setIsAgreementCheckedSpy.called).to.be.true;
-    });
+    expect(setIsAgreementCheckedSpy.called).to.be.true;
   });
 
   it('should reset page index and answers when start over is pressed', async () => {
@@ -143,10 +138,24 @@ describe('Review page', () => {
     expect(screen.getByText('Review your travel claim')).to.exist;
 
     $('va-button-pair').__events.secondaryClick(); // start over
-    await waitFor(() => {
-      expect(setPageIndexSpy.called).to.be.true;
-      expect(setYesNoSpy.called).to.be.true;
+    expect(setPageIndexSpy.called).to.be.true;
+    expect(setYesNoSpy.called).to.be.true;
+  });
+
+  it('should submit okay', async () => {
+    const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
+      initialState: getData(),
+      reducers: reducer,
     });
+
+    expect(screen.getByText('Review your travel claim')).to.exist;
+
+    // Check the agreement
+    const checkbox = $('va-checkbox[name="accept-agreement"]');
+    await checkbox.__events.vaChange();
+
+    $('va-button-pair').__events.primaryClick(); // file claim
+    expect(onSubmitSpy.called).to.be.true;
   });
 
   it('should not show the error message if the travel agreement is checked', () => {

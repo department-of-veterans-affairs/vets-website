@@ -122,9 +122,10 @@ const ReviewPage = ({
       </va-card>
 
       <VaButtonPair
-        class="vads-u-margin-top--2"
-        leftButtonText="File claim"
-        rightButtonText="Start over"
+        className="vads-u-margin-top--2"
+        continue
+        rightButtonText="File claim"
+        leftButtonText="Start over"
         onPrimaryClick={onSubmit}
         onSecondaryClick={onBack}
       />
