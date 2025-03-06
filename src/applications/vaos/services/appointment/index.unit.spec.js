@@ -774,77 +774,34 @@ describe('VAOS Services: Appointment ', () => {
       const confirmedAppts = [
         // appointment more than 395 days should not show
         {
-          start: '2099-04-30T05:35:00',
-          facilityId: '984',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        },
-        // appointment less than 395 days should show
-        {
-          start: now
-            .clone()
-            .add(394, 'days')
-            .format(),
-          facilityId: '984',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        },
-        // appointment 30 min ago should show
-        {
-          start: now
-            .clone()
-            .subtract(30, 'minutes')
-            .format(),
-          facilityId: '984',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        },
-        // appointment more than 1 hour ago should not show
-        {
-          start: now
-            .clone()
-            .subtract(65, 'minutes')
-            .format(),
           facilityId: '984',
           vaos: {
-            isPastAppointment: true,
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-        // video appointment less than 4 hours ago should show
-        {
-          start: now
-            .clone()
-            .subtract(230, 'minutes')
-            .format(),
-          vaos: {
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-        // video appointment more than 4 hours ago should not show
-        {
-          start: now
-            .clone()
-            .subtract(245, 'minutes')
-            .format(),
-          vaos: {
-            isPastAppointment: true,
+            isUpcomingAppointment: true,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
         },
         // appointment with status 'NO-SHOW' should not show
         {
           description: 'NO-SHOW',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          vaos: {
+            isUpcomingAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
         // appointment with status 'DELETED' should not show
         {
           description: 'DELETED',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          vaos: {
+            isUpcomingAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
       ];
 
       const filteredConfirmed = confirmedAppts.filter(
         isUpcomingAppointmentOrRequest,
       );
-      expect(filteredConfirmed.length).to.equal(3);
+      expect(filteredConfirmed.length).to.equal(1);
     });
 
     it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {
