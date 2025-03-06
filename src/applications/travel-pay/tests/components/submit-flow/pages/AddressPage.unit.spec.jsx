@@ -59,7 +59,9 @@ describe('Address page', () => {
 
     await waitFor(() => {
       expect(screen.getByTestId('address-test-id')).to.exist;
-      expect(screen.findByText('345 Home Address St')).to.exist;
+      expect(screen.findByText(/345 Home Address St/i)).to.exist;
+      expect(screen.findByText(/Apt. 22B/i)).to.exist;
+      expect(screen.findByText(/Building 2/i)).to.exist;
       expect($('va-button-pair')).to.exist;
     });
 
@@ -83,9 +85,9 @@ describe('Address page', () => {
     expect($('va-button-pair')).to.not.exist;
     expect($('va-alert')).to.exist;
     expect(
-      screen.findByText(`We can’t file this claim in this tool at this time`),
+      screen.getByText(`We can’t file this claim in this tool at this time`),
     ).to.exist;
-    expect(screen.findByText(/We need your home address/i)).to.exist;
+    expect(screen.getByText('We need your home address')).to.exist;
     expect($('va-link[href="/profile/contact-information"]')).to.exist;
   });
 
