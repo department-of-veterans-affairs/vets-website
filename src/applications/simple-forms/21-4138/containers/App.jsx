@@ -40,7 +40,7 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   isLoading: state?.featureToggles?.loading,
-  showForm: toggleValues(state)[FEATURE_FLAG_NAMES.form214138] || true,
+  showForm: toggleValues(state)[FEATURE_FLAG_NAMES.form214138] || false,
 });
 
 export default connect(mapStateToProps)(App);
