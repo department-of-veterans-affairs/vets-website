@@ -75,7 +75,7 @@ describe('Mileage page', () => {
     expect(screen.getByText(/submit receipts for other expenses/i)).to.exist;
 
     $('va-button-pair').__events.primaryClick(); // continue
-    expect(setPageIndexSpy.called).to.be.true;
+    expect(setPageIndexSpy.calledWith(2)).to.be.true;
   });
 
   it('should render an error if no selection made', () => {
@@ -127,7 +127,7 @@ describe('Mileage page', () => {
     );
 
     $('va-button-pair').__events.primaryClick(); // continue
-    expect(setCantFileSpy.called).to.be.true;
+    expect(setCantFileSpy.calledWith(true)).to.be.true;
   });
 
   it('should move back a step', () => {
@@ -146,6 +146,7 @@ describe('Mileage page', () => {
 
     $('va-button-pair').__events.secondaryClick(); // back
 
+    expect(setCantFileSpy.calledWith(false)).to.be.true;
     expect(setPageIndexSpy.calledWith(0)).to.be.true;
   });
 });
