@@ -172,8 +172,8 @@ describe('Review page', () => {
     ).to.be.empty;
   });
 
-  it('should render an error if filing without agreeing to terms', async () => {
-    const screen = renderWithStoreAndRouter(<ReviewPage {...props} isError />, {
+  it('should render an error if filing without agreeing to terms', () => {
+    renderWithStoreAndRouter(<ReviewPage {...props} isError />, {
       initialState: getData(),
       reducers: reducer,
     });
@@ -185,10 +185,5 @@ describe('Review page', () => {
       'error',
       'You must accept the beneficiary travel agreement before continuing.',
     );
-    await waitFor(() => {
-      expect(
-        screen.findByText(/You must accept the beneficiary travel agreement/i),
-      ).to.exist;
-    });
   });
 });
