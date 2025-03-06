@@ -154,5 +154,10 @@
     "template": {
       "layout": "accredited-representative-portal.html"
     }
+  },
+  {
+    "appName": "Order Medical Supplies",
+    "entryName": "mhv-supply-reordering",
+    "rootUrl": "/my-health/order-medical-supplies"
   }
 ]

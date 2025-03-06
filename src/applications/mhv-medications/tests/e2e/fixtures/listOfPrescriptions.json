@@ -61,7 +61,7 @@
                 "refillDate": "2023-09-04T04:00:00.000Z",
                 "refillRemaining": 3,
                 "facilityName": "DAYT29",
-                "orderedDate": "2023-09-04T04:00:00.000Z",
+                "orderedDate": "2025-02-24T04:00:00.000Z",
                 "quantity": 30,
                 "expirationDate": "2024-09-04T04:00:00.000Z",
                 "dispensedDate": "October 2, 2023",
@@ -90,7 +90,22 @@
                 "indicationForUse": null,
                 "indicationForUseFlag": null,
                 "category": "Rx Medication",
-                "trackingList": [],
+                "trackingList": [
+                    {
+                        "id": 49049,
+                        "stationNumber": "979",
+                        "rxNumber": "2720604",
+                        "carrier": "FEDEX",
+                        "trackingNumber": "77298036368890000006962",
+                        "completeDateTime": "Feb, 24 Sep 2024 04:39:11 EDT",
+                        "divisionPhone": "(410)636-6899",
+                        "ndc": "00113002239",
+                        "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
+                        "isLocalTracking": false,
+                        "othersInSamePackage": false,
+                        "viewImageDisplayed": true
+                    }
+                ],
                 "rxRfRecords": [],
                 "sortedDispensedDate": "2023-10-02"
             },
@@ -188,7 +203,22 @@
                 "indicationForUse": null,
                 "indicationForUseFlag": null,
                 "category": "Rx Medication",
-                "trackingList": [],
+                "trackingList": [
+                    {
+                        "id": 49049,
+                        "stationNumber": "979",
+                        "rxNumber": "2720604",
+                        "carrier": "FEDEX",
+                        "trackingNumber": "77298036368890000006962",
+                        "completeDateTime": "Feb, 24 Sep 2024 04:39:11 EDT",
+                        "divisionPhone": "(410)636-6899",
+                        "ndc": "00113002239",
+                        "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",
+                        "isLocalTracking": false,
+                        "othersInSamePackage": false,
+                        "viewImageDisplayed": true
+                    }
+                ],
                 "rxRfRecords": [],
                 "tracking": false
             },
@@ -893,7 +923,7 @@
                         "rxNumber": "3636889A",
                         "carrier": "FEDEX",
                         "trackingNumber": "77298036368890000006962",
-                        "completeDateTime": "Sun, 24 Sep 2023 04:39:11 EDT",
+                        "completeDateTime": "Sun, 24 Sept 2023 04:39:11 EDT",
                         "divisionPhone": "(410)636-6899",
                         "ndc": "00113002239",
                         "dateLoaded": "Tue, 26 Sep 2023 16:20:00 EDT",

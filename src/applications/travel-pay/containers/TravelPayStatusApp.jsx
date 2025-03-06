@@ -56,7 +56,7 @@ export default function TravelPayStatusApp({ children }) {
   if (data.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
 
-    const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
+    const topStatuses = new Set(['On hold', 'Denied', 'In manual review']);
     const availableStatuses = new Set(data.map(c => c.claimStatus));
 
     const availableTopStatuses = intersection(
