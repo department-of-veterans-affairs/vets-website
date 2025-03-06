@@ -206,6 +206,14 @@
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {
+      "rootFolder": "office-directory",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "pact-act",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "pensions",
       "slackGroup": "<@C0667PCPVLM>",
       "continuousDeployment": false
@@ -216,8 +224,36 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "proxy-rewrite",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "public-outreach-materials",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "rated-disabilities",
       "slackGroup": "@benefits-app-builds"
+    },
+    {
+      "rootFolder": "representative-appoint",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "representative-search",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "resources-and-support",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sah",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sco",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "static-pages",
