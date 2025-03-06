@@ -1,5 +1,6 @@
-import { createInitialState } from '../state/helpers';
-import reducers from '../state/reducers';
+import { createInitialState } from './helpers';
+import reducers from './reducers';
+import { applyFormMiddleware } from './middleware';
 
 export default function createSchemaFormReducer(
   formConfig,
@@ -7,10 +8,11 @@ export default function createSchemaFormReducer(
   formReducers = reducers,
 ) {
   return (state = initialState, action) => {
-    const reducer = formReducers[action.type];
+    const formAction = applyFormMiddleware(state, action);
+    const reducer = formReducers[formAction.type];
 
     if (reducer) {
-      return reducer(state, action);
+      return reducer(state, formAction);
     }
 
     return state;

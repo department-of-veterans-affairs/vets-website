@@ -14,6 +14,7 @@ import {
   showReviewField,
   stringifyUrlParams,
   getUrlPathIndex,
+  convertUrlPathToPageConfigPath,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1297,5 +1298,32 @@ describe('getUrlPathIndex', () => {
     expect(getUrlPathIndex('/form-1/path-2/3?add')).to.eql(3);
     expect(getUrlPathIndex('/form-1/path-2/0/the-page?add')).to.eql(0);
     expect(getUrlPathIndex('/form-1/path-2/1/page-3')).to.eql(1);
+  });
+});
+
+describe('convertUrlPathToPageConfigPath', () => {
+  it('should convert a url path to a page config path', () => {
+    let urlPath;
+    let expectedPagePath;
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
+    urlPath = null;
+    expectedPagePath = null;
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
+    urlPath = '/veteran-information';
+    expectedPagePath = 'veteran-information';
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
+    urlPath = '/mental-health/0/events-details';
+    expectedPagePath = 'mental-health/:index/events-details';
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
+    urlPath = '/root-form/specific-name/mental-health/0/events-details';
+    const rootUrl = '/root-form/specific-name';
+    expectedPagePath = 'mental-health/:index/events-details';
+    expect(convertUrlPathToPageConfigPath(urlPath, rootUrl)).to.equal(
+      expectedPagePath,
+    );
   });
 });
