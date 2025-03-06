@@ -1,6 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { signupOrVerify, sessionTypeUrl } from '../utilities';
+import { AUTHN_SETTINGS } from '../constants';
+import {
+  signupOrVerify,
+  sessionTypeUrl,
+  createExternalApplicationUrl,
+} from '../utilities';
 
 export function onVerifyClick({ useOAuth, policy }) {
   if (useOAuth) {
@@ -59,7 +64,14 @@ export function useInternalTestingAuth({
     }
 
     generateURL();
-  });
+  }, []);
 
-  return href;
+  const onClick = () => {
+    sessionStorage.setItem(
+      AUTHN_SETTINGS.RETURN_URL,
+      createExternalApplicationUrl(),
+    );
+  };
+
+  return { href, onClick };
 }
