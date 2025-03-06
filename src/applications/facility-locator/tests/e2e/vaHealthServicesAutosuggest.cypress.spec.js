@@ -1,5 +1,6 @@
 import * as h from './helpers';
 import vaHealthServicesData from '../hooks/test-va-healthcare-services.json';
+import searchResultsData from './autosuggest-data/services-autosuggest.json';
 
 describe('VA health services autosuggest', () => {
   beforeEach(() => {
@@ -23,6 +24,10 @@ describe('VA health services autosuggest', () => {
       '**/data/cms/va-healthcare-services.json',
       vaHealthServicesData.data,
     ).as('vaHealthServices');
+
+    cy.intercept('POST', '**/facilities_api/v2/va', searchResultsData).as(
+      'searchResultsData',
+    );
   });
 
   const verifyDropdownIsOpen = () => {
@@ -52,6 +57,8 @@ describe('VA health services autosuggest', () => {
       verifyDropdownIsClosed();
 
       h.submitSearchForm();
+
+      cy.wait('@searchResultsData');
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
