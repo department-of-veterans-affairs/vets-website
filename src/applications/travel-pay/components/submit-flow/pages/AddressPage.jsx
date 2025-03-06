@@ -123,19 +123,10 @@ const AddressPage = ({
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
       </SmocRadio>
-
-      <va-additional-info
-        class="vads-u-margin-y--3"
+      <HelpTextOptions
         trigger="If you didn't travel from your home address"
-      >
-        <p>
-          <strong>
-            If you traveled from a different address, you can’t file a claim in
-            this tool right now.
-          </strong>{' '}
-          <HelpTextOptions />
-        </p>
-      </va-additional-info>
+        headline="If you traveled from a different address, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   BTSSS_PORTAL_URL,
@@ -76,18 +77,27 @@ export const HelpTextModalities = () => {
   );
 };
 
-export const HelpTextOptions = () => (
-  <>
-    But you can file your claim online through the
-    <va-link
-      external
-      href={BTSSS_PORTAL_URL}
-      text="Beneficiary Travel Self Service System (BTSSS)"
-    />
-    .{' '}
+export const HelpTextOptions = ({ trigger, headline }) => (
+  <va-additional-info class="vads-u-margin-y--3" trigger={trigger}>
+    <p>
+      <strong>{headline}</strong> But you can file your claim online through the
+      <va-link
+        external
+        href={BTSSS_PORTAL_URL}
+        text="Beneficiary Travel Self Service System (BTSSS)"
+      />
+      .
+    </p>
+    <br />
     <p>
       Or you can use VA Form 10-3542 to submit a claim by mail or in person.
     </p>
+    <br />
     <va-link href={FORM_103542_LINK} text="Learn more about VA Form 10-3542" />
-  </>
+  </va-additional-info>
 );
+
+HelpTextOptions.propTypes = {
+  headline: PropTypes.string,
+  trigger: PropTypes.string,
+};

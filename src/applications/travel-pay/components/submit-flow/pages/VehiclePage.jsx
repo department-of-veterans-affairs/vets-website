@@ -46,20 +46,10 @@ const VehiclePage = ({
         error={requiredAlert}
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />
-
-      <va-additional-info
-        class="vads-u-margin-y--3"
+      <HelpTextOptions
         trigger="If you didn't travel in your own vehicle"
-      >
-        <p>
-          <strong>
-            If you traveled by bus, train, taxi, or other authorized public
-            transportation, you can’t file a claim in this tool right now.
-          </strong>{' '}
-          <HelpTextOptions />
-        </p>
-      </va-additional-info>
-
+        headline="If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue

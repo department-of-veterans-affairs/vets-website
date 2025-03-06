@@ -87,20 +87,11 @@ const MileagePage = ({
           text="Check current mileage rates"
         />
       </va-additional-info>
-
-      <va-additional-info
-        class="vads-u-margin-bottom--3"
+      <HelpTextOptions
         trigger="If you have other expenses to claim"
-      >
-        <p>
-          <strong>
-            If you need to submit receipts for other expenses like tolls, meals,
-            or lodging, you can’t file a claim in this tool right now.
-          </strong>{' '}
-          <HelpTextOptions />
-        </p>
-      </va-additional-info>
-
+        headline="If you need to submit receipts for other expenses like tolls, meals,
+            or lodging, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
