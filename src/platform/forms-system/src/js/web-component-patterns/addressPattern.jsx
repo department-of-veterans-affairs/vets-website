@@ -229,6 +229,9 @@ export function addressUI(options) {
   let cachedPath;
   let cityMaxLength = 100;
 
+  const requireStateForAllCountries =
+    options?.requireStateForAllCountries || false;
+
   const omit = key => options?.omit?.includes(key);
   let customRequired = key => options?.required?.[key];
   if (options?.required === false) {
@@ -437,12 +440,19 @@ export function addressUI(options) {
   }
 
   if (!omit('state')) {
+    const maxStateLength = options?.maxStateLength || 100;
+
     uiSchema.state = {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index) => {
         if (customRequired('state')) {
           return customRequired('state')(formData, index);
         }
+
+        if (requireStateForAllCountries) {
+          return true;
+        }
+
         if (cachedPath) {
           const { country } = get(cachedPath, formData) ?? {};
           return country && country === USA.value;
@@ -520,6 +530,7 @@ export function addressUI(options) {
           return {
             type: 'string',
             title: 'State/Province/Region',
+            maxLength: maxStateLength,
           };
         },
       },
