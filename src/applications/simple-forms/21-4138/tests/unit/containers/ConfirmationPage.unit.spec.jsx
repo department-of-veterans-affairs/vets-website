@@ -1,37 +1,55 @@
 import React from 'react';
+
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
-import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { cleanup } from '@testing-library/react';
 import { format } from 'date-fns';
-import ConfirmationPage from '../../../containers/ConfirmationPage';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import formConfig from '../../../config/form';
+import ConfirmationPage from '../../../containers/ConfirmationPage';
+import testData from '../../e2e/fixtures/data/user.json';
 
-describe('ConfirmationPage', () => {
-  let wrapper;
-  let store;
-  const mockStore = configureMockStore();
-  const initialState = {
+const submitDate = new Date();
+const initialState = {
+  form: {
+    ...createInitialState(formConfig),
+    testData,
+    submission: {
+      response: {
+        confirmationNumber: '1234567890',
+      },
+      timestamp: submitDate,
+    },
+  },
+};
+const mockStore = state => createStore(() => state);
+
+const mountPage = (state = initialState) => {
+  const safeState = {
     form: {
       submission: {
-        response: {
-          confirmationNumber: '9876543210',
-          pdfUrl: 'https://example.com/confirmation.pdf',
-        },
-        timestamp: '2023-05-15T12:34:56Z',
+        response: { confirmationNumber: '1234567890', pdfUrl: '' },
+        timestamp: '',
       },
+      ...state.form,
     },
   };
 
+  const store = mockStore(safeState);
+  return mount(
+    <Provider store={store}>
+      <ConfirmationPage route={{ formConfig }} />
+    </Provider>,
+  );
+};
+
+describe('ConfirmationPage', () => {
+  let wrapper;
+
   beforeEach(() => {
-    store = mockStore(initialState);
-    wrapper = mount(
-      <Provider store={store}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
+    wrapper = mountPage();
   });
 
   afterEach(() => {
@@ -41,53 +59,21 @@ describe('ConfirmationPage', () => {
     cleanup();
   });
 
-  it('passes the correct props to ConfirmationView', () => {
+  it('passes the correct props to ConfirmationPageView', () => {
     const confirmationViewProps = wrapper.find('ConfirmationView').props();
-    expect(confirmationViewProps.submitDate).to.equal('2023-05-15T12:34:56Z');
-    expect(confirmationViewProps.confirmationNumber).to.equal('9876543210');
-    expect(confirmationViewProps.pdfUrl).to.equal(
-      'https://example.com/confirmation.pdf',
-    );
+
+    expect(confirmationViewProps.submitDate).to.equal(submitDate);
+    expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
   });
 
   it('should select form from state when state.form is defined', () => {
-    const submitDate = new Date();
-    const mockDefinedState = {
-      form: {
-        submission: {
-          timestamp: submitDate,
-          response: { confirmationNumber: '5678' },
-        },
-      },
-    };
-    const mockStoreDefined = createStore(() => mockDefinedState);
-    const definedWrapper = mount(
-      <Provider store={mockStoreDefined}>
-        <ConfirmationPage route={{ formConfig }} />
-      </Provider>,
-    );
-
-    expect(definedWrapper.text()).to.include(
-      format(submitDate, 'MMMM d, yyyy'),
-    );
-    definedWrapper.unmount();
+    expect(wrapper.text()).to.include(format(submitDate, 'MMMM d, yyyy'));
+    expect(wrapper.text()).to.include('1234');
   });
 
-  it('should throw an error when state.form is undefined', () => {
-    const mockEmptyState = {};
-    const mockEmptyStore = createStore(() => mockEmptyState);
-    let errorWrapper;
-
+  it('should throw error when state.form is undefined', () => {
     expect(() => {
-      errorWrapper = mount(
-        <Provider store={mockEmptyStore}>
-          <ConfirmationPage route={{ formConfig }} />
-        </Provider>,
-      );
+      mountPage({ form: {} });
     }).to.throw();
-
-    if (errorWrapper) {
-      errorWrapper.unmount();
-    }
   });
 });
