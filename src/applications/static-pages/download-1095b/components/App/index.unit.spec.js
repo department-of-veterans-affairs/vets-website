@@ -192,8 +192,13 @@ describe('App component', () => {
 
     describe('when the feature flag is off', () => {
       it('renders an "unavailable" messsage', async () => {
-        const testState = authedAndVerifiedState;
-        testState.featureToggles.showDigitalForm1095b = false;
+        const testState = {
+          ...authedAndVerifiedState,
+          featureToggles: {
+            ...authedAndVerifiedState.featureToggles,
+            showDigitalForm1095b: false,
+          },
+        };
         store = mockStore(testState);
         const { queryByText } = render(
           <Provider store={store}>
@@ -210,6 +215,48 @@ describe('App component', () => {
             ),
           ).to.exist;
         });
+      });
+    });
+  });
+
+  describe('when no 1095-B form data is found', () => {
+    const server = setupServer();
+
+    // todo - this is repeated from above, can make this DRY?
+    before(() => {
+      server.listen();
+    });
+    after(() => {
+      server.close();
+    });
+
+    it('renders a message', async () => {
+      const responsePayload = {
+        availableForms: [], // empty list of 1095-B forms
+      };
+      store = mockStore(authedAndVerifiedState);
+      server.use(
+        rest.get(
+          'https://dev-api.va.gov/v0/form1095_bs/available_forms',
+          (_, res, ctx) => {
+            return res(ctx.status(200), ctx.json(responsePayload));
+          },
+        ),
+      );
+
+      const { queryByText } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        expect(queryByText('Loading')).not.to.exist;
+      });
+      await waitFor(() => {
+        expect(
+          queryByText('You don’t have a 1095-B tax form available right now'),
+        ).to.exist;
       });
     });
   });
