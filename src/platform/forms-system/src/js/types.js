@@ -472,3 +472,12 @@
  * @property {boolean} [allowPartialAddress] Allows addresses with missing fields
  * @property {boolean} [replaceEscapedCharacters] Replaces escaped characters
  */
+
+/**
+ * @typedef {Object} ActiveContext
+ * @property {string} arrayPath
+ * @property {string} chapterKey
+ * @property {number} index
+ * @property {string} pageKey
+ * @property {string} pathname
+ */

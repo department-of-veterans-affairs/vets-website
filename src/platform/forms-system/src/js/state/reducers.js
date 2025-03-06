@@ -10,6 +10,7 @@ import {
   SET_SUBMITTED,
   SET_VIEWED_PAGES,
   SET_FORM_ERRORS,
+  SET_ACTIVE_CONTEXT,
 } from '../actions';
 
 import { recalculateSchemaAndData } from './helpers';
@@ -36,6 +37,9 @@ export default {
     action.pageKeys.forEach(pageKey => viewedPages.add(pageKey));
 
     return set('reviewPageView.viewedPages', viewedPages, newState);
+  },
+  [SET_ACTIVE_CONTEXT]: (state, action) => {
+    return set('activeContext', action.activeContext, state);
   },
   [SET_DATA]: (state, action) => {
     const newState = set('data', action.data, state);

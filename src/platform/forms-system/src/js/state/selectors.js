@@ -1,3 +1,4 @@
+export const getActiveContext = state => state.form?.activeContext;
 export const getFormData = state => state.form.data;
 export const getFormPages = state => state.form.pages;
 export const getSubmission = state => state.form.submission;

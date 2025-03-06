@@ -14,6 +14,10 @@ import {
   showReviewField,
   stringifyUrlParams,
   getUrlPathIndex,
+  activeContextObject,
+  activeContextFromFormPages,
+  activeContextFromFormConfig,
+  convertUrlPathToPageConfigPath,
 } from '../../src/js/helpers';
 
 describe('Schemaform helpers:', () => {
@@ -1297,5 +1301,179 @@ describe('getUrlPathIndex', () => {
     expect(getUrlPathIndex('/form-1/path-2/3?add')).to.eql(3);
     expect(getUrlPathIndex('/form-1/path-2/0/the-page?add')).to.eql(0);
     expect(getUrlPathIndex('/form-1/path-2/1/page-3')).to.eql(1);
+  });
+});
+
+const mockReduxFormPages = {
+  veteranInformation: {
+    chapterKey: 'veteranInformation',
+    editMode: false,
+    pageKey: 'veteranInformation',
+    path: 'veteran-information',
+    schema: {},
+    uiSchema: {},
+  },
+  eventsList: {
+    chapterKey: 'mentalHealth',
+    CustomPage: {},
+    editMode: false,
+    pageKey: 'eventsList',
+    path: 'mental-health/events-summary',
+    schema: {},
+    uiSchema: {},
+  },
+  eventsDetails: {
+    arrayPath: 'events',
+    chapterKey: 'mentalHealth',
+    editMode: [],
+    pageKey: 'eventsDetails',
+    path: 'mental-health/:index/events-details',
+    schema: {},
+    showPagePerItem: true,
+    uiSchema: {},
+  },
+};
+
+const mockFormConfig = {
+  rootUrl: '/root-form/specific-name',
+  urlPrefix: '/',
+  chapters: {
+    veteranDetails: {
+      pages: {
+        veteranInformation: {
+          title: 'Veteran information',
+          path: 'veteran-information',
+          uiSchema: {},
+          schema: {},
+        },
+      },
+    },
+    mentalHealth: {
+      pages: {
+        eventsList: {
+          title: 'Events',
+          path: 'mental-health/events-summary',
+          uiSchema: {},
+          schema: {},
+        },
+        eventsDetails: {
+          title: 'Event details',
+          arrayPath: 'events',
+          path: 'mental-health/:index/events-details',
+          showPagePerItem: true,
+          uiSchema: {},
+          schema: {},
+        },
+      },
+    },
+  },
+};
+
+describe('convertUrlPathToPageConfigPath', () => {
+  it('should convert a url path to a page config path', () => {
+    let urlPath;
+    let expectedPagePath;
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
+    urlPath = null;
+    expectedPagePath = null;
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
+    urlPath = '/veteran-information';
+    expectedPagePath = 'veteran-information';
+    expect(convertUrlPathToPageConfigPath(urlPath, mockFormConfig)).to.equal(
+      expectedPagePath,
+    );
+
+    urlPath = '/mental-health/0/events-details';
+    expectedPagePath = 'mental-health/:index/events-details';
+    expect(convertUrlPathToPageConfigPath(urlPath, mockFormConfig)).to.equal(
+      expectedPagePath,
+    );
+
+    urlPath = '/root-form/specific-name/mental-health/0/events-details';
+    const rootUrl = '/root-form/specific-name';
+    expectedPagePath = 'mental-health/:index/events-details';
+    expect(convertUrlPathToPageConfigPath(urlPath, rootUrl)).to.equal(
+      expectedPagePath,
+    );
+  });
+});
+
+describe('activeContext', () => {
+  it('should create an empty activeContext object', () => {
+    let activeContext = activeContextObject();
+
+    expect(activeContext).to.deep.equal({
+      arrayPath: undefined,
+      chapterKey: undefined,
+      pageKey: undefined,
+      index: undefined,
+      pagePath: undefined,
+    });
+
+    activeContext = activeContextObject({
+      arrayPath: 'test',
+      chapterKey: 'chapter-1',
+      pageKey: 'page-1',
+      index: 1,
+      pagePath: 'name-and-date-of-birth',
+    });
+
+    expect(activeContext).to.deep.equal({
+      arrayPath: 'test',
+      chapterKey: 'chapter-1',
+      pageKey: 'page-1',
+      index: 1,
+      pagePath: 'name-and-date-of-birth',
+    });
+  });
+
+  it('should be able to create activeContext from redux form.pages', () => {
+    let urlPath = '/mental-health/0/events-details';
+    let activeContext = activeContextFromFormPages(mockReduxFormPages, urlPath);
+
+    expect(activeContext).to.deep.equal({
+      arrayPath: 'events',
+      chapterKey: 'mentalHealth',
+      pageKey: 'eventsDetails',
+      index: 0,
+      pagePath: 'mental-health/:index/events-details',
+    });
+
+    urlPath = '/mental-health/events-summary';
+    activeContext = activeContextFromFormPages(mockReduxFormPages, urlPath);
+
+    expect(activeContext).to.deep.equal({
+      chapterKey: 'mentalHealth',
+      pageKey: 'eventsList',
+      pagePath: 'mental-health/events-summary',
+      arrayPath: undefined,
+      index: undefined,
+    });
+  });
+
+  it('should be able to create activeContext from a formConfig', () => {
+    let urlPath = '/mental-health/0/events-details';
+    let activeContext = activeContextFromFormConfig(mockFormConfig, urlPath);
+
+    expect(activeContext).to.deep.equal({
+      arrayPath: 'events',
+      chapterKey: 'mentalHealth',
+      pageKey: 'eventsDetails',
+      index: 0,
+      pagePath: 'mental-health/:index/events-details',
+    });
+
+    urlPath = '/mental-health/events-summary';
+    activeContext = activeContextFromFormConfig(mockFormConfig, urlPath);
+
+    expect(activeContext).to.deep.equal({
+      chapterKey: 'mentalHealth',
+      pageKey: 'eventsList',
+      pagePath: 'mental-health/events-summary',
+      arrayPath: undefined,
+      index: undefined,
+    });
   });
 });

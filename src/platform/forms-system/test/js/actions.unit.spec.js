@@ -17,6 +17,8 @@ import {
   uploadFile,
   setFormErrors,
   SET_FORM_ERRORS,
+  setActiveContext,
+  SET_ACTIVE_CONTEXT,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -972,6 +974,21 @@ describe('Schemaform actions:', () => {
       const action = setFormErrors(data);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_FORM_ERRORS);
+    });
+  });
+
+  describe('setActiveContext', () => {
+    it('should return activeContext', () => {
+      const activeContext = {
+        pageKey: 'pageKey',
+        chapterKey: 'chapterKey',
+        pagePath: 'pagePath',
+        arrayPath: undefined,
+        index: undefined,
+      };
+      const action = setActiveContext(activeContext);
+      expect(action.activeContext).to.equal(activeContext);
+      expect(action.type).to.equal(SET_ACTIVE_CONTEXT);
     });
   });
 });

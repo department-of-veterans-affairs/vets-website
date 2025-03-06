@@ -6,6 +6,7 @@ import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/
 import { timeFromNow } from '../../../utilities/date';
 import { transformForSubmit } from './helpers';
 
+export const SET_ACTIVE_CONTEXT = 'SET_ACTIVE_CONTEXT';
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
 export const SET_DATA = 'SET_DATA';
 export const SET_VIEWED_PAGES = 'SET_VIEWED_PAGES';
@@ -31,6 +32,21 @@ export function openReviewChapter(openedChapter) {
   };
 }
 
+/**
+ * Sets context based on the current route such as pageKey, chapterKey, array index, etc.
+ *
+ * @param {ActiveContext} activeContext
+ */
+export function setActiveContext(activeContext) {
+  return {
+    type: SET_ACTIVE_CONTEXT,
+    activeContext,
+  };
+}
+
+/**
+ * Primary action for setting data in redux. Also recalculates schemas and uiSchemas.
+ */
 export function setData(data) {
   return {
     type: SET_DATA,

@@ -807,3 +807,118 @@ export function getUrlPathIndex(url) {
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
 }
+
+/**
+ * Converts a url path to a formConfig's page path, which for arrays will include `:index`
+ *
+ * @param {string} urlPath for example `window.location.pathname` is a valid urlPath
+ * @param {string} [rootUrl] Optional - First part of the url path to remove
+ * @returns {string}
+ */
+export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
+  let pageConfigPath = urlPath;
+
+  if (!urlPath) {
+    return pageConfigPath;
+  }
+
+  if (rootUrl && urlPath.startsWith(rootUrl)) {
+    pageConfigPath = urlPath.substring(rootUrl.length);
+  }
+
+  if (pageConfigPath.startsWith('/')) {
+    pageConfigPath = pageConfigPath.substring(1);
+  }
+
+  // change path/0/name to path/:index/name
+  // change path/0 to path/:index
+  // keep path/name as path/name
+  pageConfigPath = pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
+
+  return pageConfigPath;
+}
+
+/**
+ * Create the object for redux `store.form.activeContext`
+ *
+ * @returns {ActiveContext}
+ */
+export function activeContextObject({
+  arrayPath,
+  chapterKey,
+  index,
+  pageKey,
+  pagePath,
+} = {}) {
+  return {
+    arrayPath,
+    chapterKey,
+    pageKey,
+    pagePath,
+    index,
+  };
+}
+
+/**
+ * Create the object for redux `store.form.activeContext` using a formPages object
+ *
+ * @param {any} formPagesObj An object where each key is the `pageKey` and the value is the `pageConfig`
+ * @param {string} [urlPath] Defaults to `window.location.pathname` if not provided
+ * @returns {ActiveContext}
+ */
+export function activeContextFromFormPages(
+  formPagesObj,
+  urlPath = window?.location?.pathname,
+) {
+  if (!formPagesObj || Object.keys(formPagesObj).length === 0) {
+    return activeContextObject();
+  }
+
+  const pagePath = convertUrlPathToPageConfigPath(urlPath);
+  const [currentPageKey, currentPageConfig = {}] =
+    Object.entries(formPagesObj).find(([_, pageConfig]) => {
+      return pageConfig?.path === pagePath;
+    }) || [];
+
+  return activeContextObject({
+    pageKey: currentPageKey,
+    pagePath,
+    chapterKey: currentPageConfig.chapterKey,
+    arrayPath: currentPageConfig.arrayPath,
+    index: currentPageConfig.arrayPath ? getUrlPathIndex(urlPath) : undefined,
+  });
+}
+
+/**
+ * Create the object for redux `store.form.activeContext` using a formConfig
+ *
+ * @param {any} formConfig
+ * @param {string} [urlPath] Defaults to `window.location.pathname` if not provided
+ * @returns {ActiveContext}
+ */
+export function activeContextFromFormConfig(
+  formConfig,
+  urlPath = window?.location?.pathname,
+) {
+  const pagePath = convertUrlPathToPageConfigPath(urlPath, formConfig.rootUrl);
+
+  if (formConfig.chapters && pagePath) {
+    for (const [chapterKey, chapter] of Object.entries(formConfig.chapters)) {
+      if (chapter.pages) {
+        for (const [pageKey, page] of Object.entries(chapter.pages)) {
+          if (page.path === pagePath) {
+            return activeContextObject({
+              pageKey,
+              chapterKey,
+              pagePath,
+              arrayPath: page.arrayPath,
+              index: page.arrayPath ? getUrlPathIndex(urlPath) : undefined,
+            });
+          }
+        }
+      }
+    }
+  }
+
+  return activeContextObject();
+}

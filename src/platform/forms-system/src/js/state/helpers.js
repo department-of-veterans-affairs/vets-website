@@ -4,7 +4,12 @@ import dataGet from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 import unset from '../../../../utilities/data/unset';
 
-import { checkValidSchema, createFormPageList, isActivePage } from '../helpers';
+import {
+  checkValidSchema,
+  createFormPageList,
+  isActivePage,
+  activeContextFromFormConfig,
+} from '../helpers';
 
 function isHiddenField(schema = {}) {
   return !!schema['ui:collapsed'] || !!schema['ui:hidden'];
@@ -689,12 +694,17 @@ export function updateSchemasAndData(
   };
 }
 
-export function recalculateSchemaAndData(initialState) {
-  return Object.keys(initialState.pages).reduce((state, pageKey) => {
+export function recalculateSchemaAndData(reduxFormState) {
+  // eslint-disable-next-line no-unused-vars
+  const { activeContext } = reduxFormState;
+  // TODO: upcoming work - Use activeContext to correctly do recalculations
+  // for isActivePage, updateUiSchema, first time rendering, etc.
+
+  return Object.keys(reduxFormState.pages).reduce((state, pageKey) => {
     // on each data change, we need to do the following steps
     // Recalculate any required fields, based on the new data
     const page = state.pages[pageKey];
-    const formData = initialState.data;
+    const formData = reduxFormState.data;
 
     const { data, schema, uiSchema } = updateSchemasAndData(
       page.schema,
@@ -744,7 +754,7 @@ export function recalculateSchemaAndData(initialState) {
     }
 
     return newState;
-  }, initialState);
+  }, reduxFormState);
 }
 
 export function createInitialState(formConfig) {
@@ -767,6 +777,7 @@ export function createInitialState(formConfig) {
     },
     trackingPrefix: formConfig.trackingPrefix,
     formErrors: {},
+    activeContext: activeContextFromFormConfig(formConfig),
   };
 
   const pageAndDataState = createFormPageList(formConfig).reduce(
@@ -786,17 +797,29 @@ export function createInitialState(formConfig) {
         schema.definitions,
       );
 
+      if (state.pages[page.pageKey]) {
+        // eslint-disable-next-line no-console
+        console?.warn(
+          `Duplicate page key found: ${
+            page.pageKey
+          }. Page keys must be unique.`,
+        );
+      }
+
       /* eslint-disable no-param-reassign */
       state.pages[page.pageKey] = {
+        arrayPath: page.arrayPath,
+        chapterKey: page.chapterKey,
         CustomPage: page.CustomPage,
         CustomPageReview: page.CustomPageReview,
         depends: page.depends,
-        uiSchema: page.uiSchema,
-        schema,
         editMode: isArrayPage ? [] : false,
-        showPagePerItem: page.showPagePerItem,
-        arrayPath: page.arrayPath,
         itemFilter: page.itemFilter,
+        pageKey: page.pageKey,
+        path: page.path,
+        schema,
+        showPagePerItem: page.showPagePerItem,
+        uiSchema: page.uiSchema,
       };
 
       state.data = merge({}, state.data, data);
