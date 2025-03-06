@@ -6,6 +6,7 @@ import { signInServiceName } from '@department-of-veterans-affairs/platform-user
 import {
   isLoggedIn,
   isLOA3,
+  selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import UnauthenticatedAlert from './components/messages/UnauthenticatedAlert';
 import UnverifiedAlert from './components/messages/UnverifiedAlert';
@@ -19,16 +20,32 @@ import UnverifiedAlert from './components/messages/UnverifiedAlert';
  * @property {bool} userIsVerified true if the user is verified
  * @property {string} headingLevel the heading level
  * @property {string} serviceDescription the heading service description
+ * @property {bool} mhvAccountLoading,
+ * @property {bool} profileLoading,
  */
 export const MhvSigninCallToAction = ({
   noAlertContent,
   headingLevel,
+  mhvAccountLoading = false,
+  profileLoading = false,
   serviceDescription,
   serviceName,
   userIsLoggedIn = false,
   userIsVerified = false,
 }) => {
   const headerLevel = parseInt(headingLevel, 10) || 3;
+  const loading = profileLoading || mhvAccountLoading;
+
+  if (loading) {
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          data-testid="mhv-signin-widget-loading"
+          message="Loading your information..."
+        />
+      </div>
+    );
+  }
 
   if (!userIsLoggedIn) {
     return (
@@ -74,7 +91,9 @@ export const MhvSigninCallToAction = ({
 
 MhvSigninCallToAction.propTypes = {
   headingLevel: PropTypes.string,
+  mhvAccountLoading: PropTypes.bool,
   noAlertContent: PropTypes.instanceOf(HTMLElement),
+  profileLoading: PropTypes.bool,
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,
@@ -87,10 +106,13 @@ MhvSigninCallToAction.propTypes = {
  * @returns state properties
  */
 export const mapStateToProps = state => {
+  const { loading, mhvAccount } = selectProfile(state);
   return {
     serviceName: signInServiceName(state),
     userIsLoggedIn: isLoggedIn(state),
     userIsVerified: isLOA3(state),
+    mhvAccountLoading: mhvAccount.loading,
+    profileLoading: loading,
   };
 };
 
