@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
+import { focusElement } from 'platform/utilities/ui';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import ContactCard from '../components/ContactCard';
@@ -27,6 +28,10 @@ export default function ConfirmationDigitalSubmission() {
   const expirationDate = moment(submission?.timestamp)
     .add(60, 'days')
     .format('MMMM D, YYYY');
+
+  useEffect(() => {
+    focusElement('va-alert');
+  }, []);
 
   return (
     <>
