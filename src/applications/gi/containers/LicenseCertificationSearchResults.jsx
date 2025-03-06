@@ -246,9 +246,11 @@ export default function LicenseCertificationSearchResults() {
   }
 
   if (error) {
-    <div className="row">
-      <LicesnseCertificationServiceError />
-    </div>;
+    return (
+      <div className="row">
+        <LicesnseCertificationServiceError />
+      </div>
+    );
   }
 
   if (

@@ -5,6 +5,7 @@ import {
   Paths,
   RecipientStatus,
   Recipients,
+  PageTitles,
 } from './constants';
 
 /**
@@ -209,7 +210,9 @@ export const handleHeader = (folderId, folder) => {
     folderName !== Folders.DRAFTS.header &&
     folderName !== Folders.DELETED.header;
 
-  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folderName}`} h1`;
+  const ddTitle = `${
+    isCustomFolder ? 'Custom Folder' : `Messages: ${folderName}`
+  } h1`;
   const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
 
   return {
@@ -217,6 +220,28 @@ export const handleHeader = (folderId, folder) => {
     ddTitle,
     ddPrivacy,
   };
+};
+
+export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
+  if (folderName) {
+    const titleTag = removeLandingPageFF
+      ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
+      : PageTitles.PAGE_TITLE_TAG;
+    return `${
+      removeLandingPageFF ? `Messages: ` : ''
+    }${folderName} ${titleTag}`;
+  }
+
+  const folderTitleTag = removeLandingPageFF
+    ? PageTitles.NEW_MY_FOLDERS_PAGE_TITLE_TAG
+    : PageTitles.MY_FOLDERS_PAGE_TITLE_TAG;
+  const conversationTitleTag = removeLandingPageFF
+    ? PageTitles.NEW_CONVERSATION_TITLE_TAG
+    : PageTitles.CONVERSATION_TITLE_TAG;
+
+  return `${removeLandingPageFF ? `Messages: ` : ''} ${
+    pathname === Paths.FOLDERS ? folderTitleTag : conversationTitleTag
+  }`;
 };
 
 export const updateMessageInThread = (thread, response) => {

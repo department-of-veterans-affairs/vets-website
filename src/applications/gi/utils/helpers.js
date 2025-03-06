@@ -614,7 +614,7 @@ export const updateQueryParam = (history, location, newParams) => {
   const searchParams = new URLSearchParams(location.search);
 
   Object.entries(newParams).forEach(([key, value]) => {
-    searchParams.set(key, value);
+    searchParams.set(key, encodeURIComponent(value));
   });
 
   history.push({
@@ -627,7 +627,13 @@ export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
   const categories = searchParams.getAll('category');
 
-  const nameParam = searchParams.get('name') ?? '';
+  const rawName = location.search.split('name=')[1]?.split('&')[0] ?? '';
+
+  // Decode the name while preserving + characters
+  const nameParam = decodeURIComponent(rawName)
+    .replace(/%20/g, ' ')
+    .replace(/%2B/g, '+');
+
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
   const initialCategoryParam = searchParams.get('initial') ?? 'all';
