@@ -138,15 +138,30 @@ const testConfig = createTestConfig(
         });
       },
 
+      'report-674/add-students/0/term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/previous-term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/additional-remarks': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
-          cy.get('select#options[name="root_dateMarriedMonth"]', {
-            timeout: 1000,
-          })
-            .should('be.visible')
-            .should('not.be.disabled');
-          cy.get('select#options[name="root_dateMarriedMonth"]').select('01');
           cy.get('.usa-button-primary').click();
         });
       },
