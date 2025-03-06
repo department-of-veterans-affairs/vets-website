@@ -140,11 +140,10 @@ export function setHiddenFields(
 
   let updatedSchema = schema;
   const hideIf = get(['ui:options', 'hideIf'], uiSchema);
-  const index =
-    path.reduce(
-      (current, next) => (typeof next === 'number' ? next : current),
-      null,
-    ) || 0; // Don't allow index to be null
+  const index = path.reduce(
+    (current, next) => (typeof next === 'number' ? next : current),
+    null,
+  );
 
   if (hideIf && hideIf(formData, index, fullData)) {
     if (!updatedSchema['ui:hidden']) {
