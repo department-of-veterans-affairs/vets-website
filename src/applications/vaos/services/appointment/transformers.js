@@ -69,21 +69,6 @@ export function isPastAppointment(appt) {
 }
 
 /**
- *  Determines whether current time is before appointment time
- * @param {*} appt VAOS Service appointment object
- * @param {*} isRequest is appointment a request
- */
-export function isFutureAppointment(appt, isRequest) {
-  const apptDateTime = moment(appt.start);
-  return (
-    !isRequest &&
-    !isPastAppointment(appt) &&
-    apptDateTime.isValid() &&
-    apptDateTime.isAfter(moment().startOf('day'))
-  );
-}
-
-/**
  * Gets the atlas location and sitecode
  *
  * @param {Object} appt VAOS Service appointment object
@@ -117,7 +102,6 @@ export function transformVAOSAppointment(appt) {
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = isFutureAppointment(appt, isRequest);
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -277,7 +261,7 @@ export function transformVAOSAppointment(appt) {
     ...requestFields,
     vaos: {
       isPendingAppointment: isRequest,
-      isUpcomingAppointment: isUpcoming,
+      isUpcomingAppointment: appt.future,
       isVideo,
       isPastAppointment: isPast,
       isCompAndPenAppointment: isCompAndPen,

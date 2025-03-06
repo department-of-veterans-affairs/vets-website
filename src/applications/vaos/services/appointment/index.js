@@ -333,13 +333,9 @@ export function isValidPastAppointment(appt) {
  */
 export function isUpcomingAppointmentOrRequest(appt) {
   if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
-    const apptDateTime = moment(appt.start);
-
     return (
-      !appt.vaos.isPastAppointment &&
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-      apptDateTime.isValid() &&
-      apptDateTime.isBefore(moment().add(395, 'days'))
+      appt.vaos.isUpcomingAppointment
     );
   }
 
@@ -385,18 +381,9 @@ export function isPendingOrCancelledRequest(appt) {
  */
 export function isUpcomingAppointment(appt) {
   if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
-    const apptDateTime = moment(appt.start);
-
     return (
-      !appt.vaos.isPastAppointment &&
       !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-      apptDateTime.isValid() &&
-      apptDateTime.isAfter(moment().startOf('day')) &&
-      apptDateTime.isBefore(
-        moment()
-          .endOf('day')
-          .add(395, 'days'),
-      )
+      appt.vaos.isUpcomingAppointment
     );
   }
 

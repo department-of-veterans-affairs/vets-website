@@ -48,6 +48,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         localStartTime: moment(),
         status: 'booked',
         serviceType: 'covid',
+        future: true,
       });
 
       mockAppointmentCreateApi({ response });
@@ -212,6 +213,7 @@ describe('VAOS covid-19 vaccine flow', () => {
         localStartTime: moment(),
         status: 'booked',
         serviceType: 'covid',
+        future: true,
       });
 
       mockAppointmentCreateApi({ response });
