@@ -25,6 +25,12 @@ export default function prefillTransformer(formData) {
     newFormData.primaryPhone = formData?.contactInformation?.primaryPhone;
     newFormData['Branch of Service'] =
       formData?.militaryInformation?.serviceBranch;
+
+    // only Veteran users are digital submit eligible at this time
+    newFormData.userIsDigitalSubmitEligible =
+      formData?.identityValidation?.hasIcn &&
+      formData?.identityValidation?.hasParticipantId;
+
     // reset the applicant information in case of claimant type change
     newFormData.applicantName = undefined;
     newFormData.applicantDOB = undefined;
@@ -54,7 +60,10 @@ export default function prefillTransformer(formData) {
       street: formData?.contactInformation?.address?.street,
     };
 
-    // reset the applicant information in case of claimant type change
+    // only Veteran users are digital submit eligible at this time
+    newFormData.userIsDigitalSubmitEligible = undefined;
+
+    // reset the Veteran information in case of claimant type change
     newFormData.veteranFullName = undefined;
     newFormData.veteranDateOfBirth = undefined;
     newFormData.veteranSocialSecurityNumber = undefined;
@@ -69,10 +78,6 @@ export default function prefillTransformer(formData) {
     newFormData.primaryPhone = undefined;
     newFormData['Branch of Service'] = undefined;
   }
-
-  newFormData.userIsDigitalSubmitEligible =
-    formData?.identityValidation?.hasIcn &&
-    formData?.identityValidation?.hasParticipantId;
 
   return newFormData;
 }
