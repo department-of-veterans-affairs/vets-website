@@ -99,7 +99,7 @@
         "currentTermDates": {
           "officialSchoolStartDate": "2024-02-01",
           "expectedStudentStartDate": "2024-05-05",
-          "expectedGraduationDate": "2025-03-04"
+          "expectedGraduationDate": "2050-03-04"
         },
         "isSchoolAccredited": true,
         "view:accredited": {},
@@ -110,7 +110,7 @@
       "tuitionIsPaidByGovAgency": false,
       "view:programExamples": {},
       "wasMarried": true,
-      "marriageDate": "1991-03-09",
+      "marriageDate": "1991-01-01",
       "address": {
         "view:militaryBaseDescription": {},
         "country": "USA",
