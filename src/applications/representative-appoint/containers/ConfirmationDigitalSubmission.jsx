@@ -112,6 +112,7 @@ export default function ConfirmationDigitalSubmission() {
       />
 
       <VaLinkAction
+        class="vads-u-margin-top--4"
         text="Go back to VA.gov"
         label="Go back to VA.gov"
         href="/"
