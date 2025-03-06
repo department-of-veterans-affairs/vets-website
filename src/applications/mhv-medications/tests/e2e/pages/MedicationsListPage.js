@@ -648,7 +648,7 @@ class MedicationsListPage {
     frontImprint,
     backImprint,
   ) => {
-    cy.wait('@medicationsList').then(interception => {
+    cy.wait('@Medications').then(interception => {
       expect(interception.response.body.data[19].attributes).to.include({
         shape,
         color,
