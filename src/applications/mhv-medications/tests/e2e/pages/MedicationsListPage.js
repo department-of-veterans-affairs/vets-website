@@ -593,7 +593,7 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionExpirationDateforRxOver180Days = expiredPrescription => {
-    cy.get('@medicationsList')
+    cy.get('@Medications')
       .its('response')
       .then(res => {
         expect(res.body.data[14].attributes).to.include({
@@ -605,7 +605,7 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    cy.wait('@medicationsList').then(interception => {
+    cy.wait('@Medications').then(interception => {
       expect(interception.response.body.data[1].attributes).to.include({
         cmopNdcNumber: null,
       });
@@ -613,7 +613,7 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
-    cy.get('@medicationsList')
+    cy.get('@Medications')
       .its('response')
       .then(res => {
         expect(res.body.data[4].attributes).to.include({
