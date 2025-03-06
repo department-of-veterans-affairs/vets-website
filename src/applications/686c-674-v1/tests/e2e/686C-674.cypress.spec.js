@@ -20,6 +20,17 @@ const testConfig = createTestConfig(
         '/v0/profile/valid_va_file_number',
         mockVaFileNumber,
       ).as('mockVaFileNumber');
+      cy.intercept('GET', '/v0/feature_toggles?*', {
+        data: {
+          type: 'feature_toggles',
+          features: [
+            {
+              name: 'vaDependentsV2',
+              value: false,
+            },
+          ],
+        },
+      });
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/686C-674', testData);
         cy.intercept('PUT', 'v0/in_progress_forms/686C-674', testData);
