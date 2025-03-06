@@ -14,7 +14,7 @@ const possibleUsers = {
 
 // in memory db
 const memDb = {
-  user: possibleUsers.loa3UserWithNoEmail,
+  user: possibleUsers.loa3User,
 };
 
 // sanitize user input
