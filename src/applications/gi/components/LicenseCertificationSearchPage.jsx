@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import LicenseCertificationSearchForm from '../containers/LicenseCertificationSearchForm';
 import LicenseCertificationFaq from './LicenseCertificationFaq';
 
@@ -12,16 +11,17 @@ export default function LicenseCertificationSearchPage() {
     <div className="lc-page-wrapper">
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
         <div className="row ">
-          <h1 className="mobile-lg:vads-u-text-align--left vads-l-col--12 medium-screen:vads-l-col--7">
+          <h1 className="mobile-lg:vads-u-text-align--left usa-width-two-thirds">
             Licenses, certifications, and prep courses
           </h1>
-          <p className="lc-description vads-l-col--12 medium-screen:vads-l-col--7">
+          <p className="lc-description usa-width-two-thirds">
             Use the search tool to find out which tests or related prep courses
             are reimbursable. If you don’t see a test or prep course listed, it
             may be a valid test that’s not yet approved. We encourage you to
-            submit an application for reimbursement. We’ll prorate the
-            entitlement charges based on the actual amount of the fee charged
-            for the test.
+            submit an application for reimbursement. We may adjust the
+            entitlement charges according to the actual payment. The
+            reimbursement covered by VA may differ from the actual cost of the
+            test.
             <br />
             <br /> Tests to obtain licenses tend to be state-specific, while
             certifications are valid nationally. Be aware of the requirements
@@ -39,7 +39,3 @@ export default function LicenseCertificationSearchPage() {
     </div>
   );
 }
-
-LicenseCertificationSearchPage.propTypes = {
-  flag: PropTypes.string.isRequired,
-};
