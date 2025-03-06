@@ -49,7 +49,7 @@ export default function LicenseCertificationSearchResults() {
     error,
   } = useSelector(state => state.licenseCertificationSearch);
 
-  const [currentPage, setCurrentPage] = useState(pageParam);
+  const [currentPage, setCurrentPage] = useState(Number(pageParam));
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
@@ -130,7 +130,7 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       window.scroll({ top: 0, bottom: 0, behavior: 'smooth' });
-      setCurrentPage(pageParam);
+      setCurrentPage(Number(pageParam));
     },
     [pageParam],
   );
