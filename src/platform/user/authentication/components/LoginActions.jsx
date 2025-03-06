@@ -66,10 +66,10 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   ariaDescribedBy="mhvH3"
                   actionLocation={actionLocation}
                 />
-                {/* <va-link
+                <va-link
                   text="Learn how to access your benefits and set up your new account"
                   href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                /> */}
+                />
               </>
             )}
             {dslogon && (
@@ -105,10 +105,10 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                     This option is no longer available
                   </span>
                 </h3>
-                {/* <va-link
+                <va-link
                   text="Learn how to access your benefits and set up your new account"
                   href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                /> */}
+                />
               </div>
             )}
           </div>
