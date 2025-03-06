@@ -339,6 +339,13 @@ describe('Facility VA search', () => {
     // Click the search button multiple times
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#facility-search').click({ waitForAnimations: true });
+    // Reset facility dropdown values to ensure redux state is not changing in a way that
+    // triggers multiple API requests
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA health');
+    cy.get('#service-type-dropdown').select('Primary care');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#facility-search').click({ waitForAnimations: true });
 
