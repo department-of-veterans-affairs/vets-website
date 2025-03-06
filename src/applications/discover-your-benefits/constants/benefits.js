@@ -345,8 +345,9 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL:
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/',
+    applyNowURL:
       'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
-    applyNowURL: 'https://www.va.gov/disability/how-to-file-claim',
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -604,8 +605,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/disability/',
-    applyNowURL:
-      'https://www.va.gov/disability/file-disability-claim-form-21-526ez/introduction',
+    applyNowURL: 'https://www.va.gov/disability/how to file a claim',
   },
   {
     name: 'VA-backed home loans',
