@@ -178,15 +178,17 @@ describe('Revew page', () => {
       reducers: reducer,
     });
 
-    const checkbox = $('va-checkbox[name="accept-agreement"]');
-    expect(checkbox).to.exist;
-    expect(checkbox).to.have.attribute('checked', 'false');
-    expect(checkbox).to.have.attribute(
-      'error',
-      'You must accept the beneficiary travel agreement before continuing.',
-    );
-    expect(
-      screen.findAllByText(/You must accept the beneficiary travel agreement/i),
-    ).to.exist;
+    await waitFor(() => {
+      const checkbox = $('va-checkbox[name="accept-agreement"]');
+      expect(checkbox).to.exist;
+      expect(checkbox).to.have.attribute('checked', 'false');
+      expect(checkbox).to.have.attribute(
+        'error',
+        'You must accept the beneficiary travel agreement before continuing.',
+      );
+      expect(
+        screen.findByText(/You must accept the beneficiary travel agreement/i),
+      ).to.exist;
+    });
   });
 });
