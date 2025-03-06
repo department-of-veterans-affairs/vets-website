@@ -2,7 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent } from '@testing-library/react';
 import SmBreadcrumbs from '../../components/shared/SmBreadcrumbs';
 import messageResponse from '../fixtures/message-response.json';
 import { inbox } from '../fixtures/folder-inbox-response.json';
@@ -83,15 +83,8 @@ describe('Breadcrumbs', () => {
       path: Breadcrumbs.DRAFTS.href,
     });
 
-    const breadcrumbs = $('va-breadcrumbs', screen.container);
-    const { breadcrumbList } = breadcrumbs;
-
-    // Validate the props
-    waitFor(() =>
-      expect(breadcrumbList[breadcrumbList.length - 1]).to.deep.equal(
-        Breadcrumbs.DRAFTS,
-      ),
-    );
+    const breadcrumb = await screen.findByText('Back', { exact: true });
+    expect(breadcrumb).to.have.attribute('href', '/drafts/');
   });
 
   it('on Compose renders as back link only', async () => {
