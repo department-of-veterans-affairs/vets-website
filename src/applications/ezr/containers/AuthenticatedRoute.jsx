@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import environment from '~/platform/utilities/environment';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import {
   isValidComponent,
@@ -34,15 +36,19 @@ import {
  * - Invalid or non-existent routes will redirect to the introduction page
  * - If any check fails, the user is redirected to the introduction page
  *
- * @param {React.ComponentType} component - The component to wrap with authentication checks
- * @param {Object} user - The user object from the Redux store
- * @param {Object} rest - Additional props passed to the component
+ * @param {Object} props - Component props
+ * @param {React.ComponentType} props.component - The component to wrap with authentication checks
+ * @param {Object} props.user - The user object from the Redux store
+ * @param {Object} props.rest - Additional props passed to the component
+ * @returns {React.ReactElement|null} The rendered component or null
  */
-
 const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
   const { isUserLOA3 } = useSelector(selectAuthStatus);
+  const featureFlags = useSelector(toggleValues);
+  const isRouteGuardEnabled =
+    featureFlags[FEATURE_FLAG_NAMES.ezrRouteGuardEnabled];
 
-  // Ensure Component is a valid React component first
+  // Validate component first - if invalid, log error and return null
   if (!isValidComponent(Component)) {
     recordEvent({
       event: 'ezr-error',
@@ -52,70 +58,36 @@ const AuthenticatedRoute = ({ component: Component, user, ...rest }) => {
     return null;
   }
 
-  // Check if running in localhost environment before any auth checks
-  const disableGuards = environment.isLocalhost;
+  // Only bypass guards in localhost, not in dev or review instances
+  const disableGuards = environment.isLocalhost() || !isRouteGuardEnabled;
 
-  /* istanbul ignore next */
-  /**
-   * Debug logging for authentication and redirect issues.
-   * Uncomment this block to see detailed information about the current state
-   * when investigating authentication or routing problems.
-   *
-   * Logged information includes:
-   * - Development mode status
-   * - Environment and authentication status
-   * - Current route path and location
-   * - Component validity
-   * - User authentication state (LOA3, profile, verification)
-   *
-   * This is particularly useful when:
-   * 1. Authentication checks are failing unexpectedly
-   * 2. Routes are not being protected as expected
-   * 3. Redirects are happening at unexpected times
-   * 4. The localhost environment detection isn't working
-   */
-  // console.log('[DEBUG] AuthenticatedRoute.jsx check:', {
-  //   devMode: process.env.NODE_ENV === 'development',
-  //   environment: environment.isLocalhost,
-  //   disableGuards,
-  //   pathname: window?.location?.pathname,
-  //   component: !!Component,
-  //   isUserLOA3,
-  //   windowLocation: window?.location?.toString(),
-  //   env: process.env.NODE_ENV,
-  //   userProfile: user?.profile ? 'exists' : 'missing',
-  //   userVerified: user?.profile?.verified,
-  // });
+  // Get current path for intro page check
+  const currentPath = getCurrentPath();
 
-  // In localhost environment, bypass ALL auth checks
-  if (disableGuards) {
+  // Bypass auth checks in any of these cases:
+  // 1. Guards are disabled (localhost or feature toggle off)
+  // 2. Current path is the intro page
+  if (disableGuards || currentPath === INTRO_URL) {
     return <Component {...rest} />;
   }
 
   // Check for loading states
-  if (!user || !user.profile) {
+  if (!user?.profile) {
     return null;
   }
 
-  const currentPath = getCurrentPath();
+  // Check authentication requirements
+  const isAuthenticated = user.profile.verified && isUserLOA3;
 
-  // Don't check auth for intro page
-  if (currentPath === INTRO_URL) {
-    return <Component {...rest} />;
-  }
-
-  // Check profile verification and LOA3 last
-  if (!user.profile.verified || !isUserLOA3) {
-    return redirectToIntro();
-  }
-
-  // If authenticated, render the protected component
-  return renderComponent(Component, { ...rest, user });
+  // Redirect if not authenticated, otherwise render protected component
+  return isAuthenticated
+    ? renderComponent(Component, { ...rest, user })
+    : redirectToIntro();
 };
-
-export default AuthenticatedRoute;
 
 AuthenticatedRoute.propTypes = {
   component: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 };
+
+export default AuthenticatedRoute;

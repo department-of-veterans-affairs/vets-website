@@ -3,6 +3,8 @@ import { Route } from 'react-router-dom';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import environment from '~/platform/utilities/environment';
+import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import content from '../../locales/en/content.json';
 
 /**
@@ -92,19 +94,21 @@ export const renderComponent = (Component, props) => {
 /**
  * Creates a protected route object with authentication checks.
  *
- * Routes are protected by default except in two cases:
+ * Routes are protected by default except in the following cases:
  * 1. The application is running in localhost environment (environment.isLocalhost)
  * 2. The route is the introduction page
+ * 3. The ezr_route_guard_enabled feature toggle is disabled
  *
  * Development Mode Behavior:
  * - In localhost: all routes are accessible without authentication
- * - In other environments: full authentication required
+ * - In other environments: authentication required if feature toggle is enabled
  * - Introduction page: always accessible in all environments
  *
  * @param {Object} route - The route to protect
+ * @param {Object} state - The current Redux state (optional)
  * @returns {Object} The protected route object
  */
-export const createProtectedRoute = route => {
+export const createProtectedRoute = (route, state) => {
   // Always allow access to introduction page
   if (route.path?.includes(content.routes.introduction)) {
     return route;
@@ -112,6 +116,16 @@ export const createProtectedRoute = route => {
 
   // Don't protect routes in localhost environment
   if (environment.isLocalhost) {
+    return route;
+  }
+
+  // Check if route guard feature is enabled via feature toggle
+  const isEnabled = state
+    ? toggleValues(state)[FEATURE_FLAG_NAMES.ezrRouteGuardEnabled]
+    : true;
+
+  // Skip protection if feature toggle is disabled
+  if (!isEnabled) {
     return route;
   }
 

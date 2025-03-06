@@ -67,6 +67,7 @@
   "disputeDebt": "dispute_debt",
   "enrollmentVerification": "enrollment_verification",
   "ezrProdEnabled": "ezr_prod_enabled",
+  "ezrRouteGuardEnabled": "ezr_route_guard_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",

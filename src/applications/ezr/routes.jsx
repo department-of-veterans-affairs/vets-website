@@ -35,8 +35,8 @@ const wrapWithAuth = Component => props => (
 );
 
 // Use createProtectedRoute from route-guard.js
-const protectedRouteWithAuth = route => {
-  const protectedRoute = createProtectedRoute(route);
+const protectedRouteWithAuth = (route, state) => {
+  const protectedRoute = createProtectedRoute(route, state);
 
   // If the route should be protected, wrap it with our auth component
   if (protectedRoute !== route && protectedRoute.component) {
@@ -51,7 +51,9 @@ const protectedRouteWithAuth = route => {
 
 // Create the base routes and protect them
 const formRoutes = createRoutesWithSaveInProgress(formConfig);
-const protectedRoutes = formRoutes.map(protectedRouteWithAuth);
+
+// Create protected routes
+const protectedRoutes = formRoutes.map(route => protectedRouteWithAuth(route));
 
 /**
  * The main route configuration for the application.
