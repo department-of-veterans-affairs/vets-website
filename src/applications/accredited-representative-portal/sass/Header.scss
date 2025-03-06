@@ -215,7 +215,7 @@
     .nav__container-secondary & {
       background-color: var(--vads-color-primary-darker);
       margin-left: unset;
-      padding: 16px;
+      padding: 24px 16px;
       &:hover {
         background-color: $vads-color-primary;
         color: $vads-color-white;
