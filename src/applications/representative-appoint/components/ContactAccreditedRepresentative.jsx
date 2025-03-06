@@ -4,14 +4,13 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { getEntityAddressAsObject } from '../utilities/helpers';
-import useV2FeatureToggle from '../hooks/useV2FeatureVisibility';
 
 import AddressEmailPhone from './AddressEmailPhone';
 
 const ContactAccreditedRepresentative = props => {
-  const v2IsEnabled = useV2FeatureToggle();
   const { formData, goBack, goForward, goToPath } = props;
-  const rep = props?.formData?.['view:selectedRepresentative'];
+  const rep = formData?.['view:selectedRepresentative'];
+  const v2IsEnabled = formData?.['view:v2IsEnabled'];
   const repAttributes = rep?.attributes;
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;

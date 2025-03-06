@@ -32,7 +32,9 @@ export default function submitTransformer(formData, uploadFiles) {
       InstitutionName: getSchoolInfo(formData.school)?.name,
       SchoolFacilityCode: getSchoolInfo(formData.school)?.code,
       StateAbbreviation:
-        formData.stateOfTheSchool || formData.stateOfTheFacility,
+        formData.stateOfTheSchool ||
+        formData.stateOfTheFacility ||
+        formData.stateOrResidency.schoolState,
     },
   };
 }

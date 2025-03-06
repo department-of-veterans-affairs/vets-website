@@ -1,10 +1,10 @@
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PropTypes from 'prop-types';
-import React, { useState, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { DownloadLink, getFileSizeMB } from '../config/helpers';
-import { StorageAdapter } from '../utils/StorageAdapter';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const idList = numberOfIDs => {
   const ids = [];
@@ -32,7 +32,7 @@ const FileUpload = props => {
   const [fileErrors, setFileErrors] = useState([]);
   const [indexDBError, setIndexDBError] = useState([]);
   const route = useSelector(state => state.navigation.route.path);
-  const askVAAttachmentStorage = new StorageAdapter('askVA', 'attachments');
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
 
   const getErrorMessage = fileID => {
     if (indexDBError.length > 0 && indexDBError.includes(fileID)) {
@@ -156,7 +156,7 @@ const FileUpload = props => {
     });
   };
 
-  return (
+  return isLoggedIn ? (
     <div>
       <div className="usa-form-group">
         {route === '/your-question' && (
@@ -207,7 +207,7 @@ const FileUpload = props => {
         {fileInputs()}
       </div>
     </div>
-  );
+  ) : null;
 };
 
 FileUpload.propTypes = {

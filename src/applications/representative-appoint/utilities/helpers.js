@@ -254,6 +254,8 @@ export const convertRepType = input => {
     claim_agents: 'Claims Agent',
     /* eslint-disable-next-line camelcase */
     veteran_service_officer: 'VSO',
+    /* eslint-disable-next-line camelcase */
+    organization: 'Organization',
   };
 
   return mapping[input] || input;
@@ -271,7 +273,7 @@ export const userIsDigitalSubmitEligible = formData => {
   return (
     formData?.identityValidation?.hasIcn &&
     formData?.identityValidation?.hasParticipantId &&
-    formData?.v2IsEnabled
+    formData?.['view:v2IsEnabled']
   );
 };
 
@@ -296,4 +298,19 @@ export const entityAcceptsDigitalPoaRequests = entity => {
     );
   }
   return false;
+};
+
+export const filterOrganizations = formData => {
+  const organizations =
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
+  const submissionMethod = formData.representativeSubmissionMethod;
+
+  if (submissionMethod === 'digital') {
+    return organizations?.filter(
+      org => org.attributes?.canAcceptDigitalPoaRequests === true,
+    );
+  }
+
+  return organizations;
 };

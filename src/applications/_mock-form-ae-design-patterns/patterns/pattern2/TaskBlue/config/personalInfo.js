@@ -1,4 +1,4 @@
-import { personalInformationPage } from 'applications/_mock-form-ae-design-patterns/shared/components/PersonalInformation';
+import { personalInformationPage } from 'platform/forms-system/src/js/components/PersonalInformation';
 
 export default {
   ...personalInformationPage(),

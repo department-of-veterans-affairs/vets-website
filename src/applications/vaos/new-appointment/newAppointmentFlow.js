@@ -181,7 +181,7 @@ const flow = {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
-    label: 'Where do you want to receive care?',
+    label: 'Where do you prefer to receive care?',
     next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';

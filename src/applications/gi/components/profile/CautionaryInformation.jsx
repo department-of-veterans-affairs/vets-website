@@ -149,7 +149,7 @@ export function CautionaryInformation({ institution, showModal }) {
 
         <div className="link-header">
           <h4 className="small-screen-font">
-            {`${+complaints.mainCampusRollUp} student complaints in the last 24 months`}
+            {`${+complaints.mainCampusRollUp} student complaints in the last 6 years`}
           </h4>
           <span>
             &nbsp;

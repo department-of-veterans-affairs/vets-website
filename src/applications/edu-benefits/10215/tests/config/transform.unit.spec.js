@@ -4,12 +4,10 @@ import * as helpers from '../../helpers';
 import transform from '../../config/transform';
 
 describe('transform utility function', () => {
-  let formConfig;
   let form;
   let getFTECalcsStub;
 
   beforeEach(() => {
-    formConfig = {};
     form = {
       data: {
         programs: [
@@ -50,7 +48,7 @@ describe('transform utility function', () => {
       },
     ];
 
-    const resultString = transform(formConfig, form);
+    const resultString = transform(form);
     const resultObject = JSON.parse(resultString);
     expect(resultObject.educationBenefitsClaim).to.exist;
     expect(resultObject.educationBenefitsClaim.form).to.exist;

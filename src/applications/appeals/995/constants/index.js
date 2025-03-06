@@ -7,6 +7,7 @@ export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
+export const SC_NEW_FORM_KEY = 'scNewForm';
 export const SC_NEW_FORM_TOGGLE = 'sc_new_form';
 export const SC_NEW_FORM_DATA = 'showScNewForm';
 
@@ -50,9 +51,6 @@ export const HAS_REDIRECTED = 'hasRedirected';
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
-
-export const REGEX_COMMA = /[, ]/g;
-export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 
 export const errorMessages = {
   evidence: {

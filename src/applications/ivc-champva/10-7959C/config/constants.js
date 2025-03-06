@@ -17,16 +17,18 @@ export const requiredFiles = {
     'Secondary health insurance schedule of benefits document',
 };
 
-export const office = 'Chief Business Office Purchased Care';
+export const office = 'VHA Office of Integrated Veteran Care';
 export const officeAddress = (
   <>
     {office}
     <br />
-    P.O. Box 469063
+    ChampVA Eligibility
     <br />
-    Denver, CO 80246-9063
+    P.O. Box 137
+    <br />
+    Spring City, PA 19475
     <br />
     United States of America
   </>
 );
-export const officeFaxNum = '3033317808';
+export const officeFaxNum = '3033317807';

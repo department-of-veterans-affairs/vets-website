@@ -1,17 +1,17 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { datadogLogs } from '@datadog/browser-logs';
+import logger from '../../utils/logger';
 import { logErrorToDatadog } from '../../utils/logging';
 
 describe('logErrorToDatadog', () => {
   let datadogSpy;
 
   beforeEach(() => {
-    datadogSpy = sinon.spy(datadogLogs.logger, 'error');
+    datadogSpy = sinon.spy(logger, 'error');
   });
 
   afterEach(() => {
-    datadogLogs.logger.error.restore();
+    logger.error.restore();
   });
 
   it('should log error to Datadog when logging is enabled', () => {

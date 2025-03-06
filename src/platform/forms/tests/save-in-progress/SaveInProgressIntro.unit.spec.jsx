@@ -209,6 +209,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     const link = tree.find('.va-button-link');
     expect(link.prop('text')).to.contain('Sign in to your account.');
+    expect(tree.find('va-alert-sign-in[variant="signInOptional"]').exists()).to
+      .be.true;
     expect(link.prop('aria-label')).to.eq('test aria-label');
     expect(link.prop('aria-describedby')).to.eq('test-id');
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
@@ -258,6 +260,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect($('a', container).textContent).to.contain(
       'Start your application without signing in',
     );
+    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
   });
 
   it('should render message if signed in with no saved form', () => {
@@ -368,6 +371,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(signInAlertRetentionPeriod).to.eql('1 year');
     expect(signInAlertRetentionPeriod).to.not.eql('60 days');
+    expect($('va-alert-sign-in[variant="signInOptional"]', container)).to.exist;
   });
 
   it('should render loading indicator while profile is loading', () => {
@@ -610,6 +614,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
     expect(tree.text()).to.not.include('lose any information you already');
+    expect(tree.find('va-alert-sign-in[variant="signInOptional"]').exists()).to
+      .be.true;
 
     tree.unmount();
   });
@@ -646,6 +652,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(tree.find('.schemaform-start-button').exists()).to.be.false;
     expect(tree.text()).to.not.include('lose any information you already');
+    expect(tree.find('va-alert-sign-in[variant="signInRequired"]').exists()).to
+      .be.true;
 
     tree.unmount();
   });
@@ -679,9 +687,10 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={formConfig}
       />,
     );
-    expect(container.querySelector('va-button').outerHTML).to.contain(
+    expect($('va-button', container).outerHTML).to.contain(
       'Custom message displayed to non-signed-in users',
     );
+    expect($('va-alert-sign-in[variant="signInRequired"]', container)).to.exist;
   });
 
   it('should not render an inProgress message', () => {

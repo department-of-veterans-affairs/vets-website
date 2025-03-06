@@ -1,0 +1,266 @@
+import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mockLaLocation from '../../constants/mock-la-location.json';
+import CcpHelpers from './helpers/ccp-helpers-cypress';
+import FacilityHelpers from './helpers/facility-helpers-cypress';
+import {
+  selectFacilityTypeInDropdown,
+  selectServiceTypeInVAHealthDropdown,
+  FACILITY_TYPES,
+  typeInCityStateInput,
+  typeAndSelectInCCPServiceTypeInput,
+  submitSearchForm,
+} from './helpers';
+
+const healthServices = {
+  All: 'All VA health services',
+  PrimaryCare: 'Primary care',
+  MentalHealth: 'Mental health care',
+  Covid19Vaccine: 'COVID-19 vaccine',
+  Dental: 'Dental services',
+  UrgentCare: 'Urgent care',
+  EmergencyCare: 'Emergency care',
+  Audiology: 'Audiology',
+  Cardiology: 'Cardiology',
+  Dermatology: 'Dermatology',
+  Gastroenterology: 'Gastroenterology',
+  Gynecology: 'Gynecology',
+  Ophthalmology: 'Ophthalmology',
+  Optometry: 'Optometry',
+  Orthopedics: 'Orthopedics',
+  Urology: 'Urology',
+  WomensHealth: "Women's health",
+  Podiatry: 'Podiatry',
+  Nutrition: 'Nutrition',
+  CaregiverSupport: 'Caregiver support',
+};
+
+Cypress.Commands.add('verifyOptions', () => {
+  // Va facilities have services available
+  selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
+  cy.get('.service-type-dropdown-desktop')
+    .find('select')
+    .should('not.have.attr', 'disabled');
+  const hServices = Object.keys(healthServices);
+
+  for (let i = 0; i < hServices.length; i++) {
+    cy.get('.service-type-dropdown-desktop')
+      .find('select')
+      .children()
+      .eq(i)
+      .then($option => {
+        const value = $option.attr('value');
+        expect(value).to.equal(hServices[i]);
+      });
+  }
+
+  selectFacilityTypeInDropdown(FACILITY_TYPES.URGENT);
+  cy.get('.service-type-dropdown-desktop')
+    .find('select')
+    .should('not.have.attr', 'disabled');
+
+  // Va facilities don't have services available
+  selectFacilityTypeInDropdown(FACILITY_TYPES.VET);
+  cy.get('.service-type-dropdown-desktop').should('not.exist');
+
+  selectFacilityTypeInDropdown(FACILITY_TYPES.CEM);
+
+  selectFacilityTypeInDropdown(FACILITY_TYPES.VBA);
+
+  // CCP care have services available
+  selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
+  cy.get('#service-type-loading').should('exist');
+  cy.wait('@mockServices');
+  cy.get('#service-typeahead').should('not.have.attr', 'disabled');
+
+  // CCP pharmacies dont have services available
+  selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PHARM);
+  cy.get('#service-typeahead').should('not.exist');
+});
+
+describe('Facility VA search', () => {
+  beforeEach(() => {
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        features: [
+          { name: 'facilities_use_fl_progressive_disclosure', value: true },
+          { name: 'facilities_use_address_typeahead', value: true },
+        ],
+      },
+    });
+    cy.intercept('GET', '/v0/maintenance_windows', []);
+    CcpHelpers.initApplicationMock();
+    FacilityHelpers.initApplicationMock();
+  });
+
+  it('does a simple search and finds a result on the list', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+
+    cy.visit('/find-locations');
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    // cy.verifyOptions();
+
+    typeInCityStateInput('Austin, TX');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
+    cy.get('#service-type-dropdown').select('Primary care');
+    cy.get('#facility-search').click();
+
+    cy.get('#search-results-subheader').contains(
+      /results.*VA health.*Primary care.*near.*Austin, Texas/,
+    );
+    cy.get('.facility-result a').should('exist');
+    cy.get('.i-pin-card-map').contains('1');
+    cy.get('.i-pin-card-map').contains('2');
+    cy.get('.i-pin-card-map').contains('3');
+
+    cy.get('#other-tools').should('exist');
+  });
+
+  it.skip('should render breadcrumbs ', () => {
+    cy.visit('/find-locations');
+    typeInCityStateInput('Austin, TX');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
+    submitSearchForm().then(() => {
+      cy.injectAxe();
+      cy.axeCheck();
+
+      cy.get('.facility-result va-link').should('exist');
+      cy.findByText(/Washington VA Medical Center/i, { selector: 'va-link' })
+        .first()
+        .click({ waitForAnimations: true })
+        .then(() => {
+          cy.axeCheck();
+
+          cy.get('.all-details', { timeout: 10000 }).should('exist');
+
+          cy.get('a[aria-current="page"').should('exist');
+
+          cy.get(
+            '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+          ).should('exist');
+
+          cy.get(
+            '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
+          ).contains('Facility Details');
+
+          cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click({
+            waitForAnimations: true,
+          });
+
+          // Mobile View
+          cy.viewport(375, 667);
+
+          cy.get('.va-nav-breadcrumbs-list').should('exist');
+
+          cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
+            .should('have.css', 'display')
+            .and('match', /none/);
+
+          cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').contains(
+            'Home',
+          );
+        });
+    });
+  });
+
+  it('shows search result header even when no results are found', () => {
+    cy.visit('/find-locations');
+    // override so no provider data
+    CcpHelpers.initApplicationMock('', 'mockProviders');
+    typeInCityStateInput('27606');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
+    cy.wait('@mockServices');
+
+    typeAndSelectInCCPServiceTypeInput('General Acute Care Hospital');
+
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.wait('@mockProviders');
+
+    cy.focused().contains(
+      'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
+    );
+    cy.get('#other-tools').should('exist');
+  });
+
+  it('finds va benefits facility and views its page', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockLaLocation).as('caLocation');
+
+    cy.visit('/find-locations');
+    cy.injectAxe();
+    typeInCityStateInput('Los Angeles, CA');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA benefits');
+    submitSearchForm();
+    cy.get('#search-results-subheader').contains(
+      /Results.*VA benefits.*All VA benefit services.*Los Angeles.*California/i,
+    );
+    cy.get('#other-tools').should('exist');
+
+    cy.axeCheck();
+
+    cy.get('.facility-result a').contains(
+      'VetSuccess on Campus at Los Angeles City College',
+    );
+    cy.findByText(/VetSuccess on Campus at Los Angeles City College/i, {
+      selector: 'a',
+    })
+      .first()
+      .click({
+        waitForAnimations: true,
+      });
+
+    // Note - we're using mock data so the names don't match.
+    cy.get('h1').contains('VetSuccess on Campus at Los Angeles City College');
+    cy.get('.p1')
+      .first()
+      .should('exist');
+    cy.get('.facility-phone-group').should('exist');
+    cy.get('va-link')
+      .eq(0)
+      .shadow()
+      .get('a')
+      .contains(/Get directions/i);
+    cy.get('[alt="Static map"]').should('exist');
+    cy.get('#hours-op h3').contains('Hours of operation');
+    cy.get('#other-tools').should('not.exist');
+
+    cy.axeCheck();
+  });
+
+  it('should not trigger Use My Location when pressing enter in the input field', () => {
+    cy.visit('/find-locations');
+    typeInCityStateInput('27606');
+    // Wait for Use My Location to be triggered (it should not be)
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(8000);
+    // If Use My Location is triggered and succeeds, it will change the contents of the search field:
+    cy.get('#street-city-state-zip')
+      .invoke('val')
+      .then(searchString => expect(searchString).to.equal('27606'));
+    // If Use My Location is triggered and fails, it will trigger a modal alert:
+    cy.get('#va-modal-title').should('not.exist');
+  });
+
+  it('finds VA emergency care', () => {
+    cy.visit('/find-locations');
+    typeInCityStateInput('Austin, TX');
+    selectFacilityTypeInDropdown(FACILITY_TYPES.EMERGENCY);
+    selectServiceTypeInVAHealthDropdown('VA emergency care');
+    submitSearchForm();
+    cy.get('#search-results-subheader').contains(
+      'Results for "Emergency Care", "VA emergency care" near "Austin, Texas"',
+    );
+    cy.get('#emergency-care-info-note').should('exist');
+    cy.get('.facility-result h3 va-link')
+      .shadow()
+      .get('a')
+      .contains('Los Angeles'); // just because of the results we supply
+
+    cy.injectAxe();
+    cy.axeCheck();
+  });
+});
