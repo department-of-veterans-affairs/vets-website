@@ -57,7 +57,7 @@ import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
  */
-const ContactInfoBase = ({
+export const ContactInfoBase = ({
   data,
   goBack,
   goForward,
@@ -83,7 +83,7 @@ const ContactInfoBase = ({
 
   const { router } = rest;
 
-  const { pathname } = router.location;
+  const { pathname } = router?.location || { pathname: '' };
 
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
