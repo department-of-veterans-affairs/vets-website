@@ -1,6 +1,7 @@
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { titleWithTag, form0781HeadingTag } from '../../content/form0781';
 import {
@@ -62,7 +63,10 @@ export const uiSchema = {
     },
     required: false,
   }),
-  'view:supportingEvidenceNoneCheckbox': checkboxGroupUI({
+  supportingEvidenceUnlisted: textUI({
+    title: SUPPORTING_EVIDENCE_SUBTITLES.unlisted,
+  }),
+  supportingEvidenceNoneCheckbox: checkboxGroupUI({
     title: SUPPORTING_EVIDENCE_SUBTITLES.none,
     labelHeaderLevel: '4',
     labels: {
@@ -98,7 +102,10 @@ export const schema = {
     supportingEvidenceOther: checkboxGroupSchema(
       Object.keys(SUPPORTING_EVIDENCE_OTHER),
     ),
-    'view:supportingEvidenceNoneCheckbox': checkboxGroupSchema(['none']),
+    supportingEvidenceUnlisted: {
+      type: 'string',
+    },
+    supportingEvidenceNoneCheckbox: checkboxGroupSchema(['none']),
     'view:supportingEvidenceBuddyStatement': {
       type: 'object',
       properties: {},

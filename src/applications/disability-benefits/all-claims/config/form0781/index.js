@@ -131,7 +131,7 @@ export const form0781PagesConfig = {
   supportingEvidencePage: {
     title: supportingEvidencePageTitle,
     path: 'mental-health-form-0781/supporting-evidence',
-    depends: formData => showBehaviorSummaryPage(formData),
+    depends: formData => isCompletingForm0781(formData),
     uiSchema: supportingEvidencePage.uiSchema,
     schema: supportingEvidencePage.schema,
   },

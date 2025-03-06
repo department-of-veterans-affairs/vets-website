@@ -82,10 +82,10 @@ export const supportingEvidenceNoneLabel =
 export const supportingEvidenceValidationError = (
   <va-alert status="error" uswds>
     <p className="vads-u-font-size--base">
-      You selected one or more documents. You also selected "I don’t have any
-      supporting documents to submit." Revise your selection so they don’t
-      conflict to continue.
+      You selected one or more types of reports for this event, but you also
+      selected ‘I don’t have any supporting documents to submit.’
     </p>
+    <p>Revise your selection so they don’t conflict to continue.</p>
   </va-alert>
 );
 
@@ -95,9 +95,9 @@ export const supportingEvidenceValidationError = (
  * @returns {boolean}
  */
 function hasSelectedNoneCheckbox(formData) {
-  return Object.values(
-    formData['view:supportingEvidenceNoneCheckbox'] || {},
-  ).some(selected => selected === true);
+  return Object.values(formData.supportingEvidenceNoneCheckbox || {}).some(
+    selected => selected === true,
+  );
 }
 
 /**
@@ -179,7 +179,7 @@ export function validateSupportingEvidenceSelections(errors, formData) {
 
   // add error with no message to each checked section
   if (isConflicting === true) {
-    errors['view:supportingEvidenceNoneCheckbox'].addError(' ');
+    errors.supportingEvidenceNoneCheckbox.addError(' ');
     if (selections.supportingEvidenceReports === true) {
       errors.supportingEvidenceReports.addError(' ');
     }
