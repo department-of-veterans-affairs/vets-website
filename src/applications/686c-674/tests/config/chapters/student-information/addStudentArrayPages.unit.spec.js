@@ -360,7 +360,7 @@ describe('674 Add students: Student education benefits ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSix;
+  } = formConfig.chapters.report674.pages.addStudentsPartSeven;
 
   it('should render', () => {
     const { container } = render(
@@ -386,7 +386,7 @@ describe('674 Add students: Student education benefits payment start date ', () 
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSeven;
+  } = formConfig.chapters.report674.pages.addStudentsPartEight;
 
   it('should render', () => {
     const { container } = render(
@@ -410,7 +410,7 @@ describe('674 Add students: Program name ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEight;
+  } = formConfig.chapters.report674.pages.addStudentsPartNine;
 
   it('should render', () => {
     const { container } = render(
@@ -434,7 +434,7 @@ describe('674 Add students: Student attended continuously ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNine;
+  } = formConfig.chapters.report674.pages.addStudentsPartTen;
 
   it('should render', () => {
     const { container } = render(
@@ -459,7 +459,7 @@ describe('674 Add students: Date student stopped attending ', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTen;
+  } = formConfig.chapters.report674.pages.addStudentsPartEleven;
 
   it('should render', () => {
     const { container } = render(
@@ -483,7 +483,7 @@ describe('674 Add students: School is accredited', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEleven;
+  } = formConfig.chapters.report674.pages.addStudentsPartTwelve;
 
   it('should render', () => {
     const { container } = render(
@@ -509,7 +509,7 @@ describe('674 Add students: Term dates', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartTwelve;
+  } = formConfig.chapters.report674.pages.addStudentsPartThirteen;
 
   it('should render', () => {
     const { container } = render(
@@ -533,7 +533,7 @@ describe('674 Add students: Did student attend last term?', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartThirteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartFourteen;
 
   it('should render', () => {
     const { container } = render(
@@ -558,7 +558,7 @@ describe('674 Add students: Previous term dates', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFourteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartFifteen;
 
   it('should render', () => {
     const { container } = render(
@@ -582,7 +582,7 @@ describe('674 Add students: Veteran claims pension', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartFifteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
 
   it('should render', () => {
     const { container } = render(
@@ -607,7 +607,7 @@ describe('674 Add students: Current term student income', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSixteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartSeventeen;
 
   it('should render', () => {
     const { container } = render(
@@ -631,7 +631,7 @@ describe('674 Add students: Student income next year', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartSeventeen;
+  } = formConfig.chapters.report674.pages.addStudentsPartEighteen;
 
   it('should render', () => {
     const { container } = render(
@@ -655,7 +655,7 @@ describe('674 Add students: Student assets', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartEighteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartNineteen;
 
   it('should render', () => {
     const { container } = render(
@@ -679,7 +679,7 @@ describe('674 Add students: Student assets', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.addStudentsPartNineteen;
+  } = formConfig.chapters.report674.pages.addStudentsPartTwenty;
 
   it('should render', () => {
     const { container } = render(

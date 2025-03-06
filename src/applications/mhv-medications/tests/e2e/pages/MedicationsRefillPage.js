@@ -5,6 +5,9 @@ import { Paths } from '../utils/constants';
 
 class MedicationsRefillPage {
   loadRefillPage = prescriptions => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       'my_health/v1/prescriptions/list_refillable_prescriptions',
@@ -473,6 +476,50 @@ class MedicationsRefillPage {
     cy.get('[data-testid="failed-message-description"]')
       .should('have.text', text)
       .and('not.be.visible');
+  };
+
+  verifyCernerUserMyVAHealthAlertOnRefillsPage = text => {
+    cy.get('[data-testid="cerner-facilities-alert"]').should('contain', text);
+  };
+
+  verifyRefillDelayAlertBannerOnRefillPage = text => {
+    cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
+  };
+
+  verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
+    cy.get('[data-testid="alert-banner"]').should('contain', rxName);
+  };
+
+  verifyNeedHelpSectionOnRefillPage = text => {
+    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+  };
+
+  verifyGoToUseMedicationLinkOnRefillPage = () => {
+    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+  };
+
+  verifyStartANewMessageLinkOnRefillPage = () => {
+    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+  };
+
+  verifyHowRefillProcessWorksListHeaderTextOnRefillPage = text => {
+    cy.get('[data-testid="progress-list-header"]').should('contain', text);
+  };
+
+  verifyProcessStepOneHeaderOnRefillPage = text => {
+    cy.get('[header="You request a refill"]').should('contain', text);
+  };
+
+  verifyProcessStepTwoHeaderOnRefillPage = text => {
+    cy.get('[header="We process your refill request"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeHeaderOnRefillPage = text => {
+    cy.get('[header="We ship your refill to you"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeNoteOnRefillPage = text => {
+    cy.get('[header="We ship your refill to you"]').should('contain', text);
   };
 }
 

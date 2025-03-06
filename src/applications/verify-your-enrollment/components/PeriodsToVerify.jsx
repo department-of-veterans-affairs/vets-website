@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import UpToDateVerificationStatement from './UpToDateVerificationStatement';
 import VerifiedSuccessStatement from './VerifiedSuccessStatement';
@@ -21,6 +21,7 @@ const PeriodsToVerify = ({
   claimantId,
 }) => {
   const [pendingEnrollments, setPendingEnrollments] = useState([]);
+  const response = useSelector(state => state.personalInfo);
   const justVerified = !!toggleEnrollmentSuccess;
   const { error } = verifyEnrollment;
   const idRef = useRef();
@@ -121,7 +122,7 @@ const PeriodsToVerify = ({
           </va-alert>
         )}
         {(enrollmentData?.pendingVerifications?.length === 0 ||
-          !showEnrollmentVerifications) &&
+          (!showEnrollmentVerifications && claimantId)) &&
           justVerified && (
             <div>
               <VerifiedSuccessStatement />
@@ -129,7 +130,8 @@ const PeriodsToVerify = ({
           )}
         {((enrollmentData?.pendingVerifications?.length === 0 &&
           enrollmentData?.verifications.length !== 0) ||
-          (!showEnrollmentVerifications &&
+          (response.personalInfo?.verificationRecord?.status !== 204 &&
+            !showEnrollmentVerifications &&
             claimantId &&
             enrollmentVerifications?.length !== 0)) &&
           !justVerified && (

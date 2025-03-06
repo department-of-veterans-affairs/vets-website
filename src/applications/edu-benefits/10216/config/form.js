@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
@@ -18,6 +19,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import InstitutionDetails from '../pages/institutionDetails';
 import studentRatioCalc from '../pages/studentRatioCalc';
+import submitForm from './submitForm';
+import { certifyingOfficial } from '../pages/institutionOfficial';
 
 const { date, dateRange } = commonDefinitions;
 
@@ -27,20 +30,16 @@ const subTitle = () => (
   </p>
 );
 
-let isAccredited = false;
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  // submit: submitForm,
-  submit: async formData => {
-    return new Promise(resolve => {
-      resolve({ status: 201, data: formData });
-    });
-  },
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10216`,
+  submit: submitForm,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
-  confirmation: () => <ConfirmationPage isAccredited={isAccredited} />,
+  confirmation: ({ router, route }) => (
+    <ConfirmationPage router={router} route={route} />
+  ),
   formId: '22-10216',
   saveInProgress: {
     // messages: {
@@ -48,6 +47,9 @@ const formConfig = {
     //   expired: 'Your saved education benefits application (22-10216) has expired. If you want to apply for education benefits, please start a new application.',
     //   saved: 'Your education benefits application has been saved.',
     // },
+  },
+  customText: {
+    reviewPageTitle: 'Review',
   },
   version: 0,
   prefillEnabled: true,
@@ -64,16 +66,33 @@ const formConfig = {
     date,
     dateRange,
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      messageAriaDescribedby:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      fullNamePath: 'certifyingOfficial',
+    },
+  },
   transformForSubmit: transform,
   chapters: {
     institutionDetailsChapter: {
       title: 'Institution Details',
       pages: {
-        institutionDetails: {
+        certifyingOfficial: {
           path: 'institution-details',
+          title: 'Tell us about yourself',
+          uiSchema: certifyingOfficial.uiSchema,
+          schema: certifyingOfficial.schema,
+        },
+        institutionDetails: {
+          path: 'institution-details-1',
           title: 'Institution Details',
           onNavForward: async ({ formData, goPath }) => {
-            isAccredited = await validateFacilityCode(formData);
+            const isAccredited = await validateFacilityCode(formData);
+            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
             if (isAccredited) {
               goPath('/student-ratio-calculation');
             } else {
@@ -103,6 +122,9 @@ const formConfig = {
           uiSchema: studentRatioCalc.uiSchema,
           schema: studentRatioCalc.schema,
           onNavBack: ({ goPath }) => {
+            const isAccredited = JSON.parse(
+              localStorage.getItem('isAccredited'),
+            );
             if (isAccredited !== true) {
               goPath('/additional-form');
             } else {

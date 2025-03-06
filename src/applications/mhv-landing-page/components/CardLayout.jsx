@@ -3,19 +3,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import {
-  isAuthenticatedWithSSOe,
-  mrPhase1Enabled,
-  apiAccountStatusEnabled,
   mhvAccountStatusUserError,
   mhvAccountStatusErrorsSorted,
 } from '../selectors';
 
 import NavCard from './NavCard';
-import MedicalRecordsCard from './MedicalRecordsCard';
 import ErrorNavCard from './ErrorNavCard';
-import { HEALTH_TOOL_HEADINGS, MHV_ACCOUNT_CARDS } from '../constants';
+import { MHV_ACCOUNT_CARDS } from '../constants';
 
 const layoutData = data => {
   const offset = 2;
@@ -27,14 +22,10 @@ const layoutData = data => {
 };
 
 const CardLayout = ({ data }) => {
-  const isAccountStatusApiEnabled = useSelector(apiAccountStatusEnabled);
   const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
   const mhvAccountStatusSortedErrors = useSelector(
     mhvAccountStatusErrorsSorted,
   );
-  const isMrPhase1Enabled = useSelector(mrPhase1Enabled);
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const blueButtonUrl = mhvUrl(ssoe, 'download-my-data');
 
   const rowCols = layoutData(data);
   return rowCols.map((row, x) => {
@@ -48,40 +39,32 @@ const CardLayout = ({ data }) => {
         )}
         key={`row-${x}`}
       >
-        {row.map((col, y) => (
-          <div
-            className={classnames(
-              'vads-l-col--12',
-              'medium-screen:vads-l-col',
-              'mhv-u-grid-gap',
-              'vads-u-margin-bottom--2',
-              'medium-screen:vads-u-margin-bottom--0',
-            )}
-            data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
-            key={`col-${y}`}
-          >
-            {isAccountStatusApiEnabled ? (
-              mhvAccountStatusSortedErrors.length > 0 &&
+        {row.map((col, y) => {
+          return (
+            <div
+              className={classnames(
+                'vads-l-col--12',
+                'medium-screen:vads-l-col',
+                'mhv-u-grid-gap',
+                'vads-u-margin-bottom--2',
+                'medium-screen:vads-u-margin-bottom--0',
+              )}
+              data-testid={`mhv-link-group-card-${x * rowCols.length + y}`}
+              key={`col-${y}`}
+            >
+              {mhvAccountStatusSortedErrors.length > 0 &&
               MHV_ACCOUNT_CARDS.includes(col.title) ? (
                 <ErrorNavCard
                   title={col.title}
                   code={mhvAccountStatusSortedErrors[0].code}
                   userActionable={mhvAccountStatusUserErrors.length > 0}
                 />
-              ) : col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
-              !isMrPhase1Enabled ? (
-                <MedicalRecordsCard href={blueButtonUrl} />
               ) : (
                 <NavCard {...col} />
-              )
-            ) : col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
-            !isMrPhase1Enabled ? (
-              <MedicalRecordsCard href={blueButtonUrl} />
-            ) : (
-              <NavCard {...col} />
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   });

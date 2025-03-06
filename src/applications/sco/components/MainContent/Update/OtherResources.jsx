@@ -162,10 +162,6 @@ const OtherResources = () => {
               href="https://benefits.va.gov/GIBILL/85_15/supported_non_supported_students.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Restricted aid"
-              href="https://benefits.va.gov/GIBILL/85_15/restricted_aid.asp"
-            />
-            <LiSpanAndVaLink
               hrefText="Suspension and review"
               href="https://benefits.va.gov/GIBILL/85_15/Suspension_and_Review.asp"
             />
@@ -176,6 +172,10 @@ const OtherResources = () => {
             <LiSpanAndVaLink
               hrefText="85/15 and Approved Rule 56"
               href="https://benefits.va.gov/GIBILL/85_15/85-15-ar-56.asp"
+            />
+            <LiSpanAndVaLink
+              hrefText="85/15 Webpage Archives "
+              href="https://www.knowva.ebenefits.va.gov/system/templates/selfservice/va_ssnew/help/customer/locale/en-US/portal/554400000001018/content/554400000291680/8515-Webpage-Archives"
             />
           </ul>
         </va-accordion-item>

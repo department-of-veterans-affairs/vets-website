@@ -32,4 +32,4 @@ export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 
-export const V2_LAUNCH_DATE = 'March 27th, 2025'; // TBD - update after launch
+export const V2_LAUNCH_DATE = 'March 11th, 2025'; // TBD - update after launch

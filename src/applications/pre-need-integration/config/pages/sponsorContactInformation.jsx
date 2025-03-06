@@ -22,7 +22,13 @@ export const sponsorMailingAddressStateTitleWrapper = (
 
 // Validation function
 const isRequired = formData => {
-  return formData?.application?.veteran?.address.street !== undefined;
+  return (
+    formData?.application?.veteran?.address.street !== undefined ||
+    formData?.application?.veteran?.address.street2 !== undefined ||
+    formData?.application?.veteran?.address.city !== undefined ||
+    formData?.application?.veteran?.address.state !== undefined ||
+    formData?.application?.veteran?.address.postalCode !== undefined
+  );
 };
 
 // UI Schema
@@ -37,7 +43,7 @@ export const uiSchema = {
           false,
           isRequired,
           false,
-          ['city', 'postalCode'],
+          ['street', 'city', 'postalCode'],
         ),
         {
           street: {

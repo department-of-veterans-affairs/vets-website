@@ -5,13 +5,13 @@ import MhvSecondaryNav from '../containers/MhvSecondaryNav';
 
 const stateFn = ({
   loading,
-  mhvTransitionalMedicalRecordsLandingPage = false,
-  mhvIntegrationMedicalRecordsToPhase1 = false,
+  mhvMedicationsRemoveLandingPage = false,
+  mhvSecureMessagingRemoveLandingPage = false,
 } = {}) => ({
   featureToggles: {
     loading,
-    mhvTransitionalMedicalRecordsLandingPage,
-    mhvIntegrationMedicalRecordsToPhase1,
+    mhvMedicationsRemoveLandingPage,
+    mhvSecureMessagingRemoveLandingPage,
   },
 });
 
@@ -52,43 +52,41 @@ describe('<MhvSecondaryNav />', () => {
     expect(mhvLink.href).to.match(/my-health$/);
   });
 
-  describe('Medical Records href', () => {
-    it('when no features set:\n\t /my-health/medical-records', () => {
+  describe('Secure Messages href', () => {
+    it('when no features set:\n\t /my-health/secure-messages', () => {
       const initialState = stateFn({ loading: false });
       const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Records/ });
-      expect(mrLink.href).to.match(/my-health\/medical-records$/);
+      const mrLink = getByRole('link', { name: /^Messages/ });
+      expect(mrLink.href).to.match(/my-health\/secure-messages$/);
     });
 
-    it('when mhvTransitionalMedicalRecordsLandingPage enabled:\n\t /my-health/records', () => {
+    it('when mhvSecureMessagingRemoveLandingPage enabled:\n\t my-health/secure-messages/inbox', () => {
       const initialState = stateFn({
         loading: false,
-        mhvTransitionalMedicalRecordsLandingPage: true,
+        mhvSecureMessagingRemoveLandingPage: true,
       });
       const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Records/ });
-      expect(mrLink.href).to.match(/my-health\/records$/);
+      const mrLink = getByRole('link', { name: /^Messages/ });
+      expect(mrLink.href).to.match(/my-health\/secure-messages\/inbox$/);
+    });
+  });
+
+  describe('Medications href', () => {
+    it('when no features set:\n\t /my-health/medications/about', () => {
+      const initialState = stateFn({ loading: false });
+      const { getByRole } = setup({ initialState });
+      const mrLink = getByRole('link', { name: /^Medications/ });
+      expect(mrLink.href).to.match(/my-health\/medications\/about$/);
     });
 
-    it('when both toggles enabled:\n\t /my-health/medical-records', () => {
+    it('when mhvMedicationsRemoveLandingPage enabled:\n\t my-health/medications', () => {
       const initialState = stateFn({
         loading: false,
-        mhvTransitionalMedicalRecordsLandingPage: true,
-        mhvIntegrationMedicalRecordsToPhase1: true,
+        mhvMedicationsRemoveLandingPage: true,
       });
       const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Records/ });
-      expect(mrLink.href).to.match(/my-health\/medical-records$/);
-    });
-
-    it('when mhvIntegrationMedicalRecordsToPhase1 enabled:\n\t /my-health/medical-records', () => {
-      const initialState = stateFn({
-        loading: false,
-        mhvIntegrationMedicalRecordsToPhase1: true,
-      });
-      const { getByRole } = setup({ initialState });
-      const mrLink = getByRole('link', { name: /^Records/ });
-      expect(mrLink.href).to.match(/my-health\/medical-records$/);
+      const mrLink = getByRole('link', { name: /^Medications/ });
+      expect(mrLink.href).to.match(/my-health\/medications$/);
     });
   });
 });

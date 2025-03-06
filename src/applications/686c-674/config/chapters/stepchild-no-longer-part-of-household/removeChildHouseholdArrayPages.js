@@ -91,7 +91,7 @@ export const householdChildInfoPage = {
       title: 'Remove a stepchild who has left your household',
       nounSingular: removeChildHouseholdOptions.nounSingular,
     }),
-    fullName: fullNameNoSuffixUI(),
+    fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
     ssn: {
       ...ssnUI('Child’s Social Security number'),
       'ui:required': () => true,
@@ -145,12 +145,6 @@ export const supportAmountPage = {
           'Less than half': 'Less than half',
         },
       }),
-      'ui:required': (formData, index) => {
-        const addMode = formData?.stepChildren?.[index]?.supportingStepchild;
-        const editMode = formData?.supportingStepchild;
-
-        return addMode || editMode;
-      },
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.stepChildren?.[index];
@@ -167,6 +161,7 @@ export const supportAmountPage = {
   },
   schema: {
     type: 'object',
+    required: ['livingExpensesPaid'],
     properties: {
       livingExpensesPaid: radioSchema([
         'More than half',

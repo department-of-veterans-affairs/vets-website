@@ -4,7 +4,8 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import { setVAHealthFacility } from '../../actions';
 
 const SearchItem = ({
   facilityData,
@@ -15,6 +16,7 @@ const SearchItem = ({
   validationError,
 }) => {
   const [selected, setSelected] = useState(null);
+  const dispatch = useDispatch();
   const onPageChange = page => {
     getData(`${pageURL}&page=${page}&per_page=10`);
   };
@@ -31,8 +33,12 @@ const SearchItem = ({
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
+    const facilityString = selectedValue.split('-');
+    const facilityCode = facilityString.shift().trim();
+    const facilityName = facilityString.join(' ').trim();
     setSelected(selectedValue);
-    onChange(selectedValue);
+    onChange(facilityCode);
+    dispatch(setVAHealthFacility(facilityName));
   };
 
   const facilityInfo = info => {
@@ -78,9 +84,11 @@ const SearchItem = ({
                 key={facility.id}
                 id={facility.id}
                 label={facilityInfo(facility)}
-                value={facility.id}
+                value={`${facility.id} - ${facilityInfo(facility)}`}
                 name="primary"
-                checked={selected === facilityInfo(facility)}
+                checked={
+                  selected === `${facility.id} - ${facilityInfo(facility)}`
+                }
                 uswds
               />
             ))}

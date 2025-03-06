@@ -48,12 +48,19 @@ export function recordItemsRetrieved(type, count) {
 
 export const NULL_STATE_FIELD = {
   TYPE_OF_CARE: 'type-of-care',
+  PROVIDER: 'provider',
+  CLINIC_PHONE: 'clinic-phone',
+  FACILITY_ID: 'facility-id',
+  FACILITY_DETAILS: 'facility-details',
+  FACILITY_PHONE: 'facility-phone',
 };
 
 /**
  * Records events for appointment details null states
  *
  * @export
+ * @param {Object} attributes  This is the dictionary containing the attributes
+ *   of the appointment to be recorded as part of the missing event.
  * @param {Object} nullStates This is the dictionary containing the null state
  *   details to be logged. The keys are the keys of NULL_STATE_TYPE and the
  *   values are booleans indicating whether that field is missing in the
@@ -61,7 +68,7 @@ export const NULL_STATE_FIELD = {
  *   information type is not applicable for the appointment type (e.g. Provider
  *   for Claim Exam) do not include an entry for the field in the dictionary.
  */
-export function recordAppointmentDetailsNullStates(nullStates) {
+export function recordAppointmentDetailsNullStates(attributes, nullStates) {
   const nullStateEventPrefix = `${GA_PREFIX}-null-states`;
   let anyNullState = false;
 
@@ -76,7 +83,10 @@ export function recordAppointmentDetailsNullStates(nullStates) {
       recordEvent({ event: `${nullStateEventPrefix}-expected-${key}` });
       // Record the missing event if needed and updated anyNullState
       if (nullStates[key]) {
-        recordEvent({ event: `${nullStateEventPrefix}-missing-${key}` });
+        recordEvent({
+          event: `${nullStateEventPrefix}-missing-${key}`,
+          ...attributes,
+        });
         anyNullState = true;
       }
     }
@@ -84,6 +94,9 @@ export function recordAppointmentDetailsNullStates(nullStates) {
 
   //  Increment if any null states were present
   if (anyNullState) {
-    recordEvent({ event: `${nullStateEventPrefix}-missing-any` });
+    recordEvent({
+      event: `${nullStateEventPrefix}-missing-any`,
+      ...attributes,
+    });
   }
 }

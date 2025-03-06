@@ -12,7 +12,8 @@ describe('<BenefitCard>', () => {
 
     expect(container.querySelector('h3')).to.contain.text(benefit.name);
     expect(container.querySelector('p')).to.have.text(benefit.description);
-    expect(container.querySelectorAll('a')).to.have.lengthOf(2);
+    expect(container.querySelectorAll('va-link')).to.have.lengthOf(1);
+    expect(container.querySelectorAll('va-link-action')).to.have.lengthOf(1);
   });
 
   it('renders time sensitive benefit card', () => {
@@ -21,7 +22,7 @@ describe('<BenefitCard>', () => {
 
     expect(container.querySelector('h3')).to.contain.text(benefit.name);
     expect(container.querySelector('p')).to.have.text(benefit.description);
-    expect(container.querySelectorAll('a')).to.have.lengthOf(1);
     expect(container.querySelector('div.blue-heading')).to.exist;
+    expect(container.querySelectorAll('va-link')).to.have.lengthOf(1);
   });
 });

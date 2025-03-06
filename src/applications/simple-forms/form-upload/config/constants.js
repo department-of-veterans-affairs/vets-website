@@ -29,9 +29,13 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       onCloseEvent={onCloseEvent}
     >
       {variant === 'name-and-zip-code' ? (
-        <h2 slot="headline">Name and zip code must match your form</h2>
+        <h3 slot="headline">
+          Veteran’s name and postal code must match your PDF
+        </h3>
       ) : (
-        <h2 slot="headline">Identification information must match your form</h2>
+        <h3 slot="headline">
+          Veteran’s identification information must match your PDF
+        </h3>
       )}
       {isLoa3 ? (
         <p>
@@ -41,27 +45,26 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
       ) : null}
       {variant === 'name-and-zip-code' ? (
         <p>
-          If your name and zip code here don’t match your form, it will cause
-          processing delays.
+          If the Veteran’s name and postal code here don’t match your uploaded
+          PDF, it will cause processing delays.
         </p>
       ) : (
         <p>
-          If the identification information you enter here don’t match your
-          form, it will cause processing delays.
+          If the Veteran’s identification information you enter here doesn’t
+          match your uploaded PDF, it will cause processing delays.
         </p>
       )}
     </VaAlert>
   );
 };
 
-export const UPLOAD_GUIDELINES = Object.freeze(
+export const UPLOAD_TITLE = 'Your file';
+
+export const UPLOAD_DESCRIPTION = Object.freeze(
   <>
-    <h3 className="vads-u-margin-bottom--3">Your file</h3>
-    <p>
-      <span className="vads-u-font-weight--bold">Note:</span> After you upload
-      your file, you’ll need to continue to the next screen to submit it. If you
-      leave before you submit it, you’ll need to upload it again.
-    </p>
+    <span className="vads-u-font-weight--bold">Note:</span> After you upload
+    your file, you’ll need to continue to the next screen to submit it. If you
+    leave before you submit it, you’ll need to upload it again.
   </>,
 );
 
@@ -73,17 +76,6 @@ export const SAVE_IN_PROGRESS_CONFIG = {
     saved: 'Your form upload has been saved.',
   },
 };
-
-export const SUBTITLE_0779 =
-  'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
-
-export const DOWNLOAD_URL_0779 =
-  'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf';
-
-export const SUBTITLE_509 = 'Statement of Dependency of Parent(s)';
-
-export const DOWNLOAD_URL_509 =
-  'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf';
 
 export const FORM_UPLOAD_OCR_ALERT = (
   formNumber,
@@ -145,5 +137,18 @@ export const FORM_UPLOAD_INSTRUCTION_ALERT = onCloseEvent => (
         information, we won’t be able to process it.
       </p>
     </React.Fragment>
+  </VaAlert>
+);
+
+export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
+  <VaAlert
+    close-btn-aria-label="Close notification"
+    status="error"
+    visible
+    closeable
+    slim
+    onCloseEvent={onCloseEvent}
+  >
+    File upload must be complete to continue.
   </VaAlert>
 );

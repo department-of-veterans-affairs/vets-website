@@ -6,22 +6,24 @@ import sinon from 'sinon';
 import MockDate from 'mockdate';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockFetch,
+  mockApiRequest,
+  setFetchJSONFailure,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import reducer from '../../redux/reducer';
-import App from '../../containers/TravelPayStatusApp';
+import TravelPayStatusApp from '../../containers/TravelPayStatusApp';
 import { formatDateTime } from '../../util/dates';
 import travelClaims from '../../services/mocks/travel-claims-31.json';
 
-describe('App', () => {
-  let oldLocation;
+describe('TravelPayStatusApp', () => {
+  const oldLocation = global.window.location;
   const getData = ({
     areFeatureTogglesLoading = true,
     hasFeatureFlag = true,
     hasClaimDetailsFeatureFlag = true,
-    isLoggedIn = true,
   } = {}) => {
     return {
       featureToggles: {
@@ -31,14 +33,6 @@ describe('App', () => {
         travel_pay_view_claim_details: hasClaimDetailsFeatureFlag,
         /* eslint-enable camelcase */
       },
-      user: {
-        login: {
-          currentlyLoggedIn: isLoggedIn,
-        },
-        profile: {
-          services: [backendServices.USER_PROFILE],
-        },
-      },
     };
   };
 
@@ -47,8 +41,6 @@ describe('App', () => {
   const previousYearDate = '2023-09-21T17:11:43.034Z';
 
   beforeEach(() => {
-    oldLocation = global.window.location;
-    delete global.window.location;
     global.window.location = {
       replace: sinon.spy(),
     };
@@ -58,7 +50,7 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -110,7 +102,7 @@ describe('App', () => {
   });
 
   it('should redirect if feature flag is off', async () => {
-    renderWithStoreAndRouter(<App />, {
+    renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: false,
@@ -124,71 +116,90 @@ describe('App', () => {
   });
 
   it('should redirect the root path / to /claims/ and render the app.', async () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
-      initialState: getData(),
-      path: `/`,
-      reducers: reducer,
-    });
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <TravelPayStatusApp />,
+      {
+        initialState: getData(),
+        path: `/`,
+        reducers: reducer,
+      },
+    );
     expect(
       await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
     ).to.exist;
   });
 
   it('should render loading state if feature flag is loading', async () => {
-    const screenFeatureToggle = renderWithStoreAndRouter(<App />, {
-      initialState: getData(),
-      path: `/claims/`,
-      reducers: reducer,
-    });
+    const screenFeatureToggle = renderWithStoreAndRouter(
+      <TravelPayStatusApp />,
+      {
+        initialState: getData(),
+        path: `/claims/`,
+        reducers: reducer,
+      },
+    );
     expect(
       await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
     ).to.exist;
   });
 
-  it('renders a login prompt for an unauthenticated user', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
-        isLoggedIn: false,
-      }),
-      path: `/claims/`,
-      reducers: reducer,
-    });
-    expect(await screen.findByText('Log in to view your travel claims')).to
-      .exist;
-  });
-
-  it('shows the login modal when clicking the login prompt', async () => {
-    const { container } = renderWithStoreAndRouter(<App />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
-        isLoggedIn: true,
-      }),
-      path: `/claims/`,
-      reducers: reducer,
-    });
-
-    expect($('va-loading-indicator', container)).to.exist;
-  });
-
-  it('handles a failed fetch of claims', async () => {
+  it('handles a failed fetch of claims when user is not a Veteran', async () => {
     global.fetch.restore();
-    mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    mockFetch();
+    setFetchJSONFailure(
+      global.fetch.withArgs(sinon.match(`/travel_pay/v0/claims`)),
+      {
+        errors: [{ title: 'Forbidden', status: 403 }],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
         isLoggedIn: true,
+        error: { errors: [{ title: 'Forbidden', status: 403 }] },
       }),
       path: `/claims/`,
       reducers: reducer,
     });
 
-    await waitFor(async () => {
-      expect(await screen.findByText('Error fetching travel claims.')).to.exist;
+    await waitFor(() => {
+      expect(screen.findByText(/We can’t find any travel claims for you/i)).to
+        .exist;
+      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
+      expect($('va-additional-info')).to.not.exist;
+    });
+  });
+
+  it('handles a unspecified errors', async () => {
+    global.fetch.restore();
+
+    mockFetch();
+    setFetchJSONFailure(
+      global.fetch.withArgs(sinon.match(`/travel_pay/v0/claims`)),
+      {
+        errors: [{ title: 'Service unavilable', status: 500 }],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+        error: { errors: [{ title: 'Service unavilable', status: 500 }] },
+      }),
+      path: `/claims/`,
+      reducers: reducer,
+    });
+
+    await waitFor(() => {
+      expect(screen.findByText(/we can’t access your travel claims right now/i))
+        .to.exist;
+      expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
+      expect($('va-additional-info')).to.not.exist;
     });
   });
 
@@ -196,11 +207,10 @@ describe('App', () => {
     global.fetch.restore();
     mockApiRequest({ data: [] });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -220,7 +230,7 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -230,11 +240,10 @@ describe('App', () => {
       ],
     });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -255,7 +264,7 @@ describe('App', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -265,12 +274,11 @@ describe('App', () => {
       ],
     });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
         hasClaimDetailsFeatureFlag: false,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -283,35 +291,18 @@ describe('App', () => {
     });
   });
 
-  it('shows the login modal when clicking the login prompt', async () => {
-    const { container } = renderWithStoreAndRouter(<App />, {
-      initialState: getData({
-        areFeatureTogglesLoading: false,
-        hasFeatureFlag: true,
-        isLoggedIn: false,
-      }),
-      path: `/claims/`,
-      reducers: reducer,
-    });
-
-    fireEvent.click($('va-button', container));
-    // TODO: make this check for the modal itself
-    expect($('va-button', container)).to.exist;
-  });
-
   it('sorts the claims correctly using the select-option', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -332,7 +323,7 @@ describe('App', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(aprDate);
+      const [date, time] = formatDateTime(aprDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -357,11 +348,10 @@ describe('App', () => {
     global.fetch.restore();
     mockApiRequest(travelClaims);
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -378,13 +368,13 @@ describe('App', () => {
       const filterNames = statusFilters.map(filter => filter.name);
 
       const orderedStatuses = [
-        'On Hold',
+        'On hold',
         'Denied',
-        'In Manual Review',
+        'In manual review',
         'Appealed',
-        'Claim Submitted',
+        'Claim submitted',
         'Closed',
-        'In Process',
+        'In process',
         'Incomplete',
         'Saved',
       ];
@@ -408,16 +398,15 @@ describe('App', () => {
     global.fetch.restore();
     const topStatusesSubset = travelClaims.data.filter(
       claim =>
-        claim.claimStatus === 'On Hold' ||
-        claim.claimStatus === 'In Manual Review',
+        claim.claimStatus === 'On hold' ||
+        claim.claimStatus === 'In manual review',
     );
     mockApiRequest({ data: topStatusesSubset });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -433,7 +422,7 @@ describe('App', () => {
       const statusFilters = screen.getAllByTestId(/status-filter_/);
       const filterNames = statusFilters.map(filter => filter.name);
 
-      const orderedStatuses = ['On Hold', 'In Manual Review'];
+      const orderedStatuses = ['On hold', 'In manual review'];
       expect(filterNames).to.eql(orderedStatuses);
     });
   });
@@ -441,15 +430,14 @@ describe('App', () => {
     global.fetch.restore();
     const nonTopStatuses = travelClaims.data.filter(
       claim =>
-        !['On Hold', 'Denied', 'In Manual Review'].includes(claim.claimStatus),
+        !['On hold', 'Denied', 'In manual review'].includes(claim.claimStatus),
     );
     mockApiRequest({ data: nonTopStatuses });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -467,9 +455,9 @@ describe('App', () => {
 
       const orderedStatuses = [
         'Appealed',
-        'Claim Submitted',
+        'Claim submitted',
         'Closed',
-        'In Process',
+        'In process',
         'Incomplete',
         'Saved',
       ];
@@ -480,18 +468,17 @@ describe('App', () => {
     global.fetch.restore();
     const topStatusesSubset = travelClaims.data.filter(
       claim =>
-        claim.claimStatus === 'On Hold' ||
-        claim.claimStatus === 'In Manual Review' ||
+        claim.claimStatus === 'On hold' ||
+        claim.claimStatus === 'In manual review' ||
         claim.claimStatus === 'Closed' ||
         claim.claimStatus === 'Saved',
     );
     mockApiRequest({ data: topStatusesSubset });
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
@@ -508,8 +495,8 @@ describe('App', () => {
       const filterNames = statusFilters.map(filter => filter.name);
 
       const orderedStatuses = [
-        'On Hold',
-        'In Manual Review',
+        'On hold',
+        'In manual review',
         'Closed',
         'Saved',
       ];
@@ -518,18 +505,17 @@ describe('App', () => {
   });
 
   it('filters by date range', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(
@@ -569,18 +555,17 @@ describe('App', () => {
   });
 
   it('filters by status and date together', async () => {
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,
     });
 
     await waitFor(async () => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(
@@ -631,11 +616,10 @@ describe('App', () => {
     global.fetch.restore();
     mockApiRequest(travelClaims);
 
-    const screen = renderWithStoreAndRouter(<App />, {
+    const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
         hasFeatureFlag: true,
-        isLoggedIn: true,
       }),
       path: `/claims/`,
       reducers: reducer,

@@ -1,6 +1,6 @@
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-
+import environment from 'platform/utilities/environment';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
 import {
   veteranInformation,
@@ -12,17 +12,17 @@ import {
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
-import prefillTransformer from './prefill-transformer';
-import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
+import submitForm from './submitForm';
+import { TITLE, SUBTITLE } from '../constants';
 
 /** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/debts_api/v0/digital_disputes',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/debts_api/v0/digital_disputes`,
+  submit: submitForm,
   trackingPrefix: 'dispute-debt',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -62,13 +62,8 @@ const formConfig = {
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo2',
           contactPath: 'contact-information',
-          contactInfoRequiredKeys: [
-            'mobilePhone',
-            'homePhone',
-            'mailingAddress',
-            'email',
-          ],
-          included: ['mobilePhone', 'homePhone', 'mailingAddress', 'email'], // default
+          contactInfoRequiredKeys: ['mobilePhone', 'mailingAddress', 'email'],
+          included: ['mobilePhone', 'mailingAddress', 'email'], // default
           wrapperKey: 'veteranInformation',
         }),
       },

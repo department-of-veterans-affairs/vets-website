@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import {
-  VaRadio,
   VaPagination,
+  VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 const EducationSearchItem = ({
@@ -68,7 +68,7 @@ const EducationSearchItem = ({
         <hr />
         <VaRadio
           class="vads-u-margin-y--2"
-          label="Select VA health facility"
+          label="Select school facility"
           onVaValueChange={handleChange}
           required
           uswds

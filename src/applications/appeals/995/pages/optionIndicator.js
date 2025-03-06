@@ -22,6 +22,7 @@ export default {
       ...radioUI({
         title: optionIndicatorLabel,
         hint: optionIndicatorHint,
+        classNames: 'vads-u-margin-bottom--4',
         enableAnalytics: true,
         labelHeaderLevel: '3',
         labels: optionIndicatorChoices,

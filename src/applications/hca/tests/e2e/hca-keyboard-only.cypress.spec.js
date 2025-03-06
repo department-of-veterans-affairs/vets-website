@@ -1,17 +1,8 @@
 import { format, subYears } from 'date-fns';
-import manifest from '../../manifest.json';
 import maxTestData from './fixtures/data/maximal-test.json';
-import mockEnrollmentStatus from './fixtures/mocks/enrollment-status.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockPrefill from './fixtures/mocks/prefill.json';
-import mockUser from './fixtures/mocks/user.json';
-import {
-  fillAddressWithKeyboard,
-  fillDateWithKeyboard,
-  fillNameWithKeyboard,
-  selectDropdownWithKeyboard,
-  selectRadioWithKeyboard,
-} from './utils';
+import { setupForAuth } from './utils';
+
+const { data: testData } = maxTestData;
 
 describe('HCA-Keyboard-Only', () => {
   // NOTE: This test is skipped in CI due to a limitiation with Electron not allowing
@@ -19,376 +10,291 @@ describe('HCA-Keyboard-Only', () => {
   // eslint-disable-next-line func-names
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
-
-    cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
-      'mockFeatures',
-    );
-    cy.intercept(
-      'GET',
-      '/v0/health_care_applications/enrollment_status*',
-      mockEnrollmentStatus,
-    ).as('mockEnrollmentStatus');
-    cy.intercept('/v0/health_care_applications/rating_info', {
-      statusCode: 200,
-      body: {
-        data: {
-          id: '',
-          type: 'hash',
-          attributes: { userPercentOfDisability: 0 },
-        },
-      },
-    }).as('mockDisabilityRating');
-    cy.intercept('GET', '/v0/in_progress_forms/1010ez', mockPrefill).as(
-      'mockSip',
-    );
-    cy.intercept('PUT', '/v0/in_progress_forms/1010ez', {});
-    cy.intercept('POST', '/v0/health_care_applications', {
-      statusCode: 200,
-      body: {
-        formSubmissionId: '123fake-submission-id-567',
-        timestamp: format(new Date(), 'yyyy-MM-dd'),
-      },
-    }).as('mockSubmit');
+    setupForAuth();
   });
 
   it('should navigate and input maximal data using only a keyboard', () => {
-    cy.wrap(maxTestData.data).as('testData');
-    cy.get('@testData').then(data => {
-      cy.visit(manifest.rootUrl);
-      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
-      cy.injectAxeThenAxeCheck();
+    cy.tabToStartForm();
+    cy.wait('@mockPrefill');
+    cy.tabToElementAndPressSpace('.usa-button-primary');
 
-      cy.tabToElement('[href="#start"]');
-      cy.realPress('Enter');
+    // Place of birth
+    const { cityOfBirth, stateOfBirth } = testData['view:placeOfBirth'];
+    let selector = field => `[name="root_view:placeOfBirth_${field}"]`;
+    cy.typeInIfDataExists(selector('cityOfBirth'), cityOfBirth);
+    cy.typeInIfDataExists(selector('stateOfBirth'), stateOfBirth);
+    cy.tabToContinueForm();
 
-      cy.wait('@mockSip');
-      cy.tabToElementAndPressSpace('.usa-button-primary');
+    // Mothers maiden name
+    cy.typeInIfDataExists(
+      `[name="root_mothersMaidenName"]`,
+      testData.mothersMaidenName,
+    );
+    cy.tabToContinueForm();
 
-      // Place of birth
-      const { cityOfBirth, stateOfBirth } = data['view:placeOfBirth'];
-      let prefix = '[name="root_view:placeOfBirth_';
-      cy.typeInIfDataExists(`${prefix}cityOfBirth"]`, cityOfBirth);
-      cy.typeInIfDataExists(`${prefix}stateOfBirth"]`, stateOfBirth);
-      cy.tabToContinueForm();
+    // Birth sex
+    cy.tabToContinueForm();
 
-      // Mothers maiden name
-      cy.typeInIfDataExists(
-        `[name="root_mothersMaidenName"]`,
-        data.mothersMaidenName,
-      );
-      cy.tabToContinueForm();
+    // Race/Ethnicity/Origin
+    selector = field => `[name="root_view:demographicCategories_${field}"]`;
+    cy.tabToElementAndPressSpace(selector('isAsian'));
+    cy.tabToContinueForm();
 
-      // Birth sex
-      selectRadioWithKeyboard('gender', data.gender);
-      cy.tabToContinueForm();
+    // Mailing address
+    cy.selectRadioFromData(
+      '[name="root_view:doesMailingMatchHomeAddress"]',
+      'N',
+    );
+    cy.tabToContinueForm();
 
-      // Race/Ethnicity/Origin
-      prefix = '[name="root_view:demographicCategories_';
-      cy.tabToElementAndPressSpace(
-        `${prefix}isAmericanIndianOrAlaskanNative"]`,
-      );
-      cy.tabToElementAndPressSpace(`${prefix}isAsian"]`);
-      cy.tabToElementAndPressSpace(`${prefix}isBlackOrAfricanAmerican"]`);
-      cy.tabToElementAndPressSpace(`${prefix}isSpanishHispanicLatino"]`);
-      cy.tabToElementAndPressSpace(
-        `${prefix}isNativeHawaiianOrOtherPacificIslander"]`,
-      );
-      cy.tabToElementAndPressSpace(`${prefix}isWhite"]`);
-      cy.tabToContinueForm();
+    // Home address
+    const homeAddress = testData.veteranHomeAddress;
+    cy.typeInAddress('root_veteranHomeAddress', homeAddress);
+    cy.tabToContinueForm();
 
-      // Mailing address
-      const mailingAddress = data.veteranAddress;
-      fillAddressWithKeyboard('veteranAddress', mailingAddress);
-      selectRadioWithKeyboard('view:doesMailingMatchHomeAddress', 'N');
-      cy.tabToContinueForm();
+    // Contact information
+    cy.tabToContinueForm();
 
-      // Home address
-      const homeAddress = data.veteranHomeAddress;
-      fillAddressWithKeyboard('veteranHomeAddress', homeAddress);
-      cy.tabToContinueForm();
+    // VA disability compensation
+    cy.selectRadioFromData('name="root_vaCompensationType"]', 'none');
+    cy.tabToContinueForm();
 
-      // Contact information
-      cy.typeInIfDataExists('[name="root_email"]', data.email);
-      cy.typeInIfDataExists('[name="root_homePhone"]', data.homePhone);
-      cy.typeInIfDataExists('[name="root_mobilePhone"]', data.mobilePhone);
-      cy.tabToContinueForm();
+    // VA pension
+    cy.selectRadioFromData('[name="root_vaPensionType"]', 'No');
+    cy.tabToContinueForm();
 
-      // VA disability compensation
-      selectRadioWithKeyboard('vaCompensationType', 'none');
-      cy.tabToContinueForm();
+    // Military service
+    cy.tabToContinueForm();
 
-      // VA pension
-      selectRadioWithKeyboard('vaPensionType', 'No');
-      cy.tabToContinueForm();
+    // Service history
+    selector = field => `[name="root_view:serviceHistory_${field}"]`;
+    cy.tabToElementAndPressSpace(selector('purpleHeartRecipient'));
+    cy.tabToContinueForm();
 
-      // Military service
-      selectDropdownWithKeyboard('lastServiceBranch', data.lastServiceBranch);
-      fillDateWithKeyboard('lastEntryDate', data.lastEntryDate);
-      fillDateWithKeyboard('lastDischargeDate', data.lastDischargeDate);
-      selectDropdownWithKeyboard('dischargeType', data.dischargeType);
-      cy.tabToContinueForm();
+    // Toxic exposure
+    cy.selectRadioFromData('[name="root_hasTeraResponse"]', 'Y');
+    cy.tabToContinueForm();
 
-      // Service history
-      prefix = '[name="root_view:serviceHistory_';
-      cy.tabToElementAndPressSpace(`${prefix}purpleHeartRecipient"]`);
-      cy.tabToElementAndPressSpace(`${prefix}isFormerPow"]`);
-      cy.tabToElementAndPressSpace(`${prefix}postNov111998Combat"]`);
-      cy.tabToElementAndPressSpace(`${prefix}disabledInLineOfDuty"]`);
-      cy.tabToElementAndPressSpace(`${prefix}swAsiaCombat"]`);
-      cy.tabToContinueForm();
+    // Radian clean-up
+    cy.selectRadioFromData('name="root_radiationCleanupEfforts"]', 'Y');
+    cy.tabToContinueForm();
 
-      // Toxic exposure
-      selectRadioWithKeyboard('hasTeraResponse', 'Y');
-      cy.tabToContinueForm();
+    // Gulf War service
+    cy.selectRadioFromData('[name="root_gulfWarService"]', 'Y');
+    cy.tabToContinueForm();
 
-      // Radian clean-up
-      selectRadioWithKeyboard('radiationCleanupEfforts', 'Y');
-      cy.tabToContinueForm();
+    // Gulf War service dates
+    const { gulfWarStartDate, gulfWarEndDate } = testData[
+      'view:gulfWarServiceDates'
+    ];
+    selector = field => `root_view:gulfWarServiceDates_${field}`;
+    cy.typeInDate(selector('gulfWarStartDate'), gulfWarStartDate);
+    cy.typeInDate(selector('gulfWarEndDate'), gulfWarEndDate);
+    cy.tabToContinueForm();
 
-      // Gulf War service
-      selectRadioWithKeyboard('gulfWarService', 'Y');
-      cy.tabToContinueForm();
+    // Combat Operation service
+    cy.selectRadioFromData('name="root_combatOperationService"]', 'N');
+    cy.tabToContinueForm();
 
-      // Gulf War service dates
-      const { gulfWarStartDate, gulfWarEndDate } = data[
-        'view:gulfWarServiceDates'
-      ];
-      fillDateWithKeyboard(
-        'view:gulfWarServiceDates_gulfWarStartDate',
-        gulfWarStartDate,
-      );
-      fillDateWithKeyboard(
-        'view:gulfWarServiceDates_gulfWarEndDate',
-        gulfWarEndDate,
-      );
-      cy.tabToContinueForm();
+    // Agent Orange exposure
+    cy.selectRadioFromData('[name="root_exposedToAgentOrange"]', 'N');
+    cy.tabToContinueForm();
 
-      // Combat Operation service
-      selectRadioWithKeyboard('combatOperationService', 'N');
-      cy.tabToContinueForm();
+    // Other toxic exposures
+    selector = field => `[name="root_view:otherToxicExposures_${field}"]`;
+    cy.tabToElementAndPressSpace(selector('exposureToOther'));
+    cy.tabToContinueForm();
 
-      // Agent Orange exposure
-      selectRadioWithKeyboard('exposedToAgentOrange', 'N');
-      cy.tabToContinueForm();
+    // Other toxic exposure details
+    cy.typeInIfDataExists(
+      '[name="root_otherToxicExposure"]',
+      testData.otherToxicExposure,
+    );
+    cy.tabToContinueForm();
 
-      // Other toxic exposures
-      prefix = '[name="root_view:otherToxicExposures_';
-      cy.tabToElementAndPressSpace(`${prefix}exposureToAirPollutants"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToAsbestos"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToChemicals"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToContaminatedWater"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToMustardGas"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToOccupationalHazards"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToRadiation"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToShad"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToWarfareAgents"]`);
-      cy.tabToElementAndPressSpace(`${prefix}exposureToOther"]`);
-      cy.tabToContinueForm();
+    // Other toxic exposure dates
+    const { toxicExposureStartDate, toxicExposureEndDate } = testData[
+      'view:toxicExposureDates'
+    ];
+    selector = field => `root_view:toxicExposureDates_${field}`;
+    cy.typeInDate(selector('toxicExposureStartDate'), toxicExposureStartDate);
+    cy.typeInDate(selector('toxicExposureEndDate'), toxicExposureEndDate);
+    cy.tabToContinueForm();
 
-      // Other toxic exposure details
-      cy.typeInIfDataExists(
-        '[name="root_otherToxicExposure"]',
-        data.otherToxicExposure,
-      );
-      cy.tabToContinueForm();
+    // Financial info usage
+    cy.tabToElementAndPressSpace('.usa-button-primary');
 
-      // Other toxic exposure dates
-      const { toxicExposureStartDate, toxicExposureEndDate } = data[
-        'view:toxicExposureDates'
-      ];
-      fillDateWithKeyboard(
-        'view:toxicExposureDates_toxicExposureStartDate',
-        toxicExposureStartDate,
-      );
-      fillDateWithKeyboard(
-        'view:toxicExposureDates_toxicExposureEndDate',
-        toxicExposureEndDate,
-      );
-      cy.tabToContinueForm();
+    // Disclose financial info
+    cy.selectRadioFromData('discloseFinancialInformation', 'Y');
+    cy.tabToContinueForm();
 
-      // Financial info usage
-      cy.tabToElementAndPressSpace('.usa-button-primary');
+    // Financial info needed
+    cy.tabToElementAndPressSpace('.usa-button-primary');
 
-      // Disclose financial info
-      selectRadioWithKeyboard('discloseFinancialInformation', 'Y');
-      cy.tabToContinueForm();
+    // Marital status
+    cy.selectDropdownFromData(
+      '[name="root_maritalStatus"]',
+      testData.maritalStatus,
+    );
+    cy.tabToContinueForm();
 
-      // Financial info needed
-      cy.tabToElementAndPressSpace('.usa-button-primary');
+    // Spouse's basic info
+    cy.typeInFullName('root_spouseFullName', testData.spouseFullName);
+    cy.typeInIfDataExists(
+      '[name="root_spouseSocialSecurityNumber"]',
+      testData.spouseSocialSecurityNumber,
+    );
+    cy.typeInDate('root_spouseDateOfBirth', testData.spouseDateOfBirth);
+    cy.typeInDate('root_dateOfMarriage', testData.dateOfMarriage);
+    cy.tabToContinueForm();
 
-      // Marital status
-      selectDropdownWithKeyboard('maritalStatus', data.maritalStatus);
-      cy.tabToContinueForm();
+    // Spouse's addt'l info
+    cy.selectRadioFromData('[name="root_cohabitedLastYear"]', 'Y');
+    cy.selectRadioFromData('[name="root_sameAddress"]', 'N');
+    cy.tabToContinueForm();
 
-      // Spouse's basic info
-      fillNameWithKeyboard('spouseFullName', data.spouseFullName);
-      cy.typeInIfDataExists(
-        '[name="root_spouseSocialSecurityNumber"]',
-        data.spouseSocialSecurityNumber,
-      );
-      fillDateWithKeyboard('spouseDateOfBirth', data.spouseDateOfBirth);
-      fillDateWithKeyboard('dateOfMarriage', data.dateOfMarriage);
-      cy.tabToContinueForm();
+    // Spouse's contact info
+    const { spouseAddress, spousePhone } = testData[
+      'view:spouseContactInformation'
+    ];
+    cy.typeInAddress('root_spouseAddress', spouseAddress);
+    cy.typeInIfDataExists('[name="root_spousePhone"]', spousePhone);
+    cy.tabToContinueForm();
 
-      // Spouse's addt'l info
-      selectRadioWithKeyboard('cohabitedLastYear', 'Y');
-      selectRadioWithKeyboard('sameAddress', 'N');
-      cy.tabToContinueForm();
+    // Dependents
+    cy.selectRadioFromData('[name="root_view:reportDependents"]', 'Y');
+    cy.tabToElementAndPressSpace('.usa-button-primary');
 
-      // Spouse's contact info
-      const { spouseAddress, spousePhone } = data[
-        'view:spouseContactInformation'
-      ];
-      fillAddressWithKeyboard('spouseAddress', spouseAddress);
-      cy.typeInIfDataExists('[name="root_spousePhone"]', spousePhone);
-      cy.tabToContinueForm();
+    // Dependent's basic info
+    const dependent = testData.dependents[0];
+    cy.typeInFullName('root_fullName', dependent.fullName);
+    cy.selectDropdownFromData(
+      '[name="root_dependentRelation"]',
+      dependent.dependentRelation,
+    );
+    cy.typeInIfDataExists(
+      '[name="root_socialSecurityNumber"]',
+      dependent.socialSecurityNumber,
+    );
 
-      // Dependents
-      selectRadioWithKeyboard('view:reportDependents', 'Y');
-      cy.tabToElementAndPressSpace('.usa-button-primary');
+    const birthYear = format(subYears(new Date(), 20), 'yyyy');
+    cy.typeInDate('root_dateOfBirth', `${birthYear}-01-01`);
+    cy.typeInDate('root_becameDependent', `${birthYear}-01-01`);
+    cy.tabToContinueForm();
 
-      // Dependent's basic info
-      const dependent = data.dependents[0];
-      fillNameWithKeyboard('fullName', dependent.fullName);
-      selectDropdownWithKeyboard(
-        'dependentRelation',
-        dependent.dependentRelation,
-      );
-      cy.typeInIfDataExists(
-        '[name="root_socialSecurityNumber"]',
-        dependent.socialSecurityNumber,
-      );
+    // Dependent's addt'l info
+    cy.selectRadioFromData('[name="root_disabledBefore18"]', 'N');
+    cy.selectRadioFromData('[name="root_cohabitedLastYear"]', 'N');
+    cy.selectRadioFromData('[name="root_view:dependentIncome"]', 'Y');
+    cy.tabToContinueForm();
 
-      const birthYear = format(subYears(new Date(), 20), 'yyyy');
-      fillDateWithKeyboard('dateOfBirth', `${birthYear}-01-01`);
-      fillDateWithKeyboard('becameDependent', `${birthYear}-01-01`);
-      cy.tabToContinueForm();
+    // Financial support for dependent
+    cy.selectRadioFromData('[name="root_receivedSupportLastYear"]', 'N');
+    cy.tabToContinueForm();
 
-      // Dependent's addt'l info
-      selectRadioWithKeyboard('disabledBefore18', 'N');
-      selectRadioWithKeyboard('cohabitedLastYear', 'N');
-      selectRadioWithKeyboard('view:dependentIncome', 'Y');
-      cy.tabToContinueForm();
+    // Dependent's income
+    selector = field => `[name="root_view:${field}_${field}`;
+    cy.typeInIfDataExists(selector('grossIncome'), '20000');
+    cy.typeInIfDataExists(selector('netIncome'), '10');
+    cy.typeInIfDataExists(selector('otherIncome'), '10');
+    cy.tabToContinueForm();
 
-      // Financial support for dependent
-      selectRadioWithKeyboard('receivedSupportLastYear', 'N');
-      cy.tabToContinueForm();
+    // Dependent's expenses
+    cy.selectRadioFromData('[name="root_attendedSchoolLastYear"]', 'Y');
+    cy.typeInIfDataExists('[name="root_dependentEducationExpenses"]', '453');
+    cy.tabToContinueForm();
 
-      // Dependent's income
-      prefix = '[name="root_view:grossIncome_';
-      cy.typeInIfDataExists(`${prefix}grossIncome"]`, '20000');
+    // Review dependents
+    cy.selectRadioFromData('[name="root_view:reportDependents"]', 'N');
+    cy.tabToElementAndPressSpace('.usa-button-primary');
 
-      prefix = '[name="root_view:netIncome_';
-      cy.typeInIfDataExists(`${prefix}netIncome"]`, '10');
+    // Veteran's income
+    selector = field => `[name="root_view:veteran${field}_veteran${field}"]`;
+    cy.typeInIfDataExists(selector('GrossIncome'), '3242434');
+    cy.typeInIfDataExists(selector('NetIncome'), '23424');
+    cy.typeInIfDataExists(selector('OtherIncome'), '23424');
+    cy.tabToContinueForm();
 
-      prefix = '[name="root_view:otherIncome_';
-      cy.typeInIfDataExists(`${prefix}otherIncome"]`, '10');
-      cy.tabToContinueForm();
+    // Spouse's income
+    selector = field => `[name="root_view:spouse${field}_spouse${field}"]`;
+    cy.typeInIfDataExists(selector('GrossIncome'), '23424');
+    cy.typeInIfDataExists(selector('NetIncome'), '23424');
+    cy.typeInIfDataExists(selector('OtherIncome'), '23424');
+    cy.tabToContinueForm();
 
-      // Dependent's expenses
-      selectRadioWithKeyboard('attendedSchoolLastYear', 'Y');
-      cy.typeInIfDataExists('[name="root_dependentEducationExpenses"]', '453');
-      cy.tabToContinueForm();
+    // Deductible expenses
+    selector = field =>
+      `[name="root_view:deductible${field}_deductible${field}"]`;
+    cy.typeInIfDataExists(selector('MedicalExpenses'), '234');
+    cy.typeInIfDataExists(selector('EducationExpenses'), '11');
+    cy.typeInIfDataExists(selector('FuneralExpenses'), '10');
+    cy.tabToContinueForm();
 
-      // Review dependents
-      selectRadioWithKeyboard('view:reportDependents', 'N');
-      cy.tabToElementAndPressSpace('.usa-button-primary');
+    // Medicaid eligibility
+    cy.selectRadioFromData('[name="root_isMedicaidEligible"]', 'Y');
+    cy.tabToContinueForm();
 
-      // Veteran's income
-      prefix = '[name="root_view:veteranGrossIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}GrossIncome"]`, '3242434');
+    // Medicare enrollment
+    cy.selectRadioFromData('[name="root_isEnrolledMedicarePartA"]', 'Y');
+    cy.tabToContinueForm();
 
-      prefix = '[name="root_view:veteranNetIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}NetIncome"]`, '23424');
+    // Medicare Part A effective date
+    cy.typeInDate(
+      'root_medicarePartAEffectiveDate',
+      testData.medicarePartAEffectiveDate,
+    );
+    cy.typeInIfDataExists(
+      '[name="root_medicareClaimNumber"]',
+      testData.medicareClaimNumber,
+    );
+    cy.tabToContinueForm();
 
-      prefix = '[name="root_view:veteranOtherIncome_veteran';
-      cy.typeInIfDataExists(`${prefix}OtherIncome"]`, '23424');
-      cy.tabToContinueForm();
+    // Health insurance info
+    cy.tabToElementAndPressSpace('.usa-button-primary');
 
-      // Spouse's income
-      prefix = '[name="root_view:spouseGrossIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}GrossIncome"]`, '23424');
+    // Health insurance coverage
+    cy.selectRadioFromData('[name="root_isCoveredByHealthInsurance"]', 'Y');
 
-      prefix = '[name="root_view:spouseNetIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}NetIncome"]`, '23424');
+    const policy = testData.providers[0];
+    selector = field => `[name="root_providers_0_${field}"]`;
+    cy.typeInIfDataExists(selector('insuranceName'), policy.insuranceName);
+    cy.typeInIfDataExists(
+      selector('insurancePolicyHolderName'),
+      policy.insurancePolicyHolderName,
+    );
+    cy.typeInIfDataExists(
+      selector('insurancePolicyNumber'),
+      policy.insurancePolicyNumber,
+    );
+    cy.tabToContinueForm();
 
-      prefix = '[name="root_view:spouseOtherIncome_spouse';
-      cy.typeInIfDataExists(`${prefix}OtherIncome"]`, '23424');
-      cy.tabToContinueForm();
+    // VA medical facility
+    const { vaMedicalFacility, 'view:facilityState': facilityState } = testData[
+      'view:preferredFacility'
+    ];
+    selector = field => `[name="root_view:preferredFacility_${field}"]`;
+    cy.selectDropdownFromData(
+      selector('[name="root_view:facilityState"]'),
+      facilityState,
+    );
+    cy.wait('@getFacilities');
+    cy.selectDropdownFromData(
+      selector('[name="root_vaMedicalFacility"]'),
+      vaMedicalFacility,
+    );
 
-      // Deductible expenses
-      prefix = '[name="root_view:deductibleMedicalExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}MedicalExpenses"]`, '234');
+    cy.selectRadioFromData('[name="root_wantsInitialVaContact"]', 'Y');
+    cy.tabToContinueForm();
 
-      prefix = '[name="root_view:deductibleEducationExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}EducationExpenses"]`, '11');
+    // Review / Submit
+    cy.tabToElementAndPressSpace('.va-accordion__button');
+    cy.tabToElementAndPressSpace(
+      'va-checkbox[name="privacyAgreementAccepted"]',
+    );
+    cy.tabToSubmitForm();
 
-      prefix = '[name="root_view:deductibleFuneralExpenses_deductible';
-      cy.typeInIfDataExists(`${prefix}FuneralExpenses"]`, '10');
-      cy.tabToContinueForm();
-
-      // Medicaid eligibility
-      selectRadioWithKeyboard('isMedicaidEligible', 'Y');
-      cy.tabToContinueForm();
-
-      // Medicare enrollment
-      selectRadioWithKeyboard('isEnrolledMedicarePartA', 'Y');
-      cy.tabToContinueForm();
-
-      // Medicare Part A effective date
-      fillDateWithKeyboard(
-        'medicarePartAEffectiveDate',
-        data.medicarePartAEffectiveDate,
-      );
-      cy.typeInIfDataExists(
-        '[name="root_medicareClaimNumber"]',
-        data.medicareClaimNumber,
-      );
-      cy.tabToContinueForm();
-
-      // Health insurance info
-      cy.tabToElementAndPressSpace('.usa-button-primary');
-
-      // Health insurance coverage
-      selectRadioWithKeyboard('isCoveredByHealthInsurance', 'Y');
-
-      const policy = data.providers[0];
-      prefix = '[name="root_providers_0_';
-      cy.typeInIfDataExists(`${prefix}insuranceName"]`, policy.insuranceName);
-      cy.typeInIfDataExists(
-        `${prefix}insurancePolicyHolderName"]`,
-        policy.insurancePolicyHolderName,
-      );
-      cy.typeInIfDataExists(
-        `${prefix}insurancePolicyNumber"]`,
-        policy.insurancePolicyNumber,
-      );
-      cy.tabToContinueForm();
-
-      // VA medical facility
-      const { vaMedicalFacility, 'view:facilityState': facilityState } = data[
-        'view:preferredFacility'
-      ];
-      prefix = 'view:preferredFacility';
-      selectDropdownWithKeyboard(`${prefix}_view:facilityState`, facilityState);
-      selectDropdownWithKeyboard(
-        `${prefix}_vaMedicalFacility`,
-        vaMedicalFacility,
-      );
-
-      selectRadioWithKeyboard('wantsInitialVaContact', 'Y');
-      cy.tabToContinueForm();
-
-      // Review / Submit
-      cy.tabToElementAndPressSpace('.va-accordion__button');
-      cy.tabToElementAndPressSpace(
-        'va-checkbox[name="privacyAgreementAccepted"]',
-      );
-      cy.tabToSubmitForm();
-
-      // Confirmation
-      cy.location('pathname').should('include', '/confirmation');
-    });
+    // Confirmation
+    cy.location('pathname').should('include', '/confirmation');
+    cy.injectAxeThenAxeCheck();
   });
 });

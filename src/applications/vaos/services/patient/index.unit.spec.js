@@ -37,14 +37,19 @@ describe('VAOS Services: Patient ', () => {
                 text: 'string',
               },
               lastSeen: '2024-11-26T00:32:34.216Z',
+              hasAvailability: false,
             },
           },
         },
       ];
 
+      const typeOfCare = {
+        idV2: 'foodAndNutrition',
+      };
+
       setFetchJSONResponse(global.fetch, { data: relationships });
 
-      const data = await fetchPatientRelationships();
+      const data = await fetchPatientRelationships('123', typeOfCare);
 
       expect(global.fetch.firstCall.args[0]).to.contain(
         `/vaos/v2/relationships`,

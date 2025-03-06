@@ -6,7 +6,7 @@ import {
 } from '../constants';
 
 import { getIssueName, getSelected } from '../../shared/utils/issues';
-import { showScNewForm } from './toggle';
+import { showScNewForm, checkRedirect } from './toggle';
 
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
@@ -95,23 +95,34 @@ export const removeNonSelectedIssuesFromEvidence = data => {
  * @param {Object} router - React router
  */
 export const onFormLoaded = props => {
-  const { formData, returnUrl, router } = props;
+  let { returnUrl } = props;
+  const { formData, router } = props;
   const { locations = [] } = formData;
-  if (showScNewForm(formData) && locations.length) {
-    formData.locations = locations.map(location => {
-      if (!location.treatmentDate) {
-        const from = location.evidenceDates?.from || '';
-        const treatmentDate = (from || '').substring(0, from.lastIndexOf('-'));
-        const noDate = !treatmentDate;
-        return {
-          ...location,
-          treatmentDate,
-          noDate,
-        };
-      }
-      return location;
-    });
+
+  // New SC form data flow
+  if (showScNewForm(formData)) {
+    // Redirect Veteran to housing-risk page (second page in the flow), if
+    // needed
+    returnUrl = checkRedirect(formData, returnUrl);
+
+    // Convert in progress VA location evidenceDates (YYYY-MM-DD) to
+    // treatmentDate (YYYY-MM), or set the no date checkbox if the evidence
+    // "from" date is undefined
+    if (locations.length) {
+      formData.locations = locations.map(location => {
+        if (!location.treatmentDate) {
+          const from = location.evidenceDates?.from || '';
+          const treatmentDate = from.substring(0, from.lastIndexOf('-')).trim();
+          const noDate = treatmentDate === '';
+          return {
+            ...location,
+            treatmentDate,
+            noDate,
+          };
+        }
+        return location;
+      });
+    }
   }
   router?.push(returnUrl);
-  // return formData; // for testing only
 };

@@ -1,7 +1,7 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import mockMessages from '../fixtures/messages-response.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Data } from '../utils/constants';
 import PatientSearchPage from '../pages/PatientSearchPage';
 
 describe('SM INBOX ADVANCED CATEGORY SEARCH', () => {
@@ -43,14 +43,14 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
   it('verify filter by last 3 month', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(2, 3);
 
-    PatientInboxPage.selectDateRange('Last 3 months');
+    PatientInboxPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(3);
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      'Last 3 months',
+      Data.DATE_RANGE.THREE_MONTHS,
     );
 
     cy.injectAxe();
@@ -60,14 +60,14 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
   it('verify filter by last 6 month', () => {
     searchResultResponse = PatientSearchPage.createDateSearchMockResponse(3, 6);
 
-    PatientInboxPage.selectDateRange('Last 6 months');
+    PatientInboxPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(6);
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      'Last 6 months',
+      Data.DATE_RANGE.SIX_MONTHS,
     );
 
     cy.injectAxe();
@@ -80,14 +80,14 @@ describe('SM INBOX ADVANCED FIXED DATE RANGE SEARCH', () => {
       12,
     );
 
-    PatientInboxPage.selectDateRange('Last 12 months');
+    PatientInboxPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
     PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
 
     PatientSearchPage.verifySearchResponseLength(searchResultResponse);
     PatientSearchPage.verifyMessageDate(12);
     PatientSearchPage.verifySearchMessageLabel(
       searchResultResponse,
-      'Last 12 months',
+      Data.DATE_RANGE.TWELVE_MONTHS,
     );
 
     cy.injectAxe();

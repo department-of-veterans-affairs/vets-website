@@ -249,66 +249,14 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   }
 }
 
-/* addDisabilities combo-box styles */
-.cc-combobox {
-  position: relative
-}
-.cc-combobox__list {
-  position: absolute;
-  width: 100%;
-  max-width: 30rem;
-  background-color: var(--vads-color-white);
-  padding: 0;
-  margin: 0;
-  overflow-y: auto;
-  z-index: 100;
-
-  &--open {
-    border: 1px solid var(--vads-color-black);
-  }
-}
-.cc-combobox__option {
-  display: block;
-  padding: units(1);
-  margin: 0;
-
-  &--active {
-    background-color: var(--vads-color-primary);
-    border-color: var(--vads-color-primary);
-    color: var(--vads-color-white);
-  }
-
-  // dynamic option inserted at beginning, for free text input
-  &--free {
-    border-bottom: 1px solid var(--vads-color-gray-warm-light);
-  }
-}
-
-// Adjusts spacing on label inside web component text input.
-.cc-combobox va-text-input::part(label) {
-  margin-top: 0;
-}
-
-// Adjusts labels in the ArrayField around combobox groups.
-.cc-autocomplete-container {
-  .schemaform-label,
-  .va-growable-expanded legend {
-    display: none !important; // there is an !important elsewhere in the cascade that needs overruled here
-  }
-}
-
+/* addDisabilities ArrayField */
 // Hides the "New condition" h3 that appears on the last item of the platform ArrayField.
 // Cannot add a class to the ArrayField like we could with the allClaims arrayField
 [id^="root_newDisabilities_"] h3.vads-u-font-size--h5 {
   display: none;
 }
 
-// Overrides spacing coming from foundation-sites.scss breaking layout.
-.cc-autocomplete-container .row {
-  margin: 0;
-}
-
-/* addDisabilities autocomplete styles */
+/* addDisabilities Autocomplete */
 .cc-autocomplete {
   position: relative;
 
@@ -346,4 +294,26 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   va-text-input::part(label) {
     margin-top: 0;
   }
+}
+
+// Intended to be used with summary page cards. Truncates text to specified
+// number of lines, ensuring no overflow or disruption of the card layout.
+.multiline-ellipsis-4 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.multiline-ellipsis-2 {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
 }

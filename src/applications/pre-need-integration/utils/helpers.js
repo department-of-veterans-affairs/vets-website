@@ -16,6 +16,8 @@ import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaS
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { countries } from 'platform/forms/address';
 
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
+
 import {
   stringifyFormReplacer,
   filterViewFields,
@@ -32,6 +34,8 @@ import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
 import { rankLabels } from './rankLabels';
+
+export const envUrl = environment.API_URL;
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -1388,4 +1392,55 @@ export const formatSuggestedAddress = address => {
     return displayAddress.trim();
   }
   return '';
+};
+
+/* eslint-disable camelcase */
+export const prepareAddressForAPI = address => ({
+  address_line1: address.street,
+  address_line2: address.street2,
+  address_pou: 'RESIDENCE',
+  address_type: 'DOMESTIC',
+  city: address.city,
+  country_code_iso3: address.country,
+  state_code: address.state,
+  zip_code: address.postalCode,
+});
+
+export const fetchSuggestedAddress = async userAddress => {
+  const options = {
+    body: JSON.stringify({
+      address: { ...prepareAddressForAPI(userAddress) },
+    }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await apiRequest(
+      `${envUrl}/v0/profile/address_validation`,
+      options,
+    );
+
+    if (res?.addresses && res?.addresses.length > 0) {
+      const suggested = res.addresses[0]?.address;
+      return {
+        fetchedSuggestedAddress: {
+          addressLine1: suggested.addressLine1,
+          addressLine2: suggested.addressLine2,
+          city: suggested.city,
+          country: suggested.countryCodeIso3,
+          state: suggested.stateCode,
+          zipCode: suggested.zipCode,
+        },
+        fetchedShowSuggestions:
+          res?.addresses[0]?.addressMetaData?.confidenceScore !== 100,
+      };
+    }
+  } catch (error) {
+    return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
+  }
+
+  return { fetchedSuggestedAddress: null, fetchedShowSuggestions: false };
 };

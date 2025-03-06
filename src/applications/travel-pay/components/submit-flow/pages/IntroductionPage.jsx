@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-import { HelpTextManage } from '../../HelpText';
-import { formatDateTime, getDaysLeft } from '../../../util/dates';
+import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
+import { selectAppointment } from '../../../redux/selectors';
+import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
+import { AppointmentInfoText } from '../../AppointmentDetails';
 
-const IntroductionPage = ({ appointment, onStart }) => {
-  const [formattedDate] = formatDateTime(appointment.vaos.apiData.start);
-  const daysLeft = getDaysLeft(appointment.vaos.apiData.start);
+const IntroductionPage = ({ onStart }) => {
+  const { data, error, isLoading } = useSelector(selectAppointment);
 
   return (
     <div>
       <h1 tabIndex="-1">File a travel reimbursement claim</h1>
-      <p>
-        You have{' '}
-        <strong>{`${daysLeft} ${daysLeft === 1 ? 'day' : 'days'}`}</strong> left
-        to file for your appointment on{' '}
-        <strong>
-          {formattedDate} at {appointment.vaos.apiData.location.attributes.name}
-        </strong>
-        .
-      </p>
-
+      {isLoading && (
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          data-testid="travel-pay-loading-indicator"
+        />
+      )}
+      {error && <AppointmentErrorAlert />}
+      {data && <AppointmentInfoText appointment={data} />}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
       </h2>
@@ -31,7 +32,8 @@ const IntroductionPage = ({ appointment, onStart }) => {
             your direct deposit set up, you can file a reimbursement claim now.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/#eligibility-for-general-health"
+            external
+            href={`${TRAVEL_PAY_INFO_LINK}#eligibility-for-general-health`}
             text="Travel reimbursement eligibility"
           />
         </va-process-list-item>
@@ -40,12 +42,15 @@ const IntroductionPage = ({ appointment, onStart }) => {
             If you’re only claiming mileage, you can file online right now.
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
-          <va-link-action
-            onClick={e => onStart(e)}
-            href="javascript0:void"
-            text="File a mileage only claim"
-          />
-
+          {data &&
+            !data.isOutOfBounds &&
+            data.isPast && (
+              <va-link-action
+                onClick={e => onStart(e)}
+                href="javascript0:void"
+                text="File a mileage only claim"
+              />
+            )}
           <p>
             If you’re claiming other expenses, like lodging, meals, or tolls,
             you will need receipts for these expenses. You can file online
@@ -53,7 +58,8 @@ const IntroductionPage = ({ appointment, onStart }) => {
             or in person.
           </p>
           <va-link
-            href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+            external
+            href={TRAVEL_PAY_INFO_LINK}
             text="Learn how to file claims for other expenses"
           />
         </va-process-list-item>
@@ -82,18 +88,11 @@ const IntroductionPage = ({ appointment, onStart }) => {
           exp-date="11/30/2027"
         />
       </div>
-
-      <va-need-help>
-        <div slot="content">
-          <HelpTextManage />
-        </div>
-      </va-need-help>
     </div>
   );
 };
 
 IntroductionPage.propTypes = {
-  appointment: PropTypes.object,
   onStart: PropTypes.func,
 };
 

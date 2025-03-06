@@ -11,9 +11,9 @@ import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import {
-  CONTESTABLE_ISSUES_API,
   SUBMIT_URL,
-  SUBMIT_URL_NEW,
+  EVIDENCE_UPLOAD_API,
+  CONTESTABLE_ISSUES_API,
 } from '../constants/apis';
 
 import {
@@ -122,9 +122,8 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cypressSetup();
 
-      cy.intercept('POST', 'v1/decision_review_evidence', mockUpload);
+      cy.intercept('POST', EVIDENCE_UPLOAD_API, mockUpload);
       cy.intercept('POST', SUBMIT_URL, mockSubmit);
-      cy.intercept('POST', SUBMIT_URL_NEW, mockSubmit);
 
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);

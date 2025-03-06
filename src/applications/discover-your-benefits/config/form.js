@@ -3,6 +3,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
@@ -19,7 +20,6 @@ import militaryService from '../pages/militaryService';
 import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
 import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
-import giBillStatus from '../pages/giBillStatus';
 import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
@@ -35,13 +35,12 @@ export const isOnConfirmationPage = currentLocation => {
 export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
   submit: submitHandler,
   trackingPrefix: 'discover-your-benefits-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill;Review',
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;Review',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -99,14 +98,34 @@ export const formConfig = {
           title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
+          onNavForward: ({ formData, goPath }) => {
+            if (
+              environment.isProduction() &&
+              formData.militaryServiceCurrentlyServing === undefined
+            ) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
         militaryServiceCompleted: {
           path: 'service/completed',
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
-          depends: formData =>
-            formData.militaryServiceCurrentlyServing === true,
+          depends: formData => {
+            if (environment.isProduction()) {
+              return formData.militaryServiceCurrentlyServing === true;
+            }
+            return (
+              formData.militaryServiceCurrentlyServing === true ||
+              (environment.isProduction() &&
+                formData.militaryServiceCurrentlyServing === false)
+            );
+          },
           onNavForward: ({ formData, goPath }) => {
             if (
               formData.militaryServiceCurrentlyServing === true &&
@@ -152,17 +171,6 @@ export const formConfig = {
           title: 'Disability Rating',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
-        },
-      },
-    },
-    chapter6: {
-      title: 'GI Bill Status',
-      pages: {
-        giBillStatus: {
-          path: 'gi-bill',
-          title: 'GI Bill Status',
-          uiSchema: giBillStatus.uiSchema,
-          schema: giBillStatus.schema,
         },
       },
     },

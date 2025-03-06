@@ -6,6 +6,11 @@
     "addChild": true,
     "report674": true
   },
+  "view:addDependentOptions": {
+    "addChild": true,
+    "report674": true
+  },
+  "view:removeDependentOptions": {},
   "veteranContactInformation": {
     "phoneNumber": "4324324322",
     "emailAddress": "test@test.com",
@@ -37,7 +42,10 @@
   "view:additionalEvidenceDescription": {},
   "childrenToAdd": [
     {
-      "incomeInLastYear": "Y",
+      "incomeInLastYear": false,
+      "doesChildLiveWithYou": true,
+      "hasChildEverBeenMarried": false,
+      "view:documentSubmissionInfo": {},
       "livingWith": {
         "first": "John",
         "last": "Doe II"
@@ -49,8 +57,7 @@
         "city": "test city",
         "postalCode": "43242"
       },
-      "doesChildLiveWithYou": "N",
-      "hasChildEverBeenMarried": "N",
+      "doesChildHaveDisability": false,
       "isBiologicalChild": true,
       "dateEnteredHousehold": "2023-02-01",
       "biologicalParentName": {
@@ -64,6 +71,7 @@
       },
       "birthLocation": {
         "location": {
+          "city": "Fakesville",
           "state": "AK",
           "postalCode": "43222"
         }
@@ -91,7 +99,7 @@
         "currentTermDates": {
           "officialSchoolStartDate": "2024-02-01",
           "expectedStudentStartDate": "2024-05-05",
-          "expectedGraduationDate": "2025-03-04"
+          "expectedGraduationDate": "2028-03-04"
         },
         "isSchoolAccredited": true,
         "view:accredited": {},
@@ -101,7 +109,8 @@
       "typeOfProgramOrBenefit": {},
       "tuitionIsPaidByGovAgency": false,
       "view:programExamples": {},
-      "wasMarried": false,
+      "wasMarried": true,
+      "marriageDate": "1991-03-09",
       "address": {
         "view:militaryBaseDescription": {},
         "country": "USA",
@@ -125,5 +134,14 @@
     "divorceLocation": {
       "location": {}
     }
-  }
+  },
+  "privacyAgreementAccepted": true,
+  "childSupportingDocuments": [
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ]
 }

@@ -11,7 +11,7 @@ describe('transformForSubmit', () => {
   it('should transform json correctly', () => {
     const windowLocationStub = sinon
       .stub(window, 'location')
-      .get(() => ({ pathname: '/21-0779' }));
+      .get(() => ({ pathname: 'upload/21-0779' }));
 
     const transformedResult = JSON.parse(transformForSubmit(formConfig, form));
     expect(transformedResult).to.deep.equal(transformedFixture);
@@ -22,7 +22,7 @@ describe('transformForSubmit', () => {
   it('handles empty transformedData', () => {
     const windowLocationStub = sinon
       .stub(window, 'location')
-      .get(() => ({ pathname: '/21-0779' }));
+      .get(() => ({ pathname: 'upload/21-0779' }));
 
     const transformedResult = JSON.parse(
       transformForSubmit(formConfig, minimalForm),

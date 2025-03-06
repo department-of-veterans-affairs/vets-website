@@ -5,14 +5,12 @@ import {
   FETCH_LOCATIONS,
   SEARCH_FAILED,
   CLEAR_SEARCH_RESULTS,
-} from '../../utils/actionTypes';
-import { SearchResultReducer } from '../../reducers/searchResult';
-
-const INITIAL_STATE = {
-  results: [],
-  selectedResult: null,
-  pagination: {},
-};
+  MOBILE_MAP_PIN_SELECTED,
+} from '../../actions/actionTypes';
+import {
+  INITIAL_STATE,
+  SearchResultReducer,
+} from '../../reducers/searchResult';
 
 describe('facilities reducer', () => {
   it('should handle fetching a single facility', () => {
@@ -118,6 +116,20 @@ describe('facilities reducer', () => {
     });
 
     expect(state).to.eql(INITIAL_STATE);
+  });
+
+  it('should handle selecting a mobile map pin', () => {
+    const payload = { test: 'test' };
+
+    const state = SearchResultReducer(INITIAL_STATE, {
+      type: MOBILE_MAP_PIN_SELECTED,
+      payload,
+    });
+
+    expect(state).to.eql({
+      ...INITIAL_STATE,
+      mobileMapPinSelected: payload,
+    });
   });
 
   it('should handle clearing search results', () => {

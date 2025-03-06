@@ -307,6 +307,9 @@ export const getPeriodsToVerify = pendingEnrollments => {
               ? 'Rate unavailable'
               : formatCurrency(monthlyRate)}
           </p>
+          <p className="vads-u-margin-top--0">
+            The rate may vary based on the dates and credit hours you attended.
+          </p>
         </div>
       );
     })
@@ -369,17 +372,6 @@ export const getPeriodsToVerifyDGIB = (
                     ? 'Hours unavailable'
                     : totalCreditHours}
                 </p>
-                {/* <p
-                  className={enrollmentInfoClassName}
-                  data-testid="monthly-rate"
-                >
-                  <span className="vads-u-font-weight--bold">
-                    Monthly rate:
-                  </span>{' '}
-                  {lastDepositAmount === null
-                    ? 'Rate unavailable'
-                    : formatCurrency(lastDepositAmount)}
-                </p> */}
               </div>
             )}
         </div>
@@ -445,12 +437,16 @@ export const getGroupedPreviousEnrollments = month => {
                       ? 'Rate unavailable'
                       : formatCurrency(monthlyRate)}
                   </p>
-                  <div className="vads-u-font-style--italic vads-u-margin--0">
+                  <p className="vads-u-padding-bottom--3">
+                    The rate may vary based on the dates and credit hours you
+                    attended.
+                  </p>
+                  <p className="vads-u-font-style--italic vads-u-margin--0  vads-u-margin-top--3">
                     You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
                       monthAward.transactDate,
                     )}
-                  </div>
+                  </p>
                   <div
                     className={
                       index === month.length - 1
@@ -508,12 +504,16 @@ export const getGroupedPreviousEnrollments = month => {
                       ? 'Rate unavailable'
                       : formatCurrency(monthlyRate)}
                   </p>
-                  <div className="vads-u-font-style--italic vads-u-margin--0">
+                  <p className="vads-u-padding-bottom--3">
+                    The rate may vary based on the dates and credit hours you
+                    attended.
+                  </p>
+                  <p className="vads-u-font-style--italic vads-u-margin--0">
                     You verified on{' '}
                     {translateDateIntoMonthDayYearFormat(
                       monthAward.transactDate,
                     )}
-                  </div>
+                  </p>
                   <div
                     className={
                       index === month.length - 1
@@ -609,20 +609,6 @@ export const getGroupedPreviousEnrollmentsDGIB = enrollment => {
                       ? 'Hours unavailable'
                       : totalCreditHours}
                   </p>
-                  {/* <p className="vads-u-margin--0">
-                    <span className="vads-u-font-weight--bold">
-                      Monthly Rate:
-                    </span>{' '}
-                    {lastDepositAmount === null
-                      ? 'Rate unavailable'
-                      : formatCurrency(lastDepositAmount)}
-                  </p> */}
-                  {/* <div className="vads-u-font-style--italic vads-u-margin--0">
-                    You verified on{' '}
-                    {translateDateIntoMonthDayYearFormat(
-                      monthAward.transactDate,
-                    )}
-                  </div> */}
                   <div
                     className={
                       index === enrollment.length - 1
@@ -731,18 +717,6 @@ export const getSignlePreviousEnrollmentsDGIB = (
                   ? 'Hours unavailable'
                   : enrollment?.totalCreditHours}
               </p>
-              {/* <p>
-                <span className="vads-u-font-weight--bold">Monthly Rate:</span>{' '}
-                {enrollment?.lastDepositAmount === null
-                  ? 'Rate unavailable'
-                  : formatCurrency(enrollment?.lastDepositAmount)}
-              </p> */}
-              {/* <div className="vads-u-font-style--italic">
-                You verified on{' '}
-                {translateDateIntoMonthDayYearFormat(
-                  enrollment?.verificationThroughDate,
-                )}
-              </div> */}
             </va-additional-info>
           </>
         )}
@@ -827,10 +801,14 @@ export const getSignlePreviousEnrollments = awards => {
                   ? 'Rate unavailable'
                   : formatCurrency(awards?.monthlyRate)}
               </p>
-              <div className="vads-u-font-style--italic">
+              <p className="vads-u-padding-bottom--3">
+                The rate may vary based on the dates and credit hours you
+                attended.
+              </p>
+              <p className="vads-u-font-style--italic  vads-u-margin-top--3">
                 You verified on{' '}
                 {translateDateIntoMonthDayYearFormat(awards?.transactDate)}
-              </div>
+              </p>
             </va-additional-info>
           </>
         )}
@@ -873,10 +851,14 @@ export const getSignlePreviousEnrollments = awards => {
                   ? 'Rate unavailable'
                   : formatCurrency(awards?.monthlyRate)}
               </p>
-              <div className="vads-u-font-style--italic">
+              <p className="vads-u-padding-bottom--3">
+                The rate may vary based on the dates and credit hours you
+                attended.
+              </p>
+              <p className="vads-u-font-style--italic">
                 You verified on{' '}
                 {translateDateIntoMonthDayYearFormat(awards?.transactDate)}
-              </div>
+              </p>
             </va-additional-info>
           </>
         )}
@@ -1271,3 +1253,15 @@ export const toSnakeCase = obj => {
     return acc;
   }, {});
 };
+
+export function sanitizeField(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+  const trimmed = value.trim();
+  if (trimmed === 'undefined' || trimmed === 'null') {
+    return '';
+  }
+
+  return trimmed;
+}

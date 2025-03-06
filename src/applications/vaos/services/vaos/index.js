@@ -32,13 +32,14 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(
-  start,
-  end,
+export function getAppointments({
+  startDate,
+  endDate,
   statuses = [],
   avs = false,
   fetchClaimStatus = false,
-) {
+  includeEPS = false,
+}) {
   const options = {
     method: 'GET',
   };
@@ -47,12 +48,15 @@ export function getAppointments(
     includeParams.push('avs');
   }
   if (fetchClaimStatus) {
-    includeParams.push('claims');
+    includeParams.push('travel_pay_claims');
+  }
+  if (includeEPS) {
+    includeParams.push('eps');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments?_include=${includeParams
       .map(String)
-      .join(',')}&start=${start}&end=${end}&${statuses
+      .join(',')}&start=${startDate}&end=${endDate}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     { ...options, ...acheronHeader },
@@ -68,7 +72,7 @@ export function getAppointment(id, avs = false, fetchClaimStatus = false) {
     includeParams.push('avs');
   }
   if (fetchClaimStatus) {
-    includeParams.push('claims');
+    includeParams.push('travel_pay_claims');
   }
   return apiRequestWithUrl(
     `/vaos/v2/appointments/${id}?_include=${includeParams
@@ -108,12 +112,9 @@ export function getPatientEligibility(
   ).then(parseApiObject);
 }
 
-export function getPatientRelationships() {
-  // TODO: https://github.com/department-of-veterans-affairs/va.gov-team/issues/98864
-  // export function getPatientRelationships({ locationId, typeOfCareId }) {
+export function getPatientRelationships({ locationId, typeOfCareId }) {
   return apiRequestWithUrl(
-    // `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
-    `/vaos/v2/relationships`,
+    `/vaos/v2/relationships?facility_id=${locationId}&clinical_service_id=${typeOfCareId}`,
   );
 }
 

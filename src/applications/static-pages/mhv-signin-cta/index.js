@@ -13,20 +13,23 @@ import UnverifiedAlert from './components/messages/UnverifiedAlert';
 /**
  * MHV Signin CTA widget. This widget displays an alert if the user is not authenticated or verified.
  * Otherwise, it displays provided HTML content.
- * @property {number} headerLevel the heading level
  * @property {HTMLElement} noAlertContent optional content to display if no alerts are shown
- * @property {String} signInServiceName the signin service name is available
+ * @property {String} serviceName the signin service name if available
  * @property {bool} userIsLoggedIn true if the user is logged in
  * @property {bool} userIsVerified true if the user is verified
+ * @property {string} headingLevel the heading level
+ * @property {string} serviceDescription the heading service description
  */
 export const MhvSigninCallToAction = ({
-  headerLevel,
   noAlertContent,
+  headingLevel,
   serviceDescription,
   serviceName,
   userIsLoggedIn = false,
   userIsVerified = false,
 }) => {
+  const headerLevel = parseInt(headingLevel, 10) || 3;
+
   if (!userIsLoggedIn) {
     return (
       <UnauthenticatedAlert
@@ -47,18 +50,30 @@ export const MhvSigninCallToAction = ({
   }
 
   // Display the provided content. Note these are HTMLElements and not React.
+  if (noAlertContent?.innerHTML) {
+    return (
+      <div
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(noAlertContent.innerHTML),
+        }}
+      />
+    );
+  }
+
+  // Display the Supply reordering links
   return (
-    <div
-      // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{
-        __html: DOMPurify.sanitize(noAlertContent.innerHTML),
-      }}
-    />
+    <a
+      className="vads-c-action-link--green"
+      href="/health-care/order-hearing-aid-or-CPAP-supplies-form"
+    >
+      Order hearing aid and CPAP supplies online
+    </a>
   );
 };
 
 MhvSigninCallToAction.propTypes = {
-  headerLevel: PropTypes.number,
+  headingLevel: PropTypes.string,
   noAlertContent: PropTypes.instanceOf(HTMLElement),
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,

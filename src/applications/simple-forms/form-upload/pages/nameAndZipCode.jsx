@@ -14,10 +14,7 @@ import { CustomAlertPage } from './helpers';
 /** @type {PageSchema} */
 export const nameAndZipCodePage = {
   uiSchema: {
-    ...titleUI(
-      'Veteran’s name and zip code',
-      'We’ll use this information to make sure we send your form to the right place.',
-    ),
+    ...titleUI('Veteran’s name and postal code'),
     fullName: firstNameLastNameNoSuffixUI(),
     address: addressUI({
       labels: {

@@ -11,6 +11,7 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import PrintHeader from '../shared/PrintHeader';
@@ -27,7 +28,6 @@ import {
   formatNameFirstLast,
   generateTextFile,
   getNameDateAndTime,
-  sendDataDogAction,
   formatDateAndTime,
   formatUserDob,
 } from '../../util/helpers';
@@ -39,18 +39,24 @@ import {
   requestImages,
 } from '../../actions/images';
 import useAlerts from '../../hooks/use-alerts';
+import HeaderSection from '../shared/HeaderSection';
+import LabelValue from '../shared/LabelValue';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
-  const phase0p5Flag = useSelector(
-    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
-  );
 
   const user = useSelector(state => state.user.profile);
   const allowTxtDownloads = useSelector(
     state =>
       state.featureToggles[
         FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+  );
+
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
       ],
   );
 
@@ -68,7 +74,6 @@ const RadiologyDetails = props => {
   const [pollInterval, setPollInterval] = useState(2000);
 
   const [processingRequest, setProcessingRequest] = useState(false);
-
   const radiologyDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
@@ -201,25 +206,46 @@ ${record.results}`;
   const notificationContent = () => (
     <>
       {notificationStatus ? (
-        <p>
-          <strong>Note: </strong> If you don’t want to get email notifications
-          for images anymore, you can change your notification settings on the
-          previous version of My HealtheVet.
-        </p>
+        <>
+          {allowMarchUpdates ? (
+            <p>
+              <strong>Note: </strong> If you do not want us to notifiy you about
+              images, change your settings in your profile.
+            </p>
+          ) : (
+            <p>
+              <strong>Note: </strong>
+              If you don’t want to get email notifications for images anymore,
+              you can change your notification settings on the previous version
+              of My HealtheVet.
+            </p>
+          )}
+        </>
       ) : (
         <>
           <h3>Get email notifications for images</h3>
           <p>
             If you want us to email you when your images are ready, change your
-            notification settings on the previous version of My HealtheVet.
+            notification settings
+            {allowMarchUpdates
+              ? ` in your profile.`
+              : ` on the previous version of My HealtheVet.`}
           </p>
         </>
       )}
-      <va-link
-        className="vads-u-margin-top--1"
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
-        text="Go back to the previous version of My HealtheVet"
-      />
+      {allowMarchUpdates ? (
+        <va-link
+          className="vads-u-margin-top--1"
+          href="/profile/notifications"
+          text="Go to notification settings"
+        />
+      ) : (
+        <va-link
+          className="vads-u-margin-top--1"
+          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
+          text="Go back to the previous version of My HealtheVet"
+        />
+      )}
     </>
   );
 
@@ -372,129 +398,101 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="radiology-date"
         data-testid="radiology-record-name"
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - radiology name]"
       >
-        {record.name}
-      </h1>
-      <DateSubheading
-        date={record.date}
-        id="radiology-date"
-        label="Date and time performed"
-        labelClass="vads-font-weight-regular"
-      />
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        description="L&TR Detail"
-        downloadPdf={downloadPdf}
-        downloadTxt={generateRadioloyTxt}
-        allowTxtDownloads={allowTxtDownloads}
-      />
-      <DownloadingRecordsInfo
-        description="L&TR Detail"
-        allowTxtDownloads={allowTxtDownloads}
-      />
-
-      <div className="test-details-container max-80">
-        <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Reason for test
-        </h3>
-        <p
-          data-testid="radiology-reason"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology reason]"
-        >
-          {record.reason}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Clinical history
-        </h3>
-        <p
-          data-testid="radiology-clinical-history"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology clinical history]"
-        >
-          {record.clinicalHistory}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Ordered by
-        </h3>
-        <p
-          data-testid="radiology-ordered-by"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology ordered by]"
-        >
-          {record.orderedBy}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Location
-        </h3>
-        <p
-          data-testid="radiology-imaging-location"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology location]"
-        >
-          {record.imagingLocation}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Imaging provider
-        </h3>
-        <p
-          data-testid="radiology-imaging-provider"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology provider]"
-        >
-          {record.imagingProvider}
-        </p>
-        {!phase0p5Flag && (
-          <>
-            <h3 className="vads-u-font-size--md vads-u-font-family--sans no-print">
-              Images
+        <DateSubheading
+          date={record.date}
+          id="radiology-date"
+          label="Date and time performed"
+          labelClass="vads-font-weight-regular"
+        />
+        {studyJob?.status === studyJobStatus.COMPLETE && (
+          <VaAlert
+            status="success"
+            visible
+            class="vads-u-margin-top--4 no-print"
+            role="alert"
+            data-testid="alert-download-started"
+          >
+            <h3 className="vads-u-font-size--lg vads-u-font-family--sans no-print">
+              Images ready
             </h3>
-            <p data-testid="radiology-image" className="no-print">
-              Images are not yet available in this new medical records tool. To
-              get images, you’ll need to request them in the previous version of
-              medical records on the My HealtheVet website.
-            </p>
-            <va-link
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'va-medical-images-and-reports',
-              )}
-              text="Request images on the My HealtheVet website"
-              data-testid="radiology-images-link"
-              onClick={() => {
-                sendDataDogAction('Request images on MHV');
-              }}
-            />
-          </>
+            {imageAlertComplete()}
+          </VaAlert>
         )}
-      </div>
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={downloadPdf}
+          downloadTxt={generateRadioloyTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo
+          description="L&TR Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
-      <div className="test-results-container">
-        <h2 className="test-results-header">Results</h2>
-        <InfoAlert fullState={fullState} />
-        <p
-          data-testid="radiology-record-results"
-          className="monospace"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - radiology results]"
-        >
-          {record.results}
-        </p>
-      </div>
-
-      {phase0p5Flag && (
-        <div className="test-results-container">
-          <h2 className="test-results-header">Images</h2>
-          {imageStatusContent()}
+        <div className="test-details-container max-80">
+          <HeaderSection header="Details about this test">
+            <LabelValue
+              label="Reason for test"
+              value={record.reason}
+              testId="radiology-reason"
+              actionName="[admission discharge summary - location]"
+            />
+            <LabelValue
+              label="Clinical history"
+              value={record.clinicalHistory}
+              testId="radiology-clinical-history"
+              actionName="[lab and tests - radiology clinical history]"
+            />
+            <LabelValue
+              label="Ordered by"
+              value={record.orderedBy}
+              testId="radiology-ordered-by"
+              actionName="[lab and tests - radiology ordered by]"
+            />
+            <LabelValue
+              label="Location"
+              value={record.imagingLocation}
+              testId="radiology-imaging-location"
+              actionName="[lab and tests - radiology location]"
+            />
+            <LabelValue
+              label="Imaging provider"
+              value={record.imagingProvider}
+              testId="radiology-imaging-provider"
+              actionName="[lab and tests - radiology provider]"
+            />
+          </HeaderSection>
         </div>
-      )}
+
+        <div className="test-results-container">
+          <HeaderSection header="Results" className="test-results-header">
+            <InfoAlert fullState={fullState} />
+            <p
+              data-testid="radiology-record-results"
+              className="monospace"
+              data-dd-privacy="mask"
+              data-dd-action-name="[lab and tests - radiology results]"
+            >
+              {record.results}
+            </p>
+          </HeaderSection>
+        </div>
+
+        <div className="test-results-container">
+          <HeaderSection header="Images" className="test-results-header">
+            {imageStatusContent()}
+          </HeaderSection>
+        </div>
+      </HeaderSection>
     </div>
   );
 };

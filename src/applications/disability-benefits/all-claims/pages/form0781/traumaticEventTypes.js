@@ -16,41 +16,36 @@ import {
 } from '../../content/form0781';
 import { TRAUMATIC_EVENT_TYPES } from '../../constants';
 
-export const uiSchema = {
-  'ui:title': titleWithTag(eventTypesPageTitle, form0781HeadingTag),
-  'ui:description': eventTypesDescription,
-  mentalHealth: {
+export default {
+  uiSchema: {
+    'ui:title': titleWithTag(eventTypesPageTitle, form0781HeadingTag),
+    'ui:description': eventTypesDescription,
     eventTypes: checkboxGroupUI({
       title: eventTypesQuestion,
       hint: eventTypesHint,
       labels: TRAUMATIC_EVENT_TYPES,
       required: false,
     }),
-  },
-  'view:traumaticEventsInfo': {
-    'ui:description': traumaticEventsExamples,
-  },
-  'view:mentalHealthSupportAlert': {
-    'ui:description': mentalHealthSupportAlert,
-  },
-};
-
-export const schema = {
-  type: 'object',
-  properties: {
-    mentalHealth: {
-      type: 'object',
-      properties: {
-        eventTypes: checkboxGroupSchema(Object.keys(TRAUMATIC_EVENT_TYPES)),
-      },
-    },
     'view:traumaticEventsInfo': {
-      type: 'object',
-      properties: {},
+      'ui:description': traumaticEventsExamples,
     },
     'view:mentalHealthSupportAlert': {
-      type: 'object',
-      properties: {},
+      'ui:description': mentalHealthSupportAlert,
+    },
+  },
+
+  schema: {
+    type: 'object',
+    properties: {
+      eventTypes: checkboxGroupSchema(Object.keys(TRAUMATIC_EVENT_TYPES)),
+      'view:traumaticEventsInfo': {
+        type: 'object',
+        properties: {},
+      },
+      'view:mentalHealthSupportAlert': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };

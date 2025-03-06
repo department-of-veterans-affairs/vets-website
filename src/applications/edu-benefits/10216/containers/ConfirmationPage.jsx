@@ -1,67 +1,62 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 import Alert from '../components/Alert';
 import GetFormHelp from '../components/GetFormHelp';
+import ProcessList from '../components/ProcessList';
 
-export const ConfirmationPage = props => {
+export const ConfirmationPage = ({ router, route }) => {
+  const isAccredited = localStorage.getItem('isAccredited') === 'true';
+  const [claimID, setClaimID] = React.useState(null);
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
 
+  useEffect(
+    () => {
+      if (submission?.response?.id) {
+        localStorage.setItem(
+          '10216claimID',
+          JSON.stringify(submission?.response?.id),
+        );
+      }
+      setClaimID(JSON.parse(localStorage.getItem('10216claimID')));
+    },
+    [submission],
+  );
+
+  const goBack = e => {
+    e.preventDefault();
+    router.push('/review-and-submit');
+  };
   const childContent = (
     <div>
-      {!props?.isAccredited && <Alert />}
-      <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-        To submit your forms, follow the steps below
+      <Alert router={router} />
+
+      <h2
+        className="vads-u-font-size--h3 vads-u-margin-bottom--2"
+        data-testid="confirmation-header"
+      >
+        To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
+        below
       </h2>
-      <va-process-list>
-        <va-process-list-item header="Download and save both forms">
-          <p>
-            First, complete and save your VA Form 22-10216 as a PDF. If you
-            didn’t do that on on the previous page, go back and do that now.
-            <div className="vads-u-margin-y--2">
-              <va-link
-                download
-                filetype="PDF"
-                href=""
-                // fileName={''}
-                text="Download VA Form 22-10216"
-              />
-            </div>
-            Then, navigate to{' '}
-            <va-link
-              external
-              text="VA Form 22-10215"
-              href="/education/apply-for-education-benefits/application/10215"
-            />{' '}
-            to fill it out. Once completed, save it as a PDF on your device.
-          </p>
-        </va-process-list-item>
-        <va-process-list-item header="Upload the forms to the VA education portal">
-          <p>
-            Visit the{' '}
-            <va-link
-              external
-              text="VA Education File Upload Portal"
-              href="https://www.my.va.gov/EducationFileUploads/s/"
-            />
-            , and upload both your saved VA Form 22-10216 and VA Form 22-10215.
-          </p>
-        </va-process-list-item>
-        <va-process-list-item header="Submit your forms">
-          <p>Once uploaded, click submit to finalize your request.</p>
-        </va-process-list-item>
-      </va-process-list>
-      <va-button
-        uswds
-        back
-        class="screen-only vads-u-margin-top--1"
-        onClick={() => {
-          props?.router.goBack();
-        }}
+      <ProcessList isAccredited={isAccredited} id={claimID} />
+      <p>
+        <va-button
+          secondary
+          text="Print this page"
+          data-testid="print-page"
+          onClick={() => window.print()}
+        />
+      </p>
+      <va-link
+        onClick={goBack}
+        class="screen-only vads-u-margin-top--1 vads-u-font-weight--bold"
+        data-testid="back-button"
+        text="Back"
+        href="#"
       />
       <h2 className="vads-u-font-size--h2 vads-u-margin-top--4">
         What are my next steps?
@@ -85,7 +80,7 @@ export const ConfirmationPage = props => {
 
   return (
     <ConfirmationView
-      formConfig={props.route?.formConfig}
+      formConfig={route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
       pdfUrl={submission?.response?.pdfUrl}
@@ -97,32 +92,13 @@ export const ConfirmationPage = props => {
 };
 
 ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
   isAccredited: PropTypes.bool,
-  name: PropTypes.string,
-  route: PropTypes.object,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
   router: PropTypes.shape({
-    goBack: PropTypes.func,
+    push: PropTypes.func,
   }),
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

@@ -293,12 +293,11 @@ describe('VAOS Page: ClinicChoicePage', () => {
     await cleanup();
   });
 
-  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/82977
-  it.skip('should show the correct clinic name when filtered to matching', async () => {
+  it('should show the correct clinic name when filtered to matching', async () => {
     // Given two available clinics
     const clinics = [
       getV2ClinicMock({
-        id: '309',
+        id: '333',
         serviceName: 'Filtered out clinic',
         stationId: '983',
       }),
@@ -341,8 +340,10 @@ describe('VAOS Page: ClinicChoicePage', () => {
     );
 
     // And the user is asked if they want an appt at matching clinic
-    expect(screen.baseElement).to.contain.text(
-      'Would you like to make an appointment at Green team clinic',
-    );
+    expect(
+      screen.container.querySelector(
+        'va-radio[label="Would you like to make an appointment at Green team clinic?"',
+      ),
+    ).to.be.ok;
   });
 });

@@ -5,7 +5,7 @@ import {
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { compareDesc, parse } from 'date-fns';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import {
@@ -13,11 +13,8 @@ import {
   formatDate,
   getVAStatusFromCRM,
 } from '../config/helpers';
-import { URL, envUrl } from '../constants';
+import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
 import { mockInquiries } from '../utils/mockData';
-
-// Toggle this when testing locally to load dashboard cards
-const mockTestingFlag = false;
 
 const DashboardCards = () => {
   const filterSummaryRef = useRef(null);
@@ -38,48 +35,66 @@ const DashboardCards = () => {
       card => card.attributes.levelOfAuthentication === 'Business',
     );
 
-  const getApiData = url => {
-    if (mockTestingFlag) {
-      const res = mockInquiries;
+  const transformInquiriesData = data => {
+    const transformedInquiries = data.map(inquiry => ({
+      ...inquiry,
+      attributes: {
+        ...inquiry.attributes,
+        status: getVAStatusFromCRM(inquiry.attributes.status),
+      },
+    }));
+    const uniqueCategories = [
+      ...new Set(
+        transformedInquiries
+          .filter(
+            item => item.attributes.levelOfAuthentication !== 'Unauthenticated',
+          )
+          .map(item => item.attributes.categoryName),
+      ),
+    ];
 
-      const transformedInquiries = res.data.map(inquiry => ({
-        ...inquiry,
-        attributes: {
-          ...inquiry.attributes,
-          status: getVAStatusFromCRM(inquiry.attributes.status),
-        },
-      }));
+    return { transformedInquiries, uniqueCategories };
+  };
 
+  const getApiData = useCallback(url => {
+    setLoading(true);
+
+    const processData = data => {
+      const { transformedInquiries, uniqueCategories } = transformInquiriesData(
+        data,
+      );
       setInquiries(transformedInquiries);
-      const uniqueCategories = [
-        ...new Set(
-          transformedInquiries.map(item => item.attributes.categoryName),
-        ),
-      ];
       setCategories(uniqueCategories);
       setLoading(false);
+    };
+
+    if (mockTestingFlagforAPI) {
+      processData(mockInquiries.data);
       return Promise.resolve();
     }
-    setLoading(true);
+
     return apiRequest(url)
       .then(res => {
-        setInquiries(res.data);
-        const uniqueCategories = [
-          ...new Set(res.data.map(item => item.attributes.categoryName)),
-        ];
-        setCategories(uniqueCategories);
-        setLoading(false);
+        processData(res.data);
       })
       .catch(() => {
         setLoading(false);
         hasError(true);
       });
-  };
-
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
   }, []);
+
+  useEffect(
+    () => {
+      // Focus element if we're on the main dashboard
+      if (window.location.pathname.includes('introduction')) {
+        focusElement('.schemaform-title > h1');
+      }
+
+      // Always fetch inquiries data regardless of route
+      getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
+    },
+    [getApiData],
+  );
 
   const filterAndSortInquiries = loa => {
     return inquiries
@@ -154,14 +169,14 @@ const DashboardCards = () => {
             <li key={card.id} className="dashboard-card-list">
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <div className="vads-u-margin-bottom--1p5">
+                  <dl className="vads-u-margin-bottom--1p5">
                     <dt className="sr-only">Status</dt>
                     <dd>
                       <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
                         {getVAStatusFromCRM(card.attributes.status)}
                       </span>
                     </dd>
-                  </div>
+                  </dl>
                   <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>
@@ -253,7 +268,7 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full vads-u-margin-bottom--5">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
+      <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
         Your questions
       </h2>
       {inquiries.length > 0 ? (

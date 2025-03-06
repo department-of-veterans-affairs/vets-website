@@ -16,7 +16,7 @@ const IntroductionPage = props => {
         Use this form to provide additional information to support an existing
         claim.
       </p>
-      <h2>What to know before filling out this form</h2>
+      <h2>What to know before you fill out this form</h2>
       <p>
         If you want to submit more than one statement, you’ll need to use a new
         form for each statement.
@@ -40,7 +40,7 @@ const IntroductionPage = props => {
     formTitle: TITLE,
     formSubTitle: SUBTITLE,
     authStartFormText: 'Start your statement',
-    unauthStartText: 'Sign in to start your statement',
+    unauthStartText: 'Sign in or create an account',
     displayNonVeteranMessaging: true,
     hideSipIntro: userLoggedIn && !userIdVerified,
     customLink: PrimaryActionLink,
@@ -49,7 +49,7 @@ const IntroductionPage = props => {
   const ombInfo = {
     resBurden: '15',
     ombNumber: '2900-0075',
-    expDate: '6/30/2024',
+    expDate: '7/31/2027',
   };
 
   return (

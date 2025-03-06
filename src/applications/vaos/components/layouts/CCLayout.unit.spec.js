@@ -15,6 +15,8 @@ describe('VAOS Component: CCLayout', () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
+        type: 'COMMUNITY_CARE_APPOINTMENT',
+        modality: 'communityCare',
         communityCareProvider: {
           telecom: [{ system: 'phone', value: '123-456-7890' }],
           providers: [
@@ -35,9 +37,15 @@ describe('VAOS Component: CCLayout', () => {
           isCOVIDVaccine: false,
           isPendingAppointment: false,
           isUpcomingAppointment: true,
+          isCerner: false,
           apiData: {},
         },
         status: 'booked',
+      };
+      const nullAttributes = {
+        type: 'COMMUNITY_CARE_APPOINTMENT',
+        modality: 'communityCare',
+        isCerner: false,
       };
 
       // Act
@@ -70,12 +78,21 @@ describe('VAOS Component: CCLayout', () => {
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-any',
+        ...nullAttributes,
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-expected-type-of-care',
       });
       expect(window.dataLayer).to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
+        ...nullAttributes,
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-provider',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-missing-provider',
+        ...nullAttributes,
       });
     });
   });
@@ -209,6 +226,12 @@ describe('VAOS Component: CCLayout', () => {
       });
       expect(window.dataLayer).not.to.deep.include({
         event: 'vaos-null-states-missing-type-of-care',
+      });
+      expect(window.dataLayer).to.deep.include({
+        event: 'vaos-null-states-expected-provider',
+      });
+      expect(window.dataLayer).not.to.deep.include({
+        event: 'vaos-null-states-missing-provider',
       });
     });
   });

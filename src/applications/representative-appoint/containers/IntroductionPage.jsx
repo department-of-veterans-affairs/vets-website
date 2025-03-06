@@ -25,7 +25,7 @@ const IntroductionPage = props => {
     <article className="schemaform-intro">
       <div className="title-section">
         <FormTitle
-          title="Get help from a VA accredited representative or VSO"
+          title="Request help from a VA accredited representative or VSO"
           subTitle="VA Form 21-22 and VA Form 21-22a"
         />
         <p>

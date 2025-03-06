@@ -166,6 +166,7 @@ describe('Prescription details container', () => {
           prescriptionDetails: {
             ...rxDetailsResponse.data.attributes,
             dispensedDate: null,
+            sortedDispensedDate: null,
           },
         },
       },
@@ -260,5 +261,21 @@ describe('Prescription details container', () => {
         'We can’t access your medications right now',
       );
     });
+  });
+
+  it('should display alert if prescription has a prescriptionSource of PD', () => {
+    const stateWPrescriptionSource = {
+      ...initialState,
+      rx: {
+        prescriptions: {
+          prescriptionDetails: {
+            ...rxDetailsResponse.data.attributes,
+            prescriptionSource: 'PD',
+          },
+        },
+      },
+    };
+    const screen = setup(stateWPrescriptionSource);
+    expect(screen.getByTestId('pending-med-alert')).to.exist;
   });
 });

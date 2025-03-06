@@ -1,35 +1,88 @@
-import { apiRequest } from 'platform/utilities/api';
+import * as Sentry from '@sentry/browser';
+import merge from 'lodash/merge';
+import { fetchAndUpdateSessionExpiration } from 'platform/utilities/api';
+import environment from 'platform/utilities/environment';
+import localStorage from 'platform/utilities/storage/localStorage';
+import manifest from '../manifest.json';
+import { getSignInUrl } from './constants';
+
+// Set app name for request headers
+window.appName = manifest.entryName;
 
 const API_VERSION = 'accredited_representative_portal/v0';
 
 /**
- * This abstraction was introduced to let us pass fetch options to API methods
- * so that we could forward an abort signal from route loaders. This abstraction
- * only accomodates inner functions that don't have default parameters.
- *
- * Not every API method needs to be defined using this abstraction. Furthermore,
- * it is okay to refactor this abstraction, or even just unwind it altogether,
- * if that seems justified.
+ * Enhanced API wrapper that preserves Response objects for error handling
+ * while maintaining existing platform functionality where beneficial
  */
 const wrapApiRequest = fn => {
-  return (...args) => {
+  return async (...args) => {
+    // Set up request options similarly to platform apiRequest
     const optionsFromCaller = args[fn.length] || {};
     const [resource, optionsFromFn = {}] = fn(...args.slice(0, fn.length));
 
-    const options = {
-      apiVersion: API_VERSION,
-      ...optionsFromFn,
-      ...optionsFromCaller,
+    const csrfTokenStored = localStorage.getItem('csrfToken');
+
+    const defaultSettings = {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+        'X-CSRF-Token': csrfTokenStored,
+        'Content-Type': 'application/json',
+      },
     };
 
-    return apiRequest(resource, options);
+    const settings = merge(defaultSettings, optionsFromFn, optionsFromCaller);
+
+    // Build URL like platform apiRequest
+    const baseUrl = `${environment.API_URL}/${API_VERSION}`;
+    const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
+
+    try {
+      // Reuse session management from platform
+      const response = await fetchAndUpdateSessionExpiration(url, settings);
+
+      // Handle CSRF token updates
+      const csrfToken = response.headers.get('X-CSRF-Token');
+      if (csrfToken && csrfToken !== csrfTokenStored) {
+        localStorage.setItem('csrfToken', csrfToken);
+      }
+
+      // For successful responses,return data
+      if (response.ok || response.status === 304) {
+        return response;
+      }
+
+      // For 401s, redirect to login
+      if (response.status === 401) {
+        window.location = getSignInUrl({
+          returnUrl: window.location.href,
+        });
+        return null;
+      }
+
+      // For errors, preserve the Response object
+      throw response;
+    } catch (err) {
+      // Log network-like errors to Sentry
+      if (!(err instanceof Response)) {
+        Sentry.withScope(scope => {
+          scope.setExtra('error', err);
+          scope.setFingerprint(['{{default}}', scope._tags?.source]);
+          Sentry.captureMessage(`vets_client_error: ${err.message}`);
+        });
+      }
+      throw err;
+    }
   };
 };
 
 const api = {
-  getPOARequests: wrapApiRequest(({ status }) => {
-    const query = new URLSearchParams({ status }).toString();
-    return [`/power_of_attorney_requests?${query}`];
+  getPOARequests: wrapApiRequest(query => {
+    const urlQuery = new URLSearchParams(query).toString();
+    return [`/power_of_attorney_requests?${urlQuery}`];
   }),
 
   getPOARequest: wrapApiRequest(id => {

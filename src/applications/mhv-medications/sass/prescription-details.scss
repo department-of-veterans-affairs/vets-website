@@ -22,3 +22,10 @@
 .statusIcon {
   display: flex;
 }
+
+@media (max-width: $medium-screen) {
+  .wrap-text {
+    word-break: break-word;
+  }
+}
+

@@ -20,6 +20,9 @@ describe('Get allergies action', () => {
         Actions.Allergies.UPDATE_LIST_STATE,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
+      );
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         Actions.Allergies.GET_LIST,
       );
     });

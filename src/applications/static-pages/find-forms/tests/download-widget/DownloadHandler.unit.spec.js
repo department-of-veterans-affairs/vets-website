@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import DownloadHandler from '../../download-widget/DownloadHandler';
+import { renderDownloadModal } from '../../download-widget';
 
 describe('DownloadHandler', () => {
   const insertSpy = sinon.spy();
@@ -18,7 +18,7 @@ describe('DownloadHandler', () => {
   });
 
   it('should render the download pdf modal when everything is valid and retrieved', () => {
-    DownloadHandler({
+    renderDownloadModal({
       downloadUrl: 'https://test.com',
       form: {},
       formNumber: 10109,

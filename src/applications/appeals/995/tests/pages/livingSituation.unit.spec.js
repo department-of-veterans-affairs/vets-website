@@ -20,7 +20,7 @@ describe('Supplemental Claims living situation page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.housing.pages.livingSituation;
+  } = formConfig.chapters.infoPages.pages.livingSituation;
 
   it('should render', () => {
     const { container } = render(

@@ -5,6 +5,7 @@ import mockUser from './fixtures/user.json';
 
 import interceptAskVaResponses from './fixtures/api-mocks-for-ask-va';
 import interceptVaGovResponses from './fixtures/api-mocks-for-va-gov';
+import intercept3rdPartyResponses from './fixtures/api-mocks-for-3rd-party';
 
 import STEPS from './actions';
 
@@ -33,8 +34,11 @@ const executeSteps = steps => {
           case 'call-to-action-not-primary':
             STEPS.clickCallToActionButton(false, step.value);
             break;
-          case 'radio':
+          case 'radio': // TODO: Refactor into a single radio button function, if possible
             STEPS.clickRadioButton(step.value);
+            break;
+          case 'radioYesNo': // NOTE: This is a special case for radio buttons with 'Yes' and 'No' labels
+            STEPS.clickRadioButtonYesNo(step.value);
             break;
           case 'search':
             STEPS.clickSearchButton(step.value);
@@ -145,10 +149,14 @@ describe('YAML tests', () => {
         // Intercept all relevant API calls for the Ask VA page
         interceptAskVaResponses();
         interceptVaGovResponses();
+        intercept3rdPartyResponses();
 
         // Intercept the user API request and log in
         cy.intercept('GET', `/avs/v0/avs/*`, mockUser);
-        // cy.login();
+        cy.login();
+
+        // TODO: This should be in the interceptAskVaResponses function -- Joe
+        cy.intercept('POST', `/ask_va_api/v0/inquiries`, '1234566');
       });
 
       for (const path of paths) {
@@ -161,7 +169,7 @@ describe('YAML tests', () => {
         }
 
         for (const file of files[path]) {
-          it.skip(`Run tests in ${file}`, () => {
+          it(`Run tests in ${file}`, () => {
             if (file.endsWith('.yml')) {
               cy.log('-------------------');
               cy.log(`Run tests in ${file}`);
@@ -176,8 +184,8 @@ describe('YAML tests', () => {
 
                 // TODO: Add check for CI here.
                 if (flow.runOnCI === true) {
-                  // cy.visit('https://staging.va.gov/contact-us/ask-va-too/');
-                  cy.visit('http://localhost:3001/contact-us/ask-va-too/');
+                  // cy.visit('https://staging.va.gov/contact-us/ask-va/');
+                  cy.visit('http://localhost:3001/contact-us/ask-va/');
                   cy.injectAxeThenAxeCheck();
                   executeSteps(flow.steps);
                 }

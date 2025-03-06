@@ -1,5 +1,4 @@
 module.exports = [
-  { name: 'facilityLocatorShowCommunityCares', value: true },
   { name: 'profile_show_profile_2.0', value: false },
   { name: 'vaOnlineScheduling', value: true },
   { name: 'vaOnlineSchedulingCancel', value: true },
@@ -26,6 +25,11 @@ module.exports = [
   { name: 'vaOnlineSchedulingOhDirectSchedule', value: false },
   { name: 'vaOnlineSchedulingOhRequest', value: false },
   { name: 'vaOnlineSchedulingRemovePodiatry', value: false },
+  { name: 'vaosOnlineSchedulingUseVADate', value: true },
+  { name: 'vaOnlineSchedulingPastApptDateRange', value: true },
+  { name: 'vaOnlineSchedulingFeSourceOfTruth', value: false },
+  { name: 'vaOnlineSchedulingMhvRouteGuards', value: false },
+  { name: 'vaOnlineSchedulingDirectScheduleAppointmentConflict', value: false },
   { name: 'selectFeaturePocTypeOfCare', value: true },
   { name: 'edu_section_103', value: true },
   { name: 'gibctEybBottomSheet', value: true },

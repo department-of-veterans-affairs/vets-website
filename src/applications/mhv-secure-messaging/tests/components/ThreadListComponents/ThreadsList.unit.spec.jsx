@@ -1,7 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import configureStore from 'redux-mock-store';
 import { waitFor } from '@testing-library/react';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import ThreadsList from '../../../components/ThreadList/ThreadsList';
 import inbox from '../../fixtures/folder-inbox-response.json';
 import listOfThreads from '../../fixtures/thread-list-response.json';
@@ -9,6 +11,19 @@ import reducers from '../../../reducers';
 import { Paths, threadSortingOptions } from '../../../util/constants';
 
 describe('Thread List component', () => {
+  const mockStore = configureStore();
+  let store;
+
+  // REMOVE FEATURE FLAG WHEN RemoveLandingPage WORK IS IMPLEMENTED
+  beforeEach(() => {
+    store = mockStore({
+      sm: { folders: { folder: { folderId: 0 } } },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage]: false,
+      },
+    });
+  });
+  //
   const initialState = {
     sm: {
       folders: {},
@@ -43,6 +58,7 @@ describe('Thread List component', () => {
         path,
         state: initialState,
         reducers,
+        store,
       },
     );
   };

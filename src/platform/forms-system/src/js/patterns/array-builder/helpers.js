@@ -1,6 +1,13 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
+import {
+  focusByOrder,
+  focusElement,
+  scrollTo,
+  scrollToTop,
+} from 'platform/utilities/ui';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
 /**
@@ -43,8 +50,12 @@ export function initGetText({
   return (key, itemData, formData, index) => {
     const keyVal = getTextValues?.[key];
     if (key === 'getItemName' || key === 'cardDescription') {
-      return typeof keyVal === 'function' ? keyVal(itemData, index) : keyVal;
+      // pass in full form data into getItemName & cardDescription functions
+      return typeof keyVal === 'function'
+        ? keyVal(itemData, index, formData)
+        : keyVal;
     }
+
     return typeof keyVal === 'function'
       ? getTextValues?.[key]({
           ...getTextProps,
@@ -262,4 +273,50 @@ export const maxItemsHint = ({
   }
 
   return hint;
+};
+
+export const defaultSummaryPageScrollAndFocusTarget = () => {
+  const minimalHeader = isMinimalHeaderPath();
+  const headerLevel = minimalHeader ? '1' : '3';
+  const radioHeader = document.querySelector(
+    `va-radio[label-header-level="${headerLevel}"]`,
+  );
+
+  if (minimalHeader) {
+    scrollTo('header-minimal');
+  } else {
+    scrollToTop('topScrollElement');
+  }
+
+  if (radioHeader) {
+    focusElement(`h${headerLevel}`, null, radioHeader);
+  } else {
+    focusByOrder([`form h${headerLevel}`, 'va-segmented-progress-bar']);
+  }
+};
+
+export const defaultItemPageScrollAndFocusTarget = () => {
+  const minimalHeader = isMinimalHeaderPath();
+  const headerLevel = minimalHeader ? 'h1' : 'h3';
+
+  if (minimalHeader) {
+    scrollTo('header-minimal');
+  } else {
+    scrollToTop('topScrollElement');
+  }
+
+  // If we have something with `label-header-level`, then that is likely
+  // the title of the page, so we should focus on that.
+  const radioHeader = document.querySelector('va-radio[label-header-level]');
+  const checkboxGroupHeader = document.querySelector(
+    'va-checkbox-group[label-header-level]',
+  );
+
+  if (radioHeader) {
+    focusElement(headerLevel, null, radioHeader);
+  } else if (checkboxGroupHeader) {
+    focusElement(headerLevel, null, checkboxGroupHeader);
+  } else {
+    focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
+  }
 };

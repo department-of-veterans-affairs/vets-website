@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { format, isValid, parseISO } from 'date-fns';
 
 export const isValidDate = dateString => {
@@ -174,3 +174,31 @@ export const alertMessage = (
     </p>
   </va-alert>
 );
+
+export const useResizeObserver = callbackFn => {
+  const ref = useRef(null);
+
+  useLayoutEffect(
+    () => {
+      const element = ref?.current;
+
+      if (!window.ResizeObserver && element) return;
+
+      const observer = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          callbackFn(element, entry);
+        }
+      });
+
+      observer.observe(element);
+
+      /* eslint-disable-next-line consistent-return */
+      return () => {
+        observer.disconnect();
+      };
+    },
+    [callbackFn, ref],
+  );
+
+  return ref;
+};

@@ -115,7 +115,13 @@ export function isContentExpanded(data, matcher, formData) {
  * The path parameter will contain the path, relative to formData, to the
  * form data corresponding to the current schema object
  */
-export function setHiddenFields(schema, uiSchema, formData, path = []) {
+export function setHiddenFields(
+  schema,
+  uiSchema,
+  formData,
+  path = [],
+  fullData,
+) {
   if (!uiSchema) {
     return schema;
   }
@@ -131,7 +137,7 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
     null,
   );
 
-  if (hideIf && hideIf(formData, index)) {
+  if (hideIf && hideIf(formData, index, fullData)) {
     if (!updatedSchema['ui:hidden']) {
       updatedSchema = set('ui:hidden', true, updatedSchema);
     }
@@ -167,6 +173,7 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
           uiSchema[next],
           formData,
           path.concat(next),
+          fullData,
         );
 
         if (newSchema !== updatedSchema.properties[next]) {
@@ -187,7 +194,13 @@ export function setHiddenFields(schema, uiSchema, formData, path = []) {
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = updatedSchema.items.map((item, idx) =>
-      setHiddenFields(item, uiSchema.items, formData, path.concat(idx)),
+      setHiddenFields(
+        item,
+        uiSchema.items,
+        formData,
+        path.concat(idx),
+        fullData,
+      ),
     );
 
     if (
@@ -261,6 +274,7 @@ export function updateSchemaFromUiSchema(
   formData,
   index = null,
   path = [],
+  fullData,
 ) {
   if (!uiSchema) {
     return schema;
@@ -277,6 +291,7 @@ export function updateSchemaFromUiSchema(
           formData,
           index,
           path.concat(next),
+          fullData || formData,
         );
 
         if (current.properties[next] !== nextProp) {
@@ -303,6 +318,7 @@ export function updateSchemaFromUiSchema(
         formData,
         idx,
         path.concat(idx),
+        fullData || formData,
       ),
     );
 
@@ -324,6 +340,7 @@ export function updateSchemaFromUiSchema(
       uiSchema,
       index,
       path,
+      fullData || formData,
     );
 
     const newSchema = Object.keys(newSchemaProps).reduce((current, next) => {
@@ -348,6 +365,7 @@ export function updateSchemaFromUiSchema(
       uiSchema,
       index,
       path,
+      fullData || formData,
     );
 
     if (newSchema !== currentSchema) {
@@ -417,9 +435,11 @@ function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
  * @param {SchemaOptions} schema - The schema
  * @param {UISchemaOptions} uiSchema - The uiSchema to update
  * @param {Object} formData - The form data to based uiSchema updates on
+ * @param {Object} fullData - full form data
+ * @param {Number} index -  The index of the current item in an array
  * @returns {UISchemaOptions} The new uiSchema object
  */
-export function updateUiSchema(schema, uiSchema, formData) {
+export function updateUiSchema(schema, uiSchema, formData, fullData, index) {
   if (!uiSchema) {
     return uiSchema;
   }
@@ -435,6 +455,8 @@ export function updateUiSchema(schema, uiSchema, formData) {
           schema.properties[key],
           modifiedUiSchema[key],
           formData,
+          fullData || formData,
+          index,
         );
 
         if (modifiedUiSchema[key] !== nextProp) {
@@ -463,7 +485,7 @@ export function updateUiSchema(schema, uiSchema, formData) {
     return currentUiSchema;
   }
 
-  const newProps = uiSchemaUpdater(formData);
+  const newProps = uiSchemaUpdater(formData, fullData || formData, index);
   return mergeUiSchemasIfDifferent(currentUiSchema, newProps);
 }
 
@@ -603,6 +625,8 @@ export function updateItemsSchema(schema, fieldData = null) {
  * @param {Object} formData Flattened data for the entire form
  * @param {boolean} [preserveHiddenData=false] Do not remove hidden data if
  * this is set to `true`
+ * @param {Object} fullData Full data for the entire form
+ * @param {Number} index The index of the current item in an array
  * @returns {{
  *  data: Object,
  *  schema: SchemaOptions,
@@ -614,16 +638,31 @@ export function updateSchemasAndData(
   uiSchema,
   formData,
   preserveHiddenData = false,
+  fullData,
+  index,
 ) {
   let newSchema = updateItemsSchema(schema, formData);
   newSchema = updateRequiredFields(newSchema, uiSchema, formData);
 
   // Update the schema with any fields that are now hidden because of the data change
-  newSchema = setHiddenFields(newSchema, uiSchema, formData);
+  newSchema = setHiddenFields(newSchema, uiSchema, formData, [], fullData);
 
   // Update the uiSchema and  schema with any general updates based on the new data
-  const newUiSchema = updateUiSchema(newSchema, uiSchema, formData);
-  newSchema = updateSchemaFromUiSchema(newSchema, newUiSchema, formData);
+  const newUiSchema = updateUiSchema(
+    newSchema,
+    uiSchema,
+    formData,
+    fullData || formData,
+    index,
+  );
+  newSchema = updateSchemaFromUiSchema(
+    newSchema,
+    newUiSchema,
+    formData,
+    index,
+    [], // path
+    fullData || formData,
+  );
 
   if (!preserveHiddenData) {
     // Remove any data that’s now hidden in the schema
@@ -661,6 +700,9 @@ export function recalculateSchemaAndData(initialState) {
       page.schema,
       page.uiSchema,
       formData,
+      false,
+      formData,
+      // index: undefined; assuming we're recalculating outside of arrays
     );
 
     let newState = state;

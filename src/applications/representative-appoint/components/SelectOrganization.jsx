@@ -5,13 +5,12 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { scrollToFirstError } from 'platform/utilities/ui';
 import { useReviewPage } from '../hooks/useReviewPage';
+import { filterOrganizations } from '../utilities/helpers';
 
 const SelectOrganization = props => {
   const { formData, setFormData, goBack, goForward, goToPath } = props;
   const [error, setError] = useState(null);
-  const organizations =
-    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
-      ?.data;
+  const organizations = filterOrganizations(formData);
 
   const isReviewPage = useReviewPage();
 

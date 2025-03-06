@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { useParams } from 'react-router-dom';
 import BackLink from '../BackLink';
 import AppointmentCard from '../AppointmentCard';
 import { APPOINTMENT_STATUS, GA_PREFIX } from '../../utils/constants';
 import { startAppointmentCancel } from '../../appointment-list/redux/actions';
 import AfterVisitSummary from '../AfterVisitSummary';
-import {
-  selectFacility,
-  selectIsPast,
-} from '../../appointment-list/redux/selectors';
+import { selectIsPast } from '../../appointment-list/redux/selectors';
 import {
   selectFeatureTravelPayViewClaimDetails,
   selectFeatureTravelPaySubmitMileageExpense,
@@ -189,9 +185,8 @@ export default function DetailPageLayout({
   children,
   data: appointment,
   heading,
+  facility,
 }) {
-  const { id } = useParams();
-  const { facility } = useSelector(state => selectFacility(state, id));
   const featureTravelPayViewClaimDetails = useSelector(state =>
     selectFeatureTravelPayViewClaimDetails(state),
   );
@@ -248,5 +243,6 @@ export default function DetailPageLayout({
 DetailPageLayout.propTypes = {
   children: PropTypes.node,
   data: PropTypes.object,
+  facility: PropTypes.object,
   heading: PropTypes.string,
 };

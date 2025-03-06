@@ -5,6 +5,14 @@ import { dispStatusObj } from '../../util/constants';
 const StatusDropdown = props => {
   const { status } = props;
 
+  const displayStatus = statusTxt => {
+    return (
+      <p data-testid="status" data-dd-privacy="mask">
+        {statusTxt}
+      </p>
+    );
+  };
+
   const content = () => {
     switch (status) {
       case dispStatusObj.active: {
@@ -27,7 +35,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active</p>
+            {displayStatus('Active')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
@@ -70,7 +78,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Non-VA</p>
+            {displayStatus('Active: Non-VA')}
             <va-additional-info
               data-testid="status-dropdown"
               uswds
@@ -115,7 +123,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Parked</p>
+            {displayStatus('Active: Parked')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
@@ -149,7 +157,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: On hold</p>
+            {displayStatus('Active: On hold')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
@@ -172,7 +180,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Refill in process</p>
+            {displayStatus('Active: Refill in process')}
             <va-additional-info uswds trigger="What does this status mean?">
               {dropdownContent()}
             </va-additional-info>
@@ -208,7 +216,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Discontinued</p>
+            {displayStatus('Discontinued')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
@@ -236,7 +244,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Active: Submitted</p>
+            {displayStatus('Active: Submitted')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
@@ -271,7 +279,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Expired</p>
+            {displayStatus('Expired')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
@@ -292,7 +300,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Transferred</p>
+            {displayStatus('Transferred')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"
@@ -317,7 +325,7 @@ const StatusDropdown = props => {
         };
         return (
           <>
-            <p data-testid="status">Unknown</p>
+            {displayStatus('Unknown')}
             <va-additional-info
               uswds
               trigger="What does this status mean?"

@@ -30,6 +30,7 @@
     "./VerifyButton": "./authentication/components/VerifyButton.jsx",
     "./AcceptTermsPrompt": "./authorization/components/AcceptTermsPrompt.jsx",
     "./RequiredLoginView": "./authorization/components/RequiredLoginView.jsx",
+    "./VerifyAlert": "./authentication/components/VerifyAlert.jsx",
     "./MHVApp": "./authorization/container/MHVApp.jsx",
     "./RequiredTermsAcceptanceView": "./authorization/container/RequiredTermsAcceptanceView.jsx",
     "./profile/actions": "./profile/actions.js",

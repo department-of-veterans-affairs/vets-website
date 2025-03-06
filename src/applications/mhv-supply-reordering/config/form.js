@@ -1,7 +1,14 @@
 import environment from 'platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { TITLE as title } from '../constants';
+import {
+  addressSchema,
+  addressUI,
+  emailSchema,
+  emailUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { TITLE as title, PAGE_PATH } from '../constants';
 import manifest from '../manifest.json';
 
 import chooseSupplies from '../pages/chooseSupplies';
@@ -9,14 +16,16 @@ import contactInformation from '../pages/contactInformation';
 
 import EditAddress from '../components/EditAddress';
 import EditEmail from '../components/EditEmail';
+import EditReviewEmail from '../components/EditReviewEmail';
+import EditReviewAddress from '../components/EditReviewAddress';
 import getHelp from '../components/Help';
 
 import introduction from '../containers/IntroductionPage';
 import confirmation from '../containers/ConfirmationPage';
 
-import prefillTransformer from './prefillTransformer';
-
-const blankSchema = { type: 'object', properties: {} };
+import prefillTransformer from '../utils/prefillTransformer';
+import transformForSubmit from '../utils/transformForSubmit';
+import submit from '../utils/submit';
 
 const savedFormMessages = {
   notFound: 'Please start over to reorder health care supplies.',
@@ -39,18 +48,19 @@ const customText = {
   appType: 'order',
   // continueAppButtonText: '',
   finishAppLaterMessage: 'Finish this order later',
-  // reviewPageTitle: '',
+  reviewPageTitle: 'Review order details',
   // startNewAppButtonText: '',
-  // submitButtonText: '',
+  submitButtonText: 'Submit',
 };
 
 const chapters = {
   chooseSuppliesChapter: {
-    title: 'Choose supplies',
+    title: 'Select supplies',
+    reviewTitle: 'Supplies selected',
     pages: {
       chooseSupplies: {
         path: 'choose-supplies',
-        title: 'Choose supplies',
+        title: 'Available for reorder',
         uiSchema: chooseSupplies.uiSchema,
         schema: chooseSupplies.schema,
       },
@@ -61,29 +71,61 @@ const chapters = {
     pages: {
       contactInformation: {
         path: 'contact-information',
-        title: 'Contact information',
+        title: 'Contact information ',
         uiSchema: contactInformation.uiSchema,
         schema: contactInformation.schema,
+        onNavForward: ({ goPath }) => {
+          goPath(PAGE_PATH.REVIEW_AND_SUBMIT);
+        },
       },
       editEmailAddress: {
-        title: 'Edit email address',
-        taskListHide: true,
+        title: 'Email address',
         path: 'edit-email-address',
         CustomPage: EditEmail,
-        CustomPageReview: EditEmail,
-        depends: () => false,
-        uiSchema: {},
-        schema: blankSchema,
+        CustomPageReview: null,
+        onNavForward: ({ goPath }) => {
+          goPath(PAGE_PATH.CONTACT_INFORMATION);
+        },
+        onNavBack: ({ goPath }) => {
+          goPath(PAGE_PATH.CONTACT_INFORMATION);
+        },
+        uiSchema: {
+          ...titleUI('Edit email address'),
+          'ui:objectViewField': EditReviewEmail,
+          emailAddress: emailUI(),
+        },
+        schema: {
+          type: 'object',
+          properties: {
+            emailAddress: emailSchema,
+          },
+          required: ['emailAddress'],
+        },
       },
       editMailingAddress: {
-        title: 'Edit mailing address',
-        taskListHide: true,
+        title: 'Shipping address',
         path: 'edit-mailing-address',
         CustomPage: EditAddress,
-        CustomPageReview: EditAddress,
-        depends: () => false,
-        uiSchema: {},
-        schema: blankSchema,
+        CustomPageReview: null,
+        onNavForward: ({ goPath, formData, setFormData }) => {
+          setFormData(formData);
+          goPath(PAGE_PATH.CONTACT_INFORMATION);
+        },
+        onNavBack: ({ goPath }) => {
+          goPath(PAGE_PATH.CONTACT_INFORMATION);
+        },
+        uiSchema: {
+          ...titleUI('Edit shipping address'),
+          'ui:objectViewField': EditReviewAddress,
+          permanentAddress: addressUI({ omit: ['street3'] }),
+        },
+        schema: {
+          type: 'object',
+          properties: {
+            permanentAddress: addressSchema({ omit: ['street3'] }),
+          },
+          required: ['permanentAddress'],
+        },
       },
     },
   },
@@ -94,8 +136,8 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit,
+  transformForSubmit,
   trackingPrefix: 'mhv-supply-reordering-',
   introduction,
   confirmation,
@@ -106,7 +148,6 @@ const formConfig = {
   prefillEnabled: true,
   prefillTransformer,
   title,
-  // subTitle,
   customText,
   defaultDefinitions: {},
   chapters,

@@ -4,10 +4,15 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
-import { getProviderInfo, getSelectedSlot } from './redux/selectors';
+import {
+  getAppointmentCreateStatus,
+  getDraftAppointmentInfo,
+  getSelectedSlot,
+} from './redux/selectors';
 import { FETCH_STATUS } from '../utils/constants';
 import {
-  fetchProviderDetails,
+  createReferralAppointment,
+  createDraftReferralAppointment,
   setFormCurrentPage,
   setSelectedSlot,
 } from './redux/actions';
@@ -30,19 +35,25 @@ const ReviewAndConfirm = props => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedSlot = useSelector(state => getSelectedSlot(state));
-  const { provider, providerFetchStatus } = useSelector(
-    state => getProviderInfo(state),
+  const { draftAppointmentInfo, draftAppointmentCreateStatus } = useSelector(
+    state => getDraftAppointmentInfo(state),
     shallowEqual,
   );
+
+  const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
-  const slotDetails = getSlotById(provider.slots, selectedSlot);
+  const slotDetails = getSlotById(
+    draftAppointmentInfo.slots?.slots,
+    selectedSlot,
+  );
   const facilityTimeZone = getTimezoneByFacilityId(
     currentReferral.ReferringFacilityInfo.FacilityCode,
   );
   const savedSelectedSlot = sessionStorage.getItem(
     getReferralSlotKey(currentReferral.UUID),
   );
+
   useEffect(
     () => {
       dispatch(setFormCurrentPage('reviewAndConfirm'));
@@ -60,18 +71,18 @@ const ReviewAndConfirm = props => {
 
   useEffect(
     () => {
-      if (providerFetchStatus === FETCH_STATUS.notStarted) {
-        dispatch(fetchProviderDetails(currentReferral.providerId));
-      } else if (providerFetchStatus === FETCH_STATUS.succeeded) {
+      if (draftAppointmentCreateStatus === FETCH_STATUS.notStarted) {
+        dispatch(createDraftReferralAppointment(currentReferral.UUID));
+      } else if (draftAppointmentCreateStatus === FETCH_STATUS.succeeded) {
         setLoading(false);
         scrollAndFocus('h1');
-      } else if (providerFetchStatus === FETCH_STATUS.failed) {
+      } else if (draftAppointmentCreateStatus === FETCH_STATUS.failed) {
         setLoading(false);
         setFailed(true);
         scrollAndFocus('h2');
       }
     },
-    [currentReferral.providerId, dispatch, providerFetchStatus],
+    [currentReferral.UUID, dispatch, draftAppointmentCreateStatus],
   );
 
   useEffect(
@@ -79,9 +90,12 @@ const ReviewAndConfirm = props => {
       if (
         !selectedSlot &&
         savedSelectedSlot &&
-        providerFetchStatus === FETCH_STATUS.succeeded
+        draftAppointmentCreateStatus === FETCH_STATUS.succeeded
       ) {
-        const savedSlot = getSlotById(provider.slots, savedSelectedSlot);
+        const savedSlot = getSlotById(
+          draftAppointmentInfo.slots.slots,
+          savedSelectedSlot,
+        );
         if (!savedSlot) {
           routeToCCPage(history, 'scheduleReferral');
         }
@@ -91,9 +105,9 @@ const ReviewAndConfirm = props => {
     [
       dispatch,
       savedSelectedSlot,
-      provider.slots,
+      draftAppointmentInfo.slots,
       history,
-      providerFetchStatus,
+      draftAppointmentCreateStatus,
       selectedSlot,
     ],
   );
@@ -107,13 +121,23 @@ const ReviewAndConfirm = props => {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="vads-u-margin-y--8" data-testid="loading">
-        <va-loading-indicator message="Loading schedule referral review..." />
-      </div>
-    );
-  }
+  useEffect(
+    () => {
+      if (
+        appointmentCreateStatus === FETCH_STATUS.succeeded &&
+        draftAppointmentInfo?.appointment?.id
+      ) {
+        routeToNextReferralPage(
+          history,
+          'reviewAndConfirm',
+          null,
+          draftAppointmentInfo.appointment.id,
+        );
+      }
+    },
+    [appointmentCreateStatus, draftAppointmentInfo?.appointment?.id, history],
+  );
+
   const headingStyles =
     'vads-u-margin--0 vads-u-font-family--sans vads-u-font-weight--bold vads-u-font-size--source-sans-normalized';
   return (
@@ -121,6 +145,7 @@ const ReviewAndConfirm = props => {
       hasEyebrow
       heading="Review your appointment details"
       apiFailure={failed}
+      loadingMessage={loading ? 'Loading your appointment details' : null}
     >
       <div>
         <hr className="vads-u-margin-y--2" />
@@ -134,12 +159,12 @@ const ReviewAndConfirm = props => {
           </div>
         </div>
         <p className="vads-u-margin--0">
-          {provider.providerName} <br />
-          {provider.orgName}
+          {draftAppointmentInfo.provider.name} <br />
+          {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={provider.orgAddress}
-          phone={provider.orgPhone}
+          address={currentReferral.ReferringFacilityInfo.Address}
+          phone={currentReferral.ReferringFacilityInfo.Phone}
         />
         <hr className="vads-u-margin-y--2" />
         <div className=" vads-l-grid-container vads-u-padding--0">
@@ -185,17 +210,6 @@ const ReviewAndConfirm = props => {
           </p>
         )}
         <hr className="vads-u-margin-y--2" />
-        <div className=" vads-l-grid-container vads-u-padding--0">
-          <div className="vads-l-row">
-            <div className="vads-l-col">
-              <h2 className={headingStyles}>
-                Details you shared with your referring VA provider
-              </h2>
-            </div>
-          </div>
-        </div>
-        <p className="vads-u-margin--0">{currentReferral.details}</p>
-        <hr className="vads-u-margin-y--2" />
         <div className="vads-u-margin-top--4">
           <va-button
             label="Back"
@@ -207,17 +221,19 @@ const ReviewAndConfirm = props => {
             }}
           />
           <va-button
+            data-testid="continue-button"
             class="vads-u-margin-left--2"
             label="Continue"
             text="Continue"
             uswds
             onClick={e => {
               e.preventDefault();
-              // TODO: submit the referral here and poll for status
-              routeToNextReferralPage(
-                history,
-                'reviewAndConfirm',
-                currentReferral.UUID,
+              dispatch(
+                createReferralAppointment({
+                  referralId: currentReferral.UUID,
+                  slotId: selectedSlot,
+                  draftApppointmentId: draftAppointmentInfo.appointment.id,
+                }),
               );
             }}
           />

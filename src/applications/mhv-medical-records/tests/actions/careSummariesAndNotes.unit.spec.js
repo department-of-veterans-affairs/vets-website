@@ -20,6 +20,9 @@ describe('Get care summaries and notes list action', () => {
         Actions.CareSummariesAndNotes.UPDATE_LIST_STATE,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
+      );
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         Actions.CareSummariesAndNotes.GET_LIST,
       );
     });

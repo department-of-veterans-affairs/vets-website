@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { range } from 'lodash';
 
 import {
   QUESTION_MAP,
@@ -11,7 +10,7 @@ import { updateDischargeYear } from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
 import { ROUTES } from '../../constants';
 
-import Dropdown from './shared/Dropdown';
+import YearInput from './shared/YearInput';
 
 const DischargeYear = ({
   formResponses,
@@ -40,29 +39,9 @@ const DischargeYear = ({
   );
 
   const dischargeYear = formResponses[shortName];
-  const currentYear = new Date().getFullYear();
-  const yearOptions = range(currentYear - 1991).map(i => {
-    const year = currentYear - i;
-    return (
-      <option data-testid="va-select-option" key={i} value={year.toString()}>
-        {year.toString()}
-      </option>
-    );
-  });
-  const before1992Key = yearOptions.length + 1;
-
-  yearOptions.push(
-    <option
-      data-testid="va-select-option"
-      key={before1992Key}
-      value="Before 1992"
-    >
-      Before 1992
-    </option>,
-  );
 
   return (
-    <Dropdown
+    <YearInput
       H1={H1}
       formError={formError}
       formResponses={formResponses}
@@ -71,7 +50,6 @@ const DischargeYear = ({
       setFormError={setFormError}
       shortName={shortName}
       testId="duw-discharge_year"
-      options={yearOptions}
       valueSetter={setDischargeYear}
     />
   );

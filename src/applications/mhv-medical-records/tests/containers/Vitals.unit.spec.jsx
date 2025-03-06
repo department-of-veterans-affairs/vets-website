@@ -328,7 +328,7 @@ describe('Vitals list container first time loading', () => {
     mr: {
       vitals: { listCurrentAsOf: undefined },
       alerts: { alertList: [] },
-      refresh: { initialFhirLoad: true },
+      refresh: { initialFhirLoad: new Date() },
     },
   };
 

@@ -2,6 +2,7 @@ import { format, isValid, parse } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { enUS } from 'date-fns/locale';
 import React from 'react';
+import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
   CategoryBenefitsIssuesOutsidetheUS,
@@ -657,11 +658,9 @@ export const getVAStatusFromCRM = status => {
     case 'In progress':
       return 'In progress';
     case 'solved':
-    case 'Solved':
-    case 'Replied':
+    case 'replied':
       return 'Replied';
     case 'reopened':
-    case 'Reopened':
       return 'Reopened';
     case 'closed':
       return 'Closed';
@@ -674,8 +673,37 @@ export const getVAStatusFromCRM = status => {
   }
 };
 
+export const getVAStatusIconAndMessage = {
+  New: {
+    icon: starIcon,
+    message: "We received your question. We'll review it soon.",
+    color: 'vads-u-border-color--primary',
+  },
+  'In progress': {
+    icon: clockIcon,
+    message: "We're reviewing your question.",
+    color: 'vads-u-border-color--grey',
+  },
+  Replied: {
+    icon: successIcon,
+    message:
+      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
+    color: 'vads-u-border-color--green',
+  },
+  Reopened: {
+    icon: clockIcon,
+    message: "We received your reply. We'll respond soon.",
+    color: 'vads-u-border-color--grey',
+  },
+  Closed: {
+    icon: folderIcon,
+    message: 'We closed this question after 60 days without any updates.',
+    color: 'vads-u-border-color--grey',
+  },
+};
+
 export const getDescriptiveTextFromCRM = status => {
-  switch (status.toLowerCase()) {
+  switch ((status ?? '').toLowerCase()) {
     case 'new':
       return 'Your inquiry is current in queue to be reviewed.';
     case 'in progress':
@@ -706,6 +734,8 @@ export const convertDateForInquirySubheader = dateString => {
     utcDate.setUTCMinutes(utcDate.getMinutes());
     utcDate.setUTCSeconds(utcDate.getSeconds());
   } catch (error) {
+    // TODO: This catch block doesn't seem to be hit in testing. johall-tw
+    // istanbul ignore next
     return 'Invalid Date';
   }
 
@@ -720,7 +750,8 @@ export const convertDateForInquirySubheader = dateString => {
     'America/New_York',
     "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
     { locale: enUS },
-  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+    // ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  ).replace(/[AaPp]\.{0,1}[Mm]\.{0,1}/, match => `${match.toLowerCase()}`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {
@@ -756,6 +787,20 @@ export const getFiles = files => {
       FileContent: file.base64,
     };
   });
+};
+
+export const getFileSizeMB = size => size * 0.00000095367432;
+
+export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
+  const fileSizeText = fileSize
+    ? ` (${getFileSizeMB(fileSize).toFixed(2)} MB)`
+    : '';
+
+  return (
+    <a href={fileUrl} download={fileName}>
+      {`${fileName}${fileSizeText}`}
+    </a>
+  );
 };
 
 export const isEducationNonVRE = formData =>

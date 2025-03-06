@@ -31,7 +31,9 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Status
           </h3>
-          <p data-testid="rx-status">{validateField(status)}</p>
+          <p data-testid="rx-status" data-dd-privacy="mask">
+            {validateField(status)}
+          </p>
           <div className="no-print">
             <va-additional-info
               trigger="What does this status mean?"
@@ -86,7 +88,7 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Documented by
           </h3>
-          <p>
+          <p data-dd-privacy="mask">
             {validateField(
               `${prescription.providerLastName}, ${
                 prescription.providerFirstName
@@ -98,13 +100,15 @@ const NonVaPrescription = prescription => {
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Documented at this facility
           </h3>
-          <p>{validateField(prescription.facilityName)}</p>
+          <p data-dd-privacy="mask">
+            {validateField(prescription.facilityName)}
+          </p>
         </section>
         <section>
           <h3 className="vads-u-font-size--base vads-u-font-family--sans">
             Provider notes
           </h3>
-          <p>
+          <p data-dd-privacy="mask">
             {validateField(
               (prescription.remarks ?? '') +
                 (prescription.disclaimer ? ` ${prescription.disclaimer}` : ''),

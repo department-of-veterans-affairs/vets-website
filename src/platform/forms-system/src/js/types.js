@@ -22,6 +22,7 @@
  * @typedef {Object} FormConfig
  * @property {Array<Object>} [additionalRoutes]
  * @property {string} [ariaDescribedBySubmit]
+ * @property {string} [backLinkText]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
  * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
@@ -299,11 +300,12 @@
  * @property {boolean} [freeInput] for AutoSuggest widget
  * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
- * @property {(formData: any) => boolean} [hideIf] Conditional logic if the field should be hidden
+ * @property {(formData: any, index: number, fullData: any) => boolean} [hideIf] Conditional logic if the field should be hidden
  * @property {boolean} [hideLabelText] Hide the text above a form field. May be useful for checkbox widgets and some other corner cases.
  * @property {boolean} [hideTitle] For arrays.
  * @property {boolean} [hideOnReview] Used to hide a field on review page
  * @property {string} [hint] The hint text for the field. For web components.
+ * @property {UIOptions} [ifMinimalHeader] An object of options that will override existing options if minimal header is applicable.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
  * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.
@@ -320,17 +322,17 @@
  * @property {Icon} [inputIconPrefix] For textUI / VaTextInputField. This property displays a prefix that accepts a string which represents icon name.
  * @property {string} [inputSuffix] For textUI / VaTextInputField. Displays a fixed suffix string at the start of the input field.
  * @property {Icon} [inputIconSuffix] For textUI / VaTextInputField. This property displays a suffix that accepts a string which represents icon name.
- * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema] Replace the entire `schema` based on `formData`. Must provide the entire `schema` in the return. Recalculates on every form data change.
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[], fullData: any) => SchemaOptions} [replaceSchema] Replace the entire `schema` based on `formData`. Must provide the entire `schema` in the return. Recalculates on every form data change.
  *
  * Also accepts `title` one-off property to update `'ui:title'` as long as `'ui:title'` it is not defined. (can be useful if you are working inside of an array where `updateUiSchema` is not supported).
  *
  * When using dynamic fields you need to consider accessibility and screen readers. For these reasons it is not recommended to change fields live, because the changes may not get read out. Instead, it is recommended to already have some previous `formData` set so that when you get to the dynamic fields, they are static while on that page.
- * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [updateSchema] Update the `schema` based on `formData`. The function should return a partial `schema` of only the properties you want to update. Recalculates on every form data change.
+ * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[], fullData: any) => SchemaOptions} [updateSchema] Update the `schema` based on `formData`. The function should return a partial `schema` of only the properties you want to update. Recalculates on every form data change.
  *
  * Also accepts `title` one-off property to update `'ui:title'` as long as `'ui:title'` it is not defined. (can be useful if you are working inside of an array where `updateUiSchema` is not supported).
  *
  * When using dynamic fields you need to consider accessibility and screen readers. For these reasons it is not recommended to change fields live, because the changes may not get read out. Instead, it is recommended to already have some previous `formData` set so that when you get to the dynamic fields, they are static while on that page.
- * @property {(formData: any) => UISchemaOptions} [updateUiSchema] Update the `uiSchema` based on `formData`. The function should return a partial `uiSchema` of only the properties you want to update, including `'ui:options'` if desired. Recalculates on every form data change.
+ * @property {(formData: any, fullData: any, index: number) => UISchemaOptions} [updateUiSchema] Update the `uiSchema` based on `formData`. The function should return a partial `uiSchema` of only the properties you want to update, including `'ui:options'` if desired. Recalculates on every form data change.
  *
  * If you need page title or description to be dynamic, instead use `'ui:title'` and `'ui:description'` with a function (or `...titleUI()`) (doesn't work with fields but only the root).
  *

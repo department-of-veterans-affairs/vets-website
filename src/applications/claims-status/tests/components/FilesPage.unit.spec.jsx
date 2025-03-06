@@ -126,6 +126,30 @@ describe('<FilesPage>', () => {
         expect(setPageFocusSpy.calledOnce).to.be.false;
       });
     });
+
+    it('should focus on the Notification Alert when one exists', async () => {
+      const message = {
+        title: 'Test',
+        body: 'Testing',
+      };
+
+      const { container } = renderWithRouter(
+        <Provider store={getStore()}>
+          <FilesPage
+            {...props}
+            claim={claim}
+            message={message}
+            location={{ hash: '' }}
+          />
+        </Provider>,
+      );
+
+      const selector = container.querySelector('va-alert');
+      expect(selector).to.exist;
+      await waitFor(() => {
+        expect(document.activeElement).to.equal(selector);
+      });
+    });
   });
 
   describe('document.title', () => {

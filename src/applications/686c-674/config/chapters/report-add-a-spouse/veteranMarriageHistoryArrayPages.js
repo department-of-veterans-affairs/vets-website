@@ -19,7 +19,7 @@ import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaS
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   marriageEnums,
-  spouseFormerMarriageLabels,
+  veteranFormerMarriageLabels,
   customLocationSchema,
   generateHelpText,
 } from '../../helpers';
@@ -79,6 +79,8 @@ export const veteranMarriageHistorySummaryPage = {
       veteranMarriageHistoryOptions,
       {
         title: 'Do you have any former marriages to add?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -129,7 +131,7 @@ export const vetFormerMarriageEndReasonPage = {
       ...radioUI({
         title: 'How did your marriage end?',
         required: () => true,
-        labels: spouseFormerMarriageLabels,
+        labels: veteranFormerMarriageLabels,
       }),
     },
     reasonMarriageEndedOther: {
@@ -146,6 +148,11 @@ export const vetFormerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        hideIf: (formData, index) =>
+          !(
+            formData?.veteranMarriageHistory?.[index]?.reasonMarriageEnded ===
+              'Other' || formData?.reasonMarriageEnded === 'Other'
+          ),
         keepInPageOnReview: true,
       },
     },
@@ -166,7 +173,7 @@ export const vetFormerMarriageStartDatePage = {
       return 'Your former marriage';
     }),
     startDate: {
-      ...currentOrPastDateUI('When did they get married?'),
+      ...currentOrPastDateUI('When did you get married?'),
       'ui:required': () => true,
     },
   },
@@ -184,8 +191,26 @@ export const vetFormerMarriageEndDatePage = {
       return 'Your former marriage';
     }),
     endDate: {
-      ...currentOrPastDateUI('When did their marriage end?'),
+      ...currentOrPastDateUI('When did the marriage end?'),
       'ui:required': () => true,
+      'ui:validations': [
+        {
+          validator: (errors, _field, formData) => {
+            const { startDate, endDate } = formData;
+
+            if (!startDate || !endDate) return;
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (end < start) {
+              errors.addError(
+                'Marriage end date must be on or after the marriage start date',
+              );
+            }
+          },
+        },
+      ],
     },
   },
   schema: {
@@ -200,12 +225,12 @@ export const vetFormerMarriageStartLocationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(() => 'Your former marriage'),
     startLocation: {
-      'ui:title': 'Where did they get married?',
+      'ui:title': 'Where did you get married?',
       'ui:options': {
         labelHeaderLevel: '4',
       },
       outsideUsa: {
-        'ui:title': 'They got married outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {

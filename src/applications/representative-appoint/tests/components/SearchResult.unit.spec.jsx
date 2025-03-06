@@ -6,6 +6,12 @@ import { SearchResult } from '../../components/SearchResult';
 import * as useV2FeatureToggle from '../../hooks/useV2FeatureVisibility';
 
 describe('SearchResult Component', () => {
+  let useV2FeatureVisibilityStub;
+
+  afterEach(() => {
+    useV2FeatureVisibilityStub.restore();
+  });
+
   it('evaluates addressExists correctly', () => {
     const representative = {
       data: {
@@ -18,7 +24,7 @@ describe('SearchResult Component', () => {
       },
     };
 
-    const useV2FeatureVisibilityStub = sinon
+    useV2FeatureVisibilityStub = sinon
       .stub(useV2FeatureToggle, 'default')
       .returns(false);
 
@@ -34,8 +40,6 @@ describe('SearchResult Component', () => {
     const addressAnchor = container.querySelector('.address-anchor');
     expect(addressAnchor).to.exist;
     expect(addressAnchor.textContent).to.contain('123 Main St');
-
-    useV2FeatureVisibilityStub.restore();
   });
 
   it('evaluates addressExists correctly when only city, stateCode, and zipCode exist', () => {
@@ -49,7 +53,7 @@ describe('SearchResult Component', () => {
       },
     };
 
-    const useV2FeatureVisibilityStub = sinon
+    useV2FeatureVisibilityStub = sinon
       .stub(useV2FeatureToggle, 'default')
       .returns(false);
 
@@ -65,8 +69,6 @@ describe('SearchResult Component', () => {
     const addressAnchor = container.querySelector('.address-anchor');
     expect(addressAnchor).to.exist;
     expect(addressAnchor.textContent).to.contain('Anytown, CT');
-
-    useV2FeatureVisibilityStub.restore();
   });
 
   it('includes the representative name in the select button text', () => {
@@ -83,7 +85,7 @@ describe('SearchResult Component', () => {
       },
     };
 
-    const useV2FeatureVisibilityStub = sinon
+    useV2FeatureVisibilityStub = sinon
       .stub(useV2FeatureToggle, 'default')
       .returns(false);
 
@@ -101,53 +103,122 @@ describe('SearchResult Component', () => {
     );
     expect(selectButton).to.exist;
     expect(selectButton.getAttribute('text')).to.contain('Robert Smith');
-
-    useV2FeatureVisibilityStub.restore();
   });
 
   context('when v2 is enabled', () => {
+    let formData;
+
+    beforeEach(() => {
+      formData = {
+        'view:v2IsEnabled': true,
+        userIsDigitalSubmitEligible: true,
+      };
+    });
+
     context('when the user is userIsDigitalSubmitEligible', () => {
-      it('displays submission methods', () => {
-        const representative = {
-          data: {
-            id: 1,
-            type: 'individual',
-            attributes: {
-              addressLine1: '123 Main St',
-              city: '',
-              stateCode: '',
-              zipCode: '',
-              fullName: 'Robert Smith',
-              individualType: 'representative',
+      context('when the representative accepts digital submission', () => {
+        it('displays digital submission methods', () => {
+          formData.representative = {
+            data: {
+              id: 1,
+              type: 'individual',
+              attributes: {
+                addressLine1: '123 Main St',
+                city: '',
+                stateCode: '',
+                zipCode: '',
+                fullName: 'Robert Smith',
+                individualType: 'representative',
+                accreditedOrganizations: {
+                  data: [{ attributes: { canAcceptDigitalPoaRequests: true } }],
+                },
+              },
             },
-          },
-        };
+          };
 
-        const useV2FeatureVisibilityStub = sinon
-          .stub(useV2FeatureToggle, 'default')
-          .returns(true);
+          const { container } = render(
+            <SearchResult
+              representative={formData.representative}
+              query={{}}
+              handleSelectRepresentative={() => {}}
+              loadingPOA={false}
+              userIsDigitalSubmitEligible={
+                formData?.userIsDigitalSubmitEligible &&
+                formData?.['view:v2IsEnabled']
+              }
+            />,
+          );
 
-        const { container } = render(
-          <SearchResult
-            representative={representative}
-            query={{}}
-            handleSelectRepresentative={() => {}}
-            loadingPOA={false}
-            userIsDigitalSubmitEligible
-          />,
-        );
+          const digitalSubmissionMethods = container.querySelector(
+            '[data-testid="submission-methods-with-digital"]',
+          );
 
-        const submissionMethods = container.querySelector(
-          '[data-testid="submission-methods"]',
-        );
+          const nonDigitalSubmissionMethods = container.querySelector(
+            '[data-testid="submission-methods-without-digital"]',
+          );
 
-        expect(submissionMethods).to.exist;
-
-        useV2FeatureVisibilityStub.restore();
+          expect(digitalSubmissionMethods).to.exist;
+          expect(nonDigitalSubmissionMethods).not.to.exist;
+        });
       });
+
+      context(
+        'when the representative does not accept digital submission',
+        () => {
+          it('displays non digital submission methods', () => {
+            formData.representative = {
+              data: {
+                id: 1,
+                type: 'individual',
+                attributes: {
+                  addressLine1: '123 Main St',
+                  city: '',
+                  stateCode: '',
+                  zipCode: '',
+                  fullName: 'Robert Smith',
+                  individualType: 'representative',
+                  accreditedOrganizations: {
+                    data: [
+                      { attributes: { canAcceptDigitalPoaRequests: false } },
+                    ],
+                  },
+                },
+              },
+            };
+
+            const { container } = render(
+              <SearchResult
+                representative={formData.representative}
+                query={{}}
+                handleSelectRepresentative={() => {}}
+                loadingPOA={false}
+                userIsDigitalSubmitEligible={
+                  formData?.userIsDigitalSubmitEligible &&
+                  formData?.['view:v2IsEnabled']
+                }
+              />,
+            );
+
+            const digitalSubmissionMethods = container.querySelector(
+              '[data-testid="submission-methods-with-digital"]',
+            );
+
+            const nonDigitalSubmissionMethods = container.querySelector(
+              '[data-testid="submission-methods-without-digital"]',
+            );
+
+            expect(digitalSubmissionMethods).not.to.exist;
+            expect(nonDigitalSubmissionMethods).to.exist;
+          });
+        },
+      );
     });
 
     context('when the user is not userIsDigitalSubmitEligible', () => {
+      beforeEach(() => {
+        formData.userIsDigitalSubmitEligible = false;
+      });
+
       it('does not display submission methods', () => {
         const representative = {
           data: {
@@ -164,34 +235,40 @@ describe('SearchResult Component', () => {
           },
         };
 
-        const useV2FeatureVisibilityStub = sinon
-          .stub(useV2FeatureToggle, 'default')
-          .returns(true);
-
         const { container } = render(
           <SearchResult
             representative={representative}
             query={{}}
             handleSelectRepresentative={() => {}}
             loadingPOA={false}
-            userIsDigitalSubmitEligible={false}
+            userIsDigitalSubmitEligible={
+              formData?.userIsDigitalSubmitEligible &&
+              formData?.['view:v2IsEnabled']
+            }
           />,
         );
 
-        const submissionMethods = container.querySelector(
-          '[data-testid="submission-methods"]',
+        const digitalSubmissionMethods = container.querySelector(
+          '[data-testid="submission-methods-with-digital"]',
         );
 
-        expect(submissionMethods).not.to.exist;
+        const nonDigitalSubmissionMethods = container.querySelector(
+          '[data-testid="submission-methods-without-digital"]',
+        );
 
-        useV2FeatureVisibilityStub.restore();
+        expect(digitalSubmissionMethods).not.to.exist;
+        expect(nonDigitalSubmissionMethods).not.to.exist;
       });
     });
   });
 
   context('when v2 is not enabled', () => {
+    const formData = {
+      'view:v2IsEnabled': false,
+    };
+
     it('does not display submission methods', () => {
-      const representative = {
+      formData.representative = {
         data: {
           id: 1,
           type: 'individual',
@@ -206,27 +283,28 @@ describe('SearchResult Component', () => {
         },
       };
 
-      const useV2FeatureVisibilityStub = sinon
-        .stub(useV2FeatureToggle, 'default')
-        .returns(false);
-
       const { container } = render(
         <SearchResult
-          representative={representative}
+          representative={formData.representative}
           query={{}}
           handleSelectRepresentative={() => {}}
           loadingPOA={false}
-          userIsDigitalSubmitEligible
+          userIsDigitalSubmitEligible={
+            formData.userIsDigitalSubmitEligible && formData['view:v2IsEnabled']
+          }
         />,
       );
 
-      const submissionMethods = container.querySelector(
-        '[data-testid="submission-methods"]',
+      const digitalSubmissionMethods = container.querySelector(
+        '[data-testid="submission-methods-with-digital"]',
       );
 
-      expect(submissionMethods).not.to.exist;
+      const nonDigitalSubmissionMethods = container.querySelector(
+        '[data-testid="submission-methods-without-digital"]',
+      );
 
-      useV2FeatureVisibilityStub.restore();
+      expect(digitalSubmissionMethods).not.to.exist;
+      expect(nonDigitalSubmissionMethods).not.to.exist;
     });
   });
 });

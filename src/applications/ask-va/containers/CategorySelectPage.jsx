@@ -11,6 +11,7 @@ import RequireSignInModal from '../components/RequireSignInModal';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
 import { URL, getApiUrl } from '../constants';
+import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const CategorySelectPage = props => {
   const { onChange, isLoggedIn, goToPath, formData, goBack, router } = props;
@@ -35,13 +36,16 @@ const CategorySelectPage = props => {
     const selected = apiData.find(
       category => category.attributes.name === selectedValue,
     );
-    localStorage.removeItem('askVAFiles');
     if (selected.attributes.requiresAuthentication && !isLoggedIn) {
       setShowModal(true);
     } else {
       dispatch(setCategoryID(selected.id));
+      (async () => {
+        await askVAAttachmentStorage.clear();
+      })();
       onChange({
         ...formData,
+        categoryId: selected.id,
         selectCategory: selectedValue,
         allowAttachments: selected.attributes.allowAttachments,
       });

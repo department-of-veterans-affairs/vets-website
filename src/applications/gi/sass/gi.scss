@@ -18,6 +18,59 @@
 @import "partials/gi-updated";
 
 .gi-app {
+  /* Start styles from legacy formation overrides code */
+  .usa-sr-only {
+    position: absolute;
+    left: -999em;
+  }
+
+  table {
+    border-spacing: 0;
+    margin: 2em 0;
+  }
+
+  thead th {
+    font-weight: 700;
+  }
+  thead th,
+  thead td {
+    background-color: var(--vads-color-base-lightest);
+  }
+
+  th {
+    text-align: left;
+  }
+
+  th,
+  td {
+    background-color: var(--vads-color-white);
+    border: 1px solid var(--vads-color-base-dark);
+    font-weight: 400;
+    padding: 0.625rem 0.9375rem;
+  }
+
+  .usa-table-borderless thead th {
+    background-color: transparent;
+    border-top: 0;
+  }
+  .usa-table-borderless th,
+  .usa-table-borderless td {
+    border-left: 0;
+    border-right: 0;
+  }
+  .usa-table-borderless th:first-child {
+    padding-left: 0;
+  }
+
+  caption {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    margin-bottom: 0.75rem;
+    text-align: left;
+  }
+  /* End styles from legacy formation overrides code */
+
   div.military-status-info {
     font-size: 0.9em;
     padding: 1em;
@@ -366,16 +419,21 @@
   }
 }
 
-.lc-result-cards-wrapper {
-  list-style: none;
-  padding-left: 0;
+.lc-results-wrapper {
+  @media (max-width: $small-screen) {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-.lc-result-info-wrapper {
-  .back-link {
-    @media (max-width: $mobile-lg) {
-      display: none;
-    }
+.lc-result-cards-wrapper {
+  list-style: none;
+  // padding-left: 0;
+}
+
+.lc-filter-accordion-wrapper {
+  .state-dropdown label {
+    margin-top: 0.25rem;
   }
 }
 
@@ -424,6 +482,10 @@
       }
     }
   }
+  #results-summary,
+  #no-results-message {
+    width: fit-content;
+  }
 }
 
 .national-exams-container {
@@ -455,7 +517,10 @@
     align-items: flex-end;
     .degree-selector {
       width: 100%;
-      max-width: 267px;
+      max-width: 18rem;
+    }
+    va-select::part(label) {
+      margin-top: 1rem;
     }
     .degree-selector-btn {
       white-space: nowrap;
@@ -464,7 +529,7 @@
       flex-direction: column;
       .degree-selector {
         max-width: 100%;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
       }
       .degree-selector-btn {
         width: 100%;
@@ -472,10 +537,13 @@
       }
     }
   }
+  #results-summary {
+    width: fit-content;
+  }
   .degree-level-results {
     display: flex;
     flex-direction: row;
-    gap: 20px;
+    gap: 1.25rem;
     list-style: none;
     padding: 0;
     .degree-item {
@@ -483,7 +551,7 @@
       height: auto;
       display: flex;
       width: 100%;
-      max-width: 305px;
+      max-width: 19.0625rem;
       .degree-level-card {
         flex: 1;
         width: 100%;

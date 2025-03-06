@@ -27,11 +27,7 @@ export class TypeOfCarePageObject extends PageObject {
   }
 
   selectTypeOfCare(label) {
-    cy.findByLabelText(label)
-      .as('radio')
-      .focus();
-    cy.get('@radio').check();
-
+    this.selectRadioButton(label);
     return this;
   }
 }

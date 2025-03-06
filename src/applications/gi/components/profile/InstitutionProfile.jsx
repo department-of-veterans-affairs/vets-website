@@ -44,19 +44,11 @@ export default function InstitutionProfile({
     TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
   );
 
-  const programTypes = [
-    'Non College Degree',
-    'Institution of Higher Learning',
-    'On The Job Training/Apprenticeship',
-    'Flight',
-    'Correspondence',
-  ];
-
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
       facilityMap.main.branches.length > 0);
-  const { type, facilityCode, name } = institution;
+  const { type, facilityCode, name, programTypes } = institution;
   localStorage.setItem('institutionName', name);
   const scrollToLocations = () => {
     scrollTo('school-locations', getScrollOptions());
@@ -164,6 +156,10 @@ export default function InstitutionProfile({
             <JumpLink label="School locations" jumpToId="school-locations" />
           )}
           {!isOJT && <JumpLink label="Academics" jumpToId="academics" />}
+          {programTypes?.length > 0 &&
+            toggleGiProgramsFlag && (
+              <JumpLink label="Programs" jumpToId="programs" />
+            )}
           {!isOJT && (
             <JumpLink
               label="Veteran programs and support"
@@ -208,51 +204,27 @@ export default function InstitutionProfile({
             label="Yellow Ribbon Program information"
             id="yellow-ribbon-program-information"
           >
-            <p>
-              The Yellow Ribbon program may pay towards net tuition and fee
-              costs not covered by the Post-9/11 GI Bill at participating
-              institutions of higher learning (IHL). Schools that choose to
-              participate in the Yellow Ribbon program will contribute up to a
-              certain dollar amount toward the extra tuition. VA will match the
-              participating school’s contribution
-              {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`}, up
-              to the total cost of the tuition and fees. To confirm the number
-              of students eligible for funding, contact the individual school.
+            <p data-testid="yellow-ribbon-section">
+              The Yellow Ribbon Program can help reduce your out-of-pocket
+              tuition and fee costs at participating colleges and universities.
+              By enrolling, you'll benefit from a contribution made by the
+              school. VA will match this contribution
+              {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`},
+              covering up to the full cost of tuition and fees.
             </p>
+            <p>
+              <strong>
+                If applicable, contact the individual school to confirm the
+                number of students eligible for funding.
+              </strong>
+            </p>
+
             <va-link
               href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
               text="Find out if you qualify for the Yellow Ribbon Program"
               className="vads-u-margin-bottom--2"
+              data-testid="yellow-ribbon-program-link"
             />
-
-            <div className="additional-info-wrapper vads-u-margin-top--2p5">
-              <div className="subsection vads-u-margin-bottom--2">
-                <h3 className="small-screen-header">
-                  What to know about the content displayed
-                </h3>
-              </div>
-
-              <ul className="getting-started-with-benefits-li">
-                <li>
-                  <strong>Degree level:</strong> type of degree such as
-                  Undergraduate, Graduate, Masters, or Doctorate.
-                </li>
-                <li>
-                  <strong>College or professional school:</strong> a school
-                  within a college or university that has a specialized
-                  professional or academic focus.
-                </li>
-                <li>
-                  <strong>Funding available:</strong> total number of students
-                  eligible to receive funding.
-                </li>
-                <li>
-                  <strong> School contribution: </strong> maximum amount the IHL
-                  will contribute per student each academic year toward unmet
-                  tuition and fee costs.
-                </li>
-              </ul>
-            </div>
             {institution.yellowRibbonPrograms.length > 0 ? (
               <YellowRibbonSelector
                 programs={institution.yellowRibbonPrograms}
@@ -308,11 +280,12 @@ export default function InstitutionProfile({
           />
         </ProfileSection>
       )}
-      {toggleGiProgramsFlag && (
-        <ProfileSection label="Programs" id="programs">
-          <Programs programTypes={programTypes} facilityCode={facilityCode} />
-        </ProfileSection>
-      )}
+      {toggleGiProgramsFlag &&
+        programTypes.length > 0 && (
+          <ProfileSection label="Programs" id="programs">
+            <Programs programTypes={programTypes} facilityCode={facilityCode} />
+          </ProfileSection>
+        )}
       {!isOJT && (
         <ProfileSection label="Academics" id="academics">
           <Academics institution={institution} onShowModal={showModal} />

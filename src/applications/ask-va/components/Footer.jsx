@@ -1,4 +1,5 @@
 import { VaBackToTop } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import NeedHelpFooter from './NeedHelpFooter';
@@ -43,6 +44,12 @@ const Footer = ({ currentLocation, categoryID, topicID }) => {
       </div>
     </div>
   );
+};
+
+Footer.propTypes = {
+  categoryID: PropTypes.string,
+  currentLocation: PropTypes.object,
+  topicID: PropTypes.string,
 };
 
 function mapStateToProps(state) {

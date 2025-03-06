@@ -302,6 +302,10 @@ export default function formReducer(state = initialState, action) {
         ? FACILITY_SORT_METHODS.distanceFromResidential
         : FACILITY_SORT_METHODS.alphabetical;
 
+      facilities = facilities.filter(
+        facility => !!facility.address?.city && !!facility.address?.state,
+      );
+
       if (hasResidentialCoordinates && facilities.length) {
         facilities = facilities
           .map(facility => {
@@ -425,6 +429,10 @@ export default function formReducer(state = initialState, action) {
       if (location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
+
+        facilities = facilities.filter(
+          facility => !!facility.address?.city && !!facility.address?.state,
+        );
 
         if (latitude && longitude) {
           facilities = facilities.map(facility => {

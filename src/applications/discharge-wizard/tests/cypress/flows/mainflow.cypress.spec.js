@@ -1,6 +1,5 @@
 import * as h from '../helpers';
 import { ROUTES } from '../../../constants';
-import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
 
 describe('Discharge Upgrade Wizard Main Flow', () => {
   describe('Base navigation', () => {
@@ -19,11 +18,7 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
 
       // DISCHARGE_YEAR
       h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-      h.selectDropdown(
-        h.DISCHARGE_YEAR_INPUT,
-        SHORT_NAME_MAP.DISCHARGE_YEAR,
-        '2024',
-      );
+      h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
       h.clickContinue();
 
       // DISCHARGE_REASON
@@ -86,11 +81,7 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
 
       // DISCHARGE_YEAR
       h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-      h.selectDropdown(
-        h.DISCHARGE_YEAR_INPUT,
-        SHORT_NAME_MAP.DISCHARGE_YEAR,
-        '2024',
-      );
+      h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
       h.clickContinue();
 
       // DISCHARGE_REASON
@@ -196,11 +187,7 @@ describe('Discharge Upgrade Wizard Main Flow', () => {
 
       // DISCHARGE_YEAR
       h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-      h.selectDropdown(
-        h.DISCHARGE_YEAR_INPUT,
-        SHORT_NAME_MAP.DISCHARGE_YEAR,
-        '2024',
-      );
+      h.typeInInput(h.DISCHARGE_YEAR_INPUT, '2024');
       h.clickContinue();
 
       // DISCHARGE_REASON

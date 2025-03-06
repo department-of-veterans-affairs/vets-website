@@ -12,7 +12,7 @@ import trackMemoryUsage from '../../testing/unit/unit-test-track-memory-usage';
 const validatedConfigs = new Map();
 
 const formConfigFnParams = {
-  'form-upload': '/form-upload/21-0779/upload',
+  'form-upload': '/find-forms/upload/21-0779',
 };
 
 const missingFromVetsJsonSchema = [
@@ -23,20 +23,28 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_10_7959F_1,
   VA_FORM_IDS.FORM_10_7959F_2,
   VA_FORM_IDS.FORM_10182,
+  VA_FORM_IDS.FORM_1330M,
+  VA_FORM_IDS.FORM_1330M2,
+  VA_FORM_IDS.FORM_1919,
   VA_FORM_IDS.FORM_20_0995,
   VA_FORM_IDS.FORM_20_10206,
   VA_FORM_IDS.FORM_20_10207,
+  VA_FORM_IDS.FORM_21_0779_UPLOAD,
   VA_FORM_IDS.FORM_21_0845,
   VA_FORM_IDS.FORM_21_0966,
   VA_FORM_IDS.FORM_21_0972,
   VA_FORM_IDS.FORM_21_10210,
   VA_FORM_IDS.FORM_21_4138,
+  VA_FORM_IDS.FORM_21_509_UPLOAD,
   VA_FORM_IDS.FORM_21A,
+  VA_FORM_IDS.FORM_21P_0516_1_UPLOAD,
+  VA_FORM_IDS.FORM_21P_0518_1_UPLOAD,
   VA_FORM_IDS.FORM_21P_0847,
+  VA_FORM_IDS.FORM_22_8794,
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
-  VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
   VA_FORM_IDS.FORM_HC_QSTNR,
+  VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   VA_FORM_IDS.FORM_MOCK_ALT_HEADER,
   VA_FORM_IDS.FORM_MOCK_APPEALS,
   VA_FORM_IDS.FORM_MOCK_HLR,
@@ -45,11 +53,8 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK,
   VA_FORM_IDS.FORM_T_QSTNR,
-  VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
-  VA_FORM_IDS.FORM_XX_123,
-  VA_FORM_IDS.FORM_1919,
-  VA_FORM_IDS.FORM_22_8794,
   VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
+  VA_FORM_IDS.FORM_XX_123,
 ];
 
 const remapFormId = {
@@ -246,10 +251,10 @@ const validateFormConfig = {
 };
 
 // Modify validateForm to count validations
-const validateForm = async formConfigParam => {
+const validateForm = async (formSlug, formConfigParam) => {
   let config = formConfigParam;
   if (typeof config === 'function') {
-    const key = config.name || 'unknown';
+    const key = formSlug.split('/')[0] || 'unknown';
     const options = formConfigFnParams[key];
     config = options ? config(options) : config();
   }
@@ -349,7 +354,7 @@ describe('Form Configuration Tests', function() {
 
       try {
         const { default: formConfig } = await import(configPath);
-        const result = await validateForm(formConfig);
+        const result = await validateForm(formSlug, formConfig);
         validatedConfigs.set(configPath, result);
         return result;
       } catch (error) {

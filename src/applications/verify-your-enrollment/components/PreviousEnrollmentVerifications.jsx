@@ -291,7 +291,14 @@ const PreviousEnrollmentVerifications = ({
           start={subsetStart}
           end={subsetEnd}
           total={totalEnrollmentCount}
-          dontHaveEnrollment={response?.error?.error === 'Forbidden'}
+          dontHaveEnrollment={
+            response?.error?.error === 'Forbidden' ||
+            !response.personalInfo ||
+            [
+              response.personalInfo?.verificationRecord?.status,
+              response.personalInfo?.status,
+            ].includes(204)
+          }
         />
       )}
       {totalEnrollmentCount > 0 && getPreviouslyVerified()}

@@ -238,6 +238,7 @@ export default function DateTimeSelectPage() {
             maxDate={moment()
               .add(395, 'days')
               .format('YYYY-MM-DD')}
+            renderIndicator={_ => undefined}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
             startMonth={startMonth}

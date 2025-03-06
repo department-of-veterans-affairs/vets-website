@@ -1,4 +1,17 @@
-export const HEADING_SELECTOR = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].join(', ');
+export const HEADING_SELECTORS = [
+  'div.form-panel h1',
+  'div.form-panel h2',
+  'div.form-panel h3',
+  'div.form-panel h4',
+  'div.form-panel h5',
+  'div.form-panel h6',
+  'div.schemaform-title h1',
+  'div.schemaform-title h2',
+  'div.schemaform-title h3',
+  'div.schemaform-title h4',
+  'div.schemaform-title h5',
+  'div.schemaform-title h6',
+].join(', ');
 
 const selectorShorthand = {
   SELECT_RESIDENCE: "va-select[name='root_yourLocationOfResidence']",
@@ -13,6 +26,7 @@ const selectorShorthand = {
   TYPE_DAY: 'va-text-input.usa-form-group--day-input',
   TYPE_YEAR: 'va-text-input.usa-form-group--year-input',
   TYPE_QUESTION: "textarea[name='root_question']",
+  TYPE_SUBJECT: `input#root_subject[name="root_subject"]`,
   TYPE_FIRST_NAME: "va-text-input[name='root_aboutYourself_first']",
   TYPE_LAST_NAME: "va-text-input[name='root_aboutYourself_last']",
   TYPE_FAMILY_MEMBER_FIRST_NAME:
@@ -48,10 +62,35 @@ const log = content => {
   cy.log(content);
 };
 
-const ensureExists = (content, selector = HEADING_SELECTOR) => {
-  cy.get(selector, { includeShadowDom: true })
-    .contains(content)
-    .should('exist');
+const ensureExists = (content, selector = null) => {
+  // cy.log('ensureExists:', selector, content);
+  if (selector === null) {
+    let newSelector = null;
+    switch ((content ?? '').toUpperCase()) {
+      case 'CATEGORY':
+        newSelector = selectorShorthand.SELECT_CATEGORY;
+        break;
+      case 'ASK VA':
+      default:
+        newSelector = null;
+        break;
+    }
+    if (newSelector === null) {
+      cy.get('h1, h2, h3, h4, h5, h6', {
+        includeShadowDom: true,
+      })
+        .contains(content)
+        .should('exist');
+    } else {
+      cy.get(newSelector, {
+        includeShadowDom: true,
+      }).should('exist');
+    }
+  } else {
+    cy.get(selector, { includeShadowDom: true })
+      .contains(content)
+      .should('exist');
+  }
 };
 
 const clickLink = text => {
@@ -64,18 +103,21 @@ const clickLink = text => {
 };
 
 const clickSearchButton = () => {
-  cy.get('input#facility-search').should('exist');
-  cy.get('input#facility-search').click();
+  cy.get('button#facility-search').should('exist');
+  cy.get('button#facility-search').click();
 };
 
-// const clickSearchButton = text => {
-//   cy.get('input#facility-search').should('exist');
-//   cy.get('input#facility-search').click();
-// };
-
 const clickRadioButton = selector => {
-  const newSelector =
-    mapSelectorShorthand(selector) || `va-radio-option[value="${selector}"]`;
+  const RADIO_DEFAULT_SELECTOR = `va-radio-option[value*="${selector}"]`;
+  const newSelector = mapSelectorShorthand(selector) || RADIO_DEFAULT_SELECTOR;
+
+  cy.get(newSelector).should('exist');
+  cy.get(newSelector).click();
+};
+
+const clickRadioButtonYesNo = selector => {
+  const RADIO_LABEL_SELECTOR = `va-radio-option[label*="${selector}"]`;
+  const newSelector = mapSelectorShorthand(selector) || RADIO_LABEL_SELECTOR;
 
   cy.get(newSelector).should('exist');
   cy.get(newSelector).click();
@@ -150,6 +192,8 @@ export default class STEPS {
   static clickLink = clickLink;
 
   static clickRadioButton = clickRadioButton;
+
+  static clickRadioButtonYesNo = clickRadioButtonYesNo;
 
   static clickCallToActionButton = clickCallToActionButton;
 

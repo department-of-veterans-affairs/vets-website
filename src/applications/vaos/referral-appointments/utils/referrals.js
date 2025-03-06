@@ -1,10 +1,40 @@
 /* eslint-disable camelcase */
 
 const { addDays, addMonths, format, subMonths } = require('date-fns');
-const { providers } = require('./provider');
 
 const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
+
+/**
+ * Creates a referral list object relative to a start date.
+ *
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
+ * @param {String} uuid The UUID for the referral
+ * @param {String} providerId The ID for the provider
+ * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @returns {Object} Referral object
+ */
+
+const createReferralListItem = (
+  startDate,
+  uuid,
+  providerId = '111',
+  expirationDate,
+  categoryOfCare = 'Physical Therapy',
+) => {
+  const [year, month, day] = startDate.split('-');
+  const relativeDate = new Date(year, month - 1, day);
+  const mydFormat = 'yyyy-MM-dd';
+  return {
+    UUID: uuid,
+    ReferralDate: startDate,
+    CategoryOfCare: categoryOfCare,
+    ReferralExpirationDate:
+      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+    providerId,
+  };
+};
+
 /**
  * Creates a referral object relative to a start date.
  *
@@ -14,18 +44,18 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
  * @returns {Object} Referral object
  */
-const createReferral = (
+const createReferralById = (
   startDate,
   uuid,
   providerId = '111',
   expirationDate,
+  categoryOfCare = 'Physical Therapy',
 ) => {
   const [year, month, day] = startDate.split('-');
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
   const mydWithTimeFormat = 'yyyy-MM-dd kk:mm:ss';
-  const provider = providers[providerId];
 
   return {
     ReferralCategory: 'Inpatient',
@@ -39,7 +69,7 @@ const createReferral = (
     ReferringProvider: '534_520824810',
     SourceOfReferral: 'Interfaced from VA',
     Status: 'Approved',
-    CategoryOfCare: provider.typeOfCare,
+    CategoryOfCare: categoryOfCare,
     StationID: '528A4',
     Sta6: '534',
     ReferringProviderNPI: '534_520824810',
@@ -50,6 +80,7 @@ const createReferral = (
       Address: {
         Address1: '222 Richmond Avenue',
         City: 'BATAVIA',
+        State: 'NY',
         ZipCode: '14020',
       },
       Phone: '(585) 297-1000',
@@ -57,12 +88,9 @@ const createReferral = (
     },
     ReferralStatus: 'open',
     UUID: uuid,
-    numberOfAppointments: 1,
-    providerName: provider.providerName,
-    providerLocation: provider.providerLocation,
+    providerName: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+    providerLocation: 'FHA South Melbourne Medical Complex',
     providerId,
-    details: 'Back pain',
-    reason: 'Referral',
   };
 };
 
@@ -94,7 +122,7 @@ const createReferrals = (
     const mydFormat = 'yyyy-MM-dd';
     const referralDate = format(startDate, mydFormat);
     referrals.push(
-      createReferral(
+      createReferralListItem(
         referralDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
         providerIds[i % providerIds.length],
@@ -129,9 +157,32 @@ const filterReferrals = referrals => {
   );
 };
 
+/**
+ * Creates an address string from object
+ *
+ * @param {Object} addressObject Address object
+ * @returns {String} Address string
+ */
+const getAddressString = addressObject => {
+  let addressString = addressObject.Address1;
+  if (addressObject.Address2) {
+    addressString = `${addressString}, ${addressObject.Address2}`;
+  }
+  if (addressObject.street3) {
+    addressString = `${addressString}, ${addressObject.Address3}`;
+  }
+  addressString = `${addressString}, ${addressObject.City}, ${
+    addressObject.State
+  }, ${addressObject.ZipCode}`;
+  return addressString;
+};
+
 module.exports = {
-  createReferral,
+  createReferralById,
+  createReferralListItem,
   createReferrals,
   getReferralSlotKey,
   filterReferrals,
+  expiredUUIDBase,
+  getAddressString,
 };

@@ -2,7 +2,9 @@ import { expect } from 'chai';
 import * as api from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
 import environment from 'platform/utilities/environment';
+import * as recordEventModule from 'platform/monitoring/record-event';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
   mockFetchFacilitiesResponse,
@@ -19,14 +21,23 @@ describe('CG fetchFacilities action', () => {
   const page = 1;
   const radius = 500;
   const facilityIds = ['12', '34'];
+  const errorResponse = { bad: 'some error' };
   let apiRequestStub;
+  let sentrySpy;
+  let recordEventStub;
 
   beforeEach(() => {
+    localStorage.setItem('csrfToken', 'my-token');
     apiRequestStub = sinon.stub(api, 'apiRequest').resolves([]);
+    sentrySpy = sinon.spy(Sentry, 'captureMessage');
+    recordEventStub = sinon.stub(recordEventModule, 'default');
   });
 
   afterEach(() => {
     apiRequestStub.restore();
+    localStorage.clear();
+    sentrySpy.restore();
+    recordEventStub.restore();
   });
 
   context('success', () => {
@@ -50,6 +61,14 @@ describe('CG fetchFacilities action', () => {
         method,
         headers,
         body: expectedBody,
+      });
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+        expect(sentrySpy.called).to.be.true;
+        expect(sentrySpy.firstCall.args[0]).to.equal(
+          'FetchFacilities facilityIds',
+        );
       });
     });
 
@@ -97,12 +116,20 @@ describe('CG fetchFacilities action', () => {
         headers,
         body: expectedBody,
       });
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
     });
 
     it('formats facility addresses', async () => {
       apiRequestStub.resolves(mockFacilitiesResponse);
       const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
     });
 
     it('returns NO_SEARCH_RESULTS if no data array', async () => {
@@ -113,22 +140,15 @@ describe('CG fetchFacilities action', () => {
         type: 'NO_SEARCH_RESULTS',
         errorMessage: content['error--no-results-found'],
       });
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
     });
   });
 
   context('failure', () => {
-    let sentrySpy;
-
-    beforeEach(() => {
-      sentrySpy = sinon.spy(Sentry, 'captureMessage');
-    });
-
-    afterEach(() => {
-      sentrySpy.restore();
-    });
-
     it('should log to sentry and return an error object', async () => {
-      const errorResponse = { bad: 'some error' };
       apiRequestStub.rejects(errorResponse);
 
       const response = await fetchFacilities({ long, lat });
@@ -139,8 +159,45 @@ describe('CG fetchFacilities action', () => {
 
       expect(sentrySpy.called).to.be.true;
       expect(sentrySpy.firstCall.args[0]).to.equal(
+        'FetchFacilities facilityIds',
+      );
+      expect(sentrySpy.secondCall.args[0]).to.equal(
         'Error fetching Lighthouse VA facilities',
       );
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
+    });
+
+    it('should log to sentry and reset csrfToken on 403 Invalid Authenticity Token error', async () => {
+      expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+      const invalidAuthenticityTokenResponse = {
+        errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
+      };
+      apiRequestStub.rejects(invalidAuthenticityTokenResponse);
+
+      const response = await fetchFacilities({ long, lat });
+      expect(response).to.eql({
+        type: 'SEARCH_FAILED',
+        errorMessage: 'There was an error fetching the health care facilities.',
+      });
+
+      expect(sentrySpy.called).to.be.true;
+      expect(sentrySpy.firstCall.args[0]).to.equal(
+        'FetchFacilities facilityIds',
+      );
+      expect(sentrySpy.secondCall.args[0]).to.equal(
+        'Error fetching Lighthouse VA facilities',
+      );
+      expect(sentrySpy.thirdCall.args[0]).to.equal(
+        'Error in fetchFacilities. Clearing csrfToken in localStorage.',
+      );
+      expect(localStorage.getItem('csrfToken')).to.eql('');
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
     });
   });
 });

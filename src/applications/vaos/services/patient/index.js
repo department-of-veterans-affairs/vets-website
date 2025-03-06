@@ -105,30 +105,21 @@ export async function fetchPatientEligibility({
 }
 
 /**
- * Fetch the logged in user's patient/provider relationships
+ * Method to get logged in user's patient/provider relationships objects
  *
  * @export
  * @async
- * @param {Object} params
  * @param {TypeOfCare} params.typeOfCare Type of care object for which to check patient relationships
- * @param {Location} params.location Location of where patient should have relationships checked,
+ * @param {string} params.facilityId of facility to check for relationships
  * @returns {Array<PatientProviderRelationship} Returns an array of PatientProviderRelationship objects
  */
 
-export async function fetchPatientRelationships() {
-  // TODO:  https://github.com/department-of-veterans-affairs/va.gov-team/issues/98864
-  // Once we are aware of the data that we need and where this needs to be called
-  // in the flow, we need to add { typeOfCare, location } as a passed attribute.
-  //
-  // export async function fetchPatientRelationships({ typeOfCare, location })
-  //
-  // const data = await getPatientRelationships(location.id, typeOfCare.idV2);
-  //
-  // Currently this will fetch all patient provider relationships for the logged
-  // in user.
-
+export async function fetchPatientRelationships(facilityId, typeOfCare) {
   try {
-    const data = await getPatientRelationships();
+    const data = await getPatientRelationships({
+      locationId: facilityId,
+      typeOfCareId: typeOfCare.idV2,
+    });
     return transformPatientRelationships(data || []);
   } catch (e) {
     return null;

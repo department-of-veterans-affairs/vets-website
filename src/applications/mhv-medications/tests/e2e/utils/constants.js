@@ -27,12 +27,45 @@ export const Data = {
   ORIGINAL_FILL_LINK_TEXT: 'Request a fill',
   SINGLE_REFILL_HISTORY_INFO: 'Showing 1 refill',
   SINGLE_PREVIOUS_RX_INFO: 'Showing 1 prescription',
+  SINGLE_CERNER_FACILITY_USER:
+    'Some of your medications may be in a different portal. To view or manage medications at VA Spokane health care, go to My VA Health.',
+  CERNER_FACILITY_ONE: 'VA Spokane health care',
+  CERNER_FACILITY_TWO: 'VA Roseburg health care',
+  MULTIPLE_CERNER_TEXT_ALERT:
+    'Some of your medications may be in a different portal. To view or manage medications at these facilities, go to My VA Health',
+  PENDING_RX_CARD_INFO:
+    'This is a new prescription from your provider. Your VA pharmacy is reviewing it now. Details may change.',
+  PENDING_ALERT_TEXT: 'Your VA pharmacy is still reviewing this prescription',
+  PENDING_RENEW_TEXT: 'This is a renewal you requested.',
+  PENDING_ALERT_WITHIN_SEVEN_DAYS:
+    'Your VA pharmacy is reviewing this prescription',
+  DELAY_ALERT_BANNER: 'Some refills are taking longer than expected',
+  DELAY_ALERT_DETAILS_BANNER:
+    'Your refill request for this medication is taking longer than expected',
+  CHECK_STATUS_HEADER: 'Check the status of your next refill',
+  HELP_TEXT: 'Need help?',
+  LIST_PAGE_TITLE_NOTES: 'Bring your medications list',
+  PROGRESS_LIST_HEADER: 'How the refill process works',
+  STEP_ONE_HEADER: 'You request a refill',
+  STEP_TWO_HEADER: 'We process your refill request',
+  STEP_THREE_HEADER: 'We ship your refill to you',
+  STEP_THREE_NOTE:
+    'Remember to request your next refill at least 15 days before ',
+  STEP_ONE_SUBMITTED: 'We received your refill request',
+  STEP_TWO_SUBMITTED: 'We will process your refill request',
+  STEP_THREE_SUBMITTED: 'We will ship your refill',
+  STEP_TWO_ACTIVE: 'We processed your refill',
+  STEP_THREE_SHIPPED: 'We shipped your refill',
 };
 export const Paths = {
   LANDING_LIST:
     '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
   MED_LIST:
     '/my_health/v1/prescriptions?page=1&per_page=10&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+  EMPTY_MED_LIST:
+    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
+  DELAY_ALERT:
+    '/my_health/v1/prescriptions?&filter[[disp_status][eq]]=Active:%20Refill%20in%20Process,Active:%20Submitted&sort[]=prescription_name&sort[]=dispensed_date',
   SORT_BY_NAME:
     'my_health/v1/prescriptions?page=1&per_page=10&sort[]=prescription_name&sort[]=dispensed_date',
   SORT_BY_LAST_FILLED:

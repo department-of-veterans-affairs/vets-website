@@ -52,4 +52,24 @@ describe('22-10215 - Institution Details', () => {
 
     form.unmount();
   });
+  it('should validate facility code length', () => {
+    const errors = {
+      addError: message => {
+        errors.messages.push(message);
+      },
+      messages: [],
+    };
+
+    const validateFacilityCode =
+      formConfig.chapters.institutionDetailsChapter.pages.institutionDetails
+        .uiSchema.institutionDetails.facilityCode['ui:validations'][0];
+    validateFacilityCode(errors, '1234567');
+    expect(errors.messages).to.include(
+      'Please enter a valid 8-digit facility code',
+    );
+
+    errors.messages = [];
+    validateFacilityCode(errors, '12345678');
+    expect(errors.messages).to.be.empty;
+  });
 });

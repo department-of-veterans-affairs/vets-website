@@ -86,7 +86,7 @@ class PatientSearchPage {
         const newItem = JSON.parse(JSON.stringify(item));
         // update the category to provided data
         newItem.type = 'messages';
-        newItem.attributes.readReceipt = 'READ';
+        newItem.attributes.readReceipt = null;
         newItem.attributes.category = category;
         return newItem;
       }),
@@ -107,7 +107,7 @@ class PatientSearchPage {
           sentDate: GeneralFunctionsPage.getRandomDateWithinLastNumberOfMonths(
             numberOfMonths,
           ),
-          readReceipt: 'READ',
+          readReceipt: null,
         };
         return newItem;
       }),

@@ -7,9 +7,7 @@ const {
 } = formConfig.chapters.statementTypeChapter.pages.decisionReviewPage;
 
 const pageTestExpectation = {
-  numberOfWebComponentErrors: 1,
-  numberOfWebComponentFields: 1,
-  pageTitle: 'What to know before you request a decision review',
+  pageTitle: 'There’s a better way to tell us you disagree with a decision',
   schema,
   uiSchema,
 };

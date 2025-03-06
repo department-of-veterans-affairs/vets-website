@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import {
+  CategoryDebt,
   CHAPTER_2,
   CHAPTER_3,
   schoolInYourProfileOptions,
+  TopicEducationBenefitOverpayments,
   yourRoleOptionsEducation,
 } from '../../constants';
 import {
@@ -116,7 +118,7 @@ const ch3Pages = {
     title: CHAPTER_3.DEATH_DATE.TITLE,
     uiSchema: deathDatePage.uiSchema,
     schema: deathDatePage.schema,
-    depends: form => form.aboutTheVeteran.isVeteranDeceased === true,
+    depends: form => form.aboutTheVeteran?.isVeteranDeceased === true,
   },
   veteransPostalCode: {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
@@ -213,12 +215,13 @@ const ch3Pages = {
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
     depends: form =>
-      (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
-        !form.schoolInfo?.schoolName ||
-        !form.school) &&
-      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
-        form.yourRoleEducation ===
-          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
+      (form.selectCategory === CategoryDebt &&
+        form.selectTopic === TopicEducationBenefitOverpayments) ||
+      ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
+        !form.schoolInfo?.schoolName) &&
+        (form.yourRole === yourRoleOptionsEducation.SCO ||
+          form.yourRole ===
+            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -239,9 +242,9 @@ const ch3Pages = {
     uiSchema: stateOfFacilityPage.uiSchema,
     schema: stateOfFacilityPage.schema,
     depends: form =>
-      form.yourRoleEducation === yourRoleOptionsEducation.VA_EMPLOYEE ||
-      form.yourRoleEducation === yourRoleOptionsEducation.WORK_STUDY_SUP ||
-      form.yourRoleEducation === yourRoleOptionsEducation.OTHER,
+      form.yourRole === yourRoleOptionsEducation.VA_EMPLOYEE ||
+      form.yourRole === yourRoleOptionsEducation.WORK_STUDY_SUP ||
+      form.yourRole === yourRoleOptionsEducation.OTHER,
   },
   stateOrFacility: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -261,10 +264,13 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
+      // Reference: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#school-fields
       (form.school || form.schoolInfo?.schoolName) &&
-      (form.yourRoleEducation === yourRoleOptionsEducation.SCO ||
-        form.yourRoleEducation ===
-          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
+      ((form.selectCategory === CategoryDebt &&
+        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        (form.yourRole === yourRoleOptionsEducation.SCO ||
+          form.yourRole ===
+            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -428,6 +434,10 @@ export const flowPages = (obj, list, path) => {
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
   'yourBranchOfService',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -449,6 +459,10 @@ const aboutMyselfRelationshipFamilyMember = [
   'aboutTheVeteran',
   'dateOfDeath',
   'aboutYourselfRelationshipFamilyMember',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -468,6 +482,10 @@ export const aboutMyselfRelationshipFamilyMemberPages = flowPages(
 const aboutSomeoneElseRelationshipVeteran = [
   'aboutYourRelationshipToFamilyMember',
   'aboutYourFamilyMember',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -499,6 +517,10 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'dateOfDeath',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -519,6 +541,10 @@ export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages = flowPag
 const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'theirRelationshipToVeteran',
   'aboutYourFamilyMember',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -553,6 +579,10 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourRole',
   'aboutTheVeteran',
   'dateOfDeath',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -588,6 +618,10 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 
 const generalQuestion = [
   'aboutYourselfGeneral',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',

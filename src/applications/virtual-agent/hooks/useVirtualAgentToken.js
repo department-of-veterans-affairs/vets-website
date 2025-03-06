@@ -40,6 +40,11 @@ async function getToken(
   isDatadogLoggingEnabled,
 ) {
   try {
+    logErrorToDatadog(
+      isDatadogLoggingEnabled,
+      'vets-website - useVirtualAgentToken',
+      new Error('test'),
+    );
     const apiCall = callVirtualAgentTokenApi(
       props.virtualAgentEnableMsftPvaTesting,
       props.virtualAgentEnableNluPvaTesting,

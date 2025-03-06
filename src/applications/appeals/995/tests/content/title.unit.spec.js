@@ -21,7 +21,8 @@ describe('getSubTitle', () => {
   it('should return 4142 title for 4142 paths', () => {
     testSubTitle('/private-medical-records-authorization', subTitle4142);
     testSubTitle('/private-medical-records', subTitle4142);
-    testSubTitle('/add-private-record-limitations', subTitle4142);
+    testSubTitle('/add-limitation', subTitle4142);
+    testSubTitle('/limitation', subTitle4142);
 
     testSubTitle('/private-medical-records/test', subTitle4142);
   });

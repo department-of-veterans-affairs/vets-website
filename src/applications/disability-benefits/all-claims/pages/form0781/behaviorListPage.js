@@ -1,79 +1,100 @@
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
+  textUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
-  BEHAVIOR_LIST_DESCRIPTION,
-  BEHAVIOR_LIST_BEHAVIORS_TITLE,
+  titleWithTag,
+  form0781HeadingTag,
+  mentalHealthSupportAlert,
+} from '../../content/form0781';
+import {
+  behaviorListDescription,
+  behaviorListNoneLabel,
+  behaviorListAdditionalInformation,
+  behaviorListPageTitle,
+  validateBehaviorSelections,
+  behaviorListValidationError,
+  showConflictingAlert,
 } from '../../content/form0781/behaviorListPages';
 import {
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
 } from '../../constants';
 
-const schemaKeys = Object.keys(BEHAVIOR_CHANGES_WORK).concat(
-  Object.keys(BEHAVIOR_CHANGES_HEALTH),
-  Object.keys(BEHAVIOR_CHANGES_OTHER),
-);
-
 export const uiSchema = {
-  'ui:description': BEHAVIOR_LIST_DESCRIPTION,
-  behaviors: checkboxGroupUI({
-    title: BEHAVIOR_LIST_BEHAVIORS_TITLE,
+  'ui:title': titleWithTag(behaviorListPageTitle, form0781HeadingTag),
+  'ui:description': behaviorListDescription,
+  'view:conflictingResponseAlert': {
+    'ui:description': behaviorListValidationError,
+    'ui:options': {
+      hideIf: formData => showConflictingAlert(formData) === false,
+    },
+  },
+  workBehaviors: checkboxGroupUI({
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.work,
+    labelHeaderLevel: '4',
     labels: {
       ...BEHAVIOR_CHANGES_WORK,
+    },
+    required: false,
+  }),
+  healthBehaviors: checkboxGroupUI({
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.health,
+    labelHeaderLevel: '4',
+    labels: {
       ...BEHAVIOR_CHANGES_HEALTH,
+    },
+    required: false,
+  }),
+  otherBehaviors: checkboxGroupUI({
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.other,
+    labelHeaderLevel: '4',
+    labels: {
       ...BEHAVIOR_CHANGES_OTHER,
     },
     required: false,
   }),
-  otherBehaviors: {
-    'ui:title': 'placeholder title',
-    'ui:description': 'placeholde description',
-  },
-  'view:optOut': checkboxGroupUI({
-    title: 'None',
+  unlistedBehaviors: textUI({
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.unlisted,
+  }),
+  'view:noneCheckbox': checkboxGroupUI({
+    title: BEHAVIOR_LIST_SECTION_SUBTITLES.none,
+    labelHeaderLevel: '4',
     labels: {
-      none: 'no selection placeholder',
+      none: behaviorListNoneLabel,
     },
     required: false,
   }),
-  'ui:validations': [
-    (errors, field) => {
-      const behaviorSelected = Object.values(field.behaviors || {}).some(
-        selected => selected,
-      );
-      const otherProvided = Object.values(field.otherBehaviors || {}).some(
-        entry => !!entry,
-      );
-      const optedOut = !!Object.values(field['view:optOut'] || {}).some(
-        entry => !!entry,
-      );
-
-      if (!behaviorSelected && !otherProvided && !optedOut) {
-        // when a user has not selected options nor opted out
-        errors['view:optOut'].addError(
-          'selection required Error message placehoder',
-        );
-      } else if (optedOut && (behaviorSelected || otherProvided)) {
-        // when a user has selected options and opted out
-        errors['view:optOut'].addError(
-          'conflicting selections Error message placehoder',
-        );
-      }
-    },
-  ],
+  'view:behaviorAdditionalInformation': {
+    'ui:description': behaviorListAdditionalInformation,
+  },
+  'view:mentalHealthSupportAlert': {
+    'ui:description': mentalHealthSupportAlert,
+  },
+  'ui:validations': [validateBehaviorSelections],
 };
 
 export const schema = {
   type: 'object',
   properties: {
-    behaviors: checkboxGroupSchema(schemaKeys),
-    otherBehaviors: {
-      type: 'string',
+    'view:conflictingResponseAlert': {
+      type: 'object',
       properties: {},
     },
-    'view:optOut': checkboxGroupSchema(['none']),
+    workBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_WORK)),
+    healthBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_HEALTH)),
+    otherBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_OTHER)),
+    'view:noneCheckbox': checkboxGroupSchema(['none']),
+    'view:behaviorAdditionalInformation': {
+      type: 'object',
+      properties: {},
+    },
+    'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
   },
 };

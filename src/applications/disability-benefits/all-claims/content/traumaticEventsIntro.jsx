@@ -7,8 +7,8 @@ export const eventsIntroDescription = () => {
     <>
       <p>
         We want to know about any traumatic events during your military service.
-        <br />
-        <br />
+      </p>
+      <p>
         Any information you provide will help us understand your situation and
         identify evidence to support your claim. All the questions are optional.
         You can provide only details that you’re comfortable sharing.

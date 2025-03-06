@@ -17,6 +17,8 @@ import {
   ssnSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
+  dateOfDeathUI,
+  dateOfDeathSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
@@ -27,7 +29,7 @@ import {
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import { customLocationSchema } from '../../helpers';
+import { customLocationSchema, generateHelpText } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -62,7 +64,7 @@ export const deceasedDependentOptions = {
         return label;
       }
 
-      return 'Unknown'; // Default if `dependentType` is null for some reason
+      return 'Unknown'; // Default if `dependentType` is undefined for some reason
     },
     cardDescription: item => {
       const firstName = capitalize(item?.fullName?.first || '');
@@ -167,18 +169,14 @@ export const deceasedDependentChildTypePage = {
       ...checkboxGroupUI({
         title: 'What type of child?',
         labels: childTypeLabels,
-        required: (formData, index) => {
-          const addMode = formData?.deaths?.[index]?.dependentType === 'child';
-          const editMode = formData?.dependentType;
-
-          return addMode || editMode;
-        },
+        required: () => true,
       }),
+      'ui:description': generateHelpText('Check all that apply'),
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.deaths?.[index];
 
-          if (itemData?.dependentType !== 'child' && itemData?.childStatus) {
+          if (itemData?.dependentType !== 'CHILD' && itemData?.childStatus) {
             Object.keys(itemData.childStatus).forEach(key => {
               itemData.childStatus[key] = undefined;
             });
@@ -191,6 +189,7 @@ export const deceasedDependentChildTypePage = {
   },
   schema: {
     type: 'object',
+    required: ['childStatus'],
     properties: {
       childStatus: checkboxGroupSchema(childTypeEnums),
     },
@@ -202,7 +201,7 @@ export const deceasedDependentDateOfDeathPage = {
     ...arrayBuilderItemSubsequentPageTitleUI(
       () => 'When did this dependent die?',
     ),
-    dependentDeathDate: currentOrPastDateUI({
+    dependentDeathDate: dateOfDeathUI({
       title: 'Date of death',
       required: () => true,
     }),
@@ -210,7 +209,7 @@ export const deceasedDependentDateOfDeathPage = {
   schema: {
     type: 'object',
     properties: {
-      dependentDeathDate: currentOrPastDateSchema,
+      dependentDeathDate: dateOfDeathSchema,
     },
   },
 };

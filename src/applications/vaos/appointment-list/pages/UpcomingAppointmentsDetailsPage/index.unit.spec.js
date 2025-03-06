@@ -34,382 +34,387 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     },
   };
 
-  beforeEach(() => {
-    mockFetch();
-    mockFacilitiesFetch();
-    MockDate.set(getTestDate());
+  describe('show appointment', () => {
+    beforeEach(() => {
+      mockFetch();
+      mockFacilitiesFetch();
+      MockDate.set(getTestDate());
+    });
+
+    afterEach(() => {
+      MockDate.reset();
+    });
+
+    // -------------
+
+    it('should display who canceled the appointment', async () => {
+      // Arrange
+      const response = new MockAppointmentResponse({
+        status: APPOINTMENT_STATUS.cancelled,
+      });
+      mockAppointmentApi({ response });
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${response.id}`,
+      });
+
+      await waitFor(() => {
+        expect(document.activeElement).to.have.tagName('h1');
+      });
+
+      // The canceled appointment and past appointment alerts are mutually exclusive
+      // with the canceled appointment status having 1st priority. So, the canceled
+      // appointment alert should display even when the appointment is a past
+      // appointment.
+      expect(screen.queryByText(/Facility canceled this appointment/i));
+      expect(screen.queryByText('This appointment occurred in the past.')).not
+        .to.exist;
+    });
+
+    it('should display who canceled the appointment for past appointments', async () => {
+      // Arrange
+      const response = new MockAppointmentResponse({
+        localStartTime: moment().subtract(1, 'day'),
+        status: APPOINTMENT_STATUS.cancelled,
+      });
+
+      mockAppointmentApi({ response });
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${response.id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(document.activeElement).to.have.tagName('h1');
+      });
+
+      // The canceled appointment and past appointment alerts are mutually exclusive
+      // with the canceled appointment status having 1st priority. So, the canceled
+      // appointment alert should display even when the appointment is a past
+      // appointment.
+      expect(screen.queryByText(/Facility canceled this appointment/i));
+      expect(screen.queryByText('This appointment occurred in the past.')).not
+        .to.exist;
+    });
+
+    it('should allow the user to go back to the appointment list', async () => {
+      // Arrange
+      const response = new MockAppointmentResponse();
+
+      mockAppointmentApi({ response, avs: true, fetchClaimStatus: true });
+      mockGetUpcomingAppointmentsApi({
+        response: [response],
+        avs: true,
+      });
+      mockGetPendingAppointmentsApi({
+        response: [response],
+      });
+
+      // Act
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${response.id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(document.activeElement).to.have.tagName('h1');
+      });
+
+      userEvent.click(
+        screen.container.querySelector('va-link[text="Back to appointments"]'),
+      );
+      expect(screen.baseElement).to.contain.text('Appointments');
+    });
+
+    describe('Document titles', () => {
+      it('should display document tile for ATLAS video appointment', async () => {
+        // Arrange
+        const today = moment();
+        const responses = MockAppointmentResponse.createAtlasResponses({
+          localStartTime: today,
+        });
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Upcoming Video Appointment At An ATLAS Location On ${today.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for past ATLAS video appointment', async () => {
+        // Arrange
+        const yesterday = moment().subtract(1, 'day');
+        const responses = MockAppointmentResponse.createAtlasResponses({
+          localStartTime: yesterday,
+        });
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Past Video Appointment At An ATLAS Location On ${yesterday.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for canceled ATLAS video appointment', async () => {
+        // Arrange
+        const today = moment();
+        const responses = MockAppointmentResponse.createAtlasResponses({
+          localStartTime: today,
+        });
+        responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Canceled Video Appointment At An ATLAS Location On ${today.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for video appointment', async () => {
+        // Arrange
+        const today = moment();
+        const responses = MockAppointmentResponse.createGfeResponses({
+          localStartTime: today,
+        });
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Upcoming Video Appointment On ${today.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for past video appointment', async () => {
+        // Arrange
+        const yesterday = moment().subtract(1, 'day');
+        const responses = MockAppointmentResponse.createGfeResponses({
+          localStartTime: yesterday,
+        });
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Past Video Appointment On ${yesterday.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for canceled video appointment', async () => {
+        // Arrange
+        const today = moment();
+        const responses = MockAppointmentResponse.createGfeResponses({
+          localStartTime: today,
+        });
+        responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Canceled Video Appointment On ${today.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for video at VA location appointment', async () => {
+        // Arrange
+        const today = moment();
+        const responses = MockAppointmentResponse.createClinicResponses({
+          localStartTime: today,
+        });
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Upcoming Video Appointment At A VA Location On ${today.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for past video at VA location appointment', async () => {
+        // Arrange
+        const yesterday = moment().subtract(1, 'day');
+        const responses = MockAppointmentResponse.createClinicResponses({
+          localStartTime: yesterday,
+        });
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Past Video Appointment At A VA Location On ${yesterday.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+
+      it('should display document tile for canceled video at VA location appointment', async () => {
+        // Arrange
+        const today = moment();
+        const responses = MockAppointmentResponse.createClinicResponses({
+          localStartTime: today,
+        });
+        responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+        mockAppointmentApi({
+          response: responses[0],
+          avs: true,
+          fetchClaimStatus: true,
+        });
+
+        // Act
+        renderWithStoreAndRouter(<AppointmentList />, {
+          initialState,
+          path: `/${responses[0].id}`,
+        });
+
+        // Assert
+        await waitFor(() => {
+          expect(global.document.title).to.equal(
+            `Canceled Video Appointment At A VA Location On ${today.format(
+              'dddd, MMMM D, YYYY',
+            )} | Veterans Affairs`,
+          );
+        });
+      });
+    });
   });
 
-  afterEach(() => {
-    MockDate.reset();
-  });
-
-  // -------------
-
-  it('should display who canceled the appointment', async () => {
-    // Arrange
-    const response = new MockAppointmentResponse({
-      status: APPOINTMENT_STATUS.cancelled,
-    });
-    mockAppointmentApi({ response });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/${response.id}`,
-    });
-
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    // The canceled appointment and past appointment alerts are mutually exclusive
-    // with the canceled appointment status having 1st priority. So, the canceled
-    // appointment alert should display even when the appointment is a past
-    // appointment.
-    expect(screen.queryByText(/Facility canceled this appointment/i));
-    expect(screen.queryByText('This appointment occurred in the past.')).not.to
-      .exist;
-  });
-
-  it('should display who canceled the appointment for past appointments', async () => {
-    // Arrange
-    const response = new MockAppointmentResponse({
-      localStartTime: moment().subtract(1, 'day'),
-      status: APPOINTMENT_STATUS.cancelled,
-    });
-
-    mockAppointmentApi({ response });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/${response.id}`,
-    });
-
-    // Assert
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    // The canceled appointment and past appointment alerts are mutually exclusive
-    // with the canceled appointment status having 1st priority. So, the canceled
-    // appointment alert should display even when the appointment is a past
-    // appointment.
-    expect(screen.queryByText(/Facility canceled this appointment/i));
-    expect(screen.queryByText('This appointment occurred in the past.')).not.to
-      .exist;
-  });
-
-  it('should show error message when single fetch errors', async () => {
-    // Arrange
-    mockAppointmentApi({
-      response: new MockAppointmentResponse(),
-      responseCode: 404,
-    });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: '/1',
-    });
-
-    // Assert
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-
-      expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: 'We’re sorry. We’ve run into a problem',
-        }),
-      ).to.be.ok;
-    });
-  });
-
-  it('should allow the user to go back to the appointment list', async () => {
-    // Arrange
-    const response = new MockAppointmentResponse();
-
-    mockAppointmentApi({ response, avs: true, fetchClaimStatus: true });
-    mockGetUpcomingAppointmentsApi({
-      response: [response],
-      avs: true,
-    });
-    mockGetPendingAppointmentsApi({
-      response: [response],
-    });
-
-    // Act
-    const screen = renderWithStoreAndRouter(<AppointmentList />, {
-      initialState,
-      path: `/${response.id}`,
-    });
-
-    // Assert
-    await waitFor(() => {
-      expect(document.activeElement).to.have.tagName('h1');
-    });
-
-    userEvent.click(
-      screen.container.querySelector('va-link[text="Back to appointments"]'),
-    );
-    expect(screen.baseElement).to.contain.text('Appointments');
-  });
-
-  describe('Document titles', () => {
-    it('should display document tile for ATLAS video appointment', async () => {
+  describe('display error', () => {
+    it('should show error message when single fetch errors', async () => {
       // Arrange
-      const today = moment();
-      const responses = MockAppointmentResponse.createAtlasResponses({
-        localStartTime: today,
-      });
+      mockFetch();
       mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
+        response: new MockAppointmentResponse(),
+        responseCode: 404,
       });
 
       // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
         initialState,
-        path: `/${responses[0].id}`,
+        path: '/1',
       });
 
       // Assert
       await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Upcoming Video Appointment At An ATLAS Location On ${today.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
+        expect(document.activeElement).to.have.tagName('h1');
 
-    it('should display document tile for past ATLAS video appointment', async () => {
-      // Arrange
-      const yesterday = moment().subtract(1, 'day');
-      const responses = MockAppointmentResponse.createAtlasResponses({
-        localStartTime: yesterday,
-      });
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Past Video Appointment At An ATLAS Location On ${yesterday.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
-
-    it('should display document tile for canceled ATLAS video appointment', async () => {
-      // Arrange
-      const today = moment();
-      const responses = MockAppointmentResponse.createAtlasResponses({
-        localStartTime: today,
-      });
-      responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Canceled Video Appointment At An ATLAS Location On ${today.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
-
-    it('should display document tile for video appointment', async () => {
-      // Arrange
-      const today = moment();
-      const responses = MockAppointmentResponse.createGfeResponses({
-        localStartTime: today,
-      });
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Upcoming Video Appointment On ${today.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
-
-    it('should display document tile for past video appointment', async () => {
-      // Arrange
-      const yesterday = moment().subtract(1, 'day');
-      const responses = MockAppointmentResponse.createGfeResponses({
-        localStartTime: yesterday,
-      });
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Past Video Appointment On ${yesterday.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
-
-    it('should display document tile for canceled video appointment', async () => {
-      // Arrange
-      const today = moment();
-      const responses = MockAppointmentResponse.createGfeResponses({
-        localStartTime: today,
-      });
-      responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Canceled Video Appointment On ${today.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
-
-    it('should display document tile for video at VA location appointment', async () => {
-      // Arrange
-      const today = moment();
-      const responses = MockAppointmentResponse.createClinicResponses({
-        localStartTime: today,
-      });
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Upcoming Video Appointment At A VA Location On ${today.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
-
-    it('should display document tile for past video at VA location appointment', async () => {
-      // Arrange
-      const yesterday = moment().subtract(1, 'day');
-      const responses = MockAppointmentResponse.createClinicResponses({
-        localStartTime: yesterday,
-      });
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Past Video Appointment At A VA Location On ${yesterday.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
-      });
-    });
-
-    it('should display document tile for canceled video at VA location appointment', async () => {
-      // Arrange
-      const today = moment();
-      const responses = MockAppointmentResponse.createClinicResponses({
-        localStartTime: today,
-      });
-      responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({
-        response: responses[0],
-        avs: true,
-        fetchClaimStatus: true,
-      });
-
-      // Act
-      renderWithStoreAndRouter(<AppointmentList />, {
-        initialState,
-        path: `/${responses[0].id}`,
-      });
-
-      // Assert
-      await waitFor(() => {
-        expect(global.document.title).to.equal(
-          `Canceled Video Appointment At A VA Location On ${today.format(
-            'dddd, MMMM D, YYYY',
-          )} | Veterans Affairs`,
-        );
+        expect(
+          screen.getByRole('heading', {
+            level: 1,
+            name: 'We’re sorry. We’ve run into a problem',
+          }),
+        ).to.be.ok;
       });
     });
   });

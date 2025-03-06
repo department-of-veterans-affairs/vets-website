@@ -19,11 +19,7 @@ describe('Discharge Upgrade Wizard: Discharge Update to form DD214 from DD215 Fl
 
       // DISCHARGE_YEAR
       h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-      h.selectDropdown(
-        h.DISCHARGE_YEAR_INPUT,
-        SHORT_NAME_MAP.DISCHARGE_YEAR,
-        h.get15YearsPast(),
-      );
+      h.typeInInput(h.DISCHARGE_YEAR_INPUT, h.get15YearsPast());
       h.clickContinue();
 
       // DISCHARGE_MONTH

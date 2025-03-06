@@ -194,7 +194,7 @@ const PrescriptionDetailsDocumentation = () => {
   const introContent = () =>
     htmlContent ? (
       <div>
-        <h1 data-testid="medication-information-title">
+        <h1 data-testid="medication-information-title" data-dd-privacy="mask">
           Medication information: {prescription?.prescriptionName}
         </h1>
         <PrintDownload

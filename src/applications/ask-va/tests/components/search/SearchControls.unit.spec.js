@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import sinon from 'sinon';
 import SearchControls from '../../../components/search/SearchControls';
 
-const mockStore = configureStore([]);
+export const mockStore = configureStore([]);
 
 describe('SearchControls Component', () => {
   let store;

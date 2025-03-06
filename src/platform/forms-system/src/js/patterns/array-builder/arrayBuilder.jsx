@@ -8,6 +8,8 @@ import {
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
   initGetText,
+  defaultSummaryPageScrollAndFocusTarget,
+  defaultItemPageScrollAndFocusTarget,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -521,7 +523,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         isReviewPage: false,
         ...summaryPageProps,
       }),
-      scrollAndFocusTarget: 'h3',
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget ||
+        defaultSummaryPageScrollAndFocusTarget,
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,
@@ -559,7 +563,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,
-      scrollAndFocusTarget: 'h3',
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget || defaultItemPageScrollAndFocusTarget,
       onNavBack,
       onNavForward,
       ...pageConfig,

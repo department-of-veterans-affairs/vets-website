@@ -11,6 +11,10 @@ import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import { isInProgress, hideFormTitle } from '../helpers';
 import { setGlobalScroll } from '../utilities/ui';
+import {
+  isMinimalHeaderApp,
+  isMinimalHeaderPath,
+} from '../patterns/minimal-header';
 
 /*
  * Primary component for a schema generated form app.
@@ -54,7 +58,11 @@ const FormApp = props => {
       : formConfig.subTitle;
   const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
   const notProd = !environment.isProduction();
-  const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
+  const hasHiddenFormTitle = hideFormTitle(
+    formConfig,
+    trimmedPathname,
+    formData,
+  );
   let useTopBackLink = false;
 
   let formTitle;
@@ -68,8 +76,12 @@ const FormApp = props => {
     formTitle = <FormTitle title={title} subTitle={subTitle} />;
   }
 
-  if (!isNonFormPage) {
-    useTopBackLink = formConfig.useTopBackLink;
+  if (formConfig.useTopBackLink) {
+    if (isMinimalHeaderApp()) {
+      useTopBackLink = isMinimalHeaderPath(currentLocation.pathname);
+    } else {
+      useTopBackLink = !isNonFormPage;
+    }
   }
 
   // Show nav only if we're not on the intro, form-saved, error, confirmation
@@ -110,7 +122,7 @@ const FormApp = props => {
           {CustomTopContent && (
             <CustomTopContent currentLocation={currentLocation} />
           )}
-          {useTopBackLink && <BackLink />}
+          {useTopBackLink && <BackLink text={formConfig?.backLinkText} />}
           {notProd && noTitle ? null : formTitle}
           {notProd && noTopNav ? null : formNav}
           <Element name="topContentElement" />
@@ -135,6 +147,7 @@ FormApp.propTypes = {
   }),
   formConfig: PropTypes.shape({
     additionalRoutes: PropTypes.array,
+    backLinkText: PropTypes.string,
     footerContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     formOptions: PropTypes.shape({}),
     subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),

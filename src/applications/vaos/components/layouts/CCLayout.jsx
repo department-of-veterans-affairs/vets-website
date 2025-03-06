@@ -48,9 +48,17 @@ export default function CCLayout({ data: appointment }) {
     heading = 'Canceled community care appointment';
   else heading = 'Community care appointment';
 
-  recordAppointmentDetailsNullStates({
-    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
-  });
+  recordAppointmentDetailsNullStates(
+    {
+      type: appointment.type,
+      modality: appointment.modality,
+      isCerner: appointment.vaos.isCerner,
+    },
+    {
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.PROVIDER]: !providerName,
+    },
+  );
 
   return (
     <>

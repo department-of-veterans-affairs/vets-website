@@ -12,11 +12,7 @@ import { mockApiRequest, resetFetch } from '~/platform/testing/unit/helpers';
 import { SET_DATA } from '~/platform/forms-system/src/js/actions';
 
 import Form0996App from '../../containers/Form0996App';
-import {
-  NEW_API,
-  CONTESTABLE_ISSUES_API,
-  CONTESTABLE_ISSUES_API_NEW,
-} from '../../constants/apis';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
 
 import { SELECTED } from '../../../shared/constants';
 import {
@@ -63,9 +59,6 @@ const getData = ({
         data: formData,
       },
       contestableIssues,
-      featureToggles: {
-        [NEW_API]: true,
-      },
     },
   };
 };
@@ -148,7 +141,7 @@ describe('Form0996App', () => {
     expect(routerPushSpy.notCalled).to.be.true;
   });
 
-  it('should call API is logged in', async () => {
+  it('should call API if logged in', async () => {
     mockApiRequest(contestableIssuesResponse);
 
     const { props, data } = getData({
@@ -179,24 +172,6 @@ describe('Form0996App', () => {
     await waitFor(() => {
       expect($('va-loading-indicator', container)).to.not.exist;
       expect(global.fetch.notCalled).to.be.true;
-      resetFetch();
-    });
-  });
-
-  it('should call API is logged in', async () => {
-    mockApiRequest(contestableIssuesResponse);
-
-    const { props, data } = getData({
-      formData: { benefitType: 'compensation', internalTesting: true },
-    });
-    render(
-      <Provider store={mockStore(data)}>
-        <Form0996App {...props} toggles={{ [NEW_API]: true }} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API_NEW);
       resetFetch();
     });
   });
@@ -300,7 +275,6 @@ describe('Form0996App', () => {
           },
         ],
         internalTesting: true,
-        [NEW_API]: true,
       },
     });
     const store = mockStore(data);
@@ -386,7 +360,6 @@ describe('Form0996App', () => {
         benefitType: 'compensation',
         areaOfDisagreement: [issues[0], additionalIssues[0]],
         additionalIssues,
-        [NEW_API]: true,
       },
     });
     const store = mockStore(data);

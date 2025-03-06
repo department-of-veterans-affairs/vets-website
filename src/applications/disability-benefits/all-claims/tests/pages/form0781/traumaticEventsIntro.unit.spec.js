@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import * as traumaticEvents from '../../../pages/form0781/traumaticEventsIntro';
+import eventsIntro from '../../../pages/form0781/traumaticEventsIntro';
 import {
   eventsPageTitle,
   eventsIntroDescription,
@@ -14,16 +14,16 @@ import {
 
 describe('Traumatic events intro page', () => {
   it('should define a uiSchema object', () => {
-    expect(traumaticEvents.uiSchema).to.be.an('object');
+    expect(eventsIntro.uiSchema).to.be.an('object');
   });
 
   it('should define a schema object', () => {
-    expect(traumaticEvents.schema).to.be.an('object');
+    expect(eventsIntro.schema).to.be.an('object');
   });
 
   it('should have the correct title in uiSchema', () => {
     const { container: uiTitleContainer } = render(
-      <div>{traumaticEvents.uiSchema['ui:title']}</div>,
+      <div>{eventsIntro.uiSchema['ui:title']}</div>,
     );
     const renderedUITitleText = uiTitleContainer.textContent.trim();
 
@@ -36,34 +36,32 @@ describe('Traumatic events intro page', () => {
   });
 
   it('should have the correct description in uiSchema', () => {
-    expect(traumaticEvents.uiSchema['ui:description']).to.equal(
+    expect(eventsIntro.uiSchema['ui:description']).to.equal(
       eventsIntroDescription,
     );
   });
 
   it('should render the mental health support alert description in uiSchema', () => {
     expect(
-      traumaticEvents.uiSchema['view:mentalHealthSupportAlert'][
-        'ui:description'
-      ],
+      eventsIntro.uiSchema['view:mentalHealthSupportAlert']['ui:description'],
     ).to.equal(mentalHealthSupportAlert);
   });
 
   it('should have correct schema structure', () => {
-    expect(traumaticEvents.schema)
+    expect(eventsIntro.schema)
       .to.have.property('type')
       .that.equals('object');
-    expect(traumaticEvents.schema)
+    expect(eventsIntro.schema)
       .to.have.property('properties')
       .that.is.an('object');
-    expect(Object.keys(traumaticEvents.schema.properties)).to.have.lengthOf(1);
-    expect(traumaticEvents.schema.properties).to.have.property(
+    expect(Object.keys(eventsIntro.schema.properties)).to.have.lengthOf(1);
+    expect(eventsIntro.schema.properties).to.have.property(
       'view:mentalHealthSupportAlert',
     );
   });
 
   it('should not have additional properties in schema', () => {
-    const properties = Object.keys(traumaticEvents.schema.properties);
+    const properties = Object.keys(eventsIntro.schema.properties);
     expect(properties).to.have.lengthOf(1);
   });
 });

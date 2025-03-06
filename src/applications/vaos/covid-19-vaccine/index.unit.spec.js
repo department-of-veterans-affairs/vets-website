@@ -156,6 +156,59 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
     ).to.exist;
   });
 
+  it('should redirect to home page', async () => {
+    const state = {
+      ...initialState,
+      newAppointment: {
+        isNewAppointmentStarted: false,
+      },
+    };
+
+    const store = createTestStore(state);
+    const screen = renderWithStoreAndRouter(<NewBookingSection />, {
+      store,
+      path: '/covid-vaccine/doses-received',
+    });
+
+    expect(screen.history.location.pathname).to.equal('/');
+  });
+
+  it('should exempt started appointments from redirects', async () => {
+    const state = {
+      ...initialState,
+      newAppointment: {
+        isNewAppointmentStarted: true,
+      },
+    };
+
+    const store = createTestStore(state);
+    const screen = renderWithStoreAndRouter(<NewBookingSection />, {
+      store,
+      path: '/covid-vaccine/doses-received',
+    });
+
+    expect(screen.history.location.pathname).to.equal(
+      '/covid-vaccine/doses-received',
+    );
+  });
+
+  it('should exempt home page from redirects', async () => {
+    const state = {
+      ...initialState,
+      newAppointment: {
+        isNewAppointmentStarted: false,
+      },
+    };
+
+    const store = createTestStore(state);
+    const screen = renderWithStoreAndRouter(<NewBookingSection />, {
+      store,
+      path: '/covid-vaccine/',
+    });
+
+    expect(screen.history.location.pathname).to.equal('/covid-vaccine/');
+  });
+
   it('should show error when facility availability check fails', async () => {
     const store = createTestStore({
       ...initialState,

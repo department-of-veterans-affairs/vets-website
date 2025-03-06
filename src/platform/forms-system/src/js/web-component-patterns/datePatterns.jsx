@@ -28,12 +28,18 @@ import {
  *     pattern?: string,
  *     required?: string
  *   },
+ *   dataDogHidden?: boolean,
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const currentOrPastDateUI = options => {
-  const { title, errorMessages, required, ...uiOptions } =
-    typeof options === 'object' ? options : { title: options };
+  const {
+    title,
+    errorMessages,
+    required,
+    dataDogHidden = false,
+    ...uiOptions
+  } = typeof options === 'object' ? options : { title: options };
 
   // if monthYearOnly is used, the schema pattern also needs
   // to be updated, so prefer to use currentOrPastMonthYearDateUI
@@ -64,7 +70,10 @@ const currentOrPastDateUI = options => {
     'ui:reviewField': ({ children }) => (
       <div className="review-row">
         <dt>{uiTitle}</dt>
-        <dd>
+        <dd
+          className={dataDogHidden ? 'dd-privacy-hidden' : undefined}
+          data-dd-action-name={dataDogHidden ? uiTitle : undefined}
+        >
           {children.props.formData && (
             <>
               {new Date(

@@ -110,7 +110,7 @@ const AllergyDetails = props => {
 
   const generateAllergyPdf = async () => {
     setDownloadStarted(true);
-    const title = `Allergies and reactions: ${allergyData.name}`;
+    const title = allergyData.name;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, details: generateAllergyItem(allergyData) };
@@ -139,10 +139,10 @@ ${allergyData.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date entered: ${allergyData.date} \n
 ${txtLine} \n
+Date entered: ${allergyData.date} \n
 Signs and symptoms: ${allergyData.reaction} \n
-Type of Allergy: ${allergyData.type} \n
+Type of allergy: ${allergyData.type} \n
 Location: ${allergyData.location} \n
 Observed or historical: ${allergyData.observedOrReported} \n
 Provider notes: ${allergyData.notes} \n`;

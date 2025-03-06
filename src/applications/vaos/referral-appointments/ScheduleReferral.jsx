@@ -21,18 +21,16 @@ export default function ScheduleReferral(props) {
     },
     [location, dispatch, selectedSlotKey],
   );
-  const appointmentCountString =
-    currentReferral.numberOfAppointments === 1
-      ? '1 appointment'
-      : `${currentReferral.numberOfAppointments} appointments`;
   return (
     <ReferralLayout
       hasEyebrow
       heading={`Referral for ${currentReferral.CategoryOfCare}`}
+      categoryOfCare={currentReferral?.CategoryOfCare}
     >
       <div>
         <p data-testid="subtitle">
-          {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
+          We’ve approved your referral with a community care provider. You can
+          schedule your first appointment now.
         </p>
         <va-additional-info
           data-testid="help-text"
@@ -66,9 +64,6 @@ export default function ScheduleReferral(props) {
           <br />
           <strong>Location: </strong>
           {currentReferral.providerLocation}
-          <br />
-          <strong>Number of appointments: </strong>
-          {currentReferral.numberOfAppointments}
           <br />
           <strong>Referral number: </strong>
           {currentReferral.ReferralNumber}

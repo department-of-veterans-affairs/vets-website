@@ -1,3 +1,15 @@
 {
-  "data": {}
+  "data": {
+    "exampleRadio": "option1",
+    "fullName": {
+      "first": "first",
+      "last": "last"
+    },
+    "employers": [
+      {
+        "date": "1999-01-03",
+        "name": "name"
+      }
+    ]
+  }
 }

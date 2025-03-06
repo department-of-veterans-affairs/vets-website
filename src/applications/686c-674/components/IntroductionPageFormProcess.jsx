@@ -3,7 +3,7 @@ import React from 'react';
 export const IntroductionPageFormProcess = () => (
   <>
     <h2 className="vads-u-font-size--h2 ">Follow these steps to get started</h2>
-    <va-process-list uswds>
+    <va-process-list>
       <va-process-list-item header="Check your eligibility">
         <p className="vads-u-margin-bottom--0">
           If you and your dependents meet the requirements listed here, you may
@@ -101,7 +101,7 @@ export const IntroductionPageFormProcess = () => (
           text="Get help filing your claim"
         />
       </va-process-list-item>
-      <va-process-list-item header="Start your dependency claim">
+      <va-process-list-item header="Start your request">
         <p>
           We’ll take you through each step of the process. It should take about
           30 minutes.

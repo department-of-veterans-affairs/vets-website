@@ -2,12 +2,12 @@ import set from '../../../utilities/data/set';
 
 import { LOG_OUT, UPDATE_LOGGEDIN_STATUS, CHECK_KEEP_ALIVE } from '../actions';
 
-const initialState = {
+export const initialState = {
   currentlyLoggedIn: false,
   hasCheckedKeepAlive: false,
 };
 
-function loginStuff(state = initialState, action) {
+export default function loginStuff(state = initialState, action) {
   switch (action.type) {
     case UPDATE_LOGGEDIN_STATUS:
       return set('currentlyLoggedIn', action.value, state);
@@ -22,5 +22,3 @@ function loginStuff(state = initialState, action) {
       return state;
   }
 }
-
-export default loginStuff;

@@ -6,7 +6,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
-import { fetchVeteranPrefillDataAction } from '../utils/actions/veteran-prefill-data';
 import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
@@ -19,14 +18,13 @@ const App = props => {
     children,
     features,
     fetchEnrollmentStatus,
-    fetchVeteranPrefillData,
     formData,
     location,
     setFormData,
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const { loading: isLoadingFeatures, isProdEnabled } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -41,7 +39,6 @@ const App = props => {
       if (isUserLOA3) {
         fetchEnrollmentStatus();
       }
-      fetchVeteranPrefillData();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [isUserLOA3],
@@ -63,8 +60,7 @@ const App = props => {
         const defaultViewFields = {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
-          'view:isSigiEnabled': isSigiEnabled,
-          'view:householdEnabled': true,
+          'view:householdEnabled': !!canSubmitFinancialInfo,
         };
 
         setFormData({
@@ -100,7 +96,6 @@ App.propTypes = {
   ]),
   features: PropTypes.object,
   fetchEnrollmentStatus: PropTypes.func,
-  fetchVeteranPrefillData: PropTypes.func,
   formData: PropTypes.object,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -111,7 +106,6 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
-    isSigiEnabled: state.featureToggles.hcaSigiEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
@@ -120,7 +114,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setFormData: setData,
   fetchEnrollmentStatus: fetchEnrollmentStatusAction,
-  fetchVeteranPrefillData: fetchVeteranPrefillDataAction,
 };
 
 export default connect(

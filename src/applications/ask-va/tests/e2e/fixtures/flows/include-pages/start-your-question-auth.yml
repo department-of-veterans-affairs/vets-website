@@ -1,0 +1,7 @@
+steps:
+  - action: exists
+    target: header
+    value:  Ask VA
+  - action: click
+    target: link
+    value: Ask a new question

@@ -105,7 +105,7 @@ export const childInformationPage = {
 export const dateChildLeftSchoolPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      () => 'When did this child stop attending school?',
+      () => 'Child’s school information',
     ),
     dateChildLeftSchool: {
       ...currentOrPastDateUI('When did this child stop attending school?'),

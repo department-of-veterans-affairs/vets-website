@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
+  dateFormatWithoutTime,
   dateFormatWithoutTimezone,
   dispatchDetails,
   extractContainedByRecourceType,
@@ -47,6 +48,12 @@ describe('Date formatter', () => {
 });
 
 describe('Date formatter with no timezone', () => {
+  it('removes the time from a dateTime', () => {
+    const dateTime = 'October 27, 2023, 10:00 a.m.';
+    const formattedDate = dateFormatWithoutTime(dateTime);
+    expect(formattedDate).to.eq('October 27, 2023');
+  });
+
   it('formats a date in the original time without a timezone', () => {
     const timeStamp = '2023-09-29T11:04:31.316-04:00';
     const formattedDate = dateFormatWithoutTimezone(timeStamp);
@@ -680,7 +687,9 @@ describe('handleDataDogAction', () => {
     const tag = handleDataDogAction({
       locationBasePath: 'settings',
     });
-    expect(tag).to.equal('Breadcrumb - Medical records settings');
+    expect(tag).to.equal(
+      'Breadcrumb - Manage your electronic sharing settings',
+    );
   });
 
   it('should return a tag for the downloads page', () => {

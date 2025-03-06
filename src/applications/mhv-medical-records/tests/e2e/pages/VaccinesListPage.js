@@ -23,6 +23,22 @@ class VaccinesListPage extends BaseListPage {
       .eq(vaccinesIndex)
       .click();
   };
+
+  clickBackToTopButtonOnListPage = () => {
+    cy.get('[data-testid="mr-back-to-top"]')
+      .should('exist')
+      .and('be.visible');
+    cy.get('[data-testid="mr-back-to-top"]', { includeShadowDom: true })
+      .find('[class ="text"]')
+      .click({ force: true });
+  };
+
+  verifyVaccinesListPageTitleIsFocused = () => {
+    cy.get('h1')
+      .contains('Vaccines')
+      .should('be.visible')
+      .and('be.focused');
+  };
 }
 
 export default new VaccinesListPage();

@@ -95,7 +95,7 @@ describe('<IntroductionPage>', () => {
       const { container, getByText } = renderComponent({ mockStore, props });
 
       expect(container.querySelector(selectors.wrapper)).to.exist;
-      expect(getByText('Apply for education benefits as an eligible dependant'))
+      expect(getByText('Apply for education benefits as an eligible dependent'))
         .to.exist;
       expect(
         getByText(

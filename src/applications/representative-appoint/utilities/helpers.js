@@ -192,6 +192,25 @@ export const getOrgName = formData => {
   return orgs[0]?.attributes?.name;
 };
 
+/**
+ * Takes representative object (rather than formData object)
+ */
+export const formIs2122 = rep => {
+  const repType = rep?.type;
+
+  if (
+    repType === 'organization' ||
+    (['representative', 'individual'].includes(repType) &&
+      ['representative', 'veteran_service_officer'].includes(
+        rep?.attributes?.individualType,
+      ))
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
 // Rep name used in Terms and Conditions agreement
 export const getRepresentativeName = formData => {
   const rep = formData['view:selectedRepresentative'];
@@ -235,6 +254,8 @@ export const convertRepType = input => {
     claim_agents: 'Claims Agent',
     /* eslint-disable-next-line camelcase */
     veteran_service_officer: 'VSO',
+    /* eslint-disable-next-line camelcase */
+    organization: 'Organization',
   };
 
   return mapping[input] || input;
@@ -247,3 +268,49 @@ export const addressExists = address =>
     address?.stateCode?.trim() &&
     address?.zipCode?.trim()
   );
+
+export const userIsDigitalSubmitEligible = formData => {
+  return (
+    formData?.identityValidation?.hasIcn &&
+    formData?.identityValidation?.hasParticipantId &&
+    formData?.['view:v2IsEnabled']
+  );
+};
+
+export const entityAcceptsDigitalPoaRequests = entity => {
+  const repType = getRepType(entity);
+
+  if (repType === 'Organization') {
+    return !!entity?.attributes?.canAcceptDigitalPoaRequests;
+  }
+  if (repType === 'VSO Representative') {
+    const accreditedOrganizations = entity?.attributes?.accreditedOrganizations;
+
+    if (
+      !accreditedOrganizations ||
+      accreditedOrganizations?.data?.length === 0
+    ) {
+      return false;
+    }
+
+    return accreditedOrganizations.data.some(
+      org => org?.attributes?.canAcceptDigitalPoaRequests === true,
+    );
+  }
+  return false;
+};
+
+export const filterOrganizations = formData => {
+  const organizations =
+    formData['view:selectedRepresentative']?.attributes?.accreditedOrganizations
+      ?.data;
+  const submissionMethod = formData.representativeSubmissionMethod;
+
+  if (submissionMethod === 'digital') {
+    return organizations?.filter(
+      org => org.attributes?.canAcceptDigitalPoaRequests === true,
+    );
+  }
+
+  return organizations;
+};

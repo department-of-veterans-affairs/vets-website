@@ -1,6 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import moment from 'moment';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   getAppointmentRequests,
   getVAAppointmentLocationId,
@@ -8,7 +9,11 @@ import {
 import { getLocations } from '../services/location';
 import { GA_PREFIX } from '../utils/constants';
 import { captureError } from '../utils/error';
-import { selectFeatureVAOSServiceRequests } from './selectors';
+import {
+  selectFeatureCCDirectScheduling,
+  selectFeatureVAOSServiceRequests,
+} from './selectors';
+import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
 
 export const FETCH_FACILITY_LIST_DATA_SUCCEEDED =
   'vaos/FETCH_FACILITY_LIST_DATA_SUCCEEDED';
@@ -78,6 +83,12 @@ export function fetchPendingAppointments() {
       const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
         state,
       );
+      const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+      const patientFacilities = selectPatientFacilities(state);
+      const includeEPS = getIsInCCPilot(
+        featureCCDirectScheduling,
+        patientFacilities || [],
+      );
 
       const pendingAppointments = await getAppointmentRequests({
         startDate: moment()
@@ -86,6 +97,7 @@ export function fetchPendingAppointments() {
         endDate: moment()
           .add(featureVAOSServiceRequests ? 2 : 0, 'days')
           .format('YYYY-MM-DD'),
+        includeEPS,
       });
 
       const data = pendingAppointments?.filter(

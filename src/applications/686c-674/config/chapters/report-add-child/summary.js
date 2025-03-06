@@ -16,9 +16,9 @@ export const summary = {
   },
   schema: {
     type: 'object',
+    required: ['view:completedAddChild'],
     properties: {
       'view:completedAddChild': arrayBuilderYesNoSchema,
     },
-    required: ['view:completedAddChild'],
   },
 };

@@ -58,9 +58,13 @@ const ProgressNoteDetails = props => {
 
   const generateCareNotesPDF = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateNotesIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateProgressNoteContent(record) };
+    const { title, subject, subtitles } = generateNotesIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateProgressNoteContent(record),
+    };
     const pdfName = `VA-summaries-and-notes-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Progress note details', runningUnitTest);
   };
@@ -75,7 +79,7 @@ Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
 Details\n
-Date: ${record.date}\n
+Date entered: ${record.date}\n
 Location: ${record.location}\n
 Written by: ${record.writtenBy}\n
 ${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}

@@ -22,7 +22,9 @@ const SearchResultMessage = ({
   }
 
   if (searchStarted && !resultsFound) {
-    return <NoResultsMessage isMobile={isMobile} resultRef={resultRef} />;
+    return (
+      <NoResultsMessage isMobileListView={isMobile} resultRef={resultRef} />
+    );
   }
 
   return (

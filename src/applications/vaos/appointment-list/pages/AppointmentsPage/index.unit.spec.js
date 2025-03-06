@@ -17,7 +17,7 @@ import {
 import AppointmentsPage from '.';
 import { mockVAOSAppointmentsFetch } from '../../../tests/mocks/helpers';
 import { getVAOSRequestMock } from '../../../tests/mocks/mock';
-import { createReferral } from '../../../referral-appointments/utils/referrals';
+import { createReferralById } from '../../../referral-appointments/utils/referrals';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 const initialState = {
@@ -553,8 +553,8 @@ describe('VAOS Page: AppointmentsPage', () => {
             ...defaultState,
             referral: {
               facility: null,
-              referrals: [
-                createReferral(
+              referralDetails: [
+                createReferralById(
                   moment().format('YYYY-MM-DD'),
                   'add2f0f4-a1ea-4dea-a504-a54ab57c6801',
                 ),

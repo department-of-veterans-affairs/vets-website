@@ -13,6 +13,9 @@ import { Paths } from '../utils/constants';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', `${Paths.MED_LIST}`).as('medicationsList');
     cy.intercept(
       'GET',
@@ -47,6 +50,9 @@ class MedicationsListPage {
   clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
     waitForMeds = false,
   ) => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept('GET', Paths.MED_LIST, prescriptions).as('medicationsList');
     cy.intercept(
       'GET',
@@ -179,9 +185,8 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find(`[href="${medicationsUrls.MEDICATIONS_ABOUT_ACCORDION_RENEW}"]`)
-      .first()
-      .click({ waitForAnimations: true });
+      .find(`[href="/health-care/refill-track-prescriptions"]`)
+      .should('be.visible');
   };
 
   clickPrintOrDownloadThisListDropDown = () => {
@@ -789,6 +794,9 @@ class MedicationsListPage {
   };
 
   visitMedicationsListPageURL = medication => {
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, medication).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -828,6 +836,82 @@ class MedicationsListPage {
     cy.get('[data-testid="list-page-title"]')
       .should('be.visible')
       .and('be.focused');
+  };
+
+  verifyPrecriptionNumberForPendingRxOnMedicationCard = (
+    prescriptionNumber,
+    cardNumber,
+  ) => {
+    cy.get(
+      `[data-testid="medication-list"] > :nth-child(${cardNumber}) > [data-testid="rx-card-info"] > [data-testid="rx-number"]`,
+    )
+      .first()
+      .should('contain', prescriptionNumber);
+  };
+
+  verifyPendingNewRxInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
+      .first()
+      .should('be.visible')
+      .and('have.text', text);
+  };
+
+  verifyPendingRenewalInfoTextOnMedicationCardOnListPage = text => {
+    cy.get('[data-testid="pending-renewal-rx"]')
+      .should('be.visible')
+      .and('contain', text);
+  };
+
+  updatedOrderDates = data => {
+    const currentDate = new Date();
+    return {
+      ...data,
+      data: data.data.map(item => {
+        const newOrderedDate = new Date(currentDate);
+        newOrderedDate.setDate(currentDate.getDate());
+        return {
+          ...item,
+          attributes: {
+            ...item.attributes,
+            orderedDate:
+              item.attributes.orderedDate != null
+                ? newOrderedDate.toISOString()
+                : null,
+          },
+        };
+      }),
+    };
+  };
+
+  verifyRefillDelayAlertBannerOnListPage = text => {
+    cy.get('[data-testid="rxDelay-alert-message"]').should('have.text', text);
+  };
+
+  verifyRefillDetailsLinkVisibleOnDelayAlertBanner = rxName => {
+    cy.get('[data-testid="alert-banner"]').should('contain', rxName);
+  };
+
+  clickMedicationsDetailsLinkOnDelayAlert = (prescriptionId, rx) => {
+    cy.intercept('GET', `/my_health/v1/prescriptions/${prescriptionId}`, rx);
+    cy.get(`[data-testid="refill-alert-link-${prescriptionId}"]`).click({
+      force: true,
+    });
+  };
+
+  verifyNeedHelpSectionOnListPage = text => {
+    cy.get('[data-testid="rx-need-help-container"]').should('contain', text);
+  };
+
+  verifyGoToUseMedicationLinkOnListPage = () => {
+    cy.get('[data-testid="go-to-use-medications-link"]').should('be.visible');
+  };
+
+  verifyStartANewMessageLinkOnListPage = () => {
+    cy.get('[data-testid="start-a-new-message-link"]').should('be.visible');
+  };
+
+  verifyTitleNotesOnListPage = text => {
+    cy.get('[data-testid="Title-Notes"]').should('contain', text);
   };
 }
 

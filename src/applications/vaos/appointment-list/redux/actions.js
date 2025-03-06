@@ -2,7 +2,9 @@
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
+import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
+  selectFeatureCCDirectScheduling,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceVAAppointments,
@@ -39,8 +41,13 @@ import {
   STARTED_NEW_VACCINE_FLOW,
 } from '../../redux/sitewide';
 import { fetchHealthcareServiceById } from '../../services/healthcare-service';
-import { captureError, has400LevelError } from '../../utils/error';
+import {
+  captureError,
+  has400LevelError,
+  has404AppointmentIdError,
+} from '../../utils/error';
 import { selectAppointmentById } from './selectors';
+import { getIsInCCPilot } from '../../referral-appointments/utils/pilot';
 
 export const FETCH_FUTURE_APPOINTMENTS = 'vaos/FETCH_FUTURE_APPOINTMENTS';
 export const FETCH_FUTURE_APPOINTMENTS_FAILED =
@@ -89,6 +96,15 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       getState(),
     );
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
+      getState(),
+    );
+    const patientFacilities = selectPatientFacilities(getState());
+
+    const includeEPS = getIsInCCPilot(
+      featureCCDirectScheduling,
+      patientFacilities || [],
+    );
 
     dispatch({
       type: FETCH_FUTURE_APPOINTMENTS,
@@ -117,6 +133,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
           endDate: moment()
             .add(395, 'days')
             .format('YYYY-MM-DD'),
+          includeEPS,
         }),
       ];
       if (includeRequests) {
@@ -129,6 +146,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
               .add(featureVAOSServiceRequests ? 1 : 0, 'days')
               .format('YYYY-MM-DD'),
             useV2: featureVAOSServiceRequests,
+            includeEPS,
           })
             .then(requests => {
               dispatch({
@@ -178,11 +196,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
       recordItemsRetrieved(
         'video_va_facility',
         data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.clinic).length,
-      );
-
-      recordItemsRetrieved(
-        'video_gfe',
-        data?.filter(appt => appt.videoData.kind === VIDEO_TYPES.gfe).length,
       );
 
       recordItemsRetrieved(
@@ -241,6 +254,16 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       getState(),
     );
 
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
+      getState(),
+    );
+    const patientFacilities = selectPatientFacilities(getState());
+
+    const includeEPS = getIsInCCPilot(
+      featureCCDirectScheduling,
+      patientFacilities || [],
+    );
+
     dispatch({
       type: FETCH_PAST_APPOINTMENTS,
       selectedIndex,
@@ -256,6 +279,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         endDate,
         avs: true,
         fetchClaimStatus: true,
+        includeEPS,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
@@ -440,6 +464,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       captureError(e);
       dispatch({
         type: FETCH_CONFIRMED_DETAILS_FAILED,
+        isBadAppointmentId: has404AppointmentIdError(e),
       });
     }
   };

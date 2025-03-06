@@ -26,6 +26,8 @@ import {
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import LabelValue from '../shared/LabelValue';
+import HeaderSection from '../shared/HeaderSection';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -41,6 +43,9 @@ const EkgDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
+      updatePageTitle(
+        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
+      );
     },
     [record.date, record.name],
   );
@@ -54,9 +59,9 @@ const EkgDetails = props => {
 
   const generateEkgDetailsPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateLabsIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateEkgContent(record) };
+    const { title, subject, subtitles } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = { ...scaffold, subtitles, ...generateEkgContent(record) };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Electrocardiogram details', runningUnitTest);
   };
@@ -80,58 +85,56 @@ const EkgDetails = props => {
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--0"
         aria-describedby="ekg-date"
         data-testid="ekg-record-name"
         data-dd-privacy="mask"
         data-dd-action-name="[lab and tests - ekg name]"
       >
-        {record.name}
-      </h1>
-      <DateSubheading
-        date={record.date}
-        id="ekg-date"
-        label="Date and time collected"
-      />
+        <DateSubheading
+          date={record.date}
+          id="ekg-date"
+          label="Date and time collected"
+        />
 
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        description="L&TR Detail"
-        downloadPdf={generateEkgDetailsPdf}
-        allowTxtDownloads={allowTxtDownloads}
-        downloadTxt={generateEkgTxt}
-      />
-      <DownloadingRecordsInfo
-        description="L&TR Detail"
-        allowTxtDownloads={allowTxtDownloads}
-      />
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateEkgDetailsPdf}
+          allowTxtDownloads={allowTxtDownloads}
+          downloadTxt={generateEkgTxt}
+        />
+        <DownloadingRecordsInfo
+          description="L&TR Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
-      <div className="test-details-container max-80">
-        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-          Location
-        </h2>
-        <p
-          data-testid="ekg-record-facility"
-          data-dd-privacy="mask"
-          data-dd-action-name="[lab and tests - ekg facility]"
-        >
-          {record.facility || 'There is no facility reported at this time'}
-        </p>
-        <h2 className="vads-u-font-size--md vads-u-font-family--sans">
-          Results
-        </h2>
-        <p data-testid="ekg-results">
-          Your EKG results aren’t available in this tool. To get your EKG
-          results, you can request a copy of your complete medical record from
-          your VA health facility.
-        </p>
-        <p className="vads-u-margin-top--3 no-print">
-          <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
-            Learn how to get records from your VA health facility
-          </a>
-        </p>
-      </div>
+        <div className="test-details-container max-80">
+          <LabelValue
+            label="Location"
+            value={
+              record.facility || 'There is no facility reported at this time'
+            }
+            testId="ekg-record-facility"
+            actionName="[lab and tests - ekg facility]"
+          />
+          <LabelValue label="Results">
+            <p testId="ekg-results">
+              Your EKG results aren’t available in this tool. To get your EKG
+              results, you can request a copy of your complete medical record
+              from your VA health facility.
+            </p>
+          </LabelValue>
+
+          <p className="vads-u-margin-top--3 no-print">
+            <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
+              Learn how to get records from your VA health facility
+            </a>
+          </p>
+        </div>
+      </HeaderSection>
     </div>
   );
 };

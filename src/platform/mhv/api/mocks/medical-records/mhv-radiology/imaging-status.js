@@ -69,6 +69,16 @@ const all = [
     startDate: 1734360571761,
     endDate: 1734360582548,
   },
+  {
+    status: 'COMPLETE',
+    statusText: '100',
+    studyIdUrn: '2184acee-280a-493b-91a1-c7914f3eaf98',
+    percentComplete: 100,
+    fileSize: '2.9 MB',
+    fileSizeNumber: 8041789,
+    startDate: 1720346400000,
+    endDate: 1739568636000,
+  },
 ];
 
 module.exports = all;

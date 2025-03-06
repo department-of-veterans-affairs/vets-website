@@ -2,6 +2,6 @@
   "appName": "Dispute your VA debt",
   "entryFile": "./app-entry.jsx",
   "entryName": "dispute-debt",
-  "rootUrl": "/dispute-debt",
+  "rootUrl": "/manage-va-debt/dispute-debt",
   "productId": "908a02e6-c63d-42e0-87f9-ed208e47034e"
 }

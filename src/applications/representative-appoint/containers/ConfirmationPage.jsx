@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -9,7 +9,10 @@ import { getFormNumber, getFormName } from '../utilities/helpers';
 
 import GetFormHelp from '../components/GetFormHelp';
 
+import ConfirmationDigitalSubmission from './ConfirmationDigitalSubmission';
+
 export default function ConfirmationPage({ router }) {
+  const checkboxRef = useRef(null);
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
   const { data: formData } = useSelector(state => state.form);
@@ -24,6 +27,10 @@ export default function ConfirmationPage({ router }) {
       selectedEntity.type === 'organization' ? 'organization' : 'individual',
   };
 
+  const isDigitalSubmission =
+    formData.representativeSubmissionMethod === 'digital';
+
+  const v2IsEnabled = formData?.['view:v2IsEnabled'];
   useEffect(() => {
     scrollTo('topScrollElement');
   }, []);
@@ -39,15 +46,34 @@ export default function ConfirmationPage({ router }) {
         try {
           await sendNextStepsEmail(sendNextStepsEmailPayload);
         } catch (error) {
-          // Should we set an error state to display a message in the UI?
+          // Don't do anything if we fail to send the email
         }
 
         router.push('/next-steps');
       } else {
         setSignedFormError(true);
+
+        if (checkboxRef.current) {
+          checkboxRef.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+
+          const { shadowRoot } = checkboxRef.current;
+          const inputElement = shadowRoot?.querySelector(
+            'input[type="checkbox"]',
+          );
+          if (inputElement) {
+            inputElement.focus();
+          }
+        }
       }
     },
   };
+
+  if (isDigitalSubmission && v2IsEnabled) {
+    return <ConfirmationDigitalSubmission />;
+  }
 
   return (
     <>
@@ -67,6 +93,7 @@ export default function ConfirmationPage({ router }) {
         Then, you’ll need to print and sign your form.
       </p>
       <VaCheckbox
+        ref={checkboxRef}
         checked={signedForm}
         className="vads-u-margin-bottom--4"
         error={

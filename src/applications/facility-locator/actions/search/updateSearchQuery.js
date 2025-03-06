@@ -1,4 +1,4 @@
-import { SEARCH_QUERY_UPDATED } from '../../utils/actionTypes';
+import { SEARCH_QUERY_UPDATED } from '../actionTypes';
 
 /**
  * Sync form state with Redux state.
@@ -7,7 +7,9 @@ import { SEARCH_QUERY_UPDATED } from '../../utils/actionTypes';
  * @param {Object} query The current state of the Search form
  */
 
-export const updateSearchQuery = query => ({
-  type: SEARCH_QUERY_UPDATED,
-  payload: { ...query },
-});
+export const updateSearchQuery = query => {
+  return {
+    type: SEARCH_QUERY_UPDATED,
+    payload: { ...query },
+  };
+};

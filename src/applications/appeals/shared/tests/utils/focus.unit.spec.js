@@ -11,6 +11,9 @@ import {
   focusFileCard,
   focusAddAnotherButton,
   focusCancelButton,
+  focusRadioH3,
+  focusAlertOrRadio,
+  focusH3OrRadioError,
   focusOnAlert,
   focusH3AfterAlert,
 } from '../../utils/focus';
@@ -175,6 +178,161 @@ describe('focusCancelButton', () => {
     await waitFor(() => {
       expect(focusElementSpy.notCalled).to.be.true;
     });
+  });
+});
+
+describe('focusRadioH3', () => {
+  describe('with web component', () => {
+    let waitForRenderThenFocusSpy;
+    beforeEach(() => {
+      waitForRenderThenFocusSpy = sinon.spy(
+        focusUtils,
+        'waitForRenderThenFocus',
+      );
+    });
+
+    afterEach(() => {
+      waitForRenderThenFocusSpy.restore();
+      waitForRenderThenFocusSpy = null;
+    });
+
+    const renderPage = (hasError = true) =>
+      render(
+        <div id="main">
+          <div />
+          <va-radio error={hasError ? 'test' : null}>
+            <h3>Test</h3>
+          </va-radio>
+        </div>,
+      );
+
+    it('should focus on va-radio error span inside shadow dom', async () => {
+      await renderPage();
+
+      await focusRadioH3();
+      expect(waitForRenderThenFocusSpy.called).to.be.true;
+      expect(waitForRenderThenFocusSpy.args[0][0]).to.eq('[role="alert"]');
+    });
+
+    it('should focus on va-radio error span inside shadow dom', async () => {
+      await renderPage(false);
+
+      await focusRadioH3();
+      expect(waitForRenderThenFocusSpy.called).to.be.true;
+      expect(waitForRenderThenFocusSpy.args[0][0]).to.eq('h3');
+    });
+  });
+
+  describe('without web component', () => {
+    let focusByOrderSpy;
+    beforeEach(() => {
+      focusByOrderSpy = sinon.spy(focusUtils, 'focusByOrder');
+    });
+
+    afterEach(() => {
+      focusByOrderSpy.restore();
+      focusByOrderSpy = null;
+    });
+
+    it('should focus on h3 when no va-radio found', async () => {
+      await render(
+        <div id="main">
+          <h3>Test 2</h3>
+        </div>,
+      );
+
+      await focusRadioH3();
+      expect(focusByOrderSpy.called).to.be.true;
+      expect(focusByOrderSpy.args[0][0][0]).to.eq('#main h3');
+    });
+  });
+});
+
+describe('focusAlertOrRadio', () => {
+  describe('with va-alert', () => {
+    let focusElementSpy;
+    beforeEach(() => {
+      focusElementSpy = sinon.spy(focusUtils, 'focusElement');
+    });
+
+    afterEach(() => {
+      focusElementSpy.restore();
+      focusElementSpy = null;
+    });
+
+    it('should focus on va-alert (no header inside) when found', async () => {
+      render(
+        <div id="main">
+          <va-alert status="info">Test</va-alert>
+        </div>,
+      );
+
+      await focusAlertOrRadio();
+      expect(focusElementSpy.called).to.be.true;
+      expect(focusElementSpy.args[0][0]).to.eq('va-alert[status="info"]');
+    });
+  });
+
+  describe('without va-alert', () => {
+    let focusByOrderSpy;
+    beforeEach(() => {
+      focusByOrderSpy = sinon.spy(focusUtils, 'focusByOrder');
+    });
+
+    afterEach(() => {
+      focusByOrderSpy.restore();
+      focusByOrderSpy = null;
+    });
+
+    it('should focus on h3 when no va-radio found', async () => {
+      await render(
+        <div id="main">
+          <h3>Test 2</h3>
+        </div>,
+      );
+
+      await focusAlertOrRadio();
+      expect(focusByOrderSpy.called).to.be.true;
+      expect(focusByOrderSpy.args[0][0][0]).to.eq('#main h3');
+    });
+  });
+});
+
+describe('focusH3OrRadioError', () => {
+  let waitForRenderThenFocusSpy;
+  beforeEach(() => {
+    waitForRenderThenFocusSpy = sinon.spy(focusUtils, 'waitForRenderThenFocus');
+  });
+
+  afterEach(() => {
+    waitForRenderThenFocusSpy.restore();
+    waitForRenderThenFocusSpy = null;
+  });
+
+  const renderPage = (hasError = true) =>
+    render(
+      <div id="main">
+        <div />
+        <va-radio error={hasError ? 'test' : null}>
+          <h3>Test</h3>
+        </va-radio>
+      </div>,
+    );
+
+  it('should focus on va-radio error span inside shadow dom', async () => {
+    const { container } = await renderPage();
+
+    await focusH3OrRadioError(0, container);
+    expect(waitForRenderThenFocusSpy.called).to.be.true;
+    expect(waitForRenderThenFocusSpy.args[0][0]).to.eq('[role="alert"]');
+  });
+
+  it('should focus on va-radio error span inside shadow dom', async () => {
+    const { container } = await renderPage(false);
+
+    await focusH3OrRadioError(0, container);
+    expect(waitForRenderThenFocusSpy.called).to.be.true;
+    expect(waitForRenderThenFocusSpy.args[0][0]).to.eq('h3');
   });
 });
 

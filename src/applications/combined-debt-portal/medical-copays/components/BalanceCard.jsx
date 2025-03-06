@@ -29,7 +29,7 @@ const PastDueContent = ({ id, date, amount }) => (
     <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong> was{' '}
     {currency(amount)}. If you haven’t paid your balance in full or requested
     financial help, contact the VA Health Resource Center at{' '}
-    <va-telephone contact="8664001238" /> (
+    <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
     <va-telephone tty contact={CONTACTS[711]} />
     ).
   </p>

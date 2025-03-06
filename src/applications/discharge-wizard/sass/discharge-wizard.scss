@@ -30,4 +30,12 @@
     margin-right: -4px;
     margin-left: -4px;
   }
+
+  @media print {
+
+    [data-testid=duw-print],
+    [data-testid=duw-results-back] {
+      display: none;
+    }
+  }
 }

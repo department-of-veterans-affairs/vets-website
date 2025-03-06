@@ -11,13 +11,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 import { itfNotice } from '../content/introductionPage';
-import {
-  show526Wizard,
-  isBDD,
-  getPageTitle,
-  getStartText,
-  show5103Updates,
-} from '../utils';
+import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
@@ -88,18 +82,13 @@ class IntroductionPage extends React.Component {
           </>
         ) : (
           <p>
-            VA Form 21-526EZ (Application for Disability Compensation and
-            Related Compensation Benefits).
+            Application for Disability Compensation and Related Compensation
+            Benefits (VA Form 21-526EZ)
           </p>
         )}
         <SaveInProgressIntro {...sipProps} />
         {itfNotice}
-        <h2
-          id="main-content"
-          className={!show5103Updates() && 'vads-u-font-size--h4'}
-        >
-          {subwayTitle}
-        </h2>
+        <h2 id="main-content">{subwayTitle}</h2>
         <div className="process schemaform-process">
           {loggedIn && (
             <p id="restart-wizard" className="vads-u-margin-top--0">
@@ -118,28 +107,24 @@ class IntroductionPage extends React.Component {
               .
             </p>
           )}
-          {show5103Updates() && (
-            <va-alert status="info">
-              <h3 className="vads-u-padding-top--0">
-                Notice of evidence needed
-              </h3>
-              <p>
-                We’re required by law to tell you what evidence you’ll need to
-                submit to support your disability claim.
-              </p>
-              <p>
-                You can review the evidence requirements on our evidence needed
-                for your disability claim page.
-              </p>
-              <p>
-                <va-link
-                  external
-                  href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
-                  text="Review the evidence requirements"
-                />
-              </p>
-            </va-alert>
-          )}
+          <va-alert status="info">
+            <h3 className="vads-u-padding-top--0">Notice of evidence needed</h3>
+            <p>
+              We’re required by law to tell you what evidence you’ll need to
+              submit to support your disability claim.
+            </p>
+            <p>
+              You can review the evidence requirements on our evidence needed
+              for your disability claim page.
+            </p>
+            <p>
+              <va-link
+                external
+                href="https://www.va.gov/disability/how-to-file-claim/evidence-needed/"
+                text="Review the evidence requirements"
+              />
+            </p>
+          </va-alert>
           <va-process-list class="vads-u-padding-y--0">
             {/* Prepare */}
             <va-process-list-item>
@@ -242,23 +227,6 @@ class IntroductionPage extends React.Component {
                 </a>
                 .
               </p>
-              {!show5103Updates() &&
-                !isBDDForm && (
-                  <va-alert slim status="info" uswds>
-                    <h4 className="vads-u-font-size--h6">Disability ratings</h4>
-                    <p>
-                      For each disability, we assign a rating from 0% to 100%.
-                      We base this rating on the evidence you turn in with your
-                      claim. In some cases we may also ask you to have an exam
-                      to help us rate your disability.
-                    </p>
-                    <p className="vads-u-margin-y--0">
-                      Before filing a claim for increase, you might want to
-                      check to see if you’re already receiving the maximum
-                      disability rating for your condition.
-                    </p>
-                  </va-alert>
-                )}
             </va-process-list-item>
             <va-process-list-item>
               {/* Apply */}
@@ -295,9 +263,7 @@ class IntroductionPage extends React.Component {
             </va-process-list-item>
             <va-process-list-item>
               {/* Review */}
-              <h3 className="vads-u-padding-top--0">
-                {show5103Updates() ? 'Review' : 'VA review'}
-              </h3>
+              <h3 className="vads-u-padding-top--0">Review</h3>
               <p
                 data-testid="process-step3-vareview"
                 className="vads-u-margin-top--2"

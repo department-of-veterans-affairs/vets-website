@@ -80,6 +80,8 @@ export const spouseMarriageHistorySummaryPage = {
       spouseMarriageHistoryOptions,
       {
         title: 'Does your spouse have any former marriages to add?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -136,7 +138,6 @@ export const formerMarriageEndReasonPage = {
     reasonMarriageEndedOther: {
       ...textUI('Briefly describe how their marriage ended'),
       'ui:required': (formData, index) => {
-        // See above comment
         const isEditMode = formData?.reasonMarriageEnded === 'Other';
         const isAddMode =
           formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
@@ -147,6 +148,11 @@ export const formerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        hideIf: (formData, index) =>
+          !(
+            formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
+              'Other' || formData?.reasonMarriageEnded === 'Other'
+          ),
         keepInPageOnReview: true,
       },
     },
@@ -187,6 +193,24 @@ export const formerMarriageEndDatePage = {
     endDate: {
       ...currentOrPastDateUI('When did their marriage end?'),
       'ui:required': () => true,
+      'ui:validations': [
+        {
+          validator: (errors, _field, formData) => {
+            const { startDate, endDate } = formData;
+
+            if (!startDate || !endDate) return;
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (end < start) {
+              errors.addError(
+                'Marriage end date must be on or after the marriage start date',
+              );
+            }
+          },
+        },
+      ],
     },
   },
   schema: {
@@ -206,7 +230,7 @@ export const formerMarriageStartLocationPage = {
         labelHeaderLevel: '4',
       },
       outsideUsa: {
-        'ui:title': 'They got married outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {

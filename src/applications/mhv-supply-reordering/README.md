@@ -21,7 +21,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
 - turn on local mocks `yarn mock-api --responses src/applications/mhv-supply-reordering/mocks/index.js`
 - start app `yarn watch --env entry=mhv-supply-reordering`
 - Run this in your browser console to simulate being logged in `localStorage.setItem('hasSession', true);`
-- visit the app: `http://localhost:3001/my-health/order-supplies`
+- visit the app: `http://localhost:3001/my-health/order-medical-supplies`
 
 Note: The application fetches supply data from `/v0/in_progress_forms/mdot`. This endpoint is mocked in the local development environment.
 
@@ -35,6 +35,15 @@ Run Cypress from command line:
 
 - Run all `yarn cy:run --spec "src/applications/mhv-supply-reordering/**/**/*"`
 - Specify browser `-b electron`
+
+### Test coverage
+
+```bash
+$ yarn test:unit --app-folder mhv-supply-reordering --coverage --coverage-html
+$ cd ./coverage
+$ npx http-server
+$ open http://localhost:8080
+```
 
 ## VA Forms - Web Component Fields and Patterns
 

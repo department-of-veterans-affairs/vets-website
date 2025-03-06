@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import Scroll from 'react-scroll';
+import { shallow } from 'enzyme';
 import {
   getFileSize,
   getFormNumber,
@@ -13,8 +13,10 @@ import {
   onCloseAlert,
   getMockData,
   formattedPhoneNumber,
+  onClickContinue,
+  getAlert,
 } from '../../../helpers';
-import { DOWNLOAD_URL_0779 } from '../../../config/constants';
+import * as constants from '../../../config/constants';
 
 const { scroller } = Scroll;
 
@@ -22,14 +24,21 @@ describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
       global.window.location = {
-        pathname: '/form-upload/21-0779/upload',
+        pathname: '/find-forms/upload/21-0779/upload',
       };
       expect(getFormNumber()).to.eq('21-0779');
     });
 
+    it('retains upper-case characters from formMappings', () => {
+      global.window.location = {
+        pathname: '/find-forms/upload/21p-0518-1/upload',
+      };
+      expect(getFormNumber()).to.eq('21P-0518-1');
+    });
+
     it('returns empty string when formNumber does not match', () => {
       global.window.location = {
-        pathname: '/form-upload/fake-form/upload',
+        pathname: 'find-forms/upload/fake-form/upload',
       };
       expect(getFormNumber()).to.eq('');
     });
@@ -38,22 +47,17 @@ describe('Helpers', () => {
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
       global.window.location = {
-        pathname: '/form-upload/21-0779/upload',
+        pathname: 'find-forms/upload/21-0779/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Upload VA Form 21-0779' });
-    });
-
-    it('returns default content when the form number is not mapped', () => {
-      global.window.location = {
-        pathname: '/form-upload/99-9999/upload',
-      };
-      expect(getFormContent()).to.include({ title: 'Upload VA Form 99-9999' });
+      expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
     });
   });
 
   describe('getPdfDownloadUrl', () => {
     it('returns the url', () => {
-      expect(getPdfDownloadUrl('21-0779')).to.eq(DOWNLOAD_URL_0779);
+      expect(getPdfDownloadUrl('21-0779')).to.eq(
+        'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
+      );
     });
 
     it('returns an empty string', () => {
@@ -143,6 +147,67 @@ describe('Helpers', () => {
   describe('formattedPhoneNumber', () => {
     it('formats the phone number', () => {
       expect(formattedPhoneNumber('12345-67890')).to.eq('(123) 456-7890');
+    });
+  });
+
+  describe('onClickContinue', () => {
+    it('sets continueClicked to true', () => {
+      const props = {
+        data: {
+          uploadedFile: { name: 'uploading' },
+        },
+      };
+      const setContinueClicked = sinon.spy();
+
+      onClickContinue(props, setContinueClicked);
+
+      expect(setContinueClicked.calledOnce).to.be.true;
+    });
+
+    it('calls onContinue if file is not currently uploading', () => {
+      const onContinue = sinon.spy();
+      const props = {
+        data: {
+          uploadedFile: { name: 'file-name' },
+        },
+        onContinue,
+      };
+
+      onClickContinue(props, () => {});
+
+      expect(onContinue.calledOnce).to.be.true;
+    });
+  });
+
+  describe('getAlert', () => {
+    it('displays the OCR alert if there are warnings', () => {
+      const props = { data: { uploadedFile: { warnings: ['warning'] } } };
+      const continueClicked = false;
+      const stub = sinon.stub(constants, 'FORM_UPLOAD_OCR_ALERT');
+
+      getAlert(props, continueClicked);
+
+      expect(stub.calledOnce).to.be.true;
+    });
+
+    it('displays the uploading... alert if a file is still uploading and Continue was clicked', () => {
+      const props = { data: { uploadedFile: { name: 'uploading' } } };
+      const continueClicked = true;
+      const stub = sinon.stub(constants, 'FORM_UPLOAD_FILE_UPLOADING_ALERT');
+
+      getAlert(props, continueClicked);
+
+      expect(stub.calledOnce).to.be.true;
+    });
+
+    it('displays instructions alert if no warnings and not currently uploading', () => {
+      const props = { data: { uploadedFile: {} } };
+      const continueClicked = false;
+      const stub = sinon.stub(constants, 'FORM_UPLOAD_INSTRUCTION_ALERT');
+
+      getAlert(props, continueClicked);
+
+      expect(stub.calledOnce).to.be.true;
     });
   });
 });

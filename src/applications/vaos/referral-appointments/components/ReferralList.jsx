@@ -1,17 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
 import PendingReferralCard from './PendingReferralCard';
-import { routeToNextReferralPage } from '../flow';
 import InfoAlert from '../../components/InfoAlert';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
 const ReferralList = ({ referrals, referralsError }) => {
-  const history = useHistory();
-  const handleReferralClick = (e, referralId) => {
-    e.preventDefault();
-    routeToNextReferralPage(history, 'referralsAndRequests', referralId);
-  };
   if (referralsError) {
     return (
       <InfoAlert
@@ -46,12 +39,7 @@ const ReferralList = ({ referrals, referralsError }) => {
     >
       {referrals.map((referral, index) => {
         return (
-          <PendingReferralCard
-            key={index}
-            index={index}
-            referral={referral}
-            handleClick={handleReferralClick}
-          />
+          <PendingReferralCard key={index} index={index} referral={referral} />
         );
       })}
     </ul>
