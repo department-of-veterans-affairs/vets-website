@@ -21,7 +21,7 @@ describe('VA health services autosuggest', () => {
     cy.intercept(
       'GET',
       '**/data/cms/va-healthcare-services.json',
-      vaHealthServicesData,
+      vaHealthServicesData.data,
     ).as('vaHealthServices');
   });
 
