@@ -410,11 +410,23 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
   other: 'Other traumatic events',
 });
 
-export const OFFICIAL_REPORT_TYPES = Object.freeze({
-  restricted: 'Restricted report',
-  unrestricted: 'Unrestricted report',
+export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
+  military: 'Military incident reports',
+  other: 'Other reporting options',
+});
+
+export const MILITARY_REPORT_TYPES = Object.freeze({
+  restricted:
+    'Restricted incident report (filed with the military while requesting confidentiality)',
+  unrestricted:
+    'Unrestricted incident report (filed with the military without requesting confidentiality)',
+  pre2005: 'Incident report filed with the military before 2005',
+});
+
+export const OTHER_REPORT_TYPES = Object.freeze({
   police: 'Police report',
-  none: 'No report',
+  unsure: 'A police report was filed but I’m not sure which type it was',
+  none: 'No official report was filed',
 });
 
 export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({

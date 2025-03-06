@@ -82,9 +82,19 @@
     "widgetType": "post-9-11-gi-bill-status"
   },
   {
+    "appName": "Refill and Track Perscriptions",
+    "rootUrl": "/health-care/refill-track-prescriptions",
+    "widgetType": "modern-refill-track-prescriptions-page"
+  },
+  {
     "appName": "Schedule And View VA Appointments Online",
     "rootUrl": "/health-care/schedule-view-va-appointments",
     "widgetType": "schedule-view-va-appointments-page"
+  },
+  {
+    "appName": "Schedule And View VA Appointments Online",
+    "rootUrl": "/health-care/modern-schedule-view-va-appointments",
+    "widgetType": "modern-schedule-view-va-appointments-page"
   },
   {
     "appName": "VA Pittsburgh Health Care",
