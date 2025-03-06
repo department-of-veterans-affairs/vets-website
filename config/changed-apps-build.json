@@ -256,10 +256,6 @@
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {
-      "rootFolder": "static-pages",
-      "slackGroup": "@C059Q28DV99"
-    },
-    {
       "rootFolder": "terms-of-use",
       "continuousDeployment": false
     },
