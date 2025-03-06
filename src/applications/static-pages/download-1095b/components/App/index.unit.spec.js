@@ -189,5 +189,28 @@ describe('App component', () => {
         });
       });
     });
+
+    describe('when the feature flag is off', () => {
+      it('renders an "unavailable" messsage', async () => {
+        const testState = authedAndVerifiedState;
+        testState.featureToggles.showDigitalForm1095b = false;
+        store = mockStore(testState);
+        const { queryByText } = render(
+          <Provider store={store}>
+            <App />
+          </Provider>,
+        );
+        await waitFor(() => {
+          expect(queryByText('Loading')).not.to.exist;
+        });
+        await waitFor(() => {
+          expect(
+            queryByText(
+              'Your 1095-B form isn’t available to download right now',
+            ),
+          ).to.exist;
+        });
+      });
+    });
   });
 });
