@@ -1,5 +1,9 @@
 import * as Sentry from '@sentry/browser';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import {
+  CountriesList,
+  MAPBOX_QUERY_TYPES,
+} from 'platform/utilities/facilities-and-mapbox';
 import mapboxClient from '../utils/mapbox/mapboxClient';
 import { replaceStrValues } from '../utils/helpers';
 import content from '../locales/en/content.json';
@@ -16,10 +20,8 @@ export const fetchMapBoxGeocoding = async (query, client = null) => {
 
   return fetchClient
     .forwardGeocode({
-      // Pulled from 'src/applications/facility-locator/constants/index.js'
-      countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
-      // Pulled from 'src/applications/facility-locator/constants/index.js'
-      types: ['place', 'region', 'postcode', 'locality'],
+      countries: CountriesList,
+      types: MAPBOX_QUERY_TYPES,
       autocomplete: false,
       query,
     })
