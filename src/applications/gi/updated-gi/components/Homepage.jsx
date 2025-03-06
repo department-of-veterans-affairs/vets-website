@@ -22,10 +22,12 @@ const HomePage = () => {
         <LinkWithDescription
           text="Licenses and certifications"
           description="Search for licenses, certifications, and prep courses. You can submit a form to get reimbursed."
+          link="/licenses-certifications-and-prep-courses"
         />
         <LinkWithDescription
           text="National Exams"
           description="Take national exams such as SAT, ACT, GRE, GMAT, and more. You can submit a form to get reimbursed."
+          link="/national-exams"
         />
       </div>
     </div>
