@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
-import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
@@ -47,15 +47,14 @@ describe('<FilterControls>', () => {
 
   it('should render', () => {
     const wrapper = mountComponent(defaultProps);
-    expect(wrapper.find(VaCheckboxGroup)).to.exist;
-    expect(wrapper.find('va-checkbox')).to.have.lengthOf(2);
+    expect(wrapper.find(VaCheckbox)).to.have.lengthOf(2);
     expect(wrapper.find('Dropdown')).to.exist;
   });
 
-  it('should call handleCheckboxGroupChange when checkbox group changes', () => {
+  it('should call handleCheckboxGroupChange when checkbox changes', () => {
     const wrapper = mountComponent(defaultProps);
-    const checkboxGroup = wrapper.find(VaCheckboxGroup);
-    checkboxGroup.props().onVaChange({ detail: { value: ['license'] } });
+    const checkbox = wrapper.find(VaCheckbox).first();
+    checkbox.props().onVaChange({ target: { name: 'license', checked: true } });
     expect(defaultProps.handleCheckboxGroupChange.called).to.be.true;
   });
 
