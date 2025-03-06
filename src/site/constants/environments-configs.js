@@ -15,18 +15,24 @@ module.exports = {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
     BASE_URL: 'https://www.va.gov',
     API_URL: 'https://api.va.gov',
+    DATADOG_TAGS: 'env:prod,team:virtual-agent-platform',
+    DD_HOST_NAME: 'dev-vets-website',
   },
 
   [ENVIRONMENTS.VAGOVSTAGING]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVSTAGING,
     BASE_URL: 'https://staging.va.gov',
     API_URL: 'https://staging-api.va.gov',
+    DATADOG_TAGS: 'env:staging,team:virtual-agent-platform',
+    DD_HOST_NAME: 'staging-vets-website',
   },
 
   [ENVIRONMENTS.VAGOVDEV]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVDEV,
     BASE_URL: 'https://dev.va.gov',
     API_URL: 'https://dev-api.va.gov',
+    DATADOG_TAGS: 'env:dev,team:virtual-agent-platform',
+    DD_HOST_NAME: 'prod-vets-website',
   },
 
   [ENVIRONMENTS.LOCALHOST]: {

@@ -1,3 +1,5 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
 const winston = require('winston');
 const path = require('path');
 
@@ -9,34 +11,27 @@ require('dotenv').config({ path: ENV_FILE });
 
 const NODE_JS = 'nodejs';
 const INFO = 'info';
-const SERVICE = process.env.DATADOG_APP_NAME;
+const SERVICE = 'datadog-poc';
 const HOST = 'http-intake.logs.ddog-gov.com';
-
-function getLogLevel() {
-  /**
-   * This function reads the LOG_LEVEL environment variable and returns
-   * either log level from env file or defaults to info
-   */
-  return (process.env.LOG_LEVEL || INFO).toLowerCase();
-}
+const DATADOG_APP_NAME = 'vets-website-chatbot';
 
 function isLocalHost() {
-  const host = process.env.HOST_NAME
-    ? process.env.HOST_NAME.toLowerCase()
+  const host = environment.DD_HOST_NAME
+    ? environment.DD_HOST_NAME.toLowerCase()
     : 'localhost';
   return host === 'localhost';
 }
 
 function getDatadogTags() {
-  return process.env.DATADOG_TAGS
-    ? `version:1.0.1,${process.env.DATADOG_TAGS}`
+  return environment.DATADOG_TAGS
+    ? `version:1.0.1,${environment.DATADOG_TAGS}`
     : `version:1.0.1`;
 }
 
 function buildDefaultLoggerOptions() {
   const loggerOptions = {
     // minimum level of logs to display
-    level: getLogLevel(),
+    level: INFO,
     exitOnError: false,
     // format logs as JSON by default
     format: winston.format.combine(
@@ -51,7 +46,7 @@ function buildDefaultLoggerOptions() {
     loggerOptions.defaultMeta = {
       ddsource: NODE_JS,
       ddtags,
-      hostname: process.env.HOST_NAME,
+      hostname: environment.DD_HOST_NAME,
       service: SERVICE,
     };
   }
@@ -79,8 +74,8 @@ function setLoggerOutput(logger) {
     const httpTransportOptions = {
       host: HOST,
       path: `/api/v2/logs?dd-api-key=${
-        process.env.DATADOG_API_KEY
-      }&ddsource=nodejs&service=${process.env.DATADOG_APP_NAME}`,
+        process.env.DD_API_KEY
+      }&ddsource=nodejs&service=${DATADOG_APP_NAME}`,
       ssl: true,
       handleExceptions: true,
       handleRejections: true, // handle promise rejections
@@ -95,5 +90,4 @@ module.exports = {
   createLogger,
   setLoggerOutput,
   getDatadogTags,
-  getLogLevel,
 };

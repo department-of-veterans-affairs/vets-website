@@ -133,6 +133,12 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
+      - name: Get DD_API_KEY from Parameter Store
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/DD_API_KEY
+          env_variable_name: DD_API_KEY
+
       - name: Waiting to release
         run: |
           echo 'Waiting to release: https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}'
