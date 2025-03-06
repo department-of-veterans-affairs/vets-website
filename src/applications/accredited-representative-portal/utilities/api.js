@@ -58,12 +58,11 @@ const wrapApiRequest = fn => {
       // For 401s, redirect to login
       if (
         response.status === 401 &&
-        !// Don't redirect to login for our app's root / landing page experience.
+        // Don't redirect to login for our app's root / landing page experience.
         // People are allowed to be unauthenticated there.
         // TODO: probably need a more sound & principled solution here.
-        (
-          window.location.pathname === manifest.rootUrl ||
-          window.location.pathname === `${manifest.rootUrl}/`
+        ![manifest.rootUrl, `${manifest.rootUrl}/`].includes(
+          window.location.pathname,
         )
       ) {
         window.location = getSignInUrl({
