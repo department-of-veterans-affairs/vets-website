@@ -1,12 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
+import { Toggler } from 'platform/utilities/feature-toggles';
 import formConfig from '../../config/form';
-import * as features from '../../config/features';
 import ConfirmationPage, {
   getNextStepsActionsPlaceholders,
 } from '../../containers/ConfirmationPage';
@@ -98,7 +97,11 @@ const responseExistingBenefitsIntake = {
   submissionApi: 'benefitsIntake',
 };
 
-function makeStore(response, data) {
+function makeStore(
+  response,
+  data,
+  confirmationPageFeatureToggleEnabled = false,
+) {
   return {
     form: {
       formId: formConfig.formId,
@@ -107,6 +110,10 @@ function makeStore(response, data) {
         timestamp: Date.now(),
       },
       data,
+    },
+    featureToggles: {
+      [Toggler.TOGGLE_NAMES
+        .form210966ConfirmationPage]: confirmationPageFeatureToggleEnabled,
     },
   };
 }
@@ -118,43 +125,37 @@ const STORE_SURVIVOR_EXISTING = makeStore(responseExisting, survivorData);
 const STORE_VETERAN_FIRST_TIME_BENEFITS_CLAIMS = makeStore(
   responseNewBenefitsClaims,
   veteranData,
+  true,
 );
 const STORE_VETERAN_FIRST_TIME_BENEFITS_INTAKE = makeStore(
   responseNewBenefitsIntake,
   veteranData,
+  true,
 );
 const STORE_SURVIVOR_FIRST_TIME_BENEFITS_CLAIMS = makeStore(
   responseNewBenefitsClaims,
   survivorData,
+  true,
 );
 const STORE_SURVIVOR_FIRST_TIME_BENEFITS_INTAKE = makeStore(
   responseNewBenefitsIntake,
   survivorData,
+  true,
 );
 const STORE_VETERAN_EXISTING_BENEFITS_CLAIMS = makeStore(
   responseExistingBenefitsClaims,
   veteranData,
+  true,
 );
 const STORE_SURVIVOR_EXISTING_BENEFITS_INTAKE = makeStore(
   responseExistingBenefitsIntake,
   survivorData,
+  true,
 );
-
-let useNewConfirmationPageStub;
 
 describe('Confirmation page V2', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
-
-  before(() => {
-    useNewConfirmationPageStub = sinon
-      .stub(features, 'useNewConfirmationPage')
-      .returns(true);
-  });
-
-  after(() => {
-    useNewConfirmationPageStub.restore();
-  });
 
   it('it should show status success and the correct name of person for a veteran submitting for the first time (benefits claims)', () => {
     const { container, getByText } = render(
@@ -352,16 +353,6 @@ describe('Confirmation page V2', () => {
 describe('Confirmation page V1', () => {
   const middleware = [thunk];
   const mockStore = configureStore(middleware);
-
-  before(() => {
-    useNewConfirmationPageStub = sinon
-      .stub(features, 'useNewConfirmationPage')
-      .returns(false);
-  });
-
-  after(() => {
-    useNewConfirmationPageStub.restore();
-  });
 
   it('it should show status success and the correct name of person for a veteran submitting for the first time', () => {
     const { container, getByText } = render(

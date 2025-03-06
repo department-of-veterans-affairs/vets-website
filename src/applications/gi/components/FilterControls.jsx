@@ -17,7 +17,7 @@ function FilterControls({
           options={categoryCheckboxes}
           label="Category"
           label-header-level="3"
-          class="vads-u-margin-top--0"
+          class="category-checkbox-group vads-u-margin-top--0"
         >
           {categoryCheckboxes.map((option, index) => {
             return (
@@ -26,6 +26,7 @@ function FilterControls({
                 label={option.label}
                 name={option.name}
                 checked={option.checked}
+                class="category-checkbox"
               />
             );
           })}
