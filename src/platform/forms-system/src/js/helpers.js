@@ -809,3 +809,33 @@ export function getUrlPathIndex(url) {
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
 }
+
+/**
+ * Converts a url path to a formConfig's page path, which for arrays will include `:index`
+ *
+ * @param {string} urlPath for example `window.location.pathname` is a valid urlPath
+ * @param {string} [rootUrl] Optional - First part of the url path to remove
+ * @returns {string}
+ */
+export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
+  let pageConfigPath = urlPath;
+
+  if (!urlPath) {
+    return pageConfigPath;
+  }
+
+  if (rootUrl && urlPath.startsWith(rootUrl)) {
+    pageConfigPath = urlPath.substring(rootUrl.length);
+  }
+
+  if (pageConfigPath.startsWith('/')) {
+    pageConfigPath = pageConfigPath.substring(1);
+  }
+
+  // change path/0/name to path/:index/name
+  // change path/0 to path/:index
+  // keep path/name as path/name
+  pageConfigPath = pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
+
+  return pageConfigPath;
+}
