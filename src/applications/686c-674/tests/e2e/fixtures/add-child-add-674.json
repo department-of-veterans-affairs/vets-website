@@ -99,7 +99,6 @@
         "currentTermDates": {
           "officialSchoolStartDate": "2024-02-01",
           "expectedStudentStartDate": "2024-05-05",
-          "expectedGraduationDate": "2050-03-04"
           "expectedGraduationDate": "2028-03-04"
         },
         "isSchoolAccredited": true,
