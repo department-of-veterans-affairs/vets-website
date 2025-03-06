@@ -24,6 +24,7 @@ class CCServiceTypeAhead extends Component {
 
   componentDidUpdate(prevProps) {
     if (
+      !this.props.useProgressiveDisclosure &&
       !prevProps.currentQuery?.specialties &&
       this.state.services.length === 0
     ) {
