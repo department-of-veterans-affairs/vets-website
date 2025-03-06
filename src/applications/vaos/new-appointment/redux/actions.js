@@ -677,7 +677,7 @@ export function onCalendarChange(
   upcomingAppointments,
 ) {
   let isSame = false;
-  if (maxSelections === 1 && selectedDates.length > 0) {
+  if (maxSelections === 1 && selectedDates?.length > 0) {
     const date = selectedDates[0];
 
     const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
