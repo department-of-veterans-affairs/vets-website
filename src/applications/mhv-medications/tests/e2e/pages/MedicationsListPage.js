@@ -47,9 +47,7 @@ class MedicationsListPage {
     );
   };
 
-  clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
-    waitForMeds = false,
-  ) => {
+  visitMedicationsLinkWhenNoAllergiesAPICallFails = (waitForMeds = false) => {
     cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
       'delayAlertRxList',
     );
@@ -59,7 +57,7 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
