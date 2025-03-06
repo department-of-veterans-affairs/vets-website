@@ -61,5 +61,33 @@ describe('MHV Signin CTA', () => {
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
       expect(queryByRole('link', { name: RegExp(linkText) })).to.exist;
     });
+
+    it('renders mhvAccount is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSimpleSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading
+            profileLoading={false}
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
+    });
+
+    it('renders profile is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSimpleSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading={false}
+            profileLoading
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
+    });
   });
 });
