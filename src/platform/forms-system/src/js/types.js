@@ -479,5 +479,5 @@
  * @property {string} chapterKey
  * @property {number} index
  * @property {string} pageKey
- * @property {string} pathname
+ * @property {string} pagePath
  */
