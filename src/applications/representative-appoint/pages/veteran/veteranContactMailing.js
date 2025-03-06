@@ -17,7 +17,6 @@ export const uiSchema = {
     'ui:description': () => <ProfileNotUpdatedNote includeLink includePrefix />,
   },
   veteranHomeAddress: addressUI({
-    maxStateLength: 2,
     labels: {
       militaryCheckbox:
         'This address is on a United States military base outside of the U.S.',
