@@ -2,7 +2,7 @@ import maximalData from '../fixtures/data/maximal-test.json';
 import formConfig from '../../config/form';
 
 describe('22-10282 Edu form', () => {
-  beforeEach(() => {
+  beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
   });
 
