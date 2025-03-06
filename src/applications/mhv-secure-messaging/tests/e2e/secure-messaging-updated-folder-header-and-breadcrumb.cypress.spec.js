@@ -50,7 +50,7 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
     PatientMessageDraftsPage.loadDrafts();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Drafts`);
-    GeneralFunctionsPage.verifyLastBreadCrumb(`Messages: Drafts`);
+    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();
@@ -61,7 +61,7 @@ describe('SM UPDATED PAGE HEADER, TITLE AND BREADCRUMB', () => {
     PatientMessageTrashPage.loadMessages();
 
     GeneralFunctionsPage.verifyPageHeader(`Messages: Trash`);
-    GeneralFunctionsPage.verifyLastBreadCrumb(`Messages: Trash`);
+    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
     GeneralFunctionsPage.verifyPageTitle(`Messages:`);
 
     cy.injectAxe();

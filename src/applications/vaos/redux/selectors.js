@@ -123,6 +123,12 @@ export const selectFeaturePastApptDateRange = state =>
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
 
+export const selectFeatureMhvRouteGuards = state =>
+  toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
+
+export const selectFeatureDirectScheduleAppointmentConflict = state =>
+  toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
+
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
 
