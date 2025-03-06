@@ -410,14 +410,45 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
   other: 'Other traumatic events',
 });
 
-export const OFFICIAL_REPORT_TYPES = Object.freeze({
-  restricted: 'Restricted report',
-  unrestricted: 'Unrestricted report',
-  police: 'Police report',
-  none: 'No report',
+export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
+  military: 'Military incident reports',
+  other: 'Other reporting options',
 });
 
-export const BEHAVIOR_LIST_BEHAVIOR_SUBTITLES = Object.freeze({
+export const MILITARY_REPORT_TYPES = Object.freeze({
+  restricted:
+    'Restricted incident report (filed with the military while requesting confidentiality)',
+  unrestricted:
+    'Unrestricted incident report (filed with the military without requesting confidentiality)',
+  pre2005: 'Incident report filed with the military before 2005',
+});
+
+export const OTHER_REPORT_TYPES = Object.freeze({
+  police: 'Police report',
+  unsure: 'A police report was filed but I’m not sure which type it was',
+  none: 'No official report was filed',
+});
+
+export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
+  reassignment: 'workBehaviors',
+  absences: 'workBehaviors',
+  performance: 'workBehaviors',
+  consultations: 'healthBehaviors',
+  episodes: 'healthBehaviors',
+  medications: 'healthBehaviors',
+  selfMedication: 'healthBehaviors',
+  substances: 'healthBehaviors',
+  appetite: 'healthBehaviors',
+  pregnancy: 'healthBehaviors',
+  screenings: 'healthBehaviors',
+  socialEconomic: 'otherBehaviors',
+  relationships: 'otherBehaviors',
+  misconduct: 'otherBehaviors',
+});
+
+export const MH_0781_URL_PREFIX = 'mental-health-form-0781';
+
+export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
   work: 'Behavioral changes related to work',
   health: 'Behavioral changes related to health',
   other: 'Other behavioral changes',
@@ -470,6 +501,12 @@ export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
   misconduct: 'Disciplinary or legal difficulties',
   unlisted: 'I experienced other behavioral changes that were not in this list',
 });
+
+export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
+  ...BEHAVIOR_CHANGES_WORK,
+  ...BEHAVIOR_CHANGES_HEALTH,
+  ...BEHAVIOR_CHANGES_OTHER,
+};
 
 export const SUPPORTING_EVIDENCE_SUBTITLES = Object.freeze({
   reports: 'Reports about your traumatic events',

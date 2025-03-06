@@ -4,9 +4,13 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import classNames from 'classnames';
 import moment from 'moment';
+import { format, subMonths } from 'date-fns';
 import { useHistory } from 'react-router-dom';
 import InfoAlert from '../../../components/InfoAlert';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeaturePastApptDateRange,
+} from '../../../redux/selectors';
 import { groupAppointmentByDay } from '../../../services/appointment';
 import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
@@ -91,11 +95,49 @@ export function getPastAppointmentDateRangeOptions(today = moment()) {
   return options;
 }
 
+export function getMaximumPastAppointmentDateRange() {
+  const now = new Date();
+  const today = format(now, 'yyyy-MM-dd');
+
+  return [
+    {
+      value: 0,
+      label: 'Past 3 months',
+      startDate: format(subMonths(now, 3), 'yyyy-MM-dd'),
+      endDate: today,
+    },
+    {
+      value: 1,
+      label: 'Past 6 months',
+      startDate: format(subMonths(now, 6), 'yyyy-MM-dd'),
+      endDate: today,
+    },
+    {
+      value: 2,
+      label: 'Past 12 months',
+      startDate: format(subMonths(now, 12), 'yyyy-MM-dd'),
+      endDate: today,
+    },
+    {
+      value: 3,
+      label: 'Past 24 months',
+      startDate: format(subMonths(now, 24), 'yyyy-MM-dd'),
+      endDate: today,
+    },
+  ];
+}
+
 export default function PastAppointmentsPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isInitialMount, setInitialMount] = useState(true);
-  const dateRangeOptions = getPastAppointmentDateRangeOptions();
+  const featurePastApptDateRange = useSelector(state =>
+    selectFeaturePastApptDateRange(state),
+  );
+
+  const dateRangeOptions = featurePastApptDateRange
+    ? getMaximumPastAppointmentDateRange()
+    : getPastAppointmentDateRangeOptions();
   const {
     showScheduleButton,
     pastAppointmentsByMonth,

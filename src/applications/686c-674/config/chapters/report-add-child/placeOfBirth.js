@@ -21,7 +21,7 @@ export const placeOfBirth = {
           'ui:required': () => true,
           'ui:autocomplete': 'address-level2',
           'ui:errorMessages': {
-            required: 'Enter the city where they were married',
+            required: 'Enter the city where the child was born',
           },
           'ui:webComponentField': VaTextInputField,
         },

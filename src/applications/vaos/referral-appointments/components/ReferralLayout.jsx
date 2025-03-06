@@ -41,14 +41,12 @@ export default function ReferralLayout({
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8">
             {hasEyebrow && (
-              <>
-                <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
-                  New Appointment
-                </span>
-                {heading && (
-                  <h1 data-testid="referral-layout-heading">{heading}</h1>
-                )}
-              </>
+              <span className="vaos-form__title vaos-u-margin-bottom--1 vads-u-font-size--sm vads-u-font-weight--normal">
+                New Appointment
+              </span>
+            )}
+            {heading && (
+              <h1 data-testid="referral-layout-heading">{heading}</h1>
             )}
             <ErrorBoundary>
               {!!loadingMessage && (
