@@ -4,8 +4,11 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { BTSSS_PORTAL_URL } from '../../../constants';
 import SmocRadio from '../../SmocRadio';
+
+const title = 'Did you travel in your own vehicle?';
 
 const VehiclePage = ({
   pageIndex,
@@ -18,6 +21,8 @@ const VehiclePage = ({
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -42,7 +47,7 @@ const VehiclePage = ({
       <SmocRadio
         name="vehicle"
         value={yesNo.vehicle}
-        label="Did you travel in your own vehicle?"
+        label={title}
         error={requiredAlert}
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />

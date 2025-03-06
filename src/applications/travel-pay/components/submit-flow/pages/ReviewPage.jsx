@@ -9,9 +9,12 @@ import {
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
+
+const title = 'Review your travel claim';
 
 const ReviewPage = ({
   address,
@@ -25,6 +28,8 @@ const ReviewPage = ({
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
 
@@ -41,7 +46,7 @@ const ReviewPage = ({
 
   return (
     <div>
-      <h1 tabIndex="-1">Review your travel claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       <p>Confirm the information is correct before you submit your claim.</p>
 
       <h2 className="vads-u-margin-bottom--0">Claims</h2>

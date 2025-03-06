@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import useSetPageTitle from '../hooks/useSetPageTitle';
 import { formatDateTime } from '../util/dates';
 
+const title = 'Your travel reimbursement claim';
+
 export default function ClaimDetailsContent(props) {
+  useSetPageTitle(title);
+
   const {
     createdOn,
     claimStatus,
@@ -22,7 +27,9 @@ export default function ClaimDetailsContent(props) {
 
   return (
     <>
-      <h1>Your travel reimbursement claim for {appointmentDate}</h1>
+      <h1>
+        {title} for {appointmentDate}
+      </h1>
       <span
         className="vads-u-font-size--h2 vads-u-font-weight--bold"
         data-testid="claim-details-claim-number"
