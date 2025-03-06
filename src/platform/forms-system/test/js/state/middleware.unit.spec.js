@@ -75,7 +75,7 @@ describe('applyActiveContextMiddleware', () => {
         pageKey: undefined,
         arrayPath: undefined,
         index: undefined,
-        pagePath: undefined,
+        pagePath: '',
       },
     });
   });
