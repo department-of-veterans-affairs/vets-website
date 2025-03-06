@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-import { focusElement } from 'platform/utilities/ui';
+import FormFooter from 'platform/forms/components/FormFooter';
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 
+import formConfig from '../config/form';
 import ContactCard from '../components/ContactCard';
-
 import { useTransformForReview } from '../hooks/useTransformForReview';
 import {
   getFormNumber,
@@ -118,6 +119,8 @@ export default function ConfirmationDigitalSubmission() {
         href="/"
         type="secondary"
       />
+
+      <FormFooter formConfig={formConfig} />
     </>
   );
 }
