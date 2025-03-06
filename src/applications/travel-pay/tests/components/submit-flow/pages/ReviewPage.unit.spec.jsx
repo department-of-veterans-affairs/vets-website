@@ -72,7 +72,7 @@ describe('Revew page', () => {
     setYesNo: () => setYesNoSpy(),
   };
 
-  it('should render properly with all data', async () => {
+  it('should render properly with all data', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -97,12 +97,12 @@ describe('Revew page', () => {
 
     expect($('va-button-pair')).to.exist;
 
-    await checkbox.__events.vaChange();
+    checkbox.__events.vaChange();
 
     expect(setIsAgreementCheckedSpy.called).to.be.true;
   });
 
-  it('should render properly with practitioners if present', async () => {
+  it('should render properly with practitioners if present', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData({ pract: practitioner }),
       reducers: reducer,
@@ -129,12 +129,12 @@ describe('Revew page', () => {
 
     expect($('va-button-pair')).to.exist;
 
-    await checkbox.__events.vaChange();
+    checkbox.__events.vaChange();
 
     expect(setIsAgreementCheckedSpy.called).to.be.true;
   });
 
-  it('should reset page index and answers when start over is pressed', async () => {
+  it('should reset page index and answers when start over is pressed', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -147,7 +147,7 @@ describe('Revew page', () => {
     expect(setYesNoSpy.called).to.be.true;
   });
 
-  it('should submit okay', async () => {
+  it('should submit okay', () => {
     const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
       initialState: getData(),
       reducers: reducer,
@@ -157,7 +157,7 @@ describe('Revew page', () => {
 
     // Check the agreement
     const checkbox = $('va-checkbox[name="accept-agreement"]');
-    await checkbox.__events.vaChange();
+    checkbox.__events.vaChange();
 
     $('va-button-pair').__events.primaryClick(); // file claim
     expect(onSubmitSpy.called).to.be.true;
@@ -182,7 +182,7 @@ describe('Revew page', () => {
     );
 
     expect(
-      screen.findAllByText(/You must accept the beneficiary travel agreement/i),
-    ).to.be.empty;
+      screen.queryByText(/You must accept the beneficiary travel agreement/i),
+    ).to.not.exist;
   });
 });
