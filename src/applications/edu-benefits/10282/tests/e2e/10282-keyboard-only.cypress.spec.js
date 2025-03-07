@@ -2,10 +2,6 @@ import maximalData from '../fixtures/data/maximal-test.json';
 import formConfig from '../../config/form';
 
 describe('22-10282 Edu form', () => {
-  beforeEach(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   it('should be keyboard-only navigable', () => {
     // Go to application, should go to intro page
     cy.visit(
@@ -266,6 +262,6 @@ describe('22-10282 Edu form', () => {
     cy.tabToSubmitForm();
 
     // Confirmation page
-    // cy.location('pathname').should('include', '/confirmation');
+    cy.location('pathname').should('include', '/confirmation');
   });
 });
