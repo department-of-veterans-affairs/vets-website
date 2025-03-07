@@ -62,6 +62,12 @@ describe('Mileage page', () => {
 
     expect(screen.getByTestId('mileage-test-id')).to.exist;
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.exist;
+    expect($('va-radio')).to.have.attribute(
+      'label',
+      'Are you claiming only mileage?',
+    );
+    expect($('va-radio')).to.not.have.attribute('error');
+
     expect($('va-button-pair')).to.exist;
 
     fireEvent.click(

@@ -58,6 +58,12 @@ describe('Address page', () => {
     });
 
     expect(screen.getByTestId('address-test-id')).to.exist;
+    expect($('va-radio')).to.have.attribute(
+      'label',
+      'Did you travel from your home address?',
+    );
+    expect($('va-radio')).to.not.have.attribute('error');
+
     expect(screen.getByText(/345 Home Address St/i)).to.exist;
     expect(screen.getByText(/Apt. 22B/i)).to.exist;
     expect(screen.getByText(/Building 2/i)).to.exist;
