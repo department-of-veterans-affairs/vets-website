@@ -159,6 +159,7 @@
   "mhvVaHealthChatEnabled": "mhv_va_health_chat_enabled",
   "militaryBenefitEstimates": "military_benefit_estimates",
   "myVaEnableMhvLink": "my_va_enable_mhv_link",
+  "myVaNewMhvUrls": "my_va_new_mhv_urls",
   "myVaEnableNotificationComponent": "my_va_notification_component",
   "myVaHideNotificationsSection": "my_va_hide_notifications_section",
   "myVaLighthouseUploadsReport": "my_va_lighthouse_uploads_report",
