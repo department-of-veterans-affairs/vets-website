@@ -169,5 +169,17 @@ describe('prefillTransformer', () => {
 
       expect(result.userIsDigitalSubmitEligible).to.be.undefined;
     });
+
+    it('should set representativeSubmissionMethod to undefined', () => {
+      const data = {
+        ...prefill,
+        'view:applicantIsVeteran': 'No',
+        representativeSubmissionMethod: 'digital',
+      };
+
+      const result = prefillTransformer(data);
+
+      expect(result.representativeSubmissionMethod).to.be.undefined;
+    });
   });
 });

@@ -62,6 +62,7 @@ export default function prefillTransformer(formData) {
 
     // only Veteran users are digital submit eligible at this time
     newFormData.userIsDigitalSubmitEligible = undefined;
+    newFormData.representativeSubmissionMethod = undefined;
 
     // reset the Veteran information in case of claimant type change
     newFormData.veteranFullName = undefined;
