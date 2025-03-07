@@ -2,6 +2,7 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./endpoints/user');
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 const { delaySingleResponse } = require('./script/utils');
+// const error500 = require('../tests/fixtures/500.json');
 
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {
@@ -21,6 +22,11 @@ const responses = {
       availableForms: [{ year: 2024, lastUpdated: '2025-02-03T18:50:40.548Z' }],
     });
   },
+  // Uncomment this and import statement to mock a 500 error
+  // 'GET /v0/form1095_bs/available_forms': (_req, res) => {
+  //   return res.status(500).json(error500);
+  // },
+
   'GET /v0/user': (_req, res) => {
     // example user data cases
     // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
