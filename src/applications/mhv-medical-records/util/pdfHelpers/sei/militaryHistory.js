@@ -31,7 +31,7 @@ export const generateMilitaryHistoryContent = record => {
           },
 
           {
-            title: 'Onboard ship', // unknown
+            title: 'Onboard ship',
             value: record.onboardShip,
             inline: true,
           },
