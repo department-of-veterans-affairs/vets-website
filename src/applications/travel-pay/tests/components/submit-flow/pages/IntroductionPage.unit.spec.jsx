@@ -67,7 +67,7 @@ describe('Introduction page', () => {
     });
 
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
-    expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
+    expect($('va-link-action[text="File a mileage-only claim"]')).to.exist;
   });
 
   it('should show alert if appointment fetch fails', () => {
