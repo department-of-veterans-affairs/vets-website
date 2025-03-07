@@ -39,7 +39,7 @@ const setIsAgreementCheckedSpy = sinon.spy();
 const setPageIndexSpy = sinon.spy();
 const setYesNoSpy = sinon.spy();
 
-describe('Revew page', () => {
+describe('Review page', () => {
   const getData = ({ homeAddress = home, pract } = {}) => {
     return {
       user: {
@@ -67,6 +67,7 @@ describe('Revew page', () => {
   const props = {
     onSubmit: () => onSubmitSpy(),
     isAgreementChecked: false,
+    isError: false,
     setIsAgreementChecked: () => setIsAgreementCheckedSpy(),
     setPageIndex: () => setPageIndexSpy(),
     setYesNo: () => setYesNoSpy(),
@@ -90,10 +91,7 @@ describe('Revew page', () => {
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;
     expect(checkbox).to.have.attribute('checked', 'false');
-    expect(checkbox).to.have.attribute(
-      'error',
-      'You must accept the beneficiary travel agreement before continuing.',
-    );
+    expect(checkbox).to.not.have.attribute('error');
 
     expect($('va-button-pair')).to.exist;
 
@@ -122,10 +120,7 @@ describe('Revew page', () => {
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;
     expect(checkbox).to.have.attribute('checked', 'false');
-    expect(checkbox).to.have.attribute(
-      'error',
-      'You must accept the beneficiary travel agreement before continuing.',
-    );
+    expect(checkbox).to.not.have.attribute('error');
 
     expect($('va-button-pair')).to.exist;
 
@@ -184,5 +179,20 @@ describe('Revew page', () => {
     expect(
       screen.queryByText(/You must accept the beneficiary travel agreement/i),
     ).to.not.exist;
+  });
+
+  it('should render an error if filing without agreeing to terms', () => {
+    renderWithStoreAndRouter(<ReviewPage {...props} isError />, {
+      initialState: getData(),
+      reducers: reducer,
+    });
+
+    const checkbox = $('va-checkbox[name="accept-agreement"]');
+    expect(checkbox).to.exist;
+    expect(checkbox).to.have.attribute('checked', 'false');
+    expect(checkbox).to.have.attribute(
+      'error',
+      'You must accept the beneficiary travel agreement before continuing.',
+    );
   });
 });

@@ -167,7 +167,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
-          userIsDigitalSubmitEligible: true,
+          'view:applicantIsVeteran': 'Yes',
           identityValidation: { hasIcn: true, hasParticipantId: true },
         };
 
@@ -187,7 +187,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
               type: 'organization',
               attributes: { canAcceptDigitalPoaRequests: false },
             },
-            userIsDigitalSubmitEligible: true,
+            'view:applicantIsVeteran': 'Yes',
             identityValidation: { hasIcn: true, hasParticipantId: true },
           };
 
@@ -206,7 +206,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
-          userIsDigitalSubmitEligible: false,
+          'view:applicantIsVeteran': 'Yes',
           identityValidation: { hasIcn: false, hasParticipantId: false },
         };
 
@@ -224,7 +224,7 @@ describe('<RepresentativeSubmissionMethod>', () => {
             type: 'organization',
             attributes: { canAcceptDigitalPoaRequests: true },
           },
-          userIsDigitalSubmitEligible: true,
+          'view:applicantIsVeteran': 'Yes',
           identityValidation: { hasIcn: true, hasParticipantId: true },
         };
 

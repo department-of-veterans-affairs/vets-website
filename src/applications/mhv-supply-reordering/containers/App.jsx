@@ -5,6 +5,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
+import MhvRegisteredUserGuard from 'platform/mhv/components/MhvRegisteredUserGuard';
 import formConfig from '../config/form';
 import { signInServiceEnabled } from '../selectors';
 
@@ -26,9 +27,11 @@ const App = ({ location, children }) => {
       user={user}
       serviceRequired={serviceRequired}
     >
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
+      <MhvRegisteredUserGuard>
+        <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+          {children}
+        </RoutedSavableApp>
+      </MhvRegisteredUserGuard>
     </RequiredLoginView>
   );
 };
