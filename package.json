@@ -66,7 +66,8 @@
     "update:schema": "./script/update-json-schema.sh",
     "watch": "node ./script/watch.js",
     "watch:no-server": "yarn build:webpack --watch --stats=minimal",
-    "watch:review": "node ./script/run-review-instance-api.js"
+    "watch:review": "node ./script/run-review-instance-api.js",
+    "bill:test": "yarn test:unit --log-level=error /Users/billtran/Sites/civic-actions/vets-website/src/applications/vaos/referral-appointments/components/ReferralBreadcrumbs.unit.spec.jsx"
   },
   "repository": {
     "type": "git",
