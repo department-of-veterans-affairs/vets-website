@@ -26,6 +26,13 @@ const ProcessList = ({ stepGuideProps }) => {
   const { trackingNumber, carrier, completeDateTime } = trackingInfo;
   const carrierConfig = trackingConfig[carrier?.toLowerCase()];
 
+  const getCompletedDateOrDefaultMessage = date => {
+    if (date) {
+      return `Completed on ${dateFormat(date)}`;
+    }
+    return 'Date completed not available';
+  };
+
   const orderedMoreThanFifteenDaysAgo = () => {
     const today = new Date();
     const fifteenDaysAgo = new Date(completeDateTime);
@@ -82,7 +89,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="progress-step-one"
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: Completed on ${dateFormat(
+                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                     refillSubmitDate,
                   )}`}
                 />
@@ -90,7 +97,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="progress-step-two"
                   checkmark
                   header="We processed your refill"
-                  status-text={`Step 2: Completed on ${dateFormat(
+                  status-text={`Step 2: ${getCompletedDateOrDefaultMessage(
                     dispensedDate,
                   )}`}
                 />
@@ -98,13 +105,13 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="progress-step-three"
                   checkmark
                   header="We shipped your refill"
-                  status-text={`Step 3: Completed on ${dateFormat(
+                  status-text={`Step 3: ${getCompletedDateOrDefaultMessage(
                     completeDateTime,
                   )}`}
                 >
                   {!orderedMoreThanFifteenDaysAgo() && (
                     <>
-                      <section className="vads-u-margin-bottom--3">
+                      <section className="vads-u-margin-bottom--3 vads-u-margin-top--2">
                         <p className="vads-u-margin-bottom--0">
                           <strong>Tracking number:</strong>
                         </p>
@@ -122,9 +129,9 @@ const ProcessList = ({ stepGuideProps }) => {
                       </section>
 
                       <section>
-                        <h4 className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
+                        <p className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
                           Prescriptions in this package:
-                        </h4>
+                        </p>
                         <ul className="vads-u-margin--0">
                           <li
                             className="vads-u-line-height--4"
@@ -150,7 +157,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="submitted-step-one"
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: Completed on ${dateFormat(
+                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                     refillSubmitDate,
                   )}`}
                 >
@@ -179,7 +186,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 <va-process-list-item
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: Completed on ${dateFormat(
+                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                     refillSubmitDate,
                   )}`}
                 />
@@ -213,7 +220,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 <va-process-list-item
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: Completed on ${dateFormat(
+                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                     refillSubmitDate,
                   )}`}
                 />
@@ -221,7 +228,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="active-step-two"
                   checkmark
                   header="We processed your refill"
-                  status-text={`Step 2: Completed on ${dateFormat(
+                  status-text={`Step 2: ${getCompletedDateOrDefaultMessage(
                     dispensedDate,
                   )}`}
                 />
@@ -248,7 +255,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 data-testid="progress-step-one"
                 checkmark
                 header="We received your refill request"
-                status-text={`Step 1: Completed on ${dateFormat(
+                status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                   refillSubmitDate,
                 )}`}
               />
@@ -256,7 +263,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 data-testid="progress-step-two"
                 checkmark
                 header="We processed your refill"
-                status-text={`Step 2: Completed on ${dateFormat(
+                status-text={`Step 2: ${getCompletedDateOrDefaultMessage(
                   dispensedDate,
                 )}`}
               />
@@ -264,7 +271,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 data-testid="progress-step-three"
                 checkmark
                 header="We shipped your refill"
-                status-text={`Step 3: Completed on ${dateFormat(
+                status-text={`Step 3: ${getCompletedDateOrDefaultMessage(
                   completeDateTime,
                 )}`}
               >
@@ -288,9 +295,9 @@ const ProcessList = ({ stepGuideProps }) => {
                     </section>
 
                     <section>
-                      <h4 className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
+                      <p className="vads-u-font-size--base vads-u-line-height--4 vads-u-font-family--sans vads-u-margin-top--0p5 vads-u-margin-bottom--0 vads-u-margin-right--0p5">
                         Prescriptions in this package:
-                      </h4>
+                      </p>
                       <ul className="vads-u-margin--0">
                         <li
                           className="vads-u-line-height--4"
@@ -316,7 +323,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 data-testid="submitted-step-one"
                 checkmark
                 header="We received your refill request"
-                status-text={`Step 1: Completed on ${dateFormat(
+                status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                   refillSubmitDate,
                 )}`}
               >
@@ -345,7 +352,7 @@ const ProcessList = ({ stepGuideProps }) => {
               <va-process-list-item
                 checkmark
                 header="We received your refill request"
-                status-text={`Step 1: Completed on ${dateFormat(
+                status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                   refillSubmitDate,
                 )}`}
               />
@@ -379,7 +386,7 @@ const ProcessList = ({ stepGuideProps }) => {
               <va-process-list-item
                 checkmark
                 header="We received your refill request"
-                status-text={`Step 1: Completed on ${dateFormat(
+                status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
                   refillSubmitDate,
                 )}`}
               />
@@ -387,7 +394,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 data-testid="active-step-two"
                 checkmark
                 header="We processed your refill"
-                status-text={`Step 2: Completed on ${dateFormat(
+                status-text={`Step 2: ${getCompletedDateOrDefaultMessage(
                   dispensedDate,
                 )}`}
               />
