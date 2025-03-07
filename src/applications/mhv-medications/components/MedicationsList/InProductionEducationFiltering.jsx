@@ -1,11 +1,26 @@
 import React from 'react';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
+import {
+  VaButton,
+  VaIcon,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const InProductionEducationFiltering = () => {
+  const handleStopShowing = () => {
+    datadogRum.addAction(
+      dataDogActionNames.medicationsListPage.STOP_SHOWING_IPE_FILTERING_HINT,
+    );
+    // integration logic here
+  };
+
   return (
-    <div data-testid="rx-ipe-filtering-container">
-      <p>
+    <div
+      id="rx-ipe-filtering-container"
+      data-testid="rx-ipe-filtering-container"
+      className="vads-u-margin-top--3 vads-u-padding--2p5"
+    >
+      <p className="vads-u-margin--0">
         Filter the medications list to easily find what you are looking for.
       </p>
       <VaButton
@@ -13,9 +28,15 @@ const InProductionEducationFiltering = () => {
         secondary
         text="Stop showing this hint"
         data-testid="rx-ipe-filtering-stop-showing-this-hint"
-        data-dd-action-name={
-          dataDogActionNames.medicationsListPage.STOP_SHOWING_IPE_FILTERING_HINT
-        }
+        onClick={handleStopShowing}
+      />
+      <VaIcon
+        size={3}
+        icon="cancel"
+        id="rx-ipe-filtering-close"
+        data-testid="rx-ipe-filtering-close"
+        onClick={handleStopShowing}
+        aria-label="Close button - Stop showing this hint"
       />
     </div>
   );

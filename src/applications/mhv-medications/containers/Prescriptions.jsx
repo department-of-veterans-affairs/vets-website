@@ -67,6 +67,7 @@ import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 import RefillAlert from '../components/shared/RefillAlert';
 import NeedHelp from '../components/shared/NeedHelp';
+import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -741,6 +742,8 @@ const Prescriptions = () => {
                         setFilterOption={setFilterOption}
                         filterCount={filterCount}
                       />
+                      {/* TODO: hide behind the feature toggle */}
+                      <InProductionEducationFiltering />
                     </>
                   )}
                   {paginatedPrescriptionsList?.length ||
