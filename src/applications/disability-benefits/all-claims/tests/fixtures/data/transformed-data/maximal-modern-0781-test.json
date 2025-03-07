@@ -81,7 +81,7 @@
         "socialEconomic": true,
         "unlisted": true
       },
-      "traumaTreatment": false,
+      "treatmentNoneCheckbox": false,
       "treatmentProvidersDetails": [
         {
           "facilityInfo": "Treatment Center the First, Bigcity, AK, USA",

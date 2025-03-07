@@ -15,7 +15,6 @@ import {
   transformProviderFacility,
   transformVaFacility,
   extractDateParts,
-  determineTraumaTreatment,
   addForm4142,
   addForm0781,
   addForm0781V2,
@@ -671,45 +670,6 @@ describe('extractDateParts', () => {
   });
 });
 
-describe('determineTraumaTreatment', () => {
-  it('should return true if view:treatmentNoneCheckbox is checked (true)', () => {
-    const formData = { 'view:treatmentNoneCheckbox': { none: true } };
-
-    const result = determineTraumaTreatment(formData);
-
-    expect(result).to.equal(true);
-  });
-
-  it('should return false if treatment has been received by VA provider', () => {
-    const formData = { treatmentReceivedVaProvider: { someProvider: true } };
-
-    const result = determineTraumaTreatment(formData);
-
-    expect(result).to.equal(false);
-  });
-
-  it('should return false if treatment has been received by non-VA provider', () => {
-    const formData = {
-      treatmentReceivedNonVaProvider: { someOtherProvider: true },
-    };
-
-    const result = determineTraumaTreatment(formData);
-
-    expect(result).to.equal(false);
-  });
-
-  it('should return undefined if treatmentNoneCheckbox is not checked and no treatment was received', () => {
-    const formData = {
-      treatmentReceivedVaProvider: {},
-      treatmentReceivedNonVaProvider: {},
-    };
-
-    const result = determineTraumaTreatment(formData);
-
-    expect(result).to.equal(undefined);
-  });
-});
-
 describe('addForm0781V2', () => {
   const formData = {
     syncModern0781Flow: true,
@@ -724,11 +684,10 @@ describe('addForm0781V2', () => {
     supportingEvidenceWitness: ['witness1'],
     supportingEvidenceOther: 'otherEvidence',
     supportingEvidenceUnlisted: 'unlistedEvidence',
-    'view:supportingEvidenceNoneCheckbox': { none: true },
+    supportingEvidenceNoneCheckbox: true,
     treatmentReceivedVaProvider: true,
     treatmentReceivedNonVaProvider: true,
-    'view:treatmentNoneCheckbox': { none: true },
-    treatmentReceivedNone: true,
+    treatmentNoneCheckbox: true,
     providerFacility: ['facility1'],
     vaTreatmentFacilities: [],
     optionIndicator: 'option1',
@@ -763,11 +722,10 @@ describe('addForm0781V2', () => {
       supportingEvidenceWitness: formData.supportingEvidenceWitness,
       supportingEvidenceOther: formData.supportingEvidenceOther,
       supportingEvidenceUnlisted: formData.supportingEvidenceUnlisted,
-      supportingEvidenceNone: formData['view:supportingEvidenceNoneCheckbox'],
-      traumaTreatment: result.form0781.traumaTreatment,
+      supportingEvidenceNoneCheckbox: formData.supportingEvidenceNoneCheckbox,
       treatmentReceivedVaProvider: formData.treatmentReceivedVaProvider,
       treatmentReceivedNonVaProvider: formData.treatmentReceivedNonVaProvider,
-      treatmentReceivedNone: formData.treatmentReceivedNone,
+      treatmentNoneCheckbox: formData.treatmentNoneCheckbox,
       treatmentProvidersDetails: result.form0781.treatmentProvidersDetails,
       optionIndicator: formData.optionIndicator,
       additionalInformation: formData.additionalInformation,
@@ -788,9 +746,10 @@ describe('addForm0781V2', () => {
     expect(result).to.not.have.property('supportingEvidenceWitness');
     expect(result).to.not.have.property('supportingEvidenceOther');
     expect(result).to.not.have.property('supportingEvidenceUnlisted');
+    expect(result).to.not.have.property('supportingEvidenceNoneCheckbox');
     expect(result).to.not.have.property('treatmentReceivedVaProvider');
     expect(result).to.not.have.property('treatmentReceivedNonVaProvider');
-    expect(result).to.not.have.property('treatmentReceivedNone');
+    expect(result).to.not.have.property('treatmentNoneCheckbox');
     expect(result).to.not.have.property('providerFacility');
     expect(result).to.not.have.property('optionIndicator');
     expect(result).to.not.have.property('additionalInformation');

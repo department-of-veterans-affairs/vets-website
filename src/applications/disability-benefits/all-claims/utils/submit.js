@@ -497,24 +497,6 @@ export function transformTreatmentFacilities(
   ];
 }
 
-/**
- * Returns `true` if `view:treatmentNoneCheckbox` is explicitly checked (`true`)
- * Returns `false` if any treatment has been received by VA or non-VA providers
- */
-export const determineTraumaTreatment = formData => {
-  const hasTreatmentReceived =
-    Object.values(formData.treatmentReceivedVaProvider || {}).some(Boolean) ||
-    Object.values(formData.treatmentReceivedNonVaProvider || {}).some(Boolean);
-
-  if (formData['view:treatmentNoneCheckbox']?.none === true) {
-    return true;
-  }
-  if (hasTreatmentReceived) {
-    return false;
-  }
-  return undefined;
-};
-
 export const addForm0781V2 = formData => {
   if (!formData.syncModern0781Flow) {
     return formData;
@@ -551,16 +533,17 @@ export const addForm0781V2 = formData => {
     ...(clonedData.supportingEvidenceUnlisted && {
       supportingEvidenceUnlisted: clonedData.supportingEvidenceUnlisted,
     }),
-    supportingEvidenceNone: clonedData['view:supportingEvidenceNoneCheckbox'],
-    traumaTreatment: determineTraumaTreatment(clonedData),
+    ...(clonedData.supportingEvidenceNoneCheckbox && {
+      supportingEvidenceNoneCheckbox: clonedData.supportingEvidenceNoneCheckbox,
+    }),
     ...(clonedData.treatmentReceivedVaProvider && {
       treatmentReceivedVaProvider: clonedData.treatmentReceivedVaProvider,
     }),
     ...(clonedData.treatmentReceivedNonVaProvider && {
       treatmentReceivedNonVaProvider: clonedData.treatmentReceivedNonVaProvider,
     }),
-    ...(clonedData.treatmentReceivedNone && {
-      treatmentReceivedNone: clonedData.treatmentReceivedNone,
+    ...(clonedData.treatmentNoneCheckbox && {
+      treatmentNoneCheckbox: clonedData.treatmentNoneCheckbox,
     }),
     ...(!!clonedData.providerFacility || !!clonedData.vaTreatmentFacilities
       ? {
@@ -589,9 +572,10 @@ export const addForm0781V2 = formData => {
   delete clonedData.supportingEvidenceWitness;
   delete clonedData.supportingEvidenceOther;
   delete clonedData.supportingEvidenceUnlisted;
+  delete clonedData.supportingEvidenceNoneCheckbox;
   delete clonedData.treatmentReceivedVaProvider;
   delete clonedData.treatmentReceivedNonVaProvider;
-  delete clonedData.treatmentReceivedNone;
+  delete clonedData.treatmentNoneCheckbox;
   delete clonedData.providerFacility;
   delete clonedData.optionIndicator;
   delete clonedData.additionalInformation;
