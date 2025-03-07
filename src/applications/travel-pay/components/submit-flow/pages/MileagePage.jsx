@@ -11,7 +11,7 @@ import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
 import SmocRadio from '../../SmocRadio';
 
-const title = 'Are you claiming only mileage?';
+const title = 'Are you only claiming mileage?';
 
 const MileagePage = ({
   pageIndex,
