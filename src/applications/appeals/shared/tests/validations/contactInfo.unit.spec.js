@@ -131,6 +131,7 @@ describe('contactInfoValidation', () => {
 
 describe('contactInfo995Validation', () => {
   const getData = ({
+    housingRisk = false,
     email = true,
     homePhone = true,
     mobilePhone = true,
@@ -140,6 +141,7 @@ describe('contactInfo995Validation', () => {
     zipCode = '12345',
     country = 'US',
   } = {}) => ({
+    housingRisk,
     veteran: {
       email: email ? 'placeholder' : '',
       homePhone: homePhone ? { phoneNumber: 'placeholder' } : {},
@@ -160,6 +162,16 @@ describe('contactInfo995Validation', () => {
     contactInfo995Validation({ addError }, null, getData());
     expect(addError.notCalled).to.be.true;
   });
+  it('should not show an error when adddress is missing and Veteran has housing risk', () => {
+    const addError = sinon.spy();
+    contactInfo995Validation(
+      { addError },
+      null,
+      getData({ address: false, housingRisk: true }),
+    );
+    expect(addError.notCalled).to.be.true;
+  });
+
   it('should have an error when email is missing', () => {
     const addError = sinon.spy();
     contactInfo995Validation({ addError }, null, getData({ email: false }));

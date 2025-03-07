@@ -1,9 +1,9 @@
 import { isValidUSZipCode } from 'platform/forms/address';
 
-import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
-import { validateDate } from './date';
+import { errorMessages, SC_NEW_FORM_DATA } from '../constants';
+import { validateDate, validateYMDate } from './date';
 
-import { MAX_LENGTH } from '../../shared/constants';
+import { MAX_LENGTH, REGEXP } from '../../shared/constants';
 import { fixDateFormat } from '../../shared/utils/replace';
 import {
   validateAddressParts,
@@ -50,29 +50,82 @@ export const validateVaIssues = (
 
 // Overloading fullDate parameter with evidence date type to control error
 // messaging
-export const validateVaFromDate = (errors, data) =>
+/* errors, fieldData, formData, schema, uiSchema, index, appStateData */
+export const validateVaFromDate = (
+  errors,
+  data,
+  formData = {},
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData = {},
+) =>
+  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
   validateDate(errors, data.evidenceDates?.from, { dateType: 'evidence' });
 
-export const validateVaToDate = (errors, data) => {
-  validateToDate(errors, data, 'evidenceDates');
-};
-
-export const buildVaLocationString = (
+export const validateVaToDate = (
+  errors,
   data,
-  joiner = '',
-  { includeIssues = true } = {},
+  formData = {},
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData = {},
 ) =>
-  [
+  !(appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
+  validateToDate(errors, data, 'evidenceDates');
+
+export const validateVaDate = (
+  errors,
+  data,
+  formData = {},
+  _schema,
+  _uiSchema,
+  _index,
+  appStateData = {},
+) =>
+  (appStateData[SC_NEW_FORM_DATA] || formData[SC_NEW_FORM_DATA]) &&
+  validateYMDate(errors, data.treatmentDate);
+
+export const buildVaLocationString = ({
+  data = {},
+  joiner = '',
+  includeIssues = true,
+  newForm = false,
+  wrapped = false,
+} = {}) => {
+  const issues = includeIssues ? sortIssues(data.issues || []) : [];
+  if (newForm) {
+    const noDate = (wrapped ? data.noTreatmentDates : data.noDate) || false;
+    const treatmentDate = (data.treatmentDate || '').replace(
+      REGEXP.EMPTY_DATE,
+      '',
+    );
+
+    return [
+      data.locationAndName || '',
+      ...issues,
+      fixDateFormat(!noDate && treatmentDate ? `${treatmentDate}-01` : ''),
+      noDate,
+    ].join(joiner);
+  }
+  return [
     data.locationAndName || '',
-    ...sortIssues(includeIssues ? data.issues || [] : []),
-    fixDateFormat(data.evidenceDates?.from || '').replace(REGEX_EMPTY_DATE, ''),
-    fixDateFormat(data.evidenceDates?.to || '').replace(REGEX_EMPTY_DATE, ''),
+    ...issues,
+    fixDateFormat(data.evidenceDates?.from || '').replace(
+      REGEXP.EMPTY_DATE,
+      '',
+    ),
+    fixDateFormat(data.evidenceDates?.to || '').replace(REGEXP.EMPTY_DATE, ''),
   ].join(joiner);
+};
 
 // Check if VA evidence object is empty
 // an empty va-memorable-date value may equal '--'
-export const isEmptyVaEntry = (checkData = {}) =>
-  buildVaLocationString(checkData) === '';
+export const isEmptyVaEntry = (data = {}, newForm) => {
+  const emptyData = newForm ? 'false' : '';
+  return buildVaLocationString({ data, newForm }).trim() === emptyData;
+};
 
 export const validateVaUnique = (
   errors,
@@ -83,7 +136,12 @@ export const validateVaUnique = (
   currentIndex = 0,
 ) => {
   const locations = (fullData?.locations || []).map(data =>
-    buildVaLocationString(data, ',').toLowerCase(),
+    buildVaLocationString({
+      data,
+      joiner: ',',
+      includeIssues: true,
+      newForm: fullData?.[SC_NEW_FORM_DATA],
+    }).toLowerCase(),
   );
 
   validateUniqueLocationOrFacility(currentIndex, errors, 'uniqueVA', locations);
@@ -157,11 +215,11 @@ export const buildPrivateString = (
     ...Object.values(data.providerFacilityAddress || {}),
     ...sortIssues(includeIssues ? data.issues || [] : []),
     fixDateFormat(data.treatmentDateRange?.from || '').replace(
-      REGEX_EMPTY_DATE,
+      REGEXP.EMPTY_DATE,
       '',
     ),
     fixDateFormat(data.treatmentDateRange?.to || '').replace(
-      REGEX_EMPTY_DATE,
+      REGEXP.EMPTY_DATE,
       '',
     ),
   ].join(joiner);

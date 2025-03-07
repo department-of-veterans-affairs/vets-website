@@ -1,11 +1,13 @@
 import React from 'react';
 import { merge } from 'lodash';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import PropTypes from 'prop-types';
-import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import {
+  fullNameUI,
+  textUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import { generateHelpText, generateTitle } from '../../../utils/helpers';
+import { generateTitle } from '../../../utils/helpers';
 
 const { previousNames } = fullSchemaBurials.properties;
 
@@ -43,7 +45,6 @@ export default {
         itemName: 'Previous name',
         viewField: PreviousNamesView,
         hideTitle: true,
-        uswds: true,
         classNames: 'vads-u-margin--0',
         reviewTitle: 'Previous names',
         keepInPageOnReview: true,
@@ -56,17 +57,12 @@ export default {
       },
       items: {
         ...fullNameUI(title => `Previous ${title}`),
-        serviceBranch: {
-          'ui:title': 'Branch of service',
-          'ui:description': generateHelpText(
+        serviceBranch: textUI({
+          title: 'Branch of service',
+          hint:
             'Enter any branch of service the deceased Veteran served in while using this name',
-          ),
-          'ui:webComponentField': VaTextInputField,
-          'ui:required': () => true,
-          'ui:options': {
-            uswds: true,
-          },
-        },
+          required: () => true,
+        }),
       },
     },
   },

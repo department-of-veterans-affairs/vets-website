@@ -1,0 +1,146 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
+
+div[id$="-autosuggest-container"] {
+  &.usa-input-error {
+    margin-top: 0 !important;
+    padding-top: 0; // matching style to VaSelect use of usa-error
+    right: 0;
+  }
+
+  div[class*="autosuggest-label-container"] {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      &.fl-sm-desktop {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  }
+
+  .autosuggest-input-container {
+    border-radius: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: var(--vads-color-base);
+    display: block;
+    font-size: 1rem;
+    height: 2.625rem;
+    line-height: 1.3;
+    margin: 0;
+    position: relative;
+    width: 100%;
+
+    .dropdown {
+      background: var(--vads-color-white);
+      border: solid 1px var(--vads-color-black);
+      box-sizing: content-box;
+      font-size: 1rem;
+      left: -1px;
+      list-style: none;
+      max-height: 25vh;
+      overflow-y: auto;
+      padding: 0;
+      position: absolute;
+      top: 44px;
+      width: 100%;
+      z-index: 1010;
+      // @stylelint-ignore-next-line
+      box-shadow: 0px 2px 6px 1px var(--vads-color-black),
+        0px 4px 4px 0px var(--vads-color-darker);
+
+      .dropdown-option {
+        z-index: 1011;
+        border: 2px solid var(--vads-color-white);
+
+        &.selected {
+          color: var(--vads-color-black);
+          border: 2px solid var(--vads-color-black);
+        }
+      }
+    }
+
+    .dropdown-option {
+      box-shadow: none;
+      font-weight: 400;
+      line-height: 1.3;
+      margin: 0;
+      max-width: 100%;
+      overflow: hidden;
+      padding: 0.625rem 0.7em;
+    }
+  }
+
+  .input-with-clear-container {
+    position: relative !important;
+    width: 100% !important;
+
+    .input-with-clear {
+      width: 100%;
+      z-index: 1011;
+    }
+
+    [id$="-input-controls-container"] {
+      position: absolute;
+      display: flex;
+      flex-direction: row;
+      top: 10px;
+      right: 10px;
+      height: 24px;
+      background-color: var(--vads-color-white);
+      padding: 0;
+      margin: 0;
+      z-index: 1012;
+      width: fit-content;
+
+      div[id^="downshift-caret-holder-"] {
+        padding-left: 10px;
+        margin-left: 12px;
+        border-left: 1px solid var(--vads-color-base-light);
+        z-index: 1013;
+
+        .downshift-caret-button {
+          width: 24px;
+          height: 24px;
+          background-color: transparent;
+          padding: 0;
+          margin: 0;
+          z-index: 1013;
+
+          &:hover {
+            background-color: unset;
+            color: unset;
+          }
+
+          va-icon {
+            color: var(--vads-color-base-dark) !important;
+            margin: 0 !important;
+          }
+        }
+      }
+
+      .input-with-clear-button {
+        width: 24px;
+        height: 24px;
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+        z-index: 1013;
+
+        &:hover {
+          background-color: unset;
+          color: unset;
+        }
+
+        va-icon {
+          color: var(--vads-color-base-dark) !important;
+          margin: 0 !important;
+        }
+      }
+    }
+  }
+}

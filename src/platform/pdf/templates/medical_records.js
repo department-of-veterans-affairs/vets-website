@@ -14,19 +14,22 @@ import {
   createDetailItem,
   createHeading,
   createSubHeading,
-  getTestResultBlockHeight,
   registerVaGovFonts,
   generateInitialHeaderContent,
   generateFinalHeaderContent,
   generateFooterContent,
+  createRichTextDetailItem,
 } from './utils';
 
 const defaultConfig = {
   margins: {
     top: 40,
     bottom: 40,
-    left: 20,
-    right: 20,
+    left: 30,
+    right: 30,
+  },
+  indents: {
+    one: 45,
   },
   headings: {
     H1: {
@@ -55,19 +58,23 @@ const defaultConfig = {
 };
 
 const generateIntroductionContent = async (doc, parent, data, config) => {
-  const headOptions = { x: 20, paragraphGap: 5 };
-  const subHeadOptions = { paragraphGap: 0 };
+  const headOptions = { x: config.margins.left, paragraphGap: 6 };
+  const subHeadOptions = { paragraphGap: 6, font: config.text.font };
+
   const introduction = doc.struct('Sect', {
     title: 'Introduction',
   });
   parent.add(introduction);
   introduction.add(createHeading(doc, 'H1', config, data.title, headOptions));
-  if (data.preface) {
-    introduction.add(
-      createSubHeading(doc, config, data.preface, subHeadOptions),
-    );
+  doc.moveDown(0.25);
+
+  if (data.subtitles) {
+    for (const subtitle of data.subtitles) {
+      introduction.add(createSubHeading(doc, config, subtitle, subHeadOptions));
+      doc.moveDown(0.75);
+    }
   }
-  doc.moveDown();
+
   introduction.end();
 };
 
@@ -77,12 +84,14 @@ const generateDetailsContent = async (doc, parent, data, config) => {
   });
   parent.add(details);
   if (data.details.header) {
-    const headOptions = { x: 20, paragraphGap: 12 };
+    const headOptions = { x: config.margins.left, paragraphGap: 12 };
     details.add(
       createHeading(doc, 'H2', config, data.details.header, headOptions),
     );
   }
-  const itemIndent = data.details.header ? 30 : 20;
+  const itemIndent = data.details.header
+    ? config.indents.one
+    : config.margins.left;
   for (const item of data.details.items) {
     const structs = await createDetailItem(doc, config, itemIndent, item);
     for (const struct of structs) {
@@ -93,30 +102,48 @@ const generateDetailsContent = async (doc, parent, data, config) => {
   details.end();
 };
 
-const generateResultItemContent = async (
-  item,
-  doc,
-  results,
-  hasHorizontalRule,
-  config,
-) => {
-  const headingOptions = { paragraphGap: 10, x: 30 };
+const generateResultItemContent = async (item, doc, results, config) => {
+  const headingOptions = { x: config.margins.left, paragraphGap: 10 };
   if (item.header) {
     results.add(
-      await createHeading(doc, 'H3', config, item.header, headingOptions),
+      await createHeading(
+        doc,
+        item.headerType || 'H3',
+        config,
+        item.header,
+        headingOptions,
+      ),
     );
   }
 
   for (const resultItem of item.items) {
-    const structs = await createDetailItem(doc, config, 40, resultItem);
+    let structs;
+
+    if (resultItem.isRich) {
+      structs = await createRichTextDetailItem(
+        doc,
+        config,
+        config.indents.one,
+        resultItem,
+      );
+    } else {
+      structs = await createDetailItem(
+        doc,
+        config,
+        config.indents.one,
+        resultItem,
+      );
+    }
+
     for (const struct of structs) {
       results.add(struct);
     }
   }
 
-  if (hasHorizontalRule) {
-    addHorizontalRule(doc, 30, 1.5, 1.5);
+  if (doc.y > doc.page.height - doc.page.margins.bottom) {
+    await doc.addPage();
   }
+  addHorizontalRule(doc, config.margins.left, 1.5, 1.5);
 };
 
 const generateResultsContent = async (doc, parent, data, config) => {
@@ -125,46 +152,50 @@ const generateResultsContent = async (doc, parent, data, config) => {
   });
   parent.add(results);
   if (data.results.header) {
-    const headingOptions = { paragraphGap: 12, x: 20 };
+    const headingOptions = { x: config.margins.left, paragraphGap: 12 };
     results.add(
       createHeading(doc, 'H2', config, data.results.header, headingOptions),
     );
   }
 
   if (data.results.preface) {
-    const prefaceOptions = { paragraphGap: 12, x: 20 };
-    results.add(
-      createSubHeading(doc, config, data.results.preface, prefaceOptions),
-    );
+    const prefaceOptions = {
+      paragraphGap: 12,
+      x: data.results.prefaceIndent || config.indents.one,
+    };
+    if (Array.isArray(data.results.preface)) {
+      data.results.preface.forEach(item => {
+        results.add(
+          createSubHeading(doc, config, item.value, {
+            ...prefaceOptions,
+            ...item.prefaceOptions,
+          }),
+        );
+      });
+    } else if (typeof data.results.preface === 'object') {
+      results.add(
+        createSubHeading(doc, config, data.results.preface.value, {
+          ...prefaceOptions,
+          ...data.results.preface.prefaceOptions,
+        }),
+      );
+    } else {
+      results.add(
+        createSubHeading(doc, config, data.results.preface, prefaceOptions),
+      );
+    }
   }
 
-  const hasHorizontalRule = data.results.sectionSeparators !== false;
   if (data.results.items.length === 1) {
     await generateResultItemContent(
       data.results.items[0],
       doc,
       results,
-      hasHorizontalRule,
       config,
     );
   } else {
     for (const item of data.results.items) {
-      // Insert a pagebreak if the next block will not fit on the current page,
-      // taking the footer height into account.
-      const blockHeight = getTestResultBlockHeight(
-        doc,
-        item,
-        hasHorizontalRule,
-      );
-      if (doc.y + blockHeight > 740) await doc.addPage();
-
-      await generateResultItemContent(
-        item,
-        doc,
-        results,
-        hasHorizontalRule,
-        config,
-      );
+      await generateResultItemContent(item, doc, results, config);
     }
   }
   results.end();

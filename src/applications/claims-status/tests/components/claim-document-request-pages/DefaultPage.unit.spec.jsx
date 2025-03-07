@@ -1,6 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import moment from 'moment-timezone';
+import {
+  formatDistanceToNowStrict,
+  subMonths,
+  format,
+  parseISO,
+} from 'date-fns';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -10,6 +15,11 @@ import { buildDateFormatter, scrubDescription } from '../../../utils/helpers';
 import DefaultPage from '../../../components/claim-document-request-pages/DefaultPage';
 
 const formatDate = buildDateFormatter();
+
+// test data for date that is 9 months ago
+const today = new Date();
+const nineMonthsAgoDate = subMonths(today, 9);
+const nineMonthsAgoSuspenseDate = format(nineMonthsAgoDate, 'yyyy-MM-dd');
 
 describe('<DefaultPage>', () => {
   const defaultProps = {
@@ -36,11 +46,16 @@ describe('<DefaultPage>', () => {
       receivedDate: null,
       requestedDate: '2024-03-07',
       status: 'NEEDED_FROM_YOU',
-      suspenseDate: '2024-04-07',
+      suspenseDate: nineMonthsAgoSuspenseDate,
       uploadsAllowed: true,
       documents: '[]',
       date: '2024-03-07',
     };
+
+    const monthsDue = formatDistanceToNowStrict(
+      parseISO(nineMonthsAgoSuspenseDate),
+    );
+
     const { getByText, container } = renderWithRouter(
       <DefaultPage {...defaultProps} item={item} />,
     );
@@ -49,12 +64,10 @@ describe('<DefaultPage>', () => {
     expect($('.due-date-header', container)).to.exist;
     const formattedClaimDate = formatDate(item.suspenseDate);
     getByText(
-      `Needed from you by ${formattedClaimDate} - Due ${moment(
-        item.suspenseDate,
-      ).fromNow()}`,
+      `Needed from you by ${formattedClaimDate} - Due ${monthsDue} ago`,
     );
     expect($('.optional-upload', container)).to.not.exist;
-    getByText('Request for Submit buddy statement(s)');
+    getByText('Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input', container)).to.exist;
@@ -70,7 +83,7 @@ describe('<DefaultPage>', () => {
       receivedDate: null,
       requestedDate: '2024-03-07',
       status: 'NEEDED_FROM_OTHERS',
-      suspenseDate: '2024-04-07',
+      suspenseDate: nineMonthsAgoSuspenseDate,
       uploadsAllowed: true,
       documents: '[]',
       date: '2024-03-07',
@@ -85,7 +98,7 @@ describe('<DefaultPage>', () => {
     getByText(
       '- We’ve asked others to send this to us, but you may upload it if you have it.',
     );
-    getByText('Request for Submit buddy statement(s)');
+    getByText('Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input', container)).to.exist;

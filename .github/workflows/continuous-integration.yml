@@ -266,7 +266,7 @@ jobs:
     name: Unit Tests
     needs: [fetch-allow-lists, tests-prep]
     timeout-minutes: 30
-    runs-on: ubuntu-16-cores-latest
+    runs-on: ubuntu-16-cores-22.04
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       changed-files: ${{ steps.get-changed-apps.outputs.changed_files }}
@@ -417,13 +417,13 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --log-level trace
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
-
+    
       - name: Archive unit test results
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
@@ -663,7 +663,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
-    timeout-minutes: 60
+    timeout-minutes: 120
     needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
@@ -1932,8 +1932,12 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d '{"event_type":"cd-production-deploy", "client_payload": {"github_sha": "'"${{ github.sha }}"'","github_ref": "'"${{ github.ref }}"'"}}'
-                    
+          -d "$(jq -n --arg sha "${{ github.sha }}" \
+          --arg ref "${{ github.ref }}" \
+          --arg msg "${{ github.event.head_commit.message }}" \
+          --arg entry "${{ needs.build.outputs.entry_names }}" \
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: ($msg | split("\n")[0]), entry_app: $entry}}')"     
+                
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-22.04

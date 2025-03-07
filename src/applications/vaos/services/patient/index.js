@@ -8,42 +8,9 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
-import { getPatientEligibility } from '../vaos';
+import { getPatientEligibility, getPatientRelationships } from '../vaos';
 import { getLongTermAppointmentHistoryV2 } from '../appointment';
-
-/**
- * @typedef PatientEligibilityForType
- * @global
- *
- * @property {boolean} hasRequiredAppointmentHistory Has had appointment in the past that meets VATS requirements
- *   - Mapped from past visits check
- * @property {?boolean} isEligibleForNewAppointmentRequest Is under the request limit
- *   - Mapped from request limits check
- */
-
-/**
- * @typedef PatientEligibility
- * @global
- *
- * @property {?PatientEligibilityForType} direct Patient eligibility for direct scheduling
- * @property {?PatientEligibilityForType} request Patient eligibility for requests
- */
-
-/**
- * @typedef {'error'|'overRequestLimit'|'noEnabled'|'notSupported'|'noRecentVisit'|
- *   'noClinics'|'noMatchingClinics'} EligibilityReason
- * @global
- */
-
-/**
- * @typedef FlowEligibility
- * @global
- *
- * @property {boolean} direct Can the patient use the direct schedule flow
- * @property {Array<EligibilityReason>} directReason The reason the patient isn't eligible for direct flow
- * @property {boolean} request Can the patient use the request flow
- * @property {Array<EligibilityReason>} requestReason The reason the patient isn't eligible for request flow
- */
+import { transformPatientRelationships } from './transformers';
 
 function createErrorHandler(errorKey) {
   return data => {
@@ -135,6 +102,28 @@ export async function fetchPatientEligibility({
   }
 
   return output;
+}
+
+/**
+ * Method to get logged in user's patient/provider relationships objects
+ *
+ * @export
+ * @async
+ * @param {TypeOfCare} params.typeOfCare Type of care object for which to check patient relationships
+ * @param {string} params.facilityId of facility to check for relationships
+ * @returns {Array<PatientProviderRelationship} Returns an array of PatientProviderRelationship objects
+ */
+
+export async function fetchPatientRelationships(facilityId, typeOfCare) {
+  try {
+    const data = await getPatientRelationships({
+      locationId: facilityId,
+      typeOfCareId: typeOfCare.idV2,
+    });
+    return transformPatientRelationships(data || []);
+  } catch (e) {
+    return null;
+  }
 }
 
 function locationSupportsDirectScheduling(location, typeOfCare) {
@@ -246,16 +235,6 @@ function logEligibilityExplanation(
   }
   /* eslint-enable no-console */
 }
-
-/**
- * @typedef FlowEligibilityReturnData
- * @global
- *
- * @property {FlowEligibility} eligibility The eligibility info for the patient
- * @property {Array<HealthCareService>} clinics An array of clinics pulled when checking eligibility
- * @property {Array<MASAppointment>} pastAppointments An array of untransformed appointments pulled
- *   when checking eligibility
- */
 
 /**
  * Checks eligibility for new appointment flow and returns

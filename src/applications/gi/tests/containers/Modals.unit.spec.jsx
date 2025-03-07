@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import createCommonStore from 'platform/startup/store';
 import { mockModalProfileData } from '../helpers';
 
@@ -494,34 +494,6 @@ describe('<Modals>', () => {
       expect(wrapper.html()).to.contain(
         'Beneficiaries may use educational assistance to access online learning',
       );
-      wrapper.unmount();
-    });
-  });
-
-  describe('Section 103 modal', () => {
-    const props = {
-      ...defaultProps,
-      modals: {
-        displaying: 'section103',
-      },
-    };
-
-    it('should render', () => {
-      const wrapper = shallow(<Modals {...props} />);
-      expect(wrapper.html()).to.contain('Protection against late VA payments');
-      wrapper.unmount();
-    });
-
-    it('should track link click', () => {
-      const wrapper = mount(<Modals {...props} />);
-      const anchorText =
-        'Read our policy on protecting students from late VA payments';
-      const [anchor] = Array.from(wrapper.find('a')).filter(a =>
-        a.props.children.toString().startsWith(anchorText),
-      );
-      anchor.props.onClick();
-      const recordedEvent = global.window.dataLayer[0];
-      expect(recordedEvent.event).to.eq('gibct-modal-link-click');
       wrapper.unmount();
     });
   });

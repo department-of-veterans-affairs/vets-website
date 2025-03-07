@@ -1,7 +1,12 @@
 import { expect } from 'chai';
+import { parseISO } from 'date-fns';
 import {
   buildRadiologyResults,
   convertChemHemObservation,
+  convertChemHemRecord,
+  convertCvixRadiologyRecord,
+  convertMicrobiologyRecord,
+  convertMhvRadiologyRecord,
   distillChemHemNotes,
   extractLabLocation,
   extractOrderedBy,
@@ -11,6 +16,7 @@ import {
   extractPractitioner,
   extractSpecimen,
   labsAndTestsReducer,
+  mergeRadiologyLists,
 } from '../../reducers/labsAndTests';
 import { Actions } from '../../util/actionTypes';
 import {
@@ -160,7 +166,65 @@ describe('convertChemHemObservation', () => {
     expect(convertChemHemObservation(record)).to.deep.equal([
       {
         name: 'Name',
-        result: '138.0 mEq/L (Low)',
+        result: '138 mEq/L (Low)',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should retain significant digits in small numbers', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueQuantity: {
+            value: 0.0007,
+            unit: 'mEq/L',
+          },
+          status: 'final',
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: '0.0007 mEq/L',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should display string values as-is', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueQuantity: {
+            value: '0.0007000',
+            unit: 'mEq/L',
+          },
+          status: 'final',
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: '0.0007000 mEq/L',
         standardRange: EMPTY_FIELD,
         status: 'final',
         labComments: EMPTY_FIELD,
@@ -383,6 +447,108 @@ describe('buildRadiologyResults', () => {
     const report = buildRadiologyResults(record);
     expect(report).to.not.include(REPORT);
     expect(report).to.include(IMPRESSION);
+  });
+});
+
+describe('Sort date', () => {
+  const date = new Date();
+  const dateIso = `${date.toISOString().split('.')[0]}Z`; // e.g. 2024-11-20T13:42:33Z
+  const dateTimestamp = date.getTime(); // e.g. 1732110153125
+  const compareDate = Math.floor(dateTimestamp / 1000) * 1000;
+
+  it('matches for convertChemHemRecord', () => {
+    const record = { effectiveDateTime: dateIso };
+    const convertedRecord = convertChemHemRecord(record);
+    expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(compareDate);
+  });
+
+  it('matches for convertMhvRadiologyRecord', () => {
+    const record = {
+      contained: [
+        {
+          id: 'ex-MHV-specimen-3',
+          collection: { collectedDateTime: '1995-07-28' },
+        },
+      ],
+      specimen: [{ reference: '#ex-MHV-specimen-3' }],
+    };
+    const convertedRecord = convertMicrobiologyRecord(record);
+    expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(
+      parseISO('1995-07-28').getTime(),
+    );
+  });
+
+  it('matches for convertMhvRadiologyRecord', () => {
+    const record = { eventDate: dateIso };
+    const convertedRecord = convertMhvRadiologyRecord(record);
+    expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(compareDate);
+  });
+
+  it('matches for convertCvixRadiologyRecord', () => {
+    const record = { performedDatePrecise: dateTimestamp };
+    const convertedRecord = convertCvixRadiologyRecord(record);
+    expect(parseISO(convertedRecord.sortDate).getTime()).to.eq(compareDate);
+  });
+});
+
+describe('mergeRadiologyLists', () => {
+  it('returns an empty array when both input arrays are empty', () => {
+    const result = mergeRadiologyLists([], []);
+    expect(result).to.deep.equal([]);
+  });
+
+  it('returns the PHR list when CVIX list is empty', () => {
+    const phrList = [{ id: 1, sortDate: '2020-01-01T12:00:00Z' }];
+    const result = mergeRadiologyLists(phrList, []);
+    expect(result).to.deep.equal(phrList);
+  });
+
+  it('returns the CVIX list when PHR list is empty', () => {
+    const cvixList = [{ id: 2, sortDate: '2020-01-02T12:00:00Z' }];
+    const result = mergeRadiologyLists([], cvixList);
+    expect(result).to.deep.equal(cvixList);
+  });
+
+  it('concatenates lists when there are no matching dates', () => {
+    const phrList = [{ id: 1, sortDate: '2020-01-01T12:00:00Z' }];
+    const cvixList = [{ id: 2, sortDate: '2020-01-02T12:00:00Z' }];
+    const result = mergeRadiologyLists(phrList, cvixList);
+    expect(result).to.deep.equal([...phrList, ...cvixList]);
+  });
+
+  it('handles multiple matches correctly', () => {
+    const phrList = [
+      { id: 1, sortDate: '2020-01-01T10:00:00Z', data: 'phr1' },
+      { id: 2, sortDate: '2020-01-02T11:00:00Z', data: 'phr2' },
+    ];
+    const cvixList = [
+      { id: 3, sortDate: '2020-01-01T10:00:00Z', studyId: 'c1', imageCount: 1 },
+      { id: 4, sortDate: '2020-01-02T11:00:00Z', studyId: 'c2', imageCount: 2 },
+      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'c3', imageCount: 3 },
+    ];
+    const result = mergeRadiologyLists(phrList, cvixList);
+    expect(result).to.deep.equal([
+      {
+        id: 1,
+        sortDate: '2020-01-01T10:00:00Z',
+        data: 'phr1',
+        studyId: 'c1',
+        imageCount: 1,
+      },
+      {
+        id: 2,
+        sortDate: '2020-01-02T11:00:00Z',
+        data: 'phr2',
+        studyId: 'c2',
+        imageCount: 2,
+      },
+      {
+        id: 5,
+        sortDate: '2020-01-03T12:00:00Z',
+        studyId: 'c3',
+        imageCount: 3,
+      },
+    ]);
   });
 });
 

@@ -20,6 +20,9 @@ describe('Get labs and tests action', () => {
         Actions.LabsAndTests.UPDATE_LIST_STATE,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
+      );
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         Actions.LabsAndTests.GET_LIST,
       );
     });

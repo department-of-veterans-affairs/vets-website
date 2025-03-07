@@ -376,6 +376,168 @@
         ],
         "operatingStatus": null
       }
+    },
+    {
+      "id": "692",
+      "type": "facilities",
+      "attributes": {
+        "id": "692",
+        "vistaSite": "692",
+        "vastParent": "692",
+        "type": "va_health_facility",
+        "name": "White City VA Medical Center (Oracle Health)",
+        "classification": "VA Medical Center (VAMC)",
+        "timezone": {
+          "timeZoneId": "America/Los_Angeles"
+        },
+        "lat": 42.43995,
+        "long": -122.836296,
+        "website": "https://www.va.gov/southern-oregon-health-care/locations/white-city-va-medical-center/",
+        "phone": {
+          "main": "541-826-2111",
+          "fax": "541-830-7570",
+          "pharmacy": "541-826-2111",
+          "afterHours": "541-826-2111",
+          "patientAdvocate": "541-826-2111 x7504",
+          "mentalHealthClinic": "541-830-7440",
+          "enrollmentCoordinator": "541-826-2111 x3742"
+        },
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["8495 Crater Lake Highway", null, null],
+          "city": "White City",
+          "state": "OR",
+          "postalCode": "97503-3011"
+        },
+        "mobile": false,
+        "healthService": [
+          "Audiology",
+          "Cardiology",
+          "CaregiverSupport",
+          "Covid19Vaccine",
+          "Dental",
+          "Dermatology",
+          "EmploymentPrograms",
+          "Homeless",
+          "Laboratory",
+          "Lgbtq",
+          "MentalHealth",
+          "MilitarySexualTrauma",
+          "MinorityCare",
+          "Nutrition",
+          "Optometry",
+          "Orthopedics",
+          "Pharmacy",
+          "PhysicalMedicine",
+          "Podiatry",
+          "PrimaryCare",
+          "Prosthetics",
+          "Psychiatry",
+          "Psychology",
+          "RecreationTherapy",
+          "Rehabilitation",
+          "SocialWork",
+          "SuicidePrevention",
+          "Telehealth",
+          "TransitionCounseling",
+          "Vision",
+          "WholeHealth",
+          "WomensHealth"
+        ],
+        "operatingStatus": {
+          "code": "NORMAL"
+        }
+      }
+    },
+    {
+      "id": "692GB",
+      "type": "facilities",
+      "attributes": {
+        "id": "692GB",
+        "vistaSite": "692",
+        "vastParent": "692",
+        "type": "va_health_facility",
+        "name": "Grants Pass VA Clinic",
+        "classification": "Primary Care CBOC",
+        "timezone": {
+          "timeZoneId": "America/Los_Angeles"
+        },
+        "lat": 42.416557,
+        "long": -123.33771,
+        "website": "https://www.va.gov/southern-oregon-health-care/locations/grants-pass-va-clinic/",
+        "phone": {
+          "main": "541-955-5551",
+          "fax": "541-955-7171",
+          "pharmacy": "541-826-2111",
+          "afterHours": "541-826-2111",
+          "patientAdvocate": "541-826-2111 x7504",
+          "mentalHealthClinic": "541-830-7440",
+          "enrollmentCoordinator": "541-826-2111 x3742"
+        },
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["1877 Williams Highway", null, null],
+          "city": "Grants Pass",
+          "state": "OR",
+          "postalCode": "97527-5802"
+        },
+        "mobile": false,
+        "healthService": [
+          "Cardiology",
+          "Laboratory",
+          "MentalHealth",
+          "Podiatry",
+          "PrimaryCare",
+          "Smoking",
+          "Telehealth",
+          "WeightManagement"
+        ],
+        "operatingStatus": {
+          "code": "NORMAL"
+        }
+      }
+    },
+    {
+      "id": "692GA",
+      "type": "facilities",
+      "attributes": {
+        "id": "692GA",
+        "vistaSite": "692",
+        "vastParent": "692",
+        "type": "va_health_facility",
+        "name": "Klamath Falls VA Clinic",
+        "classification": "Primary Care CBOC",
+        "timezone": {
+          "timeZoneId": "America/Los_Angeles"
+        },
+        "lat": 42.248173,
+        "long": -121.78707,
+        "website": "https://www.va.gov/southern-oregon-health-care/locations/klamath-falls-va-clinic/",
+        "phone": {
+          "main": "541-273-6206",
+          "fax": "541-273-6207",
+          "pharmacy": "541-826-2111",
+          "afterHours": "541-826-2111",
+          "patientAdvocate": "541-826-2111 x7504",
+          "mentalHealthClinic": "541-830-7440",
+          "enrollmentCoordinator": "541-826-2111 x3742"
+        },
+        "mailingAddress": null,
+        "physicalAddress": {
+          "type": "physical",
+          "line": ["2225 North Eldorado Boulevard", null, null],
+          "city": "Klamath Falls",
+          "state": "OR",
+          "postalCode": "97601-6417"
+        },
+        "mobile": false,
+        "healthService": ["PrimaryCare"],
+        "operatingStatus": {
+          "code": "NORMAL"
+        }
+      }
     }
   ],
   "meta": {

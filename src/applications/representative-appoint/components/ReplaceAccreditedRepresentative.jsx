@@ -3,13 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import CurrentAccreditedRepresentative from './CurrentAccreditedRepresentative';
 import ContactCard from './ContactCard';
-import { getEntityAddressAsObject, getRepType } from '../utilities/helpers';
+import {
+  getEntityAddressAsObject,
+  getOrgName,
+  getRepType,
+} from '../utilities/helpers';
 
 const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
   const currentRep = formData?.['view:representativeStatus'] || {};
   const selectedRepAttributes =
     formData?.['view:selectedRepresentative']?.attributes || {};
+  const repName = selectedRepAttributes?.fullName;
+  const orgName = getOrgName(formData);
 
   return (
     <div>
@@ -29,11 +35,11 @@ const ReplaceAccreditedRepresentative = props => {
         You’ve selected this new accredited representative:
       </h4>
       <ContactCard
-        repName={selectedRepAttributes.name || selectedRepAttributes.fullName}
-        orgName={selectedRepAttributes.name}
+        repName={repName}
+        orgName={orgName}
         addressData={getEntityAddressAsObject(selectedRepAttributes)}
-        phone={selectedRepAttributes.phone}
-        email={selectedRepAttributes.email}
+        phone={selectedRepAttributes?.phone}
+        email={selectedRepAttributes?.email}
       />
     </div>
   );
@@ -47,8 +53,10 @@ ReplaceAccreditedRepresentative.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
+
+export { ReplaceAccreditedRepresentative }; // Named export for testing
 
 export default connect(
   mapStateToProps,

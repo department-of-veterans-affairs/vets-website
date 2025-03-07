@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import {
-  VaRadio,
   VaPagination,
+  VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 const EducationSearchItem = ({
@@ -14,8 +14,9 @@ const EducationSearchItem = ({
   dataError,
 }) => {
   const [selected, setSelected] = useState(null);
-  const onPageChange = page => {
-    getData(`${pageURL}&page=${page}&per_page=10`);
+
+  const onPageChange = async page => {
+    await getData(`${pageURL}&page=${page}&per_page=10`);
   };
 
   const handleChange = event => {
@@ -31,6 +32,16 @@ const EducationSearchItem = ({
   };
 
   const numberOfPages = facilityData?.meta?.count / 10;
+  const numberOfPaginationPages =
+    numberOfPages > 5 ? 5 : Math.round(numberOfPages);
+
+  const currentPage = url => {
+    const splitURL = url?.split('page')[1];
+    if (splitURL) {
+      return parseInt(splitURL.split('')[1], 10);
+    }
+    return 1;
+  };
 
   if (dataError.hasError) {
     return (
@@ -57,7 +68,7 @@ const EducationSearchItem = ({
         <hr />
         <VaRadio
           class="vads-u-margin-y--2"
-          label="Select VA health facility"
+          label="Select school facility"
           onVaValueChange={handleChange}
           required
           uswds
@@ -73,19 +84,22 @@ const EducationSearchItem = ({
               uswds
             />
           ))}
-          <va-radio-option
-            id="facility-not-listed"
-            label="My facility is not listed"
-            value="My facility is not listed"
-            name="primary"
-            checked={selected === 'My facility is not listed'}
-          />
+          {currentPage(facilityData.links?.self) ===
+            numberOfPaginationPages && (
+            <va-radio-option
+              id="facility-not-listed"
+              label="My facility is not listed"
+              value="My facility is not listed"
+              name="primary"
+              checked={selected === 'My facility is not listed'}
+            />
+          )}
         </VaRadio>
         {facilityData?.meta.count > 10 && (
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
-            page={facilityData.link?.self}
-            pages={numberOfPages > 5 ? 5 : Math.round(numberOfPages)}
+            page={currentPage(facilityData.links?.self)}
+            pages={numberOfPaginationPages}
             maxPageListLength={5}
             showLastPage
           />

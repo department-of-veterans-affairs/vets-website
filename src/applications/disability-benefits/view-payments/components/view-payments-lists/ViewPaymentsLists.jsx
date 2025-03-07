@@ -50,9 +50,9 @@ class ViewPaymentsLists extends Component {
     } else {
       paymentsReturnedTable = (
         <va-alert status="info">
-          <h2 slot="headline" className="vads-u-font-size--h3">
+          <h3 slot="headline" className="vads-u-font-size--h3">
             We don’t have a record of returned payments
-          </h2>
+          </h3>
           <p className="vads-u-font-size--base">
             We can’t find any returned VA payments. If you think this is an
             error, or if you have questions about your payment history, please

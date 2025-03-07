@@ -49,6 +49,7 @@ describe('<Dashboard />', () => {
           loading: false,
           services: ['appeals-status'],
           claims: {},
+          signIn: { serviceName: 'logingov' },
         },
       },
       featureToggles: {
@@ -62,18 +63,18 @@ describe('<Dashboard />', () => {
     initialState.user.profile.loa.current = 1;
     initialState.user.profile.loa.highest = 1;
 
-    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+    const { getByTestId, container } = renderInReduxProvider(<Dashboard />, {
       initialState,
       reducers,
     });
 
     await waitFor(() => {
       expect(getByTestId('dashboard-title')).to.exist;
-      expect(getByTestId('verify-identity-alert-headline')).to.exist;
+      expect(container.querySelector('va-alert-sign-in')).to.exist;
     });
   });
 
-  it('renders the welcome modal for an LOA1 user', async () => {
+  it('renders the welcome modal for a recent LOA1 user', async () => {
     mockFetch();
     initialState.user.profile.loa.current = 1;
     initialState.user.profile.loa.highest = 1;
@@ -81,6 +82,11 @@ describe('<Dashboard />', () => {
       [Toggler.TOGGLE_NAMES
         .veteranOnboardingShowWelcomeMessageToNewUsers]: true,
     };
+
+    // User created 8 hours ago is recent
+    initialState.user.profile.initialSignIn = new Date(
+      new Date().getTime() - 8 * 60 * 60 * 1000,
+    );
 
     const { getByTestId } = renderInReduxProvider(<Dashboard />, {
       initialState,
@@ -90,6 +96,28 @@ describe('<Dashboard />', () => {
     await waitFor(() => {
       expect(getByTestId('welcome-modal')).to.exist;
     });
+  });
+
+  it('does not render the welcome modal for LOA1 user that is not recent', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+    initialState.featureToggles = {
+      [Toggler.TOGGLE_NAMES
+        .veteranOnboardingShowWelcomeMessageToNewUsers]: true,
+    };
+
+    // User created 36 hours ago is not recent
+    initialState.user.profile.initialSignIn = new Date(
+      new Date().getTime() - 36 * 60 * 60 * 1000,
+    );
+
+    const { queryByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    expect(queryByTestId('welcome-modal')).to.not.exist;
   });
 
   it('renders for an LOA3 user', async () => {

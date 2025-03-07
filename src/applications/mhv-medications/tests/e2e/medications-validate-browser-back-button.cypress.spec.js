@@ -5,7 +5,7 @@ import mockPrescriptionDetails from './fixtures/prescriptions-details-page-2.jso
 import MedicationsDetailsPage from './pages/MedicationsDetailsPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe.skip('Medications details Page Back Browser', () => {
+describe('Medications details Page Back Browser', () => {
   it('visits Medications Details Page Browser Back to List View', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
@@ -24,6 +24,6 @@ describe.skip('Medications details Page Back Browser', () => {
     site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     cy.go('back');
-    site.verifyPaginationPrescriptionsDisplayed(21, 29, threadLength);
+    site.verifyPaginationPrescriptionsDisplayed(11, 20, threadLength);
   });
 });

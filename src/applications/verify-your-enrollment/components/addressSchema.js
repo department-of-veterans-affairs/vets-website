@@ -9,6 +9,11 @@ import {
   VaCheckboxField,
 } from 'platform/forms-system/src/js/web-component-fields';
 import { blockURLsRegEx } from '../constants';
+import { sanitizeField, splitAddressLine } from '../helpers';
+
+const cleanZipCode = zipcode => {
+  return zipcode?.substring(0, 5);
+};
 
 const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
@@ -18,7 +23,6 @@ const ADDRESS_FORM_VALUES = {
   COUNTRY_ISO3_CODES: countries.map(country => country.countryCodeISO3),
   MILITARY_STATES,
 };
-
 const STREET_LINE_MAX_LENGTH = 20;
 
 export const getFormSchema = (formData = {}) => {
@@ -48,14 +52,18 @@ export const getFormSchema = (formData = {}) => {
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine1,
+        default: sanitizeField(
+          splitAddressLine(formData?.addressLine1, 20).line1,
+        ),
       },
       addressLine2: {
         type: 'string',
         minLength: 1,
         maxLength: STREET_LINE_MAX_LENGTH,
         pattern: blockURLsRegEx,
-        default: formData?.addressLine2,
+        default:
+          splitAddressLine(formData?.addressLine1, 20).line2 ||
+          formData?.addressLine2,
       },
       addressLine3: {
         type: 'string',
@@ -85,7 +93,7 @@ export const getFormSchema = (formData = {}) => {
       zipCode: {
         type: 'string',
         pattern: '^\\d{5}$',
-        default: formData?.zipCode,
+        default: cleanZipCode(formData?.zipCode),
       },
     },
     required: ['addressLine1', 'city'],

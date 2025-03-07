@@ -7,15 +7,6 @@
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/mhv/secondary-nav/sass/mhv-sec-nav";
 
-.btsss-portal-link {
-  display: inline-flex;
-  align-items: center;
-}
-
-.btsss-portal-link va-icon {
-  margin-left: 4px;
-}
-
 .btsss-claims-sort-and-filter-container {
   min-width: fit-content;
   max-width: 35rem;
@@ -49,12 +40,7 @@ h2#pagination-info {
   }
 }
 
-.claims-controller-title {
-  font-size: 4rem;
-  font-weight: 700;
-}
-
-.claim-details-breadcrumb-wrapper {
+.travel-pay-breadcrumb-wrapper {
   display: flex;
   align-items: center;
 
@@ -77,16 +63,4 @@ h2#pagination-info {
       padding-bottom: 48px;
     }
   }
-}
-
-.claim-details-claim-number {
-  // Matches styles for <h2>
-  font-size: 1.875rem;
-  font-weight: 700;
-}
-
-.claim-details-h3 {
-  // Styling <h3>s to match <h2>s
-  font-size: 1.25rem;
-  font-weight: 700;
 }

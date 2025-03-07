@@ -57,23 +57,6 @@ export const DEPENDENT_SUBPAGES = [
   },
 ];
 
-// declare prefix for use in GA events related to disability rating
-export const DISABILITY_PREFIX = 'disability-ratings';
-
-// declare action statuses for fetching disability rating
-export const DISABILITY_RATING_ACTIONS = {
-  FETCH_DISABILITY_RATING_STARTED: 'FETCH_DISABILITY_RATING_STARTED',
-  FETCH_DISABILITY_RATING_SUCCEEDED: 'FETCH_DISABILITY_RATING_SUCCEEDED',
-  FETCH_DISABILITY_RATING_FAILED: 'FETCH_DISABILITY_RATING_FAILED',
-};
-
-// declare initial state for disability rating reducer
-export const DISABILITY_RATING_INIT_STATE = {
-  totalDisabilityRating: null,
-  loading: true,
-  error: null,
-};
-
 // declare action statuses for fetching enrollment status
 export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_STARTED: 'FETCH_ENROLLMENT_STATUS_STARTED',
@@ -126,17 +109,6 @@ export const SHARED_PATHS = {
     summary: 'insurance-information/policies',
     info: 'insurance-information/policy-information',
   },
-};
-
-// declare default SIGI values
-export const SIGI_GENDERS = {
-  NB: 'Non-binary',
-  M: 'Man',
-  F: 'Woman',
-  TM: 'Transgender man',
-  TF: 'Transgender woman',
-  O: 'A gender not listed here',
-  NA: 'Prefer not to answer',
 };
 
 // declare default schema for view fields

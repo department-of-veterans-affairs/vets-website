@@ -9,6 +9,7 @@ import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../config/form';
 
 import {
+  livingSituationList,
   livingSituationReviewField as ReviewField,
   livingSituationChoices,
   livingSituationChoicesShortened,
@@ -19,7 +20,7 @@ describe('Supplemental Claims living situation page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.housing.pages.livingSituation;
+  } = formConfig.chapters.infoPages.pages.livingSituation;
 
   it('should render', () => {
     const { container } = render(
@@ -84,6 +85,29 @@ describe('Supplemental Claims living situation page', () => {
         livingSituationError,
       );
     });
+  });
+});
+
+describe('livingSituationList', () => {
+  it('should render and show single choice', () => {
+    const data = { facility30Days: true };
+    expect(livingSituationList(data)).to.eq(
+      livingSituationChoices.facility30Days,
+    );
+  });
+  it('should render two choices', () => {
+    const data = { facility30Days: true, other: true };
+    const result = readableList(
+      Object.keys(data).map(key => livingSituationChoicesShortened[key]),
+    );
+    expect(livingSituationList(data)).to.eq(result);
+  });
+  it('should render multiple choices', () => {
+    const data = { notRegular: true, shelter: true, friendOrFamily: true };
+    const result = readableList(
+      Object.keys(data).map(key => livingSituationChoicesShortened[key]),
+    );
+    expect(livingSituationList(data)).to.eq(result);
   });
 });
 

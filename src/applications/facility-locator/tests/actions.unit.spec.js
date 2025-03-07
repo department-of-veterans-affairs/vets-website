@@ -13,7 +13,7 @@ import {
   CLEAR_SEARCH_TEXT,
   GEOCODE_CLEAR_ERROR,
   MAP_MOVED,
-} from '../utils/actionTypes';
+} from '../actions/actionTypes';
 
 import {
   clearGeocodeError,

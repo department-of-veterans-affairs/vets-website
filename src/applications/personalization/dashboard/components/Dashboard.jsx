@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 
 import {
@@ -38,7 +38,6 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
 import { API_NAMES } from '../../common/constants';
@@ -54,6 +53,7 @@ import { canAccess } from '../../common/selectors';
 import RenderClaimsWidgetDowntimeNotification from './RenderClaimsWidgetDowntimeNotification';
 import BenefitApplications from './benefit-application-drafts/BenefitApplications';
 import EducationAndTraining from './education-and-training/EducationAndTraining';
+import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 
 const DashboardHeader = ({ showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -67,7 +67,7 @@ const DashboardHeader = ({ showNotifications, user }) => {
   return (
     <div>
       {displayOnboardingInformation && (
-        <VaAlert status="info" visible>
+        <VaAlert status="info" visible className="vads-u-margin-top--4">
           <h2> Welcome to VA, {user.profile.userFullName.first}</h2>
           <p>
             We understand that transitioning out of the military can be a
@@ -115,6 +115,7 @@ const DashboardHeader = ({ showNotifications, user }) => {
           });
         }}
       />
+      <ContactInfoNeeded />
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
   );
@@ -125,20 +126,27 @@ const LOA1Content = ({
   isVAPatient,
   welcomeModalVisible,
   dismissWelcomeModal,
+  user,
 }) => {
-  const signInService = useSelector(signInServiceName);
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const showWelcomeToMyVaMessage = useToggleValue(
     TOGGLE_NAMES.veteranOnboardingShowWelcomeMessageToNewUsers,
   );
+
+  const userCreationTime = new Date(user.profile.initialSignIn);
+  const oneDayLater = new Date(
+    userCreationTime.getTime() + 24 * 60 * 60 * 1000,
+  );
+  const currentDate = new Date();
+  const userIsNew =
+    currentDate.getTime() > userCreationTime.getTime() &&
+    currentDate.getTime() < oneDayLater.getTime();
+
   return (
     <>
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <IdentityNotVerified
-            headline="Verify your identity to access more VA.gov tools and features"
-            signInService={signInService}
-          />
+          <IdentityNotVerified />
         </div>
       </div>
 
@@ -148,24 +156,25 @@ const LOA1Content = ({
       <EducationAndTraining isLOA1={isLOA1} />
       <BenefitApplications />
 
-      {showWelcomeToMyVaMessage && (
-        <VaModal
-          large
-          modalTitle="Welcome to My VA"
-          onCloseEvent={dismissWelcomeModal}
-          onPrimaryButtonClick={dismissWelcomeModal}
-          primaryButtonText="Continue"
-          visible={welcomeModalVisible}
-          data-testid="welcome-modal"
-        >
-          <p>
-            We’ll help you get started managing your benefits and information
-            online, as well as help you find resources and support. Once you
-            have applications or claims in process, you’ll be able to check
-            status here at My VA.
-          </p>
-        </VaModal>
-      )}
+      {showWelcomeToMyVaMessage &&
+        userIsNew && (
+          <VaModal
+            large
+            modalTitle="Welcome to My VA"
+            onCloseEvent={dismissWelcomeModal}
+            onPrimaryButtonClick={dismissWelcomeModal}
+            primaryButtonText="Continue"
+            visible={welcomeModalVisible}
+            data-testid="welcome-modal"
+          >
+            <p>
+              We’ll help you get started managing your benefits and information
+              online, as well as help you find resources and support. Once you
+              have applications or claims in process, you’ll be able to check
+              status here at My VA.
+            </p>
+          </VaModal>
+        )}
     </>
   );
 };
@@ -179,6 +188,7 @@ LOA1Content.propTypes = {
   dismissWelcomeModal: PropTypes.func,
   isLOA1: PropTypes.bool,
   isVAPatient: PropTypes.bool,
+  user: PropTypes.object,
   welcomeModalVisible: PropTypes.bool,
 };
 
@@ -199,6 +209,7 @@ const Dashboard = ({
   showNotInMPIError,
   showNotifications,
   isVAPatient,
+  user,
   ...props
 }) => {
   const downtimeApproachingRenderMethod = useDowntimeApproachingRenderMethod();
@@ -270,7 +281,7 @@ const Dashboard = ({
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
-      user={props.user}
+      user={user}
       showProfileErrorMessage
     >
       <DowntimeNotification
@@ -324,6 +335,7 @@ const Dashboard = ({
                   isVAPatient={isVAPatient}
                   welcomeModalVisible={welcomeModalVisible}
                   dismissWelcomeModal={dismissWelcomeModal}
+                  user={user}
                 />
               )}
 

@@ -20,6 +20,7 @@ import {
   selectFeatureDirectScheduling,
   selectRegisteredCernerFacilityIds,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureRemovePodiatry,
 } from '../../redux/selectors';
 import { removeDuplicateId } from '../../utils/data';
 
@@ -278,7 +279,7 @@ export function getChosenClinicInfo(state) {
   const { clinics } = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
+    clinics?.[`${data.vaFacility}_${typeOfCareId}`]?.find(
       clinic => clinic.id === data.clinicId,
     ) || null
   );
@@ -312,6 +313,15 @@ export function selectChosenFacilityInfo(state) {
   return newAppointment.facilities[typeOfCare.id].find(
     facility => facility.id === formData.vaFacility,
   );
+}
+
+export function selectPatientProviderRelationships(state) {
+  const newAppointment = getNewAppointment(state);
+  return {
+    patientProviderRelationships: newAppointment.patientProviderRelationships,
+    patientProviderRelationshipsStatus:
+      newAppointment.patientProviderRelationshipsStatus,
+  };
 }
 
 export function getChosenVACityState(state) {
@@ -373,6 +383,7 @@ export function selectTypeOfCarePage(state) {
     pageChangeInProgress: selectPageChangeInProgress(state),
     showCommunityCare: selectFeatureCommunityCare(state),
     showDirectScheduling: selectFeatureDirectScheduling(state),
+    removePodiatry: selectFeatureRemovePodiatry(state),
     showPodiatryApptUnavailableModal:
       newAppointment.showPodiatryAppointmentUnavailableModal,
     useV2: featureVAOSServiceVAAppointments,
@@ -399,10 +410,4 @@ export function selectFacilitiesRadioWidget(state) {
 
 export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
-}
-
-export function getSelectedDate(state) {
-  return getFormData(state).selectedDates?.length
-    ? getFormData(state).selectedDates[0]
-    : '';
 }

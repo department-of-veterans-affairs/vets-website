@@ -9,7 +9,7 @@ import {
   NameAndZipCodePage,
   nameAndZipCodePage,
 } from '../pages/nameAndZipCode';
-import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
+import { SAVE_IN_PROGRESS_CONFIG } from './constants';
 import prefillTransformer from './prefill-transformer';
 import transformForSubmit from './submit-transformer';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
@@ -18,6 +18,7 @@ import {
   VeteranIdentificationInformationPage,
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
+import { phoneNumberAndEmailPage } from '../pages/phoneNumberAndEmail';
 import { CustomTopContent } from '../pages/helpers';
 
 // mock-data import for local development
@@ -32,25 +33,22 @@ const mockData = testData.data;
 
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
+  const formId = `${formNumber.toUpperCase()}-UPLOAD`;
+  const trackingPrefix = `form-${formNumber.toLowerCase()}-upload-`;
 
   return {
     rootUrl: manifest.rootUrl,
-    urlPrefix: `/${formNumber}/`,
+    urlPrefix: `/${formNumber.toLowerCase()}/`,
     submitUrl: `${environment.API_URL}/simple_forms_api/v1/submit_scanned_form`,
-    dev: {
-      collapsibleNavLinks: true,
-      showNavLinks: !window.Cypress,
-    },
-    trackingPrefix: 'form-upload-flow-',
+    dev: { collapsibleNavLinks: true, showNavLinks: !window.Cypress },
+    trackingPrefix,
     confirmation: ConfirmationPage,
     CustomTopContent,
     CustomReviewTopContent,
-    customText: {
-      appType: 'form',
-    },
+    customText: { appType: 'form' },
     hideReviewChapters: true,
     introduction: IntroductionPage,
-    formId: 'FORM-UPLOAD-FLOW',
+    formId,
     saveInProgress: SAVE_IN_PROGRESS_CONFIG,
     version: 0,
     prefillEnabled: true,
@@ -63,17 +61,14 @@ const formConfig = (pathname = null) => {
     title,
     subTitle,
     defaultDefinitions: {},
-    v3SegmentedProgressBar: {
-      useDiv: true,
-    },
-    stepLabels: PROGRESS_BAR_LABELS,
+    v3SegmentedProgressBar: { useDiv: false },
     chapters: {
       personalInformationChapter: {
-        title: 'Personal information',
+        title: 'Veteran information',
         pages: {
           nameAndZipCodePage: {
             path: 'name-and-zip-code',
-            title: 'Personal information',
+            title: 'Veteran information',
             uiSchema: nameAndZipCodePage.uiSchema,
             schema: nameAndZipCodePage.schema,
             CustomPage: NameAndZipCodePage,
@@ -88,6 +83,18 @@ const formConfig = (pathname = null) => {
             uiSchema: veteranIdentificationInformationPage.uiSchema,
             schema: veteranIdentificationInformationPage.schema,
             CustomPage: VeteranIdentificationInformationPage,
+            scrollAndFocusTarget,
+          },
+        },
+      },
+      contactInformationChapter: {
+        title: 'Your contact information',
+        pages: {
+          phoneNumberAndEmailPage: {
+            path: 'phone-number-and-email',
+            title: 'Phone and email address',
+            uiSchema: phoneNumberAndEmailPage.uiSchema,
+            schema: phoneNumberAndEmailPage.schema,
             scrollAndFocusTarget,
           },
         },

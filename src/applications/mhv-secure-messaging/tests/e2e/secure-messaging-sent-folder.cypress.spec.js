@@ -3,6 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientMessageSentPage from './pages/PatientMessageSentPage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
 describe('secure Messaging Sent Folder checks', () => {
   beforeEach(() => {
@@ -13,10 +14,12 @@ describe('secure Messaging Sent Folder checks', () => {
   });
 
   it('Verify folder header', () => {
+    GeneralFunctionsPage.verifyPageHeader(`Sent`);
+    GeneralFunctionsPage.verifyHeaderFocused();
+    PatientMessageSentPage.verifyResponseBodyLength();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientMessageSentPage.verifyFolderHeaderText('Sent');
-    PatientMessageSentPage.verifyResponseBodyLength();
   });
 
   it('checks for "End of conversations in this folder" text', () => {
@@ -33,6 +36,7 @@ describe('secure Messaging Sent Folder checks', () => {
     });
     FolderLoadPage.verifyPaginationElements();
   });
+
   it('verify breadcrumbs', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

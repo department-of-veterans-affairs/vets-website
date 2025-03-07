@@ -45,6 +45,8 @@ import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecords
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
 import evidencePrivateRequest from '../pages/evidencePrivateRequest';
+import evidencePrivateLimitationRequest from '../pages/evidencePrivateLimitationRequest';
+import evidencePrivateLimitation from '../pages/evidencePrivateLimitation';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidenceWillUpload from '../pages/evidenceWillUpload';
 import evidenceUpload from '../pages/evidenceUpload';
@@ -53,7 +55,11 @@ import evidenceSummary from '../pages/evidenceSummary';
 import {
   hasVAEvidence,
   hasPrivateEvidence,
+  hasOriginalPrivateLimitation,
+  hasNewPrivateLimitation,
+  hasPrivateLimitation,
   hasOtherEvidence,
+  onFormLoaded,
 } from '../utils/evidence';
 import { hasMstOption } from '../utils/mstOption';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
@@ -66,10 +72,13 @@ import {
   EVIDENCE_PRIVATE_REQUEST,
   EVIDENCE_PRIVATE_PATH,
   EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH1,
+  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_ADDITIONAL_PATH,
   EVIDENCE_UPLOAD_PATH,
-  SUBMIT_URL,
+  SC_NEW_FORM_DATA,
 } from '../constants';
+import { SUBMIT_URL } from '../constants/apis';
 import { saveInProgress, savedFormMessages } from '../content/formMessages';
 import { title995, getSubTitle } from '../content/title';
 
@@ -88,6 +97,7 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import {
   focusAlertH3,
   focusRadioH3,
+  focusAlertOrRadio,
   focusH3,
   focusOnAlert,
   focusIssue,
@@ -98,7 +108,7 @@ import {
   appStateSelector,
 } from '../../shared/utils/issues';
 
-import { showScNewForm } from '../utils/toggle';
+import { showScNewForm, clearRedirect } from '../utils/toggle';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -144,6 +154,7 @@ const formConfig = {
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
+  onFormLoaded,
   formOptions: {
     focusOnAlertRole: true,
   },
@@ -168,31 +179,14 @@ const formConfig = {
           schema: veteranInfo.schema,
         },
 
-        ...contactInfo,
-        choosePrimaryPhone: {
-          title: 'Primary phone number',
-          path: 'primary-phone-number',
-          // only visible if both the home & mobile phone are populated
-          depends: hasHomeAndMobilePhone,
-          CustomPage: PrimaryPhone,
-          CustomPageReview: PrimaryPhoneReview,
-          uiSchema: primaryPhone.uiSchema,
-          schema: primaryPhone.schema,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-      },
-    },
-
-    housing: {
-      title: 'Living situation',
-      pages: {
         housingRisk: {
           title: 'Housing risk',
           path: 'housing-risk',
           uiSchema: housingRisk.uiSchema,
           schema: housingRisk.schema,
           depends: showScNewForm,
-          scrollAndFocusTarget: focusRadioH3,
+          scrollAndFocusTarget: focusAlertOrRadio,
+          onContinue: clearRedirect,
         },
         livingSituation: {
           title: 'Living situation',
@@ -218,6 +212,19 @@ const formConfig = {
           uiSchema: pointOfContact.uiSchema,
           schema: pointOfContact.schema,
           depends: hasHousingRisk,
+        },
+
+        ...contactInfo,
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone are populated
+          depends: hasHomeAndMobilePhone,
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhoneReview,
+          uiSchema: primaryPhone.uiSchema,
+          schema: primaryPhone.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },
@@ -257,21 +264,6 @@ const formConfig = {
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
         },
-        optionForMst: {
-          title: 'Option for claims related to MST',
-          path: 'option-claims',
-          uiSchema: optionForMst.uiSchema,
-          schema: optionForMst.schema,
-          depends: showScNewForm,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-        optionIndicator: {
-          title: 'Option to add an indicator',
-          path: 'option-indicator',
-          uiSchema: optionIndicator.uiSchema,
-          schema: optionIndicator.schema,
-          depends: hasMstOption,
-        },
       },
     },
 
@@ -309,6 +301,9 @@ const formConfig = {
           title: 'VA medical records',
           path: EVIDENCE_VA_PATH,
           depends: hasVAEvidence,
+          appStateSelector: state => ({
+            [SC_NEW_FORM_DATA]: state.form?.data?.[SC_NEW_FORM_DATA] || false,
+          }),
           CustomPage: EvidenceVaRecords,
           CustomPageReview: null,
           uiSchema: evidenceVaRecords.uiSchema,
@@ -334,6 +329,24 @@ const formConfig = {
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
         },
+        evidencePrivateLimitationRequest: {
+          title: 'Non-VA medical record limitations',
+          path: EVIDENCE_LIMITATION_PATH1,
+          depends: hasNewPrivateLimitation,
+          uiSchema: evidencePrivateLimitationRequest.uiSchema,
+          schema: evidencePrivateLimitationRequest.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        // Duplicate of evidencePrivateLimitation page, but doesn't need to
+        // CustomPage to handle navigation
+        evidencePrivateLimitation2: {
+          title: 'Non-VA medical record limitation details',
+          path: EVIDENCE_LIMITATION_PATH2,
+          depends: hasPrivateLimitation,
+          uiSchema: evidencePrivateLimitation.uiSchema,
+          schema: evidencePrivateLimitation.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
           path: EVIDENCE_PRIVATE_PATH,
@@ -344,10 +357,11 @@ const formConfig = {
           schema: evidencePrivateRecords.schema,
           scrollAndFocusTarget: focusEvidence,
         },
+        // Original limitation page
         evidencePrivateLimitation: {
           title: 'Non-VA medical record limitations',
           path: EVIDENCE_LIMITATION_PATH,
-          depends: hasPrivateEvidence,
+          depends: hasOriginalPrivateLimitation,
           CustomPage: EvidencePrivateLimitation,
           CustomPageReview: null,
           uiSchema: blankUiSchema,
@@ -375,6 +389,27 @@ const formConfig = {
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
           scrollAndFocusTarget: focusAlertH3,
+        },
+      },
+    },
+
+    vhaIndicator: {
+      title: 'VHA Indicator',
+      pages: {
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          depends: showScNewForm,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
         },
       },
     },

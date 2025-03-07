@@ -2,29 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
-import {
-  CLINIC_URGENTCARE_SERVICE,
-  PHARMACY_RETAIL_SERVICE,
-  LocationType,
-  Error,
-  Covid19Vaccine,
-  EMERGENCY_CARE_SERVICES,
-} from '../constants';
-
+import { Error } from '../constants';
 import { recordSearchResultsEvents } from '../utils/analytics';
+import { ResultMapper } from './search-results-items/common/ResultMapper';
 import { updateSearchQuery, searchWithBounds } from '../actions';
-
-import VaFacilityResult from './search-results-items/VaFacilityResult';
-import CCProviderResult from './search-results-items/CCProviderResult';
-import PharmacyResult from './search-results-items/PharmacyResult';
-import UrgentCareResult from './search-results-items/UrgentCareResult';
-import EmergencyCareResult from './search-results-items/EmergencyCareResult';
-import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
 
 export const ResultsList = ({
@@ -67,17 +50,6 @@ export const ResultsList = ({
     [resultsData],
   );
 
-  function isHealthAndHealthConnect(apiResult, searchQuery) {
-    let final = false;
-    if (
-      searchQuery?.facilityType === 'health' &&
-      apiResult?.attributes?.phone?.healthConnect !== null
-    ) {
-      final = true;
-    }
-    return final;
-  }
-
   /**
    * Returns Result items by type
    * @param query object
@@ -86,119 +58,7 @@ export const ResultsList = ({
    */
   const renderResultItems = (searchQuery, apiResults) => {
     return apiResults?.map((result, index) => {
-      let item;
-      const showHealthConnectNumber = isHealthAndHealthConnect(result, query);
-
-      switch (searchQuery.facilityType) {
-        case 'health':
-        case 'cemetery':
-        case 'benefits':
-        case 'vet_center':
-          item =
-            searchQuery.serviceType === Covid19Vaccine ? (
-              <Covid19Result location={result} key={result.id} index={index} />
-            ) : (
-              <VaFacilityResult
-                location={result}
-                query={searchQuery}
-                key={result.id}
-                index={index}
-                showHealthConnectNumber={showHealthConnectNumber}
-              />
-            );
-          break;
-        case 'provider':
-          // Support non va urgent care search through ccp option
-          if (searchQuery.serviceType === CLINIC_URGENTCARE_SERVICE) {
-            item = (
-              <UrgentCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else if (searchQuery.serviceType === PHARMACY_RETAIL_SERVICE) {
-            item = (
-              <PharmacyResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else if (
-            EMERGENCY_CARE_SERVICES.includes(searchQuery.serviceType)
-          ) {
-            item = (
-              <EmergencyCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else {
-            item = (
-              <CCProviderResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          }
-          break;
-        case 'pharmacy':
-          item = (
-            <PharmacyResult
-              provider={result}
-              query={searchQuery}
-              key={result.id}
-            />
-          );
-          break;
-        case 'emergency_care':
-          if (result.type === LocationType.CC_PROVIDER) {
-            item = (
-              <EmergencyCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else {
-            item = (
-              <VaFacilityResult
-                location={result}
-                query={searchQuery}
-                key={result.id}
-                index={index}
-              />
-            );
-          }
-          break;
-        case 'urgent_care':
-          if (result.type === LocationType.CC_PROVIDER) {
-            item = (
-              <UrgentCareResult
-                provider={result}
-                query={searchQuery}
-                key={result.id}
-              />
-            );
-          } else {
-            item = (
-              <VaFacilityResult
-                location={result}
-                query={searchQuery}
-                key={result.id}
-                index={index}
-              />
-            );
-          }
-          break;
-        default:
-          item = null;
-      }
-
-      return item;
+      return ResultMapper(result, searchQuery, index);
     });
   };
 
@@ -270,7 +130,7 @@ ResultsList.propTypes = {
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.shape(PropTypes.any),
+  searchError: PropTypes.string,
   searchResultMessageRef: PropTypes.object,
   searchString: PropTypes.string,
 };
@@ -306,11 +166,7 @@ function mapStateToProps(state) {
     pagination: state.searchResult.pagination,
     position,
     searchString,
-    selectedResult: state.searchResult.selectedResult,
     resultTime: state.searchResult.resultTime,
-    facilityLocatorShowHealthConnectNumber: toggleValues(state)[
-      FEATURE_FLAG_NAMES.facilityLocatorShowHealthConnectNumber
-    ],
   };
 }
 

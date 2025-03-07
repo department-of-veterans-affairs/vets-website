@@ -1,35 +1,66 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { format } from 'date-fns';
 import ScheduleReferral from './ScheduleReferral';
 import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { referral } from './temp-data/referral';
+import { createReferralById, getReferralSlotKey } from './utils/referrals';
 
-describe('scheduleReferral component', () => {
-  it('should display the subtitle correctly given different numbers of appointments', async () => {
-    const store = createTestStore();
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(referral, 'appointmentCount').value(1);
-    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
-      store,
-    });
-    const subtitle = await screen.findByTestId('subtitle');
-    expect(subtitle).to.contain.text('1 appointment');
-    sandbox.restore();
+describe('VAOS Component: ScheduleReferral', () => {
+  afterEach(() => {
+    sessionStorage.clear();
   });
-  it('should display the subtitle correctly given 2 appointments', async () => {
+  const referralDate = '2024-09-09';
+
+  it('should render with default data', async () => {
+    const referral = createReferralById(referralDate, '111');
+
     const store = createTestStore();
-    const sandbox = sinon.createSandbox();
-    sandbox.stub(referral, 'appointmentCount').value(2);
-    referral.appointmentCount = 2;
-    const screen = renderWithStoreAndRouter(<ScheduleReferral />, {
-      store,
+
+    const screen = renderWithStoreAndRouter(
+      <ScheduleReferral currentReferral={referral} />,
+      {
+        store,
+      },
+    );
+
+    const details = await screen.findByTestId('referral-details');
+    const facility = await screen.findByTestId('referral-facility');
+    const helpText = await screen.findByTestId('help-text');
+    const additionalAppointmentHelpText = await screen.findByTestId(
+      'additional-appointment-help-text',
+    );
+
+    const expectedDate = format(
+      new Date(referral.ReferralExpirationDate),
+      'MMMM d, yyyy',
+    );
+
+    expect(details).to.exist;
+    expect(details).to.contain.text(expectedDate);
+    expect(helpText).to.exist;
+    expect(additionalAppointmentHelpText).to.exist;
+
+    expect(facility).to.exist;
+  });
+  it('should reset slot selection', async () => {
+    const referral = createReferralById(referralDate, '222');
+    const selectedSlotKey = getReferralSlotKey(referral.UUID);
+    sessionStorage.setItem(selectedSlotKey, '0');
+    const initialState = {
+      featureToggles: {
+        vaOnlineSchedulingCCDirectScheduling: true,
+      },
+      referral: {
+        currentPage: 'scheduleAppointment',
+        selectedSlot: '0',
+      },
+    };
+    renderWithStoreAndRouter(<ScheduleReferral currentReferral={referral} />, {
+      initialState,
     });
-    const subtitle = await screen.findByTestId('subtitle');
-    expect(subtitle).to.contain.text('2 appointments');
-    sandbox.restore();
+    expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
   });
 });

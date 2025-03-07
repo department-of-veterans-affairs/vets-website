@@ -3,6 +3,7 @@ import mockRxPageOne from './fixtures/prescriptions.json';
 import mockRxPageTwo from './fixtures/prescriptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
+import { Paths } from './utils/constants';
 
 describe('Medications List Page Sort Alphabetically By Status', () => {
   it('visits Medications list Page Sort Alphabetically By Status', () => {
@@ -11,7 +12,7 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     const landingPage = new MedicationsLandingPage();
     site.login();
     landingPage.visitLandingPageURL();
-    const listLength = 20;
+    const listLength = 29;
     mockRxPageOne.data.forEach(item => {
       const currentItem = item;
       currentItem.attributes.threadPageSize = listLength;
@@ -34,13 +35,16 @@ describe('Medications List Page Sort Alphabetically By Status', () => {
     });
     listPage.clickGotoMedicationsLink();
     // site.loadVAPaginationPrescriptions(1, mockRxPageOne);
-    site.verifyPaginationPrescriptionsDisplayed(1, 20, listLength);
+    site.verifyPaginationPrescriptionsDisplayed(1, 10, listLength);
     // site.loadVAPaginationNextPrescriptions(2, mockRxPageTwo);
-    listPage.selectSortDropDownOption('Alphabetically by status');
-    listPage.clickSortAlphabeticallyByStatus();
+    listPage.selectSortDropDownOption(
+      'Alphabetically by status',
+      Paths.SORT_BY_STATUS,
+    );
+    listPage.loadRxDefaultSortAlphabeticallyByStatus();
     listPage.verifyPaginationDisplayedforSortAlphabeticallyByStatus(
       1,
-      20,
+      10,
       listLength,
     );
   });

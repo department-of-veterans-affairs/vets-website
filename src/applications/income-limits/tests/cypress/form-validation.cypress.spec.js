@@ -41,7 +41,7 @@ describe('form validation', () => {
       h.verifyElement(h.YEARINPUT);
       h.clickContinue();
 
-      h.checkFormAlertText(h.YEARINPUT, 'ErrorSelect a year.');
+      h.checkFormAlertText(h.YEARINPUT, 'ErrorEnter a valid four digit year.');
     });
   });
 

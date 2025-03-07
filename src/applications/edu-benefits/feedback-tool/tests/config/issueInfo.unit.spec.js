@@ -3,11 +3,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  DefinitionTester,
-  selectCheckbox,
-  fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { render, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import formConfig from '../../config/form';
 
 describe('feedback tool issue info', () => {
@@ -26,7 +26,7 @@ describe('feedback tool issue info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(12);
+    expect(form.find('va-checkbox').length).to.equal(12);
     form.unmount();
   });
 
@@ -42,14 +42,14 @@ describe('feedback tool issue info', () => {
     );
 
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(3);
+    expect(form.find('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
   it('should submit with required information', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { container, getByText } = render(
       <DefinitionTester
         schema={schema}
         definitions={formConfig.defaultDefinitions}
@@ -58,12 +58,17 @@ describe('feedback tool issue info', () => {
       />,
     );
 
-    selectCheckbox(form, 'root_issue_accreditation', true);
-    fillData(form, 'textarea#root_issueDescription', 'test');
-    fillData(form, 'textarea#root_issueResolution', 'test');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'Accreditation');
+
+    fireEvent.change($('textarea#root_issueDescription', container), {
+      target: { value: 'test' },
+    });
+    fireEvent.change($('textarea#root_issueResolution', container), {
+      target: { value: 'test' },
+    });
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });

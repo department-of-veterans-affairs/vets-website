@@ -45,8 +45,6 @@ describe('Global search typeahead behavior', () => {
       verifyTAResult(4, 'benefits letter');
 
       cy.get(s.ERROR_ALERT_BOX).should('not.exist');
-      cy.get(s.MAINT_BOX).should('not.exist');
-      cy.get(s.OUTAGE_BOX).should('not.exist');
 
       cy.get(s.TYPEAHEAD_OPTIONS)
         .eq(3)

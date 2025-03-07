@@ -21,8 +21,18 @@ const props = {
   showClaimLettersLink: false,
 };
 
-const getStore = (cstUseClaimDetailsV2Enabled = true) =>
+const getStore = (
+  cstUseClaimDetailsV2Enabled = true,
+  decisionRequested = false,
+) =>
   createStore(() => ({
+    disability: {
+      status: {
+        claimAsk: {
+          decisionRequested, // Added since WhatYouNeedToDo section looks for this
+        },
+      },
+    },
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,

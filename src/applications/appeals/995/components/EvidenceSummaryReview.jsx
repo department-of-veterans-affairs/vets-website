@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import {
-  hasVAEvidence,
-  hasPrivateEvidence,
-  hasOtherEvidence,
+  getVAEvidence,
+  getPrivateEvidence,
+  getOtherEvidence,
 } from '../utils/evidence';
 
 import { content } from '../content/evidenceSummary';
@@ -16,11 +16,11 @@ import {
   PrivateContent,
   UploadContent,
 } from './EvidenceSummaryLists';
-import { SUMMARY_EDIT } from '../constants';
+import { SUMMARY_EDIT, SC_NEW_FORM_DATA, EVIDENCE_LIMIT } from '../constants';
 import { data995 } from '../../shared/props';
 
 const EvidenceSummaryReview = ({ data, editPage }) => {
-  const { limitedConsent = '' } = data;
+  const { limitedConsent = '', privacyAgreementAccepted } = data;
 
   const editRef = useRef(null);
 
@@ -39,13 +39,12 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
   );
 
   // on review & submit in review mode (not editing)
-  const vaEvidence = hasVAEvidence(data) ? data?.locations || [] : [];
-  const privateEvidence = hasPrivateEvidence(data)
-    ? data?.providerFacility || []
-    : [];
-  const otherEvidence = hasOtherEvidence(data)
-    ? data?.additionalDocuments || []
-    : [];
+  const vaEvidence = getVAEvidence(data);
+  const privateEvidence = getPrivateEvidence(data);
+  const otherEvidence = getOtherEvidence(data);
+
+  const showScNewForm = data[SC_NEW_FORM_DATA];
+  const showLimitedConsentYN = showScNewForm && data[EVIDENCE_LIMIT];
 
   const evidenceLength =
     vaEvidence.length + privateEvidence.length + otherEvidence.length;
@@ -57,6 +56,12 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
       window.sessionStorage.setItem(SUMMARY_EDIT, 'true');
       editPage();
     },
+  };
+
+  const props = {
+    showScNewForm,
+    isOnReviewPage: true,
+    reviewMode: true,
   };
 
   return (
@@ -73,7 +78,6 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
           onClick={handlers.onEditPage}
           label={content.editLabel}
           text={content.edit}
-          uswds
         />
       </div>
 
@@ -86,13 +90,15 @@ const EvidenceSummaryReview = ({ data, editPage }) => {
         </dl>
       ) : null}
 
-      <VaContent list={vaEvidence} reviewMode />
+      <VaContent list={vaEvidence} {...props} />
       <PrivateContent
         list={privateEvidence}
+        showLimitedConsentYN={showLimitedConsentYN}
         limitedConsent={limitedConsent}
-        reviewMode
+        privacyAgreementAccepted={privacyAgreementAccepted}
+        {...props}
       />
-      <UploadContent list={otherEvidence} reviewMode />
+      <UploadContent list={otherEvidence} {...props} />
     </div>
   );
 };

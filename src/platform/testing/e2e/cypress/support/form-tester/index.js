@@ -226,7 +226,12 @@ const defaultPostHook = pathname => {
 
   // Everything else should click on the 'Continue' button.
   return () => {
-    cy.findByText(/continue/i, { selector: 'button' }).click(FORCE_OPTION);
+    cy.findByText(/continue/i, {
+      selector: 'button',
+      timeout: 20000,
+    })
+      .should('be.visible')
+      .click(FORCE_OPTION);
   };
 };
 
@@ -346,6 +351,7 @@ function enterData(field) {
     case 'email':
     case 'number':
     case 'text': {
+      cy.get(field.element).should('not.be.disabled');
       cy.wrap(field.element)
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -8,6 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import FacilityList from './FacilityList';
+import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
@@ -19,6 +21,7 @@ const FacilitySearch = props => {
   const [searchInputError, setSearchInputError] = useState(null);
   const [facilitiesListError, setFacilitiesListError] = useState(null);
   const [facilities, setFacilities] = useState([]);
+  const [newFacilitiesCount, setNewFacilitiesCount] = useState(0);
   const [pagination, setPagination] = useState({
     currentPage: 0,
     totalEntries: 0,
@@ -33,6 +36,25 @@ const FacilitySearch = props => {
 
   const hasMoreFacilities = () => {
     return facilities?.length < pagination.totalEntries;
+  };
+
+  const ariaLiveMessage = () => {
+    if (newFacilitiesCount === 0) return '';
+
+    const newFacilitiesLoadedText =
+      newFacilitiesCount === 1
+        ? content['facilities-aria-live-message-single']
+        : replaceStrValues(
+            content['facilities-aria-live-message-multiple'],
+            newFacilitiesCount,
+          );
+
+    const totalFacilitiesLoadedText = replaceStrValues(
+      content['facilities-aria-live-message-total'],
+      facilities?.length,
+    );
+
+    return `${newFacilitiesLoadedText} ${totalFacilitiesLoadedText}`;
   };
 
   const isReviewPage = () => {
@@ -67,12 +89,16 @@ const FacilitySearch = props => {
     const caregiverSupportFacilityId =
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
     if (!caregiverSupportFacilityId) {
-      if (hasFacilities()) {
+      if (!query.trim()) {
+        setSearchInputError(content['validation-facilities--search-required']);
+      } else if (hasFacilities()) {
         setFacilitiesListError(
           content['validation-facilities--default-required'],
         );
       } else {
-        setSearchInputError(content['validation-facilities--default-required']);
+        setSearchInputError(
+          content['validation-facilities--submit-search-required'],
+        );
       }
     } else if (isReviewPage()) {
       reviewPageGoToPath();
@@ -98,6 +124,14 @@ const FacilitySearch = props => {
         if (loadedParent) {
           return loadedParent;
         }
+
+        // Log facility parent.id so we can troubleshoot if we are always sending the expected value
+        Sentry.withScope(scope => {
+          scope.setLevel(Sentry.Severity.Log);
+          scope.setExtra('facility', facility);
+          scope.setExtra('facility.parent.id', facility?.parent?.id);
+          Sentry.captureMessage('FetchFacilities parentId');
+        });
 
         const parentFacilityResponse = await fetchFacilities({
           facilityIds: [facility.parent.id],
@@ -194,6 +228,7 @@ const FacilitySearch = props => {
 
   const showMoreFacilities = async e => {
     e.preventDefault();
+    setNewFacilitiesCount(0);
     setLoadingMoreFacilities(true);
     const facilitiesResponse = await fetchFacilities({
       ...coordinates,
@@ -209,6 +244,7 @@ const FacilitySearch = props => {
     }
 
     setFacilities([...facilities, ...facilitiesResponse.facilities]);
+    setNewFacilitiesCount(facilitiesResponse.facilities.length);
     setPagination(facilitiesResponse.meta.pagination);
     setSubmittedQuery(query);
     setLoadingMoreFacilities(false);
@@ -232,15 +268,20 @@ const FacilitySearch = props => {
       return (
         <>
           <FacilityList {...facilityListProps} />
+          <div
+            aria-live="polite"
+            role="status"
+            className="vads-u-visibility--screen-reader"
+          >
+            {ariaLiveMessage()}
+          </div>
           {loadingMoreFacilities && loader()}
           {hasMoreFacilities() && (
-            <button
-              type="button"
-              className="va-button-link"
+            <va-button
+              text={content['form-facilities-load-more-button']}
               onClick={showMoreFacilities}
-            >
-              Load more facilities
-            </button>
+              secondary
+            />
           )}
         </>
       );
@@ -268,25 +309,37 @@ const FacilitySearch = props => {
           {content['vet-med-center-search-description']}
         </h3>
         <p>
-          Where the VA medical center is located may be different from the
-          Veteran’s home address.
+          You’ll need to find and select the VA medical center or clinic where
+          the Veteran receives or plans to receive care.
         </p>
-        <va-card role="search" background>
+        <p>
+          The VA medical center or clinic may be in a different city, state, or
+          postal code than the Veteran’s home address.
+        </p>
+        <va-card background>
+          <p className="vads-u-margin-top--0">
+            Enter a city, state, or postal code. Then select{' '}
+            <strong>Search</strong> to find a VA medical center or clinic.
+          </p>
           <div
             className={`${
               searchInputError ? 'caregiver-facilities-search-input-error' : ''
             }`}
           >
-            <label
-              htmlFor="facility-search"
+            <p
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+              aria-hidden="true"
             >
-              {content['form-facilities-search-label']}
-              <span className="vads-u-color--secondary-dark"> (*Required)</span>
-            </label>
+              {content['form-facilities-search-label']}{' '}
+              <span className="vads-u-color--secondary-dark">
+                {content['validation-required-label']}
+              </span>
+            </p>
             {searchInputError && searchError()}
             <VaSearchInput
-              label={content['form-facilities-search-label']}
+              label={`${content['form-facilities-search-label']} ${
+                content['validation-required-label']
+              }`}
               value={query}
               onInput={handleChange}
               onSubmit={handleSearch}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import { waitFor } from '@testing-library/react';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
@@ -9,23 +10,24 @@ import NeedsToVerifyAlert, {
 } from '../../components/NeedsToVerifyAlert';
 
 describe('<NeedsToVerifyAlert>', () => {
-  const setup = ({ basename = 'nod/intro' } = {}) => {
-    return (
-      <div>
-        <NeedsToVerifyAlert basename={basename} />
-      </div>
-    );
-  };
   it('should render', () => {
-    const { container } = render(setup());
-    expect($('va-alert', container)).to.exist;
-    expect($('h2', container).textContent).to.eq(heading);
-    expect($('a', container).href).to.contain('/verify?next=nod/intro');
+    const { container } = renderInReduxProvider(<NeedsToVerifyAlert />, {
+      initialState: {
+        user: { profile: { signIn: { serviceName: 'idme' } } },
+      },
+    });
+    const signInAlert = $('va-alert-sign-in', container);
+    expect(signInAlert).to.exist;
+    expect(signInAlert.getAttribute('heading-level')).to.eql('2');
   });
 
   it('should capture google analytics', async () => {
     global.window.dataLayer = [];
-    render(setup());
+    renderInReduxProvider(<NeedsToVerifyAlert />, {
+      initialState: {
+        user: { profile: { signIn: { serviceName: 'idme' } } },
+      },
+    });
 
     await waitFor(() => {
       const event = global.window.dataLayer.slice(-1)[0];

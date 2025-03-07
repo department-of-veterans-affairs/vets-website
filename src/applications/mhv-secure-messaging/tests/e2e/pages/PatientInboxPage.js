@@ -84,11 +84,9 @@ class PatientInboxPage {
       this.mockRecipients,
     ).as('recipients');
 
-    cy.intercept(
-      'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
+      'signature',
+    );
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX, {
       onBeforeLoad: win => {
@@ -203,10 +201,10 @@ class PatientInboxPage {
     return mockMessages.data.at(this.newMessageIndex);
   };
 
-  getNewMessageDetails = () => {
+  getNewMessageDetails = (message = mockMessageDetails) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    const newMessage = mockMessageDetails;
+    const newMessage = message;
     newMessage.data.attributes.sentDate = date.toISOString();
     return newMessage;
   };
@@ -332,10 +330,6 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
-  verifyMoveMessageWithAttachmentSuccessMessage = () => {
-    cy.get('p').contains('Message conversation was successfully moved');
-  };
-
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
@@ -361,7 +355,7 @@ class PatientInboxPage {
   };
 
   navigateToComposePageByKeyboard = () => {
-    cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.tabToElement(Locators.BUTTONS.CONTINUE);
     cy.realPress(['Enter']);
@@ -427,13 +421,6 @@ class PatientInboxPage {
       .select('Medication');
   };
 
-  clickSubmitSearchButton = () => {
-    cy.get(Locators.BUTTONS.FILTER).click({
-      waitForAnimations: true,
-      force: true,
-    });
-  };
-
   composeMessage = () => {
     cy.get('#recipient-dropdown')
       .shadow()
@@ -442,18 +429,16 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
-    cy.get(Locators.MESSAGE_SUBJECT)
-      .shadow()
-      .find('#inputField')
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .find(`#inputField`)
       .type('testSubject', { force: true });
-    cy.get('#compose-message-body')
-      .shadow()
-      .find('textarea')
-      .type('testMessage', { force: true });
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
+      .find(`#input-type-textarea`)
+      .type('\ntestMessage', { force: true });
   };
 
   verifySignature = () => {
-    cy.get(Locators.MESSAGES_BODY)
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
       .should('have.attr', 'value')
       .and('not.be.empty');
   };
@@ -468,7 +453,7 @@ class PatientInboxPage {
   clickFilterMessagesButton = mockFilterResponse => {
     cy.intercept(
       'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
       mockFilterResponse,
     ).as('filterResult');
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
@@ -727,7 +712,7 @@ class PatientInboxPage {
     });
   };
 
-  verifyFilterdateRangeDropdown = data => {
+  verifyFilterDateRangeDropdown = data => {
     cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
       cy.wrap(option)
         .invoke('text')

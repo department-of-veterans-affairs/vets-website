@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import { scrollTo } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
@@ -9,8 +10,8 @@ import { Element } from 'platform/utilities/scroll';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { HelpTextContent } from './HelpText';
-import BreadCrumbs from './Breadcrumbs';
+import { HelpTextManage } from './HelpText';
+import Breadcrumbs from './Breadcrumbs';
 import ClaimDetailsContent from './ClaimDetailsContent';
 
 export default function TravelClaimDetails() {
@@ -91,14 +92,14 @@ export default function TravelClaimDetails() {
   }
 
   if (!canViewClaimDetails) {
-    window.location.replace('/my-health/travel-claim-status');
+    window.location.replace('/my-health/travel-pay');
     return null;
   }
 
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         {claimsError && <h1>There was an error loading the claim details.</h1>}
         {claimDetails && <ClaimDetailsContent {...claimDetails} />}
         <hr />
@@ -116,7 +117,7 @@ export default function TravelClaimDetails() {
         </a>
         <va-need-help>
           <div slot="content">
-            <HelpTextContent />
+            <HelpTextManage />
           </div>
         </va-need-help>
       </article>

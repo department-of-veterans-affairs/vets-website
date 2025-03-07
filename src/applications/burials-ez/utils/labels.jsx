@@ -48,6 +48,6 @@ export const cemeteryTypeLabels = {
 
 export const fasterClaimLabels = {
   Y:
-    'Yes. I’ve uploaded all my supporting documents form my application for burial benefits',
+    'Yes. I’ve uploaded all my supporting documents for my application for burial benefits',
   N: 'No. I have other supporting documents to submit later',
 };

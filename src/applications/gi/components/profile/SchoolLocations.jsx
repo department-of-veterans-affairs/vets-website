@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { waitForRenderThenFocus } from 'platform/utilities/ui';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
 
@@ -255,6 +256,8 @@ export default function SchoolLocations({
     };
 
     return (
+      // NOTE: This table purposely not converted to a va-table - DST
+      // eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component
       <table className="usa-table sl-table">
         <thead>
           <tr>
@@ -288,6 +291,7 @@ export default function SchoolLocations({
             : NEXT_ROWS_VIEWABLE;
         return (
           <div className="vads-u-padding-top--1">
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               type="button"
               className="va-button-link learn-more-button"
@@ -301,25 +305,23 @@ export default function SchoolLocations({
               />
             </button>
             <span className="vads-u-padding--2">|</span>
-            <button
-              type="button"
-              className="va-button-link learn-more-button"
+            <VaButton
+              text="View all"
+              data-testid="view-all"
+              className="learn-more-btn"
               onClick={handleViewAllClicked}
-            >
-              View all
-            </button>
+            />
           </div>
         );
       }
       return (
         <div className="vads-u-padding-top--1">
-          <button
-            type="button"
-            className="va-button-link learn-more-button"
+          <VaButton
+            text="...View less"
+            className="learn-more-btn"
             onClick={handleViewLessClicked}
-          >
-            ...View less
-          </button>
+            data-testid="view-less"
+          />
         </div>
       );
     }

@@ -1,9 +1,13 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as Sentry from '@sentry/browser';
+import { pdfTransform } from '../utilities/pdfTransform';
+import { formIs2122A } from '../utilities/helpers';
 import manifest from '../manifest.json';
 
-export const generatePDF = async (transformedFormData, is2122a) => {
+export const generatePDF = async formData => {
+  const transformedFormData = pdfTransform(formData);
+
   const apiSettings = {
     mode: 'cors',
     method: 'POST',
@@ -16,7 +20,7 @@ export const generatePDF = async (transformedFormData, is2122a) => {
     body: JSON.stringify(transformedFormData),
   };
 
-  const formType = is2122a ? '2122a' : '2122';
+  const formType = formIs2122A(formData) ? '2122a' : '2122';
 
   const requestUrl = `${
     environment.API_URL

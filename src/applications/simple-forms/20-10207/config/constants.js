@@ -15,9 +15,9 @@ export const PREPARER_TYPE_LABELS = Object.freeze({
   [PREPARER_TYPES.NON_VETERAN]:
     'I’m not a Veteran, but I have an existing VA claim. I’m requesting priority processing for my claim.',
   [PREPARER_TYPES.THIRD_PARTY_VETERAN]:
-    'I’m a third-party representative or power of attorney. I’m requesting priority processing on behalf of a Veteran.',
+    'I’m requesting priority processing on behalf of a Veteran with a VA claim.',
   [PREPARER_TYPES.THIRD_PARTY_NON_VETERAN]:
-    'I’m a third-party representative or power of attorney. I’m requesting priority processing on behalf of a non-Veteran with a VA claim (also called the claimant).',
+    'I’m requesting priority processing on behalf of a non-Veteran with a VA claim (also called the claimant).',
 });
 
 export const THIRD_PARTY_TYPES = Object.freeze({
@@ -82,51 +82,31 @@ export const LIVING_SITUATIONS_3RD_PTY_NON_VET = Object.freeze({
 
 export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
   <va-additional-info
-    trigger="Who can sign on behalf of someone else?"
+    trigger="What to know if you’re signing for someone else"
     data-testid="thirdPartyAdditionalInfo"
   >
     <div>
       <p>
-        <strong>If you’re a third-party representative</strong> (a family member
-        or other assigned person who is not a power of attorney, agent, or
-        fiduciary) requesting VA records for someone else, we must have an
-        authorization form on record (VA Form 21-0845) for us to release their
-        information.
+        We’ll need one of these forms to show that you have permission to
+        receive information about the person’s claim or to sign for the person.
       </p>
-      <p>
-        <a
-          href="/find-forms/about-form-21-0845/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to VA Form 21-0845 Authorization to Disclose Personal Information
-          to a Third-Party (opens in new tab)
-        </a>
-      </p>
-      <p>
-        <strong>If you’re a power of attorney</strong> requesting VA records for
-        someone else, we must have an official record that you were appointed as
-        their representative (VA Form 21-22 or VA Form 21-22a).
-      </p>
-      <p>
-        <a
-          href="/find-forms/about-form-21-22/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to VA Form 21-22 Appointment of Veterans Service Organization as
-          Claimant’s Representative (opens in new tab)
-        </a>
-      </p>
-      <p>
-        <a
-          href="/find-forms/about-form-21-22a/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to VA Form 21-22a Appointment of Individual as Claimant’s
-          Representative (opens in new tab)
-        </a>
+      <ul className="vads-u-padding-top--2">
+        <li>
+          <va-link
+            href="/find-forms/about-form-21-22/"
+            text="VA Form 21-22 (for an accredited VSO representative)"
+          />
+        </li>
+        <li>
+          <va-link
+            href="/find-forms/about-form-21-22a/"
+            text="VA Form 21-22a (for an accredited attorney or claims agent)"
+          />
+        </li>
+      </ul>
+      <p className="vads-u-padding-top--2">
+        If you’ve submitted 21-22 or 21-22a, we’ll refer to you as an
+        “accredited representative with power of attorney.”
       </p>
     </div>
   </va-additional-info>,
@@ -134,55 +114,31 @@ export const ADDITIONAL_INFO_THIRD_PARTY = Object.freeze(
 
 export const ADDITIONAL_INFO_THIRD_PARTY_TYPE = Object.freeze(
   <va-additional-info
-    trigger="Who can be a third-party representative or a power of attorney?"
+    trigger="What is an accredited representative?"
     data-testid="thirdPartyTypeAdditionalInfo"
   >
     <div>
       <p>
-        <strong>A third-party representative</strong> can be a family member or
-        designated person filling out this form for a Veteran or someone with a
-        claim. We consider you to be a third-party representative if you’re not
-        already a power of attorney, agent, or fiduciary.
+        An accredited representative with VA power of attorney can fill out this
+        request for the person with the claim. If you’re an accredited
+        representative, we must have one of these forms on record:
       </p>
-      <p>
-        If you’re a third-party representative, we must have an authorization
-        (VA Form 21-0845) on record.
-      </p>
-      <p>
-        <a
-          href="/find-forms/about-form-21-0845/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to VA Form 21-0845 Authorization to Disclose Personal Information
-          to a Third-Party (opens in new tab)
-        </a>
-      </p>
-      <p>
-        <strong>An authorized power of attorney</strong> can fill out this
-        request for the person with the claim. If you’re a power of attorney, we
-        must have one of these records on file:
-      </p>
-      <p>
-        <a
-          href="/find-forms/about-form-21-22/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to VA Form 21-22 Appointment of Veterans Service Organization as
-          Claimant’s Representative (opens in new tab)
-        </a>
-      </p>
-      <p>
-        <a
-          href="/find-forms/about-form-21-22a/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Go to VA Form 21-22a Appointment of Individual as Claimant’s
-          Representative (opens in new tab)
-        </a>
-      </p>
+      <ul className="vads-u-padding-top--2">
+        <li>
+          <va-link
+            href="/find-forms/about-form-21-22/"
+            text="VA Form 21-22 (for an accredited VSO representative)"
+            external="true"
+          />
+        </li>
+        <li>
+          <va-link
+            href="/find-forms/about-form-21-22a/"
+            text="VA Form 21-22a (for an accredited attorney or claims agent)"
+            external="true"
+          />
+        </li>
+      </ul>
     </div>
   </va-additional-info>,
 );
@@ -194,10 +150,10 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS = Object.freeze(
   >
     <div>
       <p>
-        We understand that you may have other housing risks not listed here. If
-        you feel comfortable sharing more about your situation, you can do that
-        here. Or you can simply check this option and not include any details.
-        We’ll use this information only to prioritize your request.
+        We understand that you may have other housing risks not listed on this
+        form. If you feel comfortable sharing more about the situation, you can
+        do that here. But it’s not required. We’ll use this information only to
+        help prioritize the request.
       </p>
       <p>
         <b>Note:</b> If you need help because of domestic violence, call the
@@ -218,9 +174,9 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_VET = Object.freeze(
     <div>
       <p>
         We understand that the Veteran may have other housing risks not listed
-        here. If you feel comfortable sharing more about their situation, you
-        can do that here. Or you can simply check this option and not include
-        any details. We’ll use this information only to prioritize the request.
+        on this form. If you feel comfortable sharing more about the situation,
+        you can do that here. But it’s not required. We’ll use this information
+        only to help prioritize the request.
       </p>
       <p>
         <b>Note:</b> If the Veteran needs help because of domestic violence,
@@ -242,9 +198,9 @@ export const ADDITIONAL_INFO_OTHER_HOUSING_RISKS_3RD_PTY_NON_VET = Object.freeze
     <div>
       <p>
         We understand that the claimant may have other housing risks not listed
-        here. If you feel comfortable sharing more about their situation, you
-        can do that here. Or you can simply check this option and not include
-        any details. We’ll use this information only to prioritize the request.
+        on this form. If you feel comfortable sharing more about the situation,
+        you can do that here. But it’s not required. We’ll use this information
+        only to help prioritize this request.
       </p>
       <p>
         <b>Note:</b> If the claimant needs help because of domestic violence,
@@ -327,14 +283,21 @@ export const FINANCIAL_HARDSHIP_DESCRIPTION = Object.freeze(
     <va-additional-info
       trigger="What kind of evidence can I submit?"
       data-testid="financialHardshipAdditionalInfo"
+      class="vads-u-padding-bottom--4"
+      uswds
     >
-      <ul>
-        <li>Copy of an eviction notice or statement of foreclosure</li>
-        <li>Copy of notices of past-due utility bills</li>
-        <li>Copy of collection notices from creditors</li>
+      <p>Submit supporting documents like these:</p>
+      <ul className="vads-u-padding-top--2">
+        <li>Eviction or foreclosure notice</li>
+        <li>Notices of past-due utility bills</li>
+        <li>Collection notices from creditors</li>
       </ul>
+      <p className="vads-u-padding-top--2">
+        <strong>Note:</strong>
+        This isn’t a complete list. If you have other supporting documents that
+        aren’t listed here, you can submit them.
+      </p>
     </va-additional-info>
-    <p />
   </div>,
 );
 
@@ -353,29 +316,27 @@ export const TERMINAL_ILLNESS_DESCRIPTION = Object.freeze(
     <va-additional-info
       trigger="What kind of evidence can I submit?"
       data-testid="terminalIllnessAdditionalInfo"
+      class="vads-u-padding-bottom--4"
+      uswds
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of medical evidence showing illness that is terminal in nature
+          Medical evidence showing illness that is terminal in nature
         </li>
       </ul>
-      <p>
-        <b>Note</b>: If you want us to access your private treatment records,
-        you’ll need to submit an authorization to disclose non-VA medical
-        information to us (VA Forms 21-4142 and 21-4142a).
+      <p className="vads-u-padding-top--2">
+        <strong>Note</strong>: If you want us to access your private treatment
+        records, you’ll need to submit an authorization to disclose non-VA
+        medical information to us (VA Forms 21-4142 and 21-4142a).
       </p>
-      <p>
-        <a
+      <p className="vads-u-padding-top--2">
+        <va-link
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="vads-u-display--inline-block vads-u-margin-top--2 vads-u-margin-bottom--1"
-        >
-          Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
-        </a>
+          text="Go to VA Forms 21-4142 and 21-4142a"
+          external="true"
+        />
       </p>
     </va-additional-info>
-    <p />
   </div>,
 );
 
@@ -394,29 +355,26 @@ export const ALS_DESCRIPTION = Object.freeze(
     <va-additional-info
       trigger="What kind of evidence can I submit?"
       data-testid="alsAdditionalInfo"
+      class="vads-u-padding-bottom--4"
+      uswds
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of medical evidence showing ALS
+          Medical evidence showing an ALS diagnosis
         </li>
       </ul>
-      <p>
-        <b>Note</b>: If you want us to access your private treatment records,
-        you’ll need to submit an authorization to disclose non-VA medical
-        information to us (VA Forms 21-4142 and 21-4142a).
+      <p className="vads-u-padding-top--2 vads-u-padding-bottom--2">
+        <strong>Note</strong>: If you want us to access your private treatment
+        records, you’ll need to submit an authorization to disclose non-VA
+        medical information to us (VA Forms 21-4142 and 21-4142a).
       </p>
       <p>
-        <a
+        <va-link
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="vads-u-display--inline-block vads-u-margin-top--2 vads-u-margin-bottom--1"
-        >
-          Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
-        </a>
+          text="Go to VA Forms 21-4142 and 21-4142a"
+        />
       </p>
     </va-additional-info>
-    <p />
   </div>,
 );
 
@@ -435,33 +393,30 @@ export const VSI_DESCRIPTION = Object.freeze(
     <va-additional-info
       trigger="What kind of evidence can I submit?"
       data-testid="vsiAdditionalInfo"
+      class="vads-u-padding-bottom--4"
+      uswds
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of military personnel records, such as a determination from the
-          Defense Department (DOD), <strong>and</strong>
+          Military personnel records, such as a determination from the Defense
+          Department (DOD), <strong>and</strong>
         </li>
         <li className="vads-u-margin-bottom--2">
           Medical evidence showing severe disability or injury
         </li>
       </ul>
-      <p>
-        <b>Note</b>: If you want us to access your private treatment records,
-        you’ll need to submit an authorization to disclose non-VA medical
-        information to us (VA Forms 21-4142 and 21-4142a).
+      <p className="vads-u-padding-top--2 vads-u-padding-bottom--2">
+        <strong>Note</strong>: If you want us to access your private treatment
+        records, you’ll need to submit an authorization to disclose non-VA
+        medical information to us (VA Forms 21-4142 and 21-4142a).
       </p>
       <p>
-        <a
+        <va-link
           href="/supporting-forms-for-claims/release-information-to-va-form-21-4142/introduction"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="vads-u-display--inline-block vads-u-margin-top--2 vads-u-margin-bottom--1"
-        >
-          Go to VA Forms 21-4142 and 21-4142a (opens in new tab)
-        </a>
+          text="Go to VA Forms 21-4142 and 21-4142a"
+        />
       </p>
     </va-additional-info>
-    <p />
   </div>,
 );
 
@@ -490,11 +445,13 @@ export const POW_DESCRIPTION = Object.freeze(
     <va-additional-info
       trigger="What kind of evidence can I submit?"
       data-testid="powAdditionalInfo"
+      class="vads-u-padding-bottom--4"
+      uswds
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of military personnel records such as DD214, Certificate of
-          Release, or Discharge from Active Duty, <strong>or</strong>
+          Military personnel records such as DD214, Certificate of Release, or
+          Discharge <strong>or</strong>
         </li>
         <li>
           Information such as service number, branch and dates of service, dates
@@ -503,7 +460,6 @@ export const POW_DESCRIPTION = Object.freeze(
         </li>
       </ul>
     </va-additional-info>
-    <p />
   </div>,
 );
 
@@ -522,17 +478,18 @@ export const MEDAL_AWARD_DESCRIPTION = Object.freeze(
     <va-additional-info
       trigger="What kind of evidence can I submit?"
       data-testid="medalAwardAdditionalInfo"
+      class="vads-u-padding-bottom--4"
+      uswds
     >
       <ul>
         <li className="vads-u-margin-bottom--2">
-          Copy of military personnel records such as DD214, <strong>or</strong>
+          Military personnel records such as DD214, <strong>or</strong>
         </li>
         <li>
           Information showing receipt of Medal of Honor or Purple Heart award
         </li>
       </ul>
     </va-additional-info>
-    <p />
   </div>,
 );
 

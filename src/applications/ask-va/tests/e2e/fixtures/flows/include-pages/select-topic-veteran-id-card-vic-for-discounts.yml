@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Veteran ID Card (VIC) for discounts
+  - action: click
+    target: call-to-action

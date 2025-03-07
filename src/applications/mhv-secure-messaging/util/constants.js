@@ -22,7 +22,7 @@ export const DefaultFolders = {
   INBOX: {
     id: 0,
     header: 'Inbox',
-    desc: '',
+    desc: 'Communicate securely with your VA health care team.',
   },
   SENT: {
     id: -1,
@@ -57,28 +57,39 @@ export const ErrorMessages = {
     BODY_REQUIRED: 'Message body cannot be blank.',
     SIGNATURE_REQUIRED: 'Enter your full name',
     VALID_SIGNATURE_REQUIRED: 'This field accepts alphabetic characters only',
+    CONT_SAVING_DRAFT: {
+      title: 'Do you want to save your draft message?',
+      cancelButtonText: 'Save draft', // top button - save draft and remain on page
+      confirmButtonText: 'Delete draft', // bottom button - delete draft and leave page
+    },
+    CONT_SAVING_DRAFT_CHANGES: {
+      title: 'Do you want to save your changes to this draft?',
+      cancelButtonText: 'Save changes', // top button - save draft and remain on page
+      confirmButtonText: 'Delete changes', // bottom button - delete draft and leave page
+    },
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
-      p1: 'We need more information from you before we can save this draft.',
-      p2:
-        "You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      p1:
+        "We need more information from you before we can save this draft. You can continue editing your draft and then save it. Or you can delete it. If you delete a draft, you can't get it back.",
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Delete draft', // bottom button - delete draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT: {
       title: "We can't save attachments in a draft message",
       p1:
         "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
-      saveDraft: 'Save draft without attachments',
-      editDraft: 'Keep editing',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without attachments', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS: {
       title: "We can't save your signature or attachments in a draft message",
-      editDraft: 'Edit draft',
-      saveDraft: 'Save draft without signature or attachments',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without signature or attachments', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_DRAFT_SIGNATURE: {
       title: "We can't save your signature in a draft message",
-      editDraft: 'Edit draft',
-      saveDraft: 'Save draft without signature',
+      cancelButtonText: 'Edit draft', // top button - close modal and remain on page
+      confirmButtonText: 'Save draft without signature', // bottom button - save draft and leave page
     },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
@@ -120,6 +131,8 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR: 'unable to save draft with signature',
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT_SIGNATURE_ERROR:
       'unable to save draft with attachment and signature',
+    CONT_SAVING_DRAFT_ERROR: 'your draft is not saved',
+    CONT_SAVING_DRAFT_CHANGES_ERROR: 'your draft changes are not saved',
   },
   ContactList: {
     SAVE_AND_EXIT: {
@@ -162,7 +175,9 @@ export const Alerts = {
       'We’re sorry. We couldn’t load this page. Try again later.',
     SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
     ATTACHMENT_SCAN_FAIL:
-      'Your message failed to send. Your file failed our scan. Try sending your message without any attachments.',
+      'Our file scanner found a problem with your attachment. To send your message, remove this attachment.',
+    MULTIPLE_ATTACHMENTS_SCAN_FAIL:
+      'Our file scanner found a problem with your attachments. To send your message, remove the attachments.',
   },
 
   Folder: {
@@ -395,7 +410,9 @@ export const BreadcrumbViews = {
   MOBILE_VIEW: 'mobile-view vads-u-margin-left--neg3 vads-u-padding-y--0p5',
 };
 
+// When RemoveLandingPage (removeLandingPageFF / mhvSecureMessagingRemoveLandingPage) work is complete, replace the following constants with the NEW_ versions
 export const PageTitles = {
+  /// /////////////////////////
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
   PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
   CONVERSATION_TITLE_TAG:
@@ -404,6 +421,10 @@ export const PageTitles = {
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
     'More folders - MHV Secure Messaging | Veterans Affairs',
+  /// //////////////////////////
+  NEW_MESSAGE_PAGE_TITLE_TAG: ' | Veterans Affairs',
+  NEW_MY_FOLDERS_PAGE_TITLE_TAG: ' More folders | Veterans Affairs',
+  NEW_CONVERSATION_TITLE_TAG: 'Conversation | Veterans Affairs',
 };
 
 export const Recipients = {
@@ -473,4 +494,13 @@ export const filterDescription = {
   noMsgId: 'Enter information from one of these fields: To, from, or subject',
   withMsgId:
     'Enter information from one of these fields: To, from, message ID, or subject',
+};
+
+export const smFooter = {
+  NEED_HELP: 'Need help?',
+  HAVE_QUESTIONS: 'Have questions about how messages works?',
+  LEARN_MORE: 'Learn more about messages',
+  CONTACT_FACILITY:
+    'Want to send a message to a care team that’s not on your list? Contact your VA health facility. Ask for the My HealtheVet coordinator or secure messaging administrator.',
+  FIND_FACILITY: 'Find your VA health facility',
 };

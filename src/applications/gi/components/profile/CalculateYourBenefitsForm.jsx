@@ -293,7 +293,7 @@ function CalculateYourBenefitsForm({
   };
 
   const resetBuyUp = event => {
-    event.preventDefault();
+    event?.preventDefault();
     handleInputBlur(event);
     if (inputs.buyUpAmount > 600) {
       calculatorInputChange({

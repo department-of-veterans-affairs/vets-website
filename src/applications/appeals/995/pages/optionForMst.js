@@ -3,7 +3,11 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { optionForMstTitle, supportInfo } from '../content/optionForMst';
+import {
+  optionForMstTitle,
+  optionForMstHint,
+  supportInfo,
+} from '../content/optionForMst';
 import { MST_OPTION } from '../constants';
 
 import { isOnReviewPage } from '../../shared/utils/helpers';
@@ -12,6 +16,7 @@ export default {
   uiSchema: {
     [MST_OPTION]: yesNoUI({
       title: optionForMstTitle,
+      hint: optionForMstHint,
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: {

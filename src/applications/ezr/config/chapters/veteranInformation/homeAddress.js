@@ -15,7 +15,11 @@ const {
 export default {
   uiSchema: {
     'view:pageTitle': titleUI(content['vet-home-address-title']),
-    veteranHomeAddress: addressUI(),
+    veteranHomeAddress: addressUI({
+      required: {
+        state: () => true,
+      },
+    }),
   },
   schema: {
     type: 'object',

@@ -104,8 +104,13 @@ describe('LabAndTestDetails microbiology', () => {
     });
   });
 
-  it('displays microbiology label', () => {
-    expect(screen.getByText('Microbiology')).to.exist;
+  it('displays microbiology h1', () => {
+    expect(
+      screen.getByText('LR MICROBIOLOGY REPORT', {
+        exact: true,
+        selector: 'h1',
+      }),
+    ).to.exist;
   });
 });
 

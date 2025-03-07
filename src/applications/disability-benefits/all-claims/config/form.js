@@ -3,7 +3,7 @@ import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import FormFooter from '@department-of-veterans-affairs/platform-forms/FormFooter';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 
 import { externalServices as services } from 'platform/monitoring/DowntimeNotification';
@@ -108,7 +108,9 @@ import {
   veteranInfo,
   workBehaviorChanges,
 } from '../pages';
+
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
+import { form0781PagesConfig } from './form0781/index';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -130,6 +132,7 @@ import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
 import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import getPreSubmitInfo from '../content/preSubmitInfo';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -185,7 +188,7 @@ const formConfig = {
   },
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
-  preSubmitInfo,
+  preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
   chapters: {
     veteranDetails: {
@@ -605,6 +608,13 @@ const formConfig = {
           uiSchema: summaryOfDisabilities.uiSchema,
           schema: summaryOfDisabilities.schema,
         },
+      },
+    },
+    mentalHealth: {
+      title: 'Mental health statement',
+      path: 'mental-health-form-0781',
+      pages: {
+        ...form0781PagesConfig,
       },
     },
     supportingEvidence: {

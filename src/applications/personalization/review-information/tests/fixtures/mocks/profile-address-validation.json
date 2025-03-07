@@ -1,0 +1,24 @@
+{
+  "addresses": [{
+    "address": {
+      "addressLine1": "1200 Park Ave",
+      "addressType": "DOMESTIC",
+      "city": "Emeryville",
+      "countryName": "United States",
+      "countryCodeISO2": "US",
+      "countryCodeIso3": "USA",
+      "countyCode": "06001",
+      "countyName": "Alameda",
+      "stateCode": "CA",
+      "zipCode": "94608",
+      "zipCodeSuffix": "3677"
+    },
+    "addressMetaData": {
+      "confidenceScore": 100.0,
+      "addressType": "Domestic",
+      "deliveryPointValidation": "CONFIRMED",
+      "residentialDeliveryIndicator": "BUSINESS"
+    }
+  }],
+  "validationKey": -939230173
+}

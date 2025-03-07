@@ -4,19 +4,18 @@ import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
 
-export const renderPhoneNumber = (
-  title,
-  subTitle = null,
-  phone,
-  from,
-  location,
-) => {
+export const renderPhoneNumber = (title, subTitle = null, phone, location) => {
   if (!phone) {
     return null;
   }
 
-  const { formattedPhoneNumber, extension, contact } = parsePhoneNumber(phone);
-
+  const {
+    extension,
+    contact,
+    processed,
+    international,
+    countryCode,
+  } = parsePhoneNumber(phone);
   // The Telephone component will throw an error if passed an invalid phone number.
   // Since we can't use try/catch or componentDidCatch here, we'll just do this:
   if (contact.length !== 10) {
@@ -26,21 +25,26 @@ export const renderPhoneNumber = (
   const phoneNumberId = `${location.id}-${title.replaceAll(/\s+/g, '')}`;
 
   return (
-    <p>
-      {from === 'FacilityDetail' && <va-icon icon="phone" size="3" />}
+    <p data-testid={title}>
       {title && <strong id={phoneNumberId}>{title}: </strong>}
       {subTitle}
-      <va-telephone
-        className={
-          subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
-        }
-        contact={contact}
-        extension={extension}
-        aria-describedby={phoneNumberId}
-        message-aria-describedby={title}
-      >
-        {formattedPhoneNumber}
-      </va-telephone>
+      {processed ? (
+        <va-telephone
+          className={
+            subTitle ? 'vads-u-margin-left--0p5' : 'vads-u-margin-left--0p25'
+          }
+          contact={contact}
+          extension={extension}
+          message-aria-describedby={title}
+          country-code={countryCode}
+          international={international}
+        />
+      ) : (
+        // eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component
+        <a href={`tel:${contact}`} aria-describedby={phoneNumberId}>
+          {contact}
+        </a>
+      )}
     </p>
   );
 };
@@ -50,7 +54,6 @@ export const renderPhoneNumber = (
 
 const LocationPhoneLink = ({
   location,
-  from,
   query,
   showHealthConnectNumber = false,
 }) => {
@@ -69,22 +72,24 @@ const LocationPhoneLink = ({
 
   return (
     <div className="facility-phone-group">
-      {renderPhoneNumber('Main number', null, phone.main, from, location)}
+      {renderPhoneNumber('Main phone', null, phone.main, location)}
       {showHealthConnectNumber &&
         renderPhoneNumber(
           'VA health connect',
           null,
           phone.healthConnect,
-          from,
           location,
         )}
       {renderPhoneNumber(
         'Mental health',
         null,
         phone.mentalHealthClinic,
-        from,
         location,
       )}
+      <p>
+        <strong>Telecommunications Relay Services (using TTY):</strong>{' '}
+        <va-telephone tty contact="711" />
+      </p>
     </div>
   );
 };

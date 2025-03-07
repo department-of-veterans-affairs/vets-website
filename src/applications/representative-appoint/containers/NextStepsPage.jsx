@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import ContactCard from '../components/ContactCard';
 import AddressBlock from '../components/AddressBlock';
-import NeedHelp from '../components/NeedHelp';
+import GetFormHelp from '../components/GetFormHelp';
+
 import {
   addressExists,
   getFormSubtitle,
@@ -20,6 +22,10 @@ export default function NextStepsPage() {
   const addressData = getEntityAddressAsObject(entityAttributes);
   const repName = entityAttributes?.fullName;
   const orgName = getOrgName(formData);
+
+  useEffect(() => {
+    scrollTo('topScrollElement');
+  }, []);
 
   return (
     <div>
@@ -43,7 +49,11 @@ export default function NextStepsPage() {
         After your form is signed, you or the accredited {repType} can submit it
         online, by mail, or in person.
       </p>
-      <va-link href="" text="Learn how to submit your form" />
+      <va-link
+        href="/get-help-from-accredited-representative"
+        text="Learn how to submit your form"
+        external
+      />
       <h2 className="vads-u-margin-top--3">
         After you submit your printed form
       </h2>
@@ -61,7 +71,10 @@ export default function NextStepsPage() {
       <a className="vads-c-action-link--green vads-u-margin-top--2" href="/">
         Go back to VA.gov
       </a>
-      <NeedHelp />
+      <div>
+        <h2 className="help-heading">Need help?</h2>
+        <GetFormHelp />
+      </div>
     </div>
   );
 }

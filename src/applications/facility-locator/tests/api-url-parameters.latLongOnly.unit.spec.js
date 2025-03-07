@@ -3,16 +3,8 @@ import { expect } from 'chai';
 import environment from 'platform/utilities/environment';
 import { resolveParamsWithUrl } from '../config';
 
-const store = {
-  default: {
-    getState: () => ({
-      // eslint-disable-next-line camelcase
-      featureToggles: { facility_locator_lat_long_only: true },
-    }),
-  },
-};
-
 const center = [35.78, -78.68];
+const bounds = [];
 
 describe('Locator url and parameters builder - latLong only', () => {
   const page = 1;
@@ -25,13 +17,13 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: 'NonVAUrgentCare',
       center,
       page,
-      store,
+      bounds,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v2/ccp/urgent_care?page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/urgent_care?page=1&per_page=10&latitude=35.78&longitude=-78.68`,
     );
   });
 
@@ -43,13 +35,13 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'pharmacy',
       page,
       center,
-      store,
+      bounds,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v2/ccp/pharmacy?page=1&per_page=15&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/pharmacy?page=1&per_page=15&latitude=35.78&longitude=-78.68`,
     );
   });
 
@@ -61,9 +53,11 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'health',
       page,
       center,
-      store,
+      bounds,
     });
+
     const url = `${environment.API_URL}/facilities_api/v2/va`;
+
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
       type: 'health',
@@ -71,16 +65,18 @@ describe('Locator url and parameters builder - latLong only', () => {
       // eslint-disable-next-line camelcase
       per_page: 10,
       mobile: false,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
     });
+
     result = resolveParamsWithUrl({
       locationType: 'health',
       serviceType: 'PrimaryCare',
       page,
       center,
-      store,
+      bounds,
     });
+
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
       type: 'health',
@@ -88,8 +84,8 @@ describe('Locator url and parameters builder - latLong only', () => {
       // eslint-disable-next-line camelcase
       per_page: 10,
       mobile: false,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
       services: ['PrimaryCare'],
     });
   });
@@ -103,8 +99,9 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: 'UrgentCare',
       page,
       center,
-      store,
+      bounds,
     });
+
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
       type: 'health',
@@ -112,8 +109,8 @@ describe('Locator url and parameters builder - latLong only', () => {
       // eslint-disable-next-line camelcase
       per_page: 10,
       mobile: false,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
       services: ['UrgentCare'],
     });
   });
@@ -126,50 +123,56 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'benefits',
       page,
       center,
-      store,
+      bounds,
     });
+
     const url = `${environment.API_URL}/facilities_api/v2/va`;
+
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
       type: 'benefits',
       page: 1,
       // eslint-disable-next-line camelcase
       per_page: 10,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
     });
+
     result = resolveParamsWithUrl({
       locationType: 'benefits',
       serviceType: 'VAHomeLoanAssistance',
       page,
       center,
-      store,
+      bounds,
     });
+
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
       type: 'benefits',
       page: 1,
       // eslint-disable-next-line camelcase
       per_page: 10,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
       services: ['VAHomeLoanAssistance'],
     });
+
     result = resolveParamsWithUrl({
       locationType: 'benefits',
       serviceType: 'ApplyingForBenefits',
       page,
       center,
-      store,
+      bounds,
     });
+
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
       type: 'benefits',
       page: 1,
       // eslint-disable-next-line camelcase
       per_page: 10,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
       services: ['ApplyingForBenefits'],
     });
   });
@@ -182,16 +185,17 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'cemetery',
       page,
       center,
-      store,
+      bounds,
     });
+
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
       type: 'cemetery',
       page: 1,
       // eslint-disable-next-line camelcase
       per_page: 10,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
     });
   });
 
@@ -207,13 +211,14 @@ describe('Locator url and parameters builder - latLong only', () => {
       serviceType: '122300000X', // Dentist
       page,
       center,
-      store,
+      bounds,
     });
+
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=15&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=15&address=I%2035%20Frontage%20Road,%20Austin,%20Texas%2078753,%20United%20States&latitude=35.78&longitude=-78.68`,
     );
   });
 
@@ -225,8 +230,9 @@ describe('Locator url and parameters builder - latLong only', () => {
       locationType: 'vet_center',
       page,
       center,
-      store,
+      bounds,
     });
+
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
       type: 'vet_center',
@@ -234,8 +240,8 @@ describe('Locator url and parameters builder - latLong only', () => {
       // eslint-disable-next-line camelcase
       per_page: 10,
       mobile: false,
-      lat: '35.78',
-      long: '-78.68',
+      latitude: '35.78',
+      longitude: '-78.68',
     });
   });
 
@@ -248,13 +254,14 @@ describe('Locator url and parameters builder - latLong only', () => {
       page,
       center: [33.32464, -97.18077],
       radius: 40,
-      store,
+      bounds,
     });
+
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=15&radius=40&lat=33.32464&long=-97.18077`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=15&radius=40&latitude=33.32464&longitude=-97.18077`,
     );
   });
 });

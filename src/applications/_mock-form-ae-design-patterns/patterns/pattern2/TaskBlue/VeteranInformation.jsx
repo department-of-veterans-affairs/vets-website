@@ -7,7 +7,10 @@ import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from './constants';
+import {
+  FORMAT_READABLE_DATE_FNS,
+  FORMAT_YMD_DATE_FNS_CONCAT,
+} from './constants';
 
 import { parseDateToDateObj } from '../../../utils/dates';
 
@@ -21,7 +24,10 @@ const VeteranInformation = ({ formData }) => {
   const { dob, gender, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
-  const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
+  const dobDateObj = parseDateToDateObj(
+    dob || null,
+    FORMAT_YMD_DATE_FNS_CONCAT,
+  );
 
   return (
     <>
@@ -86,8 +92,8 @@ const VeteranInformation = ({ formData }) => {
 
       <p className="vads-u-margin-bottom--4">
         <strong>Note:</strong> To protect your personal information, we don’t
-        allow online changes to your name, date of birth, or Social Security
-        number. If you need to change this information, call us at{' '}
+        allow online changes to your name, Social Security number, date of
+        birth, or gender. If you need to change this information, call us at{' '}
         <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact="711" tty />
         ). We’re here Monday through Friday, between 8:00 a.m. and 9:00 p.m. ET.

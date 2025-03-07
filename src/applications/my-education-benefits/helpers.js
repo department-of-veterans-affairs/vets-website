@@ -3,22 +3,6 @@ import moment from 'moment';
 import { DATE_TIMESTAMP, formFields } from './constants';
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
-export const checkDate = (mebAutoPopulateRelinquishmentDate, dateToCheck) => {
-  const dateFromData = moment(dateToCheck);
-
-  if (!mebAutoPopulateRelinquishmentDate)
-    return dateFromData.format('YYYY-MM-DD');
-
-  const currentDate = moment();
-  const oneYearAgo = currentDate.subtract(1, 'y');
-
-  if (dateFromData.isBefore(oneYearAgo) || dateToCheck === undefined) {
-    return oneYearAgo.format('YYYY-MM-DD');
-  }
-
-  return dateFromData.format('YYYY-MM-DD');
-};
-
 export const directDepositWarning = (
   <div className="pension-dd-warning">
     The Department of Treasury requires all federal benefit payments be made by
@@ -209,6 +193,7 @@ function transformServiceHistory(serviceHistory) {
     separationReason: serviceHistory?.reasonForSeparation,
   };
 }
+
 function mapNotificationMethodV2({ notificationMethod }) {
   if (notificationMethod === 'EMAIL') {
     return 'No, just send me email notifications';
@@ -241,585 +226,140 @@ export const formatHyphenlessDate = b => {
   return `${b.slice(0, 4)}-${b.slice(4, 6)}-${b.slice(6, 8)}`;
 };
 
-export function prefillTransformerV1(pages, formData, metadata, state) {
-  const bankInformation = state.data?.bankInformation || {};
-  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
-  const contactInfo = claimant?.contactInfo || {};
-  const stateUser = state.user || {};
-
-  const profile = stateUser?.profile;
-  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
-
-  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
-  const mebAutoPopulateRelinquishmentDate =
-    state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
-
-  let firstName;
-  let middleName;
-  let lastName;
-  let suffix;
-
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile.userFullName.first;
-    middleName = profile.userFullName.middle;
-    lastName = profile.userFullName.last;
-    // suffix = ???
-  } else {
-    firstName = claimant.firstName;
-    middleName = claimant.middleName;
-    lastName = claimant?.lastName;
-    suffix = claimant.suffix;
-  }
-
-  const emailAddress =
-    vapContactInfo.email?.emailAddress ||
-    profile?.email ||
-    contactInfo.emailAddress ||
-    undefined;
-
-  let mobilePhoneNumber;
-  let mobilePhoneIsInternational;
-  const vapMobilePhone = vapContactInfo.mobilePhone || {};
-  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
-    mobilePhoneNumber = [
-      vapMobilePhone.areaCode,
-      vapMobilePhone.phoneNumber,
-    ].join();
-    mobilePhoneIsInternational = vapMobilePhone.isInternational;
-  } else {
-    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
-  }
-
-  let homePhoneNumber;
-  let homePhoneIsInternational;
-  const vapHomePhone = vapContactInfo.homePhone || {};
-  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
-    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    homePhoneIsInternational = vapHomePhone.isInternational;
-  } else {
-    homePhoneNumber = contactInfo?.homePhoneNumber;
-  }
-
-  const address = vapContactInfo.mailingAddress?.addressLine1
-    ? vapContactInfo.mailingAddress
-    : contactInfo;
-
-  const newData = {
-    ...formData,
-    [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]:
-      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
-    [formFields.viewUserFullName]: {
-      [formFields.userFullName]: {
-        first: firstName || undefined,
-        middle: middleName || undefined,
-        last: lastName || undefined,
-      },
-    },
-    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
-    [formFields.email]: {
-      email: emailAddress,
-      confirmEmail: emailAddress,
-    },
-    [formFields.viewPhoneNumbers]: {
-      [formFields.mobilePhoneNumber]: {
-        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: mobilePhoneIsInternational,
-      },
-      [formFields.phoneNumber]: {
-        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: homePhoneIsInternational,
-      },
-    },
-    [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
-    },
-    [formFields.viewMailingAddress]: {
-      [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
-        state: address?.stateCode,
-        postalCode: address?.zipCode || address?.zipcode,
-        country: getSchemaCountryCode(address?.countryCode),
-      },
-      [formFields.livesOnMilitaryBase]:
-        address?.addressType === 'MILITARY_OVERSEAS',
-      [formFields.benefitEffectiveDate]: checkDate(
-        mebAutoPopulateRelinquishmentDate,
-        benefitEffectiveDate,
-      ),
-    },
-    [formFields.bankAccount]: {
-      ...bankInformation,
-      accountType: bankInformation?.accountType?.toLowerCase(),
-    },
-    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
-  };
-
-  if (suffix) {
-    newData[formFields.viewUserFullName].userFullName.suffix =
-      state?.form?.pages?.applicantInformation?.schema?.properties[
-        formFields.viewUserFullName
-      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, suffix),
-      ) || undefined;
-  }
-
-  return {
-    metadata,
-    formData: newData,
-    pages,
-    state,
-  };
-}
-
-export function prefillTransformerV2(pages, formData, metadata, state) {
-  const bankInformation = state.data?.bankInformation || {};
-  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
-  const contactInfo = claimant?.contactInfo || {};
-  const stateUser = state.user || {};
-
-  const profile = stateUser?.profile;
-  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
-
-  let firstName;
-  let middleName;
-  let lastName;
-  let suffix;
-
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile.userFullName.first;
-    middleName = profile.userFullName.middle;
-    lastName = profile.userFullName.last;
-    // suffix = ???
-  } else {
-    firstName = claimant.firstName;
-    middleName = claimant.middleName;
-    lastName = claimant?.lastName;
-    suffix = claimant.suffix;
-  }
-
-  const emailAddress =
-    vapContactInfo.email?.emailAddress ||
-    profile?.email ||
-    contactInfo.emailAddress ||
-    undefined;
-
-  let mobilePhoneNumber;
-  let mobilePhoneIsInternational;
-  const vapMobilePhone = vapContactInfo.mobilePhone || {};
-  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
-    mobilePhoneNumber = [
-      vapMobilePhone.areaCode,
-      vapMobilePhone.phoneNumber,
-    ].join();
-    mobilePhoneIsInternational = vapMobilePhone.isInternational;
-  } else {
-    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
-  }
-
-  let homePhoneNumber;
-  let homePhoneIsInternational;
-  const vapHomePhone = vapContactInfo.homePhone || {};
-  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
-    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    homePhoneIsInternational = vapHomePhone.isInternational;
-  } else {
-    homePhoneNumber = contactInfo?.homePhoneNumber;
-  }
-
-  const address = vapContactInfo.mailingAddress?.addressLine1
-    ? vapContactInfo.mailingAddress
-    : contactInfo;
-
-  const newData = {
-    ...formData,
-    [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]:
-      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
-    [formFields.viewUserFullName]: {
-      [formFields.userFullName]: {
-        first: firstName || undefined,
-        middle: middleName || undefined,
-        last: lastName || undefined,
-      },
-    },
-    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
-    [formFields.email]: {
-      email: emailAddress,
-      confirmEmail: emailAddress,
-    },
-    [formFields.viewPhoneNumbers]: {
-      [formFields.mobilePhoneNumber]: {
-        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: mobilePhoneIsInternational,
-      },
-      [formFields.phoneNumber]: {
-        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: homePhoneIsInternational,
-      },
-    },
-    [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
-    },
-    [formFields.viewMailingAddress]: {
-      [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
-        state: address?.stateCode || address?.province,
-        postalCode:
-          address?.zipCode ||
-          address?.zipcode ||
-          address?.internationalPostalCode,
-        country: getSchemaCountryCode(
-          address?.countryCodeIso3 || address?.countryCode,
-        ),
-      },
-      [formFields.livesOnMilitaryBase]:
-        address?.addressType === 'MILITARY_OVERSEAS',
-    },
-    [formFields.bankAccount]: {
-      ...bankInformation,
-      accountType: bankInformation?.accountType?.toLowerCase(),
-    },
-    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
-  };
-
-  if (suffix) {
-    newData[formFields.viewUserFullName].userFullName.suffix =
-      state?.form?.pages?.applicantInformation?.schema?.properties[
-        formFields.viewUserFullName
-      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, suffix),
-      ) || undefined;
-  }
-
-  return {
-    metadata,
-    formData: newData,
-    pages,
-    state,
-  };
-}
-
-export function prefillTransformerV3(pages, formData, metadata, state) {
-  const bankInformation = state.data?.bankInformation || {};
-  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  const exclusionPeriods = Array.isArray(state.data?.exclusionPeriods)
-    ? state.data?.exclusionPeriods
-    : [];
-  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
-  const contactInfo = claimant?.contactInfo || {};
-  const stateUser = state.user || {};
-
-  const profile = stateUser?.profile;
-  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
-  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
-  const mebAutoPopulateRelinquishmentDate =
-    state?.featureToggles.mebAutoPopulateRelinquishmentDate;
-
-  let firstName;
-  let middleName;
-  let lastName;
-  let suffix;
-
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile.userFullName.first;
-    middleName = profile.userFullName.middle;
-    lastName = profile.userFullName.last;
-    // suffix = ???
-  } else {
-    firstName = claimant.firstName;
-    middleName = claimant.middleName;
-    lastName = claimant?.lastName;
-    suffix = claimant.suffix;
-  }
-
-  const emailAddress =
-    vapContactInfo.email?.emailAddress ||
-    profile?.email ||
-    contactInfo.emailAddress ||
-    undefined;
-
-  let mobilePhoneNumber;
-  let mobilePhoneIsInternational;
-  const vapMobilePhone = vapContactInfo.mobilePhone || {};
-  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
-    mobilePhoneNumber = [
-      vapMobilePhone.areaCode,
-      vapMobilePhone.phoneNumber,
-    ].join();
-    mobilePhoneIsInternational = vapMobilePhone.isInternational;
-  } else {
-    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
-  }
-
-  let homePhoneNumber;
-  let homePhoneIsInternational;
-  const vapHomePhone = vapContactInfo.homePhone || {};
-  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
-    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    homePhoneIsInternational = vapHomePhone.isInternational;
-  } else {
-    homePhoneNumber = contactInfo?.homePhoneNumber;
-  }
-
-  const address = vapContactInfo.mailingAddress?.addressLine1
-    ? vapContactInfo.mailingAddress
-    : contactInfo;
-
-  const newData = {
-    ...formData,
-    [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]:
-      claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
-    [formFields.viewUserFullName]: {
-      [formFields.userFullName]: {
-        first: firstName || undefined,
-        middle: middleName || undefined,
-        last: lastName || undefined,
-      },
-    },
-    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
-    [formFields.email]: {
-      email: emailAddress,
-      confirmEmail: emailAddress,
-    },
-    [formFields.viewPhoneNumbers]: {
-      [formFields.mobilePhoneNumber]: {
-        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: mobilePhoneIsInternational,
-      },
-      [formFields.phoneNumber]: {
-        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: homePhoneIsInternational,
-      },
-    },
-    [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
-    },
-    [formFields.viewMailingAddress]: {
-      [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
-        state: address?.stateCode || address?.province,
-        postalCode:
-          address?.zipCode ||
-          address?.zipcode ||
-          address?.internationalPostalCode,
-        country: getSchemaCountryCode(
-          address?.countryCodeIso3 || address?.countryCode,
-        ),
-      },
-      [formFields.livesOnMilitaryBase]:
-        address?.addressType === 'MILITARY_OVERSEAS',
-    },
-    [formFields.benefitEffectiveDate]: checkDate(
-      mebAutoPopulateRelinquishmentDate,
-      benefitEffectiveDate,
-    ),
-    [formFields.federallySponsoredAcademy]: exclusionPeriods?.includes(
-      'Academy',
-    )
-      ? 'Yes'
-      : 'No',
-    [formFields.seniorRotcCommission]: exclusionPeriods?.includes('ROTC')
-      ? 'Yes'
-      : 'No',
-    [formFields.loanPayment]: exclusionPeriods?.includes('LRP') ? 'Yes' : 'No',
-    [formFields.bankAccount]: {
-      ...bankInformation,
-      accountType: bankInformation?.accountType?.toLowerCase(),
-    },
-    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
-  };
-
-  if (suffix) {
-    newData[formFields.viewUserFullName].userFullName.suffix =
-      state?.form?.pages?.applicantInformation?.schema?.properties[
-        formFields.viewUserFullName
-      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, suffix),
-      ) || undefined;
-  }
-
-  return {
-    metadata,
-    formData: newData,
-    pages,
-    state,
-  };
-}
-
-export function prefillTransformerV4(pages, formData, metadata, state) {
-  const bankInformation = state.data?.bankInformation || {};
-  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
-  const contactInfo = claimant?.contactInfo || {};
-  const stateUser = state.user || {};
-  const benefitEffectiveDate = state?.form?.data?.benefitEffectiveDate;
-  const mebAutoPopulateRelinquishmentDate =
-    state?.featureToggles?.mebAutoPopulateRelinquishmentDate;
-  const profile = stateUser?.profile;
-  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
-
-  let firstName;
-  let middleName;
-  let lastName;
-  let suffix;
-
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile.userFullName.first;
-    middleName = profile.userFullName.middle;
-    lastName = profile.userFullName.last;
-    // suffix = ???
-  } else {
-    firstName = claimant.firstName;
-    middleName = claimant.middleName;
-    lastName = claimant?.lastName;
-    suffix = claimant.suffix;
-  }
-
-  const emailAddress =
-    vapContactInfo.email?.emailAddress ||
-    profile?.email ||
-    contactInfo.emailAddress ||
-    undefined;
-
-  let mobilePhoneNumber;
-  let mobilePhoneIsInternational;
-  const vapMobilePhone = vapContactInfo.mobilePhone || {};
-  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
-    mobilePhoneNumber = [
-      vapMobilePhone.areaCode,
-      vapMobilePhone.phoneNumber,
-    ].join();
-    mobilePhoneIsInternational = vapMobilePhone.isInternational;
-  } else {
-    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
-  }
-
-  let homePhoneNumber;
-  let homePhoneIsInternational;
-  const vapHomePhone = vapContactInfo.homePhone || {};
-  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
-    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    homePhoneIsInternational = vapHomePhone.isInternational;
-  } else {
-    homePhoneNumber = contactInfo?.homePhoneNumber;
-  }
-
-  const address = vapContactInfo.mailingAddress?.addressLine1
-    ? vapContactInfo.mailingAddress
-    : contactInfo;
-
-  const newData = {
-    ...formData,
-    [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant?.claimantId,
-    [formFields.viewUserFullName]: {
-      [formFields.userFullName]: {
-        first: firstName || undefined,
-        middle: middleName || undefined,
-        last: lastName || undefined,
-      },
-    },
-    [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
-    [formFields.email]: {
-      email: emailAddress,
-      confirmEmail: emailAddress,
-    },
-    [formFields.viewPhoneNumbers]: {
-      [formFields.mobilePhoneNumber]: {
-        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: mobilePhoneIsInternational,
-      },
-      [formFields.phoneNumber]: {
-        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: homePhoneIsInternational,
-      },
-    },
-    [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
-    },
-    [formFields.viewMailingAddress]: {
-      [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
-        state: address?.stateCode || address?.province,
-        postalCode:
-          address?.zipCode ||
-          address?.zipcode ||
-          address?.internationalPostalCode,
-        country: getSchemaCountryCode(
-          address?.countryCodeIso3 || address?.countryCode,
-        ),
-      },
-      [formFields.livesOnMilitaryBase]:
-        address?.addressType === 'MILITARY_OVERSEAS',
-    },
-    [formFields.benefitEffectiveDate]: checkDate(
-      mebAutoPopulateRelinquishmentDate,
-      benefitEffectiveDate,
-    ),
-    [formFields.viewDirectDeposit]: {
-      [formFields.bankAccount]: {
-        ...bankInformation,
-        accountType: bankInformation?.accountType?.toLowerCase(),
-      },
-    },
-    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
-  };
-
-  if (suffix) {
-    newData[formFields.viewUserFullName].userFullName.suffix =
-      state?.form?.pages?.applicantInformation?.schema?.properties[
-        formFields.viewUserFullName
-      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, suffix),
-      ) || undefined;
-  }
-
-  return {
-    metadata,
-    formData: newData,
-    pages,
-    state,
-  };
-}
-
 export function prefillTransformer(pages, formData, metadata, state) {
   const featureTogglesLoaded = state.featureToggles?.loading === false;
-  const showInternationalAddressPrefill =
-    state.featureToggles?.showMebInternationalAddressPrefill;
-  const mebExclusionPeriodEnabled =
-    state.featureToggles?.mebExclusionPeriodEnabled;
-  const showDgiDirectDeposit1990EZ =
-    state.featureToggles?.show_dgi_direct_deposit_1990EZ;
 
-  // Return an empty object if feature toggles haven't loaded yet
+  // If feature toggles aren't loaded yet, return early
   if (!featureTogglesLoaded) {
-    return {};
-  }
-  if (showDgiDirectDeposit1990EZ) {
-    return prefillTransformerV4(pages, formData, metadata, state);
+    return { metadata, formData, pages, state }; // Defer prefill until feature toggles are loaded
   }
 
-  if (showInternationalAddressPrefill) {
-    return prefillTransformerV2(pages, formData, metadata, state);
+  try {
+    // Access the feature toggle values safely
+    const mebKickerNotificationEnabled =
+      state?.featureToggles?.mebKickerNotificationEnabled;
+
+    // Access form data (same as before)
+    const bankInformation = state?.data?.bankInformation || {};
+    const claimant = state?.data?.formData?.data?.attributes?.claimant || {};
+    const serviceData =
+      state?.data?.formData?.data?.attributes?.serviceData || [];
+    const contactInfo = claimant?.contactInfo || {};
+    const stateUser = state?.user || {};
+    const profile = stateUser?.profile;
+    const vapContactInfo = stateUser?.profile?.vapContactInfo || {};
+
+    // Handle name information
+    const firstName = claimant?.firstName || profile?.userFullName?.first;
+    const middleName = claimant?.middleName || profile?.userFullName?.middle;
+    const lastName = claimant?.lastName || profile?.userFullName?.last;
+    const suffix = claimant?.suffix;
+
+    // Handle email and phone numbers
+    const emailAddress =
+      vapContactInfo.email?.emailAddress ||
+      profile?.email ||
+      contactInfo?.emailAddress;
+    const mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
+    const mobilePhoneIsInternational =
+      contactInfo?.mobilePhone?.isInternational;
+    const homePhoneNumber = contactInfo?.homePhoneNumber;
+    const homePhoneIsInternational = contactInfo?.homePhone?.isInternational;
+    const address = vapContactInfo.mailingAddress?.addressLine1
+      ? vapContactInfo.mailingAddress
+      : contactInfo;
+
+    // Construct new data object
+    const newData = {
+      ...formData,
+      [formFields.formId]: state?.data?.formData?.data?.id,
+      [formFields.claimantId]:
+        claimant?.claimantId === 0 ? 100 : claimant?.claimantId,
+      [formFields.viewUserFullName]: {
+        [formFields.userFullName]: {
+          first: firstName,
+          middle: middleName,
+          last: lastName,
+        },
+      },
+      [formFields.dateOfBirth]: profile?.birthDate || claimant?.dateOfBirth,
+      [formFields.email]: {
+        email: emailAddress,
+        confirmEmail: emailAddress,
+      },
+      [formFields.viewPhoneNumbers]: {
+        [formFields.mobilePhoneNumber]: {
+          phone: mobilePhoneNumber?.replace(/\D/g, ''),
+          isInternational: mobilePhoneIsInternational,
+        },
+        [formFields.phoneNumber]: {
+          phone: homePhoneNumber?.replace(/\D/g, ''),
+          isInternational: homePhoneIsInternational,
+        },
+      },
+      [formFields.viewReceiveTextMessages]: {
+        [formFields.receiveTextMessages]: mapNotificationMethodV2(claimant),
+      },
+      [formFields.viewMailingAddress]: {
+        [formFields.address]: {
+          street: address?.addressLine1 ?? '',
+          street2: address?.addressLine2 ?? '',
+          city: address?.city ?? '',
+          state: address?.stateCode || address?.province,
+          postalCode:
+            address?.zipCode ||
+            address?.zipcode ||
+            address?.internationalPostalCode,
+          country: getSchemaCountryCode(
+            address?.countryCodeIso3 || address?.countryCode,
+          ),
+        },
+        [formFields.livesOnMilitaryBase]:
+          address?.addressType === 'MILITARY_OVERSEAS',
+      },
+      [formFields.viewDirectDeposit]: {
+        [formFields.bankAccount]: {
+          ...bankInformation,
+          accountType: bankInformation?.accountType?.toLowerCase(),
+        },
+      },
+      [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
+    };
+
+    // Add kicker-related data only if the feature flag is enabled
+    if (mebKickerNotificationEnabled) {
+      const eligibleForActiveDutyKicker = claimant?.eligibleForActiveDutyKicker;
+      const eligibleForReserveKicker = claimant?.eligibleForReserveKicker;
+
+      // Safely handle falsey values by using ternary operators
+      newData[formFields.activeDutyKicker] = eligibleForActiveDutyKicker
+        ? 'Yes'
+        : undefined;
+      newData[formFields.selectedReserveKicker] = eligibleForReserveKicker
+        ? 'Yes'
+        : undefined;
+    }
+
+    // Add suffix if available
+    if (suffix) {
+      newData[formFields.viewUserFullName].userFullName.suffix =
+        state?.form?.pages?.applicantInformation?.schema?.properties[
+          formFields.viewUserFullName
+        ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+          equalsAlphaOnlyIgnoreCase(e, suffix),
+        ) || undefined;
+    }
+
+    return {
+      metadata,
+      formData: newData,
+      pages,
+      state,
+    };
+  } catch (error) {
+    // Error handling: Return original data if something goes wrong
+    return { metadata, formData, pages, state }; // Don't modify the form data on error
   }
-  // Use prefillTransformerV3 if mebExclusionPeriodEnabled feature flag is on
-  if (mebExclusionPeriodEnabled) {
-    return prefillTransformerV3(pages, formData, metadata, state);
-  }
-  // Default to prefillTransformerV1 if none of the above conditions are met
-  return prefillTransformerV1(pages, formData, metadata, state);
 }
 
 export function customDirectDepositDescription() {
@@ -852,9 +392,9 @@ export const formPages = {
     mailingAddress: 'mailingAddress',
     mailingAddressMilitaryBaseUpdates: 'mailingAddressMilitaryBaseUpdates',
     preferredContactMethod: 'preferredContactMethod',
+    newPreferredContactMethod: 'newPreferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
-  benefitSelectionLegacy: 'benefitSelectionLegacy',
   additionalConsiderations: {
     activeDutyKicker: {
       name: 'active-duty-kicker',
@@ -891,7 +431,7 @@ export const formPages = {
       additionalInfo: {
         trigger: 'What is Senior ROTC?',
         info:
-          'Were you commissioned as the result of a Senior ROTC (Reserve Officers Training Corps) scholarship? If "Yes," please check "Yes". If you received your commission through a non-scholarship program, please check "No."',
+          'The Senior Reserve Officer Training CORPS (SROTC) - more commonly referred to as the Reserve Officer Training Corps (ROTC) - is an officer training and scholarship program for post-secondary students authorized under Chapter 103 of Title 10 of the United States Code. If you were commissioned through this, please check "Yes". If you received your commission through a non-scholarship program, please check "No".',
       },
     },
     loanPayment: {

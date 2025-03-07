@@ -50,6 +50,7 @@ import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMess
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
@@ -175,6 +176,12 @@ export class ProfileInformationEditView extends Component {
         );
         return;
       }
+
+      if (fieldName === PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE) {
+        this.props.updateMessagingSignature(payload, fieldName, 'POST');
+        return;
+      }
+
       this.props.createPersonalInfoUpdate({
         route: apiRoute,
         method: 'PUT',
@@ -336,20 +343,21 @@ export class ProfileInformationEditView extends Component {
                     data-testid="save-edit-button"
                     isLoading={isLoading}
                     loadingText="Saving changes"
-                    className="vads-u-margin-top--0 mobile-lg:vads-u-width--auto vads-u-width--full"
+                    type="submit"
                     onClick={onClickUpdateHandler}
                   >
                     {saveButtonText || 'Save'}
                   </LoadingButton>
 
                   {!isLoading && (
-                    <va-button
+                    <button
                       data-testid="cancel-edit-button"
-                      secondary
-                      class="vads-u-margin--0 vads-u-margin-top--0 vads-u-width--full mobile-lg:vads-u-width--auto"
+                      type="button"
+                      className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
                       onClick={onCancel}
-                      text={cancelButtonText || 'Cancel'}
-                    />
+                    >
+                      {cancelButtonText || 'Cancel'}
+                    </button>
                   )}
                 </div>
               </ProfileInformationActionButtons>
@@ -394,6 +402,7 @@ ProfileInformationEditView.propTypes = {
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
+  updateMessagingSignature: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -442,6 +451,7 @@ const mapDispatchToProps = {
   validateAddress,
   refreshTransaction,
   createPersonalInfoUpdate,
+  updateMessagingSignature,
 };
 
 export default connect(

@@ -1,0 +1,83 @@
+{
+    "data": {
+        "application": {
+            "claimant": {
+                "desiredCemetery": "411",
+                "address": {
+                    "street": "1102 Terrace Rd",
+                    "street2": "Suite A",
+                    "city": "Bozeman",
+                    "country": "USA",
+                    "state": "MT",
+                    "postalCode": "59715"
+                },
+                "phoneNumber": "1235556868",
+                "email": "Jtest@test.test",
+                "name": {
+                    "first": "Joe",
+                    "middle": "Scott",
+                    "last": "Tester",
+                    "suffix": "Jr.",
+                    "maiden": "Smith"
+                },
+                "ssn": "244444444",
+                "dateOfBirth": "1978-03-03",
+                "relationshipToVet": "veteran"
+            },
+            "currentlyBuriedPersons": [
+                {
+                    "name": {
+                        "first": "Jane",
+                        "last": "James"
+                    }
+                }
+            ],
+            "hasCurrentlyBuried": "1",
+            "veteran": {
+                "serviceName": {
+                    "first": "George",
+                    "middle": "Jeremy",
+                    "last": "Doe",
+                    "suffix": "IV"
+                },
+                "militaryStatus": "V",
+                "militaryServiceNumber": "654321",
+                "vaClaimNumber": "65656565",
+                "ethnicity": "notSpanishHispanicLatino",
+                "race": {
+                    "isWhite": true
+                },
+                "maritalStatus": "Single",
+                "gender": "Male",
+                "cityOfBirth": "Denver",
+                "stateOfBirth": "Colorado",
+                "serviceRecords": [
+                    {
+                        "dateRange": {
+                            "from": "2000-03-08",
+                            "to": "2005-04-26"
+                        },
+                        "serviceBranch": "MC",
+                        "dischargeType": "1",
+                        "highestRank": "CPL"
+                    },
+                    {
+                        "dateRange": {
+                            "from": "2005-06-16",
+                            "to": "2010-04-15"
+                        },
+                        "serviceBranch": "NA",
+                        "dischargeType": "5",
+                        "highestRank": "SN"
+                    }
+                ]
+            },
+            "applicant": {
+                "applicantRelationshipToClaimant": "Self"
+            }
+        },
+        "privacyAgreementAccepted": true,
+        "formNumber": "40-10007",
+        "version": "int"
+    }
+}

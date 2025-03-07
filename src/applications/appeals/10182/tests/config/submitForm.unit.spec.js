@@ -21,10 +21,10 @@ describe('submitForm', () => {
     xhr.restore();
   });
 
-  it('should use v1 endpoint', done => {
+  it('should use submit endpoint', done => {
     const data = { data: maximalData.data };
     submitForm(data, formConfig);
-    expect(requests[0].url).to.contain(`/v1/${formConfig.submitUrl}`);
+    expect(requests[0].url).to.contain(formConfig.submitUrl);
     done();
   });
 });

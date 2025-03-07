@@ -2,6 +2,8 @@ import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
+  emailUI,
+  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
@@ -13,7 +15,7 @@ import {
   titleUI,
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { nameWording } from '../helpers/utilities';
+import { nameWording } from '../../shared/utilities';
 
 export const blankSchema = { type: 'object', properties: {} };
 
@@ -22,7 +24,12 @@ fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
 
 export const applicantNameDobSchema = {
   uiSchema: {
-    ...titleUI('Beneficiary’s name'),
+    ...titleUI(
+      ({ formData }) =>
+        `${
+          formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
+        } name`,
+    ),
     applicantName: fullNameMiddleInitialUI,
   },
   schema: {
@@ -65,11 +72,18 @@ export const applicantAddressInfoSchema = {
       'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: {
-      ...addressUI({ labels: { street3: 'Apartment or unit number' } }),
+      ...addressUI({
+        labels: {
+          street3: 'Apartment or unit number',
+          militaryCheckbox:
+            'Address is on a U.S. military base outside of the United States.',
+        },
+      }),
     },
     applicantNewAddress: {
       ...radioUI({
         updateUiSchema: formData => {
+          const name = nameWording(formData, undefined, false, true);
           const labels = {
             yes: 'Yes',
             no: 'No',
@@ -77,12 +91,9 @@ export const applicantAddressInfoSchema = {
           };
 
           return {
-            'ui:title': `Has ${nameWording(
-              formData,
-              undefined,
-              undefined,
-              true,
-            )} mailing address changed since their last CHAMPVA form submission?`,
+            'ui:title': `Has ${name} mailing address changed since ${
+              name === 'your' ? name : 'their'
+            } last CHAMPVA form submission?`,
             'ui:options': {
               labels,
               hint: `If yes, we will update our records with the new mailing address.`,
@@ -111,6 +122,24 @@ export const applicantContactInfoSchema = {
       'We’ll contact this phone number if we need to follow up about this form.',
     ),
     applicantPhone: phoneUI(),
+    applicantEmail: emailUI(),
+    'ui:options': {
+      updateSchema: (formData, formSchema) => {
+        const fs = JSON.parse(JSON.stringify(formSchema)); // Deep copy
+        // If user is the applicant, they have already given us an email
+        // previously in signer section, so remove the field on this page:
+        if (formData.certifierRole === 'applicant') {
+          delete fs.properties.applicantEmail;
+          // Just in case we require this email field in future, be sure to un-require it:
+          fs.required = fs.required.filter(f => f !== 'applicantEmail');
+        } else if (fs.properties.applicantEmail === undefined) {
+          // Replace email field if we previously dropped it and
+          // user is not the applicant:
+          fs.properties.applicantEmail = emailSchema;
+        }
+        return fs;
+      },
+    },
   },
   schema: {
     type: 'object',
@@ -118,6 +147,7 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
+      applicantEmail: emailSchema,
     },
   },
 };
@@ -145,7 +175,7 @@ export const applicantGenderSchema = {
             'ui:title': `What's ${nameWording(
               formData,
               undefined,
-              undefined,
+              false,
               true,
             )} sex listed at birth?`,
             'ui:options': {
@@ -153,7 +183,7 @@ export const applicantGenderSchema = {
               hint: `Enter the sex that appears on ${nameWording(
                 formData,
                 undefined,
-                undefined,
+                false,
                 true,
               )} birth certificate.`,
             },

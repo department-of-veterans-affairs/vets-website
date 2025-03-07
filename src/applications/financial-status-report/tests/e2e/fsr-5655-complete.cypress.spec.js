@@ -1,7 +1,7 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import { WIZARD_STATUS_COMPLETE } from 'applications/static-pages/wizard';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 import { WIZARD_STATUS } from '../../wizard/constants';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
@@ -314,18 +314,11 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(testData => {
-            const monetaryAssetChecklistLength = testData[
-              'view:streamlinedWaiverAssetUpdate'
-            ]
-              ? 5
-              : 8;
-            cy.get('va-checkbox')
-              .shadow()
-              .find('input[type=checkbox]')
-              .as('checklist')
-              .should('have.length', monetaryAssetChecklistLength);
-          });
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
+            .as('checklist')
+            .should('have.length', 5);
 
           // Check specific checkboxes
           cy.get('va-checkbox')
@@ -350,33 +343,16 @@ const testConfig = createTestConfig(
           cy.get('va-text-input')
             .as('numberInputs')
             .should('have.length', 2);
-
-          // check testData to see if assets feature flag is true to udpate the length the checkbox should be
-          cy.get('@testData').then(testData => {
-            if (testData['view:streamlinedWaiverAssetUpdate']) {
-              cy.get('[id="U.S. Savings Bonds0"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            } else {
-              cy.get('#Cash0')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1000');
-              cy.get('[id="Checking accounts1"]')
-                .first()
-                .shadow()
-                .find('input')
-                .type('1500');
-            }
-          });
+          cy.get('[id="U.S. Savings Bonds0"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1000');
+          cy.get('[id="Retirement accounts (401k, IRAs, 403b, TSP)1"]')
+            .first()
+            .shadow()
+            .find('input')
+            .type('1500');
           cy.get('.usa-button-primary').click();
         });
       },
@@ -652,7 +628,7 @@ const testConfig = createTestConfig(
             .and('contain', 'Original Loan Amount: $10,000.00')
             .and('contain', 'Unpaid balance: $1,000.00')
             .and('contain', 'Minimum monthly payment amount: $100.00')
-            .and('contain', 'Date received: 01/XX/2010')
+            .and('contain', 'Date received: 01/2010')
             .and('contain', 'Amount overdue: $10.00');
           cy.get('.usa-button-primary').click();
         });

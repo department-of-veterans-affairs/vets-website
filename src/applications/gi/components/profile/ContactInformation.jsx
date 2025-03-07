@@ -77,6 +77,7 @@ export default function ContactInformation({ institution, showModal }) {
       <div>
         <strong>
           <LearnMoreLabel
+            bold
             text="Single point of contact for Veterans"
             onClick={() => {
               showModal('singleContact');
@@ -144,6 +145,7 @@ export default function ContactInformation({ institution, showModal }) {
       <div>
         <strong>
           <LearnMoreLabel
+            bold
             text="VA Facility Code"
             onClick={() => {
               showModal('facilityCode');
@@ -161,6 +163,7 @@ export default function ContactInformation({ institution, showModal }) {
         <div>
           <strong>
             <LearnMoreLabel
+              bold
               text="ED IPEDS code"
               onClick={() => {
                 showModal('ipedsCode');
@@ -179,6 +182,7 @@ export default function ContactInformation({ institution, showModal }) {
         <div>
           <strong>
             <LearnMoreLabel
+              bold
               text="ED OPE code"
               onClick={() => {
                 showModal('opeCode');

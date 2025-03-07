@@ -1,5 +1,5 @@
 import React from 'react';
-import fullSchemaBurials from 'vets-json-schema/dist/21P-530V2-schema.json';
+import fullSchemaBurials from 'vets-json-schema/dist/21P-530EZ-schema.json';
 import { generateTitle } from '../../../utils/helpers';
 import { burialUploadUI } from '../../../utils/upload';
 
@@ -10,23 +10,23 @@ export default {
     'ui:title': generateTitle('Transportation costs'),
     'ui:description': (
       <>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <p>
           Upload an itemized receipt for any costs you paid for transporting the
           Veteran’s remains.
         </p>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <p>
           <strong>Here’s what the itemized receipt should include:</strong>
         </p>
-        <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <ul>
           <li>The deceased Veteran’s name</li>
           <li>The transportation costs</li>
           <li>Date of the transportation service</li>
           <li>Name of the person who paid the transportation costs</li>
         </ul>
-        <p className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <p>
           <strong>How to upload files</strong>
         </p>
-        <ul className="vads-u-font-size--md vads-u-font-weight--normal vads-u-font-family--sans">
+        <ul>
           <li>Format the file as a .jpg, .pdf, or .png file</li>
           <li>Be sure that your file size is 20mb or less</li>
         </ul>

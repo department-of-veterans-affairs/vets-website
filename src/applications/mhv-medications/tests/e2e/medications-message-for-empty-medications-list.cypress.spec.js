@@ -7,7 +7,7 @@ describe('Medications Landing Page Empty Medications List', () => {
     const landingPage = new LandingPage();
 
     site.login();
-    landingPage.visitLandingPageURL();
+    landingPage.visitLandingPageURLforEmptyMedicationsList();
     cy.injectAxe();
     cy.axeCheck('main');
 

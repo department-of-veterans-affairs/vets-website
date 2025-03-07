@@ -11,7 +11,7 @@ describe('TravelClaimDetails', () => {
   const claimDetailsProps = {
     id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
     claimNumber: 'TC0928098230498',
-    claimStatus: 'Claim Submitted',
+    claimStatus: 'Claim submitted',
     appointmentDateTime: '2024-05-26T16:40:45.781Z',
     facilityName: 'Tomah VA Medical Center',
     createdOn: '2024-05-27T16:40:45.781Z',
@@ -74,9 +74,8 @@ describe('TravelClaimDetails', () => {
     });
 
     await waitFor(() => {
-      expect(
-        window.location.replace.calledWith('/my-health/travel-claim-status'),
-      ).to.be.true;
+      expect(window.location.replace.calledWith('/my-health/travel-pay')).to.be
+        .true;
     });
   });
   it('handles failed data fetching and displays an error', async () => {

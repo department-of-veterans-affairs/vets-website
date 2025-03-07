@@ -15,7 +15,8 @@ const pageTitle = "Claimant's point of contact";
 
 const data = {};
 
-const expectedNumberOfWebComponentFields = 2;
+const expectedNumberOfWebComponentFields = 3;
+
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -25,7 +26,8 @@ testNumberOfWebComponentFields(
   data,
 );
 
-const expectedNumberOfWebComponentErrors = 0;
+const expectedNumberOfWebComponentErrors = 1;
+
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

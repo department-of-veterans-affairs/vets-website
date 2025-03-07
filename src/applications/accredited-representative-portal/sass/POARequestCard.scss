@@ -1,0 +1,150 @@
+@import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
+
+.poa-request {
+  max-width: 660px;
+
+  &__search-header {
+    margin: 0 0 24px;
+  }
+  &__copy {
+    margin: 0 0 16px 0;
+  }
+  &__tabs {
+    margin: 60px 0 24px;
+    background-color: $vads-color-base-lighter;
+    border: 2px solid $vads-color-base-lighter;
+    border-radius: 6px;
+    display: flex;
+    max-width: 320px;
+
+    @media (min-width: $small-desktop-screen) {
+      margin: 24px 0;
+    }
+  }
+
+  &__tab-heading {
+    margin: 0;
+  }
+
+  &__tab-link {
+    font-size: 20px;
+    flex: 1;
+    padding: 8px 4px;
+    text-decoration: none;
+    text-align: center;
+    color: $vads-color-base;
+
+    &.active {
+      font-weight: 700;
+      background-color: $vads-color-white;
+      border-radius: 6px;
+    }
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &__sort-by {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: $small-desktop-screen) {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+  &__select {
+    width: 100%;
+    margin-bottom: 16px;
+
+    > select {
+      max-width: 100%;
+    }
+    @media (min-width: $small-desktop-screen) {
+      width: 300px;
+      margin-bottom: 0;
+    }
+  }
+  &__apply {
+    margin: 0;
+    max-width: 83px;
+    height: 40px;
+
+    @media (min-width: $small-desktop-screen) {
+      margin-left: 16px;
+    }
+  }
+  &__list {
+    list-style-type: none;
+    padding: 0;
+    display: block;
+  }
+
+  &__card {
+    margin-bottom: 20px;
+
+    > a {
+      display: flex;
+    }
+
+    @media (min-width: $small-desktop-screen) {
+      max-width: 660px;
+    }
+
+    &-icon {
+      margin-right: 5px;
+      color: var(--vads-color-warning-dark);
+    }
+
+    &-title {
+      margin: 3px 0 0 0;
+    }
+
+    &-field {
+      margin: 0;
+
+      &--status {
+        .pending & {
+          display: none;
+        }
+      }
+
+      &--request {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+        flex-wrap: wrap;
+      }
+
+      &--submission-status {
+        font-weight: 700;
+
+        @media (min-width: $small-desktop-screen) {
+          display: flex;
+          align-items: center;
+        }
+
+        [icon="error"] {
+          color: $vads-color-error;
+        }
+        [icon] {
+          margin-right: 6px;
+        }
+      }
+
+      &--label {
+        font-weight: 700;
+        margin-bottom: 0;
+        margin-right: 5px;
+      }
+
+      &--expiry {
+        margin-left: 3px;
+      }
+    }
+  }
+}

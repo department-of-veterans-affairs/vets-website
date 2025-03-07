@@ -178,9 +178,7 @@ describe('Folder Thread List View container', () => {
       expect(ariaLabel.textContent).to.contain(`You are in Inbox.`);
       expect(alert).to.have.attribute(
         'close-btn-aria-label',
-        `${
-          Alerts.Message.SERVER_ERROR_503
-        }. You are in Inbox. Close notification.`,
+        'Close notification',
       );
     });
   });
@@ -223,11 +221,14 @@ describe('Folder Thread List View container', () => {
         state = initialStateCustomFolder,
         path = `/folders/${customFolder.folderId}/`,
       ) => {
-        return renderWithStoreAndRouter(<FolderThreadListView testing />, {
-          initialState: state,
-          reducers: reducer,
-          path,
-        });
+        return renderWithStoreAndRouter(
+          <FolderThreadListView testing removeLandingPageFF />,
+          {
+            initialState: state,
+            reducers: reducer,
+            path,
+          },
+        );
       };
 
       const screen = await customSetup();

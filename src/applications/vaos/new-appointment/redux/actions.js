@@ -3,6 +3,8 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
+import { format, utcToZonedTime } from 'date-fns-tz';
+
 import { createAppointment } from '../../services/appointment';
 import getNewAppointmentFlow from '../newAppointmentFlow';
 import {
@@ -10,7 +12,6 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
-  selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
@@ -44,7 +45,7 @@ import {
   transformFormToVAOSAppointment,
   transformFormToVAOSCCRequest,
   transformFormToVAOSVARequest,
-} from './helpers/formSubmitTransformers.v2';
+} from './helpers/formSubmitTransformers';
 import {
   resetDataLayer,
   recordItemsRetrieved,
@@ -60,7 +61,10 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
-import { fetchFlowEligibilityAndClinics } from '../../services/patient';
+import {
+  fetchFlowEligibilityAndClinics,
+  fetchPatientRelationships,
+} from '../../services/patient';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { getCommunityCareV2 } from '../../services/vaos/index';
 
@@ -144,6 +148,12 @@ export const FORM_REQUESTED_PROVIDERS_FAILED =
   'newAppointment/FORM_REQUESTED_PROVIDERS_FAILED';
 export const FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED =
   'newAppointment/FORM_PAGE_CC_FACILITY_SORT_METHOD_UPDATED';
+export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS =
+  'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS';
+export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED';
+export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED =
+  'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -218,6 +228,38 @@ export function startRequestAppointmentFlow(isCommunityCare) {
   };
 }
 
+export function getPatientRelationships() {
+  let patientProviderRelationships;
+
+  return async (dispatch, getState) => {
+    const initialState = getState();
+    const { newAppointment } = initialState;
+    const typeOfCare = getTypeOfCare(newAppointment.data);
+    const typeOfCareId = typeOfCare;
+    const facilityId = newAppointment.data.vaFacility;
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
+    });
+
+    try {
+      patientProviderRelationships = await fetchPatientRelationships(
+        facilityId,
+        typeOfCareId,
+      );
+    } catch (error) {
+      dispatch({ type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED });
+      patientProviderRelationships = null;
+      captureError(error);
+    }
+
+    dispatch({
+      type: FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
+      patientProviderRelationships,
+    });
+  };
+}
+
 export function fetchFacilityDetails(facilityId) {
   let facilityDetails;
 
@@ -242,6 +284,7 @@ export function fetchFacilityDetails(facilityId) {
     });
   };
 }
+
 export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
@@ -304,9 +347,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
       const initialState = getState();
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        initialState,
-      );
       const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
@@ -325,7 +365,6 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         if (!typeOfCareFacilities) {
           typeOfCareFacilities = await getLocationsByTypeOfCareAndSiteIds({
             siteIds,
-            useV2: featureFacilitiesServiceV2,
           });
         }
 
@@ -608,16 +647,10 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           // for the correct day.
           .map(slot => {
             if (featureVAOSServiceVAAppointments) {
-              // The moment.tz() function will parse a given time with offset
-              // and convert it to the time zone provided.
-              //
-              // NOTE: Stripping off the timezone information 'Z' so that it will
-              // not be used during formatting elsewhere. Including the 'Z' would
-              // result in the formatted string using the local timezone.
-              const time = moment
-                .tz(slot.start, timezone)
-                .format('YYYY-MM-DDTHH:mm:ss');
-
+              const zonedDate = utcToZonedTime(slot.start, timezone);
+              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+                timeZone: timezone,
+              });
               return { ...slot, start: time };
             }
             return slot;
@@ -907,14 +940,11 @@ export function submitAppointmentOrRequest(history) {
 export function requestProvidersList(address) {
   return async (dispatch, getState) => {
     try {
-      const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
-        getState(),
-      );
-      let location = address;
+      const location = address;
       const { newAppointment } = getState();
       const { communityCareProviders } = newAppointment;
       const sortMethod = newAppointment.ccProviderPageSortMethod;
-      let { selectedCCFacility } = newAppointment;
+      const { selectedCCFacility } = newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
@@ -927,18 +957,6 @@ export function requestProvidersList(address) {
       dispatch({
         type: FORM_REQUESTED_PROVIDERS,
       });
-
-      if (!featureFacilitiesServiceV2 && !address) {
-        try {
-          selectedCCFacility = await getLocation({
-            facilityId: selectedCCFacility.id,
-          });
-          location = selectedCCFacility.position;
-        } catch (error) {
-          location = null;
-          captureError(error);
-        }
-      }
 
       if (!typeOfCareProviders) {
         typeOfCareProviders = await getCommunityProvidersByTypeOfCare({

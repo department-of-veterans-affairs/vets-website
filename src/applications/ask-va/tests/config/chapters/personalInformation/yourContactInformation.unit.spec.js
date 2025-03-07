@@ -35,7 +35,7 @@ describe('yourContactInformationPage', () => {
     const options = $$('va-radio-option', container);
 
     expect($('h3', container).textContent).to.eq('Your contact information');
-    expect(inputs.length).to.eq(4);
+    expect(inputs.length).to.eq(3);
     expect(options.length).to.eq(3);
   });
 });

@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Who is your question about?
+  - action: click
+    target: radio
+    value:  It's a general question
+  - action: click
+    target: call-to-action

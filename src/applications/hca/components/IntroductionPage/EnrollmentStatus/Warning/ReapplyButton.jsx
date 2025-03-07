@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-
-import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import content from '../../../../locales/en/content.json';
 
 const ReapplyButton = ({ route }) => {

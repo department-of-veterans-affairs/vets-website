@@ -1,0 +1,23 @@
+{
+  "name": "@department-of-veterans-affairs/applications-claims-status",
+  "version": "1.0.0",
+  "description": "Dependencies for claims-status tool. Specifically, component library is pinned to 43.0.2 to ensure v1 of the file input component can still be used while the team works on migrating to mulitple file input. For now, please refrain from bumping the component library version in this dependeny list.",
+  "scripts": {
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "dependencies": {
+    "@department-of-veterans-affairs/component-library": "43.0.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-redux": "*",
+    "prop-types": "*",
+    "moment": "*",
+    "@sentry/browser": "*",
+    "chai": "*",
+    "sinon": "*",
+    "enzyme": "*"
+  },
+  "license": "MIT",
+  "private": true
+}

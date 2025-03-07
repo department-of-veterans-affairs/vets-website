@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidget';
+
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
@@ -99,7 +100,7 @@ describe('<ContestableIssuesWidget>', () => {
     });
     render(
       <Provider store={mockStore}>
-        <ContestableIssuesWidget {...props} value={[]} formData={undefined} />
+        <ContestableIssuesWidget {...props} value={[]} formData={{}} />
       </Provider>,
     );
 

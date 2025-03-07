@@ -1,6 +1,10 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { removeCommas, splitAddressLine } from '../helpers';
+import {
+  isVerificationEndDateValid,
+  removeCommas,
+  splitAddressLine,
+} from '../helpers';
 // Action Types
 export const UPDATE_PENDING_VERIFICATIONS = 'UPDATE_PENDING_VERIFICATIONS';
 export const UPDATE_VERIFICATIONS = 'UPDATE_VERIFICATIONS';
@@ -28,7 +32,10 @@ export const ADDRESS_VALIDATION_START = 'ADDRESS_VALIDATION_START';
 export const ADDRESS_VALIDATION_SUCCESS = 'ADDRESS_VALIDATION_SUCCESS';
 export const ADDRESS_VALIDATION_FAIL = 'ADDRESS_VALIDATION_FAIL';
 export const SET_SUGGESTED_ADDRESS_PICKED = 'SET_SUGGESTED_ADDRESS_PICKED';
-
+export const CHECK_CLAIMANT_START = 'CHECK_CLAIMANT_START';
+export const CHECK_CLAIMANT_SUCCESS = 'CHECK_CLAIMANT_SUCCESS';
+export const CHECK_CLAIMANT_FAIL = 'CHECK_CLAIMANT_FAIL';
+export const CHECK_CLAIMANT_END = 'CHECK_CLAIMANT_END';
 export const handleSuggestedAddressPicked = value => ({
   type: SET_SUGGESTED_ADDRESS_PICKED,
   payload: value,
@@ -61,28 +68,88 @@ export const updateVerifications = verifications => ({
   payload: verifications,
 });
 
-export const fetchPersonalInfo = () => {
-  return async dispatch => {
-    dispatch({ type: FETCH_PERSONAL_INFO });
-    return apiRequest(API_URL, {
+// Action constants
+
+/**
+ * doDGIBCall
+ * Helper that performs:
+ *  1) GET /dgib_verifications/claimant_lookup to get claimantId
+ *  2) POST /dgib_verifications/verification_record with that claimantId
+ * Then dispatches FETCH_PERSONAL_INFO_SUCCESS upon success.
+ */
+async function doDGIBCall(dispatch) {
+  const claimantRes = await apiRequest(
+    `${API_URL}/dgib_verifications/claimant_lookup`,
+    {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-      .then(response => {
+    },
+  );
+  const verificationRecordRes = await apiRequest(
+    `${API_URL}/dgib_verifications/verification_record`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ claimantId: claimantRes.claimantId }),
+    },
+  );
+
+  // Dispatch success with both results
+  dispatch({
+    type: FETCH_PERSONAL_INFO_SUCCESS,
+    response: {
+      claimantLookup: claimantRes,
+      verificationRecord: verificationRecordRes,
+    },
+  });
+}
+/**
+ * fetchPersonalInfo
+ * 1) It tries apiRequest(API_URL, ...) first.
+ *    - If it returns a valid response (not 204), dispatch success with that data.
+ *    - If it returns status 204 or throws an error, we fall back to two doDGIBCall calls:
+ *      a) GET /dgib_verifications/claimant_lookup
+ *      b) POST /dgib_verifications/verification_record (using the claimantId )
+ */
+export const fetchPersonalInfo = () => {
+  return async dispatch => {
+    dispatch({ type: FETCH_PERSONAL_INFO });
+
+    try {
+      // 1) First, call the main API
+      const mainResponse = await apiRequest(API_URL, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (mainResponse && mainResponse.status !== 204) {
         dispatch({
           type: FETCH_PERSONAL_INFO_SUCCESS,
-          response,
+          response: mainResponse,
         });
-      })
-      .catch(errors => {
+      } else {
+        // when the status is 204 (no content) do fallback calls
+        await doDGIBCall(dispatch);
+      }
+    } catch (error) {
+      // If there's an error in the first call, do the  doDGIBCall fallback
+      try {
+        await doDGIBCall(dispatch);
+      } catch (fallbackError) {
         dispatch({
           type: FETCH_PERSONAL_INFO_FAILED,
-          errors,
+          errors: fallbackError,
         });
-      });
+      }
+    }
   };
 };
+
 const customHeaders = {
   'Content-Type': 'application/json',
   'X-Key-Inflection': 'camel',
@@ -136,12 +203,43 @@ export const updateBankInfo = bankInfo => {
 };
 
 export const verifyEnrollmentAction = verifications => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch({ type: VERIFY_ENROLLMENT });
+    const { personalInfo } = getState();
+    const claimantId = personalInfo?.personalInfo?.claimantLookup?.claimantId;
+    const enrollmentVerifications =
+      personalInfo?.personalInfo?.verificationRecord?.enrollmentVerifications ||
+      [];
+    const URL = claimantId
+      ? `${API_URL}/dgib_verifications/verify_claimant`
+      : `${API_URL}/verify`;
+    const newVerifications = enrollmentVerifications?.filter(
+      verification =>
+        !verification?.verificationMethod &&
+        isVerificationEndDateValid(verification?.verificationEndDate),
+    );
+    const lastVerification =
+      newVerifications?.length > 0
+        ? newVerifications[newVerifications?.length - 1]
+        : null;
+    const body = claimantId
+      ? (() => {
+          return {
+            claimantId,
+            verifiedPeriodBeginDate: lastVerification?.verificationBeginDate,
+            verifiedPeriodEndDate: lastVerification?.verificationEndDate,
+            verifiedThroughDate: lastVerification?.verificationEndDate,
+            verificationMethod: 'VYE',
+            appCommunication: {
+              responseType: 'Y',
+            },
+          };
+        })()
+      : { awardIds: verifications };
     try {
-      const response = await apiRequest(`${API_URL}/verify`, {
+      const response = await apiRequest(URL, {
         method: 'POST',
-        body: JSON.stringify({ awardIds: verifications }),
+        body: JSON.stringify(body),
         headers: customHeaders,
       });
 
@@ -149,6 +247,7 @@ export const verifyEnrollmentAction = verifications => {
         type: VERIFY_ENROLLMENT_SUCCESS,
         response,
       });
+      dispatch(fetchPersonalInfo());
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,

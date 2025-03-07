@@ -1,43 +1,45 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
+import React from 'react';
+
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
-
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as address from 'platform/forms-system/src/js/definitions/address';
-import fullSchema from '../22-10216-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/22-10216-schema.json';
-
 import manifest from '../manifest.json';
+import { validateFacilityCode } from '../utilities';
+import { transform } from './submit-transformer';
 
-import IntroductionPage from '../containers/IntroductionPage';
+// Components
+import Alert from '../components/Alert';
+import GetFormHelp from '../components/GetFormHelp';
+import SubmissionInstructions from '../components/SubmissionInstructions';
+
+// Pages
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
+import InstitutionDetails from '../pages/institutionDetails';
+import studentRatioCalc from '../pages/studentRatioCalc';
+import submitForm from './submitForm';
+import { certifyingOfficial } from '../pages/institutionOfficial';
 
-// const { } = fullSchema.properties;
+const { date, dateRange } = commonDefinitions;
 
-// const { } = fullSchema.definitions;
-
-// pages
-import directDeposit from '../pages/directDeposit';
-import serviceHistory from '../pages/serviceHistory';
-
-const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+const subTitle = () => (
+  <p className="schemaform-subtitle">
+    35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)
+  </p>
+);
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10216`,
+  submit: submitForm,
   trackingPrefix: 'edu-10216-',
   introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
+  confirmation: ({ router, route }) => (
+    <ConfirmationPage router={router} route={route} />
+  ),
   formId: '22-10216',
   saveInProgress: {
     // messages: {
@@ -46,6 +48,9 @@ const formConfig = {
     //   saved: 'Your education benefits application has been saved.',
     // },
   },
+  customText: {
+    reviewPageTitle: 'Review',
+  },
   version: 0,
   prefillEnabled: true,
   savedFormMessages: {
@@ -53,84 +58,98 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Complex Form',
+  title: 'Request exemption from the 85/15 Rule reporting requirements',
+  subTitle,
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
   defaultDefinitions: {
-    fullName,
-    ssn,
     date,
     dateRange,
-    usaPhone,
   },
+  preSubmitInfo: {
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      messageAriaDescribedby:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      fullNamePath: 'certifyingOfficial',
+    },
+  },
+  transformForSubmit: transform,
   chapters: {
-    applicantInformationChapter: {
-      title: 'Applicant Information',
+    institutionDetailsChapter: {
+      title: 'Institution Details',
       pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: {
-            fullName: fullNameUI,
-            ssn: ssnUI,
+        certifyingOfficial: {
+          path: 'institution-details',
+          title: 'Tell us about yourself',
+          uiSchema: certifyingOfficial.uiSchema,
+          schema: certifyingOfficial.schema,
+        },
+        institutionDetails: {
+          path: 'institution-details-1',
+          title: 'Institution Details',
+          onNavForward: async ({ formData, goPath }) => {
+            const isAccredited = await validateFacilityCode(formData);
+            localStorage.setItem('isAccredited', JSON.stringify(isAccredited));
+            if (isAccredited) {
+              goPath('/student-ratio-calculation');
+            } else {
+              goPath('/additional-form');
+            }
           },
+          uiSchema: InstitutionDetails().uiSchema,
+          schema: InstitutionDetails().schema,
+        },
+        additionalErrorChapter: {
+          title: 'Institution Details',
+          path: 'additional-form',
+          uiSchema: { 'ui:webComponentField': () => <Alert /> },
           schema: {
             type: 'object',
-            required: ['fullName'],
-            properties: {
-              fullName,
-              ssn,
-            },
+            properties: {},
           },
         },
       },
     },
-    serviceHistoryChapter: {
-      title: 'Service History',
+    studentRatioCalcChapter: {
+      title: 'Student ratio calculation',
       pages: {
-        serviceHistory: {
-          path: 'service-history',
-          title: 'Service History',
-          uiSchema: serviceHistory.uiSchema,
-          schema: serviceHistory.schema,
+        studentRatioCalc: {
+          path: 'student-ratio-calculation',
+          title: '35% exemption calculation',
+          uiSchema: studentRatioCalc.uiSchema,
+          schema: studentRatioCalc.schema,
+          onNavBack: ({ goPath }) => {
+            const isAccredited = JSON.parse(
+              localStorage.getItem('isAccredited'),
+            );
+            if (isAccredited !== true) {
+              goPath('/additional-form');
+            } else {
+              goPath('/institution-details');
+            }
+          },
         },
       },
     },
-    additionalInformationChapter: {
-      title: 'Additional Information',
+    submissionInstructionsChapter: {
+      title: 'Submission instructions',
       pages: {
-        contactInformation: {
-          path: 'contact-information',
-          title: 'Contact Information',
+        submissionInstructions: {
+          path: 'submission-instructions',
+          title: '',
           uiSchema: {
-            address: address.uiSchema('Mailing address'),
-            email: {
-              'ui:title': 'Primary email',
+            'ui:description': SubmissionInstructions,
+            'ui:options': {
+              hideOnReview: true,
             },
-            altEmail: {
-              'ui:title': 'Secondary email',
-            },
-            phoneNumber: phoneUI('Daytime phone'),
           },
           schema: {
             type: 'object',
-            properties: {
-              address: address.schema(fullSchema, true),
-              email: {
-                type: 'string',
-                format: 'email',
-              },
-              altEmail: {
-                type: 'string',
-                format: 'email',
-              },
-              phoneNumber: usaPhone,
-            },
+            properties: {},
           },
-        },
-        directDeposit: {
-          path: 'direct-deposit',
-          title: 'Direct Deposit',
-          uiSchema: directDeposit.uiSchema,
-          schema: directDeposit.schema,
         },
       },
     },

@@ -133,6 +133,7 @@ describe('ArrayBuilderSubsequentItemPage', () => {
           schema={itemPage.schema}
           uiSchema={itemPage.uiSchema}
           data={data.employers[index]}
+          fullData={data}
           onChange={() => {}}
           onSubmit={() => {}}
           onReviewPage={false}

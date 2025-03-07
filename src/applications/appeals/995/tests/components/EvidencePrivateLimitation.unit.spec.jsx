@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import {
@@ -9,7 +9,11 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import EvidencePrivateLimitation from '../../components/EvidencePrivateLimitation';
-import { EVIDENCE_PRIVATE, EVIDENCE_PRIVATE_PATH } from '../../constants';
+import {
+  EVIDENCE_PRIVATE,
+  EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_LIMIT,
+} from '../../constants';
 
 describe('<EvidencePrivateLimitation>', () => {
   it('should render', () => {
@@ -22,6 +26,24 @@ describe('<EvidencePrivateLimitation>', () => {
     expect($('va-textarea', container)).to.exist;
     expect($('va-additional-info', container)).to.exist;
     expect($$('button', container).length).to.eq(2);
+  });
+
+  it('should set limit y/n value to true if undefined & limited consent is already set', () => {
+    const setFormDataSpy = sinon.spy();
+    const data = { showScNewForm: true, limitedConsent: 'test' };
+    render(
+      <div>
+        <EvidencePrivateLimitation data={data} setFormData={setFormDataSpy} />
+      </div>,
+    );
+
+    waitFor(() => {
+      expect(setFormDataSpy.called).to.be.true;
+      expect(setFormDataSpy.args[0]).to.deep.equal({
+        ...data,
+        [EVIDENCE_LIMIT]: true,
+      });
+    });
   });
 
   it('should submit page without error (optional textarea content)', () => {

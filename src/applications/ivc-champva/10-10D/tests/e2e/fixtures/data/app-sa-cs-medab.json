@@ -3,18 +3,16 @@
   "data": {
     "applicants": [
       {
-        "applicantPhone": "2341232345",
+        "applicantPhone": "1231231234",
         "applicantEmailAddress": "certifier@email.gov",
         "applicantAddress": {
           "country": "USA",
-          "street": "321 Street Av",
-          "city": "Cityburg",
-          "state": "AS",
+          "street": "123 Certifier Street",
+          "city": "CertTown",
+          "state": "AK",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "123123123"
-        },
+        "applicantSSN": "123123123",
         "applicantName": {
           "first": "Certifier",
           "last": "Jones",
@@ -85,13 +83,7 @@
       "suffix": "Sr."
     },
     "sponsorDob": "1999-01-01",
-    "certifierRelationship": {
-      "relationshipToVeteran": {
-        "applicant": true,
-        "spouse": false,
-        "thirdParty": true
-      }
-    },
+    "certifierRole": "applicant",
     "certifierPhone": "1231231234",
     "certifierEmail": "certifier@email.gov",
     "certifierAddress": {

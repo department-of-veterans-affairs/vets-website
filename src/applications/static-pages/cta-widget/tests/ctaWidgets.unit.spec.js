@@ -46,11 +46,7 @@ describe('CTA widgets', () => {
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.VIEW_APPOINTMENTS
         ]?.deriveToolUrlDetails(useSSO)?.url,
-      ).to.equal(
-        `https://${
-          eauthEnvironmentPrefixes[environment.BUILDTYPE]
-        }eauth.va.gov/mhv-portal-web/eauth?deeplinking=appointments`,
-      );
+      ).to.equal('/my-health/appointments');
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.SCHEDULE_APPOINTMENTS
@@ -104,9 +100,7 @@ describe('CTA widgets', () => {
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.VIEW_APPOINTMENTS
         ]?.deriveToolUrlDetails()?.url,
-      ).to.equal(
-        'https://mhv-syst.myhealth.va.gov/mhv-portal-web/appointments',
-      );
+      ).to.equal('/my-health/appointments');
       expect(
         ctaWidgetsLookup?.[
           CTA_WIDGET_TYPES?.SCHEDULE_APPOINTMENTS

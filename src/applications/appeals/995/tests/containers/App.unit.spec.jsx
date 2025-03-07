@@ -5,11 +5,11 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import * as Sentry from '@sentry/browser';
 
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
+import { mockApiRequest, resetFetch } from 'platform/testing/unit/helpers';
 
 import App from '../../containers/App';
 
@@ -18,11 +18,15 @@ import {
   SC_NEW_FORM_TOGGLE,
   SC_NEW_FORM_DATA,
 } from '../../constants';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
+
 import { SELECTED } from '../../../shared/constants';
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
 } from '../../../shared/actions';
+
+import { contestableIssuesResponse } from '../../../shared/tests/fixtures/mocks/contestable-issues.json';
 
 const hasComp = { benefitType: 'compensation' };
 
@@ -190,6 +194,23 @@ describe('App', () => {
     });
   });
 
+  it('should call contestable issues API if logged in', async () => {
+    mockApiRequest(contestableIssuesResponse);
+    const { props, data } = getData({
+      data: { ...hasComp, internalTesting: true },
+    });
+    render(
+      <Provider store={mockStore(data)}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(global.fetch.args[0][0]).to.contain(CONTESTABLE_ISSUES_API);
+      resetFetch();
+    });
+  });
+
   it('should update contested issues', async () => {
     const { props, data } = getData({
       loggedIn: true,
@@ -319,24 +340,6 @@ describe('App', () => {
         providerFacility: [],
         locations: [{ issues: [] }],
       });
-    });
-  });
-
-  it('should set Sentry tags with account UUID & in progress ID', async () => {
-    const { props, data } = getData({ accountUuid: 'abcd-5678' });
-    const store = mockStore(data);
-
-    const setTag = sinon.stub(Sentry, 'setTag');
-    render(
-      <Provider store={store}>
-        <App {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      expect(setTag.args[0]).to.deep.equal(['account_uuid', 'abcd-5678']);
-      expect(setTag.args[1]).to.deep.equal(['in_progress_form_id', '5678']);
-      setTag.restore();
     });
   });
 

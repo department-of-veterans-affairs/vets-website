@@ -22,7 +22,7 @@ export class DownloadLetterLink extends React.Component {
     });
     this.props.getLetterPdf(
       this.props.letterType,
-      this.props.letterName,
+      this.props.letterTitle,
       this.props.letterOptions,
       this.props.LH_MIGRATION__options,
     );
@@ -30,7 +30,7 @@ export class DownloadLetterLink extends React.Component {
 
   render() {
     let buttonText;
-    let buttonDisabled;
+    let buttonDisabled; // false causes MS Voice Access to ignore buttons
     let message;
     switch (this.props.downloadStatus) {
       case DOWNLOAD_STATUSES.downloading:
@@ -38,8 +38,8 @@ export class DownloadLetterLink extends React.Component {
         buttonDisabled = true;
         break;
       case DOWNLOAD_STATUSES.success:
-        buttonText = 'Download letter';
-        buttonDisabled = false;
+        buttonText = `${this.props.letterTitle} (PDF)`;
+        buttonDisabled = undefined;
         message = (
           <va-alert status="success" role="alert">
             <h4 slot="headline">Your letter has successfully downloaded.</h4>
@@ -52,7 +52,7 @@ export class DownloadLetterLink extends React.Component {
         break;
       case DOWNLOAD_STATUSES.failure:
         buttonText = 'Retry download';
-        buttonDisabled = false;
+        buttonDisabled = undefined;
         message = (
           <va-alert status="error" role="alert">
             <h4 slot="headline">Your letter didn’t download.</h4>
@@ -64,8 +64,8 @@ export class DownloadLetterLink extends React.Component {
         );
         break;
       default:
-        buttonText = 'Download letter';
-        buttonDisabled = false;
+        buttonText = `${this.props.letterTitle} (PDF)`;
+        buttonDisabled = undefined;
     }
 
     return (
@@ -101,7 +101,7 @@ export class DownloadLetterLink extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     letterType: ownProps.letterType,
-    letterName: ownProps.letterName,
+    letterTitle: ownProps.letterTitle,
     downloadStatus: ownProps.downloadStatus,
     letterOptions: state.letters.requestOptions,
     shouldUseLighthouse: state.shouldUseLighthouse,
@@ -109,7 +109,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 DownloadLetterLink.propTypes = {
-  letterName: PropTypes.string.isRequired,
+  letterTitle: PropTypes.string.isRequired,
   letterType: PropTypes.string.isRequired,
   downloadStatus: PropTypes.string,
 };

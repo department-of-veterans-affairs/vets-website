@@ -40,8 +40,12 @@ export default function ArrayBuilderItemPage({
       schema: props.schema,
       uiSchema: props.uiSchema,
       data: props.data,
+      fullData: props.fullData,
       onChange: props.onChange,
       onSubmit: props.onSubmit,
+      index: props.pagePerItemIndex
+        ? parseInt(props.pagePerItemIndex, 10)
+        : null,
     });
 
     if (!props.onReviewPage && !isEdit && !isAdd) {
@@ -63,6 +67,8 @@ export default function ArrayBuilderItemPage({
       //    so just return null until schema is loaded by useState
       return null;
     }
+
+    const NavButtons = props.NavButtons || FormNavButtons;
 
     return (
       <SchemaForm
@@ -92,8 +98,9 @@ export default function ArrayBuilderItemPage({
                 required={required}
               />
               {/* save-in-progress link, etc */}
+              {props.pageContentBeforeButtons}
               {props.contentBeforeButtons}
-              <FormNavButtons
+              <NavButtons
                 goBack={props.goBack}
                 goForward={props.onContinue}
                 submitToContinue
@@ -140,9 +147,9 @@ export default function ArrayBuilderItemPage({
     appStateData: PropTypes.object,
     contentAfterButtons: PropTypes.node,
     contentBeforeButtons: PropTypes.node,
-    PageContentBeforeButtons: PropTypes.node,
     data: PropTypes.object,
     formContext: PropTypes.object,
+    fullData: PropTypes.object,
     getFormData: PropTypes.func,
     goBack: PropTypes.func,
     goToPath: PropTypes.func,
@@ -150,11 +157,13 @@ export default function ArrayBuilderItemPage({
     onContinue: PropTypes.func,
     onReviewPage: PropTypes.bool,
     onSubmit: PropTypes.func,
+    pageContentBeforeButtons: PropTypes.node,
     pagePerItemIndex: PropTypes.string,
     required: PropTypes.bool,
     setFormData: PropTypes.func,
     title: PropTypes.string,
     trackingPrefix: PropTypes.string,
+    NavButtons: PropTypes.func,
   };
 
   return CustomPage;

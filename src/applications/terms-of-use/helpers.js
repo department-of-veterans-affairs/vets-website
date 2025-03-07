@@ -2,6 +2,7 @@ import {
   environment,
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
   logoutUrlSiS,
 } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
@@ -18,7 +19,10 @@ export const parseRedirectUrl = url => {
   const allowedDomains = [
     `${new URL(environment.BASE_URL).hostname}`, // va.gov
     `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}eauth.va.gov`, // eauth
-    `${cernerEnvPrefixes[environment.BUILDTYPE]}patientportal.myhealth.va.gov`, // cerner
+    `${cernerEnvPrefixes[environment.BUILDTYPE]}patientportal.myhealth.va.gov`, // oracle health staging
+    `${
+      oracleHealthEnvPrefixes[environment.BUILDTYPE]
+    }patientportal.myhealth.va.gov`, // oracle health sandbox
     `${eauthEnvironmentPrefixes[environment.BUILDTYPE]}fed.eauth.va.gov`, // mobile
     `vamobile://login-success`, // mobile again
   ];

@@ -8,11 +8,10 @@ import * as claimantType from './claimant/claimantType';
 import * as claimantContactPhoneEmail from './claimant/claimantContactPhoneEmail';
 import * as claimantRelationship from './claimant/claimantRelationship';
 import * as claimantPersonalInformation from './claimant/claimantPersonalInformation';
-import * as confirmClaimantPersonalInformation from './claimant/confirmClaimantPersonalInformation';
 import * as claimantContactMailing from './claimant/claimantContactMailing';
 import * as veteranPersonalInformation from './veteran/veteranPersonalInformation';
 import * as veteranContactPhoneEmail from './veteran/veteranContactPhoneEmail';
-import * as veteranContactPhoneEmailForNonVeteran from './veteran/veteranContactPhoneEmailForNonVeteran';
+import * as veteranContactPhoneEmailClaimant from './veteran/veteranContactPhoneEmailClaimant';
 import * as veteranContactMailing from './veteran/veteranContactMailing';
 import * as veteranContactMailingClaimant from './veteran/veteranContactMailingClaimant';
 import * as veteranIdentification from './veteran/veteranIdentification';
@@ -21,6 +20,7 @@ import * as selectAccreditedRepresentative from './representative/selectAccredit
 import * as replaceAccreditedRepresentative from './representative/replaceAccreditedRepresentative';
 import * as selectedAccreditedOrganizationId from './representative/selectAccreditedOrganization';
 import * as contactAccreditedRepresentative from './representative/contactAccreditedRepresentative';
+import * as representativeSubmissionMethod from './representative/representativeSubmissionMethod';
 
 export {
   authorizeMedical,
@@ -33,11 +33,10 @@ export {
   claimantContactPhoneEmail,
   claimantRelationship,
   claimantPersonalInformation,
-  confirmClaimantPersonalInformation,
   claimantContactMailing,
   veteranPersonalInformation,
   veteranContactPhoneEmail,
-  veteranContactPhoneEmailForNonVeteran,
+  veteranContactPhoneEmailClaimant,
   veteranContactMailing,
   veteranContactMailingClaimant,
   veteranIdentification,
@@ -46,4 +45,5 @@ export {
   replaceAccreditedRepresentative,
   selectedAccreditedOrganizationId,
   contactAccreditedRepresentative,
+  representativeSubmissionMethod,
 };

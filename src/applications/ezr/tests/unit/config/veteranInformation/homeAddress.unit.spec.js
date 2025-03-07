@@ -3,6 +3,7 @@ import {
   testNumberOfWebComponentFields,
 } from '../helpers.spec';
 import formConfig from '../../../../config/form';
+import { expectStateInputToBeRequired } from '../../../helpers';
 
 const {
   chapters: {
@@ -24,7 +25,7 @@ testNumberOfWebComponentFields(
 );
 
 // run test for correct number of error messages on submit
-const expectedNumberOfWebComponentErrors = 4;
+const expectedNumberOfWebComponentErrors = 5;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,
@@ -32,3 +33,17 @@ testNumberOfErrorsOnSubmitForWebComponents(
   expectedNumberOfWebComponentErrors,
   pageTitle,
 );
+
+describe('ezr VeteranHomeAddress config', () => {
+  const { defaultDefinitions: definitions } = formConfig;
+
+  it('if the country selected is not the United States, the state field is still required', async () => {
+    expectStateInputToBeRequired(
+      schema,
+      uiSchema,
+      definitions,
+      'veteranHomeAddress_country',
+      'veteranHomeAddress_state',
+    );
+  });
+});

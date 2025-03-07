@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import {
+  clockIcon,
   getFileSize,
-  inProgressOrReopenedIcon,
-  newIcon,
   setFocus,
+  starIcon,
   successIcon,
 } from '../../utils/helpers';
 
@@ -51,13 +51,13 @@ describe('Utility Functions', () => {
     });
 
     it('should render newIcon correctly', () => {
-      const { container } = render(newIcon);
+      const { container } = render(starIcon);
       expect(container.querySelector('.vads-u-color--primary')).to.exist;
       expect(container.querySelector('va-icon[icon="star"]')).to.exist;
     });
 
     it('should render inProgressOrReopenedIcon correctly', () => {
-      const { container } = render(inProgressOrReopenedIcon);
+      const { container } = render(clockIcon);
       expect(container.querySelector('.vads-u-color--grey')).to.exist;
       expect(container.querySelector('va-icon[icon="schedule"]')).to.exist;
     });

@@ -4,14 +4,19 @@ import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
+import {
+  getFormNumberFromEntity,
+  entityAcceptsDigitalPoaRequests,
+} from '../utilities/helpers';
 
 const SearchResult = ({
   representative,
   query,
   handleSelectRepresentative,
   loadingPOA,
+  userIsDigitalSubmitEligible,
 }) => {
-  const { representativeId } = representative.data;
+  const { id } = representative.data;
   const {
     name,
     fullName,
@@ -25,6 +30,10 @@ const SearchResult = ({
     email,
     accreditedOrganizations,
   } = representative.data.attributes;
+
+  const formNumber = getFormNumberFromEntity(representative.data);
+
+  const showSubmissionContent = userIsDigitalSubmitEligible;
 
   const representativeName = name || fullName;
 
@@ -43,6 +52,29 @@ const SearchResult = ({
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
+  function submissionTypeContent() {
+    if (!showSubmissionContent) {
+      return null;
+    }
+
+    const digitalSubmission = entityAcceptsDigitalPoaRequests(
+      representative?.data,
+    );
+
+    if (digitalSubmission) {
+      return (
+        <p data-testid="submission-methods-with-digital">
+          Accepts VA Form {formNumber} online, by mail, and in person
+        </p>
+      );
+    }
+    return (
+      <p data-testid="submission-methods-without-digital">
+        Accepts VA Form {formNumber} by mail and in person
+      </p>
+    );
+  }
+
   return (
     <va-card class="vads-u-padding--4 vads-u-margin-bottom--4">
       <div className="representative-result-card-content">
@@ -51,7 +83,7 @@ const SearchResult = ({
             <>
               <h3
                 className="vads-u-font-family--serif vads-u-margin-top--0p5"
-                aria-describedby={`representative-${representativeId}`}
+                aria-describedby={`representative-${id}`}
               >
                 {representativeName}
               </h3>
@@ -82,7 +114,7 @@ const SearchResult = ({
             </va-additional-info>
           </div>
         )}
-
+        {submissionTypeContent()}
         <div className="representative-contact-section vads-u-margin-top--3">
           {addressExists && (
             <div className="address-link vads-u-display--flex">
@@ -144,8 +176,8 @@ const SearchResult = ({
             />
           ) : (
             <VaButton
-              data-testid="representative-search-btn"
-              text="Select this representative"
+              data-testid={`rep-select-${id}`}
+              text={`Select ${representativeName}`}
               secondary
               onClick={() => handleSelectRepresentative(representative.data)}
             />
@@ -166,6 +198,8 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
+  handleSelectRepresentative: PropTypes.func,
+  loadingPOA: PropTypes.bool,
   location: PropTypes.object,
   phone: PropTypes.string,
   query: PropTypes.shape({
@@ -179,17 +213,19 @@ SearchResult.propTypes = {
   router: PropTypes.object,
   routes: PropTypes.array,
   stateCode: PropTypes.string,
+  userIsDigitalSubmitEligible: PropTypes.bool,
   zipCode: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  formData: state.form?.data || {},
+  formData: state.form?.data,
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
 };
 
+export { SearchResult };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

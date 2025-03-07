@@ -109,8 +109,9 @@ function getAtlasLocation(appt) {
 
 export function transformVAOSAppointment(appt) {
   const appointmentType = getAppointmentType(appt);
+  const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
-  const isVideo = appt.kind === 'telehealth';
+  const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
   const isRequest =
@@ -154,8 +155,7 @@ export function transformVAOSAppointment(appt) {
   let requestFields = {};
 
   if (isRequest) {
-    const created = moment.parseZone(appt.created).format('YYYY-MM-DD');
-    const { requestedPeriods } = appt;
+    const { requestedPeriods, created } = appt;
     const reqPeriods = requestedPeriods?.map(d => ({
       // by passing the format into the moment constructor, we are
       // preventing the local time zone conversion from occuring
@@ -219,6 +219,8 @@ export function transformVAOSAppointment(appt) {
   return {
     resourceType: 'Appointment',
     id: appt.id,
+    type: appt.type,
+    modality: appt.modality,
     status: appt.status,
     cancelationReason: appt.cancelationReason?.coding?.[0].code || null,
     avsPath: isPast ? appt.avsPath : null,
@@ -285,6 +287,7 @@ export function transformVAOSAppointment(appt) {
       isExpressCare: false,
       isPhoneAppointment: appt.kind === 'phone',
       isCOVIDVaccine: appt.serviceType === COVID_VACCINE_ID,
+      isCerner,
       apiData: appt,
       timeZone: appointmentTZ,
       facilityData,

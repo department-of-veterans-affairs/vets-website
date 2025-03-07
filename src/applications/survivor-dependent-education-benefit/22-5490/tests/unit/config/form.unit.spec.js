@@ -1,6 +1,9 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 import {
   fillData,
@@ -286,25 +289,40 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
     form.unmount();
   });
 
-  // Issue with this spec is there is a custom component to render info
-  // have been unable to get a tests that populates the data store so that the
-  // component renders correctly
-  xit('should fill out the review personal information fields', () => {
+  it('should fill out the review personal information fields', () => {
+    const initialState = {
+      user: {
+        profile: {
+          userFullName: {
+            first: 'john',
+            middle: 't',
+            last: 'test',
+          },
+          dob: '1990-01-01',
+        },
+      },
+    };
+    const mockStore = configureStore();
+    const store = mockStore(initialState);
     const {
       schema,
       uiSchema,
     } = formConfig.chapters.yourInformationChapter.pages.reviewPersonalInformation;
 
-    const form = shallow(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={{}}
-        formData={{}}
-      />,
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{}}
+          formData={{}}
+        />
+      </Provider>,
     );
-    expect(form.find('h3')).to.include('test');
+    expect(form.find('h3').text()).to.include(
+      'Review your personal information',
+    );
     form.unmount();
   });
 
@@ -381,36 +399,59 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
   });
 
   // @here fix this issue!
-  xit('should fill out the contact information fields', () => {
+  it('should fill out the contact information fields', () => {
+    const initialState = {
+      user: {
+        profile: {
+          userFullName: {
+            first: 'john',
+            middle: 't',
+            last: 'test',
+          },
+          dob: '1990-01-01',
+        },
+      },
+      form: {
+        data: {
+          duplicateEmail: [],
+          duplicatePhone: [],
+          email: '',
+        },
+      },
+      data: {
+        openModal: false,
+      },
+    };
+    const middlewares = [thunk];
+    const mockStore = configureStore(middlewares);
+    const store = mockStore(initialState);
     const {
       schema,
       uiSchema,
     } = formConfig.chapters.contactInformationChapter.pages.contactInformation;
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={{}}
-        formData={{}}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{}}
+          formData={{}}
+        />
+      </Provider>,
     );
-    fillData(form, 'input#root_mobilePhone', '555-555-5555');
-    fillData(form, 'input#root_homePhone', '444-444-4444');
-    fillData(form, 'input#root_email', 'test@example.com');
-    fillData(form, 'input#root_confirmEmail', 'test@example.com');
-    expect(form.find('input#root_mobilePhone').prop('value')).to.equal(
+
+    fillData(form, 'input#root_mobilePhone_phone', '555-555-5555');
+    fillData(form, 'input#root_homePhone_phone', '444-444-4444');
+    fillData(form, 'input#root_email', 'test@test.com');
+    fillData(form, 'input#root_confirmEmail', 'test@test.com');
+    expect(form.find('input#root_mobilePhone_phone').prop('value')).to.equal(
       '555-555-5555',
     );
-    expect(form.find('input#root_homePhone').prop('value')).to.equal(
+    expect(form.find('input#root_homePhone_phone').prop('value')).to.equal(
       '444-444-4444',
     );
-    expect(form.find('input#root_email').prop('value')).to.equal(
-      'test@example.com',
-    );
-    expect(form.find('input#root_confirmEmail').prop('value')).to.equal(
-      'test@example.com',
-    );
+
     form.unmount();
   });
   it('should fill out the mailing address fields', () => {
@@ -514,37 +555,70 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
       'input#root_mailingAddressInput_address_street',
       'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     );
-    form.find('form').simulate('submit');
 
+    form.find('form').simulate('submit');
     expect(errorMessages.at(0).text()).to.include('maximum of 40 characters');
+
     form.unmount();
   });
 
   it('should fill out the contact method fields', () => {
+    const initialState = {
+      featureToggles: {
+        showMeb5490MaintenanceAlert: true,
+      },
+      user: {
+        profile: {
+          userFullName: {
+            first: 'john',
+            middle: 't',
+            last: 'test',
+          },
+          dob: '1990-01-01',
+          loa: {
+            current: 3,
+          },
+        },
+      },
+    };
+    const mockStore = configureStore();
+    const store = mockStore(initialState);
     const {
       schema,
       uiSchema,
     } = formConfig.chapters.contactInformationChapter.pages.chooseContactMethod;
     const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
-        formData={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
-      />,
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          uiSchema={uiSchema}
+          definitions={formConfig.defaultDefinitions}
+          data={{ title: 'test form', mobilePhone: { phone: '4138675309' } }}
+          formData={{
+            title: 'test form',
+            mobilePhone: { phone: '4138675309' },
+          }}
+        />
+      </Provider>,
     );
 
     selectRadio(form, 'root_contactMethod', 'Email');
-    selectRadio(form, 'root_notificationMethod', 'no');
+    selectRadio(
+      form,
+      'root_notificationMethod',
+      'No, just send me email notifications',
+    );
 
     expect(
       form.find('input[name="root_contactMethod"][value="Email"]').props()
         .checked,
     ).to.be.true;
     expect(
-      form.find('input[name="root_notificationMethod"][value="no"]').props()
-        .checked,
+      form
+        .find(
+          'input[name="root_notificationMethod"][value="No, just send me email notifications"]',
+        )
+        .props().checked,
     ).to.be.true;
     form.unmount();
   });

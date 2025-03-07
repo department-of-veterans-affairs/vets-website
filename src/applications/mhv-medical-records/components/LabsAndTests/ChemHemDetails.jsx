@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -25,6 +24,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   formatNameFirstLast,
+  formatUserDob,
 } from '../../util/helpers';
 import { pageTitles } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -33,6 +33,8 @@ import {
   generateChemHemContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import HeaderSection from '../shared/HeaderSection';
+import LabelValue from '../shared/LabelValue';
 
 const ChemHemDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -48,9 +50,6 @@ const ChemHemDetails = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${record.name} - ${pageTitles.LAB_AND_TEST_RESULTS_PAGE_TITLE}`,
-      );
     },
     [record.date, record.name],
   );
@@ -64,9 +63,13 @@ const ChemHemDetails = props => {
 
   const generateChemHemPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateLabsIntro(record);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
-    const pdfData = { ...scaffold, ...generateChemHemContent(record) };
+    const { title, subject, subtitles } = generateLabsIntro(record);
+    const scaffold = generatePdfScaffold(user, title, subject);
+    const pdfData = {
+      ...scaffold,
+      subtitles,
+      ...generateChemHemContent(record),
+    };
     const pdfName = `VA-labs-and-tests-details-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Chem/Hem details', runningUnitTest);
   };
@@ -77,7 +80,7 @@ const ChemHemDetails = props => {
 ${crisisLineHeader}\n\n
 ${record.name}\n
 ${formatNameFirstLast(user.userFullName)}\n
-Date of birth: ${formatDateLong(user.dob)}\n
+Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 Date entered: ${record.date}\n
 ${txtLine}\n\n
@@ -110,83 +113,85 @@ Lab comments: ${entry.labComments}\n`,
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1
+      <HeaderSection
+        header={record.name}
         className="vads-u-margin-bottom--1"
         aria-describedby="chem-hem-date"
         data-testid="chem-hem-name"
         data-dd-privacy="mask"
+        data-dd-action-name="[lab and tests - name]"
       >
-        {record.name}
-      </h1>
-      <DateSubheading
-        date={record.date}
-        id="chem-hem-date"
-        label="Date and time collected"
-        labelClass="vads-u-font-weight--normal"
-      />
+        <DateSubheading
+          date={record.date}
+          id="chem-hem-date"
+          label="Date and time collected"
+          labelClass="vads-u-font-weight--normal"
+        />
 
-      {downloadStarted && <DownloadSuccessAlert />}
-      <PrintDownload
-        downloadPdf={generateChemHemPdf}
-        downloadTxt={generateChemHemTxt}
-        allowTxtDownloads={allowTxtDownloads}
-      />
-      <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+        {downloadStarted && <DownloadSuccessAlert />}
+        <PrintDownload
+          description="L&TR Detail"
+          downloadPdf={generateChemHemPdf}
+          downloadTxt={generateChemHemTxt}
+          allowTxtDownloads={allowTxtDownloads}
+        />
+        <DownloadingRecordsInfo
+          description="L&TR Detail"
+          allowTxtDownloads={allowTxtDownloads}
+        />
 
-      {/*                   TEST DETAILS                          */}
-      <div className="test-details-container max-80">
-        <h2>Details about this test</h2>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Type of test
-        </h3>
-        <p data-testid="chem-hem-category" data-dd-privacy="mask">
-          {record.category}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Site or sample tested
-        </h3>
-        <p data-testid="chem-hem-sample-tested" data-dd-privacy="mask">
-          {record.sampleTested}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Ordered by
-        </h3>
-        <p data-testid="chem-hem-ordered-by" data-dd-privacy="mask">
-          {record.orderedBy}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Location
-        </h3>
-        <p data-testid="chem-hem-collecting-location" data-dd-privacy="mask">
-          {record.collectingLocation}
-        </p>
-        <h3 className="vads-u-font-size--md vads-u-font-family--sans">
-          Lab comments
-        </h3>
-        <ItemList list={record.comments} />
-      </div>
-      {/*         RESULTS CARDS            */}
-      <div className="test-results-container">
-        <h2>Results</h2>
-        <InfoAlert highLowResults fullState={fullState} />
-        <div className="print-only">
-          <p>
-            Your provider will review your results and explain what they mean
-            for your health. To ask a question now, send a secure message to
-            your care team.
-          </p>
-          <h4 className="vads-u-margin--0 vads-u-font-size--md vads-u-font-family--sans">
-            Standard range
-          </h4>
-          <p className="vads-u-margin-top--0">
-            The standard range is one tool your providers use to understand your
-            results. If your results are outside the standard range, this
-            doesn’t automatically mean you have a health problem. Your provider
-            will explain what your results mean for your health.
-          </p>
+        {/*                   TEST DETAILS                          */}
+        <div className="test-details-container max-80">
+          <HeaderSection header="Details about this test">
+            <LabelValue
+              label="Type of test"
+              value={record.category}
+              testId="chem-hem-category"
+              data-dd-action-name="[lab and tests - category]"
+            />
+            <LabelValue
+              label="Site or sample tested"
+              value={record.sampleTested}
+              testId="chem-hem-sample-tested"
+              data-dd-action-name="[lab and tests - site]"
+            />
+            <LabelValue
+              label="Ordered by"
+              value={record.orderedBy}
+              testId="chem-hem-ordered-by"
+              data-dd-action-name="[lab and tests - ordered by]"
+            />
+            <LabelValue
+              label="Location"
+              value={record.collectingLocation}
+              testId="chem-hem-collecting-location"
+              data-dd-action-name="[lab and tests - location]"
+            />
+            <LabelValue label="Lab comments" />
+            <ItemList list={record.comments} />
+          </HeaderSection>
         </div>
-        <ChemHemResults results={record.results} />
-      </div>
+        {/*         RESULTS CARDS            */}
+        <div className="test-results-container">
+          <HeaderSection header="Results" className="test-results-header">
+            <InfoAlert highLowResults fullState={fullState} />
+            <div className="print-only">
+              <p>
+                Your provider will review your results and explain what they
+                mean for your health. To ask a question now, send a secure
+                message to your care team.
+              </p>
+              <LabelValue label="Standard range">
+                The standard range is one tool your providers use to understand
+                your results. If your results are outside the standard range,
+                this doesn’t automatically mean you have a health problem. Your
+                provider will explain what your results mean for your health.
+              </LabelValue>
+            </div>
+            <ChemHemResults results={record.results} />
+          </HeaderSection>
+        </div>
+      </HeaderSection>
     </div>
   );
 };

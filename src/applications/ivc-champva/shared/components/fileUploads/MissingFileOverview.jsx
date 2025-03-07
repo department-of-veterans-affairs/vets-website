@@ -61,13 +61,13 @@ const mailInfo = (address, officeName, faxNum, preamble, appType) => {
         <p className="vads-u-padding-x--10px vads-u-margin-left--1">
           {address ?? (
             <>
-              VHA Office of Community Care
+              VHA Office of Integrated Veteran Care
               <br />
               CHAMPVA Eligibility
               <br />
-              P.O. Box 469028
+              PO Box 137
               <br />
-              Denver, CO 80246-9028
+              Spring City. PA 19475
             </>
           )}
         </p>
@@ -259,7 +259,7 @@ export default function MissingFileOverview({
   // Update sponsor to identify missing uploads
   const sponsorConditionalPages = getConditionalPages(pages, data);
   const sponsorMiss = {
-    name: data?.[nonListNameKey || 'veteransFullName'],
+    [nonListNameKey ?? 'name']: data?.[nonListNameKey || 'veteransFullName'],
     missingUploads: checkFlags(
       sponsorConditionalPages,
       data,

@@ -285,7 +285,7 @@ function VAFacilityPage({
         <InfoAlert
           status="warning"
           headline="Your browser is blocked from finding your current location."
-          className="vads-u-background-color--gold-lightest vads-u-font-size--base vads-u-padding-bottom--3"
+          className="vads-u-background-color--gold-lightest vads-u-padding-bottom--3"
           level="3"
         >
           <p>

@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
-
-import { selectProfile } from '~/platform/user/selectors';
-import { VA_FORM_IDS } from '~/platform/forms/constants';
-import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
-
-import { selectAuthStatus } from '../../../utils/selectors/auth-status';
+import { selectProfile } from 'platform/user/selectors';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import {
+  selectAuthStatus,
+  selectFeatureToggles,
+} from '../../../utils/selectors';
 import SaveInProgressDescription from './SaveInProgressDescription';
 import CheckAppStatusAlert from '../../FormAlerts/CheckAppStatusAlert';
 import SaveTimeSipAlert from '../../FormAlerts/SaveTimeSipAlert';
@@ -17,6 +18,7 @@ import content from '../../../locales/en/content.json';
 const ProcessDescription = ({ route }) => {
   const { isLoggedIn } = useSelector(selectAuthStatus);
   const { savedForms } = useSelector(selectProfile);
+  const { isPerformanceAlertEnabled } = useSelector(selectFeatureToggles);
 
   // set display variables
   const formID = VA_FORM_IDS.FORM_10_10EZ;
@@ -29,6 +31,7 @@ const ProcessDescription = ({ route }) => {
     const { savedFormMessages, prefillEnabled, downtime } = formConfig;
     const sipProps = {
       startText: content['sip-start-form-text'],
+      hideUnauthedStartLink: isPerformanceAlertEnabled,
       messages: savedFormMessages,
       prefillEnabled,
       buttonOnly,

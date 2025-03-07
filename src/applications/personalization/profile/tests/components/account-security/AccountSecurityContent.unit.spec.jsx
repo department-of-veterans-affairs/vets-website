@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { cleanup } from '@testing-library/react';
-import { within } from '@testing-library/dom';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import AccountSecurityContent from '../../../components/account-security/AccountSecurityContent';
@@ -124,7 +123,7 @@ describe('AccountSecurityContent component', () => {
   });
 
   it('renders regular identity not verified alert when user is not verified and id.me', () => {
-    const { getByText, container } = renderWithProfileReducersAndRouter(
+    const { container } = renderWithProfileReducersAndRouter(
       <AccountSecurityContent />,
       {
         initialState: {
@@ -144,15 +143,8 @@ describe('AccountSecurityContent component', () => {
       },
     );
 
-    expect(
-      getByText('Verify your identity to access your complete profile'),
-      'heading for alert exists when user is not verified',
-    ).to.exist;
-
-    const alert = container.querySelector('va-alert');
-    expect(
-      within(alert).getByRole('link', { name: 'Verify your identity' }),
-      'verify identity link exists when user is not verified',
-    ).to.exist;
+    const alert = container.querySelector('va-alert-sign-in');
+    expect(alert).to.exist;
+    expect(alert.getAttribute('variant')).to.eql('verifyIdMe');
   });
 });

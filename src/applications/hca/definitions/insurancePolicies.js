@@ -1,6 +1,5 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import {
-  Title,
+  titleUI,
   textUI,
   arrayBuilderYesNoUI,
   arrayBuilderYesNoSchema,
@@ -10,6 +9,7 @@ import {
   PolicyOrGroupTitle,
   TricarePolicyDescription,
 } from '../components/FormDescriptions';
+import { FULL_SCHEMA } from '../utils/imports';
 import { validatePolicyNumber } from '../utils/validation';
 import content from '../locales/en/content.json';
 
@@ -17,7 +17,7 @@ const {
   providers: {
     items: { properties: policy },
   },
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 /**
  * Declare schema attributes for policy information page
@@ -48,7 +48,7 @@ export const policyPage = options => ({
       }),
     },
     'view:policyNumberOrGroupCode': {
-      'ui:title': Title({
+      ...titleUI({
         title: PolicyOrGroupTitle,
         headerLevel: 4,
         classNames: 'vads-u-margin-top--3',

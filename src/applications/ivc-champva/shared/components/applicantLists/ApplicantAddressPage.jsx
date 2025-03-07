@@ -9,6 +9,7 @@ import { applicantWording } from '../../utilities';
 export function ApplicantAddressCopyPage({
   contentBeforeButtons,
   contentAfterButtons,
+  customAddressKey, // optional override of `applicantAddress` so we can target arbitrary addresses in the form
   data,
   setFormData,
   goBack,
@@ -22,6 +23,7 @@ export function ApplicantAddressCopyPage({
   positivePrefix,
   negativePrefix,
 }) {
+  const addressKey = customAddressKey ?? 'applicantAddress';
   // Get the current applicant from list, OR if we don't have a list of
   // applicants, just treat the whole form data object as a single applicant
   const currentApp =
@@ -29,7 +31,9 @@ export function ApplicantAddressCopyPage({
       ? data?.applicants?.[pagePerItemIndex]
       : data;
   const [selectValue, setSelectValue] = useState(currentApp?.sharesAddressWith);
-  const [address, setAddress] = useState(currentApp?.applicantAddress);
+  const [address, setAddress] = useState(
+    data[addressKey] ?? currentApp?.[addressKey],
+  );
   // const [radioError, setRadioError] = useState(undefined);
   const [selectError, setSelectError] = useState(undefined);
   const [dirty, setDirty] = useState(false);
@@ -65,9 +69,7 @@ export function ApplicantAddressCopyPage({
     // Make sure that our <select> only shows options that:
     // 1. Have a valid address we can copy
     // 2. Are NOT the current applicant
-    return (
-      person?.applicantAddress?.country !== undefined && person !== currentApp
-    );
+    return person?.[addressKey]?.country !== undefined && person !== currentApp;
   }
 
   // Gets the veteran/sponsor address and third party address
@@ -82,9 +84,12 @@ export function ApplicantAddressCopyPage({
         displayText: `${data.certifierAddress.street} ${data.certifierAddress
           ?.state ?? ''}`,
       });
-    if (data.sponsorAddress?.street && data.veteransFullName)
+    if (
+      data.sponsorAddress?.street &&
+      (data.veteransFullName ?? data.sponsorName)
+    )
       allAddresses.push({
-        originatorName: fullName(data.veteransFullName),
+        originatorName: fullName(data.veteransFullName ?? data.sponsorName),
         originatorAddress: data.sponsorAddress,
         displayText: `${data.sponsorAddress.street} ${data.sponsorAddress
           ?.state ?? ''}`,
@@ -94,8 +99,8 @@ export function ApplicantAddressCopyPage({
       data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
         allAddresses.push({
           originatorName: fullName(app.applicantName),
-          originatorAddress: app.applicantAddress,
-          displayText: `${app.applicantAddress.street} ${app.applicantAddress
+          originatorAddress: app?.[addressKey],
+          displayText: `${app?.[addressKey].street} ${app?.[addressKey]
             ?.state ?? ''}`,
         }),
       );
@@ -146,7 +151,7 @@ export function ApplicantAddressCopyPage({
           : tmpVal;
       tmpApp.sharesAddressWith = selectValue;
       if (selectValue !== 'not-shared') {
-        tmpApp.applicantAddress = address;
+        tmpApp[addressKey] = address;
       }
       setFormData(tmpVal);
       if (onReviewPage) updatePage();
@@ -223,6 +228,7 @@ export function ApplicantAddressCopyPage({
 ApplicantAddressCopyPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
+  customAddressKey: PropTypes.string,
   customDescription: PropTypes.string,
   customSelectText: PropTypes.string,
   customTitle: PropTypes.string,

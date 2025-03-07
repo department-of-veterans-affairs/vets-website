@@ -1,39 +1,34 @@
-/* eslint-disable @department-of-veterans-affairs/keep-react-modal */
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { LoginContainer } from 'platform/user/authentication/components';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-export default class SignInModal extends React.Component {
-  componentDidUpdate(prevProps) {
-    const isOAuthEvent = this.props.useSiS ? '-oauth' : '';
-    if (!prevProps.visible && this.props.visible) {
-      recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
-    } else if (prevProps.visible && !this.props.visible) {
-      recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
-    }
-  }
+export default function SignInModal({ visible, onClose, useSiS }) {
+  const [prevVisible, setPrevVisible] = useState(null);
 
-  render() {
-    return (
-      <Modal
-        cssClass="va-modal-large new-modal-design"
-        visible={this.props.visible}
-        focusSelector="button"
-        onClose={this.props.onClose}
-        id="signin-signup-modal"
-      >
-        <LoginContainer />
-      </Modal>
-    );
-  }
+  useEffect(
+    () => {
+      const isOAuthEvent = useSiS ? '-oauth' : '';
+      if (!prevVisible && visible) {
+        recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
+      } else if (prevVisible && !visible) {
+        recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
+      }
+      setPrevVisible(visible);
+    },
+    [visible, useSiS, prevVisible],
+  );
+
+  return visible ? (
+    <VaModal
+      large
+      visible={visible}
+      onCloseEvent={onClose}
+      id="signin-signup-modal"
+    >
+      <LoginContainer />
+    </VaModal>
+  ) : null;
 }
-
-SignInModal.propTypes = {
-  useSiS: PropTypes.bool,
-  visible: PropTypes.bool,
-  onClose: PropTypes.func,
-};

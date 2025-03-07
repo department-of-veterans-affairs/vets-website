@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 
-import { validateDate, isValidDate } from '../../validations/date';
+import {
+  validateDate,
+  isValidDate,
+  validateYMDate,
+} from '../../validations/date';
+import { SC_NEW_FORM_DATA, errorMessages as scErrors } from '../../constants';
 
 import { parseDate, parseDateWithOffset } from '../../../shared/utils/dates';
 import errorMessages from '../../../shared/content/errorMessages';
@@ -126,5 +131,58 @@ describe('validateDate & isValidDate', () => {
     expect(errorMessage[1]).to.not.contain('year');
     expect(errorMessage[1]).to.contain('other');
     expect(isValidDate(date)).to.be.false;
+  });
+});
+
+describe('validateYMDate', () => {
+  const fullData = { [SC_NEW_FORM_DATA]: true };
+  const getYM = date => date.substring(0, 7);
+  let errorMessage = [];
+  const errors = {
+    addError: message => {
+      errorMessage.push(message || '');
+    },
+  };
+
+  beforeEach(() => {
+    errorMessage = [];
+  });
+
+  it('should allow valid dates', () => {
+    const date = getYM(parseDateWithOffset({ weeks: -1 }));
+    validateYMDate(errors, date, fullData);
+    expect(errorMessage[0]).to.be.undefined;
+  });
+  it('should allow valid dates without a leading zero', () => {
+    const date = '2020-1';
+    validateYMDate(errors, date, fullData);
+    expect(errorMessage[0]).to.be.undefined;
+  });
+  it('should throw a missing date error', () => {
+    validateYMDate(errors, '200', fullData);
+    expect(errorMessage.length).to.eq(0);
+  });
+  it('should throw a invalid date error', () => {
+    validateYMDate(errors, '2023-13', fullData);
+    expect(errorMessage[0]).to.eq(errorMessages.invalidDate);
+  });
+  it('should throw a range error for dates too old', () => {
+    validateYMDate(errors, '1899-01', fullData);
+    expect(errorMessage[0]).to.eq(scErrors.evidence.newerDate);
+  });
+  it('should throw an error for dates in the future', () => {
+    const date = getYM(parseDateWithOffset({ weeks: 5 }));
+    validateYMDate(errors, date, fullData);
+    expect(errorMessage[0]).to.eq(scErrors.evidence.pastDate);
+  });
+  it('should throw an error for dates in the distant past', () => {
+    const date = getYM(parseDateWithOffset({ years: -(MAX_YEARS_PAST + 1) }));
+    validateYMDate(errors, date, fullData);
+    expect(errorMessage[0]).to.contain(scErrors.evidence.newerDate);
+  });
+  it('should not throw an error for truncated dates', () => {
+    // Testing 'YYYY-'
+    validateYMDate(errors, '2000-', fullData);
+    expect(errorMessage.length).to.eq(0);
   });
 });

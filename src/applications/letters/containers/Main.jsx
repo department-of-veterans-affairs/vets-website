@@ -39,7 +39,10 @@ export class Main extends React.Component {
 
     if (!this.props.emptyAddress) {
       // eslint-disable-next-line -- LH_MIGRATION
-      return this.props.getLetterListAndBSLOptions(LH_MIGRATION__options, shouldUseLettersDiscrepancies);
+      return this.props.getLetterListAndBSLOptions(
+        LH_MIGRATION__options,
+        shouldUseLettersDiscrepancies,
+      );
     }
     return this.props.profileHasEmptyAddress();
   }

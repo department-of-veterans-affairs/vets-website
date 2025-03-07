@@ -4,12 +4,12 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 
-import { MailingAddressEdit } from '../../pages/MailingAddressEdit';
+import { EditVeteranAddress } from '../../pages/edit-veteran-address/EditVeteranAddress';
 
 export const editVeteranAddress = {
   title: 'Edit contact information',
   path: 'personal-information/edit-veteran-address',
-  CustomPage: MailingAddressEdit,
+  CustomPage: EditVeteranAddress,
   CustomPageReview: null,
   uiSchema: {
     veteranAddress: addressUI({ omit: ['street3'] }),

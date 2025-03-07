@@ -1,5 +1,5 @@
 import appendQuery from 'append-query';
-import { apiRequest } from '~/platform/utilities/api';
+import { apiRequest } from 'platform/utilities/api';
 import {
   API_ENDPOINTS,
   ENROLLMENT_STATUS_ACTIONS,

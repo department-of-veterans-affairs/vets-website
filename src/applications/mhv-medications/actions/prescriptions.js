@@ -7,15 +7,22 @@ import {
   fillRxs,
   getAllergies,
   getFilteredList,
+  getRecentlyRequestedList,
 } from '../api/rxApi';
+import { isRefillTakingLongerThanExpected } from '../util/helpers';
 
 // **Remove once filter feature is developed and live.**
 export const getPrescriptionsPaginatedSortedList = (
   pageNumber,
   sortEndpoint,
+  perPage,
 ) => async dispatch => {
   try {
-    const response = await getPaginatedSortedList(pageNumber, sortEndpoint);
+    const response = await getPaginatedSortedList(
+      pageNumber,
+      sortEndpoint,
+      perPage,
+    );
     dispatch({
       type: Actions.Prescriptions.GET_PAGINATED_SORTED_LIST,
       response,
@@ -29,11 +36,47 @@ export const getPrescriptionsPaginatedSortedList = (
   }
 };
 
-export const getPaginatedFilteredList = filterOption => async dispatch => {
+export const getPaginatedFilteredList = (
+  pageNumber,
+  filterOption,
+  sortEndpoint,
+  perPage,
+) => async dispatch => {
   try {
-    const response = await getFilteredList(filterOption);
+    const response = await getFilteredList(
+      pageNumber,
+      filterOption,
+      sortEndpoint,
+      perPage,
+    );
     dispatch({
       type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
+      response,
+    });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
+    });
+    return error;
+  }
+};
+
+export const getRefillAlertList = () => async dispatch => {
+  try {
+    const recentlyRequestedList = await getRecentlyRequestedList();
+    const response = recentlyRequestedList.data.reduce(
+      (refillAlertList, { attributes: rx }) => {
+        if (isRefillTakingLongerThanExpected(rx)) {
+          refillAlertList.push(rx);
+        }
+        return refillAlertList;
+      },
+      [],
+    );
+
+    dispatch({
+      type: Actions.Prescriptions.GET_REFILL_ALERT_LIST,
       response,
     });
     return null;

@@ -63,6 +63,7 @@ export const REVIEW_AND_SUBMIT = '/review-and-submit';
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
 export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
+export const FORMAT_READABLE_MMYY_DATE_FNS = 'MMMM yyyy';
 
 // Supplemental Claim allows for past decision dates, but we should limit them.
 // Limit past decision dates to 100 years until told otherwise
@@ -122,7 +123,8 @@ export const REGEXP = {
   APOSTROPHE: /\u2019/g,
   COMMA: /[, ]/g,
   DASH: /-/g,
-  EMPTY_DATE: /(--|-00-00)/,
+  EMPTY_DATE: /^(-|--|-00-00)$/,
+  NON_DIGIT: /\D/g,
   PERCENT: /(\s|\b)percent(\s|\b)/gi,
   WHITESPACE: /\s+/g,
 };

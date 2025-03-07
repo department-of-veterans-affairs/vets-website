@@ -1,12 +1,26 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation, useHistory, Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom-v5-compat';
 
-export default function BreadCrumbs() {
+const uuidRegex = /[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[89ABCD][0-9A-F]{3}-[0-9A-F]{12}/;
+
+export default function Breadcrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
-  const uuidPathRegex = /^\/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[89abcd][\da-f]{3}-[\da-f]{12}$/i;
-  const isDetailsPage = pathname.match(uuidPathRegex);
+
+  const isDetailsPage = new RegExp(
+    /\/claims\//.source + uuidRegex.source,
+    'i',
+  ).test(pathname);
+  const isStatusExplainer = pathname.includes('/help');
+
+  const { apptId, id: claimId } = useParams();
+
+  const isSubmitWrapper = new RegExp(
+    /\/file-new-claim\//.source + apptId,
+    'i',
+  ).test(pathname);
 
   const breadcrumbList = [
     {
@@ -20,23 +34,41 @@ export default function BreadCrumbs() {
       label: 'My HealtheVet',
     },
     {
-      href: '/my-health/travel-claim-status',
+      href: '/claims/',
       label: 'Check your travel reimbursement claim status',
       isRouterLink: true,
     },
   ];
+
+  if (isStatusExplainer) {
+    breadcrumbList.push({
+      href: '/help',
+      label: 'Help: Claim Status Meanings',
+      isRouterLink: true,
+    });
+  }
+
+  if (isDetailsPage) {
+    breadcrumbList.push({
+      href: `/claims/${claimId}`,
+      label: 'Your travel reimbursement claim',
+      isRouterLink: true,
+    });
+  }
 
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
   };
 
-  return isDetailsPage ? (
-    <div className="claim-details-breadcrumb-wrapper">
-      {isDetailsPage && <va-icon class="back-arrow" icon="arrow_back" />}
-      <Link className="go-back-link" to="/">
-        Back to your travel reimbursement claims
-      </Link>
+  return isSubmitWrapper ? (
+    <div className="vads-u-padding-top--2p5 vads-u-padding-bottom--4">
+      <va-link
+        data-testid="submit-back-link"
+        back
+        href={`/my-health/appointments/past/${apptId}`}
+        text="Back to your appointment"
+      />
     </div>
   ) : (
     <VaBreadcrumbs

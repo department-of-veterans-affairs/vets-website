@@ -21,7 +21,7 @@ export default function DefaultPage({
 }) {
   return (
     <div id="default-page" className="vads-u-margin-bottom--3">
-      <h1 className="claims-header">Request for {item.displayName}</h1>
+      <h1 className="claims-header">{item.displayName}</h1>
       {item.status === 'NEEDED_FROM_YOU' ? (
         <DueDate date={item.suspenseDate} />
       ) : null}

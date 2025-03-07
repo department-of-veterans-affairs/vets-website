@@ -1,10 +1,11 @@
+import _ from 'lodash';
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
 /**
  * Returns either a form of 'you', or the applicant's full name based
  * on the formData's `certifierRole` property. Assumes presences of an
  * `applicantName` key.
- * @param {object} formData Obj containing `certifierRole` and `applicantName
+ * @param {object} formData Obj containing `certifierRole` and `applicantName`
  * @param {boolean} isPosessive `true` if we want posessive form, `false` otherwise
  * @param {boolean} cap `true` if we want to capitalize first letter, `false` to leave as-is
  * @param {boolean} firstNameOnly `true` if we want just applicant's first name, `false` for full name
@@ -76,7 +77,14 @@ export function getConditionalPages(pages, data, index) {
 
 // Expects a date as a string in YYYY-MM-DD format
 export function getAgeInYears(date) {
-  const difference = Date.now() - Date.parse(date);
+  let difference = new Date(Date.now() - Date.parse(date));
+
+  // Get UTC offset to account for local TZ (See https://stackoverflow.com/a/9756226)
+  const utcOffsetSeconds =
+    (difference.getTime() + difference.getTimezoneOffset() * 60 * 1000) / 1000;
+
+  difference -= utcOffsetSeconds;
+
   return Math.abs(new Date(difference).getUTCFullYear() - 1970);
 }
 
@@ -155,4 +163,47 @@ export function concatStreets(addr, newLines = false) {
     }
   }
   return updated;
+}
+
+/**
+ * Retrieves an array of objects containing the property 'attachmentId'
+ * from the given object.
+ *
+ * @param {Object} obj - The input object to search for objects with 'attachmentId'.
+ * @returns {Array} - An array containing objects with the 'attachmentId' property.
+ */
+export function getObjectsWithAttachmentId(obj) {
+  const objectsWithAttachmentId = [];
+  _.forEach(obj, value => {
+    if (_.isArray(value)) {
+      _.forEach(value, item => {
+        if (_.isObject(item) && _.has(item, 'attachmentId')) {
+          objectsWithAttachmentId.push(item);
+        }
+      });
+    }
+  });
+
+  return objectsWithAttachmentId;
+}
+
+/**
+ * Tests whether a string meets regex requirements and, if not, provides
+ * a clear message to be presented to users filling out text fields.
+ *
+ * @param {String} value The string to test against the regex
+ * @returns {String | null} Error messsage explaining invalid characters or null
+ * if no violations detected
+ */
+export function validateText(value) {
+  const invalidCharsPattern = /[~!@#$%^&*+=[\]{}()<>;:"`\\/_|]/g;
+  const matches = value.match(invalidCharsPattern);
+
+  let retVal = null;
+  if (matches) {
+    const uniqueInvalidChars = [...new Set(matches)].join(', ');
+    const staticText = 'You entered a character we can’t accept. Try removing';
+    retVal = `${staticText} ${uniqueInvalidChars}`;
+  }
+  return retVal;
 }

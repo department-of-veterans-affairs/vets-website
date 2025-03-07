@@ -1,0 +1,9 @@
+steps:
+  - action: exists
+    target: header
+    value:  Topic
+  - action: click
+    target: radio
+    value:  Insurance premiums # was: Dividends
+  - action: click
+    target: call-to-action

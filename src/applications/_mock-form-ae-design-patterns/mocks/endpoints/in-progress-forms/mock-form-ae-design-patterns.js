@@ -1,15 +1,14 @@
+const { USER, FULL_NAME, HOME_PHONE_FULL } = require('../../constants/user');
+
 const prefill = {
   formData: {
-    veteranFullName: {
-      first: 'Mitchell',
-      middle: 'George',
-      last: 'Jenkins',
-    },
-    gender: 'M',
-    veteranDateOfBirth: '1950-11-18',
-    veteranSocialSecurityNumber: '123456789',
-    homePhone: '6575107441',
-    email: 'vets.gov.user+71@gmail.com',
+    veteranFullName: FULL_NAME,
+    gender: USER.GENDER,
+    veteranDateOfBirth: USER.BIRTH_DATE,
+    veteranSocialSecurityNumber: USER.SSN_LAST_FOUR,
+    veteranVAFileNumber: '2345',
+    homePhone: HOME_PHONE_FULL,
+    email: USER.EMAIL,
     'view:maritalStatus': { maritalStatus: 'MARRIED' },
     spouseFullName: { first: 'Michelle', last: 'Smith' },
     spouseDateOfBirth: '1984-08-03',

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate, maskSSN } from '../../utils/helpers/general';
-import { normalizeFullName } from '../../utils/helpers';
+import { formatDate, maskSSN, normalizeFullName } from '../../utils/helpers';
 
 const GuestVerifiedInformation = ({ user }) => {
   const {

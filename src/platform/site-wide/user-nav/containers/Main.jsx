@@ -37,7 +37,7 @@ export class Main extends Component {
     // In some cases this component is mounted on a url that is part of the login process and doesn't need to make another
     // request, because that data will be passed to the parent window and done there instead.
     if (!window.location.pathname.includes('auth/login/callback')) {
-      window.addEventListener('load', this.checkLoggedInStatus);
+      this.checkLoggedInStatus();
     }
   }
 

@@ -7,8 +7,8 @@ import {
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
 import {
-  selectAddressValidation,
   hasBadAddress,
+  selectAddressValidation,
 } from 'platform/user/profile/vap-svc/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import { formatAddress } from 'platform/forms/address/helpers';
@@ -19,12 +19,12 @@ import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import * as VAP_SERVICE from '../constants';
 import {
-  openModal,
+  closeModal,
   createTransaction,
+  openModal,
+  resetAddressValidation as resetAddressValidationAction,
   updateSelectedAddress,
   updateValidationKeyAndSave,
-  closeModal,
-  resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
 import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
@@ -167,11 +167,13 @@ class AddressValidationView extends React.Component {
         >
           {toggleValue =>
             !toggleValue ? (
-              <va-button
-                primary
+              <button
                 onClick={this.onEditClick}
-                text="Edit Address"
-              />
+                type="submit"
+                className="vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+              >
+                Edit Address
+              </button>
             ) : null
           }
         </Toggler.Hoc>
@@ -181,7 +183,7 @@ class AddressValidationView extends React.Component {
     return (
       <LoadingButton
         isLoading={isLoading}
-        className="usa-button-secondary"
+        type="submit"
         data-testid="confirm-address-button"
         aria-label={isLoading ? 'Loading' : buttonText}
       >
@@ -207,10 +209,7 @@ class AddressValidationView extends React.Component {
     const { street, cityStateZip, country } = formatAddress(address);
 
     return (
-      <div
-        key={id}
-        className="vads-u-margin-bottom--1p5 address-validation-container"
-      >
+      <div key={id} className="address-validation-container">
         {isFirstOptionOrEnabled &&
           hasConfirmedSuggestions && (
             <input
@@ -314,14 +313,16 @@ class AddressValidationView extends React.Component {
           )}
 
           <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
-            {!isLoading && (
-              <va-button
-                primary
-                onClick={this.onEditClick}
-                text="Go back to edit"
-              />
-            )}
             {this.renderPrimaryButton()}
+            {!isLoading && (
+              <button
+                type="button"
+                className="usa-button-secondary vads-u-margin-top--1p4 mobile-lg:vads-u-margin-top--1p5 vads-u-width--full mobile-lg:vads-u-width--auto"
+                onClick={this.onEditClick}
+              >
+                Go back to edit
+              </button>
+            )}
           </div>
         </form>
       </>

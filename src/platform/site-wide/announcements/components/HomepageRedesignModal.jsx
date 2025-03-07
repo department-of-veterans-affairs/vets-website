@@ -56,16 +56,13 @@ function HomepageRedesignModal({ dismiss }) {
               and information you need faster.
             </p>
             <p>And we want your feedback to help us make it even better.</p>
-
-            <a
-              className="vads-c-action-link--green"
+            <va-link-action
               href="/new-home-page"
               onClick={() => {
                 dismiss();
               }}
-            >
-              Try the new home page
-            </a>
+              text="Try the new home page"
+            />
           </div>
         </VaModal>
       )}

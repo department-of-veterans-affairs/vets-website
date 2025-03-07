@@ -126,6 +126,7 @@ CashInBank.propTypes = {
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   setFormData: PropTypes.func,
 };
 
@@ -162,9 +163,7 @@ const CashInBankReview = ({ data, goToPath }) => {
     //  cash on hand page since it's the head of the chapter
     const gmtDepends =
       (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowGmt) ||
-      (gmtData?.isEligibleForStreamlined &&
-        gmtData?.incomeBelowOneFiftyGmt &&
-        data['view:streamlinedWaiverAssetUpdate']);
+      (gmtData?.isEligibleForStreamlined && gmtData?.incomeBelowOneFiftyGmt);
 
     if (gmtDepends || data['view:reviewPageNavigationToggle']) {
       return goToPath('/cash-on-hand');
@@ -212,7 +211,6 @@ CashInBankReview.propTypes = {
       isEligibleForStreamlined: PropTypes.bool,
       incomeBelowOneFiftyGmt: PropTypes.bool,
     }),
-    'view:streamlinedWaiverAssetUpdate': PropTypes.bool,
   }),
 };
 

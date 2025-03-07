@@ -1,5 +1,5 @@
 import React from 'react';
-import { buildAddressArray } from '../../facility-locator/utils/facilityAddress';
+import { buildAddressArray } from 'platform/utilities/facilities-and-mapbox';
 
 export default function FacilityAddress({ facility }) {
   let address = buildAddressArray(facility);

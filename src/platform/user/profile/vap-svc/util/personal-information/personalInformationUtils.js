@@ -6,6 +6,7 @@ import TextWidget from '../../../../../forms-system/src/js/widgets/TextWidget';
 import { NOT_SET_TEXT } from '../../constants';
 import DeselectableObjectField from '../../components/DeselectableObjectField';
 import { parseStringOrDate } from '../../../../../utilities/date';
+import { MessagingSignatureDescription } from './MessagingSignatureDescription';
 
 export const notListedKeySuffix = 'NotListedText';
 
@@ -60,6 +61,8 @@ const allLabels = {
   sexualOrientation: sexualOrientationLabels,
 };
 
+const signatureErrorMessage = 'Both fields are required to save a signature.';
+
 export const personalInformationFormSchemas = {
   preferredName: {
     type: 'object',
@@ -106,6 +109,22 @@ export const personalInformationFormSchemas = {
     },
     required: [],
   },
+  messagingSignature: {
+    type: 'object',
+    properties: {
+      signatureName: {
+        type: 'string',
+        pattern: /^(?!\s*$).+/,
+        maxLength: 60,
+      },
+      signatureTitle: {
+        type: 'string',
+        pattern: /^(?!\s*$).+/,
+        maxLength: 60,
+      },
+    },
+    required: ['signatureName', 'signatureTitle'],
+  },
 };
 
 export const personalInformationUiSchemas = {
@@ -149,6 +168,25 @@ export const personalInformationUiSchemas = {
     sexualOrientationNotListedText: {
       'ui:title':
         'If not listed, please provide your sexual orientation (255 characters maximum)',
+    },
+  },
+  messagingSignature: {
+    'ui:description': MessagingSignatureDescription,
+    signatureName: {
+      'ui:widget': TextWidget,
+      'ui:title': `Signature name (60 characters maximum)`,
+      'ui:errorMessages': {
+        required: signatureErrorMessage,
+        pattern: signatureErrorMessage,
+      },
+    },
+    signatureTitle: {
+      'ui:widget': TextWidget,
+      'ui:title': `Signature title (60 characters maximum)`,
+      'ui:errorMessages': {
+        required: signatureErrorMessage,
+        pattern: signatureErrorMessage,
+      },
     },
   },
 };

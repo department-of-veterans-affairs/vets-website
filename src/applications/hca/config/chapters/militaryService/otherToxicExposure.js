@@ -1,6 +1,6 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { OtherExposureDescription } from '../../../components/FormDescriptions/OtherExposureDescriptions';
+import { FULL_SCHEMA } from '../../../utils/imports';
 
 const {
   exposureToAirPollutants,
@@ -13,7 +13,7 @@ const {
   exposureToShad,
   exposureToWarfareAgents,
   exposureToOther,
-} = fullSchemaHca.properties;
+} = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
