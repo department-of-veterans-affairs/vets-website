@@ -210,7 +210,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
         .within(() => {
           cy.get('h3').should('contain.text', 'Test Info');
           cy.get('p').should('contain.text', 'Showing 1 of 1 test');
-          cy.contains('Fee Description:').should('be.visible');
+          cy.contains('Maximum reimbursement:').should('be.visible');
           cy.contains('AP Exam Fee International').should('be.visible');
         });
     });

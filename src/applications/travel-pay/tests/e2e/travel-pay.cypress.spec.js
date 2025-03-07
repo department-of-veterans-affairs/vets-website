@@ -5,14 +5,14 @@ import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
 
 const testStatuses = [
-  'Claim Submitted',
+  'Claim submitted',
   'Saved',
-  'In Process',
+  'In process',
   'Incomplete',
   'Appealed',
-  'Manual Review',
+  'In manual review',
   'Closed',
-  'On Hold',
+  'On hold',
 ];
 
 Cypress.Commands.add('openFilters', () => {
@@ -182,7 +182,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('va-button[data-testid="Sort travel claims"]').click();
 
     cy.openFilters();
-    cy.selectVaCheckbox('Claim Submitted', true);
+    cy.selectVaCheckbox('Claim submitted', true);
     cy.get('select[name="claimsDates"]').select('All of 2023');
     cy.get('select[name="claimsDates"]').should('have.value', 'All of 2023');
 

@@ -1,6 +1,5 @@
 import get from 'platform/utilities/data/get';
 import isEmpty from 'lodash/isEmpty';
-import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import { replaceRefSchemas } from 'platform/forms-system/src/js/state/helpers';
 
 import {
@@ -277,6 +276,13 @@ export const fillSchema = ({
         tabToElement('[name="home-acreage-value"]');
         fillInput(elementData);
       });
+    } else if (key === 'marriages') {
+      tabToElement('[name="root_marriage_count_value"]');
+      cy.document().then(doc => {
+        if (doc.activeElement) {
+          typeEachChar(get(elementPath.join('.'), data).length);
+        }
+      });
     } else if (key === 'state') {
       fillStateField(elementPath, schema, uiSchema, data);
     } else if (elementSchema.type === 'object') {
@@ -290,28 +296,19 @@ export const fillSchema = ({
         });
       }
     } else if (elementSchema.type === 'array') {
-      if (get('ui:widget', elementUiSchema) === ArrayCountWidget) {
-        fillField({
-          fieldData: elementData.length,
-          type: 'number',
-          elementPath,
+      elementData.forEach((_data, i) => {
+        if (i !== 0) {
+          tabToElement('.va-growable-add-btn');
+          cy.realPress('Space');
+        }
+        fillSchema({
+          schema: elementSchema.items,
+          uiSchema: elementUiSchema.items,
+          path: [...elementPath, i],
           showPagePerItem,
+          data,
         });
-      } else {
-        elementData.forEach((_data, i) => {
-          if (i !== 0) {
-            tabToElement('.va-growable-add-btn');
-            cy.realPress('Space');
-          }
-          fillSchema({
-            schema: elementSchema.items,
-            uiSchema: elementUiSchema.items,
-            path: [...elementPath, i],
-            showPagePerItem,
-            data,
-          });
-        });
-      }
+      });
     } else {
       const type = getComponentType(
         uiSchema,

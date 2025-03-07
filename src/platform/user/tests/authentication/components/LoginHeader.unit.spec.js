@@ -19,15 +19,6 @@ describe('LoginHeader', () => {
     expect(screen.queryByText(/Sign in or create an account/)).to.not.be.null;
   });
 
-  it('should display the LogoutAlert component when user is logged out', () => {
-    const screen = renderInReduxProvider(<LoginHeader loggedOut />, {
-      initialState: generateState({}),
-    });
-
-    expect(screen.queryByText(/You have successfully signed out/i)).to.not.be
-      .null;
-  });
-
   it('should display the SessionTimeoutAlert component when the session is expired', () => {
     const originalLocation = window.location;
     delete window.location;

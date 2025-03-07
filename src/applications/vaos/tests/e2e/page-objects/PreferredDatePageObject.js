@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { addDays, addMonths, format, startOfMonth } from 'date-fns';
 import PageObject from './PageObject';
 
 export class PreferredDatePageObject extends PageObject {
@@ -10,18 +10,9 @@ export class PreferredDatePageObject extends PageObject {
   }
 
   typeDate({ date } = {}) {
-    let preferredDate;
-    if (date) {
-      preferredDate = moment(date);
-    } else {
-      preferredDate = moment()
-        .add(1, 'month')
-        .startOf('month')
-        .add(4, 'days');
-    }
-    cy.findByLabelText('Month').select(preferredDate.format('MMMM'));
-    cy.findByLabelText('Day').select(preferredDate.format('D'));
-    cy.findByLabelText('Year').type(preferredDate.format('YYYY'));
+    const preferredDate =
+      date || addDays(startOfMonth(addMonths(new Date(), 1)), 4);
+    cy.fillVaDate('root_preferredDate', format(preferredDate, 'yyyy-MM-dd'));
 
     return this;
   }

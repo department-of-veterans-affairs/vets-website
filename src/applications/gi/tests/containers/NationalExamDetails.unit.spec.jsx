@@ -181,7 +181,6 @@ describe('NationalExamDetails', () => {
 
     const testRow = tableRows.at(1);
     expect(testRow.text()).to.contain('Test A');
-    expect(testRow.text()).to.contain('01/01/20 - 12/31/20');
     expect(testRow.text()).to.contain('$100');
     wrapper.unmount();
   });
@@ -235,50 +234,54 @@ describe('NationalExamDetails', () => {
     expect(wrapper.text()).to.contain('No tests available');
     wrapper.unmount();
   });
-  it('should display exam details in list format when exactly one valid test exists', () => {
+  it('renders single test info when exactly one valid test exists', () => {
     const mockExamDetails = {
-      name: 'Sample National Exam',
+      name: 'Single Test Exam',
       tests: [
         {
-          name: 'Test A',
-          beginDate: '2020-01-01',
-          endDate: '2020-12-31',
-          fee: '100',
+          name: 'Single Test',
+          fee: '150',
         },
-        { name: 'Blank', beginDate: '', endDate: '', fee: '' },
+        { name: 'Blank', fee: '' },
       ],
       institution: {
-        name: 'Sample Institution',
+        name: 'Single Institution',
         physicalAddress: {
-          address1: '123 Main St',
-          city: 'Anytown',
-          state: 'VA',
-          zip: '12345',
+          address1: '123 Example St',
+          city: 'Example City',
+          state: 'EX',
+          zip: '00000',
           country: 'USA',
         },
-        webAddress: 'www.sample.org',
+        webAddress: 'www.example.com',
       },
     };
+
     store = mockStore({
       nationalExams: {
-        ...initialState.nationalExams,
-        loadingDetails: false,
         examDetails: mockExamDetails,
+        loadingDetails: false,
+        error: null,
       },
     });
 
     const wrapper = mountComponent();
-    const singleTestDiv = wrapper.find('.exam-single-test');
-    expect(singleTestDiv.exists()).to.be.true;
-    expect(singleTestDiv.find('h3').text()).to.equal('Test Info');
-    expect(singleTestDiv.find('p').text()).to.equal('Showing 1 of 1 test');
-    const ulList = singleTestDiv.find('ul.remove-bullets');
-    expect(ulList.exists()).to.be.true;
-    expect(ulList.text()).to.contain(`Fee Description: Test A`);
-    expect(ulList.text()).to.contain('Dates: 01/01/20 - 12/31/20');
-    expect(ulList.text()).to.contain('$100');
+    expect(wrapper.find('.exam-single-test').exists()).to.be.true;
+    expect(wrapper.find('.exam-single-test h3').text()).to.equal('Test Info');
+    expect(
+      wrapper
+        .find('.exam-single-test p')
+        .first()
+        .text(),
+    ).to.equal('Showing 1 of 1 test');
+    const feeDescription = wrapper.find('[data-testid="fee-description"]');
+    expect(feeDescription.text()).to.contain('Single Test');
+    const reimbursement = wrapper.find('[data-testid="maximum-reimbursement"]');
+    expect(reimbursement.text()).to.contain('$150');
+
     wrapper.unmount();
   });
+
   it('adds and removes the resize event listener on mount/unmount', () => {
     const wrapper = mountComponent();
     expect(addEventListenerSpy.calledWith('resize')).to.be.true;

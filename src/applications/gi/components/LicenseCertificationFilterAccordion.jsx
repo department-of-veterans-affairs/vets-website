@@ -45,7 +45,7 @@ export default function LicenseCertificationFilterAccordion({
           className="usa-accordion-button vads-u-font-size--md vads-u-padding-right--3"
           // aria-isExpanded={isExpanded}
           // aria-controls={id}
-          data-testid="update-tuition-housing"
+          data-testid="update-lc-search"
         >
           <div className="vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between">
             <span className="vads-u-font-family--serif accordion-button-text">
@@ -116,13 +116,20 @@ export default function LicenseCertificationFilterAccordion({
 }
 
 LicenseCertificationFilterAccordion.propTypes = {
-  buttonLabel: PropTypes.string.isRequired,
-  // buttonOnClick: PropTypes.func.isRequired,
-  buttonOnClick: PropTypes.func,
   ariaDescribedBy: PropTypes.string,
-  children: PropTypes.node,
-  dispatchFocusSearch: PropTypes.func,
-  isExpanded: PropTypes.bool,
+  button: PropTypes.string.isRequired,
+  buttonLabel: PropTypes.string.isRequired,
+  buttonOnClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+  expanded: PropTypes.bool,
   headerClass: PropTypes.string,
   onClick: PropTypes.func,
+  resetSearch: PropTypes.func.isRequired,
+};
+
+LicenseCertificationFilterAccordion.defaultProps = {
+  expanded: false,
+  onClick: () => {},
+  headerClass: '',
+  ariaDescribedBy: '',
 };

@@ -21,7 +21,7 @@ import TypeOfCarePage from '../../new-appointment/components/TypeOfCarePage';
 import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
-import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
+import PreferredDatePageVaDate from '../../new-appointment/components/PreferredDatePageVaDate';
 
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
@@ -353,22 +353,17 @@ export async function setVaccineClinic(store, label) {
  */
 export async function setPreferredDate(store, preferredDate) {
   const screen = renderWithStoreAndRouter(
-    <Route component={PreferredDatePage} />,
+    <Route component={PreferredDatePageVaDate} />,
     {
       store,
     },
   );
 
-  await screen.findByText(/earliest day/);
-  fireEvent.change(screen.getByLabelText('Month'), {
-    target: { value: preferredDate.month() + 1 },
+  const vaDate = screen.container.querySelector('va-date');
+  vaDate.__events.dateChange({
+    target: { value: preferredDate.format('YYYY-MM-DD') },
   });
-  fireEvent.change(screen.getByLabelText('Day'), {
-    target: { value: preferredDate.date() },
-  });
-  fireEvent.change(screen.getByLabelText('Year'), {
-    target: { value: preferredDate.year() },
-  });
+
   fireEvent.click(screen.getByText(/Continue/));
   await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();

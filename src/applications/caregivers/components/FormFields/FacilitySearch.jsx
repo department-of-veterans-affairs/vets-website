@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -123,6 +124,14 @@ const FacilitySearch = props => {
         if (loadedParent) {
           return loadedParent;
         }
+
+        // Log facility parent.id so we can troubleshoot if we are always sending the expected value
+        Sentry.withScope(scope => {
+          scope.setLevel(Sentry.Severity.Log);
+          scope.setExtra('facility', facility);
+          scope.setExtra('facility.parent.id', facility?.parent?.id);
+          Sentry.captureMessage('FetchFacilities parentId');
+        });
 
         const parentFacilityResponse = await fetchFacilities({
           facilityIds: [facility.parent.id],

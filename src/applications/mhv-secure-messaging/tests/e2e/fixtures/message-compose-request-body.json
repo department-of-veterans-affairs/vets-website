@@ -1,6 +1,6 @@
 {
-  "body": "Test message body",
   "category": "OTHER",
-  "recipientId": "7123233",
+  "body": "\n\n\nName\nTitleTest\nES tests text \n\n--------------------------------------------------\n\nDusty Dump \nSigned electronically on",
+  "recipient_id": "6978853",
   "subject": "Test subject"
 }

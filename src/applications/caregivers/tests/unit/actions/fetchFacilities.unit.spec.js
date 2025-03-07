@@ -65,6 +65,10 @@ describe('CG fetchFacilities action', () => {
 
       await waitFor(() => {
         expect(apiRequestStub.callCount).to.equal(1);
+        expect(sentrySpy.called).to.be.true;
+        expect(sentrySpy.firstCall.args[0]).to.equal(
+          'FetchFacilities facilityIds',
+        );
       });
     });
 
@@ -155,6 +159,9 @@ describe('CG fetchFacilities action', () => {
 
       expect(sentrySpy.called).to.be.true;
       expect(sentrySpy.firstCall.args[0]).to.equal(
+        'FetchFacilities facilityIds',
+      );
+      expect(sentrySpy.secondCall.args[0]).to.equal(
         'Error fetching Lighthouse VA facilities',
       );
 
@@ -178,9 +185,12 @@ describe('CG fetchFacilities action', () => {
 
       expect(sentrySpy.called).to.be.true;
       expect(sentrySpy.firstCall.args[0]).to.equal(
-        'Error fetching Lighthouse VA facilities',
+        'FetchFacilities facilityIds',
       );
       expect(sentrySpy.secondCall.args[0]).to.equal(
+        'Error fetching Lighthouse VA facilities',
+      );
+      expect(sentrySpy.thirdCall.args[0]).to.equal(
         'Error in fetchFacilities. Clearing csrfToken in localStorage.',
       );
       expect(localStorage.getItem('csrfToken')).to.eql('');

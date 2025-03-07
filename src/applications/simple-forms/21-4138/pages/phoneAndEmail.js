@@ -1,6 +1,6 @@
 import {
-  emailSchema,
-  emailUI,
+  emailToSendNotificationsSchema,
+  emailToSendNotificationsUI,
   phoneSchema,
   phoneUI,
   titleUI,
@@ -11,14 +11,14 @@ export const contactInformationPage = {
   uiSchema: {
     ...titleUI({ title: 'Phone and email address', headerLevel: 1 }),
     phone: phoneUI('Home phone number', { required: true }),
-    emailAddress: emailUI('Email'),
+    emailAddress: emailToSendNotificationsUI('Email'),
   },
   schema: {
     type: 'object',
     properties: {
       phone: phoneSchema,
-      emailAddress: emailSchema,
+      emailAddress: emailToSendNotificationsSchema,
     },
-    required: ['phone'],
+    required: ['phone', 'emailAddress'],
   },
 };

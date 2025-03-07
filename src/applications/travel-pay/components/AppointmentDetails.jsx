@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { formatDateTime, getDaysLeft } from '../util/dates';
+import { formatDateTime } from '../util/dates';
+import { getDaysLeft } from '../util/appointment-helpers';
 import { TRAVEL_PAY_INFO_LINK } from '../constants';
 import FutureAppointmentAlert from './alerts/FutureAppointmentAlert';
+import OutOfBoundsAppointmentAlert from './alerts/OutOfBoundsAppointmentAlert';
 
 export const AppointmentDetails = ({ appointment }) => {
   const [formattedDate] = formatDateTime(appointment.localStartTime);
@@ -29,8 +31,8 @@ AppointmentDetails.propTypes = {
   appointment: PropTypes.object,
 };
 
-export const AppointmentInfoText = ({ appointment, isPast }) => {
-  const daysLeft = getDaysLeft(appointment.localStartTime);
+export const AppointmentInfoText = ({ appointment }) => {
+  const { isOutOfBounds, isPast } = appointment;
 
   if (appointment.travelPayClaim?.claim) {
     return (
@@ -55,35 +57,27 @@ export const AppointmentInfoText = ({ appointment, isPast }) => {
 
   return (
     <>
-      {daysLeft > 0 &&
-        !appointment.travelPayClaim?.claim && (
-          <>
-            <p>We encourage you to file your claim within 30 days.</p>
-            <p>
-              If it’s been more than 30 days since your appointment, we still
-              encourage you to file now. But we may not be able to approve your
-              claim.
-            </p>
-          </>
-        )}
-      {daysLeft === 0 &&
-        !appointment.travelPayClaim?.claim && (
+      {!isOutOfBounds && !appointment.travelPayClaim?.claim ? (
+        <>
+          <p>We encourage you to file your claim within 30 days.</p>
           <p>
-            It has been more than 30 days since your appointment. We still
-            encourage you to file now but we may not be able to approve your
+            If it’s been more than 30 days since your appointment, we still
+            encourage you to file now. But we may not be able to approve your
             claim.
           </p>
-        )}
-
-      <va-link
-        text="Learn how to file your travel reimbursement claim online"
-        href={TRAVEL_PAY_INFO_LINK}
-      />
+          <va-link
+            external
+            text="Learn how to file your travel reimbursement claim online"
+            href={TRAVEL_PAY_INFO_LINK}
+          />
+        </>
+      ) : (
+        <OutOfBoundsAppointmentAlert />
+      )}
     </>
   );
 };
 
 AppointmentInfoText.propTypes = {
   appointment: PropTypes.object,
-  isPast: PropTypes.bool,
 };

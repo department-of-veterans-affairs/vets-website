@@ -24,27 +24,77 @@ const faqs = [
         <br />
         <br />
         <p className="faq-answer">
-          Print and fill out form Request for Reimbursement of Licensing or
-          Certification Test Fees. Send the completed application to the
-          Regional Processing Office for your region listed in the form.
+          For license or certification tests print and fill out form Request for
+          Reimbursement of Licensing or Certification Test Fees after you’ve
+          taken the test. Send the completed application to the Regional
+          Processing Office for your region listed in the form.{' '}
+          <va-link
+            text="Get VA Form 22-0803 to download."
+            href="https://www.va.gov/find-forms/about-form-22-0803/"
+          />
         </p>
         <br />
         <br />
-        <va-link
-          text="Get VA Form22-0803 to download"
-          href="https://www.va.gov/find-forms/about-form-22-0803/"
-        />
+        <p className="faq-answer">
+          For prep courses, print and fill out form Request for Reimbursement of
+          Preparatory (Prep) Course for Licensing or Certification Test after
+          you’ve taken the test. Send the completed application to the Regional
+          Processing Office for your region listed in the form.{' '}
+          <va-link
+            text="Get VA Form 22-10272 to download."
+            href="https://www.va.gov/find-forms/about-form-22-10272/"
+          />
+        </p>
       </>
     ),
   },
   {
     question: 'Can I get paid to take a test more than once?',
     answer: (
-      <p className="faq-answer">
-        If you fail a license or certification test, we will pay again. If the
-        license or certification expires, you can take it again and we’ll pay
-        for the renewal.
-      </p>
+      <>
+        <p className="faq-answer">
+          If you fail a license or certification test, we will pay again. If the
+          license or certification expires, you can take it again and we’ll pay
+          for the renewal.
+        </p>
+        <br />
+        <br />
+        <p className="faq-answer">
+          There is no limit on the number of tests taken, including repeated
+          tests, except for remaining entitlement and delimiting (expiration)
+          date of your benefits. For a beneficiary with less than one month
+          entitlement remaining the payment may be adjusted based on the number
+          of days remaining entitlement.
+        </p>
+      </>
+    ),
+  },
+  {
+    question:
+      'How do I apply for a license, certification, or prep course to be approved?',
+    answer: (
+      <>
+        <p className="faq-answer">
+          If you don’t see a test or prep course listed, it may be a valid test
+          that’s not yet approved.
+        </p>
+        <br />
+        <br />
+        <p className="faq-answer">
+          For license or certification, take the test, then apply for approval
+          by submitting VA Form 22-0803.{' '}
+          <va-link
+            text="Get VA Form 22-0803 to download."
+            href="https://www.va.gov/find-forms/about-form-22-0803/"
+          />{' '}
+          For prep course, take the course, then apply for approval by
+          submitting VA Form 22-10272.{' '}
+          <va-link
+            text="Get VA Form 22-10272 to download."
+            href="https://www.va.gov/find-forms/about-form-22-10272/"
+          />
+        </p>
+      </>
     ),
   },
   {
@@ -83,9 +133,9 @@ export default function LicenseCertificationFaq() {
   };
 
   return (
-    <>
+    <div className="usa-width-two-thirds">
       <h2 className="vads-u-margin-y--0 vads-u-padding-bottom--2">FAQs</h2>
-      <va-accordion open-single>
+      <va-accordion open-single class="">
         {faqs.map((faq, index) => {
           return (
             <va-accordion-item
@@ -95,11 +145,13 @@ export default function LicenseCertificationFaq() {
               onClick={() => handleFaqClick(index)}
               onKeyDown={e => handleKeyDown(e, index)}
             >
-              <div className="vads-u-padding-y--3">{faq.answer}</div>
+              <div className="vads-u-padding-bottom--2p5 vads-u-padding-top--1">
+                {faq.answer}
+              </div>
             </va-accordion-item>
           );
         })}
       </va-accordion>
-    </>
+    </div>
   );
 }

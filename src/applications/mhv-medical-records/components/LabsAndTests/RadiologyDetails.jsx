@@ -53,6 +53,13 @@ const RadiologyDetails = props => {
       ],
   );
 
+  const allowMarchUpdates = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
+  );
+
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const processingAlertHeadingRef = useRef(null);
@@ -199,25 +206,46 @@ ${record.results}`;
   const notificationContent = () => (
     <>
       {notificationStatus ? (
-        <p>
-          <strong>Note: </strong> If you don’t want to get email notifications
-          for images anymore, you can change your notification settings on the
-          previous version of My HealtheVet.
-        </p>
+        <>
+          {allowMarchUpdates ? (
+            <p>
+              <strong>Note: </strong> If you do not want us to notifiy you about
+              images, change your settings in your profile.
+            </p>
+          ) : (
+            <p>
+              <strong>Note: </strong>
+              If you don’t want to get email notifications for images anymore,
+              you can change your notification settings on the previous version
+              of My HealtheVet.
+            </p>
+          )}
+        </>
       ) : (
         <>
           <h3>Get email notifications for images</h3>
           <p>
             If you want us to email you when your images are ready, change your
-            notification settings on the previous version of My HealtheVet.
+            notification settings
+            {allowMarchUpdates
+              ? ` in your profile.`
+              : ` on the previous version of My HealtheVet.`}
           </p>
         </>
       )}
-      <va-link
-        className="vads-u-margin-top--1"
-        href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
-        text="Go back to the previous version of My HealtheVet"
-      />
+      {allowMarchUpdates ? (
+        <va-link
+          className="vads-u-margin-top--1"
+          href="/profile/notifications"
+          text="Go to notification settings"
+        />
+      ) : (
+        <va-link
+          className="vads-u-margin-top--1"
+          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
+          text="Go back to the previous version of My HealtheVet"
+        />
+      )}
     </>
   );
 

@@ -18,7 +18,7 @@ describe('<Programs>', () => {
         .first()
         .text(),
     ).to.equal(
-      'The following program is approved by the VA at this institution.',
+      'The following program is approved for VA benefits at this institution. For more information about specific programs, search the institution catalog or website.',
     );
     programTypes.forEach(programType => {
       const link = wrapper.find('[data-testid="program-link"]');
@@ -42,7 +42,7 @@ describe('<Programs>', () => {
         .first()
         .text(),
     ).to.equal(
-      'The following programs are approved by the VA at this institution.',
+      'The following programs are approved for VA benefits at this institution. For more information about specific programs, search the institution catalog or website.',
     );
 
     wrapper.unmount();

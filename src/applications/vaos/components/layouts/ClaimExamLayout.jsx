@@ -55,13 +55,20 @@ export default function ClaimExamLayout({ data: appointment }) {
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled claim exam';
 
-  recordAppointmentDetailsNullStates({
-    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
-    [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
-    [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
-    [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
-    [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
-  });
+  recordAppointmentDetailsNullStates(
+    {
+      type: appointment.type,
+      modality: appointment.modality,
+      isCerner: appointment.vaos.isCerner,
+    },
+    {
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
+      [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
+      [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+      [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
+    },
+  );
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>

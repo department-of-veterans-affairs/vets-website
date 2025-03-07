@@ -8,8 +8,9 @@ const Programs = ({ programTypes, facilityCode }) => {
     <>
       <p>
         The following{' '}
-        {programTypes.length === 1 ? 'program is' : 'programs are'} approved by
-        the VA at this institution.
+        {programTypes.length === 1 ? 'program is' : 'programs are'} approved for
+        VA benefits at this institution. For more information about specific
+        programs, search the institution catalog or website.
       </p>
       {programTypes.map((programType, index) => (
         <span
@@ -18,7 +19,7 @@ const Programs = ({ programTypes, facilityCode }) => {
         >
           <Link
             to={{
-              pathname: `/institution/${facilityCode}/${mapToDashedName(
+              pathname: `../institution/${facilityCode}/${mapToDashedName(
                 programType,
               )
                 .trim()

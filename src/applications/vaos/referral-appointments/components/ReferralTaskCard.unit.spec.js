@@ -57,31 +57,7 @@ describe('VAOS Component: ReferralTaskCard', () => {
     ).to.exist;
     expect(
       screen.getByText(
-        `We’ve approved your referral for 1 appointment with a community care provider. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
-      ),
-    ).to.exist;
-    expect(screen.queryByTestId(`referral-task-card-schedule-referral-${uuid}`))
-      .to.exist;
-  });
-
-  it('should display referral task card when there are multiple appointments', () => {
-    const store = createTestStore();
-    const referral = {
-      ...referralData,
-      numberOfAppointments: 3,
-    };
-    const screen = renderWithStoreAndRouter(
-      <ReferralTaskCard data={referral} />,
-      { store },
-    );
-    expect(
-      screen.getByRole('heading', {
-        name: 'Schedule your physical therapy appointment',
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText(
-        `We’ve approved your referral for 3 appointments with a community care provider. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
+        `We’ve approved your community care referral. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
       ),
     ).to.exist;
     expect(screen.queryByTestId(`referral-task-card-schedule-referral-${uuid}`))

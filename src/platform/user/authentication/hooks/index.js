@@ -1,6 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { signupOrVerify } from '../utilities';
+import { AUTHN_SETTINGS } from '../constants';
+import {
+  signupOrVerify,
+  sessionTypeUrl,
+  createExternalApplicationUrl,
+} from '../utilities';
 
 export function onVerifyClick({ useOAuth, policy }) {
   if (useOAuth) {
@@ -34,5 +39,39 @@ export function useIdentityVerificationURL({ policy, useOAuth }) {
   );
 
   const onClick = useCallback(onVerifyClick, [useOAuth, policy]);
+  return { href, onClick };
+}
+
+/**
+ *
+ * @param {Object} queryParams - Used for unit testing ONLY
+ * @returns {String} URL for VA OCC Mobile test accounts
+ */
+export function useInternalTestingAuth({
+  queryParams = { operation: 'myhealthevet_test_account' },
+} = {}) {
+  const [href, setHref] = useState('');
+
+  useEffect(() => {
+    async function generateURL() {
+      const url = await sessionTypeUrl({
+        type: 'mhv',
+        useOauth: false,
+        queryParams,
+      });
+
+      setHref(url);
+    }
+
+    generateURL();
+  }, []);
+
+  const onClick = () => {
+    sessionStorage.setItem(
+      AUTHN_SETTINGS.RETURN_URL,
+      createExternalApplicationUrl(),
+    );
+  };
+
   return { href, onClick };
 }

@@ -60,9 +60,11 @@ const SubmitFlowWrapper = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+  const [isAgreementError, setIsAgreementError] = useState(false);
 
   const onSubmit = () => {
     if (!isAgreementChecked) {
+      setIsAgreementError(true);
       scrollToFirstError();
       return;
     }
@@ -127,6 +129,7 @@ const SubmitFlowWrapper = () => {
           setPageIndex={setPageIndex}
           isAgreementChecked={isAgreementChecked}
           setIsAgreementChecked={setIsAgreementChecked}
+          isError={isAgreementError}
         />
       ),
     },

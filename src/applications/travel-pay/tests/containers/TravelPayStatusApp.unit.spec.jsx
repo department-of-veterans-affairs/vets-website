@@ -50,7 +50,7 @@ describe('TravelPayStatusApp', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -230,7 +230,7 @@ describe('TravelPayStatusApp', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -264,7 +264,7 @@ describe('TravelPayStatusApp', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -368,13 +368,13 @@ describe('TravelPayStatusApp', () => {
       const filterNames = statusFilters.map(filter => filter.name);
 
       const orderedStatuses = [
-        'On Hold',
+        'On hold',
         'Denied',
-        'In Manual Review',
+        'In manual review',
         'Appealed',
-        'Claim Submitted',
+        'Claim submitted',
         'Closed',
-        'In Process',
+        'In process',
         'Incomplete',
         'Saved',
       ];
@@ -398,8 +398,8 @@ describe('TravelPayStatusApp', () => {
     global.fetch.restore();
     const topStatusesSubset = travelClaims.data.filter(
       claim =>
-        claim.claimStatus === 'On Hold' ||
-        claim.claimStatus === 'In Manual Review',
+        claim.claimStatus === 'On hold' ||
+        claim.claimStatus === 'In manual review',
     );
     mockApiRequest({ data: topStatusesSubset });
 
@@ -422,7 +422,7 @@ describe('TravelPayStatusApp', () => {
       const statusFilters = screen.getAllByTestId(/status-filter_/);
       const filterNames = statusFilters.map(filter => filter.name);
 
-      const orderedStatuses = ['On Hold', 'In Manual Review'];
+      const orderedStatuses = ['On hold', 'In manual review'];
       expect(filterNames).to.eql(orderedStatuses);
     });
   });
@@ -430,7 +430,7 @@ describe('TravelPayStatusApp', () => {
     global.fetch.restore();
     const nonTopStatuses = travelClaims.data.filter(
       claim =>
-        !['On Hold', 'Denied', 'In Manual Review'].includes(claim.claimStatus),
+        !['On hold', 'Denied', 'In manual review'].includes(claim.claimStatus),
     );
     mockApiRequest({ data: nonTopStatuses });
 
@@ -455,9 +455,9 @@ describe('TravelPayStatusApp', () => {
 
       const orderedStatuses = [
         'Appealed',
-        'Claim Submitted',
+        'Claim submitted',
         'Closed',
-        'In Process',
+        'In process',
         'Incomplete',
         'Saved',
       ];
@@ -468,8 +468,8 @@ describe('TravelPayStatusApp', () => {
     global.fetch.restore();
     const topStatusesSubset = travelClaims.data.filter(
       claim =>
-        claim.claimStatus === 'On Hold' ||
-        claim.claimStatus === 'In Manual Review' ||
+        claim.claimStatus === 'On hold' ||
+        claim.claimStatus === 'In manual review' ||
         claim.claimStatus === 'Closed' ||
         claim.claimStatus === 'Saved',
     );
@@ -495,8 +495,8 @@ describe('TravelPayStatusApp', () => {
       const filterNames = statusFilters.map(filter => filter.name);
 
       const orderedStatuses = [
-        'On Hold',
-        'In Manual Review',
+        'On hold',
+        'In manual review',
         'Closed',
         'Saved',
       ];

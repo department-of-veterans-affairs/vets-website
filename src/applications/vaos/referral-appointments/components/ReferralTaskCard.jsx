@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import pluralize from 'pluralize';
 import { format, isAfter } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -17,7 +16,7 @@ export default function ReferralTaskCard({ data }) {
     return null;
   }
 
-  const { numberOfAppointments, ReferralExpirationDate, UUID } = data;
+  const { ReferralExpirationDate, UUID } = data;
 
   const expirationDate = new Date(ReferralExpirationDate);
   const isPastExpirationDate = isAfter(new Date(), expirationDate);
@@ -35,10 +34,7 @@ export default function ReferralTaskCard({ data }) {
         Schedule your physical therapy appointment
       </h4>
       <p>
-        {`We’ve approved your referral for ${numberOfAppointments} ${pluralize(
-          'appointment',
-          numberOfAppointments,
-        )} with a community care provider. You must schedule all appointments for this referral by ${format(
+        {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${format(
           expirationDate,
           'PP',
         )}.`}

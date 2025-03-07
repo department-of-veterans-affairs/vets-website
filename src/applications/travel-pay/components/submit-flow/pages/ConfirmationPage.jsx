@@ -5,7 +5,6 @@ import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
-import { getPractionerName } from '../../../util/appointment-helpers';
 
 const ConfirmationPage = () => {
   useEffect(() => {
@@ -40,11 +39,8 @@ const ConfirmationPage = () => {
             {data.location?.attributes?.name
               ? `at ${data.location.attributes.name}`
               : ''}{' '}
-            {data.practitioners?.length > 0 &&
-            typeof data.practitioners[0].name !== 'undefined'
-              ? `with ${getPractionerName(data.practitioners)}`
-              : ''}{' '}
-            on {formattedDate} at {formattedTime}.
+            {data.practitionerName ? `with ${data.practitionerName}` : ''} on{' '}
+            {formattedDate} at {formattedTime}.
           </p>
         </va-alert>
       )}
