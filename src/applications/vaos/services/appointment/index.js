@@ -773,14 +773,11 @@ export function getAppointmentTimezone(appointment) {
   };
 }
 
-export const getLongTermAppointmentHistoryV2 = (
-  useFeSourceOfTruth,
-  chunks = 3,
-) => {
+export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
 
-  return () => {
+  return useFeSourceOfTruth => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
@@ -825,7 +822,7 @@ export const getLongTermAppointmentHistoryV2 = (
 
     return promise;
   };
-};
+})(3);
 
 /**
  * Function to return appointment date. Date is return with conversion to locale
