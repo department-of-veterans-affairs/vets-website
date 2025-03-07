@@ -69,6 +69,21 @@ export function isPastAppointment(appt) {
 }
 
 /**
+ *  Determines whether current time is before appointment time
+ * @param {*} appt VAOS Service appointment object
+ * @param {*} isRequest is appointment a request
+ */
+export function isFutureAppointment(appt, isRequest) {
+  const apptDateTime = moment(appt.start);
+  return (
+    !isRequest &&
+    !isPastAppointment(appt) &&
+    apptDateTime.isValid() &&
+    apptDateTime.isAfter(moment().startOf('day'))
+  );
+}
+
+/**
  * Gets the atlas location and sitecode
  *
  * @param {Object} appt VAOS Service appointment object
@@ -92,7 +107,7 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt) {
+export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
@@ -102,6 +117,9 @@ export function transformVAOSAppointment(appt) {
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isUpcoming = useFeSourceOfTruth
+    ? appt.future
+    : isFutureAppointment(appt, isRequest);
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -261,7 +279,7 @@ export function transformVAOSAppointment(appt) {
     ...requestFields,
     vaos: {
       isPendingAppointment: isRequest,
-      isUpcomingAppointment: appt.future,
+      isUpcomingAppointment: isUpcoming,
       isVideo,
       isPastAppointment: isPast,
       isCompAndPenAppointment: isCompAndPen,
@@ -280,6 +298,6 @@ export function transformVAOSAppointment(appt) {
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(appts, useFeSourceOfTruth) {
+  return appts.map(appt => transformVAOSAppointment(appt, useFeSourceOfTruth));
 }

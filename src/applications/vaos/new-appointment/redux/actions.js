@@ -15,6 +15,7 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureFeSourceOfTruth,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -294,6 +295,7 @@ export function checkEligibility({ location, showModal }) {
       state,
     );
     const featureClinicFilter = selectFeatureClinicFilter(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -312,6 +314,7 @@ export function checkEligibility({ location, showModal }) {
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
         featureClinicFilter,
+        useFeSourceOfTruth,
       });
 
       if (showModal) {
@@ -760,6 +763,7 @@ export function submitAppointmentOrRequest(history) {
       state,
     );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -785,6 +789,7 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
+          useFeSourceOfTruth,
         });
 
         dispatch({
@@ -876,11 +881,15 @@ export function submitAppointmentOrRequest(history) {
         let requestData;
         if (isCommunityCare) {
           requestBody = transformFormToVAOSCCRequest(getState());
-          requestData = await createAppointment({ appointment: requestBody });
+          requestData = await createAppointment({
+            appointment: requestBody,
+            useFeSourceOfTruth,
+          });
         } else {
           requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
+            useFeSourceOfTruth,
           });
         }
 
