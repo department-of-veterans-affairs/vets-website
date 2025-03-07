@@ -1,5 +1,5 @@
-import { transform } from '../../utils/helpers';
 import { expect } from 'chai';
+import { transform } from '../../utils/helpers';
 
 describe('Preneed helpers', () => {
   describe('transform', () => {
