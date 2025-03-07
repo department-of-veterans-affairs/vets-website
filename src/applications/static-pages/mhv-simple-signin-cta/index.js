@@ -13,17 +13,33 @@ import UnverifiedAlert from '../mhv-signin-cta/components/messages/UnverifiedAle
  * @property {bool} userIsVerified true if the user is verified
  * @property {string} headingLevel the heading level
  * @property {string} serviceDescription the heading service description
+ * @property {object} mhvAccount.loading,
+ * @property {object} profile.loading,
  */
 export const MhvSimpleSigninCallToAction = ({
   linkText,
   linkUrl,
   headingLevel,
+  mhvAccountLoading = false,
+  profileLoading = false,
   serviceDescription,
   serviceName,
   userIsLoggedIn = false,
   userIsVerified = false,
 }) => {
   const headerLevel = parseInt(headingLevel, 10) || 3;
+  const loading = profileLoading || mhvAccountLoading;
+
+  if (loading) {
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          data-testid="mhv-signin-widget-loading"
+          message="Loading your information..."
+        />
+      </div>
+    );
+  }
 
   if (!userIsLoggedIn) {
     return (
@@ -56,6 +72,8 @@ MhvSimpleSigninCallToAction.propTypes = {
   headingLevel: PropTypes.string,
   linkText: PropTypes.string,
   linkUrl: PropTypes.string,
+  mhvAccountLoading: PropTypes.bool,
+  profileLoading: PropTypes.bool,
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,

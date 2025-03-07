@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { getLabelText, getText } from '../../helpers/queryHelper';
 
 import VeteranInformationPage from '../../../../form/veteran/veteranInformationPage';
 import { veteranServiceInformationUI } from '../../../../form/veteran/service/veteranServiceInformationUI';
 import formConfig from '../../../../form/form';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import {
   daytimePhoneAreaCodeTitle,
   dependentRelationshipToVeteran,
