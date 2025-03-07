@@ -320,3 +320,23 @@ export const defaultItemPageScrollAndFocusTarget = () => {
     focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
   }
 };
+
+export const replaceItemInFormData = ({
+  formData,
+  newItem,
+  arrayPath,
+  index,
+}) => {
+  let newFormData = formData;
+
+  if (formData?.[arrayPath]?.[index]) {
+    newFormData = {
+      ...formData,
+      [arrayPath]: formData[arrayPath].map((item, i) => {
+        return i === index ? newItem : item;
+      }),
+    };
+  }
+
+  return newFormData;
+};
