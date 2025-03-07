@@ -1,10 +1,8 @@
 import winston from 'winston';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import fs from 'fs';
 import {
   buildDefaultLoggerOptions,
-  getVersionNumber,
   createLogger,
   setLoggerOutput,
   getDatadogTags,
@@ -68,19 +66,6 @@ describe('loggerHelpers', () => {
       expect(loggerOptionsActual.level).to.equal('debug');
       expect(loggerOptionsActual.exitOnError).to.be.false;
       expect(loggerOptionsActual).to.have.property('format');
-    });
-  });
-  describe('getVersionNumber', () => {
-    it('should get the version number', () => {
-      const readFileSyncStub = sinon.stub(fs, 'readFileSync');
-      readFileSyncStub.returns('{"version":"1.0.1"}');
-
-      const versionNumber = getVersionNumber();
-
-      const mockVersionNumber = '1.0.1';
-
-      expect(versionNumber).to.deep.equal(mockVersionNumber);
-      readFileSyncStub.restore();
     });
   });
   describe('getDatadogTags', () => {
