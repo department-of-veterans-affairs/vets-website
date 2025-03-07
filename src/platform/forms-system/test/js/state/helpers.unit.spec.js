@@ -99,6 +99,36 @@ describe('Schemaform formState:', () => {
         updateRequiredFields(schema, uiSchema, data).items[0].required[0],
       ).to.equal('test');
     });
+    it('should pass full data & index in arrays', () => {
+      const requiredSpy = sinon.stub().returns(true);
+      const schema = {
+        type: 'array',
+        items: [
+          { type: 'object', properties: { test: { type: 'string' } } },
+          { type: 'object', properties: { test: { type: 'string' } } },
+        ],
+        additionalItems: {
+          type: 'object',
+          properties: {
+            test: {
+              type: 'string',
+            },
+          },
+        },
+      };
+      const uiSchema = {
+        items: {
+          test: {
+            'ui:required': requiredSpy,
+          },
+        },
+      };
+      const data = [{ test2: true }];
+      const fullData = { test: data, test3: false };
+      updateRequiredFields(schema, uiSchema, data, null, fullData);
+      expect(requiredSpy.args[0]).to.deep.equal([data, 0, fullData]);
+      expect(requiredSpy.args[1]).to.deep.equal([data, 1, fullData]);
+    });
   });
   describe('setHiddenFields', () => {
     it('should set field as hidden', () => {
@@ -340,6 +370,12 @@ describe('Schemaform formState:', () => {
               field: {},
             },
           },
+          {
+            type: 'object',
+            properties: {
+              field: {},
+            },
+          },
         ],
         additionalItems: {
           type: 'object',
@@ -366,6 +402,7 @@ describe('Schemaform formState:', () => {
       expect(newSchema).not.to.equal(schema);
       expect(newSchema.items[0].properties.field['ui:hidden']).to.be.true;
       expect(hideIfSpy.args[0]).to.deep.equal([data, 0, fullData]);
+      expect(hideIfSpy.args[1]).to.deep.equal([data, 1, fullData]);
     });
   });
   describe('removeHiddenData', () => {
