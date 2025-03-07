@@ -56,14 +56,14 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
-export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
-  let name = `${first} ${last}`;
-  if (!first) {
-    name = `${last}`;
-  }
-  if (middle) name += ` ${middle}`;
-  if (suffix) name += `, ${suffix}`;
-  return name;
+export const formatNameFirstLast = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  const nameParts = [first, middle, last].filter(Boolean).join(' '); // Remove empty values
+  return suffix ? `${nameParts}, ${suffix}` : nameParts;
 };
 
 // --- Main component ---
