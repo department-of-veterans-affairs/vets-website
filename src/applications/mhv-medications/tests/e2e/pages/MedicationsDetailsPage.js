@@ -2,6 +2,7 @@ import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
 import medicationInformation from '../fixtures/patient-medications-information.json';
 import noMedicationInformation from '../fixtures/missing-patient-medication-information.json';
+import rxDetails from '../fixtures/active-submitted-prescription-details.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -596,6 +597,48 @@ class MedicationsDetailsPage {
       .shadow()
       .find('[href="tel:+14106366899"]')
       .should('contain', phoneNumber);
+  };
+
+  verifyProcessStepOneHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="submitted-step-one"]').should('contain', text);
+  };
+
+  verifyProcessStepTwoHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="submitted-step-two"]').should('contain', text);
+  };
+
+  verifyProcessStepThreeHeaderOnDetailsPage = text => {
+    cy.get('[data-testid="submitted-step-three"]').should('contain', text);
+  };
+
+  verifyActiveRxStepOneProgressTrackerOnDetailsPage = text => {
+    cy.get('[header="We received your refill request"]').should(
+      'contain',
+      text,
+    );
+  };
+
+  verifyActiveRxStepTwoProgressTrackerOnDetailsPage = text => {
+    cy.get('[data-testid="active-step-two"]').should('contain', text);
+  };
+
+  verifyActiveRxStepThreeProgressTrackerOnDetailsPage = text => {
+    cy.get('[data-testid="active-step-three"]').should('contain', text);
+  };
+
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = text => {
+    cy.get('[data-testid="progress-step-two"]').should('contain', text);
+  };
+
+  verifyActiveRefillInProcessStepThreeOnDetailsPage = text => {
+    cy.get('[data-testid="progress-step-three"]').should('contain', text);
+  };
+
+  verifyTrackingForSubmittedRefillOnDetailsPage = () => {
+    cy.get('[data-testid="rx-name"]').should(
+      'contain',
+      `${rxDetails.data.attributes.prescriptionName}`,
+    );
   };
 }
 
