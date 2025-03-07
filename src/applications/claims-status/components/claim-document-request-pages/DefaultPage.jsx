@@ -4,6 +4,7 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 import { scrubDescription, buildDateFormatter } from '../../utils/helpers';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import DueDate from '../DueDate';
+import { evidenceDictionary } from '../../utils/evidenceDictionary';
 
 export default function DefaultPage({
   field,
@@ -21,11 +22,14 @@ export default function DefaultPage({
 }) {
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   const formattedRequestedDate = buildDateFormatter()(item.requestedDate);
+
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
       <Toggler.Enabled>
         <div id="default-page" className="vads-u-margin-bottom--3">
-          <h1 className="claims-header">{item.displayName}</h1>
+          <h1 className="claims-header">
+            {item.friendlyName ? item.friendlyName : item.displayName}
+          </h1>
           {item.status === 'NEEDED_FROM_YOU' ? (
             <p className="vads-u-font-size--h3">
               Respond by {formattedDueDate}
@@ -40,7 +44,12 @@ export default function DefaultPage({
             </div>
           ) : null}
           <h2>What we need from you</h2>
-          <p>{scrubDescription(item.description)}</p>
+          {evidenceDictionary[item.displayName] ? (
+            evidenceDictionary[item.displayName].longDescription
+          ) : (
+            <p>{scrubDescription(item.description)}</p>
+          )}
+
           <h3>Learn about this request in your claim letter</h3>
           <p>
             On {formattedRequestedDate}, we mailed you a letter titled, “Request
@@ -53,19 +62,28 @@ export default function DefaultPage({
             label="Your claim letters"
             href="/track-claims/your-claim-letters"
           />
-          <AddFilesForm
-            field={field}
-            progress={progress}
-            uploading={uploading}
-            files={files}
-            backUrl={backUrl}
-            onSubmit={onSubmit}
-            onAddFile={onAddFile}
-            onRemoveFile={onRemoveFile}
-            onFieldChange={onFieldChange}
-            onCancel={onCancel}
-            onDirtyFields={onDirtyFields}
-          />
+          {evidenceDictionary[item.displayName] &&
+            evidenceDictionary[item.displayName].nextSteps && (
+              <>
+                <h2>Next Steps</h2>
+                {evidenceDictionary[item.displayName].nextSteps}
+              </>
+            )}
+          {item.canUploadFile ? (
+            <AddFilesForm
+              field={field}
+              progress={progress}
+              uploading={uploading}
+              files={files}
+              backUrl={backUrl}
+              onSubmit={onSubmit}
+              onAddFile={onAddFile}
+              onRemoveFile={onRemoveFile}
+              onFieldChange={onFieldChange}
+              onCancel={onCancel}
+              onDirtyFields={onDirtyFields}
+            />
+          ) : null}
         </div>
       </Toggler.Enabled>
       <Toggler.Disabled>
