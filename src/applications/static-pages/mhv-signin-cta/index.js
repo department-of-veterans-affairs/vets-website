@@ -80,12 +80,10 @@ export const MhvSigninCallToAction = ({
 
   // Display the Supply reordering links
   return (
-    <a
-      className="vads-c-action-link--green"
+    <va-link-action
       href="/health-care/order-hearing-aid-or-CPAP-supplies-form"
-    >
-      Order hearing aid and CPAP supplies online
-    </a>
+      text="Order hearing aid and CPAP supplies online"
+    />
   );
 };
 
