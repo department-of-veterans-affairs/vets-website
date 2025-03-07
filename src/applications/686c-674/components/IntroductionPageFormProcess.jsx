@@ -13,7 +13,7 @@ export const IntroductionPageFormProcess = () => (
         <p>One of these must be true:</p>
         <ul>
           <li>
-            You’re a Veteran entitled to disability benefits, and you have a
+            You’re a Veteran entitled to disability benefits and you have a
             combined disability rating of at least 30 percent,{' '}
             <strong>or</strong>
           </li>
