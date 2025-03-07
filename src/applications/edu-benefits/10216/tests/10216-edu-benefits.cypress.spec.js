@@ -12,7 +12,7 @@ const mockManifest = {
   entryName: '10216-edu-benefits',
   productId: 'db0db964-89ef-4e80-a469-499b7db330cd',
   rootUrl:
-    '/education/apply-for-education-benefits/application/10216/institution-details/',
+    '/education/apply-for-education-benefits/application/10216/',
 };
 
 const testConfig = createTestConfig(
@@ -26,7 +26,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('a.va-link--primary')
+          cy.get('a.schemaform-start-button')
             .first()
             .click();
         });
@@ -36,7 +36,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
-    skip: Cypress.env('CI'),
+    // skip: Cypress.env('CI'),
   },
   mockManifest,
   formConfig,

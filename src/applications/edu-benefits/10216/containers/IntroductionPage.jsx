@@ -11,12 +11,6 @@ const IntroductionPage = ({ route }) => {
     scrollToTop();
   }, []);
 
-  // const startForm = event => {
-  //   event.preventDefault();
-  //   localStorage.removeItem('10216claimID');
-  //   router.push('/institution-details');
-  // };
-
   return (
     <article className="schemaform-intro">
       <FormTitle title="Request exemption from the 85/15 Rule reporting requirements" />
@@ -189,11 +183,6 @@ const IntroductionPage = ({ route }) => {
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         Start the form
       </h2>
-      {/* <va-link-action
-        href="#"
-        onClick={startForm}
-        text="Start your 35% exemption request"
-      /> */}
       <SaveInProgressIntro
         testActionLink
         prefillEnabled={route.formConfig.prefillEnabled}
@@ -201,7 +190,7 @@ const IntroductionPage = ({ route }) => {
         formConfig={route.formConfig}
         pageList={route.pageList}
         downtime={route.formConfig.downtime}
-        startText="Request a Certificate of Eligibility"
+        startText="Start your 35% exemption request"
         headingLevel={2}
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
@@ -216,8 +205,13 @@ const IntroductionPage = ({ route }) => {
 };
 
 IntroductionPage.propTypes = {
-  router: PropTypes.shape({
-    push: PropTypes.func,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+      downtime: PropTypes.object,
+    }),
+    pageList: PropTypes.array,
   }).isRequired,
 };
 
