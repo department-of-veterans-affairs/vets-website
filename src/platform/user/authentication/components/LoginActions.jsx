@@ -72,6 +72,20 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                 />
               </>
             )}
+            {mhvButtonDeprecated && (
+              <div>
+                <h3 id="mhvH3" className="vads-u-margin-top--3">
+                  My HealtheVet sign-in option
+                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
+                    This option is no longer available
+                  </span>
+                </h3>
+                <va-link
+                  text="Learn how to access your benefits and set up your new account"
+                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
+                />
+              </div>
+            )}
             {dslogon && (
               <>
                 <h3
@@ -96,20 +110,6 @@ export default function LoginActions({ externalApplication, isUnifiedSignIn }) {
                   actionLocation={actionLocation}
                 />
               </>
-            )}
-            {mhvButtonDeprecated && (
-              <div>
-                <h3 id="mhvH3" className="vads-u-margin-top--3">
-                  My HealtheVet sign-in option
-                  <span className="vads-u-display--block vads-u-font-size--md vads-u-font-family--sans">
-                    This option is no longer available
-                  </span>
-                </h3>
-                <va-link
-                  text="Learn how to access your benefits and set up your new account"
-                  href="/resources/what-to-do-if-you-havent-switched-to-logingov-or-idme-yet"
-                />
-              </div>
             )}
           </div>
         )}
