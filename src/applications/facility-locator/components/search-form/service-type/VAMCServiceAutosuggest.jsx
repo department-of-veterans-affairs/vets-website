@@ -121,6 +121,8 @@ const VAMCServiceAutosuggest = ({
         getServices(
           selectedItemDisplay === e.inputValue ? selectedItemId : e.inputValue,
         );
+      } else {
+        setOptions(allVAMCServices);
       }
 
       if (!userInput) {
