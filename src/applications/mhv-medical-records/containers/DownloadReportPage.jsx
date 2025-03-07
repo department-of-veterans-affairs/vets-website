@@ -63,7 +63,7 @@ export const formatNameFirstLast = ({
   suffix = '',
 }) => {
   const nameParts = [first, middle, last].filter(Boolean).join(' '); // Remove empty values
-  return suffix ? `${nameParts}, ${suffix}` : nameParts;
+  return suffix ? `${nameParts} ${suffix}` : nameParts;
 };
 
 // --- Main component ---
