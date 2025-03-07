@@ -1,6 +1,15 @@
 import FileField from 'platform/forms-system/src/js/fields/FileField';
 import { createPayload, parseResponse } from './helpers';
 
+function validImageType(file) {
+  const fileType = file.type;
+  return (
+    fileType === 'image/png' ||
+    fileType === 'image/jpg' ||
+    fileType === 'image/jpeg'
+  );
+}
+
 /**
  * Clears any validation errors from the file uploads.
  * This prevents error messages from being displayed.
@@ -17,9 +26,19 @@ export function validateFileField(errors, fileList) {
         if (file.size > 99 * 1024 * 1024)
           // eslint-disable-next-line no-param-reassign
           errors[index] = { __errors: [`We couldn't upload your file`] };
-      } else if (file.size > 49 * 1024 * 1024)
+      } else if (validImageType(fileObject)) {
+        if (file.size > 49 * 1024 * 1024) {
+          // eslint-disable-next-line no-param-reassign
+          errors[index] = { __errors: [`We couldn't upload your file`] };
+        }
+      } else {
         // eslint-disable-next-line no-param-reassign
-        errors[index] = { __errors: [`We couldn't upload your file`] };
+        errors[index] = {
+          __errors: [
+            `The file extension doesn't match the file format. Please choose a different file.`,
+          ],
+        };
+      }
     }
   });
 }
