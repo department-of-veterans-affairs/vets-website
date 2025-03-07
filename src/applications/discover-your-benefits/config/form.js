@@ -3,7 +3,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import { submitHandler } from '../utils/helpers';
@@ -99,10 +98,7 @@ export const formConfig = {
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
           onNavForward: ({ formData, goPath }) => {
-            if (
-              environment.isProduction() &&
-              formData.militaryServiceCurrentlyServing === undefined
-            ) {
+            if (formData.militaryServiceCurrentlyServing === true) {
               goPath(
                 formConfig.chapters.chapter4.pages.characterOfDischarge.path,
               );
@@ -117,20 +113,10 @@ export const formConfig = {
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
           depends: formData => {
-            if (environment.isProduction()) {
-              return formData.militaryServiceCurrentlyServing === true;
-            }
-            return (
-              formData.militaryServiceCurrentlyServing === true ||
-              (environment.isProduction() &&
-                formData.militaryServiceCurrentlyServing === false)
-            );
+            return formData.militaryServiceCurrentlyServing === true;
           },
           onNavForward: ({ formData, goPath }) => {
-            if (
-              formData.militaryServiceCurrentlyServing === true &&
-              formData.militaryServiceCompleted === false
-            ) {
+            if (formData.militaryServiceCurrentlyServing === true) {
               goPath(
                 formConfig.chapters.chapter4.pages.characterOfDischarge.path,
               );
@@ -160,6 +146,13 @@ export const formConfig = {
           title: 'Character of Discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
+          onNavBack: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === true) {
+              goPath(formConfig.chapters.chapter2.pages.militaryService.path);
+            } else {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
       },
     },

@@ -2,9 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { useSelector } from 'react-redux';
-import { isLOA3, isLoggedIn } from 'platform/user/selectors';
+import { Link } from 'react-router';
+import { isLoggedIn } from 'platform/user/selectors';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import SaveInProgressIntro from './SaveInProgressIntro';
+import SaveInProgressIntroLink from './SaveInProgressIntroLink';
 import { TITLE, SUBTITLE } from '../constants';
 
 const OMB_RES_BURDEN = 15;
@@ -13,77 +16,187 @@ const OMB_EXP_DATE = '09/30/2027';
 
 const ProcessList = () => {
   return (
-    <va-process-list>
-      <va-process-list-item header="Prepare">
-        <h4>To fill out this application, you’ll need your:</h4>
-        <ul>
-          <li>Social Security number (required)</li>
-        </ul>
-        <p>
-          <strong>What if I need help filling out my application?</strong> An
-          accredited representative, like a Veterans Service Officer (VSO), can
-          help you fill out your claim.{' '}
-          <a href="/disability-benefits/apply/help/index.html">
-            Get help filing your claim
-          </a>
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Apply">
-        <p>Complete this benefits form.</p>
-        <p>
-          After submitting the form, you’ll get a confirmation message. You can
-          print this for your records.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="VA Review">
-        <p>
-          We process claims within a week. If more than a week has passed since
-          you submitted your application and you haven’t heard back, please
-          don’t apply again. Call us at.
-        </p>
-      </va-process-list-item>
-      <va-process-list-item header="Decision">
-        <p>
-          Once we’ve processed your claim, you’ll get a notice in the mail with
-          our decision.
-        </p>
-      </va-process-list-item>
-    </va-process-list>
+    <>
+      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+        Follow these steps to get started
+      </h2>
+      <va-process-list>
+        <va-process-list-item header="Check the Veteran’s eligibility">
+          <p>
+            Check our eligibility requirements before you apply. If you think
+            the Veteran may be eligible, but you’re not sure, we encourage you
+            to apply.
+          </p>
+          <p>
+            <a href="https://www.va.gov/burials-memorials/memorial-items/headstones-markers-medallions/#eligibility">
+              Find out if the Veteran is eligible for a medallion
+            </a>
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Contact the Veteran’s cemetery">
+          <p>
+            Contact the Veteran’s cemetery and tell them that you’re applying
+            for a medallion to put on a Veteran’s headstone or marker.
+          </p>
+          <p>You’ll need to get this information from them:</p>
+          <ul>
+            <li>The name of a representative from the Veteran’s cemetery</li>
+            <li>The representative’s email address</li>
+          </ul>
+          <p>
+            Also check if the cemetery will accept the size of medallion you
+            request.
+          </p>
+          <p>
+            After you get this information, tell the representative to expect an
+            email from VA about your application. And to review and sign your
+            application within 30 days.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Gather the Veteran’s information">
+          <p>Here’s what you’ll need to apply:</p>
+          <ul>
+            <li>The Veteran’s Social Security number</li>
+            <li>The Veteran’s date and place of birth</li>
+            <li>The Veteran’s date of death</li>
+            <li>The Veteran’s service periods</li>
+            <li>
+              The contact information and mailing address for a representative
+              from the Veteran’s cemetery
+            </li>
+          </ul>
+          <p>
+            <a href="https://www.cem.va.gov/CEM/hmm/discharge_documents.asp">
+              Find out what supporting documents you’ll need to submit
+            </a>
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="Start your application">
+          <p>
+            We’ll take you through each step of the process. It should take
+            about 15 minutes.
+          </p>
+          <va-additional-info trigger="What happens after you apply">
+            <p>
+              We’ll ask the representative from the Veteran’s cemetery to review
+              and sign your application. After the representative reviews and
+              signs your application, we’ll review it next. Then, we’ll send you
+              a letter in the mail with our decision.
+            </p>
+          </va-additional-info>
+        </va-process-list-item>
+      </va-process-list>
+    </>
   );
 };
 
 export const IntroductionPage = props => {
   const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const userIdVerified = useSelector(state => isLOA3(state));
   const { route } = props;
   const { formConfig, pageList } = route;
-  const showVerifyIdentify = userLoggedIn && !userIdVerified;
 
   useEffect(() => {
     scrollToTop();
     focusElement('h1');
   }, []);
 
+  const onSignInButtonClick = () => {
+    const redirectLocation = `${formConfig.rootUrl}${
+      formConfig.urlPrefix
+    }introduction?next=loginModal&oauth=true`;
+
+    window.location = redirectLocation;
+  };
+
   return (
     <article className="schemaform-intro">
       <FormTitle title={TITLE} subTitle={SUBTITLE} />
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        Follow the steps below to apply for Memorials benefits.
-      </h2>
-      <ProcessList />
-      {showVerifyIdentify ? (
-        <div>{/* add verify identity alert if applicable */}</div>
+      <p>
+        Use this form to get a medallion to put on a deceased Veteran’s
+        headstone or marker.
+      </p>
+      {!userLoggedIn ? (
+        <>
+          <ProcessList />
+          <va-alert
+            status="info"
+            class="vads-u-margin-y--4"
+            data-testid="ezr-login-alert"
+            uswds
+          >
+            <h3 slot="headline">Sign in with a verified account</h3>
+
+            <p>
+              Here’s how signing in with an identity-verified account helps you:
+            </p>
+
+            <ul>
+              <li>
+                We can fill in some of your information for you to save you
+                time.
+              </li>
+              <li>
+                You can save your work in progress. You’ll have 60 days from
+                when you start or make changes to submit your form.
+              </li>
+            </ul>
+
+            <p>
+              <strong>Don’t yet have a verified account?</strong> Create a{' '}
+              <strong>Login.gov</strong> or <strong>ID.me</strong> account.
+              We’ll help you verify your identity for your account now.
+            </p>
+
+            <p>
+              <strong>Not sure if your account is verified?</strong> Sign in
+              here. If you still need to verify your identity, we’ll help you do
+              that now.
+            </p>
+
+            <p>
+              <strong>Note:</strong> You can sign in after you start filling out
+              your form. But you’ll lose any information you already filled in.
+            </p>
+
+            <VaButton
+              onClick={onSignInButtonClick}
+              text="Sign in to start your application"
+            />
+
+            <p>
+              <Link
+                to="/name-and-date-of-birth?loggedIn=false"
+                className="schemaform-start-button"
+              >
+                Start your form without signing in
+              </Link>
+            </p>
+          </va-alert>
+        </>
       ) : (
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the application"
-          devOnly={{
-            forceShowFormControls: true,
-          }}
-        />
+        <>
+          <SaveInProgressIntro
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            pageList={pageList}
+            startText="Start your medallion application"
+            devOnly={{
+              forceShowFormControls: true,
+            }}
+          />
+          <ProcessList />
+          <SaveInProgressIntroLink
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            pageList={pageList}
+            startText="Start your medallion application"
+            devOnly={{
+              forceShowFormControls: true,
+            }}
+          />
+        </>
       )}
       <p />
       <va-omb-info

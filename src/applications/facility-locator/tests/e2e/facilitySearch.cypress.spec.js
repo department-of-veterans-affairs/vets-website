@@ -318,4 +318,50 @@ describe('Facility VA search', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
+
+  it('does not trigger repeat API requests when submit is clicked multiple times', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
+
+    cy.visit('/find-locations');
+
+    cy.injectAxe();
+    cy.axeCheck();
+
+    cy.verifyOptions();
+
+    cy.get('#street-city-state-zip').type('Austin, TX');
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA health');
+    cy.get('#service-type-dropdown').select('Primary care');
+
+    // Click the search button multiple times
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    // Reset facility dropdown values to ensure redux state is not changing in a way that
+    // triggers multiple API requests
+    cy.get('#facility-type-dropdown')
+      .shadow()
+      .find('select')
+      .select('VA health');
+    cy.get('#service-type-dropdown').select('Primary care');
+    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#facility-search').click({ waitForAnimations: true });
+
+    // Only 2 requests should be made, Initial page load and 1st user submitted search
+    cy.wait('@searchFacilitiesVA');
+    cy.get('@searchFacilitiesVA.all').should('have.length', 2);
+
+    cy.get('#search-results-subheader').contains(
+      'Results for "VA health", "Primary care" near "Austin, Texas"',
+    );
+    cy.get('.facility-result a').should('exist');
+    cy.get('.i-pin-card-map').contains('1');
+    cy.get('.i-pin-card-map').contains('2');
+    cy.get('.i-pin-card-map').contains('3');
+    cy.get('.i-pin-card-map').contains('4');
+
+    cy.get('#other-tools').should('exist');
+  });
 });
