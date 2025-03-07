@@ -233,7 +233,6 @@ describe('VA Medical Records', () => {
           'view:selectableEvidenceTypes': {
             'view:hasVaMedicalRecords': true,
           },
-          vaTreatmentFacilities: [],
         }}
         onSubmit={onSubmit}
       />,
