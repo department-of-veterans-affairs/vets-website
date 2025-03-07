@@ -142,6 +142,33 @@ describe('App component', () => {
       server.close();
     });
 
+    it('renders the loading message', async () => {
+      const testState = {
+        ...authedAndVerifiedState,
+        user: {
+          ...authedAndVerifiedState.user,
+          profile: {
+            ...authedAndVerifiedState.user.profile,
+            loading: true,
+          },
+        },
+      };
+
+      store = mockStore(testState);
+      const { container } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+      );
+      await waitFor(() => {
+        expect(
+          container.querySelector(
+            'va-loading-indicator[message="Loading your 1095-B information..."]',
+          ),
+        ).to.exist;
+      });
+    });
+
     it('renders the download form', async () => {
       store = mockStore(authedAndVerifiedState);
       server.use(
