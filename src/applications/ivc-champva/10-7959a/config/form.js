@@ -77,7 +77,7 @@ const formConfig = {
     startNewAppButtonText: 'Start a new form',
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959a],
   },
   preSubmitInfo: {
     statementOfTruth: {
