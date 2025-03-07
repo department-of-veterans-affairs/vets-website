@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import configureStore from 'redux-mock-store';
 import { setupServer } from 'msw/node';
@@ -192,6 +192,21 @@ describe('App component', () => {
           'va-link[text="Download PDF (best for printing)"]',
         ),
       ).to.exist;
+      expect(
+        container.querySelector(
+          'va-link[text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
+        ),
+      ).to.exist;
+      fireEvent.click(
+        $('va-link[text="Download PDF (best for printing)"]', container),
+      );
+      fireEvent.click(
+        $(
+          'va-link[text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"]',
+          container,
+        ),
+      );
+      // to do: how to test the rest of this behavior?
     });
 
     describe('when the forms endpoint fails', () => {
