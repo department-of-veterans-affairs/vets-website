@@ -41,24 +41,21 @@ export const dateFormat = (
   noDateMessage = null,
   dateWithMessage = null,
 ) => {
-  const isoTimestamp = convertToISO(timestamp);
+  if (!timestamp) {
+    return noDateMessage || EMPTY_FIELD;
+  }
 
+  const isoTimestamp = convertToISO(timestamp);
   const isoTimeStampOrParamTimestamp = isoTimestamp || timestamp;
   const finalTimestamp = moment
     .tz(isoTimeStampOrParamTimestamp, 'America/New_York')
     .format(format || 'MMMM D, YYYY');
 
-  if (noDateMessage && !timestamp) {
-    return noDateMessage;
-  }
   if (dateWithMessage && finalTimestamp) {
     return `${dateWithMessage}${finalTimestamp}`;
   }
-  if (finalTimestamp) {
-    return finalTimestamp;
-  }
 
-  return EMPTY_FIELD;
+  return finalTimestamp;
 };
 
 /**
