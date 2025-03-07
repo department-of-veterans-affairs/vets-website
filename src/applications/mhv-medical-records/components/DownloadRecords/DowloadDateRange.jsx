@@ -28,6 +28,7 @@ const DownloadDateRange = () => {
   const ERROR_VALID_DATE_RANGE = 'Please select a valid date range.';
   const ERROR_VALID_START_DATE = 'Please enter a valid start date.';
   const ERROR_VALID_END_DATE = 'Please enter a valid end date.';
+  const ERROR_END_AFTER_START_DATE = 'End date must be on or after start date.';
 
   const handleDateSelect = useCallback(
     e => {
@@ -95,6 +96,9 @@ const DownloadDateRange = () => {
   };
 
   const handleSubmit = () => {
+    const checkFrom = new Date(customFromDate);
+    const checkTo = new Date(customToDate);
+
     if (selectedDate === '') {
       setSelectionError(ERROR_VALID_DATE_RANGE);
       focusElement('#input-error-message', {}, dateInputRef.current.shadowRoot);
@@ -108,6 +112,11 @@ const DownloadDateRange = () => {
       }
       if (customToDate === '') {
         setCustomToError(ERROR_VALID_END_DATE);
+        focusElement('#error-message', {}, endDateRef.current.shadowRoot);
+        return;
+      }
+      if (checkFrom > checkTo) {
+        setCustomToError(ERROR_END_AFTER_START_DATE);
         focusElement('#error-message', {}, endDateRef.current.shadowRoot);
         return;
       }
@@ -172,6 +181,9 @@ const DownloadDateRange = () => {
               label="End date"
               required="true"
               error={customToError}
+              invalidDay={customToError}
+              invalidMonth={customToError}
+              invalidYear={customToError}
               data-testid="va-date-end-date"
               onDateChange={e => {
                 const [year, month, day] = e.target.value.split('-');
