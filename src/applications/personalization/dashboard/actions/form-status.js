@@ -21,8 +21,7 @@ const getForms = () => {
       'Source-App-Name': window.appName,
     },
   };
-  // eslint-disable-next-line no-console
-  console.log('test1');
+
   return apiRequest(
     `${environment.API_URL}/v0/my_va/submission_statuses`,
     options,
