@@ -3,7 +3,7 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import recordEvent from '~/platform/monitoring/record-event';
 import OverviewPage from './containers/OverviewPage';
 import CombinedPortalApp from './containers/CombinedPortalApp';
-import DetailPage from '../medical-copays/containers/DetailPage';
+import Details from '../medical-copays/containers/Details';
 import HTMLStatementPage from '../medical-copays/containers/HTMLStatementPage';
 import MCPOverview from '../medical-copays/containers/SummaryPage';
 import DebtDetails from '../debt-letters/containers/DebtDetails';
@@ -23,7 +23,7 @@ const Routes = () => (
           recordEvent({ event: 'cta-link-click-enter-mcp' });
         }}
       />
-      <Route exact path="/copay-balances/:id/detail" component={DetailPage} />
+      <Route exact path="/copay-balances/:id/detail" component={Details} />
       <Route
         exact
         path="/copay-balances/:id/detail/statement"
