@@ -31,18 +31,33 @@ const convertToISO = dateString => {
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @param {*} noDateMessage message when there is no date being passed
+ * @param {*} dateWithMessage message when there is a date being passed, node date will be appended to the end of this message
  * @returns {String} fromatted timestamp
  */
-export const dateFormat = (timestamp, format = null) => {
+export const dateFormat = (
+  timestamp,
+  format = null,
+  noDateMessage = null,
+  dateWithMessage = null,
+) => {
   const isoTimestamp = convertToISO(timestamp);
 
-  const finalTimestamp = isoTimestamp || timestamp;
+  const isoTimeStampOrParamTimestamp = isoTimestamp || timestamp;
+  const finalTimestamp = moment
+    .tz(isoTimeStampOrParamTimestamp, 'America/New_York')
+    .format(format || 'MMMM D, YYYY');
 
-  if (finalTimestamp) {
-    return moment
-      .tz(finalTimestamp, 'America/New_York')
-      .format(format || 'MMMM D, YYYY');
+  if (noDateMessage && !timestamp) {
+    return noDateMessage;
   }
+  if (dateWithMessage && finalTimestamp) {
+    return `${dateWithMessage}${finalTimestamp}`;
+  }
+  if (finalTimestamp) {
+    return finalTimestamp;
+  }
+
   return EMPTY_FIELD;
 };
 

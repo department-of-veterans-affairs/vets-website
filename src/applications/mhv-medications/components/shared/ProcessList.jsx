@@ -27,10 +27,12 @@ const ProcessList = ({ stepGuideProps }) => {
   const carrierConfig = trackingConfig[carrier?.toLowerCase()];
 
   const getCompletedDateOrDefaultMessage = date => {
-    if (date) {
-      return `Completed on ${dateFormat(date)}`;
-    }
-    return 'Date completed not available';
+    return dateFormat(
+      date,
+      'MMMM D, YYYY',
+      'Date completed not available',
+      'Completed on ',
+    );
   };
 
   const orderedMoreThanFifteenDaysAgo = () => {
