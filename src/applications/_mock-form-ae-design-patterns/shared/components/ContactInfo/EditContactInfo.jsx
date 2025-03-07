@@ -85,6 +85,11 @@ export const BuildPageBase = ({
   return (
     <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
       <InitializeVAPServiceID>
+        <va-alert status="info" visible slim>
+          <p className="vads-u-margin--0">
+            Any changes you make will also be reflected on your VA.gov profile.
+          </p>
+        </va-alert>
         <Heading ref={headerRef} className="vads-u-font-size--h3">
           {title}
         </Heading>

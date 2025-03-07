@@ -1,5 +1,9 @@
 export const useRouteMetadata = router => {
-  const { pathname } = router.location;
+  const { pathname } = router?.location || { pathname: '' };
+
+  if (!router?.routes) {
+    return null;
+  }
 
   // check that there is a route with a urlPrefix and a path property, then combine them
   const foundRoute = router.routes.find(
