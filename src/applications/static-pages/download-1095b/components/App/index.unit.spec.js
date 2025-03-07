@@ -187,9 +187,11 @@ describe('App component', () => {
       await waitFor(() => {
         expect(queryByText('Loading')).not.to.exist;
       });
-      container.querySelector(
-        'va-link[text="Download PDF (best for printing)"]',
-      );
+      expect(
+        container.querySelector(
+          'va-link[text="Download PDF (best for printing)"]',
+        ),
+      ).to.exist;
     });
 
     describe('when the forms endpoint fails', () => {
