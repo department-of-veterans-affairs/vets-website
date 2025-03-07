@@ -91,17 +91,14 @@ export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
 
 export function fetchFutureAppointments({ includeRequests = true } = {}) {
   return async (dispatch, getState) => {
-    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-      getState(),
-    );
+    const state = getState();
+    const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(state);
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      getState(),
+      state,
     );
-    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(
-      getState(),
-    );
-    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(getState());
-    const patientFacilities = selectPatientFacilities(getState());
+    const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+    const patientFacilities = selectPatientFacilities(state);
 
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
