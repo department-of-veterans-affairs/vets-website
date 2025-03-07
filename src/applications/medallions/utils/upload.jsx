@@ -30,8 +30,8 @@ export function fileUploadUi(/* content */) {
     'ui:field': FileField,
     'ui:options': {
       fileTypes: ['pdf', 'jpg', 'jpeg', 'png'],
-      maxPdfSize: 99 * 1024 * 1024,
-      maxSize: 50 * 1024 * 1024,
+      // maxPdfSize: 99 * 1024 * 1024, /* Fix this when proper validation is implemented */
+      // maxSize: 50 * 1024 * 1024, /* Fix this when proper validation is implemented */
       minSize: 1024,
       createPayload,
       parseResponse,

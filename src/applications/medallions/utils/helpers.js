@@ -87,7 +87,7 @@ export const supportingDocsInfo = formData => {
                 </li>
                 <li>
                   Appointment of Individual as Claimant’s Representative (VA
-                  Form 21-22a)
+                  Form 21-22a), <strong>or</strong>
                   <br />
                   <a
                     href="https://www.va.gov/find-forms/about-form-21-22a/"
