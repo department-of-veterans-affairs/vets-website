@@ -56,6 +56,16 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
+export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
+  let name = `${first} ${last}`;
+  if (!first) {
+    name = `${last}`;
+  }
+  if (middle) name += ` ${middle}`;
+  if (suffix) name += `, ${suffix}`;
+  return name;
+};
+
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -77,8 +87,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const fullState = useSelector(state => state);
 
   // Extract user info
-  const firstName = userProfile.userFullName.first;
-  const lastName = userProfile.userFullName.last;
+  const name = formatNameFirstLast(userProfile.userFullName);
   const dob = formatUserDob(userProfile); // Example DOB
 
   // Extract all SEI domain data
@@ -171,8 +180,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           const pdfData = {
             recordSets: generateSelfEnteredData(seiRecords),
             ...scaffold,
-            firstName,
-            lastName,
+            name,
             dob,
             lastUpdated: UNKNOWN,
           };

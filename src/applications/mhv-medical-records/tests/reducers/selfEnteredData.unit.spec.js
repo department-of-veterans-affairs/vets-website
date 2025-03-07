@@ -1099,7 +1099,7 @@ describe('convertMilitaryHistory', () => {
           eventTitle: 'Deployment to Iraq',
           eventDate: '2020-11-10',
           serviceBranch: 'A',
-          onboardShip: 'Yes',
+          onboardShip: 'Y',
           rank: 'Sergeant',
           exposures: 'Burn pits',
           serviceLocation: 'O',

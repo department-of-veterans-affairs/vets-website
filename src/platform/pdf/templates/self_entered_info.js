@@ -130,7 +130,7 @@ const generateTitleSection = (doc, parent, data) => {
         .font(config.text.font)
         .fontSize(config.text.size)
         .text(
-          `Name: ${data.firstName} ${data.lastName}`,
+          `Name: ${data.name}`,
           config.margins.left,
           doc.y,
           subTitleOptions,
