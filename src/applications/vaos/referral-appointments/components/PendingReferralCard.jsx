@@ -16,11 +16,6 @@ const PendingReferralCard = ({ referral, index }) => {
     referral.UUID
   }&referrer=referrals-requests`;
 
-  const appointmentString =
-    referral.numberOfAppointments === 1
-      ? '1 appointment'
-      : `${referral.numberOfAppointments} appointments`;
-
   const parsedDate = parseISO(referral.ReferralExpirationDate);
   const expiration = format(parsedDate, 'MMMM d, yyyy');
 
@@ -52,7 +47,7 @@ const PendingReferralCard = ({ referral, index }) => {
                     canceled={isCanceled}
                   >
                     <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
-                      {`You have been approved for ${appointmentString}. All appointments for this referral must be scheduled by ${expiration}.`}
+                      {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${expiration}.`}
                     </span>
                   </AppointmentColumn>
                 </AppointmentRow>
