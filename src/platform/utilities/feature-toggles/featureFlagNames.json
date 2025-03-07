@@ -100,6 +100,7 @@
   "giComparisonToolLceToggleFlag": "gi_comparison_tool_lce_toggle_flag",
   "haCpapSuppliesCta": "ha_cpap_supplies_cta",
   "hcaBrowserMonitoringEnabled": "hca_browser_monitoring_enabled",
+  "hcaDownloadCompletedPdf": "hca_download_completed_pdf",
   "hcaEnrollmentStatusOverrideEnabled": "hca_enrollment_status_override_enabled",
   "hcaInsuranceV2Enabled": "hca_insurance_v2_enabled",
   "hcaPerformanceAlertEnabled": "hca_performance_alert_enabled",
