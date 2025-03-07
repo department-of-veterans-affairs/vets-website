@@ -28,8 +28,8 @@ export const createCauseFollowUpTitles = formData => {
   return causeTitle[formData.cause];
 };
 
-// TODO: [Fix the formData prop on edit so that it contains all form data](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/689)
-// formData contains all form data on add and only item data on edit which results in the need for the conditional below
+// TODO: [Apply fix for index is null in hideIf and required for multi-page list and loop edit in new-conditions application](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/721)
+// Remove this conditional once the fix is applied
 const createCauseFollowUpConditional = (formData, index, causeType) => {
   const cause = formData?.[arrayBuilderOptions.arrayPath]
     ? formData?.[arrayBuilderOptions.arrayPath][index]?.cause
@@ -37,18 +37,20 @@ const createCauseFollowUpConditional = (formData, index, causeType) => {
   return cause !== causeType;
 };
 
-// TODO: [Fix the formData prop on edit so that it contains all form data](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/689)
-// formData on add contains all form data { "conditionByCondition": [{ "condition": "migraines (headaches)"... }] }
-// formData on edit contains only item data { "condition": "migraines (headaches)"... } which does not include ratedDisabilities or other new conditions
-// TODO: If causedByCondition is 'asthma' asthma is updated to 'emphysema' ensure 'asthma' is cleared as potential cause
-const getOtherConditions = (formData, currentIndex) => {
+const getOtherConditions = (currentIndex, fullData) => {
   const ratedDisabilities =
-    formData?.ratedDisabilities?.map(disability => disability.name) || [];
+    fullData?.ratedDisabilities?.map(disability => disability.name) || [];
 
   const otherNewConditions =
-    formData?.[arrayBuilderOptions.arrayPath]
-      ?.filter((_, index) => index !== currentIndex)
-      ?.map(condition => createItemName(condition)) || [];
+    fullData?.[arrayBuilderOptions.arrayPath]?.reduce(
+      (others, condition, index) => {
+        if (index !== currentIndex) {
+          others.push(createItemName(condition));
+        }
+        return others;
+      },
+      [],
+    ) || [];
 
   return [...ratedDisabilities, ...otherNewConditions];
 };
@@ -70,9 +72,9 @@ const causeFollowUpPage = {
     }),
     causedByCondition: selectUI({
       title:
-        'Choose the service-connected disability that caused the new condition that you’re claiming here.',
-      updateSchema: (formData, _schema, _uiSchema, index) => {
-        return selectSchema(getOtherConditions(formData, index));
+        "Choose the service-connected disability that caused the new condition that you're claiming here.",
+      updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) => {
+        return selectSchema(getOtherConditions(index, fullData));
       },
       hideIf: (formData, index) =>
         createCauseFollowUpConditional(formData, index, 'SECONDARY'),
