@@ -25,7 +25,13 @@ function get(path, data) {
  * If no required fields are changing, it makes sure to not mutate the existing schema,
  * so we can still take advantage of any shouldComponentUpdate optimizations
  */
-export function updateRequiredFields(schema, uiSchema, formData, index = null) {
+export function updateRequiredFields(
+  schema,
+  uiSchema,
+  formData,
+  index = null,
+  fullData,
+) {
   if (!uiSchema) {
     return schema;
   }
@@ -35,7 +41,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
       (requiredArray, nextProp) => {
         const field = uiSchema[nextProp];
         if (field && field['ui:required']) {
-          const isRequired = field['ui:required'](formData, index);
+          const isRequired = field['ui:required'](formData, index, fullData);
           const arrayHasField = requiredArray.some(prop => prop === nextProp);
 
           if (arrayHasField && !isRequired) {
@@ -61,6 +67,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
             uiSchema[nextProp],
             formData,
             index,
+            fullData,
           );
           if (nextSchema !== currentSchema.properties[nextProp]) {
             return set(['properties', nextProp], nextSchema, currentSchema);
@@ -86,7 +93,7 @@ export function updateRequiredFields(schema, uiSchema, formData, index = null) {
     // each item has its own schema, so we need to update the required fields on those schemas
     // and then check for differences
     const newItemSchemas = schema.items.map((item, idx) =>
-      updateRequiredFields(item, uiSchema.items, formData, idx),
+      updateRequiredFields(item, uiSchema.items, formData, idx, fullData),
     );
     if (newItemSchemas.some((newItem, idx) => newItem !== schema.items[idx])) {
       return set('items', newItemSchemas, schema);
@@ -113,7 +120,8 @@ export function isContentExpanded(data, matcher, formData) {
  * which is a non-standard JSON Schema property
  *
  * The path parameter will contain the path, relative to formData, to the
- * form data corresponding to the current schema object
+ * form data corresponding to the current schema object; and should include the
+ * page index, if within an array
  */
 export function setHiddenFields(
   schema,
@@ -642,7 +650,13 @@ export function updateSchemasAndData(
   index,
 ) {
   let newSchema = updateItemsSchema(schema, formData);
-  newSchema = updateRequiredFields(newSchema, uiSchema, formData);
+  newSchema = updateRequiredFields(
+    newSchema,
+    uiSchema,
+    formData,
+    index,
+    fullData,
+  );
 
   // Update the schema with any fields that are now hidden because of the data change
   newSchema = setHiddenFields(newSchema, uiSchema, formData, [], fullData);
