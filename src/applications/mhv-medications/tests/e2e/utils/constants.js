@@ -51,6 +51,11 @@ export const Data = {
   STEP_THREE_HEADER: 'We ship your refill to you',
   STEP_THREE_NOTE:
     'Remember to request your next refill at least 15 days before ',
+  STEP_ONE_SUBMITTED: 'We received your refill request',
+  STEP_TWO_SUBMITTED: 'We will process your refill request',
+  STEP_THREE_SUBMITTED: 'We will ship your refill',
+  STEP_TWO_ACTIVE: 'We processed your refill',
+  STEP_THREE_SHIPPED: 'We shipped your refill',
 };
 export const Paths = {
   LANDING_LIST:

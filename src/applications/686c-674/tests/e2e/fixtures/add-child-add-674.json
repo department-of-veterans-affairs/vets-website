@@ -99,7 +99,7 @@
         "currentTermDates": {
           "officialSchoolStartDate": "2024-02-01",
           "expectedStudentStartDate": "2024-05-05",
-          "expectedGraduationDate": "2025-03-04"
+          "expectedGraduationDate": "2028-03-04"
         },
         "isSchoolAccredited": true,
         "view:accredited": {},
@@ -137,11 +137,11 @@
   },
   "privacyAgreementAccepted": true,
   "childSupportingDocuments": [
-      {
-        "name": "Screenshot from 2025-02-03 13-37-07.png",
-        "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
-        "attachmentId": "",
-        "isEncrypted": false
-      }
-    ]
+    {
+      "name": "Screenshot from 2025-02-03 13-37-07.png",
+      "confirmationCode": "14b02a60-7825-4978-96b1-5d3cc4b1803d",
+      "attachmentId": "",
+      "isEncrypted": false
+    }
+  ]
 }

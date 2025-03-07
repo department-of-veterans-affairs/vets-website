@@ -1,20 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  VaCard,
-  VaIcon,
   VaTelephone,
+  VaFileInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  getFileSize,
-  getFormNumber,
-  mask,
-  formattedPhoneNumber,
-} from '../helpers';
+import { getFormNumber, mask, formattedPhoneNumber } from '../helpers';
 import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
-  const { form } = useSelector(state => state || {});
+  const { data: formData } = useSelector(state => state?.form || {});
   const {
     uploadedFile,
     idNumber,
@@ -22,36 +16,7 @@ const CustomReviewTopContent = () => {
     fullName,
     phoneNumber,
     email,
-  } = form?.data;
-
-  const renderFileInfo = file => (
-    <div className="vads-l-col--12 medium-screen:vads-l-col--12 small-desktop-screen:vads-l-col--8">
-      <VaCard>
-        <div className="vads-u-display--flex vads-u-flex-direction--row">
-          <span className="vads-u-color--primary">
-            <VaIcon
-              size={6}
-              icon="file_present"
-              className="vads-u-margin-right--1"
-              srtext="icon representing a file"
-              aria-hidden="true"
-            />
-          </span>
-          <div className="vads-u-display--flex vads-u-flex-direction--column">
-            <span
-              className="vads-u-font-weight--bold"
-              style={{ wordBreak: 'break-all' }}
-            >
-              {file.name}
-            </span>
-            <span className="vads-u-color--gray-darker">
-              {getFileSize(file.size)}
-            </span>
-          </div>
-        </div>
-      </VaCard>
-    </div>
-  );
+  } = formData;
 
   const renderPersonalInfo = () => (
     <div>
@@ -88,6 +53,11 @@ const CustomReviewTopContent = () => {
   );
 
   const formNumber = getFormNumber().toLowerCase();
+  const filePayload = {
+    name: uploadedFile?.name,
+    size: uploadedFile?.size,
+    type: '',
+  };
 
   return (
     <>
@@ -118,7 +88,7 @@ const CustomReviewTopContent = () => {
         <h3>Uploaded file</h3>
         <EditLink href={`/${formNumber}/upload`} label="Edit Uploaded file" />
       </div>
-      {uploadedFile && renderFileInfo(uploadedFile)}
+      {uploadedFile && <VaFileInput value={filePayload} readOnly uswds />}
     </>
   );
 };

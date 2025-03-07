@@ -37,10 +37,10 @@
       ],
       "patientIcn": "1013120826V646496",
       "locationId": "983GC",
-      "localStartTime": "2025-01-20T16:30:00.000-08:00",
+      "localStartTime": "2025-02-20T16:30:00.000-08:00",
       "clinic": "945",
-      "start": "2025-01-20T16:30:00Z",
-      "end": "2025-01-20T17:00:00Z",
+      "start": "2025-02-20T16:30:00Z",
+      "end": "2025-02-20T17:00:00Z",
       "created": "2024-03-17T00:00:00Z",
       "cancellable": false,
       "extension": {

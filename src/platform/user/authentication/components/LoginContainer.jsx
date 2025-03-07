@@ -18,7 +18,7 @@ export default function LoginContainer({
   const isOccMobile = [EXTERNAL_APPS.VA_OCC_MOBILE]?.includes(
     externalApplication,
   );
-  const href = useInternalTestingAuth();
+  const { href, onClick } = useInternalTestingAuth();
 
   return (
     <>
@@ -50,7 +50,7 @@ export default function LoginContainer({
           isOccMobile && (
             <div className="row">
               <div className="columns">
-                <va-link href={href} text="VA staff" />
+                <va-link href={href} text="VA staff" onClick={onClick} />
               </div>
             </div>
           )}

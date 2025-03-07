@@ -1,12 +1,25 @@
+import { cloneDeep } from 'lodash';
 import sharedTransformForSubmit from '../../shared/config/submit-transformer';
 import {
   veteranBenefits,
   survivingDependentBenefits,
 } from '../definitions/constants';
+import { preparerIsVeteranAndHasPrefill } from './helpers';
 
 export default function transformForSubmit(formConfig, form) {
+  const formData = cloneDeep(form.data);
+
+  if (preparerIsVeteranAndHasPrefill({ formData })) {
+    formData.veteranFullName = formData['view:veteranPrefillStore'].fullName;
+  }
+
+  // remove all view: fields
+  Object.keys(formData)
+    .filter(key => key.startsWith('view:'))
+    .forEach(key => delete formData[key]);
+
   const transformedData = JSON.parse(
-    sharedTransformForSubmit(formConfig, form),
+    sharedTransformForSubmit(formConfig, { ...form, data: formData }),
   );
 
   return JSON.stringify({

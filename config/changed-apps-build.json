@@ -220,10 +220,6 @@
       "slackGroup": "@benefits-app-builds"
     },
     {
-      "rootFolder": "static-pages",
-      "slackGroup": "@C059Q28DV99"
-    },
-    {
       "rootFolder": "terms-of-use",
       "continuousDeployment": false
     },

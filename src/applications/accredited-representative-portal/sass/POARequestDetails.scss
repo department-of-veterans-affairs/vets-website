@@ -147,6 +147,7 @@
     display: flex;
     align-items: center;
     font-size: 24px;
+    font-family: inherit;
     @media (min-width: $small-desktop-screen) {
       font-size: 1.875rem;
     }

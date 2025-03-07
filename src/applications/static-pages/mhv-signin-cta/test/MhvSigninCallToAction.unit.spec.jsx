@@ -18,11 +18,17 @@ describe('MHV Signin CTA', () => {
             loa: {
               current: null,
             },
+            loading: false,
+            mhvAccount: {
+              loading: false,
+            },
           },
         },
       };
       const result = mapStateToProps(state);
       expect(result.userIsLoggedIn).to.eql(false);
+      expect(result.profileLoading).to.eql(false);
+      expect(result.mhvAccountLoading).to.eql(false);
     });
 
     it('user logged in', () => {
@@ -38,6 +44,10 @@ describe('MHV Signin CTA', () => {
             signIn: {
               serviceName: CSP_IDS.ID_ME,
             },
+            loading: true,
+            mhvAccount: {
+              loading: true,
+            },
           },
         },
       };
@@ -45,6 +55,8 @@ describe('MHV Signin CTA', () => {
       expect(result.userIsLoggedIn).to.eql(true);
       expect(result.serviceName).to.eql(CSP_IDS.ID_ME);
       expect(result.userIsVerified).to.eql(true);
+      expect(result.profileLoading).to.eql(true);
+      expect(result.mhvAccountLoading).to.eql(true);
     });
   });
 
@@ -137,6 +149,34 @@ describe('MHV Signin CTA', () => {
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
       expect(queryByRole('link', { name: RegExp(defaultLinkText) })).to.exist;
+    });
+
+    it('renders mhvAccount is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading
+            profileLoading={false}
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
+    });
+
+    it('renders profile is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading={false}
+            profileLoading
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
     });
   });
 });

@@ -23,7 +23,7 @@ export const refillProcessStepGuide = {
       content: (
         <p>
           When our pharmacy starts processing your request, the status will
-          change to <strong>Active: Refill in process.</strong> We’ll also tell
+          change to <strong>Active: Refill in Process.</strong> We’ll also tell
           you the date when we expect to fill it.
         </p>
       ),

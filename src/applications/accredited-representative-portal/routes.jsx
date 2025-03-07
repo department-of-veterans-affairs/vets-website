@@ -28,6 +28,7 @@ const addSignInRedirection = route => {
         return await loader({ params, request });
       } catch (e) {
         // Only rethrow non-401 errors
+        // this can most likely be removed considering we added it to the api client
         if (!(e instanceof Response) || e.status !== 401) {
           throw e;
         }

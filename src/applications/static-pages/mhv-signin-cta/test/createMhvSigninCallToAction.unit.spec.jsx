@@ -21,6 +21,10 @@ describe('create MHV Signin Call To Action widget', () => {
         signIn: {
           serviceName: CSP_IDS.ID_ME,
         },
+        loading: false,
+        mhvAccount: {
+          loading: false,
+        },
       },
     },
   };

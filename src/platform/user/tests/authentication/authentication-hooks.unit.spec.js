@@ -116,8 +116,10 @@ describe('authentication - hooks', () => {
 
       await waitForNextUpdate();
 
-      expect(result.current).to.include('application=vaoccmobile');
-      expect(result.current).to.include('operation=myhealthevet_test_account');
+      expect(result.current.href).to.include('application=vaoccmobile');
+      expect(result.current.href).to.include(
+        'operation=myhealthevet_test_account',
+      );
     });
   });
 });
