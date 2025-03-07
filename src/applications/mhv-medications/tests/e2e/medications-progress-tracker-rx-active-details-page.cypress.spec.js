@@ -16,6 +16,7 @@ describe('Medications Details Page Active Rx Progress Tracker', () => {
     detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails, cardNumber);
     detailsPage.verifyActiveRxStepOneProgressTrackerOnDetailsPage(
       Data.STEP_ONE_SUBMITTED,
+      Data.STEP_ONE_NOTE_ABOVE,
     );
     detailsPage.verifyActiveRxStepTwoProgressTrackerOnDetailsPage(
       Data.STEP_TWO_ACTIVE,
