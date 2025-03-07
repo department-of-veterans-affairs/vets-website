@@ -26,9 +26,9 @@ export const DateAndTimeContent = props => {
   const [error, setError] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const facilityTimeZone = getTimezoneByFacilityId(
-    currentReferral.ReferringFacilityInfo.FacilityCode,
+    currentReferral.referringFacilityInfo.facilityCode,
   );
-  const selectedSlotKey = getReferralSlotKey(currentReferral.UUID);
+  const selectedSlotKey = getReferralSlotKey(currentReferral.uuid);
   const latestAvailableSlot = new Date(
     Math.max.apply(
       null,
@@ -74,7 +74,7 @@ export const DateAndTimeContent = props => {
     [dispatch, draftAppointmentInfo.slots.slots, selectedSlotKey],
   );
   const onBack = () => {
-    routeToPreviousReferralPage(history, currentPage, currentReferral.UUID);
+    routeToPreviousReferralPage(history, currentPage, currentReferral.uuid);
   };
   const onSubmit = () => {
     if (error) {
@@ -95,7 +95,7 @@ export const DateAndTimeContent = props => {
       );
       return;
     }
-    routeToNextReferralPage(history, currentPage, currentReferral.UUID);
+    routeToNextReferralPage(history, currentPage, currentReferral.uuid);
   };
 
   const noSlotsAvailable = !draftAppointmentInfo.slots.slots.length;
@@ -122,15 +122,15 @@ export const DateAndTimeContent = props => {
         <p className="vads-u-font-weight--bold vads-u-margin--0">
           {draftAppointmentInfo.provider.name}
         </p>
-        <p className="vads-u-margin-top--0">{currentReferral.CategoryOfCare}</p>
+        <p className="vads-u-margin-top--0">{currentReferral.categoryOfCare}</p>
         <p className="vads-u-margin--0 vads-u-font-weight--bold">
           {draftAppointmentInfo.provider.providerOrganization.name}
         </p>
         <ProviderAddress
-          address={currentReferral.ReferringFacilityInfo.Address}
+          address={currentReferral.referringFacilityInfo.address}
           showDirections
-          directionsName={currentReferral.ReferringFacilityInfo.FacilityName}
-          phone={currentReferral.ReferringFacilityInfo.Phone}
+          directionsName={currentReferral.referringFacilityInfo.facilityName}
+          phone={currentReferral.referringFacilityInfo.phone}
         />
         {driveTimeString && <p>{driveTimeString}</p>}
         <h2>Choose a date and time</h2>
@@ -139,7 +139,7 @@ export const DateAndTimeContent = props => {
             Select an available date and time from the calendar below.
             Appointment times are displayed in{' '}
             {`${getTimezoneDescByFacilityId(
-              currentReferral.ReferringFacilityInfo.FacilityCode,
+              currentReferral.referringFacilityInfo.facilityCode,
             )}`}
             .
           </p>
@@ -155,7 +155,7 @@ export const DateAndTimeContent = props => {
             We’re sorry. We couldn’t find any open time slots.
           </h2>
           <p>Please call this provider to schedule an appointment</p>
-          <va-telephone contact={currentReferral.ReferringFacilityInfo.Phone} />
+          <va-telephone contact={currentReferral.referringFacilityInfo.phone} />
         </va-alert>
       )}
       {!noSlotsAvailable && (

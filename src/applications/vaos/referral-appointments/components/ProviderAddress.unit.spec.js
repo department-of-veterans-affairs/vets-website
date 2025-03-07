@@ -5,9 +5,9 @@ import ProviderAddress from './ProviderAddress';
 
 describe('VAOS Component: ProviderAddress', () => {
   const address = {
-    Address1: 'test Address',
-    Address2: '',
-    Address3: '',
+    address1: 'test Address',
+    address2: '',
+    address3: '',
     state: 'testylvania',
     city: 'testland',
     zip: '88888',
@@ -24,7 +24,7 @@ describe('VAOS Component: ProviderAddress', () => {
   it('renders the address with Address 1 and 2', () => {
     const addressWithStreets = {
       ...address,
-      ...{ Address2: 'test two', Address3: 'test three' },
+      ...{ address2: 'test two', address3: 'test three' },
     };
     const screen = render(
       <ProviderAddress address={addressWithStreets} phone="555-555-5555" />,

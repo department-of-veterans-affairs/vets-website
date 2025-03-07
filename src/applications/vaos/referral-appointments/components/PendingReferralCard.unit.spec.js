@@ -48,6 +48,6 @@ describe('VAOS Component: PendingReferralCard', () => {
     const link = screen.getByTestId('appointment-list-item');
     fireEvent.click(link);
     expect(handleClick.calledOnce).to.be.true;
-    expect(handleClick.calledWith(sinon.match.any, referral.UUID)).to.be.true;
+    expect(handleClick.calledWith(sinon.match.any, referral.uuid)).to.be.true;
   });
 });

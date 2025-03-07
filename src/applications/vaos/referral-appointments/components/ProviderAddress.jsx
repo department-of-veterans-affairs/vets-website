@@ -7,20 +7,20 @@ const ProviderAddress = props => {
   return (
     <address data-testid="address-block">
       <p className="vads-u-margin--0">
-        {address.Address1} <br />
-        {address.Address2 && (
+        {address.address1} <br />
+        {address.address2 && (
           <span data-testid="Address2">
-            {address.Address2}
+            {address.address2}
             <br />
           </span>
         )}
-        {address.Address3 && (
+        {address.address3 && (
           <span data-testid="Address3">
-            {address.Address3}
+            {address.address3}
             <br />
           </span>
         )}
-        {address.City}, {address.State}, {address.ZipCode}
+        {address.city}, {address.state}, {address.zipCode}
       </p>
       {showDirections &&
         directionsName && (

@@ -8,7 +8,7 @@ describe('VAOS referral generator', () => {
   describe('createReferralById', () => {
     const referral = referralUtil.createReferralById(today, '1');
     it('Create a referral based on specific date', () => {
-      expect(referral.ReferralDate).to.equal(today);
+      expect(referral.referralDate).to.equal(today);
     });
   });
   describe('createReferrals', () => {
@@ -18,8 +18,8 @@ describe('VAOS referral generator', () => {
     });
     it('Creates each referral on day later', () => {
       const referrals = referralUtil.createReferrals(2, '2024-10-30');
-      expect(referrals[0].ReferralDate).to.equal('2024-10-30');
-      expect(referrals[1].ReferralDate).to.equal('2024-10-31');
+      expect(referrals[0].referralDate).to.equal('2024-10-30');
+      expect(referrals[1].referralDate).to.equal('2024-10-31');
     });
   });
   describe('getReferralSlotKey', () => {
@@ -45,14 +45,14 @@ describe('VAOS referral generator', () => {
     it('Filters out non-physical therapy referrals', () => {
       const filteredReferrals = referralUtil.filterReferrals(referrals);
       expect(filteredReferrals.length).to.equal(1);
-      expect(filteredReferrals[0].UUID).to.equal('uid-2');
+      expect(filteredReferrals[0].uuid).to.equal('uid-2');
     });
   });
   describe('getAddressString', () => {
     it('Formats the address string', () => {
       const referral = referralUtil.createReferralById(today, '111', '333');
       expect(
-        referralUtil.getAddressString(referral.ReferringFacilityInfo.Address),
+        referralUtil.getAddressString(referral.referringFacilityInfo.address),
       ).to.equal('222 Richmond Avenue, BATAVIA, NY, 14020');
     });
   });

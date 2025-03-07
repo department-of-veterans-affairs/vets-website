@@ -36,7 +36,7 @@ export function getReferrals(state) {
 }
 
 export function getReferral(state, id) {
-  const referral = state.referral.referralDetails.find(ref => ref.UUID === id);
+  const referral = state.referral.referralDetails.find(ref => ref.uuid === id);
   return {
     referral,
     referralFetchStatus: state.referral.referralFetchStatus,

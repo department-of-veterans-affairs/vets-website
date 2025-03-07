@@ -8,15 +8,15 @@ import AppointmentColumn from '../../components/AppointmentColumn';
 
 const PendingReferralCard = ({ referral, index }) => {
   const first = index === 0;
-  const idClickable = `id-${referral.UUID.replace('.', '\\.')}`;
+  const idClickable = `id-${referral.uuid.replace('.', '\\.')}`;
   const isCanceled = referral.status === 'cancelled';
-  const typeOfCareName = referral.CategoryOfCare;
+  const typeOfCareName = referral.categoryOfCare;
 
   const link = `schedule-referral?id=${
-    referral.UUID
+    referral.uuid
   }&referrer=referrals-requests`;
 
-  const parsedDate = parseISO(referral.ReferralExpirationDate);
+  const parsedDate = parseISO(referral.expirationDate);
   const expiration = format(parsedDate, 'MMMM d, yyyy');
 
   return (
@@ -54,7 +54,7 @@ const PendingReferralCard = ({ referral, index }) => {
               </AppointmentColumn>
 
               <AppointmentColumn
-                id={`vaos-referral-detail-${referral.UUID}`}
+                id={`vaos-referral-detail-${referral.uuid}`}
                 className="vaos-hide-for-print"
                 padding="0p5"
                 size="1"
@@ -63,7 +63,7 @@ const PendingReferralCard = ({ referral, index }) => {
                 <va-link-action
                   type="secondary"
                   href={link}
-                  aria-describedby={`vaos-referral-detail-${referral.UUID}`}
+                  aria-describedby={`vaos-referral-detail-${referral.uuid}`}
                   message-aria-describedby="Custom message"
                   text="Schedule your appointment"
                   onClick={e => e.preventDefault()}
