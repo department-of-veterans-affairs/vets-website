@@ -69,6 +69,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -95,6 +96,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -121,6 +123,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -147,6 +150,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -174,6 +178,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -212,6 +217,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -263,6 +269,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -293,6 +300,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -323,6 +331,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -351,6 +360,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -390,6 +400,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -414,6 +425,7 @@ describe('VAOS Services: Appointment ', () => {
         await fetchBookedAppointment({
           id: '1234',
           useV2: true,
+          useFeSourceOfTruth: true,
         });
       } catch (e) {
         v2Result = e;
@@ -479,6 +491,7 @@ describe('VAOS Services: Appointment ', () => {
         startDate,
         endDate,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       // Then expect a VA appointment request to be returned.
@@ -537,6 +550,7 @@ describe('VAOS Services: Appointment ', () => {
         startDate,
         endDate,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       // Then expect a CC appointment request to be returned.
@@ -592,6 +606,7 @@ describe('VAOS Services: Appointment ', () => {
         startDate,
         endDate,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       // Then expect a canceled appointment request to be returned.
@@ -633,6 +648,7 @@ describe('VAOS Services: Appointment ', () => {
           startDate,
           endDate,
           useV2: true,
+          useFeSourceOfTruth: true,
         });
       } catch (e) {
         v2Result = e;
@@ -659,7 +675,7 @@ describe('VAOS Services: Appointment ', () => {
         });
       });
 
-      await getLongTermAppointmentHistoryV2();
+      await getLongTermAppointmentHistoryV2(true);
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].start);
       expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].end);
