@@ -59,7 +59,7 @@ export async function submit(form, formConfig) {
   const sendRequest = async () => {
     await ensureValidCSRFToken();
     return apiRequest(
-      `${environment.API_URL}${formConfig.submitUrl ?? '/v0/burial_claims'}`,
+      `${environment.API_URL}/burials/v0/claims`,
       apiRequestOptions,
     ).then(onSuccess);
   };
