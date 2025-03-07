@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -361,6 +362,7 @@ export const convertNullishObjectValuesToEmptyString = object =>
  */
 export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
   const missingInfo = [];
+
   // If both home & mobile selected, make only one phone required
   const phones = [keys.homePhone, '|', keys.mobilePhone];
   const eitherPhone =
@@ -398,6 +400,7 @@ export const getMissingInfo = ({ data, keys, content, requiredKeys = [] }) => {
       (!isUS || (isUS && addressObject.zipCode));
     missingInfo.push(hasRequiredAddressFields ? '' : content.missingAddress);
   }
+  console.log('Missing Info Calculated:', missingInfo);
   return missingInfo.filter(Boolean);
 };
 

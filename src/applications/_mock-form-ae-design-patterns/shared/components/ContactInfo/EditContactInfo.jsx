@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-
 import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
 import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
@@ -15,6 +15,7 @@ import {
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { withRouter } from 'react-router';
 import { refreshProfile } from 'platform/user/exportsFile';
+import { removeMissingField } from '../../../actions/actions';
 import { useRouteMetadata } from './useRouteMetadata';
 
 export const BuildPageBase = ({
@@ -27,6 +28,16 @@ export const BuildPageBase = ({
   router,
 }) => {
   const dispatch = useDispatch();
+  const missingInfo = useSelector(state => state.form.missingInfo || []);
+  const missingInfoFields = {
+    HOME_PHONE: 'home phone',
+    MOBILE_PHONE: 'mobile phone',
+    EMAIL: 'email address',
+    MAILING_ADDRESS: 'mailing address',
+  };
+
+  const isFieldMissing = missingInfo.includes(missingInfoFields[field]);
+
   const Heading = editContactInfoHeadingLevel || 'h3';
   const headerRef = useRef(null);
 
@@ -63,7 +74,17 @@ export const BuildPageBase = ({
   );
 
   const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
-  const returnPath = onReviewPage ? '/review-and-submit' : fullContactPath;
+  // const returnPath = onReviewPage ? '/review-and-submit' : fullContactPath;
+  let returnPath;
+  if (onReviewPage) {
+    returnPath = '/review-and-submit';
+  } else if (isFieldMissing) {
+    returnPath = -1;
+  } else {
+    returnPath = fullContactPath;
+  }
+
+  console.log('missing-path', returnPath);
 
   const handlers = {
     onSubmit: event => {
@@ -71,11 +92,20 @@ export const BuildPageBase = ({
       // outer form and causing a page advance
       event.stopPropagation();
     },
+    // cancel: () => {
+    //   setReturnState(id, 'canceled');
+    //   goToPath(returnPath);
+    // },
     cancel: () => {
       setReturnState(id, 'canceled');
-      goToPath(returnPath);
+      if (returnPath === -1) {
+        window.history.back();
+      } else {
+        goToPath(returnPath);
+      }
     },
     success: async () => {
+      dispatch(removeMissingField(field));
       setReturnState(id, 'updated');
       await dispatch(refreshProfile);
       goToPath(returnPath);
@@ -130,3 +160,6 @@ export const EditEmail = props => (
 export const EditAddress = props => (
   <BuildPage {...props} field="MAILING_ADDRESS" id="address" />
 );
+
+// check if field current page is missing or not (not prefilled), if it is missing, on the
+// cancel button, it should go back to previous page on browser

@@ -1,5 +1,6 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 
@@ -43,6 +44,7 @@ import { getValidationErrors } from 'platform/forms-system/src/js/utilities/vali
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { ContactInfoLoader } from './ContactInfoLoader';
 import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
+import { setMissingInfo } from '../../../actions/actions';
 
 /**
  * Render contact info page
@@ -60,6 +62,7 @@ import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
  */
+
 const ContactInfoBase = ({
   data,
   goBack,
@@ -88,6 +91,7 @@ const ContactInfoBase = ({
 
   const { pathname } = router.location;
 
+  const dispatch = useDispatch();
   const wrapRef = useRef(null);
   window.sessionStorage.setItem(REVIEW_CONTACT, onReviewPage || false);
   const [hasInitialized, setHasInitialized] = useState(false);
@@ -116,6 +120,13 @@ const ContactInfoBase = ({
     content,
     requiredKeys,
   });
+
+  useEffect(
+    () => {
+      dispatch(setMissingInfo(missingInfo));
+    },
+    [missingInfo, dispatch],
+  );
 
   const list = readableList(missingInfo);
   const plural = missingInfo.length > 1;

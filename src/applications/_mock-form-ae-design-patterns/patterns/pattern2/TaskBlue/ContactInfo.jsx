@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -51,6 +52,7 @@ import {
  * @param {String[]} requiredKeys - list of keys of required fields
  * @returns
  */
+
 const ContactInfo = ({
   data,
   goBack,
@@ -447,6 +449,7 @@ ContactInfo.propTypes = {
   requiredKeys: PropTypes.shape([PropTypes.string]),
   saveToProfile: PropTypes.object,
   setFormData: PropTypes.func,
+  setMissingInfo: PropTypes.func,
   testContinueAlert: PropTypes.bool, // for unit testing only
   uiSchema: PropTypes.shape({
     'ui:required': PropTypes.func,

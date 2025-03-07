@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   createSaveInProgressFormReducer,
   createSaveInProgressInitialState,
@@ -8,23 +9,27 @@ import formConfig from '../shared/config/fallbackForm';
 import {
   SET_NEW_FORM_CONFIG,
   UPDATE_SAVE_TO_PROFILE,
+  SET_MISSING_INFO,
+  REMOVE_MISSING_FIELD,
 } from '../actions/actions';
 
-// VADX reducer for app route (WIP)
 import { vadxReducer } from '../slice';
 
-const reducer = (state = { saveToProfile: null }, action) => {
+const initialState = {
+  saveToProfile: null,
+  missingInfo: [],
+};
+
+const reducer = (state = initialState, action) => {
   if (action.type === SET_NEW_FORM_CONFIG) {
-    // only reset the form if the new form config has a different tracking prefix (this was the easiest way to determine if the form config changed)
     if (action.formConfig.trackingPrefix === state?.trackingPrefix) {
       return state;
     }
-    const initialState = createInitialState(action.formConfig);
-    const updated = createSaveInProgressInitialState(
-      action.formConfig,
-      initialState,
-    );
-    return { ...state, ...updated };
+    const newState = createInitialState(action.formConfig);
+    return {
+      ...state,
+      ...createSaveInProgressInitialState(action.formConfig, newState),
+    };
   }
 
   if (action.type === UPDATE_SAVE_TO_PROFILE) {
@@ -34,9 +39,22 @@ const reducer = (state = { saveToProfile: null }, action) => {
     };
   }
 
-  const initialState = createInitialState(formConfig);
+  if (action.type === SET_MISSING_INFO) {
+    return {
+      ...state,
+      missingInfo: action.payload,
+    };
+  }
+
+  if (action.type === REMOVE_MISSING_FIELD) {
+    return {
+      ...state,
+      missingInfo: state.missingInfo.filter(field => field !== action.payload),
+    };
+  }
+
   return createSaveInProgressFormReducer(formConfig)(
-    { ...initialState, ...state },
+    { ...createInitialState(formConfig), ...state },
     action,
   );
 };

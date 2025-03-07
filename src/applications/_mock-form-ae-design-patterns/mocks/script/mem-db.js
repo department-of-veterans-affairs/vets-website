@@ -1,15 +1,21 @@
 const _ = require('lodash');
 
-const { loa3UserWithNoContactInfo, loa3User } = require('../endpoints/user');
+const {
+  loa3UserWithNoContactInfo,
+  loa3User,
+  loa3UserWithNoEmail,
+} = require('../endpoints/user');
 
 const possibleUsers = {
   loa3UserWithNoContactInfo,
   loa3User,
+  loa3UserWithNoEmail,
 };
 
 // in memory db
 const memDb = {
-  user: possibleUsers.loa3UserWithNoContactInfo,
+  // user: possibleUsers.loa3UserWithNoContactInfo,
+  user: possibleUsers.loa3UserWithNoEmail,
 };
 
 // sanitize user input
@@ -151,7 +157,10 @@ const updateMemDb = (req, res = null) => {
     throw new Error('Invalid address type sent to PUT addresses');
   }
 
-  if (key === 'PUT /v0/profile/email_addresses') {
+  if (
+    key === 'PUT /v0/profile/email_addresses' ||
+    key === 'POST /v0/profile/email_addresses'
+  ) {
     const { transactionId, type } = createUpdate('email')(body);
     return generateResponse(transactionId, type);
   }
