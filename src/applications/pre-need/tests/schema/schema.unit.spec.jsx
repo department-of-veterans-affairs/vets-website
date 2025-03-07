@@ -3,9 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
 
+import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 import { transform } from '../../utils/helpers';
 import formConfig from '../../config/form';
-import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 describe('pre-need schema tests', () => {
   const v = new Validator();
