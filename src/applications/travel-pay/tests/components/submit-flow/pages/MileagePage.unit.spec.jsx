@@ -64,7 +64,7 @@ describe('Mileage page', () => {
     expect(screen.getByText(/Cheyenne VA Medical Center/i)).to.exist;
     expect($('va-radio')).to.have.attribute(
       'label',
-      'Are you claiming only mileage?',
+      'Are you only claiming mileage?',
     );
     expect($('va-radio')).to.not.have.attribute('error');
 
