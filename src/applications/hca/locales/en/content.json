@@ -27,7 +27,6 @@
   "enrollment-alert-application-date-label": "You applied on:",
   "enrollment-alert-enrolled-date-label": "We enrolled you on:",
   "enrollment-alert-facility-label": "Your preferred VA medical center is:",
-  "facilities--fetch-error-message": "Health care facilities failed to load",
   "facilities--loading-message": "Loading available facilities",
   "facilities--clinic-label": "Center or clinic", 
   "facilities--state-label": "State",

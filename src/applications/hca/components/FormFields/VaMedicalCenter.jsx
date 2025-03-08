@@ -118,7 +118,7 @@ const VaMedicalCenter = props => {
           Sentry.withScope(scope => {
             scope.setExtra('state', facilityState);
             scope.setExtra('error', err);
-            Sentry.captureMessage(content['facilities--fetch-error-message']);
+            Sentry.captureMessage('Health care facilities failed to load');
           });
           focusElement('.server-error-message');
         } finally {
