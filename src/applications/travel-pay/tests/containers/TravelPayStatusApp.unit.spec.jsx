@@ -101,7 +101,7 @@ describe('TravelPayStatusApp', () => {
     MockDate.reset();
   });
 
-  it('should redirect if feature flag is off', async () => {
+  it('should redirect if feature flag is off', () => {
     renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
@@ -110,12 +110,10 @@ describe('TravelPayStatusApp', () => {
       path: `/claims/`,
       reducers: reducer,
     });
-    await waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
-    });
+    expect(window.location.replace.called).to.be.true;
   });
 
-  it('should redirect the root path / to /claims/ and render the app.', async () => {
+  it('should redirect the root path / to /claims/ and render the app.', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
       <TravelPayStatusApp />,
       {
@@ -124,12 +122,11 @@ describe('TravelPayStatusApp', () => {
         reducers: reducer,
       },
     );
-    expect(
-      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
-    ).to.exist;
+    expect(screenFeatureToggle.getByTestId('travel-pay-loading-indicator')).to
+      .exist;
   });
 
-  it('should render loading state if feature flag is loading', async () => {
+  it('should render loading state if feature flag is loading', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
       <TravelPayStatusApp />,
       {
@@ -138,9 +135,8 @@ describe('TravelPayStatusApp', () => {
         reducers: reducer,
       },
     );
-    expect(
-      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
-    ).to.exist;
+    expect(screenFeatureToggle.getByTestId('travel-pay-loading-indicator')).to
+      .exist;
   });
 
   it('handles a failed fetch of claims when user is not a Veteran', async () => {
@@ -166,10 +162,11 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      expect(screen.findByText(/We can’t find any travel claims for you/i)).to
+      expect(screen.getByText(/We can’t find any travel claims for you/i)).to
         .exist;
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
       expect($('va-additional-info')).to.not.exist;
+      expect($('va-alert[status="warning"]')).to.exist;
     });
   });
 
@@ -196,10 +193,11 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      expect(screen.findByText(/we can’t access your travel claims right now/i))
+      expect(screen.getByText(/we can’t access your travel claims right now/i))
         .to.exist;
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
       expect($('va-additional-info')).to.not.exist;
+      expect($('va-alert[status="error"]')).to.exist;
     });
   });
 
@@ -216,9 +214,9 @@ describe('TravelPayStatusApp', () => {
       reducers: reducer,
     });
 
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
-      expect(await screen.findByText('No travel claims to show.')).to.exist;
+      expect(screen.getByText('No travel claims to show.')).to.exist;
     });
   });
 
@@ -249,10 +247,9 @@ describe('TravelPayStatusApp', () => {
       reducers: reducer,
     });
 
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(1);
-      expect(await screen.findByText('Travel reimbursement claim details')).to
-        .exist;
+      expect(screen.getByText('Travel reimbursement claim details')).to.exist;
     });
   });
 
@@ -284,7 +281,7 @@ describe('TravelPayStatusApp', () => {
       reducers: reducer,
     });
 
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(1);
       expect(screen.queryByText('Travel reimbursement claim details')).to.be
         .null;
@@ -540,8 +537,8 @@ describe('TravelPayStatusApp', () => {
       );
 
       expect(
-        screen.findByText(
-          'Showing 1 ‒ 10 of 31 claims, sorted by date (most recent), with 1 filter applied.',
+        screen.getByText(
+          'Showing 1 ‒ 1 of 1 claims, sorted by date (most recent), with 1 filter applied.',
         ),
       ).to.exist;
       expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
@@ -598,7 +595,7 @@ describe('TravelPayStatusApp', () => {
       );
 
       expect(
-        await screen.findByText(
+        screen.getByText(
           'Showing 1 ‒ 1 of 1 claims, sorted by date (most recent), with 2 filters applied.',
         ),
       ).to.exist;
@@ -627,7 +624,7 @@ describe('TravelPayStatusApp', () => {
 
     await waitFor(async () => {
       expect(
-        await screen.findByText(
+        await screen.queryByText(
           'Showing 1 ‒ 10 of 31 claims, sorted by date (most recent).',
         ),
       ).to.exist;
