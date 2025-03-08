@@ -943,6 +943,15 @@ const fetchParentFacility = {
     'https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/',
 };
 
+const fetchParentFacilityWithoutCaregiverSupport = {
+  ...fetchParentFacility,
+  services: {
+    ...fetchParentFacility.services,
+    health: fetchParentFacility.services.health.filter(
+      service => service.name !== 'CaregiverSupport',
+    ),
+  },
+};
 export const mockFetchChildFacilityResponse = {
   facilities: [fetchChildFacilityWithoutCaregiverSupport],
   meta: {
@@ -977,8 +986,35 @@ export const mockFetchParentFacilityResponse = {
   },
 };
 
+export const mockFetchParentFacilityResponseWithoutCaregiverSupport = {
+  facilities: [fetchParentFacilityWithoutCaregiverSupport],
+  meta: {
+    pagination: {
+      currentPage: 1,
+      perPage: 5,
+      totalEntries: 12,
+      totalPages: 3,
+    },
+  },
+};
+
 export const mockFetchFacilitiesResponse = {
   facilities: [fetchChildFacilityWithoutCaregiverSupport, fetchParentFacility],
+  meta: {
+    pagination: {
+      currentPage: 1,
+      perPage: 5,
+      totalEntries: 12,
+      totalPages: 3,
+    },
+  },
+};
+
+export const mockFetchFacilitiesResponseWithoutCaregiverSupport = {
+  facilities: [
+    fetchChildFacilityWithoutCaregiverSupport,
+    fetchParentFacilityWithoutCaregiverSupport,
+  ],
   meta: {
     pagination: {
       currentPage: 1,
