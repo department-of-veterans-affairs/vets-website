@@ -91,6 +91,7 @@ export const VA_FORM_IDS_IN_PROGRESS_FORMS_API = Object.freeze({
   [VA_FORM_IDS.FORM_21_526EZ]: '/v0/disability_compensation_in_progress_forms/',
   [VA_FORM_IDS.FORM_21A]:
     '/accredited_representative_portal/v0/in_progress_forms/',
+  '21-686c': '/accredited_representative_portal/v0/in_progress_forms/',
 });
 
 // Entries previously added to FORM_LINKS go in here:
