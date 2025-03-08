@@ -13,7 +13,6 @@ import {
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
   selectFeatureVAOSServiceVAAppointments,
-  selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import {
@@ -293,7 +292,6 @@ export function checkEligibility({ location, showModal }) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
-    const featureClinicFilter = selectFeatureClinicFilter(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -311,7 +309,6 @@ export function checkEligibility({ location, showModal }) {
         typeOfCare,
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
-        featureClinicFilter,
       });
 
       if (showModal) {
