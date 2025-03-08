@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { add, compareAsc } from 'date-fns';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
@@ -57,6 +56,16 @@ const getFailedDomainList = (failed, displayMap) => {
   return modFailed.map(domain => displayMap[domain]);
 };
 
+export const formatNameFirstLast = ({
+  first = '',
+  middle = '',
+  last = '',
+  suffix = '',
+}) => {
+  const nameParts = [first, middle, last].filter(Boolean).join(' '); // Remove empty values
+  return suffix ? `${nameParts} ${suffix}` : nameParts;
+};
+
 // --- Main component ---
 const DownloadReportPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
@@ -78,7 +87,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
   const fullState = useSelector(state => state);
 
   // Extract user info
-  const name = formatName(userProfile.userFullName);
+  const name = formatNameFirstLast(userProfile.userFullName);
   const dob = formatUserDob(userProfile); // Example DOB
 
   // Extract all SEI domain data

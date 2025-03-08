@@ -29,12 +29,12 @@ export const generateMilitaryHistoryContent = record => {
             value: record.locationOfService,
             inline: true,
           },
-          // unknown field, check with UCD
-          // {
-          //   title: 'Onboard ship', // unknown
-          //   value: record.?,
-          //   inline: true,
-          // },
+
+          {
+            title: 'Onboard ship',
+            value: record.onboardShip,
+            inline: true,
+          },
           {
             title: 'Military occupational specialty',
             value: record.militaryOccupationalSpecialty,
