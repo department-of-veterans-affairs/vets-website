@@ -97,7 +97,7 @@ describe('Treatment Received Page', () => {
 describe('validating selections', () => {
   describe('invalid: conflicting selections', () => {
     const errors = {
-      'view:treatmentNoneCheckbox': {
+      treatmentNoneCheckbox: {
         addError: sinon.spy(),
       },
       treatmentReceivedNonVaProvider: { addError: sinon.spy() },
@@ -116,7 +116,7 @@ describe('validating selections', () => {
           vaPaid: false,
           dod: false,
         },
-        'view:treatmentNoneCheckbox': { none: true },
+        treatmentNoneCheckbox: { none: true },
       };
 
       validateProviders(errors, formData);
@@ -124,7 +124,7 @@ describe('validating selections', () => {
       // errors
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.true;
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
-      expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.true;
+      expect(errors.treatmentNoneCheckbox.addError.called).to.be.true;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.true;
@@ -133,7 +133,7 @@ describe('validating selections', () => {
 
   describe('valid selections', () => {
     const errors = {
-      'view:treatmentNoneCheckbox': {
+      treatmentNoneCheckbox: {
         addError: sinon.spy(),
       },
       treatmentReceivedNonVaProvider: { addError: sinon.spy() },
@@ -146,7 +146,7 @@ describe('validating selections', () => {
           nonVa: false,
           vaCenters: false,
         },
-        'view:treatmentNoneCheckbox': { none: true },
+        treatmentNoneCheckbox: { none: true },
       };
 
       validateProviders(errors, formData);
@@ -154,7 +154,7 @@ describe('validating selections', () => {
       // errors
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
-      expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.false;
+      expect(errors.treatmentNoneCheckbox.addError.called).to.be.false;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.false;
@@ -175,7 +175,7 @@ describe('validating selections', () => {
       // errors
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
-      expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.false;
+      expect(errors.treatmentNoneCheckbox.addError.called).to.be.false;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.false;

@@ -15,7 +15,7 @@ export const treatmentReceivedDescription = (
     </p>
     <p>
       You’ll be able to upload or request records from these treatment providers
-      for VA to review in <strong>Section 4: Supporting evidence</strong>
+      for VA to review in <strong>Section 4: Supporting evidence</strong>.
     </p>
   </>
 );
@@ -39,7 +39,7 @@ export const providerListValidationError = (
  * @returns {boolean}
  */
 function hasSelectedNoneCheckbox(formData) {
-  return Object.values(formData['view:treatmentNoneCheckbox'] || {}).some(
+  return Object.values(formData.treatmentNoneCheckbox || {}).some(
     selected => selected === true,
   );
 }
@@ -108,7 +108,7 @@ export function validateProviders(errors, formData) {
 
   // add error with no message to each checked section
   if (isConflicting === true) {
-    errors['view:treatmentNoneCheckbox'].addError(' ');
+    errors.treatmentNoneCheckbox.addError(' ');
     if (selections.treatmentReceivedVaProvider === true) {
       errors.treatmentReceivedVaProvider.addError(' ');
     }
