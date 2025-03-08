@@ -34,7 +34,7 @@ runs:
 
     - name: Setup Yarn
       shell: bash
-      run: npm i -g yarn@1.19.1
+      run: npm i -g yarn@1.22.22
 
     - name: Cache dependencies
       id: cache-dependencies
