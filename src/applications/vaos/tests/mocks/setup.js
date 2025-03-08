@@ -38,6 +38,7 @@ import ClosestCityStatePage from '../../new-appointment/components/ClosestCitySt
 import { createMockFacility } from './data';
 import { mockFacilitiesFetch } from './fetch';
 import { getSchedulingConfigurationMock } from './mock';
+import { vaosApi } from '../../redux/api/vaosApi';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -53,9 +54,10 @@ export function createTestStore(initialState) {
       ...reducers,
       newAppointment: newAppointmentReducer,
       covid19Vaccine: covid19VaccineReducer,
+      [vaosApi.reducerPath]: vaosApi.reducer,
     }),
     initialState,
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, vaosApi.middleware),
   );
 }
 
