@@ -3,14 +3,19 @@ import { useSelector } from 'react-redux';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
+
+const title = 'We’re processing your travel reimbursement claim';
 
 const ConfirmationPage = () => {
   useEffect(() => {
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
   const { data: claimData, isSubmitting } = useSelector(
@@ -21,7 +26,7 @@ const ConfirmationPage = () => {
 
   return (
     <div>
-      <h1 tabIndex="-1">We’re processing your travel reimbursement claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       {isSubmitting && (
         <div className="vads-l-grid-container vads-u-padding-y--3">
           <va-loading-indicator
