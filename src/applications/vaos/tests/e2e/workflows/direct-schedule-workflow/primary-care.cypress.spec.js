@@ -61,6 +61,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           localStartTime: moment(),
           status: APPOINTMENT_STATUS.booked,
           serviceType: 'primaryCare',
+          future: true,
         });
 
         mockAppointmentCreateApi({ response });
@@ -394,6 +395,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
           localStartTime: moment(),
           status: APPOINTMENT_STATUS.booked,
           serviceType: 'primaryCare',
+          future: true,
         });
 
         mockAppointmentCreateApi({ response });
@@ -605,6 +607,7 @@ describe('VAOS direct schedule flow - Primary care', () => {
         localStartTime: moment(),
         status: APPOINTMENT_STATUS.booked,
         serviceType: 'primaryCare',
+        future: true,
       });
       mockAppointmentGetApi({
         response,

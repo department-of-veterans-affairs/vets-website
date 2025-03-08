@@ -61,6 +61,7 @@ describe('VAOS request schedule flow - Audiology', () => {
         localStartTime: moment(),
         status: APPOINTMENT_STATUS.booked,
         serviceType: typeOfCareId,
+        future: true,
       });
 
       mockAppointmentCreateApi({ response });
