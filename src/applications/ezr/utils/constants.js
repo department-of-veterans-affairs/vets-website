@@ -64,7 +64,7 @@ export const ENROLLMENT_STATUS_ACTIONS = {
   FETCH_ENROLLMENT_STATUS_FAILED: 'FETCH_ENROLLMENT_STATUS_FAILED',
 };
 
-// declare initial state for entrollment status reducer
+// declare initial state for enrollment status reducer
 export const ENROLLMENT_STATUS_INIT_STATE = {
   hasServerError: false,
   parsedStatus: null,
@@ -129,4 +129,71 @@ export const APP_URLS = {
   hca: getAppUrl('hca'),
   verify: getAppUrl('verify'),
   facilities: getAppUrl('facilities'),
+};
+
+export const VETERAN_PREFILL_DATA_ACTIONS = {
+  FETCH_VETERAN_PREFILL_DATA_STARTED: 'FETCH_VETERAN_PREFILL_DATA_STARTED',
+  FETCH_VETERAN_PREFILL_DATA_SUCCEEDED: 'FETCH_VETERAN_PREFILL_DATA_SUCCEEDED',
+  FETCH_VETERAN_PREFILL_DATA_FAILED: 'FETCH_VETERAN_PREFILL_DATA_FAILED',
+};
+
+// declare mock response for veteran prefill data from vets-api to use for simulated testing
+export const MOCK_VETERAN_PREFILL_DATA_RESPONSE = {
+  veteranFinancialInfo: {
+    otherIncome: '6405',
+    grossIncome: '49728',
+    netIncome: '3962',
+    deductibleFuneralExpenses: '2193',
+    deductibleMedicalExpenses: '9532',
+    deductibleEducationExpenses: '1295',
+  },
+  spouseFinancialInfo: {
+    otherIncome: '1376',
+    grossIncome: '38911',
+    netIncome: '743',
+  },
+  incomeYear: '2023',
+  providers: [
+    {
+      insuranceName: 'Insurance1',
+      insurancePolicyHolderName: 'Test Testerson',
+      insurancePolicyNumber: '6476334672674',
+    },
+  ],
+  medicareClaimNumber: '5465477564',
+  isEnrolledMedicarePartA: true,
+  medicarePartAEffectiveDate: '1997-03-04',
+  isMedicaidEligible: false,
+  dependents: [
+    {
+      fullName: {
+        first: 'Jeffery',
+        middle: 'Joseph',
+        last: 'Payne',
+      },
+      socialSecurityNumber: '643545355',
+      becameDependent: '1991-05-06',
+      dependentRelation: 'Son',
+      disabledBefore18: false,
+      attendedSchoolLastYear: true,
+      cohabitedLastYear: true,
+      dateOfBirth: '1991-05-06',
+    },
+  ],
+  spouseFullName: {
+    first: 'Nancy',
+    middle: 'Heather',
+    last: 'Payne',
+  },
+  dateOfMarriage: '1989-09-16',
+  cohabitedLastYear: true,
+  spouseDateOfBirth: '1970-02-21',
+  spouseSocialSecurityNumber: '865767654',
+  spouseIncomeYear: '2024',
+};
+
+export const VETERAN_PREFILL_DATA_INIT_STATE = {
+  hasServerError: false,
+  parsedData: null,
+  loading: false,
 };
