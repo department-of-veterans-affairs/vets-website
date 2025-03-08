@@ -7,11 +7,10 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { format } from 'date-fns';
 import NeedHelpSection from './NeedHelpSection';
 import { updateReportRecordType } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
-import { sendDataDogAction } from '../../util/helpers';
+import { sendDataDogAction, formatDate } from '../../util/helpers';
 import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadRecordType = () => {
@@ -171,10 +170,7 @@ const DownloadRecordType = () => {
           <legend className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
             Date range: <strong>{selectedDateRange}</strong>{' '}
             {dateFilterOption && dateFilterOption !== 'any'
-              ? `(${format(new Date(fromDate), 'PPP')} to ${format(
-                  new Date(toDate),
-                  'PPP',
-                )})`
+              ? `(${formatDate(fromDate)} to ${formatDate(toDate)})`
               : ''}
           </legend>
 

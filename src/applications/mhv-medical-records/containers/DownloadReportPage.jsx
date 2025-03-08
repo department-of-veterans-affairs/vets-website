@@ -290,7 +290,6 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           <DownloadSuccessAlert className="vads-u-margin-bottom--1" />
         </>
       )}
-
       <h2>Download your VA Blue Button report</h2>
       <p className="vads-u-margin--0 vads-u-margin-bottom--1">
         First, select the types of records you want in your report. Then
@@ -304,7 +303,15 @@ const DownloadReportPage = ({ runningUnitTest }) => {
         onClick={() => sendDataDogAction('Select records and download')}
         data-testid="go-to-download-all"
       />
+
       <h2>Other reports you can download</h2>
+      <div id="generating-ccd-downloading-indicator">
+        <DownloadSuccessAlert
+          ccd
+          className="vads-u-margin-bottom--1"
+          visibility={generatingCCD}
+        />
+      </div>
 
       {accessErrors()}
 
