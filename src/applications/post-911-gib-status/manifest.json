@@ -2,6 +2,6 @@
   "appName": "Post 9/11 GI Bill Status",
   "entryFile": "./post-911-gib-status-entry.jsx",
   "entryName": "post-911-gib-status",
-  "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit/status",
+  "rootUrl": "/education/check-remaining-post-9-11-gi-bill-benefits/status",
   "productId": "35ed0a9b-e426-4afa-83d7-51f1a9d9e773"
 }

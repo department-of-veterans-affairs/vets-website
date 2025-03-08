@@ -5,10 +5,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import { selectFilterFlag } from '../../util/selectors';
-import {
-  SESSION_SELECTED_FILTER_OPTION,
-  filterOptions,
-} from '../../util/constants';
+import { SESSION_RX_FILTER_OPEN_BY_DEFAULT } from '../../util/constants';
 
 const RefillNotification = ({ refillStatus }) => {
   // Selectors
@@ -43,11 +40,8 @@ const RefillNotification = ({ refillStatus }) => {
   );
 
   const handleGoToMedicationsListOnSuccess = () => {
-    if (!sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION)) {
-      sessionStorage.setItem(
-        SESSION_SELECTED_FILTER_OPTION,
-        Object.values(filterOptions)[0].label,
-      );
+    if (!sessionStorage.getItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT)) {
+      sessionStorage.setItem(SESSION_RX_FILTER_OPEN_BY_DEFAULT, true);
     }
   };
 
@@ -136,6 +130,7 @@ const RefillNotification = ({ refillStatus }) => {
               className="vads-u-padding-y--0"
               data-testid="medication-requested-successful"
               key={idx}
+              data-dd-privacy="mask"
             >
               {id?.prescriptionName}
             </li>

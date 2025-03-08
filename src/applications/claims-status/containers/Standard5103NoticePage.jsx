@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import NeedHelp from '../components/NeedHelp';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
@@ -10,7 +11,8 @@ import {
 } from '../utils/helpers';
 import Default5103EvidenceNotice from '../components/claim-document-request-pages/Default5103EvidenceNotice';
 import { standard5103Item } from '../constants';
-
+// Not currently being used. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+// Waiting to see if we still need this component or not
 const filesPath = '../files';
 const statusPath = '../status';
 
@@ -88,3 +90,8 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Standard5103NoticePage);
+
+Standard5103NoticePage.propTypes = {
+  claim: PropTypes.object,
+  loading: PropTypes.bool,
+};

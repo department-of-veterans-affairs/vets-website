@@ -21,7 +21,7 @@ export const presentableFormIDs = idArray.reduce((prefixedIDs, formID) => {
     prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
   } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
     prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
-  } else if (formID === VA_FORM_IDS.FORM_21P_530V2) {
+  } else if (formID === VA_FORM_IDS.FORM_21P_530EZ) {
     prefixedIDs[formID] = `FORM 21P-530EZ`; // eslint-disable-line no-param-reassign
   } else {
     prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign

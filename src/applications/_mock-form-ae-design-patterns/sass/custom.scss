@@ -50,7 +50,7 @@ padding-left: 0;
   }
 }
 
-div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
+.task-gray-card {
   width: 18.8rem;
 }
 
@@ -74,11 +74,7 @@ div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
   opacity: 1;
 }
 
-// fixes for patter 2 Orange task
-#root_view\:editNavigation-label {
-  display: none !important;
-}
-
+// fixes for pattern 2 Orange task
 [data-location="2/task-orange/applicant-information"] {
   .schemaform-chapter-progress {
     padding-left: 0;
@@ -90,11 +86,13 @@ div.progress-box.progress-box-schemaform > div.form-panel > div > va-card {
 
 // post study page
 #locked-card {
-  width: 21rem;
+  @include media($medium-screen) {
+    width: 21rem;
+  }
 }
 
 #gray-locked-card {
+  @include media($medium-screen) {
   width: 23rem;
+  }
 }
-
-

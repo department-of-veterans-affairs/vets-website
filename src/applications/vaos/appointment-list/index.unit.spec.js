@@ -1,11 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 import Sinon from 'sinon';
+import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { AppointmentList } from './index';
 import { renderWithStoreAndRouter } from '../tests/mocks/setup';
-import * as AppointmentsPage from './components/AppointmentsPage/index';
-import * as ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
-import * as RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
+import * as AppointmentsPage from './pages/AppointmentsPage/index';
+import * as ConfirmedAppointmentDetailsPage from './pages/UpcomingAppointmentsDetailsPage';
+import * as RequestedAppointmentDetailsPage from './pages/RequestedAppointmentDetailsPage/RequestedAppointmentDetailsPage';
 
 describe('VAOS Page: Appointment list routes', () => {
   const sandbox = Sinon.createSandbox();
@@ -266,7 +267,7 @@ describe('VAOS Page: Appointment list routes', () => {
         path: '/unknown/path',
       });
 
-      expect(screen.getByText(/Sorry — we can’t find that page/)).to.be.ok;
+      expect(screen.getByText(pageNotFoundHeading)).to.be.ok;
     });
   });
 });

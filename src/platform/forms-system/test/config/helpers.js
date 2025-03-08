@@ -45,6 +45,11 @@ export function axeCheck(component) {
 
 export const uploadStore = {
   getState: () => ({
+    user: {
+      login: {
+        currentlyLoggedIn: true,
+      },
+    },
     featureToggles: {
       // eslint-disable-next-line camelcase
       file_upload_short_workflow_enabled: true,

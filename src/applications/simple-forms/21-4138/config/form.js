@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import footerContent from '~/platform/forms/components/FormFooter';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import manifest from '../manifest.json';
 import transform from './submit-transformer';
 import getHelp from '../../shared/components/GetFormHelp';
@@ -13,24 +14,14 @@ import {
 } from './constants';
 import { statementTypePage } from '../pages/statementType';
 import { layWitnessStatementPage } from '../pages/layOrWitness';
-import {
-  decisionReviewPage,
-  selectDecisionReviewPage,
-} from '../pages/decisionReview';
+import { decisionReviewPage } from '../pages/decisionReview';
 import {
   newSupplementalClaimPage,
   supplementalClaimPage,
   higherLevelReviewPage,
   boardAppealPage,
 } from '../pages/noticeOfDisagreement';
-import {
-  aboutPriorityProcessingPage,
-  housingRisksPage,
-  otherHousingRisksPage,
-  hardshipsPage,
-  priorityProcessingNotQualifiedPage,
-  priorityProcessingRequestPage,
-} from '../pages/priorityProcessing';
+import { priorityProcessingPage } from '../pages/priorityProcessing';
 import { personalRecordsRequestPage } from '../pages/recordsRequest';
 import { claimStatusToolPage } from '../pages/newEvidence';
 import { personalInformationPage } from '../pages/personalInformation';
@@ -41,7 +32,6 @@ import { statementPage } from '../pages/statement';
 import {
   getMockData,
   isEligibleForDecisionReview,
-  isIneligibleForPriorityProcessing,
   isEligibleToSubmitStatement,
 } from '../helpers';
 
@@ -52,42 +42,8 @@ export function isLocalhost() {
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/user.json';
-import { CustomTopContent } from '../components/breadcrumbs';
-import {
-  focusByOrder,
-  scrollTo,
-  waitForRenderThenFocus,
-} from 'platform/utilities/ui';
 
 const mockData = testData.data;
-
-/** @type {FormConfig} */
-const minimalFlowProps = {
-  CustomTopContent,
-  hideFormTitle: true,
-  showSaveLinkAfterButtons: true,
-  useCustomScrollAndFocus: true,
-  useTopBackLink: true,
-  v3SegmentedProgressBar: {
-    useDiv: true,
-  },
-  scrollAndFocusTarget: () => {
-    setTimeout(() => {
-      scrollTo('header-minimal');
-      const radio = document.querySelector('va-radio[label-header-level]');
-      const checkboxGroup = document.querySelector(
-        'va-checkbox-group[label-header-level]',
-      );
-      if (radio) {
-        waitForRenderThenFocus('h1', radio.shadowRoot);
-      } else if (checkboxGroup) {
-        waitForRenderThenFocus('h1', checkboxGroup.shadowRoot);
-      } else {
-        focusByOrder(['h1', 'va-segmented-progress-bar']);
-      }
-    }, 200);
-  },
-};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -114,8 +70,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  // TODO: Change hideUnauthedStartLink to true. This form is meant to be for authenticated users only.
-  hideUnauthedStartLink: false,
+  hideUnauthedStartLink: true,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:
@@ -124,10 +79,23 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  ...minimalFlowProps,
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      { href: '/', label: 'VA.gov home' },
+      {
+        href: '/supporting-forms-for-claims',
+        label: 'Supporting forms for VA claims',
+      },
+      {
+        href:
+          '/supporting-forms-for-claims/statement-to-support-claim-form-21-4138',
+        label: 'Submit a statement to support a claim',
+      },
+    ],
+  }),
   chapters: {
     statementTypeChapter: {
-      title: 'What kind of statement do you want to submit?',
+      title: 'What would you like to do?',
       hideFormNavProgress: true,
       hideOnReviewPage: true,
       pages: {
@@ -145,7 +113,7 @@ const formConfig = {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.BUDDY_STATEMENT,
           path: 'lay-witness-statement',
-          title: "There's a better way to submit your statement to us",
+          title: "There's a better way to submit your statement",
           uiSchema: layWitnessStatementPage.uiSchema,
           schema: layWitnessStatementPage.schema,
           pageClass: 'lay-witness-statement',
@@ -155,11 +123,12 @@ const formConfig = {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.DECISION_REVIEW,
           path: 'decision-review',
-          title: 'What to know before you request a decision review',
+          title: 'There’s a better way to tell us you disagree with a decision',
           uiSchema: decisionReviewPage.uiSchema,
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
           hideSaveLinkAndStatus: true,
+          hideNavButtons: true,
         },
         newSupplementalClaimPage: {
           depends: formData =>
@@ -171,17 +140,6 @@ const formConfig = {
           schema: newSupplementalClaimPage.schema,
           pageClass: 'new-supplemental-claim',
           hideNavButtons: true,
-        },
-        selectDecisionReviewPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.DECISION_REVIEW &&
-            isEligibleForDecisionReview(formData.decisionDate),
-          path: 'select-decision-review',
-          title: 'Which description is true for you?',
-          uiSchema: selectDecisionReviewPage.uiSchema,
-          schema: selectDecisionReviewPage.schema,
-          pageClass: 'select-decision-review',
-          hideSaveLinkAndStatus: true,
         },
         supplementalClaimPage: {
           depends: formData =>
@@ -220,67 +178,15 @@ const formConfig = {
           pageClass: 'board-appeal',
           hideNavButtons: true,
         },
-        aboutPriorityProcessingPage: {
+        priorityProcessingPage: {
           depends: formData =>
             formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
-          path: 'about-priority-processing',
-          title: 'What to know before you request priority processing',
-          uiSchema: aboutPriorityProcessingPage.uiSchema,
-          schema: aboutPriorityProcessingPage.schema,
-          pageClass: 'about-priority-processing',
+          path: 'priority-processing',
+          title: 'There’s a better way to tell us you need priority processing',
+          uiSchema: priorityProcessingPage.uiSchema,
+          schema: priorityProcessingPage.schema,
+          pageClass: 'priority-processing',
           hideSaveLinkAndStatus: true,
-        },
-        housingRisksPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
-          path: 'housing-risks',
-          title:
-            'Which of these statements best describes your living situation?',
-          uiSchema: housingRisksPage.uiSchema,
-          schema: housingRisksPage.schema,
-          pageClass: 'housing-risks',
-          hideSaveLinkAndStatus: true,
-        },
-        otherHousingRisksPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            formData.livingSituation.OTHER_RISK,
-          path: 'other-housing-risk',
-          title: 'Other housing risks',
-          uiSchema: otherHousingRisksPage.uiSchema,
-          schema: otherHousingRisksPage.schema,
-          pageClass: 'other-housing-risk',
-          hideSaveLinkAndStatus: true,
-        },
-        hardshipsPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING,
-          path: 'hardships',
-          title: 'Other reasons for request',
-          uiSchema: hardshipsPage.uiSchema,
-          schema: hardshipsPage.schema,
-          pageClass: 'hardships',
-          hideSaveLinkAndStatus: true,
-        },
-        priorityProcessingNotQualifiedPage: {
-          depends: formData => isIneligibleForPriorityProcessing(formData),
-          path: 'priority-processing-not-qualified',
-          title: 'You may not qualify for priority processing',
-          uiSchema: priorityProcessingNotQualifiedPage.uiSchema,
-          schema: priorityProcessingNotQualifiedPage.schema,
-          pageClass: 'priority-processing-not-qualified',
-          hideSaveLinkAndStatus: true,
-        },
-        priorityProcessingRequestPage: {
-          depends: formData =>
-            formData.statementType === STATEMENT_TYPES.PRIORITY_PROCESSING &&
-            (!formData.livingSituation.NONE ||
-              (formData.livingSituation.NONE && !formData.otherReasons?.NONE)),
-          path: 'priority-processing-request',
-          title: "There's a better way to request priority processing",
-          uiSchema: priorityProcessingRequestPage.uiSchema,
-          schema: priorityProcessingRequestPage.schema,
-          pageClass: 'priority-processing-request',
           hideNavButtons: true,
         },
         personalRecordsRequestPage: {
@@ -382,6 +288,7 @@ const formConfig = {
         'I confirm that the information above is correct and true to the best of my knowledge and belief.',
     },
   },
+  useTopBackLink: true,
   footerContent,
   getHelp,
 };

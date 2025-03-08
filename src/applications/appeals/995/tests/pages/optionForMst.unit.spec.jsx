@@ -10,7 +10,10 @@ import formConfig from '../../config/form';
 import { MST_OPTION } from '../../constants';
 
 describe('Supplemental Claims option for MST page', () => {
-  const { schema, uiSchema } = formConfig.chapters.issues.pages.optionForMst;
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.vhaIndicator.pages.optionForMst;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {

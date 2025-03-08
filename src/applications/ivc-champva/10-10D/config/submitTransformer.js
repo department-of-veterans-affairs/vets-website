@@ -1,5 +1,5 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { REQUIRED_FILES, OPTIONAL_FILES } from './constants';
+import { FILE_UPLOAD_ORDER } from './constants';
 import {
   adjustYearString,
   concatStreets,
@@ -11,6 +11,12 @@ function fmtDate(date) {
   return date?.length && date.length === 10
     ? `${date.slice(5)}-${date.slice(0, 4)}`
     : date;
+}
+
+// Returns list of object keys where obj[key] === true. Used
+// to get the list of relationships a certifier has w/ the applicants:
+function trueKeysOnly(obj) {
+  return Object.keys(obj ?? {}).filter(k => obj[k] === true);
 }
 
 // Simplify a relationship object from (potentially) multiple nested objects to a single string
@@ -41,19 +47,15 @@ function transformApplicants(applicants) {
   applicants.forEach(app => {
     let transformedApp = {
       ...app,
-      ssnOrTin: app.applicantSSN?.ssn ?? '',
+      ssnOrTin: app.applicantSSN ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
       // Grab any file upload properties from this applicant and combine into a
       // supporting documents array:
-      applicantSupportingDocuments: Object.keys({
-        ...REQUIRED_FILES,
-        ...OPTIONAL_FILES,
-      })
-        .filter(k => k.includes('applicant')) // Ignore sponsor files
-        .map(f => app?.[f]) // Grab the upload obj from top-level in applicant
-        .filter(el => el), // Drop any undefineds/nulls
+      applicantSupportingDocuments: FILE_UPLOAD_ORDER.map(
+        property => app?.[property],
+      ).filter(el => el), // Drop any undefineds/nulls
     };
     transformedApp = adjustYearString(transformedApp);
     transformedApp.applicantAddress = concatStreets(
@@ -107,8 +109,7 @@ export default function transformForSubmit(formConfig, form) {
     // If certifier is also applicant, we don't need to fill out the
     // bottom "Certification" section of the PDF:
     certification:
-      transformedData?.certifierRelationship?.relationshipToVeteran
-        ?.applicant === true
+      transformedData?.certifierRole === 'applicant'
         ? { date: currentDate }
         : {
             date: currentDate,
@@ -116,9 +117,10 @@ export default function transformForSubmit(formConfig, form) {
             middleInitial: transformedData?.certifierName?.middle || '',
             firstName: transformedData?.certifierName?.first || '',
             phoneNumber: transformedData?.certifierPhone || '',
-            relationship: transformRelationship(
-              transformedData?.certifierRelationship,
-            ),
+            // will produce string list of checkboxgroup keys (e.g., "spouse; child")
+            relationship: trueKeysOnly(
+              transformedData?.certifierRelationship?.relationshipToVeteran,
+            ).join('; '),
             streetAddress:
               transformedData?.certifierAddress?.streetCombined || '',
             city: transformedData?.certifierAddress?.city || '',
@@ -156,12 +158,7 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
     .flat()
     .concat(supDocs);
-  // TODO - remove usage of `certifierRole` in vets-api
-  dataPostTransform.certifierRole =
-    dataPostTransform?.certifierRelationship?.relationshipToVeteran
-      ?.applicant === true
-      ? 'applicant'
-      : 'other';
+  dataPostTransform.certifierRole = transformedData.certifierRole;
   dataPostTransform.statementOfTruthSignature =
     transformedData.statementOfTruthSignature;
   // `primaryContactInfo` is who BE callback API emails if there's a notification event

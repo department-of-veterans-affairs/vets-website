@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
@@ -65,7 +66,9 @@ export class IntroductionPageUpdate extends React.Component {
         </p>
         <div className="subway-map">
           {this.renderSaveInProgressIntro()}
-          <h4>Follow the steps below to apply for education benefits.</h4>
+          <h3 className="vads-u-font-size--h4">
+            Follow the steps below to apply for education benefits.
+          </h3>
           <div className="process schemaform-process">
             <ol>
               <li
@@ -75,11 +78,13 @@ export class IntroductionPageUpdate extends React.Component {
                 itemType="http://schema.org/HowToSection"
               >
                 <div itemProp="name">
-                  <h5>Prepare</h5>
+                  <h4 className="vads-u-font-size--h5">Prepare</h4>
                 </div>
                 <div itemProp="itemListElement">
                   <div>
-                    <h6>To fill out this application, you’ll need your:</h6>
+                    <h5 className="vads-u-font-size--h6 vads-u-font-family--sans vads-u-margin--0 vads-u-padding-top--1p5 vads-u-line-height--4">
+                      To fill out this application, you’ll need your:
+                    </h5>
                   </div>
                   <ul>
                     <li>Social Security number (required)</li>
@@ -126,7 +131,7 @@ export class IntroductionPageUpdate extends React.Component {
               </li>
               <li className="process-step list-two">
                 <div>
-                  <h5>Apply</h5>
+                  <h4 className="vads-u-font-size--h5">Apply</h4>
                 </div>
                 <p>Complete this education benefits form.</p>
                 <p>
@@ -141,7 +146,7 @@ export class IntroductionPageUpdate extends React.Component {
                 itemType="http://schema.org/HowToSection"
               >
                 <div itemProp="name">
-                  <h5>VA review</h5>
+                  <h4 className="vads-u-font-size--h5">VA review</h4>
                 </div>
                 <div itemProp="itemListElement">
                   <p>
@@ -159,7 +164,7 @@ export class IntroductionPageUpdate extends React.Component {
               </li>
               <li className="process-step list-four">
                 <div>
-                  <h5>Decision</h5>
+                  <h4 className="vads-u-font-size--h5">Decision</h4>
                 </div>
                 <p>
                   If we approve your application, you’ll get a Certificate of
@@ -179,7 +184,7 @@ export class IntroductionPageUpdate extends React.Component {
             <va-omb-info
               res-burden={20}
               omb-number="2900-0074"
-              exp-date="08/31/2024"
+              exp-date="09/30/2027"
             />
           </div>
         </div>
@@ -191,5 +196,16 @@ export class IntroductionPageUpdate extends React.Component {
 const mapStateToProps = state => ({
   showWizard: showEduBenefits1995Wizard(state),
 });
+
+IntroductionPageUpdate.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+  showWizard: PropTypes.bool,
+};
 
 export default connect(mapStateToProps)(IntroductionPageUpdate);

@@ -7,7 +7,7 @@ const {
 } = formConfig.chapters.statementTypeChapter.pages.layWitnessStatementPage;
 
 const pageTestExpectation = {
-  pageTitle: "There's a better way to submit your statement to us",
+  pageTitle: "There's a better way to submit your statement",
   schema,
   uiSchema,
 };

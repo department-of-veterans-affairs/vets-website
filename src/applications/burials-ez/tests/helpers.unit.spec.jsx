@@ -1,29 +1,53 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
 
-import {
-  mockFetch,
-  setFetchJSONResponse as setFetchResponse,
-} from 'platform/testing/unit/helpers';
+import * as api from 'platform/utilities/api';
 import { fullNameUI } from 'platform/forms-system/src/js/web-component-patterns';
-import { benefitsIntakeFullNameUI, submit } from '../utils/helpers.jsx';
+import * as recordEventModule from 'platform/monitoring/record-event';
+import { benefitsIntakeFullNameUI } from '../utils/helpers';
+import { submit } from '../config/submit';
 
 describe('Burials helpers', () => {
   describe('submit', () => {
+    let apiRequestStub;
+    let recordEventStub;
+    const formConfig = {
+      chapters: {},
+    };
+    const form = {
+      data: {},
+    };
+
     beforeEach(() => {
       window.VetsGov = { pollTimeout: 1 };
-      window.URL = {
-        createObjectURL: sinon.stub().returns('test'),
-      };
+      localStorage.setItem('csrfToken', 'my-token');
+      apiRequestStub = sinon
+        .stub(api, 'apiRequest')
+        .resolves({ data: { attributes: {} } });
+      recordEventStub = sinon.stub(recordEventModule, 'default');
     });
+
+    afterEach(() => {
+      apiRequestStub.restore();
+      localStorage.clear();
+      recordEventStub.restore();
+    });
+
+    it('should not update csrf token on success', async () => {
+      expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+
+      await submit(form, formConfig);
+
+      expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
+    });
+
     it('should reject if initial request fails', () => {
-      mockFetch(new Error('fake error'), false);
-      const formConfig = {
-        chapters: {},
-      };
-      const form = {
-        data: {},
-      };
+      apiRequestStub.onFirstCall().rejects({ message: 'fake error' });
 
       return submit(form, formConfig).then(
         () => {
@@ -34,85 +58,45 @@ describe('Burials helpers', () => {
         },
       );
     });
-    it('should resolve if polling state is success', () => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: {
-          attributes: {
-            guid: 'test',
-          },
-        },
-      });
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            state: 'pending',
-          },
-        },
-      });
-      const response = {};
-      setFetchResponse(global.fetch.onThirdCall(), {
-        data: {
-          attributes: {
-            state: 'success',
-            response,
-          },
-        },
-      });
-      const formConfig = {
-        chapters: {},
-      };
-      const form = {
-        data: {},
-      };
+    describe('on 403 Invalid Authenticity Token error', () => {
+      it('should reset csrfToken', async () => {
+        expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+        const invalidAuthenticityTokenResponse = {
+          errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
+        };
+        apiRequestStub.onFirstCall().rejects(invalidAuthenticityTokenResponse);
 
-      return submit(form, formConfig).then(res => {
-        expect(res).to.deep.equal(response);
-      });
-    });
-    it('should reject if polling state is failed', () => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), {
-        data: {
-          attributes: {
-            guid: 'test',
-          },
-        },
-      });
-      setFetchResponse(global.fetch.onSecondCall(), {
-        data: {
-          attributes: {
-            state: 'pending',
-          },
-        },
-      });
-      setFetchResponse(global.fetch.onThirdCall(), {
-        data: {
-          attributes: {
-            state: 'failed',
-          },
-        },
-      });
-      const formConfig = {
-        chapters: {},
-      };
-      const form = {
-        data: {},
-      };
+        await submit(form, formConfig);
 
-      return submit(form, formConfig).then(
-        () => {
-          expect.fail();
-        },
-        err => {
-          expect(err.message).to.equal(
-            'vets_server_error_burial: status failed',
-          );
-        },
-      );
-    });
-    afterEach(() => {
-      delete window.URL;
+        await waitFor(() => {
+          // Submission attempt -> CSRF refresh -> submission attempt
+          expect(apiRequestStub.callCount).to.equal(3);
+        });
+      });
+
+      it('should only retry once', async () => {
+        expect(localStorage.getItem('csrfToken')).to.eql('my-token');
+        const invalidAuthenticityTokenResponse = {
+          errors: [{ status: '403', detail: 'Invalid Authenticity Token' }],
+        };
+        apiRequestStub.onFirstCall().rejects(invalidAuthenticityTokenResponse);
+        apiRequestStub.onSecondCall().resolves({});
+        apiRequestStub.onThirdCall().rejects({ message: 'fake error' });
+
+        await submit(form, formConfig).then(
+          () => {
+            expect.fail();
+          },
+          err => {
+            expect(err.message).to.equal('fake error');
+          },
+        );
+
+        await waitFor(() => {
+          // Submission attempt -> CSRF refresh -> submission attempt
+          expect(apiRequestStub.callCount).to.equal(3);
+        });
+      });
     });
   });
   describe('benefitIntakeFullName', () => {

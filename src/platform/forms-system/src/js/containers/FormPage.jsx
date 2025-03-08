@@ -8,9 +8,10 @@ import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsons
 import {
   isReactComponent,
   focusElement,
-  customScrollAndFocus,
   defaultFocusSelector,
 } from 'platform/utilities/ui';
+import { scrollToTop, customScrollAndFocus } from 'platform/utilities/scroll';
+
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -23,21 +24,25 @@ import {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
+  goBack,
 } from '../routing';
 import { DevModeNavLinks } from '../components/dev/DevModeNavLinks';
 import { stringifyUrlParams } from '../helpers';
 
-function focusForm(route, index) {
-  // Check main toggle to enable custom focus
-  if (route.formConfig?.useCustomScrollAndFocus) {
-    const scrollAndFocusTarget =
-      route.pageConfig?.scrollAndFocusTarget ||
-      route.formConfig?.scrollAndFocusTarget;
-    customScrollAndFocus(scrollAndFocusTarget, index);
-  } else {
+const focusForm = async (route, index) => {
+  const useCustomScrollAndFocus = route.formConfig?.useCustomScrollAndFocus;
+  const scrollAndFocusTarget =
+    route.pageConfig?.scrollAndFocusTarget ||
+    route.formConfig?.scrollAndFocusTarget;
+  if (useCustomScrollAndFocus === false) {
     focusElement(defaultFocusSelector);
+  } else if (useCustomScrollAndFocus || scrollAndFocusTarget) {
+    return customScrollAndFocus(scrollAndFocusTarget, index);
   }
-}
+
+  focusElement(defaultFocusSelector);
+  return scrollToTop();
+};
 
 function getContentBeforeAndAfterButtons(
   route,
@@ -107,6 +112,7 @@ class FormPage extends React.Component {
   // Navigate to the next page
   onSubmit = ({ formData }) => {
     const { form, route, location } = this.props;
+    let newFormData = formData || form.data;
 
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been
@@ -117,15 +123,19 @@ class FormPage extends React.Component {
       (!route.pageConfig.CustomPage ||
         route.pageConfig.customPageUsesPagePerItemData)
     ) {
-      const newData = this.setArrayIndexedData(formData);
-      this.props.setData(newData);
+      newFormData = this.setArrayIndexedData(formData);
+      this.props.setData(newFormData);
     }
 
-    const path = getNextPagePath(route.pageList, form.data, location.pathname);
+    const path = getNextPagePath(
+      route.pageList,
+      newFormData,
+      location.pathname,
+    );
 
     if (typeof route.pageConfig.onNavForward === 'function') {
       route.pageConfig.onNavForward({
-        formData,
+        formData: newFormData,
         goPath: customPath => this.props.router.push(customPath),
         goNextPath: urlParams => {
           const urlParamsString = stringifyUrlParams(urlParams);
@@ -135,6 +145,7 @@ class FormPage extends React.Component {
         pathname: location.pathname,
         setFormData: this.props.setData,
         urlParams: location.query,
+        index: this.props.params?.index,
       });
       return;
     }
@@ -200,31 +211,15 @@ class FormPage extends React.Component {
   };
 
   goBack = () => {
-    const { form, route, location } = this.props;
-
-    const path = getPreviousPagePath(
-      route.pageList,
-      form.data,
-      location.pathname,
-    );
-
-    if (typeof route.pageConfig.onNavBack === 'function') {
-      route.pageConfig.onNavBack({
-        formData: form.data,
-        goPath: customPath => this.props.router.push(customPath),
-        goPreviousPath: urlParams => {
-          const urlParamsString = stringifyUrlParams(urlParams);
-          this.props.router.push(path + (urlParamsString || ''));
-        },
-        pageList: route.pageList,
-        pathname: location.pathname,
-        setFormData: this.props.setData,
-        urlParams: location.query,
-      });
-      return;
-    }
-
-    this.props.router.push(path);
+    goBack({
+      formData: this.props.form.data,
+      index: this.props.params?.index,
+      location: this.props.location,
+      onNavBack: this.props.route.pageConfig?.onNavBack,
+      router: this.props.router,
+      setData: this.props.setData,
+      pageList: this.props.route?.pageList,
+    });
   };
 
   goToPath = (customPath, options = {}) => {
@@ -342,6 +337,7 @@ class FormPage extends React.Component {
             name={route.pageConfig.pageKey}
             title={route.pageConfig.title}
             data={data}
+            fullData={form.data}
             pagePerItemIndex={params ? params.index : undefined}
             onReviewPage={formContext?.onReviewPage}
             trackingPrefix={this.props.form.trackingPrefix}
@@ -356,6 +352,7 @@ class FormPage extends React.Component {
             onChange={this.onChange}
             onSubmit={this.onSubmit}
             setFormData={this.props.setData}
+            pageContentBeforeButtons={pageContentBeforeButtons}
             contentBeforeButtons={contentBeforeNavButtons}
             contentAfterButtons={contentAfterNavButtons}
             appStateData={appStateData}

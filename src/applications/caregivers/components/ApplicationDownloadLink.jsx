@@ -1,86 +1,91 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
-
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
 import submitTransformer from '../config/submit-transformer';
-import formConfig from '../config/form';
+import { ensureValidCSRFToken } from '../actions/ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
 const apiURL = `${
   environment.API_URL
 }/v0/caregivers_assistance_claims/download_pdf`;
 
-const ApplicationDownloadLink = () => {
-  const [loading, isLoading] = useState(false);
+const ApplicationDownloadLink = ({ formConfig }) => {
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
   // define local use variables
   const form = useSelector(state => state.form);
-  const formData = submitTransformer(formConfig, form);
+  const formData = useMemo(() => submitTransformer(formConfig, form), [
+    formConfig,
+    form,
+  ]);
   const { veteranFullName: name } = form.data;
 
   // fetch a custom error message based on status code
-  const errorMessage = () => {
-    const code = errors[0].status.split('')[0];
-    const { generic } = DOWNLOAD_ERRORS_BY_CODE;
-    return DOWNLOAD_ERRORS_BY_CODE[code] || generic;
-  };
+  const errorMessage = useMemo(
+    () => {
+      if (!errors.length) return null;
+      const code = errors[0].status[0];
+      return DOWNLOAD_ERRORS_BY_CODE[code] || DOWNLOAD_ERRORS_BY_CODE.generic;
+    },
+    [errors],
+  );
 
-  const handlePdfDownload = blob => {
-    const downloadUrl = URL.createObjectURL(blob);
-    const downloadLink = document.createElement('a');
+  const handlePdfDownload = useCallback(
+    blob => {
+      const downloadUrl = URL.createObjectURL(blob);
+      const downloadLink = document.createElement('a');
 
-    downloadLink.className = 'cg-application-download-link';
-    downloadLink.href = downloadUrl;
-    downloadLink.download = `10-10CG_${name.first}_${name.last}.pdf`;
-    document.body.appendChild(downloadLink);
+      downloadLink.href = downloadUrl;
+      downloadLink.download = `10-10CG_${name.first}_${name.last}.pdf`;
+      document.body.appendChild(downloadLink);
 
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-    URL.revokeObjectURL(downloadUrl);
-  };
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(downloadUrl);
+    },
+    [name],
+  );
 
-  const fetchPdf = event => {
-    // Prevents browser from navigating to top of page due to href='#'
-    event.preventDefault();
-    isLoading(true);
+  const fetchPdf = useCallback(
+    async event => {
+      event.preventDefault();
+      setLoading(true);
+      setErrors([]);
 
-    // get pdf file to download
-    apiRequest(apiURL, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.blob())
-      .then(blob => {
+      try {
+        await ensureValidCSRFToken('fetchPdf');
+        const response = await apiRequest(apiURL, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const blob = await response.blob();
         handlePdfDownload(blob);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
-      })
-      .catch(response => {
-        setErrors(response.errors);
-        recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
-        Sentry.withScope(scope => scope.setExtra('error', response));
-      })
-      .finally(() => {
-        isLoading(false);
-      });
-  };
+      } catch (error) {
+        setErrors(error.errors || []);
+        recordEvent({ event: 'caregivers-10-10cg-pdf-download--failure' });
+        Sentry.withScope(scope => scope.setExtra('error', error));
+      } finally {
+        setLoading(false);
+      }
+    },
+    [formData, handlePdfDownload],
+  );
 
   // apply focus to the error alert if we have errors set
   useEffect(
     () => {
-      if (errors?.length > 0) {
-        focusElement('.caregiver-download-error');
-      }
+      if (errorMessage) focusElement('.caregiver-download-error');
     },
-    [errors],
+    [errorMessage],
   );
 
   // render loading indicator while application download is processing
@@ -94,12 +99,12 @@ const ApplicationDownloadLink = () => {
   }
 
   // render error alert if file cannot download
-  if (errors?.length > 0) {
+  if (errorMessage) {
     return (
       <div className="caregiver-download-error">
-        <va-alert status="error" uswds>
+        <va-alert status="error">
           <h4 slot="headline">{content['alert-heading--generic']}</h4>
-          {errorMessage()}
+          {errorMessage}
         </va-alert>
       </div>
     );
@@ -114,6 +119,10 @@ const ApplicationDownloadLink = () => {
       download
     />
   );
+};
+
+ApplicationDownloadLink.propTypes = {
+  formConfig: PropTypes.object,
 };
 
 export default ApplicationDownloadLink;

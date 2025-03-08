@@ -15,12 +15,8 @@ import {
 import {
   // START ligthouse_migration
   submit5103 as submit5103Action,
-  submitRequest as submitRequestAction,
   // END lighthouse_migration
 } from '../../actions';
-// START lighthouse_migration
-import { cstUseLighthouse } from '../../selectors';
-// END lighthouse_migration
 import { setUpPage } from '../../utils/page';
 
 import withRouter from '../../utils/withRouter';
@@ -33,8 +29,6 @@ function Default5103EvidenceNotice({
   navigate,
   params,
   submit5103,
-  submitRequest,
-  useLighthouse5103,
 }) {
   const [addedEvidence, setAddedEvidence] = useState(false);
   const [checkboxErrorMessage, setCheckboxErrorMessage] = useState(undefined);
@@ -58,11 +52,7 @@ function Default5103EvidenceNotice({
 
   const submit = () => {
     if (addedEvidence) {
-      if (useLighthouse5103) {
-        submit5103(params.id, params.trackedItemId, true);
-      } else {
-        submitRequest(params.id, true);
-      }
+      submit5103(params.id, params.trackedItemId, true);
     } else {
       setCheckboxErrorMessage(
         `You must confirm you’re done adding evidence before submitting the evidence waiver`,
@@ -124,7 +114,7 @@ function Default5103EvidenceNotice({
       <Link
         className="active-va-link"
         data-testid="upload-evidence-link"
-        to="../files"
+        to="../files#add-files"
       >
         Upload additional evidence
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
@@ -138,6 +128,7 @@ function Default5103EvidenceNotice({
         review stage as quickly as possible.
       </p>
       <p>
+        {' '}
         <strong>Note:</strong> You can add evidence to support your claim at any
         time. However, if you add evidence later, your claim will move back to
         this step, so we encourage you to add all your evidence now.
@@ -177,17 +168,11 @@ function mapStateToProps(state) {
     decisionRequested: claimsState.claimAsk.decisionRequested,
     decisionRequestError: claimsState.claimAsk.decisionRequestError,
     loadingDecisionRequest: claimsState.claimAsk.loadingDecisionRequest,
-    // START lighthouse_migration
-    useLighthouse5103: cstUseLighthouse(state, '5103'),
-    // END lighthouse_migration
   };
 }
 
 const mapDispatchToProps = {
-  // START lighthouse_migration
   submit5103: submit5103Action,
-  submitRequest: submitRequestAction,
-  // END lighthouse_migration
 };
 
 export default withRouter(
@@ -204,11 +189,7 @@ Default5103EvidenceNotice.propTypes = {
   loadingDecisionRequest: PropTypes.bool,
   navigate: PropTypes.func,
   params: PropTypes.object,
-  // START lighthouse_migration
   submit5103: PropTypes.func,
-  submitRequest: PropTypes.func,
-  useLighthouse5103: PropTypes.bool,
-  // END lighthouse_migration
 };
 
 export { Default5103EvidenceNotice };

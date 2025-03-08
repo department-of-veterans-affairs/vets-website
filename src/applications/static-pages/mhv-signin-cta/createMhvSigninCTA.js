@@ -23,9 +23,11 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
         'static-widget-content',
       )[0];
       const serviceDescription = el.getAttribute('data-service-description');
+      const headingLevel = el.getAttribute('data-heading-level');
       ReactDOM.render(
         <Provider store={store}>
           <MhvSigninCallToAction
+            headingLevel={headingLevel}
             serviceDescription={serviceDescription}
             noAlertContent={widgetContent}
           />

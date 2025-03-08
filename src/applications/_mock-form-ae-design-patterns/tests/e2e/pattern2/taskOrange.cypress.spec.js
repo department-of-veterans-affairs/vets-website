@@ -1,26 +1,22 @@
 import { generateFeatureToggles } from 'applications/_mock-form-ae-design-patterns/mocks/endpoints/feature-toggles';
 import manifest from '../../../manifest.json';
-import mockUsers from '../../../mocks/endpoints/user';
+import { loa3User } from '../../../mocks/endpoints/user';
 import prefill from '../../../mocks/endpoints/in-progress-forms/22-1990';
 
 describe('Prefill pattern - Orange Task', () => {
   beforeEach(() => {
-    cy.login(mockUsers.loa3User72);
+    cy.intercept('GET', '/v0/user', loa3User).as('mockUser');
 
     cy.intercept('/v0/in_progress_forms/22-1990', {
       statusCode: 200,
-      body: prefill.FORM_22_1990.minimal,
+      body: prefill,
     }).as('mockSip');
 
     cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles()).as(
       'mockFeatureToggles',
     );
 
-    cy.intercept(
-      'GET',
-      '/v0/user?now=*',
-      mockUsers.loa3UserWithUpdatedMailingAddress,
-    ).as('mockUserUpdated');
+    cy.intercept('GET', '/v0/user?now=*', loa3User).as('mockUserUpdated');
 
     cy.intercept('GET', '/v0/profile/status/*', {
       statusCode: 200,
@@ -87,10 +83,10 @@ describe('Prefill pattern - Orange Task', () => {
     // check prefilled review page
     cy.url().should('contain', '/review-then-submit');
     cy.findByText('Mailing address').should('exist');
-    cy.findByText('123 Mailing Address St.').should('exist');
-    cy.findByText('Futlon').should('exist');
-    cy.findByText('NY').should('exist');
-    cy.findByText('97064').should('exist');
+    cy.findByText('125 Main St.').should('exist');
+    cy.findByText('Fulton').should('exist');
+    cy.findByText('New York').should('exist');
+    cy.findByText('97063').should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

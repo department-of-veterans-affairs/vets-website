@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -7,6 +8,7 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import CustomPrefillMessage from '../../components/CustomPrefillAlert';
 import { sponsorWording } from '../../helpers/utilities';
 
 function descriptionText(formData) {
@@ -26,7 +28,13 @@ export const sponsorNameDobConfig = {
   uiSchema: {
     ...titleUI(
       ({ formData }) => `${sponsorWording(formData)} name and date of birth`,
-      ({ formData }) => descriptionText(formData),
+      ({ formData }) => (
+        // Prefill message conditionally displays based on `certifierRole`
+        <>
+          <p>{descriptionText(formData)}</p>
+          {CustomPrefillMessage(formData, 'sponsor')}
+        </>
+      ),
     ),
     veteransFullName: fullNameUI(),
     sponsorDob: dateOfBirthUI(),

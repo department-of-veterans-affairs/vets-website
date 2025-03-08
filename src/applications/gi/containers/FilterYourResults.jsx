@@ -3,12 +3,17 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+import {
+  VaLoadingIndicator,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import SearchAccordion from '../components/SearchAccordion';
 import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
-
 import {
   getStateNameForCode,
   sortOptionsByStateName,
@@ -28,8 +33,7 @@ import {
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
 import ClearFiltersBtn from '../components/ClearFiltersBtn';
-// import { useFilterBtn } from '../hooks/useFilterbtn';
-// import Loader from '../components/Loader';
+import AboutYellowRibbonProgram from '../components/AboutYellowRibbonProgram';
 
 const vetTecCheckbox = (
   vettec,
@@ -309,11 +313,14 @@ export function FilterYourResults({
     ];
 
     return (
-      <CheckboxGroup
-        label={<h3>About the school</h3>}
-        onChange={onChangeCheckbox}
-        options={options}
-      />
+      <>
+        <CheckboxGroup
+          label={<h3>About the school</h3>}
+          onChange={onChangeCheckbox}
+          options={options}
+        />
+        <AboutYellowRibbonProgram />
+      </>
     );
   };
 
@@ -472,7 +479,14 @@ export function FilterYourResults({
   );
 
   const title = 'Filter your results';
-
+  const updateResultButton = classNames(
+    'vads-u-width--full',
+    'vads-u-margin-top--0',
+    'vads-u-margin-top--0',
+    'vads-u-margin-bottom--2',
+    'vads-u-margin-right--1p5',
+    'vads-u-padding--0',
+  );
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
       {!smallScreen && (
@@ -506,22 +520,18 @@ export function FilterYourResults({
             {!search.inProgress && controls}
           </div>
           <div className="modal-button-wrapper">
-            <button
-              type="button"
+            <VaButton
               id={`update-${createId(title)}-button`}
-              className="update-results-button"
+              className={`${updateResultButton}`}
               onClick={closeAndUpdate}
-            >
-              Update results
-            </button>
+              text="Update results"
+              data-testid="Update-results"
+            />
             {!environment.isProduction() && (
               <ClearFiltersBtn
+                className="reset-search-small-screen"
                 smallScreen={smallScreen}
-                // isCleared={isCleared}
-                // setIsCleared={setIsCleared}
-              >
-                Reset search
-              </ClearFiltersBtn>
+              />
             )}
           </div>
         </div>
@@ -543,7 +553,18 @@ const mapDispatchToProps = {
   dispatchError: setError,
   dispatchFocusSearch: focusSearch,
 };
-
+FilterYourResults.propTypes = {
+  dispatchError: PropTypes.func.isRequired,
+  dispatchFilterChange: PropTypes.func.isRequired,
+  errorReducer: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
+  modalClose: PropTypes.func.isRequired,
+  preview: PropTypes.object.isRequired,
+  search: PropTypes.object.isRequired,
+  searchType: PropTypes.string.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+  dispatchFocusSearch: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

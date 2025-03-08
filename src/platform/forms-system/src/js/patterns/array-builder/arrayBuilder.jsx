@@ -8,6 +8,8 @@ import {
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
   initGetText,
+  defaultSummaryPageScrollAndFocusTarget,
+  defaultItemPageScrollAndFocusTarget,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
 import ArrayBuilderSummaryPage from './ArrayBuilderSummaryPage';
@@ -52,7 +54,7 @@ function throwErrorNoOptionsOrCallbackFunction() {
 
 function throwMissingYesNoField() {
   throw new Error(
-    "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern (class 'wc-pattern-array-builder-yes-no')",
+    'arrayBuilderPages `pageBuilder.summaryPage()` must either include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern OR option `useLinkInsteadOfYesNo` or `useButtonInsteadOfYesNo` to array builder primary options.',
   );
 }
 
@@ -60,6 +62,40 @@ function throwMissingYesNoValidation() {
   throw new Error(
     "arrayBuilderPages `pageBuilder.summaryPage()` must include a `uiSchema` that is using `arrayBuilderYesNoUI` pattern instead of `yesNoUI` pattern, or a similar pattern including `yesNoUI` with `'ui:validations'`",
   );
+}
+
+function validateNoSchemaAssociatedWithLinkOrButton(
+  pageConfig,
+  useLinkInsteadOfYesNo,
+  useButtonInsteadOfYesNo,
+) {
+  if (useLinkInsteadOfYesNo || useButtonInsteadOfYesNo) {
+    if (useLinkInsteadOfYesNo && useButtonInsteadOfYesNo) {
+      throw new Error(
+        'arrayBuilderPages options cannot include both `useLinkInsteadOfYesNo` and `useButtonInsteadOfYesNo`.',
+      );
+    }
+    const noSchemaProp = useLinkInsteadOfYesNo
+      ? 'useLinkInsteadOfYesNo'
+      : 'useButtonInsteadOfYesNo';
+
+    const error =
+      (pageConfig.schema?.properties &&
+        Object.keys(pageConfig.schema.properties).length) ||
+      (pageConfig.uiSchema && Object.keys(pageConfig.uiSchema).length);
+
+    if (error) {
+      const message = `
+        arrayBuilderPages \`pageBuilder.summaryPage()\` does not currently support
+        using \`uiSchema\` or \`schema\` properties when using option \`${noSchemaProp}\`.
+        Provide an empty object for \`uiSchema\` and \`schema\` properties or remove them.
+        For adding content, use \`text\` options \`summaryTitle\`, \`summaryTitleWithoutItems\`,
+        \`summaryDescription\`, \`summaryDescriptionWithoutItems\`, \`summaryAddButtonText\`,
+        \`summaryAddLinkText\`, as well as \`ContentBeforeButtons\` at the \`form/config\` page.
+      `.replace(/\s+/g, ' ');
+      throw new Error(message);
+    }
+  }
 }
 
 function throwIncorrectItemPath() {
@@ -99,7 +135,7 @@ function determineYesNoField(uiSchema) {
   if (uiSchema) {
     for (const key of Object.keys(uiSchema)) {
       if (
-        uiSchema[key]['ui:options'].classNames.includes(
+        uiSchema[key]?.['ui:options']?.classNames?.includes(
           'wc-pattern-array-builder-yes-no',
         )
       ) {
@@ -180,9 +216,9 @@ export function validateMinItems(minItems) {
 
 export function assignGetItemName(options) {
   const safeGetItemName = getItemFn => {
-    return item => {
+    return (item, index) => {
       try {
-        return getItemFn(item);
+        return getItemFn(item, index);
       } catch (e) {
         return null;
       }
@@ -239,8 +275,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     text: userText = {},
     reviewPath = 'review-and-submit',
     required: userRequired,
+    useLinkInsteadOfYesNo = false,
+    useButtonInsteadOfYesNo = false,
   } = options;
 
+  const usesYesNo = !useLinkInsteadOfYesNo && !useButtonInsteadOfYesNo;
   const getItemName = assignGetItemName(options);
 
   const getText = initGetText({
@@ -264,23 +303,31 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     },
     summaryPage: pageConfig => {
       summaryPath = pageConfig.path;
-      try {
-        hasItemsKey = determineYesNoField(pageConfig.uiSchema);
-      } catch (e) {
-        throwMissingYesNoField();
+      if (usesYesNo) {
+        try {
+          hasItemsKey = determineYesNoField(pageConfig.uiSchema);
+        } catch (e) {
+          throwMissingYesNoField();
+        }
+        if (!hasItemsKey) {
+          throwMissingYesNoField();
+        }
+        if (!pageConfig.uiSchema?.[hasItemsKey]?.['ui:validations']?.[0]) {
+          throwMissingYesNoValidation();
+        }
       }
-      if (!hasItemsKey) {
-        throwMissingYesNoField();
-      }
-      if (!pageConfig.uiSchema?.[hasItemsKey]?.['ui:validations']?.[0]) {
-        throwMissingYesNoValidation();
-      }
+
+      validateNoSchemaAssociatedWithLinkOrButton(
+        pageConfig,
+        useLinkInsteadOfYesNo,
+        useButtonInsteadOfYesNo,
+      );
       validatePath(summaryPath);
       orderedPageTypes.push('summary');
       return pageConfig;
     },
     itemPage: pageConfig => {
-      if (!pageConfig?.path.includes('/:index')) {
+      if (!pageConfig?.path?.includes('/:index')) {
         throwIncorrectItemPath();
       }
       validatePath(pageConfig?.path);
@@ -291,34 +338,80 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   };
 
   // Verify and setup any initial page options
-  const testConfig = pageBuilderCallback(pageBuilderVerifyAndSetup);
+  pageBuilderCallback(pageBuilderVerifyAndSetup);
   validatePages(orderedPageTypes);
   validateRequired(userRequired);
   validateReviewPath(reviewPath);
   validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
-  const pageKeys = Object.keys(testConfig);
-  const firstItemPagePath = itemPages?.[0]?.path;
   const lastItemPagePath = itemPages?.[itemPages.length - 1]?.path;
-  const itemLastPageKey = pageKeys?.[pageKeys.length - 1];
+
+  const getActiveItemPages = (formData, index) => {
+    return itemPages.filter(page => {
+      try {
+        if (page.depends) {
+          return typeof page.depends === 'function'
+            ? page.depends(formData, index)
+            : page.depends;
+        }
+        return true;
+      } catch (e) {
+        return false;
+      }
+    });
+  };
+
+  const getFirstItemPagePath = (formData, index) => {
+    return getActiveItemPages(formData, index)?.[0]?.path;
+  };
+
+  const getLastItemPagePath = (formData, index) => {
+    const activeItemPages = getActiveItemPages(formData, index);
+    return activeItemPages?.[activeItemPages.length - 1]?.path;
+  };
 
   // Didn't throw error so success: Validated and setup success
   const pageBuilder = pageBuilderVerifyAndSetup;
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardFinishedItem = ({ goPath, urlParams, pathname }) => {
+  const navForwardFinishedItem = ({ goPath, urlParams, pathname, index }) => {
     let path = summaryPath;
     if (urlParams?.edit || (urlParams?.add && urlParams?.review)) {
-      const index = getArrayIndexFromPathName(pathname);
+      const foundIndex = getArrayIndexFromPathName(pathname);
       const basePath = urlParams?.review ? reviewPath : summaryPath;
       path = createArrayBuilderUpdatedPath({
         basePath,
-        index,
+        index: foundIndex == null ? index : foundIndex,
         nounSingular,
       });
     }
     goPath(path);
+  };
+
+  const navForwardSummaryAddItem = ({ formData, goPath }) => {
+    const nextIndex = formData[arrayPath]?.length || 0;
+
+    const path = createArrayBuilderItemAddPath({
+      path: getFirstItemPagePath(formData, nextIndex),
+      index: nextIndex,
+    });
+    goPath(path);
+  };
+
+  const navForwardSummaryGoNextChapter = ({ formData, goPath, pageList }) => {
+    // if 0 items, 1 set of item pages still exist in the form
+    const lastIndex = formData[arrayPath]?.length
+      ? formData[arrayPath].length - 1
+      : 0;
+
+    const lastActivePath = `/${getLastItemPagePath(formData, lastIndex).replace(
+      ':index',
+      lastIndex,
+    )}`;
+
+    const nextPagePath = getNextPagePath(pageList, formData, lastActivePath);
+    goPath(nextPagePath);
   };
 
   /** @type {FormConfigPage['onNavBack']} */
@@ -326,28 +419,15 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     arrayPath,
     introRoute: introPath,
     summaryRoute: summaryPath,
+    reviewRoute: reviewPath,
   });
 
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardSummary = ({ formData, goPath, pageList }) => {
-    const index = formData[arrayPath] ? formData[arrayPath].length : 0;
-
-    if (formData[hasItemsKey]) {
-      const path = createArrayBuilderItemAddPath({
-        path: firstItemPagePath,
-        index,
-      });
-      goPath(path);
+    if (formData?.[hasItemsKey]) {
+      navForwardSummaryAddItem({ formData, goPath });
     } else {
-      const nextPagePath = getNextPagePath(
-        pageList,
-        formData,
-        `/${lastItemPagePath.replace(
-          ':index',
-          index === 0 ? index : index - 1,
-        )}`,
-      );
-      goPath(nextPagePath);
+      navForwardSummaryGoNextChapter({ formData, goPath, pageList });
     }
   };
 
@@ -361,7 +441,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
       path = createArrayBuilderItemAddPath({
-        path: firstItemPagePath,
+        path: getFirstItemPagePath(formData, 0),
         index: 0,
         isReview: urlParams?.review,
       });
@@ -376,12 +456,16 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   };
 
   function getNavItem(path) {
-    const onNavBack =
-      firstItemPagePath === path ? navBackFirstItem : onNavBackKeepUrlParams;
-    const onNavForward =
-      lastItemPagePath === path
-        ? navForwardFinishedItem
-        : onNavForwardKeepUrlParams;
+    const onNavBack = props => {
+      return getFirstItemPagePath(props.formData, props.index) === path
+        ? navBackFirstItem(props)
+        : onNavBackKeepUrlParams(props);
+    };
+    const onNavForward = props => {
+      return getLastItemPagePath(props.formData, props.index) === path
+        ? navForwardFinishedItem(props)
+        : onNavForwardKeepUrlParams(props);
+    };
     return { onNavBack, onNavForward };
   }
 
@@ -395,14 +479,30 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     };
   };
 
+  function safeDepends(depends) {
+    if (typeof depends !== 'function') {
+      return depends;
+    }
+    return (formData, index) => {
+      try {
+        return depends(formData, index);
+      } catch (e) {
+        return false;
+      }
+    };
+  }
+
   pageBuilder.summaryPage = pageConfig => {
-    const requiredOpts = ['title', 'path', 'uiSchema', 'schema'];
+    let requiredOpts = ['title', 'path'];
+    if (usesYesNo) {
+      requiredOpts = requiredOpts.concat(['uiSchema', 'schema']);
+    }
     verifyRequiredPropsPageConfig('summaryPage', requiredOpts, pageConfig);
 
     const summaryPageProps = {
       arrayPath,
       hasItemsKey,
-      firstItemPagePath,
+      getFirstItemPagePath,
       getText,
       introPath,
       isItemIncomplete,
@@ -410,9 +510,11 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       nounPlural,
       nounSingular,
       required,
+      useLinkInsteadOfYesNo,
+      useButtonInsteadOfYesNo,
     };
 
-    return {
+    const page = {
       CustomPageReview: ArrayBuilderSummaryPage({
         isReviewPage: true,
         ...summaryPageProps,
@@ -421,11 +523,25 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         isReviewPage: false,
         ...summaryPageProps,
       }),
-      scrollAndFocusTarget: 'h3',
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget ||
+        defaultSummaryPageScrollAndFocusTarget,
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,
     };
+
+    if (!pageConfig.uiSchema) {
+      page.uiSchema = {};
+    }
+    if (!pageConfig.schema || !Object.keys(pageConfig.schema).length) {
+      page.schema = {
+        type: 'object',
+        properties: {},
+      };
+    }
+
+    return page;
   };
 
   pageBuilder.itemPage = pageConfig => {
@@ -447,10 +563,14 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }),
       CustomPageReview: () => null,
       customPageUsesPagePerItemData: true,
-      scrollAndFocusTarget: 'h3',
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget || defaultItemPageScrollAndFocusTarget,
       onNavBack,
       onNavForward,
       ...pageConfig,
+      ...(pageConfig.depends
+        ? { depends: safeDepends(pageConfig.depends) }
+        : {}),
       uiSchema: {
         [arrayPath]: {
           items: pageConfig.uiSchema,

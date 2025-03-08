@@ -1,6 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { expect } from 'chai';
 import sinon from 'sinon';
+import MockDate from 'mockdate';
 import {
   mockFetch,
   setFetchJSONFailure,
@@ -355,35 +356,6 @@ describe('VAOS Services: Appointment ', () => {
       expect(v2Result).to.be.ok;
     });
 
-    it('should return data for a mobile gfe video appointment', async () => {
-      const data = {
-        id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
-        email: 'test@va.gov',
-        kind: 'telehealth',
-        status: 'booked',
-        minutesDuration: 60,
-        telehealth: {
-          vvsKind: VIDEO_TYPES.gfe,
-        },
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
-
-      const v2Result = await fetchBookedAppointment({
-        id: data.id,
-
-        useV2: true,
-      });
-
-      expect(v2Result).to.be.ok;
-    });
-
     it('should return data for a community care appointment', async () => {
       const data = {
         id: '1234',
@@ -700,8 +672,9 @@ describe('VAOS Services: Appointment ', () => {
 
   //--------
 
-  const now = moment();
   describe('isUpcomingAppointmentOrRequest', () => {
+    MockDate.reset();
+    const now = moment();
     it('should filter future requests', () => {
       const apptRequests = [
         // canceled past - should filter out

@@ -1,4 +1,5 @@
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import PropTypes from 'prop-types';
 import React from 'react';
 import BreadCrumbs from '../components/BreadCrumbs';
 import ProgressBar from '../components/ProgressBar';
@@ -15,3 +16,8 @@ export default function App({ location, children }) {
     </>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.node,
+  location: PropTypes.object,
+};

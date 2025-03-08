@@ -39,7 +39,7 @@ export default function MockAuth() {
                 </p>
                 <p className="vads-u-font-size--base">
                   Read through our{' '}
-                  <a href="https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/identity/Mocked%20Authentication">
+                  <a href="https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/identity/Products/Mocked%20Authentication#readme">
                     documentation
                   </a>{' '}
                   to find more information on how to use Mocked Authentication.

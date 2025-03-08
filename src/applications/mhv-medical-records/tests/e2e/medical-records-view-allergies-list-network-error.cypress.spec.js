@@ -1,6 +1,7 @@
 // import AllergiesListPage from './pages/AllergiesListPage';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 // import allergies from './fixtures/allergies.json';
+import sessionStatus from './fixtures/session-status.json';
 
 describe('Medical Records View Allergies', () => {
   it('Visits Medical Records View Allergies List Network Errors', () => {
@@ -20,9 +21,18 @@ describe('Medical Records View Allergies', () => {
       },
     }).as('folder');
 
+    cy.intercept('POST', '/my_health/v1/medical_records/session', {
+      statusCode: 204,
+      body: {},
+    }).as('session');
+    cy.intercept('GET', '/my_health/v1/medical_records/session/status', {
+      statusCode: 200,
+      body: sessionStatus, // status response copied from staging
+    }).as('status');
+
     cy.visit('my-health/medical-records');
-    cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
-    cy.wait('@session');
+    // cy.intercept('POST', '/my_health/v1/medical_records/session').as('session');
+    // cy.wait('@session');
 
     cy.get('[href="/my-health/medical-records/vaccines"]').should('be.visible');
     cy.visit('my-health/medical-records/allergies');

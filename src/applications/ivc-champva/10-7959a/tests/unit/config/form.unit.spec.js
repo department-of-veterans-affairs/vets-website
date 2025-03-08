@@ -120,8 +120,8 @@ describe('Applicant phone page', () => {
     formConfig,
     formConfig.chapters.beneficiaryInformation.pages.page2e.schema,
     formConfig.chapters.beneficiaryInformation.pages.page2e.uiSchema,
-    1,
-    'Applicant phone number',
+    2,
+    'Applicant contact info',
     { ...mockData.data },
   );
 });
@@ -131,8 +131,8 @@ describe('Applicant phone (role: other) page', () => {
     formConfig,
     formConfig.chapters.beneficiaryInformation.pages.page2e.schema,
     formConfig.chapters.beneficiaryInformation.pages.page2e.uiSchema,
-    1,
-    'Applicant phone number (role: other)',
+    2,
+    'Applicant contact info (role: other)',
     { ...mockData.data, certifierRole: 'other' },
   );
 });

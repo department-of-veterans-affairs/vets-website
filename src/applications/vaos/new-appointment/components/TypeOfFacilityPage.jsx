@@ -51,12 +51,6 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
           [FACILITY_TYPES.VAMC]: 'VA medical center or clinic',
           [FACILITY_TYPES.COMMUNITY_CARE]: 'Community care facility',
         },
-        descriptions: {
-          [FACILITY_TYPES.VAMC]:
-            'A VA medical center or clinic for this type of appointment',
-          [FACILITY_TYPES.COMMUNITY_CARE]:
-            'A community care facility near your home',
-        },
       },
     },
   };
@@ -79,7 +73,7 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
   }, []);
 
   return (
-    <div className="vaos-form__facility-type vaos-form__radio-field-descriptive">
+    <div className="vaos-form__facility-type">
       {!!schema && (
         <SchemaForm
           name="Type of appointment"
@@ -94,6 +88,17 @@ export default function TypeOfFacilityPage({ changeCrumb }) {
           }
           data={data}
         >
+          <va-additional-info
+            trigger="What to know about scheduling at community care facilities"
+            class="vads-u-margin-bottom--4"
+          >
+            <div>
+              If you select community care, we’ll ask for your preferred date,
+              timeframe, and provider. Then we’ll contact you to finish
+              scheduling your appointment.
+            </div>
+          </va-additional-info>
+
           <FormButtons
             onBack={() =>
               dispatch(routeToPreviousAppointmentPage(history, pageKey))

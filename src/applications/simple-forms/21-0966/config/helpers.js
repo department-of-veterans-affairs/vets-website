@@ -1,3 +1,4 @@
+import React from 'react';
 import { isEmpty } from 'lodash';
 import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
 import { format } from 'date-fns';
@@ -7,6 +8,7 @@ import {
   preparerIdentifications,
   veteranBenefits,
   survivingDependentBenefits,
+  submissionApis,
 } from '../definitions/constants';
 import formConfig from './form';
 
@@ -168,7 +170,7 @@ export const survivingDependentContactInformationChapterTitle = ({
 };
 
 export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
-  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+  if (preparerIsVeteran({ formData })) {
     return 'Your personal information';
   }
 
@@ -176,7 +178,7 @@ export const veteranPersonalInformationChapterTitle = ({ formData } = {}) => {
 };
 
 export const veteranContactInformationChapterTitle = ({ formData } = {}) => {
-  if (formData?.preparerIdentification === preparerIdentifications.veteran) {
+  if (preparerIsVeteran({ formData })) {
     return 'Your contact information';
   }
 
@@ -187,11 +189,17 @@ export const initializeFormDataWithPreparerIdentificationAndPrefill = (
   preparerIdentification,
   veteranPrefillStore,
 ) => {
-  return {
+  const formData = {
     ...createInitialState(formConfig).data,
     preparerIdentification,
     'view:veteranPrefillStore': veteranPrefillStore,
   };
+
+  if (preparerIsVeteranAndHasPrefill({ formData })) {
+    formData.veteranEmail = veteranPrefillStore.email;
+  }
+
+  return formData;
 };
 
 export const goPathAfterGettingITF = (
@@ -282,6 +290,35 @@ export const confirmationPageAlertHeadline = formData => {
   return 'You’ve submitted your intent to file';
 };
 
+const formatDate = date => {
+  if (date) {
+    return format(new Date(date), 'MMMM d, yyyy');
+  }
+  return '';
+};
+
+export const confirmationPageAlertHeadlineV2 = ({
+  formData,
+  submissionApi,
+  submitDate,
+}) => {
+  if (confirmationPageFormBypassed(formData)) {
+    return 'You already have an intent to file on record';
+  }
+
+  const submitDateStr = formatDate(submitDate);
+
+  if (submissionApi === submissionApis.INTENT_TO_FILE) {
+    return `Your form submission was successful on ${submitDateStr}.`;
+  }
+
+  if (submissionApi === submissionApis.BENEFITS_INTAKE) {
+    return `Form submission started on ${submitDateStr}.`;
+  }
+
+  return 'You’ve submitted your intent to file';
+};
+
 export const confirmationPageAlertParagraph = formData => {
   if (confirmationPageFormBypassed(formData)) {
     if (
@@ -321,6 +358,73 @@ export const confirmationPageAlertParagraph = formData => {
   }
 
   return 'It may take us a few days to process your intent to file. Then you’ll have 1 year to file your claim.';
+};
+
+const benefitSelectionDisplay = formData => {
+  const benefitTypes = [];
+
+  if (formData.benefitSelection[veteranBenefits.COMPENSATION]) {
+    benefitTypes.push('disability compensation');
+  }
+  if (formData.benefitSelection[veteranBenefits.PENSION]) {
+    benefitTypes.push('pension claims');
+  }
+  if (formData.benefitSelection[survivingDependentBenefits.SURVIVOR]) {
+    benefitTypes.push('pension claims for survivors');
+  }
+
+  return benefitTypes.join(' and ');
+};
+
+export const confirmationPageAlertParagraphV2 = ({
+  formData,
+  submissionApi,
+  expirationDate,
+  confirmationNumber = '',
+}) => {
+  if (confirmationPageFormBypassed(formData)) {
+    if (
+      hasActiveCompensationITF({ formData }) &&
+      hasActivePensionITF({ formData })
+    ) {
+      return 'Our records show that you already have an intent to file for disability compensation and for pension claims.';
+    }
+    if (hasActiveCompensationITF({ formData })) {
+      return `Our records show that you already have an intent to file for disability compensation and it will expire on ${formatDate(
+        formData['view:activeCompensationITF'].expirationDate,
+      )}.`;
+    }
+    if (hasActivePensionITF({ formData })) {
+      return `Our records show that you already have an intent to file for pension claims and it will expire on ${formatDate(
+        formData['view:activePensionITF'].expirationDate,
+      )}.`;
+    }
+  }
+
+  const benefitSelectionStr = benefitSelectionDisplay(formData);
+
+  if (benefitSelectionStr) {
+    if (submissionApi === submissionApis.BENEFITS_INTAKE) {
+      return (
+        <>
+          <p>Your intent to file for {benefitSelectionStr} is in progress.</p>
+          <p>
+            It can take up to 30 days for us to receive your form.
+            {confirmationNumber
+              ? ` Your confirmation number is ${confirmationNumber}.`
+              : ''}
+          </p>
+        </>
+      );
+    }
+    if (submissionApi === submissionApis.INTENT_TO_FILE) {
+      return `You have until ${formatDate(
+        expirationDate,
+      )} to file for ${benefitSelectionStr}`;
+    }
+  }
+
+  return <p>Your intent to file is in progress.</p>;
 };
 
 export const confirmationPageNextStepsParagraph = formData => {

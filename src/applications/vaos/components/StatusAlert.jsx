@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { format, differenceInBusinessDays, isValid } from 'date-fns';
+import FacilityPhone from './FacilityPhone';
 import InfoAlert from './InfoAlert';
 import {
   APPOINTMENT_STATUS,
@@ -12,6 +14,7 @@ import {
 import { startNewAppointmentFlow } from '../appointment-list/redux/actions';
 // eslint-disable-next-line import/no-restricted-paths
 import getNewAppointmentFlow from '../new-appointment/newAppointmentFlow';
+import { getFacilityPhone } from '../services/location';
 
 function handleClick(dispatch) {
   return () => {
@@ -23,6 +26,7 @@ function handleClick(dispatch) {
 }
 
 export default function StatusAlert({ appointment, facility }) {
+  const PASS_DUE = 4;
   const dispatch = useDispatch();
 
   const { search } = useLocation();
@@ -36,16 +40,39 @@ export default function StatusAlert({ appointment, facility }) {
     [CANCELLATION_REASONS.patient, 'You'],
     [CANCELLATION_REASONS.provider, `${facility?.name || 'Facility'}`],
   ]);
-  const { status } = appointment;
+  const { status, created } = appointment;
+  const isValidDate = isValid(new Date(created));
 
-  if (APPOINTMENT_STATUS.proposed === status) {
+  const facilityPhone = getFacilityPhone(facility);
+  const today = new Date().toISOString();
+
+  if (APPOINTMENT_STATUS.proposed === status && isValidDate) {
+    const createdDate = format(new Date(created), 'MMMM dd, yyyy');
+    const businessDays = differenceInBusinessDays(
+      new Date(today),
+      new Date(created),
+    );
+    if (businessDays >= PASS_DUE) {
+      return (
+        <InfoAlert
+          status="warning"
+          headline="We're having trouble scheduling this appointment"
+        >
+          <p>Call your facility to finish scheduling.</p>
+          <FacilityPhone contact={facilityPhone} icon />
+          <p>You requested this appointment on {createdDate}.</p>
+        </InfoAlert>
+      );
+    }
+
     return (
       <InfoAlert backgroundOnly status={showConfirmMsg ? 'success' : 'info'}>
         <p>
           We’ll try to schedule your appointment in the next 2 business days.
           Check back here or call your facility for updates.
         </p>
-        {showConfirmMsg && (
+
+        {showConfirmMsg ? (
           <>
             <div className="vads-u-margin-y--1">
               <va-link
@@ -68,6 +95,8 @@ export default function StatusAlert({ appointment, facility }) {
               />
             </div>
           </>
+        ) : (
+          <p>You requested this appointment on {createdDate}.</p>
         )}
       </InfoAlert>
     );
@@ -78,9 +107,8 @@ export default function StatusAlert({ appointment, facility }) {
     return (
       <>
         <InfoAlert status="error" backgroundOnly>
-          <strong>{who} canceled this appointment. </strong>
-          If you want to reschedule, call us or schedule a new appointment
-          online.
+          {who} canceled this appointment. If you want to reschedule, call us or
+          schedule a new appointment online.
           <br />
           <br />
           <va-link
@@ -129,6 +157,7 @@ StatusAlert.propTypes = {
   appointment: PropTypes.shape({
     status: PropTypes.string.isRequired,
     cancelationReason: PropTypes.string,
+    created: PropTypes.string,
     avsPath: PropTypes.string,
     vaos: PropTypes.shape({
       isPastAppointment: PropTypes.bool.isRequired,

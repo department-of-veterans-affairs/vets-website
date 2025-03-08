@@ -12,6 +12,8 @@ import errorReducer from './error';
 import filterBeforeResultsReducer from './filterBeforeResultsReducer';
 import focusSearchReducer from './searchFocusReducer';
 import licenseCertificationSearch from './licenseCertificationSearch';
+import institutionPrograms from './institutionPrograms';
+import nationalExams from './nationalExams';
 
 const rootReducer = {
   autocomplete,
@@ -28,6 +30,8 @@ const rootReducer = {
   filterBeforeResultsReducer,
   focusSearchReducer,
   licenseCertificationSearch,
+  institutionPrograms,
+  nationalExams,
 };
 
 export default rootReducer;

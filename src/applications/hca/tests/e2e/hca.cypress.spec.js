@@ -1,16 +1,16 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-
+import content from '../../locales/en/content.json';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockFacilities from './fixtures/mocks/mockFacilitiesV1.json';
-import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import {
   acceptPrivacyAgreement,
+  fillIdentityForm,
+  fillVaFacility,
   goToNextPage,
-  selectDropdownWebComponent,
+  setupBasicTest,
+  startAsGuestUser,
 } from './utils';
 
 const testConfig = createTestConfig(
@@ -18,109 +18,40 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
     fixtures: { data: path.join(__dirname, 'fixtures/data') },
-
     pageHooks: {
       introduction: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('.schemaform-start-button')
-            .first()
-            .click();
-        });
+        afterHook(() => startAsGuestUser());
       },
       'id-form': () => {
-        cy.get('@testData').then(data => {
-          cy.findByLabelText(/first name/i).type(data.veteranFullName.first);
-          cy.findByLabelText(/last name/i).type(data.veteranFullName.last);
-
-          const [year, month, day] = data.veteranDateOfBirth
-            .split('-')
-            .map(dateComponent => parseInt(dateComponent, 10).toString());
-          cy.findByLabelText(/month/i).select(month);
-          cy.findByLabelText(/day/i).select(day);
-          cy.findByLabelText(/year/i).type(year);
-
-          cy.findByLabelText(/social security/i).type(
-            data.veteranSocialSecurityNumber,
-          );
-        });
-      },
-      'insurance-information/va-facility-api': ({ afterHook }) => {
-        afterHook(() => {
-          selectDropdownWebComponent(
-            'view:preferredFacility_view:facilityState',
-            'MA',
-          );
-          cy.wait('@getFacilities');
-          selectDropdownWebComponent(
-            'view:preferredFacility_vaMedicalFacility',
-            '631',
-          );
-          cy.get('.usa-button-primary').click();
-        });
+        cy.get('@testData').then(testData => fillIdentityForm(testData));
       },
       'household-information/share-financial-information': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_discloseFinancialInformationNo').check();
+          cy.selectRadio('root_discloseFinancialInformation', 'N');
           goToNextPage();
         });
       },
       'household-information/share-financial-information-confirm': ({
         afterHook,
       }) => {
-        afterHook(() => {
-          cy.findByText(
-            /confirm that you don\u2019t want to provide your household financial information/i,
-          )
-            .first()
-            .should('exist');
-          cy.findAllByText(/confirm/i, { selector: 'button' })
-            .first()
-            .click();
-        });
+        afterHook(() => goToNextPage());
       },
       'household-information/marital-status': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('#root_maritalStatus').select('Never Married');
+          cy.get('[name="root_maritalStatus"]').select('Never Married');
           goToNextPage();
         });
       },
       'household-information/dependents': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(() => {
-            cy.get('[name="root_view:reportDependents"]').check('N');
-            goToNextPage();
-          });
+          cy.selectRadio('root_view:reportDependents', 'N');
+          goToNextPage();
         });
       },
-      'household-information/veteran-annual-income': ({ afterHook }) => {
+      'insurance-information/va-facility-api': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get(
-              '[name="root_view:veteranGrossIncome_veteranGrossIncome"]',
-            ).type(data.veteranGrossIncome);
-            cy.get('[name="root_view:veteranNetIncome_veteranNetIncome"]').type(
-              data.veteranNetIncome,
-            );
-            cy.get(
-              '[name="root_view:veteranOtherIncome_veteranOtherIncome"]',
-            ).type(data.veteranOtherIncome);
-
-            goToNextPage();
-          });
-        });
-      },
-      'household-information/deductible-expenses': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.get(
-              '[name="root_view:deductibleMedicalExpenses_deductibleMedicalExpenses',
-            ).type(data.deductibleMedicalExpenses);
-            cy.get(
-              '[name="root_view:deductibleEducationExpenses_deductibleEducationExpenses',
-            ).type(data.deductibleEducationExpenses);
-            cy.get(
-              '[name="root_view:deductibleFuneralExpenses_deductibleFuneralExpenses',
-            ).type(data.deductibleFuneralExpenses);
+          cy.get('@testData').then(testData => {
+            fillVaFacility(testData['view:preferredFacility']);
             goToNextPage();
           });
         });
@@ -129,26 +60,17 @@ const testConfig = createTestConfig(
         afterHook(() => {
           acceptPrivacyAgreement();
           cy.findByText(/submit/i, { selector: 'button' }).click();
+
+          cy.get(`va-link[text="${content['button-download']}"]`)
+            .as('downloadButton')
+            .click();
+
+          cy.wait('@downloadPdf');
+          cy.get('@downloadButton').should('be.visible');
         });
       },
     },
-
-    setupPerTest: () => {
-      cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-      cy.intercept('POST', '/v0/health_care_applications', {
-        formSubmissionId: '123fake-submission-id-567',
-        timestamp: '2016-05-16',
-      });
-      cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
-        statusCode: 404,
-        body: mockEnrollmentStatus,
-      });
-      cy.intercept(
-        'GET',
-        '/v0/health_care_applications/facilities?*',
-        mockFacilities,
-      ).as('getFacilities');
-    },
+    setupPerTest: () => setupBasicTest(),
   },
   manifest,
   formConfig,

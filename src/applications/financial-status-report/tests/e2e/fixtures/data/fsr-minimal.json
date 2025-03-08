@@ -142,7 +142,6 @@
       "bankruptcy": {},
       "additionalComments":   "Supporting personal statement"
     },
-    "view:enhancedFinancialStatusReport": true,
     "view:streamlinedWaiver": true,
     "view:streamlinedWaiverAssetUpdate": true,
     "view:reviewPageNavigationToggle": true,

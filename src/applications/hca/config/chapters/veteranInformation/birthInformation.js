@@ -1,11 +1,9 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import constants from 'vets-json-schema/dist/constants.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { BirthInfoDescription } from '../../../components/FormDescriptions';
+import { FULL_SCHEMA, STATES_50_AND_DC } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-const { cityOfBirth } = fullSchemaHca.properties;
-const { states50AndDC } = constants;
+const { cityOfBirth } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -32,8 +30,11 @@ export default {
           cityOfBirth,
           stateOfBirth: {
             type: 'string',
-            enum: [...states50AndDC.map(object => object.value), 'Other'],
-            enumNames: [...states50AndDC.map(object => object.label), 'Other'],
+            enum: [...STATES_50_AND_DC.map(object => object.value), 'Other'],
+            enumNames: [
+              ...STATES_50_AND_DC.map(object => object.label),
+              'Other',
+            ],
           },
         },
       },

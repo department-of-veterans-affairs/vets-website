@@ -456,7 +456,7 @@ const fetchChildFacilityWithoutCaregiverSupport = {
     physical: {
       address1: '2720 Airport Drive',
       address2: 'Suite 100',
-      address3: 'Columbus, OH, 43219-2219',
+      address3: 'Columbus, OH 43219-2219',
     },
   },
   classification: 'Other Outpatient Services (OOS)',
@@ -514,7 +514,7 @@ const fetchChildFacilityWithCaregiverSupport = {
     physical: {
       address1: '2720 Airport Drive',
       address2: 'Suite 100',
-      address3: 'Columbus, OH, 43219-2219',
+      address3: 'Columbus, OH 43219-2219',
     },
   },
   classification: 'Other Outpatient Services (OOS)',
@@ -580,7 +580,7 @@ const fetchParentFacility = {
     physical: {
       address1: '420 North James Road',
       address2: '33',
-      address3: 'Columbus, OH, 43219-1834',
+      address3: 'Columbus, OH 43219-1834',
     },
   },
   classification: 'Health Care Center (HCC)',

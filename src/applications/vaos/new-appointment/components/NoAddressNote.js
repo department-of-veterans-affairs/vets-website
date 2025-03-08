@@ -8,7 +8,7 @@ export default function NoAddressNote() {
       your home address to your VA profile.
       <br />
       <NewTabAnchor href="/profile/contact-information">
-        Go to your VA.gov profile
+        Go to your VA.gov profile (opens in new tab)
       </NewTabAnchor>
     </p>
   );

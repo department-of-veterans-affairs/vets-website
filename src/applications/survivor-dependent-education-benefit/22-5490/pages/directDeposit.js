@@ -5,8 +5,21 @@ import environment from 'platform/utilities/environment';
 import * as BUCKETS from 'site/constants/buckets';
 import * as ENVIRONMENTS from 'site/constants/environments';
 
+import DirectDepositTitle from '../components/DirectDepositTitle';
+import DirectDepositDescription from '../components/DirectDepositDescription';
 import DirectDepositViewField from '../components/DirectDepositViewField';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
+
+const shouldStartInEditMode = formData => {
+  const bankAccount = formData?.bankAccount;
+  const hasData = [
+    bankAccount?.accountType,
+    bankAccount?.routingNumber,
+    bankAccount?.accountNumber,
+  ].some(field => field?.length > 0);
+  // Return false to not start in edit mode if any data is present
+  return !hasData;
+};
 
 const checkImageSrc = (() => {
   const bucket = environment.isProduction()
@@ -19,10 +32,13 @@ const checkImageSrc = (() => {
 const directDeposit = {
   uiSchema: {
     'view:directDeposit': {
-      'ui:title': (
-        <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
-          Direct deposit information
-        </h4>
+      'ui:title': _props => (
+        <>
+          <DirectDepositTitle
+            formContext={_props.formContext}
+            title="Direct deposit information"
+          />
+        </>
       ),
       'ui:field': ReviewCardField,
       'ui:options': {
@@ -32,15 +48,14 @@ const directDeposit = {
         itemNameAction: 'Update',
         reviewTitle: 'Direct deposit information',
         showFieldLabel: false,
-        startInEdit: true,
+        startInEdit: formData => shouldStartInEditMode(formData),
         viewComponent: DirectDepositViewField,
         volatileData: true,
       },
-      'ui:description': (
-        <p>
-          <strong>Note:</strong> We make payments only through direct deposit,
-          also called electronic funds transfer (EFT).
-        </p>
+      'ui:description': _props => (
+        <>
+          <DirectDepositDescription formContext={_props.formContext} />
+        </>
       ),
       bankAccount: {
         ...bankAccountUI,
@@ -107,7 +122,7 @@ const directDeposit = {
               },
               accountType: {
                 type: 'string',
-                enum: ['checking', 'savings'],
+                enum: ['Checking', 'Savings'],
               },
               routingNumber: {
                 type: 'string',

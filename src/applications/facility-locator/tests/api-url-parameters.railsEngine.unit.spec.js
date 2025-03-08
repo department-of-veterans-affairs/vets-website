@@ -3,15 +3,6 @@ import { expect } from 'chai';
 import environment from 'platform/utilities/environment';
 import { resolveParamsWithUrl } from '../config';
 
-const store = {
-  default: {
-    getState: () => ({
-      // eslint-disable-next-line camelcase
-      featureToggles: { facility_locator_lat_long_only: false },
-    }),
-  },
-};
-
 describe('Locator url and parameters builder', () => {
   const page = 1;
   /**
@@ -26,7 +17,6 @@ describe('Locator url and parameters builder', () => {
       serviceType: 'NonVAUrgentCare',
       page,
       bounds: [-98.52, 29.74, -97.02, 31.24],
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -47,7 +37,6 @@ describe('Locator url and parameters builder', () => {
       locationType: 'pharmacy',
       page,
       bounds: [-98.45, 29.59, -96.95, 31.09],
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -65,7 +54,6 @@ describe('Locator url and parameters builder', () => {
       locationType: 'health',
       page,
       bounds: [-118.9939, 33.3044, -117.4939, 34.8044],
-      store,
     });
     const url = `${environment.API_URL}/facilities_api/v2/va`;
     expect(result.url).to.eql(url);
@@ -82,7 +70,6 @@ describe('Locator url and parameters builder', () => {
       serviceType: 'PrimaryCare',
       page,
       bounds: [-98.52, 29.74, -97.02, 31.24],
-      store,
     });
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
@@ -106,7 +93,6 @@ describe('Locator url and parameters builder', () => {
       serviceType: 'UrgentCare',
       page,
       bounds,
-      store,
     });
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
@@ -128,7 +114,6 @@ describe('Locator url and parameters builder', () => {
       locationType: 'benefits',
       page,
       bounds: [-98.52, 29.74, -97.02, 31.24],
-      store,
     });
     const url = `${environment.API_URL}/facilities_api/v2/va`;
     expect(result.url).to.eql(url);
@@ -144,7 +129,6 @@ describe('Locator url and parameters builder', () => {
       serviceType: 'VAHomeLoanAssistance',
       page,
       bounds: [-98.52, 29.74, -97.02, 31.24],
-      store,
     });
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
@@ -160,7 +144,6 @@ describe('Locator url and parameters builder', () => {
       serviceType: 'ApplyingForBenefits',
       page,
       bounds: [-98.52, 29.74, -97.02, 31.24],
-      store,
     });
     expect(result.url).to.eql(url);
     expect(result.postParams).to.eql({
@@ -181,7 +164,6 @@ describe('Locator url and parameters builder', () => {
       locationType: 'cemetery',
       page,
       bounds: [-98.52, 29.74, -97.02, 31.24],
-      store,
     });
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
@@ -205,7 +187,6 @@ describe('Locator url and parameters builder', () => {
       serviceType: '122300000X', // Dentist
       page,
       bounds: [-98.45, 29.59, -96.95, 31.09],
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
@@ -223,7 +204,6 @@ describe('Locator url and parameters builder', () => {
       locationType: 'vet_center',
       page,
       bounds: [-98.45, 29.59, -96.95, 31.09],
-      store,
     });
     expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
     expect(result.postParams).to.eql({
@@ -249,7 +229,6 @@ describe('Locator url and parameters builder', () => {
       bounds: [-98.45, 29.59, -96.95, 31.09],
       center: [33.32464, -97.18077],
       radius: 40,
-      store,
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(

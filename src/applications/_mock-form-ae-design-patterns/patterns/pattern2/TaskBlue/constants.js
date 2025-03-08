@@ -59,6 +59,7 @@ export const REVIEW_AND_SUBMIT = '/review-and-submit';
  */
 // contested issue dates - date-fns formatting
 export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
+export const FORMAT_YMD_DATE_FNS_CONCAT = 'yyyyMMdd';
 export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
 export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';
 

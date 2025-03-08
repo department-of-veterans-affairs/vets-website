@@ -131,7 +131,9 @@ export const processActionConnectFulfilled = ({
   });
 
   dispatch(startConversationActivity);
-  dispatch(joinActivity);
+  if (!options.isRootBotToggleOn) {
+    dispatch(joinActivity);
+  }
 };
 
 export const processSendMessageActivity = ({ action }) => () => {

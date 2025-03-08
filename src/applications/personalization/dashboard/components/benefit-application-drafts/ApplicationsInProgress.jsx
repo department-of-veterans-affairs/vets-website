@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 import { selectProfile } from '~/platform/user/selectors';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   filterOutExpiredForms,
@@ -16,7 +15,6 @@ import {
 import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 
-import ApplicationInProgress from './ApplicationInProgress';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
@@ -98,117 +96,79 @@ const ApplicationsInProgress = ({
         </h3>
       )}
 
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
-        <DashboardWidgetWrapper>
-          {submittedError && <Error />}
-          {isEmptyState && (
-            <>
-              <p data-testid="applications-in-progress-empty-state">
-                {emptyStateText}
-              </p>
-              <Toggler.Enabled>
-                <MissingApplicationHelp />
-              </Toggler.Enabled>
-            </>
-          )}
-          {hasForms && (
-            <div>
-              <Toggler.Enabled>
-                {allForms.map(form => {
-                  const formId = form.form;
-                  const formStatus = form.status;
-                  const formTitle = `application for ${
-                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                  }`;
-                  const presentableFormId = presentableFormIDs[formId];
-                  const { lastUpdated } = form || {};
-                  const lastSavedDate = format(
-                    fromUnixTime(lastUpdated),
-                    'MMMM d, yyyy',
-                  );
+      <DashboardWidgetWrapper>
+        {submittedError && <Error />}
+        {isEmptyState && (
+          <>
+            <p data-testid="applications-in-progress-empty-state">
+              {emptyStateText}
+            </p>
+            <MissingApplicationHelp />
+          </>
+        )}
+        {hasForms && (
+          <div>
+            {allForms.map(form => {
+              const formId = form.form;
+              const formStatus = form.status;
+              const formTitle = `application for ${
+                MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+              }`;
+              const presentableFormId = presentableFormIDs[formId];
+              const { lastUpdated } = form || {};
+              const lastSavedDate = format(
+                fromUnixTime(lastUpdated),
+                'MMMM d, yyyy',
+              );
 
-                  if (Object.hasOwn(form, 'savedAt')) {
-                    // if form is draft, then render Draft Card
-                    const { expiresAt } = form || {};
-                    const expirationDate = format(
-                      fromUnixTime(expiresAt),
-                      'MMMM d, yyyy',
-                    );
-                    const continueUrl = `${getFormLink(formId)}resume`;
-                    // TODO: consider combining all "Application Cards" into single component
-                    return (
-                      <DraftCard
-                        key={formId}
-                        continueUrl={continueUrl}
-                        expirationDate={expirationDate}
-                        formId={formId}
-                        formTitle={formTitle}
-                        lastSavedDate={lastSavedDate}
-                        presentableFormId={presentableFormId}
-                      />
-                    );
-                  }
+              if (Object.hasOwn(form, 'savedAt')) {
+                // if form is draft, then render Draft Card
+                const { expiresAt } = form || {};
+                const expirationDate = format(
+                  fromUnixTime(expiresAt),
+                  'MMMM d, yyyy',
+                );
+                const continueUrl = `${getFormLink(formId)}resume`;
+                // TODO: consider combining all "Application Cards" into single component
+                return (
+                  <DraftCard
+                    key={formId}
+                    continueUrl={continueUrl}
+                    expirationDate={expirationDate}
+                    formId={formId}
+                    formTitle={formTitle}
+                    lastSavedDate={lastSavedDate}
+                    presentableFormId={presentableFormId}
+                  />
+                );
+              }
 
-                  if (formStatus) {
-                    // if form is not a Draft and has status, render Status Card
-                    const { createdAt } = form || {};
-                    const submittedDate = format(
-                      fromUnixTime(createdAt),
-                      'MMMM d, yyyy',
-                    );
-                    return (
-                      <SubmissionCard
-                        key={formId}
-                        formId={formId}
-                        formTitle={formTitle}
-                        lastSavedDate={lastSavedDate}
-                        submittedDate={submittedDate}
-                        presentableFormId={presentableFormId}
-                        status={normalizeSubmissionStatus(formStatus)}
-                      />
-                    );
-                  }
+              if (formStatus) {
+                // if form is not a Draft and has status, render Status Card
+                const { createdAt } = form || {};
+                const submittedDate = format(
+                  fromUnixTime(createdAt),
+                  'MMMM d, yyyy',
+                );
+                return (
+                  <SubmissionCard
+                    key={formId}
+                    formId={formId}
+                    formTitle={formTitle}
+                    lastSavedDate={lastSavedDate}
+                    submittedDate={submittedDate}
+                    presentableFormId={presentableFormId}
+                    status={normalizeSubmissionStatus(formStatus)}
+                  />
+                );
+              }
 
-                  return null;
-                })}
-              </Toggler.Enabled>
-              <Toggler.Disabled>
-                {verifiedSavedForms.map(form => {
-                  const formId = form.form;
-                  const formTitle = `application for ${
-                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                  }`;
-                  const presentableFormId = presentableFormIDs[formId];
-                  const { lastUpdated, expiresAt } = form.metadata || {};
-                  const lastSavedDate = format(
-                    fromUnixTime(lastUpdated),
-                    'MMMM d, yyyy',
-                  );
-                  const expirationDate = format(
-                    fromUnixTime(expiresAt),
-                    'MMMM d, yyyy',
-                  );
-                  const continueUrl = `${getFormLink(formId)}resume`;
-                  return (
-                    <ApplicationInProgress
-                      key={formId}
-                      continueUrl={continueUrl}
-                      expirationDate={expirationDate}
-                      formId={formId}
-                      formTitle={formTitle}
-                      lastSavedDate={lastSavedDate}
-                      presentableFormId={presentableFormId}
-                    />
-                  );
-                })}
-              </Toggler.Disabled>
-              <Toggler.Enabled>
-                <MissingApplicationHelp />
-              </Toggler.Enabled>
-            </div>
-          )}
-        </DashboardWidgetWrapper>
-      </Toggler>
+              return null;
+            })}
+            <MissingApplicationHelp />
+          </div>
+        )}
+      </DashboardWidgetWrapper>
     </div>
   );
 };

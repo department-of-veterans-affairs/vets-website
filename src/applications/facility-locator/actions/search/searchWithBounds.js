@@ -1,4 +1,4 @@
-import { SEARCH_STARTED, SEARCH_FAILED } from '../../utils/actionTypes';
+import { SEARCH_STARTED, SEARCH_FAILED } from '../actionTypes';
 import { reverseGeocodeBox } from '../../utils/mapHelpers';
 import { LocationType } from '../../constants';
 import { fetchLocations } from '../locations/fetchLocations';
@@ -43,7 +43,6 @@ export const searchWithBounds = ({
           });
           return;
         }
-
         fetchLocations(
           address,
           bounds,

@@ -9,7 +9,7 @@ const {
 const pageTestExpectation = {
   numberOfWebComponentErrors: 1,
   numberOfWebComponentFields: 1,
-  pageTitle: 'What kind of statement do you want to submit?',
+  pageTitle: 'What would you like to do?',
   schema,
   uiSchema,
 };

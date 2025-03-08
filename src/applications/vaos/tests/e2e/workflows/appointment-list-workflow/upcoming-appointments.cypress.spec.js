@@ -144,45 +144,6 @@ describe('VAOS upcoming appointment flow', () => {
 
       cy.axeCheckBestPractice();
     });
-
-    it('should verify Video Connect on VA device calendar ics file format', () => {
-      // Arrange
-      const startDate = moment()
-        .clone()
-        .add(1, 'day');
-      mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createGfeResponses({
-          localStartTime: startDate,
-        }),
-      });
-      mockClinicsApi({
-        locationId: '983',
-        response: MockClinicResponse.createResponses({
-          locationId: '983',
-        }),
-      });
-      mockFacilityApi({
-        id: '983',
-        response: new MockFacilityResponse({
-          id: '983',
-        }),
-      });
-
-      // Act
-      cy.login(new MockUser());
-
-      AppointmentListPageObject.visit()
-        .assertAppointmentList({ numberOfAppointments: 1 })
-        .selectListItem();
-
-      // Assert
-      AppointmentDetailPageObject.assertUrl().assertAddToCalendarLink({
-        startDate,
-        type: VIDEO_TYPES.gfe,
-      });
-
-      cy.axeCheckBestPractice();
-    });
   });
 
   describe('When veteran has upcoming appointments', () => {

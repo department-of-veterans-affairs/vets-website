@@ -164,7 +164,7 @@ function fillBenefitSelection(
     desiredCemetery,
   );
   cy.get('.autosuggest-item', { timeout: Timeouts.slow }).should('exist');
-  cy.get('body').click();
+  cy.get('body').click({ force: true });
   cy.selectRadio('root_application_hasCurrentlyBuried', hasCurrentlyBuried);
   cy.axeCheck();
   clickContinue();

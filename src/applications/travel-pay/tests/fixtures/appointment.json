@@ -1,0 +1,71 @@
+{
+  "data": {
+    "id": "167322",
+    "type": "appointment",
+    "attributes": {
+      "kind": "clinic",
+      "id": "167322",
+      "start": "2024-12-30T14:00:00Z",
+      "localStartTime": "2024-12-30T08:00:00.000-06:00",
+      "serviceName": "COVID VACCINE CLIN1",
+      "friendlyName": "COVID VACCINE CLIN1",
+      "physicalLocation": "MHC",
+      "location": {
+        "id": "983",
+        "type": "appointments",
+        "attributes": {
+          "id": "983",
+          "vistaSite": "983",
+          "vastParent": "983",
+          "type": "va_facilities",
+          "name": "Cheyenne VA Medical Center",
+          "classification": "VA Medical Center (VAMC)",
+          "timezone": {
+            "timeZoneId": "America/Denver"
+          },
+          "lat": 39.744507,
+          "long": -104.830956,
+          "website": "https://www.denver.va.gov/locations/directions.asp",
+          "phone": {
+            "main": "307-778-7550",
+            "fax": "307-778-7381",
+            "pharmacy": "866-420-6337",
+            "afterHours": "307-778-7550",
+            "patientAdvocate": "307-778-7550 x7517",
+            "mentalHealthClinic": "307-778-7349",
+            "enrollmentCoordinator": "307-778-7550 x7579"
+          },
+          "physicalAddress": {
+            "type": "physical",
+            "line": ["2360 East Pershing Boulevard"],
+            "city": "Cheyenne",
+            "state": "WY",
+            "postalCode": "82001-5356"
+          },
+          "mobile": false,
+          "healthService": [],
+          "operatingStatus": {
+            "code": "NORMAL"
+          }
+        }
+      },
+      "timeZone": "America/Denver",
+      "travelPayClaim": {
+        "metadata": {
+          "status": 200,
+          "success": true,
+          "message": "Data retrieved successfully"
+        },
+        "claim": {
+          "id": "16cbc3d0-56de-4d86-abf3-ed0f6908ee53",
+          "claimNumber": "5b550fe7-6985-4a69-953a-472d5cf85921",
+          "claimStatus": "In process",
+          "appointmentDateTime": "2023-02-23T22:22:52.549Z",
+          "facilityName": "Tomah VA Medical Center",
+          "createdOn": "2023-02-24T22:22:52.549Z",
+          "modifiedOn": "2023-02-26T22:22:52.549Z"
+        }
+      }
+    }
+  }
+}

@@ -9,6 +9,8 @@ const vamcUser = {
     },
   },
 };
+const POA_REQUESTS =
+  '/representative/poa-requests?useMockData&status=pending&sort=created_at_asc';
 
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
@@ -21,7 +23,7 @@ const setUpInterceptsAndVisit = featureToggles => {
   cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
   setFeatureToggles(featureToggles);
   cy.visit('/representative');
-  cy.injectAxe();
+  cy.injectAxeThenAxeCheck();
 };
 
 describe('Accredited Representative Portal', () => {
@@ -30,28 +32,49 @@ describe('Accredited Representative Portal', () => {
       cy.loginArpUser();
       setUpInterceptsAndVisit({
         isAppEnabled: false,
+        isInPilot: false,
       });
     });
 
     it('redirects to VA.gov homepage when in production and app is not enabled', () => {
-      cy.axeCheck();
+      cy.injectAxeThenAxeCheck();
       cy.location('pathname').should('eq', '/');
     });
   });
 
-  describe('App feature toggle is enabled', () => {
+  describe('App feature toggle is enabled, but Pilot feature toggle is not enabled', () => {
     beforeEach(() => {
       setUpInterceptsAndVisit({
         isAppEnabled: true,
+        isInPilot: false,
+      });
+    });
+  });
+
+  describe('App feature toggle and Pilot feature toggle are enabled', () => {
+    beforeEach(() => {
+      cy.loginArpUser();
+      setUpInterceptsAndVisit({
+        isAppEnabled: true,
+        isInPilot: true,
       });
     });
 
-    it('allows navigation from the 21a form intro to unified sign-in page', () => {
-      cy.axeCheck();
-      cy.get('a')
-        .contains('Sign in to start your application')
-        .click();
-      cy.location('pathname').should('eq', '/sign-in/');
+    it('allows navigation from the Landing Page to the POA Requests Page and back', () => {
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('[data-testid=landing-page-heading]').should(
+        'have.text',
+        'Welcome to the Accredited Representative Portal',
+      );
+      cy.visit(POA_REQUESTS);
+
+      cy.contains('Power of attorney requests').should('be.visible');
+      cy.get('[data-testid=desktop-logo').click();
+      cy.get('[data-testid=landing-page-heading]').should(
+        'have.text',
+        'Welcome to the Accredited Representative Portal',
+      );
     });
   });
 });

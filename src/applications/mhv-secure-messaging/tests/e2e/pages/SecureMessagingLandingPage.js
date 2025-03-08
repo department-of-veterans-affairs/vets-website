@@ -1,5 +1,5 @@
 import mockFeatureToggles from '../fixtures/toggles-response.json';
-import mockUser from '../fixtures/generalResponses/user.json';
+import mockUser from '../fixtures/userResponse/user.json';
 import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import mockGeneralMessages from '../fixtures/generalResponses/generalMessages.json';
 import mockRecipients from '../fixtures/recipients-response.json';
@@ -16,17 +16,21 @@ class SecureMessagingLandingPage {
     cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, featureToggles).as(
       'featureToggles',
     );
+
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS}*`,
       recipients,
     ).as('Recipients');
+
     cy.intercept('GET', '/v0/user', user).as('user');
+
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0*`,
       mockGeneralFolder,
     ).as('generalFolder');
+
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/messages*`,
@@ -41,7 +45,6 @@ class SecureMessagingLandingPage {
 
     cy.wait('@featureToggles');
     cy.wait('@user');
-    cy.wait('@generalFolder');
   };
 
   verifyHeaderText = (text = 'Messages') => {
@@ -71,12 +74,27 @@ class SecureMessagingLandingPage {
   };
 
   verifyFaqAccordions = () => {
-    cy.get(Locators.ALERTS.ACC_ITEM).each(el => {
+    cy.get(Locators.FAQ_ACC_ITEM).each(el => {
       cy.wrap(el)
         .should('be.visible')
         .click({ waitForAnimations: true });
       cy.wrap(el).should('have.attr', 'open');
     });
+  };
+
+  verifyFaqAccordionStatus = (text, value) => {
+    cy.get(`[data-dd-action-name*="${text}"]`).should(
+      `have.prop`,
+      `open`,
+      value,
+    );
+  };
+
+  verifyFaqFocusedLink = (link, text) => {
+    cy.focused()
+      .should(`have.attr`, `href`)
+      .and(`include`, link);
+    cy.focused().should(`have.text`, text);
   };
 }
 

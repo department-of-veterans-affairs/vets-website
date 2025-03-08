@@ -1,31 +1,11 @@
 import React from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-export const dateOptions = {
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  hour12: true,
-};
-
-export const radioOptions = [
-  { label: 'Option 1: PDF document (best for printing)', value: 'pdf' },
-  {
-    label:
-      'Option 2: Text file (best for screen readers, screen enlargers, and refreshable Braille displays)',
-    value: 'txt',
-  },
-];
-
-// VA content time formatting - should be lowercase with periods
-export const formatTimeString = string => {
-  if (string.includes('AM')) {
-    return string.replace('AM', 'a.m.');
-  }
-  return string.replace('PM', 'p.m.');
-};
+export const errorTypes = Object.freeze({
+  NOT_FOUND: 'not found',
+  DOWNLOAD_ERROR: 'download error',
+  SYSTEM_ERROR: 'system error',
+});
 
 export const phoneComponent = number => {
   return (
@@ -36,37 +16,18 @@ export const phoneComponent = number => {
   );
 };
 
-export const LastUpdatedComponent = props => {
-  return (
-    <p>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Related to:</strong> Health care
-      </span>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Document last updated:</strong> {props.lastUpdated}
-      </span>
-    </p>
-  );
-};
-
 export const notFoundComponent = () => {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>
-      <h2 slot="headline">
+      <h4 slot="headline">
         You don’t have a 1095-B tax form available right now
-      </h2>
-      <div>
-        <p>
-          If you recently enrolled in VA health care, you may not have a 1095-B
-          form yet. We process 1095-B forms in early January each year, based on
-          your enrollment in VA health care during the past year.
-        </p>
-        <p>
-          If you think you should have a 1095-B form, call us at{' '}
-          {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
-          Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
-      </div>
+      </h4>
+      <p className="vads-u-margin-y--0">
+        You do not have a 1095-B tax form available. This could be because you
+        weren’t enrolled in VA healthcare in 2024. If you think you were
+        enrolled, call us at {phoneComponent(CONTACTS['222_VETS'])}. We’re here
+        Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+      </p>
     </va-alert>
   );
 };
@@ -87,3 +48,26 @@ export const unavailableComponent = () => {
     </va-alert>
   );
 };
+
+export const downloadErrorComponent = (
+  <div id="downloadError" className="vads-u-margin-bottom--2p5">
+    <va-alert close-btn-aria-label="Close notification" status="error" visible>
+      <p className="vads-u-margin-y--0">
+        We’re sorry. Something went wrong when we tried to download your form.
+        Please try again. If your form still doesn’t download, call us at{' '}
+        {phoneComponent(CONTACTS['222_VETS'])}. We’re here 24/7.
+      </p>
+    </va-alert>
+  </div>
+);
+
+export const systemErrorComponent = (
+  <va-alert close-btn-aria-label="Close notification" status="error" visible>
+    <h3 slot="headline">System error</h3>
+    <p className="vads-u-margin-y--0">
+      We’re sorry, something went wrong on our end. Try to view your 1095-B
+      later. If the issue persists, call us at{' '}
+      {phoneComponent(CONTACTS['222_VETS'])}. We’re here 24/7.
+    </p>
+  </va-alert>
+);

@@ -1,45 +1,45 @@
-// Node modules
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
-// Relative imports
 import SearchBar from '../../components/SearchBar';
 
 describe('SearchBar', () => {
-  it('renders without crashing', () => {
-    let testInput = '';
-    const setTestInput = str => {
-      testInput = str;
-    };
+  const searchBarProps = {
+    onInputChange: () => {},
+    previousValue: 'test',
+    setSearchData: () => {},
+    userInput: 'new test',
+  };
 
-    const wrapper = shallow(
-      <SearchBar
-        userInput={testInput}
-        onInputChange={setTestInput}
-        useDefaultFormSearch
-      />,
-    );
+  it('should render the correct view for mobile', () => {
+    window.innerWidth = 400;
+    render(<SearchBar {...searchBarProps} />);
 
-    expect(wrapper).to.exist;
-    wrapper.unmount();
+    expect(document.querySelector('[data-testid="rs-mobile-expand-collapse"]'))
+      .to.exist;
+    expect(document.querySelector('va-icon[icon="add"]')).to.exist;
+    expect(document.querySelector('va-icon[icon="remove"]')).to.exist;
+    expect(
+      document.querySelector(
+        '[label="Search resources and support articles or all of VA.gov"]',
+      ),
+    ).to.exist;
+    expect(document.querySelector('[label="Resources and Support"]')).to.exist;
+    expect(document.querySelector('[label="All VA.gov"]')).to.exist;
+    expect(document.querySelector('va-search-input')).to.exist;
   });
 
-  it('renders without crashing with a search term', () => {
-    let testInput = 'health';
-    const setTestInput = str => {
-      testInput = str;
-    };
+  it('should render the correct view for desktop', () => {
+    window.innerWidth = 1200;
+    render(<SearchBar {...searchBarProps} />);
 
-    const wrapper = shallow(
-      <SearchBar
-        userInput={testInput}
-        onInputChange={setTestInput}
-        useDefaultFormSearch
-      />,
-    );
-
-    expect(wrapper).to.exist;
-    wrapper.unmount();
+    expect(
+      document.querySelector(
+        '[label="Search resources and support articles or all of VA.gov"]',
+      ),
+    ).to.exist;
+    expect(document.querySelector('[label="Resources and Support"]')).to.exist;
+    expect(document.querySelector('[label="All VA.gov"]')).to.exist;
+    expect(document.querySelector('va-search-input')).to.exist;
   });
 });

@@ -20,7 +20,6 @@ import {
   OAUTH_ALLOWED_PARAMS,
   OAUTH_ENDPOINTS,
   OAUTH_KEYS,
-  OPERATIONS,
 } from './constants';
 import * as oauthCrypto from './crypto';
 
@@ -144,10 +143,9 @@ export async function createOAuthRequest({
     }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
-    ...(passedOptions.isSignup &&
-      type.includes('idme') && {
-        [OAUTH_ALLOWED_PARAMS.OPERATION]: OPERATIONS.SIGNUP,
-      }),
+    ...(passedQueryParams.operation && {
+      [OAUTH_ALLOWED_PARAMS.OPERATION]: passedQueryParams.operation,
+    }),
     ...(isMobileOAuth &&
       passedQueryParams.scope && {
         [OAUTH_ALLOWED_PARAMS.SCOPE]: passedQueryParams.scope,
@@ -179,10 +177,12 @@ export function buildTokenRequest({
 
   if (!code || !codeVerifier) return null;
 
+  const clientId = sessionStorage.getItem(COOKIES.CI) || CLIENT_IDS.VAWEB;
+
   // Build the authorization URL
   const oAuthParams = {
     [OAUTH_KEYS.GRANT_TYPE]: OAUTH_ALLOWED_PARAMS.AUTH_CODE,
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(CLIENT_IDS.VAWEB),
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(clientId),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(redirectUri),
     [OAUTH_KEYS.CODE]: code,
     [OAUTH_KEYS.CODE_VERIFIER]: codeVerifier,

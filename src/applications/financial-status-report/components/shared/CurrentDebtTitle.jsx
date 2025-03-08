@@ -30,12 +30,10 @@ export const CurrentDebtTitle = ({ formContext }) => {
         {selectedDebtsAndCopays.length}: {formattedDebtTitle}
       </h3>{' '}
       {!invalidPagesForTitleSubtext.includes(formContext.pageTitle) && (
-        <div>
-          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-            Which repayment or relief option would you like for your{' '}
-            <strong>{formattedDebtTitle}</strong>?
-          </p>
-        </div>
+        <p className="vads-u-margin-top--3 vads-u-margin-bottom--0 vads-u-font-weight--normal">
+          Which repayment or relief option would you like for your{' '}
+          <strong>{formattedDebtTitle}</strong>?
+        </p>
       )}
     </legend>
   );

@@ -1,9 +1,0 @@
-{
-  "vaFileNumber": "23444444",
-  "claimantFullName": {
-    "first": "claimantFirst",
-    "middle": "claimantMiddle",
-    "last": "claimantLast"
-  },
-  "view:noSSN": true
-}

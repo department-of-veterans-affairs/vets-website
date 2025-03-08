@@ -15,7 +15,11 @@ import {
 } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import FormButtons from '../../../components/FormButtons';
-import { getDateTimeSelect, selectEligibility } from '../../redux/selectors';
+import {
+  getDateTimeSelect,
+  selectEligibility,
+  getChosenClinicInfo,
+} from '../../redux/selectors';
 import CalendarWidget from '../../../components/calendar/CalendarWidget';
 import WaitTimeAlert from './WaitTimeAlert';
 import { FETCH_STATUS } from '../../../utils/constants';
@@ -125,6 +129,7 @@ export default function DateTimeSelectPage() {
 
   const isInitialLoad = useIsInitialLoad(loadingSlots);
   const eligibility = useSelector(selectEligibility);
+  const clinic = useSelector(state => getChosenClinicInfo(state));
 
   useEffect(
     () => {
@@ -173,7 +178,12 @@ export default function DateTimeSelectPage() {
 
   return (
     <div>
-      <h1 className="vads-u-font-size--h2">{pageTitle}</h1>
+      <h1 className="vaos__dynamic-font-size--h2">
+        {pageTitle}
+        <span className="schemaform-required-span vaos-calendar__page_header vads-u-font-family--sans vads-u-font-weight--normal">
+          (*Required)
+        </span>
+      </h1>
       {!loadingSlots && (
         <WaitTimeAlert
           eligibleForRequests={eligibleForRequests}
@@ -196,9 +206,9 @@ export default function DateTimeSelectPage() {
       {!fetchFailed && (
         <>
           <p>
-            Please select an available date and time from the calendar below.
-            {timezone &&
-              ` Appointment times are displayed in ${timezoneDescription}.`}
+            {clinic && `Scheduling at ${clinic.serviceName}`}
+            {clinic && timezone && <br />}
+            {timezone && `Times are displayed in ${timezoneDescription}.`}
           </p>
           <CalendarWidget
             maxSelections={1}
@@ -228,6 +238,7 @@ export default function DateTimeSelectPage() {
             maxDate={moment()
               .add(395, 'days')
               .format('YYYY-MM-DD')}
+            renderIndicator={_ => undefined}
             required
             requiredMessage="Please choose your preferred date and time for your appointment"
             startMonth={startMonth}

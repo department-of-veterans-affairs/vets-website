@@ -1,8 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
-
-import ObjectField from '@department-of-veterans-affairs/platform-forms-system/ObjectField';
+import ObjectField from 'platform/forms-system/src/js/fields/ObjectField';
 import DemographicViewField from '../../../../components/FormFields/DemographicViewField';
 import formConfig from '../../../../config/form';
 

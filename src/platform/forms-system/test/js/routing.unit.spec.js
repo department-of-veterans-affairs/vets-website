@@ -4,8 +4,10 @@ import {
   getNextPagePath,
   getPreviousPagePath,
   checkValidPagePath,
-  createRoutes,
+  getRoute,
+  createBreadcrumbListFromPath,
 } from '../../src/js/routing';
+import { createRoutes } from '../../src/js/routing/createRoutes';
 
 describe('Schemaform routing', () => {
   function getPageList(dependsCallback) {
@@ -120,6 +122,7 @@ describe('Schemaform routing', () => {
     const path = getPreviousPagePath(pageList, data, pathname);
     expect(path).to.equal('/testing/0/conditional-page');
   });
+
   describe('createRoutes', () => {
     it('should create routes', () => {
       const formConfig = {
@@ -204,5 +207,56 @@ describe('Schemaform routing', () => {
 
       expect(checkValidPagePath(pageList, data, pathname)).to.be.false;
     });
+  });
+
+  describe('other utilities', () => {
+    it('getRoute', () => {
+      const formConfig = {
+        disableSave: true,
+        chapters: {
+          firstChapter: {
+            pages: {
+              testPage: {
+                path: 'test-page',
+              },
+            },
+          },
+        },
+      };
+
+      const routes = createRoutes(formConfig);
+      const location = {
+        pathname: '/test-page',
+      };
+
+      expect(getRoute(routes, location).path).to.equal('test-page');
+    });
+  });
+});
+
+describe('createBreadcrumbListFromPath', () => {
+  it('should parse a pathname and return a breadcrumb list', () => {
+    let pathname = '/my-form/introduction';
+    let breadcrumbList = createBreadcrumbListFromPath(pathname);
+    expect(breadcrumbList).to.eql([
+      { label: 'VA.gov home', href: '/' },
+      { label: 'My form', href: '/my-form' },
+    ]);
+
+    pathname = '/';
+    breadcrumbList = createBreadcrumbListFromPath(pathname);
+    expect(breadcrumbList).to.eql([{ label: 'VA.gov home', href: '/' }]);
+
+    pathname = null;
+    breadcrumbList = createBreadcrumbListFromPath(pathname);
+    expect(breadcrumbList).to.eql([{ label: 'VA.gov home', href: '/' }]);
+
+    pathname = 'test-form/path-1/path-2';
+    breadcrumbList = createBreadcrumbListFromPath(pathname);
+    expect(breadcrumbList).to.eql([
+      { label: 'VA.gov home', href: '/' },
+      { label: 'Test form', href: '/test-form' },
+      { label: 'Path 1', href: '/test-form/path-1' },
+    ]);
   });
 });

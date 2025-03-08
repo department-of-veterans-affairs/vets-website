@@ -29,7 +29,6 @@
     <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
-    <!-- rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin-- FOR REMOVAL -->
 
     <!-- Scripts and CSS -->
     <%= modifyScriptAndStyleTags(htmlWebpackPlugin.tags.headTags) %>
@@ -54,11 +53,14 @@
     <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
     <% if (typeof minimalHeader !== 'undefined') { %>
     <!-- Header Minimal -->
+    <%
+      const minimalHeaderExcludePaths = (typeof minimalHeader === 'object' && minimalHeader.excludePaths) || (typeof minimalExcludePaths !== 'undefined' && minimalExcludePaths);
+    %>
     <div
       id="header-minimal"
       class="vads-u-display--none vads-u-background-color--primary-darker"
-      <% if (minimalHeader.excludePaths) { %>
-        data-exclude-paths='<%= JSON.stringify(minimalHeader.excludePaths).replace(/"/g, "&quot;") %>'
+      <% if (minimalHeaderExcludePaths) { %>
+        data-exclude-paths='<%= JSON.stringify(minimalHeaderExcludePaths).replace(/"/g, "&quot;") %>'
       <% } %>
     >
       <va-header-minimal
@@ -159,23 +161,41 @@
       </div>
     </header>
 
-    <!-- TODO: Add breadcrumbs -->
     <% if (includeBreadcrumbs) { %>
-    <nav aria-label="Breadcrumb" aria-live="polite" class="va-nav-breadcrumbs" id="va-breadcrumbs">
-      <ul id="va-breadcrumbs-list" class="row va-nav-breadcrumbs-list columns" tabindex="-1">
-      <% breadcrumbs_override.forEach(({ name, path }, index) => { %>
-        <li>
-          <a
-            <% if (index === breadcrumbs_override.length - 1) { %>
-            aria-current="page"
-            <% } %>
-            href="/<%= path %>">
-            <%= name %>
-          </a>
-        </li>
-      <% }) %>
-      </ul>
-    </nav>
+      <va-breadcrumbs class="row" wrapping></va-breadcrumbs>
+      <script type="text/javascript">
+        // Get list of breadcrumbs
+        const breadcrumbsJSON = JSON.parse('<%= JSON.stringify(breadcrumbs_override) %>');
+
+        // Add a link to the Home page
+        breadcrumbsJSON.unshift({
+          path: '',
+          name: 'VA.gov home',
+        });
+
+        // Create crumbs object for the component
+        const crumbs = breadcrumbsJSON.map(({name, path}) => {
+          // Set language to Spanish if "-esp" is at the end of the url,
+          // or Tagalog if "-tag" is at the end of the url
+          let lang = 'en-US';
+          if (path.endsWith('-esp')) lang = 'es';
+          if (path.endsWith('-tag')) lang = 'tl';
+
+          return {
+            href: `/${path}`,
+            isRouterLink: false,
+            label: name,
+            lang
+          };
+        });
+        const JSONCrumbs = JSON.stringify(crumbs);
+
+        // Add the breadcrumbs to the component
+        const bcComponent = document.querySelector('va-breadcrumbs');
+        if (bcComponent) {
+          bcComponent.setAttribute('breadcrumb-list', JSONCrumbs );
+        }
+      </script>
     <% } %>
 
     <!-- React root -->
@@ -233,8 +253,14 @@
     <!-- Footer -->
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
+      <%
+        const minimalFooterExcludePaths = (typeof minimalFooter === 'object' && minimalFooter.excludePaths) || (typeof minimalExcludePaths !== 'undefined' && minimalExcludePaths);
+      %>
       <div id="footerNav"
-        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? minimalFooter : false %>"
+        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? true : false %>"
+        <% if (minimalFooterExcludePaths) { %>
+          data-minimal-exclude-paths='<%= JSON.stringify(minimalFooterExcludePaths).replace(/"/g, "&quot;") %>'
+        <% } %>
       ></div>
     </footer>
 

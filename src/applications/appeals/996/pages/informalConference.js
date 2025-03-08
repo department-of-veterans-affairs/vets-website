@@ -8,7 +8,6 @@ import { errorMessages } from '../constants';
 import {
   informalConferenceTitle,
   InformalConferenceDescription,
-  informalConferenceHint,
   informalConferenceLabels,
   informalConferenceDescriptions,
 } from '../content/InformalConference';
@@ -20,7 +19,6 @@ const informalConference = {
     informalConference: {
       ...radioUI({
         title: informalConferenceTitle,
-        hint: informalConferenceHint,
         labels: informalConferenceLabels,
         descriptions: informalConferenceDescriptions,
         enableAnalytics: true,
@@ -35,7 +33,7 @@ const informalConference = {
     type: 'object',
     required: ['informalConference'],
     properties: {
-      informalConference: radioSchema(['me', 'rep', 'no']),
+      informalConference: radioSchema(['me', 'rep']),
     },
   },
 };

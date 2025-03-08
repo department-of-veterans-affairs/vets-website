@@ -13,6 +13,8 @@ import {
   phoneUI,
   phoneSchema,
   textUI,
+  emailUI,
+  emailSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { nameWording } from '../../shared/utilities';
 
@@ -61,11 +63,12 @@ export const applicantMemberNumberSchema = {
           },
           'ui:options': {
             uswds: true,
-            hint: `This number is usually the same as ${
-              formData?.certifierRole === 'applicant'
-                ? 'your'
-                : 'the beneficiary’s'
-            } Social Security number.`,
+            hint: `This number is usually the same as ${nameWording(
+              formData,
+              true,
+              false,
+              true,
+            )} Social Security number.`,
           },
         };
       },
@@ -139,7 +142,7 @@ export const applicantAddressSchema = {
   },
 };
 
-export const applicantPhoneSchema = {
+export const applicantContactSchema = {
   uiSchema: {
     ...titleUI(
       ({ formData }) =>
@@ -152,6 +155,10 @@ export const applicantPhoneSchema = {
         } if we have any questions.`,
     ),
     applicantPhone: phoneUI(),
+    applicantEmail: emailUI({
+      // Only require applicant email if said applicant is filling the form:
+      required: formData => formData.certifierRole === 'applicant',
+    }),
   },
   schema: {
     type: 'object',
@@ -159,6 +166,7 @@ export const applicantPhoneSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
+      applicantEmail: emailSchema,
     },
   },
 };

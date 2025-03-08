@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';

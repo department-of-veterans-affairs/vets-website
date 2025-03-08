@@ -86,7 +86,7 @@ describe('check-in', () => {
     );
     // get second va alert and check for status attribute of warning
     expect(component.getByTestId('check-in-failed-file-later')).to.contain.text(
-      'We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file within 30 days of the appointment.',
+      `We’re sorry. We can’t file a travel reimbursement claim for you now. But you can still file your claim online through the Beneficiary Travel Self Service System (BTSSS).Find out how to file for travel reimbursement`,
     );
   });
   it('renders the correct error on check-in-post-error with no to travel', () => {
@@ -138,7 +138,7 @@ describe('check-in', () => {
     );
     // get second va alert and check for status attribute of warning
     expect(component.getByTestId('check-in-failed-cant-file')).to.contain.text(
-      'We’re sorry. We can’t file this type of travel reimbursement claim for you now. But you can still file within 30 days of the appointment.Find out how to file for travel reimbursement',
+      'We’re sorry. We can’t file this type of travel reimbursement claim for you now. But you can still file through the Beneficiary Travel Self Service System (BTSSS).Find out how to file for travel reimbursement',
     );
   });
 });

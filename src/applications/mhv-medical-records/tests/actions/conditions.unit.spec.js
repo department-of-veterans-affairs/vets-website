@@ -20,6 +20,9 @@ describe('Get conditions action', () => {
         Actions.Conditions.UPDATE_LIST_STATE,
       );
       expect(dispatch.secondCall.args[0].type).to.equal(
+        Actions.Refresh.CLEAR_INITIAL_FHIR_LOAD,
+      );
+      expect(dispatch.thirdCall.args[0].type).to.equal(
         Actions.Conditions.GET_LIST,
       );
     });

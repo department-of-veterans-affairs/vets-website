@@ -7,7 +7,6 @@ import { Actions } from '../../util/actionTypes';
 import paginatedSortedListApiResponse from '../fixtures/paginatedSortedListApiResponse.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import { categorizePrescriptions } from '../../util/helpers';
-import { sourcesToHide } from '../../util/constants';
 
 describe('Prescriptions reducer', () => {
   function reduce(action, state = initialState) {
@@ -47,12 +46,37 @@ describe('Prescriptions reducer', () => {
           return { ...rx.attributes };
         },
       ),
-      prescriptionsPagination: paginatedFilteredListApiResponse.meta.pagination,
+      filterCount: undefined,
+      prescriptionsFilteredPagination:
+        paginatedFilteredListApiResponse.meta.pagination,
       apiError: false,
     };
     const state = reduce({
       type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
       response: paginatedFilteredListApiResponse,
+    });
+    expect(state).to.deep.equal(rxState);
+  });
+
+  it('should change refillAlertList when GET_REFILL_ALERT_LIST action is passed', () => {
+    const refillAlertList = [
+      {
+        prescriptionId: 123456,
+        prescriptionName: 'Test name 1',
+      },
+      {
+        prescriptionId: 234567,
+        prescriptionName: 'Test name 2',
+      },
+    ];
+    const rxState = {
+      ...initialState,
+      refillAlertList,
+      apiError: false,
+    };
+    const state = reduce({
+      type: Actions.Prescriptions.GET_REFILL_ALERT_LIST,
+      response: refillAlertList,
     });
     expect(state).to.deep.equal(rxState);
   });
@@ -194,43 +218,5 @@ describe('Prescriptions reducer', () => {
       initialStateWithRxList,
     );
     expect(state.refillNotification).to.equal(undefined);
-  });
-
-  it('should hide unready refill statuses from prescriptionsList when GET_PAGINATED_FILTERED_LIST action is passed', () => {
-    const rxState = {
-      ...initialState,
-      prescriptionsFilteredList: paginatedSortedListApiResponse.data.map(rx => {
-        return { ...rx.attributes };
-      }),
-      prescriptionsPagination: paginatedSortedListApiResponse.meta.pagination,
-      apiError: false,
-    };
-
-    // inject prescription source meant to be hidden
-    const response = { ...paginatedSortedListApiResponse };
-    response.data.push({
-      attributes: {
-        prescriptionSource: sourcesToHide[0],
-      },
-    });
-    const state1 = reduce({
-      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
-      response,
-    });
-    // state should NOT change
-    expect(state1).to.deep.equal(rxState);
-
-    // inject RX prescription source
-    response.data.push({
-      attributes: {
-        prescriptionSource: 'RX',
-      },
-    });
-    const state2 = reduce({
-      type: Actions.Prescriptions.GET_PAGINATED_FILTERED_LIST,
-      response,
-    });
-    // state should change
-    expect(state2).not.to.deep.equal(rxState);
   });
 });

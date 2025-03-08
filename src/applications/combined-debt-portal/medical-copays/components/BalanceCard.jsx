@@ -12,12 +12,9 @@ import {
 
 const CurrentContent = ({ id, date }) => (
   <p className="vads-u-margin--0">
-    Your balance was updated on {formatDate(date)}. Pay your full balance or
-    request financial help before
-    <strong className="vads-u-margin-left--0p5" data-testid={`due-date-${id}`}>
-      {calcDueDate(date, 30)}
-    </strong>
-    , to avoid late charges, interest, or collection actions.
+    Your balance was updated on {formatDate(date)}. Pay your balance now or
+    request help by{' '}
+    <strong data-testid={`due-date-${id}`}>{calcDueDate(date, 30)}</strong>.
   </p>
 );
 
@@ -28,15 +25,13 @@ CurrentContent.propTypes = {
 
 const PastDueContent = ({ id, date, amount }) => (
   <p className="vads-u-margin--0">
-    Your balance on
-    <strong data-testid={`due-date-${id}`} className="vads-u-margin-x--0p5">
-      {formatDate(date)}
-    </strong>
-    was {currency(amount)}. If you haven’t either paid your full balance or
-    requested financial help, contact the VA Health Resource Center at{' '}
-    <va-telephone contact="8664001238" /> (
+    Your balance on{' '}
+    <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong> was{' '}
+    {currency(amount)}. If you haven’t paid your balance in full or requested
+    financial help, contact the VA Health Resource Center at{' '}
+    <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
     <va-telephone tty contact={CONTACTS[711]} />
-    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+    ).
   </p>
 );
 
@@ -59,22 +54,23 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       data-testid={`balance-card-${id}`}
     >
       <h3
+        data-testid={`facility-city-${id}`}
         className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+      >
+        {facility} - {city}
+      </h3>
+      <p
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h4 vads-u-font-family--serif"
         data-testid={`amount-${id}`}
       >
-        {currency(amount)}
-        <span
-          data-testid={`facility-city-${id}`}
-          className="vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-display--block vads-u-font-size--h4 vads-u-font-weight--normal"
-        >
-          Copay balance for {facility} - {city}
-        </span>
-      </h3>
+        <span className="vads-u-font-weight--normal">Current balance: </span>
+        <strong>{currency(amount)}</strong>
+      </p>
       <div className="vads-u-display--flex vads-u-margin-top--0  vads-u-margin-bottom--1p5">
         <va-icon
           icon="warning"
           size={3}
-          srtext="Alert"
+          srtext="Important"
           class="icon-color--warning vads-u-padding-right--1"
         />
 
@@ -94,7 +90,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         }}
       >
         {linkText}
-        <va-icon icon="navigate_next" size={3} />
+        <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
       </Link>
     </va-card>
   );

@@ -3,7 +3,6 @@ import serviceHistory from '@@profile/tests/fixtures/service-history-success.jso
 import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import manifest from 'applications/personalization/dashboard/manifest.json';
-import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import paymentHistory from '../fixtures/test-empty-payments-response.json';
 
 describe('The My VA Dashboard', () => {
@@ -113,7 +112,7 @@ describe('The My VA Dashboard', () => {
       lastUpdated: 1604951152,
     },
     {
-      form: '21P-530V2',
+      form: '21P-530EZ',
       metadata: {
         version: 0,
         returnUrl: '/#',
@@ -126,135 +125,62 @@ describe('The My VA Dashboard', () => {
     },
   ];
 
-  context('when myVaFormSubmissionStatuses feature toggle is on', () => {
+  beforeEach(() => {
+    cy.intercept('/v0/profile/service_history', serviceHistory);
+    cy.intercept('/v0/profile/full_name', fullName);
+    cy.intercept(
+      '/v0/disability_compensation_form/rating_info',
+      disabilityRating,
+    );
+    cy.intercept('/v0/profile/payment_history', paymentHistory);
+    cy.intercept('GET', '/v0/feature_toggles*', { data: { features: [] } });
+  });
+
+  describe('there are draft forms', () => {
     beforeEach(() => {
-      cy.intercept('/v0/profile/service_history', serviceHistory);
-      cy.intercept('/v0/profile/full_name', fullName);
-      cy.intercept(
-        '/v0/disability_compensation_form/rating_info',
-        disabilityRating,
+      mockUser.data.attributes.inProgressForms = savedForms;
+      cy.login(mockUser);
+      cy.visit(manifest.rootUrl);
+    });
+
+    it('should show benefit applications that were saved in progress and have not expired', () => {
+      cy.findByRole('heading', {
+        name: /benefit applications and forms/i,
+      }).should('exist');
+      cy.findAllByTestId('application-in-progress').should('have.length', 5);
+      cy.findByText(/you have no benefit application drafts to show/i).should(
+        'not.exist',
       );
-      cy.intercept('/v0/profile/payment_history', paymentHistory);
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          features: [
-            {
-              name: featureFlagNames.myVaFormSubmissionStatuses,
-              value: true,
-            },
-          ],
-        },
-      });
+      cy.injectAxe();
+      cy.axeCheck();
     });
 
-    describe('there are draft forms', () => {
-      beforeEach(() => {
-        mockUser.data.attributes.inProgressForms = savedForms;
-        cy.login(mockUser);
-        cy.visit(manifest.rootUrl);
-      });
-
-      it('should show benefit applications that were saved in progress and have not expired', () => {
-        cy.findByRole('heading', {
-          name: /benefit applications and forms/i,
-        }).should('exist');
-        cy.findAllByTestId('application-in-progress').should('have.length', 5);
-        cy.findByText(/you have no benefit application drafts to show/i).should(
-          'not.exist',
-        );
-        cy.injectAxe();
-        cy.axeCheck();
-      });
-
-      it('should show in-progress 26-1880, 28-8832, and 21P-530V2 forms', () => {
-        cy.findByText(/26-1880/i).should('exist');
-        cy.findByText(/28-8832/i).should('exist');
-        cy.findByText(/21P-530EZ/i).should('exist');
-        cy.injectAxe();
-        cy.axeCheck();
-      });
-    });
-
-    describe('when there are no draft forms', () => {
-      beforeEach(() => {
-        mockUser.data.attributes.inProgressForms = [];
-        cy.login(mockUser);
-        cy.visit(manifest.rootUrl);
-      });
-      it('should show fallback content when there are no benefit applications saved in progress', () => {
-        cy.findByRole('heading', {
-          name: /benefit applications and forms/i,
-        }).should('exist');
-        cy.findAllByTestId('application-in-progress').should('have.length', 0);
-        cy.findByText(
-          /you have no benefit applications or forms to show/i,
-        ).should('exist');
-        cy.injectAxe();
-        cy.axeCheck();
-      });
-      // TODO: add task to properly handle in-progress forms that have expired
+    it('should show in-progress 26-1880, 28-8832, and 21P-530EZ forms', () => {
+      cy.findByText(/26-1880/i).should('exist');
+      cy.findByText(/28-8832/i).should('exist');
+      cy.findByText(/21P-530EZ/i).should('exist');
+      cy.injectAxe();
+      cy.axeCheck();
     });
   });
 
-  context('when myVaFormSubmissionStatuses feature toggle is off', () => {
+  describe('when there are no draft forms', () => {
     beforeEach(() => {
-      cy.intercept('/v0/profile/service_history', serviceHistory);
-      cy.intercept('/v0/profile/full_name', fullName);
-      cy.intercept(
-        '/v0/disability_compensation_form/rating_info',
-        disabilityRating,
-      );
-      cy.intercept('/v0/profile/payment_history', paymentHistory);
-      cy.intercept('GET', '/v0/feature_toggles*', {
-        data: {
-          features: [
-            {
-              name: featureFlagNames.myVaFormSubmissionStatuses,
-              value: false,
-            },
-          ],
-        },
-      });
+      mockUser.data.attributes.inProgressForms = [];
+      cy.login(mockUser);
+      cy.visit(manifest.rootUrl);
     });
-
-    describe('when there are in-progress forms', () => {
-      beforeEach(() => {
-        // four forms, but one will fail the `isSIPEnabledForm()` check so only
-        // three will be shown on the dashboard
-        mockUser.data.attributes.inProgressForms = savedForms;
-        cy.login(mockUser);
-        cy.visit(manifest.rootUrl);
-      });
-      it('should show benefit applications that were saved in progress and have not expired', () => {
-        cy.findByRole('heading', {
-          name: /benefit application drafts/i,
-        }).should('exist');
-        cy.findAllByTestId('application-in-progress').should('have.length', 5);
-        cy.findByText(/you have no benefit application drafts to show/i).should(
-          'not.exist',
-        );
-        cy.injectAxe();
-        cy.axeCheck();
-      });
+    it('should show fallback content when there are no benefit applications saved in progress', () => {
+      cy.findByRole('heading', {
+        name: /benefit applications and forms/i,
+      }).should('exist');
+      cy.findAllByTestId('application-in-progress').should('have.length', 0);
+      cy.findByText(
+        /you have no benefit applications or forms to show/i,
+      ).should('exist');
+      cy.injectAxe();
+      cy.axeCheck();
     });
-
-    describe('when there are no in-progress forms', () => {
-      beforeEach(() => {
-        mockUser.data.attributes.inProgressForms = [];
-        cy.login(mockUser);
-        cy.visit(manifest.rootUrl);
-      });
-      it('should show fallback content when there are no benefit applications saved in progress', () => {
-        cy.findByRole('heading', {
-          name: /benefit application drafts/i,
-        }).should('exist');
-        cy.findAllByTestId('application-in-progress').should('have.length', 0);
-        cy.findByText(
-          /you have no benefit applications or forms to show/i,
-        ).should('exist');
-        cy.injectAxe();
-        cy.axeCheck();
-      });
-    });
+    // TODO: add task to properly handle in-progress forms that have expired
   });
 });

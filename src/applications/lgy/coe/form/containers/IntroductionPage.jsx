@@ -26,7 +26,7 @@ const IntroductionPage = ({
   const pathname = location.basename;
 
   useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
+    focusElement('va-breadcrumbs');
   });
   // Set the content to be the loading indicator
   content = <va-loading-indicator message="Loading your application..." />;

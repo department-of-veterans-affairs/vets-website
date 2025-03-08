@@ -1,4 +1,3 @@
-import { focusElement } from 'platform/utilities/ui';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 
@@ -16,9 +15,11 @@ const SearchControls = props => {
     geoCodeError,
     searchTitle,
     searchHint,
+    hasSearchInput,
   } = props;
 
   const [queryState, setQueryState] = useState(searchQuery);
+  const [inputError, setInputError] = useState(false);
   const onlySpaces = str => /^\s+$/.test(str);
   const dispatch = useDispatch();
 
@@ -31,13 +32,25 @@ const SearchControls = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(setLocationInput(queryState));
-    onSubmit(queryState);
+    if (queryState) {
+      dispatch(setLocationInput(queryState));
+      onSubmit(queryState);
+      setInputError(false);
+    } else {
+      setInputError(true);
+    }
   };
 
   const handleGeolocationButtonClick = async e => {
     e.preventDefault();
     dispatch(geoLocateUser());
+  };
+
+  const handleKeyDown = e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSubmit(e);
+    }
   };
 
   useEffect(
@@ -54,11 +67,6 @@ const SearchControls = props => {
     },
     [userLocation],
   );
-
-  const handleClearInput = () => {
-    setQueryState('');
-    focusElement('#street-city-state-zip');
-  };
 
   const renderLocationInputField = () => {
     return (
@@ -90,10 +98,10 @@ const SearchControls = props => {
             </button>
           )}
         </div>
-        {geoCodeError && (
+        {(geoCodeError || hasSearchInput || inputError) && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
-            Please fill in a city or postal code.
+            Please fill in a city or facility name.
           </span>
         )}
         {searchHint && <p className="search-hint-text">{searchHint}</p>}
@@ -104,32 +112,16 @@ const SearchControls = props => {
             name="street-city-state-zip"
             type="search"
             onChange={handleQueryChange}
+            onKeyDown={handleKeyDown}
             value={queryState}
             title="Your location: Street, City, State or Postal code"
           />
-          {queryState?.length > 0 && (
-            <button
-              aria-label="Clear your city, state or postal code"
-              type="button"
-              id="clear-input"
-              className="clear-button"
-              onClick={handleClearInput}
-            >
-              <va-icon
-                icon="cancel"
-                size={2}
-                id="clear-input"
-                onClick={handleClearInput}
-              />
-            </button>
-          )}
-          <input
-            id="facility-search"
-            className="usa-button"
-            onClick={handleSubmit}
-            type="submit"
-            value="Search"
-          />
+          <button type="button" id="facility-search" onClick={handleSubmit}>
+            <span className="button-text">Search</span>
+            <span className="button-icon">
+              <va-icon icon="search" size={3} />
+            </span>
+          </button>
         </div>
       </div>
     );

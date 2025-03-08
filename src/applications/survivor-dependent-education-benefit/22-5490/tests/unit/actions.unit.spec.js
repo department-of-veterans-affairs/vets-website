@@ -1,6 +1,8 @@
 import { expect } from 'chai';
+import * as api from 'platform/utilities/api';
 import sinon from 'sinon';
 import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import * as actions from '../../actions';
 import {
   ACKNOWLEDGE_DUPLICATE,
   FETCH_PERSONAL_INFORMATION,
@@ -58,6 +60,16 @@ describe('Duplicate Contact Info action', () => {
   });
 });
 describe('Claim Status action', () => {
+  let sandbox;
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   const selectedChapter = 'Chapter35';
   it('should dispatch a fetch claim status action', () => {
     const mockData = {
@@ -74,7 +86,18 @@ describe('Claim Status action', () => {
       expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CLAIM_STATUS);
     });
   });
-  xit('should handle polling timeout', () => {
+
+  it('should handle fetch claim status eror', () => {
+    sandbox.stub(api, 'apiRequest').rejects(new Error('Network Error'));
+    const dispatch = sinon.spy();
+
+    return fetchClaimStatus(selectedChapter)(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CLAIM_STATUS);
+    });
+  });
+
+  xit('should handle polling timeout', function() {
+    this.timeout(5000);
     const mockData = {
       data: {
         attributes: {
@@ -83,11 +106,20 @@ describe('Claim Status action', () => {
         },
       },
     };
-    mockApiRequest(mockData);
+    sandbox.stub(api, 'apiRequest').resolves(mockData);
     const dispatch = sinon.spy();
-    return fetchClaimStatus(selectedChapter)(dispatch).then(() => {
-      expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CLAIM_STATUS);
-    });
+    const pastTime = new Date(Date.now() - 1000);
+    sandbox.stub(actions, 'ONE_MINUTE_IN_THE_FUTURE').returns(pastTime);
+
+    return actions
+      .fetchClaimStatus(selectedChapter)(dispatch)
+      .then(() => {
+        expect(dispatch.firstCall.args[0].type).to.equal(FETCH_CLAIM_STATUS);
+        const successAction = dispatch.getCall(1).args[0];
+        expect(successAction.type).equal(actions.FETCH_CLAIM_STATUS_SUCCESS);
+
+        actions.ONE_MINUTE_IN_THE_FUTURE.restore();
+      });
   });
 });
 describe('Update Global Email action', () => {

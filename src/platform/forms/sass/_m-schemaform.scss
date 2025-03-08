@@ -187,7 +187,6 @@ label {
 }
 
 .schemaform-chapter-progress {
-  padding-left: 1.25rem;
   padding-right: 1.25rem;
   margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
@@ -641,11 +640,11 @@ va-accordion-item[data-unviewed-pages="true"] {
 }
 
 .schemaform-confirmation-section-header {
-  font-size: $h3-font-size;
+  font-size: $font-size-h3;
 }
 
 .schemaform-confirmation-claim-header {
-  font-size: $h4-font-size;
+  font-size: $font-size-h4;
   margin-top: 1em;
 }
 
@@ -747,10 +746,10 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   }
 }
 
-@include header-style("rjsf-wc-header--h1", $h1-font-size, $h2-font-size);
-@include header-style("rjsf-wc-header--h2", $h2-font-size, $h3-font-size);
-@include header-style("rjsf-wc-header--h3", $h3-font-size, $h4-font-size);
-@include header-style("rjsf-wc-header--h4", $h4-font-size, $h5-font-size);
+@include header-style("rjsf-wc-header--h1", $font-size-h1, $font-size-h2);
+@include header-style("rjsf-wc-header--h2", $font-size-h2, $font-size-h3);
+@include header-style("rjsf-wc-header--h3", $font-size-h3, $font-size-h4);
+@include header-style("rjsf-wc-header--h4", $font-size-h4, $font-size-h5);
 
 /* Edit contact info save button */
 .va-profile-wrapper button[data-action="save-edit"] {

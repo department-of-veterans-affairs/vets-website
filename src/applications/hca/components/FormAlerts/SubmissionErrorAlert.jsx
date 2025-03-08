@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
+import { Toggler } from '~/platform/utilities/feature-toggles';
+import { CONTACTS } from '../../utils/imports';
+import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
 const SubmissionErrorAlert = () => {
   useEffect(() => {
@@ -42,6 +44,13 @@ const SubmissionErrorAlert = () => {
               text="Learn more about how to apply by phone, mail, or in person"
             />
           </p>
+          <Toggler toggleName={Toggler.TOGGLE_NAMES.hcaDownloadCompletedPdf}>
+            <Toggler.Enabled>
+              <div className="hca-application--download">
+                <ApplicationDownloadLink />
+              </div>
+            </Toggler.Enabled>
+          </Toggler>
         </div>
       </va-alert>
     </div>

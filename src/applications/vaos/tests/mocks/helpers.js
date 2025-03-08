@@ -70,7 +70,7 @@ export function mockVAOSAppointmentsFetch({
   const baseUrl = `${
     environment.API_URL
   }/vaos/v2/appointments?_include=facilities,clinics${avs ? ',avs' : ''}${
-    fetchClaimStatus ? ',claims' : ''
+    fetchClaimStatus ? ',travel_pay_claims' : ''
   }&start=${start}&end=${end}&${statuses
     .map(status => `statuses[]=${status}`)
     .join('&')}`;
@@ -313,7 +313,7 @@ export function mockAppointmentApi({
   const baseUrl = `${environment.API_URL}/vaos/v2/appointments/${
     data.id
   }?_include=facilities,clinics${avs ? ',avs' : ''}${
-    fetchClaimStatus ? ',claims' : ''
+    fetchClaimStatus ? ',travel_pay_claims' : ''
   }`;
 
   if (responseCode === 200) {
@@ -414,7 +414,7 @@ export function mockGetPendingAppointmentsApi({
   responseCode = 200,
 }) {
   const end = moment()
-    .add(1, 'day')
+    .add(2, 'day')
     .format('YYYY-MM-DD');
   const start = moment()
     .subtract(120, 'days')

@@ -1,11 +1,19 @@
 // eslint-disable-next-line import/no-unresolved
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
+import {
+  selectIsCernerOnlyPatient,
+  selectPatientFacilities,
+} from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
-import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectCernerFacilityIds,
   selectEhrDataByVhaId,
 } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
+import { createSelector } from 'reselect';
+import {
+  isPendingOrCancelledRequest,
+  sortByCreatedDateDescending,
+} from '../services/appointment';
 import { getRealFacilityId } from '../utils/appointment';
 
 export const selectRegisteredCernerFacilityIds = state => {
@@ -65,9 +73,6 @@ export const selectFeatureVAOSServiceVAAppointments = state =>
 export const selectFeatureVAOSServiceCCAppointments = state =>
   toggleValues(state).vaOnlineSchedulingVAOSServiceCCAppointments;
 
-export const selectFeatureFacilitiesServiceV2 = state =>
-  toggleValues(state).vaOnlineSchedulingFacilitiesServiceV2;
-
 export const selectFeatureVaosV2Next = state =>
   toggleValues(state).vaOnlineSchedulingVAOSV2Next;
 
@@ -85,12 +90,6 @@ export const selectFeatureBreadcrumbUrlUpdate = state =>
 
 export const selectFeatureStaticLandingPage = state =>
   toggleValues(state).vaOnlineSchedulingStaticLandingPage;
-
-export const selectFeatureAfterVisitSummary = state =>
-  toggleValues(state).vaOnlineSchedulingAfterVisitSummary;
-
-export const selectFeatureStartSchedulingLink = state =>
-  toggleValues(state).vaOnlineSchedulingStartSchedulingLink;
 
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
@@ -115,5 +114,41 @@ export const selectFeatureOHRequest = state =>
 export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
+export const selectFeatureUseVaDate = state =>
+  toggleValues(state).vaosOnlineSchedulingUseVADate;
+
+export const selectFeaturePastApptDateRange = state =>
+  toggleValues(state).vaOnlineSchedulingPastApptDateRange;
+
+export const selectFeatureFeSourceOfTruth = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
+
+export const selectFeatureMhvRouteGuards = state =>
+  toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
+
+export const selectFeatureDirectScheduleAppointmentConflict = state =>
+  toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
+
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;
+
+export const selectFeatureTravelPaySubmitMileageExpense = state =>
+  toggleValues(state).travelPaySubmitMileageExpense;
+
+export const selectPendingAppointments = createSelector(
+  state => state.appointments.pending,
+  pending =>
+    pending
+      ?.filter(isPendingOrCancelledRequest)
+      .sort(sortByCreatedDateDescending) || null,
+);
+
+export function getRequestedAppointmentListInfo(state) {
+  return {
+    facilityData: state.appointments.facilityData,
+    pendingStatus: state.appointments.pendingStatus,
+    pendingAppointments: selectPendingAppointments(state),
+    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
+    showScheduleButton: selectFeatureRequests(state),
+  };
+}

@@ -1,6 +1,7 @@
+import { add, format } from 'date-fns';
+import { omit } from 'lodash';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { add, format } from 'date-fns';
 import {
   validateServiceDates,
   validateDependentDate,
@@ -8,6 +9,8 @@ import {
   validateExposureDates,
   validateCurrency,
   validatePolicyNumber,
+  validateInsurancePolicy,
+  validateVeteranDob,
 } from '../../../utils/validation';
 
 describe('hca `validateServiceDates` form validation', () => {
@@ -307,5 +310,67 @@ describe('hca `validatePolicyNumber` form validation', () => {
     validatePolicyNumber(errors, fieldData);
     expect(policySpy.called).to.be.true;
     expect(groupSpy.called).to.be.true;
+  });
+});
+
+describe('hca `validateInsurancePolicy` method', () => {
+  const defaultItem = {
+    insuranceName: 'Cigna',
+    insurancePolicyHolderName: 'John Smith',
+    'view:policyNumberOrGroupCode': {},
+  };
+
+  it('should gracefully return when props are omitted', () => {
+    expect(validateInsurancePolicy()).to.be.true;
+  });
+
+  it('should return `true` when `insuranceName` is omitted', () => {
+    const item = omit('insuranceName', defaultItem);
+    expect(validateInsurancePolicy(item)).to.be.true;
+  });
+
+  it('should return `true` when `insurancePolicyHolderName` is omitted', () => {
+    const item = omit('insurancePolicyHolderName', defaultItem);
+    expect(validateInsurancePolicy(item)).to.be.true;
+  });
+
+  it('should return `true` when `view:policyNumberOrGroupCode` is omitted', () => {
+    const item = omit('view:policyNumberOrGroupCode', defaultItem);
+    expect(validateInsurancePolicy(item)).to.be.true;
+  });
+
+  it('should return `true` when `insurancePolicyNumber` & `insuranceGroupCode` are omitted', () => {
+    expect(validateInsurancePolicy(defaultItem)).to.be.true;
+  });
+
+  it('should return `false` when all correct data is provided', () => {
+    const item = {
+      ...defaultItem,
+      'view:policyNumberOrGroupCode': { insurancePolicyNumber: '12345' },
+    };
+    expect(validateInsurancePolicy(item)).to.be.false;
+  });
+});
+
+describe('hca `validateVeteranDob` method', () => {
+  it('should return `null` when a value is omitted from the function', () => {
+    expect(validateVeteranDob()).to.eq(null);
+  });
+
+  it('should return `null` when an empty value is passed to the function', () => {
+    expect(validateVeteranDob('')).to.eq(null);
+  });
+
+  it('should return `null` when an invalid value is passed to the function', () => {
+    expect(validateVeteranDob('1990-01-00')).to.eq(null);
+  });
+
+  it('should return `null` when the value is passed to the function is pre-1900', () => {
+    expect(validateVeteranDob('1890-01-01')).to.eq(null);
+  });
+
+  it('should return the value when the value is after 1899-12-31', () => {
+    const validDate = '1990-01-01';
+    expect(validateVeteranDob(validDate)).to.eq(validDate);
   });
 });

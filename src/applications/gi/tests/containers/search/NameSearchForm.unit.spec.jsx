@@ -46,7 +46,7 @@ describe('<NameSearchForm>', () => {
       },
     );
 
-    const btn = screen.getByRole('button', { name: 'Search' });
+    const btn = screen.getByTestId('search-btn');
     expect(btn).to.exist;
   });
   it('dispatches the correct actions on search', async () => {
@@ -74,7 +74,7 @@ describe('<NameSearchForm>', () => {
       'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
-    const btn = screen.getByRole('button', { name: 'Search' });
+    const btn = screen.getByTestId('search-btn');
     userEvent.click(btn);
     await waitFor(() => {
       expect(dispatchFetchSearchByNameResultsSpy.called).to.be.false;
@@ -111,7 +111,7 @@ describe('<NameSearchForm>', () => {
     );
     const input = screen.getByRole('combobox');
     userEvent.type(input, '');
-    const submitButton = screen.getByRole('button', { name: 'Search' });
+    const submitButton = screen.getByTestId('search-btn');
     userEvent.click(submitButton);
     await waitFor(() => {
       expect(validateSearchTermSubmitSpy.calledWith('')).to.be.false;
@@ -152,7 +152,7 @@ describe('<NameSearchForm>', () => {
       'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
-    const submitButton = screen.getByRole('button', { name: 'Search' });
+    const submitButton = screen.getByTestId('search-btn');
     await waitFor(() => {
       userEvent.click(submitButton);
     });
@@ -350,7 +350,7 @@ describe('<NameSearchForm>', () => {
         userEvent.click(checkbox);
       }
       if (clearFilterbtn) {
-        const clearFilter = getByRole('button', { name: clearFilterbtn });
+        const clearFilter = getByTestId('clear-button');
         expect(clearFilter).to.exist;
         userEvent.click(clearFilter);
       }
@@ -361,7 +361,7 @@ describe('<NameSearchForm>', () => {
       }
       const searchInput = getByRole('combobox');
       userEvent.type(searchInput, value);
-      const searchButton = getByRole('button', { name: 'Search' });
+      const searchButton = getByTestId('search-btn');
       userEvent.click(searchButton);
       const newValue = value.replace(' ', '%20');
       const expectedBaseUrl =

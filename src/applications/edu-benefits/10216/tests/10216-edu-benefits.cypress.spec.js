@@ -2,41 +2,43 @@ import path from 'path';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import mockSubmit from './fixtures/data/mocks/application-submit.json';
 
 import formConfig from '../config/form';
-import manifest from '../manifest.json';
+
+const mockManifest = {
+  appName: '35% exemption of the routine reporting',
+  entryFile: './app-entry.jsx',
+  entryName: '10216-edu-benefits',
+  productId: 'db0db964-89ef-4e80-a469-499b7db330cd',
+  rootUrl:
+    '/education/apply-for-education-benefits/application/10216/institution-details/',
+};
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataDir: path.join(__dirname, 'data'),
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
 
-    // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['maximal-test.json'],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
-            .last()
+          cy.get('a.va-link--primary')
+            .first()
             .click();
         });
       },
     },
 
     setupPerTest: () => {
-      // Log in if the form requires an authenticated session.
-      // cy.login();
-
-      cy.route('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
-
-    // Skip tests in CI until the form is released.
-    // Remove this setting when the form has a content page in production.
     skip: Cypress.env('CI'),
   },
-  manifest,
+  mockManifest,
   formConfig,
 );
 

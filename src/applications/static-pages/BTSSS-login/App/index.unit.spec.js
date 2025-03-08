@@ -1,25 +1,39 @@
-// Dependencies.
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { fireEvent, cleanup } from '@testing-library/react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 
-// Relative imports.
-import { App } from '.';
-import AuthContext from '../AuthContext';
-import UnauthContext from '../UnauthContext';
+import BTSSSApp from '.';
 
 describe('BTSSS Widget', () => {
-  it('renders what we expect when unauthenticated', () => {
-    const wrapper = shallow(<App currentlyLoggedIn={false} />);
-    expect(wrapper.find(UnauthContext)).to.have.lengthOf(1);
-    expect(wrapper.find(AuthContext)).to.have.lengthOf(0);
-    wrapper.unmount();
+  afterEach(cleanup);
+
+  it('renders va-alert-sign-in for unauthenticated user', () => {
+    const { container } = renderInReduxProvider(<BTSSSApp />, {
+      initialState: {
+        user: { login: { currentLoggedIn: false } },
+      },
+    });
+    expect(container.querySelector('va-alert-sign-in')).to.exist;
+  });
+
+  it('opens sign-in modal when Sign in button is clicked', () => {
+    const { container } = renderInReduxProvider(<BTSSSApp />, {
+      initialState: {
+        user: { login: { currentlyLoggedIn: false } },
+      },
+    });
+    const signInButton = container.querySelector('va-button');
+    fireEvent.click(signInButton);
+    expect(container.querySelector('va-button')).to.exist;
   });
 
   it('renders what we expect when authenticated', () => {
-    const wrapper = shallow(<App currentlyLoggedIn />);
-    expect(wrapper.find(UnauthContext)).to.have.lengthOf(0);
-    expect(wrapper.find(AuthContext)).to.have.lengthOf(1);
-    wrapper.unmount();
+    const { container } = renderInReduxProvider(<BTSSSApp />, {
+      initialState: {
+        user: { login: { currentlyLoggedIn: true } },
+      },
+    });
+    expect(container.querySelector('va-alert-sign-in')).to.not.exist;
   });
 });

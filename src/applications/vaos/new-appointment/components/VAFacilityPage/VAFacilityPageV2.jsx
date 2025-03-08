@@ -7,7 +7,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getFacilityPageV2Info } from '../../redux/selectors';
 import { FETCH_STATUS } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
-import ErrorMessage from '../../../components/ErrorMessage';
+import InfoAlert from '../../../components/InfoAlert';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
 import FormButtons from '../../../components/FormButtons';
 import NoValidVAFacilities from './NoValidVAFacilitiesV2';
@@ -125,13 +125,28 @@ export default function VAFacilityPageV2() {
     [requestingLocation, requestLocationStatus, sortFocusEl],
   );
 
-  const pageHeader = <h1 className="vads-u-font-size--h2">{pageTitle}</h1>;
+  const pageHeader = (
+    <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+  );
 
   if (hasDataFetchingError) {
     return (
       <div>
         {pageHeader}
-        <ErrorMessage level="2" />
+        <InfoAlert
+          status="error"
+          level={2}
+          headline="You can't schedule an appointment online right now"
+        >
+          <p>
+            We're sorry. There's a problem with our system. Try again later.
+          </p>
+          <p>
+            If you need to schedule now, call your VA facility.
+            <br />
+            <a href="/find-locations">Find your VA health facility</a>
+          </p>
+        </InfoAlert>
       </div>
     );
   }
@@ -169,6 +184,7 @@ export default function VAFacilityPageV2() {
             disabled
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
+            displayNextButton={false}
           />
         </div>
       </div>
@@ -193,6 +209,7 @@ export default function VAFacilityPageV2() {
             disabled
             pageChangeInProgress={pageChangeInProgress}
             loadingText="Page change in progress"
+            displayNextButton={false}
           />
         </div>
       </div>

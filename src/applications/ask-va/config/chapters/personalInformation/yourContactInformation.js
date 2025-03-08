@@ -1,8 +1,6 @@
 import { mapValues } from 'lodash';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
-  checkboxGroupSchema,
-  checkboxGroupUI,
   emailSchema,
   emailUI,
   phoneSchema,
@@ -11,7 +9,7 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PrefillAlertAndTitle from '../../../components/PrefillAlertAndTitle';
-import { CHAPTER_3, contactOptions, pronounLabels } from '../../../constants';
+import { CHAPTER_3, contactOptions } from '../../../constants';
 import { getContactMethods, isEqualToOnlyEmail } from '../../helpers';
 
 export const createBooleanSchemaPropertiesFromOptions = obj =>
@@ -34,14 +32,14 @@ const yourContactInformationPage = {
     businessPhone: phoneUI('Phone number'),
     businessEmail: emailUI('Email address'),
     contactPreference: radioUI({
-      title: CHAPTER_3.CONTACT_PREF.QUESTION_2,
+      title: CHAPTER_3.CONTACT_PREF.QUESTION_2.QUESTION,
       labels: {
         PHONE: 'Phone call',
         EMAIL: 'Email',
         US_MAIL: 'U.S. mail',
       },
       errorMessages: {
-        required: 'Please select your contact preference',
+        required: CHAPTER_3.CONTACT_PREF.QUESTION_2.ERROR,
       },
     }),
     preferredName: {
@@ -55,22 +53,22 @@ const yourContactInformationPage = {
         hint: CHAPTER_3.CONTACT_PREF.QUESTION_1.HINT,
       },
     },
-    pronouns: {
-      ...checkboxGroupUI({
-        title: 'Pronouns',
-        hint:
-          'Share this information if you’d like to help us understand the best way to address you.',
-        required: false,
-        description: 'Select all of your pronouns',
-        labelHeaderLevel: '4',
-        labels: pronounLabels,
-      }),
-    },
-    pronounsNotListedText: {
-      'ui:title':
-        "If your pronouns aren't listed, you can write them here (255 characters maximum)",
-      'ui:webComponentField': VaTextInputField,
-    },
+    // pronouns: {
+    //   ...checkboxGroupUI({
+    //     title: 'Pronouns',
+    //     hint:
+    //       'Share this information if you’d like to help us understand the best way to address you.',
+    //     required: false,
+    //     description: 'Select all of your pronouns',
+    //     labelHeaderLevel: '4',
+    //     labels: pronounLabels,
+    //   }),
+    // },
+    // pronounsNotListedText: {
+    //   'ui:title':
+    //     "If your pronouns aren't listed, you can write them here (255 characters maximum)",
+    //   'ui:webComponentField': VaTextInputField,
+    // },
     'ui:options': {
       updateSchema: (formData, formSchema) => {
         const updatedCategoryTopicContactPreferences = getContactMethods(
@@ -94,13 +92,12 @@ const yourContactInformationPage = {
                 minLength: 1,
                 maxLength: 25,
               },
-              pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
-              pronounsNotListedText: {
-                type: 'string',
-                pattern: '^[A-Za-z]+$',
-                minLength: 1,
-                maxLength: 255,
-              },
+              // pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
+              // pronounsNotListedText: {
+              //   type: 'string',
+              //   minLength: 1,
+              //   maxLength: 255,
+              // },
             },
           };
         }
@@ -117,13 +114,12 @@ const yourContactInformationPage = {
                 minLength: 1,
                 maxLength: 25,
               },
-              pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
-              pronounsNotListedText: {
-                type: 'string',
-                pattern: '^[A-Za-z]+$',
-                minLength: 1,
-                maxLength: 255,
-              },
+              // pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
+              // pronounsNotListedText: {
+              //   type: 'string',
+              //   minLength: 1,
+              //   maxLength: 255,
+              // },
             },
           };
         }
@@ -141,13 +137,12 @@ const yourContactInformationPage = {
               minLength: 1,
               maxLength: 25,
             },
-            pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
-            pronounsNotListedText: {
-              type: 'string',
-              pattern: '^[A-Za-z]+$',
-              minLength: 1,
-              maxLength: 255,
-            },
+            // pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
+            // pronounsNotListedText: {
+            //   type: 'string',
+            //   minLength: 1,
+            //   maxLength: 255,
+            // },
           },
           required: ['phoneNumber', 'emailAddress', 'contactPreference'],
         };
@@ -169,13 +164,12 @@ const yourContactInformationPage = {
         minLength: 1,
         maxLength: 25,
       },
-      pronouns: checkboxGroupSchema(Object.keys(pronounLabels)),
-      pronounsNotListedText: {
-        type: 'string',
-        pattern: '^[A-Za-z]+$',
-        minLength: 1,
-        maxLength: 255,
-      },
+      // pronouns: checkboxGroupSchema(Object.values(pronounLabels)),
+      // pronounsNotListedText: {
+      //   type: 'string',
+      //   minLength: 1,
+      //   maxLength: 255,
+      // },
     },
   },
 };

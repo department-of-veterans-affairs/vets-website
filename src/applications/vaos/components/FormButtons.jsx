@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProgressButton from '@department-of-veterans-affairs/platform-forms-system/ProgressButton';
-import LoadingButton from '@department-of-veterans-affairs/platform-site-wide/LoadingButton';
+import LoadingButton from './LoadingButton';
 
 export default function FormButtons({
   onBack,
@@ -12,6 +12,7 @@ export default function FormButtons({
   backBeforeText,
   backButtonText,
   nextButtonText,
+  displayNextButton = true,
 }) {
   return (
     <div className="vads-l-row form-progress-buttons schemaform-buttons">
@@ -23,19 +24,31 @@ export default function FormButtons({
           beforeText={typeof backBeforeText === 'string' ? backBeforeText : '«'}
         />
       </div>
-      <div className="vaos__form-button-next">
-        <LoadingButton
-          isLoading={pageChangeInProgress}
-          loadingText={loadingText}
-          type="submit"
-          onClick={onSubmit}
-          disabled={disabled}
-          className="usa-button usa-button-primary"
-          aria-label={nextButtonText || 'Continue'}
-        >
-          {nextButtonText || 'Continue »'}
-        </LoadingButton>
-      </div>
+      {displayNextButton && (
+        <div className="vaos__form-button-next">
+          <LoadingButton
+            isLoading={pageChangeInProgress}
+            loadingText={loadingText}
+            type="submit"
+            onClick={onSubmit}
+            disabled={disabled}
+            className="usa-button usa-button-primary"
+            aria-label={nextButtonText || 'Continue'}
+          >
+            {nextButtonText && { nextButtonText }}
+
+            {!nextButtonText && (
+              <>
+                Continue{' '}
+                <va-icon
+                  icon="navigate_far_next"
+                  class="vads-u-padding-left--1"
+                />
+              </>
+            )}
+          </LoadingButton>
+        </div>
+      )}
     </div>
   );
 }
@@ -45,6 +58,7 @@ FormButtons.propTypes = {
   backBeforeText: PropTypes.string,
   backButtonText: PropTypes.string,
   disabled: PropTypes.bool,
+  displayNextButton: PropTypes.bool,
   loadingText: PropTypes.string,
   nextButtonText: PropTypes.string,
   pageChangeInProgress: PropTypes.bool,

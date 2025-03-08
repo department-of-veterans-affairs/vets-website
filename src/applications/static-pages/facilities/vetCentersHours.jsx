@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatHours } from '../../facility-locator/utils/formatHours';
+import { formatHours } from './facilityUtilities';
 import CallVetCenterForHours from './CallVetCenterForHours';
 
 const VetCenterHours = props => {

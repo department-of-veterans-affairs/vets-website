@@ -1,126 +1,102 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-// Cypress does not like @ imports, so import with a path instead
-import recordEventFn from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
+import recordEventFn from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 
-export const notFoundHeading = 'Sorry — we can’t find that page';
-export const notFoundTitle = 'Page not found | Veterans Affairs';
+export const pageNotFoundHeading = 'Page not found';
+export const pageNotFoundTitle = 'Page not found | Veterans Affairs';
+export const pageNotFoundTestId = 'page-not-found';
+export const pageNotFoundEvent = 'nav-404-error';
 
+export const helpfulLinks = [
+  { href: '/find-locations', text: 'Find a VA Location' },
+  { href: '/find-forms', text: 'Find a VA form' },
+  { href: '/resources', text: 'Find benefit resourcecs and support' },
+  { href: '/outreach-and-events/events', text: 'Find an outreach event' },
+];
+
+/**
+ * PageNotFound component -- renders the 404 error page.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Function} [props.recordEvent=recordEventFn] - Function to record events, defaults to `recordEventFn`
+ *
+ * @example
+ * // routes.jsx -- react-router-dom -- declare <PageNotFound /> last within <Switch />
+ * import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * <Switch>
+ *   <Route exact path="/" key="App"><App/></Route>
+ *   <Route><PageNotFound /></Route>
+ * </Switch>
+ *
+ * @example
+ * // routes.jsx -- react-router-dom-v5-compat -- declare <PageNotFound /> last within <Routes />
+ * import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * <Routes>
+ *   <Route path="/" element={<App />} />
+ *   <Route path="*" element={<PageNotFound />} />
+ * </Routes>
+ *
+ * @example
+ * // in _.unit.spec.jsx files:
+ * import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * // render a 404 condition
+ * const { getByTestId } = render(<App />);
+ * getByTestId(pageNotFoundTestId);
+ * // or, with chai assertions
+ * const el = getByTestId(pageNotFoundTestId);
+ * expect(el).to.exist;
+ *
+ * @example
+ * // in _.cypress.spec.js e2e files:
+ * import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
+ * cy.visit('/nowhere');
+ * cy.findByTestId(pageNotFoundTestId);
+ */
 const PageNotFound = ({ recordEvent = recordEventFn } = {}) => {
-  useEffect(
-    () => {
-      recordEvent({
-        event: `nav-404-error`,
-      });
-    },
-    [recordEvent],
-  );
+  useEffect(() => recordEvent({ event: pageNotFoundEvent }), [recordEvent]);
 
   useEffect(() => {
-    document.title = notFoundTitle;
+    document.title = pageNotFoundTitle;
     focusElement('h1');
   }, []);
 
   return (
-    <>
-      <div className="main maintenance-page vads-u-padding-top--4" role="main">
-        <div className="primary">
-          <div className="row">
-            <div className="usa-content vads-u-text-align--center vads-u-margin-x--auto columns">
-              <h1 id="sorry--we-cant-find-that-page">{notFoundHeading}</h1>
-              <p>Try the search box or one of the common questions below.</p>
-              <div className="feature vads-u-display--flex vads-u-align-items--center">
-                <form
-                  acceptCharset="UTF-8"
-                  action="/search/"
-                  id="search_form"
-                  className="full-width search-form-bottom-margin"
-                  method="get"
-                >
-                  <div
-                    className="vads-u-display--flex vads-u-align-items--flex-start vads-u-justify-content--center"
-                    style={{ height: '3.5625rem' }}
-                  >
-                    <label htmlFor="mobile-query" className="sr-only">
-                      Search:
-                    </label>
-                    <input
-                      autoComplete="off"
-                      className="usagov-search-autocomplete full-width vads-u-height--full vads-u-margin--0 vads-u-max-width--100"
-                      id="mobile-query"
-                      name="query"
-                      type="text"
-                    />
-                    <input
-                      type="submit"
-                      value="Search"
-                      style={{ borderRadius: '0 3px 3px 0' }}
-                      className="vads-u-height--full vads-u-margin--0"
-                    />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row vads-u-padding-bottom--9">
-        <div className="small-12 usa-width-one-half medium-6 columns">
-          <h3
-            className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl"
-            id="common-questions"
-          >
-            Common Questions
-          </h3>
-          <ul className="va-list--plain vads-u-margin-top--1">
-            <li className="vads-u-padding-y--1">
-              <a href="/health-care/how-to-apply/">
-                How do I apply for health care?
-              </a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a href="/disability/how-to-file-claim/">
-                How do I file for disability benefits?
-              </a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a href="/education/how-to-apply/">
-                How do I apply for education benefits?
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div className="small-12 usa-width-one-half medium-6 columns">
-          <h3
-            className="va-h-ruled vads-u-margin-bottom--2 vads-u-padding-bottom--1 vads-u-font-size--xl"
-            id="popular-on-vagov"
-          >
-            Popular on VA.gov
-          </h3>
-          <ul className="va-list--plain vads-u-margin-top--1">
-            <li className="vads-u-padding-y--1">
-              <a href="/find-locations/">Find nearby VA locations</a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a href="/education/gi-bill-comparison-tool">
-                View education benefits available by school
-              </a>
-            </li>
-            <li className="vads-u-padding-y--1">
-              <a
-                target="_blank"
-                href="https://www.veteranscrisisline.net/"
-                rel="noopener noreferrer"
-                className="external no-external-icon"
-              >
-                Contact the Veterans Crisis Line
-              </a>
-            </li>
+    <div className="vads-l-grid-container medium-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
+      <div className="vads-l-row">
+        <div
+          className="vads-l-col--12 medium-screen:vads-l-col--8"
+          data-testid={pageNotFoundTestId}
+        >
+          <h1 className="vads-u-margin-top--4">{pageNotFoundHeading}</h1>
+          <p>
+            If you typed or copied the web address, check that it’s correct.
+          </p>
+          <p className="vads-u-measure--3">
+            If you still can’t find what you’re looking for, try visiting our
+            homepage or contact us for help.
+          </p>
+          <p>
+            <va-link href="/" text="Go to our VA.gov homepage" />
+          </p>
+          <p>
+            <va-link href="/contact-us" text="Learn how to contact us" />
+          </p>
+
+          <h2 className="va-h-ruled vads-u-font-size--h4 vads-u-margin-top--5">
+            Or try these other search tools
+          </h2>
+          <ul className="usa-unstyled-list vads-u-margin-bottom--5">
+            {helpfulLinks.map(({ href, text }, i) => (
+              <li key={`helpful-link-${i}`} className="vads-u-margin-y--2">
+                <va-link href={href} text={text} />
+              </li>
+            ))}
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

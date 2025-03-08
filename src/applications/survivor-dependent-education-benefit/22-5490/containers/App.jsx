@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { getAppData } from '../selectors';
-import { prefillTransformer } from '../helpers';
-import formConfig from '../config/form';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
 import {
-  fetchPersonalInformation,
   fetchDuplicateContactInfo,
+  fetchPersonalInformation,
 } from '../actions';
+import formConfig from '../config/form';
+import { getAppData } from '../selectors';
 
 function App({
-  location,
   children,
-  formData,
-  setFormData,
-  user,
-  // fetchDirectDeposit,
-  getPersonalInformation,
-  getDuplicateContactInfo,
-  // email,
   duplicateEmail,
   duplicatePhone,
+  formData,
+  getDuplicateContactInfo,
+  getPersonalInformation,
+  location,
+  mebDpoAddressOptionEnabled,
+  setFormData,
+  user,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
-  // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
 
   useEffect(
     () => {
@@ -55,6 +53,19 @@ function App({
       setFormData,
     ],
   );
+
+  useEffect(
+    () => {
+      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
+        setFormData({
+          ...formData,
+          mebDpoAddressOptionEnabled,
+        });
+      }
+    },
+    [mebDpoAddressOptionEnabled, formData, setFormData],
+  );
+
   useEffect(
     () => {
       if (
@@ -109,12 +120,17 @@ function App({
                 label: 'Home',
               },
               {
-                href: '/education',
-                label: 'Education and training',
+                href: '/family-and-caregiver-benefits',
+                label: 'VA benefits for family and caregivers',
               },
               {
-                href: '/education/survivor-dependent-education-benefit-22-5490',
-                label: 'Apply for survivor dependent benefits',
+                href: '/family-and-caregiver-benefits/education-and-careers',
+                label: 'Education and career benefits for family members',
+              },
+              {
+                href:
+                  '/family-and-caregiver-benefits/education-and-careers/apply-for-dea-fry-form-22-5490',
+                label: 'Apply for education benefits as an eligible dependent',
               },
             ]}
           />
@@ -127,15 +143,24 @@ function App({
   );
 }
 
-const mapStateToProps = state => {
-  return {
-    ...getAppData(state),
-    formData: state.form?.data || {},
-    claimant: prefillTransformer(null, null, null, state)?.formData,
-    // fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-    user: state.user,
-  };
+App.propTypes = {
+  children: PropTypes.node,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
+  formData: PropTypes.object,
+  getDuplicateContactInfo: PropTypes.func,
+  getPersonalInformation: PropTypes.func,
+  location: PropTypes.object,
+  mebDpoAddressOptionEnabled: PropTypes.bool,
+  setFormData: PropTypes.func,
+  user: PropTypes.object,
 };
+
+const mapStateToProps = state => ({
+  ...getAppData(state),
+  formData: state.form?.data || {},
+  user: state.user,
+});
 
 const mapDispatchToProps = {
   getPersonalInformation: fetchPersonalInformation,

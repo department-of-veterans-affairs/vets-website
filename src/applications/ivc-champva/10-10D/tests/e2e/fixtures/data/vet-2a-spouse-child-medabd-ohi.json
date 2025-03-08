@@ -13,9 +13,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
+        "applicantSSN": "345345345",
         "applicantName": {
           "first": "Applicant",
           "last": "Jones"
@@ -79,9 +77,7 @@
           "state": "MD",
           "postalCode": "12312"
         },
-        "applicantSSN": {
-          "ssn": "234123234"
-        },
+        "applicantSSN": "234123234",
         "applicantName": {
           "first": "Applicant2",
           "last": "Jones2"
@@ -129,6 +125,7 @@
       "first": "Sponsor",
       "last": "Jones"
     },
+    "certifierRole": "other",
     "certifierRelationship": {
       "relationshipToVeteran": {
         "spouse": true,

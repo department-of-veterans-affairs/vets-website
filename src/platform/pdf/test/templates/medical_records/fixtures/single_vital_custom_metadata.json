@@ -6,7 +6,7 @@
   "title": "Blood pressure on April 1, 2022 at 12:34 p.m.",
   "author": "VA Health",
   "subject": "Vitals Report",
-  "preface": "Your vitals list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team.",
+  "subtitles": ["Your vitals list may not be complete. If you have any questions about your information, visit the FAQs or contact your VA Health care team."],
   "results": {
     "items": [
       {

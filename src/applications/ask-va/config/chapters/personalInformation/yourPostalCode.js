@@ -1,8 +1,8 @@
 import React from 'react';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import PostalCodeHint from '../../../components/PostalCodeHint';
-import { CHAPTER_3 } from '../../../constants';
 import PrefillAlertAndTitle from '../../../components/PrefillAlertAndTitle';
+import { CHAPTER_3 } from '../../../constants';
 
 const PrefillAlert = () => (
   <PrefillAlertAndTitle title={CHAPTER_3.YOUR_POSTAL_CODE.TITLE} />
@@ -12,7 +12,7 @@ const yourPostalCodePage = {
   uiSchema: {
     'ui:description': PrefillAlert,
     'ui:objectViewField': PageFieldSummary,
-    veteranPostalCode: {
+    yourPostalCode: {
       'ui:title': CHAPTER_3.YOUR_POSTAL_CODE.QUESTION_4,
       'ui:required': () => true,
       'ui:description': PostalCodeHint,
@@ -27,7 +27,7 @@ const yourPostalCodePage = {
     type: 'object',
     required: [],
     properties: {
-      veteranPostalCode: {
+      yourPostalCode: {
         type: 'string',
         maxLength: 10,
         pattern: '^[0-9]{5}(?:-[0-9]{4})?$',

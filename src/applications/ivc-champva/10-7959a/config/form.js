@@ -13,7 +13,7 @@ import {
   certifierRoleSchema,
   certifierNameSchema,
   certifierAddressSchema,
-  certifierPhoneSchema,
+  certifierContactSchema,
   certifierRelationshipSchema,
 } from '../chapters/signerInformation';
 import {
@@ -32,10 +32,15 @@ import {
   applicantNameDobSchema,
   applicantMemberNumberSchema,
   applicantAddressSchema,
-  applicantPhoneSchema,
+  applicantContactSchema,
 } from '../chapters/beneficiaryInformation';
 
-import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
+import {
+  blankSchema,
+  sponsorAddressSchema,
+  sponsorNameSchema,
+  sponsorContactSchema,
+} from '../chapters/sponsorInformation';
 
 // import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
@@ -72,7 +77,7 @@ const formConfig = {
     startNewAppButtonText: 'Start a new form',
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959a],
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -80,10 +85,15 @@ const formConfig = {
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
       messageAriaDescribedby:
         'I confirm that the identifying information in this form is accurate and has been represented correctly.',
-      fullNamePath: formData =>
-        formData?.certifierRole === 'applicant'
-          ? 'applicantName'
-          : 'certifierName',
+      fullNamePath: formData => {
+        let val = 'applicantName';
+        if (formData?.certifierRole === 'other') {
+          val = 'certifierName';
+        } else if (formData?.certifierRole === 'sponsor') {
+          val = 'sponsorName';
+        }
+        return val;
+      },
     },
   },
   version: 0,
@@ -123,7 +133,7 @@ const formConfig = {
           path: 'signer-contact-info',
           title: 'Your contact information',
           depends: formData => get('certifierRole', formData) === 'other',
-          ...certifierPhoneSchema,
+          ...certifierContactSchema,
         },
         page1d: {
           path: 'signer-relationship',
@@ -140,6 +150,18 @@ const formConfig = {
           path: 'sponsor-info',
           title: 'Name',
           ...sponsorNameSchema,
+        },
+        page2a1: {
+          path: 'sponsor-mailing-address',
+          title: 'Your mailing address',
+          depends: formData => get('certifierRole', formData) === 'sponsor',
+          ...sponsorAddressSchema,
+        },
+        page2a2: {
+          path: 'sponsor-contact-info',
+          title: 'Your contact information',
+          depends: formData => get('certifierRole', formData) === 'sponsor',
+          ...sponsorContactSchema,
         },
       },
     },
@@ -162,7 +184,8 @@ const formConfig = {
           // Only show if we have addresses to pull from:
           depends: formData =>
             get('certifierRole', formData) !== 'applicant' &&
-            get('street', formData?.certifierAddress),
+            (get('street', formData?.certifierAddress) ||
+              get('street', formData?.sponsorAddress)),
           CustomPage: props => {
             const extraProps = {
               ...props,
@@ -192,7 +215,7 @@ const formConfig = {
         page2e: {
           path: 'beneficiary-contact-info',
           title: formData => `${fnp(formData)} phone number`,
-          ...applicantPhoneSchema,
+          ...applicantContactSchema,
         },
       },
     },
@@ -217,12 +240,12 @@ const formConfig = {
         },
         page5: {
           path: 'claim-work',
-          title: 'Claim relation to work',
+          title: 'Claim relationship to work',
           ...claimWorkSchema,
         },
         page6: {
           path: 'claim-auto-accident',
-          title: 'Claim relation to an auto-related accident',
+          title: 'Claim relationship to a car accident',
           ...claimAutoSchema,
         },
         page7: {
@@ -258,7 +281,7 @@ const formConfig = {
         },
         page10: {
           path: 'pharmacy-claim-upload',
-          title: 'Upload supporting document for prescription claim',
+          title: 'Upload supporting document for prescription medication claim',
           depends: formData => get('claimType', formData) === 'pharmacy',
           ...pharmacyClaimUploadSchema,
         },

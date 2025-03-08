@@ -7,7 +7,6 @@ import {
   FETCH_STATUS,
   APPOINTMENT_STATUS,
   APPOINTMENT_TYPES,
-  VIDEO_TYPES,
   COMP_AND_PEN,
 } from '../../utils/constants';
 import {
@@ -19,7 +18,6 @@ import {
   sortUpcoming,
   groupAppointmentsByMonth,
   isUpcomingAppointment,
-  sortByCreatedDateDescending,
   isPendingOrCancelledRequest,
   getAppointmentTimezone,
   isClinicVideoAppointment,
@@ -127,14 +125,6 @@ export const selectUpcomingAppointments = createSelector(
   },
 );
 
-export const selectPendingAppointments = createSelector(
-  state => state.appointments.pending,
-  pending =>
-    pending
-      ?.filter(isPendingOrCancelledRequest)
-      .sort(sortByCreatedDateDescending) || null,
-);
-
 export const selectPastAppointments = createSelector(
   state => state.appointments.past,
   past => {
@@ -204,16 +194,6 @@ export function selectCanUseVaccineFlow(state) {
 export function selectProviderAddress(appointment) {
   const practitioners = appointment?.practitioners || [];
   return practitioners.length > 0 ? practitioners[0].address : null;
-}
-
-export function getRequestedAppointmentListInfo(state) {
-  return {
-    facilityData: state.appointments.facilityData,
-    pendingStatus: state.appointments.pendingStatus,
-    pendingAppointments: selectPendingAppointments(state),
-    isCernerOnlyPatient: selectIsCernerOnlyPatient(state),
-    showScheduleButton: selectFeatureRequests(state),
-  };
 }
 
 export function getUpcomingAppointmentListInfo(state) {
@@ -465,17 +445,11 @@ export function selectIsAtlasVideo(appointment) {
   return isAtlas;
 }
 
-export function selectIsGFEVideo(appointment) {
-  const { kind } = appointment?.videoData || {};
-  return kind === VIDEO_TYPES.gfe;
-}
-
 export function selectIsHomeVideo(appointment) {
   return (
     selectIsVideo(appointment) &&
-    (!selectIsClinicVideo(appointment) &&
-      !selectIsAtlasVideo(appointment) &&
-      !selectIsGFEVideo(appointment))
+    !selectIsClinicVideo(appointment) &&
+    !selectIsAtlasVideo(appointment)
   );
 }
 
@@ -486,7 +460,6 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
   const isVideoHome = selectIsHomeVideo(appointment);
-  const isVideoVADevice = selectIsGFEVideo(appointment);
   const { name: facilityName } = appointment.vaos.facilityData || {
     name: '',
   };
@@ -511,7 +484,7 @@ export function selectModalityText(appointment, isPendingAppointment = false) {
       return `At ${line} ${city}, ${state}`;
     }
 
-    if (isVideoHome || isVideoVADevice) return 'Video';
+    if (isVideoHome) return 'Video';
   }
 
   if (isInPerson || isVideoClinic) {
@@ -588,12 +561,11 @@ export function selectModalityIcon(appointment) {
   const isVideoAtlas = selectIsAtlasVideo(appointment);
   const isVideoClinic = selectIsClinicVideo(appointment);
   const isVideoHome = selectIsHomeVideo(appointment);
-  const isVideoVADevice = selectIsGFEVideo(appointment);
 
   let icon = '';
 
   if (isInPerson || isVideoAtlas || isVideoClinic) icon = 'location_city';
-  if (isVideoHome || isVideoVADevice) icon = 'videocam';
+  if (isVideoHome) icon = 'videocam';
   if (isPhone) icon = 'phone';
 
   return icon;
@@ -607,6 +579,18 @@ export function selectAtlasConfirmationCode(appointment) {
   return appointment?.videoData?.atlasConfirmationCode;
 }
 
+export function selectAppointmentTravelClaim(appointment) {
+  return appointment?.vaos?.apiData?.travelPayClaim;
+}
+
+export function selectIsEligibleForTravelClaim(appointment) {
+  return (
+    selectIsPast(appointment) &&
+    (selectIsInPerson(appointment) || selectIsClinicVideo(appointment)) &&
+    selectAppointmentTravelClaim(appointment)
+  );
+}
+
 export function selectConfirmedAppointmentData(state, appointment) {
   const isCommunityCare = appointment?.vaos?.isCommunityCare;
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
@@ -616,7 +600,11 @@ export function selectConfirmedAppointmentData(state, appointment) {
 
   const locationId = getVAAppointmentLocationId(appointment);
 
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    isBadAppointmentId,
+  } = state.appointments;
   const facility =
     facilityData?.[locationId] || appointment?.vaos?.facilityData;
 
@@ -662,6 +650,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     facilityData,
     facilityPhone,
     isCanceledAppointment,
+    isBadAppointmentId,
     isCommunityCare,
     isAtlasVideo,
     isPastAppointment,

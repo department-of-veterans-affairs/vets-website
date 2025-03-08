@@ -109,7 +109,7 @@ export default function DateTimeRequestOptions({
                   {o.label} appointment
                 </span>
               </label>
-              <span className="vads-u-font-size--sm">{o.secondaryLabel}</span>
+              <span>{o.secondaryLabel}</span>
             </div>
           </div>
         );

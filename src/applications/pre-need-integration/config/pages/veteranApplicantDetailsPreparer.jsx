@@ -73,7 +73,6 @@ export const schema = {
         },
         veteran: {
           type: 'object',
-          required: ['cityOfBirth', 'stateOfBirth'],
           properties: merge(
             {},
             pick(veteran.properties, ['cityOfBirth', 'stateOfBirth']),

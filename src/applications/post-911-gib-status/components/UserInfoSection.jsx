@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { formatDateShort } from 'platform/utilities/date';
+import {
+  formatDateShort,
+  formatDateParsedZoneLong,
+} from 'platform/utilities/date';
 
 import InfoPair from './InfoPair';
 import {
@@ -74,7 +77,7 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
             <br />
             <a href="/education/gi-bill-comparison-tool/" target="_blank">
               Find out how much money you can expect to get based on your
-              eligibility percentage
+              eligibility percentage.
             </a>
           </p>
         </div>
@@ -93,6 +96,16 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
           label="Name"
           value={fullName}
           id="gibs-full-name"
+          additionalClass="section-line"
+        />
+        <InfoPair
+          label="Date of birth"
+          name="dateOfBirth"
+          value={
+            enrollmentData?.dateOfBirth
+              ? formatDateParsedZoneLong(enrollmentData.dateOfBirth)
+              : 'Unavailable'
+          }
           additionalClass="section-line"
         />
         <InfoPair

@@ -55,7 +55,11 @@ const options = {
       item?.type === 'other'
         ? `${item?.otherType}`
         : `${radioLabels[(item?.type)]}`,
-    summaryTitle: 'Beneficiary’s health insurance review',
+    summaryTitle: item => {
+      return `${nameWording(item?.formData, true, true, true) ||
+        'Beneficiary’s'} health insurance review`;
+    },
+    summaryDescription: '',
     cancelAddButtonText: 'Cancel adding this insurance',
   },
 };
@@ -104,9 +108,6 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
-      description: `You can add up to ${
-        options?.maxItems
-      } health insurance policies.`,
       nounSingular: options.nounSingular,
     }),
     name: textUI('Name of insurance provider'),
@@ -128,6 +129,8 @@ const insuranceProviderPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) => `${get('name', formData)} insurance type`,
+      '',
+      false,
     ),
     type: {
       ...radioUI({

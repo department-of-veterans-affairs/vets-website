@@ -8,7 +8,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
-import { fileUploadBlurbCustom } from '../../shared/components/fileUploads/attachments';
+import { fileUploadBlurb } from '../../shared/components/fileUploads/attachments';
 import { nameWording } from '../../shared/utilities';
 import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
 import { blankSchema } from './sponsorInformation';
@@ -19,21 +19,28 @@ function FileFieldWrapped(props) {
   return FileFieldCustom({ ...props, requiredFiles: [] });
 }
 
-const additionalNotesClaims = (
-  <va-additional-info
-    trigger="Additional notes regarding claims"
-    class="vads-u-margin-bottom--4"
-  >
-    <ul>
-      <li>
-        You must file your claim within 1 year of when you got the care. And if
-        you stayed at a hospital for care, you must file your claim within 1
-        year of when you left the hospital.
-      </li>
-      <li>Please retain a copy of all documents submitted to CHAMPVA.</li>
-    </ul>
-  </va-additional-info>
-);
+const additionalNotesClaims = formData => {
+  const nameCap = nameWording(formData, false, true, true) || 'You';
+  const namePosessive =
+    formData?.certifierRole === 'applicant' ? 'your' : 'their';
+  const name = formData?.certifierRole === 'applicant' ? 'you' : 'they';
+  return (
+    <va-additional-info
+      trigger="Other helpful information about submitting claims"
+      class="vads-u-margin-bottom--4"
+    >
+      <ul>
+        <li>
+          {nameCap} must file {namePosessive} claim within 1 year of when {name}{' '}
+          got the care. And if {name} stayed at a hospital for care, {name} must
+          file {namePosessive} claim within 1 year of when {name} left the
+          hospital.
+        </li>
+        <li>Please retain a copy of all documents submitted to CHAMPVA.</li>
+      </ul>
+    </va-additional-info>
+  );
+};
 
 export const claimTypeSchema = {
   uiSchema: {
@@ -58,7 +65,7 @@ export const claimTypeSchema = {
 
 export const claimWorkSchema = {
   uiSchema: {
-    ...titleUI('Claim relation to work'),
+    ...titleUI('Claim relationship to work'),
     claimIsWorkRelated: yesNoUI({
       title: 'Is this a claim for a work-related injury or condition?',
       updateUiSchema: formData => {
@@ -87,10 +94,10 @@ export const claimWorkSchema = {
 
 export const claimAutoSchema = {
   uiSchema: {
-    ...titleUI('Claim relation to an auto-related accident'),
+    ...titleUI('Claim relationship to a car accident'),
     claimIsAutoRelated: yesNoUI({
       title:
-        'Is this a claim for an injury or condition caused by an auto-related accident?',
+        'Is this a claim for an injury or condition caused by car accident?',
       updateUiSchema: formData => {
         return {
           'ui:options': {
@@ -99,7 +106,7 @@ export const claimAutoSchema = {
               true,
               false,
               true,
-            )} auto insurance provider to determine if they paid any amount for this care.`,
+            )} car insurance provider to determine if they paid any amount for this care.`,
           },
         };
       },
@@ -159,7 +166,12 @@ export const medicalClaimUploadSchema = {
         </p>
       </>
     )),
-    ...fileUploadBlurbCustom(null, additionalNotesClaims),
+    ...fileUploadBlurb,
+    'view:notes': {
+      'ui:description': formData => {
+        return additionalNotesClaims(formData?.formContext?.fullData);
+      },
+    },
     medicalUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -171,6 +183,7 @@ export const medicalClaimUploadSchema = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
+      'view:notes': blankSchema,
       medicalUpload: {
         type: 'array',
         minItems: 1,
@@ -236,7 +249,12 @@ export const eobUploadSchema = isPrimary => {
           );
         },
       ),
-      ...fileUploadBlurbCustom(undefined, additionalNotesClaims),
+      ...fileUploadBlurb,
+      'view:notes': {
+        'ui:description': formData => {
+          return additionalNotesClaims(formData?.formContext?.fullData);
+        },
+      },
       [keyName]: fileUploadUI({
         label: 'Upload explanation of benefits',
         attachmentName: true,
@@ -248,6 +266,7 @@ export const eobUploadSchema = isPrimary => {
       properties: {
         titleSchema,
         'view:fileUploadBlurb': blankSchema,
+        'view:notes': blankSchema,
         [keyName]: {
           type: 'array',
           minItems: 1,
@@ -265,7 +284,6 @@ export const eobUploadSchema = isPrimary => {
   };
 };
 
-// TODO: Pharmacy upload page
 export const pharmacyClaimUploadSchema = {
   CustomPage: FileFieldWrapped,
   CustomPageReview: null,
@@ -302,7 +320,12 @@ export const pharmacyClaimUploadSchema = {
         </p>
       </>,
     ),
-    ...fileUploadBlurbCustom(null, additionalNotesClaims),
+    ...fileUploadBlurb,
+    'view:notes': {
+      'ui:description': formData => {
+        return additionalNotesClaims(formData?.formContext?.fullData);
+      },
+    },
     pharmacyUpload: fileUploadUI({
       label: 'Upload supporting document',
       attachmentName: true,
@@ -314,6 +337,7 @@ export const pharmacyClaimUploadSchema = {
     properties: {
       titleSchema,
       'view:fileUploadBlurb': blankSchema,
+      'view:notes': blankSchema,
       pharmacyUpload: {
         type: 'array',
         minItems: 1,

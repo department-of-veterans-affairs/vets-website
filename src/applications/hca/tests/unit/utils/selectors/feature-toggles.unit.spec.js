@@ -1,15 +1,14 @@
 import { expect } from 'chai';
-import { selectFeatureToggles } from '../../../../utils/selectors/feature-toggles';
+import { selectFeatureToggles } from '../../../../utils/selectors';
 
 describe('hca FeatureToggles selector', () => {
   const state = {
     featureToggles: {
       /* eslint-disable camelcase */
-      hca_sigi_enabled: false,
       hca_reg_only_enabled: true,
       hca_insurance_v2_enabled: false,
-      hca_tera_branching_enabled: true,
       hca_browser_monitoring_enabled: true,
+      hca_performance_alert_enabled: false,
       hca_enrollment_status_override_enabled: false,
       loading: false,
     },
@@ -20,11 +19,10 @@ describe('hca FeatureToggles selector', () => {
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
+        isPerformanceAlertEnabled: false,
         isESOverrideEnabled: false,
-        isTeraBranchingEnabled: true,
         isInsuranceV2Enabled: false,
         isRegOnlyEnabled: true,
-        isSigiEnabled: false,
       });
     });
   });

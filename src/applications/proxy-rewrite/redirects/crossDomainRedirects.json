@@ -1543,5 +1543,53 @@
     "src": "/ROCHEYENNE",
     "dest": "/cheyenne-va-regional-benefit-office/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/detroit",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RODETROIT",
+    "dest": "/detroit-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/littlerock",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROLITTLEROCK",
+    "dest": "/little-rock-va-regional-benefit-office-at-eugene-j-towbin-healthcare-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROBOSTON",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/boston",
+    "dest": "/boston-va-regional-benefit-office/",
+    "catchAll": true
+  },
+    {
+    "domain": "www.benefits.va.gov",
+    "src": "/manchester",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROMANCHESTER",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

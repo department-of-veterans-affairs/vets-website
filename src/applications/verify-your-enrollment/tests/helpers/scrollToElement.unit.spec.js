@@ -19,7 +19,6 @@ describe('scrollToElement', () => {
   });
 
   afterEach(() => {
-    // Restore all the Sinon objects in the sandbox
     sandbox.restore();
   });
 

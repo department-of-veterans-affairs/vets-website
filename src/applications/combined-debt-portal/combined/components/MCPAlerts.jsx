@@ -22,7 +22,7 @@ Alert.Error = () => (
       </strong>
       contact us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>{' '}
       (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -60,7 +60,7 @@ Alert.PastDue = ({ copay }) => {
         </strong>
         contact us at{' '}
         <span className="no-wrap">
-          <va-telephone contact="8664001238" />
+          <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
         </span>{' '}
         (TTY: <va-telephone contact={CONTACTS[711]} />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -128,7 +128,7 @@ Alert.NoHealthcare = () => (
     <p>
       If you think this is incorrect, call our toll-free hotline at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8772228387" />
+        <va-telephone contact={CONTACTS['222_VETS']} />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>
@@ -147,7 +147,7 @@ Alert.NoHistory = () => (
     <p>
       If you think this is incorrect, contact the VA Health Resource Center at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>
       . (TTY: <va-telephone contact={CONTACTS[711]} />
       ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -198,7 +198,7 @@ Alert.Status = ({ copay }) => (
       You may need to continue making payments while we review your request.
       Call us at{' '}
       <span className="no-wrap">
-        <va-telephone contact="8664001238" />
+        <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} />
       </span>
       , Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
     </p>

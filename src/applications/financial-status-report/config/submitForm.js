@@ -35,12 +35,11 @@ const getSubmissionType = selectedDebtsAndCopays => {
 // Main function to build the event data object
 export const buildEventData = ({
   selectedDebtsAndCopays,
-  'view:enhancedFinancialStatusReport': enhancedFlag,
   isStreamlinedShort,
   isStreamlinedLong,
 }) => {
   return {
-    'enhanced-submission': enhancedFlag,
+    'enhanced-submission': true,
     streamlined: getStreamlinedValue(isStreamlinedShort, isStreamlinedLong), // Get the streamlined value
     'submission-type': getSubmissionType(selectedDebtsAndCopays), // Get the submission type
   };
