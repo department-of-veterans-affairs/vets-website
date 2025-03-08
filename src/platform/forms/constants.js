@@ -162,6 +162,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
+    // [VA_FORM_IDS.FORM_28_1900]: `${tryGetAppUrl('28-1900')}/`,
   };
 };
 
@@ -500,6 +501,13 @@ export const MY_VA_SIP_FORMS = [
     description: 'Memorials benefits',
     trackingPrefix: 'memorials-1330m',
   },
+  // {
+  //   id: VA_FORM_IDS.FORM_28_1900,
+  //   benefit: 'VR&E Chapter 31 benefits application',
+  //   title: '28-1900 Veteran Readiness',
+  //   description: 'VR&E Chapter 31 benefits application',
+  //   trackingPrefix: 'new-careers-employment-28-1900-',
+  // },
 ];
 
 export const FORM_BENEFITS = MY_VA_SIP_FORMS.reduce((acc, form) => {
