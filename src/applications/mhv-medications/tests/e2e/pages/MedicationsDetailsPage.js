@@ -599,8 +599,10 @@ class MedicationsDetailsPage {
       .should('contain', phoneNumber);
   };
 
-  verifyProcessStepOneHeaderOnDetailsPage = text => {
-    cy.get('[data-testid="submitted-step-one"]').should('contain', text);
+  verifyProcessStepOneHeaderOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="submitted-step-one"]')
+      .should('contain', text)
+      .and('contain', date);
   };
 
   verifyProcessStepTwoHeaderOnDetailsPage = text => {
@@ -611,11 +613,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="submitted-step-three"]').should('contain', text);
   };
 
-  verifyActiveRxStepOneProgressTrackerOnDetailsPage = text => {
-    cy.get('[header="We received your refill request"]').should(
-      'contain',
-      text,
-    );
+  verifyActiveRxStepOneProgressTrackerOnDetailsPage = (text, data) => {
+    cy.get('[header="We received your refill request"]')
+      .should('contain', text)
+      .and('contain', data);
   };
 
   verifyActiveRxStepTwoProgressTrackerOnDetailsPage = text => {
@@ -626,8 +627,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="active-step-three"]').should('contain', text);
   };
 
-  verifyActiveRefillInProcessStepTwoOnDetailsPage = text => {
-    cy.get('[data-testid="progress-step-two"]').should('contain', text);
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="progress-step-two"]')
+      .should('contain', text)
+      .and('contain', note);
   };
 
   verifyActiveRefillInProcessStepThreeOnDetailsPage = text => {

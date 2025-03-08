@@ -29,6 +29,7 @@ describe('Medications Details Page Submitted Rx Progress Tracker', () => {
     detailsPage.verifySubmittedStatusDropDownDefinition();
     detailsPage.verifyProcessStepOneHeaderOnDetailsPage(
       Data.STEP_ONE_SUBMITTED,
+      Data.STEP_ONE_DATE_TEXT,
     );
     cy.injectAxe();
     cy.axeCheck('main');

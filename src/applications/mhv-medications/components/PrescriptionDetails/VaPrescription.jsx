@@ -226,7 +226,10 @@ const VaPrescription = prescription => {
                     </VaAlert>
                   )}
                 {showRefillProgressContent && (
-                  <ProcessList stepGuideProps={stepGuideProps} />
+                  <>
+                    <ProcessList stepGuideProps={stepGuideProps} />
+                    <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
+                  </>
                 )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"

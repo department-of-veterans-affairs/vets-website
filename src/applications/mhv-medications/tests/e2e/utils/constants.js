@@ -56,6 +56,9 @@ export const Data = {
   STEP_THREE_SUBMITTED: 'We will ship your refill',
   STEP_TWO_ACTIVE: 'We processed your refill',
   STEP_THREE_SHIPPED: 'We shipped your refill',
+  STEP_ONE_NOTE_ABOVE: 'Step 1: Date completed not available',
+  STEP_TWO_PROCESS_ABOVE_TEXT: 'Step 2: Completed on October 1, 2023',
+  STEP_ONE_DATE_TEXT: 'Step 1: Completed on October 2, 2023',
 };
 export const Paths = {
   LANDING_LIST:
