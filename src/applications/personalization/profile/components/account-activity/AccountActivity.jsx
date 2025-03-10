@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { formatDatetime, parseDate } from 'platform/mhv/downtime/utils/date';
+import { format } from 'date-fns-tz';
+import { parseISO } from 'date-fns';
 import {
   VaPagination,
   VaDate,
+  VaButtonPair,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { DivWithBackIcon } from '../edit/EditBreadcrumb';
 import { PROFILE_PATHS } from '../../constants';
@@ -11,7 +13,7 @@ import { PROFILE_PATHS } from '../../constants';
 const mockApiRequest = async () => {
   await new Promise(r => setTimeout(r, 2000));
 
-  const activities = [
+  const events = [
     'Logged in',
     'Logged out',
     'Updated email',
@@ -34,14 +36,16 @@ const mockApiRequest = async () => {
     'Scheduled appointment',
   ];
 
-  const performedByOptions = ['Self', 'System', 'Admin', 'Support'];
+  const devices = ['Mozilla Firefox', 'Google Chrome', 'Microsoft Edge'];
 
-  const results = ['Success', 'Failure', 'Pending', 'Error'];
+  const ipAddresses = ['192.168.1.1', '192.168.2.1', '192.168.3.1'];
+
+  const statuses = ['Success', 'Failure', 'Pending', 'Error'];
 
   const data = [];
 
   const startDate = new Date('2021-01-01T00:00:00Z');
-  const endDate = new Date('2021-12-31T23:59:59Z');
+  const endDate = new Date('2022-12-31T23:59:59Z');
   const numEntries = 200;
 
   for (let i = 0; i < numEntries; i++) {
@@ -51,15 +55,20 @@ const mockApiRequest = async () => {
     );
     const dateStr = date.toISOString();
 
-    const performedBy =
-      performedByOptions[Math.floor(Math.random() * performedByOptions.length)];
-    const activity = activities[Math.floor(Math.random() * activities.length)];
-    const result = results[Math.floor(Math.random() * results.length)];
+    const ipAddress =
+      ipAddresses[Math.floor(Math.random() * ipAddresses.length)];
+    const event = events[Math.floor(Math.random() * events.length)];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    const device = statuses[Math.floor(Math.random() * devices.length)];
 
-    data.push({ date: dateStr, performedBy, activity, result });
+    data.push({ timestamp: dateStr, ipAddress, device, event, status });
   }
 
   return { data };
+};
+
+const formatTimestamp = timestamp => {
+  return format(parseISO(timestamp), "yyyy-MM-dd 'at' h:mm a zzz");
 };
 
 export default function AccountActivity() {
@@ -79,8 +88,12 @@ export default function AccountActivity() {
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchData = async () => {
-      const response = await mockApiRequest();
-      setApiResponse(response.data);
+      try {
+        const response = await mockApiRequest();
+        setApiResponse(response.data);
+      } catch (error) {
+        // add loading error state
+      }
       setLoading(false);
     };
     fetchData();
@@ -92,18 +105,25 @@ export default function AccountActivity() {
       const end = new Date(endDate);
 
       const filtered = apiResponse.filter(record => {
-        const recordDate = new Date(record.date);
+        const recordDate = new Date(record.timestamp);
         return recordDate >= start && recordDate <= end;
       });
 
       filtered.sort((a, b) => {
-        return new Date(a.date) - new Date(b.date);
+        return new Date(a.timestamp) - new Date(b.timestamp);
       });
 
       setFilteredData(filtered);
     } else {
       setFilteredData([]);
     }
+    setCurrentPage(1);
+  };
+
+  const clearFilter = () => {
+    setStartDate('');
+    setEndDate('');
+    setFilteredData([]);
     setCurrentPage(1);
   };
 
@@ -121,8 +141,9 @@ export default function AccountActivity() {
       <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--2">
         Account activity
       </h1>
-      <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-        <fieldset className="vads-u-flex--auto vads-u-max-width--none vads-u-width--auto vads-u-margin-bottom--2">
+      <form onSubmit={handleFilter}>
+        <fieldset>
+          <legend>Date Filter</legend>
           <VaDate
             label="Start Date"
             name="startDate"
@@ -135,57 +156,46 @@ export default function AccountActivity() {
             value={endDate}
             onDateChange={e => setEndDate(e.target.value)}
           />
-          <div className="vads-u-margin-top--4">
-            <va-button
-              onClick={handleFilter}
-              text="Submit"
-              class="vads-u-margin-right--1"
-            />
-            <va-button
-              onClick={() => {
-                setStartDate('');
-                setEndDate('');
-                setFilteredData([]);
-                setCurrentPage(1);
-              }}
-              secondary
-              text="Clear"
-            />
-          </div>
+          <VaButtonPair
+            className="vads-u-margin-top--4"
+            submit="prevent"
+            leftButtonText="Submit"
+            rightButtonText="Clear"
+            onSecondaryClick={clearFilter}
+          />
         </fieldset>
-        <div className="vads-u-flex--2 medium-screen:vads-u-padding-left--3">
-          {loading ? (
-            <va-loading-indicator
-              setFocus
-              message="Loading your account activity..."
-              class="vads-u-margin-top--4"
-            />
-          ) : (
-            <va-table sortable table-type="bordered">
-              <va-table-row slot="headers">
-                <span>Date</span>
-                <span>Performed By</span>
-                <span>Activity</span>
-                <span>Result</span>
-              </va-table-row>
-              {currentItems.map((record, index) => (
-                <va-table-row key={index}>
-                  <span>{formatDatetime(parseDate(record.date))}</span>
-                  <span>{record.performedBy}</span>
-                  <span>{record.activity}</span>
-                  <span>{record.result}</span>
-                </va-table-row>
-              ))}
-            </va-table>
-          )}
-        </div>
-      </div>
+      </form>
+      {loading ? (
+        <va-loading-indicator
+          setFocus
+          message="Loading your account activity..."
+          class="vads-u-margin-top--4"
+        />
+      ) : (
+        <va-table>
+          <va-table-row slot="headers">
+            <span>Timestamp</span>
+            <span>IP Address</span>
+            <span>Device Information</span>
+            <span>Event</span>
+            <span>Status</span>
+          </va-table-row>
+          {currentItems.map((record, index) => (
+            <va-table-row key={index}>
+              <span>{formatTimestamp(record.timestamp)}</span>
+              <span>{record.ipAddress}</span>
+              <span>{record.device}</span>
+              <span>{record.event}</span>
+              <span>{record.status}</span>
+            </va-table-row>
+          ))}
+        </va-table>
+      )}
 
       {totalPages > 1 && (
         <VaPagination
           page={currentPage}
           pages={totalPages}
-          maxPageListLength={10}
           showLastPage
           onPageSelect={e => setCurrentPage(e.detail.page)}
         />

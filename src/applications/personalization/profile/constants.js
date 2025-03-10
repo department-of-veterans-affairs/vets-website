@@ -46,7 +46,7 @@ export const PROFILE_PATHS = Object.freeze({
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
   ACCOUNT_SECURITY: '/profile/account-security',
-  ACCOUNT_ACTIVITY: '/profile/account-activity',
+  ACCOUNT_ACTIVITY: '/profile/account-security/account-activity',
   CONTACTS: '/profile/contacts',
   EDIT: '/profile/edit',
 });

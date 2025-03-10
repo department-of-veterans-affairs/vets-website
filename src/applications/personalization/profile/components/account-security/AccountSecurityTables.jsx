@@ -98,11 +98,13 @@ export const AccountSecurityTables = ({
         className="vads-u-margin-bottom--2"
       />
 
-      <ProfileInfoCard
-        level={2}
-        title="Account activity"
-        data={<AccountActivityLink />}
-      />
+      {isIdentityVerified && (
+        <ProfileInfoCard
+          level={2}
+          title="Account activity"
+          data={<AccountActivityLink />}
+        />
+      )}
     </>
   );
 };
