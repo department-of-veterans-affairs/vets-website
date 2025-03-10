@@ -4,10 +4,10 @@ import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-t
 import { AXE_CONTEXT, Data } from '../utils/constants';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
-import PatientSearchPage from '../pages/PatientSearchPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 
-describe('SM CUSTOM FOLDER ADVANCED CATEGORY SEARCH', () => {
-  const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
+describe('SM CUSTOM FOLDER ADD FILTER CATEGORY', () => {
+  const filterResultResponse = PatientFilterPage.createCategoryFilterMockResponse(
     1,
     'EDUCATION',
     mockSingleThreadResponse,
@@ -19,19 +19,19 @@ describe('SM CUSTOM FOLDER ADVANCED CATEGORY SEARCH', () => {
     PatientMessageCustomFolderPage.loadMessages();
     PatientInboxPage.openAdvancedSearch();
     PatientInboxPage.selectAdvancedSearchCategory('Education');
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
   });
 
   it('verify all messages contain the searched category', () => {
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifySearchResponseCategory('Education');
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyFilterResponseCategory('Education');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify the search results label', () => {
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       'Education',
     );
     cy.injectAxe();
@@ -39,8 +39,8 @@ describe('SM CUSTOM FOLDER ADVANCED CATEGORY SEARCH', () => {
   });
 });
 
-describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
-  let searchResultResponse;
+describe('SM CUSTOM FOLDER ADD FILTER FIXED DATE RANGE', () => {
+  let filterResultResponse;
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -50,19 +50,19 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 3 month', () => {
-    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+    filterResultResponse = PatientFilterPage.createDateFilterMockResponse(
       2,
       3,
       mockSingleThreadResponse,
     );
 
     PatientInboxPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
 
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifyMessageDate(3);
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyMessageDate(3);
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       Data.DATE_RANGE.THREE_MONTHS,
     );
 
@@ -71,19 +71,19 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 6 month', () => {
-    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+    filterResultResponse = PatientFilterPage.createDateFilterMockResponse(
       3,
       6,
       mockSingleThreadResponse,
     );
 
     PatientInboxPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
 
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifyMessageDate(6);
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyMessageDate(6);
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       Data.DATE_RANGE.SIX_MONTHS,
     );
 
@@ -92,19 +92,19 @@ describe('SM CUSTOM FOLDER ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 12 month', () => {
-    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+    filterResultResponse = PatientFilterPage.createDateFilterMockResponse(
       6,
       12,
       mockSingleThreadResponse,
     );
 
     PatientInboxPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
 
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifyMessageDate(12);
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyMessageDate(12);
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       Data.DATE_RANGE.TWELVE_MONTHS,
     );
 
