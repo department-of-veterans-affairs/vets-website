@@ -271,6 +271,7 @@ export const addressExists = address =>
 
 export const userIsDigitalSubmitEligible = formData => {
   return (
+    preparerIsVeteran({ formData }) && // only Veteran users are eligible at this time
     formData?.identityValidation?.hasIcn &&
     formData?.identityValidation?.hasParticipantId &&
     formData?.['view:v2IsEnabled']

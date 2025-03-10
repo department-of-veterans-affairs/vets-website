@@ -330,3 +330,83 @@ describe('getUpdatedItemFromPath', () => {
     expect(updatedItem.index).to.eq(2);
   });
 });
+
+describe('replaceItemInFormData', () => {
+  it('should replace an item in the array and create new formData', () => {
+    const formData = {
+      otherField: 'test',
+      otherObject: { test: 'test' },
+      employers: [
+        { name: 'Test', type: 'pdf' },
+        { name: 'Test 2', type: 'jpg' },
+      ],
+    };
+
+    const newItem = { name: 'Test 3', type: 'png' };
+
+    const newFormData = helpers.replaceItemInFormData({
+      formData,
+      newItem,
+      arrayPath: 'employers',
+      index: 1,
+    });
+
+    expect(formData.employers[1].name).to.equal('Test 2');
+    expect(newFormData.employers[1].name).to.equal('Test 3');
+  });
+
+  it('should fail gracefully if wrong index', () => {
+    const formData = {
+      otherField: 'test',
+      otherObject: { test: 'test' },
+      employers: [
+        { name: 'Test', type: 'pdf' },
+        { name: 'Test 2', type: 'jpg' },
+      ],
+    };
+
+    const newItem = { name: 'Test 3', type: 'png' };
+
+    const newFormData = helpers.replaceItemInFormData({
+      formData,
+      newItem,
+      arrayPath: 'employers',
+      index: 2,
+    });
+
+    expect(formData.employers[1].name).to.equal('Test 2');
+    expect(newFormData.employers[1].name).to.equal('Test 2');
+  });
+
+  it('should fail gracefully if no form data', () => {
+    const formData = {};
+    const newItem = { name: 'Test 3', type: 'png' };
+
+    const newFormData = helpers.replaceItemInFormData({
+      formData,
+      newItem,
+      arrayPath: 'employers',
+      index: 1,
+    });
+
+    expect(formData).to.deep.equal({});
+    expect(newFormData).to.deep.equal({});
+  });
+
+  it('should fail gracefully if no array data', () => {
+    const formData = {
+      employers: undefined,
+    };
+    const newItem = { name: 'Test 3', type: 'png' };
+
+    const newFormData = helpers.replaceItemInFormData({
+      formData,
+      newItem,
+      arrayPath: 'employers',
+      index: 0,
+    });
+
+    expect(formData.employers).to.equal(undefined);
+    expect(newFormData.employers).to.equal(undefined);
+  });
+});

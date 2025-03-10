@@ -1,4 +1,5 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import { isChapterFieldRequired } from '../../helpers';
 import { TASK_KEYS } from '../../constants';
 import { intro } from './intro';
@@ -144,18 +145,32 @@ const chapterPages = arrayBuilderPages(arrayBuilderOptions, pages => {
       schema: additionalInformationPartTwo.schema,
     }),
     addChildChildAddressPartOne: pages.itemPage({
-      depends: (formData, index) =>
-        shouldIncludePage(formData) &&
-        formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false,
+      depends: (formData, index) => {
+        const pathname = window?.location?.pathname;
+        const realIndex = !index ? getUrlPathIndex(pathname) : index;
+
+        return (
+          shouldIncludePage(formData) &&
+          formData?.childrenToAdd[Number(realIndex)]?.doesChildLiveWithYou ===
+            false
+        );
+      },
       title: "Child's Address",
       path: '686-report-add-child/:index/child-address-part-one',
       uiSchema: childAddressPartOne.uiSchema,
       schema: childAddressPartOne.schema,
     }),
     addChildChildAddressPartTwo: pages.itemPage({
-      depends: (formData, index) =>
-        shouldIncludePage(formData) &&
-        formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false,
+      depends: (formData, index) => {
+        const pathname = window?.location?.pathname;
+        const realIndex = !index ? getUrlPathIndex(pathname) : index;
+
+        return (
+          shouldIncludePage(formData) &&
+          formData?.childrenToAdd[Number(realIndex)]?.doesChildLiveWithYou ===
+            false
+        );
+      },
       title: "Child's Address",
       path: '686-report-add-child/:index/child-address-part-two',
       uiSchema: childAddressPartTwo.uiSchema,
