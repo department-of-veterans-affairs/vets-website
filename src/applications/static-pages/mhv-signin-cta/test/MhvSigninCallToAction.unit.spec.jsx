@@ -136,7 +136,7 @@ describe('MHV Signin CTA', () => {
     });
 
     it('verified user without noAlertContent', async () => {
-      const { queryByTestId, queryByRole } = render(
+      const { container, queryByTestId, queryByRole } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
             serviceDescription={serviceDescription}
@@ -148,7 +148,10 @@ describe('MHV Signin CTA', () => {
       );
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
-      expect(queryByRole('link', { name: RegExp(defaultLinkText) })).to.exist;
+      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
+      expect(
+        container.querySelector(`va-link-action[text="${defaultLinkText}"]`),
+      ).to.exist;
     });
 
     it('renders mhvAccount is loading indicator', () => {
