@@ -99,13 +99,6 @@ export const BuildPageBase = ({
         const historyStack =
           JSON.parse(sessionStorage.getItem('historyStack')) || [];
 
-        console.log('Current history stack:', historyStack);
-        console.log('Current path:', router.location.pathname);
-
-        console.log('Current history stack:', historyStack);
-        console.log('Current path:', router.location.pathname);
-
-        // Get the last page that isn't the current page
         const currentPath = router.location.pathname;
         const previousPages = historyStack.filter(path => path !== currentPath);
         const lastPage =
@@ -113,18 +106,8 @@ export const BuildPageBase = ({
             ? previousPages[previousPages.length - 1]
             : fullContactPath;
 
-        console.log('Filtered history:', previousPages);
-        console.log('⏪ Navigating back to:', lastPage);
         sessionStorage.setItem('historyStack', JSON.stringify(previousPages));
         router.push(lastPage);
-        // const lastPage =
-        //   historyStack.length > 1
-        //     ? historyStack[historyStack.length - 2]
-        //     : fullContactPath;
-        // console.log('⏪ Navigating back to:', lastPage);
-        // historyStack.pop();
-        // sessionStorage.setItem('historyStack', JSON.stringify(historyStack));
-        // router.push(lastPage);
       } else {
         console.log('else getting hit');
         goToPath(returnPath);
