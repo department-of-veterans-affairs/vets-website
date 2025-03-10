@@ -13,12 +13,8 @@ describe('LocationInput', () => {
             geolocationInProgress: false,
             searchString: 'Atlanta, GA',
           }}
-          facilitiesUseAddressTypeahead
           geolocateUser={() => {}}
           handleClearInput={() => {}}
-          handleGeolocationButtonClick={() => {}}
-          handleLocationBlur={() => {}}
-          handleQueryChange={() => {}}
           locationInputFieldRef={null}
           onChange={() => {}}
           useProgressiveDisclosure

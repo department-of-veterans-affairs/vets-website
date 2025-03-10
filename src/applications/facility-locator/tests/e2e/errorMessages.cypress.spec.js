@@ -12,7 +12,6 @@ import {
 import * as h from './helpers';
 
 const featureSets = featureCombinationsTogglesToTest([
-  'facilities_use_address_typeahead',
   'facilities_use_fl_progressive_disclosure',
 ]);
 
@@ -20,21 +19,14 @@ for (const featureSet of featureSets) {
   describe(`Facility search error messages ${enabledFeatures(
     featureSet,
   )}`, () => {
-    const isAddressTypeaheadEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_address_typeahead'),
-    );
-
     const isProgDiscEnabled = featureSet.some(
       isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
     );
 
-    let addrErrorMessage = 'Please fill in a city, state, or postal code.';
     let serviceErrorMessage = 'Please search for an available service';
 
-    if (isAddressTypeaheadEnabled || isProgDiscEnabled) {
-      addrErrorMessage =
-        'Enter a zip code or a city and state in the search box';
-    }
+    const addrErrorMessage =
+      'Enter a zip code or a city and state in the search box';
 
     if (isProgDiscEnabled) {
       serviceErrorMessage = 'Start typing and select an available service';
@@ -61,13 +53,9 @@ for (const featureSet of featureSets) {
       h.focusElement(h.CITY_STATE_ZIP_INPUT);
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
-      if (isAddressTypeaheadEnabled) {
-        h.errorMessageContains(
-          'Enter a zip code or a city and state in the search box',
-        );
-      } else {
-        h.errorMessageContains(addrErrorMessage);
-      }
+      h.errorMessageContains(
+        'Enter a zip code or a city and state in the search box',
+      );
 
       h.typeInCityStateInput('A', true);
       h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);

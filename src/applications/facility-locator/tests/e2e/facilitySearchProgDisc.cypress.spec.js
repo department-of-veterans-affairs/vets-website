@@ -83,7 +83,6 @@ describe('Facility VA search', () => {
       data: {
         features: [
           { name: 'facilities_use_fl_progressive_disclosure', value: true },
-          { name: 'facilities_use_address_typeahead', value: true },
         ],
       },
     });
