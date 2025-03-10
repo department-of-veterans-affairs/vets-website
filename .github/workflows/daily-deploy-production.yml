@@ -49,7 +49,7 @@ jobs:
       continue-on-error: true
       with:
         payload: '{"attachments": [{"color": "#07711E", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled:* Deployment workflows for `vets-website` and `content-build` have been disabled for the holiday period. No deployments should occur until further notice."}}]}]}'
-        channel_id: 'C044Z57LS2Y, C04868KS69L' #Frontend COP & platform-reliability-team
+        channel_id: 'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -66,7 +66,7 @@ jobs:
       continue-on-error: true
       with:
         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
-        channel_id:  'C044Z57LS2Y, C04868KS69L' #Frontend COP & platform-reliability-team
+        channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
@@ -83,7 +83,7 @@ jobs:
       continue-on-error: true
       with:
         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
-        channel_id:  'C044Z57LS2Y, C04868KS69L' #Frontend COP & platform-reliability-team
+        channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
