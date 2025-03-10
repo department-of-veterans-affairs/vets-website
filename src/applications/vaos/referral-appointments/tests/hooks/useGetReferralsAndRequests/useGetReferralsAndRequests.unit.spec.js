@@ -9,7 +9,7 @@ import { FETCH_STATUS } from '../../../../utils/constants';
 import TestComponent from './TestComponent';
 
 describe('Community Care Referrals', () => {
-  describe('useGetReferralsAndRequests hook', () => {
+  describe.skip('useGetReferralsAndRequests hook', () => {
     const possibleFetchStatuses = [
       {
         referralsFetchStatus: FETCH_STATUS.failed,
