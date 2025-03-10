@@ -1,8 +1,12 @@
+import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
   fullNameUI,
   fullNameSchema,
+  ssnUI,
+  ssnSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import { VaCheckboxField } from 'platform/forms-system/src/js/web-component-fields';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfFieldsByType,
@@ -108,6 +112,81 @@ describe('dependents full name page', () => {
     {
       'va-text-input': 3,
       'va-select': 1,
+    },
+    pageTitle,
+  );
+});
+
+describe('dependents ssn page', () => {
+  const dependentChildSocialSecurityNumberPage = {
+    uiSchema: {
+      childSocialSecurityNumber: merge({}, ssnUI(), {
+        'ui:required': (formData, index) => {
+          return (
+            formData?.['view:noSsn'] !== true &&
+            formData?.dependents?.[index]?.['view:noSsn'] !== true
+          );
+        },
+      }),
+      'view:noSsn': {
+        'ui:title': "Doesn't have a Social Security number",
+        'ui:webComponentField': VaCheckboxField,
+      },
+    },
+    schema: {
+      type: 'object',
+      properties: {
+        childSocialSecurityNumber: ssnSchema,
+        'view:noSsn': { type: 'boolean' },
+      },
+    },
+  };
+  const pageTitle = 'dependent';
+  const expectedNumberOfFields = 2;
+  testNumberOfWebComponentFields(
+    formConfig,
+    dependentChildSocialSecurityNumberPage.schema,
+    dependentChildSocialSecurityNumberPage.uiSchema,
+    expectedNumberOfFields,
+    pageTitle,
+  );
+
+  const expectedNumberOfErrors = 1;
+  testNumberOfErrorsOnSubmitForWebComponents(
+    formConfig,
+    dependentChildSocialSecurityNumberPage.schema,
+    dependentChildSocialSecurityNumberPage.uiSchema,
+    expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(
+    formConfig,
+    dependentChildSocialSecurityNumberPage.schema,
+    dependentChildSocialSecurityNumberPage.uiSchema,
+    pageTitle,
+    {
+      childSocialSecurityNumber: '987654321',
+    },
+  );
+
+  testSubmitsWithoutErrors(
+    formConfig,
+    dependentChildSocialSecurityNumberPage.schema,
+    dependentChildSocialSecurityNumberPage.uiSchema,
+    pageTitle,
+    {
+      'view:noSsn': true,
+    },
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    dependentChildSocialSecurityNumberPage.schema,
+    dependentChildSocialSecurityNumberPage.uiSchema,
+    {
+      'va-text-input': 1,
+      'va-checkbox': 1,
     },
     pageTitle,
   );
