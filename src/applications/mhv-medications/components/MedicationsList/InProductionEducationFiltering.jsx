@@ -93,6 +93,7 @@ const InProductionEducationFiltering = () => {
             data-testid="rx-ipe-filtering-close"
             onClick={handleStopShowing}
             aria-label="Close button - Stop showing this hint"
+            role="img"
           />
         </div>
       )}
