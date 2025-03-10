@@ -406,11 +406,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         'va-link[text="Back to pending appointments"]',
       );
 
-      await waitFor(() => {
-        expect(link).to.be.ok;
-
-        fireEvent.click(link);
-      });
+      fireEvent.click(link);
       await waitFor(
         () => expect(screen.queryByText(/Pending appointments/i)).to.be.ok,
       );
