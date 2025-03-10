@@ -58,6 +58,8 @@
   "load-enrollment-status": "Verifying your enrollment status...",
   "page-title--before-you-begin": "Before you start your application",
   "page-title--check-your-information": "Check your personal information",
+  "presubmit--error-message": "You must accept the agreement before continuing.",
+  "presubmit--checkbox-label": "I confirm that I agree to the statements listed here. The information is true and correct to the best of my knowledge and belief. I\u2019ve read and accept the privacy policy.",
   "sip-start-form-text": "Start the health care application",
   "vet-info--birthplace-title": "Your place of birth",
   "vet-info--birthplace-description": "Enter your place of birth, including city and state, province or region.",
