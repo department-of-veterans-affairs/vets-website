@@ -33,8 +33,6 @@ describe('Test download all page', () => {
     DownloadAllPage.selectCustomEndMonth('January');
     DownloadAllPage.selectCustomEndDay('1');
     DownloadAllPage.selectCustomEndYear('2016');
-    // QUESTION - Do I need to click continue for the error to show up?
-    // ...OR should the error appear before clicking continue?
     DownloadAllPage.clickContinueOnDownloadAllPage();
     DownloadAllPage.verifyErrorStartDateGreaterThanEnd(
       'End date must be on or after start date.',
