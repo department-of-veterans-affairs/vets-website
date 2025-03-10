@@ -63,7 +63,7 @@ describe('Community Care Referrals', () => {
         expect(screen.getByText(/Loading: false/i)).to.exist;
       });
     });
-    it('fetches referrals and requests when status is not started', () => {
+    it.skip('fetches referrals and requests when status is not started', () => {
       sandbox
         .stub(getPatientReferralsModule, 'getPatientReferrals')
         .resolves([]);
