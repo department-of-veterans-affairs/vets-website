@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
@@ -149,6 +150,28 @@ class RoutedSavableApp extends React.Component {
 
   // should scroll up to top while user is waiting for form to load or save
   componentDidUpdate(oldProps) {
+    const { currentLocation } = this.props;
+    const currentPath = currentLocation.pathname;
+    const prevPath = oldProps.currentLocation.pathname;
+
+    if (currentPath !== prevPath) {
+      const historyStack =
+        JSON.parse(sessionStorage.getItem('historyStack')) || [];
+
+      if (
+        historyStack.length === 0 ||
+        historyStack[historyStack.length - 1] !== prevPath
+      ) {
+        historyStack.push(prevPath);
+      }
+
+      if (historyStack.length > 5) {
+        historyStack.shift();
+      }
+
+      sessionStorage.setItem('historyStack', JSON.stringify(historyStack));
+    }
+
     if (
       (oldProps.loadedStatus !== this.props.loadedStatus &&
         this.props.loadedStatus === LOAD_STATUSES.pending) ||

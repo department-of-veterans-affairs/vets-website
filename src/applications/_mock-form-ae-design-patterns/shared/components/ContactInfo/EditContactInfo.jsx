@@ -45,7 +45,6 @@ export const BuildPageBase = ({
   const prevModalState = usePrevious(modalState);
 
   const routeMetadata = useRouteMetadata(router);
-
   const fullContactPath = `${routeMetadata?.urlPrefix || ''}${contactPath}`;
 
   useEffect(
@@ -84,8 +83,6 @@ export const BuildPageBase = ({
     returnPath = fullContactPath;
   }
 
-  console.log('missing-path', returnPath);
-
   const handlers = {
     onSubmit: event => {
       // This prevents this nested form submit event from passing to the
@@ -99,16 +96,46 @@ export const BuildPageBase = ({
     cancel: () => {
       setReturnState(id, 'canceled');
       if (returnPath === -1) {
-        window.history.back();
+        const historyStack =
+          JSON.parse(sessionStorage.getItem('historyStack')) || [];
+
+        console.log('Current history stack:', historyStack);
+        console.log('Current path:', router.location.pathname);
+
+        console.log('Current history stack:', historyStack);
+        console.log('Current path:', router.location.pathname);
+
+        // Get the last page that isn't the current page
+        const currentPath = router.location.pathname;
+        const previousPages = historyStack.filter(path => path !== currentPath);
+        const lastPage =
+          previousPages.length > 0
+            ? previousPages[previousPages.length - 1]
+            : fullContactPath;
+
+        console.log('Filtered history:', previousPages);
+        console.log('⏪ Navigating back to:', lastPage);
+        sessionStorage.setItem('historyStack', JSON.stringify(previousPages));
+        router.push(lastPage);
+        // const lastPage =
+        //   historyStack.length > 1
+        //     ? historyStack[historyStack.length - 2]
+        //     : fullContactPath;
+        // console.log('⏪ Navigating back to:', lastPage);
+        // historyStack.pop();
+        // sessionStorage.setItem('historyStack', JSON.stringify(historyStack));
+        // router.push(lastPage);
       } else {
+        console.log('else getting hit');
         goToPath(returnPath);
       }
     },
     success: async () => {
-      dispatch(removeMissingField(field));
+      dispatch(removeMissingField(missingInfoFields[field]));
       setReturnState(id, 'updated');
       await dispatch(refreshProfile);
-      goToPath(returnPath);
+      goToPath(fullContactPath);
+      // goToPath(returnPath);
     },
   };
 
@@ -134,6 +161,7 @@ export const BuildPageBase = ({
 BuildPageBase.propTypes = {
   router: PropTypes.shape({
     location: PropTypes.object,
+    push: PropTypes.func,
   }).isRequired,
   contactPath: PropTypes.string,
   editContactInfoHeadingLevel: PropTypes.string,

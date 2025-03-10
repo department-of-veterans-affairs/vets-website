@@ -123,7 +123,9 @@ const ContactInfoBase = ({
 
   useEffect(
     () => {
-      dispatch(setMissingInfo(missingInfo));
+      if (missingInfo.length > 0) {
+        dispatch(setMissingInfo(missingInfo));
+      }
     },
     [missingInfo, dispatch],
   );
@@ -143,7 +145,16 @@ const ContactInfoBase = ({
     },
     onGoBack: () => {
       clearReturnState();
-      goBack();
+      const historyStack =
+        JSON.parse(sessionStorage.getItem('historyStack')) || [];
+      const lastPath = historyStack.pop();
+
+      if (lastPath) {
+        sessionStorage.setItem('historyStack', JSON.stringify(historyStack));
+        router.push(lastPath);
+      } else {
+        goBack();
+      }
     },
     onGoForward: () => {
       setSubmitted(true);
@@ -226,15 +237,29 @@ const ContactInfoBase = ({
   useEffect(
     () => {
       if ((hasInitialized && missingInfo.length) || testContinueAlert) {
-        // page had an error flag, so we know when to show a success alert
         setHadError(true);
       }
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setHasInitialized(true);
-      });
+      }, 100);
+
+      return () => clearTimeout(timer);
     },
     [missingInfo, hasInitialized, testContinueAlert],
   );
+
+  // useEffect(
+  //   () => {
+  //     if ((hasInitialized && missingInfo.length) || testContinueAlert) {
+  //       // page had an error flag, so we know when to show a success alert
+  //       setHadError(true);
+  //     }
+  //     setTimeout(() => {
+  //       setHasInitialized(true);
+  //     });
+  //   },
+  //   [missingInfo, hasInitialized, testContinueAlert],
+  // );
 
   const MainHeader = onReviewPage ? 'h4' : 'h3';
   const Headers = contactSectionHeadingLevel || (onReviewPage ? 'h5' : 'h4');
