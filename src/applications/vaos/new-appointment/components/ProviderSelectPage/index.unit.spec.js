@@ -24,10 +24,54 @@ const defaultState = {
       '123': [
         {
           vistaId: '692',
+          legacyVAR: {
+            settings: {
+              '123': {
+                id: '123',
+                name: 'Food and Nutrition',
+                stopCodes: [
+                  {
+                    primary: '123',
+                    defaultForRequests: false,
+                  },
+                  {
+                    primary: '124',
+                    defaultForRequests: false,
+                  },
+                ],
+                direct: {
+                  patientHistoryRequired: true,
+                  patientHistoryDuration: 0,
+                  relationshipAge: 0,
+                  requireVisitWithinDays: 365,
+                  canCancel: true,
+                  enabled: true,
+                },
+                request: {
+                  patientHistoryRequired: true,
+                  patientHistoryDuration: 0,
+                  relationshipAge: 0,
+                  requireVisitWithinDays: 365,
+                  canCancel: true,
+                  submittedRequestLimit: 2,
+                  enterpriseSubmittedRequestLimit: 2,
+                  enabled: true,
+                },
+              },
+            },
+            distanceFromResidentialAddress: 322.5,
+          },
         },
       ],
     },
-    eligibility: {},
+    eligibility: {
+      '692_123': {
+        direct: true,
+        directReasons: [],
+        request: true,
+        requestReasons: [],
+      },
+    },
     patientProviderRelationshipsStatus: 'succeeded',
     patientProviderRelationships: [
       {
@@ -59,6 +103,42 @@ const defaultState = {
 describe('VAOS Page: ProviderSelectPage', () => {
   beforeEach(() => {
     mockFetch();
+  });
+
+  describe('when user is eligible to submit an appointment request', () => {
+    it('should display correct call a provider text', async () => {
+      const store = createTestStore(defaultState);
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+
+      expect(screen.getByText(/Option 1: Call the facility/i)).to.exist;
+    });
+  });
+
+  describe('when user is over request limit', () => {
+    it('should display correct call a provider text', async () => {
+      const store = createTestStore({
+        ...defaultState,
+        newAppointment: {
+          ...defaultState.newAppointment,
+          eligibility: {
+            '692_123': {
+              direct: true,
+              directReasons: [],
+              request: false,
+              requestReasons: ['overRequestLimit'],
+            },
+          },
+        },
+      });
+      const screen = renderWithStoreAndRouter(<SelectProviderPage />, {
+        store,
+      });
+      await waitFor(() => {
+        expect(screen.queryByTestId('cc-eligible-header')).to.not.exist;
+      });
+    });
   });
 
   describe('when a provider has no availability', () => {

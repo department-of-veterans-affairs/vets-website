@@ -276,6 +276,7 @@ const responses = {
     const isDirect = req.query.type === 'direct';
     const ineligibilityReasons = [];
 
+    // Direct scheduling, Facility 983, not primaryCare
     if (
       isDirect &&
       req.query.facility_id.startsWith('984') &&
@@ -289,7 +290,13 @@ const responses = {
         ],
       });
     }
-    if (!isDirect && !req.query.facility_id.startsWith('983')) {
+
+    // Request, not Facility 983, not Facility 692 (OH)
+    if (
+      !isDirect &&
+      (!req.query.facility_id.startsWith('983') &&
+        !req.query.facility_id.startsWith('692'))
+    ) {
       ineligibilityReasons.push({
         coding: [
           {
