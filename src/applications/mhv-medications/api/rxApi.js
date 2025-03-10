@@ -14,6 +14,16 @@ const headers = {
 };
 
 /**
+ * Helper function to create headers with x-key-inflection
+ */
+const getHeadersWithInflection = () => {
+  return {
+    ...headers,
+    'X-Key-Inflection': 'camel', // Add the custom header key for tooltips
+  };
+};
+
+/**
  * Helper function to create a delay
  */
 const delay = ms => {
@@ -158,4 +168,61 @@ export const fillRxs = ids => {
     headers,
   };
   return apiRequest(url, requestOptions);
+};
+
+/**
+ * Gets all tooltips
+ */
+export const getTooltipsList = async () => {
+  return apiRequest(`${apiBasePath}/tooltips`, {
+    headers: getHeadersWithInflection(),
+  });
+};
+
+/**
+ * Updates hidden value of tooltip
+ */
+export const updateTooltipVisibility = async (tooltipId, hidden) => {
+  return apiRequest(`${apiBasePath}/tooltips/${tooltipId}`, {
+    method: 'PATCH',
+    headers: getHeadersWithInflection(),
+    body: JSON.stringify({
+      tooltip: {
+        hidden,
+      },
+    }),
+  });
+};
+
+/**
+ * Creates a new tooltip
+ */
+export const createTooltip = async () => {
+  return apiRequest(`${apiBasePath}/tooltips`, {
+    method: 'POST',
+    headers: getHeadersWithInflection(),
+    body: JSON.stringify({
+      tooltip: {
+        tooltipName: 'mhv_medications_tooltip',
+        hidden: false,
+      },
+    }),
+  });
+};
+
+/**
+ * Call to increment the tooltip counter.
+ * Note if session is not unique the counter will not be incremented.
+ * This logic is handled by the api.
+ */
+export const incrementTooltipCounter = async tooltipId => {
+  return apiRequest(`${apiBasePath}/tooltips/${tooltipId}`, {
+    method: 'PATCH',
+    headers: getHeadersWithInflection(),
+    body: JSON.stringify({
+      tooltip: {
+        incrementCounter: true,
+      },
+    }),
+  });
 };
