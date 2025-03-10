@@ -28,6 +28,7 @@ import {
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureVAOSServiceCCAppointments,
+  selectFeatureFeSourceOfTruth,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 import { getTypeOfCareById } from '../../utils/appointment';
@@ -98,27 +99,29 @@ export function selectFutureStatus(state) {
 export const selectFutureAppointments = createSelector(
   state => state.appointments.pending,
   state => state.appointments.confirmed,
-  (pending, confirmed) => {
+  state => selectFeatureFeSourceOfTruth(state),
+  (pending, confirmed, useFeSourceOfTruth) => {
     if (!confirmed || !pending) {
       return null;
     }
 
     return confirmed
       .concat(...pending)
-      .filter(isUpcomingAppointmentOrRequest)
+      .filter(item => isUpcomingAppointmentOrRequest(item, useFeSourceOfTruth))
       .sort(sortUpcoming);
   },
 );
 
 export const selectUpcomingAppointments = createSelector(
   state => state.appointments.confirmed,
-  confirmed => {
+  state => selectFeatureFeSourceOfTruth(state),
+  (confirmed, useFeSourceOfTruth) => {
     if (!confirmed) {
       return null;
     }
 
     const sortedAppointments = confirmed
-      .filter(isUpcomingAppointment)
+      .filter(item => isUpcomingAppointment(item, useFeSourceOfTruth))
       .sort(sortByDateAscending);
 
     return groupAppointmentsByMonth(sortedAppointments);

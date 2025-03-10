@@ -71,6 +71,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      future: true,
     };
 
     mockAppointmentsApi({
@@ -122,6 +123,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      future: true,
     };
 
     mockAppointmentsApi({
@@ -174,6 +176,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
       telehealth: { vvsKind: 'MOBILE_ANY' },
+      future: true,
     };
 
     mockAppointmentsApi({
@@ -224,6 +227,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       localStartTime: now.format('YYYY-MM-DDTHH:mm:ss.000ZZ'),
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      future: true,
     };
 
     mockAppointmentsApi({
@@ -277,6 +281,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
       name: { firstName: 'Jane', lastName: 'Doctor' },
+      future: true,
     };
 
     mockAppointmentsApi({
@@ -348,6 +353,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       localStartTime: format(now, "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"),
       start: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
       end: format(now, "yyyy-MM-dd'T'HH:mm:ss"),
+      future: true,
     };
 
     mockAppointmentsApi({

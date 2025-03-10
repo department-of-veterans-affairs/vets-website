@@ -104,7 +104,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
     it('should allow the user to go back to the appointment list', async () => {
       // Arrange
-      const response = new MockAppointmentResponse();
+      const response = new MockAppointmentResponse({ future: true });
 
       mockAppointmentApi({ response, avs: true, fetchClaimStatus: true });
       mockGetUpcomingAppointmentsApi({
