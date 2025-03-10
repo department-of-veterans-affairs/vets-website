@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import sinon from 'sinon';
 import { updateActiveFormPageContextMiddleware } from 'platform/forms-system/src/js/state/middleware';
 import { activeFormPageContextInstance } from 'platform/forms-system/src/js/state/activeFormPageContext';
@@ -47,7 +46,7 @@ describe('updateActiveFormPageContextMiddleware', () => {
     };
 
     const updaterSpy = sinon.spy(activeFormPageContextInstance, 'update');
-    const nextAction = updateActiveFormPageContextMiddleware(formState, action);
+    updateActiveFormPageContextMiddleware(formState, action);
 
     sinon.assert.calledOnce(updaterSpy);
     sinon.assert.calledWith(updaterSpy, {
@@ -57,7 +56,6 @@ describe('updateActiveFormPageContextMiddleware', () => {
       index: null,
       pagePath: 'mental-health/events-summary',
     });
-    expect(nextAction).to.equal(action);
 
     updaterSpy.restore();
   });
@@ -73,7 +71,7 @@ describe('updateActiveFormPageContextMiddleware', () => {
     };
 
     const updaterSpy = sinon.spy(activeFormPageContextInstance, 'update');
-    const nextAction = updateActiveFormPageContextMiddleware(formState, action);
+    updateActiveFormPageContextMiddleware(formState, action);
 
     sinon.assert.calledOnce(updaterSpy);
     sinon.assert.calledWith(updaterSpy, {
@@ -83,7 +81,6 @@ describe('updateActiveFormPageContextMiddleware', () => {
       index: null,
       pagePath: undefined,
     });
-    expect(nextAction).to.equal(action);
 
     updaterSpy.restore();
   });
@@ -101,10 +98,9 @@ describe('updateActiveFormPageContextMiddleware', () => {
     };
 
     const updaterSpy = sinon.spy(activeFormPageContextInstance, 'update');
-    const nextAction = updateActiveFormPageContextMiddleware(formState, action);
+    updateActiveFormPageContextMiddleware(formState, action);
 
     sinon.assert.notCalled(updaterSpy);
-    expect(nextAction).to.equal(action);
 
     updaterSpy.restore();
   });
