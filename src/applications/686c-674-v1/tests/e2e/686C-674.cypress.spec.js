@@ -5,6 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from 'applications/686c-674-v1/config/form';
 import manifest from 'applications/686c-674-v1/manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
+import mockUser from './fixtures/mock-user.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -14,7 +15,7 @@ const testConfig = createTestConfig(
     dataSets: ['add-child-add-674', 'spouse-child-all-fields'],
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
-      cy.login();
+      cy.login(mockUser);
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
           type: 'feature_toggles',

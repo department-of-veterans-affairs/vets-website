@@ -1,0 +1,91 @@
+{
+  "data": {
+    "id": "",
+    "type": "users_scaffolds",
+    "attributes": {
+      "services": [
+        "facilities",
+        "hca",
+        "edu-benefits",
+        "form-save-in-progress",
+        "form-prefill",
+        "rx",
+        "health-records",
+        "mhv-accounts",
+        "evss-claims",
+        "add-person",
+        "user-profile",
+        "appeals-status",
+        "id-card",
+        "identity-proofed",
+        "vet360",
+        "dashboard",
+        "claim_increase",
+        "all_claims"
+      ],
+      "account": {
+        "accountUuid": "278bb426-e69b-49ec-a7e8-a1b8db3ddd44"
+      },
+      "profile": {
+        "email": "vets.gov.user+81@gmail.com",
+        "firstName": "TRAVIS",
+        "middleName": "D",
+        "lastName": "JONES",
+        "birthDate": "1950-09-06",
+        "gender": "F",
+        "zip": "44102",
+        "lastSignedIn": "2021-11-30T15:31:09.659Z",
+        "loa": {
+          "current": 3,
+          "highest": 3
+        },
+        "multifactor": true,
+        "verified": true,
+        "signIn": {
+          "serviceName": "idme",
+          "accountType": "N/A"
+        },
+        "authnContext": "http://idmanagement.gov/ns/assurance/loa/3"
+      },
+      "vaProfile": {
+        "status": "OK",
+        "birthDate": "19510710",
+        "familyName": "Jones",
+        "gender": "M",
+        "givenNames": [
+          "Travis",
+          "Null"
+        ],
+        "isCernerPatient": false,
+        "facilities": [],
+        "vaPatient": false,
+        "mhvAccountState": "OK"
+      },
+      "veteranStatus": {
+        "status": "OK",
+        "isVeteran": false,
+        "servedInMilitary": false
+      },
+      "inProgressForms": [],
+      "prefillsAvailable": [],
+      "vet360ContactInformation": {
+        "email": null,
+        "residentialAddress": null,
+        "mailingAddress": null,
+        "mobilePhone": null,
+        "homePhone": null,
+        "workPhone": null,
+        "temporaryPhone": null,
+        "faxNumber": null,
+        "textPermission": null
+      },
+      "session": {
+        "ssoe": true,
+        "transactionid": "G5RGEHXsNRo3Fwccav2RENSgPs9cffXNr2wvsmPa8AQ="
+      }
+    }
+  },
+  "meta": {
+    "errors": null
+  }
+}
