@@ -30,7 +30,6 @@ export default {
     ...titleUI('Upload your supporting documents'),
     'ui:description': formData => description(formData),
     supportingDocuments: fileUploadUi({}),
-    hint: 'Hello World',
   },
   schema: {
     type: 'object',
