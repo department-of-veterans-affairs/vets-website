@@ -28,7 +28,6 @@ function Autosuggest({
   downshiftInputProps,
   // options for the autosuggest to show
   options,
-  minCharacters = 3, // only trigger update after n=3 characters
   noItemsMessage = 'No results found',
   shouldShowNoResults = true,
   // showError - use the usa-input-error class to show the error
@@ -43,6 +42,7 @@ function Autosuggest({
   loadingMessage = '',
   useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
+  showOptionsRestriction = undefined,
 }) {
   const {
     isOpen,
@@ -69,12 +69,19 @@ function Autosuggest({
     selectItem(null);
   };
 
+  let shouldBeShown = isOpen;
+
+  if (showOptionsRestriction !== undefined) {
+    shouldBeShown = isOpen && showOptionsRestriction;
+  }
+
   return (
     <div
       id={`${inputId}-autosuggest-container`}
       className={classNames('autosuggest-container', 'vads-u-width--full', {
         'usa-input-error': showError,
       })}
+      data-testid="autosuggest-container"
     >
       <div
         className={`${inputId}-autosuggest-label-container ${
@@ -104,7 +111,7 @@ function Autosuggest({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           options={options}
-          isShown={isOpen && !!inputValue && inputValue.length >= minCharacters}
+          isShown={shouldBeShown}
           itemToString={itemToString}
           noItemsMessage={noItemsMessage} // to display when no items are found - disabled item
           getMenuProps={getMenuProps}
