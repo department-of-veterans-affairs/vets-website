@@ -42,6 +42,9 @@ const InProductionEducationFiltering = () => {
               tooltipId: filterTooltip.id,
             });
           }
+          if (!filterTooltip.hidden) {
+            await dispatch(incrementTooltip(filterTooltip.id));
+          }
         } else {
           newTooltipResponse = await dispatch(createNewTooltip());
           dispatch({
@@ -49,12 +52,6 @@ const InProductionEducationFiltering = () => {
             tooltipId: newTooltipResponse.id,
           });
         }
-
-        await dispatch(
-          incrementTooltip(
-            filterTooltip?.id || (newTooltipResponse && newTooltipResponse.id),
-          ),
-        );
       };
 
       fetchTooltipData();
