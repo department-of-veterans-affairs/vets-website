@@ -371,6 +371,9 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
+        financialInformationIntro: {
+          ...financialInformationPages.financialInformationIntro,
+        },
         financialInformationSummary: {
           ...financialInformationPages.financialInformationSummary,
         },

@@ -5,21 +5,25 @@ import { formatCurrency } from '../../utils/helpers/general';
 
 const PreviousExpenses = props => {
   const { expensesType } = props;
-  const { parsedData } = useSelector(state => state?.veteranPrefillData);
+  const { previousFinancialInfo } = useSelector(
+    state => state?.enrollmentStatus?.nonPrefill,
+  );
   const expensesText = {
     deductibleMedicalExpenses: 'non-reimbursable medical',
     deductibleEducationExpenses: 'education',
     deductibleFuneralExpenses: 'funeral and burial',
   };
-  const expenses = `${parsedData?.veteranFinancialInfo?.[`${expensesType}`]}`;
+  const expenses = `${
+    previousFinancialInfo?.veteranFinancialInfo?.[`${expensesType}`]
+  }`;
 
-  return parsedData?.veteranFinancialInfo ? (
+  return previousFinancialInfo?.veteranFinancialInfo ? (
     <>
       <div className="vads-u-background-color--gray-lightest vads-u-margin-y--4">
         <va-card background>
           <h4 className="vads-u-margin-y--0 vads-u-font-weight--bold">
             Your {expensesText?.[`${expensesType}`]} expenses in{' '}
-            {parsedData?.incomeYear}
+            {previousFinancialInfo?.veteranFinancialInfo?.incomeYear}
           </h4>
           <p className="vads-u-margin-y--0">{formatCurrency(expenses)}</p>
         </va-card>

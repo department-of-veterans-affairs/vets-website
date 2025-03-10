@@ -4,6 +4,7 @@ import {
   arrayBuilderYesNoUI,
   arrayBuilderYesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
@@ -18,6 +19,7 @@ import { LAST_YEAR } from '../utils/constants';
 import { inlineTitleUI } from '../components/FormPatterns/TitlePatterns';
 import {
   GrossIncomeDescription,
+  HouseholdFinancialOnboarding,
   OtherIncomeDescription,
   PreviousNetIncome,
 } from '../components/FormDescriptions/IncomeDescriptions';
@@ -47,7 +49,7 @@ const {
 export const veteranAnnualIncomePage = options => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'annual income',
+      title: `Your annual income from ${LAST_YEAR}`,
       nounSingular: options.nounSingular,
     }),
     'view:veteranGrossIncome': {
@@ -55,7 +57,7 @@ export const veteranAnnualIncomePage = options => ({
         content['household-income-gross-title'],
         content['household-income-gross-description'],
       ),
-      'ui:description': GrossIncomeDescription,
+      'ui:description': GrossIncomeDescription(true),
       veteranGrossIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -71,7 +73,7 @@ export const veteranAnnualIncomePage = options => ({
         content['household-income-net-title'],
         content['household-income-net-description'],
       ),
-      'ui:description': PreviousNetIncome,
+      'ui:description': PreviousNetIncome(true),
       veteranNetIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -87,7 +89,7 @@ export const veteranAnnualIncomePage = options => ({
         content['household-income-other-title'],
         content['household-income-other-description'],
       ),
-      'ui:description': OtherIncomeDescription,
+      'ui:description': OtherIncomeDescription(true),
       veteranOtherIncome: {
         ...currencyUI(
           replaceStrValues(
@@ -124,7 +126,9 @@ export const veteranAnnualIncomePage = options => ({
 export const deductibleExpensesPage = options => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'deductible',
+      title: `Deductible expenses from ${LAST_YEAR}`,
+      description:
+        'These deductible expenses will lower the amount of money we count as your income.',
       nounSingular: options.nounSingular,
     }),
     'view:deductibleMedicalExpenses': {
@@ -277,8 +281,10 @@ export const summaryPage = options => ({
   uiSchema: {
     'view:hasFinancialInformationToAdd': arrayBuilderYesNoUI(options, {
       hint: null,
+      title: `Do you have any income and deductible to add for ${LAST_YEAR}?`,
     }),
   },
+
   schema: {
     type: 'object',
     required: ['view:hasFinancialInformationToAdd'],
@@ -287,3 +293,17 @@ export const summaryPage = options => ({
     },
   },
 });
+
+export const introPage = {
+  uiSchema: {
+    ...titleUI(
+      'Your income and deductible',
+      "In the next few questions, we'll ask you about your household financial information.",
+    ),
+    'ui:description': HouseholdFinancialOnboarding,
+  },
+  schema: {
+    type: 'object',
+    properties: {},
+  },
+};
