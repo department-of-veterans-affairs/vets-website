@@ -65,11 +65,10 @@ describe('22-10216 <IntroductionPage>', () => {
 
   it('should render form start button', () => {
     const wrapper = shallow(<IntroductionPage {...fakeStore.getState()} />);
+    const container = wrapper.find('Connect(SaveInProgressIntro)');
+    expect(container.length).to.equal(1);
+    expect(container.props().startText).to.contain('Start your 35% exemption request');
 
-    expect(wrapper.find('va-link-action').length).to.equal(1);
-    expect(wrapper.find('va-link-action').props().text).to.contain(
-      'Start your 35% exemption request',
-    );
 
     wrapper.unmount();
   });
@@ -79,23 +78,6 @@ describe('22-10216 <IntroductionPage>', () => {
 
     expect(wrapper.find('va-omb-info').length).to.equal(1);
 
-    wrapper.unmount();
-  });
-
-  it('should start form when start application link is clicked', () => {
-    const router = {
-      push: () => {},
-    };
-    const wrapper = shallow(
-      <IntroductionPage router={router} {...fakeStore.getState()} />,
-    );
-    const vaLink = wrapper.find('va-link-action');
-    const event = { preventDefault: () => {} };
-    const preventDefault = sinon.spy(event, 'preventDefault');
-
-    expect(vaLink).to.exist;
-    vaLink.simulate('click', event);
-    expect(preventDefault.called).to.be.true;
     wrapper.unmount();
   });
 });
