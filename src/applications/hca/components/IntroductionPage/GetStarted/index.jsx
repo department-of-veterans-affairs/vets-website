@@ -11,7 +11,7 @@ import EnrollmentStatus from '../EnrollmentStatus';
 import OMBInfo from './OMBInfo';
 
 const GetStarted = ({ route }) => {
-  const { showEnrollmentDetails, showOmbInfo } = useSelector(state => {
+  const { renderEnrollmentStatus, renderOmbInfo } = useSelector(state => {
     const {
       hasApplyStatus,
       hasServerError,
@@ -19,24 +19,23 @@ const GetStarted = ({ route }) => {
     } = selectEnrollmentStatus(state);
     const { isESOverrideEnabled } = selectFeatureToggles(state);
     const { isLoggedIn } = selectAuthStatus(state);
+    const showEnrollmentDetails =
+      isLoggedIn && (vesRecordFound || hasServerError) && !isESOverrideEnabled;
     return {
-      showEnrollmentDetails:
-        isLoggedIn &&
-        (vesRecordFound || hasServerError) &&
-        !isESOverrideEnabled,
-      showOmbInfo: showEnrollmentDetails
+      renderEnrollmentStatus: showEnrollmentDetails,
+      renderOmbInfo: showEnrollmentDetails
         ? !hasServerError && hasApplyStatus
         : true,
     };
   });
   return (
     <>
-      {showEnrollmentDetails ? (
+      {renderEnrollmentStatus ? (
         <EnrollmentStatus route={route} />
       ) : (
         <ProcessDescription route={route} />
       )}
-      {showOmbInfo && <OMBInfo />}
+      {renderOmbInfo && <OMBInfo />}
     </>
   );
 };
