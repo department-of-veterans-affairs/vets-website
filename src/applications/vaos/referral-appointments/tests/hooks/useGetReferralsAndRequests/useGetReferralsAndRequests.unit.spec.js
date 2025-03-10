@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import * as getPatientReferralsModule from '../../../../services/referral';
 import * as getAppointmentsModule from '../../../../services/vaos';
 import { renderWithStoreAndRouter } from '../../../../tests/mocks/setup';
@@ -86,7 +87,11 @@ describe('Community Care Referrals', () => {
       const screen = renderWithStoreAndRouter(<TestComponent />, {
         initialState,
       });
-      expect(screen.getByText(/Test component/i)).to.exist;
+
+      waitFor(() => {
+        expect(screen.getByText(/Test component/i)).to.exist;
+      });
+
       sandbox.assert.calledOnce(getPatientReferralsModule.getPatientReferrals);
       sandbox.assert.calledOnce(getAppointmentsModule.getAppointments);
     });
