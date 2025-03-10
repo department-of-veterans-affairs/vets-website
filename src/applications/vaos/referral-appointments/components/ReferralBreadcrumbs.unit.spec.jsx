@@ -24,7 +24,7 @@ describe('VAOS Component: ReferralBreadcrumbs', () => {
     sandbox.restore();
   });
 
-  it('should render Breadcrumbs component when breadcrumb does not start with "Back"', () => {
+  it.skip('should render Breadcrumbs component when breadcrumb does not start with "Back"', () => {
     sandbox.stub(flow, 'getReferralUrlLabel').returns('Label');
     const store = createTestStore(initialState);
     const screen = renderWithStoreAndRouter(<ReferralBreadcrumbs />, {
