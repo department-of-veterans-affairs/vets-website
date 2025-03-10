@@ -10,8 +10,37 @@ import App from './index';
 
 const mockStore = configureStore([]);
 
+const goodAvailableFormsResponse = {
+  availableForms: [{ year: 2024, lastUpdated: '2025-02-03T18:50:40.548Z' }],
+};
+const emptyAvailableFormsResponse = {
+  availableForms: [],
+};
+
+const setupAvailableFormsResponse = (server, status, responsePayload) => {
+  server.use(
+    rest.get(
+      'https://dev-api.va.gov/v0/form1095_bs/available_forms',
+      (_, res, ctx) => {
+        if (responsePayload) {
+          return res(ctx.status(status), ctx.json(responsePayload));
+        }
+        return res(ctx.status(status));
+      },
+    ),
+  );
+};
+
 describe('App component', () => {
   let store;
+  const server = setupServer();
+  before(() => {
+    server.listen();
+  });
+  after(() => {
+    server.close();
+  });
+  setupAvailableFormsResponse(server, 200, goodAvailableFormsResponse);
 
   const unauthenticatedState = {
     featureToggles: {
@@ -129,19 +158,6 @@ describe('App component', () => {
     });
   });
   describe('when authenticated and verified', () => {
-    const responsePayload = {
-      availableForms: [{ year: 2024, lastUpdated: '2025-02-03T18:50:40.548Z' }],
-    };
-
-    const server = setupServer();
-
-    before(() => {
-      server.listen();
-    });
-    after(() => {
-      server.close();
-    });
-
     it('renders the loading message', async () => {
       const testState = {
         ...authedAndVerifiedState,
@@ -171,15 +187,8 @@ describe('App component', () => {
 
     it('renders the download form', async () => {
       store = mockStore(authedAndVerifiedState);
-      server.use(
-        rest.get(
-          'https://dev-api.va.gov/v0/form1095_bs/available_forms',
-          (_, res, ctx) => {
-            return res(ctx.status(200), ctx.json(responsePayload));
-          },
-        ),
-      );
-      const { container, queryByText } = render(
+
+      const { container, getByTestId, queryByText } = render(
         <Provider store={store}>
           <App />
         </Provider>,
@@ -206,20 +215,18 @@ describe('App component', () => {
           container,
         ),
       );
-      // to do: how to test the rest of this behavior?
+      await waitFor(() => {
+        expect(getByTestId('downloadError')).to.exist;
+      });
+      const target = getByTestId('downloadError');
+      expect(document.activeElement).to.eq(target);
     });
 
     describe('when the forms endpoint fails', () => {
       it('renders an error alert', async () => {
+        setupAvailableFormsResponse(server, 500, false);
         store = mockStore(authedAndVerifiedState);
-        server.use(
-          rest.get(
-            'https://dev-api.va.gov/v0/form1095_bs/available_forms',
-            (_, res, ctx) => {
-              return res(ctx.status(500));
-            },
-          ),
-        );
+
         const { queryByText } = render(
           <Provider store={store}>
             <App />
@@ -264,29 +271,9 @@ describe('App component', () => {
   });
 
   describe('when no 1095-B form data is found', () => {
-    const server = setupServer();
-
-    // todo - this is repeated from above, can make this DRY?
-    before(() => {
-      server.listen();
-    });
-    after(() => {
-      server.close();
-    });
-
     it('renders a message', async () => {
-      const responsePayload = {
-        availableForms: [], // empty list of 1095-B forms
-      };
+      setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
       store = mockStore(authedAndVerifiedState);
-      server.use(
-        rest.get(
-          'https://dev-api.va.gov/v0/form1095_bs/available_forms',
-          (_, res, ctx) => {
-            return res(ctx.status(200), ctx.json(responsePayload));
-          },
-        ),
-      );
 
       const { queryByText } = render(
         <Provider store={store}>
