@@ -1,9 +1,8 @@
 name: E2E Test Stability Review
 
 on:
-  # schedule:
-  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-  push:
+  schedule:
+    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
     
 env:
   BUILDTYPE: vagovprod
