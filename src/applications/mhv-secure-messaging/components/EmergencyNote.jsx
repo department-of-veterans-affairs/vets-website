@@ -13,7 +13,7 @@ const EmergencyNote = props => {
           reply.
         </p>
         <p>
-          If you need help sooner, use one of these urgent communication
+          If you need help sooner, use one of these urgent communications
           options:
         </p>
         <ul>

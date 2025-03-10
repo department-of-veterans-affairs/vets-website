@@ -61,29 +61,69 @@
       "slackGroup": "@cto-health-products"
     },
     {
-      "rootFolder": "education-letters",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "rootFolder": "dhp-connected-devices",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "disability-benefits",
+      "slackGroup": "<@U022GNYPJ1L>",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "discharge-wizard",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "discover-your-benefits",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "dispute-debt",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "ds-playground",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "ds-v3-playground",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "e-folders",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "edu-benefits",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "education-letters",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "enrollment-verification",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "ezr",
-      "slackGroup": "@1010-fe-dev",
-      "continuousDeployment": false
+      "slackGroup": "@1010-fe-dev"
+    },
+    {
+      "rootFolder": "facility-locator",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "financial-status-report",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "fry-dea",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "gi",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
     },
     {
       "rootFolder": "hca",
@@ -95,8 +135,11 @@
     },
     {
       "rootFolder": "income-and-asset-statement",
-      "slackGroup": "<@C0667PCPVLM>",
-      "continuousDeployment": false
+      "slackGroup": "<@C0667PCPVLM>"
+    },
+    {
+      "rootFolder": "ivc-champva",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "letters",
@@ -109,6 +152,18 @@
     {
       "rootFolder": "login",
       "slackGroup": "@vsp-identity-group"
+    },
+    {
+      "rootFolder": "medallions",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "medallions2",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "messages",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "mhv-landing-page",
@@ -124,8 +179,15 @@
     },
     {
       "rootFolder": "mhv-secure-messaging",
-      "slackGroup": "@mhv-sm-redesign-devs",
-      "continuousDeployment": false
+      "slackGroup": "@mhv-sm-redesign-devs"
+    },
+    {
+      "rootFolder": "mhv",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "mhv-supply-reordering",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "_mock-form",
@@ -133,6 +195,22 @@
     },
     {
       "rootFolder": "_mock-form-ae-design-patterns",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "mock-sip-form",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "my-education-benefits",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "office-directory",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "pact-act",
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {
@@ -146,12 +224,36 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "proxy-rewrite",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "public-outreach-materials",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "rated-disabilities",
       "slackGroup": "@benefits-app-builds"
     },
     {
-      "rootFolder": "static-pages",
-      "slackGroup": "@C059Q28DV99"
+      "rootFolder": "representative-appoint",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "representative-search",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "resources-and-support",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sah",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sco",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "terms-of-use",

@@ -1,17 +1,15 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 
-const commonResponses = require('../../../platform/testing/local-dev-mock-api/common');
-
 const featureToggles = require('./feature-toggles/index');
 const user = require('./user/index');
 const mdot = require('./mdot/index');
+const maintenance_windows = require('./maintenance-windows/index');
 
 const toggleVeteranNotFoundError = false;
 const toggleInternalServerError = false;
 
 const responses = {
-  ...commonResponses,
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({}),
   'GET /v0/in_progress_forms/mdot': (req, res) => {
@@ -56,6 +54,9 @@ const responses = {
       },
     },
   },
+  'GET /v0/maintenance_windows': (_, response) =>
+    response.json(maintenance_windows),
+  'OPTIONS /v0/maintenance_windows': 'OK',
 };
 
 module.exports = delay(responses, 2000);

@@ -4,19 +4,16 @@ const transformForSubmit = (formConfig, form) => {
   const transformedData = JSON.parse(
     sharedTransformForSubmit(formConfig, form),
   );
-  const { first, middle, last } = transformedData.fullName;
+  const { first, middle, last } = transformedData.fullName || {};
 
-  if (middle) {
+  if (first || last) {
     transformedData.fullName = {
-      first: first.slice(0, 12),
-      middle: middle.charAt(0),
-      last: last.slice(0, 18),
+      first: first?.slice(0, 12),
+      last: last?.slice(0, 18),
+      ...(middle && { middle: middle.charAt(0) }),
     };
   } else {
-    transformedData.fullName = {
-      first: first.slice(0, 12),
-      last: last.slice(0, 18),
-    };
+    transformedData.fullName = {};
   }
 
   return JSON.stringify(transformedData);

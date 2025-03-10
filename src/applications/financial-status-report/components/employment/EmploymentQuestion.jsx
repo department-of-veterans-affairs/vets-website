@@ -13,6 +13,7 @@ import {
   jobButtonConstants,
 } from '../../utils/session';
 import { getGMT } from '../../actions/geographicMeansThreshold';
+import { isEligibleForStreamlined } from '../../utils/streamlinedDepends';
 
 const EmploymentQuestion = props => {
   const {
@@ -89,7 +90,7 @@ const EmploymentQuestion = props => {
       );
     };
 
-    if (data['view:streamlinedWaiver']) {
+    if (isEligibleForStreamlined(data)) {
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
