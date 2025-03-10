@@ -59,4 +59,18 @@ describe('Authed 1095-B Form Download PDF', () => {
 
     cy.axeCheck();
   });
+
+  it('displays an error message when the PDF download fails', () => {
+    cy.intercept('GET', 'v0/form1095_bs/download_pdf/*', {
+      statusCode: 500,
+      body: { error: 'An error occurred' },
+    });
+    cy.injectAxeThenAxeCheck();
+
+    cy.get('#pdf-download-link').click();
+    cy.focused().should(
+      'contain',
+      'We’re sorry. Something went wrong when we tried to download your form.',
+    );
+  });
 });
