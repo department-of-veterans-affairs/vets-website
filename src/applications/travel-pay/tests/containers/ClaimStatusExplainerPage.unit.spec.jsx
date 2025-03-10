@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
@@ -33,27 +32,23 @@ describe('ClaimStatusExplainerPage', () => {
     global.window.location = oldLocation;
   });
 
-  it('Successfully renders', async () => {
+  it('Successfully renders', () => {
     const screen = renderWithStoreAndRouter(<ClaimStatusExplainerPage />, {
       initialState: { ...getState() },
     });
 
-    await waitFor(() => {
-      expect(screen.queryByText('What does my claim status mean?')).to.exist;
-    });
+    expect(screen.queryByText('What does my claim status mean?')).to.exist;
   });
 
-  it('redirects to the root path when claim statuses feature flag is false', async () => {
+  it('redirects to the root path when claim statuses feature flag is false', () => {
     renderWithStoreAndRouter(<ClaimStatusExplainerPage />, {
       initialState: { ...getState({ hasStatusFeatureFlag: false }) },
     });
 
-    await waitFor(() => {
-      expect(window.location.replace.calledWith('/')).to.be.true;
-    });
+    expect(window.location.replace.calledWith('/')).to.be.true;
   });
 
-  it('shows a loading spinner of toggles are loading', async () => {
+  it('shows a loading spinner of toggles are loading', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
       <ClaimStatusExplainerPage />,
       {
@@ -61,8 +56,7 @@ describe('ClaimStatusExplainerPage', () => {
       },
     );
 
-    expect(
-      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
-    ).to.exist;
+    expect(screenFeatureToggle.getByTestId('travel-pay-loading-indicator')).to
+      .exist;
   });
 });
