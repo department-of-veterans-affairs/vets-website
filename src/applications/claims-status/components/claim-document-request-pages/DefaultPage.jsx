@@ -51,7 +51,6 @@ export default function DefaultPage({
             <p>{scrubDescription(item.description)}</p>
           )}
 
-
           <h3>Learn about this request in your claim letter</h3>
           <p>
             On {dateFormatter(item.requestedDate)}, we mailed you a letter
