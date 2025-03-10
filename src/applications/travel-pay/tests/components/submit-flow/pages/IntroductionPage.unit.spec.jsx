@@ -54,7 +54,12 @@ describe('Introduction page', () => {
           appointment: {
             isLoading: true,
             error: null,
-            data: mockAppt,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 6,
+              isOutOfBounds: false,
+            },
           },
         },
       },
@@ -62,7 +67,7 @@ describe('Introduction page', () => {
     });
 
     expect(screen.getByText('File a travel reimbursement claim')).to.exist;
-    expect($('va-link-action[text="File a mileage only claim"]')).to.exist;
+    expect($('va-link-action[text="File a mileage-only claim"]')).to.exist;
   });
 
   it('should show alert if appointment fetch fails', () => {
@@ -86,7 +91,7 @@ describe('Introduction page', () => {
     ).to.exist;
   });
 
-  it('should show alert if appointment is not past', () => {
+  it('should show future appt alert if appointment is not past', () => {
     MockDate.set('2024-12-28');
     const screen = renderWithStoreAndRouter(<IntroductionPage {...props} />, {
       initialState: {
@@ -94,7 +99,12 @@ describe('Introduction page', () => {
           appointment: {
             isLoading: false,
             error: null,
-            data: mockAppt,
+            data: {
+              ...mockAppt,
+              isPast: false,
+              daysSinceAppt: null,
+              isOutOfBounds: false,
+            },
           },
         },
       },
@@ -112,7 +122,12 @@ describe('Introduction page', () => {
           appointment: {
             isLoading: true,
             error: null,
-            data: mockAppt,
+            data: {
+              ...mockAppt,
+              isPast: true,
+              daysSinceAppt: 60,
+              isOutOfBounds: true,
+            },
           },
         },
       },

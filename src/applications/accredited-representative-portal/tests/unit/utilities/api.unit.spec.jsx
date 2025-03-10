@@ -19,6 +19,36 @@ describe('API utilities', () => {
   });
 
   describe('Error handling', () => {
+    it('redirects to login for 401 responses', async () => {
+      const errorResponse = new Response(
+        JSON.stringify({
+          errors: ['Access token JWT is malformed'],
+          status: 'UNAUTHORIZED',
+        }),
+        {
+          status: 401,
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
+      fetchStub.resolves(errorResponse);
+
+      // Stub window.location
+      const currentUrl = 'http://localhost/test';
+      const locationSetter = sandbox.stub();
+      Object.defineProperty(window, 'location', {
+        configurable: true,
+        enumerable: true,
+        get: () => ({ href: currentUrl }),
+        set: locationSetter,
+      });
+
+      const result = await api.getPOARequest('123');
+      expect(result).to.be.null;
+      expect(locationSetter.calledOnce).to.be.true;
+      const redirectUrl = locationSetter.firstCall.args[0];
+      expect(redirectUrl).to.match(new RegExp(encodeURIComponent(currentUrl)));
+    });
+
     it('does not log Response objects to Sentry', async () => {
       const errorResponse = new Response(
         JSON.stringify({
@@ -89,33 +119,6 @@ describe('API utilities', () => {
       expect(fetchStub.called).to.be.true;
       const url = fetchStub.firstCall.args[0];
       expect(url).to.include('/power_of_attorney_requests/123');
-    });
-
-    it('preserves 401 unauthorized responses', async () => {
-      const errorResponse = new Response(
-        JSON.stringify({
-          errors: ['Access token JWT is malformed'],
-          status: 'UNAUTHORIZED',
-        }),
-        {
-          status: 401,
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
-      fetchStub.resolves(errorResponse);
-
-      try {
-        await api.getPOARequest('123');
-        expect.fail('Should have thrown an error');
-      } catch (error) {
-        expect(error).to.be.instanceOf(Response);
-        expect(error.status).to.equal(401);
-        const errorData = await error.json();
-        expect(errorData.errors).to.deep.equal([
-          'Access token JWT is malformed',
-        ]);
-        expect(errorData.status).to.equal('UNAUTHORIZED');
-      }
     });
 
     it('preserves 403 forbidden responses', async () => {
