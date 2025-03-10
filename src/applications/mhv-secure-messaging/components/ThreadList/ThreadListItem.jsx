@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { DefaultFolders, Categories, Paths } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
+import usePageLocationName from '../../hooks/usePageLocationName';
 
 const unreadMessageClassList = 'vads-u-font-weight--bold';
 const readMessageClassList = '';
@@ -24,6 +25,8 @@ const ThreadListItem = props => {
     unreadMessages,
     unsentDrafts,
   } = props.thread;
+
+  const dataDogLocationName = usePageLocationName();
 
   const getClassNames = () => {
     // messages in draft folder have inconsistent readReceipt values
@@ -102,7 +105,9 @@ const ThreadListItem = props => {
           className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
-          data-dd-action-name="Link to Message Subject Details"
+          data-dd-action-name={`Link to Message Subject Details - ${dataDogLocationName}${
+            dataDogLocationName === 'Folders' ? ' custom' : ''
+          }`}
         >
           <span
             id={`message-link${

@@ -6,6 +6,7 @@ import ThreadListItem from './ThreadListItem';
 import { Paths, threadSortingOptions } from '../../util/constants';
 import ThreadListSort from './ThreadListSort';
 import Footer from '../Footer';
+import usePageLocationName from '../../hooks/usePageLocationName';
 
 const ThreadsList = props => {
   const {
@@ -20,6 +21,8 @@ const ThreadsList = props => {
   } = props;
 
   const location = useLocation();
+
+  const dataDogLocationName = usePageLocationName();
 
   const MAX_PAGE_LIST_LENGTH = 7;
 
@@ -109,6 +112,7 @@ const ThreadsList = props => {
                     threadList[0]?.threadPageSize / threadsPerPage,
                   )}
                   uswds
+                  data-dd-action-name={`Pagination - ${dataDogLocationName}`}
                 />
               </div>
             </div>

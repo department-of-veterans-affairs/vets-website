@@ -14,7 +14,11 @@ const GetFormHelp = () => {
           administrator. They may be able to add the team for you.
         </p>
         <p>
-          <a href="/find-locations" target="_blank">
+          <a
+            href="/find-locations"
+            target="_blank"
+            data-dd-action-name="Find your VA health facility  - contact list"
+          >
             Find your VA health facility
           </a>
         </p>

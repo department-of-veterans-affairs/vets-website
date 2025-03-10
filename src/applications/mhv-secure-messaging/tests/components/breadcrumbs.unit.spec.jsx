@@ -175,7 +175,7 @@ describe('Breadcrumbs', () => {
         },
         breadcrumbs: {
           list: [],
-          crumbsList: [...defaultCrumbs, Breadcrumbs.TRASH],
+          crumbsList: [...defaultCrumbs, Breadcrumbs.DELETED],
         },
       },
     };

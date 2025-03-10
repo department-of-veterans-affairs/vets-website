@@ -20,6 +20,7 @@ const FilterBox = forwardRef((props, ref) => {
     setFromDate,
     toDate,
     setToDate,
+    ddLocationName,
   } = props;
 
   const [fromDateError, setFromDateError] = useState('');
@@ -92,7 +93,10 @@ const FilterBox = forwardRef((props, ref) => {
         </VaModal>
       )}
 
-      <va-accordion data-dd-action-name="Add Filters Accordion" open-single>
+      <va-accordion
+        data-dd-action-name={`Accordion - Filter - ${ddLocationName}`}
+        open-single
+      >
         <va-accordion-item id="additional-filter-accordion">
           <h3 slot="headline" className="headline-text">
             Add filters
@@ -110,11 +114,16 @@ const FilterBox = forwardRef((props, ref) => {
                 );
               }}
               data-testid="category-dropdown"
-              data-dd-action-name={`${category?.label ??
-                '-Select-'} Category Dropdown`}
+              data-dd-action-name={`Filter category dropdown - ${ddLocationName}`}
             >
               {SelectCategories.map(item => (
-                <option key={item.value} value={item.value}>
+                <option
+                  key={item.value}
+                  value={item.value}
+                  data-dd-action-name={`Filter category option ${
+                    item.label
+                  } - ${ddLocationName}`}
+                >
                   {item.label}
                 </option>
               ))}
@@ -128,10 +137,16 @@ const FilterBox = forwardRef((props, ref) => {
               value={dateRange}
               onVaSelect={e => setDateRange(e.detail.value)}
               data-testid="date-range-dropdown"
-              data-dd-action-name={`${dateRange?.toUpperCase()} Months Date Range Dropdown`}
+              data-dd-action-name={`Filter Date Range Dropdown - ${ddLocationName}`}
             >
               {DateRangeOptions.map(item => (
-                <option key={item.value} value={item.value}>
+                <option
+                  key={item.value}
+                  value={item.value}
+                  data-dd-action-name={`Filter ${
+                    item.label === 'Custom' ? 'Custom date' : item.label
+                  } - ${ddLocationName}`}
+                >
                   {item.label}
                 </option>
               ))}
@@ -173,6 +188,7 @@ const FilterBox = forwardRef((props, ref) => {
 FilterBox.propTypes = {
   category: PropTypes.any,
   dateRange: PropTypes.any,
+  ddLocationName: PropTypes.string,
   fromDate: PropTypes.any,
   setCategory: PropTypes.func,
   setDateRange: PropTypes.func,

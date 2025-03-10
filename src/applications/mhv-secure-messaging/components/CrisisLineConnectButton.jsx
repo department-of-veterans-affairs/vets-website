@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { openCrisisModal } from '@department-of-veterans-affairs/mhv/exports';
+import usePageLocationName from '../hooks/usePageLocationName';
 
-const CrisisLineConnectButton = () => {
+const CrisisLineConnectButton = props => {
+  const { inAlert } = props;
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
   const [crisisModalOpened, setCrisisModalOpened] = useState(false);
+
+  const dataDogLocationName = usePageLocationName();
 
   useEffect(
     () => {
@@ -39,7 +43,9 @@ const CrisisLineConnectButton = () => {
       class="vads-u-margin-y--1p5"
       secondary="true"
       text="Connect with the Veterans Crisis Line"
-      data-dd-action-name="Connect with the Veterans Crisis Line Button"
+      data-dd-action-name={`Connect with the VCL Button - ${
+        inAlert ? 'in alert - ' : ''
+      }${dataDogLocationName}`}
       onClick={e => {
         setLastFocusableElement(e.target.shadowRoot.firstChild);
         setCrisisModalOpened(true);
