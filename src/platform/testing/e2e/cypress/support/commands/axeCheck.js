@@ -48,7 +48,14 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
   let axeBuilder = {
     runOnly: {
       type: 'tag',
-      values: ['section508', 'wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'],
+      values: [
+        'section508',
+        'wcag2a',
+        'wcag2aa',
+        'wcag21a',
+        'wcag21aa',
+        'best-practice',
+      ],
     },
     rules: {
       'color-contrast': {
