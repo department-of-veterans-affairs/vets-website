@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 import {
   VaButton,
@@ -7,65 +6,59 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import {
-  getTooltips,
-  createNewTooltip,
-  updateTooltipVisibility,
-  hideTooltip,
-  incrementTooltip,
-} from '../../actions/prescriptions';
-import { Actions } from '../../util/actionTypes';
+  apiHideTooltip,
+  createTooltip,
+  getTooltipsList,
+  incrementTooltipCounter,
+} from '../../api/rxApi';
 
 const InProductionEducationFiltering = () => {
-  const dispatch = useDispatch();
-  const tooltipVisible = useSelector(
-    state => state.rx.inProductEducation?.tooltipVisible,
-  );
-  const tooltipId = useSelector(
-    state => state.rx.inProductEducation?.tooltipId,
-  );
+  const [tooltipVisible, setTooltipVisible] = useState(null);
+  const [tooltipId, setTooltipId] = useState(null);
 
+  // TODO: consider a different approach for error handling.
   useEffect(
     () => {
-      const fetchTooltipData = async () => {
-        const response = await dispatch(getTooltips());
-        const filterTooltip = response.data?.find(
-          tip =>
-            tip.tooltip_name === 'mhv_medications_tooltip_filter_accordion',
-        );
-        let newTooltipResponse;
-
-        if (filterTooltip) {
-          if (filterTooltip.hidden) {
-            dispatch(hideTooltip());
+      getTooltipsList()
+        .then(response => {
+          const filterTooltip = response.data?.find(
+            tip =>
+              tip.tooltipName === 'mhv_medications_tooltip_filter_accordion',
+          );
+          if (filterTooltip) {
+            setTooltipVisible(filterTooltip.hidden);
+            setTooltipId(filterTooltip.id);
+            if (filterTooltip.hidden) {
+              incrementTooltipCounter(filterTooltip.id);
+            }
           } else {
-            dispatch({
-              type: Actions.Tooltip.SHOW_TOOLTIP,
-              tooltipId: filterTooltip.id,
-            });
+            createTooltip()
+              .then(newTooltipResponse => {
+                setTooltipId(newTooltipResponse.id);
+                setTooltipVisible(true);
+              })
+              .catch(error => {
+                // eslint-disable-next-line no-console
+                console.error('Error creating tooltip:', error);
+                setTooltipVisible(false);
+              });
           }
-          if (!filterTooltip.hidden) {
-            await dispatch(incrementTooltip(filterTooltip.id));
-          }
-        } else {
-          newTooltipResponse = await dispatch(createNewTooltip());
-          dispatch({
-            type: Actions.Tooltip.SHOW_TOOLTIP,
-            tooltipId: newTooltipResponse.id,
-          });
-        }
-      };
-
-      fetchTooltipData();
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error('Error fetching tooltips:', error);
+          setTooltipVisible(false);
+        });
     },
-    [dispatch],
+    [setTooltipVisible, setTooltipId],
   );
 
   const handleStopShowing = async () => {
     datadogRum.addAction(
       dataDogActionNames.medicationsListPage.STOP_SHOWING_IPE_FILTERING_HINT,
     );
-    await updateTooltipVisibility(tooltipId, true);
-    dispatch(hideTooltip());
+    await apiHideTooltip(tooltipId);
+    setTooltipVisible(false);
   };
 
   return (

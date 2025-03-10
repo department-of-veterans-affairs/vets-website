@@ -12,16 +12,7 @@ describe('In Production Education Filtering component', () => {
   const setup = () => {
     return renderWithStoreAndRouter(<InProductionEducationFiltering />, {
       path: '/',
-      state: {
-        rx: {
-          presctiption: {},
-          inProductEducation: {
-            tooltipId: 123,
-            tooltipVisible: true,
-          },
-          allergies: {},
-        },
-      },
+      state: {},
       reducers,
     });
   };

@@ -182,13 +182,13 @@ export const getTooltipsList = async () => {
 /**
  * Updates hidden value of tooltip
  */
-export const updateTooltipVisibility = async (tooltipId, hidden) => {
+export const apiHideTooltip = async tooltipId => {
   return apiRequest(`${apiBasePath}/tooltips/${tooltipId}`, {
     method: 'PATCH',
     headers: getHeadersWithInflection(),
     body: JSON.stringify({
       tooltip: {
-        hidden,
+        hidden: true,
       },
     }),
   });
