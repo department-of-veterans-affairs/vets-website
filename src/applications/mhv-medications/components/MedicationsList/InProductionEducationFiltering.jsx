@@ -29,7 +29,8 @@ const InProductionEducationFiltering = () => {
       const fetchTooltipData = async () => {
         const response = await dispatch(getTooltips());
         const filterTooltip = response.data?.find(
-          tip => tip.tooltip_name === 'mhv_medications_tooltip',
+          tip =>
+            tip.tooltip_name === 'mhv_medications_tooltip_filter_accordion',
         );
         let newTooltipResponse;
 

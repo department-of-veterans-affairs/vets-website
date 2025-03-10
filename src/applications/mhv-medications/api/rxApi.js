@@ -203,7 +203,7 @@ export const createTooltip = async () => {
     headers: getHeadersWithInflection(),
     body: JSON.stringify({
       tooltip: {
-        tooltipName: 'mhv_medications_tooltip',
+        tooltipName: 'mhv_medications_tooltip_filter_accordion',
         hidden: false,
       },
     }),
