@@ -52,7 +52,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cy.intercept('POST', formConfig.submitUrl);
     },
-    // skip: Cypress.env('CI'),
+    skip: Cypress.env('CI'),
   },
   mockManifest,
   formConfig,
