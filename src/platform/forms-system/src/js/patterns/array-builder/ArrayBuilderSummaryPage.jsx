@@ -87,6 +87,7 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
  *   getFirstItemPagePath: (formData, index) => string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
+ *   hideMaxItemsAlert: boolean,
  *   introPath: string,
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
@@ -106,6 +107,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     getFirstItemPagePath,
     getText,
     hasItemsKey,
+    hideMaxItemsAlert,
     introPath,
     isItemIncomplete,
     isReviewPage,
@@ -435,7 +437,10 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
               : ''
           }
         >
-          <MaxItemsAlert show={isMaxItemsReached} ref={maxItemsAlertRef}>
+          <MaxItemsAlert
+            show={isMaxItemsReached && !hideMaxItemsAlert}
+            ref={maxItemsAlertRef}
+          >
             {getText(
               'alertMaxItems',
               updatedItemData,
