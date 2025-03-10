@@ -81,10 +81,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       },
     );
 
-    await waitFor(async () => {
-      expect(screen.getByTestId('referral-layout-heading')).to.exist;
-    });
-
+    expect(screen.getByTestId('referral-layout-heading')).to.exist;
     expect(screen.getByTestId('slot-day-time')).to.contain.text(
       'Monday, September 9, 2024',
     );
