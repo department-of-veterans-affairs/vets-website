@@ -81,6 +81,7 @@ describe('<DefaultPage>', () => {
       expect($('va-additional-info', container)).to.exist;
       expect($('va-file-input', container)).to.exist;
     });
+
     it('should redner update 21-4142 information', () => {
       const item = {
         closedDate: null,

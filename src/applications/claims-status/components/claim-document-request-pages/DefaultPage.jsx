@@ -29,6 +29,7 @@ export default function DefaultPage({
           <h1 className="claims-header">
             {item.friendlyName ? item.friendlyName : item.displayName}
           </h1>
+
           {item.status === 'NEEDED_FROM_YOU' ? (
             <p className="vads-u-font-size--h3">
               Respond by {dateFormatter(item.suspenseDate)}
@@ -43,11 +44,13 @@ export default function DefaultPage({
             </div>
           ) : null}
           <h2>What we need from you</h2>
+
           {evidenceDictionary[item.displayName] ? (
             evidenceDictionary[item.displayName].longDescription
           ) : (
             <p>{scrubDescription(item.description)}</p>
           )}
+
 
           <h3>Learn about this request in your claim letter</h3>
           <p>

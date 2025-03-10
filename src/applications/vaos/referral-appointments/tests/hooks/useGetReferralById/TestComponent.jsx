@@ -9,7 +9,7 @@ export default function TestComponent() {
   return (
     <div>
       <p>Test component</p>
-      <p>{referral?.UUID}</p>
+      <p>{referral?.uuid}</p>
       <p>{referralFetchStatus}</p>
     </div>
   );
