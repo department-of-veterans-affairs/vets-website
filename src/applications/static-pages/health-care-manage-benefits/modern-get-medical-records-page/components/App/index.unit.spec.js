@@ -64,18 +64,19 @@ describe('Modern Get Medical Records Page', () => {
     const mockStore = configureStore([]);
 
     it('renders unanthenticated user', async () => {
-      const { queryByTestId, queryByRole } = render(
+      const { container, queryByTestId } = render(
         <Provider store={mockStore()}>
           <App userIsLoggedIn={false} />
         </Provider>,
       );
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.exist;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
+      expect(container.querySelector(`va-link-action[text="${linkText}"]`)).to
+        .not.exist;
     });
 
     it('renders unverified user', async () => {
-      const { queryByTestId, queryByRole } = render(
+      const { container, queryByTestId } = render(
         <Provider store={mockStore()}>
           <App
             userIsLoggedIn
@@ -86,18 +87,20 @@ describe('Modern Get Medical Records Page', () => {
       );
       expect(queryByTestId('mhv-unverified-alert')).to.exist;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
+      expect(container.querySelector(`va-link-action[text="${linkText}"]`)).to
+        .not.exist;
     });
 
     it('renders CTA-link for verified user', async () => {
-      const { queryByTestId, queryByRole } = render(
+      const { container, queryByTestId } = render(
         <Provider store={mockStore()}>
           <App userIsLoggedIn userIsVerified serviceName={CSP_IDS.ID_ME} />
         </Provider>,
       );
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.exist;
+      expect(container.querySelector(`va-link-action[text="${linkText}"]`)).to
+        .exist;
     });
 
     it('renders mhvAccount is loading indicator', () => {
