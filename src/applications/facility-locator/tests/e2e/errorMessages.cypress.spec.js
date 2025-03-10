@@ -53,9 +53,7 @@ for (const featureSet of featureSets) {
       h.focusElement(h.CITY_STATE_ZIP_INPUT);
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
-      h.errorMessageContains(
-        'Enter a zip code or a city and state in the search box',
-      );
+      h.errorMessageContains(addrErrorMessage);
 
       h.typeInCityStateInput('A', true);
       h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
