@@ -4,12 +4,15 @@ import { TITLE, SUBTITLE } from '../constants';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../containers/GetFormHelp';
 
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import veteranName from '../pages/veteranName';
 import veteranInfo1 from '../pages/veteranInfo1';
 import veteranInfo2 from '../pages/veteranInfo2';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
+import supportingDocuments from '../pages/supportingDocuments';
+import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -42,6 +45,7 @@ const formConfig = {
   },
   title: TITLE,
   subTitle: SUBTITLE,
+  getHelp: GetFormHelp,
   defaultDefinitions: {},
   chapters: {
     applicantInformation: {
@@ -115,10 +119,16 @@ const formConfig = {
       title: 'Supporting documents',
       pages: {
         supportingDocuments: {
-          path: 'phone-and-email-address-4',
-          title: 'Phone and email address',
-          uiSchema: phoneAndEmailAddress.uiSchema,
-          schema: phoneAndEmailAddress.schema,
+          path: 'supporting-documents',
+          title: 'Supporting documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
+        supportingDocumentsUpload: {
+          path: 'supporting-documents-upload',
+          title: 'Supporting Documents',
+          uiSchema: supportingDocumentsUpload.uiSchema,
+          schema: supportingDocumentsUpload.schema,
         },
       },
     },

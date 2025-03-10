@@ -115,13 +115,19 @@ export const selectFeatureRemovePodiatry = state =>
   toggleValues(state).vaOnlineSchedulingRemovePodiatry;
 
 export const selectFeatureUseVaDate = state =>
-  toggleValues(state).vaOnlineSchedulingUseVaDate;
+  toggleValues(state).vaosOnlineSchedulingUseVADate;
 
 export const selectFeaturePastApptDateRange = state =>
   toggleValues(state).vaOnlineSchedulingPastApptDateRange;
 
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
+
+export const selectFeatureMhvRouteGuards = state =>
+  toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
+
+export const selectFeatureDirectScheduleAppointmentConflict = state =>
+  toggleValues(state).vaOnlineSchedulingDirectScheduleAppointmentConflict;
 
 export const selectFeatureTravelPayViewClaimDetails = state =>
   toggleValues(state).travelPayViewClaimDetails;

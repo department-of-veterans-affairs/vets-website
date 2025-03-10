@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import {
-  VaButtonPair,
-  VaRadio,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
-import { BTSSS_PORTAL_URL } from '../../../constants';
 import { selectAppointment } from '../../../redux/selectors';
+import SmocRadio from '../../SmocRadio';
 
 const MileagePage = ({
   pageIndex,
@@ -47,18 +45,14 @@ const MileagePage = ({
   };
   return (
     <div>
-      <VaRadio
-        id="mileage"
-        onVaValueChange={e => {
+      <SmocRadio
+        name="mileage"
+        value={yesNo.mileage}
+        label="Are you only claiming mileage?"
+        error={requiredAlert}
+        onValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
         }}
-        value={yesNo.mileage}
-        data-testid="mileage-test-id"
-        error={requiredAlert ? 'You must make a selection to continue.' : null}
-        header-aria-describedby={null}
-        hint={null}
-        label="Are you claiming only mileage?"
-        label-header-level="1"
       >
         <div className="vads-u-margin-y--2">
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
@@ -74,21 +68,7 @@ const MileagePage = ({
           <p>{data.reasonForAppointment}</p>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
-        <va-radio-option
-          label="Yes"
-          value="yes"
-          key="mileage-yes"
-          name="mileage"
-          checked={yesNo.mileage === 'yes'}
-        />
-        <va-radio-option
-          key="mileage-no"
-          name="mileage"
-          checked={yesNo.mileage === 'no'}
-          label="No"
-          value="no"
-        />
-      </VaRadio>
+      </SmocRadio>
 
       <va-additional-info
         class="vads-u-margin-y--3"
@@ -97,7 +77,7 @@ const MileagePage = ({
         <ul>
           <li>We pay round-trip mileage for your scheduled appointments.</li>
           <li>
-            We may only pay return mileage for unscheduled appointments, like
+            We may only pay return mileage for unscheduled appointments like
             walk-ins and labs.
           </li>
         </ul>
@@ -107,27 +87,11 @@ const MileagePage = ({
           text="Check current mileage rates"
         />
       </va-additional-info>
-
-      <va-additional-info
-        class="vads-u-margin-bottom--3"
+      <HelpTextOptions
         trigger="If you have other expenses to claim"
-      >
-        <p>
-          <strong>
-            If you need to submit receipts for other expenses like tolls, meals,
-            or lodging, you can’t file a claim in this tool right now.
-          </strong>{' '}
-          But you can file your claim online through the{' '}
-          <va-link
-            external
-            href={BTSSS_PORTAL_URL}
-            text="Beneficiary Travel Self Service System (BTSSS)"
-          />
-          . Or you can use VA Form 10-3542 to submit a claim by mail or in
-          person.
-        </p>
-      </va-additional-info>
-
+        headline="If you need to submit receipts for other expenses like tolls, meals,
+            or lodging, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
