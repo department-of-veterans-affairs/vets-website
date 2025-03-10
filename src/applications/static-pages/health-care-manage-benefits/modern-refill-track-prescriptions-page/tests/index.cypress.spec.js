@@ -44,6 +44,6 @@ describe('The schedule view VA appointments page', () => {
     // Set up the test.
     setup({ authenticated: true });
 
-    cy.get('.vads-c-action-link--green').should('exist');
+    cy.get('va-link-action').should('exist');
   });
 });

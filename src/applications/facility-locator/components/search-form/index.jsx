@@ -42,6 +42,7 @@ const SearchForm = props => {
 
   const [selectedServiceType, setSelectedServiceType] = useState(null);
   const locationInputFieldRef = useRef(null);
+  const lastQueryRef = useRef(null);
 
   const onlySpaces = str => /^\s+$/.test(str);
 
@@ -82,6 +83,19 @@ const SearchForm = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
+
+    const isSameQuery =
+      lastQueryRef.current &&
+      currentQuery.facilityType === lastQueryRef.current.facilityType &&
+      currentQuery.serviceType === lastQueryRef.current.serviceType &&
+      currentQuery.searchString === lastQueryRef.current.searchString &&
+      currentQuery.zoomLevel === lastQueryRef.current.zoomLevel;
+
+    if (isSameQuery) {
+      return;
+    }
+
+    lastQueryRef.current = currentQuery;
 
     const {
       facilityType,
@@ -191,7 +205,7 @@ const SearchForm = props => {
           'usa-input-error': showError,
         })}
       >
-        {/* 
+        {/*
         after the flipper useProgressiveDisclosure is removed,
         this id can be changed back to #location-input-field
         and the media query in it may be removed
