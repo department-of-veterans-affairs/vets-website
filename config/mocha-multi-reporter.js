@@ -9,6 +9,5 @@ module.exports = {
     overwrite: false,
     html: false,
     json: true,
-    quiet: true,
   },
 };
