@@ -4,7 +4,7 @@ import { createLiteralMap } from '../../../../utils/helpers';
 import WarningExplainations from '../ContentBlocks/WarningExplainations';
 
 const WarningExplanation = () => {
-  const statusCode = useSelector(state => state.enrollmentStatus.statusCode);
+  const statusCode = useSelector(state => state.hcaEnrollmentStatus.statusCode);
 
   const contentDictionary = [
     [

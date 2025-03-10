@@ -5,7 +5,7 @@ import { createLiteralMap } from '../../../../utils/helpers';
 import content from '../../../../locales/en/content.json';
 
 const WarningHeadline = () => {
-  const statusCode = useSelector(state => state.enrollmentStatus.statusCode);
+  const statusCode = useSelector(state => state.hcaEnrollmentStatus.statusCode);
 
   const contentDictionary = [
     [

@@ -6,7 +6,7 @@ import GeneralFAQs from '../ContentBlocks/GeneralFAQs';
 import ReapplyFAQs from '../ContentBlocks/ReapplyFAQs';
 
 const EnrollmentStatusFAQ = () => {
-  const statusCode = useSelector(state => state.enrollmentStatus.statusCode);
+  const statusCode = useSelector(state => state.hcaEnrollmentStatus.statusCode);
 
   const wrapContentBlocks = blocks =>
     blocks.map((jsx, i) => <React.Fragment key={i}>{jsx}</React.Fragment>);
