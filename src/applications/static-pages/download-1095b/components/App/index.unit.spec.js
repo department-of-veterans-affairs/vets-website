@@ -94,14 +94,18 @@ describe('App component', () => {
     },
   };
 
+  const renderWithProvider = state => {
+    store = mockStore(state);
+    return render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    );
+  };
+
   describe('when not authenticated', () => {
     it('renders the sign-in alert', async () => {
-      store = mockStore(unauthenticatedState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
+      const { container } = renderWithProvider(unauthenticatedState);
       await waitFor(() => {
         expect($('va-button', container).outerHTML).to.contain(
           'Sign in or create an account',
@@ -114,12 +118,7 @@ describe('App component', () => {
       it('renders the sign-in alert', async () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'idme';
-        store = mockStore(testState);
-        const { container } = render(
-          <Provider store={store}>
-            <App />
-          </Provider>,
-        );
+        const { container } = renderWithProvider(testState);
         await waitFor(() => {
           expect($('.idme-verify-button', container).outerHTML).to.exist;
         });
@@ -129,12 +128,7 @@ describe('App component', () => {
       it('renders the sign-in alert', async () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'logingov';
-        store = mockStore(testState);
-        const { container } = render(
-          <Provider store={store}>
-            <App />
-          </Provider>,
-        );
+        const { container } = renderWithProvider(testState);
         await waitFor(() => {
           expect($('.logingov-verify-button', container).outerHTML).to.exist;
         });
@@ -144,12 +138,7 @@ describe('App component', () => {
       it('renders the sign-in alert', async () => {
         const testState = unverifiedState;
         testState.user.profile.signIn.serviceName = 'mhv';
-        store = mockStore(testState);
-        const { container } = render(
-          <Provider store={store}>
-            <App />
-          </Provider>,
-        );
+        const { container } = renderWithProvider(testState);
         await waitFor(() => {
           expect($('.logingov-verify-button', container).outerHTML).to.exist;
           expect($('.idme-verify-button', container).outerHTML).to.exist;
@@ -169,13 +158,7 @@ describe('App component', () => {
           },
         },
       };
-
-      store = mockStore(testState);
-      const { container } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
+      const { container } = renderWithProvider(testState);
       await waitFor(() => {
         expect(
           container.querySelector(
@@ -186,12 +169,8 @@ describe('App component', () => {
     });
 
     it('renders the download form', async () => {
-      store = mockStore(authedAndVerifiedState);
-
-      const { container, getByTestId, queryByText } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
+      const { container, getByTestId, queryByText } = renderWithProvider(
+        authedAndVerifiedState,
       );
       await waitFor(() => {
         expect(queryByText('Loading')).not.to.exist;
@@ -225,13 +204,7 @@ describe('App component', () => {
     describe('when the forms endpoint fails', () => {
       it('renders an error alert', async () => {
         setupAvailableFormsResponse(server, 500, false);
-        store = mockStore(authedAndVerifiedState);
-
-        const { queryByText } = render(
-          <Provider store={store}>
-            <App />
-          </Provider>,
-        );
+        const { queryByText } = renderWithProvider(authedAndVerifiedState);
         await waitFor(() => {
           expect(queryByText('Loading')).not.to.exist;
         });
@@ -250,12 +223,7 @@ describe('App component', () => {
             showDigitalForm1095b: false,
           },
         };
-        store = mockStore(testState);
-        const { queryByText } = render(
-          <Provider store={store}>
-            <App />
-          </Provider>,
-        );
+        const { queryByText } = renderWithProvider(testState);
         await waitFor(() => {
           expect(queryByText('Loading')).not.to.exist;
         });
@@ -273,13 +241,7 @@ describe('App component', () => {
   describe('when no 1095-B form data is found', () => {
     it('renders a message', async () => {
       setupAvailableFormsResponse(server, 200, emptyAvailableFormsResponse);
-      store = mockStore(authedAndVerifiedState);
-
-      const { queryByText } = render(
-        <Provider store={store}>
-          <App />
-        </Provider>,
-      );
+      const { queryByText } = renderWithProvider(authedAndVerifiedState);
 
       await waitFor(() => {
         expect(queryByText('Loading')).not.to.exist;
