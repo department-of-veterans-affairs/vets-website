@@ -4,7 +4,7 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
-import { BTSSS_PORTAL_URL } from '../../../constants';
+import { HelpTextOptions } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
 
 const VehiclePage = ({
@@ -46,27 +46,10 @@ const VehiclePage = ({
         error={requiredAlert}
         onValueChange={e => setYesNo({ ...yesNo, vehicle: e.detail.value })}
       />
-
-      <va-additional-info
-        class="vads-u-margin-y--3"
+      <HelpTextOptions
         trigger="If you didn't travel in your own vehicle"
-      >
-        <p>
-          <strong>
-            If you traveled by bus, train, taxi, or other authorized public
-            transportation, you can’t file a claim in this tool right now.
-          </strong>{' '}
-          But you can file your claim online through the{' '}
-          <va-link
-            external
-            href={BTSSS_PORTAL_URL}
-            text="Beneficiary Travel Self Service System (BTSSS)"
-          />
-          . Or you can use VA Form 10-3542 to submit a claim by mail or in
-          person.
-        </p>
-      </va-additional-info>
-
+        headline="If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue

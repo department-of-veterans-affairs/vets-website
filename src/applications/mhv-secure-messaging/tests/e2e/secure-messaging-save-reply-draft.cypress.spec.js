@@ -13,6 +13,7 @@ describe('Secure Messaging Reply', () => {
     const bodyText = 'Updated body text';
     const singleMessage = { data: mockSingleThread.data[0] };
     singleMessage.data.attributes.body = bodyText;
+    cy.log(JSON.stringify(singleMessage));
 
     // load single thread
     SecureMessagingSite.login();
@@ -21,6 +22,9 @@ describe('Secure Messaging Reply', () => {
 
     // click reply btn
     PatientMessageDetailsPage.clickReplyButton(mockSingleThread);
+
+    // verify reply header contains original category
+    cy.get(`h1`).should(`contain`, `General:`);
 
     // change message
     PatientReplyPage.getMessageBodyField().type(bodyText, {
