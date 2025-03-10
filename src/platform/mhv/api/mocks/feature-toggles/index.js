@@ -8,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayGrouping = true,
     mhvMedicationsDisplayPendingMeds = true,
     mhvMedicationsDisplayRefillProgress = true,
+    mhvMedicationsShowIpeContent = true,
 
     // medical records
     mhvMedicalRecordsAllowTxtDownloads = true,
@@ -85,6 +86,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_remove_landing_page',
           value: mhvMedicationsRemoveLandingPage,
+        },
+        {
+          name: 'mhv_medications_show_ipe_content',
+          value: mhvMedicationsShowIpeContent,
         },
 
         // medical records

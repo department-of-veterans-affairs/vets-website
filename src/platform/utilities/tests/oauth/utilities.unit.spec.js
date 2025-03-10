@@ -18,6 +18,7 @@ import {
   ALL_STATE_AND_VERIFIERS,
   OAUTH_KEYS,
   COOKIES,
+  CLIENT_IDS,
 } from '../../oauth/constants';
 import { mockCrypto } from '../../oauth/mockCrypto';
 import * as oAuthUtils from '../../oauth/utilities';
@@ -373,6 +374,20 @@ describe('OAuth - Utilities', () => {
       expect(btr.href).includes('code=');
       expect(btr.href).includes('code_verifier=');
       storage.clear();
+    });
+    it('should set client_id to value of sessionStorage', () => {
+      localStorage.clear();
+      sessionStorage.clear();
+      const cvValue = 'success_buildTokenRequest';
+      localStorage.setItem('code_verifier', cvValue);
+      const mockedClientId = CLIENT_IDS.VAMOCK;
+      sessionStorage.setItem(COOKIES.CI, mockedClientId);
+      const btr = oAuthUtils.buildTokenRequest({
+        code: 'hello',
+      });
+      expect(btr.href).to.include(`client_id=${mockedClientId}`);
+      localStorage.clear();
+      sessionStorage.clear();
     });
   });
 

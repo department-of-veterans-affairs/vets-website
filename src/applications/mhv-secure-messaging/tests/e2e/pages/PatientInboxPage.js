@@ -84,11 +84,9 @@ class PatientInboxPage {
       this.mockRecipients,
     ).as('recipients');
 
-    cy.intercept(
-      'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
+      'signature',
+    );
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX, {
       onBeforeLoad: win => {
@@ -667,10 +665,6 @@ class PatientInboxPage {
     );
   };
 
-  clickAdditionalFilterButton = () => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
-  };
-
   selectDateRange = dropDownValue => {
     cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
       .find('select')
@@ -702,26 +696,6 @@ class PatientInboxPage {
       .each(el => {
         cy.wrap(el).should(`be.visible`);
       });
-  };
-
-  verifyFilterCategoryDropdown = data => {
-    cy.get(Locators.FIELDS.CATEGORY_OPTION).each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(data);
-        });
-    });
-  };
-
-  verifyFilterDateRangeDropdown = data => {
-    cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(data);
-        });
-    });
   };
 
   maintenanceWindowResponse = (startDate, endDate) => {

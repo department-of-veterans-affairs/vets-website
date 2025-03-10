@@ -58,6 +58,12 @@ export const fetchFacilities = async ({
     headers: { 'Content-Type': 'application/json' },
   });
 
+  Sentry.withScope(scope => {
+    scope.setLevel(Sentry.Severity.Log);
+    scope.setExtra('facilityId(s)', formatFacilityIds(facilityIds));
+    Sentry.captureMessage('FetchFacilities facilityIds');
+  });
+
   return fetchRequest
     .then(response => {
       if (!response?.data?.length) {

@@ -4,8 +4,8 @@ import sinon from 'sinon';
 
 import { fireEvent } from '@testing-library/react';
 import CompleteReferral from './CompleteReferral';
-import * as flow from './flow';
 
+import * as actionsModule from './redux/actions';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -20,7 +20,6 @@ describe('CompleteReferral', () => {
     'booked',
     createDraftAppointmentInfo(2),
   );
-  referralAppointmentInfo.slots.slots[0].start = '2024-11-29T16:00:00.000Z';
   const sandbox = sinon.createSandbox();
 
   const initialState = {
@@ -58,15 +57,18 @@ describe('CompleteReferral', () => {
   });
 
   it('should call routeToCCPage when "Review your appointments" link is clicked', () => {
-    const routeToCCPage = sandbox.spy(flow, 'routeToCCPage');
+    const startNewAppointmentFlowSpy = sandbox.spy(
+      actionsModule,
+      'startNewAppointmentFlow',
+    );
 
     const { getByTestId } = renderWithStoreAndRouter(<CompleteReferral />, {
       store: createTestStore(initialState),
       path: '/complete/UUID?confirmMsg=true',
     });
 
-    fireEvent.click(getByTestId('review-appointments-link'));
-    expect(routeToCCPage.calledOnce).to.be.true;
+    fireEvent.click(getByTestId('schedule-appointment-link'));
+    expect(startNewAppointmentFlowSpy.calledOnce).to.be.true;
   });
 
   it('should render error alert when appointment info has an error', () => {
@@ -90,16 +92,19 @@ describe('CompleteReferral', () => {
       store: createTestStore(initialState),
     });
 
-    expect(getByTestId('referral-content')).to.exist;
-    expect(getByTestId('appointment-date-time')).to.have.text(
-      'Friday, November 29, 2024',
+    expect(getByTestId('appointment-block')).to.exist;
+    expect(getByTestId('appointment-date')).to.have.text(
+      'Thursday, January 2nd, 2025',
     );
-    expect(getByTestId('provider-name')).to.exist;
-    expect(getByTestId('provider-org-name')).to.exist;
-    expect(getByTestId('provider-address')).to.have.text(
-      '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+    expect(getByTestId('appointment-type')).to.have.text(
+      'Physical Therapy with Dr. Bones',
     );
-    expect(getByTestId('provider-facility-org-name')).to.exist;
-    expect(getByTestId('changes-copy')).to.exist;
+
+    expect(getByTestId('appointment-modality')).to.have.text(
+      'In person at FHA South Melbourne Medical Complex',
+    );
+    expect(getByTestId('appointment-clinic')).to.have.text(
+      'Clinic: Meridian Health (Sandbox 5vuTac8v)',
+    );
   });
 });

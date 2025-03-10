@@ -390,7 +390,11 @@ export const hasNewPtsdDisability = formData =>
   isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
-  );
+  ) &&
+  // hasNewPtsdDisability gates the existing Form 0781 flow
+  // When the syncModern0781Flow flipper is set to true, we will display a new version of the flow.
+  // When the new version is visible, hasNewPtsdDisability should always return false so the legacy flow is hidden.
+  formData?.syncModern0781Flow !== true;
 
 export const showPtsdCombat = formData =>
   hasNewPtsdDisability(formData) &&

@@ -16,7 +16,7 @@ import {
   showConflictingAlert,
 } from '../../../content/form0781/behaviorListPages';
 import {
-  BEHAVIOR_LIST_BEHAVIOR_SUBTITLES,
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
@@ -80,7 +80,7 @@ describe('Behavior List Page', () => {
     expect($$('va-checkbox', container).length).to.equal(16);
 
     // verify subtitles for checkbox sections are present
-    Object.values(BEHAVIOR_LIST_BEHAVIOR_SUBTITLES).forEach(option => {
+    Object.values(BEHAVIOR_LIST_SECTION_SUBTITLES).forEach(option => {
       expect($$(`va-checkbox[title="${option}"]`, container)).to.exist;
     });
 

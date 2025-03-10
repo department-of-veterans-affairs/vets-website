@@ -1,16 +1,12 @@
 import _ from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { calculatedPercentage } from '../utilities';
+import { calculatedPercentage, dateSigned } from '../utilities';
 
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
     let clonedData = _.cloneDeep(formData);
-    delete clonedData.studentRatioCalcChapter.studentPercentageCalc;
     delete clonedData.statementOfTruthCertified;
-    let today = new Date();
-    const offset = today.getTimezoneOffset();
-    today = new Date(today.getTime() - offset * 60 * 1000);
-
+    delete clonedData.studentRatioCalcChapter.studentPercentageCalc;
     clonedData = {
       ...clonedData,
       studentRatioCalcChapter: {
@@ -21,7 +17,7 @@ export function transform(formConfig, form) {
         numOfStudent: Number(clonedData.studentRatioCalcChapter.numOfStudent),
         VABeneficiaryStudentsPercentage: calculatedPercentage(clonedData),
       },
-      dateSigned: today.toISOString().split('T')[0],
+      dateSigned: dateSigned(),
     };
     return clonedData;
   };
