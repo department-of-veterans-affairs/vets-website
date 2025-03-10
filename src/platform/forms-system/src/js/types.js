@@ -365,7 +365,6 @@
  *   maxLength?: number,
  *   minItems?: number,
  *   maxItems?: number,
- *   hideMaxItemsAlert?: boolean,
  *   minLength?: number,
  *   oneOf?: SchemaOptions[],
  *   pattern?: string,
@@ -461,7 +460,6 @@
  * ```
  * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
  * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
- * @property {boolean} [hideMaxItemsAlert] This will not display the alert when the [maxItems] number is reached.
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
  * @property {string} [reviewPath] Defaults to `'review-and-submit'` if not provided.
  * @property {ArrayBuilderText} [text] Override any default text used in the array builder pattern

@@ -91,7 +91,6 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
  *   maxItems: number,
- *   hideMaxItemsAlert,
  *   nounPlural: string,
  *   nounSingular: string,
  *   required: (formData) => boolean,
@@ -111,7 +110,6 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     isItemIncomplete,
     isReviewPage,
     maxItems,
-    hideMaxItemsAlert,
     nounPlural,
     nounSingular,
     required,
@@ -437,10 +435,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
               : ''
           }
         >
-          <MaxItemsAlert
-            show={isMaxItemsReached && !hideMaxItemsAlert}
-            ref={maxItemsAlertRef}
-          >
+          <MaxItemsAlert show={isMaxItemsReached} ref={maxItemsAlertRef}>
             {getText(
               'alertMaxItems',
               updatedItemData,
