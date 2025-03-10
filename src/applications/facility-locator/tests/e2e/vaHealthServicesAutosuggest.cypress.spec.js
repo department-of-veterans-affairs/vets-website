@@ -103,7 +103,7 @@ describe('VA health services autosuggest', () => {
 
       verifyDropdownIsOpen();
 
-      h.scroToThenVerifyElementByText('Cancer care').click();
+      h.scrollToThenVerifyElementByText('Cancer care').click();
 
       verifyDropdownIsClosed();
 

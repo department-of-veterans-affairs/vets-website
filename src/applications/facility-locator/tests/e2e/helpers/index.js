@@ -227,7 +227,7 @@ export const verifyElementExists = selector =>
     .should('exist')
     .and('be.visible');
 
-export const scroToThenVerifyElementByText = text =>
+export const scrollToThenVerifyElementByText = text =>
   cy
     .findByText(text)
     .eq(0)
