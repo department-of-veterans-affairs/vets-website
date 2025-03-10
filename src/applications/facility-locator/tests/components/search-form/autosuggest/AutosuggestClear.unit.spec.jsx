@@ -38,9 +38,9 @@ describe('<Autosuggest inputId="any">', () => {
       />,
     );
     expect(screen.getByTestId('input-with-clear')).to.be.displayed;
-    fireEvent.focus(screen.getByTestId('input-with-clear'));
-    fireEvent.blur(screen.getByTestId('input-with-clear'));
-    fireEvent.click(screen.getByTestId('down-caret'));
+    fireEvent.focus(screen.getByTestId('any-input-with-clear'));
+    fireEvent.blur(screen.getByTestId('any-input-with-clear'));
+    fireEvent.click(screen.getByTestId('any-down-caret'));
     expect(input).to.equal('any');
   });
 });

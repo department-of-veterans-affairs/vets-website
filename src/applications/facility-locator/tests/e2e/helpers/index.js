@@ -8,8 +8,10 @@ export const SEARCH_BUTTON = '#facility-search';
 export const SEARCH_AVAILABLE = '#search-available-service-prompt';
 export const NO_SERVICE = '#could-not-find-service-prompt';
 
-export const AUTOSUGGEST_INPUT = '[data-testid="input-with-clear"]';
-export const AUTOSUGGEST_ARROW = '[data-e2e-id="autosuggest-arrow-button"]';
+export const AUTOSUGGEST_INPUT =
+  '[data-testid="vamc-services-input-with-clear"]';
+export const AUTOSUGGEST_ARROW =
+  '[data-e2e-id="vamc-services-autosuggest-arrow-button"]';
 export const AUTOSUGGEST_CLEAR = '#clear-vamc-services';
 export const OPTIONS = 'p[role="option"]';
 
