@@ -116,13 +116,20 @@ export default function LicenseCertificationFilterAccordion({
 }
 
 LicenseCertificationFilterAccordion.propTypes = {
-  buttonLabel: PropTypes.string.isRequired,
-  // buttonOnClick: PropTypes.func.isRequired,
-  buttonOnClick: PropTypes.func,
   ariaDescribedBy: PropTypes.string,
-  children: PropTypes.node,
-  dispatchFocusSearch: PropTypes.func,
-  isExpanded: PropTypes.bool,
+  button: PropTypes.string.isRequired,
+  buttonLabel: PropTypes.string.isRequired,
+  buttonOnClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+  expanded: PropTypes.bool,
   headerClass: PropTypes.string,
   onClick: PropTypes.func,
+  resetSearch: PropTypes.func.isRequired,
+};
+
+LicenseCertificationFilterAccordion.defaultProps = {
+  expanded: false,
+  onClick: () => {},
+  headerClass: '',
+  ariaDescribedBy: '',
 };

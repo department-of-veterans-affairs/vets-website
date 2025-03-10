@@ -66,6 +66,8 @@ const SmBreadcrumbs = () => {
     Constants.Paths.REPLY,
     Constants.Paths.COMPOSE,
     Constants.Paths.CONTACT_LIST,
+    Constants.Paths.DRAFTS,
+    Constants.Paths.DELETED,
     ...(removeLandingPageFF
       ? [
           `${Constants.Paths.FOLDERS}${locationChildPath}/`,
@@ -77,6 +79,8 @@ const SmBreadcrumbs = () => {
   const pathsWithBackBreadcrumb = [
     Constants.Paths.COMPOSE,
     Constants.Paths.CONTACT_LIST,
+    Constants.Paths.DRAFTS,
+    Constants.Paths.DELETED,
     ...(removeLandingPageFF
       ? [
           `${Constants.Paths.FOLDERS}${locationChildPath}/`,
@@ -158,17 +162,25 @@ const SmBreadcrumbs = () => {
           ]),
         );
       } else if (
-        [
-          Constants.Paths.INBOX,
-          Constants.Paths.SENT,
-          Constants.Paths.DELETED,
-          Constants.Paths.DRAFTS,
-        ].includes(path) ||
+        [Constants.Paths.INBOX, Constants.Paths.SENT].includes(path) ||
         (path === Constants.Paths.FOLDERS && !locationChildPath)
       ) {
         dispatch(
           setBreadcrumbs([
             Constants.Breadcrumbs[locationBasePath.toUpperCase()],
+          ]),
+        );
+      } else if (
+        [Constants.Paths.DELETED, Constants.Paths.DRAFTS].includes(path) ||
+        (path === Constants.Paths.FOLDERS && !locationChildPath)
+      ) {
+        dispatch(
+          setBreadcrumbs([
+            {
+              href: Constants.Paths.FOLDERS,
+              label: Constants.Breadcrumbs.FOLDERS.label,
+              isRouterLink: true,
+            },
           ]),
         );
       } else if (
@@ -220,7 +232,7 @@ const SmBreadcrumbs = () => {
     [activeFolder, dispatch, locationBasePath, locationChildPath, folderList],
   );
 
-  const handleRoutechange = ({ detail }) => {
+  const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
   };
@@ -264,7 +276,7 @@ const SmBreadcrumbs = () => {
           breadcrumbList={newCrumbsList}
           label="Breadcrumb"
           home-veterans-affairs
-          onRouteChange={handleRoutechange}
+          onRouteChange={handleRouteChange}
           className="mobile-lg:vads-u-margin-y--2"
           dataTestid="sm-breadcrumbs"
           uswds

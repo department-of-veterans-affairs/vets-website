@@ -88,13 +88,13 @@ describe('Questionnaire Form - Chapter 2: Service', () => {
   });
 
   describe('onNavForward function for militaryServiceCompleted', () => {
-    it('should navigate to separation page if militaryServiceCurrentlyServing is "Yes"', () => {
+    it('should navigate to discharge page if militaryServiceCurrentlyServing is "Yes"', () => {
       const formData = {
         militaryServiceCurrentlyServing: true,
       };
       const goPathMock = path => {
         expect(path).to.equal(
-          formConfig.chapters.chapter3.pages.separation.path,
+          formConfig.chapters.chapter4.pages.characterOfDischarge.path,
         );
       };
 
