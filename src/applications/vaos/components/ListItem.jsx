@@ -9,7 +9,7 @@ export default function ListItem({
   children,
   status,
 }) {
-  const uniqueIdentifier = appointment.id || appointment.UUID;
+  const uniqueIdentifier = appointment.id || appointment.uuid;
   const idClickable = `id-${uniqueIdentifier.replace('.', '\\.')}`;
 
   return (

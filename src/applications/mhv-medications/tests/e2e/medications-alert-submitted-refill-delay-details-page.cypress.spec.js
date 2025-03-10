@@ -1,5 +1,4 @@
 import MedicationsSite from './med_site/MedicationsSite';
-import MedicationsLandingPage from './pages/MedicationsLandingPage';
 import MedicationsListPage from './pages/MedicationsListPage';
 import prescriptionList from './fixtures/listOfPrescriptions.json';
 import { Data } from './utils/constants';
@@ -10,11 +9,9 @@ describe('Medications Details Page Submitted Rx Delay Alert', () => {
   it('visits Medications Details Page Delay Alert for Submitted Refill', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
-    const landingPage = new MedicationsLandingPage();
     const detailsPage = new MedicationsDetailsPage();
     site.login();
-    landingPage.visitLandingPageURL();
-    landingPage.visitMedicationsListPage(prescriptionList);
+    listPage.visitMedicationsListPageURL(prescriptionList);
     listPage.verifyRefillDelayAlertBannerOnListPage(Data.DELAY_ALERT_BANNER);
     listPage.verifyRefillDetailsLinkVisibleOnDelayAlertBanner(
       rxSubmitted.data.attributes.prescriptionName,
