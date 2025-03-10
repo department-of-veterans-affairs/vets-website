@@ -341,8 +341,8 @@ va-checkbox {
 }
 
 #rx-ipe-filtering-container {
-  border: 2px solid $uswds-system-color-gray-80;
-  background-color: $uswds-system-color-gray-10;
+  border: 2px solid var(--vads-color-base);
+  background-color: var(--vads-color-gray-cool-light);
   border-radius: 12px;
   position: relative;
 
@@ -354,10 +354,10 @@ va-checkbox {
     top: -10px;
     right: 20px;
     z-index: 1;
-    background-color: $uswds-system-color-gray-10;
+    background-color: var(--vads-color-gray-cool-light);
     border: 2px solid transparent;
-    border-top-color: $uswds-system-color-gray-80;
-    border-left-color: $uswds-system-color-gray-80;
+    border-top-color: var(--vads-color-base);
+    border-left-color: var(--vads-color-base);
     transform: rotate(45deg);
   }
 
