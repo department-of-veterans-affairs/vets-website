@@ -18,17 +18,27 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.get('a.va-link--primary')
+          cy.get('a.schemaform-start-button')
             .first()
             .click();
         });
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-text-input')
-            .shadow()
-            .find('input')
-            .type('Jane Doe');
+          cy.get('@testKey').then(testKey => {
+            if (testKey === 'maximal-test.json') {
+              cy.get('va-text-input')
+                .shadow()
+                .find('input')
+                .type('Jane Test Doe');
+            } else {
+              cy.get('va-text-input')
+                .shadow()
+                .find('input')
+                .type('Jane Doe');
+            }
+          });
+
           cy.get(`va-checkbox`)
             .shadow()
             .find('input')
