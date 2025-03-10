@@ -363,7 +363,7 @@ export const addForm4142 = formData => {
 };
 
 export const addForm0781 = formData => {
-  if (formData.syncModern0781Flow) {
+  if (formData.syncModern0781Flow === true) {
     return formData;
   }
 

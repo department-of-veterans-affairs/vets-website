@@ -392,6 +392,27 @@ describe('addForm0781', () => {
   it('should return an empty object', () => {
     expect(addForm0781({})).to.deep.equal({});
   });
+
+  it('should return the same object if syncModern0781Flow is true', () => {
+    const formDataSyncModern0781True = {
+      syncModern0781Flow: true,
+      incident0: {
+        incidentLocation: { country: 'USA' },
+      },
+      secondaryIncident0: {
+        incidentLocation: { country: 'USA' },
+      },
+      additionalRemarks781: 'additionalRemarks781',
+      additionalIncidentText: 'additionalIncidentText',
+      additionalSecondaryIncidentText: 'additionalSecondaryIncidentText',
+      physicalChanges: { lethargy: true },
+    };
+
+    const result = addForm0781(formDataSyncModern0781True);
+
+    expect(result).to.deep.equal(formDataSyncModern0781True);
+  });
+
   it('should skip empty entries', () => {
     const data = {
       incident0: {
