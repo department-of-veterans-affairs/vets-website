@@ -180,7 +180,7 @@ const formConfig = {
         },
 
         housingRisk: {
-          title: 'Housing risk',
+          title: 'Housing risks',
           path: 'housing-risk',
           uiSchema: housingRisk.uiSchema,
           schema: housingRisk.schema,

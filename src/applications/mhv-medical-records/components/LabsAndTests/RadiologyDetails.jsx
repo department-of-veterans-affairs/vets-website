@@ -236,7 +236,7 @@ ${record.results}`;
       {allowMarchUpdates ? (
         <va-link
           className="vads-u-margin-top--1"
-          href="www.va.gov/profile/notifications"
+          href="/profile/notifications"
           text="Go to notification settings"
         />
       ) : (

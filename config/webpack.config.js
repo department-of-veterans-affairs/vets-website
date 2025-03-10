@@ -490,6 +490,19 @@ module.exports = async (env = {}) => {
         ),
         'process.env.USE_LOCAL_DIRECTLINE':
           process.env.USE_LOCAL_DIRECTLINE || false,
+        'process.env.DATADOG_APP_NAME': JSON.stringify(
+          process.env.DATADOG_APP_NAME || '',
+        ),
+        'process.env.DATADOG_API_KEY': JSON.stringify(
+          process.env.DATADOG_API_KEY || '',
+        ),
+        'process.env.HOST_NAME': JSON.stringify(process.env.HOST_NAME || ''),
+        'process.env.LOG_LEVEL': JSON.stringify(
+          process.env.LOG_LEVEL || 'info',
+        ),
+        'process.env.DATADOG_TAGS': JSON.stringify(
+          process.env.DATADOG_TAGS || '',
+        ),
       }),
 
       new webpack.ProvidePlugin({
