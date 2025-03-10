@@ -58,6 +58,7 @@ import {
   selectRefillContentFlag,
   selectRefillProgressFlag,
   selectRemoveLandingPageFlag,
+  selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
@@ -97,6 +98,7 @@ const Prescriptions = () => {
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
+  const showIPEContent = useSelector(selectIPEContentFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -742,8 +744,7 @@ const Prescriptions = () => {
                         setFilterOption={setFilterOption}
                         filterCount={filterCount}
                       />
-                      {/* TODO: hide behind the feature toggle */}
-                      <InProductionEducationFiltering />
+                      {showIPEContent && <InProductionEducationFiltering />}
                     </>
                   )}
                   {paginatedPrescriptionsList?.length ||
