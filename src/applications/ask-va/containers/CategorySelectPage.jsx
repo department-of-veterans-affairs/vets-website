@@ -6,26 +6,31 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { setCategoryID } from '../actions';
-import RequireSignInModal from '../components/RequireSignInModal';
+import { clearFormData, removeAskVaForm, setCategoryID } from '../actions';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
 import { URL, getApiUrl } from '../constants';
 import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const CategorySelectPage = props => {
-  const { onChange, isLoggedIn, goToPath, formData, goBack, router } = props;
+  const {
+    onChange,
+    isLoggedIn,
+    formData,
+    goBack,
+    goForward,
+    router,
+    formId,
+  } = props;
   const dispatch = useDispatch();
-
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [validationError, setValidationError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
-  const showError = data => {
-    if (data.selectCategory) {
-      goToPath('/category-topic-2');
+  const showError = () => {
+    if (formData.selectCategory) {
+      goForward(formData);
     }
     focusElement('va-select');
     return setValidationError('Please select a category');
@@ -33,23 +38,42 @@ const CategorySelectPage = props => {
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
+
+    if (!selectedValue || selectedValue === '') {
+      // Clear form data when no category is selected
+      dispatch(setCategoryID(null));
+      onChange({
+        ...formData,
+        categoryId: null,
+        selectCategory: '',
+        allowAttachments: false,
+        categoryRequiresSignIn: false,
+        contactPreferences: null,
+      });
+      return;
+    }
+
     const selected = apiData.find(
       category => category.attributes.name === selectedValue,
     );
-    if (selected.attributes.requiresAuthentication && !isLoggedIn) {
-      setShowModal(true);
-    } else {
-      dispatch(setCategoryID(selected.id));
-      (async () => {
-        await askVAAttachmentStorage.clear();
-      })();
-      onChange({
-        ...formData,
-        categoryId: selected.id,
-        selectCategory: selectedValue,
-        allowAttachments: selected.attributes.allowAttachments,
-      });
-    }
+
+    if (!selected) return;
+
+    dispatch(setCategoryID(selected.id));
+
+    (async () => {
+      await askVAAttachmentStorage.clear();
+    })();
+
+    onChange({
+      ...formData,
+      categoryId: selected.id,
+      selectCategory: selectedValue,
+      allowAttachments: selected.attributes.allowAttachments,
+      contactPreferences: selected.attributes.contactPreferences,
+      categoryRequiresSignIn:
+        selected.attributes.requiresAuthentication && !isLoggedIn,
+    });
   };
 
   const getApiData = url => {
@@ -78,6 +102,16 @@ const CategorySelectPage = props => {
     },
     [loading],
   );
+
+  const handleGoBack = () => {
+    if (!isLoggedIn) {
+      dispatch(clearFormData());
+      dispatch(removeAskVaForm(formId));
+      router.push('/');
+    } else {
+      goBack();
+    }
+  };
 
   if (loading) {
     return (
@@ -111,17 +145,8 @@ const CategorySelectPage = props => {
           ))}
         </VaSelect>
 
-        <FormNavButtons
-          goBack={() => (isLoggedIn ? goBack() : router.push('/'))}
-          goForward={() => showError(formData)}
-        />
+        <FormNavButtons goBack={handleGoBack} goForward={() => showError()} />
       </form>
-
-      <RequireSignInModal
-        onClose={() => setShowModal(false)}
-        show={showModal}
-        restrictedItem="category"
-      />
     </>
   ) : (
     <ServerErrorAlert />
@@ -130,7 +155,9 @@ const CategorySelectPage = props => {
 
 CategorySelectPage.propTypes = {
   formData: PropTypes.object,
+  formId: PropTypes.string,
   goBack: PropTypes.func,
+  goForward: PropTypes.func,
   goToPath: PropTypes.func,
   id: PropTypes.string,
   isLoggedIn: PropTypes.bool,
@@ -143,6 +170,7 @@ function mapStateToProps(state) {
   return {
     isLoggedIn: state.user.login.currentlyLoggedIn,
     formData: state.form.data,
+    formId: state.form.formId,
   };
 }
 
