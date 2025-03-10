@@ -87,7 +87,41 @@ export const ProcessList = () => (
 
 export const OmbBlock = () => (
   <div className="omb-info--container vads-u-padding-left--0 vads-u-margin-y--4">
-    <va-omb-info res-burden="15" omb-number="2900-0862" exp-date="03/31/2027" />
+    <va-omb-info res-burden="15" omb-number="2900-0862" exp-date="03/31/2027">
+      <>
+        <h2 className="vads-u-font-size--h3">Respondent Burden:</h2>
+        <p>
+          An agency may not conduct or sponsor, and a person is not required to
+          respond to a collection of information unless it displays a currently
+          valid OMB control Number. The OMB control number for this project is
+          2900-0862, and it expires 03/31/2027. Public reporting burden for this
+          collection of information is estimated to average 15 minutes per
+          respondent, per year, including the time for reviewing instructions,
+          searching existing data sources, gathering and maintaining the data
+          needed, and completing and reviewing the collection of information.
+          Send comments regarding this burden estimate and any other aspect of
+          this collection of information, including suggestions for reducing the
+          burden to VA Reports Clearance Officer at VACOPaperworkReduAct@VA.gov.
+          Please refer to OMB Control No. 2900-0862 in any correspondence. Do
+          not send your completed VA Form 20-0996 to this email address.
+        </p>
+        <h2 className="vads-u-font-size--h3">Privacy Act Notice:</h2>
+        <p>
+          VA will not disclose information collected on this form to any source
+          other than what has been authorized under the Privacy Act of 1974 or
+          Title 38, Code of Federal Regulations 1.576 for routine uses (i.e.,
+          civil or criminal law enforcement, congressional communications,
+          epidemiological or research studies, the collection of money owed to
+          the United States, litigation in which the United States is a party or
+          has an interest, the administration of VA programs and delivery of VA
+          benefits, verification of identity and status, and personnel
+          administration) as identified in the VA system of records,
+          58VA21/22/28, Compensation, Pension, Education, and Veteran Readiness
+          and Employment Records - VA, published in the Federal Register. Your
+          obligation to respond is voluntary.
+        </p>
+      </>
+    </va-omb-info>
   </div>
 );
 
