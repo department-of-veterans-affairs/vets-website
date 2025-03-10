@@ -109,7 +109,6 @@ export const BuildPageBase = ({
         sessionStorage.setItem('historyStack', JSON.stringify(previousPages));
         router.push(lastPage);
       } else {
-        console.log('else getting hit');
         goToPath(returnPath);
       }
     },
