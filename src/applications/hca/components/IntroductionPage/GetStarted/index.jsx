@@ -11,18 +11,24 @@ import EnrollmentStatus from '../EnrollmentStatus';
 import OMBInfo from './OMBInfo';
 
 const GetStarted = ({ route }) => {
-  const { isESOverrideEnabled } = useSelector(selectFeatureToggles);
-  const { vesRecordFound, hasServerError, hasApplyStatus } = useSelector(
-    selectEnrollmentStatus,
-  );
-  const { isLoggedIn } = useSelector(selectAuthStatus);
-  const showEnrollmentDetails =
-    isLoggedIn && (vesRecordFound || hasServerError) && !isESOverrideEnabled;
-  const showOmbInfo = showEnrollmentDetails
-    ? !hasServerError && hasApplyStatus
-    : true;
-
-  // render based on enrollment status & feature toggle data
+  const { showEnrollmentDetails, showOmbInfo } = useSelector(state => {
+    const {
+      hasApplyStatus,
+      hasServerError,
+      vesRecordFound,
+    } = selectEnrollmentStatus(state);
+    const { isESOverrideEnabled } = selectFeatureToggles(state);
+    const { isLoggedIn } = selectAuthStatus(state);
+    return {
+      showEnrollmentDetails:
+        isLoggedIn &&
+        (vesRecordFound || hasServerError) &&
+        !isESOverrideEnabled,
+      showOmbInfo: showEnrollmentDetails
+        ? !hasServerError && hasApplyStatus
+        : true,
+    };
+  });
   return (
     <>
       {showEnrollmentDetails ? (
@@ -30,7 +36,7 @@ const GetStarted = ({ route }) => {
       ) : (
         <ProcessDescription route={route} />
       )}
-      {showOmbInfo ? <OMBInfo /> : null}
+      {showOmbInfo && <OMBInfo />}
     </>
   );
 };

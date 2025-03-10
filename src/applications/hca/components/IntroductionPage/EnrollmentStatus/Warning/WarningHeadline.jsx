@@ -1,14 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
-import { selectEnrollmentStatus } from '../../../../utils/selectors';
 import { createLiteralMap } from '../../../../utils/helpers';
 import content from '../../../../locales/en/content.json';
 
 const WarningHeadline = () => {
-  const { statusCode } = useSelector(selectEnrollmentStatus);
+  const statusCode = useSelector(state => state.enrollmentStatus.statusCode);
 
-  // Declare enrollment status content dictionary
   const contentDictionary = [
     [
       content['enrollment-alert-title--enrolled'],
@@ -70,10 +68,8 @@ const WarningHeadline = () => {
     ],
   ];
 
-  // Reduce content dictionary to object literal
   const contentMap = createLiteralMap(contentDictionary);
 
-  // Render based on enrollment status
   return (
     <h2 slot="headline" data-testid="hca-enrollment-alert-heading">
       {contentMap[statusCode]}
