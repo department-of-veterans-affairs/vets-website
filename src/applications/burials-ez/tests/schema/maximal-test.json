@@ -69,11 +69,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
+    "location": "stateVeteransHome"
+  },
+  "stateVeteransHome": {
+    "facilityName": "CA State facility",
+    "facilityLocation": "Modesto, CA"
   },
   "veteranFullName": {
     "first": "Tom",

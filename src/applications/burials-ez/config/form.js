@@ -19,7 +19,6 @@ import contactInformation from './chapters/01-claimant-information/contactInform
 import veteranInformation from './chapters/02-veteran-information/veteranInformation';
 import burialInformation from './chapters/02-veteran-information/burialInformation';
 import locationOfDeath from './chapters/02-veteran-information/locationOfDeath';
-import locationOfDeathV2 from './chapters/02-veteran-information/locationOfDeathV2';
 
 import separationDocuments from './chapters/03-military-history/separationDocuments';
 import uploadDD214 from './chapters/03-military-history/uploadDD214';
@@ -48,7 +47,6 @@ import additionalEvidence from './chapters/05-additional-information/additionalE
 
 import {
   showUploadDocuments,
-  showLocationOfDeath,
   generateDeathFacilitySchemas,
 } from '../utils/helpers';
 import { submit } from './submit';
@@ -83,8 +81,8 @@ const formConfig = {
       saved: 'Your burial benefits application has been saved.',
     },
   },
-  version: 2,
-  migrations: migrations.slice(0, 2),
+  version: 3,
+  migrations,
   prefillEnabled: true,
   dev: {
     disableWindowUnloadInCI: true,
@@ -186,19 +184,8 @@ const formConfig = {
             <span className="vads-u-font-size--h3">Veteran death location</span>
           ),
           path: 'veteran-information/location-of-death',
-          depends: () => !showLocationOfDeath(),
           uiSchema: locationOfDeath.uiSchema,
           schema: locationOfDeath.schema,
-        },
-        locationOfDeathV2: {
-          title: 'Veteran death location',
-          reviewTitle: () => (
-            <span className="vads-u-font-size--h3">Veteran death location</span>
-          ),
-          path: 'veteran-information/location-of-death-v2',
-          depends: () => showLocationOfDeath(),
-          uiSchema: locationOfDeathV2.uiSchema,
-          schema: locationOfDeathV2.schema,
         },
         nursingHomeUnpaid: {
           title: 'Veteran death location details',
@@ -209,7 +196,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/nursing-home-unpaid',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'nursingHomeUnpaid',
           ...generateDeathFacilitySchemas(
             'nursingHomeUnpaid',
@@ -225,7 +211,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/nursing-home-paid',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'nursingHomePaid',
           ...generateDeathFacilitySchemas(
             'nursingHomePaid',
@@ -241,7 +226,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/va-medical-center',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'vaMedicalCenter',
           ...generateDeathFacilitySchemas(
             'vaMedicalCenter',
@@ -257,7 +241,6 @@ const formConfig = {
           ),
           path: 'veteran-information/location-of-death/state-veterans-home',
           depends: form =>
-            showLocationOfDeath() &&
             get('locationOfDeath.location', form) === 'stateVeteransHome',
           ...generateDeathFacilitySchemas(
             'stateVeteransHome',

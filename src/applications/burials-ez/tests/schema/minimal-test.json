@@ -55,11 +55,11 @@
     }
   ],
   "locationOfDeath": {
-    "location": "stateVeteransHome",
-    "stateVeteransHome": {
-      "facilityName": "CA State facility",
-      "facilityLocation": "Modesto, CA"
-    }
+    "location": "stateVeteransHome"
+  },
+  "stateVeteransHome": {
+    "facilityName": "CA State facility",
+    "facilityLocation": "Modesto, CA"
   },
   "deathDate": "2023-01-19",
   "burialDate": "2023-02-01",
