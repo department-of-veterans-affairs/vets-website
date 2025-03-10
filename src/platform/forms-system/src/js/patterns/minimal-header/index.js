@@ -139,6 +139,7 @@ export const minimalHeaderFormConfigOptions = ({
     CustomTopContent: TopContent,
     useTopBackLink: true,
     hideFormTitle: true,
+    hideFormTitleConfirmation: false,
     useCustomScrollAndFocus: true,
     scrollAndFocusTarget: minimalHeaderScrollAndFocus,
   };

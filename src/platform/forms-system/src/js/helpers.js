@@ -657,7 +657,9 @@ export function hideFormTitle(formConfig, pathName, formData) {
   const page = pageList.find(p => p.path === pathName);
 
   if (pathName === '/confirmation') {
-    return formConfig.hideFormTitle ?? false;
+    return !!(formConfig.hideFormTitleConfirmation === undefined
+      ? formConfig.hideFormTitle
+      : formConfig.hideFormTitleConfirmation);
   }
 
   if (!page || !page.chapterKey) {

@@ -82,6 +82,7 @@ const formConfigKeys = [
   'formSavedPage',
   'getHelp',
   'hideFormTitle',
+  'hideFormTitleConfirmation',
   'hideReviewChapters',
   'hideUnauthedStartLink',
   'intentToFileUrl',
