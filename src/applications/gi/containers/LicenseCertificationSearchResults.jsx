@@ -86,11 +86,6 @@ export default function LicenseCertificationSearchResults() {
 
   useEffect(
     () => {
-      // if (!hasFetchedOnce) {
-      //   dispatch(fetchLicenseCertificationResults());
-      //   return;
-      // }
-
       if (hasFetchedOnce && (allowUpdate || stateParam)) {
         dispatch(
           filterLcResults(

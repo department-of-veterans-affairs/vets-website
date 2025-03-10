@@ -70,7 +70,8 @@ export default function LicenseCertificationSearchForm() {
     if (nameParam) {
       setName(nameParam);
     }
-    return undefined;
+
+    return null;
   }, []);
 
   const handleSearch = (category, nameInput) => {
