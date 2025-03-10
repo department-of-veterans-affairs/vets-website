@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CrisisLineConnectButton from './CrisisLineConnectButton';
+import usePageLocationName from '../hooks/usePageLocationName';
 
 const EmergencyNote = props => {
   const { dropDownFlag } = props;
+
+  const dataDogLocationName = usePageLocationName();
 
   const content = () => (
     <>
@@ -23,11 +26,11 @@ const EmergencyNote = props => {
             anytime, day or night.
           </li>
 
-          <CrisisLineConnectButton />
+          <CrisisLineConnectButton inAlert />
           <li>
             <strong>If you think your life or health is in danger,</strong> Call{' '}
             <va-telephone
-              data-dd-action-name="911 Link Expandable Alert"
+              data-dd-action-name={`911 link - in dropown - ${dataDogLocationName}`}
               contact="911"
             />
             or go to the nearest emergency room.
@@ -43,7 +46,7 @@ const EmergencyNote = props => {
         <va-alert-expandable
           status="info"
           trigger="Only use messages for non-urgent needs"
-          data-dd-action-name="Only Use Messages For Non-Urgent Needs Expandable Alert"
+          data-dd-action-name={`Only use messages for non-urgent needs dropdown - ${dataDogLocationName}`}
         >
           <div className="vads-u-padding-x--1 vads-u-padding-bottom--1">
             {content()}

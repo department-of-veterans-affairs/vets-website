@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { DefaultFolders, Categories, Paths } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
+import usePageLocationName from '../../hooks/usePageLocationName';
 
 const unreadMessageClassList = 'vads-u-margin-y--0p5 vads-u-font-weight--bold';
 const readMessageClassList = 'vads-u-margin-y--0p5';
@@ -22,6 +23,8 @@ const MessageListItem = props => {
     category,
     activeFolder,
   } = props;
+
+  const dataDogLocationName = usePageLocationName();
 
   const inSentOrDrafts =
     activeFolder.folderId === DefaultFolders.DRAFTS.id ||
@@ -108,7 +111,9 @@ const MessageListItem = props => {
           )}, ${formattedDate}`}
           to={`/thread/${messageId}`}
           data-dd-privacy="mask"
-          data-dd-action-name="Link to Message Subject Details"
+          data-dd-action-name={`Link to Message Subject Details - ${dataDogLocationName}${
+            dataDogLocationName === 'Folders' ? ' custom' : ''
+          }`}
         >
           {categoryLabel}: {getHighlightedText(subject)}
         </Link>

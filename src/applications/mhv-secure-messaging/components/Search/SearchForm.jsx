@@ -220,8 +220,16 @@ const SearchForm = props => {
     folder.name !== DefaultFolders.DRAFTS.header &&
     folder.name !== DefaultFolders.DELETED.header;
 
-  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folder.name}`}`;
   const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+
+  let ddLocationName;
+  if (isCustomFolder) {
+    ddLocationName = 'Folders';
+  } else if (folder.name === 'Deleted') {
+    ddLocationName = 'Trash';
+  } else {
+    ddLocationName = folder.name;
+  }
 
   const filterLabelHeading = useMemo(
     () => {
@@ -259,7 +267,7 @@ const SearchForm = props => {
             }
           }}
           data-dd-privacy={ddPrivacy}
-          data-dd-action-name={`Filter Messages in ${ddTitle}`}
+          data-dd-action-name={`Filter Messages in ${ddLocationName}`}
         >
           {filterLabelHeading}
         </h2>
@@ -274,7 +282,7 @@ const SearchForm = props => {
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 data-testid="keyword-search-input"
-                data-dd-action-name={`${filterLabelBody} Input Field`}
+                data-dd-action-name={`Input field - Filter - ${ddLocationName}`}
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
@@ -308,6 +316,7 @@ const SearchForm = props => {
               setFromDate={setFromDate}
               toDate={toDate}
               setToDate={setToDate}
+              ddLocationName={ddLocationName}
             />
           </div>
         )}
@@ -317,7 +326,7 @@ const SearchForm = props => {
             primary
             class="filter-button"
             data-testid="filter-messages-button"
-            data-dd-action-name="Filter Button"
+            data-dd-action-name={`Filter Button - ${ddLocationName}`}
             onClick={e => {
               e.preventDefault();
               handleSearch();
@@ -330,7 +339,7 @@ const SearchForm = props => {
               secondary
               class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
-              dd-action-name="Clear Filters Button"
+              dd-action-name={`Clear Filter Button - ${ddLocationName}`}
             />
           ) : (
             resultsCount !== undefined && (
@@ -339,7 +348,7 @@ const SearchForm = props => {
                 secondary
                 class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
-                dd-action-name="Clear Filters Button"
+                dd-action-name={`Clear Filter Button - ${ddLocationName}`}
               />
             )
           )}

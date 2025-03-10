@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { InnerNavigationPaths, Paths } from '../util/constants';
+import usePageLocationName from '../hooks/usePageLocationName';
 
 const InnerNavigation = () => {
   const location = useLocation();
+
+  const dataDogLocationName = usePageLocationName();
 
   const handleActiveLinksStyle = path => {
     let isInnerActive = false;
@@ -52,7 +55,13 @@ const InnerNavigation = () => {
               ${handleActiveLinksStyle(path)}
             `}
           >
-            <Link className="inner-nav-link" to={path.path}>
+            <Link
+              className="inner-nav-link"
+              to={path.path}
+              data-dd-action-name={`${
+                path.label
+              } link - ${dataDogLocationName}`}
+            >
               {path.label}
             </Link>
           </div>

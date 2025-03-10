@@ -274,10 +274,20 @@ export const Breadcrumbs = {
   DRAFT: { href: Paths.DRAFT, label: 'Drafts', isRouterLink: true },
   FOLDERS: { href: Paths.FOLDERS, label: 'More folders', isRouterLink: true },
   SENT: { href: Paths.SENT, label: 'Sent', isRouterLink: true },
-  TRASH: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
+  DELETED: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
   MESSAGE_THREAD: {
     href: Paths.MESSAGE_THREAD,
     label: 'Edit draft',
+    isRouterLink: true,
+  },
+  CONTACT_LIST: {
+    href: Paths.CONTACT_LIST,
+    label: 'Contact list',
+    isRouterLink: true,
+  },
+  REPLY: {
+    href: Paths.REPLY,
+    label: 'Reply',
     isRouterLink: true,
   },
 };

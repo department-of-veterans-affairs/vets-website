@@ -6,6 +6,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import { setBreadcrumbs } from '../../actions/breadcrumbs';
 import * as Constants from '../../util/constants';
 import { navigateToFolderByFolderId } from '../../util/helpers';
+import usePageLocationName from '../../hooks/usePageLocationName';
 
 const SmBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,8 @@ const SmBreadcrumbs = () => {
     },
     [location],
   );
+
+  const dataDogLocationName = usePageLocationName();
 
   const newCrumbsList = useMemo(
     () => {
@@ -261,6 +264,7 @@ const SmBreadcrumbs = () => {
                 }}
                 className="vads-u-font-size--md"
                 data-testid="sm-breadcrumbs-back"
+                data-dd-action-name={`Back - ${dataDogLocationName}`}
               >
                 Back
               </Link>

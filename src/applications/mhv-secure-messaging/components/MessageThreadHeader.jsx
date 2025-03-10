@@ -18,6 +18,7 @@ import { getPageTitle, scrollIfFocusedAndNotInView } from '../util/helpers';
 import { closeAlert } from '../actions/alerts';
 import CannotReplyAlert from './shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from './shared/BlockedTriageGroupAlert';
+import usePageLocationName from '../hooks/usePageLocationName';
 
 const MessageThreadHeader = props => {
   const {
@@ -48,6 +49,8 @@ const MessageThreadHeader = props => {
         FEATURE_FLAG_NAMES.mhvSecureMessagingRemoveLandingPage
       ],
   );
+
+  const dataDogLocationName = usePageLocationName();
 
   useEffect(
     () => {
@@ -111,7 +114,7 @@ const MessageThreadHeader = props => {
       <header className="message-detail-header">
         <h1
           className="vads-u-margin-bottom--2"
-          data-dd-action-name="Link to Message Subject Details"
+          data-dd-action-name={`Link to Message Subject Details - ${dataDogLocationName}`}
           aria-label={`Message subject. ${categoryLabel}: ${subject}`}
           data-dd-privacy="mask"
         >

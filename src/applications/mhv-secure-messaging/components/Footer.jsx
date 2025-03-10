@@ -3,6 +3,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { useSelector } from 'react-redux';
 import HorizontalRule from './shared/HorizontalRule';
 import { smFooter, DefaultFolders } from '../util/constants';
+import usePageLocationName from '../hooks/usePageLocationName';
 
 const {
   NEED_HELP,
@@ -22,6 +23,8 @@ const Footer = () => {
       ],
   );
 
+  const dataDogLocationName = usePageLocationName();
+
   const folderId = useSelector(state => state.sm.folders.folder.folderId);
   return removeLandingPageFF && folderId === INBOX.id ? (
     <footer
@@ -37,11 +40,21 @@ const Footer = () => {
             <HorizontalRule />
             <p className="vads-u-margin--0">{HAVE_QUESTIONS}</p>
             <p className="vads-u-margin-top--2">
-              <a href="/health-care/secure-messaging">{LEARN_MORE}</a>
+              <a
+                href="/health-care/secure-messaging"
+                data-dd-action-name={`Learn more about messages - ${dataDogLocationName}`}
+              >
+                {LEARN_MORE}
+              </a>
             </p>
             <p className="vads-u-margin-top--1">{CONTACT_FACILITY}</p>
             <p className="vads-u-margin-top--1">
-              <a href="/find-locations">{FIND_FACILITY}</a>
+              <a
+                href="/find-locations"
+                data-dd-action-name={`${FIND_FACILITY} - ${dataDogLocationName}`}
+              >
+                {FIND_FACILITY}
+              </a>
             </p>
           </div>
         </div>

@@ -225,7 +225,7 @@ const BlockedTriageGroupAlert = props => {
       trigger={alertTitleText}
       data-testid="blocked-triage-group-alert"
       data-dd-privacy="mask"
-      data-dd-action-name="Blocked Triage Group Alert Expandable"
+      data-dd-action-name="Blocked/Not Associated alert - expandable"
     >
       <div className="vads-u-padding-left--4 vads-u-padding-bottom--1">
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
@@ -250,7 +250,12 @@ const BlockedTriageGroupAlert = props => {
               ))}
             </ul>
           )}
-        <a href="/find-locations/">Find your VA health facility</a>
+        <a
+          href="/find-locations/"
+          data-dd-action-name="Find your VA health facility link - in Blocked/Not Associated alert - expandable"
+        >
+          Find your VA health facility
+        </a>
       </div>
     </va-alert-expandable>
   ) : (
@@ -259,6 +264,7 @@ const BlockedTriageGroupAlert = props => {
       status={alertStyle}
       visible
       data-testid="blocked-triage-group-alert"
+      data-dd-action-name="Blocked/Not Associated alert"
     >
       <h2
         slot="headline"
@@ -268,7 +274,12 @@ const BlockedTriageGroupAlert = props => {
       </h2>
       <div>
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
-        <a href="/find-locations/">Find your VA health facility</a>
+        <a
+          href="/find-locations/"
+          data-dd-action-name="Find your VA health facility link - in Blocked/Not Associated alert"
+        >
+          Find your VA health facility
+        </a>
       </div>
     </va-alert>
   );
