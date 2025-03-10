@@ -2,6 +2,9 @@ import React from 'react';
 
 export const officialReportPageTitle = 'Official report';
 
+export const reportTypesQuestion =
+  'Were any of these types of official reports filed for the event you described?';
+
 export const officialReportsDescription = (type = 'default') => {
   return (
     <>
@@ -27,17 +30,22 @@ export const officialReportsDescription = (type = 'default') => {
         that traumatic events often go unreported. You can skip this question if
         you don’t feel comfortable answering.
       </p>
+      {type === 'mst' && <p>${reportTypesQuestion}</p>}
     </>
   );
 };
 
-export const reportTypesQuestion =
-  'Were any of these types of official reports filed for the event you described?';
+export const militaryReportsHint =
+  'Select any military incident reports filed for this event.';
 
-export const reportTypesHint = 'Select all that apply.';
+export const noReportHint =
+  'Select this option if you didn’t have any official reports filed, don’t know about any official reports, or prefer not to include them.';
 
-export const otherReportTypesQuestion =
+export const otherReportTypesTitle =
   'Other official report type not listed here:';
+
+export const otherReportsHint =
+  'Select any any other types of reports filed for this event.';
 
 export const otherReportTypesExamples = (
   <va-additional-info trigger="Examples of ’other’ types of reports">
@@ -54,70 +62,51 @@ export const otherReportTypesExamples = (
   </va-additional-info>
 );
 
-export const reportTypeValidationError = (
-  <va-alert status="error" uswds>
-    <p className="vads-u-font-size--base">
-      You selected one or more reports filed for this event. You also selected
-      “No official report was filed”.
-    </p>
-    <p>Revise your selection so they don’t conflict to continue.</p>
-  </va-alert>
-);
-
-function selectedReportTypes(formData) {
+export function selectedReportTypes(formData) {
   const militaryReportsSelected = Object.values(
     formData?.militaryReports || {},
-  ).some(selected => selected === true);
+  ).some(Boolean);
 
   const otherReportsSelected = Object.entries(formData?.otherReports || {})
     .filter(([key]) => key !== 'none')
-    .some(([_, selected]) => selected === true);
+    .some(([, selected]) => Boolean(selected));
 
   const unlistedReportEntered =
     typeof formData?.unlistedReport === 'string' &&
-    formData.unlistedReport.trim() !== '';
+    formData.unlistedReport.trim();
 
   return {
     militaryReports: militaryReportsSelected,
     otherReports: otherReportsSelected,
-    unlistedReport: unlistedReportEntered,
+    unlistedReport: Boolean(unlistedReportEntered),
   };
 }
 
 /**
- * Returns true if 'no report filed' AND other report types are also selected
+ * Returns true if 'no report filed' AND any other report type is also selected
  * @param {object} formData
  * @returns {boolean}
  */
-
 export function showConflictingAlert(formData) {
-  const selections = selectedReportTypes(formData);
-  const { militaryReports, otherReports, unlistedReport } = selections;
+  const { militaryReports, otherReports, unlistedReport } = selectedReportTypes(
+    formData,
+  );
 
-  const noneSelected = !!(formData?.otherReports && formData.otherReports.none);
+  const noneSelected = Boolean(formData?.noReport?.none);
   const reportTypeSelected = militaryReports || otherReports || unlistedReport;
 
-  return !!(noneSelected && reportTypeSelected);
+  return noneSelected && reportTypeSelected;
 }
 
 /**
- * Validates that 'no report filed' is not selected if other report types are also selected
+ * Validates that 'no report filed' is not selected if any other report type is also selected
  * @param {object} errors - Errors object from rjsf
  * @param {object} formData
  */
 export function validateReportSelections(errors, formData) {
-  const isConflicting = showConflictingAlert(formData);
-  const selections = selectedReportTypes(formData);
-
-  // add error with no message to each checked section
-  if (isConflicting) {
-    errors.otherReports.addError(' ');
-
-    if (selections.militaryReports) {
-      errors.militaryReports.addError(' ');
-    }
-    if (selections.unlistedReport) {
-      errors.unlistedReport.addError(' ');
-    }
+  if (showConflictingAlert(formData) && errors?.noReport) {
+    errors.noReport.addError(
+      'If you select no reports to include, unselect other reports before continuing.',
+    );
   }
 }

@@ -413,6 +413,7 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
 export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
   military: 'Military incident reports',
   other: 'Other reporting options',
+  none: 'No reports to include',
 });
 
 export const MILITARY_REPORT_TYPES = Object.freeze({
@@ -425,8 +426,11 @@ export const MILITARY_REPORT_TYPES = Object.freeze({
 
 export const OTHER_REPORT_TYPES = Object.freeze({
   police: 'Police report',
-  unsure: 'A police report was filed but I’m not sure which type it was',
-  none: 'No official report was filed',
+  unsure: 'An official report was filed, but I’m not sure which type it was.',
+});
+
+export const NO_REPORT_TYPE = Object.freeze({
+  none: 'I don’t have offiical reports to include.',
 });
 
 export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
