@@ -44,6 +44,7 @@ Cypress.Commands.add('axeCheck', (context = 'main', tempOptions = {}) => {
    * See https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#axe-core-tags
    * for available rulesets.
    */
+  //
   let axeBuilder = {
     runOnly: {
       type: 'tag',
