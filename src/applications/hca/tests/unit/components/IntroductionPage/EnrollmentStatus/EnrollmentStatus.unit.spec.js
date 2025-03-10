@@ -8,14 +8,14 @@ import { HCA_ENROLLMENT_STATUSES } from '../../../../../utils/constants';
 import EnrollmentStatus from '../../../../../components/IntroductionPage/EnrollmentStatus';
 
 describe('hca <EnrollmentStatus>', () => {
-  const getData = ({ hasServerError = false, statusCode = null }) => ({
-    props: {
+  const subject = ({ hasServerError = false, statusCode = null } = {}) => {
+    const props = {
       route: {
         formConfig,
         pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
       },
-    },
-    mockStore: {
+    };
+    const mockStore = {
       getState: () => ({
         hcaEnrollmentStatus: {
           statusCode,
@@ -57,83 +57,61 @@ describe('hca <EnrollmentStatus>', () => {
       }),
       subscribe: () => {},
       dispatch: () => {},
-    },
-  });
-
-  it('should render FAQ content', () => {
-    const { mockStore, props } = getData({ statusCode: 'enrolled' });
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <EnrollmentStatus {...props} />
       </Provider>,
     );
-    const selector = container.querySelectorAll('.hca-enrollment-faq');
-    expect(selector).to.have.length;
+    const selectors = () => ({
+      faqItems: container.querySelectorAll('.hca-enrollment-faq'),
+      startBtn: container.querySelector('[href="#start"]'),
+      vaAlert: container.querySelector('va-alert'),
+    });
+    return { selectors };
+  };
+
+  it('should render FAQ content', () => {
+    const { selectors } = subject({ statusCode: 'enrolled' });
+    expect(selectors().faqItems).to.have.length;
   });
 
   it('should render `va-alert` with status of `error` when server error has occurred', () => {
-    const { mockStore, props } = getData({ hasServerError: true });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.have.attr('status', 'error');
+    const { selectors } = subject({ hasServerError: true });
+    const { vaAlert } = selectors();
+    expect(vaAlert).to.exist;
+    expect(vaAlert).to.have.attr('status', 'error');
   });
 
   it('should render `va-alert` with status of `continue` when enrollment status is `enrolled`', () => {
-    const { mockStore, props } = getData({
+    const { selectors } = subject({
       statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.have.attr('status', 'continue');
+    const { vaAlert } = selectors();
+    expect(vaAlert).to.exist;
+    expect(vaAlert).to.have.attr('status', 'continue');
   });
 
   it('should render `va-alert` with status of `warning` when enrollment status is not `enrolled`', () => {
-    const { mockStore, props } = getData({
+    const { selectors } = subject({
       statusCode: HCA_ENROLLMENT_STATUSES.closed,
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('va-alert');
-    expect(selector).to.exist;
-    expect(selector).to.have.attr('status', 'warning');
+    const { vaAlert } = selectors();
+    expect(vaAlert).to.exist;
+    expect(vaAlert).to.have.attr('status', 'warning');
   });
 
   it('should not render `Start` button when enrollment status is not in the allow list', () => {
-    const { mockStore, props } = getData({
+    const { selectors } = subject({
       statusCode: HCA_ENROLLMENT_STATUSES.enrolled,
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('[href="#start"]');
-    expect(selector).to.not.exist;
+    expect(selectors().startBtn).to.not.exist;
   });
 
   it('should render `Start` button when enrollment status is in the allow list', () => {
-    const { mockStore, props } = getData({
+    const { selectors } = subject({
       statusCode: HCA_ENROLLMENT_STATUSES.rejectedRightEntry,
     });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <EnrollmentStatus {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('[href="#start"]');
-    expect(selector).to.exist;
+    expect(selectors().startBtn).to.exist;
   });
 });

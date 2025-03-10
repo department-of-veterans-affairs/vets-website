@@ -9,18 +9,18 @@ import formConfig from '../../../../../config/form';
 import ProcessDescription from '../../../../../components/IntroductionPage/GetStarted/ProcessDescription';
 
 describe('hca <ProcessDescription>', () => {
-  const getData = ({
+  const subject = ({
     dispatch = () => {},
     savedForms = [],
     loggedIn = true,
-  }) => ({
-    props: {
+  } = {}) => {
+    const props = {
       route: {
         formConfig,
         pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
       },
-    },
-    mockStore: {
+    };
+    const mockStore = {
       getState: () => ({
         hcaEnrollmentStatus: {
           vesRecordFound: false,
@@ -57,35 +57,38 @@ describe('hca <ProcessDescription>', () => {
       }),
       subscribe: () => {},
       dispatch,
-    },
-  });
-
-  it('should render login alerts when user is logged out', () => {
-    const { mockStore, props } = getData({ loggedIn: false });
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <ProcessDescription {...props} />
       </Provider>,
     );
-    const alerts = {
-      saveTime: container.querySelector('[data-testid="hca-save-time-alert"]'),
-      checkStatus: container.querySelector(
+    const selectors = () => ({
+      checkStatusAlert: container.querySelector(
         '[data-testid="hca-check-status-alert"]',
       ),
-    };
-    expect(alerts.saveTime).to.exist;
-    expect(alerts.checkStatus).to.exist;
+      hiddenItems: container.querySelectorAll('.vads-u-display--none'),
+      loginBtn: container.querySelector(
+        '[data-testid="hca-login-alert-button"]',
+      ),
+      saveTimeAlert: container.querySelector(
+        '[data-testid="hca-save-time-alert"]',
+      ),
+      startBtn: container.querySelectorAll('.vads-c-action-link--green'),
+    });
+    return { selectors };
+  };
+
+  it('should render login alerts when user is logged out', () => {
+    const { selectors } = subject({ loggedIn: false });
+    const { checkStatusAlert, saveTimeAlert } = selectors();
+    expect(saveTimeAlert).to.exist;
+    expect(checkStatusAlert).to.exist;
   });
 
   it('should render `Start` buttons when user is logged in', () => {
-    const { mockStore, props } = getData({});
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ProcessDescription {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelectorAll('.vads-c-action-link--green');
-    expect(selector).to.have.lengthOf(2);
+    const { selectors } = subject();
+    expect(selectors().startBtn).to.have.lengthOf(2);
   });
 
   it('should hide static content when user has form in progress', () => {
@@ -105,30 +108,16 @@ describe('hca <ProcessDescription>', () => {
         lastUpdated: 1710448997,
       },
     ];
-    const { mockStore, props } = getData({ savedForms });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ProcessDescription {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelectorAll('.vads-u-display--none');
-    expect(selector).to.have.lengthOf(2);
+    const { selectors } = subject({ savedForms });
+    expect(selectors().hiddenItems).to.have.lengthOf(2);
   });
 
   it('should call the `toggleLoginModal` action when user attempts to sign in', () => {
-    const dispatch = sinon.stub();
-    const { mockStore, props } = getData({ loggedIn: false, dispatch });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <ProcessDescription {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector(
-      '[data-testid="hca-login-alert-button"]',
-    );
+    const dispatchStub = sinon.stub();
+    const { selectors } = subject({ loggedIn: false, dispatch: dispatchStub });
+    const { loginBtn } = selectors();
 
-    fireEvent.click(selector);
-    expect(dispatch.called).to.be.true;
-    expect(dispatch.calledWithMatch(toggleLoginModal(true))).to.be.true;
+    fireEvent.click(loginBtn);
+    expect(dispatchStub.calledWithMatch(toggleLoginModal(true))).to.be.true;
   });
 });
