@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
@@ -50,28 +50,32 @@ describe('Address page', () => {
     setIsUnsupportedClaimType,
   };
 
-  it('should render with user home address', async () => {
+  it('should render with user home address', () => {
     const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
       initialState: getData({
         homeAddress: home,
       }),
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('address-test-id')).to.exist;
-      expect(screen.findByText('345 Home Address St')).to.exist;
-      expect($('va-button-pair')).to.exist;
-    });
+    expect(screen.getByTestId('address-test-id')).to.exist;
+    expect($('va-radio')).to.have.attribute(
+      'label',
+      'Did you travel from your home address?',
+    );
+    expect($('va-radio')).to.not.have.attribute('error');
+
+    expect(screen.getByText(/345 Home Address St/i)).to.exist;
+    expect(screen.getByText(/Apt. 22B/i)).to.exist;
+    expect(screen.getByText(/Building 2/i)).to.exist;
+    expect($('va-button-pair')).to.exist;
 
     fireEvent.click(
       $(
         `va-additional-info[trigger="If you didn't travel from your home address"]`,
       ),
     );
-    await waitFor(() => {
-      expect(screen.findByText(/If you traveled from a different address/i)).to
-        .exist;
-    });
+    expect(screen.getByText(/If you traveled from a different address/i)).to
+      .exist;
   });
 
   it('should show an alert if no address', () => {
@@ -83,26 +87,27 @@ describe('Address page', () => {
     expect($('va-button-pair')).to.not.exist;
     expect($('va-alert')).to.exist;
     expect(
-      screen.findByText(`We can’t file this claim in this tool at this time`),
+      screen.getByText(`We can’t file this claim in this tool at this time`),
     ).to.exist;
-    expect(screen.findByText(/We need your home address/i)).to.exist;
+    expect(screen.getByText('We need your home address')).to.exist;
     expect($('va-link[href="/profile/contact-information"]')).to.exist;
   });
 
-  it('should render an error if no selection made', async () => {
-    const screen = renderWithStoreAndRouter(<AddressPage {...props} />, {
+  it('should render an error if no selection made', () => {
+    renderWithStoreAndRouter(<AddressPage {...props} />, {
       initialState: getData({
         homeAddress: home,
       }),
     });
     $('va-button-pair').__events.primaryClick(); // continue
-    await waitFor(() => {
-      expect(screen.findByText(/You must make a selection/i)).to.exist;
-    });
+    expect($('va-radio')).to.have.attribute(
+      'error',
+      'You must make a selection to continue.',
+    );
   });
 
   it('should render an error selection is "no"', async () => {
-    const screen = renderWithStoreAndRouter(
+    renderWithStoreAndRouter(
       <AddressPage {...props} yesNo={{ ...props.yesNo, address: 'no' }} />,
       {
         initialState: getData({
@@ -113,13 +118,6 @@ describe('Address page', () => {
     $('va-button-pair').__events.primaryClick(); // continue
 
     expect(setIsUnsupportedClaimType.calledWith(true)).to.be.true;
-    await waitFor(() => {
-      expect(
-        screen.findByText(
-          /We can’t file this type of travel reimbursement claim in this tool at this time/i,
-        ),
-      ).to.exist;
-    });
   });
 
   it('should move on to the next step if selection is "yes"', () => {
