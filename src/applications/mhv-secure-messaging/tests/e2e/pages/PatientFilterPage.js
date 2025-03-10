@@ -4,15 +4,18 @@ import { Locators, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import GeneralFunctionsPage from './GeneralFunctionsPage';
 
-class PatientSearchPage {
+class PatientFilterPage {
   // This method clicks the Search messages on the side navigation bar.
-  clickSearchMessageButton = () => {
+  clickFilterMessageButton = () => {
     cy.get(Locators.BUTTONS.FILTER).click();
   };
 
-  // This method will access the input field and enters the text that will be used for search.
+  clickAdditionalFilterButton = () => {
+    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
+  };
 
-  typeSearchInputFieldText = text => {
+  // This method will access the input field and enters the text that will be used for search.
+  typeFilterInputFieldText = text => {
     cy.get(Locators.KEYWORD_SEARCH)
       .shadow()
       .find('[id="inputField"]')
@@ -20,7 +23,7 @@ class PatientSearchPage {
   };
 
   // This method clicks the Filter button on the Inbox page.
-  clickInboxSearchButton = () => {
+  clickInboxFilterButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -28,10 +31,10 @@ class PatientSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('inboxSearchResults');
-    this.clickSearchMessageButton();
+    this.clickFilterMessageButton();
   };
 
-  clickDraftSearchButton = () => {
+  clickDraftFilterButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -39,10 +42,10 @@ class PatientSearchPage {
       }/search`,
       mockMessageResponse,
     ).as('DraftSearchResults');
-    this.clickSearchMessageButton();
+    this.clickFilterMessageButton();
   };
 
-  clickCustomFolderSearchButton = () => {
+  clickCustomFolderFilterButton = () => {
     cy.intercept(
       'POST',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${
@@ -54,6 +57,26 @@ class PatientSearchPage {
   };
 
   // This method verifies the highlighted text in the messages returned after clicking the search button.
+
+  verifyFilterCategoryDropdown = data => {
+    cy.get(Locators.FIELDS.CATEGORY_OPTION).each(option => {
+      cy.wrap(option)
+        .invoke('text')
+        .then(el => {
+          expect(el.toUpperCase()).to.be.oneOf(data);
+        });
+    });
+  };
+
+  verifyFilterDateRangeDropdown = data => {
+    cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
+      cy.wrap(option)
+        .invoke('text')
+        .then(el => {
+          expect(el.toUpperCase()).to.be.oneOf(data);
+        });
+    });
+  };
 
   verifyHighlightedText = text => {
     cy.get(Locators.ALERTS.HIGHLIGHTED).should('contain', text);
@@ -75,7 +98,7 @@ class PatientSearchPage {
       .select(`${name}`, { force: true });
   };
 
-  createCategorySearchMockResponse = (
+  createCategoryFilterMockResponse = (
     numberOfMessages,
     category,
     originalResponse,
@@ -93,7 +116,7 @@ class PatientSearchPage {
     };
   };
 
-  createDateSearchMockResponse = (
+  createDateFilterMockResponse = (
     numberOfMessages,
     numberOfMonths,
     originalResponse = mockMessages,
@@ -114,15 +137,15 @@ class PatientSearchPage {
     };
   };
 
-  verifySearchResponseLength = mockResponse => {
+  verifyFilterResponseLength = mockResponse => {
     cy.get(Locators.MESSAGES).should('have.length', mockResponse.data.length);
   };
 
-  verifySearchResponseCategory = name => {
+  verifyFilterResponseCategory = name => {
     cy.get(Locators.MESSAGES).should('contain', name);
   };
 
-  verifySearchMessageLabel = (response, text) => {
+  verifyFilterMessageLabel = (response, text) => {
     cy.get(Locators.FOLDERS.FOLDER_INPUT_LABEL)
       .should('contain', response.data.length)
       .and('contain', text);
@@ -254,4 +277,4 @@ class PatientSearchPage {
   // }
 }
 
-export default new PatientSearchPage();
+export default new PatientFilterPage();
