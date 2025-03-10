@@ -16,6 +16,7 @@ import ReplyDrafts from './ReplyDrafts';
 import MessageActionButtons from '../MessageActionButtons';
 import {
   BlockedTriageAlertStyles,
+  Categories,
   ParentComponent,
   RecipientStatus,
   Recipients,
@@ -88,7 +89,7 @@ const ReplyForm = props => {
     () => {
       const pageTitleTag = getPageTitle({ removeLandingPageFF });
       setSubject(replyMessage.subject);
-      setCategory(replyMessage.category);
+      setCategory(Categories[replyMessage.category]);
       updatePageTitle(pageTitleTag);
     },
     [removeLandingPageFF, replyMessage],
@@ -148,6 +149,7 @@ const ReplyForm = props => {
           className="page-title"
           data-dd-privacy="mask"
           data-dd-action-name="Reply Form Header"
+          data-testid="reply-form-title"
         >
           {messageTitle}
         </h1>

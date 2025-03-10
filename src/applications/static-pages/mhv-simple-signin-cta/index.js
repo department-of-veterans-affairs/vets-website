@@ -13,8 +13,8 @@ import UnverifiedAlert from '../mhv-signin-cta/components/messages/UnverifiedAle
  * @property {bool} userIsVerified true if the user is verified
  * @property {string} headingLevel the heading level
  * @property {string} serviceDescription the heading service description
- * @property {object} mhvAccount.loading,
- * @property {object} profile.loading,
+ * @property {bool} mhvAccountLoading,
+ * @property {bool} profileLoading,
  */
 export const MhvSimpleSigninCallToAction = ({
   linkText,
@@ -61,11 +61,7 @@ export const MhvSimpleSigninCallToAction = ({
   }
 
   // Display the application links
-  return (
-    <a className="vads-c-action-link--green" href={linkUrl}>
-      {linkText}
-    </a>
-  );
+  return <va-link-action href={linkUrl} text={linkText} />;
 };
 
 MhvSimpleSigninCallToAction.propTypes = {
