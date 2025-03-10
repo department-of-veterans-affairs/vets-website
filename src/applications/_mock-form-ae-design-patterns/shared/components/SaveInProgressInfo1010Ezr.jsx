@@ -33,7 +33,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     headingLevel: 3,
     verifiedPrefillAlert: VerifiedPrefillAlert,
     buttonOnly,
-    hideUnauthedStartLink: true,
+    hideUnauthedStartLink: false,
     prefillEnabled,
     downtime,
     pageList,
