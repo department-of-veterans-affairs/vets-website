@@ -30,7 +30,7 @@ export const officialReportsDescription = (type = 'default') => {
         that traumatic events often go unreported. You can skip this question if
         you don’t feel comfortable answering.
       </p>
-      {type === 'mst' && <p>${reportTypesQuestion}</p>}
+      {type === 'mst' && <p>{reportTypesQuestion}</p>}
     </>
   );
 };
