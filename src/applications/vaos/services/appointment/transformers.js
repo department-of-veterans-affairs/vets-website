@@ -1,14 +1,14 @@
-import moment from 'moment';
 import { isEmpty } from 'lodash';
+import moment from 'moment';
+import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
-  TYPE_OF_VISIT,
   COVID_VACCINE_ID,
   PURPOSE_TEXT_V2,
+  TYPE_OF_VISIT,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
-import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 
 export function getAppointmentType(appt) {
   // Cerner appointments have a different structure than VAOS appointments
@@ -73,11 +73,12 @@ export function isPastAppointment(appt) {
  * @param {*} appt VAOS Service appointment object
  * @param {*} isRequest is appointment a request
  */
-export function isFutureAppointment(appt, isRequest) {
+export function isFutureAppointment(appt, isRequest, useFeSourceOfTruth) {
   const apptDateTime = moment(appt.start);
+  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   return (
     !isRequest &&
-    !isPastAppointment(appt) &&
+    !isPast &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(moment().startOf('day'))
   );
@@ -107,17 +108,17 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt) {
+export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
-  const isPast = isPastAppointment(appt);
+  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = isFutureAppointment(appt, isRequest);
+  const isUpcoming = isFutureAppointment(appt, isRequest, useFeSourceOfTruth);
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;

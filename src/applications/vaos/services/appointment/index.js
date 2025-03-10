@@ -76,6 +76,7 @@ export async function fetchAppointments({
   avs = false,
   fetchClaimStatus = false,
   includeEPS = false,
+  useFeSourceOfTruth = false,
 }) {
   try {
     const appointments = [];
@@ -96,9 +97,12 @@ export async function fetchAppointments({
       );
     });
 
-    appointments.push(...transformVAOSAppointments(filteredAppointments), {
-      meta: allAppointments.backendSystemFailures,
-    });
+    appointments.push(
+      ...transformVAOSAppointments(filteredAppointments, useFeSourceOfTruth),
+      {
+        meta: allAppointments.backendSystemFailures,
+      },
+    );
 
     return appointments;
   } catch (e) {

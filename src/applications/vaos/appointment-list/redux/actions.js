@@ -5,6 +5,7 @@ import moment from 'moment';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectFeatureCCDirectScheduling,
+  selectFeatureFeSourceOfTruth,
   selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceVAAppointments,
@@ -258,7 +259,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       getState(),
     );
     const patientFacilities = selectPatientFacilities(getState());
-
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(getState());
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
       patientFacilities || [],
@@ -280,8 +281,8 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         avs: true,
         fetchClaimStatus: true,
         includeEPS,
+        useFeSourceOfTruth,
       });
-
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
         results.find(appt => appt.hasOwnProperty('meta')) || null;
