@@ -229,7 +229,18 @@ export default function LicenseCertificationSearchResults() {
       };
     });
 
-    setCategoryCheckboxes(newCheckboxes);
+    if (newCheckboxes.filter(checkbox => checkbox.checked).length === 3) {
+      const final = newCheckboxes.map(checkbox => {
+        return {
+          ...checkbox,
+          checked: true,
+        };
+      });
+
+      return setCategoryCheckboxes(final);
+    }
+
+    return setCategoryCheckboxes(newCheckboxes);
   };
 
   const handleResetSearch = () => {
