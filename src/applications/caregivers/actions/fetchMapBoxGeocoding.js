@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/browser';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import { MAPBOX_QUERY_TYPES } from 'platform/utilities/facilities-and-mapbox';
 import mapboxClient from '../utils/mapbox/mapboxClient';
 import { replaceStrValues } from '../utils/helpers';
 import content from '../locales/en/content.json';
@@ -13,10 +12,21 @@ export const fetchMapBoxGeocoding = async (query, client = null) => {
     };
   }
 
+  const MAPBOX_QUERY_TYPES = [
+    'place',
+    'region',
+    'postcode',
+    'locality',
+    'country',
+    'neighborhood',
+  ];
+
   const fetchClient = client || mbxGeo(mapboxClient);
 
   return fetchClient
     .forwardGeocode({
+      // We intentionally exclude 'ph' because caregiver support services
+      // are only available in the U.S. and its territories.
       countries: ['us', 'pr', 'gu', 'as', 'mp', 'vi'],
       types: MAPBOX_QUERY_TYPES,
       autocomplete: false,
