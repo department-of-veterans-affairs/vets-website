@@ -1,21 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
-const IntroductionPage = ({ router }) => {
+const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
-
-  const startForm = event => {
-    event.preventDefault();
-    localStorage.removeItem('10216claimID');
-    router.push('/institution-details');
-  };
 
   return (
     <article className="schemaform-intro">
@@ -189,10 +183,15 @@ const IntroductionPage = ({ router }) => {
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         Start the form
       </h2>
-      <va-link-action
-        href="#"
-        onClick={startForm}
-        text="Start your 35% exemption request"
+      <SaveInProgressIntro
+        testActionLink
+        prefillEnabled={route.formConfig.prefillEnabled}
+        messages={route.formConfig.savedFormMessages}
+        formConfig={route.formConfig}
+        pageList={route.pageList}
+        downtime={route.formConfig.downtime}
+        startText="Start your 35% exemption request"
+        headingLevel={2}
       />
       <p className="vads-u-padding-bottom--0 mobile-lg:vads-u-padding-bottom--0p5" />
 
@@ -206,8 +205,13 @@ const IntroductionPage = ({ router }) => {
 };
 
 IntroductionPage.propTypes = {
-  router: PropTypes.shape({
-    push: PropTypes.func,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.object,
+      downtime: PropTypes.object,
+    }),
+    pageList: PropTypes.array,
   }).isRequired,
 };
 
