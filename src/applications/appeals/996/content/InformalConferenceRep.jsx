@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export const ContactRepresentativeTitle = (
   <h3 className="vads-u-margin-top--0">
-    Your representative’s contact information
+    Your accredited representative’s contact information
   </h3>
 );
 
