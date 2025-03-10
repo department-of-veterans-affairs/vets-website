@@ -4,10 +4,10 @@ import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.js
 import { AXE_CONTEXT, Data } from '../utils/constants';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import PatentMessageSentPage from '../pages/PatientMessageSentPage';
-import PatientSearchPage from '../pages/PatientSearchPage';
+import PatientFilterPage from '../pages/PatientFilterPage';
 
-describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
-  const searchResultResponse = PatientSearchPage.createCategorySearchMockResponse(
+describe('SM SENT ADD FILTER CATEGORY', () => {
+  const filterResultResponse = PatientFilterPage.createCategoryFilterMockResponse(
     3,
     'APPOINTMENTS',
     mockSentMessages,
@@ -19,12 +19,12 @@ describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
     PatentMessageSentPage.loadMessages();
     PatientInboxPage.openAdvancedSearch();
     PatientInboxPage.selectAdvancedSearchCategory('Appointment');
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
   });
 
   it('verify all sent messages contain the searched category', () => {
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifySearchResponseCategory('Appointment');
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyFilterResponseCategory('Appointment');
     cy.get(`.unread-icon`).should(`not.exist`);
 
     cy.injectAxe();
@@ -32,8 +32,8 @@ describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
   });
 
   it('verify the search message label', () => {
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       'Appointment',
     );
     cy.injectAxe();
@@ -41,8 +41,8 @@ describe('SM SENT ADVANCED CATEGORY SEARCH', () => {
   });
 });
 
-describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
-  let searchResultResponse;
+describe('SM SENT ADD FILTER FIXED DATE RANGE', () => {
+  let filterResultResponse;
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -52,19 +52,19 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 3 month', () => {
-    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+    filterResultResponse = PatientFilterPage.createDateFilterMockResponse(
       2,
       3,
       mockSentMessages,
     );
 
     PatientInboxPage.selectDateRange(Data.DATE_RANGE.THREE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
 
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifyMessageDate(3);
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyMessageDate(3);
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       Data.DATE_RANGE.THREE_MONTHS,
     );
 
@@ -73,19 +73,19 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 6 month', () => {
-    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+    filterResultResponse = PatientFilterPage.createDateFilterMockResponse(
       3,
       6,
       mockSentMessages,
     );
 
     PatientInboxPage.selectDateRange(Data.DATE_RANGE.SIX_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
 
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifyMessageDate(6);
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyMessageDate(6);
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       Data.DATE_RANGE.SIX_MONTHS,
     );
 
@@ -94,19 +94,19 @@ describe('SM SENT ADVANCED FIXED DATE RANGE SEARCH', () => {
   });
 
   it('verify filter by last 12 month', () => {
-    searchResultResponse = PatientSearchPage.createDateSearchMockResponse(
+    filterResultResponse = PatientFilterPage.createDateFilterMockResponse(
       6,
       12,
       mockSentMessages,
     );
 
     PatientInboxPage.selectDateRange(Data.DATE_RANGE.TWELVE_MONTHS);
-    PatientInboxPage.clickFilterMessagesButton(searchResultResponse);
+    PatientInboxPage.clickFilterMessagesButton(filterResultResponse);
 
-    PatientSearchPage.verifySearchResponseLength(searchResultResponse);
-    PatientSearchPage.verifyMessageDate(12);
-    PatientSearchPage.verifySearchMessageLabel(
-      searchResultResponse,
+    PatientFilterPage.verifyFilterResponseLength(filterResultResponse);
+    PatientFilterPage.verifyMessageDate(12);
+    PatientFilterPage.verifyFilterMessageLabel(
+      filterResultResponse,
       Data.DATE_RANGE.TWELVE_MONTHS,
     );
 
