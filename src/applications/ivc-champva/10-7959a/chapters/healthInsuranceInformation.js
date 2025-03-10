@@ -76,6 +76,7 @@ export const insuranceStatusSchema = {
     }),
     hasOhi: {
       ...yesNoUI({
+        type: 'radio',
         updateUiSchema: formData => {
           return {
             'ui:title': `${
@@ -134,6 +135,7 @@ const insuranceProviderPage = {
     ),
     type: {
       ...radioUI({
+        type: 'radio',
         title:
           'What type of insurance does the beneficiary have through this provider?',
         labels: radioLabels,

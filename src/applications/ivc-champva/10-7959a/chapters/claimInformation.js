@@ -67,6 +67,7 @@ export const claimWorkSchema = {
   uiSchema: {
     ...titleUI('Claim relationship to work'),
     claimIsWorkRelated: yesNoUI({
+      type: 'radio',
       title: 'Is this a claim for a work-related injury or condition?',
       updateUiSchema: formData => {
         return {
@@ -96,6 +97,7 @@ export const claimAutoSchema = {
   uiSchema: {
     ...titleUI('Claim relationship to a car accident'),
     claimIsAutoRelated: yesNoUI({
+      type: 'radio',
       title:
         'Is this a claim for an injury or condition caused by car accident?',
       updateUiSchema: formData => {

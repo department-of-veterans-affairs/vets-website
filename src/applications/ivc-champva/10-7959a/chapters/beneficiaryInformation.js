@@ -106,6 +106,7 @@ export const applicantAddressSchema = {
     },
     applicantNewAddress: {
       ...radioUI({
+        type: 'radio',
         updateUiSchema: formData => {
           const labels = {
             yes: 'Yes',
