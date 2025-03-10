@@ -422,8 +422,9 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     };
 
     const Alerts = () => {
+      const showMaxItemsAlert = isMaxItemsReached && !hideMaxItemsAlert;
       const alertsShown =
-        isMaxItemsReached ||
+        showMaxItemsAlert ||
         showUpdatedAlert ||
         showRemovedAlert ||
         showReviewErrorAlert;
@@ -437,10 +438,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
               : ''
           }
         >
-          <MaxItemsAlert
-            show={isMaxItemsReached && !hideMaxItemsAlert}
-            ref={maxItemsAlertRef}
-          >
+          <MaxItemsAlert show={showMaxItemsAlert} ref={maxItemsAlertRef}>
             {getText(
               'alertMaxItems',
               updatedItemData,
