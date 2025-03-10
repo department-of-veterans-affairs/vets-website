@@ -107,7 +107,7 @@ describe('SM Footer component', () => {
 
     expect(learnMoreLink).to.have.attribute(
       'href',
-      '/health-care/secure-messaging',
+      '/health-care/send-receive-messages/',
     );
     expect(findFacilityLink).to.have.attribute('href', '/find-locations');
   });
