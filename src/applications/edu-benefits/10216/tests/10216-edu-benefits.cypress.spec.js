@@ -30,39 +30,15 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      // 'review-and-submit': ({ afterHook }) => {
-      //   afterHook(() => {
-      //     // cy.get('@testKey').then(testKey => {
-      //     cy.get('[id="inputField"]', { timeout: 10000 }).type('John Doe', {
-      //       force: true,
-      //     });
-      //     cy.get('[id="checkbox-element"]').check({ force: true });
-
-      //     // cy.findAllByText(/submit/i, { selector: 'button' })
-      //     //   .first()
-      //     //   .click();
-      //   });
-      // },
-      'review-and-submit': ({ afterHook }) => {
+      '/education/apply-for-education-benefits/application/10216/review-and-submit': ({
+        afterHook,
+      }) => {
         afterHook(() => {
-          cy.get('@testKey').then(testKey => {
-            if (testKey === 'maximal-test.json') {
-              cy.get('va-text-input')
-                .shadow()
-                .find('input')
-                .type('Jane Test Doe');
-            } else {
-              cy.get('va-text-input')
-                .shadow()
-                .find('input')
-                .type('Jane Doe');
-            }
+          // cy.get('@testKey').then(testKey => {
+          cy.get('[id="inputField"]', { timeout: 10000 }).type('John Doe', {
+            force: true,
           });
-
-          cy.get(`va-checkbox`)
-            .shadow()
-            .find('input')
-            .check({ force: true });
+          cy.get('[id="checkbox-element"]').check({ force: true });
 
           cy.findAllByText(/submit/i, { selector: 'button' })
             .first()
