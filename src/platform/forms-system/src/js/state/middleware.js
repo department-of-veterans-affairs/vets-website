@@ -5,8 +5,6 @@ export const updateActiveFormPageContextMiddleware = (formState, action) => {
     const newPath = action.location?.path;
     updateActiveFormPageContext(formState.pages, newPath);
   }
-
-  return action;
 };
 
 /**
@@ -22,5 +20,5 @@ export const updateActiveFormPageContextMiddleware = (formState, action) => {
  * @param {Object} action any action dispatched from redux
  */
 export const applyFormMiddleware = (formState, action) => {
-  return updateActiveFormPageContextMiddleware(formState, action);
+  updateActiveFormPageContextMiddleware(formState, action);
 };

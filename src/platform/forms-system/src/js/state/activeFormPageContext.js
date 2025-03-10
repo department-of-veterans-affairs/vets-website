@@ -59,28 +59,32 @@ class ActiveFormPageContext {
    * @returns {ActiveFormPageContextState}
    */
   get() {
-    return { ...this.context };
+    return this.context;
   }
 
   updateFromPages(formPagesObj, urlPath) {
-    if (!formPagesObj || Object.keys(formPagesObj).length === 0) {
+    try {
+      if (!formPagesObj || Object.keys(formPagesObj).length === 0) {
+        this.reset();
+        return;
+      }
+
+      const pagePath = convertUrlPathToPageConfigPath(urlPath);
+      const [currentPageKey, currentPageConfig = {}] =
+        Object.entries(formPagesObj).find(([_, pageConfig]) => {
+          return pageConfig?.path === pagePath;
+        }) || [];
+
+      this.update({
+        pageKey: currentPageKey,
+        pagePath,
+        chapterKey: currentPageConfig.chapterKey,
+        arrayPath: currentPageConfig.arrayPath,
+        index: currentPageConfig.arrayPath ? getUrlPathIndex(urlPath) : null,
+      });
+    } catch {
       this.reset();
-      return;
     }
-
-    const pagePath = convertUrlPathToPageConfigPath(urlPath);
-    const [currentPageKey, currentPageConfig = {}] =
-      Object.entries(formPagesObj).find(([_, pageConfig]) => {
-        return pageConfig?.path === pagePath;
-      }) || [];
-
-    this.update({
-      pageKey: currentPageKey,
-      pagePath,
-      chapterKey: currentPageConfig.chapterKey,
-      arrayPath: currentPageConfig.arrayPath,
-      index: currentPageConfig.arrayPath ? getUrlPathIndex(urlPath) : null,
-    });
   }
 }
 

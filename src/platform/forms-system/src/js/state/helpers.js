@@ -706,7 +706,7 @@ export function updateSchemasAndData(
 
 export function recalculateSchemaAndData(reduxFormState) {
   // eslint-disable-next-line no-unused-vars
-  const activeContext = getActiveFormPageContext(reduxFormState.pages);
+  const activeContext = getActiveFormPageContext();
   // TODO: upcoming work - Use activeContext to correctly do recalculations
   // for isActivePage, updateUiSchema, first time rendering, etc.
 
