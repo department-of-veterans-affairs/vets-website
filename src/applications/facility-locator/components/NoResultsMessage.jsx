@@ -11,8 +11,8 @@ const NoResultsMessage = ({ isMobileListView, resultRef }) => {
         data-testid="no-results-mobile-list-view"
         className="vads-u-margin-top--2 mobile-lg:vads-u-margin-top--0 vads-u-margin-bottom--4 vads-u-margin-x--1 mobile-lg:vads-u-margin-x--0"
       >
-        Search for something else or in a different area. Try entering a
-        different location, facility type, or service type.
+        Try searching for something else. Or try searching in a different area.
+        You can enter a different location, facility type, or service type.
       </p>
     );
   }
@@ -26,7 +26,7 @@ const NoResultsMessage = ({ isMobileListView, resultRef }) => {
       tabIndex={0}
     >
       <p className="vads-u-margin-top--0">
-        Try searching for something else or in a different area.
+        Try searching for something else. Or try searching in a different area.
       </p>
       <p>
         <strong>Suggestions:</strong>

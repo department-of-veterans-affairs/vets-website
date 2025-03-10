@@ -52,10 +52,10 @@ const FacilityType = ({
         className={
           showError ? `vads-u-padding-left--1p5 vads-u-padding-top--1p5` : null
         }
-        label="Facility Type"
+        label="Facility type"
         value={facilityType || ''}
         onVaSelect={e => handleFacilityTypeChange(e)}
-        error={showError ? 'Please choose a facility type.' : null}
+        error={showError ? 'Select a facility type' : null}
       >
         {options}
       </VaSelect>

@@ -17,6 +17,7 @@ function Autosuggest({
   onInputValueChange,
   // input props
   onClearClick,
+  hintText = null,
   inputContainerClassName = 'input-container', // allows to work with fixed width from facility-locator
   inputError,
   inputId = 'autosuggest-input',
@@ -90,6 +91,7 @@ function Autosuggest({
       >
         <label className={`${inputId}-label`} {...getLabelProps()}>
           {label}
+          {hintText && <span className="usa-hint">{hintText}</span>}
         </label>
         {labelSibling}
       </div>

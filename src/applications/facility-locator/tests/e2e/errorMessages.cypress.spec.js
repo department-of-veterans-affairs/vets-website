@@ -29,16 +29,13 @@ for (const featureSet of featureSets) {
     );
 
     let addrErrorMessage = 'Please fill in a city, state, or postal code.';
-    let serviceErrorMessage = 'Please search for an available service';
 
     if (isAddressTypeaheadEnabled || isProgDiscEnabled) {
       addrErrorMessage =
         'Enter a zip code or a city and state in the search box';
     }
 
-    if (isProgDiscEnabled) {
-      serviceErrorMessage = 'Start typing and select an available service';
-    }
+    const serviceErrorMessage = 'ErrorStart typing and select a service type';
 
     beforeEach(() => {
       cy.intercept('GET', '/v0/maintenance_windows', []);
@@ -81,7 +78,7 @@ for (const featureSet of featureSets) {
       cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('.usa-error-message')
-        .contains('Please choose a facility type.');
+        .contains('Select a facility type');
       cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('select')
