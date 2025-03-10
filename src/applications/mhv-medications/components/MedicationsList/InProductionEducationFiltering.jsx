@@ -28,7 +28,7 @@ const InProductionEducationFiltering = () => {
           if (filterTooltip) {
             setTooltipVisible(filterTooltip.hidden);
             setTooltipId(filterTooltip.id);
-            if (filterTooltip.hidden) {
+            if (filterTooltip.hidden === false) {
               incrementTooltipCounter(filterTooltip.id);
             }
           } else {
