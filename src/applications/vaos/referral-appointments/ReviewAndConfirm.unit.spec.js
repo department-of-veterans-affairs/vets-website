@@ -66,10 +66,12 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       selectedSlotKey,
       '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
     );
+
     const noSelectState = {
       ...initialFullState,
       ...{ referral: { ...initialFullState.referral, selectedSlot: '' } },
     };
+
     const screen = renderWithStoreAndRouter(
       <ReviewAndConfirm
         currentReferral={createReferralById('2024-09-09', 'UUID')}
@@ -78,11 +80,15 @@ describe('VAOS Component: ReviewAndConfirm', () => {
         store: createTestStore(noSelectState),
       },
     );
-    expect(await screen.getByTestId('referral-layout-heading')).to.exist;
-    expect(await screen.getByTestId('slot-day-time')).to.contain.text(
+
+    await waitFor(async () => {
+      expect(screen.getByTestId('referral-layout-heading')).to.exist;
+    });
+
+    expect(screen.getByTestId('slot-day-time')).to.contain.text(
       'Monday, September 9, 2024',
     );
-    expect(await screen.getByTestId('slot-day-time')).to.contain.text(
+    expect(screen.getByTestId('slot-day-time')).to.contain.text(
       '12:00 p.m. Eastern time (ET)',
     );
     sandbox.assert.notCalled(
