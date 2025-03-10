@@ -6,7 +6,6 @@ import {
   postDraftReferralAppointment,
   getProviderById,
   getPatientReferrals,
-  getPatientReferralById,
   getAppointmentInfo,
 } from '../../services/referral';
 import { filterReferrals } from '../utils/referrals';
@@ -38,8 +37,6 @@ export const FETCH_REFERRALS = 'FETCH_REFERRALS';
 export const FETCH_REFERRALS_SUCCEEDED = 'FETCH_REFERRALS_SUCCEEDED';
 export const FETCH_REFERRALS_FAILED = 'FETCH_REFERRALS_FAILED';
 export const FETCH_REFERRAL = 'FETCH_REFERRAL';
-export const FETCH_REFERRAL_SUCCEEDED = 'FETCH_REFERRAL_SUCCEEDED';
-export const FETCH_REFERRAL_FAILED = 'FETCH_REFERRAL_FAILED';
 export const SET_SELECTED_SLOT = 'SET_SELECTED_SLOT';
 export const SET_INIT_REFERRAL_FLOW = 'SET_INIT_REFERRAL_FLOW';
 
@@ -110,27 +107,6 @@ export function fetchReferrals() {
     } catch (error) {
       dispatch({
         type: FETCH_REFERRALS_FAILED,
-      });
-      return captureError(error);
-    }
-  };
-}
-
-export function fetchReferralById(id) {
-  return async dispatch => {
-    dispatch({
-      type: FETCH_REFERRAL,
-    });
-    try {
-      const referral = await getPatientReferralById(id);
-      dispatch({
-        type: FETCH_REFERRAL_SUCCEEDED,
-        data: referral,
-      });
-      return referral;
-    } catch (error) {
-      dispatch({
-        type: FETCH_REFERRAL_FAILED,
       });
       return captureError(error);
     }
