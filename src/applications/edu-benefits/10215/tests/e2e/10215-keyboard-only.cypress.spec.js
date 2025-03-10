@@ -41,8 +41,9 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.visit(`${manifest.rootUrl}`);
     cy.injectAxeThenAxeCheck();
 
-    cy.tabToElement('va-link-action');
-    cy.realPress('Enter');
+    // Uncomment when about page is created
+    // cy.tabToElement('va-link-action');
+    // cy.realPress('Enter');
 
     cy.tabToElement(
       'va-accordion-item[header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"]',
