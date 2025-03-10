@@ -71,12 +71,25 @@ export default function LicenseCertificationSearchResults() {
     currentPage * itemsPerPage,
   );
 
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      const controller = new AbortController();
+
+      dispatch(fetchLicenseCertificationResults(controller.signal));
+
+      return () => {
+        controller.abort();
+      };
+    }
+    return null;
+  }, []);
+
   useEffect(
     () => {
-      if (!hasFetchedOnce) {
-        dispatch(fetchLicenseCertificationResults());
-        return;
-      }
+      // if (!hasFetchedOnce) {
+      //   dispatch(fetchLicenseCertificationResults());
+      //   return;
+      // }
 
       if (hasFetchedOnce && (allowUpdate || stateParam)) {
         dispatch(
@@ -275,8 +288,8 @@ export default function LicenseCertificationSearchResults() {
             and try using different words or checking the spelling of the words
             you're using.
             <p className="">
-              If you don’t see a test or prep course listed, it may be a valid
-              test that’s not yet approved. For license or certification, take
+              If you don't see a test or prep course listed, it may be a valid
+              test that's not yet approved. For license or certification, take
               the test, then apply for approval by submitting VA Form 22-0803.{' '}
               <va-link
                 text="Get VA Form 22-0803 to download."

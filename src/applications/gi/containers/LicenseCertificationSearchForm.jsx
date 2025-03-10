@@ -42,13 +42,21 @@ export default function LicenseCertificationSearchForm() {
 
   useEffect(() => {
     if (!hasFetchedOnce) {
-      dispatch(fetchLicenseCertificationResults());
+      const controller = new AbortController();
+
+      dispatch(fetchLicenseCertificationResults(controller.signal));
+
+      return () => {
+        controller.abort();
+      };
     }
+    return null;
   }, []);
 
   useEffect(
     () => {
       dispatch(filterLcResults(name, dropdown.current.optionValue));
+      return null;
     },
     [name, dropdown],
   );
@@ -62,6 +70,7 @@ export default function LicenseCertificationSearchForm() {
     if (nameParam) {
       setName(nameParam);
     }
+    return undefined;
   }, []);
 
   const handleSearch = (category, nameInput) => {
