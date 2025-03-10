@@ -12,10 +12,13 @@ export const marriageEndDetails = {
       title: 'How and when marriage ended',
     }),
     marriageEndDate: {
-      ...currentOrPastDateUI('When did this marriage end?'),
-      'ui:errorMessages': {
-        required: 'Enter the date the marriage ended.',
-      },
+      ...currentOrPastDateUI({
+        title: 'When did this marriage end?',
+        errorMessages: {
+          pattern: 'Enter a valid date',
+          required: 'Enter the date the marriage ended',
+        },
+      }),
     },
     marriageEndReason: {
       ...radioUI({
