@@ -47,9 +47,7 @@ class MedicationsListPage {
     );
   };
 
-  clickGoToMedicationsLinkWhenNoAllergiesAPICallFails = (
-    waitForMeds = false,
-  ) => {
+  visitMedicationsLinkWhenNoAllergiesAPICallFails = (waitForMeds = false) => {
     cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
       'delayAlertRxList',
     );
@@ -59,14 +57,17 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
   };
 
-  clickGotoMedicationsLinkForUserWithAllergies = (waitForMeds = false) => {
+  visitMedicationsListForUserWithAllergies = (waitForMeds = false) => {
     // cy.intercept('GET', '/my-health/medications', prescriptions);
+    cy.intercept('GET', `${Paths.DELAY_ALERT}`, prescriptions).as(
+      'delayAlertRxList',
+    );
     cy.intercept(
       'GET',
       '/my_health/v1/medical_records/allergies',
@@ -78,7 +79,7 @@ class MedicationsListPage {
       '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
       prescriptions,
     );
-    cy.get('[data-testid ="prescriptions-nav-link"]').click({ force: true });
+    cy.visit(medicationsUrls.MEDICATIONS_URL);
     if (waitForMeds) {
       cy.wait('@medicationsList');
     }
@@ -592,7 +593,7 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionExpirationDateforRxOver180Days = expiredPrescription => {
-    cy.get('@medicationsList')
+    cy.get('@Medications')
       .its('response')
       .then(res => {
         expect(res.body.data[14].attributes).to.include({
@@ -604,7 +605,7 @@ class MedicationsListPage {
   };
 
   verifyCmopNdcNumberIsNull = () => {
-    cy.wait('@medicationsList').then(interception => {
+    cy.wait('@Medications').then(interception => {
       expect(interception.response.body.data[1].attributes).to.include({
         cmopNdcNumber: null,
       });
@@ -612,7 +613,7 @@ class MedicationsListPage {
   };
 
   verifyPrescriptionSourceForNonVAMedicationOnDetailsPage = () => {
-    cy.get('@medicationsList')
+    cy.get('@Medications')
       .its('response')
       .then(res => {
         expect(res.body.data[4].attributes).to.include({
@@ -647,7 +648,7 @@ class MedicationsListPage {
     frontImprint,
     backImprint,
   ) => {
-    cy.wait('@medicationsList').then(interception => {
+    cy.wait('@Medications').then(interception => {
       expect(interception.response.body.data[19].attributes).to.include({
         shape,
         color,
@@ -802,7 +803,7 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
-    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('noMedications');
+    cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('Medications');
     cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 
