@@ -68,7 +68,7 @@ const InProductionEducationFiltering = () => {
 
   return (
     <>
-      {tooltipVisible && (
+      {!tooltipVisible && (
         <div
           id="rx-ipe-filtering-container"
           data-testid="rx-ipe-filtering-container"
