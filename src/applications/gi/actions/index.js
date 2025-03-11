@@ -187,7 +187,7 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
 export function filterLcResults(
   name,
   categories,
-  location,
+  location = 'all',
   previousResults = [],
 ) {
   return {

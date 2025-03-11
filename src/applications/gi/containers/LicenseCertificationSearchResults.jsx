@@ -101,7 +101,7 @@ export default function LicenseCertificationSearchResults() {
         }
       }
     },
-    [hasFetchedOnce, stateParam, allowUpdate],
+    [hasFetchedOnce, stateParam, allowUpdate, previousRoute],
   );
 
   useEffect(
@@ -283,16 +283,18 @@ export default function LicenseCertificationSearchResults() {
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search results
           </h1>
-          <p className="vads-u-margin-top--0 usa-width-two-thirds ">
-            We didn't find any results for "<strong>{nameParam}</strong>
-            ." Please{' '}
-            <va-link
-              href="./"
-              onClick={e => handleGoHome(e)}
-              text="go back to search"
-            />{' '}
-            and try using different words or checking the spelling of the words
-            you're using.
+          <div className="vads-u-margin-top--0 usa-width-two-thirds ">
+            <p className="">
+              We didn't find any results for "<strong>{nameParam}</strong>
+              ." Please{' '}
+              <va-link
+                href="./"
+                onClick={e => handleGoHome(e)}
+                text="go back to search"
+              />{' '}
+              and try using different words or checking the spelling of the
+              words you're using.
+            </p>
             <p className="">
               If you don't see a test or prep course listed, it may be a valid
               test that's not yet approved. For license or certification, take
@@ -308,7 +310,7 @@ export default function LicenseCertificationSearchResults() {
                 href="https://www.va.gov/find-forms/about-form-22-10272/"
               />
             </p>
-          </p>
+          </div>
         </div>
       </>
     );

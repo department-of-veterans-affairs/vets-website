@@ -55,10 +55,9 @@ export default function LicenseCertificationSearchForm() {
 
   useEffect(
     () => {
-      dispatch(filterLcResults(name, dropdown.current.optionValue));
-      return null;
+      return dispatch(filterLcResults(name, dropdown.current.optionValue));
     },
-    [name, dropdown],
+    [name],
   );
 
   // If available, use url query params to assign initial dropdown values
