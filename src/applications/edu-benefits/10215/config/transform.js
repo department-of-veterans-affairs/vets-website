@@ -14,13 +14,14 @@ export default function transform(form) {
       const fteCalcs = getFTECalcs(program);
       program.fte.totalFTE = fteCalcs?.total;
       program.fte.supportedPercentageFTE =
-        fteCalcs?.supportedFTEPercent &&
-        Number(
-          fteCalcs?.supportedFTEPercent.substring(
-            0,
-            fteCalcs?.supportedFTEPercent.length - 1,
-          ),
-        );
+        (fteCalcs?.supportedFTEPercent &&
+          Number(
+            fteCalcs?.supportedFTEPercent.substring(
+              0,
+              fteCalcs?.supportedFTEPercent.length - 1,
+            ),
+          )) ||
+        0;
     }
     if (program.fte) {
       program.fte.nonSupported = parseInt(program.fte.nonSupported, 10) || 0;
@@ -41,7 +42,7 @@ export default function transform(form) {
   const offset = today.getTimezoneOffset();
   today = new Date(today.getTime() - offset * 60 * 1000);
   // eslint-disable-next-line prefer-destructuring
-  // formData.data.dateSigned = today.toISOString().split('T')[0];
+  formData.data.dateSigned = today.toISOString().split('T')[0];
 
   return JSON.stringify({
     educationBenefitsClaim: {

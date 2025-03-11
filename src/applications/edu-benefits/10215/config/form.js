@@ -66,14 +66,14 @@ const formConfig = {
   version: 0,
   prefillEnabled: true,
   preSubmitInfo: {
-    // statementOfTruth: {
-    //   heading: 'Certification statement',
-    //   body:
-    //     'I hereby certify that the calculations above are true and correct in content and policy.',
-    //   messageAriaDescribedby:
-    //     'I hereby certify that the calculations above are true and correct in content and policy.',
-    //   fullNamePath: 'certifyingOfficial',
-    // },
+    statementOfTruth: {
+      heading: 'Certification statement',
+      body:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      messageAriaDescribedby:
+        'I hereby certify that the calculations above are true and correct in content and policy.',
+      fullNamePath: 'certifyingOfficial',
+    },
   },
   customText: {
     reviewPageTitle: 'Review',
@@ -101,12 +101,12 @@ const formConfig = {
     institutionDetailsChapter: {
       title: 'Institution details',
       pages: {
-        // institutionOfficial: {
-        //   path: 'institution-details-1',
-        //   title: 'Tell us about yourself',
-        //   uiSchema: institutionOfficial.uiSchema,
-        //   schema: institutionOfficial.schema,
-        // },
+        institutionOfficial: {
+          path: 'institution-details',
+          title: 'Tell us about yourself',
+          uiSchema: institutionOfficial.uiSchema,
+          schema: institutionOfficial.schema,
+        },
         institutionDetails: {
           path: 'institution-details-1',
           title: 'Institution details',

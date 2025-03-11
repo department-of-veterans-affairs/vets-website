@@ -35,7 +35,7 @@ describe('22-10215 Form Config', () => {
     expect(description).to.not.equal('50 supported student FTE');
 
     mockGetFTECalcs.returns({ supportedFTEPercent: null });
-    expect(arrayBuilderOptions.text.cardDescription(item)).to.be.null;
+    expect(arrayBuilderOptions.text.cardDescription(item)).to.be.equal(0);
 
     delete global.getFTECalcs;
   });
