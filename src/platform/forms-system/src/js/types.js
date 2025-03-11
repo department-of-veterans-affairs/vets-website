@@ -37,6 +37,7 @@
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
  * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
+ * @property {boolean} [hideFormTitleConfirmation] If title should be hidden for confirmation page. Will override hideFormTitle.
  * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]

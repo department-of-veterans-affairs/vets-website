@@ -18,7 +18,12 @@ export default function LicenseCertificationSearchResult() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    dispatch(fetchLcResult(id));
+    const controller = new AbortController();
+    dispatch(fetchLcResult(id, controller.signal));
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const { lacNm, eduLacTypeNm, institution, tests } = lcResultInfo;
