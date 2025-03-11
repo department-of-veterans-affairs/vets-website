@@ -1,7 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import pluralize from 'pluralize';
 import { format, isAfter } from 'date-fns';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -17,10 +16,10 @@ export default function ReferralTaskCard({ data }) {
     return null;
   }
 
-  const { numberOfAppointments, ReferralExpirationDate, UUID } = data;
+  const { expirationDate, uuid } = data;
 
-  const expirationDate = new Date(ReferralExpirationDate);
-  const isPastExpirationDate = isAfter(new Date(), expirationDate);
+  const expirationDateObject = new Date(expirationDate);
+  const isPastExpirationDate = isAfter(new Date(), expirationDateObject);
 
   if (isPastExpirationDate) {
     return null;
@@ -35,20 +34,17 @@ export default function ReferralTaskCard({ data }) {
         Schedule your physical therapy appointment
       </h4>
       <p>
-        {`We’ve approved your referral for ${numberOfAppointments} ${pluralize(
-          'appointment',
-          numberOfAppointments,
-        )} with a community care provider. You must schedule all appointments for this referral by ${format(
-          expirationDate,
+        {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${format(
+          expirationDateObject,
           'PP',
         )}.`}
       </p>
       <va-link-action
         text="Go to your referral details to start scheduling"
         type="secondary"
-        data-testid={`referral-task-card-schedule-referral-${UUID}`}
+        data-testid={`referral-task-card-schedule-referral-${uuid}`}
         onClick={() => {
-          routeToNextReferralPage(history, currentPage, UUID);
+          routeToNextReferralPage(history, currentPage, uuid);
         }}
       />
     </va-card>

@@ -1,3 +1,4 @@
+import { fillStatementOfTruthSignature } from 'applications/simple-forms/shared/tests/e2e/helpers';
 import manifest from '../../manifest.json';
 import formConfig from '../../config/form';
 
@@ -6,6 +7,12 @@ describe('22-10215 Edu Benefits Form', () => {
     if (Cypress.env('CI')) this.skip();
   });
   it('should be keyboard-only navigable', () => {
+    const institutionOfficial = {
+      first: 'Jane',
+      last: 'Doe',
+      title: 'President',
+    };
+
     const institutionDetail = {
       institutionName: 'Test Institution Name',
       facilityCode: '12345678',
@@ -56,6 +63,21 @@ describe('22-10215 Edu Benefits Form', () => {
     // // Tab to and press 'Start your 85/15 enrollment ratios report' to go to the introduction page
     cy.tabToElement('[text="Start your 85/15 enrollment ratios report"]');
     cy.realPress('Enter');
+
+    // Institution Official Page
+    cy.url().should(
+      'include',
+      formConfig.chapters.institutionDetailsChapter.pages.institutionOfficial
+        .path,
+    );
+    cy.injectAxeThenAxeCheck();
+    cy.tabToElement('[name="root_certifyingOfficial_first"]');
+    cy.typeInFocused(institutionOfficial.first);
+    cy.tabToElement('[name="root_certifyingOfficial_last"]');
+    cy.typeInFocused(institutionOfficial.last);
+    cy.tabToElement('[name="root_certifyingOfficial_title"]');
+    cy.typeInFocused(institutionOfficial.title);
+    cy.tabToContinueForm();
 
     // Institution Details Page
     cy.url().should(
@@ -151,12 +173,9 @@ describe('22-10215 Edu Benefits Form', () => {
     // Review application
     cy.url().should('include', 'review-and-submit');
     cy.injectAxeThenAxeCheck();
-    cy.tabToElementAndPressSpace('va-text-input[label="Your full name"]');
-    cy.typeInFocused('Jane Doe');
-    cy.tabToElementAndPressSpace(
-      'va-text-input[label="Your school official title"]',
+    fillStatementOfTruthSignature(
+      `${institutionOfficial.first} ${institutionOfficial.last}`,
     );
-    cy.typeInFocused('School Official');
     cy.tabToElementAndPressSpace('va-checkbox');
     cy.tabToSubmitForm();
   });

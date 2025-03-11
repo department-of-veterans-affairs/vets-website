@@ -6,16 +6,13 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import PropTypes from 'prop-types';
 import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
 import {
-  capitalizeFirstLetter,
-  formatResultCount,
   handleLcResultsSearch,
   isSmallScreen,
-  mappedStates,
   showLcParams,
   showMultipleNames,
+  createCheckboxes,
   updateStateDropdown,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
@@ -23,50 +20,16 @@ import { lacpCategoryList } from '../constants';
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 import LicenseCertificationFilterAccordion from '../components/LicenseCertificationFilterAccordion';
 import FilterControls from '../components/FilterControls';
+import LicenseCertificationSearchInfo from '../components/LicenseCertificationSearchInfo';
 
-const checkboxMap = (categories, checkedList) => {
-  const valuesToCheck = ['license', 'certification', 'prep course'];
-
-  const allValuesIncluded = valuesToCheck.every(value =>
-    checkedList.includes(value),
-  );
-
-  return [
-    {
-      name: categories[0],
-      checked: checkedList.includes(categories[0]) || allValuesIncluded,
-      label: capitalizeFirstLetter(categories[0]),
-    },
-    {
-      name: categories[1],
-      checked:
-        checkedList.includes(categories[1]) ||
-        checkedList.includes(categories[0]),
-      label: capitalizeFirstLetter(categories[1]),
-    },
-    {
-      name: categories[2],
-      checked:
-        checkedList.includes(categories[2]) ||
-        checkedList.includes(categories[0]),
-      label: capitalizeFirstLetter(categories[2]),
-    },
-    {
-      name: categories[3],
-      checked:
-        checkedList.includes(categories[3]) ||
-        checkedList.includes(categories[0]),
-      label: capitalizeFirstLetter(categories[3]),
-    },
-  ];
-};
 export default function LicenseCertificationSearchResults() {
   const location = useLocation();
   const history = useHistory();
 
   const previousRoute = history.location.state?.path;
   const previousRouteHome =
-    previousRoute === '/lc-search' || previousRoute === '/lc-search/';
+    previousRoute === '/licenses-certifications-and-prep-courses' ||
+    previousRoute === '/licenses-certifications-and-prep-courses/';
 
   const {
     nameParam,
@@ -86,12 +49,12 @@ export default function LicenseCertificationSearchResults() {
     error,
   } = useSelector(state => state.licenseCertificationSearch);
 
-  const [currentPage, setCurrentPage] = useState(pageParam);
+  const [currentPage, setCurrentPage] = useState(Number(pageParam));
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
   const [categoryCheckboxes, setCategoryCheckboxes] = useState(
-    checkboxMap(lacpCategoryList, categoryParams),
+    createCheckboxes(lacpCategoryList, categoryParams),
   );
   const [filterLocation, setFilterLocation] = useState(stateParam);
   const [dropdown, setDropdown] = useState(() => {
@@ -110,44 +73,35 @@ export default function LicenseCertificationSearchResults() {
 
   useEffect(() => {
     if (!hasFetchedOnce) {
-      dispatch(fetchLicenseCertificationResults());
+      const controller = new AbortController();
+
+      dispatch(fetchLicenseCertificationResults(controller.signal));
+
+      return () => {
+        controller.abort();
+      };
     }
+    return null;
   }, []);
 
   useEffect(
     () => {
-      if (hasFetchedOnce) {
+      if (hasFetchedOnce && (allowUpdate || stateParam)) {
         dispatch(
           filterLcResults(
             nameParam ?? '',
-            categoryParams,
-            stateParam,
+            allowUpdate ? activeCategories : categoryParams,
+            allowUpdate ? filterLocation : stateParam,
             filteredResults,
           ),
         );
+
+        if (allowUpdate) {
+          setAllowUpdate(false);
+        }
       }
     },
-    [hasFetchedOnce, stateParam],
-  );
-
-  useEffect(
-    () => {
-      if (allowUpdate) {
-        dispatch(
-          filterLcResults(
-            nameParam ?? '',
-            activeCategories,
-            filterLocation,
-            filteredResults,
-          ),
-        );
-      }
-
-      return () => {
-        setAllowUpdate(false);
-      };
-    },
-    [categoryParams, allowUpdate],
+    [hasFetchedOnce, stateParam, allowUpdate, previousRoute],
   );
 
   useEffect(
@@ -184,7 +138,7 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       window.scroll({ top: 0, bottom: 0, behavior: 'smooth' });
-      setCurrentPage(pageParam);
+      setCurrentPage(Number(pageParam));
     },
     [pageParam],
   );
@@ -208,7 +162,7 @@ export default function LicenseCertificationSearchResults() {
     );
   };
 
-  const handleChange = e => {
+  const handleStateChange = e => {
     setFilterLocation(e.target.value);
   };
 
@@ -231,20 +185,22 @@ export default function LicenseCertificationSearchResults() {
     window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
   };
 
-  const handleRouteChange = (e, id, name) => {
+  const handleGoToDetails = (e, id, name) => {
     e.preventDefault();
-    history.push(`/lc-search/results/${id}/${name}`);
+    history.push(
+      `/licenses-certifications-and-prep-courses/results/${id}/${name}`,
+    );
   };
 
   const handleGoHome = e => {
     e.preventDefault();
-    history.push(`/lc-search`);
+    history.push(`/licenses-certifications-and-prep-courses`);
   };
 
   const handleCheckboxGroupChange = e => {
     const { name, checked } = e.target;
 
-    const updatedCheckboxes = categoryCheckboxes.map(categoryCheckbox => {
+    const newCheckboxes = categoryCheckboxes.map(categoryCheckbox => {
       if (name === 'all') {
         return {
           ...categoryCheckbox,
@@ -273,16 +229,26 @@ export default function LicenseCertificationSearchResults() {
       };
     });
 
-    setCategoryCheckboxes(updatedCheckboxes);
+    if (newCheckboxes.filter(checkbox => checkbox.checked).length === 3) {
+      const final = newCheckboxes.map(checkbox => {
+        return {
+          ...checkbox,
+          checked: true,
+        };
+      });
+
+      return setCategoryCheckboxes(final);
+    }
+
+    return setCategoryCheckboxes(newCheckboxes);
   };
 
   const handleResetSearch = () => {
     setAllowUpdate(true);
     setActiveCategories([initialCategoryParam]);
     setCategoryCheckboxes(
-      checkboxMap(lacpCategoryList, [initialCategoryParam]),
+      createCheckboxes(lacpCategoryList, [initialCategoryParam]),
     );
-    // setDropdown(updateStateDropdown());
     setFilterLocation('all');
     handleLcResultsSearch(
       history,
@@ -293,166 +259,16 @@ export default function LicenseCertificationSearchResults() {
     );
   };
 
-  const renderSearchInfo = () => {
-    const valuesToCheck = ['license', 'certification', 'prep course'];
-
-    const allValuesIncluded = valuesToCheck.every(value =>
-      activeCategories.includes(value),
-    );
-
-    return (
-      <>
-        {allValuesIncluded ? (
-          <span className="info-option vads-u-padding-right--0p5">
-            "<strong>All</strong>
-            ",
-          </span>
-        ) : (
-          activeCategories.map((category, index) => {
-            return (
-              <span
-                className="info-option vads-u-padding-right--0p5"
-                key={index}
-              >
-                "
-                <strong key={index}>
-                  {capitalizeFirstLetter(category, ['course'])}
-                </strong>
-                "
-                {(index !== activeCategories.length - 1 || nameParam) && <>,</>}
-              </span>
-            );
-          })
-        )}
-        <span className="info-option">
-          {nameParam && (
-            <>
-              {' '}
-              "<strong>{nameParam}</strong>"{' '}
-            </>
-          )}
-          {!previousRouteHome && <>,</>}{' '}
-        </span>
-        {!previousRouteHome && (
-          <span className="info-option">
-            "
-            <strong>
-              {stateParam === 'all'
-                ? 'All'
-                : mappedStates.find(state => stateParam === state.optionValue)
-                    .optionLabel}
-            </strong>
-            "{' '}
-          </span>
-        )}
-      </>
-    );
-  };
-
-  function formatArrayWithOr(array) {
-    if (array.length === 1) {
-      return array[0];
-    }
-    if (array.length === 2) {
-      return `${array[0]} or ${array[1]}`;
-    }
-
-    const lastItem = array[array.length - 1];
-    const otherItems = array.slice(0, -1);
-
-    return `${otherItems.join(', ')} or ${lastItem}`;
-  }
-
-  const renderNoResults = (name, state) => {
-    // consider helper function for displaying name if available, and showing nothing if not -- insert in place of nameParam to qvoid extra conditional statements
-    //
-
-    const formatState = () => {
-      if (state === 'all') {
-        return 'all';
-      }
-      return (
-        <>
-          "
-          <strong>
-            {
-              mappedStates.find(
-                mappedState => mappedState.optionValue === stateParam,
-              ).optionLabel
-            }
-          </strong>
-          "
-        </>
-      );
-    };
-
-    const formattedCategories = formatArrayWithOr(
-      activeCategories.filter(activeCategory => activeCategory !== 'all'),
-    );
-
-    const formatName = () => {
-      if (name) {
-        return (
-          <>
-            for "<strong>{nameParam}</strong>"
-          </>
-        );
-      }
-
-      return null;
-    };
-
-    const classes =
-      'vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4';
-
-    if (activeCategories.length === 0) {
-      return (
-        <p className={classes}>
-          To see your results, select a category type filter and update search
-          or select reset search.
-        </p>
-      );
-    }
-
-    if (formatState() === 'all') {
-      return (
-        <p className={classes}>
-          There is no {formattedCategories} available {formatName()}.
-        </p>
-      );
-    }
-    if (activeCategories.includes('certification')) {
-      if (activeCategories.length > 1) {
-        return (
-          <p className={classes}>
-            There is no {formattedCategories} {formatName()} available in the
-            state of {formatState()}. All certifications are available
-            nationwide.
-          </p>
-        );
-      }
-      return (
-        <p className={classes}>
-          There is no certification available {formatName()}.
-        </p>
-      );
-    }
-    return (
-      <p className={classes}>
-        There is no {formattedCategories} {formatName()} available in the state
-        of {formatState()}.
-      </p>
-    );
-  };
-
   if (fetchingLc) {
     return <va-loading-indicator message="Loading..." />;
   }
 
   if (error) {
-    <div className="row">
-      <LicesnseCertificationServiceError />
-    </div>;
+    return (
+      <div className="row">
+        <LicesnseCertificationServiceError />
+      </div>
+    );
   }
 
   if (
@@ -467,31 +283,34 @@ export default function LicenseCertificationSearchResults() {
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search results
           </h1>
-          {/* </div> */}
-          {/* <div className="row"> */}
-          <p className="vads-u-margin-top--0 vads-l-col--12 medium-screen:vads-l-col--7 ">
-            We didn't find any results for "<strong>{nameParam}</strong>
-            ." Please{' '}
-            <va-link
-              href="./"
-              onClick={e => handleGoHome(e)}
-              text="go back to search"
-            />{' '}
-            and try using different words or checking the spelling of the words
-            you’re using.
+          <div className="vads-u-margin-top--0 usa-width-two-thirds ">
             <p className="">
-              If you don’t see a test or prep course listed, it may be a valid
-              test that’s not yet approved. We encourage you to submit an
-              application for reimbursement. If approved, we’ll prorate the
-              entitlement charges based on the actual amount of the fee charged
-              for the test.{' '}
+              We didn't find any results for "<strong>{nameParam}</strong>
+              ." Please{' '}
               <va-link
+                href="./"
+                onClick={e => handleGoHome(e)}
+                text="go back to search"
+              />{' '}
+              and try using different words or checking the spelling of the
+              words you're using.
+            </p>
+            <p className="">
+              If you don't see a test or prep course listed, it may be a valid
+              test that's not yet approved. For license or certification, take
+              the test, then apply for approval by submitting VA Form 22-0803.{' '}
+              <va-link
+                text="Get VA Form 22-0803 to download."
                 href="https://www.va.gov/find-forms/about-form-22-0803/"
-                text="Find out how to get reimbursed for
-                licenses, certifications and prep courses."
+              />{' '}
+              For prep course, take the course, then apply for approval by
+              submitting VA Form 22-10272.{' '}
+              <va-link
+                text="Get VA Form 22-10272 to download."
+                href="https://www.va.gov/find-forms/about-form-22-10272/"
               />
             </p>
-          </p>
+          </div>
         </div>
       </>
     );
@@ -510,23 +329,15 @@ export default function LicenseCertificationSearchResults() {
               </div>
 
               <div className="lc-result-info-wrapper row">
-                <div className="vads-u-display--flex vads-u-justify-content--space-between  vads-u-align-items--center">
-                  {filteredResults.length === 0 ? (
-                    <>{renderNoResults(nameParam, stateParam)}</>
-                  ) : (
-                    <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-bottom--4">
-                      Showing{' '}
-                      <>
-                        {`${formatResultCount(
-                          filteredResults,
-                          currentPage,
-                          itemsPerPage,
-                        )} of ${filteredResults.length} results for `}
-                        {renderSearchInfo()}
-                      </>
-                    </p>
-                  )}
-                </div>
+                <LicenseCertificationSearchInfo
+                  filteredResults={filteredResults}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  activeCategories={activeCategories}
+                  nameParam={nameParam}
+                  stateParam={stateParam}
+                  previousRouteHome={previousRouteHome}
+                />
               </div>
 
               <>
@@ -540,7 +351,7 @@ export default function LicenseCertificationSearchResults() {
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
                       <LicenseCertificationFilterAccordion
-                        button="Update Search"
+                        button="Update search"
                         buttonLabel="Filter your results"
                         expanded={!smallScreen}
                         buttonOnClick={() =>
@@ -558,7 +369,7 @@ export default function LicenseCertificationSearchResults() {
                           categoryCheckboxes={categoryCheckboxes}
                           handleCheckboxGroupChange={handleCheckboxGroupChange}
                           dropdown={dropdown}
-                          handleDropdownChange={handleChange}
+                          handleDropdownChange={handleStateChange}
                           filterLocation={filterLocation}
                         />
                       </LicenseCertificationFilterAccordion>
@@ -589,13 +400,15 @@ export default function LicenseCertificationSearchResults() {
                                 </p>
                               )}
                               <va-link
-                                href={`/lc-search/results/${result.enrichedId}`}
+                                href={`/licenses-certifications-and-prep-courses/results/${
+                                  result.enrichedId
+                                }`}
                                 text={`View test amount details for ${
                                   result.lacNm
                                 }`}
                                 type="secondary"
                                 onClick={e =>
-                                  handleRouteChange(
+                                  handleGoToDetails(
                                     e,
                                     result.enrichedId,
                                     result.lacNm,
@@ -625,8 +438,3 @@ export default function LicenseCertificationSearchResults() {
     </div>
   );
 }
-
-LicenseCertificationSearchResults.propTypes = {
-  flag: PropTypes.string,
-  // error: Proptypes // verify error Proptypes
-};

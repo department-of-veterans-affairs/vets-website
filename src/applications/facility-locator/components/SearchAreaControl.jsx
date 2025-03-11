@@ -22,7 +22,7 @@ const SearchAreaControl = ({
     return `${mobileClass} ${radiusClass}`;
   };
 
-  const buttonClass = `usa-button${!isEnabled ? ' fl-disabled' : ''}`;
+  const buttonClass = `${!isEnabled ? ' fl-disabled' : ''}`;
 
   const handleClick = e => {
     if (e) e.preventDefault();
@@ -45,8 +45,10 @@ const SearchAreaControl = ({
   return (
     <div id="search-area-control-container" className={containerClass()}>
       <va-button
+        data-testid="search-area-control"
+        key={`search-area-control-${isEnabled}`}
         id="search-area-control"
-        className={buttonClass}
+        class={buttonClass}
         text={buttonLabel()}
         disabled={!isEnabled}
         ariaLive="assertive"

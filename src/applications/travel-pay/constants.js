@@ -2,6 +2,8 @@ export const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
 export const FORM_103542_LINK = '/find-forms/about-form-10-3542/';
 export const FIND_FACILITY_TP_CONTACT_LINK =
   '/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp';
+export const TRAVEL_PAY_INFO_LINK =
+  '/health-care/get-reimbursed-for-travel-pay/';
 
 export const STATUS_GROUPINGS = [
   {
@@ -15,10 +17,10 @@ export const STATUS_GROUPINGS = [
     description:
       'These claims require action from VA. If VA needs more information from you, your Travel Clerk will contact you.',
     includes: [
-      'In Process',
-      'Claim Submitted',
-      'In Manual Review',
-      'On Hold',
+      'In process',
+      'Claim submitted',
+      'In manual review',
+      'On hold',
       'Appealed',
     ],
   },
@@ -27,13 +29,13 @@ export const STATUS_GROUPINGS = [
     description:
       'The Beneficiary Travel office finished their review of your claim and closed it. In some situations you can appeal Beneficiary Travel department’s decision and re-open a claim. If you have questions about why your claim has one of the following statuses, contact your local VAMC and ask for the Beneficiary Travel department.',
     includes: [
-      'Partial Payment',
+      'Partial payment',
       'Denied',
-      'Approved for Payment',
-      'Submitted for Payment',
-      'Fiscal Rescinded',
-      'Claim Paid',
-      'Payment Canceled',
+      'Approved for payment',
+      'Submitted for payment',
+      'Fiscal rescinded',
+      'Claim paid',
+      'Payment canceled',
     ],
   },
 ];
@@ -52,18 +54,18 @@ export const STATUSES = [
     reasons: null,
   },
   {
-    name: 'In Process',
+    name: 'In process',
     description:
       'You submitted a claim, and now BTSSS is reviewing your claim.',
     reasons: null,
   },
   {
-    name: 'Claim Submitted',
+    name: 'Claim submitted',
     description: 'You submitted a claim for a completed appointment.',
     reasons: null,
   },
   {
-    name: 'In Manual Review',
+    name: 'In manual review',
     description:
       'Your claim requires a manual review by a Travel Clerk due to one or more of the following reasons:',
     reasons: [
@@ -73,7 +75,7 @@ export const STATUSES = [
     ],
   },
   {
-    name: 'On Hold',
+    name: 'On hold',
     description:
       'You must provide the needed information for the claim to be processed. Your Travel Clerk will contact you when they put your claim on hold and tell you what additional information is required. For more information about your claim, please contact your local VAMC and ask for the Beneficiary Travel department.',
     reasons: null,
@@ -85,7 +87,7 @@ export const STATUSES = [
     reasons: null,
   },
   {
-    name: 'Partial Payment',
+    name: 'Partial payment',
     description:
       'The Travel Clerk determined the claim does not qualify for a full reimbursement. Instead, they approved a partial payment and a Partial Payment letter was sent to you.',
     reasons: null,
@@ -102,31 +104,31 @@ export const STATUSES = [
     ],
   },
   {
-    name: 'Approved for Payment',
+    name: 'Approved for payment',
     description:
       'The Travel Clerk approved your claim for payment. The payment is pending and has not been paid.',
     reasons: null,
   },
   {
-    name: 'Submitted for Payment',
+    name: 'Submitted for payment',
     description:
       'The approved claim payment is assigned to the Financial Service Center (FSC) so that you can receive reimbursement.',
     reasons: null,
   },
   {
-    name: 'Fiscal Rescinded',
+    name: 'Fiscal rescinded',
     description:
       'The Financial Service Center (FSC) rejected payment. You will not be able to appeal this decision. For more detailed information about your claim, please contact your local VAMC and ask for the Beneficiary Travel department.',
     reasons: null,
   },
   {
-    name: 'Claim Paid',
+    name: 'Claim paid',
     description:
       'The reimbursement on the approved claim is paid to the submitter. Note that reimbursements for claims submitted by a Caregiver on behalf of a Veteran claimant are sent to the Caregiver’s address or deposited in the Caregiver’s account.',
     reasons: null,
   },
   {
-    name: 'Payment Canceled',
+    name: 'Payment canceled',
     description:
       'The fund transfer did not complete because of the claimant’s bank. Payment has been canceled. You may create a new claim and reference the original claim number in the Notes section of the new claim.',
     reasons: null,

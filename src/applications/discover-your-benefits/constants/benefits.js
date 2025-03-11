@@ -59,6 +59,24 @@ export const militaryServiceTimeServedTypes = Object.freeze({
   OVER_3_YEARS: 'OVER_3_YEARS',
 });
 
+export const militaryBranchTypes = Object.freeze({
+  AIR_FORCE: 'AIR_FORCE',
+  ARMY: 'ARMY',
+  COAST_GUARD: 'COAST_GUARD',
+  MARINE_CORPS: 'MARINE_CORPS',
+  NAVY: 'NAVY',
+  SPACE_FORCE: 'SPACE_FORCE',
+});
+
+export const militaryBranchTypeLabels = Object.freeze({
+  AIR_FORCE: 'Air Force',
+  ARMY: 'Army',
+  COAST_GUARD: 'Coast Guard',
+  MARINE_CORPS: 'Marine Corps',
+  NAVY: 'Navy',
+  SPACE_FORCE: 'Space Force',
+});
+
 export const expectedSeparationLabels = Object.freeze({
   UP_TO_3_MONTHS: '0 to 3 months',
   MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS: '4 to 6 months',
@@ -334,6 +352,7 @@ export const BENEFITS_LIST = [
         characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
         characterOfDischargeTypes.UNCHARACTERIZED,
         characterOfDischargeTypes.STILL_SERVING,
+        characterOfDischargeTypes.BAD_CONDUCT,
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [
@@ -342,9 +361,8 @@ export const BENEFITS_LIST = [
       ],
     },
     learnMoreURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply',
+    applyNowURL: 'https://www.va.gov/disability/how-to-file-claim',
   },
   {
     name: 'VetSuccess on Campus (VSOC)',
@@ -517,12 +535,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GOALS]: [goalTypes.RETIREMENT, goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.EXPECTED_SEPARATION]: [
-        expectedSeparationTypes.UP_TO_3_MONTHS,
-        expectedSeparationTypes.MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS,
-        expectedSeparationTypes.MORE_THAN_6_MONTHS_LESS_THAN_1_YEAR,
-        expectedSeparationTypes.MORE_THAN_1_YEAR,
-      ],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_3_MONTHS,
@@ -670,7 +683,7 @@ export const BENEFITS_LIST = [
     applyNowURL: 'https://www.va.gov/health-care/how-to-apply/',
   },
   {
-    name: 'Burial in a VA national cemetery',
+    name: 'VA national cemetery burial',
     category: categories.BURIALS,
     id: 'BUR',
     description:

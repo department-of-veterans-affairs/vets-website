@@ -2,8 +2,6 @@ import {
   titleUI,
   radioUI,
   radioSchema,
-  textUI,
-  textSchema,
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
@@ -14,10 +12,13 @@ export const marriageEndDetails = {
       title: 'How and when marriage ended',
     }),
     marriageEndDate: {
-      ...currentOrPastDateUI('When did this marriage end?'),
-      'ui:errorMessages': {
-        required: 'Enter the date the marriage ended.',
-      },
+      ...currentOrPastDateUI({
+        title: 'When did this marriage end?',
+        errorMessages: {
+          pattern: 'Enter a valid date',
+          required: 'Enter the date the marriage ended',
+        },
+      }),
     },
     marriageEndReason: {
       ...radioUI({
@@ -30,21 +31,6 @@ export const marriageEndDetails = {
         },
       }),
     },
-    marriageEndDescription: {
-      ...textUI('Briefly describe how the marriage ended'),
-      'ui:required': (formData, index) =>
-        formData?.childrenToAdd?.[index]?.marriageEndReason === 'other' ||
-        formData?.marriageEndReason === 'other',
-      'ui:options': {
-        expandUnder: 'marriageEndReason',
-        expandUnderCondition: (value, _formData) => {
-          return value === 'other';
-        },
-      },
-      'ui:errorMessages': {
-        required: 'Provide details on how the marriage ended.',
-      },
-    },
   },
   schema: {
     type: 'object',
@@ -56,7 +42,6 @@ export const marriageEndDetails = {
         'annulment',
         'other',
       ]),
-      marriageEndDescription: textSchema,
     },
   },
 };

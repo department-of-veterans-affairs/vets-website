@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 import { VaLinkAction } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 
+import GetFormHelp from '../components/GetFormHelp';
 import ContactCard from '../components/ContactCard';
-
 import { useTransformForReview } from '../hooks/useTransformForReview';
 import {
   getFormNumber,
@@ -28,6 +29,10 @@ export default function ConfirmationDigitalSubmission() {
     .add(60, 'days')
     .format('MMMM D, YYYY');
 
+  useEffect(() => {
+    focusElement('va-alert');
+  }, []);
+
   return (
     <>
       <va-alert
@@ -44,10 +49,6 @@ export default function ConfirmationDigitalSubmission() {
             We’ve sent your form to the Veterans Service Organization you’d like
             to appoint.
           </p>
-          <VaLinkAction
-            href="/my-va#benefit-applications"
-            text="Check the status of your form on My VA"
-          />
         </React.Fragment>
       </va-alert>
       <h2 className="vads-u-font-size--h3">Save a copy of your form</h2>
@@ -75,7 +76,7 @@ export default function ConfirmationDigitalSubmission() {
         </va-accordion-item>
       </va-accordion>
 
-      <h3>Pring this confirmation page</h3>
+      <h3>Print this confirmation page</h3>
       <p>
         If you’d like to keep a copy of the information on this page, you can
         print it now.
@@ -111,11 +112,17 @@ export default function ConfirmationDigitalSubmission() {
       />
 
       <VaLinkAction
+        class="vads-u-margin-top--4"
         text="Go back to VA.gov"
         label="Go back to VA.gov"
         href="/"
         type="secondary"
       />
+
+      <div>
+        <h2 className="help-heading">Need help?</h2>
+        <GetFormHelp />
+      </div>
     </>
   );
 }

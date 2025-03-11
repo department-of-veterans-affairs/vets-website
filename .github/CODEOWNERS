@@ -93,20 +93,19 @@ src/applications/appeals @department-of-veterans-affairs/benefits-decision-revie
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/burials-ez @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/burials-v2 @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/burial-poc-v6 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/coe-access @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 
-# Pensions
+# Pensions and Burials
+src/applications/burials-ez @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/pensions @department-of-veterans-affairs/pension-and-burials @department-of-veterans-affairs/va-platform-cop-frontend
 
 
 # Dependent Benefits Experience
 src/applications/disability-benefits/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
+src/applications/686c-674 @department-of-veterans-affairs/va-platform-cop-frontend @department-of-veterans-affairs/benefits-dependents-management
 
 # VSA Debt
 

@@ -52,7 +52,7 @@ export const livingSituationSubmissionChoices = {
   facility30Days:
     'IN THE NEXT 30 DAYS, I WILL HAVE TO LEAVE A FACILITY, LIKE A HOMELESS SHELTER',
   home30Days: 'IN THE NEXT 30 DAYS, I WILL LOSE MY HOME',
-  other: 'I HAVE ANOTHER HOUSING RISK NOT LISTED HERE',
+  other: 'OTHER',
   none: 'NONE OF THESE SITUATIONS APPLY TO ME',
 };
 

@@ -50,6 +50,7 @@ import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMess
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
+import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
@@ -176,7 +177,10 @@ export class ProfileInformationEditView extends Component {
         return;
       }
 
-      // TODO: update with PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE after api is built
+      if (fieldName === PERSONAL_INFO_FIELD_NAMES.MESSAGING_SIGNATURE) {
+        this.props.updateMessagingSignature(payload, fieldName, 'POST');
+        return;
+      }
 
       this.props.createPersonalInfoUpdate({
         route: apiRoute,
@@ -398,6 +402,7 @@ ProfileInformationEditView.propTypes = {
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
+  updateMessagingSignature: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -446,6 +451,7 @@ const mapDispatchToProps = {
   validateAddress,
   refreshTransaction,
   createPersonalInfoUpdate,
+  updateMessagingSignature,
 };
 
 export default connect(

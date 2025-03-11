@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import {
+  CategoryDebt,
   CHAPTER_2,
   CHAPTER_3,
   schoolInYourProfileOptions,
+  TopicEducationBenefitOverpayments,
   yourRoleOptionsEducation,
 } from '../../constants';
 import {
@@ -116,7 +118,7 @@ const ch3Pages = {
     title: CHAPTER_3.DEATH_DATE.TITLE,
     uiSchema: deathDatePage.uiSchema,
     schema: deathDatePage.schema,
-    depends: form => form.aboutTheVeteran.isVeteranDeceased === true,
+    depends: form => form.aboutTheVeteran?.isVeteranDeceased === true,
   },
   veteransPostalCode: {
     title: CHAPTER_3.VETERANS_POSTAL_CODE.TITLE,
@@ -214,7 +216,9 @@ const ch3Pages = {
     schema: searchSchoolsPage.schema,
     depends: form =>
       (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
-        !form.schoolInfo?.schoolName) &&
+        !form.schoolInfo?.schoolName ||
+        (form.selectCategory === CategoryDebt &&
+          form.selectTopic === TopicEducationBenefitOverpayments)) &&
       (form.yourRole === yourRoleOptionsEducation.SCO ||
         form.yourRole ===
           yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
@@ -260,10 +264,13 @@ const ch3Pages = {
     uiSchema: schoolInYourProfilePage.uiSchema,
     schema: schoolInYourProfilePage.schema,
     depends: form =>
+      // Reference: https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/ask-va/design/Fields,%20options%20and%20labels/Field%20rules.md#school-fields
       (form.school || form.schoolInfo?.schoolName) &&
-      (form.yourRole === yourRoleOptionsEducation.SCO ||
-        form.yourRole ===
-          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
+      ((form.selectCategory === CategoryDebt &&
+        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        (form.yourRole === yourRoleOptionsEducation.SCO ||
+          form.yourRole ===
+            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -427,6 +434,10 @@ export const flowPages = (obj, list, path) => {
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
   'yourBranchOfService',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -448,6 +459,10 @@ const aboutMyselfRelationshipFamilyMember = [
   'aboutTheVeteran',
   'dateOfDeath',
   'aboutYourselfRelationshipFamilyMember',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -467,6 +482,10 @@ export const aboutMyselfRelationshipFamilyMemberPages = flowPages(
 const aboutSomeoneElseRelationshipVeteran = [
   'aboutYourRelationshipToFamilyMember',
   'aboutYourFamilyMember',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -498,6 +517,10 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'moreAboutYourRelationshipToVeteran',
   'aboutTheVeteran',
   'dateOfDeath',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -518,6 +541,10 @@ export const aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages = flowPag
 const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'theirRelationshipToVeteran',
   'aboutYourFamilyMember',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -552,6 +579,10 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'yourRole',
   'aboutTheVeteran',
   'dateOfDeath',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -587,6 +618,10 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 
 const generalQuestion = [
   'aboutYourselfGeneral',
+  'schoolInYourProfile',
+  'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',

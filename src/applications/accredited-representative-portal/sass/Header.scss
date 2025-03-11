@@ -56,6 +56,10 @@
   flex-wrap: wrap;
   border-bottom: 2px solid $vads-color-primary-darker;
 
+  &:has(.nav__container-secondary) {
+    border-bottom: none;
+  }
+
   &__container-primary {
     padding: 8px 16px;
     @media (min-width: $medium-screen) {
@@ -64,9 +68,6 @@
   }
   &__container-secondary {
     background-color: var(--vads-color-primary-darker);
-    @media (min-width: $medium-screen) {
-      padding: 4px 0;
-    }
   }
 
   &__sign-in {
@@ -145,6 +146,12 @@
 
     &.is--sign-in {
       border-radius: 4px;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        background-color: $vads-color-primary-darker !important;
+      }
     }
 
     &.is--open {
@@ -172,6 +179,7 @@
       }
       &:hover {
         background-color: transparent !important;
+        border-radius: 0;
 
         @media (min-width: $medium-screen) {
           background-color: $vads-color-primary !important;
@@ -207,7 +215,7 @@
     .nav__container-secondary & {
       background-color: var(--vads-color-primary-darker);
       margin-left: unset;
-      padding: 16px;
+      padding: 24px 16px;
       &:hover {
         background-color: $vads-color-primary;
         color: $vads-color-white;

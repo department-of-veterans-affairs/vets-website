@@ -8,7 +8,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.lifeInsuranceBenefitDetailsChapter.pages.lifeInsuranceBenefitDetailsPage;
+} = formConfig.chapters.recordsChapter.pages.lifeInsuranceBenefitDetailsPage;
 
 const pageTitle = 'Life insurance benefit details';
 

@@ -40,7 +40,7 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     expect(radioSelector).to.exist;
     expect(radioSelector).to.have.attribute(
       'label',
-      'Where do you want to receive care?',
+      'Where do you prefer to receive care?',
     );
 
     // And the user should see radio buttons for each clinic

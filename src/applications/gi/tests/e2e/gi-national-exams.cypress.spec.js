@@ -16,7 +16,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'isUpdatedGi', value: true }],
+        features: [{ name: 'gi_comparison_tool_lce_toggle_flag', value: true }],
       },
     }).as('featureToggles');
   });
@@ -210,7 +210,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
         .within(() => {
           cy.get('h3').should('contain.text', 'Test Info');
           cy.get('p').should('contain.text', 'Showing 1 of 1 test');
-          cy.contains('Fee Description:').should('be.visible');
+          cy.contains('Maximum reimbursement:').should('be.visible');
           cy.contains('AP Exam Fee International').should('be.visible');
         });
     });

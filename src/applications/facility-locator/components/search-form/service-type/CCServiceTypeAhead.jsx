@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
-import { getProviderSpecialties } from '../../../actions';
 import MessagePromptDiv from './MessagePromptDiv';
 
 const MIN_SEARCH_CHARS = 2;
@@ -23,15 +22,42 @@ class CCServiceTypeAhead extends Component {
     this.getServices();
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      !this.props.useProgressiveDisclosure &&
+      !prevProps.currentQuery?.specialties &&
+      this.state.services.length === 0
+    ) {
+      this.getServices();
+    }
+  }
+
   getServices = async () => {
-    const services = await this.props.getProviderSpecialties();
+    const {
+      currentQuery,
+      getProviderSpecialties,
+      initialSelectedServiceType,
+      useProgressiveDisclosure,
+    } = this.props;
+    if (!useProgressiveDisclosure) {
+      // Remove all of this if after progressive disclosure flipper is removed
+      const values = await getProviderSpecialties();
+      this.setState({
+        services: typeof values?.[0] === 'string' ? [] : values,
+        defaultSelectedItem:
+          initialSelectedServiceType &&
+          currentQuery?.fetchSvcsRawData?.find(
+            ({ specialtyCode }) => specialtyCode === initialSelectedServiceType,
+          ),
+      });
+      return;
+    }
     this.setState({
-      services,
+      services: currentQuery?.fetchSvcsRawData || [],
       defaultSelectedItem:
-        this.props.initialSelectedServiceType &&
-        services.find(
-          ({ specialtyCode }) =>
-            specialtyCode === this.props.initialSelectedServiceType,
+        initialSelectedServiceType &&
+        currentQuery?.fetchSvcsRawData?.find(
+          ({ specialtyCode }) => specialtyCode === initialSelectedServiceType,
         ),
     });
   };
@@ -44,7 +70,7 @@ class CCServiceTypeAhead extends Component {
     });
   };
 
-  optionClasses = selected => classNames('dropdown-option', { selected });
+  optionClasses = selected => classNames('dropdown-option ', { selected });
 
   getSpecialtyName = specialty => {
     if (!specialty) return '';
@@ -67,7 +93,7 @@ class CCServiceTypeAhead extends Component {
   };
 
   matchingServices = inputValue => {
-    if (inputValue) {
+    if (inputValue && this.state.services?.length) {
       return this.state.services.filter(specialty =>
         this.shouldShow(inputValue, specialty),
       );
@@ -79,8 +105,9 @@ class CCServiceTypeAhead extends Component {
     const { isFocused } = this.state;
     const { showError } = this.props;
     if (
-      (isFocused && inputValue === '' && !showError) ||
-      (inputValue && inputValue.length < MIN_SEARCH_CHARS)
+      ((isFocused && inputValue === '' && !showError) ||
+        (inputValue && inputValue.length < MIN_SEARCH_CHARS)) &&
+      !this.props.useProgressiveDisclosure
     ) {
       return (
         <MessagePromptDiv
@@ -98,7 +125,14 @@ class CCServiceTypeAhead extends Component {
     inputValue,
   ) => {
     return (
-      <div className="dropdown" role="listbox">
+      <div
+        className={`dropdown${
+          this.props.useProgressiveDisclosure && this.props.isSmallDesktop
+            ? ' drowpdown-fl-sm-desktop'
+            : ''
+        }`}
+        role="listbox"
+      >
         {this.matchingServices(inputValue).map((specialty, index) => (
           <div
             key={`${this.getSpecialtyName(specialty)}-${index}`}
@@ -134,7 +168,10 @@ class CCServiceTypeAhead extends Component {
   };
 
   render() {
-    const { defaultSelectedItem } = this.state;
+    const { defaultSelectedItem, services } = this.state;
+    if (!services) {
+      return null;
+    }
     const { showError, currentQuery, handleServiceTypeChange } = this.props;
     return (
       <Downshift
@@ -173,18 +210,29 @@ class CCServiceTypeAhead extends Component {
               Service type{' '}
               <span className="form-required-span">(*Required)</span>
             </label>
+            {this.props.useProgressiveDisclosure && (
+              <p className="service-hint-text">
+                Start typing to search for a service, like Chiropractor or
+                Optometrist.
+              </p>
+            )}
             {showError && (
               <span className="usa-input-error-message" role="alert">
                 <span id="error-message">
                   <span className="sr-only">Error</span>
-                  Please search for an available service.
+                  {this.props.useProgressiveDisclosure
+                    ? 'Start typing and select an available service'
+                    : 'Please search for an available service'}
                 </span>
               </span>
             )}
             <span id="service-typeahead">
               <input
                 {...getInputProps({
-                  placeholder: 'like Chiropractor or Optometrist',
+                  placeholder: this.props.useProgressiveDisclosure
+                    ? undefined
+                    : 'like Chiropractor or Optometrist',
+
                   onFocus: () => this.setState({ isFocused: true }),
                   disabled: currentQuery?.fetchSvcsInProgress,
                 })}
@@ -215,13 +263,16 @@ class CCServiceTypeAhead extends Component {
 
 CCServiceTypeAhead.propTypes = {
   getProviderSpecialties: PropTypes.func.isRequired,
-  initialSelectedServiceType: PropTypes.string,
   handleServiceTypeChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func,
+  currentQuery: PropTypes.object,
+  initialSelectedServiceType: PropTypes.string,
+  isSmallDesktop: PropTypes.bool,
   showError: PropTypes.bool,
+  useProgressiveDisclosure: PropTypes.bool,
+  onBlur: PropTypes.func,
 };
 
-const mapDispatch = { getProviderSpecialties };
+const mapDispatch = {};
 
 const mapStateToProps = state => {
   return {

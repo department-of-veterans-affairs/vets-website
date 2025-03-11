@@ -1,13 +1,11 @@
 import React from 'react';
-
 import { render } from '@testing-library/react';
-import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import PageFieldSummary from '../../components/PageFieldSummary';
 
 describe('<PageFieldSummary>', () => {
   describe('when the component renders', () => {
-    it.skip('should render chapter title and questions', async () => {
+    it('should render chapter title and questions', async () => {
       const mockStore = {
         getState: () => ({
           form: {
@@ -60,23 +58,15 @@ describe('<PageFieldSummary>', () => {
         ],
       };
 
-      const view = render(
+      const { getByText } = render(
         <Provider store={mockStore}>
           <PageFieldSummary {...props} />
         </Provider>,
       );
 
-      expect(view.container.querySelector('h4')).to.contain.text(
-        'Tell us your question',
-      );
-
-      expect(view.container.querySelectorAll('dt').length).to.eq(2);
-      expect(view.container.querySelectorAll('dt')[0]).to.contain.text(
-        'What is your question?',
-      );
-      expect(view.container.querySelectorAll('dt')[1]).to.contain.text(
-        "Tell us the reason you're contacting us?",
-      );
+      getByText('Tell us your question');
+      getByText('What is your question?');
+      getByText("Tell us the reason you're contacting us?");
     });
   });
 });

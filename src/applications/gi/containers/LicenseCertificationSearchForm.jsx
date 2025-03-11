@@ -1,38 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSelector } from 'react-redux';
-import { useLcpFilter } from '../utils/useLcpFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+
 import {
   capitalizeFirstLetter,
+  handleLcResultsSearch,
   showLcParams,
   updateCategoryDropdown,
+  updateQueryParam,
 } from '../utils/helpers';
+
+import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
 import Dropdown from '../components/Dropdown';
 import LicesnseCertificationServiceError from '../components/LicesnseCertificationServiceError';
 
-export default function LicenseCertificationSearchForm({
-  handleSearch,
-  location,
-  handleReset,
-  flag,
-}) {
+export default function LicenseCertificationSearchForm() {
+  const history = useHistory();
+  const location = useLocation();
+
+  const { nameParam, categoryParams } = showLcParams(location);
+
+  const dispatch = useDispatch();
+
   const [dropdown, setDropdown] = useState(updateCategoryDropdown());
   const [name, setName] = useState('');
 
   const { hasFetchedOnce, fetchingLc, filteredResults, error } = useSelector(
     state => state.licenseCertificationSearch,
   );
-
-  const { nameParam, categoryParams } = showLcParams(location);
-
-  useLcpFilter({
-    flag,
-    name,
-    categoryValues: dropdown.current.optionValue,
-  });
 
   const suggestions = [
     {
@@ -41,6 +39,26 @@ export default function LicenseCertificationSearchForm({
     },
     ...filteredResults,
   ];
+
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      const controller = new AbortController();
+
+      dispatch(fetchLicenseCertificationResults(controller.signal));
+
+      return () => {
+        controller.abort();
+      };
+    }
+    return null;
+  }, []);
+
+  useEffect(
+    () => {
+      return dispatch(filterLcResults(name, dropdown.current.optionValue));
+    },
+    [name],
+  );
 
   // If available, use url query params to assign initial dropdown values
   useEffect(() => {
@@ -51,7 +69,31 @@ export default function LicenseCertificationSearchForm({
     if (nameParam) {
       setName(nameParam);
     }
+
+    return null;
   }, []);
+
+  const handleSearch = (category, nameInput) => {
+    const newParams = {
+      category: [category],
+      name: nameInput,
+    };
+
+    updateQueryParam(history, location, newParams);
+    handleLcResultsSearch(
+      history,
+      newParams.category,
+      nameInput,
+      'all',
+      category,
+    );
+  };
+
+  const handleReset = () => {
+    history.replace('/licenses-certifications-and-prep-courses');
+    setName('');
+    setDropdown(updateCategoryDropdown());
+  };
 
   const handleChange = e => {
     setDropdown(updateCategoryDropdown(e.target.value));
@@ -64,11 +106,7 @@ export default function LicenseCertificationSearchForm({
     setName(lacNm);
   };
 
-  const handleClearInput = () => {
-    setName('');
-  };
-
-  const onUpdateAutocompleteSearchTerm = value => {
+  const updateAutocompleteSearchTerm = value => {
     setName(value);
   };
 
@@ -95,10 +133,9 @@ export default function LicenseCertificationSearchForm({
               <LicenseCertificationKeywordSearch
                 inputValue={name}
                 suggestions={suggestions}
-                // suggestions={filteredResults}
                 onSelection={onSelection}
-                handleClearInput={handleClearInput}
-                onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
+                handleClearInput={() => updateAutocompleteSearchTerm('')}
+                onUpdateAutocompleteSearchTerm={updateAutocompleteSearchTerm}
               />
             </div>
 
@@ -108,24 +145,10 @@ export default function LicenseCertificationSearchForm({
                 text="Submit"
                 onClick={() => handleSearch(dropdown.current.optionValue, name)}
               />
-              <VaButton
-                text="Reset Search"
-                // className="reset-search"
-                secondary
-                onClick={() =>
-                  handleReset(() => {
-                    setName('');
-                    setDropdown(updateCategoryDropdown());
-                  })
-                }
-              />
+              <VaButton text="Reset search" secondary onClick={handleReset} />
             </div>
           </form>
         )}
     </>
   );
 }
-
-LicenseCertificationSearchForm.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-};

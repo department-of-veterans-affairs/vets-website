@@ -12,15 +12,15 @@ import { srClearOnBlur, srKeepOnBlur } from './StateReducer';
 function Autosuggest({
   // downshift props
   handleOnSelect,
-  defaultSelectedItem,
   inputValue,
   itemToString = toDisplay,
   onInputValueChange,
   // input props
   onClearClick,
   inputContainerClassName = 'input-container', // allows to work with fixed width from facility-locator
-  inputId = 'autosuggest-input',
   inputError,
+  inputId = 'autosuggest-input',
+  inputRef,
   label,
   labelSibling = null,
   showDownCaret = true,
@@ -28,7 +28,6 @@ function Autosuggest({
   downshiftInputProps,
   // options for the autosuggest to show
   options,
-  minCharacters = 3, // only trigger update after n=3 characters
   noItemsMessage = 'No results found',
   shouldShowNoResults = true,
   // showError - use the usa-input-error class to show the error
@@ -41,7 +40,9 @@ function Autosuggest({
   stateReducer = srClearOnBlur,
   isLoading = false,
   loadingMessage = '',
+  useProgressiveDisclosure,
   AutosuggestOptionComponent = AutosuggestOption,
+  showOptionsRestriction = undefined,
 }) {
   const {
     isOpen,
@@ -57,7 +58,6 @@ function Autosuggest({
     itemToString,
     inputId,
     onSelectedItemChange: handleOnSelect,
-    defaultSelectedItem,
     onInputValueChange,
     inputValue,
     isItemDisabled,
@@ -69,14 +69,25 @@ function Autosuggest({
     selectItem(null);
   };
 
+  let shouldBeShown = isOpen;
+
+  if (showOptionsRestriction !== undefined) {
+    shouldBeShown = isOpen && showOptionsRestriction;
+  }
+
   return (
     <div
       id={`${inputId}-autosuggest-container`}
       className={classNames('autosuggest-container', 'vads-u-width--full', {
         'usa-input-error': showError,
       })}
+      data-testid="autosuggest-container"
     >
-      <div className={`${inputId}-autosuggest-label-container`}>
+      <div
+        className={`${inputId}-autosuggest-label-container ${
+          useProgressiveDisclosure ? 'fl-sm-desktop' : ''
+        }`}
+      >
         <label className={`${inputId}-label`} {...getLabelProps()}>
           {label}
         </label>
@@ -89,6 +100,7 @@ function Autosuggest({
           getToggleButtonProps={getToggleButtonProps}
           className={inputContainerClassName}
           inputId={inputId}
+          inputRef={inputRef}
           isOpen={isOpen}
           showDownCaret={showDownCaret}
           showClearButton={!!inputValue}
@@ -99,7 +111,7 @@ function Autosuggest({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           options={options}
-          isShown={isOpen && !!inputValue && inputValue.length >= minCharacters}
+          isShown={shouldBeShown}
           itemToString={itemToString}
           noItemsMessage={noItemsMessage} // to display when no items are found - disabled item
           getMenuProps={getMenuProps}
