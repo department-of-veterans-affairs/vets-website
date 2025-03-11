@@ -10,7 +10,7 @@ export default function LicenseCertificationSearchPage() {
   return (
     <div className="lc-page-wrapper">
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        <div className="row ">
+        <div className="row">
           <h1 className="mobile-lg:vads-u-text-align--left usa-width-two-thirds">
             Licenses, certifications, and prep courses
           </h1>
