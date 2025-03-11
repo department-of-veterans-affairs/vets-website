@@ -1,5 +1,6 @@
 import manifest from '../../../manifest.json';
 import mockEnrollmentStatus from '../fixtures/mocks/enrollment-status.json';
+import mockPdfDownload from '../fixtures/mocks/pdf-download.json';
 import mockFacilities from '../fixtures/mocks/facilities.json';
 import mockFeatures from '../fixtures/mocks/feature-toggles.json';
 import mockMaintenanceWindows from '../fixtures/mocks/maintenance-windows.json';
@@ -11,6 +12,7 @@ import mockVamc from '../fixtures/mocks/vamc-ehr.json';
 
 const APIs = {
   disabilityRating: '/v0/health_care_applications/rating_info',
+  downloadPdf: '/v0/health_care_applications/download_pdf',
   facilities: '/v0/health_care_applications/facilities*',
   features: '/v0/feature_toggles*',
   enrollment: '/v0/health_care_applications/enrollment_status*',
@@ -34,6 +36,7 @@ export const setupBasicTest = (props = {}) => {
   cy.intercept('GET', APIs.enrollment, enrollmentStatus).as(
     'mockEnrollmentStatus',
   );
+  cy.intercept('POST', APIs.downloadPdf, mockPdfDownload).as('downloadPdf');
   cy.intercept('GET', APIs.facilities, mockFacilities).as('getFacilities');
   cy.intercept('POST', APIs.submit, mockSubmission).as('mockSubmit');
 };
