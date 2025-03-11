@@ -239,6 +239,7 @@ export const FACILITY_SORT_METHODS = {
   distanceFromCurrentLocation: 'distanceFromCurrentLocation',
   distanceFromFacility: 'distanceFromFacility',
   alphabetical: 'alphabetical',
+  recentLocations: 'recentLocations',
 };
 
 export const LANGUAGES = [
