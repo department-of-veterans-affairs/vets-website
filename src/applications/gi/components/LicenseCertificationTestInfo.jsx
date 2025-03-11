@@ -152,7 +152,7 @@ LcTestInfo.propTypes = {
   tests: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      fee: PropTypes.number,
+      fee: PropTypes.string,
     }),
   ).isRequired,
 };
