@@ -37,6 +37,7 @@ import {
 import {
   facilitiesPpmsSuppressAll,
   facilityLocatorMobileMapUpdate,
+  facilityLocatorAutosuggestVAMCServices,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
@@ -59,7 +60,11 @@ const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
-  const { mobileMapPinSelected, mobileMapUpdateEnabled } = props;
+  const {
+    mobileMapPinSelected,
+    mobileMapUpdateEnabled,
+    vamcAutoSuggestEnabled,
+  } = props;
   const [map, setMap] = useState(null);
   const [verticalSize, setVerticalSize] = useState(0);
   const [horizontalSize, setHorizontalSize] = useState(0);
@@ -465,6 +470,7 @@ const FacilitiesMap = props => {
               selectMobileMapPin={props.selectMobileMapPin}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
+              vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
             <EmergencyCareAlert
               shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
@@ -521,6 +527,7 @@ const FacilitiesMap = props => {
                         mobile={false}
                         mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
+                        selectMobileMapPin={props.selectMobileMapPin}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
@@ -551,6 +558,7 @@ const FacilitiesMap = props => {
                   mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  selectMobileMapPin={props.selectMobileMapPin}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                   smallDesktop
                   zoomMessageDivID={zoomMessageDivID}
@@ -593,6 +601,7 @@ const FacilitiesMap = props => {
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
+                        selectMobileMapPin={props.selectMobileMapPin}
                         shouldRenderSearchArea={
                           !!map && shouldRenderSearchArea()
                         }
@@ -640,6 +649,7 @@ const FacilitiesMap = props => {
                     mobileMapUpdateEnabled
                     results={results}
                     searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    selectMobileMapPin={props.selectMobileMapPin}
                     shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                     smallDesktop={false}
                     zoomMessageDivID={zoomMessageDivID}
@@ -877,6 +887,7 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {

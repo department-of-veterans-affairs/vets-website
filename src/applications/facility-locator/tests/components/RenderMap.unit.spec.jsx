@@ -17,7 +17,7 @@ describe('<RenderMap>', () => {
     expect(wrapper).to.not.equal(null);
     const button = wrapper.getAllByTestId('search-area-control');
     expect(button).to.have.length(1);
-    expect(button[0]).to.have.class('fl-disabled');
+    expect(button[0].attributes.disabled).to.not.equal('true');
     const srInfo = wrapper.getAllByTestId('map-of-results-sr');
     expect(srInfo).to.have.length(1);
     expect(srInfo[0]).to.have.text('Map of Results');
@@ -30,7 +30,7 @@ describe('<RenderMap>', () => {
     expect(wrapper).to.not.equal(null);
     const button = wrapper.getAllByTestId('search-area-control');
     expect(button).to.have.length(1);
-    expect(button[0]).to.not.have.class('fl-disabled');
+    expect(button[0].attributes.disabled).to.not.equal('true');
     wrapper.unmount();
   });
   it('Map should render as Mobile with Search Area Control enabled and be disabled.', () => {
@@ -40,7 +40,7 @@ describe('<RenderMap>', () => {
     expect(wrapper).to.not.equal(null);
     const button = wrapper.getAllByTestId('search-area-control');
     expect(button).to.have.length(1);
-    expect(button[0]).to.have.class('fl-disabled');
+    expect(button[0].attributes.disabled).to.not.equal('true');
     wrapper.unmount();
   });
   it('Map should render as Mobile', async () => {

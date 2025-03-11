@@ -117,53 +117,6 @@ describe('Facility VA search', () => {
     cy.get('#other-tools').should('exist');
   });
 
-  it.skip('should render breadcrumbs ', () => {
-    cy.visit('/find-locations');
-    typeInCityStateInput('Austin, TX');
-    selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
-    submitSearchForm().then(() => {
-      cy.injectAxe();
-      cy.axeCheck();
-
-      cy.get('.facility-result va-link').should('exist');
-      cy.findByText(/Washington VA Medical Center/i, { selector: 'va-link' })
-        .first()
-        .click({ waitForAnimations: true })
-        .then(() => {
-          cy.axeCheck();
-
-          cy.get('.all-details', { timeout: 10000 }).should('exist');
-
-          cy.get('a[aria-current="page"').should('exist');
-
-          cy.get(
-            '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-          ).should('exist');
-
-          cy.get(
-            '.va-nav-breadcrumbs-list li:nth-of-type(3) a[aria-current="page"]',
-          ).contains('Facility Details');
-
-          cy.get('.va-nav-breadcrumbs-list li:nth-of-type(2) a').click({
-            waitForAnimations: true,
-          });
-
-          // Mobile View
-          cy.viewport(375, 667);
-
-          cy.get('.va-nav-breadcrumbs-list').should('exist');
-
-          cy.get('.va-nav-breadcrumbs-list li:not(:nth-last-child(2))')
-            .should('have.css', 'display')
-            .and('match', /none/);
-
-          cy.get('.va-nav-breadcrumbs-list li:nth-last-child(2)').contains(
-            'Home',
-          );
-        });
-    });
-  });
-
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
     // override so no provider data

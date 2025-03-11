@@ -30,10 +30,10 @@ export const MOBILE_MAP_PIN_SELECT_HELP_TEXT =
   'Select a number to show information about that location.';
 
 export const MOBILE_MAP_NO_RESULTS_TEXT =
-  'Try searching for something else or in a different area.';
+  'Try searching for something else. Or try searching in a different area.';
 
 export const MOBILE_LIST_SEARCH_TEXT =
-  'Please enter a location (street, city, state, or postal code) and facility type, then click search above to find facilities.';
+  'Enter a location (street, city, state, or zip code) and facility type, then search to find facilities.';
 
 export const MOBILE_TAB_BUTTON = 'button[class*="segment"]';
 
