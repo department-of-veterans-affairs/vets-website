@@ -291,7 +291,7 @@ export const SearchForm = props => {
               id="facility-search"
               submit="prevent"
               text="Search"
-              class="vads-u-width--full"
+              full-width
             />
           </>
         ) : (
