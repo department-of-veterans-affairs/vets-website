@@ -147,9 +147,9 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
     <>
       <va-card>
         <div>
-          <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
+          <h3 className="vads-u-margin-bottom--0 vads-u-margin-top--0 vads-u-font-size--h4">
             1095-B Proof of VA health coverage
-          </h4>
+          </h3>
           <span>
             <b>Tax year:</b> {year}
           </span>
