@@ -73,8 +73,11 @@ export function prefillTransformer(pages, formData, metadata, state) {
     isEnrolledMedicarePartA = undefined,
   } = formData;
 
+  const { previousFinancialInfo } = formData?.nonPrefill || {};
+
   let newData = {
     ...withoutViewFields,
+    ...previousFinancialInfo,
     'view:contactInformation': { email, homePhone },
     'view:maritalStatus': { maritalStatus },
     'view:isMedicaidEligible': { isMedicaidEligible },

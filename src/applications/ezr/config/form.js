@@ -58,13 +58,11 @@ import spouseAdditionalInformation from './chapters/householdInformation/spouseA
 import spouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
 import spouseContactInformation from './chapters/householdInformation/spouseContactInformation';
 import dependentSummary from './chapters/householdInformation/dependentSummary';
-import veteranAnnualIncome from './chapters/householdInformation/veteranAnnualIncome';
-import spouseAnnualIncome from './chapters/householdInformation/spouseAnnualIncome';
-import deductibleExpenses from './chapters/householdInformation/deductibleExpenses';
 import DependentSummaryPage from '../components/FormPages/DependentSummary';
 import DependentInformationPage from '../components/FormPages/DependentInformation';
 import DependentsReviewPage from '../components/FormReview/DependentsReviewPage';
 import FinancialConfirmationPage from '../components/FormPages/FinancialStatusConfirmation';
+import FinancialInformationPages from './chapters/householdInformation/financialInformation';
 
 // chapter 3 Military Service
 import toxicExposure from './chapters/militaryService/toxicExposure';
@@ -370,29 +368,20 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
+        financialInformationIntroduction: {
+          ...FinancialInformationPages.financialInformationIntroduction,
+        },
+        financialInformationSummary: {
+          ...FinancialInformationPages.financialInformationSummary,
+        },
         veteranAnnualIncome: {
-          path: 'household-information/veteran-annual-income',
-          title: 'Your annual income',
-          initialData: {},
-          depends: includeHouseholdInformation,
-          uiSchema: veteranAnnualIncome.uiSchema,
-          schema: veteranAnnualIncome.schema,
+          ...FinancialInformationPages.veteranFinancialInformation,
         },
         spouseAnnualIncome: {
-          path: 'household-information/spouse-annual-income',
-          title: 'Spouse\u2019s annual income',
-          initialData: {},
-          depends: includeSpousalInformation,
-          uiSchema: spouseAnnualIncome.uiSchema,
-          schema: spouseAnnualIncome.schema,
+          ...FinancialInformationPages.spouseFinancialInformation,
         },
         deductibleExpenses: {
-          path: 'household-information/deductible-expenses',
-          title: 'Deductible expenses',
-          initialData: {},
-          depends: includeHouseholdInformation,
-          uiSchema: deductibleExpenses.uiSchema,
-          schema: deductibleExpenses.schema,
+          ...FinancialInformationPages.veteranDeductibleInformation,
         },
       },
     },
