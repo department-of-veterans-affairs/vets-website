@@ -46,11 +46,10 @@ const {
  * Declare schema attributes for policy information page
  * @returns {PageSchema}
  */
-export const veteranAnnualIncomePage = options => ({
+export const veteranAnnualIncomePage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: `Your annual income from ${LAST_YEAR}`,
-      nounSingular: options.nounSingular,
     }),
     'view:veteranGrossIncome': {
       ...inlineTitleUI(
@@ -123,13 +122,12 @@ export const veteranAnnualIncomePage = options => ({
   },
 });
 
-export const deductibleExpensesPage = options => ({
+export const deductibleExpensesPage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: `Deductible expenses from ${LAST_YEAR}`,
       description:
         'These deductible expenses will lower the amount of money we count as your income.',
-      nounSingular: options.nounSingular,
     }),
     'view:deductibleMedicalExpenses': {
       'ui:title': content['household-expenses-medical-title'],
@@ -196,11 +194,10 @@ export const deductibleExpensesPage = options => ({
   },
 });
 
-export const spouseAnnualIncomePage = options => ({
+export const spouseAnnualIncomePage = () => ({
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'annual income',
-      nounSingular: options.nounSingular,
+      title: `Spouse's annual income from ${LAST_YEAR}`,
     }),
     'view:spouseGrossIncome': {
       ...inlineTitleUI(

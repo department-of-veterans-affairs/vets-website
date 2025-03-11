@@ -9,14 +9,16 @@ const SpousalFinancialOverviewInformation = props => {
   return (
     <>
       <h4>Spouse’s annual income from {LAST_YEAR}</h4>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         Gross annual income:{' '}
         {data?.['view:spouseGrossIncome']?.spouseGrossIncome}
       </p>
-      <p>
+      <p className="vads-u-margin-y--0">
         Net annual income: {data?.['view:spouseNetIncome']?.spouseNetIncome}
       </p>
-      <p>Other income: {data?.['view:spouseOtherIncome']?.spouseOtherIncome}</p>
+      <p className="vads-u-margin-top--0">
+        Other income: {data?.['view:spouseOtherIncome']?.spouseOtherIncome}
+      </p>
     </>
   );
 };
@@ -31,14 +33,14 @@ const FinancialOverviewDescription = item => {
   return (
     <>
       <h4>Your annual income from {LAST_YEAR}</h4>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         Gross annual income:{' '}
         {item?.['view:veteranGrossIncome']?.veteranGrossIncome}
       </p>
-      <p>
+      <p className="vads-u-margin-y--0">
         Net annual income: {item?.['view:veteranNetIncome']?.veteranNetIncome}
       </p>
-      <p>
+      <p className="vads-u-margin-top--0">
         Other income: {item?.['view:veteranOtherIncome']?.veteranOtherIncome}
       </p>
       {includeSpousalInformation(data) &&
@@ -48,18 +50,18 @@ const FinancialOverviewDescription = item => {
         ''
       )}
       <h4>Deductible expenses from {LAST_YEAR}</h4>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         Gross annual income:{' '}
         {item?.['view:deductibleMedicalExpenses']?.deductibleMedicalExpenses}
       </p>
-      <p>
+      <p className="vads-u-margin-y--0">
         Net annual income:{' '}
         {
           item?.['view:deductibleEducationExpenses']
             ?.deductibleEducationExpenses
         }
       </p>
-      <p>
+      <p className="vads-u-margin-top--0">
         Other income:{' '}
         {item?.['view:deductibleFuneralExpenses']?.deductibleFuneralExpenses}
       </p>
