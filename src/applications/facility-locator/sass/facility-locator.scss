@@ -726,10 +726,6 @@ $text-color: rgba(27, 27, 27, 1);
   margin: 0;
   padding: 0;
 
-  [disabled="true"] {
-    background-color: var(--vads-color-black);
-  }
-
   @media (max-width: $small-screen) {
     height: 43px;
   }
