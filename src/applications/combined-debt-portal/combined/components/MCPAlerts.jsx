@@ -43,7 +43,7 @@ Alert.PastDue = ({ copay }) => {
   const statementDate = formatDate(copay?.pSStatementDateOutput);
 
   return (
-    <va-alert status="warning" data-testid="past-due-balance-alert">
+    <va-alert status="info" data-testid="past-due-balance-alert">
       <h2 slot="headline">Your balance may be overdue</h2>
       <p>
         Your balance on
@@ -156,7 +156,7 @@ Alert.NoHistory = () => (
 );
 
 Alert.Status = ({ copay }) => (
-  <va-alert background-only status="warning" data-testid="status-alert">
+  <va-alert background-only status="info" data-testid="status-alert">
     <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
       {/* using vads-u-margin-left here causes the word "before" 
       to wrap to the next line so we need a {' '} space here */}
