@@ -112,6 +112,7 @@ describe('validating selections', () => {
       supportingEvidenceRecords: { addError: sinon.spy() },
       supportingEvidenceWitness: { addError: sinon.spy() },
       supportingEvidenceOther: { addError: sinon.spy() },
+      supportingEvidenceUnlisted: { addError: sinon.spy() },
     };
     it('should show alert and add errors when none and supporting evidence is selected', () => {
       const formData = {
@@ -133,6 +134,7 @@ describe('validating selections', () => {
         supportingEvidenceOther: {
           personal: true,
         },
+        supportingEvidenceUnlisted: 'unlisted document',
         supportingEvidenceNoneCheckbox: { none: true },
       };
 
@@ -159,6 +161,7 @@ describe('validating selections', () => {
       supportingEvidenceRecords: { addError: sinon.spy() },
       supportingEvidenceWitness: { addError: sinon.spy() },
       supportingEvidenceOther: { addError: sinon.spy() },
+      supportingEvidenceUnlisted: { addError: sinon.spy() },
     };
     it('should not show alert or add errors when none is selected and with no other selected supporting evidence', () => {
       const formData = {
@@ -166,6 +169,7 @@ describe('validating selections', () => {
         supportingEvidenceReports: {
           police: false,
         },
+        supportingEvidenceUnlisted: { addError: sinon.spy() },
         supportingEvidenceNoneCheckbox: { none: true },
       };
 
@@ -177,7 +181,7 @@ describe('validating selections', () => {
       expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
       expect(errors.supportingEvidenceOther.addError.called).to.be.false;
       expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.false;
-
+      expect(errors.supportingEvidenceUnlisted.addError.called).to.be.false;
       // alert
       expect(showConflictingAlert(formData)).to.be.false;
     });
@@ -199,6 +203,7 @@ describe('validating selections', () => {
       expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
       expect(errors.supportingEvidenceOther.addError.called).to.be.false;
       expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.false;
+      expect(errors.supportingEvidenceUnlisted.addError.called).to.be.false;
 
       // alert
       expect(showConflictingAlert(formData)).to.be.false;

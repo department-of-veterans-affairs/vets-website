@@ -122,6 +122,11 @@ function selectedDocumentsSections(formData) {
     formData.supportingEvidenceOther || {},
   ).some(selected => selected === true);
 
+  const supportingEvidenceUnlistedAdded = !!(typeof formData.supportingEvidenceUnlisted ===
+  'string'
+    ? formData.supportingEvidenceUnlisted.trim()
+    : '');
+
   const noneSelected = hasSelectedNoneCheckbox(formData);
 
   return {
@@ -129,6 +134,7 @@ function selectedDocumentsSections(formData) {
     supportingEvidenceRecords: supportingEvidenceRecordsSelected,
     supportingEvidenceWitness: supportingEvidenceWitnessSelected,
     supportingEvidenceOther: supportingEvidenceOtherSelected,
+    supportingEvidenceUnlisted: supportingEvidenceUnlistedAdded,
     none: noneSelected,
   };
 }
@@ -145,12 +151,14 @@ export function hasSelectedSupportingEvidence(formData) {
     supportingEvidenceRecords,
     supportingEvidenceWitness,
     supportingEvidenceOther,
+    supportingEvidenceUnlisted,
   } = selections;
   return [
     supportingEvidenceReports,
     supportingEvidenceRecords,
     supportingEvidenceWitness,
     supportingEvidenceOther,
+    supportingEvidenceUnlisted,
   ].some(selection => selection === true);
 }
 

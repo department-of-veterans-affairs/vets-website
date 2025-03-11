@@ -513,7 +513,7 @@ export const SUPPORTING_EVIDENCE_SUBTITLES = Object.freeze({
   records: 'Records of receiving care after your traumatic events',
   witness: 'Lay or witness statements (also called buddy statements)',
   other: 'Other supporting documents',
-  unlisted: 'Other supporting documens not listed here:',
+  unlisted: 'Other supporting documents not listed here:',
   none: 'None',
 });
 
@@ -530,7 +530,7 @@ export const SUPPORTING_EVIDENCE_RECORD = Object.freeze({
 });
 
 export const SUPPORTING_EVIDENCE_WITNESS = Object.freeze({
-  family: 'Statements from family members or roomates',
+  family: 'Statements from family members or roommates',
   faculty: 'Statements from faculty members',
   service: 'Statements from fellow service members',
   clergy: 'Statements from chaplains or clergy members',
