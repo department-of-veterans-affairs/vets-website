@@ -41,8 +41,7 @@ export default function LicenseCertificationSearchInfo({
                 <strong key={index}>
                   {capitalizeFirstLetter(category, ['course'])}
                 </strong>
-                "
-                {(index !== activeCategories.length - 1 || nameParam) && <>,</>}
+                "{(!previousRouteHome || nameParam) && <>,</>}
               </span>
             );
           })
