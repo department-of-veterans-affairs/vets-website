@@ -3,11 +3,19 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import { render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+import {
+  emailSchema,
+  phoneSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import { Provider } from 'react-redux';
 
+import {
+  createBooleanSchemaPropertiesFromOptions,
+  createUiTitlePropertiesFromOptions,
+} from '../../../../config/chapters/personalInformation/yourContactInformation';
 import formConfig from '../../../../config/form';
 import { getData } from '../../../fixtures/data/mock-form-data';
 
@@ -17,19 +25,52 @@ const {
 } = formConfig.chapters.generalQuestion.pages.yourContactInformation_generalquestion;
 
 describe('yourContactInformationPage', () => {
-  it('should render', () => {
-    const { container } = render(
+  describe('helper functions', () => {
+    it('should create boolean schema properties from options', () => {
+      const options = {
+        option1: 'Value 1',
+        option2: 'Value 2',
+      };
+
+      const result = createBooleanSchemaPropertiesFromOptions(options);
+
+      expect(result).to.deep.equal({
+        option1: { type: 'boolean' },
+        option2: { type: 'boolean' },
+      });
+    });
+
+    it('should create UI title properties from options', () => {
+      const options = {
+        option1: 'Value 1',
+        option2: 'Value 2',
+      };
+
+      const result = createUiTitlePropertiesFromOptions(options);
+
+      expect(result).to.deep.equal({
+        option1: { 'ui:title': 'Value 1' },
+        option2: { 'ui:title': 'Value 2' },
+      });
+    });
+  });
+
+  const renderPage = (formData = {}) => {
+    return render(
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
           schema={schema}
           uiSchema={uiSchema}
-          data={{}}
-          formData={{}}
+          data={formData}
+          formData={formData}
         />
-        ,
       </Provider>,
     );
+  };
+
+  it('should render empty form', () => {
+    const { container } = renderPage();
 
     const inputs = $$('va-text-input', container);
     const options = $$('va-radio-option', container);
@@ -37,5 +78,236 @@ describe('yourContactInformationPage', () => {
     expect($('h3', container).textContent).to.eq('Your contact information');
     expect(inputs.length).to.eq(3);
     expect(options.length).to.eq(3);
+  });
+
+  describe('schema updates', () => {
+    it('should require phone, email and contact preference when contact preference is email only', () => {
+      const formData = {
+        contactPreferences: { EMAIL: true },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+      expect(updatedSchema.properties.phoneNumber).to.exist;
+      expect(updatedSchema.properties.emailAddress).to.exist;
+      expect(updatedSchema.properties.contactPreference).to.exist;
+    });
+
+    it('should update schema for work-related connections with email preference', () => {
+      const formData = {
+        personalRelationship:
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+        contactPreferences: { EMAIL: true },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      // Base schema required fields are preserved
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+
+      // Properties include both standard and business fields
+      expect(Object.keys(updatedSchema.properties)).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+        'preferredName',
+      ]);
+
+      // Verify specific property schemas
+      expect(updatedSchema.properties.phoneNumber).to.equal(phoneSchema);
+      expect(updatedSchema.properties.emailAddress).to.equal(emailSchema);
+      expect(updatedSchema.properties.preferredName).to.deep.include({
+        type: 'string',
+        pattern: '^[A-Za-z]+$',
+        minLength: 1,
+        maxLength: 25,
+      });
+    });
+
+    it('should handle non-email-only contact preferences', () => {
+      const formData = {
+        contactPreferences: { PHONE: true, US_MAIL: true },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+      expect(updatedSchema.properties.contactPreference).to.exist;
+    });
+
+    it('should handle work relationship with non-email-only preferences', () => {
+      const formData = {
+        personalRelationship:
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+        contactPreferences: { PHONE: true, EMAIL: true },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+      expect(updatedSchema.properties.contactPreference).to.exist;
+    });
+
+    it('should handle empty contact preferences', () => {
+      const formData = {
+        contactPreferences: {},
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+      expect(updatedSchema.properties.contactPreference).to.exist;
+    });
+
+    it('should handle multiple contact preferences', () => {
+      const formData = {
+        contactPreferences: { PHONE: true, EMAIL: true },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+      expect(updatedSchema.properties.contactPreference).to.exist;
+    });
+
+    it('should handle work relationship without email preference', () => {
+      const formData = {
+        personalRelationship:
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+        contactPreferences: { PHONE: true },
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+      expect(updatedSchema.properties.contactPreference).to.exist;
+    });
+
+    it('should handle undefined contact preferences', () => {
+      const formData = {};
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+        'contactPreference',
+      ]);
+      expect(updatedSchema.properties.contactPreference).to.exist;
+    });
+  });
+
+  describe('field validation', () => {
+    it('should validate required fields', async () => {
+      const { container } = renderPage({});
+
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        const phoneInput = container.querySelector(
+          'va-text-input[name="root_phoneNumber"]',
+        );
+        const emailInput = container.querySelector(
+          'va-text-input[name="root_emailAddress"]',
+        );
+        const contactPrefRadio = container.querySelector(
+          'va-radio[name="root_contactPreference"]',
+        );
+
+        expect(phoneInput.getAttribute('error')).to.exist;
+        expect(emailInput.getAttribute('error')).to.exist;
+        expect(contactPrefRadio.getAttribute('error')).to.exist;
+      });
+    });
+
+    it('should validate preferred name format', async () => {
+      const { container } = renderPage({
+        preferredName: '123', // Invalid: should only contain letters
+      });
+
+      const submitButton = container.querySelector('button[type="submit"]');
+      fireEvent.click(submitButton);
+
+      await waitFor(() => {
+        const nameInput = container.querySelector(
+          'va-text-input[name="root_preferredName"]',
+        );
+        expect(nameInput.getAttribute('error')).to.exist;
+      });
+    });
+  });
+
+  describe('conditional fields', () => {
+    it('should show contact fields for work-related connections', () => {
+      const { container } = renderPage({
+        personalRelationship:
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+        contactPreferences: { EMAIL: true },
+      });
+
+      const phoneInput = container.querySelector(
+        'va-text-input[name="root_phoneNumber"]',
+      );
+      const emailInput = container.querySelector(
+        'va-text-input[name="root_emailAddress"]',
+      );
+
+      expect(phoneInput).to.exist;
+      expect(emailInput).to.exist;
+    });
   });
 });
