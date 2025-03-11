@@ -66,7 +66,7 @@ describe('Community Care Referrals', () => {
         });
       });
     });
-    it('fetches referrals and requests when status is not started', () => {
+    it('fetches referrals and requests when status is not started', async () => {
       sandbox
         .stub(getPatientReferralsModule, 'getPatientReferrals')
         .resolves([]);
@@ -91,7 +91,9 @@ describe('Community Care Referrals', () => {
       });
       expect(screen.getByText(/Test component/i)).to.exist;
       sandbox.assert.calledOnce(getPatientReferralsModule.getPatientReferrals);
-      sandbox.assert.calledOnce(getAppointmentsModule.getAppointments);
+      await waitFor(() => {
+        sandbox.assert.calledOnce(getAppointmentsModule.getAppointments);
+      });
     });
     it('sets errors to true for both fetches when status is failed', () => {
       sandbox
