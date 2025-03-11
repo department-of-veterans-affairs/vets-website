@@ -86,6 +86,7 @@ export const generateBlueButtonData = (
     subtitles: [
       'This report only includes care summaries and notes from 2013 and later.',
       'For after-visit summaries, (summaries of your appointments with VA providers), go to your appointment records.',
+      `Showing ${notes?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('careSummaries'),
     records: notes?.length
@@ -134,7 +135,9 @@ export const generateBlueButtonData = (
   data.push({
     title: 'Health conditions',
     subtitles: [
-      'This list includes your current health conditions that VA providers are helping you manage. It may not include conditions non-VA providers are helping you manage.',
+      'Health conditions are available 36 hours after your providers enter them. About the codes in some condition names: Some of your health conditions may have diagnosis codes in the name that start with SCT or ICD.',
+      'Providers use these codes to track your health conditions and to communicate with other providers about your care. If you have a question about these codes or a health condition, ask your provider at your next appointment.',
+      `Showing ${conditions?.length} records from newest to oldest`,
     ],
     selected: recordFilter.includes('conditions'),
     records: conditions?.length

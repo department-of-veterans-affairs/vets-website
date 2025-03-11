@@ -122,12 +122,7 @@ const generateTitleSection = (doc, parent, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(
-          `Name: ${data.name}`,
-          config.margins.left,
-          doc.y,
-          subTitleOptions,
-        );
+        .text(`Name: ${data}`, config.margins.left, doc.y, subTitleOptions);
     }),
   );
   titleSection.add(
