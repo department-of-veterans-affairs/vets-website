@@ -81,7 +81,9 @@ describe('Community Care Referrals', () => {
       await waitFor(() => {
         expect(getByTestId('loading')).to.contain.text('loading: true');
       });
-      sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+      await waitFor(() => {
+        sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+      });
     });
     it('should fetch new provider if provider in redux is not the one requested', async () => {
       const otherProvider = createProviderDetails(1, '222');
@@ -98,7 +100,9 @@ describe('Community Care Referrals', () => {
       await waitFor(() => {
         expect(getByTestId('loading')).to.contain.text('loading: true');
       });
-      sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+      await waitFor(() => {
+        sandbox.assert.calledOnce(getProviderByIdModule.getProviderById);
+      });
     });
     it('should show the error message if fetch fails', async () => {
       const { getByTestId } = renderWithStoreAndRouter(
