@@ -8,10 +8,12 @@ import sinon from 'sinon';
 import ReviewPage from '../../containers/ReviewPage';
 
 // Minimal store with required state
-const createMockStore = () => ({
+const createMockStore = (customData = {}) => ({
   getState: () => ({
     form: {
-      data: {},
+      data: {
+        ...customData,
+      },
       pages: {},
       formErrors: { errors: [] },
     },
@@ -165,5 +167,100 @@ describe('ReviewPage', () => {
       '.schemaform-chapter-accordion-content',
     );
     expect(chapterContent).to.not.exist;
+  });
+
+  it('should render alert message with correct text', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    const alertMessage = container.querySelector('.vads-u-margin-y--0');
+    expect(alertMessage).to.exist;
+    expect(alertMessage.textContent).to.equal(
+      'You are only able to edit some answers on this page. You may need to return to an earlier page in the form to edit some answers.',
+    );
+  });
+
+  it('should render page with correct structure and accessibility elements', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    // Test main article element
+    const article = container.querySelector('[data-testid="review-page"]');
+    expect(article).to.exist;
+    expect(article.tagName.toLowerCase()).to.equal('article');
+    expect(article.className).to.include('vads-u-padding-x--2p5');
+    expect(article.className).to.include('vads-u-padding-bottom--7');
+
+    // Test navigation elements
+    const topScrollElement = container.querySelector(
+      '[name="topScrollElement"]',
+    );
+    expect(topScrollElement).to.exist;
+
+    const topNavScrollElement = container.querySelector(
+      '[name="topNavScrollElement"]',
+    );
+    expect(topNavScrollElement).to.exist;
+
+    // Test accordion structure
+    const accordion = container.querySelector(
+      '[data-testid="review-accordion"]',
+    );
+    expect(accordion).to.exist;
+    expect(accordion.tagName.toLowerCase()).to.equal('va-accordion');
+  });
+
+  it('should render button container with correct layout', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    // Test button container
+    const buttonContainer = container.querySelector(
+      '.vads-u-margin-top--4.vads-u-display--flex',
+    );
+    expect(buttonContainer).to.exist;
+
+    // Verify both buttons are in the container
+    const buttons = buttonContainer.querySelectorAll('va-button');
+    expect(buttons).to.have.lengthOf(2);
+
+    // Verify button order and properties
+    const [backButton, submitButton] = buttons;
+    expect(backButton.getAttribute('back')).to.equal('true');
+    expect(submitButton.getAttribute('text')).to.equal('Submit question');
+  });
+
+  it('should render alert with correct accessibility attributes', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    const alert = container.querySelector(
+      'va-alert[data-testid="review-alert"]',
+    );
+    expect(alert).to.exist;
+
+    // Test accessibility attributes
+    expect(alert.getAttribute('close-btn-aria-label')).to.equal(
+      'Close notification',
+    );
+    expect(alert.getAttribute('closeable')).to.equal('true');
+
+    // Test heading accessibility
+    const heading = alert.querySelector('h3');
+    expect(heading).to.exist;
+    expect(heading.getAttribute('id')).to.equal('track-your-status-on-mobile');
+    expect(heading.getAttribute('slot')).to.equal('headline');
   });
 });
