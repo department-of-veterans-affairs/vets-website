@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -16,7 +16,6 @@ export const ConfirmationPage = ({ router, route }) => {
     e.preventDefault();
     router.push('/review-and-submit');
   };
-  console.log(submission, "submmmmmm");
   useEffect(
     () => {
       if (submission?.response?.id) {
