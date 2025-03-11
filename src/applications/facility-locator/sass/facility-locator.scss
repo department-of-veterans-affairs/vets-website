@@ -717,46 +717,39 @@ $text-color: rgba(27, 27, 27, 1);
 
 #search-area-control-container {
   z-index: 1;
-
-  va-button {
-    margin: 0 !important;
-    padding: 0px 0 0px 8px !important;
-
-    .usa-button {
-      margin: 0 !important;
-      width: 100% !important;
-      padding: 0 !important;
-    }
-  }
 }
 
 #search-area-control {
   cursor: pointer;
   pointer-events: auto;
+  max-width: fit-content;
+  margin: 0;
+  padding: 0;
 
   @media (max-width: $small-screen) {
     height: 43px;
   }
 }
 
-// Override design system default
-// because it will cause an axe failure
-.fl-disabled {
-  background-color: var(--vads-color-gray-medium) !important;
-}
-
 .mapboxgl-ctrl-top-center {
   position: absolute;
   pointer-events: none;
   top: 16px;
-  left: calc(50% - 125.375px);
+  left: 40px; // keep away from the controls on the left
+  right: 40px; // mirror on right so contents can be centered
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .mapboxgl-ctrl-bottom-center {
   bottom: 40px;
-  left: calc(50% - 125.375px);
+  width: 100%;
   position: absolute;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 button.mapboxgl-ctrl-attrib-button {
