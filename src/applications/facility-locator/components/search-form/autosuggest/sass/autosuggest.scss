@@ -35,6 +35,10 @@ div[id$="-autosuggest-container"] {
     position: relative;
     width: 100%;
 
+    @media screen and (min-width: $small-desktop-screen) {
+      max-width: 418px;
+    }
+
     .dropdown {
       background: var(--vads-color-white);
       border: solid 1px var(--vads-color-black);
