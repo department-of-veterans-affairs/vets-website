@@ -18,7 +18,7 @@ import {
   mockFetchParentFacilityResponse,
   mockFetchFacilitiesResponseWithoutCaregiverSupport,
   mockFetchParentFacilityResponseWithoutCaregiverSupport,
-} from '../../../mocks/responses';
+} from '../../../mocks/fetchFacility';
 
 describe('CG <FacilitySearch>', () => {
   const inputVaSearchInput = (
