@@ -60,7 +60,7 @@ describe('hca `formatDate` method', () => {
   });
 
   it('should correctly handle a `null` value', () => {
-    const result = formatDate(null, 'yyyy-MM-dd');
+    const result = formatDate(null);
     expect(result).to.be.null;
   });
 });
