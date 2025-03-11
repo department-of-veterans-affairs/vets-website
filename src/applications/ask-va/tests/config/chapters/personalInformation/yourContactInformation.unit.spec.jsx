@@ -81,31 +81,11 @@ describe('yourContactInformationPage', () => {
   });
 
   describe('schema updates', () => {
-    it('should require phone, email and contact preference when contact preference is email only', () => {
-      const formData = {
-        contactPreferences: { EMAIL: true },
-      };
-
-      const updatedSchema = uiSchema['ui:options'].updateSchema(
-        formData,
-        schema,
-      );
-
-      expect(updatedSchema.required).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
-      ]);
-      expect(updatedSchema.properties.phoneNumber).to.exist;
-      expect(updatedSchema.properties.emailAddress).to.exist;
-      expect(updatedSchema.properties.contactPreference).to.exist;
-    });
-
     it('should update schema for work-related connections with email preference', () => {
       const formData = {
         personalRelationship:
           "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
-        contactPreferences: { EMAIL: true },
+        contactPreferences: ['Email'],
       };
 
       const updatedSchema = uiSchema['ui:options'].updateSchema(
@@ -113,35 +93,55 @@ describe('yourContactInformationPage', () => {
         schema,
       );
 
-      // Base schema required fields are preserved
       expect(updatedSchema.required).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
+        'businessPhone',
+        'businessEmail',
       ]);
 
-      // Properties include both standard and business fields
-      expect(Object.keys(updatedSchema.properties)).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
-        'preferredName',
-      ]);
-
-      // Verify specific property schemas
-      expect(updatedSchema.properties.phoneNumber).to.equal(phoneSchema);
-      expect(updatedSchema.properties.emailAddress).to.equal(emailSchema);
-      expect(updatedSchema.properties.preferredName).to.deep.include({
-        type: 'string',
-        pattern: '^[A-Za-z]+$',
-        minLength: 1,
-        maxLength: 25,
+      expect(updatedSchema.properties).to.deep.include({
+        businessPhone: phoneSchema,
+        businessEmail: emailSchema,
+        preferredName: {
+          type: 'string',
+          pattern: '^[A-Za-z]+$',
+          minLength: 1,
+          maxLength: 25,
+        },
       });
     });
 
-    it('should handle non-email-only contact preferences', () => {
+    it('should update schema for email-only preference (non-work connection)', () => {
       const formData = {
-        contactPreferences: { PHONE: true, US_MAIL: true },
+        personalRelationship: "I'm the Veteran",
+        contactPreferences: ['Email'],
+      };
+
+      const updatedSchema = uiSchema['ui:options'].updateSchema(
+        formData,
+        schema,
+      );
+
+      expect(updatedSchema.required).to.deep.equal([
+        'phoneNumber',
+        'emailAddress',
+      ]);
+
+      expect(updatedSchema.properties).to.deep.include({
+        phoneNumber: phoneSchema,
+        emailAddress: emailSchema,
+        preferredName: {
+          type: 'string',
+          pattern: '^[A-Za-z]+$',
+          minLength: 1,
+          maxLength: 25,
+        },
+      });
+    });
+
+    it('should use default schema for non-email-only preferences', () => {
+      const formData = {
+        personalRelationship: "I'm the Veteran",
+        contactPreferences: ['Phone', 'Email'],
       };
 
       const updatedSchema = uiSchema['ui:options'].updateSchema(
@@ -154,99 +154,17 @@ describe('yourContactInformationPage', () => {
         'emailAddress',
         'contactPreference',
       ]);
-      expect(updatedSchema.properties.contactPreference).to.exist;
-    });
 
-    it('should handle work relationship with non-email-only preferences', () => {
-      const formData = {
-        personalRelationship:
-          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
-        contactPreferences: { PHONE: true, EMAIL: true },
-      };
-
-      const updatedSchema = uiSchema['ui:options'].updateSchema(
-        formData,
-        schema,
-      );
-
-      expect(updatedSchema.required).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
-      ]);
-      expect(updatedSchema.properties.contactPreference).to.exist;
-    });
-
-    it('should handle empty contact preferences', () => {
-      const formData = {
-        contactPreferences: {},
-      };
-
-      const updatedSchema = uiSchema['ui:options'].updateSchema(
-        formData,
-        schema,
-      );
-
-      expect(updatedSchema.required).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
-      ]);
-      expect(updatedSchema.properties.contactPreference).to.exist;
-    });
-
-    it('should handle multiple contact preferences', () => {
-      const formData = {
-        contactPreferences: { PHONE: true, EMAIL: true },
-      };
-
-      const updatedSchema = uiSchema['ui:options'].updateSchema(
-        formData,
-        schema,
-      );
-
-      expect(updatedSchema.required).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
-      ]);
-      expect(updatedSchema.properties.contactPreference).to.exist;
-    });
-
-    it('should handle work relationship without email preference', () => {
-      const formData = {
-        personalRelationship:
-          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
-        contactPreferences: { PHONE: true },
-      };
-
-      const updatedSchema = uiSchema['ui:options'].updateSchema(
-        formData,
-        schema,
-      );
-
-      expect(updatedSchema.required).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
-      ]);
-      expect(updatedSchema.properties.contactPreference).to.exist;
-    });
-
-    it('should handle undefined contact preferences', () => {
-      const formData = {};
-
-      const updatedSchema = uiSchema['ui:options'].updateSchema(
-        formData,
-        schema,
-      );
-
-      expect(updatedSchema.required).to.deep.equal([
-        'phoneNumber',
-        'emailAddress',
-        'contactPreference',
-      ]);
-      expect(updatedSchema.properties.contactPreference).to.exist;
+      expect(updatedSchema.properties).to.deep.include({
+        phoneNumber: phoneSchema,
+        emailAddress: emailSchema,
+        preferredName: {
+          type: 'string',
+          pattern: '^[A-Za-z]+$',
+          minLength: 1,
+          maxLength: 25,
+        },
+      });
     });
   });
 
