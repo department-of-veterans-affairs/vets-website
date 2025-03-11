@@ -7,7 +7,6 @@ import CcpHelpers from './helpers/ccp-helpers-cypress';
 import {
   enabledFeatures,
   featureCombinationsTogglesToTest,
-  isFeatureEnabled,
 } from './featureTogglesToTest';
 import * as h from './helpers';
 
@@ -19,10 +18,6 @@ for (const featureSet of featureSets) {
   describe(`Facility search error messages ${enabledFeatures(
     featureSet,
   )}`, () => {
-    const isProgDiscEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
-    );
-
     const addrErrorMessage =
       'Enter a zip code or a city and state in the search box';
 
