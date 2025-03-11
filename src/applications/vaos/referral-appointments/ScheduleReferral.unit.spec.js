@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { format } from 'date-fns';
+import { waitFor } from '@testing-library/dom';
 import ScheduleReferral from './ScheduleReferral';
 import {
   createTestStore,
@@ -61,6 +62,8 @@ describe('VAOS Component: ScheduleReferral', () => {
     renderWithStoreAndRouter(<ScheduleReferral currentReferral={referral} />, {
       initialState,
     });
-    expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
+    await waitFor(() => {
+      expect(sessionStorage.getItem(selectedSlotKey)).to.be.null;
+    });
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { waitFor } from '@testing-library/dom';
 import * as getPatientReferralsModule from '../../../../services/referral';
 import * as getAppointmentsModule from '../../../../services/vaos';
 import { renderWithStoreAndRouter } from '../../../../tests/mocks/setup';
@@ -36,7 +37,7 @@ describe('Community Care Referrals', () => {
       sandbox.restore();
     });
     possibleFetchStatuses.forEach(({ referralsFetchStatus, pendingStatus }) => {
-      it('sets loading to false if either fetch is complete', () => {
+      it('sets loading to false if either fetch is complete', async () => {
         sandbox
           .stub(getPatientReferralsModule, 'getPatientReferrals')
           .resolves([]);
@@ -60,7 +61,9 @@ describe('Community Care Referrals', () => {
           initialState,
         });
         expect(screen.getByText(/Test component/i)).to.exist;
-        expect(screen.getByText(/Loading: false/i)).to.exist;
+        await waitFor(() => {
+          expect(screen.getByText(/Loading: false/i)).to.exist;
+        });
       });
     });
     it('fetches referrals and requests when status is not started', () => {
