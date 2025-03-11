@@ -20,7 +20,7 @@ export const createLiteralMap = arrayToMap =>
  * @param {String} str - the format string to return
  * @returns {String} - the formatted date string
  */
-export const formatDate = (val, str) => {
+export const formatDate = (val, str = 'yyyy-MM-dd') => {
   if (!val) return null;
   const parsedDate = parseISO(val);
   return isValid(parsedDate) ? format(parsedDate, str) : null;
