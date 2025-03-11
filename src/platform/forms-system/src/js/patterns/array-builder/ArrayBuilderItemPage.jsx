@@ -46,6 +46,7 @@ export default function ArrayBuilderItemPage({
       index: props.pagePerItemIndex
         ? parseInt(props.pagePerItemIndex, 10)
         : null,
+      arrayPath,
     });
 
     if (!props.onReviewPage && !isEdit && !isAdd) {

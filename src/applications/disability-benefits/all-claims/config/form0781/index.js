@@ -14,7 +14,7 @@ import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedB
 import * as treatmentReceivedPage from '../../pages/form0781/treatmentReceivedPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
 import * as supportingEvidencePage from '../../pages/form0781/supportingEvidencePage';
-
+import * as reviewPage from '../../pages/form0781/reviewPage';
 import {
   showForm0781Pages,
   showManualUpload0781Page,
@@ -148,5 +148,11 @@ export const form0781PagesConfig = {
     depends: formData => isCompletingForm0781(formData),
     uiSchema: additionalInformationPage.uiSchema,
     schema: additionalInformationPage.schema,
+  },
+  reviewPage: {
+    path: 'mental-health-form-0781/review-page',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: reviewPage.uiSchema,
+    schema: reviewPage.schema,
   },
 };

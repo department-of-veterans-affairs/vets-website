@@ -138,6 +138,41 @@ const testConfig = createTestConfig(
         });
       },
 
+      'report-674/add-students/0/term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/previous-term-dates': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/additional-remarks': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-674/add-students/0/student-marriage-date': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       'add-child/0': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();

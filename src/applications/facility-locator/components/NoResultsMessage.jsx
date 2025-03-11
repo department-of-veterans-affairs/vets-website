@@ -7,22 +7,26 @@ const NoResultsMessage = ({ isMobileListView, resultRef }) => {
   // but the mobile map view has the same treatment as desktop
   if (isMobileListView) {
     return (
-      <p className="vads-u-margin-top--2 mobile-lg:vads-u-margin-top--0 vads-u-margin-bottom--4 vads-u-margin-x--1 mobile-lg:vads-u-margin-x--0">
-        Search for something else or in a different area. Try entering a
-        different location, facility type, or service type.
+      <p
+        data-testid="no-results-mobile-list-view"
+        className="vads-u-margin-top--2 mobile-lg:vads-u-margin-top--0 vads-u-margin-bottom--4 vads-u-margin-x--1 mobile-lg:vads-u-margin-x--0"
+      >
+        Try searching for something else. Or try searching in a different area.
+        You can enter a different location, facility type, or service type.
       </p>
     );
   }
 
   return (
     <div
+      data-testid="no-results-message"
       className="search-result-title vads-u-margin-y--3 mobile-lg:vads-u-margin-y--0"
       ref={resultRef}
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       tabIndex={0}
     >
       <p className="vads-u-margin-top--0">
-        Try searching for something else or in a different area.
+        Try searching for something else. Or try searching in a different area.
       </p>
       <p>
         <strong>Suggestions:</strong>

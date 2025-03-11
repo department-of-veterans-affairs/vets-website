@@ -435,9 +435,9 @@
     "supportingEvidenceOther": {
       "personal": false
     },
+    "supportingEvidenceUnlisted": "unlisted document",
     "supportingEvidenceNoneCheckbox": {
       "none": false
-    },
-    "supportingEvidenceUnlisted": "unlisted document"
+    }
   }
 }
