@@ -75,7 +75,7 @@ const InProductionEducationFiltering = () => {
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
         >
-          <p className="vads-u-margin--0">
+          <p className="vads-u-margin--0 vads-u-padding-right--5">
             Filter the medications list to easily find what you are looking for.
           </p>
           <VaButton
