@@ -18,7 +18,16 @@ export const ConfirmationPage = props => {
       devOnly={{
         showButtons: true,
       }}
-    />
+    >
+      <ConfirmationView.SubmissionAlert actions={null} />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList item1Actions={null} />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 
