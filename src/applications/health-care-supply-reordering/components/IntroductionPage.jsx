@@ -1,43 +1,57 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import React from 'react';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
+import formConfig from '../config/form';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 
-const IntroductionPage = ({ route }) => {
-  const { formConfig } = route;
+const IntroductionPage = props => {
+  // Toggle from hearing aid supplies to hearing aid + CPAP supplies.
+  const {
+    TOGGLE_NAMES,
+    useToggleValue,
+    useToggleLoadingValue,
+  } = useFeatureToggle();
+  const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
+  const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
+  const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
+  const supplyDescription = isSupplyReorderingSleepApneaEnabled
+    ? 'hearing aid or CPAP supplies'
+    : 'hearing aid batteries and accessories';
+  if (isLoadingFeatureFlags)
+    return <va-loading-indicator message="Loading your information..." />;
 
   return (
     <>
       {' '}
-      <FormTitle title={formConfig.title} />
+      <FormTitle title={`Order ${supplyDescription}`} />
       <DowntimeNotification
-        appTitle={formConfig.title}
+        appTitle="Order hearing aid or CPAP supplies"
         dependencies={[externalServices.mdot]}
       >
         <div className="schemaform-intro">
           <SaveInProgressIntro
             hideUnauthedStartLink
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={route.pageList}
-            verifyRequiredPrefill={formConfig.verifyRequiredPrefill}
+            prefillEnabled={props.route.formConfig.prefillEnabled}
+            messages={props.route.formConfig.savedFormMessages}
+            pageList={props.route.pageList}
+            verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
             unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
-            startText={formConfig.title}
+            startText={`Order ${supplyDescription}`}
             unauthStartText="Sign in to start your order"
             formConfig={formConfig}
           >
-            Please complete this form to order hearing aid or CPAP supplies.
+            Please complete this form to order {supplyDescription}.
           </SaveInProgressIntro>
           <h2
             className="vads-u-font-size--h3"
             itemProp="name"
             id="am-i-eligible-to-order-prosthe"
           >
-            Follow the steps below to order hearing aid or CPAP supplies.
+            Follow the steps below to order {supplyDescription}.
           </h2>
           <div className="process schemaform-process">
             <ol>
@@ -54,15 +68,15 @@ const IntroductionPage = ({ route }) => {
                   What if I need help with my order?
                 </p>
                 <p>
-                  If you need help ordering hearing aid or CPAP supplies, you
-                  can call the Denver Logistics Center Customer Service Section
-                  at <va-telephone contact="3032736200" /> or email{' '}
+                  If you need help ordering {supplyDescription}, you can call
+                  the Denver Logistics Center Customer Service Section at{' '}
+                  <va-telephone contact="3032736200" /> or email{' '}
                   <a href="mailto:dalc.css@va.gov">dalc.css@va.gov</a>.
                 </p>
               </li>
               <li className="process-step list-two">
                 <h3 className="vads-u-font-size--h4">Place your order</h3>
-                <p>Complete this hearing aid or CPAP supplies order form.</p>
+                <p>Complete this {supplyDescription} order form.</p>
                 <p>These are the steps you can expect when placing an order:</p>
                 <ul>
                   <li>Confirm your personal information</li>
@@ -71,7 +85,9 @@ const IntroductionPage = ({ route }) => {
                   </li>
                   <li>Select any hearing aids that need batteries</li>
                   <li>Select any hearing aid accessories you need</li>
-                  <li>Select any CPAP supplies you need</li>
+                  {isSupplyReorderingSleepApneaEnabled && (
+                    <li>Select any CPAP supplies you need</li>
+                  )}
                   <li>Review and submit order</li>
                 </ul>
                 <p>
@@ -107,10 +123,10 @@ const IntroductionPage = ({ route }) => {
           <SaveInProgressIntro
             buttonOnly
             hideUnauthedStartLink
-            prefillEnabled={formConfig.prefillEnabled}
-            messages={formConfig.savedFormMessages}
-            pageList={route.pageList}
-            startText={formConfig.title}
+            prefillEnabled={props.route.formConfig.prefillEnabled}
+            messages={props.route.formConfig.savedFormMessages}
+            pageList={props.route.pageList}
+            startText={`Order ${supplyDescription}`}
             unauthStartText="Sign in to start your order"
             formConfig={formConfig}
           />
@@ -118,18 +134,6 @@ const IntroductionPage = ({ route }) => {
       </DowntimeNotification>
     </>
   );
-};
-
-IntroductionPage.propTypes = {
-  route: PropTypes.shape({
-    formConfig: PropTypes.shape({
-      verifyRequiredPrefill: PropTypes.bool.isRequired,
-      prefillEnabled: PropTypes.bool.isRequired,
-      savedFormMessages: PropTypes.object.isRequired,
-      title: PropTypes.string.isRequired,
-    }).isRequired,
-    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
-  }).isRequired,
 };
 
 export default IntroductionPage;

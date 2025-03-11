@@ -123,7 +123,6 @@ const submit = form => {
 const downtime = {
   requiredForPrefill: true,
   dependencies: [externalServices.mdot],
-  message: '',
 };
 
 const formConfig = {
