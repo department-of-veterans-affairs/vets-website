@@ -6,6 +6,11 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 import ReviewPage from '../../containers/ReviewPage';
+import { getFileSize } from '../../utils/helpers';
+import {
+  getPageKeysForReview,
+  removeDuplicatesByChapterAndPageKey,
+} from '../../utils/reviewPageHelper';
 
 // Minimal store with required state
 const createMockStore = (customData = {}) => ({
@@ -262,5 +267,148 @@ describe('ReviewPage', () => {
     expect(heading).to.exist;
     expect(heading.getAttribute('id')).to.equal('track-your-status-on-mobile');
     expect(heading.getAttribute('slot')).to.equal('headline');
+  });
+});
+
+describe('Helper Functions', () => {
+  describe('getFileSize', () => {
+    it('should format bytes correctly', () => {
+      expect(getFileSize(100)).to.equal('100 B');
+    });
+
+    it('should format kilobytes correctly', () => {
+      expect(getFileSize(1500)).to.equal('1 KB');
+      expect(getFileSize(2048)).to.equal('2 KB');
+    });
+
+    it('should format megabytes correctly', () => {
+      expect(getFileSize(1500000)).to.equal('1.5 MB');
+      expect(getFileSize(2048000)).to.equal('2.0 MB');
+    });
+
+    it('should handle edge cases', () => {
+      expect(getFileSize(0)).to.equal('0 B');
+      expect(getFileSize(999)).to.equal('999 B');
+      expect(getFileSize(1000)).to.equal('1 KB');
+      expect(getFileSize(999999)).to.equal('999 KB');
+      expect(getFileSize(1000000)).to.equal('1.0 MB');
+    });
+  });
+
+  describe('removeDuplicatesByChapterAndPageKey', () => {
+    it('should remove duplicates based on chapter and page keys', () => {
+      const input = [
+        { chapterKey: 'ch1', pageKey: 'page1', data: 'first' },
+        { chapterKey: 'ch1', pageKey: 'page2', data: 'second' },
+        { chapterKey: 'ch1', pageKey: 'page1', data: 'duplicate' },
+        { chapterKey: 'ch2', pageKey: 'page1', data: 'different chapter' },
+      ];
+
+      const result = removeDuplicatesByChapterAndPageKey(input);
+      expect(result).to.have.lengthOf(3);
+      expect(result[0]).to.deep.equal({
+        chapterKey: 'ch1',
+        pageKey: 'page1',
+        data: 'first',
+      });
+      expect(result[1]).to.deep.equal({
+        chapterKey: 'ch1',
+        pageKey: 'page2',
+        data: 'second',
+      });
+      expect(result[2]).to.deep.equal({
+        chapterKey: 'ch2',
+        pageKey: 'page1',
+        data: 'different chapter',
+      });
+    });
+
+    it('should handle empty array', () => {
+      const result = removeDuplicatesByChapterAndPageKey([]);
+      expect(result).to.be.an('array').that.is.empty;
+    });
+
+    it('should handle array with no duplicates', () => {
+      const input = [
+        { chapterKey: 'ch1', pageKey: 'page1' },
+        { chapterKey: 'ch2', pageKey: 'page2' },
+      ];
+      const result = removeDuplicatesByChapterAndPageKey(input);
+      expect(result).to.have.lengthOf(2);
+      expect(result).to.deep.equal(input);
+    });
+
+    it('should preserve the first occurrence when duplicates exist', () => {
+      const input = [
+        { chapterKey: 'ch1', pageKey: 'page1', data: 'keep this' },
+        { chapterKey: 'ch1', pageKey: 'page1', data: 'remove this' },
+      ];
+      const result = removeDuplicatesByChapterAndPageKey(input);
+      expect(result).to.have.lengthOf(1);
+      expect(result[0].data).to.equal('keep this');
+    });
+  });
+
+  describe('getPageKeysForReview', () => {
+    it('should extract page keys from config', () => {
+      const config = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: { title: 'Page 1' },
+              page2: { title: 'Page 2' },
+            },
+          },
+          chapter2: {
+            pages: {
+              page3: { title: 'Page 3' },
+            },
+          },
+        },
+      };
+
+      const result = getPageKeysForReview(config);
+      expect(result).to.deep.equal(['page1', 'page2', 'page3']);
+    });
+
+    it('should handle empty config', () => {
+      const config = {
+        chapters: {},
+      };
+      const result = getPageKeysForReview(config);
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should handle config with empty chapters', () => {
+      const config = {
+        chapters: {
+          chapter1: {
+            pages: {},
+          },
+          chapter2: {
+            pages: {},
+          },
+        },
+      };
+      const result = getPageKeysForReview(config);
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should handle config with mixed empty and non-empty chapters', () => {
+      const config = {
+        chapters: {
+          chapter1: {
+            pages: {
+              page1: { title: 'Page 1' },
+            },
+          },
+          chapter2: {
+            pages: {},
+          },
+        },
+      };
+      const result = getPageKeysForReview(config);
+      expect(result).to.deep.equal(['page1']);
+    });
   });
 });
