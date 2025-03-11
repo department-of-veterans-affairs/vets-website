@@ -143,7 +143,7 @@ const formConfig = {
     messages: {
       inProgress: 'You have a hearing aid or CPAP supplies order in progress.',
       expired:
-        'Your saved hearing aid or CPAP supplies order has expired. If you want to order hearing aid or CPAP supplies, lease start a new order.',
+        'Your saved hearing aid or CPAP supplies order has expired. If you want to order hearing aid or CPAP supplies, please start a new order.',
       saved: 'Your hearing aid or CPAP supplies order has been saved.',
     },
   },
