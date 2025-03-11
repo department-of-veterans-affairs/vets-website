@@ -54,8 +54,6 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/10215`,
   submit: submitForm,
-  // submit: () =>
-  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'edu-10215-',
   introduction: IntroductionPage,
   confirmation: ({ router, route }) => (
