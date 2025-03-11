@@ -64,8 +64,7 @@ describe('VAOS Page: VAFacilityPage', () => {
 
     beforeEach(() => mockFetch());
 
-    // skipping this for now
-    it.skip('should display error messaging if user denied location permissions', async () => {
+    it('should display error messaging if user denied location permissions', async () => {
       mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
@@ -126,7 +125,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
-
       await screen.findAllByRole('radio');
       const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
       // call VaSelect custom event for onChange handling

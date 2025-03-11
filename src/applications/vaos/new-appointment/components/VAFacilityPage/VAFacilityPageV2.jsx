@@ -3,9 +3,10 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { usePrevious } from 'platform/utilities/react-hooks';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { getFacilityPageV2Info } from '../../redux/selectors';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { FETCH_STATUS, GA_PREFIX } from '../../../utils/constants';
 import EligibilityModal from './EligibilityModal';
 import InfoAlert from '../../../components/InfoAlert';
 import FacilitiesRadioWidget from './FacilitiesRadioWidget';
@@ -295,7 +296,13 @@ export default function VAFacilityPageV2() {
               hasUserAddress,
               sortOptions,
               updateFacilitySortMethod: value =>
-                dispatch(updateFacilitySortMethod(value, uiSchema)),
+                dispatch(updateFacilitySortMethod(value, uiSchema)).then(
+                  recordEvent({
+                    event: `${GA_PREFIX}-updated-locations-sort--${
+                      sortOptions.find(option => option.value === value).label
+                    }`,
+                  }),
+                ),
             }}
             data={data}
           >

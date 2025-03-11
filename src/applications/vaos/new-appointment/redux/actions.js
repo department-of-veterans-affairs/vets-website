@@ -611,6 +611,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           sortMethod,
           uiSchema,
           cernerSiteIds,
+          recentLocations,
         });
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,

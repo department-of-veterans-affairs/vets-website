@@ -367,9 +367,6 @@ export default function formReducer(state = initialState, action) {
       const typeOfCareFacilities = facilities.filter(facility =>
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
-      const typeOfCareRecentFacilities = recentLocations.filter(facility =>
-        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
-      );
 
       if (typeOfCareFacilities.length === 1) {
         newData = {
@@ -379,11 +376,14 @@ export default function formReducer(state = initialState, action) {
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.recentLocations) {
+        const typeOfCareRecentFacilities = recentLocations?.filter(facility =>
+          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+        );
         newSchema = set(
           'properties.vaFacility',
           {
             type: 'string',
-            enum: typeOfCareRecentFacilities.map(facility => facility.id),
+            enum: typeOfCareRecentFacilities?.map(facility => facility.id),
             enumNames: typeOfCareRecentFacilities,
           },
           newSchema,
@@ -554,16 +554,15 @@ export default function formReducer(state = initialState, action) {
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
-      const typeOfCareRecentFacilities = recentLocations.filter(facility =>
-        isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
-      );
-
       if (sortMethod === FACILITY_SORT_METHODS.recentLocations) {
+        const typeOfCareRecentFacilities = recentLocations?.filter(facility =>
+          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+        );
         newSchema = set(
           'properties.vaFacility',
           {
             type: 'string',
-            enum: typeOfCareRecentFacilities.map(facility => facility.id),
+            enum: typeOfCareRecentFacilities?.map(facility => facility.id),
             enumNames: typeOfCareRecentFacilities,
           },
           newSchema,
