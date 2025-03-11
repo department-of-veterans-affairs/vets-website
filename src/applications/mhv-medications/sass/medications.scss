@@ -342,7 +342,7 @@ va-checkbox {
 
 #rx-ipe-filtering-container {
   border: 2px solid var(--vads-color-base);
-  background-color: var(--vads-color-gray-cool-light);
+  background-color: var(--vads-color-base-lighter);
   border-radius: 12px;
   position: relative;
 
@@ -354,7 +354,7 @@ va-checkbox {
     top: -10px;
     right: 20px;
     z-index: 1;
-    background-color: var(--vads-color-gray-cool-light);
+    background-color: var(--vads-color-base-lighter);
     border: 2px solid transparent;
     border-top-color: var(--vads-color-base);
     border-left-color: var(--vads-color-base);
