@@ -8,6 +8,7 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
+import { createStore } from 'redux';
 import { AppealInfo } from '../../../containers/AppealInfo';
 import { mockData } from '../../../utils/helpers';
 import {
@@ -34,6 +35,9 @@ const defaultProps = {
 };
 
 describe('<AppealInfo>', () => {
+  const store = createStore(() => ({
+    featureToggles: {},
+  }));
   it('should render', () => {
     const wrapper = shallow(<AppealInfo {...defaultProps} />);
     expect(wrapper.type()).to.equal('div');
@@ -42,13 +46,15 @@ describe('<AppealInfo>', () => {
 
   it('should render its children', () => {
     const screen = render(
-      <MemoryRouter>
-        <Routes>
-          <Route element={<AppealInfo {...defaultProps} />}>
-            <Route index element={<TestComponent />} />
-          </Route>
-        </Routes>
-      </MemoryRouter>,
+      <Provider store={store}>
+        <MemoryRouter>
+          <Routes>
+            <Route element={<AppealInfo {...defaultProps} />}>
+              <Route index element={<TestComponent />} />
+            </Route>
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
     );
 
     expect(screen.getByTestId('children')).to.exist;
@@ -65,7 +71,11 @@ describe('<AppealInfo>', () => {
   });
 
   it('should render the breadcrumbs', () => {
-    const { container } = renderWithRouter(<AppealInfo {...defaultProps} />);
+    const { container } = renderWithRouter(
+      <Provider store={store}>
+        <AppealInfo {...defaultProps} />
+      </Provider>,
+    );
 
     const breadcrumbs = $('va-breadcrumbs', container);
     expect(breadcrumbs.breadcrumbList.length).to.equal(3);

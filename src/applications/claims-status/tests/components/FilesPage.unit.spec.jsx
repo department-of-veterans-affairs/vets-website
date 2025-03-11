@@ -48,11 +48,13 @@ describe('<FilesPage>', () => {
 
   it('should render loading state', () => {
     const { container } = renderWithRouter(
-      <FilesPage
-        {...props}
-        loading
-        message={{ title: 'Test', body: 'Body' }}
-      />,
+      <Provider store={getStore()}>
+        <FilesPage
+          {...props}
+          loading
+          message={{ title: 'Test', body: 'Body' }}
+        />
+      </Provider>,
     );
     expect($('.claim-files', container)).to.not.exist;
     expect($('va-loading-indicator', container)).to.exist;
@@ -60,7 +62,9 @@ describe('<FilesPage>', () => {
 
   it('should render null when claim empty', () => {
     const { container, getByText } = renderWithRouter(
-      <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />,
+      <Provider store={getStore()}>
+        <FilesPage {...props} message={{ title: 'Test', body: 'Body' }} />
+      </Provider>,
     );
 
     expect($('.claim-files', container)).to.not.exist;
@@ -69,11 +73,13 @@ describe('<FilesPage>', () => {
 
   it('should render null when claim null', () => {
     const { container, getByText } = renderWithRouter(
-      <FilesPage
-        {...props}
-        claim={null}
-        message={{ title: 'Test', body: 'Body' }}
-      />,
+      <Provider store={getStore()}>
+        <FilesPage
+          {...props}
+          claim={null}
+          message={{ title: 'Test', body: 'Body' }}
+        />
+      </Provider>,
     );
 
     expect($('.claim-files', container)).to.not.exist;
