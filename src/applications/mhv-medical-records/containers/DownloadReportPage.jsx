@@ -426,7 +426,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           <ExternalLink
             href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
-            text="Go to the previous version of MyHealtheVet to download historical
+            text="Go to the previous version of My HealtheVet to download historical
             goals"
           />
         </va-accordion-item>
