@@ -59,6 +59,24 @@ export const militaryServiceTimeServedTypes = Object.freeze({
   OVER_3_YEARS: 'OVER_3_YEARS',
 });
 
+export const militaryBranchTypes = Object.freeze({
+  AIR_FORCE: 'AIR_FORCE',
+  ARMY: 'ARMY',
+  COAST_GUARD: 'COAST_GUARD',
+  MARINE_CORPS: 'MARINE_CORPS',
+  NAVY: 'NAVY',
+  SPACE_FORCE: 'SPACE_FORCE',
+});
+
+export const militaryBranchTypeLabels = Object.freeze({
+  AIR_FORCE: 'Air Force',
+  ARMY: 'Army',
+  COAST_GUARD: 'Coast Guard',
+  MARINE_CORPS: 'Marine Corps',
+  NAVY: 'Navy',
+  SPACE_FORCE: 'Space Force',
+});
+
 export const expectedSeparationLabels = Object.freeze({
   UP_TO_3_MONTHS: '0 to 3 months',
   MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS: '4 to 6 months',
