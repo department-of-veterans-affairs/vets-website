@@ -248,6 +248,7 @@ function logEligibilityExplanation(
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
  * @param {boolean} [params.useV2=false] Use the v2 apis when making eligibility calls
  * @param {boolean} [params.featureClinicFilter=false] feature flag to filter clinics based on VATS
+ * @param {boolean} [params.useFeSourceOfTruth=false] whether to use vets-api payload as the FE source of truth
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -257,6 +258,7 @@ export async function fetchFlowEligibilityAndClinics({
   directSchedulingEnabled,
   useV2 = false,
   featureClinicFilter = false,
+  useFeSourceOfTruth = false,
   isCerner = false,
 }) {
   const directSchedulingAvailable =
@@ -289,9 +291,9 @@ export async function fetchFlowEligibilityAndClinics({
       : typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
     if (isDirectAppointmentHistoryRequired) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
-        createErrorHandler('direct-no-matching-past-clinics-error'),
-      );
+      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
+        useFeSourceOfTruth,
+      ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
     }
   }
 
