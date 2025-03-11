@@ -4,6 +4,7 @@ import {
   VaButton,
   VaIcon,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 import {
   apiHideTooltip,
@@ -21,7 +22,7 @@ const InProductionEducationFiltering = () => {
     () => {
       getTooltipsList()
         .then(response => {
-          const filterTooltip = response.data?.find(
+          const filterTooltip = response?.find(
             tip =>
               tip.tooltipName === 'mhv_medications_tooltip_filter_accordion',
           );
@@ -59,6 +60,8 @@ const InProductionEducationFiltering = () => {
     );
     await apiHideTooltip(tooltipId);
     setTooltipVisible(false);
+    const filterAccordionElement = document.getElementById('filter');
+    focusElement(filterAccordionElement);
   };
 
   return (

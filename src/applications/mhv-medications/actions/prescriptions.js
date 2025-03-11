@@ -8,9 +8,6 @@ import {
   getAllergies,
   getFilteredList,
   getRecentlyRequestedList,
-  getTooltipsList,
-  createTooltip,
-  incrementTooltipCounter,
 } from '../api/rxApi';
 import { isRefillTakingLongerThanExpected } from '../util/helpers';
 
@@ -175,67 +172,4 @@ export const fillPrescriptions = prescriptions => async dispatch => {
 
 export const clearFillNotification = () => async dispatch => {
   dispatch({ type: Actions.Prescriptions.CLEAR_FILL_NOTIFICATION });
-};
-
-export const getTooltips = () => async dispatch => {
-  try {
-    const response = await getTooltipsList();
-    dispatch({
-      type: Actions.Tooltip.GET_TOOLTIPS,
-      response,
-    });
-    return response;
-  } catch (error) {
-    dispatch({
-      type: Actions.Tooltip.GET_TOOLTIPS_ERROR,
-    });
-    return error;
-  }
-};
-
-export const createNewTooltip = () => async dispatch => {
-  try {
-    const response = await createTooltip();
-    dispatch({
-      type: Actions.Tooltip.CREATE_TOOLTIP,
-      response,
-    });
-    return response;
-  } catch (error) {
-    dispatch({
-      type: Actions.Tooltip.CREATE_TOOLTIP_ERROR,
-    });
-    return error;
-  }
-};
-
-export const incrementTooltip = tooltipId => async dispatch => {
-  try {
-    await incrementTooltipCounter(tooltipId);
-  } catch (error) {
-    dispatch({
-      type: Actions.Tooltip.INCREMENT_TOOLTIP_COUNTER_ERROR,
-      error,
-    });
-  }
-};
-
-export const updateTooltipVisibility = (
-  tooltipId,
-  hidden,
-) => async dispatch => {
-  try {
-    await updateTooltipVisibility(tooltipId, hidden);
-  } catch (error) {
-    dispatch({
-      type: Actions.Tooltip.UPDATE_TOOLTIP_VISIBILITY_ERROR,
-      error,
-    });
-  }
-};
-
-export const hideTooltip = () => {
-  return {
-    type: Actions.Tooltip.HIDE_TOOLTIP,
-  };
 };
