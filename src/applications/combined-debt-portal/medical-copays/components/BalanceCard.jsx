@@ -103,7 +103,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         className="vads-u-font-weight--bold"
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
-        aria-label={`Check details about this debt for ${facility}`}
+        aria-label={`Check details and resolve this debt for ${facility}`}
         onClick={() => {
           recordEvent({ event: 'cta-link-click-copay-balance-card' });
         }}
