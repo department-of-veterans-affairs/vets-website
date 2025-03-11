@@ -243,7 +243,7 @@
   "showOneVADebtLetter": "show_one_va_debt_letter",
   "showPaymentHistoryMVP": "show_payment_history_mvp",
   "showPaymentAndDebtSection": "show_payment_and_debt_section",
-  "showResolveCopay": "show_resolve_copay",
+  "showVHAPaymentHistory": "vha_show_payment_history",
   "showUpdatedFryDeaApp": "show_updated_fry_dea_app",
   "showUpdatedToeApp": "show_updated_toe_app",
   "signInServiceEnabled": "sign_in_service_enabled",

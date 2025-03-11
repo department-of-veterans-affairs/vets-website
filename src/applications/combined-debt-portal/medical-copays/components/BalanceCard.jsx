@@ -52,7 +52,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
   // boolean value to represent if toggles are still loading or not
   const togglesLoading = useToggleLoadingValue();
   // value of specific toggle
-  const showResolveCopayOption = useToggleValue(TOGGLE_NAMES.showResolveCopay);
+  const showResolveCopayOption = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
 
   const isCurrentBalance = verifyCurrentBalance(date);
   const linkText = isCurrentBalance
