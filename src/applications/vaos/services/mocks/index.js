@@ -11,6 +11,7 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
+const recentLocations = require('./v2/recent_locations.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
@@ -253,6 +254,17 @@ const responses = {
   'GET /vaos/v2/facilities': (req, res) => {
     const { ids } = req.query;
     const { children } = req.query;
+    const { sort_by } = req.query;
+
+    if (sort_by === 'recentLocations') {
+      return res.json({
+        data: recentLocations.data.filter(
+          facility =>
+            ids.includes(facility.id) ||
+            (children === 'true' && ids.some(id => facility.id.startsWith(id))),
+        ),
+      });
+    }
 
     return res.json({
       data: facilitiesV2.data.filter(
@@ -294,6 +306,7 @@ const responses = {
     const isDirect = req.query.type === 'direct';
     const ineligibilityReasons = [];
 
+    // Direct scheduling, Facility 983, not primaryCare
     if (
       isDirect &&
       req.query.facility_id.startsWith('984') &&
@@ -307,7 +320,13 @@ const responses = {
         ],
       });
     }
-    if (!isDirect && !req.query.facility_id.startsWith('983')) {
+
+    // Request, not Facility 983, not Facility 692 (OH)
+    if (
+      !isDirect &&
+      (!req.query.facility_id.startsWith('983') &&
+        !req.query.facility_id.startsWith('692'))
+    ) {
       ineligibilityReasons.push({
         coding: [
           {

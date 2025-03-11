@@ -26,23 +26,6 @@ function createFlipperFeatureSet(togglesCombinations, toggleNames) {
     return toggleSet;
   });
 }
-/**
- * Creates all possible flipper combinations in feature sets to see if there are interactions
- * @param {string[]} toggleNames array of strings (flipper names)
- * @returns 2d array of all possible flipper combinations in feature sets
- * (to be returned from mocked features endpoint)
- */
-export function featureCombinationsTogglesToTest(toggleNames = []) {
-  if (toggleNames.length === 0) {
-    return [];
-  }
-  const togglesCombinations = [];
-  for (let i = 0; i <= toggleNames.length; i++) {
-    const toggles = arrayChooseK(toggleNames, i);
-    togglesCombinations.push(...toggles);
-  }
-  return createFlipperFeatureSet(togglesCombinations, toggleNames);
-}
 
 // Used as: featureSet.some(isFeatureEnabled('featureName'))
 // to check if feature is enabled in the currently tested featureSet when
@@ -52,6 +35,30 @@ export function isFeatureEnabled(featureName) {
   return function isEnabled(feature) {
     return feature.name === featureName && feature.value;
   };
+}
+
+/**
+ * Creates all possible flipper combinations in feature sets to see if there are interactions
+ * @param {string[]} toggleNames array of strings (flipper names)
+ * @returns 2d array of all possible flipper combinations in feature sets
+ * (to be returned from mocked features endpoint)
+ */
+export function featureCombinationsTogglesToTest(
+  toggleNames = [],
+  requiredToggles = [],
+) {
+  if (toggleNames.length === 0) {
+    return [];
+  }
+  const togglesCombinations = [];
+  for (let i = 0; i <= toggleNames.length; i++) {
+    const toggles = arrayChooseK(toggleNames, i);
+    togglesCombinations.push(...toggles);
+  }
+  return createFlipperFeatureSet(togglesCombinations, toggleNames).filter(
+    features =>
+      requiredToggles.every(toggle => features.some(isFeatureEnabled(toggle))),
+  );
 }
 
 // Used in the block/describe/test message/name to show which features are enabled

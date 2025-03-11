@@ -40,6 +40,7 @@ export const dataDogActionNames = {
     PAGINATION: 'Pagination',
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.LIST}`,
     GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${pageType.LIST}`,
+    STOP_SHOWING_IPE_FILTERING_HINT: `In production education for filtering - Stop showing this hint`,
   },
   // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   landingPage: {
