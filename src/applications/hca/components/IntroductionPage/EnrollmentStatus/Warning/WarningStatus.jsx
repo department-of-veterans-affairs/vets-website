@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
-import { isValidDateString } from 'platform/utilities/date';
 import { formatDate } from '../../../../utils/helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../../../../utils/constants';
 import { selectEnrollmentStatus } from '../../../../utils/selectors';
@@ -27,12 +26,8 @@ const WarningStatus = () => {
 
   const formattedDates = useMemo(
     () => ({
-      applicationDate: isValidDateString(applicationDate)
-        ? formatDate(applicationDate, 'MMMM d, yyyy')
-        : null,
-      enrollmentDate: isValidDateString(enrollmentDate)
-        ? formatDate(enrollmentDate, 'MMMM d, yyyy')
-        : null,
+      applicationDate: formatDate(applicationDate, 'MMMM d, yyyy'),
+      enrollmentDate: formatDate(enrollmentDate, 'MMMM d, yyyy'),
     }),
     [applicationDate, enrollmentDate],
   );
