@@ -180,6 +180,10 @@ const generateDateRangeParagraph = (section, doc, data) => {
 const getAvailableRecordSets = recordSets => {
   return recordSets.filter(recordSet => {
     if (!recordSet.selected) return false;
+    // appointments records are broken into two sub-lists: past and upcoming
+    if (recordSet.type === 'appointments') {
+      return !recordSet.records.every(type => !type?.results?.items?.length);
+    }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length;
     }
@@ -193,6 +197,12 @@ const getAvailableRecordSets = recordSets => {
 const getUnavailableRecordSets = recordSets => {
   return recordSets.filter(recordSet => {
     if (!recordSet.selected) return false;
+    // appointments records are broken into two sub-lists: past and upcoming
+    if (recordSet.type === 'appointments') {
+      return recordSet.records.every(
+        type => type?.results?.items?.length === 0,
+      );
+    }
     if (Array.isArray(recordSet.records)) {
       return recordSet.records.length === 0;
     }

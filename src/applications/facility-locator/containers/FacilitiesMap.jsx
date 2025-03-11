@@ -25,15 +25,11 @@ import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
 import {
-  clearGeocodeError,
-  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  getProviderSpecialties,
-  geolocateUser,
   mapMoved,
   selectMobileMapPin,
   updateSearchQuery,
@@ -460,14 +456,10 @@ const FacilitiesMap = props => {
               <PpmsServiceError currentQuery={props.currentQuery} />
             ) : null}
             <SearchForm
-              clearGeocodeError={props.clearGeocodeError}
-              clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
               facilitiesUseAddressTypeahead={
                 props.facilitiesUseAddressTypeahead
               }
-              geolocateUser={props.geolocateUser}
-              getProviderSpecialties={props.getProviderSpecialties}
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
@@ -533,6 +525,7 @@ const FacilitiesMap = props => {
                         mobile={false}
                         mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
+                        selectMobileMapPin={props.selectMobileMapPin}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
@@ -563,6 +556,7 @@ const FacilitiesMap = props => {
                   mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  selectMobileMapPin={props.selectMobileMapPin}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                   smallDesktop
                   zoomMessageDivID={zoomMessageDivID}
@@ -605,6 +599,7 @@ const FacilitiesMap = props => {
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
+                        selectMobileMapPin={props.selectMobileMapPin}
                         shouldRenderSearchArea={
                           !!map && shouldRenderSearchArea()
                         }
@@ -652,6 +647,7 @@ const FacilitiesMap = props => {
                     mobileMapUpdateEnabled
                     results={results}
                     searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    selectMobileMapPin={props.selectMobileMapPin}
                     shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                     smallDesktop={false}
                     zoomMessageDivID={zoomMessageDivID}
@@ -893,14 +889,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  clearGeocodeError,
   clearSearchResults,
-  clearSearchText,
   fetchVAFacility,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  geolocateUser,
-  getProviderSpecialties,
   mapMoved,
   searchWithBounds,
   selectMobileMapPin,

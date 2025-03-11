@@ -184,46 +184,10 @@ export const fetchInstitutionPrograms = (facilityCode, programType) => {
   };
 };
 
-export function fetchAndFilterLacpResults( // new action for ss filter
-  name,
-  lacpType = 'all',
-  location = 'all',
-) {
-  const url = `${
-    api.url
-  }/lcpe/lacs?type=${lacpType}&location=${location}&name=${name}`; //
-
-  return dispatch => {
-    dispatch({ type: FETCH_LC_RESULTS_STARTED });
-
-    return fetch(url, api.settings)
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error(res.statusText);
-      })
-      .then(results => {
-        const { lacs } = results;
-
-        dispatch({
-          type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: lacs, // this list of lacps will be filtered based on the query parameters in the above url
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: FETCH_LC_RESULTS_FAILED,
-          payload: err.message,
-        });
-      });
-  };
-}
-
 export function filterLcResults(
   name,
   categories,
-  location,
+  location = 'all',
   previousResults = [],
 ) {
   return {
@@ -232,13 +196,16 @@ export function filterLcResults(
   };
 }
 
-export function fetchLicenseCertificationResults() {
+export function fetchLicenseCertificationResults(signal) {
   const url = `${api.url}/lcpe/lacs`;
 
   return dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
-    return fetch(url, api.settings)
+    return fetch(url, {
+      ...api.settings,
+      signal, // Add the signal to the fetch options
+    })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -247,27 +214,32 @@ export function fetchLicenseCertificationResults() {
       })
       .then(results => {
         const { lacs } = results;
-
         dispatch({
           type: FETCH_LC_RESULTS_SUCCEEDED,
           payload: lacs,
         });
       })
       .catch(err => {
-        dispatch({
-          type: FETCH_LC_RESULTS_FAILED,
-          payload: err.message,
-        });
+        // Only dispatch error if it's not an abort error
+        if (err.name !== 'AbortError') {
+          dispatch({
+            type: FETCH_LC_RESULTS_FAILED,
+            payload: err.message,
+          });
+        }
       });
   };
 }
 
-export function fetchLcResult(id) {
+export function fetchLcResult(id, signal) {
   return dispatch => {
     const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
-    return fetch(url, api.settings)
+    return fetch(url, {
+      ...api.settings,
+      signal,
+    })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -281,10 +253,12 @@ export function fetchLcResult(id) {
         });
       })
       .catch(err => {
-        dispatch({
-          type: FETCH_LC_RESULT_FAILED,
-          payload: err.message,
-        });
+        if (err.name !== 'AbortError') {
+          dispatch({
+            type: FETCH_LC_RESULT_FAILED,
+            payload: err.message,
+          });
+        }
       });
   };
 }

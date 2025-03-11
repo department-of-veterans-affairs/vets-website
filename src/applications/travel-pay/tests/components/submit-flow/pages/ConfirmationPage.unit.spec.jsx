@@ -35,17 +35,18 @@ describe('Confirmation page', () => {
     expect(screen.getByText('We’re processing your travel reimbursement claim'))
       .to.exist;
 
-    expect(
-      screen.container.querySelector(
-        '[href="/my-health/travel-pay/claims/"]',
-        '[text="Check your travel reimbursement claim status"]',
-      ),
-    ).to.exist;
+    expect($('va-link[href="/my-health/travel-pay/claims/"]')).to.exist;
+    expect($('va-link[text="Check your travel reimbursement claim status"]')).to
+      .exist;
 
     expect(
-      screen.container.querySelector(
-        '[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"]',
-        '[text="Learn how to set up direct deposit for travel pay reimbursement"]',
+      $(
+        'va-link[href="/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/"]',
+      ),
+    ).to.exist;
+    expect(
+      $(
+        'va-link[text="Learn how to set up direct deposit for travel pay reimbursement"]',
       ),
     ).to.exist;
 
@@ -77,11 +78,7 @@ describe('Confirmation page', () => {
     expect(screen.getByText('We’re processing your travel reimbursement claim'))
       .to.exist;
 
-    expect(
-      screen.queryAllByText((_, element) =>
-        element.textContent.includes('with First Middle Last'),
-      ),
-    ).to.not.be.empty;
+    expect(screen.getByText(/with First Middle Last/i)).to.exist;
   });
 
   it('should render a loading spinner while claim is submitting', () => {

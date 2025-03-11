@@ -22,7 +22,7 @@ const HealthCareCTA = ({
     applyForVAHealthcare: '/health-care/apply-for-health-care-form-10-10ez/',
     myHealthEVet: '/my-health/',
     inbox: mhvUrl(authenticatedWithSSOe, 'secure-messaging'),
-    appointments: 'my-health/appointments/',
+    appointments: '/my-health/appointments/',
     refillPrescriptions: mhvUrl(
       authenticatedWithSSOe,
       'web/myhealthevet/refill-prescriptions',
