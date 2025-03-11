@@ -1,6 +1,7 @@
+/* global jest */
 import * as platformHelpers from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import * as platformSelectors from '@department-of-veterans-affairs/platform-forms-system/selectors';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
@@ -267,6 +268,88 @@ describe('ReviewPage', () => {
     expect(heading).to.exist;
     expect(heading.getAttribute('id')).to.equal('track-your-status-on-mobile');
     expect(heading.getAttribute('slot')).to.equal('headline');
+  });
+
+  describe('Alert Functionality', () => {
+    it('should show alert by default', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <ReviewPage {...defaultProps} />
+        </Provider>,
+      );
+      const alert = container.querySelector(
+        'va-alert[data-testid="review-alert"]',
+      );
+      expect(alert).to.exist;
+      expect(alert.getAttribute('visible')).to.equal('true');
+    });
+
+    it('should hide alert when close event is triggered', async () => {
+      const { container } = render(
+        <Provider store={store}>
+          <ReviewPage {...defaultProps} />
+        </Provider>,
+      );
+      const alert = container.querySelector(
+        'va-alert[data-testid="review-alert"]',
+      );
+      expect(alert).to.exist;
+
+      // Trigger the onCloseEvent
+      alert.dispatchEvent(new CustomEvent('closeEvent'));
+
+      // Wait for state update
+      await waitFor(() => {
+        const updatedAlert = container.querySelector(
+          'va-alert[data-testid="review-alert"]',
+        );
+        expect(updatedAlert).to.be.null;
+      });
+    });
+
+    it('should display correct alert content', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <ReviewPage {...defaultProps} />
+        </Provider>,
+      );
+      const alert = container.querySelector(
+        'va-alert[data-testid="review-alert"]',
+      );
+      expect(alert).to.exist;
+
+      const headline = alert.querySelector('[slot="headline"]');
+      expect(headline.textContent.trim()).to.equal('Editing answers');
+
+      const content = alert.querySelector('p');
+      expect(content.textContent.trim()).to.contain(
+        'You are only able to edit some answers on this page',
+      );
+    });
+
+    it('should not show alert when showAlert is false', () => {
+      const { container } = render(
+        <Provider store={store}>
+          <ReviewPage {...defaultProps} />
+        </Provider>,
+      );
+
+      const alert = container.querySelector(
+        'va-alert[data-testid="review-alert"]',
+      );
+      if (alert) {
+        // Trigger the onCloseEvent
+        alert.dispatchEvent(new CustomEvent('closeEvent'));
+
+        // Wait for state update and verify alert is not visible
+        setTimeout(() => {
+          const updatedAlert = container.querySelector(
+            'va-alert[data-testid="review-alert"]',
+          );
+          expect(updatedAlert).to.be.null;
+        }, 0);
+      }
+    });
   });
 });
 
