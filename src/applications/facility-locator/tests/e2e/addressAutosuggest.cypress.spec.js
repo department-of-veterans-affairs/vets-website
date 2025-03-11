@@ -3,11 +3,6 @@ import mapboxMockData from './autosuggest-data/mapbox.json';
 describe('Facility Locator Address Autosuggest provides correct results from mapbox data', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/geocoding/**', mapboxMockData).as('mapbox');
-    cy.intercept('GET', '/v0/feature_toggles?*', {
-      data: {
-        features: [],
-      },
-    });
     cy.intercept('GET', '/v0/maintenance_windows', []);
   });
 

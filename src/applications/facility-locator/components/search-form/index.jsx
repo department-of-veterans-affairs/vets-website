@@ -20,7 +20,7 @@ import { SearchFormTypes } from '../../types';
 import BottomRow from './BottomRow';
 import FacilityType from './facility-type';
 import ServiceType from './service-type';
-import AddressAutosuggest from './location';
+import AddressAutosuggest from './location/AddressAutosuggest';
 
 export const SearchForm = props => {
   const {
