@@ -27,6 +27,7 @@ describe('Medications List Page ToolTip for Filtering', () => {
     listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
     listPage.clickToolTipCloseButtonOnListPage();
     listPage.verifyToolTipNotVisibleOnListPage();
+    listPage.verifyFilterAccordionDropDownIsFocused();
     cy.injectAxe();
     cy.axeCheck('main');
   });
@@ -34,6 +35,7 @@ describe('Medications List Page ToolTip for Filtering', () => {
     listPage.verifyToolTipTextOnListPage(Data.TOOL_TIP_TEXT);
     listPage.clickStopShowingThisHintLinkOnListPage();
     listPage.verifyToolTipNotVisibleOnListPage();
+    listPage.verifyFilterAccordionDropDownIsFocused();
     cy.injectAxe();
     cy.axeCheck('main');
   });

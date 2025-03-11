@@ -953,6 +953,10 @@ class MedicationsListPage {
       force: true,
     });
   };
+
+  verifyFilterAccordionDropDownIsFocused = () => {
+    cy.get('[data-testid="rx-filter"]').should('have.focus');
+  };
 }
 
 export default MedicationsListPage;
