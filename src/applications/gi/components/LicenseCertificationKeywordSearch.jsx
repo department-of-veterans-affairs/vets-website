@@ -61,8 +61,9 @@ export default function LicenseCertificationKeywordSearch({
                 disableBorder={false}
               >
                 Using more specific keywords can help narrow down your search
-                results. For example, searching for "Microsoft Azure" will give
-                you more targeted results than searching for only "Microsoft."
+                results. For example, searching for "Doctor of Chiropractic"
+                will give you more targeted results than searching for only
+                "Doctor."
               </VaAdditionalInfo>
             </div>
             <div className="vads-u-display--flex input-container">
