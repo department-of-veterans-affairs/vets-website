@@ -12,6 +12,7 @@ const randomInput = 'Random Input To be Cleared';
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
   'facilities_use_address_typeahead',
+  'facility_locator_mobile_map_update',
 ]);
 
 Cypress.Commands.add('checkClearInput', clearInputSelector => {
@@ -27,7 +28,7 @@ Cypress.Commands.add('checkClearInput', clearInputSelector => {
   cy.get('#street-city-state-zip').should('have.value', '');
 });
 
-Cypress.Commands.add('checkSearch', () => {
+Cypress.Commands.add('checkSearch', isMobileMapUpdateEnabled => {
   cy.axeCheck();
 
   // Search
@@ -50,16 +51,31 @@ Cypress.Commands.add('checkSearch', () => {
   cy.get('#search-results-subheader', { timeout: 10000 }).should('exist');
 
   // Tabs
-  cy.get('#react-tabs-0').contains('View List');
-  cy.get('#react-tabs-2').contains('View Map');
-
+  if (!isMobileMapUpdateEnabled) {
+    cy.get('#react-tabs-0').contains('View List');
+    cy.get('#react-tabs-2').contains('View Map');
+  } else {
+    cy.get("button.segment[role='tab']")
+      .eq(0)
+      .contains('View List');
+    cy.get("button.segment[role='tab']")
+      .eq(1)
+      .contains('View Map');
+  }
   // Result list
   cy.get('.facility-result').should('exist');
 
   // Switch tab map
-  cy.get('#react-tabs-2')
-    .should('not.be.disabled')
-    .click({ waitForAnimations: true });
+  if (!isMobileMapUpdateEnabled) {
+    cy.get('#react-tabs-2')
+      .should('not.be.disabled')
+      .click({ waitForAnimations: true });
+  } else {
+    cy.get("button.segment[role='tab']")
+      .eq(1)
+      .should('not.be.disabled')
+      .click({ waitForAnimations: true });
+  }
 
   // Ensure map is visible
   cy.get('#mapbox-gl-container').should('be.visible');
@@ -70,17 +86,28 @@ Cypress.Commands.add('checkSearch', () => {
     .contains('1');
 
   // Back to Result list
-  cy.get('#react-tabs-0').click();
+  if (!isMobileMapUpdateEnabled) {
+    cy.get('#react-tabs-0').click();
+  } else {
+    cy.get("button.segment[role='tab']")
+      .eq(0)
+      .click();
+  }
   cy.get('#street-city-state-zip').clear();
 });
 
 for (const featureSet of featureSetsToTest) {
-  const clearInputSelector = featureSet.some(
-    isFeatureEnabled('facilities_use_address_typeahead'),
-  )
-    ? '#clear-street-city-state-zip'
-    : '#clear-input';
   describe(`Mobile ${enabledFeatures(featureSet)}`, () => {
+    const clearInputSelector = featureSet.some(
+      isFeatureEnabled('facilities_use_address_typeahead'),
+    )
+      ? '#clear-street-city-state-zip'
+      : '#clear-input';
+
+    const isMobileMapUpdateEnabled = featureSet.some(
+      isFeatureEnabled('facility_locator_mobile_map_update'),
+    );
+
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles?*', {
         data: {
@@ -95,29 +122,31 @@ for (const featureSet of featureSetsToTest) {
       cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
     });
 
-    it('should render in mobile layouts, clear input checks and tabs actions work', () => {
+    it(`should render in mobile layouts, clear input checks and ${
+      isMobileMapUpdateEnabled ? 'control group' : 'tabs'
+    } actions work`, () => {
       cy.visit('/find-locations');
       cy.injectAxe();
 
       // iPhone X
       cy.viewport(400, 812);
       cy.checkClearInput(clearInputSelector);
-      cy.checkSearch();
+      cy.checkSearch(isMobileMapUpdateEnabled);
 
       // iPhone 6/7/8 plus
       cy.viewport(414, 736);
       cy.checkClearInput(clearInputSelector);
-      cy.checkSearch();
+      cy.checkSearch(isMobileMapUpdateEnabled);
 
       // Pixel 2
       cy.viewport(411, 731);
       cy.checkClearInput(clearInputSelector);
-      cy.checkSearch();
+      cy.checkSearch(isMobileMapUpdateEnabled);
 
       // Galaxy S5/Moto
       cy.viewport(360, 640);
       cy.checkClearInput(clearInputSelector);
-      cy.checkSearch();
+      cy.checkSearch(isMobileMapUpdateEnabled);
     });
 
     // [W,H, width of #facility-search, +/- range (this matters for CI) where it gets confused how to apply style sheets]
@@ -167,7 +196,12 @@ for (const featureSet of featureSetsToTest) {
         } else if (size[0] > phoneOrGreater) {
           cy.get('#vertical-oriented-left-controls').should('not.exist');
           cy.get('.tablet-results-map-container').should('not.exist');
-          cy.get('.react-tabs').should('exist');
+          if (!isMobileMapUpdateEnabled) {
+            cy.get('.react-tabs').should('exist');
+          } else {
+            cy.get('.react-tabs').should('not.exist');
+            cy.get('.segmented-control-container').should('exist');
+          }
         }
       });
     });

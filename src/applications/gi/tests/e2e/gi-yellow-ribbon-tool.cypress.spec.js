@@ -33,8 +33,10 @@ describe('GI Bill Comparison Tool - Yellow Ribbon Tool', () => {
     //   cy.injectAxeThenAxeCheck();
     cy.get('a[href="#yellow-ribbon-program-information"]')
       .should('exist')
-      .and('contain', 'Yellow Ribbon Program information');
-    cy.get('a[href="#yellow-ribbon-program-information"]').click();
+      .and('contain', 'Yellow Ribbon Program information')
+      .first() // Ensure only the first link is clicked
+      .click();
+
     cy.get('#yellow-ribbon-program-information')
       .should('exist')
       .and('be.visible');
