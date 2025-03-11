@@ -22,11 +22,13 @@ describe('<AskVAPage>', () => {
     const router = getRouter();
 
     const { container } = renderWithRouter(
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
     expect($('va-checkbox', container).getAttribute('checked')).to.equal(
       'false',
@@ -39,11 +41,13 @@ describe('<AskVAPage>', () => {
     const router = getRouter();
 
     const { container, rerender } = renderWithRouter(
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('.button-primary', container).getAttribute('disabled')).to.exist;
@@ -55,11 +59,13 @@ describe('<AskVAPage>', () => {
 
     rerenderWithRouter(
       rerender,
-      <AskVAPage
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('.button-primary', container).getAttribute('disabled')).to.not
@@ -72,12 +78,14 @@ describe('<AskVAPage>', () => {
     };
 
     const { container } = renderWithRouter(
-      <AskVAPage
-        loadingDecisionRequest
-        decisionRequestError={null}
-        params={{ id: 1 }}
-        router={router}
-      />,
+      <Provider store={store}>
+        <AskVAPage
+          loadingDecisionRequest
+          decisionRequestError={null}
+          params={{ id: 1 }}
+          router={router}
+        />
+      </Provider>,
     );
 
     expect($('.button-primary', container).getAttribute('disabled')).to.exist;
