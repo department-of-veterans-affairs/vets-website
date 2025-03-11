@@ -14,7 +14,10 @@ import {
   getPageKeys,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
-import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
+import {
+  isLOA3,
+  isLoggedIn,
+} from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -223,7 +226,7 @@ const ReviewPage = props => {
       props.askVA,
     );
 
-    if (props.loggedIn) {
+    if (props.loggedIn && props.isUserLOA3) {
       // auth call
       postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
     } else {
@@ -274,7 +277,10 @@ const ReviewPage = props => {
   }, []);
 
   return (
-    <article className="vads-u-padding-x--2p5 vads-u-padding-bottom--7">
+    <article
+      className="vads-u-padding-x--2p5 vads-u-padding-bottom--7"
+      data-testid="review-page"
+    >
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
       <div className="vads-u-margin-y--3">
@@ -285,6 +291,7 @@ const ReviewPage = props => {
             onCloseEvent={() => setShowAlert(false)}
             status="info"
             visible
+            data-testid="review-alert"
           >
             <h3 id="track-your-status-on-mobile" slot="headline">
               Editing answers
@@ -299,7 +306,7 @@ const ReviewPage = props => {
           </VaAlert>
         ) : null}
       </div>
-      <VaAccordion>
+      <VaAccordion data-testid="review-accordion">
         {props.chapters
           .filter(chapter => chapter.name === 'categoryTopics')
           .map(chapter => {
@@ -312,6 +319,7 @@ const ReviewPage = props => {
                 id={chapter.name}
                 open
                 className="vads-u-margin-bottom--2"
+                data-testid={`review-chapter-${chapter.name}`}
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -487,7 +495,8 @@ const ReviewPage = props => {
                         {
                           name: 'Social Security number',
                           data: maskSocial(
-                            props.formData.aboutYourself.socialOrServiceNum.ssn,
+                            props.formData.aboutYourself.socialOrServiceNum
+                              ?.ssn,
                           ),
                           key: 'aboutYourselfRelationshipFamilyMember',
                         },
@@ -495,7 +504,7 @@ const ReviewPage = props => {
                           name: 'Service Number',
                           data:
                             props.formData.aboutYourself.socialOrServiceNum
-                              .serviceNumber,
+                              ?.serviceNumber,
                           key: 'aboutYourselfGeneral',
                         },
                         {
@@ -1075,53 +1084,56 @@ const ReviewPage = props => {
                   viewedPages={new Set(getPageKeysForReview(formConfig))}
                   hasUnviewedPages={chapter.hasUnviewedPages}
                 />
-                {props.formData.allowAttachments && (
-                  <div
-                    className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
-                    aria-hidden="false"
-                  >
-                    <div className="form-review-panel-page vads-u-margin-bottom--0">
-                      <div name="questionScrollElement" />
-                      <form className="rjsf">
-                        <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
-                          <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
-                            <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
-                              {!editAttachments ? (
-                                nonEditAttachmentsMode(attachments.length)
-                              ) : (
-                                <>
-                                  {attachments.map(file => (
-                                    <div
-                                      key={`${file.fileID}-${
-                                        file.fileName
-                                      }-edit`}
-                                      className="review-page-attachments"
-                                    >
-                                      <dt className="form-review-panel-page-header">
-                                        {`${file.fileName} (${file.fileSize})`}
-                                      </dt>
-                                      <dd className="vads-u-margin-right--0">
-                                        <va-button-icon
-                                          button-type="delete"
-                                          onClick={() =>
-                                            deleteFile(file.fileID)
-                                          }
-                                        />
-                                      </dd>
+                {props.formData.allowAttachments &&
+                  props.loggedIn && (
+                    <div
+                      className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
+                      aria-hidden="false"
+                    >
+                      <div className="form-review-panel-page vads-u-margin-bottom--0">
+                        <div name="questionScrollElement" />
+                        <form className="rjsf">
+                          <div className="vads-u-width--full vads-u-justify-content--space-between vads-u-align-items--center">
+                            <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
+                              <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
+                                {!editAttachments ? (
+                                  nonEditAttachmentsMode(attachments.length)
+                                ) : (
+                                  <>
+                                    {attachments.map(file => (
+                                      <div
+                                        key={`${file.fileID}-${
+                                          file.fileName
+                                        }-edit`}
+                                        className="review-page-attachments"
+                                      >
+                                        <dt className="form-review-panel-page-header">
+                                          {`${file.fileName} (${
+                                            file.fileSize
+                                          })`}
+                                        </dt>
+                                        <dd className="vads-u-margin-right--0">
+                                          <va-button-icon
+                                            button-type="delete"
+                                            onClick={() =>
+                                              deleteFile(file.fileID)
+                                            }
+                                          />
+                                        </dd>
+                                      </div>
+                                    ))}
+                                    <div className="vads-u-margin-y--2">
+                                      <FileUpload />
                                     </div>
-                                  ))}
-                                  <div className="vads-u-margin-y--2">
-                                    <FileUpload />
-                                  </div>
-                                </>
-                              )}
+                                  </>
+                                )}
+                              </dl>
                             </dl>
-                          </dl>
-                        </div>
-                      </form>
+                          </div>
+                        </form>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </VaAccordionItem>
             );
           })}
@@ -1142,6 +1154,7 @@ const ReviewPage = props => {
 function mapStateToProps(state, ownProps) {
   const { formContext } = ownProps;
   const loggedIn = isLoggedIn(state);
+  const isUserLOA3 = isLOA3(state);
   const { form, askVA } = state;
   const formData = form.data;
   const { openChapters } = askVA.reviewPageView;
@@ -1210,6 +1223,7 @@ function mapStateToProps(state, ownProps) {
     loggedIn,
     openChapterList: state.askVA.reviewPageView.openChapters,
     askVA: state.askVA,
+    isUserLOA3,
   };
 }
 
@@ -1221,6 +1235,7 @@ ReviewPage.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   loggedIn: PropTypes.bool,
+  isUserLOA3: PropTypes.bool,
 };
 
 const mapDispatchToProps = {
