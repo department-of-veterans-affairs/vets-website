@@ -4,7 +4,7 @@ import { formatCurrency } from '../../utils/helpers/general';
 
 const PreviousIncome = props => {
   const { formData, incomeType, isVeteran } = props;
-  const { previousFinancialInfo } = formData.nonPrefill;
+  const { previousFinancialInfo } = formData;
   const { veteranFinancialInfo, spouseFinancialInfo } = previousFinancialInfo;
   const incomeYear = isVeteran
     ? veteranFinancialInfo?.incomeYear

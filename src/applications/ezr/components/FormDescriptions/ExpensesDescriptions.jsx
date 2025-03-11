@@ -4,14 +4,13 @@ import { formatCurrency } from '../../utils/helpers/general';
 
 const PreviousExpenses = props => {
   const { formData, expensesType } = props;
-  const { nonPrefill } = formData;
+  const { nonPrefill: previousFinancialInfo } = formData;
   const expensesText = {
     deductibleMedicalExpenses: 'non-reimbursable medical',
     deductibleEducationExpenses: 'education',
     deductibleFuneralExpenses: 'funeral and burial',
   };
-  const veteranFinancialInfo =
-    nonPrefill?.previousFinancialInfo?.veteranFinancialInfo;
+  const veteranFinancialInfo = previousFinancialInfo?.veteranFinancialInfo;
   const incomeYear = veteranFinancialInfo?.incomeYear;
   const expense = veteranFinancialInfo?.[`${expensesType}`];
 
