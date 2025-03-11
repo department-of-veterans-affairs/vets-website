@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, parseISO, isValid } from 'date-fns';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 /**
@@ -21,8 +21,9 @@ export const createLiteralMap = arrayToMap =>
  * @returns {String} - the formatted date string
  */
 export const formatDate = (val, str) => {
-  const cleanDate = val.includes('T') ? val.split('T')[0] : val;
-  return format(new Date(cleanDate.replace(/-/g, '/')), str);
+  if (!val) return null;
+  const parsedDate = parseISO(val);
+  return isValid(parsedDate) ? format(parsedDate, str) : null;
 };
 
 /**

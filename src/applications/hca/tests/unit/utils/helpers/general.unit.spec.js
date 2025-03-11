@@ -52,6 +52,17 @@ describe('hca `formatDate` method', () => {
     const result = formatDate(value, 'yyyy-MM-dd');
     expect(result).to.equal('2024-11-19');
   });
+
+  it('should correctly handle an invalid date string', () => {
+    const value = '2024/11/19';
+    const result = formatDate(value, 'yyyy-MM-dd');
+    expect(result).to.be.null;
+  });
+
+  it('should correctly handle a `null` value', () => {
+    const result = formatDate(null, 'yyyy-MM-dd');
+    expect(result).to.be.null;
+  });
 });
 
 describe('hca `maskSSN` method', () => {
