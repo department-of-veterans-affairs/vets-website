@@ -13,6 +13,8 @@ import {
   incrementTooltipCounter,
 } from '../../api/rxApi';
 
+export const RX_IPE_FILTERING_DESCRIPTION_ID = 'rx-ipe-filtering-description';
+
 const InProductionEducationFiltering = () => {
   const [tooltipVisible, setTooltipVisible] = useState(null);
   const [tooltipId, setTooltipId] = useState(null);
@@ -74,7 +76,10 @@ const InProductionEducationFiltering = () => {
           data-testid="rx-ipe-filtering-container"
           className="vads-u-margin-top--3 vads-u-padding--2p5"
         >
-          <p className="vads-u-margin--0 vads-u-padding-right--5">
+          <p
+            className="vads-u-margin--0 vads-u-padding-right--5"
+            id={RX_IPE_FILTERING_DESCRIPTION_ID}
+          >
             Filter the medications list to easily find what you are looking for.
           </p>
           <VaButton
@@ -83,16 +88,27 @@ const InProductionEducationFiltering = () => {
             text="Stop showing this hint"
             data-testid="rx-ipe-filtering-stop-showing-this-hint"
             onClick={handleStopShowing}
+            aria-describedby="rx-ipe-filtering-stop-showing-this-hint-info"
           />
-          <VaIcon
-            size={3}
-            icon="cancel"
+          <span
+            id="rx-ipe-filtering-stop-showing-this-hint-info"
+            className="sr-only"
+          >
+            This hint for filtering will not appear anymore
+          </span>
+          <button
+            aria-label="Dismiss filtering hint"
             id="rx-ipe-filtering-close"
             data-testid="rx-ipe-filtering-close"
             onClick={handleStopShowing}
-            aria-label="Close button - Stop showing this hint"
-            role="img"
-          />
+          >
+            <VaIcon
+              size={3}
+              icon="cancel"
+              onClick={handleStopShowing}
+              role="img"
+            />
+          </button>
         </div>
       )}
     </>
