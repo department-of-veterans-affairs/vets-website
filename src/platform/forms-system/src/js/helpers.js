@@ -818,24 +818,34 @@ export function getUrlPathIndex(url) {
  * @returns {string}
  */
 export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
-  let pageConfigPath = urlPath;
-
   if (!urlPath) {
-    return pageConfigPath;
+    return urlPath;
   }
 
-  if (rootUrl && urlPath.startsWith(rootUrl)) {
-    pageConfigPath = urlPath.substring(rootUrl.length);
+  try {
+    let pageConfigPath = urlPath;
+    let root = rootUrl;
+
+    pageConfigPath = pageConfigPath.split('/').filter(Boolean);
+
+    if (root) {
+      root = root.split('/').filter(Boolean);
+
+      pageConfigPath = pageConfigPath.reduce((acc, _, index) => {
+        if (pageConfigPath[index] !== root[index]) {
+          acc.push(pageConfigPath[index]);
+        }
+        return acc;
+      }, []);
+    }
+
+    pageConfigPath = pageConfigPath.join('/');
+
+    // change path/0/name to path/:index/name
+    // change path/0 to path/:index
+    // keep path/name as path/name
+    return pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
+  } catch {
+    return urlPath;
   }
-
-  if (pageConfigPath.startsWith('/')) {
-    pageConfigPath = pageConfigPath.substring(1);
-  }
-
-  // change path/0/name to path/:index/name
-  // change path/0 to path/:index
-  // keep path/name as path/name
-  pageConfigPath = pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
-
-  return pageConfigPath;
 }

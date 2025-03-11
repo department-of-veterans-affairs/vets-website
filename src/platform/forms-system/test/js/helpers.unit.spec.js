@@ -1319,8 +1319,30 @@ describe('convertUrlPathToPageConfigPath', () => {
     expectedPagePath = 'mental-health/:index/events-details';
     expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
 
+    urlPath = '/mental-health/0';
+    expectedPagePath = 'mental-health/:index';
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
+    urlPath = 'mental-health/0/';
+    expectedPagePath = 'mental-health/:index';
+    expect(convertUrlPathToPageConfigPath(urlPath)).to.equal(expectedPagePath);
+
     urlPath = '/root-form/specific-name/mental-health/0/events-details';
-    const rootUrl = '/root-form/specific-name';
+    let rootUrl = '/root-form/specific-name';
+    expectedPagePath = 'mental-health/:index/events-details';
+    expect(convertUrlPathToPageConfigPath(urlPath, rootUrl)).to.equal(
+      expectedPagePath,
+    );
+
+    urlPath = '/root-form/specific-name/mental-health/0/events-details';
+    rootUrl = 'root-form/specific-name/';
+    expectedPagePath = 'mental-health/:index/events-details';
+    expect(convertUrlPathToPageConfigPath(urlPath, rootUrl)).to.equal(
+      expectedPagePath,
+    );
+
+    urlPath = 'root-form/specific-name/mental-health/0/events-details';
+    rootUrl = '/root-form/specific-name/';
     expectedPagePath = 'mental-health/:index/events-details';
     expect(convertUrlPathToPageConfigPath(urlPath, rootUrl)).to.equal(
       expectedPagePath,
