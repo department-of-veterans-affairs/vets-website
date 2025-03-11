@@ -20,3 +20,6 @@ export const selectRefillProgressFlag = state =>
 
 export const selectRemoveLandingPageFlag = state =>
   state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsRemoveLandingPage];
+
+export const selectIPEContentFlag = state =>
+  state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicationsShowIpeContent];
