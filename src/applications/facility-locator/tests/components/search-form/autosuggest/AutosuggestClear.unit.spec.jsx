@@ -37,7 +37,7 @@ describe('<Autosuggest inputId="any">', () => {
         showDownCaret
       />,
     );
-    expect(screen.getByTestId('input-with-clear')).to.be.displayed;
+    expect(screen.getByTestId('any-input-with-clear')).to.be.displayed;
     fireEvent.focus(screen.getByTestId('any-input-with-clear'));
     fireEvent.blur(screen.getByTestId('any-input-with-clear'));
     fireEvent.click(screen.getByTestId('any-down-caret'));
