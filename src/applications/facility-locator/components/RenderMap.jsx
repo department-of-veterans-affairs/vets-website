@@ -34,7 +34,6 @@ const RenderMap = forwardRef(
       const mapInstructionsElement = document.getElementById(
         'map-instructions',
       );
-
       if (mapInstructionsElement) {
         mapInstructionsElement.innerText =
           'Search areas on the map up to a maximum of 500 miles. ' +
@@ -46,12 +45,20 @@ const RenderMap = forwardRef(
     return (
       <>
         {!isSearching && (results?.length || 0) > 0 ? (
-          <h2 className="sr-only">Map of Results</h2>
+          <h2 data-testid="map-of-results-sr" className="sr-only">
+            Map of Results
+          </h2>
         ) : null}
         <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
-        <p className="sr-only" id="map-instructions" aria-live="assertive" />
+        <p
+          className="sr-only"
+          id="map-instructions"
+          data-testid="map-instructions"
+          aria-live="assertive"
+        />
         <div
           id={mapboxGlContainer}
+          data-testid={mapboxGlContainer}
           role="application"
           aria-label="Find VA locations on an interactive map"
           aria-describedby="map-instructions"

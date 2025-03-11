@@ -30,6 +30,7 @@ import { EMPTY_FIELD } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
 import CallPharmacyPhone from '../shared/CallPharmacyPhone';
+import ProcessList from '../shared/ProcessList';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -55,6 +56,9 @@ const VaPrescription = prescription => {
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+  const showTrackingAlert =
+    prescription?.trackingList?.[0] &&
+    prescription?.dispStatus === 'Active: Submitted';
   const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
   const determineStatus = () => {
@@ -83,6 +87,52 @@ const VaPrescription = prescription => {
     }
   };
 
+  const stepGuideProps = {
+    prescription,
+    title: showTrackingAlert
+      ? 'Check the status of your next refill'
+      : 'Refill request status',
+    pharmacyPhone,
+    isRefillRunningLate,
+  };
+
+  const displayTrackingAlert = () => {
+    if (showRefillProgressContent && showTrackingAlert) {
+      return (
+        <>
+          {latestTrackingStatus && (
+            <TrackingInfo
+              {...latestTrackingStatus}
+              prescriptionName={prescription.prescriptionName}
+            />
+          )}
+        </>
+      );
+    }
+    if (!showRefillProgressContent) {
+      return (
+        <>
+          {latestTrackingStatus && (
+            <TrackingInfo
+              {...latestTrackingStatus}
+              prescriptionName={prescription.prescriptionName}
+            />
+          )}
+        </>
+      );
+    }
+    return <></>;
+  };
+
+  const getPrescriptionStatusHeading = () => {
+    if (!isRefillRunningLate) {
+      return '';
+    }
+    return latestTrackingStatus
+      ? 'Check the status of your next refill'
+      : 'Refill request status';
+  };
+
   const content = () => {
     if (prescription) {
       return (
@@ -98,59 +148,55 @@ const VaPrescription = prescription => {
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
               <>
-                {latestTrackingStatus && (
-                  <TrackingInfo
-                    {...latestTrackingStatus}
-                    prescriptionName={prescription.prescriptionName}
-                  />
-                )}
+                {displayTrackingAlert()}
                 <h2 className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--2">
                   About your prescription
                 </h2>
                 {prescription && <ExtraDetails {...prescription} />}
               </>
             )}
-            {showRefillContent && prescription?.isRefillable ? (
-              <Link
-                // TODO: clean after grouping flag is gone
-                className={`${
-                  !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
-                }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                to="/refill"
-                data-testid="refill-nav-link"
-                data-dd-action-name={
-                  dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                }
-              >
-                {/* TODO: clean after grouping flag is gone */}
-                {!showGroupingContent &&
-                  `${hasBeenDispensed ? 'Refill' : 'Fill'} this prescription`}
-                {showGroupingContent &&
-                  `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-              </Link>
-            ) : (
-              <FillRefillButton {...prescription} />
+            {/* TODO: clean after refill progress content flag is gone */}
+            {!showRefillProgressContent && (
+              <>
+                {showRefillContent && prescription?.isRefillable ? (
+                  <Link
+                    // TODO: clean after grouping flag is gone
+                    className={`${
+                      !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
+                    }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
+                    to="/refill"
+                    data-testid="refill-nav-link"
+                    data-dd-action-name={
+                      dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                    }
+                  >
+                    {/* TODO: clean after grouping flag is gone */}
+                    {!showGroupingContent &&
+                      `${
+                        hasBeenDispensed ? 'Refill' : 'Fill'
+                      } this prescription`}
+                    {showGroupingContent &&
+                      `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                  </Link>
+                ) : (
+                  <FillRefillButton {...prescription} />
+                )}
+              </>
             )}
             {/* TODO: clean after grouping flag is gone */}
             {showGroupingContent && (
               <>
-                {latestTrackingStatus && (
-                  <TrackingInfo
-                    {...latestTrackingStatus}
-                    prescriptionName={prescription.prescriptionName}
-                  />
+                {displayTrackingAlert()}
+
+                {isRefillRunningLate && (
+                  <h2
+                    className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                    data-testid="check-status-text"
+                  >
+                    {getPrescriptionStatusHeading()}
+                  </h2>
                 )}
-                {showRefillProgressContent &&
-                  isRefillRunningLate && (
-                    <h2
-                      className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
-                      data-testid="check-status-text"
-                    >
-                      {latestTrackingStatus
-                        ? 'Check the status of your next refill'
-                        : 'Refill request status'}
-                    </h2>
-                  )}
+
                 {showRefillProgressContent &&
                   isRefillRunningLate && (
                     <VaAlert
@@ -179,6 +225,12 @@ const VaPrescription = prescription => {
                       </p>
                     </VaAlert>
                   )}
+                {showRefillProgressContent && (
+                  <>
+                    <ProcessList stepGuideProps={stepGuideProps} />
+                    <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
+                  </>
+                )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
                   data-testid="recent-rx"
@@ -189,6 +241,35 @@ const VaPrescription = prescription => {
                     <>Most recent prescription</>
                   )}
                 </h2>
+                {/* TODO: clean after refill progress content flag is gone */}
+                {showRefillProgressContent && (
+                  <>
+                    {showRefillContent && prescription?.isRefillable ? (
+                      <Link
+                        // TODO: clean after grouping flag is gone
+                        className={`${
+                          !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
+                        }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
+                        to="/refill"
+                        data-testid="refill-nav-link"
+                        data-dd-action-name={
+                          dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                        }
+                      >
+                        {/* TODO: clean after grouping flag is gone */}
+                        {!showGroupingContent &&
+                          `${
+                            hasBeenDispensed ? 'Refill' : 'Fill'
+                          } this prescription`}
+                        {showGroupingContent &&
+                          `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                      </Link>
+                    ) : (
+                      <FillRefillButton {...prescription} />
+                    )}
+                  </>
+                )}
+
                 {prescription && <ExtraDetails {...prescription} />}
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescription number

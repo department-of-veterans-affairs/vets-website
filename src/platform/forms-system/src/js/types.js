@@ -249,7 +249,7 @@
  *   'ui:objectViewField'?: React.ReactNode,
  *   'ui:options'?: UIOptions,
  *   'ui:order'?: string[],
- *   'ui:required'?: (formData: any, index: number) => boolean,
+ *   'ui:required'?: (formData: any, index: number, fullData: any) => boolean,
  *   'ui:reviewField'?: React.ReactNode,
  *   'ui:reviewWidget'?: React.ReactNode,
  *   'ui:title'?: string | JSX.Element | React.ReactNode,
@@ -361,6 +361,7 @@
  *   enum?: string[] | boolean[],
  *   enumNames?: string[],
  *   format?: 'email' | 'date' | 'date-time' | 'uri' | 'data-url' | OrAnyString,
+ *   hideMaxItemsAlert?: boolean,
  *   items?: SchemaOptions,
  *   maxLength?: number,
  *   minItems?: number,
@@ -458,6 +459,7 @@
  * nounSingular: "employer"
  * nounPlural: "employers"
  * ```
+ * @property {boolean} [hideMaxItemsAlert] This will not display the alert when the [maxItems] number is reached.
  * @property {(item) => boolean} [isItemIncomplete] Will display error on the cards if item is incomplete. You should include all of your required fields here. e.g. `item => !item?.name`
  * @property {number} [maxItems] The maximum number of items allowed in the array. Omit to allow unlimited items.
  * @property {boolean} required This determines the flow type of the array builder. Required starts with an intro page, optional starts with the yes/no question (summary page).
