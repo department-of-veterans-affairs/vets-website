@@ -11,7 +11,7 @@ export const TOGGLE_NAMES = {
 
 const Details = ({ match, ...rest }) => {
   const { useToggleValue } = useFeatureToggle();
-  const showNewDetailPage = useToggleValue(TOGGLE_NAMES.showPaymentHistoryMVP);
+  const showNewDetailPage = useToggleValue(TOGGLE_NAMES.showVHAPaymentHistory);
 
   if (!match?.params?.id) {
     return null;
