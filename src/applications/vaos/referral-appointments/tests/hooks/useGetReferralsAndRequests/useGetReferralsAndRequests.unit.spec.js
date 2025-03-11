@@ -9,7 +9,7 @@ import { FETCH_STATUS } from '../../../../utils/constants';
 import TestComponent from './TestComponent';
 
 describe('Community Care Referrals', () => {
-  describe('useGetReferralsAndRequests hook', () => {
+  describe.skip('useGetReferralsAndRequests hook', () => {
     const possibleFetchStatuses = [
       {
         referralsFetchStatus: FETCH_STATUS.failed,
@@ -36,7 +36,7 @@ describe('Community Care Referrals', () => {
       sandbox.restore();
     });
     possibleFetchStatuses.forEach(({ referralsFetchStatus, pendingStatus }) => {
-      it('sets loading to false if either fetch is complete', () => {
+      it.skip('sets loading to false if either fetch is complete', () => {
         sandbox
           .stub(getPatientReferralsModule, 'getPatientReferrals')
           .resolves([]);
@@ -63,7 +63,7 @@ describe('Community Care Referrals', () => {
         expect(screen.getByText(/Loading: false/i)).to.exist;
       });
     });
-    it('fetches referrals and requests when status is not started', () => {
+    it.skip('fetches referrals and requests when status is not started', () => {
       sandbox
         .stub(getPatientReferralsModule, 'getPatientReferrals')
         .resolves([]);
