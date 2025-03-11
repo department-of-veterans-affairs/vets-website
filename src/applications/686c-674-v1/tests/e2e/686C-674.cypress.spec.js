@@ -24,6 +24,10 @@ const testConfig = createTestConfig(
               name: 'vaDependentsV2',
               value: false,
             },
+            {
+              name: 'va_dependents_v2',
+              value: false,
+            },
           ],
         },
       });

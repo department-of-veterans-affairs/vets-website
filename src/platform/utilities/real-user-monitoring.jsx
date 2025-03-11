@@ -20,7 +20,7 @@ const conditionalSampleRate = botRegex.test(navigator.userAgent) ? 0 : 100;
 const isProductionEnv = () => {
   return (
     !environment.isLocalhost() &&
-    !window.Mocha &&
+    (!window.Mocha || !window.Cypress) &&
     !window.DD_RUM?.getInitConfiguration()
   );
 };

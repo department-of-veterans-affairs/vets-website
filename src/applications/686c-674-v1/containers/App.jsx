@@ -1,38 +1,42 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { TOGGLE_NAMES } from '~/platform/utilities/feature-toggles';
 import manifest from '../manifest.json';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
 
-function App({
-  location,
-  children,
-  isLoggedIn,
-  isLoading,
-  vaFileNumber,
-  featureToggles,
-}) {
-  const { TOGGLE_NAMES } = useFeatureToggle();
-  useBrowserMonitoring({
-    location,
-    toggleName: TOGGLE_NAMES.disablityBenefitsBrowserMonitoringEnabled,
-  });
+export default function App(props) {
+  const { location, children } = props;
+  const { vaDependentsV2, loading } = useSelector(state => ({
+    vaDependentsV2: state?.featureToggles?.vaDependentsV2,
+    loading: state?.featureToggles?.loading,
+  }));
+  const isLoggedIn = useSelector(state => state?.user?.currentlyLoggedIn);
+  const vaFileNumber = useSelector(state => state?.vaFileNumber);
 
   // Must match the H1
   document.title = DOC_TITLE;
 
-  // Handle loading
-  if (isLoading) {
-    return <va-loading-indicator message="Loading your information..." />;
-  }
+  useBrowserMonitoring({
+    location,
+    toggleName: TOGGLE_NAMES?.disablityBenefitsBrowserMonitoringEnabled,
+  });
 
-  if (featureToggles.vaDependentsV2) {
-    window.location.href =
-      '/view-change-dependents/add-remove-form-21-686c-v2/';
-    return <></>;
+  useEffect(
+    () => {
+      if (vaDependentsV2) {
+        window.location.href =
+          '/view-change-dependents/add-remove-form-21-686c-v2/';
+      }
+    },
+    [vaDependentsV2],
+  );
+
+  // Handle loading
+  if (loading) {
+    return <va-loading-indicator message="Loading your information..." />;
   }
 
   const content = (
@@ -64,15 +68,16 @@ function App({
   return content;
 }
 
-const mapStateToProps = state => {
-  const { featureToggles, user, vaFileNumber } = state;
-  return {
-    isLoggedIn: user?.login?.currentlyLoggedIn,
-    isLoading: user?.profile?.loading || featureToggles?.loading,
-    vaFileNumber,
-    featureToggles,
-    savedForms: user?.profile?.savedForms,
-  };
-};
+// const mapStateToProps = state => {
+//   const { featureToggles, user, vaFileNumber } = state;
+//   return {
+//     isLoggedIn: user?.login?.currentlyLoggedIn,
+//     isLoading: featureToggles?.loading,
+//     vaFileNumber,
+//     featureToggles,
+//     savedForms: user?.profile?.savedForms,
+//   };
+// };
 
-export default connect(mapStateToProps)(App);
+// export default connect(mapStateToProps)(App);
+// export default App;
