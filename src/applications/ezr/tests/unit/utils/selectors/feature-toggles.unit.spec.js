@@ -7,6 +7,7 @@ describe('ezr FeatureToggles selector', () => {
       /* eslint-disable camelcase */
       hca_browser_monitoring_enabled: true,
       ezr_upload_enabled: true,
+      ezr_route_guard_enabled: false,
       loading: false,
     },
   };
@@ -18,6 +19,7 @@ describe('ezr FeatureToggles selector', () => {
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
         isUploadEnabled: true,
+        isRouteGuardEnabled: false,
       });
     });
   });
