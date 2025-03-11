@@ -1,9 +1,9 @@
 {
-    "data": {
+  "data": {
     "id": "",
     "type": "va_file_number_response",
     "attributes": {
-    "VALIDVAFILENUMBER": true
-        }
+      "validVaFileNumber": true
     }
+  }
 }

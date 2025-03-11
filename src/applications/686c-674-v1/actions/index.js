@@ -14,7 +14,7 @@ async function getVaFileNumber() {
 
 export const verifyVaFileNumber = () => async dispatch => {
   dispatch({ type: VERIFY_VA_FILE_NUMBER_STARTED, response: true });
-  let response = await getVaFileNumber();
+  const response = await getVaFileNumber();
   if (response.errors) {
     Sentry.captureMessage('disability-file-number-gate-failed');
     recordEvent({
@@ -27,12 +27,6 @@ export const verifyVaFileNumber = () => async dispatch => {
     recordEvent({
       event: 'disability-file-number-gate-successful',
     });
-    // account for validVaFileNumber and validVAFileNumber inflection
-    const unifiedResponse = {};
-    for (const [key, value] of Object.entries(response)) {
-      unifiedResponse[key.toUpperCase()] = value;
-    }
-    response = unifiedResponse;
     dispatch({ type: VERIFY_VA_FILE_NUMBER_SUCCEEDED, response });
   }
 };

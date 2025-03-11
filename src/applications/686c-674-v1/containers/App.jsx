@@ -13,7 +13,9 @@ export default function App(props) {
     vaDependentsV2: state?.featureToggles?.vaDependentsV2,
     loading: state?.featureToggles?.loading,
   }));
-  const isLoggedIn = useSelector(state => state?.user?.currentlyLoggedIn);
+  const isLoggedIn = useSelector(
+    state => state?.user?.login?.currentlyLoggedIn,
+  );
   const vaFileNumber = useSelector(state => state?.vaFileNumber);
 
   // Must match the H1
@@ -57,7 +59,7 @@ export default function App(props) {
   // redirect them to the introduction page.
   if (
     !isLoggedIn ||
-    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
+    (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.validVaFileNumber)
   ) {
     window.location.replace(`${manifest.rootUrl}`);
     return (

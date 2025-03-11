@@ -1,5 +1,3 @@
-import set from 'platform/utilities/data/set';
-
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
 import {
@@ -9,18 +7,21 @@ import {
 } from '../actions';
 
 const initialState = {
-  hasVaFileNumber: null,
-  isLoading: true,
+  hasVaFileNumber: {},
+  isLoading: false,
 };
 
 const vaFileNumber = (state = initialState, action) => {
   switch (action.type) {
     case VERIFY_VA_FILE_NUMBER_STARTED:
-      return set('isLoading', action.response, state);
+      return {
+        isLoading: true,
+        hasVaFileNumber: {},
+      };
     case VERIFY_VA_FILE_NUMBER_SUCCEEDED:
     case VERIFY_VA_FILE_NUMBER_FAILED:
       return {
-        ...set('hasVaFileNumber', action.response, state),
+        hasVaFileNumber: action.response,
         isLoading: false,
       };
     default:
