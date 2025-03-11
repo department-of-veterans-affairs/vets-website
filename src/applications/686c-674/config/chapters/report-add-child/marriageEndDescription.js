@@ -11,7 +11,6 @@ export const marriageEndDescription = {
     }),
     marriageEndDescription: {
       ...textUI('Briefly describe how the marriage ended'),
-      // 'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Provide details on how the marriage ended.',
       },
