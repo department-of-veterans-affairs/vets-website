@@ -525,6 +525,7 @@ const FacilitiesMap = props => {
                         mobile={false}
                         mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
+                        selectMobileMapPin={props.selectMobileMapPin}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
@@ -555,6 +556,7 @@ const FacilitiesMap = props => {
                   mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  selectMobileMapPin={props.selectMobileMapPin}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                   smallDesktop
                   zoomMessageDivID={zoomMessageDivID}
@@ -597,6 +599,7 @@ const FacilitiesMap = props => {
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
+                        selectMobileMapPin={props.selectMobileMapPin}
                         shouldRenderSearchArea={
                           !!map && shouldRenderSearchArea()
                         }
@@ -644,6 +647,7 @@ const FacilitiesMap = props => {
                     mobileMapUpdateEnabled
                     results={results}
                     searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    selectMobileMapPin={props.selectMobileMapPin}
                     shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                     smallDesktop={false}
                     zoomMessageDivID={zoomMessageDivID}
