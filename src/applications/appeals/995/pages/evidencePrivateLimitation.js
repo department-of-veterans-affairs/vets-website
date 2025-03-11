@@ -10,6 +10,7 @@ export default {
       labelHeaderLevel: 3,
       classNames: 'vads-u-margin-bottom--4',
       required: () => true,
+      hideOnReview: true,
       errorMessages: {
         required: content.errorMessage,
       },

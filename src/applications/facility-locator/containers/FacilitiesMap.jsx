@@ -25,15 +25,11 @@ import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
 import {
-  clearGeocodeError,
-  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  getProviderSpecialties,
-  geolocateUser,
   mapMoved,
   selectMobileMapPin,
   updateSearchQuery,
@@ -208,12 +204,12 @@ const FacilitiesMap = props => {
     updateUrlParams({
       address: searchString,
     });
-
     props.genBBoxFromAddress(
       {
         ...currentQuery,
       },
       expandedRadius,
+      props.useProgressiveDisclosure,
     );
 
     setIsSearching(true);
@@ -383,7 +379,7 @@ const FacilitiesMap = props => {
     calculateSearchArea() < MAX_SEARCH_AREA &&
     props.currentQuery.facilityType &&
     (props.currentQuery.facilityType === 'provider'
-      ? props.currentQuery.serviceType
+      ? !!props.currentQuery.serviceType
       : true);
 
   const renderView = () => {
@@ -460,14 +456,10 @@ const FacilitiesMap = props => {
               <PpmsServiceError currentQuery={props.currentQuery} />
             ) : null}
             <SearchForm
-              clearGeocodeError={props.clearGeocodeError}
-              clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
               facilitiesUseAddressTypeahead={
                 props.facilitiesUseAddressTypeahead
               }
-              geolocateUser={props.geolocateUser}
-              getProviderSpecialties={props.getProviderSpecialties}
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
@@ -531,6 +523,7 @@ const FacilitiesMap = props => {
                         mapboxGlContainer={mapboxGlContainer}
                         map={map}
                         mobile={false}
+                        mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
@@ -559,6 +552,7 @@ const FacilitiesMap = props => {
                   mapboxGlContainer={mapboxGlContainer}
                   map={map}
                   mobile={false}
+                  mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
@@ -598,6 +592,7 @@ const FacilitiesMap = props => {
                         mapboxGlContainer={mapboxGlContainer}
                         map={map}
                         mobile
+                        mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
@@ -646,6 +641,7 @@ const FacilitiesMap = props => {
                     mapboxGlContainer={mapboxGlContainer}
                     map={map}
                     mobile
+                    mobileMapUpdateEnabled
                     results={results}
                     searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
                     shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
@@ -889,14 +885,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  clearGeocodeError,
   clearSearchResults,
-  clearSearchText,
   fetchVAFacility,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  geolocateUser,
-  getProviderSpecialties,
   mapMoved,
   searchWithBounds,
   selectMobileMapPin,

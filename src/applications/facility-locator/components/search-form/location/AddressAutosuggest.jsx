@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
@@ -62,34 +62,41 @@ function AddressAutosuggest({
    * @returns {void}
    * updateSearch is not called directly but debounced below
    */
-  const updateSearch = term => {
-    const trimmedTerm = term?.trimStart();
-    if (trimmedTerm === searchString) {
-      return; // already have the values
-    }
-    if (trimmedTerm.length >= MIN_SEARCH_CHARS) {
-      // fetch results and set options
-      setIsGeocoding(true);
-      searchAddresses(trimmedTerm)
-        .then(features => {
-          if (!features) {
-            setOptions([]);
-          } else {
-            setOptions([
-              ...features.map(feature => ({
-                ...feature,
-                toDisplay: feature.place_name || trimmedTerm,
-              })),
-            ]);
-          }
-          setIsGeocoding(false);
-        })
-        .catch(() => {
-          onChange({ error: true });
-          setIsGeocoding(false);
-        });
-    }
-  };
+  const updateSearch = useCallback(
+    term => {
+      const trimmedTerm = term?.trimStart();
+      if (trimmedTerm === searchString) {
+        return; // already have the values
+      }
+      if (trimmedTerm.length >= MIN_SEARCH_CHARS) {
+        // fetch results and set options
+        setIsGeocoding(true);
+        searchAddresses(trimmedTerm)
+          .then(features => {
+            if (!features) {
+              setOptions([]);
+            } else {
+              setOptions([
+                ...features.map(feature => ({
+                  ...feature,
+                  toDisplay: feature.place_name || trimmedTerm,
+                })),
+              ]);
+            }
+            setIsGeocoding(false);
+          })
+          .catch(() => {
+            onChange({ error: true });
+            setIsGeocoding(false);
+          });
+      }
+    },
+    [searchString, onChange],
+  );
+
+  const debouncedUpdateSearch = useMemo(() => vaDebounce(500, updateSearch), [
+    updateSearch,
+  ]);
 
   const handleGeolocationButtonClick = e => {
     e.preventDefault();
@@ -98,8 +105,6 @@ function AddressAutosuggest({
     });
     geolocateUser();
   };
-
-  const debouncedUpdateSearch = vaDebounce(500, updateSearch);
 
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
@@ -193,11 +198,12 @@ function AddressAutosuggest({
           isMobile={isMobile}
         />
       )}
-      /* eslint-enable prettier/prettier */
-      minCharacters={MIN_SEARCH_CHARS}
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
+      showOptionsRestriction={
+        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
+      }
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}

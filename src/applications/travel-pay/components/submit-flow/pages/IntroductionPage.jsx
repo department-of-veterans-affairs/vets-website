@@ -32,6 +32,7 @@ const IntroductionPage = ({ onStart }) => {
             your direct deposit set up, you can file a reimbursement claim now.
           </p>
           <va-link
+            external
             href={`${TRAVEL_PAY_INFO_LINK}#eligibility-for-general-health`}
             text="Travel reimbursement eligibility"
           />
@@ -47,7 +48,7 @@ const IntroductionPage = ({ onStart }) => {
               <va-link-action
                 onClick={e => onStart(e)}
                 href="javascript0:void"
-                text="File a mileage only claim"
+                text="File a mileage-only claim"
               />
             )}
           <p>
@@ -57,6 +58,7 @@ const IntroductionPage = ({ onStart }) => {
             or in person.
           </p>
           <va-link
+            external
             href={TRAVEL_PAY_INFO_LINK}
             text="Learn how to file claims for other expenses"
           />

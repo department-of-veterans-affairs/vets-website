@@ -295,7 +295,7 @@ export function fetchFacilityDetails(facilityId) {
   };
 }
 
-export function checkEligibility({ location, showModal }) {
+export function checkEligibility({ location, showModal, isCerner }) {
   return async (dispatch, getState) => {
     const state = getState();
     const directSchedulingEnabled = selectFeatureDirectScheduling(state);
@@ -304,45 +304,78 @@ export function checkEligibility({ location, showModal }) {
       state,
     );
     const featureClinicFilter = selectFeatureClinicFilter(state);
-
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
     });
 
     try {
-      const loadingStartTime = Date.now();
+      // OH/Cerner eligibility checks
+      if (isCerner) {
+        try {
+          const {
+            eligibility,
+            pastAppointments,
+          } = await fetchFlowEligibilityAndClinics({
+            location,
+            typeOfCare,
+            directSchedulingEnabled,
+            isCerner: true,
+          });
 
-      const {
-        eligibility,
-        clinics,
-        pastAppointments,
-      } = await fetchFlowEligibilityAndClinics({
-        location,
-        typeOfCare,
-        directSchedulingEnabled,
-        useV2: featureVAOSServiceVAAppointments,
-        featureClinicFilter,
-      });
+          dispatch({
+            type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+            typeOfCare,
+            location,
+            eligibility,
+            pastAppointments,
+            facilityId: location.id,
+          });
 
-      if (showModal) {
-        recordEvent({
-          event: 'loading-indicator-displayed',
-          'loading-indicator-display-time': Date.now() - loadingStartTime,
-        });
+          return eligibility;
+        } catch (e) {
+          captureError(e, false, 'facility page');
+          dispatch({
+            type: FORM_ELIGIBILITY_CHECKS_FAILED,
+          });
+        }
       }
 
-      dispatch({
-        type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
-        typeOfCare,
-        location,
-        eligibility,
-        pastAppointments,
-        clinics,
-        facilityId: location.id,
-        showModal,
-      });
+      // If it's NOT Cerner, do the normal eligibility checks
+      if (!isCerner) {
+        const loadingStartTime = Date.now();
 
-      return eligibility;
+        const {
+          eligibility,
+          clinics,
+          pastAppointments,
+        } = await fetchFlowEligibilityAndClinics({
+          location,
+          typeOfCare,
+          directSchedulingEnabled,
+          useV2: featureVAOSServiceVAAppointments,
+          featureClinicFilter,
+        });
+
+        if (showModal) {
+          recordEvent({
+            event: 'loading-indicator-displayed',
+            'loading-indicator-display-time': Date.now() - loadingStartTime,
+          });
+        }
+
+        dispatch({
+          type: FORM_ELIGIBILITY_CHECKS_SUCCEEDED,
+          typeOfCare,
+          location,
+          eligibility,
+          pastAppointments,
+          clinics,
+          facilityId: location.id,
+          showModal,
+        });
+
+        return eligibility;
+      }
     } catch (e) {
       captureError(e, false, 'facility page');
       dispatch({

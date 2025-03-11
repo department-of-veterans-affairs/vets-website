@@ -23,7 +23,7 @@ describe(manifest.appName, () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.verifyFolderHeaderText('Drafts');
-    FolderLoadPage.verifyBreadCrumbsLength(4);
+    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
   });
 
   it('Check the Sent folder', () => {
@@ -39,7 +39,7 @@ describe(manifest.appName, () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.verifyFolderHeaderText('Trash');
-    FolderLoadPage.verifyBreadCrumbsLength(4);
+    cy.get("[data-testid='sm-breadcrumbs-back']").should('have.text', 'Back');
   });
 
   // afterEach(() => {

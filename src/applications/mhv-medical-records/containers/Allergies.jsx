@@ -165,8 +165,6 @@ ${reportGeneratedBy}\n
 This list includes all allergies, reactions, and side effects in your VA medical records. 
 If you have allergies or reactions that are missing from this list, 
 tell your care team at your next appointment.\n
-If you have allergies that are missing from this list, tell your care
-team at your next appointment.\n
 Showing ${allergies.length} from newest to oldest
 ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
 

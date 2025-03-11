@@ -15,6 +15,7 @@ import { selectAppointment } from '../../../redux/selectors';
 
 const ReviewPage = ({
   address,
+  isError,
   onSubmit,
   setPageIndex,
   setYesNo,
@@ -109,7 +110,7 @@ const ReviewPage = ({
           name="accept-agreement"
           description={null}
           error={
-            !isAgreementChecked
+            isError
               ? 'You must accept the beneficiary travel agreement before continuing.'
               : null
           }
@@ -121,9 +122,10 @@ const ReviewPage = ({
       </va-card>
 
       <VaButtonPair
-        class="vads-u-margin-top--2"
-        leftButtonText="File claim"
-        rightButtonText="Start over"
+        className="vads-u-margin-top--2"
+        continue
+        rightButtonText="File claim"
+        leftButtonText="Start over"
         onPrimaryClick={onSubmit}
         onSecondaryClick={onBack}
       />
@@ -134,6 +136,7 @@ const ReviewPage = ({
 ReviewPage.propTypes = {
   address: PropTypes.object,
   isAgreementChecked: PropTypes.bool,
+  isError: PropTypes.bool,
   setIsAgreementChecked: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,

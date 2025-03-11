@@ -28,6 +28,44 @@ describe('prefillTransformer', () => {
       expect(result['Branch of Service']).to.eql('Army');
     });
 
+    context('when the user does not have an ICN', () => {
+      it('sets userIsDigitalSubmitEligible to false', () => {
+        const data = {
+          ...prefill,
+          identityValidation: { hasIcn: false, hasParticipantId: true },
+          'view:applicantIsVeteran': 'Yes',
+        };
+
+        const result = prefillTransformer(data);
+
+        expect(result.userIsDigitalSubmitEligible).to.be.false;
+      });
+    });
+
+    context('when the user does not have a participant id', () => {
+      it('sets userIsDigitalSubmitEligible to false', () => {
+        const data = {
+          ...prefill,
+          identityValidation: { hasIcn: true, hasParticipantId: false },
+          'view:applicantIsVeteran': 'Yes',
+        };
+
+        const result = prefillTransformer(data);
+
+        expect(result.userIsDigitalSubmitEligible).to.be.false;
+      });
+    });
+
+    context('when the user has an ICN and a participant id', () => {
+      it('sets userIsDigitalSubmitEligible to true', () => {
+        const data = { ...prefill, 'view:applicantIsVeteran': 'Yes' };
+
+        const result = prefillTransformer(data);
+
+        expect(result.userIsDigitalSubmitEligible).to.be.true;
+      });
+    });
+
     it('should reset the applicant attributes', () => {
       const data = {
         ...prefill,
@@ -119,41 +157,29 @@ describe('prefillTransformer', () => {
       expect(result['Branch of Service']).to.be.undefined;
       expect(result.veteranSocialSecurityNumber).to.be.undefined;
     });
-  });
 
-  context('when the user does not have an ICN', () => {
-    it('sets userIsDigitalSubmitEligible to false', () => {
+    it('should set userIsDigitalSubmitEligible to undefined', () => {
       const data = {
         ...prefill,
-        identityValidation: { hasIcn: false, hasParticipantId: true },
+        'view:applicantIsVeteran': 'No',
+        userIsDigitalSubmitEligible: true,
       };
 
       const result = prefillTransformer(data);
 
-      expect(result.userIsDigitalSubmitEligible).to.be.false;
+      expect(result.userIsDigitalSubmitEligible).to.be.undefined;
     });
-  });
 
-  context('when the user does not have a participant id', () => {
-    it('sets userIsDigitalSubmitEligible to false', () => {
+    it('should set representativeSubmissionMethod to undefined', () => {
       const data = {
         ...prefill,
-        identityValidation: { hasIcn: true, hasParticipantId: false },
+        'view:applicantIsVeteran': 'No',
+        representativeSubmissionMethod: 'digital',
       };
 
       const result = prefillTransformer(data);
 
-      expect(result.userIsDigitalSubmitEligible).to.be.false;
-    });
-  });
-
-  context('when the user has an ICN and a participant id', () => {
-    it('sets userIsDigitalSubmitEligible to true', () => {
-      const data = { ...prefill };
-
-      const result = prefillTransformer(data);
-
-      expect(result.userIsDigitalSubmitEligible).to.be.true;
+      expect(result.representativeSubmissionMethod).to.be.undefined;
     });
   });
 });

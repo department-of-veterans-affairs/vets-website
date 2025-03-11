@@ -65,6 +65,7 @@ const remapFormId = {
 const formConfigKeys = [
   'additionalRoutes',
   'ariaDescribedBySubmit',
+  'backLinkText',
   'chapters',
   'confirmation',
   'CustomReviewTopContent',
