@@ -88,9 +88,6 @@ export const selectFeatureStaticLandingPage = state =>
 export const selectFeatureBookingExclusion = state =>
   toggleValues(state).vaOnlineSchedulingBookingExclusion;
 
-export const selectFeatureDatadogRum = state =>
-  toggleValues(state).vaOnlineSchedulingDatadogRum;
-
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
 
