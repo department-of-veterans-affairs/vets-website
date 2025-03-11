@@ -1,89 +1,169 @@
-import { render, waitFor } from '@testing-library/react';
+import * as platformHelpers from '@department-of-veterans-affairs/platform-forms-system/helpers';
+import * as platformSelectors from '@department-of-veterans-affairs/platform-forms-system/selectors';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import { createMockStore } from '../common';
+import sinon from 'sinon';
 import ReviewPage from '../../containers/ReviewPage';
-import * as ReviewCollapsibleChapter from '../../components/ReviewCollapsibleChapter';
-import * as ReviewSectionContent from '../../components/reviewPage/ReviewSectionContent';
-import * as FileUpload from '../../components/FileUpload';
-import * as StorageAdapterModule from '../../utils/StorageAdapter';
-import { mockData } from '../fixtures/data/form-data-review';
 
-describe.skip('<ReviewPage /> container', () => {
+// Minimal store with required state
+const createMockStore = () => ({
+  getState: () => ({
+    form: {
+      data: {},
+      pages: {},
+      formErrors: { errors: [] },
+    },
+    user: {
+      login: { currentlyLoggedIn: true },
+      profile: { loa: { current: 3 } },
+    },
+    askVA: {
+      reviewPageView: {
+        openChapters: ['testChapter'],
+        viewedPages: new Set(),
+      },
+    },
+  }),
+  subscribe: () => {},
+  dispatch: () => {},
+});
+
+// Minimal required props
+const defaultProps = {
+  router: {
+    push: sinon.spy(),
+  },
+  onSubmit: sinon.spy(),
+  formContext: {
+    reviewMode: true,
+  },
+  chapters: [
+    {
+      name: 'testChapter',
+      title: 'Test Chapter',
+      expandedPages: [],
+      formConfig: {
+        title: 'Test Chapter',
+        pages: {},
+      },
+      open: true,
+      pageKeys: [],
+      hasUnviewedPages: false,
+    },
+  ],
+  loggedIn: true,
+  isUserLOA3: true,
+};
+
+describe('ReviewPage', () => {
   let sandbox;
-
-  const stubReviewCollapsibleChapter = () => {
-    const capturedProps = [];
-
-    const stub = sandbox
-      .stub(ReviewCollapsibleChapter, 'default')
-      .callsFake(props => {
-        capturedProps.push(props);
-        return <div>Mock review collapsible chapter</div>;
-      });
-
-    return { stub, capturedProps };
-  };
-
-  const stubReviewSectionContent = () => {
-    sandbox.stub(ReviewSectionContent, 'default').callsFake(() => {
-      return <div>Mock review section content</div>;
-    });
-  };
-
-  const stubFileUpload = () => {
-    sandbox.stub(FileUpload, 'default').callsFake(() => {
-      return <div>Mock file upload</div>;
-    });
-  };
-
-  const stubStorageAdapter = () => {
-    sandbox
-      .stub(StorageAdapterModule.StorageAdapter.prototype, 'get')
-      .resolves([]);
-    sandbox
-      .stub(StorageAdapterModule.StorageAdapter.prototype, 'set')
-      .resolves([]);
-    sandbox.stub(StorageAdapterModule, 'askVAAttachmentStorage').value({
-      get: () => Promise.resolve([]),
-      set: () => Promise.resolve(),
-    });
-  };
+  let store;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    store = createMockStore();
+
+    // Basic stubs for required functions
+    sandbox.stub(platformHelpers, 'getActiveExpandedPages').returns([]);
+    sandbox.stub(platformSelectors, 'getViewedPages').returns(new Set());
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('should render', async () => {
-    stubReviewCollapsibleChapter();
-    stubReviewSectionContent();
-    stubFileUpload();
-    stubStorageAdapter();
-
-    const store = createMockStore({
-      openChapters: ['chapter-1', 'chapter-2'],
-      viewedPages: new Set(['page-3']),
-      askVA: mockData.askVA,
-      formData: mockData.data,
-    });
-
-    const setViewedPages = sinon.spy();
-    const setEdiMode = sinon.spy();
-
+  it('should render without crashing', () => {
     const { container } = render(
       <Provider store={store}>
-        <ReviewPage setViewedPages={setViewedPages} setEdiMode={setEdiMode} />
+        <ReviewPage {...defaultProps} />
       </Provider>,
     );
 
-    await waitFor(() => {
-      expect(container.querySelector('h3')).to.have.text('Editing answers');
-    });
+    expect(container).to.exist;
+  });
+
+  it('should render chapter title', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    const accordionItem = container.querySelector('va-accordion-item');
+    expect(accordionItem).to.exist;
+    expect(accordionItem.getAttribute('header')).to.equal('Your information');
+  });
+
+  it('should render edit mode alert with correct content', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    const alert = container.querySelector(
+      'va-alert[data-testid="review-alert"]',
+    );
+    expect(alert).to.exist;
+    expect(alert.getAttribute('status')).to.equal('info');
+
+    const alertHeading = alert.querySelector('[slot="headline"]');
+    expect(alertHeading.textContent).to.equal('Editing answers');
+  });
+
+  it('should render back button', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    const backButton = container.querySelector('va-button[back="true"]');
+    expect(backButton).to.exist;
+  });
+
+  it('should render submit button with correct text', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    const submitButton = container.querySelector(
+      'va-button[text="Submit question"]',
+    );
+    expect(submitButton).to.exist;
+    expect(submitButton.getAttribute('disabled')).to.equal('false');
+  });
+
+  it('should render chapter with correct expansion state', () => {
+    // Test with chapter closed
+    const closedStore = createMockStore();
+    const closedState = closedStore.getState();
+    closedState.askVA = {
+      ...closedState.askVA,
+      reviewPageView: {
+        ...closedState.askVA.reviewPageView,
+        openChapters: [],
+      },
+    };
+
+    const { container } = render(
+      <Provider store={closedStore}>
+        <ReviewPage {...defaultProps} />
+      </Provider>,
+    );
+
+    const reviewChapter = container.querySelector('va-accordion-item');
+    expect(reviewChapter).to.exist;
+    expect(reviewChapter.getAttribute('header')).to.equal('Your information');
+
+    // The ReviewCollapsibleChapter should be present but not expanded
+    const chapterContent = container.querySelector(
+      '.schemaform-chapter-accordion-content',
+    );
+    expect(chapterContent).to.not.exist;
   });
 });
