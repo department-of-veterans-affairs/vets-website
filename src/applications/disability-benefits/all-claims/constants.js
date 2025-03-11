@@ -430,7 +430,7 @@ export const OTHER_REPORT_TYPES = Object.freeze({
 });
 
 export const NO_REPORT_TYPE = Object.freeze({
-  none: 'I don’t have offiical reports to include.',
+  none: 'I don’t have official reports to include.',
 });
 
 export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
