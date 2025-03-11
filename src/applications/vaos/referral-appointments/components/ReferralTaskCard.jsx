@@ -16,10 +16,10 @@ export default function ReferralTaskCard({ data }) {
     return null;
   }
 
-  const { ReferralExpirationDate, UUID } = data;
+  const { expirationDate, uuid } = data;
 
-  const expirationDate = new Date(ReferralExpirationDate);
-  const isPastExpirationDate = isAfter(new Date(), expirationDate);
+  const expirationDateObject = new Date(expirationDate);
+  const isPastExpirationDate = isAfter(new Date(), expirationDateObject);
 
   if (isPastExpirationDate) {
     return null;
@@ -35,16 +35,16 @@ export default function ReferralTaskCard({ data }) {
       </h4>
       <p>
         {`We’ve approved your community care referral. You must schedule all appointments for this referral by ${format(
-          expirationDate,
+          expirationDateObject,
           'PP',
         )}.`}
       </p>
       <va-link-action
         text="Go to your referral details to start scheduling"
         type="secondary"
-        data-testid={`referral-task-card-schedule-referral-${UUID}`}
+        data-testid={`referral-task-card-schedule-referral-${uuid}`}
         onClick={() => {
-          routeToNextReferralPage(history, currentPage, UUID);
+          routeToNextReferralPage(history, currentPage, uuid);
         }}
       />
     </va-card>
