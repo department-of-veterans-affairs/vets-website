@@ -6,6 +6,7 @@ import { apiRequest } from 'platform/utilities/api';
 // Relative imports.
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import environment from 'platform/utilities/environment';
 import {
   VaAlertSignIn,
   VaButton,
@@ -160,6 +161,9 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
           <div className="vads-u-padding-bottom--1">
             <va-link
               download
+              href={encodeURI(
+                `${environment.API_URL}/v0/form1095_bs/download_pdf/${year}`,
+              )}
               id="pdf-download-link"
               label="Download PDF (best for printing)"
               text="Download PDF (best for printing)"
@@ -173,6 +177,9 @@ export const App = ({ displayToggle, toggleLoginModal }) => {
           <div className="vads-u-padding-top--1">
             <va-link
               download
+              href={encodeURI(
+                `${environment.API_URL}/v0/form1095_bs/download_txt/${year}`,
+              )}
               id="txt-download-link"
               label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
               text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
