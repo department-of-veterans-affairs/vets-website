@@ -9,10 +9,7 @@ const AuthProfileInformation = ({ user }) => {
   const { veteranFullName, veteranDateOfBirth, totalDisabilityRating } = user;
 
   const veteranDOB = useMemo(
-    () =>
-      veteranDateOfBirth
-        ? formatDate(veteranDateOfBirth, 'MMMM dd, yyyy')
-        : null,
+    () => formatDate(veteranDateOfBirth, 'MMMM dd, yyyy'),
     [veteranDateOfBirth],
   );
   const veteranName = useMemo(() => normalizeFullName(veteranFullName, true), [
