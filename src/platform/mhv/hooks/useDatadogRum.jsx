@@ -65,7 +65,11 @@ const setDatadogRumUser = user => {
     !window.Mocha &&
     user?.id
   ) {
-    setRumUser({ id: user.id, hasEhrmFacilities: user.hasEhrmFacilities });
+    setRumUser({
+      id: user.id,
+      hasEHRM: user.hasEHRM,
+      hasVista: user.hasVista,
+    });
   }
 };
 

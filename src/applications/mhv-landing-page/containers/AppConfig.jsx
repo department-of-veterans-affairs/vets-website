@@ -32,10 +32,13 @@ const AppConfig = ({
     () => {
       const id = profile?.accountUuid;
       if (id) {
-        const hasEhrmFacilities = profile?.facilities?.some(
+        const hasEHRM = profile?.facilities?.some(
           facility => facility.isCerner,
         );
-        setDatadogRumUserFn({ id, hasEhrmFacilities });
+        const hasVista = profile?.facilities?.some(
+          facility => !facility.isCerner,
+        );
+        setDatadogRumUserFn({ id, hasEHRM, hasVista });
       }
     },
     [profile, setDatadogRumUserFn],
