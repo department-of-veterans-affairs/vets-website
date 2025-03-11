@@ -37,7 +37,7 @@ describe('Community Care Referrals', () => {
       sandbox.restore();
     });
     possibleFetchStatuses.forEach(({ referralsFetchStatus, pendingStatus }) => {
-      it.skip('sets loading to false if either fetch is complete', () => {
+      it.skip('sets loading to false if either fetch is complete', async () => {
         sandbox
           .stub(getPatientReferralsModule, 'getPatientReferrals')
           .resolves([]);
@@ -66,7 +66,7 @@ describe('Community Care Referrals', () => {
         });
       });
     });
-    it.skip('fetches referrals and requests when status is not started', () => {
+    it.skip('fetches referrals and requests when status is not started', async () => {
       sandbox
         .stub(getPatientReferralsModule, 'getPatientReferrals')
         .resolves([]);
