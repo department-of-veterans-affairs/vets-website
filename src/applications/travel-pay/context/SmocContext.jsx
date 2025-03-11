@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import PropTypes from 'prop-types';
 
 const defaultContext = {
   pageIndex: 0,
@@ -49,6 +50,10 @@ const SmocContextProvider = ({ children }) => {
       {children}
     </SmocContext.Provider>
   );
+};
+
+SmocContextProvider.propTypes = {
+  children: PropTypes.node,
 };
 
 export default SmocContextProvider;
