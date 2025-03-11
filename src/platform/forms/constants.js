@@ -469,6 +469,20 @@ export const MY_VA_SIP_FORMS = [
     trackingPrefix: 'form-21-0779-upload-',
   },
   {
+    id: VA_FORM_IDS.FORM_21_4192_UPLOAD,
+    benefit: `form 21-4192 upload`,
+    title: `form 21-4192 upload`,
+    description: 'uploaded file for form 21-4192',
+    trackingPrefix: 'form-21-4192-upload-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21_8940_UPLOAD,
+    benefit: `form 21-8940 upload`,
+    title: `form 21-8940 upload`,
+    description: 'uploaded file for form 21-8940',
+    trackingPrefix: 'form-21-8940-upload-',
+  },
+  {
     id: VA_FORM_IDS.FORM_21_509_UPLOAD,
     benefit: `form 21-509 upload`,
     title: `form 21-509 upload`,
