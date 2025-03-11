@@ -106,6 +106,7 @@ const InProductionEducationFiltering = () => {
             <VaIcon
               size={3}
               icon="cancel"
+              alt="dismiss icon"
               onClick={handleStopShowing}
               role="img"
             />
