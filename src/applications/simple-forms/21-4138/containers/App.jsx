@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import environment from 'platform/utilities/environment';
 import formConfig from '../config/form';
 import { WIP } from '../../shared/components/WIP';
 import { workInProgressContent } from '../config/constants';
@@ -40,7 +41,9 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   isLoading: state?.featureToggles?.loading,
-  showForm: toggleValues(state)[FEATURE_FLAG_NAMES.form214138] || false,
+  showForm:
+    toggleValues(state)[FEATURE_FLAG_NAMES.form214138] ||
+    environment.isLocalhost(),
 });
 
 export default connect(mapStateToProps)(App);
