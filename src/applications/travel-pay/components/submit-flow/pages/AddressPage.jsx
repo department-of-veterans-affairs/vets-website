@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -12,15 +12,9 @@ import {
   HelpTextModalities,
 } from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
+import { SmocContext } from '../../../context/SmocContext';
 
-const AddressPage = ({
-  address,
-  pageIndex,
-  setPageIndex,
-  yesNo,
-  setYesNo,
-  setIsUnsupportedClaimType,
-}) => {
+const AddressPage = ({ address }) => {
   useEffect(
     () => {
       scrollToTop('topScrollElement');
@@ -32,6 +26,14 @@ const AddressPage = ({
     },
     [address],
   );
+
+  const {
+    pageIndex,
+    setPageIndex,
+    setIsUnsupportedClaimType,
+    yesNo,
+    setYesNo,
+  } = useContext(SmocContext);
 
   const [requiredAlert, setRequiredAlert] = useState(false);
 
@@ -139,11 +141,6 @@ const AddressPage = ({
 
 AddressPage.propTypes = {
   address: PropTypes.object,
-  pageIndex: PropTypes.number,
-  setIsUnsupportedClaimType: PropTypes.func,
-  setPageIndex: PropTypes.func,
-  setYesNo: PropTypes.func,
-  yesNo: PropTypes.object,
 };
 
 function mapStateToProps(state) {
