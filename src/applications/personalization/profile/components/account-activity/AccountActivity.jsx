@@ -59,7 +59,7 @@ const mockApiRequest = async () => {
       ipAddresses[Math.floor(Math.random() * ipAddresses.length)];
     const event = events[Math.floor(Math.random() * events.length)];
     const status = statuses[Math.floor(Math.random() * statuses.length)];
-    const device = statuses[Math.floor(Math.random() * devices.length)];
+    const device = devices[Math.floor(Math.random() * devices.length)];
 
     data.push({ timestamp: dateStr, ipAddress, device, event, status });
   }
@@ -172,20 +172,20 @@ export default function AccountActivity() {
           class="vads-u-margin-top--4"
         />
       ) : (
-        <va-table>
+        <va-table striped full-width>
           <va-table-row slot="headers">
             <span>Timestamp</span>
+            <span>Event</span>
             <span>IP Address</span>
             <span>Device Information</span>
-            <span>Event</span>
             <span>Status</span>
           </va-table-row>
           {currentItems.map((record, index) => (
             <va-table-row key={index}>
               <span>{formatTimestamp(record.timestamp)}</span>
+              <span>{record.event}</span>
               <span>{record.ipAddress}</span>
               <span>{record.device}</span>
-              <span>{record.event}</span>
               <span>{record.status}</span>
             </va-table-row>
           ))}
