@@ -13,7 +13,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { HelpTextManage } from './HelpText';
 import Breadcrumbs from './Breadcrumbs';
 import ClaimDetailsContent from './ClaimDetailsContent';
-import useSetPageTitle from '../hooks/useSetPageTitle';
 
 export default function TravelClaimDetails() {
   const { id } = useParams();
@@ -26,8 +25,6 @@ export default function TravelClaimDetails() {
   const [claimsError, setClaimsError] = useState(null);
   const REIMBURSEMENT_URL =
     'https://va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
-
-  useSetPageTitle('Your travel reimbursement claim');
 
   useEffect(() => {
     focusElement('h1');
