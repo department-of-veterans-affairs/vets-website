@@ -17,8 +17,8 @@ describe('<Autosuggest inputId="any">', () => {
         onClearClick={onClear}
       />,
     );
-    expect(screen.getByTestId('clear-button')).to.be.displayed;
-    fireEvent.click(screen.getByTestId('clear-button'));
+    expect(screen.getByTestId('any-clear-button')).to.be.displayed;
+    fireEvent.click(screen.getByTestId('any-clear-button'));
     expect(input).to.equal('');
   });
 
