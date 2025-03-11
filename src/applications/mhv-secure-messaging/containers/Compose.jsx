@@ -9,7 +9,7 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { closeAlert } from '../actions/alerts';
-import { PageTitles, Paths } from '../util/constants';
+import { PageTitles, Paths, BlockedTriageAlertStyles } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
@@ -26,6 +26,7 @@ const Compose = () => {
   );
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
+  const { allTriageGroupsBlocked } = recipients;
 
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
@@ -141,14 +142,22 @@ const Compose = () => {
       )}
 
       {draftType &&
-        noAssociations && (
+        (noAssociations || allTriageGroupsBlocked) && (
           <div className="vads-l-grid-container compose-container">
             <h1>Start a new message</h1>
-            <BlockedTriageGroupAlert />
+            <BlockedTriageGroupAlert
+              alertStyle={
+                allTriageGroupsBlocked
+                  ? BlockedTriageAlertStyles.WARNING
+                  : BlockedTriageAlertStyles.INFO
+              }
+            />
           </div>
         )}
 
-      {draftType && !acknowledged && noAssociations === (undefined || false) ? (
+      {draftType &&
+      !acknowledged &&
+      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -158,7 +167,8 @@ const Compose = () => {
       ) : (
         <>
           {draftType &&
-            noAssociations === (undefined || false) && (
+            (noAssociations === (undefined || false) &&
+              !allTriageGroupsBlocked) && (
               <div className="vads-l-grid-container compose-container">
                 {content()}
               </div>
