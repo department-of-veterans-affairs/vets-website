@@ -85,7 +85,7 @@ div[id$="-autosuggest-container"] {
 
     .input-with-clear {
       width: 100%;
-      z-index: 1011;
+      z-index: 1010;
     }
 
     [id$="-input-controls-container"] {
@@ -98,14 +98,12 @@ div[id$="-autosuggest-container"] {
       background-color: var(--vads-color-white);
       padding: 0;
       margin: 0;
-      z-index: 1012;
       width: fit-content;
 
       div[id^="downshift-caret-holder-"] {
         padding-left: 10px;
         margin-left: 12px;
         border-left: 1px solid var(--vads-color-base-light);
-        z-index: 1013;
 
         .downshift-caret-button {
           width: 24px;
@@ -113,7 +111,6 @@ div[id$="-autosuggest-container"] {
           background-color: transparent;
           padding: 0;
           margin: 0;
-          z-index: 1013;
 
           &:hover {
             background-color: unset;
@@ -133,7 +130,6 @@ div[id$="-autosuggest-container"] {
         background-color: transparent;
         padding: 0;
         margin: 0;
-        z-index: 1013;
 
         &:hover {
           background-color: unset;
