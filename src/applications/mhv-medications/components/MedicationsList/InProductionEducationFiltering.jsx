@@ -27,9 +27,11 @@ const InProductionEducationFiltering = () => {
               tip.tooltipName === 'mhv_medications_tooltip_filter_accordion',
           );
           if (filterTooltip) {
-            setTooltipVisible(filterTooltip.hidden);
-            setTooltipId(filterTooltip.id);
+            if (filterTooltip.hidden === true) {
+              setTooltipVisible(false);
+            }
             if (filterTooltip.hidden === false) {
+              setTooltipId(filterTooltip.id);
               incrementTooltipCounter(filterTooltip.id);
             }
           } else {
