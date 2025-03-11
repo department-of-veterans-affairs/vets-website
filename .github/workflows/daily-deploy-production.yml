@@ -10,6 +10,10 @@ on:
       commit_sha:
         description: Deploy specific commit
         required: false
+      bypass_freeze:
+        description: 'Bypass holiday freeze and force enable deploy workflows'
+        required: false
+        default: 'false'
   schedule:
     - cron: 0 18 * * 1-5
 
@@ -28,61 +32,110 @@ jobs:
     - name: Check if today is a holiday
       id: holiday-check
       uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
+  
   main-deployment:
     needs: holiday-checker
-    if: needs.holiday-checker.outputs.is_holiday == 'false' 
     runs-on: ubuntu-latest
     steps: 
-    - name: Checkout Repository
-      uses: actions/checkout@v3
+    - name: Force enable workflows if bypass_freeze is true
+      if: ${{ github.event.inputs.bypass_freeze == 'true' }}
+      run: |
+          echo "Bypass activated – force enabling deploy workflows."
+          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/{department-of-veterans-affairs}/vets-website/actions/workflows/daily-deploy-production.yml/enable
+          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/{department-of-veterans-affairs}/content-build/actions/workflows/daily-deploy-production.yml/enable
+
+    - name: Disable workflows if today is a holiday and bypass_freeze is false
+      if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
+      run: |
+          echo "Today is a holiday – disabling deploy workflows."
+          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/{department-of-veterans-affairs}/vets-website/actions/workflows/daily-deploy-production.yml/disable
+          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/{department-of-veterans-affairs}/content-build/actions/workflows/daily-deploy-production.yml/disable
+
+    - name: Enable workflows if today is not a holiday and bypass_freeze is false
+      if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}
+      run: |
+          echo "Today is not a holiday – enabling deploy workflows."
+          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/{department-of-veterans-affairs}/vets-website/actions/workflows/daily-deploy-production.yml/enable
+          curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/{department-of-veterans-affairs}/content-build/actions/workflows/daily-deploy-production.yml/enable
 
   notify-freeze:
-    name: Notify Freeze
+    name: Notify Freeze Activated
     runs-on: ubuntu-latest
     needs: holiday-checker
-    if: needs.holiday-checker.outputs.is_holiday == 'true'
+    if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
     - name: Notify Slack - Code Freeze Enabled
       uses: ./.github/workflows/slack-notify
       continue-on-error: true
       with:
-        payload: '{"attachments": [{"color": "#07711E", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled:* Deployment workflows for `vets-website` and `content-build` have been disabled for the holiday period. No deployments should occur until further notice."}}]}]}'
+        payload: '{"attachments": [{"color": "#FFA500", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "🚫 *Code Freeze Enabled:* Deployment workflows for `vets-website` and `content-build` have been disabled for the holiday period. No deployments should occur until further notice."}}]}]}'
         channel_id: 'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
   notify-freeze-ends:
-    name: Notify Freeze Ends
+    name: Notify Freeze Ended
     runs-on: ubuntu-latest
     needs: holiday-checker  
-    if: needs.holiday-checker.outputs.is_holiday == 'false'   
+    if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' }}   
     steps:
-    - name: actions/checkout@v3
-      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017      
+    - name: Checkout Repository
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
     - name: Notify Slack - Code Freeze Ended
       uses: ./.github/workflows/slack-notify
       continue-on-error: true
       with:
-        payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
+        payload: '{"attachments": [{"color": "#32CD32", "blocks": [{"type": "section","text": {"type": "mrkdwn", "text": "✅ *Code Freeze Ended:* Deployment workflows for `vets-website` and `content-build` have been re-enabled following the holiday period."}}]}]}'
         channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+  notify-bypass:
+    name: Notify Bypass Activation
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.bypass_freeze == 'true' }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+      - name: Notify Slack - Deploy Freeze Bypassed
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#0000FF", "blocks": [{"type": "section", "text": {"type": "mrkdwn", "text": "ℹ️ *Deploy Freeze Bypassed:* Emergency bypass activated. Deployment workflows for `vets-website` and `content-build` have been force enabled."}}]}]}'
+          channel_id: 'C045LCF8WU8, C04868KS69L'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      
   notify-code-freeze-failure:
     name: Notify Code Freeze Failure
     runs-on: ubuntu-latest
-    needs: holiday-checker
-    if: failure() && needs.holiday-checker.result == 'failure'
+    needs: main-deployment
+    if: failure() || cancelled()
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
     - name: Notify Slack - Code Freeze Failure
       uses: ./.github/workflows/slack-notify
       continue-on-error: true
       with:
-        payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
+        payload: '{"attachments": [{"color": "#FF0000", "blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> *Code Freeze Operation Failed:* Unable to toggle deploy workflows for `vets-website` and `content-build`. Please investigate the issue immediately: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id}} |View Run Details>."}}]}]}'
         channel_id:  'C045LCF8WU8, C04868KS69L' #Frontend COP & platform-sre-team
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
