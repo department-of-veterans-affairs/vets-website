@@ -345,8 +345,8 @@ export default function LicenseCertificationSearchResults() {
                   <div
                     className={
                       !smallScreen
-                        ? 'column small-4 vads-u-padding--0'
-                        : 'column small-12 vads-u-padding--0'
+                        ? 'column small-4 vads-u-padding--0 zoom-wrapper'
+                        : 'column small-12 vads-u-padding--0 zoom-wrapper'
                     }
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
