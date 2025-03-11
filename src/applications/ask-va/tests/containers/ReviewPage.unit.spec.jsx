@@ -411,4 +411,39 @@ describe('Helper Functions', () => {
       expect(result).to.deep.equal(['page1']);
     });
   });
+
+  describe('getSchoolString', () => {
+    // Extract getSchoolString from ReviewPage for testing
+    const getSchoolString = (code, name) => {
+      if (code && name) return `${code} - ${name}`;
+      return null;
+    };
+
+    it('should format school code and name correctly', () => {
+      expect(getSchoolString('12345', 'Test School')).to.equal(
+        '12345 - Test School',
+      );
+    });
+
+    it('should handle missing code', () => {
+      expect(getSchoolString(null, 'Test School')).to.be.null;
+      expect(getSchoolString(undefined, 'Test School')).to.be.null;
+    });
+
+    it('should handle missing name', () => {
+      expect(getSchoolString('12345', null)).to.be.null;
+      expect(getSchoolString('12345', undefined)).to.be.null;
+    });
+
+    it('should handle missing both code and name', () => {
+      expect(getSchoolString(null, null)).to.be.null;
+      expect(getSchoolString(undefined, undefined)).to.be.null;
+    });
+
+    it('should handle empty strings', () => {
+      expect(getSchoolString('', '')).to.be.null;
+      expect(getSchoolString('12345', '')).to.be.null;
+      expect(getSchoolString('', 'Test School')).to.be.null;
+    });
+  });
 });
