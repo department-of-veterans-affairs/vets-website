@@ -6,7 +6,7 @@ import {
   informalConferenceContactTitle,
   informalConferenceContactLabel,
   informalConferenceContactOptions,
-  newEditButtonLabel,
+  editButtonLabel,
 } from '../content/InformalConferenceContact';
 
 import { data996 } from '../../shared/props';
@@ -24,7 +24,7 @@ const InformalConferenceContactReview = ({ data, editPage }) => {
           secondary
           class="edit-page float-right"
           onClick={editPage}
-          label={newEditButtonLabel}
+          label={editButtonLabel}
           text={editButtonText}
           uswds
         />

@@ -2,6 +2,6 @@
   "appName": "Welcome VA Setup Review Information Form",
   "entryFile": "./app-entry.jsx",
   "entryName": "welcome-va-setup-review-information",
-  "rootUrl": "/my-va/welcome-va-setup/review-information",
+  "rootUrl": "/my-va/welcome-va-setup",
   "productId": "c1a00d88-ead0-46d4-94ab-e72baba100c6"
 }

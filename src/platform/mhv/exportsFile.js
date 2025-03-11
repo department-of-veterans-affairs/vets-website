@@ -1,3 +1,4 @@
+export { useBackToTop } from './hooks/useBackToTop';
 export { default as MHVDown } from './downtime/components/MHVDown';
 export {
   default as MHVDowntimeApproaching,
@@ -14,6 +15,7 @@ export {
   generatePdfScaffold,
   updatePageTitle,
   openCrisisModal,
+  pharmacyPhoneNumber,
 } from './util/helpers';
 export {
   txtLine,

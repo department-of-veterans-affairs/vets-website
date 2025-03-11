@@ -14,13 +14,48 @@
  */
 
 export const parsePhoneNumber = phone => {
-  const phoneUS = phone.replace(/^1-/, '');
-  const re = /^(\d{3})[ -]*?(\d{3})[ -]*?(\d{4})\s?(\D*)?[ ]?(\d*)?/;
-  const extension = phoneUS.replace(re, '$5').replace(/\D/g, '');
-  const formattedPhoneNumber = extension
-    ? phoneUS.replace(re, '$1-$2-$3 x$5').replace(/x$/, '')
-    : phoneUS.replace(re, '$1-$2-$3');
-  const contact = phoneUS.replace(re, '$1$2$3');
+  // This regex has named capture groups for the international code (optional), area code, prefix, line number, and extension.
+  // in regular expressions (?<name>...) is a named capture group, therefore you can reference the group by its name
+  // The international code (intl) is optional. Someone may write +1 ac, +1 (ac), 1 (ac), 1-ac, 1.ac or 1ac or just ac, (ac), or ac.
+  // the intl need not be separated by space, dash or period from the ac
+  // The ac is the area code and is expected to be 3 digits exactly
+  // The pfx is the prefix and is expected to be 3 digits exactly
+  // The linenum is the line number and is expected to be 4 digits exactly
+  // ac/pfx/linenum _can_ be separated by space, dash or period or repeats of those characters
+  // The extension is optional and is expected to be a number after the required capture groups
+  // The extension is at least separated by an "x" or "ext" or "extension" or "ext." or "x." or "ext." or "extension."
+  // Since the intl group is greedy, if there is a number like +63285503888 (the Philippines VA Medical Center)
+  // it will be captured as intl=6, ac=328, pfx=550, linenum=3888 because the ac, pfx, and linenum are required to be a certain length
+  // However, if it is entered as +063285503888, it will be captured as intl=06, ac=328, pfx=550, linenum=3888
+  // This is because the intl group can expand to capture the 0, but the ac, pfx, and linenum groups are required to be a certain length
+  // Similarly if it is entered as: +01163285503888 it will be captured as intl=0116, ac=328, pfx=550, linenum=3888
+  // At some point we may wish to remove the 0 and 011 from the intl group, but it is unlikely to be entered
+  const phoneRegex = /^(?:\+?(?<intl>\d{1,}?)[ -.]*)?\(?(?<ac>\d{3})\)?[- .]*(?<pfx>\d{3})[- .]*(?<linenum>\d{4}),?(?: ?e?xt?e?n?s?i?o?n?\.? ?(?<ext>\d*))?$/i;
+  const match = phoneRegex.exec(phone);
 
-  return { formattedPhoneNumber, extension, contact };
+  const errorObject = {
+    contact: phone,
+    extension: undefined,
+    processed: false,
+    international: false,
+    countryCode: '',
+  };
+
+  // must have at least match
+  if (!match) {
+    return errorObject;
+  }
+
+  const { intl, ac, pfx, linenum, ext } = match.groups;
+  if (!ac || !pfx || !linenum) {
+    return errorObject;
+  }
+
+  return {
+    contact: `${ac}${pfx}${linenum}`,
+    extension: ext,
+    processed: true,
+    international: !!intl,
+    countryCode: intl && intl !== '1' ? intl : undefined,
+  };
 };

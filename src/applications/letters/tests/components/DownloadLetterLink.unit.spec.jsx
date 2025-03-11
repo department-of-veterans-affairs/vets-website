@@ -9,7 +9,7 @@ import { DownloadLetterLink } from '../../components/DownloadLetterLink.jsx';
 import { DOWNLOAD_STATUSES } from '../../utils/constants';
 
 const defaultProps = {
-  letterName: 'Commissary Letter',
+  letterTitle: 'Commissary Letter',
   letterType: 'commissary',
 };
 
@@ -43,7 +43,9 @@ describe('<DownloadLetterLink>', () => {
       <DownloadLetterLink {...defaultProps} />,
     );
     const tree = getFormDOM(component);
-    expect(tree.getElement('va-button').text).to.equal('Download letter');
+    expect(tree.getElement('va-button').text).to.equal(
+      'Commissary Letter (PDF)',
+    );
   });
 
   it('should call getLetterPdf when clicked', () => {
@@ -69,7 +71,7 @@ describe('<DownloadLetterLink>', () => {
 
     expect(getLetterPdf.args[0]).to.eql([
       defaultProps.letterType,
-      defaultProps.letterName,
+      defaultProps.letterTitle,
       undefined,
       undefined,
     ]);
@@ -107,7 +109,9 @@ describe('<DownloadLetterLink>', () => {
     );
     const tree = getFormDOM(component);
 
-    expect(tree.getElement('va-button').text).to.equal('Download letter');
+    expect(tree.getElement('va-button').text).to.equal(
+      'Commissary Letter (PDF)',
+    );
     expect(tree.textContent).to.contain(
       'Your letter has successfully downloaded.',
     );

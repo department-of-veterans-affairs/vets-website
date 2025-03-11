@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import VerifyAlert from 'platform/user/authorization/components/VerifyAlert';
 import recordEvent from 'platform/monitoring/record-event';
 
-const NeedsToVerify = ({ pathname }) => {
+const NeedsToVerify = () => {
   recordEvent({
     event: 'visible-alert-box',
     'alert-box-type': 'continue',
@@ -16,29 +16,7 @@ const NeedsToVerify = ({ pathname }) => {
     'reason-for-alert': `Not verified`,
   });
 
-  return (
-    <va-alert status="continue">
-      <h2 slot="headline">
-        You’ll need to verify your identity to access more VA.gov tools and
-        features
-      </h2>
-      <p>
-        We need to make sure you’re you — and not someone pretending to be you —
-        before we can give you access to your personal and health-related
-        information. This helps to keep your information safe, and to prevent
-        fraud and identity theft.
-      </p>
-      <strong>This one-time process takes about 5-10 minutes.</strong>
-      <p>
-        <a
-          href={`/verify?next=${pathname}`}
-          className="verify-link vads-c-action-link--green"
-        >
-          Verify your identity
-        </a>
-      </p>
-    </va-alert>
-  );
+  return <VerifyAlert headingLevel={2} />;
 };
 
 NeedsToVerify.propTypes = {

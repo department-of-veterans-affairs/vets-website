@@ -105,7 +105,7 @@ class FolderLoadPage {
     cy.get(Locators.BACK_TO).click({ force: true });
   };
 
-  backToFolder = name => {
+  backToInbox = name => {
     cy.get(Locators.LINKS.CRUMB)
       .contains(name)
       .click({ force: true });
@@ -128,13 +128,17 @@ class FolderLoadPage {
     cy.get('[data-testid="secure-messaging"]')
       .find('h1')
       .should('have.text', Alerts.PAGE_NOT_FOUND);
-    cy.get('[data-testid="secure-messaging"]')
-      .find('p')
-      .should('have.text', Alerts.TRY_SEARCH);
-    cy.get('#mobile-query').should('be.visible');
-    cy.get('input[type="submit"]').should('be.visible');
-    cy.get('#common-questions').should('be.visible');
-    cy.get('#popular-on-vagov').should('be.visible');
+    // // Testing for more than the testId or heading of the PageNotFound
+    // //   component is "diving into the details" of the implementation of the
+    // //   PageNotFound component. Lean on the component unit specs to handle
+    // //   testing these specifics.
+    // cy.get('[data-testid="secure-messaging"]')
+    //   .find('p')
+    //   .should('have.text', Alerts.TRY_SEARCH);
+    // cy.get('#mobile-query').should('be.visible');
+    // cy.get('input[type="submit"]').should('be.visible');
+    // cy.get('#common-questions').should('be.visible');
+    // cy.get('#popular-on-vagov').should('be.visible');
   };
 }
 

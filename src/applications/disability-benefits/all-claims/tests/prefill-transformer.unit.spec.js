@@ -370,7 +370,7 @@ describe('526v2 prefill transformer', () => {
   });
 
   describe('prefillStartedFormVersion', () => {
-    it('should transform toxic exposure indicator when present', () => {
+    it('should include toxic exposure indicator when present', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
         startedFormVersion: '2022',

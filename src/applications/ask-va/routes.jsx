@@ -2,7 +2,6 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import formConfig from './config/form';
 import App from './containers/App';
 import ResponseInboxPage from './containers/ResponseInboxPage';
-import ResponseInboxPageMock from './containers/ResponseInboxPageMock';
 import ResponseSentPage from './containers/ResponseSentPage';
 
 const routes = [
@@ -11,26 +10,11 @@ const routes = [
     component: ResponseInboxPage,
   },
   {
-    path: '/user/dashboard-mock/:id',
-    component: ResponseInboxPageMock,
-  },
-  {
     path: '/response-sent',
     component: ResponseSentPage,
   },
   {
-    path: '/demo',
-    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
-  },
-  {
     path: '/',
-    component: App,
-    indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
-    childRoutes: createRoutesWithSaveInProgress(formConfig),
-  },
-  {
-    path: '/introduction',
     component: App,
     indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
     childRoutes: createRoutesWithSaveInProgress(formConfig),

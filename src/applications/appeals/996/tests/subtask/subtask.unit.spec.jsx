@@ -28,10 +28,6 @@ const mockStore = ({ data = {} } = {}) => {
         touched: {},
         submitted: false,
       },
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        hlr_updateed_contnet: true,
-      },
     }),
     subscribe: () => {},
     dispatch: () => ({

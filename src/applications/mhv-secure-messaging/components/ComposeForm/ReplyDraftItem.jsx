@@ -32,6 +32,7 @@ import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
 import { retrieveMessageThread, sendReply } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
+import { useSessionExpiration } from '../../hooks/use-session-expiration';
 
 const ReplyDraftItem = props => {
   const {
@@ -78,6 +79,7 @@ const ReplyDraftItem = props => {
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
   const [savedDraft, setSavedDraft] = useState(false);
+  const [attachFileError, setAttachFileError] = useState(null);
 
   const alertsList = useSelector(state => state.sm.alerts.alertList);
   const attachmentScanError = useMemo(
@@ -137,17 +139,7 @@ const ReplyDraftItem = props => {
     [draft, messageBody, attachments],
   );
 
-  useEffect(
-    () => {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   const checkMessageValidity = useCallback(
     () => {
@@ -544,6 +536,8 @@ const ReplyDraftItem = props => {
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
                 attachmentScanError={attachmentScanError}
+                attachFileError={attachFileError}
+                setAttachFileError={setAttachFileError}
               />
 
               <FileInput
@@ -552,6 +546,8 @@ const ReplyDraftItem = props => {
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
                 attachmentScanError={attachmentScanError}
+                attachFileError={attachFileError}
+                setAttachFileError={setAttachFileError}
               />
             </section>
           )}

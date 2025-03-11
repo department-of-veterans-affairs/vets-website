@@ -40,4 +40,18 @@ describe('Submit transformer', () => {
     );
     expect(result.primaryContactInfo.name).to.be.false;
   });
+
+  it('should set primaryContact name to sponsor if certifierRole is `sponsor`', () => {
+    const result = JSON.parse(
+      transformForSubmit(formConfig, {
+        data: {
+          certifierRole: 'sponsor',
+          sponsorName: { first: 'Jim' },
+          applicantAddress: { street: '' },
+          certifierAddress: { street: '' },
+        },
+      }),
+    );
+    expect(result.primaryContactInfo.name.first).to.equal('Jim');
+  });
 });

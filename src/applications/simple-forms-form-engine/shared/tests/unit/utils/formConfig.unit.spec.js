@@ -7,16 +7,26 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import * as digitalFormPatterns from '../../../utils/digitalFormPatterns';
 import * as IntroductionPage from '../../../containers/IntroductionPage';
-import { normalizedForm } from '../../../_config/formConfig';
-import { createFormConfig, selectSchemas } from '../../../utils/formConfig';
+import * as submitTransform from '../../../config/submitTransformer';
+import { normalizedForm } from '../../../config/formConfig';
+import {
+  createFormConfig,
+  formatPages,
+  statementOfTruthBody,
+} from '../../../utils/formConfig';
 
-const [yourPersonalInfo, address, phoneAndEmail] = normalizedForm.chapters;
+const [
+  yourPersonalInfo,
+  address,
+  phoneAndEmail,
+  listLoop,
+  customStep,
+] = normalizedForm.chapters;
 
 describe('createFormConfig', () => {
   let formConfig;
-  let identificationSpy;
-  let nameSpy;
   let stub;
+  let transformSpy;
 
   beforeEach(() => {
     const FakeComponent = ({ ombInfo }) => (
@@ -35,12 +45,7 @@ describe('createFormConfig', () => {
       }),
     };
     stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
-
-    identificationSpy = sinon.spy(
-      digitalFormPatterns,
-      'digitalFormIdentificationInfo',
-    );
-    nameSpy = sinon.spy(digitalFormPatterns, 'digitalFormNameAndDoB');
+    transformSpy = sinon.spy(submitTransform, 'default');
 
     formConfig = createFormConfig(normalizedForm, {
       rootUrl: '/root-url',
@@ -50,8 +55,7 @@ describe('createFormConfig', () => {
 
   afterEach(() => {
     stub.restore();
-    identificationSpy.restore();
-    nameSpy.restore();
+    transformSpy.restore();
   });
 
   it('returns a properly formatted Form Config object', () => {
@@ -92,42 +96,86 @@ describe('createFormConfig', () => {
     );
   });
 
-  it('returns a personal information chapter', () => {
-    const [nameAndDob, identificationInfo] = yourPersonalInfo.pages;
+  it('includes a statement of truth', () => {
+    const statementOfTruth = formConfig.preSubmitInfo.statementOfTruth;
 
-    expect(formConfig.chapters.personalInformationChapter.title).to.eq(
-      yourPersonalInfo.chapterTitle,
-    );
+    expect(statementOfTruth.body).to.eq(statementOfTruthBody);
+    expect(statementOfTruth.fullNamePath).to.eq('fullName');
+  });
 
-    expect(identificationSpy.calledWith(identificationInfo)).to.eq(true);
-    expect(nameSpy.calledWith(nameAndDob)).to.eq(true);
+  it('includes transformForSubmit', () => {
+    const form = { data: {} };
+
+    formConfig.transformForSubmit(formConfig, form);
+
+    expect(transformSpy.calledWith(formConfig, form)).to.eq(true);
+  });
+
+  it('does not include a custom submit', () => {
+    expect(formConfig.submit).to.eq(undefined);
   });
 });
 
-describe('selectSchemas', () => {
+describe('formatPages', () => {
   let spy;
 
-  context('with Address pattern', () => {
+  context('when digital_form_address', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'digitalFormAddress');
+      spy = sinon.spy(digitalFormPatterns, 'addressPages');
     });
 
-    it('calls digitalFormAddress', () => {
-      selectSchemas(address);
+    it('calls addressPages', () => {
+      formatPages(address);
 
       expect(spy.calledWith(address)).to.eq(true);
     });
   });
 
-  context('with Phone and Email Address pattern', () => {
+  context('when digital_form_custom_step', () => {
     beforeEach(() => {
-      spy = sinon.spy(digitalFormPatterns, 'digitalFormPhoneAndEmail');
+      spy = sinon.spy(digitalFormPatterns, 'customStepPages');
     });
 
-    it('calls digitalFormPhoneAndEmail', () => {
-      selectSchemas(phoneAndEmail);
+    it('calls customStepPages', () => {
+      formatPages(customStep);
+
+      expect(spy.calledWith(customStep)).to.eq(true);
+    });
+  });
+
+  context('when digital_form_phone_and_email', () => {
+    beforeEach(() => {
+      spy = sinon.spy(digitalFormPatterns, 'phoneAndEmailPages');
+    });
+
+    it('calls phoneAndEmailPages', () => {
+      formatPages(phoneAndEmail);
 
       expect(spy.calledWith(phoneAndEmail)).to.eq(true);
+    });
+  });
+
+  context('when digital_form_list_loop', () => {
+    beforeEach(() => {
+      spy = sinon.spy(digitalFormPatterns, 'listLoopPages');
+    });
+
+    it('calls listLoopPages', () => {
+      formatPages(listLoop);
+
+      expect(spy.calledWith(listLoop)).to.eq(true);
+    });
+  });
+
+  context('when digital_form_your_personal_info', () => {
+    beforeEach(() => {
+      spy = sinon.spy(digitalFormPatterns, 'personalInfoPages');
+    });
+
+    it('calls personalInfoPages', () => {
+      formatPages(yourPersonalInfo);
+
+      expect(spy.calledWith(yourPersonalInfo)).to.eq(true);
     });
   });
 });

@@ -1,7 +1,7 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import ToxicExposureDescription from '../../../components/FormDescriptions/ToxicExposureDescription';
 
-const { hasTeraResponse } = fullSchemaHca.properties;
+const { hasTeraResponse } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {

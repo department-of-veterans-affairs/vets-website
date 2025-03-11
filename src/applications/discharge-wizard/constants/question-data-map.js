@@ -3,14 +3,16 @@ export const QUESTION_MAP = Object.freeze({
   SERVICE_BRANCH: 'What was your branch of service?',
   DISCHARGE_YEAR: 'What year were you discharged from the military?',
   DISCHARGE_MONTH: 'What month were you discharged?',
-  REASON: 'Tell us why you want to change your discharge paperwork.',
+  REASON:
+    "Which of the following best describes why you want to change your discharge paperwork? Choose the one that's closest to your situation.",
   DISCHARGE_TYPE: "What's your character of discharge?",
   INTENTION:
     'Do you want to change your name, discharge date, or something written in the "other remarks" section of your DD214?',
   COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial?',
   PREV_APPLICATION:
     'Have you previously applied for and been denied a discharge upgrade for this period of service?',
-  PREV_APPLICATION_TYPE: 'How did you apply for a discharge upgrade last time?',
+  PREV_APPLICATION_TYPE:
+    'How did you previously apply for a discharge upgrade?',
   PREV_APPLICATION_YEAR: 'What year did you apply for a discharge upgrade?',
   PRIOR_SERVICE:
     'Did you complete a period of service in which your character of service was Honorable or General Under Honorable Conditions?',
@@ -75,6 +77,8 @@ export const RESPONSES = Object.freeze({
     'I applied to a Board for Correction of Military Records (BCMR).',
   PREV_APPLICATION_BCNR:
     'I applied to the Board for Correction of Naval Records (BCNR).',
+  PREV_APPLICATION_DADT:
+    'I haven’t previously applied for a discharge upgrade, but I received an upgrade from the Defense Department (DOD) due to the Don’t Ask, Don’t Tell policy.',
   YES: 'Yes',
   NO: 'No',
   PREV_APPLICATION_BEFORE_2014: '2014 or earlier',

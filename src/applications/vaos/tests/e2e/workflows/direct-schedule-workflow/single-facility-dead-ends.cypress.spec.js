@@ -34,6 +34,46 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
   });
 
   describe('When one facility supports online scheduling', () => {
+    describe('And 502 "Bad gateway" error', () => {
+      it('should display error', () => {
+        // Arrange
+        const mockUser = new MockUser({ addressLine1: '123 Main St.' });
+        mockEligibilityCCApi({ cceType, isEligible: false });
+
+        mockFacilitiesApi({
+          response: MockFacilityResponse.createResponses({
+            facilityIds: ['983'],
+          }),
+        });
+        mockSchedulingConfigurationApi({
+          facilityIds: ['983'],
+          typeOfCareId: 'primaryCare',
+          isDirect: true,
+          isRequest: false,
+        });
+        mockEligibilityApi({ responseCode: 502 });
+        mockClinicsApi({
+          locationId: '983',
+          response: [],
+        });
+        // Act
+        cy.login(mockUser);
+
+        AppointmentListPageObject.visit().scheduleAppointment();
+
+        TypeOfCarePageObject.assertUrl()
+          .assertAddressAlert({ exist: false })
+          .selectTypeOfCare(/Primary care/i)
+          .clickNextButton();
+
+        VAFacilityPageObject.assertUrl().assertErrorAlert({
+          text: /You can.t schedule an appointment online right now/i,
+        });
+
+        // Assert
+        cy.axeCheckBestPractice();
+      });
+    });
     describe('And no available clinics and no requests', () => {
       it('should display warning', () => {
         // Arrange
@@ -80,7 +120,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
       });
     });
 
-    describe('And no past apptointments and request only', () => {
+    describe('And no past appointments and request only', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -113,7 +153,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /You can.t schedule this appointment online/i,
+            text: /You can.t schedule an appointment online/i,
           })
           .assertButton({ exist: false, label: /Continue/i });
 
@@ -122,7 +162,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
       });
     });
 
-    describe('And no past apptointments and direct only', () => {
+    describe('And no past appointments and direct only', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });
@@ -170,7 +210,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
 
         VAFacilityPageObject.assertUrl()
           .assertWarningAlert({
-            text: /You can.t schedule this appointment online/i,
+            text: /You can.t schedule an appointment online/i,
           })
           .assertButton({ exist: false, label: /Continue/i });
 
@@ -179,7 +219,7 @@ describe('VAOS direct schedule flow - Single facility dead ends', () => {
       });
     });
 
-    describe('And no past apptointments and request only and limit reached', () => {
+    describe('And no past appointments and request only and limit reached', () => {
       it('should display warning', () => {
         // Arrange
         const mockUser = new MockUser({ addressLine1: '123 Main St.' });

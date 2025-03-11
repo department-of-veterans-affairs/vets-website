@@ -110,7 +110,12 @@ describe('VAOS Page: TypeOfCarePage', () => {
     });
     const screen = renderWithStoreAndRouter(<TypeOfCarePage />, { store });
 
-    expect(await screen.findByText('What type of care do you need?')).to.exist;
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /What type of care do you need/,
+      }),
+    ).to.exist;
     expect((await screen.findAllByRole('radio')).length).to.equal(12);
 
     // Verify alert is shown
@@ -143,7 +148,12 @@ describe('VAOS Page: TypeOfCarePage', () => {
 
     fireEvent.click(screen.getByText(/Continue/));
 
-    expect(await screen.findByText('What type of care do you need?')).to.exist;
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: /What type of care do you need/,
+      }),
+    ).to.exist;
     expect(screen.history.push.called).to.not.be.true;
 
     fireEvent.click(await screen.findByLabelText(/primary care/i));
@@ -299,7 +309,9 @@ describe('VAOS Page: TypeOfCarePage', () => {
         'vaos-update-address-alert-displayed',
       ),
     );
-    fireEvent.click(screen.getByText('Update your address'));
+    fireEvent.click(
+      screen.getByText('Go to your VA.gov profile (opens in new tab)'),
+    );
     await waitFor(
       () =>
         expect(
@@ -355,7 +367,9 @@ describe('VAOS Page: TypeOfCarePage', () => {
         /To use some of the tool’s features, you need a home address on file/i,
       ),
     ).to.exist;
-    fireEvent.click(screen.getByText('Update your address'));
+    fireEvent.click(
+      screen.getByText('Go to your VA.gov profile (opens in new tab)'),
+    );
     await waitFor(
       () =>
         expect(

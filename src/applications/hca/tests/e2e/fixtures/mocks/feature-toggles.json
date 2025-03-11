@@ -3,12 +3,8 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "hca_sigi_enabled",
-        "value": false
-      },
-      {
-        "name": "hca_browser_monitoring_enabled",
-        "value": false
+        "name": "hca_download_completed_pdf",
+        "value": true
       }
     ]
   }

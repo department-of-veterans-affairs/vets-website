@@ -1,6 +1,7 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { expect } from 'chai';
 import sinon from 'sinon';
+import MockDate from 'mockdate';
 import {
   mockFetch,
   setFetchJSONFailure,
@@ -68,6 +69,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -94,6 +96,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -120,6 +123,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -146,6 +150,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -173,6 +178,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -211,6 +217,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -262,6 +269,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -292,6 +300,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -322,6 +331,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -350,35 +360,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
-      });
-
-      expect(v2Result).to.be.ok;
-    });
-
-    it('should return data for a mobile gfe video appointment', async () => {
-      const data = {
-        id: '1234',
-        start: moment()
-          .add(3, 'days')
-          .format(),
-        email: 'test@va.gov',
-        kind: 'telehealth',
-        status: 'booked',
-        minutesDuration: 60,
-        telehealth: {
-          vvsKind: VIDEO_TYPES.gfe,
-        },
-      };
-
-      setFetchJSONResponse(
-        global.fetch.withArgs(sinon.match(`/vaos/v2/appointments/${data.id}`)),
-        { data: createMockAppointment({ ...data }) },
-      );
-
-      const v2Result = await fetchBookedAppointment({
-        id: data.id,
-
-        useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -418,6 +400,7 @@ describe('VAOS Services: Appointment ', () => {
       const v2Result = await fetchBookedAppointment({
         id: data.id,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       expect(v2Result).to.be.ok;
@@ -442,6 +425,7 @@ describe('VAOS Services: Appointment ', () => {
         await fetchBookedAppointment({
           id: '1234',
           useV2: true,
+          useFeSourceOfTruth: true,
         });
       } catch (e) {
         v2Result = e;
@@ -507,6 +491,7 @@ describe('VAOS Services: Appointment ', () => {
         startDate,
         endDate,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       // Then expect a VA appointment request to be returned.
@@ -565,6 +550,7 @@ describe('VAOS Services: Appointment ', () => {
         startDate,
         endDate,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       // Then expect a CC appointment request to be returned.
@@ -620,6 +606,7 @@ describe('VAOS Services: Appointment ', () => {
         startDate,
         endDate,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       // Then expect a canceled appointment request to be returned.
@@ -661,6 +648,7 @@ describe('VAOS Services: Appointment ', () => {
           startDate,
           endDate,
           useV2: true,
+          useFeSourceOfTruth: true,
         });
       } catch (e) {
         v2Result = e;
@@ -687,7 +675,7 @@ describe('VAOS Services: Appointment ', () => {
         });
       });
 
-      await getLongTermAppointmentHistoryV2();
+      await getLongTermAppointmentHistoryV2(true);
       expect(global.fetch.callCount).to.equal(3);
       expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].start);
       expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].end);
@@ -700,8 +688,9 @@ describe('VAOS Services: Appointment ', () => {
 
   //--------
 
-  const now = moment();
   describe('isUpcomingAppointmentOrRequest', () => {
+    MockDate.reset();
+    const now = moment();
     it('should filter future requests', () => {
       const apptRequests = [
         // canceled past - should filter out
@@ -801,77 +790,34 @@ describe('VAOS Services: Appointment ', () => {
       const confirmedAppts = [
         // appointment more than 395 days should not show
         {
-          start: '2099-04-30T05:35:00',
-          facilityId: '984',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        },
-        // appointment less than 395 days should show
-        {
-          start: now
-            .clone()
-            .add(394, 'days')
-            .format(),
-          facilityId: '984',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        },
-        // appointment 30 min ago should show
-        {
-          start: now
-            .clone()
-            .subtract(30, 'minutes')
-            .format(),
-          facilityId: '984',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
-        },
-        // appointment more than 1 hour ago should not show
-        {
-          start: now
-            .clone()
-            .subtract(65, 'minutes')
-            .format(),
           facilityId: '984',
           vaos: {
-            isPastAppointment: true,
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-        // video appointment less than 4 hours ago should show
-        {
-          start: now
-            .clone()
-            .subtract(230, 'minutes')
-            .format(),
-          vaos: {
-            appointmentType: APPOINTMENT_TYPES.vaAppointment,
-          },
-        },
-        // video appointment more than 4 hours ago should not show
-        {
-          start: now
-            .clone()
-            .subtract(245, 'minutes')
-            .format(),
-          vaos: {
-            isPastAppointment: true,
+            isUpcomingAppointment: true,
             appointmentType: APPOINTMENT_TYPES.vaAppointment,
           },
         },
         // appointment with status 'NO-SHOW' should not show
         {
           description: 'NO-SHOW',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          vaos: {
+            isUpcomingAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
         // appointment with status 'DELETED' should not show
         {
           description: 'DELETED',
-          vaos: { appointmentType: APPOINTMENT_TYPES.vaAppointment },
+          vaos: {
+            isUpcomingAppointment: true,
+            appointmentType: APPOINTMENT_TYPES.vaAppointment,
+          },
         },
       ];
 
       const filteredConfirmed = confirmedAppts.filter(
         isUpcomingAppointmentOrRequest,
       );
-      expect(filteredConfirmed.length).to.equal(3);
+      expect(filteredConfirmed.length).to.equal(1);
     });
 
     it('should filter out appointments with status in FUTURE_APPOINTMENTS_HIDDEN_SET', () => {

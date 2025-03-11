@@ -1,6 +1,7 @@
 import { snakeCase } from 'lodash';
 import URLSearchParams from 'url-search-params';
 import { useLocation } from 'react-router-dom';
+import ADDRESS_DATA from 'platform/forms/address/data';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
@@ -16,6 +17,7 @@ import {
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
   ERROR_MESSAGES,
+  lacpCategoryList,
 } from '../constants';
 
 /**
@@ -171,6 +173,24 @@ export const removeNonNumberCharacters = value =>
 export const formatDollarAmount = value => {
   const output = value != null ? removeNonNumberCharacters(value) : 0;
   return formatCurrency(output);
+};
+
+export const formatDollarAmountWithCents = (value, message) => {
+  if (!value) {
+    return message;
+  }
+  const formattedValue = parseFloat(value).toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    style: 'currency',
+  });
+
+  if (!formattedValue) {
+    return message;
+  }
+
+  return formattedValue;
 };
 
 export const handleInputFocusWithPotentialOverLap = (
@@ -491,6 +511,10 @@ export const isSearchByLocationPage = () => {
 
 export const giDocumentTitle = () => {
   let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const isUpdatedGi = window.location.pathname.includes(
+    'schools-and-employers',
+  );
+  if (isUpdatedGi) crumbLiEnding += '- Schools and employers ';
   const searchByName = isSearchByNamePage();
   const searchByLocationPage = isSearchByLocationPage();
   if (searchByName) {
@@ -528,47 +552,295 @@ export const getGIBillHeaderText = (automatedTest = false) => {
     : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };
 
-export const updateLcFilterDropdowns = (dropdowns, target) => {
-  const updatedFieldIndex = dropdowns.findIndex(dropdown => {
-    return dropdown.label === target.id;
+export function capitalizeFirstLetter(string, customExceptions = []) {
+  if (!string) return null;
+
+  const exceptions = ['NW', 'SW', 'NE', 'SE', 'of', 'and', ...customExceptions];
+
+  return string
+    .split(' ')
+    .map(word => {
+      if (exceptions.includes(word)) {
+        return word;
+      }
+
+      if (word === 'OF') {
+        return 'of';
+      }
+      if (word === 'AND') {
+        return 'and';
+      }
+
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
+export const filterSuggestions = (
+  results,
+  nameInput,
+  categoryFilters, // account for mutliple types
+  stateFilter,
+) => {
+  if (
+    categoryFilters.includes('all') &&
+    stateFilter === 'all' &&
+    nameInput === ''
+  )
+    return results;
+
+  return results.filter(result => {
+    let allowContinue = true;
+
+    if (
+      !categoryFilters.includes('all') &&
+      !categoryFilters.includes(result.eduLacTypeNm?.toLowerCase())
+    ) {
+      return false;
+    }
+    if (
+      stateFilter !== 'all' &&
+      stateFilter !== result.state &&
+      result.eduLacTypeNm !== 'Certification'
+    ) {
+      allowContinue = false;
+    }
+
+    if (allowContinue) {
+      return result.lacNm.toLowerCase().includes(nameInput.toLowerCase());
+    }
+
+    return false;
+  });
+};
+
+export const updateQueryParam = (history, location, newParams) => {
+  const searchParams = new URLSearchParams(location.search);
+
+  Object.entries(newParams).forEach(([key, value]) => {
+    searchParams.set(key, encodeURIComponent(value));
   });
 
-  const selectedOptionIndex = dropdowns[updatedFieldIndex].options.findIndex(
-    option => option.optionValue === target.value,
-  );
+  history.push({
+    pathname: location.pathname,
+    search: searchParams.toString(),
+  });
+};
 
-  return dropdowns.map(
-    (dropdown, index) =>
-      index === updatedFieldIndex
-        ? {
-            ...dropdown,
-            current: dropdown.options[selectedOptionIndex],
-          }
-        : dropdown,
-  );
+export const showLcParams = location => {
+  const searchParams = new URLSearchParams(location.search);
+  const categories = searchParams.getAll('category');
+
+  const rawName = location.search.split('name=')[1]?.split('&')[0] ?? '';
+
+  // Decode the name while preserving + characters
+  const nameParam = decodeURIComponent(rawName)
+    .replace(/%20/g, ' ')
+    .replace(/%2B/g, '+');
+
+  const categoryParams = categories.length === 0 ? ['all'] : categories;
+  const stateParam = searchParams.get('state') ?? 'all';
+  const initialCategoryParam = searchParams.get('initial') ?? 'all';
+  const pageParam = searchParams.get('page') ?? 1;
+
+  return {
+    nameParam,
+    categoryParams,
+    stateParam,
+    initialCategoryParam,
+    pageParam,
+  };
 };
 
 export const handleLcResultsSearch = (
   history,
-  type = 'all',
-  name = null,
+  categories,
+  name,
   state = 'all',
+  initialCategory = 'all',
+  page = 1,
 ) => {
-  return name
-    ? history.push(
-        `/lc-search/results?type=${type}&name=${name}&state=${state}`,
-      )
-    : history.push(`/lc-search/results?type=${type}&state=${state}`);
+  let categoryParams = '';
+
+  categories.forEach((category, index) => {
+    categoryParams = categoryParams.concat(
+      '',
+      index === categories.length - 1
+        ? `category=${category}`
+        : `category=${category}&`,
+    );
+  });
+
+  history.push(
+    `/licenses-certifications-and-prep-courses/results?name=${name}&state=${state}&initial=${initialCategory}&page=${page}&`.concat(
+      categoryParams,
+    ),
+    {
+      path: history.location.pathname,
+    },
+  );
 };
 
-export const formatProgramType = programType => {
+export const formatResultCount = (results, currentPage, itemsPerPage) => {
+  if (currentPage * itemsPerPage > results.length - 1) {
+    return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${
+      results.length
+    }`;
+  }
+
+  return `${currentPage * itemsPerPage - (itemsPerPage - 1)} - ${currentPage *
+    itemsPerPage}`;
+};
+
+export const mappedStates = Object.entries(ADDRESS_DATA.states)
+  .map(state => {
+    return { optionValue: state[0], optionLabel: state[1] };
+  })
+  .filter(state => {
+    const exceptions = [
+      'AS',
+      'AA',
+      'AE',
+      'AP',
+      'DC',
+      'FM',
+      'GU',
+      'MH',
+      'MP',
+      'PW',
+      'PR',
+      'VI',
+    ];
+
+    if (exceptions.includes(state.optionValue)) return false;
+
+    return true;
+  });
+
+export const updateCategoryDropdown = (
+  category = 'all',
+  categoryList = lacpCategoryList,
+) => {
+  return {
+    label: 'category',
+    options: categoryList.map(_category => {
+      return {
+        optionValue: _category,
+        optionLabel: capitalizeFirstLetter(_category, ['course']),
+      };
+    }),
+    alt: 'category type',
+    current: {
+      optionValue: category,
+      optionLabel: capitalizeFirstLetter(category, ['course']),
+    },
+  };
+};
+
+export const updateStateDropdown = (multiples = [], selected = 'all') => {
+  return {
+    label: 'State',
+    options:
+      multiples.length - 1 <= 0
+        ? [{ optionValue: 'all', optionLabel: 'All' }, ...mappedStates]
+        : [
+            { optionValue: 'all', optionLabel: 'All' },
+            ...mappedStates.filter(mappedState =>
+              multiples.find(multiple => {
+                if (
+                  multiple?.state === mappedState.optionValue &&
+                  multiple.eduLacTypeNm !== 'Certification'
+                ) {
+                  return true;
+                }
+
+                return false;
+              }),
+            ),
+          ],
+    alt: 'state',
+    current:
+      selected === 'all'
+        ? { optionValue: 'all', optionLabel: 'All' }
+        : {
+            ...mappedStates.find(state => state.optionValue === selected),
+          },
+  };
+};
+
+export const createCheckboxes = (categories, checkedList) => {
+  const valuesToCheck = ['license', 'certification', 'prep course'];
+
+  let allValuesIncluded;
+
+  if (checkedList[0] === 'all') {
+    allValuesIncluded = true;
+  } else {
+    allValuesIncluded = valuesToCheck.every(value =>
+      checkedList.includes(value),
+    );
+  }
+
+  return categories.map(category => {
+    let checked = checkedList.includes(category);
+
+    if (allValuesIncluded) {
+      checked = true;
+    }
+
+    return {
+      name: category,
+      checked,
+      label: capitalizeFirstLetter(category),
+    };
+  });
+};
+
+export function formatList(array) {
+  if (!array || array.length === 0) {
+    return '';
+  }
+
+  if (array.length === 1) {
+    return array[0];
+  }
+  if (array.length === 2) {
+    return `${array[0]} or ${array[1]}`;
+  }
+
+  const lastItem = array[array.length - 1];
+  const otherItems = array.slice(0, -1);
+
+  return `${otherItems.join(', ')} or ${lastItem}`;
+}
+
+export const showMultipleNames = (suggestions, nameInput) => {
+  let final = [];
+
+  if (suggestions && nameInput) {
+    final = suggestions.filter(suggestion =>
+      suggestion.lacNm.toLowerCase().includes(nameInput?.toLowerCase()),
+    );
+  }
+
+  return final;
+};
+
+export const formatProgramType = (programType = '') => {
   if (!programType) return '';
 
-  return programType
+  if (programType === 'on-the-job-training-apprenticeship') {
+    return 'On-the-job training/Apprenticeships';
+  }
+
+  const lowerJoined = programType
+    .toLowerCase()
     .split('-')
-    .filter(word => word.trim()) // Filter out empty strings caused by extra hyphens
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .filter(Boolean)
     .join(' ');
+
+  if (!lowerJoined) return '';
+  return lowerJoined.charAt(0).toUpperCase() + lowerJoined.slice(1);
 };
 
 export const generateMockPrograms = numPrograms => {
@@ -607,4 +879,228 @@ export const generateMockPrograms = numPrograms => {
       institutionName: 'LAB FOUR PROFESSIONAL DEVELOPMENT CENTER - NASHVILLE',
     },
   }));
+};
+
+export const deriveMaxAmount = contributionAmount => {
+  if (!contributionAmount) {
+    return 'Not provided';
+  }
+  const contributionAmountNum = parseFloat(contributionAmount);
+  if (contributionAmountNum >= 99999) {
+    return "Pays remaining tuition that Post-9/11 GI Bill doesn't cover";
+  }
+
+  return contributionAmountNum.toLocaleString('en-US', {
+    currency: 'USD',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+    style: 'currency',
+  });
+};
+
+export const deriveEligibleStudents = numberOfStudents => {
+  if (!numberOfStudents) {
+    return 'Not provided';
+  }
+  if (numberOfStudents >= 99999) {
+    return 'All eligible students';
+  }
+  if (numberOfStudents === 1) {
+    return '1 student';
+  }
+  return `${numberOfStudents} students`;
+};
+
+export const mapToAbbreviation = value => {
+  const mapping = {
+    'on-the-job-training-apprenticeship': 'OJT',
+    'non-college-degree': 'NCD',
+    'institution-of-higher-learning': 'IHL',
+    flight: 'FLGT',
+    correspondence: 'CORR',
+  };
+
+  return mapping[value.toLowerCase()];
+};
+
+export const mapProgramTypeToName = programType => {
+  const programTypesNames = {
+    NCD: 'non college degree',
+    IHL: 'institution of higher learning',
+    OJT: 'on-the-job training/apprenticeship',
+    FLGT: 'flight',
+    CORR: 'correspondence',
+  };
+
+  return programTypesNames[programType] || 'Unknown Program Type';
+};
+
+export const mapToDashedName = abbreviation => {
+  const reverseMapping = {
+    OJT: 'on-the-job-training-apprenticeship',
+    NCD: 'non-college-degree',
+    IHL: 'institution-of-higher-learning',
+    FLGT: 'flight',
+    CORR: 'correspondence',
+  };
+
+  return reverseMapping[abbreviation.toUpperCase()] || 'Unknown Abbreviation';
+};
+
+export const getAbbreviationsAsArray = value => {
+  if (!value) return [];
+  const mapping = {
+    OJT: [
+      { abbreviation: 'APP', description: 'Apprenticeships' },
+      { abbreviation: 'NPFA', description: 'Non Pay Federal Agency' },
+      { abbreviation: 'NPOJT', description: 'Non Pay On-the-job-training' },
+      { abbreviation: 'OJT', description: 'On-the-job training' },
+    ],
+    NCD: [
+      { abbreviation: 'CERT', description: 'Certification' },
+      { abbreviation: 'UG CERT', description: 'Undergraduate Certification' },
+    ],
+    IHL: [
+      { abbreviation: 'AA', description: 'Associate of Arts' },
+      { abbreviation: 'AS', description: 'Associate of Science' },
+      { abbreviation: 'BA', description: 'Bachelor of Arts' },
+      { abbreviation: 'BS', description: 'Bachelor of Science' },
+      { abbreviation: 'GRAD CERT', description: 'Graduate Certification' },
+      { abbreviation: 'MA', description: 'Master of Arts' },
+      { abbreviation: 'MBA', description: 'Master of Business Administration' },
+      { abbreviation: 'MS', description: 'Master of Science' },
+      { abbreviation: 'PhD', description: 'Doctor of Philosophy' },
+    ],
+    CORR: [
+      { abbreviation: 'AAS', description: 'Associate of Applied Science' },
+      { abbreviation: 'CERT', description: 'Certification' },
+    ],
+    FLGT: [
+      { abbreviation: 'AMEL', description: 'Airplane Multi Engine Land' },
+      { abbreviation: 'ASEL', description: 'Airplane Single Engine Land' },
+      { abbreviation: 'ATM', description: 'Airline Transport Multiengine' },
+      { abbreviation: 'ATP', description: 'Airline Transport Pilot' },
+      { abbreviation: 'ATS', description: 'Airline Transport Single Engine' },
+      { abbreviation: 'CFI', description: 'Certified Flight Instructor' },
+      {
+        abbreviation: 'CFII',
+        description: 'Certified Flight Instructor Instrument',
+      },
+      { abbreviation: 'IR', description: 'Instrument Rating' },
+      { abbreviation: 'MEI', description: 'Multi Engine Instructor' },
+      {
+        abbreviation: 'PPIL',
+        description: 'Professional Pilot Interdisciplinary Sciences',
+      },
+      { abbreviation: 'ROTO', description: 'Rotorcraft; Rotary-Wing Aircraft' },
+    ],
+  };
+
+  const items = mapping[value.toUpperCase()] || [];
+
+  return items.map(item => `${item.abbreviation}: ${item.description}`);
+};
+
+export const formatNationalExamName = name => {
+  if (!name || !name.trim()) {
+    return '';
+  }
+
+  if (name === 'DSST-DANTES') {
+    return name;
+  }
+
+  if (name === 'MAT-MILLER ANALOGIES TEST') {
+    return 'MAT-MILLER analogies test';
+  }
+
+  if (name === 'ECE (4 hours)' || name === 'ECE (6 hours)') {
+    return name;
+  }
+
+  const eceNursingMatch = name.match(/^ECE\s+(\d+)\s+HOURS\s+NURSING$/i);
+  if (eceNursingMatch) {
+    const hours = eceNursingMatch[1];
+    return `ECE (${hours} hours) nursing`;
+  }
+
+  if (name === 'DANTES SPONSORED CLEP EXAMS') {
+    return 'DANTES sponsored clep exams';
+  }
+
+  if (name.includes('-')) {
+    const [left, right] = name.split('-', 2);
+    return `${left}-${right.toLowerCase()}`;
+  }
+
+  return name;
+};
+
+export const formatAddress = str => {
+  if (typeof str !== 'string' || str.trim().length === 0) {
+    return str;
+  }
+
+  const exceptionsList = ['NW', 'NE', 'SW', 'SE', 'PO'];
+  const exceptions = exceptionsList.map(item => item.toUpperCase());
+
+  return str
+    .trim()
+    .split(/\s+/)
+    .map(word => {
+      const subWords = word.split('-');
+      const formattedSubWords = subWords.map(subWord => {
+        const upperSubWord = subWord.toUpperCase();
+
+        if (exceptions.includes(upperSubWord)) {
+          return upperSubWord;
+        }
+
+        const matchingException = exceptions.find(ex =>
+          upperSubWord.startsWith(ex),
+        );
+        if (matchingException) {
+          return matchingException + subWord.slice(matchingException.length);
+        }
+
+        if (/^\d+[A-Z]+$/.test(subWord)) {
+          return subWord;
+        }
+
+        const numberLetterMatch = subWord.match(/^(\d+)([a-zA-Z]+)$/);
+        if (numberLetterMatch) {
+          const numbers = numberLetterMatch[1];
+          const letters = numberLetterMatch[2];
+          return `${numbers}${letters}`;
+        }
+
+        return subWord.charAt(0).toUpperCase() + subWord.slice(1).toLowerCase();
+      });
+
+      return formattedSubWords.join('-');
+    })
+    .join(' ');
+};
+
+export const toTitleCase = str => {
+  if (typeof str !== 'string') {
+    return '';
+  }
+
+  const trimmedStr = str.trim();
+
+  if (!trimmedStr) {
+    return '';
+  }
+
+  const words = trimmedStr.split(/\s+/);
+
+  const titled = words.map(word => {
+    const parts = word.split('-').map(part => {
+      return part.charAt(0).toUpperCase() + part.slice(1).toLowerCase();
+    });
+    return parts.join('-');
+  });
+
+  return titled.join(' ');
 };

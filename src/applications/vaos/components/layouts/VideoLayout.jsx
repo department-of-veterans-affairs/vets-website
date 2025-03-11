@@ -1,0 +1,186 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'recompose';
+import VideoLayoutAtlas from './VideoLayoutAtlas';
+import {
+  selectConfirmedAppointmentData,
+  selectIsAtlasVideo,
+} from '../../appointment-list/redux/selectors';
+import VideoLayoutVA from './VideoLayoutVA';
+import { isClinicVideoAppointment } from '../../services/appointment';
+import DetailPageLayout, {
+  What,
+  When,
+  Who,
+  ClinicOrFacilityPhone,
+  Prepare,
+} from './DetailPageLayout';
+import Section from '../Section';
+import VideoLink from '../VideoLink';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
+import {
+  AppointmentDate,
+  AppointmentTime,
+} from '../../appointment-list/components/AppointmentDateTime';
+import AddToCalendarButton from '../AddToCalendarButton';
+import VideoInstructions from '../VideoInstructions';
+import State from '../State';
+import {
+  NULL_STATE_FIELD,
+  recordAppointmentDetailsNullStates,
+} from '../../utils/events';
+
+export default function VideoLayout({ data: appointment }) {
+  const {
+    clinicName,
+    clinicPhone,
+    clinicPhoneExtension,
+    facility,
+    facilityPhone,
+    isCanceledAppointment,
+    isPastAppointment,
+    startDate,
+    status,
+    typeOfCareName,
+    // videoProviderAddress,
+    videoProviderName,
+  } = useSelector(
+    state => selectConfirmedAppointmentData(state, appointment),
+    shallowEqual,
+  );
+
+  const isAtlasVideo = useSelector(() => selectIsAtlasVideo(appointment));
+  const isClinicVideo = isClinicVideoAppointment(appointment);
+
+  if (isAtlasVideo) return <VideoLayoutAtlas data={appointment} />;
+  if (isClinicVideo) return <VideoLayoutVA data={appointment} />;
+
+  const address = facility?.address;
+  let heading = 'Video appointment';
+  if (isPastAppointment) heading = 'Past video appointment';
+  else if (APPOINTMENT_STATUS.cancelled === status)
+    heading = 'Canceled video appointment';
+
+  recordAppointmentDetailsNullStates(
+    {
+      type: appointment.type,
+      modality: appointment.modality,
+      isCerner: appointment.vaos.isCerner,
+    },
+    {
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.PROVIDER]: !videoProviderName,
+      [NULL_STATE_FIELD.CLINIC_PHONE]: !clinicPhone,
+      [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+      [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
+    },
+  );
+
+  return (
+    <DetailPageLayout heading={heading} data={appointment}>
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="How to join">
+            <VideoLink appointment={appointment} />
+          </Section>
+        )}
+      <When>
+        <AppointmentDate date={startDate} />
+        <br />
+        <AppointmentTime appointment={appointment} />
+        <br />
+        {APPOINTMENT_STATUS.cancelled !== status &&
+          !isPastAppointment && (
+            <div className="vads-u-margin-top--2 vaos-hide-for-print">
+              <AddToCalendarButton
+                appointment={appointment}
+                facility={facility}
+              />
+            </div>
+          )}
+      </When>
+
+      <What>{typeOfCareName}</What>
+
+      <Who>{videoProviderName}</Who>
+
+      {((APPOINTMENT_STATUS.booked === status && isPastAppointment) ||
+        isCanceledAppointment) && (
+        <Section heading="Scheduling facility">
+          {!!facility && (
+            <>
+              <a href={facility.website}>{facility.name}</a>
+              <br />
+              <span>
+                {address.city}, <State state={address.state} />
+              </span>
+            </>
+          )}
+          <br />
+          {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+          <br />
+          <ClinicOrFacilityPhone
+            clinicPhone={clinicPhone}
+            clinicPhoneExtension={clinicPhoneExtension}
+            facilityPhone={facilityPhone}
+          />
+        </Section>
+      )}
+
+      {!isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <ul className="vads-u-margin-top--0">
+              <li>
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
+                <br />
+                <va-link
+                  text="Find a full list of things to bring to your appointment"
+                  href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+                />
+              </li>
+              <li>
+                Get your device ready to join.
+                <VideoInstructions />
+              </li>
+            </ul>
+          </Prepare>
+        )}
+
+      {APPOINTMENT_STATUS.booked === status &&
+        !isPastAppointment && (
+          <Section heading="Need to make changes?">
+            Contact this facility if you need to reschedule or cancel your
+            appointment.
+            <br />
+            <br />
+            {facility ? (
+              <>
+                <a href={facility.website}>{facility.name}</a>
+                <br />
+                <span>
+                  {address.city}, <State state={address.state} />
+                </span>
+              </>
+            ) : (
+              'Facility not available'
+            )}
+            <br />
+            {clinicName ? `Clinic: ${clinicName}` : 'Clinic not available'}
+            <br />
+            <ClinicOrFacilityPhone
+              clinicPhone={clinicPhone}
+              clinicPhoneExtension={clinicPhoneExtension}
+              facilityPhone={facilityPhone}
+            />
+          </Section>
+        )}
+    </DetailPageLayout>
+  );
+}
+VideoLayout.propTypes = {
+  data: PropTypes.object,
+};

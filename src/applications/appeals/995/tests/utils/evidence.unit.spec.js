@@ -6,6 +6,9 @@ import {
   getOtherEvidence,
   hasVAEvidence,
   hasPrivateEvidence,
+  hasPrivateLimitation,
+  hasNewPrivateLimitation,
+  hasOriginalPrivateLimitation,
   hasOtherEvidence,
   getIndex,
   evidenceNeedsUpdating,
@@ -15,8 +18,10 @@ import {
 import {
   EVIDENCE_VA,
   EVIDENCE_PRIVATE,
+  EVIDENCE_LIMIT,
   EVIDENCE_OTHER,
   SC_NEW_FORM_DATA,
+  HAS_REDIRECTED,
 } from '../../constants';
 
 import { SELECTED } from '../../../shared/constants';
@@ -117,6 +122,83 @@ describe('hasPrivateEvidence', () => {
   });
 });
 
+describe('hasPrivateLimitation', () => {
+  it('should always return false when toggle is disabled', () => {
+    const getData = (hasPrivate, limit = false) => ({
+      [SC_NEW_FORM_DATA]: false,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+      [EVIDENCE_LIMIT]: limit,
+    });
+    expect(hasPrivateLimitation(getData())).to.be.false;
+    expect(hasPrivateLimitation(getData(true))).to.be.false;
+    expect(hasPrivateLimitation(getData(false))).to.be.false;
+    expect(hasPrivateLimitation(getData(false, false))).to.be.false;
+    expect(hasPrivateLimitation(getData(false, true))).to.be.false;
+    expect(hasPrivateLimitation(getData(true, true))).to.be.false;
+    expect(hasPrivateLimitation(getData(true, false))).to.be.false;
+  });
+  it('should return expected value', () => {
+    const getData = limit => ({
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: true,
+      [EVIDENCE_LIMIT]: limit,
+    });
+    // returns false when limitation is falsy, and true when truthy
+    expect(hasPrivateLimitation(getData(false))).to.be.false;
+    expect(hasPrivateLimitation(getData())).to.be.false;
+    expect(hasPrivateLimitation(getData(''))).to.be.false;
+    expect(hasPrivateLimitation(getData('test'))).to.be.true;
+    expect(hasPrivateLimitation(getData(true))).to.be.true;
+  });
+});
+
+describe('hasNewPrivateLimitation', () => {
+  it('should always return false when toggle is disabled', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: false,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    expect(hasNewPrivateLimitation(getData())).to.be.false;
+    expect(hasNewPrivateLimitation(getData(true))).to.be.false;
+    expect(hasNewPrivateLimitation(getData(false))).to.be.false;
+  });
+  it('should return expected value', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    expect(hasNewPrivateLimitation(getData())).to.be.undefined; // falsy
+    expect(hasNewPrivateLimitation(getData(''))).to.eq(''); // falsy
+    expect(hasNewPrivateLimitation(getData('test'))).to.eq('test'); // truthy
+    expect(hasNewPrivateLimitation(getData(true))).to.be.true;
+  });
+});
+
+// hasOriginalPrivateLimitation,
+describe('hasOriginalPrivateLimitation', () => {
+  it('should always return false when toggle is disabled', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: true,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    expect(hasOriginalPrivateLimitation(getData())).to.be.false;
+    expect(hasOriginalPrivateLimitation(getData(true))).to.be.false;
+    expect(hasOriginalPrivateLimitation(getData(false))).to.be.false;
+  });
+  it('should return expected value', () => {
+    const getData = hasPrivate => ({
+      [SC_NEW_FORM_DATA]: false,
+      [EVIDENCE_PRIVATE]: hasPrivate,
+    });
+    // only returns false when explicitly set to false
+    expect(hasOriginalPrivateLimitation(getData(false))).to.be.false;
+    expect(hasOriginalPrivateLimitation(getData())).to.be.undefined; // falsy
+    expect(hasOriginalPrivateLimitation(getData(''))).to.eq(''); // falsy
+    expect(hasOriginalPrivateLimitation(getData('test'))).to.eq('test'); // truthy
+    expect(hasOriginalPrivateLimitation(getData(true))).to.be.true;
+  });
+});
+
 describe('hasOtherEvidence', () => {
   it('should return expected value', () => {
     expect(hasOtherEvidence({ [EVIDENCE_OTHER]: undefined })).to.be.undefined;
@@ -160,6 +242,10 @@ describe('evidenceNeedsUpdating', () => {
     const evidence = getEvidence({ hasVa: false, hasPrivate: false });
     expect(evidenceNeedsUpdating({ ...evidence, providerFacility: null })).to.be
       .false;
+  });
+  it('should return false if provider facility evidence undefined', () => {
+    expect(evidenceNeedsUpdating({ [EVIDENCE_VA]: true, locations: [{}] })).to
+      .be.false;
   });
   it('should return false if no updates needed', () => {
     const evidence = getEvidence();
@@ -214,6 +300,10 @@ describe('removeNonSelectedIssuesFromEvidence', () => {
   });
 
   const expected = getData();
+  it('should return empty template with empty form data', () => {
+    const result = removeNonSelectedIssuesFromEvidence();
+    expect(result).to.deep.eq({ locations: [], providerFacility: [] });
+  });
   it('should return un-modified evidence issues', () => {
     const data = getData('', '');
     const result = removeNonSelectedIssuesFromEvidence(data);
@@ -242,8 +332,13 @@ describe('onFormLoaded', () => {
     treatmentDate,
     noDate: !treatmentDate,
   });
-  const getData = ({ toggle = false, locations = [] } = {}) => ({
+  const getData = ({
+    toggle = false,
+    locations = [],
+    redirected = true,
+  } = {}) => ({
     [SC_NEW_FORM_DATA]: toggle,
+    [HAS_REDIRECTED]: redirected,
     locations,
   });
   const returnUrl = '/test';
@@ -253,6 +348,14 @@ describe('onFormLoaded', () => {
     const formData = getData();
     onFormLoaded({ formData, returnUrl, router });
     expect(formData).to.deep.equal(getData());
+    expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should do nothing when locations is an empty array when feature toggle is set', () => {
+    const router = [];
+    const formData = getData({ toggle: true });
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal(getData({ toggle: true }));
     expect(router[0]).to.eq(returnUrl);
   });
 
@@ -304,5 +407,19 @@ describe('onFormLoaded', () => {
       locations: [{ noDate: true, treatmentDate: '' }],
     });
     expect(router[0]).to.eq(returnUrl);
+  });
+
+  it('should redirect when redirect flag is not set & feature toggle is set', () => {
+    sessionStorage.setItem(HAS_REDIRECTED, 'true');
+    const router = [];
+    const props = { toggle: true, locations: [{}], redirected: false };
+    const formData = getData(props);
+    onFormLoaded({ formData, returnUrl, router });
+    expect(formData).to.deep.equal({
+      ...getData(props),
+      locations: [{ noDate: true, treatmentDate: '' }],
+    });
+    expect(router[0]).to.eq('/housing-risk');
+    expect(sessionStorage.getItem(HAS_REDIRECTED)).to.eq('true');
   });
 });

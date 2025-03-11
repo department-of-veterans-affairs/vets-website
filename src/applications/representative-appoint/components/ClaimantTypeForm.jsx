@@ -4,6 +4,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import { schema, uiSchema } from '../pages/claimant/claimantType';
+import GetFormHelp from './GetFormHelp';
 
 const ClaimantTypeForm = props => {
   const { data, onGoBack, onChange, onSubmit } = props;
@@ -25,6 +26,10 @@ const ClaimantTypeForm = props => {
         data={data}
       >
         <FormNavButtons goBack={onGoBack} submitToContinue />
+        <div>
+          <h2 className="help-heading">Need help?</h2>
+          <GetFormHelp />
+        </div>
       </SchemaForm>
     </div>
   );

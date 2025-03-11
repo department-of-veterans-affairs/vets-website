@@ -1,9 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { mount } from 'enzyme';
+import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 
+import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
+
+const formPages = Object.values(formConfig.chapters).reduce(
+  (pages, chapter) => ({ ...pages, ...chapter.pages }),
+  {},
+);
 
 describe('<ConfirmationPage>', () => {
   const testDate = new Date('12-15-2021');
@@ -11,6 +18,7 @@ describe('<ConfirmationPage>', () => {
     transportationReceiptsLength = 2,
     claimedBenefits = true,
     hasDeathCertificate = true,
+    burialConfirmationPage = false,
   } = {}) => ({
     getState: () => ({
       user: {
@@ -23,6 +31,7 @@ describe('<ConfirmationPage>', () => {
         },
       },
       form: {
+        pages: formPages,
         data: {
           claimantFullName: {
             first: 'Sally',
@@ -40,9 +49,14 @@ describe('<ConfirmationPage>', () => {
             transportation: claimedBenefits,
           },
           ...(hasDeathCertificate && {
-            deathCertificate: {
-              length: 1,
-            },
+            deathCertificate: [
+              {
+                name: 'DeathCertificate.pdf',
+                confirmationCode: 'e22d5af8-848d-4fa1-b4f6-90953e0e3c8d',
+                attachmentId: '',
+                isEncrypted: false,
+              },
+            ],
           }),
           transportationReceipts: {
             length: transportationReceiptsLength,
@@ -65,6 +79,7 @@ describe('<ConfirmationPage>', () => {
       featureToggles: {
         loading: false,
         [`burials_form_enabled`]: true,
+        [`burial_confirmation_page`]: burialConfirmationPage,
       },
     }),
     subscribe: () => {},
@@ -75,9 +90,10 @@ describe('<ConfirmationPage>', () => {
     const mockStore = store();
     const { container, queryByText } = render(
       <Provider store={mockStore}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
+
     expect(queryByText('V-EBC-177')).to.not.be.null;
     expect(
       container.querySelector('.benefits-claimed').children.length,
@@ -92,10 +108,47 @@ describe('<ConfirmationPage>', () => {
     });
     const { queryByText } = render(
       <Provider store={mockStore}>
-        <ConfirmationPage />
+        <ConfirmationPage route={{ formConfig }} />
       </Provider>,
     );
 
     expect(queryByText('Transportation documentation: 1 file')).to.exist;
+  });
+
+  context('with burialsConfirmationPage', () => {
+    let wrapper;
+    beforeEach(() => {
+      wrapper = mount(
+        <Provider store={store({ burialConfirmationPage: true })}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+    });
+
+    afterEach(() => {
+      if (wrapper) {
+        wrapper.unmount();
+      }
+      cleanup();
+    });
+
+    it('it should show status success', () => {
+      const mockStore = store({ burialConfirmationPage: true });
+      const { container } = render(
+        <Provider store={mockStore}>
+          <ConfirmationPage route={{ formConfig }} />
+        </Provider>,
+      );
+      expect(container.querySelector('va-alert')).to.have.attr(
+        'status',
+        'success',
+      );
+    });
+
+    it('passes the correct props to ConfirmationPageView', () => {
+      const confirmationViewProps = wrapper.find('ConfirmationView').props();
+      expect(confirmationViewProps.submitDate).to.equal(testDate.getTime());
+      expect(confirmationViewProps.confirmationNumber).to.equal('V-EBC-177');
+    });
   });
 });

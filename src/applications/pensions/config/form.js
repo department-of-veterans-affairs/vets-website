@@ -35,7 +35,7 @@ const formConfig = {
   useCustomScrollAndFocus: false,
   defaultDefinitions,
   title: 'Apply for Veterans Pension benefits',
-  subTitle: 'VA Form 21P-527EZ',
+  subTitle: 'Application for Veterans Pension (VA Form 21P-527EZ)',
   saveInProgress: {
     messages: {
       inProgress: 'Your Veterans pension benefits is in progress.',

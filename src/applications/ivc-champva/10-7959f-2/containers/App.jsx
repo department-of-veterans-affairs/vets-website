@@ -8,8 +8,11 @@ import {
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import WIP from '../../shared/components/WIP';
 import formConfig from '../config/form';
+import manifest from '../manifest.json';
 
 export default function App({ location, children }) {
+  document.title = `${manifest.appName} | Veterans Affairs`;
+
   const breadcrumbs = [
     { href: '/', label: 'Home' },
     { href: '/health-care', label: 'Health care' },
@@ -29,7 +32,10 @@ export default function App({ location, children }) {
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
             <DowntimeNotification
               appTitle={`CHAMPVA Form ${formConfig.formId}`}
-              dependencies={[externalServices.pega]}
+              dependencies={[
+                externalServices.pega,
+                externalServices.form107959f2,
+              ]}
             >
               {children}
             </DowntimeNotification>

@@ -1,3 +1,4 @@
+import { isBefore, subYears, isWithinInterval } from 'date-fns';
 import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
 
 /**
@@ -19,15 +20,6 @@ export function isMissingVeteranGender(formData) {
 }
 
 /**
- * Helper that determines if the form data is missing the Veteran's birth sex
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the viewfield is empty
- */
-export function isSigiEnabled(formData) {
-  return formData['view:isSigiEnabled'];
-}
-
-/**
  * Helper that determines if the Veteran's home and mailing address are the same
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the viewfield is set to `false`
@@ -45,6 +37,60 @@ export function hasDifferentHomeAddress(formData) {
  */
 export function includeTeraInformation(formData) {
   return formData.hasTeraResponse;
+}
+
+export function canVeteranProvideAgentOrangeResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
+  );
+}
+
+export function canVeteranProvideRadiationCleanupResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1966-01-01'))
+  );
+}
+
+export function canVeteranProvideGulfWarServiceResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), new Date('1976-01-01'))
+  );
+}
+
+export function canVeteranProvideCombatOperationsResponse(formData) {
+  /**
+   * Birthdays before the year 1900 are invalidated by the 'parseVeteranDob' function
+   * in src/applications/ezr/utils/helpers/general.js
+   */
+  return (
+    includeTeraInformation(formData) &&
+    isBefore(new Date(formData?.veteranDateOfBirth), subYears(new Date(), 15))
+  );
+}
+
+export function canVeteranProvidePostSept11ServiceResponse(formData) {
+  return (
+    includeTeraInformation(formData) &&
+    isWithinInterval(new Date(formData?.veteranDateOfBirth), {
+      start: new Date('1976-01-01'),
+      end: subYears(new Date(), 15),
+    })
+  );
 }
 
 /**
@@ -68,7 +114,27 @@ export function teraUploadEnabled(formData) {
  */
 export function includeGulfWarServiceDates(formData) {
   const { gulfWarService } = formData;
-  return gulfWarService && includeTeraInformation(formData);
+  return (
+    gulfWarService &&
+    includeTeraInformation(formData) &&
+    canVeteranProvideGulfWarServiceResponse(formData)
+  );
+}
+
+/**
+ * Helper that determines if the form data contains values that indicate the
+ * user served in specific post-911 gulf war locations
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user indicated they served in the specified
+ * Post-9/11 Gulf War locations
+ */
+export function includePostSept11ServiceDates(formData) {
+  const { gulfWarService } = formData;
+  return (
+    gulfWarService &&
+    includeTeraInformation(formData) &&
+    canVeteranProvidePostSept11ServiceResponse(formData)
+  );
 }
 
 /**
@@ -80,7 +146,11 @@ export function includeGulfWarServiceDates(formData) {
  */
 export function includeAgentOrangeExposureDates(formData) {
   const { exposedToAgentOrange } = formData;
-  return exposedToAgentOrange && includeTeraInformation(formData);
+  return (
+    exposedToAgentOrange &&
+    includeTeraInformation(formData) &&
+    canVeteranProvideAgentOrangeResponse(formData)
+  );
 }
 
 /**
@@ -93,7 +163,7 @@ export function includeAgentOrangeExposureDates(formData) {
 export function includeOtherExposureDates(formData) {
   const { 'view:otherToxicExposures': otherToxicExposures = {} } = formData;
   const exposures = Object.values(otherToxicExposures);
-  return exposures.some(o => o) && includeTeraInformation(formData);
+  return exposures.includes(true) && includeTeraInformation(formData);
 }
 
 /**

@@ -19,7 +19,7 @@ class TrackClaimsPageV2 {
     cst5103UpdateEnabledV2 = false,
   ) {
     if (submitForm) {
-      cy.intercept('POST', `/v0/evss_claims/189685/request_decision`, {
+      cy.intercept('POST', `/v0/benefits_claims/189685/submit5103`, {
         body: {},
       }).as('askVA');
     }
@@ -321,19 +321,11 @@ class TrackClaimsPageV2 {
       });
 
     if (isOldVersion) {
-      cy.get('va-checkbox')
-        .shadow()
-        .find('input[type="checkbox"]')
-        .check({ force: true });
       cy.get('va-button.submit-files-button')
         .shadow()
         .find('button')
         .click();
     } else {
-      cy.get('va-checkbox')
-        .shadow()
-        .find('input[type="checkbox"]')
-        .check({ force: true });
       cy.get('va-button#submit')
         .shadow()
         .find('button')
@@ -382,7 +374,7 @@ class TrackClaimsPageV2 {
     cy.get('va-card')
       .shadow()
       .get('[data-cy="moved-to-date-text"]')
-      .should('contain', 'Moved to this step on January 1, 2022');
+      .should('contain', 'Moved to this step on January 2, 2022');
     cy.get('va-card > a')
       .should('contain', 'Learn more about this step')
       .click()
@@ -408,12 +400,43 @@ class TrackClaimsPageV2 {
           'Your claim was decided',
         );
       } else {
+        // Verify some tracked items on page 1
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'We completed a review for the request: "Automated 5103 Notice Response"',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'We opened a request: "Automated 5103 Notice Response"',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'We closed a request: "Closed Tracked Item"',
+        );
+        // click the next page
         cy.get('.recent-activity-container va-pagination')
           .shadow()
           .find(
-            '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+            '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a.usa-pagination__next-page',
           )
           .click();
+        // Verify some tracked items on page 2
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'Your claim moved into Step 3: Evidence gathering',
+        );
+        cy.get('.recent-activity-container > ol > li > p').should(
+          'contain',
+          'We opened a request: "Closed Tracked Item"',
+        );
+        // click the next page
+        cy.get('.recent-activity-container va-pagination')
+          .shadow()
+          .find(
+            '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a.usa-pagination__next-page',
+          )
+          .click();
+        // Verify some tracked items on page 3
         cy.get('.recent-activity-container > ol > li > p').should(
           'contain',
           'We received your claim in our system',
@@ -422,10 +445,6 @@ class TrackClaimsPageV2 {
           'contain',
           'Your claim moved into Step 2: Initial review',
         );
-        cy.get('.recent-activity-container > ol > li > p').should(
-          'contain',
-          'Your claim moved into Step 3: Evidence gathering',
-        );
       }
     } else if (claimClosed) {
       cy.get('.recent-activity-container > ol > li > p').should(
@@ -433,12 +452,43 @@ class TrackClaimsPageV2 {
         'Your claim moved into Step 5: Closed',
       );
     } else {
+      // Verify some tracked items on page 1
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'We completed a review for the request: "Automated 5103 Notice Response"',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'We opened a request: "Automated 5103 Notice Response"',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'We closed a request: "Closed Tracked Item"',
+      );
+      // click the next page
       cy.get('.recent-activity-container va-pagination')
         .shadow()
         .find(
-          '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a',
+          '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a.usa-pagination__next-page',
         )
         .click();
+      // Verify some tracked items on page 2
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'Your claim moved into Step 3: Evidence gathering, review, and decision',
+      );
+      cy.get('.recent-activity-container > ol > li > p').should(
+        'contain',
+        'We opened a request: "Closed Tracked Item"',
+      );
+      // click the next page
+      cy.get('.recent-activity-container va-pagination')
+        .shadow()
+        .find(
+          '.usa-pagination__list > li.usa-pagination__item.usa-pagination__arrow > a.usa-pagination__next-page',
+        )
+        .click();
+      // Verify some tracked items on page 3
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
         'Your claim moved into Step 1: Claim received',
@@ -446,10 +496,6 @@ class TrackClaimsPageV2 {
       cy.get('.recent-activity-container > ol > li > p').should(
         'contain',
         'Your claim moved into Step 2: Initial review',
-      );
-      cy.get('.recent-activity-container > ol > li > p').should(
-        'contain',
-        'Your claim moved into Step 3: Evidence gathering, review, and decision',
       );
     }
   }
@@ -513,6 +559,8 @@ class TrackClaimsPageV2 {
     );
   }
 
+  // Not currently using Standard 5103 Notice. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+  // Waiting to see if we still need this component and logic or not.
   verifyPrimaryAlertfor5103Notice(isStandard = false, is5103Update = false) {
     const testId = isStandard
       ? '[data-testid="standard-5103-notice-alert"]'
@@ -562,6 +610,8 @@ class TrackClaimsPageV2 {
     cy.get('va-additional-info').should('be.visible');
   }
 
+  // Not currently using Standard 5103 Notice. Was being used on WhatYouNeedToDo and AdditionalEvidence.
+  // Waiting to see if we still need this component and logic or not.
   verifyDocRequestfor5103Notice(isStandard = false) {
     cy.get('#default-5103-notice-page').should('be.visible');
     if (!isStandard) {
@@ -610,7 +660,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        'Request for Submit Buddy Statement(s)',
+        'Submit Buddy Statement(s)',
       );
     }
   }

@@ -14,11 +14,12 @@ import {
   MAP_MOVED,
   CLEAR_SEARCH_TEXT,
   GEOLOCATE_USER,
-} from '../utils/actionTypes';
+} from '../actions/actionTypes';
 
 export const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
+  vamcServiceDisplay: null,
   facilityType: null,
   position: {
     latitude: 40.17887331434698,
@@ -43,7 +44,6 @@ export const validateForm = (oldState, payload) => {
     ...oldState,
     ...payload,
   };
-
   const needServiceType = newState.facilityType === 'provider';
 
   return {
@@ -95,14 +95,18 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
     case FETCH_SPECIALTIES:
       return {
         ...state,
-        error: false,
+        fetchSvcsError: null,
         fetchSvcsInProgress: true,
+        specialties: {},
+        fetchSvcsRawData: [],
       };
     case FETCH_SPECIALTIES_DONE:
       return {
         ...state,
         error: false,
+        fetchSvcsError: null,
         fetchSvcsInProgress: false,
+        fetchSvcsRawData: action.data,
         specialties: action.data
           ? action.data.reduce((acc, cur) => {
               acc[cur.specialtyCode] = cur.name;
@@ -115,7 +119,10 @@ export const SearchQueryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         error: true,
         fetchSvcsInProgress: false,
-      };
+        fetchSvcsError: action.error || true,
+        facilityType: '',
+        isValid: true,
+      }; // resets facility type to the Choose a facility
     case SEARCH_FAILED:
       return {
         ...state,

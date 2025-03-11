@@ -1,0 +1,24 @@
+steps:
+  - action: exists
+    target: header
+    value:  Tell us about your family member
+  - action: typeTextInput
+    target: FAMILY_MEMBER_FIRST_NAME
+    value:  John
+  - action: typeTextInput
+    target: FAMILY_MEMBER_LAST_NAME
+    value:  Smith
+  # - action: typeTextInput
+  #   target: SSN
+  #   value:  789345522
+  - action: select
+    target: MONTH
+    value:  2
+  - action: typeTextInput
+    target: DAY
+    value:  2
+  - action: typeTextInput
+    target: YEAR
+    value:  2005
+  - action: click
+    target: call-to-action

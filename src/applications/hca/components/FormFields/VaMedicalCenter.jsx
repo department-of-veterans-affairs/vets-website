@@ -1,19 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import constants from 'vets-json-schema/dist/constants.json';
 import { usePrevious } from 'platform/utilities/react-hooks';
-import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
-import { STATES_WITHOUT_MEDICAL } from '../../utils/constants';
+import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
+import { API_ENDPOINTS, STATES_WITHOUT_MEDICAL } from '../../utils/constants';
 import ServerErrorAlert from '../FormAlerts/ServerErrorAlert';
 import { VaMedicalCenterReviewField } from '../FormReview/VaMedicalCenterReviewField';
+import content from '../../locales/en/content.json';
 
-const apiRequestWithUrl = `${
-  environment.API_URL
-}/v0/health_care_applications/facilities?type=health&per_page=1000`;
+// expose React binding for web components
+const { VaSelect } = REACT_BINDINGS;
 
 const VaMedicalCenter = props => {
   const {
@@ -29,14 +27,13 @@ const VaMedicalCenter = props => {
 
   const [dirtyFields, setDirtyFields] = useState([]);
   const [facilities, setFacilities] = useState([]);
-  const [loading, isLoading] = useState(false);
-  const [error, hasError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [localData, setLocalData] = useState(formData);
 
-  // define our error message(s)
-  const errorMessages = { required: 'Please provide a response' };
+  const prevFacilityState = usePrevious(localData['view:facilityState']);
+  const facilityState = localData['view:facilityState'];
 
-  // populate our dirty fields array on user interaction
   const addDirtyField = useCallback(
     field => {
       if (!dirtyFields.includes(field)) {
@@ -46,181 +43,174 @@ const VaMedicalCenter = props => {
     [dirtyFields],
   );
 
-  const getFieldNameSuffix = fieldName => fieldName.split('_').pop();
+  const parseFieldName = useCallback(name => name.split('_').pop(), []);
 
-  // define our non-checkbox input change event
   const handleChange = useCallback(
     event => {
-      const fieldName = getFieldNameSuffix(event.target.name);
-      setLocalData({ ...localData, [fieldName]: event.target.value });
+      const fieldName = parseFieldName(event.target.name);
+      setLocalData(prevState => ({
+        ...prevState,
+        [fieldName]: event.target.value,
+      }));
       addDirtyField(fieldName);
     },
-    [addDirtyField, localData],
+    [addDirtyField, parseFieldName],
   );
 
-  // define our non-checkbox input blur event
   const handleBlur = useCallback(
     event => {
-      const fieldName = getFieldNameSuffix(event.target.name);
+      const fieldName = parseFieldName(event.target.name);
       addDirtyField(fieldName);
     },
-    [addDirtyField],
+    [addDirtyField, parseFieldName],
   );
 
-  // check field for validation errors
-  const showError = field => {
-    const errorList = errorSchema[field].__errors || [];
-    const fieldIsDirty = dirtyFields.includes(field);
-    const shouldValidate = (submitted || fieldIsDirty) && errorList.length;
+  const fieldError = useCallback(
+    field => {
+      const errorList = errorSchema[field].__errors || [];
+      const fieldIsDirty = dirtyFields.includes(field);
+      const shouldValidate = (submitted || fieldIsDirty) && errorList.length;
 
-    // validate only if field is dirty or form has been submitted
-    if (shouldValidate && reqFields.includes(field) && !localData[field]) {
-      return errorMessages.required;
-    }
-
-    return false;
-  };
-
-  // grab the facility name based upon the selected value
-  const getFacilityName = useCallback(
-    val => {
-      const facility = facilities.find(f => getFieldNameSuffix(f.id) === val);
-      return facility?.name || '\u2014';
+      // validate only if field is dirty or form has been submitted
+      return shouldValidate && reqFields.includes(field) && !localData[field]
+        ? content['validation-error--generic']
+        : null;
     },
-    [facilities],
+    [dirtyFields, errorSchema, localData, reqFields, submitted],
   );
 
   useEffect(
     () => {
-      // To prevent submissions with values missing, we need to manually blank this.
-      //   Unsetting the select's value sets it to '', but the form only blocks
-      //   submission if the value is null or undefined. Without this, the form allows
-      //   Continuing with both values set, going Back, unsetting the Facility, and then
-      //   Continuing again, resulting in a State but no Facility.
-      //   Similarly, selecting a State and Facility and then unselecting the State
-      //   allows Continuing without a State set, causing the entire Review Form
-      //   view to collapse to nothing.
       onChange({
-        'view:facilityState': localData['view:facilityState'] || undefined,
+        'view:facilityState': facilityState || undefined,
         vaMedicalFacility: localData.vaMedicalFacility || undefined,
       });
     },
-    [localData, onChange],
+    [facilityState, localData.vaMedicalFacility, onChange],
   );
 
-  const localDataFacilityState = localData['view:facilityState'];
-  const previousFacilityState = usePrevious(localData['view:facilityState']);
-
-  // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
-      const { 'view:facilityState': facilityState } = localData;
-      if (facilityState) {
-        isLoading(true);
-        apiRequest(`${apiRequestWithUrl}&state=${facilityState}`, {})
-          .then(res => {
-            return res.map(location => ({
-              id: location.id,
-              name: location.name,
-            }));
-          })
-          .then(data => {
-            if (
-              previousFacilityState &&
-              previousFacilityState !== facilityState
-            ) {
-              setLocalData({ ...localData, vaMedicalFacility: undefined });
-            }
-            setFacilities(data.sort((a, b) => a.name.localeCompare(b.name)));
-            isLoading(false);
-          })
-          .catch(err => {
-            isLoading(false);
-            hasError(true);
-            Sentry.withScope(scope => {
-              scope.setExtra('state', facilityState);
-              scope.setExtra('error', err);
-              Sentry.captureMessage('Health care facilities failed to load');
-            });
-            focusElement('.server-error-message');
-          });
-      } else {
+      if (!facilityState || facilityState === prevFacilityState) return;
+
+      const fetchFacilities = async () => {
+        setError(false);
+        setLoading(true);
         setFacilities([]);
-        isLoading(false);
-      }
+        try {
+          const response = await apiRequest(
+            `${
+              API_ENDPOINTS.facilities
+            }?type=health&per_page=1000&state=${facilityState}`,
+          );
+          const facilityList = response
+            .map(({ id, name }) => ({ id, name }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+          setLocalData(
+            prevState =>
+              prevFacilityState && prevFacilityState !== facilityState
+                ? { ...prevState, vaMedicalFacility: undefined }
+                : prevState,
+          );
+          setFacilities(facilityList);
+        } catch (err) {
+          setError(true);
+          Sentry.withScope(scope => {
+            scope.setExtra('state', facilityState);
+            scope.setExtra('error', err);
+            Sentry.captureMessage('Health care facilities failed to load');
+          });
+          focusElement('.server-error-message');
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchFacilities();
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [localDataFacilityState, previousFacilityState],
+    [facilityState, prevFacilityState],
   );
 
-  // render the static facility name on review page
-  if (reviewMode) {
-    const stateLabel = constants.states.USA.find(
-      state => state.value === localData['view:facilityState'],
-    )?.label;
-    return (
-      <VaMedicalCenterReviewField
-        facilityName={getFacilityName(localData.vaMedicalFacility)}
-        stateLabel={stateLabel}
-      />
-    );
-  }
+  const selectedFacilityName = useMemo(
+    () =>
+      facilities.find(f => parseFieldName(f.id) === localData.vaMedicalFacility)
+        ?.name || '\u2014',
+    [facilities, localData.vaMedicalFacility, parseFieldName],
+  );
 
-  // render loading indicator while we fetch
+  const stateOptions = useMemo(
+    () =>
+      STATES_USA.map(s => {
+        return !STATES_WITHOUT_MEDICAL.includes(s.value) ? (
+          <option key={s.value} value={s.value}>
+            {s.label}
+          </option>
+        ) : null;
+      }),
+    [],
+  );
+
+  const facilityOptions = useMemo(
+    () =>
+      facilities.map(f => (
+        <option key={f.id} value={parseFieldName(f.id)}>
+          {f.name}
+        </option>
+      )),
+    [facilities, parseFieldName],
+  );
+
   if (loading) {
     return (
       <va-loading-indicator
-        label="Loading"
-        message="Loading available facilities..."
+        label={content['facilities--loading-message']}
+        message={`${content['facilities--loading-message']}...`}
         set-focus
       />
     );
   }
 
-  if (error) {
+  if (reviewMode) {
+    const stateLabel = STATES_USA.find(s => s.value === facilityState)?.label;
     return (
-      <div className="server-error-message vads-u-margin-top--4">
-        <ServerErrorAlert />
-      </div>
+      <VaMedicalCenterReviewField
+        facilityName={selectedFacilityName}
+        stateLabel={stateLabel}
+      />
     );
   }
 
   return (
     <>
+      {error && (
+        <div className="server-error-message vads-u-margin-top--4">
+          <ServerErrorAlert />
+        </div>
+      )}
       <VaSelect
         id={idSchema['view:facilityState'].$id}
         name={idSchema['view:facilityState'].$id}
-        value={localData['view:facilityState']}
-        label="State"
-        error={showError('view:facilityState') || null}
+        label={content['facilities--state-label']}
+        error={fieldError('view:facilityState')}
+        value={facilityState}
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
       >
-        {constants.states.USA.map(s => {
-          return !STATES_WITHOUT_MEDICAL.includes(s.value) ? (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
-          ) : null;
-        })}
+        {stateOptions}
       </VaSelect>
 
       <VaSelect
         id={idSchema.vaMedicalFacility.$id}
         name={idSchema.vaMedicalFacility.$id}
+        label={content['facilities--clinic-label']}
+        error={fieldError('vaMedicalFacility')}
         value={localData.vaMedicalFacility}
-        label="Center or clinic"
-        error={showError('vaMedicalFacility') || null}
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
       >
-        {facilities.map(f => (
-          <option key={f.id} value={getFieldNameSuffix(f.id)}>
-            {f.name}
-          </option>
-        ))}
+        {facilityOptions}
       </VaSelect>
     </>
   );

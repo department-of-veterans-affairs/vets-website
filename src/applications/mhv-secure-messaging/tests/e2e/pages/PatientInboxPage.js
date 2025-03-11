@@ -84,11 +84,9 @@ class PatientInboxPage {
       this.mockRecipients,
     ).as('recipients');
 
-    cy.intercept(
-      'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_SIGNATURE, mockSignature).as(
+      'signature',
+    );
 
     cy.visit(Paths.UI_MAIN + Paths.INBOX, {
       onBeforeLoad: win => {
@@ -332,10 +330,6 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CONTINUE).click();
   };
 
-  verifyMoveMessageWithAttachmentSuccessMessage = () => {
-    cy.get('p').contains('Message conversation was successfully moved');
-  };
-
   navigateToComposePage = (checkFocusOnVcl = false) => {
     cy.intercept(
       'GET',
@@ -361,7 +355,7 @@ class PatientInboxPage {
   };
 
   navigateToComposePageByKeyboard = () => {
-    cy.tabToElement(Locators.InboxPage.COMPOSE_MESSAGE);
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE);
     cy.realPress(['Enter']);
     cy.tabToElement(Locators.BUTTONS.CONTINUE);
     cy.realPress(['Enter']);
@@ -427,13 +421,6 @@ class PatientInboxPage {
       .select('Medication');
   };
 
-  clickSubmitSearchButton = () => {
-    cy.get(Locators.BUTTONS.FILTER).click({
-      waitForAnimations: true,
-      force: true,
-    });
-  };
-
   composeMessage = () => {
     cy.get('#recipient-dropdown')
       .shadow()
@@ -466,7 +453,7 @@ class PatientInboxPage {
   clickFilterMessagesButton = mockFilterResponse => {
     cy.intercept(
       'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search`,
+      Paths.INTERCEPT.MESSAGE_FOLDERS_SEARCH,
       mockFilterResponse,
     ).as('filterResult');
     cy.get(Locators.BUTTONS.FILTER).click({ force: true });
@@ -678,10 +665,6 @@ class PatientInboxPage {
     );
   };
 
-  clickAdditionalFilterButton = () => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
-  };
-
   selectDateRange = dropDownValue => {
     cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
       .find('select')
@@ -713,26 +696,6 @@ class PatientInboxPage {
       .each(el => {
         cy.wrap(el).should(`be.visible`);
       });
-  };
-
-  verifyFilterCategoryDropdown = data => {
-    cy.get(Locators.FIELDS.CATEGORY_OPTION).each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(data);
-        });
-    });
-  };
-
-  verifyFilterdateRangeDropdown = data => {
-    cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(data);
-        });
-    });
   };
 
   maintenanceWindowResponse = (startDate, endDate) => {

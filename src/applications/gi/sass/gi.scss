@@ -15,8 +15,62 @@
 @import "partials/gi-back-to-top";
 @import "partials/gi-filter";
 @import "partials/gi-search-controls";
+@import "partials/gi-updated";
 
 .gi-app {
+  /* Start styles from legacy formation overrides code */
+  .usa-sr-only {
+    position: absolute;
+    left: -999em;
+  }
+
+  table {
+    border-spacing: 0;
+    margin: 2em 0;
+  }
+
+  thead th {
+    font-weight: 700;
+  }
+  thead th,
+  thead td {
+    background-color: var(--vads-color-base-lightest);
+  }
+
+  th {
+    text-align: left;
+  }
+
+  th,
+  td {
+    background-color: var(--vads-color-white);
+    border: 1px solid var(--vads-color-base-dark);
+    font-weight: 400;
+    padding: 0.625rem 0.9375rem;
+  }
+
+  .usa-table-borderless thead th {
+    background-color: transparent;
+    border-top: 0;
+  }
+  .usa-table-borderless th,
+  .usa-table-borderless td {
+    border-left: 0;
+    border-right: 0;
+  }
+  .usa-table-borderless th:first-child {
+    padding-left: 0;
+  }
+
+  caption {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    font-family: Bitter, Georgia, Cambria, "Times New Roman", Times, serif;
+    margin-bottom: 0.75rem;
+    text-align: left;
+  }
+  /* End styles from legacy formation overrides code */
+
   div.military-status-info {
     font-size: 0.9em;
     padding: 1em;
@@ -296,15 +350,6 @@
   }
 }
 
-.lc-dropdown-filter {
-  max-width: 30rem;
-}
-
-.lc-filter-options {
-  padding: 0.5rem;
-  margin: 0;
-}
-
 .provider-info-container > span {
   gap: 1rem;
 }
@@ -318,26 +363,211 @@
   padding-left: 0;
 }
 
-.lc-name-search-input {
-  max-width: 30rem;
+.lc-page-wrapper {
+  .faq-answer {
+    display: inline;
+  }
+
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $units-1;
+    margin: inherit;
+    padding: $units-1 0;
+
+    @media (min-width: $mobile-lg) {
+      flex-direction: row;
+      gap: 0;
+      padding: $units-6 0;
+    }
+
+    .va-button {
+      @media (min-width: $mobile-lg) {
+        margin-right: $units-2;
+      }
+    }
+  }
 }
+
+.lc-form-wrapper {
+  $input-width: 30rem;
+
+  .dropdown-filter {
+    max-width: $input-width;
+  }
+
+  .input-container {
+    display: flex;
+    border: 1px solid $color-gray-dark;
+    margin: 6px 0px;
+    height: 2.625rem;
+    max-width: $input-width;
+
+    input {
+      border: none;
+      height: unset;
+    }
+
+    .clear-icon {
+      padding: 0 3px;
+    }
+  }
+
+  .additional-info-wrapper {
+    max-width: $input-width;
+    padding-top: 3px;
+  }
+}
+
+.lc-results-wrapper {
+  @media (max-width: $small-screen) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.lc-result-cards-wrapper {
+  list-style: none;
+  // padding-left: 0;
+}
+
+.lc-filter-accordion-wrapper {
+  .state-dropdown label {
+    margin-top: 0.25rem;
+  }
+}
+
 .inst-remove-btn::part(button) {
   background-color: transparent;
 }
-.search-container {
-  va-text-input::part(input) {
-    width: 100%;
-    min-width: 576px;
-  }
 
-  @media (max-width: 1024px) {
-    va-text-input::part(input) {
-      min-width: 420px;
+.programs-list-container {
+  .abbreviations {
+    font-family: var(--font-source-sans);
+  }
+  .list-style {
+    list-style: disc;
+    margin-top: 0;
+    margin-bottom: 8px;
+  }
+  .search-container {
+    display: flex;
+    flex-direction: row;
+    .reset-search {
+      white-space: nowrap;
+    }
+    @media (max-width: $small-screen) {
+      flex-direction: column;
+      .search-input {
+        width: 100%;
+      }
+      .search-btn {
+        width: 100%;
+        margin-top: 16px;
+      }
+      .reset-search {
+        width: 100%;
+        margin-top: 16px;
+        margin-bottom: 24px;
+      }
+    }
+    @media (min-width: $small-screen) {
+      va-text-input::part(input) {
+        min-width: 400px;
+      }
+    }
+    @media (min-width: $medium-screen) {
+      va-text-input::part(input) {
+        min-width: 576px;
+      }
     }
   }
-  @media (max-width: 480px) {
-    va-text-input::part(input) {
-      min-width: 100%;
+  #results-summary,
+  #no-results-message {
+    width: fit-content;
+  }
+}
+
+.national-exams-container {
+  .national-exams-description {
+    font-size: 20px;
+    font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+      serif;
+    font-weight: 400;
+    line-height: 34px;
+  }
+}
+.schools-employers-tabs-container {
+  li {
+    height: 54px;
+    &[aria-selected="false"] {
+      border-bottom: 1px solid $color-primary !important;
+    }
+    @media screen and (max-width: $small-screen) {
+      height: 94px;
+      padding: 0 4px;
+      text-align: left;
+    }
+  }
+}
+
+.yellow-ribbon-selector-container {
+  .selector-wrapper {
+    display: flex;
+    align-items: flex-end;
+    .degree-selector {
+      width: 100%;
+      max-width: 18rem;
+    }
+    va-select::part(label) {
+      margin-top: 1rem;
+    }
+    .degree-selector-btn {
+      white-space: nowrap;
+    }
+    @media screen and (max-width: $small-screen) {
+      flex-direction: column;
+      .degree-selector {
+        max-width: 100%;
+        margin-bottom: 1rem;
+      }
+      .degree-selector-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+  #results-summary {
+    width: fit-content;
+  }
+  .degree-level-results {
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem;
+    list-style: none;
+    padding: 0;
+    .degree-item {
+      margin: 0;
+      height: auto;
+      display: flex;
+      width: 100%;
+      max-width: 19.0625rem;
+      .degree-level-card {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0;
+      }
+    }
+  }
+  @media screen and (max-width: $medium-screen) {
+    .degree-level-results {
+      flex-direction: column;
+      .degree-item {
+        width: 100%;
+        max-width: 100%;
+      }
     }
   }
 }

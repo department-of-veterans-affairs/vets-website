@@ -1,34 +1,35 @@
 import React from 'react';
+import * as api from 'platform/utilities/api';
 import { Provider } from 'react-redux';
-import { render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import * as Sentry from '@sentry/browser';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import {
-  mockApiRequest,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
-
 import VaMedicalCenter from '../../../../components/FormFields/VaMedicalCenter';
 
+const REQ_DATA = [
+  {
+    id: 'vha_528A5',
+    uniqueId: '528A5',
+    name: 'Canandaigua VA Medical Center',
+  },
+  {
+    id: 'vha_528A4',
+    uniqueId: '528A4',
+    name: 'Batavia VA Medical Center',
+  },
+];
+
 describe('hca <VaMedicalCenter>', () => {
-  const mockData = [
-    {
-      id: 'vha_528A4',
-      uniqueId: '528A4',
-      name: 'ZBatavia VA Medical Center',
-    },
-    {
-      id: 'vha_528A5',
-      uniqueId: '528A5',
-      name: 'Canandaigua VA Medical Center',
-    },
-  ];
-  const getData = ({
+  let apiRequestStub;
+
+  const subject = ({
+    onChange = () => {},
     reviewMode = false,
     submitted = false,
     formData = {},
-  }) => ({
-    mockStore: {
+  } = {}) => {
+    const mockStore = {
       getState: () => ({
         form: {
           data: {
@@ -38,14 +39,14 @@ describe('hca <VaMedicalCenter>', () => {
       }),
       subscribe: () => {},
       dispatch: () => {},
-    },
-    props: {
+    };
+    const props = {
       formContext: { reviewMode, submitted },
       idSchema: {
         'view:facilityState': { $id: 'preferredFacility_facilityState' },
         vaMedicalFacility: { $id: 'preferredFacility_vaMedicalFacility' },
       },
-      onChange: sinon.spy(),
+      onChange,
       formData,
       schema: {
         required: ['view:facilityState', 'vaMedicalFacility'],
@@ -54,286 +55,206 @@ describe('hca <VaMedicalCenter>', () => {
         'view:facilityState': { __errors: 'state required' },
         vaMedicalFacility: { __errors: 'facility required' },
       },
-    },
-  });
-
-  context('when the component renders on form page', () => {
-    const { mockStore, props } = getData({});
-
-    it('should render both `va-select` fields', () => {
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      const stateSelector = container.querySelector(
+    };
+    const { container } = render(
+      <Provider store={mockStore}>
+        <VaMedicalCenter {...props} />
+      </Provider>,
+    );
+    const selectors = () => ({
+      stateField: container.querySelector(
         `#${props.idSchema['view:facilityState'].$id}`,
-      );
-      expect(stateSelector).to.exist;
-      const facilitySelector = container.querySelector(
+      ),
+      facilityField: container.querySelector(
         `#${props.idSchema.vaMedicalFacility.$id}`,
-      );
-      expect(facilitySelector).to.exist;
-    });
-
-    it('should not render the containers from review mode', () => {
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      const stateSelector = container.querySelector(
+      ),
+      facilityOptions: container.querySelectorAll(
+        `#${props.idSchema.vaMedicalFacility.$id} option`,
+      ),
+      stateReviewField: container.querySelector(
         '[data-testid="hca-facility-state"]',
-      );
-      expect(stateSelector).to.not.exist;
-      const facilitySelector = container.querySelector(
+      ),
+      facilityReviewField: container.querySelector(
         '[data-testid="hca-facility-name"]',
-      );
-      expect(facilitySelector).to.not.exist;
+      ),
+      vaAlert: container.querySelector('va-alert'),
+      vaSelect: container.querySelectorAll('va-select'),
+      vaLoadingIndicator: container.querySelector('va-loading-indicator'),
     });
+    return { container, selectors };
+  };
+
+  beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest').resolves([]);
   });
 
-  context('when the component renders in review mode', () => {
-    const { mockStore, props } = getData({
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
+
+  it('should render appropriate components when not in review mode', () => {
+    const { selectors } = subject();
+    const components = selectors();
+    expect(components.stateField).to.exist;
+    expect(components.facilityField).to.exist;
+    expect(components.stateReviewField).to.not.exist;
+    expect(components.facilityReviewField).to.not.exist;
+  });
+
+  it('should render appropriate components when in review mode', async () => {
+    apiRequestStub.resolves(REQ_DATA);
+
+    const { selectors } = subject({
       formData: {
         'view:facilityState': 'NY',
-        vaMedicalFacility: mockData[1].uniqueId,
+        vaMedicalFacility: REQ_DATA[1].uniqueId,
       },
       reviewMode: true,
     });
 
-    it('should render the correct state and facility name', async () => {
-      mockApiRequest(mockData);
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-
-      const stateSelector = container.querySelector(
-        '[data-testid="hca-facility-state"]',
-      );
-      await waitFor(() => {
-        expect(stateSelector).to.contain.text('New York');
-      });
-
-      const facilitySelector = container.querySelector(
-        '[data-testid="hca-facility-name"]',
-      );
-      await waitFor(() => {
-        expect(facilitySelector).to.contain.text(mockData[1].name);
-      });
+    await waitFor(() => {
+      const components = selectors();
+      expect(components.vaAlert).to.not.exist;
+      expect(components.vaLoadingIndicator).to.not.exist;
+      expect(components.vaSelect).to.have.lengthOf(0);
+      expect(components.stateReviewField).to.contain.text('New York');
+      expect(components.facilityReviewField).to.contain.text(REQ_DATA[1].name);
     });
 
-    it('should not render the loading indicator', async () => {
-      mockApiRequest(mockData);
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('va-loading-indicator');
-      await waitFor(() => {
-        expect(selector).to.not.exist;
-      });
-    });
-
-    it('should not render the select input', async () => {
-      mockApiRequest(mockData);
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('va-select');
-      await waitFor(() => {
-        expect(selector).to.not.exist;
-      });
-    });
-
-    it('should not render the server error alert', async () => {
-      mockApiRequest(mockData);
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('va-alert');
-      await waitFor(() => {
-        expect(selector).to.not.exist;
-      });
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
     });
   });
 
-  context('when the user selects a facility state', () => {
-    it('should render the correct number of options, resorted in alphabetical order by name, if API call succeeds', async () => {
-      mockApiRequest(mockData);
-      const { mockStore, props } = getData({
-        formData: { 'view:facilityState': 'NY' },
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
+  it('should correctly handle errors when the form is submitted without a selected state or facility', async () => {
+    const { selectors } = subject({ submitted: true });
 
-      await waitFor(() => {
-        const options = container.querySelectorAll(
-          `#${props.idSchema.vaMedicalFacility.$id} option`,
-        );
-        const alert = container.querySelector('va-alert');
-
-        expect(options).to.have.lengthOf(mockData.length);
-        expect(options[0]).to.have.attr('value', mockData[1].uniqueId);
-        expect(options[1]).to.have.attr('value', mockData[0].uniqueId);
-        expect(alert).to.not.exist;
-      });
-    });
-
-    it('should render the error alert if API call fails', async () => {
-      mockApiRequest(mockData, false);
-      setFetchJSONResponse(
-        global.fetch.onCall(0),
-        // eslint-disable-next-line prefer-promise-reject-errors
-        Promise.reject({ status: 503, error: 'error' }),
-      );
-      const { mockStore, props } = getData({
-        formData: { 'view:facilityState': 'NY' },
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const vaSelectState = container.querySelector(
-          `#${props.idSchema['view:facilityState'].$id}`,
-        );
-        const vaSelectFacility = container.querySelector(
-          `#${props.idSchema.vaMedicalFacility.$id}`,
-        );
-        const alert = container.querySelector('va-alert');
-
-        expect(vaSelectState).to.not.exist;
-        expect(vaSelectFacility).to.not.exist;
-        expect(alert).to.exist;
-      });
+    await waitFor(() => {
+      const { stateField, facilityField } = selectors();
+      expect(stateField).to.have.attr('error');
+      expect(facilityField).to.have.attr('error');
     });
   });
 
-  context('when the user selects a facility from the list', () => {
-    it('should call the `onChange` spy', async () => {
-      mockApiRequest(mockData);
-      const { mockStore, props } = getData({
-        formData: { 'view:facilityState': 'NY' },
+  it('should correctly handle errors when the API call fails and then succeeds', async () => {
+    const errorResponse = { status: 503, error: 'error' };
+    apiRequestStub.onFirstCall().rejects(errorResponse);
+    apiRequestStub.onSecondCall().resolves(REQ_DATA);
+
+    const spy = sinon.spy(Sentry, 'withScope');
+    const { selectors } = subject({
+      formData: { 'view:facilityState': 'NY' },
+    });
+
+    await waitFor(() => {
+      const { stateField, facilityField, vaAlert } = selectors();
+      expect(stateField).to.exist;
+      expect(facilityField).to.exist;
+      expect(vaAlert).to.exist;
+    });
+
+    await waitFor(() => {
+      expect(spy.called).to.be.true;
+      spy.restore();
+    });
+
+    await waitFor(() => {
+      selectors().stateField.__events.vaSelect({
+        target: {
+          value: 'OH',
+          name: 'root_view:preferredFacility_view:facilityState',
+        },
       });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
+    });
 
-      await waitFor(() => {
-        const selector = container.querySelector(
-          `#${props.idSchema.vaMedicalFacility.$id}`,
-        );
+    await waitFor(() => {
+      const {
+        stateField,
+        facilityField,
+        vaAlert,
+        vaLoadingIndicator,
+      } = selectors();
+      expect(vaLoadingIndicator).to.not.exist;
+      expect(stateField).to.exist;
+      expect(facilityField).to.exist;
+      expect(vaAlert).to.not.exist;
+    });
 
-        selector.__events.vaSelect({
-          target: {
-            name: props.idSchema.vaMedicalFacility.$id,
-            value: mockData[1].id,
-          },
-        });
-
-        expect(props.onChange.called).to.be.true;
-      });
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(2);
     });
   });
 
-  context(
-    'when the form is submitted without a selected facility',
-    async () => {
-      it('should render an error message on the facility field', async () => {
-        const { mockStore, props } = getData({
-          formData: {},
-          submitted: true,
-        });
-        const { container } = render(
-          <Provider store={mockStore}>
-            <VaMedicalCenter {...props} />
-          </Provider>,
-        );
-        await waitFor(() => {
-          const selector = container.querySelector(
-            `#${props.idSchema.vaMedicalFacility.$id}`,
-          );
-          expect(selector).to.have.attr('error', 'Please provide a response');
-        });
-      });
-    },
-  );
+  it('should render an alphabetized option list when the API call succeeds', async () => {
+    apiRequestStub.resolves(REQ_DATA);
 
-  context('when submitted without a selected state or facility', async () => {
-    it('should render error messages for both fields', async () => {
-      const { mockStore, props } = getData({
-        formData: {},
-        submitted: true,
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VaMedicalCenter {...props} />
-        </Provider>,
-      );
-      await waitFor(() => {
-        const vaSelectState = container.querySelector(
-          `#${props.idSchema['view:facilityState'].$id}`,
-        );
-        const vaSelectFacility = container.querySelector(
-          `#${props.idSchema.vaMedicalFacility.$id}`,
-        );
-        expect(vaSelectState).to.have.attr(
-          'error',
-          'Please provide a response',
-        );
-        expect(vaSelectFacility).to.have.attr(
-          'error',
-          'Please provide a response',
-        );
-      });
+    const { selectors } = subject({
+      formData: { 'view:facilityState': 'NY' },
+    });
+
+    await waitFor(() => {
+      const { facilityOptions, vaAlert } = selectors();
+      expect(vaAlert).to.not.exist;
+      expect(facilityOptions).to.have.lengthOf(REQ_DATA.length);
+      expect(facilityOptions[0]).to.have.attr('value', REQ_DATA[1].uniqueId);
+      expect(facilityOptions[1]).to.have.attr('value', REQ_DATA[0].uniqueId);
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
     });
   });
 
-  context(
-    'when the form is submitted with both state and facility selected',
-    async () => {
-      it('should not render error messages', async () => {
-        mockApiRequest(mockData);
-        const { mockStore, props } = getData({
-          formData: {
-            'view:facilityState': 'NY',
-            vaMedicalFacility: mockData[0].uniqueId,
-          },
-          submitted: true,
-        });
-        const { container } = render(
-          <Provider store={mockStore}>
-            <VaMedicalCenter {...props} />
-          </Provider>,
-        );
-        await waitFor(() => {
-          const vaSelectState = container.querySelector(
-            `#${props.idSchema['view:facilityState'].$id}`,
-          );
-          const vaSelectFacility = container.querySelector(
-            `#${props.idSchema.vaMedicalFacility.$id}`,
-          );
-          const alert = container.querySelector('va-alert');
+  it('should fire the `onChange` spy when a facility is selected', async () => {
+    apiRequestStub.resolves(REQ_DATA);
 
-          expect(alert).to.not.exist;
-          expect(vaSelectState).to.not.have.attr('error');
-          expect(vaSelectFacility).to.not.have.attr('error');
-        });
+    const onChangeSpy = sinon.spy();
+    const { selectors } = subject({
+      formData: { 'view:facilityState': 'NY' },
+      onChange: onChangeSpy,
+    });
+
+    await waitFor(() => {
+      selectors().facilityField.__events.vaSelect({
+        target: {
+          name: 'preferredFacility_vaMedicalFacility',
+          value: REQ_DATA[1].id,
+        },
       });
-    },
-  );
+      expect(onChangeSpy.called).to.be.true;
+    });
+
+    await waitFor(() => {
+      const { facilityField } = selectors();
+      fireEvent.blur(facilityField);
+      expect(facilityField).to.not.have.attr('error');
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
+    });
+  });
+
+  it('should correctly handle form submission with both state and facility selected', async () => {
+    apiRequestStub.resolves(REQ_DATA);
+
+    const { selectors } = subject({
+      formData: {
+        'view:facilityState': 'NY',
+        vaMedicalFacility: REQ_DATA[0].uniqueId,
+      },
+      submitted: true,
+    });
+
+    await waitFor(() => {
+      const { stateField, facilityField, vaAlert } = selectors();
+      expect(vaAlert).to.not.exist;
+      expect(stateField).to.not.have.attr('error');
+      expect(facilityField).to.not.have.attr('error');
+    });
+
+    await waitFor(() => {
+      expect(apiRequestStub.callCount).to.equal(1);
+    });
+  });
 });

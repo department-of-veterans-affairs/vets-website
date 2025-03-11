@@ -121,7 +121,14 @@ function mockPrescriptionArray(n = 20) {
 
 function generateMockPrescriptions(n = 20) {
   return {
-    data: mockPrescriptionArray(n),
+    data: [
+      ...mockPrescriptionArray(n),
+      mockPrescription(0, {
+        dispStatus: 'Active: Non-VA',
+        prescriptionName: 'Test Active Non-Va',
+        prescriptionSource: 'NV',
+      }),
+    ],
     meta: {
       updatedAt: formatISO(new Date()),
       failedStationList: null,

@@ -16,7 +16,7 @@ const mockFormAeDesignPatterns = require('./endpoints/in-progress-forms/mock-for
 
 const prefill261880 = require('./endpoints/in-progress-forms/26-1880');
 const prefill221990 = require('./endpoints/in-progress-forms/22-1990');
-
+const prefill10182 = require('./endpoints/in-progress-forms/10182');
 // transaction status that is used for address, email, phone number update flows
 const {
   getEmptyStatus,
@@ -46,8 +46,10 @@ const responses = {
       () =>
         res.json(
           generateFeatureToggles({
-            profileUseExperimental: true,
+            aedpVADX: true,
+            aedpPrefill: true,
             coeAccess: true,
+            profileUseExperimental: true,
           }),
         ),
       secondsOfDelay,
@@ -70,6 +72,11 @@ const responses = {
   'GET /v0/in_progress_forms/22-1990': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(() => res.json(prefill221990), secondsOfDelay);
+  },
+
+  'GET /v0/in_progress_forms/10182': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(prefill10182), secondsOfDelay);
   },
 
   'PUT /v0/in_progress_forms/:id': (req, res) => {
@@ -127,7 +134,7 @@ const responses = {
     );
   },
   'POST /v0/profile/addresses': (req, res) => {
-    return res.json(updateMemDb(req, address.homeAddressUpdateReceived));
+    return res.json(updateMemDb(req));
   },
   'DELETE /v0/profile/addresses': (_req, res) => {
     const secondsOfDelay = 1;

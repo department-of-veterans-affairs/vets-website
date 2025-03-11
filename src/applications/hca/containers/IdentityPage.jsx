@@ -1,93 +1,71 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import { setData } from 'platform/forms-system/src/js/actions';
 import recordEvent from 'platform/monitoring/record-event';
-import { focusElement } from 'platform/utilities/ui';
-import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn } from 'platform/user/selectors';
-
-import {
-  fetchEnrollmentStatus,
-  resetEnrollmentStatus as resetEnrollmentStatusAction,
-} from '../utils/actions/enrollment-status';
+import { fetchEnrollmentStatus, resetEnrollmentStatus } from '../utils/actions';
 import { HCA_ENROLLMENT_STATUSES } from '../utils/constants';
-import { selectEnrollmentStatus } from '../utils/selectors/enrollment-status';
+import { selectEnrollmentStatus } from '../utils/selectors';
 import useAfterRenderEffect from '../hooks/useAfterRenderEffect';
 import IdentityVerificationForm from '../components/IdentityPage/VerificationForm';
 import VerificationPageDescription from '../components/IdentityPage/VerificationPageDescription';
 import FormFooter from '../components/FormFooter';
 
-const IdentityPage = props => {
-  const { router } = props;
+const IdentityPage = ({ location, route, router }) => {
+  const [localData, setLocalData] = useState({});
+  const dispatch = useDispatch();
+
   const {
-    statusCode,
-    vesRecordFound,
     fetchAttempted,
     isUserInMPI,
+    statusCode,
+    vesRecordFound,
   } = useSelector(selectEnrollmentStatus);
-  const { data: formData } = useSelector(state => state.form);
+  const formData = useSelector(state => state.form.data);
   const loggedIn = useSelector(isLoggedIn);
-  const [localData, setLocalData] = useState({});
 
-  /**
-   * declare event handlers
-   *  - onChange - fired when data from local form components is updated
-   *  - onSubmit - fired on click of continue button - validates form data
-   *  - goToNextPage - fired on successful enrollment status API return - go to the first page in the form
-   *  - triggerPrefill - fired on successful enrollment status API return - prefill form data based on inputs from identity form
-   *  - showSignInModal - fired on click of sign in button - show modal for logging into VA.gov
-   */
-  const handlers = {
-    onChange: data => {
-      setLocalData(data);
-    },
-    onSubmit: data => {
-      const { submitIDForm } = props;
-      const { formData: dataToSubmit } = data;
+  const onChange = useCallback(data => setLocalData(data), []);
+  const onSubmit = useCallback(
+    data => {
       recordEvent({ event: 'hca-continue-application' });
-      submitIDForm(dataToSubmit);
+      dispatch(fetchEnrollmentStatus(data.formData));
     },
-    goToNextPage: () => {
-      const {
-        location: { pathname },
-        route: { pageList },
-      } = props;
-      const nextPagePath = getNextPagePath(pageList, formData, pathname);
-      router.push(nextPagePath);
-    },
-    triggerPrefill: () => {
-      const { setFormData } = props;
-      const { veteranFullName } = formData;
+    [dispatch],
+  );
+  const showSignInModal = useCallback(() => dispatch(toggleLoginModal(true)), [
+    dispatch,
+  ]);
+  const goToNextPage = useCallback(
+    () =>
+      router.push(getNextPagePath(route.pageList, formData, location.pathname)),
+    [formData, location.pathname, route.pageList, router],
+  );
+  const triggerPrefill = useCallback(
+    () => {
       const fullName = {
-        ...veteranFullName,
+        ...formData.veteranFullName,
         first: localData.firstName,
         middle: localData.middleName,
         last: localData.lastName,
         suffix: localData.suffix,
       };
-      const {
-        dob: veteranDateOfBirth,
-        ssn: veteranSocialSecurityNumber,
-      } = localData;
-      setFormData({
+      const dataToSet = {
         ...formData,
-        veteranDateOfBirth,
+        veteranDateOfBirth: localData.dob,
         'view:isUserInMvi': isUserInMPI,
         'view:veteranInformation': {
           veteranFullName: fullName,
-          veteranDateOfBirth,
-          veteranSocialSecurityNumber,
+          veteranDateOfBirth: localData.dob,
+          veteranSocialSecurityNumber: localData.ssn,
         },
-      });
+      };
+      dispatch(setData(dataToSet));
     },
-    showSignInModal: () => {
-      const { toggleLoginModal } = props;
-      toggleLoginModal(true);
-    },
-  };
+    [dispatch, formData, isUserInMPI, localData],
+  );
 
   /**
    * reset enrollment status data on when first loading the page if user is
@@ -95,13 +73,8 @@ const IdentityPage = props => {
    */
   useEffect(
     () => {
-      if (loggedIn) {
-        router.push('/');
-      } else {
-        const { resetEnrollmentStatus } = props;
-        resetEnrollmentStatus();
-        focusElement('.va-nav-breadcrumbs-list');
-      }
+      if (loggedIn) router.push('/');
+      else dispatch(resetEnrollmentStatus());
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [loggedIn],
@@ -112,26 +85,24 @@ const IdentityPage = props => {
     () => {
       if (fetchAttempted) {
         const { noneOfTheAbove } = HCA_ENROLLMENT_STATUSES;
-        const canGoToNext = !vesRecordFound || statusCode === noneOfTheAbove;
-        if (canGoToNext) {
-          handlers.triggerPrefill();
-          handlers.goToNextPage();
+        if (!vesRecordFound || statusCode === noneOfTheAbove) {
+          triggerPrefill();
+          goToNextPage();
         }
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [fetchAttempted],
   );
 
   return (
     <>
       <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
-        <VerificationPageDescription onLogin={handlers.showSignInModal} />
+        <VerificationPageDescription onLogin={showSignInModal} />
         <IdentityVerificationForm
           data={localData}
-          onChange={handlers.onChange}
-          onSubmit={handlers.onSubmit}
-          onLogin={handlers.showSignInModal}
+          onChange={onChange}
+          onSubmit={onSubmit}
+          onLogin={showSignInModal}
         />
       </div>
       <FormFooter />
@@ -141,22 +112,8 @@ const IdentityPage = props => {
 
 IdentityPage.propTypes = {
   location: PropTypes.object,
-  resetEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
   router: PropTypes.object,
-  setFormData: PropTypes.func,
-  submitIDForm: PropTypes.func,
-  toggleLoginModal: PropTypes.func,
 };
 
-const mapDispatchToProps = {
-  resetEnrollmentStatus: resetEnrollmentStatusAction,
-  setFormData: setData,
-  submitIDForm: fetchEnrollmentStatus,
-  toggleLoginModal: toggleLoginModalAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(IdentityPage);
+export default IdentityPage;

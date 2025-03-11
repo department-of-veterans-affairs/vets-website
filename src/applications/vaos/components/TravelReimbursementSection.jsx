@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getDaysRemainingToFileClaim } from '../utils/appointment';
 import {
   selectAppointmentTravelClaim,
   selectIsEligibleForTravelClaim,
@@ -13,39 +12,22 @@ export default function TravelReimbursementSection({ appointment }) {
   if (!isEligibleForTravelClaim) return null;
 
   const claimData = selectAppointmentTravelClaim(appointment);
+  if (!claimData.metadata.success) return null;
 
-  const daysRemainingToFileClaim = getDaysRemainingToFileClaim(
-    appointment.start,
-  );
   const heading = 'Travel reimbursement';
 
-  if (claimData.metadata.status !== 200) {
-    return (
-      <Section heading={heading}>
-        <p className="vads-u-margin-y--0p5">
-          We’re sorry. Something went wrong on our end. Please try again later.
-        </p>
-      </Section>
-    );
-  }
-
   if (
-    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
-      (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
-        !claimData.claim)) &&
-    daysRemainingToFileClaim > 0
+    claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
+    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
+      !claimData.claim)
   ) {
-    // TODO: change the link for submitting a travel claim once it's available
     return (
       <Section heading={heading}>
-        <p className="vads-u-margin-y--0p5">
-          Days left to file: {daysRemainingToFileClaim}
-        </p>
         <p className="vads-u-margin-y--0p5">
           <va-link
             data-testid="file-claim-link"
             className="vads-u-margin-y--0p5"
-            href={`/appointments/claims/?date=${appointment.start}`}
+            href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
             text="File a travel reimbursement claim"
           />
         </p>
@@ -53,19 +35,14 @@ export default function TravelReimbursementSection({ appointment }) {
     );
   }
   if (
-    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
-      (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
-        !claimData.claim)) &&
-    daysRemainingToFileClaim < 1
+    claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.noClaim ||
+    (claimData.metadata.message === TRAVEL_CLAIM_MESSAGES.success &&
+      !claimData.claim)
   ) {
     return (
       <Section heading={heading}>
         <p className="vads-u-margin-y--0p5">
-          Days left to file: {daysRemainingToFileClaim}
-        </p>
-        <p className="vads-u-margin-y--0p5">
-          You didn’t file a claim for this appointment. You can only file for
-          reimbursement within 30 days of the appointment.
+          You didn’t file a claim for this appointment.
         </p>
         <p className="vads-u-margin-y--0p5">
           <va-link
@@ -87,7 +64,7 @@ export default function TravelReimbursementSection({ appointment }) {
         <p className="vads-u-margin-y--0p5">
           <va-link
             data-testid="view-claim-link"
-            href={`/my-health/travel-claim-status/${claimData.claim.id}`}
+            href={`/my-health/travel-pay/claims/${claimData.claim.id}`}
             text="Check your claim status"
           />
         </p>

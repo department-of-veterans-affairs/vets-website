@@ -16,11 +16,10 @@ import { focusElement } from 'platform/utilities/ui';
 import { createArrayBuilderItemEditPath } from './helpers';
 
 const EditLink = ({ to, srText }) => (
-  <Link to={to} data-action="edit">
+  <Link to={to} data-action="edit" aria-label={srText}>
     <span className="vads-u-display--flex vads-u-align-items--center vads-u-font-size--md">
       Edit
       <va-icon size={3} icon="chevron_right" aria-hidden="true" />
-      <span className="sr-only">{srText}</span>
     </span>
   </Link>
 );
@@ -51,7 +50,7 @@ const IncompleteLabel = () => (
 /**
  * @param {{
  *   arrayPath: string,
- *   editItemPathUrl: string,
+ *   getEditItemPathUrl: (formData: any, index: number) => string,
  *   formData: any,
  *   isIncomplete: (itemData: any) => boolean,
  *   nounSingular: string,
@@ -65,7 +64,7 @@ const IncompleteLabel = () => (
 const ArrayBuilderCards = ({
   arrayPath,
   isIncomplete = () => false,
-  editItemPathUrl,
+  getEditItemPathUrl,
   setFormData,
   formData,
   nounSingular,
@@ -109,6 +108,8 @@ const ArrayBuilderCards = ({
           return;
         }
         focusElement(
+          'button',
+          null,
           `va-card[name="${nounSingular}_${lastIndex}"] [data-action="remove"]`,
         );
       });
@@ -149,7 +150,11 @@ const ArrayBuilderCards = ({
     index: PropTypes.number.isRequired,
   };
 
-  const CardHeading = `h${Number(titleHeaderLevel) + 1}`;
+  const cardHeaderLevel = Number(titleHeaderLevel) + 1;
+  const CardTitle = `h${cardHeaderLevel}`;
+  // Use h3 as the largest size for styling, otherwise use header level.
+  // This can change based on minimal header or not.
+  const cardHeadingStyling = cardHeaderLevel < 3 ? ' vads-u-font-size--h3' : '';
 
   return (
     <div>
@@ -174,9 +179,11 @@ const ArrayBuilderCards = ({
                   <Card index={index}>
                     <div>
                       {isIncomplete(itemData) && <IncompleteLabel />}
-                      <CardHeading className="vads-u-margin-top--0">
+                      <CardTitle
+                        className={`vads-u-margin-top--0${cardHeadingStyling}`}
+                      >
                         {itemName}
-                      </CardHeading>
+                      </CardTitle>
                       {itemDescription}
                       {isIncomplete(itemData) && (
                         <MissingInformationAlert>
@@ -192,7 +199,7 @@ const ArrayBuilderCards = ({
                     <span className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-font-weight--bold">
                       <EditLink
                         to={createArrayBuilderItemEditPath({
-                          path: editItemPathUrl,
+                          path: getEditItemPathUrl(formData, index),
                           index,
                           isReview,
                         })}
@@ -264,9 +271,9 @@ const mapDispatchToProps = {
 
 ArrayBuilderCards.propTypes = {
   arrayPath: PropTypes.string.isRequired,
-  editItemPathUrl: PropTypes.string.isRequired,
   forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
+  getEditItemPathUrl: PropTypes.func.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,
   isReview: PropTypes.bool.isRequired,
@@ -280,7 +287,7 @@ ArrayBuilderCards.propTypes = {
     PropTypes.node,
     PropTypes.string,
   ]),
-  titleHeaderLevel: PropTypes.func,
+  titleHeaderLevel: PropTypes.string,
 };
 
 export default connect(

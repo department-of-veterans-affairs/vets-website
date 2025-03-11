@@ -57,7 +57,7 @@ describe('LabsAndTestsListItem component', () => {
 
   it('should contain a link to view record details', () => {
     const recordDetailsLink = screen.getByText('Potassium, Sodium', {
-      selector: 'div',
+      selector: 'a',
       exact: true,
     });
     expect(recordDetailsLink).to.exist;
@@ -93,7 +93,7 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
 
   it('should display the name of the record as a link to view record details', () => {
     const recordName = screen.getAllByText('Potassium, Sodium', {
-      selector: 'div',
+      selector: 'a',
       exact: true,
     })[0];
     expect(recordName).to.exist;
@@ -145,7 +145,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
 
   it('should display the name of the record as a link to view record details', () => {
     const recordName = screen.getAllByText('LR MICROBIOLOGY REPORT', {
-      selector: 'div',
+      selector: 'a',
       exact: true,
     })[0];
     expect(recordName).to.exist;
@@ -197,14 +197,14 @@ describe('LabsAndTestsListItem component with pathology record', () => {
 
   it('should display the name of the record as a link to view record details', () => {
     const recordName = screen.getAllByText('LR SURGICAL PATHOLOGY REPORT', {
-      selector: 'div',
+      selector: 'a',
       exact: true,
     })[0];
     expect(recordName).to.exist;
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getByText('August 11, 1999, 4:09 p.m.', {
+    const date = screen.getByText('August 11, 1999', {
       selector: 'div',
       exact: true,
     });
@@ -247,7 +247,7 @@ describe('LabsAndTestsListItem component with radiology record', () => {
 
   it('should display the name of the record as a link to view record details', () => {
     const recordName = screen.getByText('DEXA, PERIPHERAL STUDY', {
-      selector: 'div',
+      selector: 'a',
       exact: true,
     });
     expect(recordName).to.exist;

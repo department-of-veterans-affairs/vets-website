@@ -2,36 +2,42 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import inboxMessages from './fixtures/messages-response.json';
-import mockMessageDetails from './fixtures/message-response.json';
-import defaultMockThread from './fixtures/thread-response.json';
 import PatientReplyPage from './pages/PatientReplyPage';
 import { AXE_CONTEXT } from './utils/constants';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+import singleThreadResponse from './fixtures/thread-response-new-api.json';
+import FolderLoadPage from './pages/FolderLoadPage';
 
-describe('Secure Messaging Message Details Buttons Check', () => {
-  it('Message Details Buttons Check', () => {
+describe('SM SINGLE MESSAGE', () => {
+  it('single message buttons check', () => {
+    const updatedSingleThreadResponse = GeneralFunctionsPage.updatedThreadDates(
+      singleThreadResponse,
+    );
+
     SecureMessagingSite.login();
-    const messageDetails = PatientInboxPage.setMessageDateToYesterday(
-      mockMessageDetails,
-    );
-    cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
-    PatientInboxPage.loadInboxMessages(inboxMessages, messageDetails);
-    PatientMessageDetailsPage.loadMessageDetails(
-      messageDetails,
-      defaultMockThread,
-    );
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
+
+    PatientMessageDetailsPage.verifySingleButton(`reply`);
+    PatientMessageDetailsPage.verifySingleButton(`print`);
+    PatientMessageDetailsPage.verifySingleButton(`move`);
+    PatientMessageDetailsPage.verifySingleButton(`trash`);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
     PatientMessageDetailsPage.verifyTrashButtonModal();
     PatientMessageDetailsPage.verifyMoveToButtonModal();
-    PatientMessageDetailsPage.loadReplyPageDetails(
-      messageDetails,
-      defaultMockThread,
-    );
-    PatientInterstitialPage.getContinueButton().click({
-      waitForAnimations: true,
-    });
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+
+    PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
+    PatientInterstitialPage.getContinueButton().click();
 
     PatientReplyPage.getMessageBodyField().should('be.visible');
+    GeneralFunctionsPage.verifyUrl(`reply`);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    FolderLoadPage.backToParentFolder();
   });
 });

@@ -2,7 +2,7 @@ import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/a
 
 import { conditionObjects } from '../../content/conditionOptions';
 
-export const createTitle = (defaultTitle, editTitle) => {
+export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   const search = getArrayUrlSearchParams();
   const isEdit = search.get('edit');
 
@@ -10,18 +10,6 @@ export const createTitle = (defaultTitle, editTitle) => {
     return editTitle;
   }
   return defaultTitle;
-};
-
-export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.conditionsFirst
-    ? formData.conditionsFirst[index]?.condition
-    : formData.condition;
-
-  const conditionObject = conditionObjects.find(
-    conditionObj => conditionObj.option === condition,
-  );
-
-  return conditionObject ? conditionObject.sideOfBody : false;
 };
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
@@ -47,10 +35,19 @@ export const arrayBuilderOptions = {
   nounSingular: 'condition',
   nounPlural: 'conditions',
   required: true,
-  isItemIncomplete: item => !item?.condition || !item?.date,
+  isItemIncomplete: item => !item?.condition,
   maxItems: 100,
   text: {
     getItemName: item => createItemName(item, true),
-    cardDescription: item => `Date began: ${item?.date}`,
   },
+};
+
+export const hasSideOfBody = (formData, index) => {
+  const condition = formData?.[arrayBuilderOptions.arrayPath][index]?.condition;
+
+  const conditionObject = conditionObjects.find(
+    conditionObj => conditionObj.option === condition,
+  );
+
+  return conditionObject ? conditionObject.sideOfBody : false;
 };

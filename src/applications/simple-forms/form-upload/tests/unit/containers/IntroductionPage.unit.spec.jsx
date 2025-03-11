@@ -3,6 +3,8 @@ import { Provider } from 'react-redux';
 import { render, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 import { getFormContent } from '../../../helpers';
@@ -44,12 +46,14 @@ const props = {
   },
 };
 
-const mockStore = {
+const loggedInUser = {
+  currentlyLoggedIn: true,
+};
+
+const mockStore = (loggedIn, dispatchSpy) => ({
   getState: () => ({
     user: {
-      login: {
-        currentlyLoggedIn: false,
-      },
+      login: loggedIn ? loggedInUser : { currentlyLoggedIn: false },
       profile: {
         savedForms: [],
         prefillsAvailable: ['FORM-UPLOAD-FLOW'],
@@ -78,8 +82,8 @@ const mockStore = {
     },
   }),
   subscribe: () => {},
-  dispatch: () => {},
-};
+  dispatch: dispatchSpy,
+});
 
 describe('IntroductionPage', () => {
   beforeEach(() => {
@@ -91,23 +95,39 @@ describe('IntroductionPage', () => {
   });
 
   it('renders successfully', () => {
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    expect(container).to.exist;
+    [true, false].forEach(loggedIn => {
+      const { container } = render(
+        <Provider store={mockStore(loggedIn)}>
+          <IntroductionPage {...props} />
+        </Provider>,
+      );
+      expect(container).to.exist;
+    });
   });
 
   it('renders the correct title, subtitle', () => {
     const { title, subTitle } = getFormContent();
 
     const { getByText } = render(
-      <Provider store={mockStore}>
+      <Provider store={mockStore()}>
         <IntroductionPage {...props} />
       </Provider>,
     );
     expect(getByText(title)).to.exist;
     expect(getByText(subTitle)).to.exist;
+  });
+
+  it('opens the Login modal on click', () => {
+    const dispatchSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={mockStore(false, dispatchSpy)}>
+        <IntroductionPage {...props} />
+      </Provider>,
+    );
+    const button = container.querySelector('va-button');
+
+    userEvent.click(button);
+
+    expect(dispatchSpy.calledOnce).to.be.true;
   });
 });

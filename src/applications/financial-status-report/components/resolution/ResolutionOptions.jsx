@@ -57,8 +57,8 @@ const ResolutionOptions = ({ formContext }) => {
   };
 
   const waiverText = `If we approve your request, we’ll stop collection and waive the debt.`;
-  const monthlyText = `If you can’t pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt.`;
-  const compromiseText = `If we approve your request, you can make smaller monthly payments for up to 5 years with either monthly offsets or a monthly payment plan.`;
+  const monthlyText = `If we approve your request, you can make smaller monthly payments for up to 5 years with either monthly offsets or a monthly payment plan.`;
+  const compromiseText = `If you can’t pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt.`;
 
   const renderResolutionSelectionText = () => {
     switch (currentDebt.resolutionOption) {

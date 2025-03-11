@@ -1,5 +1,5 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { REQUIRED_FILES, OPTIONAL_FILES } from './constants';
+import { FILE_UPLOAD_ORDER } from './constants';
 import {
   adjustYearString,
   concatStreets,
@@ -47,19 +47,15 @@ function transformApplicants(applicants) {
   applicants.forEach(app => {
     let transformedApp = {
       ...app,
-      ssnOrTin: app.applicantSSN?.ssn ?? '',
+      ssnOrTin: app.applicantSSN ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
       // Grab any file upload properties from this applicant and combine into a
       // supporting documents array:
-      applicantSupportingDocuments: Object.keys({
-        ...REQUIRED_FILES,
-        ...OPTIONAL_FILES,
-      })
-        .filter(k => k.includes('applicant')) // Ignore sponsor files
-        .map(f => app?.[f]) // Grab the upload obj from top-level in applicant
-        .filter(el => el), // Drop any undefineds/nulls
+      applicantSupportingDocuments: FILE_UPLOAD_ORDER.map(
+        property => app?.[property],
+      ).filter(el => el), // Drop any undefineds/nulls
     };
     transformedApp = adjustYearString(transformedApp);
     transformedApp.applicantAddress = concatStreets(

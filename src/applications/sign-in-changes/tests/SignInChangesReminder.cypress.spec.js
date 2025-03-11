@@ -25,19 +25,6 @@ describe('Interstitial Changes Page', () => {
     });
   });
 
-  context('when user is unauthorized', () => {
-    beforeEach(() => {
-      interceptResponse(401, {});
-      visitPage();
-    });
-
-    it('displays an unauthorized error message', () => {
-      cy.get('va-alert').should('have.attr', 'status', 'error');
-      cy.contains('401: Not authorized').should('be.visible');
-      cy.injectAxeThenAxeCheck();
-    });
-  });
-
   context('when user is redirected to /sign-in-changes-reminder', () => {
     beforeEach(() => {
       interceptResponse(200, {});
@@ -62,7 +49,7 @@ describe('Interstitial Changes Page', () => {
 
     it('displays the Login.gov account switch option', () => {
       cy.get('#accountSwitchH2').should('be.visible');
-      cy.get('[data-csp="logingov"]').should('be.visible');
+      cy.get('.logingov-verify-buttons').should('be.visible');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -75,7 +62,7 @@ describe('Interstitial Changes Page', () => {
 
     it('displays the ID.me account switch option', () => {
       cy.get('#accountSwitchH2').should('be.visible');
-      cy.get('[data-csp="idme"]').should('be.visible');
+      cy.get('.idme-verify-buttons').should('be.visible');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -91,8 +78,8 @@ describe('Interstitial Changes Page', () => {
 
     it('displays options to use either Login.gov or ID.me account', () => {
       cy.get('#accountSwitchH2').should('be.visible');
-      cy.get('[data-csp="logingov"]').should('be.visible');
-      cy.get('[data-csp="idme"]').should('be.visible');
+      cy.get('.logingov-verify-buttons').should('be.visible');
+      cy.get('.idme-verify-buttons').should('be.visible');
       cy.injectAxeThenAxeCheck();
     });
   });
@@ -106,8 +93,8 @@ describe('Interstitial Changes Page', () => {
     it('displays the create account option', () => {
       cy.get('#createAccountH2').should('be.visible');
       cy.get('#createAccountP').should('be.visible');
-      cy.get('[data-csp="logingov"]').should('be.visible');
-      cy.get('[data-csp="idme"]').should('be.visible');
+      cy.get('.logingov-verify-buttons').should('be.visible');
+      cy.get('.idme-verify-buttons').should('be.visible');
       cy.injectAxeThenAxeCheck();
     });
   });

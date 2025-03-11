@@ -1,13 +1,225 @@
 import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
-import { beforeEach } from 'mocha';
+import { beforeEach, it } from 'mocha';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import reducer from '../../reducers';
 import RadiologyDetails from '../../components/LabsAndTests/RadiologyDetails';
 import radiologyMhv from '../fixtures/radiologyMhv.json';
+import radiologyMhvWithImages from '../fixtures/radiologyMhvWithImages.json';
+import radiologyMhvWithImagesNew from '../fixtures/radiologyMhvWithImagesNew.json';
+import radiologyMhvWithImageError from '../fixtures/radiologyMhvWithImageError.json';
+import images from '../fixtures/images.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
-import { convertMhvRadiologyRecord } from '../../reducers/labsAndTests';
+import {
+  convertCvixRadiologyRecord,
+  convertMhvRadiologyRecord,
+} from '../../reducers/labsAndTests';
+
+describe('Radiology details component - images', () => {
+  const radiologyRecord = convertCvixRadiologyRecord(radiologyMhvWithImages);
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: radiologyRecord,
+      },
+      images,
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/r5621490',
+      },
+    );
+  });
+
+  it('renders without errors', () => {
+    expect(screen).to.exist;
+  });
+
+  it('should display the test name', () => {
+    const header = screen.getByText('KNEE 4 OR MORE VIEWS (LEFT)', {
+      exact: true,
+      selector: 'h1',
+    });
+    expect(header).to.exist;
+  });
+
+  // This test will give different results when run in different time zones.
+  it('should display the formatted date', () => {
+    const formattedDate = screen.getByText('April 4, 2024, 9:03 p.m.', {
+      exact: true,
+      selector: 'span',
+    });
+    expect(formattedDate).to.exist;
+  });
+
+  it('should display the reason for the test', () => {
+    expect(screen.getByTestId('radiology-reason')).to.contain.text(
+      'Test data number2 Todd',
+    );
+  });
+
+  it('should display the clinical history', () => {
+    expect(screen.getByTestId('radiology-clinical-history')).to.contain.text(
+      'None noted',
+    );
+  });
+
+  it('should display who the test was ordered by', () => {
+    const orderedBy = screen.getByText('RODRIGUEZ,CARLOS', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(orderedBy).to.exist;
+  });
+
+  it('should display the performing lab location', () => {
+    const performingLocation = screen.getByText('IPO TEST 2', {
+      exact: true,
+      selector: 'p',
+    });
+    expect(performingLocation).to.exist;
+  });
+
+  it('should display the imaging provider', () => {
+    expect(screen.getByTestId('radiology-imaging-provider')).to.contain.text(
+      'None noted',
+    );
+  });
+
+  it('should display the lab results', () => {
+    const results = screen.getByText(
+      'Degenerative arthritis of left knee which has shown',
+      {
+        exact: false,
+        selector: 'p',
+      },
+    );
+    expect(results).to.exist;
+  });
+
+  it('should display a download started message when the download pdf button is clicked', () => {
+    fireEvent.click(screen.getByTestId('printButton-1'));
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
+  });
+
+  it('should display a download started message when the download txt file button is clicked', () => {
+    fireEvent.click(screen.getByTestId('printButton-2'));
+    expect(screen.getByTestId('download-success-alert-message')).to.exist;
+  });
+});
+
+describe('Radiology details component - image with error', () => {
+  const radiologyRecord = convertCvixRadiologyRecord(
+    radiologyMhvWithImageError,
+  );
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: radiologyRecord,
+      },
+      images: {
+        ...images,
+        notificationStatus: true,
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/r5621490',
+      },
+    );
+  });
+
+  it('renders without errors', () => {
+    expect(screen).to.exist;
+  });
+
+  it('displays an error message', () => {
+    const error = screen.getByText(
+      'We’re sorry. There was a problem with our system. Try requesting your images again.',
+      {
+        exact: true,
+        selector: 'p',
+      },
+    );
+    expect(error).to.exist;
+
+    const requestImagesButton = screen.getByTestId(
+      'radiology-request-images-button',
+    );
+    expect(requestImagesButton).to.exist;
+    fireEvent.click(requestImagesButton);
+  });
+});
+
+describe('Radiology details component - new image', () => {
+  const radiologyRecord = convertCvixRadiologyRecord(radiologyMhvWithImagesNew);
+  const initialState = {
+    mr: {
+      labsAndTests: {
+        labsAndTestsDetails: radiologyRecord,
+      },
+      images: {
+        ...images,
+        notificationStatus: true,
+      },
+    },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(
+      <RadiologyDetails
+        record={radiologyRecord}
+        fullState={initialState}
+        runningUnitTest
+      />,
+      {
+        initialState,
+        reducers: reducer,
+        path: '/labs-and-tests/r5621490',
+      },
+    );
+  });
+
+  it('renders without errors', () => {
+    expect(screen).to.exist;
+  });
+});
 
 describe('Radiology details component', () => {
   const radiologyRecord = convertMhvRadiologyRecord(radiologyMhv);
@@ -67,40 +279,37 @@ describe('Radiology details component', () => {
     });
     expect(reason).to.exist;
   });
+
   it('should display the clinical history', () => {
-    const reason = screen.getByText('this is 71 yr old pt', {
+    const clinicalHistory = screen.getByText('this is 71 yr old pt', {
       exact: false,
       selector: 'p',
     });
-    expect(reason).to.exist;
+    expect(clinicalHistory).to.exist;
   });
+
   it('should display who the test was ordered by', () => {
-    const reason = screen.getByText('JOHN DOE', {
+    const orderedBy = screen.getByText('JOHN DOE', {
       exact: true,
       selector: 'p',
     });
-    expect(reason).to.exist;
+    expect(orderedBy).to.exist;
   });
+
   it('should display the performing lab location', () => {
-    const reason = screen.getByText('DAYT3', {
+    const performingLocation = screen.getByText('DAYT3', {
       exact: true,
       selector: 'p',
     });
-    expect(reason).to.exist;
+    expect(performingLocation).to.exist;
   });
+
   it('should display the imaging provider', () => {
-    const reason = screen.getByText('JANE DOE', {
+    const imagingProvider = screen.getByText('JANE DOE', {
       exact: true,
       selector: 'p',
     });
-    expect(reason).to.exist;
-  });
-  it('should display the images note', () => {
-    const reason = screen.getByText('Images are not yet available', {
-      exact: false,
-      selector: 'p',
-    });
-    expect(reason).to.exist;
+    expect(imagingProvider).to.exist;
   });
 
   it('should display the lab results', () => {

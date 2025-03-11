@@ -2,7 +2,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import * as Sentry from '@sentry/browser';
 import { pdfTransform } from '../utilities/pdfTransform';
-import { isAttorneyOrClaimsAgent } from '../utilities/helpers';
+import { formIs2122A } from '../utilities/helpers';
 import manifest from '../manifest.json';
 
 export const generatePDF = async formData => {
@@ -20,7 +20,7 @@ export const generatePDF = async formData => {
     body: JSON.stringify(transformedFormData),
   };
 
-  const formType = isAttorneyOrClaimsAgent(formData) ? '2122a' : '2122';
+  const formType = formIs2122A(formData) ? '2122a' : '2122';
 
   const requestUrl = `${
     environment.API_URL

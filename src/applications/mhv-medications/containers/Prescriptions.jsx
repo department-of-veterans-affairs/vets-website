@@ -40,7 +40,6 @@ import {
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
   SESSION_SELECTED_PAGE_NUMBER,
-  sourcesToHide,
   filterOptions,
   ALL_MEDICATIONS_FILTER_KEY,
 } from '../util/constants';
@@ -55,14 +54,21 @@ import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
   selectFilterFlag,
+  selectGroupingFlag,
   selectRefillContentFlag,
+  selectRefillProgressFlag,
+  selectRemoveLandingPageFlag,
+  selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
-import { pageType } from '../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
+import RefillAlert from '../components/shared/RefillAlert';
+import NeedHelp from '../components/shared/NeedHelp';
+import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -89,6 +95,10 @@ const Prescriptions = () => {
   const showAllergiesContent = useSelector(selectAllergiesFlag);
   // **Remove sort funtions and logic once filter feature is developed and live.**
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
+  const showIPEContent = useSelector(selectIPEContentFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -141,7 +151,12 @@ const Prescriptions = () => {
       `${isFiltering ? 'Filtering' : 'Sorting'} your medications...`,
     );
     dispatch(
-      getPaginatedFilteredList(1, filterOptions[filterBy].url, sortBy),
+      getPaginatedFilteredList(
+        1,
+        filterOptions[filterBy]?.url,
+        sortBy,
+        showGroupingContent ? 10 : 20,
+      ),
     ).then(() => {
       updateLoadingStatus(false, '');
       focusElement(document.getElementById('showingRx'));
@@ -201,11 +216,16 @@ const Prescriptions = () => {
 
   useEffect(
     () => {
-      if (!filteredList?.length) {
+      if (
+        !isLoading &&
+        filteredList?.length === 0 &&
+        filterCount &&
+        Object.values(filterCount).some(value => value !== 0)
+      ) {
         focusElement(document.getElementById('no-matches-msg'));
       }
     },
-    [filteredList],
+    [filteredList, isLoading, filterCount],
   );
 
   useEffect(
@@ -235,6 +255,7 @@ const Prescriptions = () => {
           getPrescriptionsPaginatedSortedList(
             page ?? 1,
             rxListSortingOptions[sortOption].API_ENDPOINT,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
         if (!selectedSortOption) updateSortOption(sortOption);
@@ -308,8 +329,9 @@ const Prescriptions = () => {
         dispatch(
           getPaginatedFilteredList(
             storedPageNumber,
-            filterOptions[storedFilterOption].url,
+            filterOptions[storedFilterOption]?.url,
             sortEndpoint,
+            showGroupingContent ? 10 : 20,
           ),
         ).then(() => updateLoadingStatus(false, ''));
       }
@@ -478,12 +500,7 @@ const Prescriptions = () => {
             false,
           )
             .then(response => {
-              const list = response.data
-                .map(rx => ({ ...rx.attributes }))
-                // temporary plug until those sources are ready at va.gov
-                .filter(rx => {
-                  return !sourcesToHide.includes(rx.prescriptionSource);
-                });
+              const list = response.data.map(rx => ({ ...rx.attributes }));
               setPrescriptionsFullList(list);
               setHasFullListDownloadError(false);
             })
@@ -609,10 +626,22 @@ const Prescriptions = () => {
           className="vads-u-margin-top--0 vads-u-margin-bottom--4"
           data-testid="Title-Notes"
         >
-          When you share your medications list with providers, make sure you
-          also tell them about your allergies and reactions to medications.{' '}
+          {removeLandingPage ? (
+            <>
+              Bring your medications list to each appointment. And tell your
+              provider about any new allergies or reactions. If you use Meds by
+              Mail, you can also call your servicing center and ask them to
+              update your records.
+            </>
+          ) : (
+            <>
+              When you share your medications list with providers, make sure you
+              also tell them about your allergies and reactions to medications.
+            </>
+          )}
           {!showAllergiesContent && (
             <>
+              {' '}
               If you print or download this list, we’ll include a list of your
               allergies.
             </>
@@ -631,15 +660,22 @@ const Prescriptions = () => {
         {prescriptionsApiError ? (
           <>
             <ApiErrorNotification errorType="access" content="medications" />
-            <CernerFacilityAlert className="vads-u-margin-top--2" />
+            <CernerFacilityAlert />
           </>
         ) : (
           <>
             <CernerFacilityAlert />
-            {paginatedPrescriptionsList &&
-            paginatedPrescriptionsList.length === 0 ? (
+            {showRefillProgressContent && <RefillAlert />}
+            {(!showFilterContent && paginatedPrescriptionsList?.length === 0) ||
+            (showFilterContent &&
+              filteredList?.length === 0 &&
+              filterCount &&
+              Object.values(filterCount).every(value => value === 0)) ? (
               <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color">
-                <h2 className="vads-u-margin--0">
+                <h2
+                  className="vads-u-margin--0"
+                  data-testid="empty-medList-alert"
+                >
                   You don’t have any VA prescriptions or medication records
                 </h2>
                 <p className="vads-u-margin-y--3">
@@ -660,6 +696,10 @@ const Prescriptions = () => {
                         className="vads-c-action-link--green vads-u-margin--0"
                         to={medicationsUrls.subdirectories.REFILL}
                         data-testid="prescriptions-nav-link-to-refill"
+                        data-dd-action-name={
+                          dataDogActionNames.medicationsListPage
+                            .START_REFILL_REQUEST
+                        }
                       >
                         Start a refill request
                       </Link>
@@ -704,6 +744,7 @@ const Prescriptions = () => {
                         setFilterOption={setFilterOption}
                         filterCount={filterCount}
                       />
+                      {showIPEContent && <InProductionEducationFiltering />}
                     </>
                   )}
                   {paginatedPrescriptionsList?.length ||
@@ -727,10 +768,12 @@ const Prescriptions = () => {
                           <BeforeYouDownloadDropdown page={pageType.LIST} />
                         </>
                       )}
-                      <MedicationsListSort
-                        value={selectedSortOption}
-                        sortRxList={sortRxList}
-                      />
+                      {(!showFilterContent || !isLoading) && (
+                        <MedicationsListSort
+                          value={selectedSortOption}
+                          sortRxList={sortRxList}
+                        />
+                      )}
                       <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
                       {isLoading ? (
                         <div className="vads-u-height--viewport vads-u-padding-top--3">
@@ -753,24 +796,26 @@ const Prescriptions = () => {
                           updateLoadingStatus={updateLoadingStatus}
                         />
                       )}
-                      {showFilterContent && (
-                        <>
-                          <PrintDownload
-                            onDownload={handleFullListDownload}
-                            isSuccess={
-                              pdfTxtGenerateStatus.status ===
-                              PDF_TXT_GENERATE_STATUS.Success
-                            }
-                            isLoading={
-                              !allergiesError &&
-                              pdfTxtGenerateStatus.status ===
-                                PDF_TXT_GENERATE_STATUS.InProgress
-                            }
-                            list
-                          />
-                          <BeforeYouDownloadDropdown page={pageType.LIST} />
-                        </>
-                      )}
+                      {showFilterContent &&
+                        !isLoading && (
+                          <>
+                            <PrintDownload
+                              onDownload={handleFullListDownload}
+                              isSuccess={
+                                pdfTxtGenerateStatus.status ===
+                                PDF_TXT_GENERATE_STATUS.Success
+                              }
+                              isLoading={
+                                !allergiesError &&
+                                pdfTxtGenerateStatus.status ===
+                                  PDF_TXT_GENERATE_STATUS.InProgress
+                              }
+                              list
+                            />
+                            <BeforeYouDownloadDropdown page={pageType.LIST} />
+                          </>
+                        )}
+                      {removeLandingPage && <NeedHelp page={pageType.LIST} />}
                     </>
                   ) : (
                     <>
@@ -787,23 +832,35 @@ const Prescriptions = () => {
                   )}
                   {showFilterContent && (
                     <>
-                      {filteredList?.length === 0 && (
-                        <div>
-                          <h2 id="no-matches-msg">
-                            We didn’t find any matches for this filter
-                          </h2>
-                          <p>Try selecting a different filter.</p>
-                        </div>
-                      )}
-                      {isLoading && (
-                        <div className="vads-u-height--viewport vads-u-padding-top--3">
-                          <va-loading-indicator
-                            message={`${loadingMessage}`}
-                            setFocus
-                            data-testid="loading-indicator"
-                          />
-                        </div>
-                      )}
+                      {!isLoading &&
+                        filteredList?.length === 0 &&
+                        filterCount &&
+                        Object.values(filterCount).some(
+                          value => value !== 0,
+                        ) && (
+                          <div className="vads-u-background-color--gray-lightest vads-u-padding-y--2 vads-u-padding-x--3 vads-u-border-color vads-u-margin-top--3">
+                            <h3
+                              className="vads-u-margin--0"
+                              id="no-matches-msg"
+                              data-testid="zero-filter-results"
+                            >
+                              We didn’t find any matches for this filter
+                            </h3>
+                            <p className="vads-u-margin-y--2">
+                              Try selecting a different filter.
+                            </p>
+                          </div>
+                        )}
+                      {isLoading &&
+                        (!filteredList || filteredList?.length === 0) && (
+                          <div className="vads-u-height--viewport vads-u-padding-top--3">
+                            <va-loading-indicator
+                              message={`${loadingMessage}`}
+                              setFocus
+                              data-testid="loading-indicator"
+                            />
+                          </div>
+                        )}
                     </>
                   )}
                 </div>

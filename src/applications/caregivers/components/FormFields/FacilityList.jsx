@@ -82,6 +82,8 @@ const FacilityList = props => {
         value={value}
         onVaValueChange={handleChange}
         error={showError()}
+        label={content['vet-med-center-label']}
+        labelHeaderLevel="4"
       >
         {facilityOptions}
       </VaRadio>

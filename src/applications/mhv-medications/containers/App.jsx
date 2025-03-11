@@ -14,10 +14,16 @@ import {
   MHVDowntime,
   useDatadogRum,
   MhvSecondaryNav,
+  useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
+import MhvServiceRequiredGuard from 'platform/mhv/components/MhvServiceRequiredGuard';
 import { medicationsUrls } from '../util/constants';
+import { selectRemoveLandingPageFlag } from '../util/selectors';
 
 const App = ({ children }) => {
+  const location = useLocation();
+  const { measuredRef, isHidden } = useBackToTop(location);
   const user = useSelector(selectUser);
   const contentClasses =
     'main-content usa-width-two-thirds medium-screen:vads-u-margin-left--neg2 vads-u-max-width--100';
@@ -31,6 +37,7 @@ const App = ({ children }) => {
     },
     state => state.featureToggles,
   );
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
 
   const datadogRumConfig = {
     applicationId: '2b875bc2-034a-445b-868c-d43bec8928d1',
@@ -40,10 +47,11 @@ const App = ({ children }) => {
     sessionSampleRate: 100,
     sessionReplaySampleRate: 50,
     trackInteractions: true,
+    trackFrustrations: true,
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask',
+    defaultPrivacyLevel: 'mask-user-input',
   };
   useDatadogRum(datadogRumConfig);
 
@@ -60,45 +68,57 @@ const App = ({ children }) => {
     );
   }
 
-  if (
-    !appEnabled &&
-    window.location.pathname !== medicationsUrls.MEDICATIONS_ABOUT
-  ) {
-    window.location.replace(medicationsUrls.MEDICATIONS_ABOUT);
+  const homeURL = removeLandingPage
+    ? medicationsUrls.MEDICATIONS_URL
+    : medicationsUrls.MEDICATIONS_ABOUT;
+
+  if (!appEnabled && window.location.pathname !== homeURL) {
+    window.location.replace(homeURL);
     return <></>;
   }
 
   return (
-    <RequiredLoginView
-      user={user}
-      serviceRequired={[backendServices.USER_PROFILE]}
-    >
-      <MhvSecondaryNav />
-      <div className="routes-container usa-grid">
-        <div className={`${contentClasses}`}>
-          <DowntimeNotification
-            appTitle="Medications"
-            dependencies={[
-              externalServices.mhvPlatform,
-              externalServices.mhvMeds,
-            ]}
-            render={(downtimeProps, downtimeChildren) => (
-              <>
-                {downtimeProps.status === externalServiceStatus.down && (
-                  <h1 className="vads-u-margin-top--4">Medications</h1>
-                )}
-                {downtimeProps.status ===
-                  externalServiceStatus.downtimeApproaching && (
-                  <div className="vads-u-margin-top--4" />
-                )}
-                <MHVDowntime {...downtimeProps}>{downtimeChildren}</MHVDowntime>
-              </>
-            )}
-          >
-            {children}
-          </DowntimeNotification>
+    <RequiredLoginView user={user}>
+      <MhvServiceRequiredGuard
+        user={user}
+        serviceRequired={[backendServices.RX]}
+      >
+        <MhvSecondaryNav />
+        <div ref={measuredRef} className="routes-container usa-grid">
+          <div className={`${contentClasses}`}>
+            <DowntimeNotification
+              appTitle="Medications"
+              dependencies={[
+                externalServices.mhvPlatform,
+                externalServices.mhvMeds,
+              ]}
+              render={(downtimeProps, downtimeChildren) => (
+                <>
+                  {downtimeProps.status === externalServiceStatus.down && (
+                    <h1 className="vads-u-margin-top--4">Medications</h1>
+                  )}
+                  {downtimeProps.status ===
+                    externalServiceStatus.downtimeApproaching && (
+                    <div className="vads-u-margin-top--4" />
+                  )}
+                  <MHVDowntime {...downtimeProps}>
+                    {downtimeChildren}
+                  </MHVDowntime>
+                </>
+              )}
+            >
+              {children}
+              <va-back-to-top
+                class="no-print"
+                hidden={isHidden}
+                data-dd-privacy="mask"
+                data-dd-action-name="Back to top"
+                data-testid="rx-back-to-top"
+              />
+            </DowntimeNotification>
+          </div>
         </div>
-      </div>
+      </MhvServiceRequiredGuard>
     </RequiredLoginView>
   );
 };

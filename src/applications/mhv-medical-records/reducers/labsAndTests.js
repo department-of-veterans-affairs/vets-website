@@ -85,11 +85,7 @@ export const convertChemHemObservation = record => {
         observationValue,
         observationUnit,
       } = getObservationValueWithUnits(result);
-      const fixedObservationValue =
-        typeof observationValue === 'number'
-          ? observationValue.toFixed(1)
-          : observationValue;
-      finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
+      finalObservationValue = `${observationValue} ${observationUnit}`;
       standardRange = isArrayAndHasItems(result.referenceRange)
         ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
         : null;
@@ -176,7 +172,8 @@ export const convertChemHemRecord = record => {
       : EMPTY_FIELD,
     collectingLocation:
       extractLabLocation(record.performer, record) || EMPTY_FIELD,
-    comments: distillChemHemNotes(record.extension, 'valueString'),
+    comments:
+      distillChemHemNotes(record.extension, 'valueString') || EMPTY_FIELD,
     results: convertChemHemObservation(record),
     sampleTested: specimen?.type?.text || EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
@@ -248,12 +245,13 @@ const convertPathologyRecord = record => {
     type: labTypes.PATHOLOGY,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime, 'MMMM d, yyyy')
       : EMPTY_FIELD,
     dateCollected: specimen?.collection?.collectedDateTime
       ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)
       : EMPTY_FIELD,
-    sampleTested: specimen?.type?.text || EMPTY_FIELD,
+    sampleFrom: specimen?.type?.text || EMPTY_FIELD,
+    sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
     labLocation,
     collectingLocation: labLocation,
     results:
@@ -313,7 +311,6 @@ const convertEkgRecord = record => {
 //     results: Buffer.from(record.content[0].attachment.data, 'base64').toString(
 //       'utf-8',
 //     ),
-//     images: [],
 //   };
 // };
 
@@ -343,7 +340,6 @@ export const convertMhvRadiologyRecord = record => {
     sortDate: record.eventDate,
     imagingProvider: imagingProvider || EMPTY_FIELD,
     results: buildRadiologyResults(record),
-    images: [],
   };
 };
 
@@ -369,13 +365,17 @@ export const convertCvixRadiologyRecord = record => {
       impressionText: parsedReport.Impression,
     }),
     studyId: record.studyIdUrn,
-    images: [],
+    imageCount: record.imageCount,
   };
 };
 
 const mergeRadiologyRecords = (phrRecord, cvixRecord) => {
   if (phrRecord && cvixRecord) {
-    return { ...phrRecord, studyId: cvixRecord.studyId };
+    return {
+      ...phrRecord,
+      studyId: cvixRecord.studyId,
+      imageCount: cvixRecord.imageCount,
+    };
   }
   return phrRecord || cvixRecord || null;
 };

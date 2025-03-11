@@ -290,67 +290,61 @@ const addedFundsPage = {
   },
 };
 
-export const trustPages = arrayBuilderPages(
-  options,
-  (pageBuilder, helpers) => ({
-    trustPagesSummary: pageBuilder.summaryPage({
-      title: 'Income not associated with accounts or assets',
-      path: 'trusts-summary',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
-    }),
-    trustInformationPage: pageBuilder.itemPage({
-      title: 'Trust information',
-      path: 'trusts/:index/trust-information',
-      uiSchema: informationPage.uiSchema,
-      schema: informationPage.schema,
-    }),
-    trustTypePage: pageBuilder.itemPage({
-      title: 'Trust type',
-      path: 'trusts/:index/trust-type',
-      uiSchema: trustTypePage.uiSchema,
-      schema: trustTypePage.schema,
-    }),
-    trustIncomePage: pageBuilder.itemPage({
-      title: 'Trust income',
-      path: 'trusts/:index/trust-income',
-      uiSchema: incomePage.uiSchema,
-      schema: incomePage.schema,
-    }),
-    trustMedicalExpensePage: pageBuilder.itemPage({
-      title: 'Trust medical expenses',
-      path: 'trusts/:index/trust-medical-expenses',
-      uiSchema: medicalExpensePage.uiSchema,
-      schema: medicalExpensePage.schema,
-    }),
-    trustVeteransChildPage: pageBuilder.itemPage({
-      title: 'Trust established for child',
-      path: 'trusts/:index/trust-veterans-child',
-      uiSchema: veteransChildPage.uiSchema,
-      schema: veteransChildPage.schema,
-    }),
-    trustControlPage: pageBuilder.itemPage({
-      title: 'Trust control',
-      path: 'trusts/:index/trust-control',
-      uiSchema: controlPage.uiSchema,
-      schema: controlPage.schema,
-    }),
-    trustHasAddedFundsPage: pageBuilder.itemPage({
-      title: 'Trust has added funds',
-      path: 'trusts/:index/has-added-funds',
-      onNavForward: props => {
-        return props.formData.addedFundsAfterEstablishment
-          ? helpers.navForwardKeepUrlParams(props) // go to next page
-          : helpers.navForwardFinishedItem(props); // return to summary
-      },
-      uiSchema: hasAddedFundsPage.uiSchema,
-      schema: hasAddedFundsPage.schema,
-    }),
-    trustAddedFundsPage: pageBuilder.itemPage({
-      title: 'Trust added funds',
-      path: 'trusts/:index/added-funds',
-      uiSchema: addedFundsPage.uiSchema,
-      schema: addedFundsPage.schema,
-    }),
+export const trustPages = arrayBuilderPages(options, pageBuilder => ({
+  trustPagesSummary: pageBuilder.summaryPage({
+    title: 'Income not associated with accounts or assets',
+    path: 'trusts-summary',
+    uiSchema: summaryPage.uiSchema,
+    schema: summaryPage.schema,
   }),
-);
+  trustInformationPage: pageBuilder.itemPage({
+    title: 'Trust information',
+    path: 'trusts/:index/trust-information',
+    uiSchema: informationPage.uiSchema,
+    schema: informationPage.schema,
+  }),
+  trustTypePage: pageBuilder.itemPage({
+    title: 'Trust type',
+    path: 'trusts/:index/trust-type',
+    uiSchema: trustTypePage.uiSchema,
+    schema: trustTypePage.schema,
+  }),
+  trustIncomePage: pageBuilder.itemPage({
+    title: 'Trust income',
+    path: 'trusts/:index/trust-income',
+    uiSchema: incomePage.uiSchema,
+    schema: incomePage.schema,
+  }),
+  trustMedicalExpensePage: pageBuilder.itemPage({
+    title: 'Trust medical expenses',
+    path: 'trusts/:index/trust-medical-expenses',
+    uiSchema: medicalExpensePage.uiSchema,
+    schema: medicalExpensePage.schema,
+  }),
+  trustVeteransChildPage: pageBuilder.itemPage({
+    title: 'Trust established for child',
+    path: 'trusts/:index/trust-veterans-child',
+    uiSchema: veteransChildPage.uiSchema,
+    schema: veteransChildPage.schema,
+  }),
+  trustControlPage: pageBuilder.itemPage({
+    title: 'Trust control',
+    path: 'trusts/:index/trust-control',
+    uiSchema: controlPage.uiSchema,
+    schema: controlPage.schema,
+  }),
+  trustHasAddedFundsPage: pageBuilder.itemPage({
+    title: 'Trust has added funds',
+    path: 'trusts/:index/has-added-funds',
+    uiSchema: hasAddedFundsPage.uiSchema,
+    schema: hasAddedFundsPage.schema,
+  }),
+  trustAddedFundsPage: pageBuilder.itemPage({
+    title: 'Trust added funds',
+    path: 'trusts/:index/added-funds',
+    depends: (formData, index) =>
+      formData?.[options.arrayPath]?.[index]?.addedFundsAfterEstablishment,
+    uiSchema: addedFundsPage.uiSchema,
+    schema: addedFundsPage.schema,
+  }),
+}));

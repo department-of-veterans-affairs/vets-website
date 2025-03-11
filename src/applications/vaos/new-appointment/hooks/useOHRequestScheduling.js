@@ -1,8 +1,7 @@
 import { shallowEqual, useSelector } from 'react-redux';
 import { getFacilityPageV2Info } from '../redux/selectors';
 import { selectFeatureOHRequest } from '../../redux/selectors';
-
-const OH_REQUEST_SCHEDULE_ENABLED_TYPES_OF_CARE = ['foodAndNutrition'];
+import { OH_ENABLED_TYPES_OF_CARE } from '../../utils/constants';
 
 export function useOHRequestScheduling() {
   const featureOHRequest = useSelector(selectFeatureOHRequest);
@@ -12,8 +11,5 @@ export function useOHRequestScheduling() {
     shallowEqual,
   );
 
-  return (
-    featureOHRequest &&
-    OH_REQUEST_SCHEDULE_ENABLED_TYPES_OF_CARE.includes(typeOfCare.idV2)
-  );
+  return featureOHRequest && OH_ENABLED_TYPES_OF_CARE.includes(typeOfCare.idV2);
 }

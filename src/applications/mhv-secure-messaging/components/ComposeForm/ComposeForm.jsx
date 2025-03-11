@@ -47,6 +47,8 @@ import { RadioCategories } from '../../util/inputContants';
 import { getCategories } from '../../actions/categories';
 import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
+import { useSessionExpiration } from '../../hooks/use-session-expiration';
+import EditSignatureLink from './EditSignatureLink';
 
 const ComposeForm = props => {
   const { pageTitle, headerRef, draft, recipients, signature } = props;
@@ -62,6 +64,7 @@ const ComposeForm = props => {
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
+  const [attachFileError, setAttachFileError] = useState(null);
 
   useEffect(
     () => {
@@ -237,7 +240,7 @@ const ComposeForm = props => {
           category,
           body: `${messageBody} ${
             electronicSignature
-              ? `\n\n${electronicSignature}\nSigned electronically on ${today}.`
+              ? `\n\n--------------------------------------------------\n\n${electronicSignature}\nSigned electronically on ${today}.`
               : ``
           }`,
           subject,
@@ -724,17 +727,7 @@ const ComposeForm = props => {
     ],
   );
 
-  useEffect(
-    () => {
-      window.addEventListener('beforeunload', beforeUnloadHandler);
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [beforeUnloadHandler],
-  );
+  useSessionExpiration(beforeUnloadHandler, noTimeout);
 
   if (sendMessageFlag === true) {
     return (
@@ -816,7 +809,6 @@ const ComposeForm = props => {
                 />
               </div>
             )}
-
           {recipientsList &&
             !noAssociations &&
             !allTriageGroupsBlocked && (
@@ -830,7 +822,6 @@ const ComposeForm = props => {
                 setElectronicSignature={setElectronicSignature}
               />
             )}
-
           <div className="compose-form-div">
             {noAssociations || allTriageGroupsBlocked ? (
               <ViewOnlyDraftSection
@@ -902,6 +893,9 @@ const ComposeForm = props => {
               />
             )}
           </div>
+
+          <EditSignatureLink />
+
           {recipientsList &&
             (!noAssociations &&
               !allTriageGroupsBlocked && (
@@ -915,6 +909,8 @@ const ComposeForm = props => {
                     setNavigationError={setNavigationError}
                     editingEnabled
                     attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
                   />
 
                   <FileInput
@@ -922,10 +918,11 @@ const ComposeForm = props => {
                     setAttachments={setAttachments}
                     setAttachFileSuccess={setAttachFileSuccess}
                     attachmentScanError={attachmentScanError}
+                    attachFileError={attachFileError}
+                    setAttachFileError={setAttachFileError}
                   />
                 </section>
               ))}
-
           {isSignatureRequired && (
             <ElectronicSignature
               nameError={signatureError}
@@ -936,7 +933,6 @@ const ComposeForm = props => {
               electronicSignature={electronicSignature}
             />
           )}
-
           <DraftSavedInfo />
           <ComposeFormActionButtons
             cannotReply={noAssociations || allTriageGroupsBlocked}

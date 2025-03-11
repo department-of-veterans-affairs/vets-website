@@ -1,4 +1,13 @@
+import {
+  ACTIVE_FILTER_KEY,
+  ALL_MEDICATIONS_FILTER_KEY,
+  NON_ACTIVE_FILTER_KEY,
+  RECENTLY_REQUESTED_FILTER_KEY,
+  RENEWAL_FILTER_KEY,
+} from './constants';
+
 export const pageType = {
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   ABOUT: 'About Page',
   DETAILS: 'Details Page',
   LIST: 'List Page',
@@ -19,7 +28,21 @@ export const dataDogActionNames = {
       pageType.LIST
     }`,
     SORT_MEDICATIONS_BUTTON: `Sort Medications Button - ${pageType.LIST}`,
+    [ALL_MEDICATIONS_FILTER_KEY]: 'All medications filter',
+    [ACTIVE_FILTER_KEY]: 'Active filter',
+    [RECENTLY_REQUESTED_FILTER_KEY]: 'Recently requested filter',
+    [RENEWAL_FILTER_KEY]: 'Renewal needed filter',
+    [NON_ACTIVE_FILTER_KEY]: 'Non-active filter',
+    APPLY_FILTER_BUTTON: 'Apply filter button',
+    RESET_FILTER_BUTTON: 'Reset filter button',
+    START_REFILL_REQUEST: `Start a refill request - ${pageType.LIST}`,
+    FILTER_LIST_ACCORDION: 'Filter accordion',
+    PAGINATION: 'Pagination',
+    COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.LIST}`,
+    GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${pageType.LIST}`,
+    STOP_SHOWING_IPE_FILTERING_HINT: `In production education for filtering - Stop showing this hint`,
   },
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   landingPage: {
     COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.ABOUT}`,
     FIND_YOUR_VA_HEALTH_FACILITY_LINK: `Find Your VA Health Facility Link - ${
@@ -51,6 +74,9 @@ export const dataDogActionNames = {
       pageType.DETAILS
     }`,
     RX_DOCUMENTATION_LINK: `Rx Documentation Link - ${pageType.DETAILS}`,
+    FILL_THIS_PRESCRIPTION: `Fill this prescription - ${pageType.DETAILS}`,
+    GROUPING_ACCORDIAN: 'Grouping Accordion',
+    GROUPING_PAGINATION: 'Grouping Pagination',
   },
   refillPage: {
     GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK: `Go To Your Medications List Action Link - ${
@@ -67,6 +93,10 @@ export const dataDogActionNames = {
       pageType.REFILL
     }`,
     REQUEST_REFILLS_BUTTON: `Request Refills Button - ${pageType.REFILL}`,
+    COMPOSE_A_MESSAGE_LINK: `Compose A Message Link - ${pageType.REFILL}`,
+    GO_TO_USE_MEDICATIONS_LINK: `Go to use medications link - ${
+      pageType.REFILL
+    }`,
   },
   shared: {
     DOWNLOAD_A_PDF_OF_THIS: 'Download A PDF Of This ',

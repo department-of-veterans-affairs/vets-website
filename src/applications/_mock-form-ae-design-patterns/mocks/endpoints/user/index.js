@@ -275,13 +275,73 @@ const loa3UserWithUpdatedHomePhoneTimeStamp = set(
 );
 
 const loa3UserWithUpdatedMailingAddress = set(
+  set(
+    cloneDeep(loa3User),
+    'data.attributes.vet360ContactInformation.mailingAddress.addressLine1',
+    '345 Mailing Address St.',
+  ),
+  'data.attributes.vet360ContactInformation.mailingAddress.updatedAt',
+  new Date().toISOString(),
+);
+
+const loa3UserWithNoEmail = set(
   cloneDeep(loa3User),
-  'data.attributes.vet360ContactInformation.mailingAddress.addressLine1',
-  '345 Mailing Address St.',
+  'data.attributes.vet360ContactInformation.email',
+  {},
+);
+
+const loa3UserWithNoContactInfo = set(
+  cloneDeep(loa3User),
+  'data.attributes.vet360ContactInformation',
+  {
+    email: {
+      ...loa3User.data.attributes.vet360ContactInformation.email,
+      emailAddress: '',
+    },
+    homePhone: {
+      ...loa3User.data.attributes.vet360ContactInformation.homePhone,
+      phoneNumber: '',
+      areaCode: '',
+      countryCode: '',
+      phoneType: '',
+    },
+    mobilePhone: {
+      ...loa3User.data.attributes.vet360ContactInformation.mobilePhone,
+      phoneNumber: '',
+      areaCode: '',
+      countryCode: '',
+      phoneType: '',
+    },
+    mailingAddress: {
+      ...loa3User.data.attributes.vet360ContactInformation.mailingAddress,
+      addressLine1: '',
+      addressLine2: '',
+      addressLine3: '',
+      city: '',
+      stateCode: '',
+      zipCode: '',
+      countryCodeIso2: '',
+      countryCodeIso3: '',
+      countryCodeFips: '',
+      countyCode: '',
+      countyName: '',
+      createdAt: '',
+      effectiveEndDate: '',
+      effectiveStartDate: '',
+      geocodeDate: '',
+      geocodePrecision: '',
+      id: '',
+      internationalPostalCode: '',
+      latitude: '',
+      longitude: '',
+    },
+  },
 );
 
 module.exports = {
   loa3User,
   loa3UserWithUpdatedHomePhoneTimeStamp,
   loa3UserWithUpdatedMailingAddress,
+  loa3UserWithNoEmail,
+  loa3UserWithNoContactInfo,
 };

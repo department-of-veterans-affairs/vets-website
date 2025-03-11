@@ -1,0 +1,17 @@
+{
+  "formData": {
+    "veteranFullName": { "first": "Julio", "middle": "E", "last": "Hunter" },
+    "gender": "M",
+    "veteranDateOfBirth": "1968-11-18",
+    "veteranSocialSecurityNumber": "796378321",
+    "homePhone": "6575107441",
+    "email": "vets.gov.user+71@gmail.com",
+    "isMedicaidEligible": false,
+    "isEnrolledMedicarePartA": false
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information/personal-information"
+  }
+}

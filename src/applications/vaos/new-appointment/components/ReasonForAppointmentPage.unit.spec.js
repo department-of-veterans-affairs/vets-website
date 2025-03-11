@@ -28,13 +28,13 @@ const initialState = {
 describe('VAOS Page: ReasonForAppointmentPage', () => {
   beforeEach(() => mockFetch());
 
-  // Flaky test: https://github.com/department-of-veterans-affairs/va.gov-team/issues/94470
-  describe.skip('VA requests', () => {
+  describe('VA requests', () => {
     it('should show page for VA medical request', async () => {
       const store = createTestStore(initialState);
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
       });
+      await screen.findByText(/Continue/i);
 
       const radioSelector = screen.container.querySelector('va-radio');
       await waitFor(() => {
@@ -66,6 +66,8 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
       });
+      await screen.findByText(/Continue/i);
+
       const radioSelector = screen.container.querySelector('va-radio');
       await waitFor(() => {
         expect(radioSelector).to.exist;
@@ -101,6 +103,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
       });
+      await screen.findByText(/Continue/i);
 
       const radioOptions = screen.container.querySelectorAll('va-radio-option');
       await waitFor(() => {
@@ -123,6 +126,8 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
         store,
       });
+      await screen.findByText(/Continue/i);
+
       expect(
         await screen.findByTestId('reason-comment-field'),
       ).to.have.attribute(
@@ -151,6 +156,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
           store,
         },
       );
+      await screen.findByText(/Continue/i);
 
       const radioOptions = screen.container.querySelectorAll('va-radio-option');
       const radioSelector = screen.container.querySelector('va-radio');

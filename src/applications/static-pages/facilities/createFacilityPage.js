@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 import { fetchFacility } from './actions';
-import widgetTypes from '../widgetTypes';
 
 export default async function createFacilityPage(store) {
   let facilityID = '';

@@ -5,6 +5,11 @@ import { ERROR_ELEMENTS } from '../constants';
 
 const { scroller } = Scroll;
 
+/**
+ * We're planning on deprecating React scroll library. Please switch to using
+ * similarly named functions in platform/utilities/scroll
+ */
+
 // Allows smooth scrolling to be overridden by our E2E tests
 export function getScrollOptions(additionalOptions) {
   const globals = window.Forms || {};

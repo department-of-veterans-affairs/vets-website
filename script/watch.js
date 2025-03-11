@@ -2,7 +2,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const printBuildHelp = require('./build-help');
 const { runCommand } = require('./utils');
 
-// Preset memory options 1gb -> 8gb
+// Preset memory options 1gb -> 12gb
 const memoryOptions = [1024, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 12288];
 
 // Caching the input memory arg

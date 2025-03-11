@@ -158,6 +158,10 @@
       "gulfWarStartDate": "1990-09-XX",
       "gulfWarEndDate": "1991-01-XX"
     },
+    "view:agentOrangeExposureDates": {
+      "agentOrangeStartDate": "1990-09-XX",
+      "agentOrangeEndDate": "1990-09-XX"
+    },
     "view:toxicExposureDates": {
       "toxicExposureStartDate": "1990-09-XX",
       "toxicExposureEndDate": "1990-09-XX"

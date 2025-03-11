@@ -1,53 +1,153 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import { selectUserProfile, selectIsUserLoading } from '../selectors/user';
-import { SIGN_IN_URL } from '../constants';
-import LandingPageWelcome from '../components/LandingPageWelcome/LandingPageWelcome';
 
 const LandingPage = () => {
-  const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectIsUserLoading);
-
-  if (isLoading) {
-    return (
-      <div className="vads-u-margin-y--5">
-        <VaLoadingIndicator
-          message="Loading the Accredited Representative Portal..."
-          data-testid="landing-page-loading-indicator"
-        />
-      </div>
-    );
-  }
-
-  if (profile) {
-    return <LandingPageWelcome firstName={profile.firstName} />;
-  }
-
   return (
-    <LandingPageWelcome>
-      <div className="vads-l-col--12 medium-screen:vads-l-col--6 homepage-hero__container">
-        <div className="vads-u-display--flex vads-u-width--full vads-u-align-items--center vars-u-justify-content--center">
-          <div className="va-flex vads-u-flex-direction--column vads-u-align-items--flex-start vads-u-background-color--white vads-u-margin-top--6 vads-u-margin-bottom--6 vads-u-padding-x--3 vads-u-padding-y--2 vads-u-width--full homepage-hero__create-account">
-            <h2
-              className="vads-u-font-size--md vads-u-line-height--5 vads-u-color--gray vads-u-margin-top--0 vads-u-padding-right--2 vads-u-font-family--sans vads-u-font-weight--normal"
-              data-testid="landing-page-create-account-text"
+    <section className="home">
+      <div className="home__hero">
+        <div className="home__hero-container">
+          <div className="home__hero-bg">
+            <h1
+              className="home__hero-header"
+              data-testid="landing-page-heading"
             >
-              Create an account to start managing power of attorney.
+              Welcome to the Accredited Representative Portal
+            </h1>
+            <p
+              className="home__hero-sub-header"
+              data-testid="landing-page-hero-text"
+            >
+              A secure, user-friendly system that streamlines the power of
+              attorney and claims process for representatives and the Veterans
+              they support
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="home__container">
+        <div className="home__content">
+          <div className="home__content-copy">
+            <h2 data-testid="landing-page-portal-hdr">
+              What the portal can do
             </h2>
+            <p data-testid="landing-page-portal-text">
+              You can use the portal to accept power of attorney (POA) requests
+              for any of your accredited organizations. If you have access to
+              the Veterans Benefits Management System (VBMS), you’ll be able to
+              access a Veteran’s information in VBMS within minutes of accepting
+              their POA request in the portal.
+            </p>
+            <p>
+              <strong>Note</strong>: POA requests need to be submitted using the
+              digital{' '}
+              <a
+                href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                VA Form 21-22 (opens in a new tab)
+              </a>
+              .
+            </p>
+          </div>
+          <div className="home__content-copy">
+            <h2 data-testid="landing-page-portal-for-hdr">
+              Who the portal is for
+            </h2>
+            <p data-testid="landing-page-portal-for-text">
+              Currently, the portal is only for Veterans Service Organization
+              (VSO) representatives who accept POA requests on behalf of their
+              organizations. In the future, the portal will support accredited
+              VSOs, attorneys, and claims agents.
+              <a
+                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Learn more about accredited representatives (opens in a new tab)
+              </a>
+            </p>
+          </div>
+
+          <va-banner
+            data-label="Info banner"
+            headline="Get early access to the portal for your organization"
+            type="info"
+            class="home__banner"
+            visible
+          >
+            <p>
+              If you’re a Veterans Service Organization (VSO) manager, you may
+              be able to get early access to the portal for your organization by
+              joining our test program. Once you start using the portal, we’ll
+              ask you to give us feedback on your experience.
+            </p>
+            <p>
+              If you’re interested in having your organization join our test
+              program, email us at{' '}
+              <a href="mailto:RepresentativePortalHelp@va.gov">
+                RepresentativePortalHelp@va.gov
+              </a>
+              .
+            </p>
+          </va-banner>
+        </div>
+      </div>
+      <div className="home__full-width is--lighter">
+        <div className="home__container">
+          <div className="home__content">
+            <h2 className="home__sub-header">
+              Are you a Veteran looking for help with a claim?
+            </h2>
+            <p>
+              An accredited attorney, claims agent, or Veterans Service
+              Organization (VSO) representative can help you file a claim or
+              request a decision review.
+            </p>
             <a
-              data-testid="landing-page-sign-in-link"
-              className="usa-button usa-button-primary"
-              href={SIGN_IN_URL}
+              href="https://www.va.gov/get-help-from-accredited-representative/"
+              className="home__link"
+              target="_blank"
+              rel="noreferrer"
             >
-              Sign in or create account
+              Get help from an accredited representative (opens in a new tab)
             </a>
           </div>
         </div>
       </div>
-    </LandingPageWelcome>
+
+      <div className="home__full-width home__full-width--portal vads-u-background-color--primary">
+        <div className="home__container">
+          <div className="home__overlay">
+            <img
+              src="/img/arp-hp-help-us-improve-experience.jpg"
+              className="home__portal-img desktop"
+              alt="user filling out form"
+            />
+            <img
+              src="/img/arp-hp-hero.jpg"
+              className="home__portal-img mobile"
+              alt="user filling out form"
+            />
+          </div>
+          <div className="home__content">
+            <h2>Help us improve your portal experience</h2>
+            <p>
+              Your input is valuable and helps us plan future enhancements for
+              the portal. If you’d like to give us feedback, you can sign up to
+              be invited to future feedback sessions with our VA research team.
+            </p>
+            <a
+              href="https://docs.google.com/forms/d/1VvExHYQWsNgSho5zu9nCgF_l7AYFyun-B6-2EHOr8MA/edit?ts=6759c5e9"
+              className="home__link"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Sign up to participate in feedback sessions (opens in a new tab)
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
 

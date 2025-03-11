@@ -121,6 +121,16 @@ const testConfig = createTestConfig(
           });
         });
       },
+      [ALL_PAGES.page10b0.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.get('select').select(1);
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
       [ALL_PAGES.page13.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -153,8 +163,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             cy.url().then(url => {
               fillTextWebComponent(
-                'applicantSSN_ssn',
-                data.applicants[getIdx(url)].applicantSSN.ssn,
+                'applicantSSN',
+                data.applicants[getIdx(url)].applicantSSN,
               );
             });
             cy.axeCheck();

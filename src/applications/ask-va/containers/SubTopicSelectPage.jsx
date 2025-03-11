@@ -12,17 +12,10 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { setSubtopicID } from '../actions';
 import CatAndTopicSummary from '../components/CatAndTopicSummary';
 import { ServerErrorAlert } from '../config/helpers';
-import {
-  CHAPTER_1,
-  CHAPTER_2,
-  CHAPTER_3,
-  CategoryEducation,
-  URL,
-  getApiUrl,
-} from '../constants';
+import { CHAPTER_1, URL, getApiUrl } from '../constants';
 
 const SubTopicSelectPage = props => {
-  const { onChange, loggedIn, goBack, goToPath, formData, topicID } = props;
+  const { onChange, loggedIn, goBack, formData, topicID, goForward } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -31,12 +24,7 @@ const SubTopicSelectPage = props => {
   const [validationError, setValidationError] = useState(null);
 
   const showError = data => {
-    if (data.selectSubtopic && data.selectCategory !== CategoryEducation) {
-      return goToPath(`/${CHAPTER_2.PAGE_1.PATH}`);
-    }
-    if (data.selectSubtopic && data.selectCategory === CategoryEducation) {
-      return goToPath(`/${CHAPTER_3.RELATIONSHIP_TO_VET.PATH}`);
-    }
+    if (data.selectSubtopic) goForward(data);
     focusElement('va-radio');
     return setValidationError('Please select a subtopic');
   };
@@ -46,8 +34,12 @@ const SubTopicSelectPage = props => {
     const selected = apiData.find(
       subtopic => subtopic.attributes.name === selectedValue,
     );
-    onChange({ ...formData, selectSubtopic: selectedValue });
-    dispatch(setSubtopicID(selected.id));
+    dispatch(setSubtopicID(selected.id)); // askVA store subtopicID
+    onChange({
+      ...formData,
+      selectSubtopic: selectedValue,
+      subtopicId: selected.id,
+    });
   };
 
   const getApiData = url => {
@@ -129,18 +121,21 @@ const SubTopicSelectPage = props => {
 };
 
 SubTopicSelectPage.propTypes = {
-  loggedIn: PropTypes.bool,
+  formData: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
   id: PropTypes.string,
+  loggedIn: PropTypes.bool,
+  topicID: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
-  topicID: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   return {
     loggedIn: isLoggedIn(state),
     formData: state.form.data,
-    topicID: state.askVA.topicID,
+    topicID: state.form.data.topicId,
   };
 }
 

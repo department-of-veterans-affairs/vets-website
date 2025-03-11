@@ -82,6 +82,9 @@ export function parseApiListWithErrors(resp) {
  * @returns {Object} The data.attributes object from resp, but with the id included
  */
 export function parseApiObject(resp) {
+  if (!resp.data && resp?.errors[0]?.code === 'VAOS_404') {
+    throw resp;
+  }
   return {
     ...resp.data.attributes,
     id: resp.data.id,

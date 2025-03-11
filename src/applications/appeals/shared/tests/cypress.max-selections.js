@@ -20,6 +20,7 @@ const preventMaxSelections = ({
   describe('Max selections alert shows', () => {
     beforeEach(() => {
       setStoredSubTask({ benefitType: 'compensation' }); // HLR & SC
+      cypressSetup();
 
       cy.intercept('GET', contestableApi, {
         data: [],
@@ -31,6 +32,7 @@ const preventMaxSelections = ({
         inProgressMock({ data, version: 3, returnUrl: '/contestable-issues' }),
       );
       cy.intercept('GET', '/v0/intent_to_file', fetchItf()); // 995 only
+      cy.intercept('GET', '/v0/feature_toggles*', {});
 
       cy.visit(baseUrl);
       cy.injectAxeThenAxeCheck();

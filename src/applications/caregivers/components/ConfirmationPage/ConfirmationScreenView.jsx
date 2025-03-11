@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
@@ -9,7 +8,10 @@ import { normalizeFullName } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 import Abbr from '../Abbreviation';
 
-const ConfirmationScreenView = ({ name, timestamp }) => {
+const ConfirmationScreenView = props => {
+  const { name, route, timestamp } = props;
+  const { formConfig } = route;
+
   useEffect(() => {
     focusElement('.caregiver-success-message');
     scrollToTop();
@@ -55,7 +57,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
         </div>
 
         <div className="caregiver-application--download">
-          <ApplicationDownloadLink />
+          <ApplicationDownloadLink formConfig={formConfig} />
         </div>
       </va-summary-box>
     </>
@@ -64,6 +66,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
 
 ConfirmationScreenView.propTypes = {
   name: PropTypes.object,
+  route: PropTypes.object,
   timestamp: PropTypes.number,
 };
 

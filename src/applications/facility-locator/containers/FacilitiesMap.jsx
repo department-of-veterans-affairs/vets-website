@@ -1,55 +1,59 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import appendQuery from 'append-query';
 import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { browserHistory } from 'react-router';
-import vaDebounce from 'platform/utilities/data/debounce';
 import { isEmpty } from 'lodash';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import vaDebounce from 'platform/utilities/data/debounce';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { mapboxToken } from '../utils/mapboxToken';
+import { mapboxToken } from 'platform/utilities/facilities-and-mapbox';
+
+// Components
+import Alert from '../components/Alert';
+import ControlResultsHolder from '../components/ControlResultsHolder';
+import ControlsAndMapContainer from '../components/ControlsAndMapContainer';
+import EmergencyCareAlert from '../components/EmergencyCareAlert';
+import MobileMapSearchResult from '../components/MobileMapSearchResult';
+import NoResultsMessage from '../components/NoResultsMessage';
+import PaginationWrapper from '../components/PaginationWrapper';
+import PpmsServiceError from '../components/PpmsServiceError';
+import RenderMap from '../components/RenderMap';
+import ResultsList from '../components/ResultsList';
+import SearchForm from '../components/search-form';
+import SearchResultsHeader from '../components/SearchResultsHeader';
+import SegmentedControl from '../components/SegmentedControl';
+
 import {
-  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  updateSearchQuery,
   mapMoved,
-  geolocateUser,
-  clearGeocodeError,
+  selectMobileMapPin,
+  updateSearchQuery,
 } from '../actions';
 import {
+  facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
-  facilitiesPpmsSuppressCommunityCare,
-  facilitiesPpmsSuppressPharmacies,
+  facilityLocatorMobileMapUpdate,
+  facilityLocatorAutosuggestVAMCServices,
+  facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
-import NoResultsMessage from '../components/NoResultsMessage';
-import ResultsList from '../components/ResultsList';
-import PaginationWrapper from '../components/PaginationWrapper';
-import SearchControls from '../components/SearchControls';
-import SearchResultsHeader from '../components/SearchResultsHeader';
 import { FacilitiesMapTypes } from '../types';
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
-  Covid19Vaccine,
   EMERGENCY_CARE_SERVICES,
   LocationType,
   MapboxInit,
   MAX_SEARCH_AREA,
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
-import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink } from '../utils/mapLinks';
-import SearchAreaControl from '../components/SearchAreaControl';
-import Covid19Result from '../components/search-results-items/Covid19Result';
-import Alert from '../components/Alert';
 
 let lastZoom = 3;
 
@@ -57,11 +61,29 @@ const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
+  const {
+    mobileMapPinSelected,
+    mobileMapUpdateEnabled,
+    vamcAutoSuggestEnabled,
+  } = props;
   const [map, setMap] = useState(null);
+  const [verticalSize, setVerticalSize] = useState(0);
+  const [horizontalSize, setHorizontalSize] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
+  const [isSmallDesktop, setIsSmallDesktop] = useState(
+    window.innerWidth >= 1024,
+  );
+  const [isTablet, setIsTablet] = useState(
+    window.innerWidth > 481 && window.innerWidth <= 1023,
+  );
+  const [isSearching, setIsSearching] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  // refs
+  const mapboxContainerRef = useRef(null);
+  const mapboxGlContainerRef = useRef(null);
   const searchResultTitleRef = useRef(null);
   const searchResultMessageRef = useRef();
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 481);
-  const [isSearching, setIsSearching] = useState(false);
 
   /**
    * Search when the component renders with a sharable url
@@ -92,6 +114,7 @@ const FacilitiesMap = props => {
           facilityType: location.query.facilityType,
         },
         expandedRadius,
+        props.useProgressiveDisclosure,
       );
       setIsSearching(true);
     }
@@ -121,47 +144,60 @@ const FacilitiesMap = props => {
   };
 
   const addMapMarker = searchCoords => {
-    const markerElement = buildMarker('currentPos');
+    const markerElement = buildMarker(
+      'currentPos',
+      null,
+      props.selectMobileMapPin,
+      mobileMapUpdateEnabled,
+    );
     new mapboxgl.Marker(markerElement)
       .setLngLat([searchCoords.lng, searchCoords.lat])
       .addTo(map);
   };
 
-  const renderMarkers = locations => {
-    if (locations.length === 0) return;
+  const renderMarkers = useCallback(
+    locations => {
+      if (locations.length === 0) return;
 
-    const locationBounds = new mapboxgl.LngLatBounds();
+      const locationBounds = new mapboxgl.LngLatBounds();
 
-    locations.forEach((loc, index) => {
-      const attrs = {
-        letter: index + 1,
-      };
-      locationBounds.extend(
-        new mapboxgl.LngLat(loc.attributes.long, loc.attributes.lat),
-      );
-      const markerElement = buildMarker('location', { loc, attrs });
-      new mapboxgl.Marker(markerElement)
-        .setLngLat([loc.attributes.long, loc.attributes.lat])
-        .addTo(map);
-    });
+      locations.forEach((loc, index) => {
+        const attrs = {
+          letter: index + 1,
+        };
+        locationBounds.extend(
+          new mapboxgl.LngLat(loc.attributes.long, loc.attributes.lat),
+        );
+        const markerElement = buildMarker(
+          'location',
+          { loc, attrs },
+          props.selectMobileMapPin,
+          mobileMapUpdateEnabled,
+        );
+        new mapboxgl.Marker(markerElement)
+          .setLngLat([loc.attributes.long, loc.attributes.lat])
+          .addTo(map);
+      });
 
-    if (props.currentQuery.searchCoords) {
-      const { searchCoords } = props.currentQuery;
-      addMapMarker(searchCoords);
-      locationBounds.extend(
-        new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
-      );
-      map.fitBounds(locationBounds, { padding: 20 });
-    }
+      if (props.currentQuery.searchCoords) {
+        const { searchCoords } = props.currentQuery;
+        addMapMarker(searchCoords);
+        locationBounds.extend(
+          new mapboxgl.LngLat(searchCoords.lng, searchCoords.lat),
+        );
+        map.fitBounds(locationBounds, { padding: 20 });
+      }
 
-    if (props.currentQuery.searchArea) {
-      const { locationCoords } = props.currentQuery.searchArea;
-      addMapMarker(locationCoords);
-      locationBounds.extend(
-        new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
-      );
-    }
-  };
+      if (props.currentQuery.searchArea) {
+        const { locationCoords } = props.currentQuery.searchArea;
+        addMapMarker(locationCoords);
+        locationBounds.extend(
+          new mapboxgl.LngLat(locationCoords.lng, locationCoords.lat),
+        );
+      }
+    },
+    [addMapMarker, map, props.currentQuery],
+  );
 
   const handleSearch = async () => {
     resetMapElements();
@@ -173,24 +209,29 @@ const FacilitiesMap = props => {
     updateUrlParams({
       address: searchString,
     });
-
     props.genBBoxFromAddress(
       {
         ...currentQuery,
       },
       expandedRadius,
+      props.useProgressiveDisclosure,
     );
 
     setIsSearching(true);
   };
 
   const calculateSearchArea = () => {
-    const currentBounds = map.getBounds();
-    const { _ne, _sw } = currentBounds;
-    return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+    if (map) {
+      const currentBounds = map.getBounds();
+      const { _ne, _sw } = currentBounds;
+      return distBetween(_ne.lat, _ne.lng, _sw.lat, _sw.lng);
+    }
+
+    return 0;
   };
 
   const handleSearchArea = () => {
+    if (!map) return;
     resetMapElements();
     const { currentQuery } = props;
     lastZoom = null;
@@ -201,6 +242,7 @@ const FacilitiesMap = props => {
       'fl-search-fac-type': currentQuery.facilityType,
       'fl-search-svc-type': currentQuery.serviceType,
     });
+
     const currentMapBoundsDistance = calculateSearchArea();
 
     props.genSearchAreaFromCenter({
@@ -320,9 +362,18 @@ const FacilitiesMap = props => {
    * Setup map on resize
    */
   const setMapResize = () => {
-    setTimeout(function() {
+    setTimeout(function mapSetup() {
       setMap(setupMap());
     }, 10);
+  };
+
+  /**
+   * Setup map on tab change
+   */
+  const segmentOnChange = tab => {
+    setSelectedTab(tab);
+    props.selectMobileMapPin(null);
+    setMapResize();
   };
 
   const shouldRenderSearchArea = () => {
@@ -333,56 +384,18 @@ const FacilitiesMap = props => {
     calculateSearchArea() < MAX_SEARCH_AREA &&
     props.currentQuery.facilityType &&
     (props.currentQuery.facilityType === 'provider'
-      ? props.currentQuery.serviceType
+      ? !!props.currentQuery.serviceType
       : true);
-
-  const speakMapInstructions = () => {
-    const mapInstructionsElement = document.getElementById('map-instructions');
-
-    if (mapInstructionsElement) {
-      mapInstructionsElement.innerText =
-        'Search areas on the map up to a maximum of 500 miles. ' +
-        'Zoom in or out using the zoom in and zoom out buttons. ' +
-        'Use a keyboard to navigate up, down, left, and right in the map.';
-    }
-  };
-
-  const renderMap = (mobile, results) => (
-    <>
-      {(results?.length || 0) > 0 ? (
-        <h2 className="sr-only">Map of Results</h2>
-      ) : null}
-      <div id={zoomMessageDivID} aria-live="polite" className="sr-only" />
-      <p className="sr-only" id="map-instructions" aria-live="assertive" />
-      <div
-        id={mapboxGlContainer}
-        role="application"
-        aria-label="Find VA locations on an interactive map"
-        aria-describedby="map-instructions"
-        onFocus={() => speakMapInstructions()}
-        className={mobile ? '' : 'desktop-map-container'}
-      >
-        {shouldRenderSearchArea() && (
-          <SearchAreaControl
-            isMobile={mobile}
-            isEnabled={searchAreaButtonEnabled()}
-            handleSearchArea={handleSearchArea}
-            query={props.currentQuery}
-          />
-        )}
-      </div>
-    </>
-  );
 
   const renderView = () => {
     // This block renders the desktop and mobile view. It ensures that the desktop map
     // gets re-loaded when resizing from mobile to desktop.
     const {
       currentQuery,
-      selectedResult,
       results,
       pagination,
       searchError,
+      useProgressiveDisclosure,
     } = props;
 
     const currentPage = pagination ? pagination.currentPage : 1;
@@ -390,7 +403,7 @@ const FacilitiesMap = props => {
     const { facilityType, serviceType } = currentQuery;
     const queryContext = currentQuery.context;
     const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
-    const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
+    const isCcpEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
       serviceType,
     );
 
@@ -420,15 +433,17 @@ const FacilitiesMap = props => {
     if (
       map &&
       !isMobile &&
-      (!window.document.getElementById(mapboxGlContainer) ||
-        window.document.getElementsByClassName('desktop-map-container')
-          .length === 0)
+      !window.document.getElementById(mapboxGlContainer)?.children.length
     ) {
       setMapResize();
     }
 
     return (
-      <div className={!isMobile ? 'desktop-container' : undefined}>
+      <div
+        id="facilities-map-container"
+        className={!isMobile ? 'tablet-or-greater-container' : undefined}
+        ref={mapboxContainerRef}
+      >
         {props.suppressPPMS && (
           <Alert
             displayType="warning"
@@ -436,96 +451,226 @@ const FacilitiesMap = props => {
             description="We’re sorry. Searches for non-VA facilities such as community providers and urgent care are currently unavailable. We’re working to fix this. Please check back soon."
           />
         )}
-        <SearchControls
-          geolocateUser={props.geolocateUser}
-          clearGeocodeError={props.clearGeocodeError}
-          currentQuery={currentQuery}
-          onChange={props.updateSearchQuery}
-          onSubmit={handleSearch}
-          suppressPPMS={props.suppressPPMS}
-          suppressCCP={props.suppressCCP}
-          suppressPharmacies={props.suppressPharmacies}
-          clearSearchText={props.clearSearchText}
-        />
-        {(isEmergencyCareType || isCppEmergencyCareTypes) && (
-          <VaAlert
-            slim
-            uswds
-            fullWidth
-            status="info"
-            className="vads-u-margin-top--1"
-            data-testid="emergency-care-info-note"
-            id="emergency-care-info-note"
+        <ControlsAndMapContainer
+          isSmallDesktop={!!(isSmallDesktop && useProgressiveDisclosure)}
+        >
+          <ControlResultsHolder
+            isSmallDesktop={!!(isSmallDesktop && useProgressiveDisclosure)}
           >
-            <strong>Note:</strong> If you think your life or health is in
-            danger, call <va-telephone contact="911" /> or go to the nearest
-            emergency department right away.
-          </VaAlert>
-        )}
-        <div id="search-results-title" ref={searchResultTitleRef}>
-          {!searchError && (
-            <SearchResultsHeader
-              results={results}
-              facilityType={facilityType}
-              serviceType={serviceType}
-              context={queryContext}
-              specialtyMap={props.specialties}
-              inProgress={currentQuery.inProgress}
-              pagination={pagination}
+            {useProgressiveDisclosure ? (
+              <PpmsServiceError currentQuery={props.currentQuery} />
+            ) : null}
+            <SearchForm
+              currentQuery={currentQuery}
+              facilitiesUseAddressTypeahead={
+                props.facilitiesUseAddressTypeahead
+              }
+              isMobile={isMobile}
+              isSmallDesktop={isSmallDesktop}
+              isTablet={isTablet}
+              mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+              onChange={props.updateSearchQuery}
+              onSubmit={handleSearch}
+              selectMobileMapPin={props.selectMobileMapPin}
+              suppressPPMS={props.suppressPPMS}
+              useProgressiveDisclosure={useProgressiveDisclosure}
+              vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
-          )}
-          {searchError && <p />}
-        </div>
-
-        {isMobile ? (
-          <div className="columns small-12">
-            <Tabs>
-              <TabList>
-                <Tab className="small-6 tab">View List</Tab>
-                <Tab onClick={setMapResize} className="small-6 tab">
-                  View Map
-                </Tab>
-              </TabList>
-              <TabPanel>
-                <div className="facility-search-results">{resultsList()}</div>
-                {paginationWrapper()}
-              </TabPanel>
-              <TabPanel>
-                {renderMap(true, results)}
-                {currentQuery.searchStarted &&
-                  !results.length && (
-                    <NoResultsMessage
-                      resultRef={searchResultMessageRef}
-                      resultsFound={false}
-                      searchStarted
-                    />
+            <EmergencyCareAlert
+              shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
+            />
+            <div id="search-results-title" ref={searchResultTitleRef}>
+              {!searchError && (
+                <SearchResultsHeader
+                  results={results}
+                  facilityType={facilityType}
+                  serviceType={serviceType}
+                  context={queryContext}
+                  specialtyMap={props.specialties}
+                  inProgress={currentQuery.inProgress}
+                  pagination={pagination}
+                />
+              )}
+              {searchError && <p />}
+            </div>
+            {!isMobile && (
+              <>
+                {isSmallDesktop &&
+                  useProgressiveDisclosure && (
+                    <div
+                      className="search-results-container vads-u-padding-x--0p5 vads-u-padding-top--0p5 columns"
+                      id="searchResultsContainer"
+                    >
+                      <div className="facility-search-results">
+                        {resultsList()}
+                      </div>
+                    </div>
                   )}
-                {selectedResult && (
-                  <div className="mobile-search-result">
-                    {currentQuery.serviceType === Covid19Vaccine ? (
-                      <Covid19Result location={selectedResult} />
-                    ) : (
-                      <SearchResult
-                        result={selectedResult}
+                {((!isMobile && !useProgressiveDisclosure) ||
+                  (isTablet && useProgressiveDisclosure)) && (
+                  <>
+                    <div
+                      className={
+                        !isMobile ? 'tablet-results-map-container' : undefined
+                      }
+                    >
+                      <div
+                        className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0p25"
+                        id="searchResultsContainer"
+                      >
+                        <div className="facility-search-results">
+                          {resultsList()}
+                        </div>
+                      </div>
+                      <RenderMap
+                        currentQuery={currentQuery}
+                        handleSearchArea={handleSearchArea}
+                        isSearching={isSearching}
+                        mapboxGlContainer={mapboxGlContainer}
+                        map={map}
+                        mobile={false}
+                        mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                        results={results}
+                        selectMobileMapPin={props.selectMobileMapPin}
+                        searchAreaButtonEnabled={
+                          !!map && searchAreaButtonEnabled()
+                        }
+                        shouldRenderSearchArea={
+                          !!map && shouldRenderSearchArea()
+                        }
+                        smallDesktop={false}
+                        zoomMessageDivID={zoomMessageDivID}
+                        ref={mapboxGlContainerRef}
+                      />
+                    </div>
+                    {paginationWrapper()}
+                  </>
+                )}
+              </>
+            )}
+          </ControlResultsHolder>
+          {isSmallDesktop &&
+            useProgressiveDisclosure && (
+              <div className="map-and-message-container">
+                <RenderMap
+                  currentQuery={currentQuery}
+                  handleSearchArea={handleSearchArea}
+                  isSearching={isSearching}
+                  mapboxGlContainer={mapboxGlContainer}
+                  map={map}
+                  mobile={false}
+                  mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                  results={results}
+                  searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  selectMobileMapPin={props.selectMobileMapPin}
+                  shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
+                  smallDesktop
+                  zoomMessageDivID={zoomMessageDivID}
+                  ref={mapboxGlContainerRef}
+                />
+              </div>
+            )}
+        </ControlsAndMapContainer>
+        {isSmallDesktop && useProgressiveDisclosure && paginationWrapper()}
+
+        {isMobile && (
+          <div className="columns small-12">
+            {mobileMapUpdateEnabled ? (
+              <>
+                <SegmentedControl
+                  a11yLabels={['View List', 'View Map']}
+                  labels={['View List', 'View Map']}
+                  onChange={segmentOnChange}
+                  selected={selectedTab}
+                />
+                <>
+                  {selectedTab === 0 ? (
+                    <>
+                      <div className="facility-search-results">
+                        {resultsList()}
+                      </div>
+                      {paginationWrapper()}{' '}
+                    </>
+                  ) : (
+                    <>
+                      <RenderMap
+                        currentQuery={currentQuery}
+                        handleSearchArea={handleSearchArea}
+                        isSearching={isSearching}
+                        mapboxGlContainer={mapboxGlContainer}
+                        map={map}
+                        mobile
+                        mobileMapUpdateEnabled={mobileMapUpdateEnabled}
+                        results={results}
+                        searchAreaButtonEnabled={
+                          !!map && searchAreaButtonEnabled()
+                        }
+                        selectMobileMapPin={props.selectMobileMapPin}
+                        shouldRenderSearchArea={
+                          !!map && shouldRenderSearchArea()
+                        }
+                        smallDesktop={false}
+                        zoomMessageDivID={zoomMessageDivID}
+                        ref={mapboxGlContainerRef}
+                      />
+                      {currentQuery.searchStarted &&
+                        !results.length && (
+                          <NoResultsMessage
+                            resultRef={searchResultMessageRef}
+                            resultsFound={false}
+                            searchStarted
+                          />
+                        )}
+                      <MobileMapSearchResult
+                        mobileMapPinSelected={mobileMapPinSelected}
                         query={currentQuery}
+                        searchResultMessageRef={searchResultMessageRef}
+                      />
+                    </>
+                  )}
+                </>
+              </>
+            ) : (
+              <Tabs>
+                <TabList>
+                  <Tab className="small-6 tab">View List</Tab>
+                  <Tab onClick={setMapResize} className="small-6 tab">
+                    View Map
+                  </Tab>
+                </TabList>
+                <TabPanel>
+                  <div className="facility-search-results">{resultsList()}</div>
+                  {paginationWrapper()}
+                </TabPanel>
+                <TabPanel>
+                  <RenderMap
+                    currentQuery={currentQuery}
+                    handleSearchArea={handleSearchArea}
+                    isSearching={isSearching}
+                    mapboxGlContainer={mapboxGlContainer}
+                    map={map}
+                    mobile
+                    mobileMapUpdateEnabled
+                    results={results}
+                    searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    selectMobileMapPin={props.selectMobileMapPin}
+                    shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
+                    smallDesktop={false}
+                    zoomMessageDivID={zoomMessageDivID}
+                    ref={mapboxGlContainerRef}
+                  />
+                  {currentQuery.searchStarted &&
+                    !results.length && (
+                      <NoResultsMessage
+                        resultRef={searchResultMessageRef}
+                        resultsFound={false}
+                        searchStarted
                       />
                     )}
-                  </div>
-                )}
-              </TabPanel>
-            </Tabs>
+                </TabPanel>
+              </Tabs>
+            )}
           </div>
-        ) : (
-          <>
-            <div
-              className="columns search-results-container vads-u-padding-right--1p5 vads-u-padding-left--0 medium-4 small-12"
-              id="searchResultsContainer"
-            >
-              <div className="facility-search-results">{resultsList()}</div>
-            </div>
-            {renderMap(false, results)}
-            {paginationWrapper()}
-          </>
         )}
       </div>
     );
@@ -554,13 +699,19 @@ const FacilitiesMap = props => {
   };
 
   const setUpResizeEventListener = () => {
-    const setMobile = () => {
-      setIsMobile(window.innerWidth <= 481);
-    };
+    const setBreakpoints = () => {
+      const screenIsMobile = window.innerWidth <= 481;
+      const screenIsSmallDesktop = window.innerWidth >= 1024;
+      const screenIsTablet =
+        window.innerWidth > 481 && window.innerWidth <= 1023;
 
+      setIsMobile(screenIsMobile);
+      setIsSmallDesktop(screenIsSmallDesktop);
+      setIsTablet(screenIsTablet);
+    };
+    const debouncedResize = vaDebounce(250, setBreakpoints);
     searchWithUrl();
 
-    const debouncedResize = vaDebounce(250, setMobile);
     window.addEventListener('resize', debouncedResize);
     return () => {
       window.removeEventListener('resize', debouncedResize);
@@ -627,10 +778,16 @@ const FacilitiesMap = props => {
     [props.currentQuery.searchArea],
   );
 
-  useEffect(() => {
-    setMap(setupMap());
-    setUpResizeEventListener();
-  }, []); // <-- empty array means 'run once'
+  useEffect(
+    () => {
+      if (mapboxContainerRef.current && !map) {
+        setMap(setupMap());
+        setUpResizeEventListener();
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [mapboxContainerRef, map],
+  );
 
   useEffect(
     () => {
@@ -672,6 +829,40 @@ const FacilitiesMap = props => {
     [props.results, props.currentQuery.inProgress, props.searchError],
   );
 
+  useEffect(
+    () => {
+      const resizeObserver = new ResizeObserver(entries => {
+        for (const entry of entries) {
+          const { height, width } = entry.contentRect;
+          setTimeout(() => {
+            // to prevent the map from being resized multiple times
+            setVerticalSize(height);
+            setHorizontalSize(width);
+          }, 200);
+        }
+      });
+
+      if (mapboxContainerRef.current && props.useProgressiveDisclosure) {
+        resizeObserver.observe(mapboxContainerRef.current);
+      } else {
+        resizeObserver.disconnect();
+      }
+      return () => {
+        resizeObserver.disconnect();
+      };
+    },
+    [mapboxContainerRef, props.useProgressiveDisclosure],
+  );
+
+  useEffect(
+    () => {
+      if (map && !isMobile) {
+        map.resize();
+      }
+    },
+    [map, horizontalSize, verticalSize, isMobile],
+  );
+
   return (
     <>
       <h1 className="vads-u-margin-x--2 medium-screen:vads-u-margin-x--2">
@@ -690,29 +881,29 @@ const FacilitiesMap = props => {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
-  suppressPPMS: facilitiesPpmsSuppressAll(state),
-  suppressPharmacies: facilitiesPpmsSuppressPharmacies(state),
-  suppressCCP: facilitiesPpmsSuppressCommunityCare(state),
-  usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
+  facilitiesUseAddressTypeahead: facilitiesUseAddressTypeahead(state),
+  mobileMapPinSelected: state.searchResult.mobileMapPinSelected,
+  mobileMapUpdateEnabled: facilityLocatorMobileMapUpdate(state),
+  pagination: state.searchResult.pagination,
+  resultTime: state.searchResult.resultTime,
   results: state.searchResult.results,
   searchError: state.searchResult.error,
-  resultTime: state.searchResult.resultTime,
-  pagination: state.searchResult.pagination,
-  selectedResult: state.searchResult.selectedResult,
   specialties: state.searchQuery.specialties,
+  suppressPPMS: facilitiesPpmsSuppressAll(state),
+  usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
+  useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
-  geolocateUser,
-  clearGeocodeError,
+  clearSearchResults,
   fetchVAFacility,
-  updateSearchQuery,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  searchWithBounds,
-  clearSearchResults,
-  clearSearchText,
   mapMoved,
+  searchWithBounds,
+  selectMobileMapPin,
+  updateSearchQuery,
 };
 
 FacilitiesMap.propTypes = FacilitiesMapTypes;

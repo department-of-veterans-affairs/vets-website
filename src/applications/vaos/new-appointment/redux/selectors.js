@@ -236,6 +236,10 @@ export function selectSingleSupportedVALocation(state) {
   return getNewAppointment(state)?.data?.isSingleVaFacility;
 }
 
+export function selectRecentLocationsStatus(state) {
+  return getNewAppointment(state).fetchRecentLocationStatus;
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -271,7 +275,12 @@ export function getFacilityPageV2Info(state) {
     sortMethod: selectFacilityPageSortMethod(state),
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
+    fetchRecentLocationStatus: selectRecentLocationsStatus(state),
   };
+}
+
+export function selectRecentLocations(state) {
+  return getNewAppointment(state).recentLocations;
 }
 
 export function getChosenClinicInfo(state) {
@@ -279,7 +288,7 @@ export function getChosenClinicInfo(state) {
   const { clinics } = getNewAppointment(state);
   const typeOfCareId = getTypeOfCare(data)?.id;
   return (
-    clinics[`${data.vaFacility}_${typeOfCareId}`]?.find(
+    clinics?.[`${data.vaFacility}_${typeOfCareId}`]?.find(
       clinic => clinic.id === data.clinicId,
     ) || null
   );
@@ -313,6 +322,15 @@ export function selectChosenFacilityInfo(state) {
   return newAppointment.facilities[typeOfCare.id].find(
     facility => facility.id === formData.vaFacility,
   );
+}
+
+export function selectPatientProviderRelationships(state) {
+  const newAppointment = getNewAppointment(state);
+  return {
+    patientProviderRelationships: newAppointment.patientProviderRelationships,
+    patientProviderRelationshipsStatus:
+      newAppointment.patientProviderRelationshipsStatus,
+  };
 }
 
 export function getChosenVACityState(state) {
@@ -401,10 +419,4 @@ export function selectFacilitiesRadioWidget(state) {
 
 export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
-}
-
-export function getSelectedDate(state) {
-  return getFormData(state).selectedDates?.length
-    ? getFormData(state).selectedDates[0]
-    : '';
 }

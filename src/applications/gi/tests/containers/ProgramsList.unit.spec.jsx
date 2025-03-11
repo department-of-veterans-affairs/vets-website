@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
-import { MemoryRouter as Router } from 'react-router-dom';
+import sinon from 'sinon';
 import ProgramsList from '../../containers/ProgramsList';
 import { generateMockPrograms } from '../../utils/helpers';
 
@@ -31,40 +31,43 @@ describe('ProgramsList component', () => {
   });
 
   // Helper function to mount the component with the provided loading state
-  const mountComponent = (loading = false) => {
+  const mountComponent = () => {
     store = mockStore({
       institutionPrograms: {
         ...initialState.institutionPrograms,
-        loading,
-        error: null,
       },
     });
 
     return mount(
       <Provider store={store}>
-        <Router
-          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
-        >
-          <ProgramsList
-            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-          />
-        </Router>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
       </Provider>,
     );
   };
 
   it('should render institution name and program type when not loading', () => {
     const wrapper = mountComponent();
-
-    // Check that the institution name and program type are rendered
-    expect(wrapper.find('h1').text()).to.equal('Institution 1');
+    expect(wrapper.find('h1').exists()).to.be.true;
     expect(wrapper.find('h2').exists()).to.be.true;
 
     // Check that relevant components like search input, button, and pagination exist
     expect(wrapper.find('VaTextInput')).to.have.lengthOf(1);
-    expect(wrapper.find('VaButton')).to.have.lengthOf(1);
+    expect(wrapper.find('VaButton')).to.have.lengthOf(2);
     expect(wrapper.find('VaPagination')).to.have.lengthOf(1);
 
+    wrapper.unmount();
+  });
+
+  it('should cause a re-render when the key state is changed', () => {
+    const wrapper = mountComponent();
+    const firstRender = wrapper.find('VaTextInput').exists();
+    expect(firstRender).to.be.true;
+    wrapper.find('VaButton.reset-search').simulate('click');
+    wrapper.update();
+    const secondRender = wrapper.find('VaTextInput').exists();
+    expect(secondRender).to.be.true;
     wrapper.unmount();
   });
 
@@ -177,10 +180,53 @@ describe('ProgramsList component', () => {
 
     wrapper.unmount();
   });
+  it('submits the search when Enter key is pressed in the search input', () => {
+    const wrapper = mountComponent();
+    const searchQuery = 'CISCO SYSTEMS - CCNA SECURITY';
 
+    const textInput = wrapper.find('VaTextInput.search-input');
+    expect(textInput.exists()).to.be.true;
+
+    textInput.simulate('input', { target: { value: searchQuery } });
+    wrapper.update();
+
+    textInput.simulate('keydown', { key: 'Enter', preventDefault: () => {} });
+    wrapper.update();
+
+    const filteredPrograms = store
+      .getState()
+      .institutionPrograms.institutionPrograms.filter(program =>
+        program.attributes.description.includes(searchQuery),
+      );
+    const displayedPrograms = wrapper.find('li').map(node => node.text());
+    const expectedPrograms = filteredPrograms.map(
+      program => program.attributes.description,
+    );
+    expect(displayedPrograms).to.deep.equal(expectedPrograms);
+    wrapper.unmount();
+  });
+  it('applies the correct class when the number of programs is less than 21', () => {
+    store = mockStore({
+      institutionPrograms: {
+        institutionPrograms: generateMockPrograms(10),
+        loading: false,
+        error: null,
+      },
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+    const abbreviationsDiv = wrapper.find('h4.abbreviations').parent('div');
+    expect(abbreviationsDiv.hasClass('vads-u-margin-bottom--4')).to.be.true;
+    wrapper.unmount();
+  });
   it('displays an error when the search input is empty and submitted', () => {
     const wrapper = mountComponent();
-    wrapper.find('VaButton').simulate('click');
+    wrapper.find('VaButton.search-btn').simulate('click');
     wrapper.update();
     const errorMessage = wrapper.find('VaTextInput').prop('error');
     expect(errorMessage).to.equal(
@@ -189,8 +235,21 @@ describe('ProgramsList component', () => {
     wrapper.unmount();
   });
   it('displays the loading indicator when loading is true', () => {
-    // Mount the component with loading state set to true
-    const wrapper = mountComponent(true);
+    store = mockStore({
+      institutionPrograms: {
+        institutionPrograms: [],
+        loading: true,
+        error: null,
+      },
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
 
     // Check if the loading indicator is rendered
     const loadingIndicator = wrapper.find('va-loading-indicator');
@@ -212,13 +271,9 @@ describe('ProgramsList component', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Router
-          initialEntries={[{ state: { institutionName: 'Institution 1' } }]}
-        >
-          <ProgramsList
-            match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
-          />
-        </Router>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
       </Provider>,
     );
 
@@ -233,15 +288,143 @@ describe('ProgramsList component', () => {
       'We’re sorry. There’s a problem with our system. Try again later.',
     );
 
-    // Check institution name and program type are displayed
-    expect(wrapper.find('h1').text()).to.equal('Institution 1');
+    // Check  program type is displayed
+    expect(wrapper.find('h1').exists()).to.be.true;
     expect(
       wrapper
-        .find('h2')
+        .find('h1')
         .at(0)
         .text()
         .toUpperCase(),
-    ).to.include('NCD'); // Convert text to uppercase for comparison
+    ).to.include('NCD');
+
+    wrapper.unmount();
+  });
+  it('shows the "no-results-message" when no programs match the search query', () => {
+    const wrapper = mountComponent();
+    const impossibleQuery = 'ThisWillNotMatchAnyProgramName';
+    const textInput = wrapper.find('VaTextInput.search-input');
+    expect(textInput.exists()).to.be.true;
+
+    textInput.simulate('input', { target: { value: impossibleQuery } });
+    wrapper.update();
+
+    const searchButton = wrapper.find('VaButton.search-btn');
+    expect(searchButton.exists()).to.be.true;
+    searchButton.simulate('click');
+    wrapper.update();
+
+    const noResultsMessage = wrapper.find('#no-results-message');
+    expect(noResultsMessage.exists()).to.be.true;
+    expect(noResultsMessage.text()).to.include(
+      `We didn’t find any results for`,
+    );
+    expect(noResultsMessage.text()).to.include(impossibleQuery);
+
+    wrapper.unmount();
+  });
+  it('focuses on resultsSummaryRef after search results are displayed', done => {
+    const wrapper = mountComponent();
+    const resultsSummaryRef = wrapper.find('#results-summary');
+    expect(resultsSummaryRef.exists()).to.be.true;
+    const mockFocus = sinon.spy();
+    resultsSummaryRef.getDOMNode().focus = mockFocus;
+
+    const searchQuery = 'CISCO SYSTEMS - CCNA';
+    wrapper.find('VaTextInput.search-input').simulate('input', {
+      target: { value: searchQuery },
+    });
+    wrapper.update();
+
+    wrapper.find('VaButton.search-btn').simulate('click');
+    wrapper.update();
+
+    setTimeout(() => {
+      expect(mockFocus.calledOnce).to.be.true;
+      wrapper.unmount();
+      done();
+    }, 50);
+  });
+
+  it('renders "program" when there is one program and "programs" when multiple', () => {
+    const oneProgramState = {
+      institutionPrograms: {
+        institutionPrograms: generateMockPrograms(1),
+        loading: false,
+        error: null,
+      },
+    };
+
+    const multipleProgramsState = {
+      institutionPrograms: {
+        institutionPrograms: generateMockPrograms(5),
+        loading: false,
+        error: null,
+      },
+    };
+
+    let testStore = mockStore(oneProgramState);
+    let wrapper = mount(
+      <Provider store={testStore}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+
+    const singularText = wrapper.find('#results-summary').text();
+    expect(singularText).to.include('1 program');
+    wrapper.unmount();
+
+    testStore = mockStore(multipleProgramsState);
+    wrapper = mount(
+      <Provider store={testStore}>
+        <ProgramsList
+          match={{ params: { programType: 'NCD', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+
+    const pluralText = wrapper.find('#results-summary').text();
+    expect(pluralText).to.include('5 programs');
+    wrapper.unmount();
+  });
+  it('renders ojtAppType when programType is OJT and only description otherwise', () => {
+    const ojtProgramsState = {
+      institutionPrograms: {
+        institutionPrograms: [
+          {
+            id: '1',
+            attributes: {
+              programType: 'OJT',
+              ojtAppType: 'Apprentice',
+              description: 'Electrician Training',
+            },
+          },
+          {
+            id: '2',
+            attributes: {
+              programType: 'NCD',
+              description: 'Cybersecurity Certification',
+            },
+          },
+        ],
+        loading: false,
+        error: null,
+      },
+    };
+
+    const testStore2 = mockStore(ojtProgramsState);
+    const wrapper = mount(
+      <Provider store={testStore2}>
+        <ProgramsList
+          match={{ params: { programType: 'OJT', facilityCode: '1234' } }}
+        />
+      </Provider>,
+    );
+    const listItems = wrapper.find('li');
+    expect(listItems.at(0).text()).to.equal('Apprentice Electrician Training');
+    expect(listItems.at(1).text()).to.equal('Cybersecurity Certification');
 
     wrapper.unmount();
   });

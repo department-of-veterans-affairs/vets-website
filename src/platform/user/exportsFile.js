@@ -40,6 +40,12 @@ export {
   onVerifyClick,
 } from './authentication/hooks/index';
 
+
+export {
+  VerifyIdmeButton,
+  VerifyLogingovButton,
+  VerifyButton,
+} from './authentication/components/VerifyButton';
 export {
   default as CreateAccountLink,
 } from './authentication/components/CreateAccountLink';
@@ -87,7 +93,7 @@ export {
 
 export {
   defaultSignInProviders,
-  defaultSignUpProviders,
+  legacySignInProviders,
   defaultMobileQueryParams,
   defaultMobileOAuthOptions,
   defaultWebOAuthOptions,
@@ -160,6 +166,7 @@ export {
   default as RequiredLoginView,
   RequiredLoginLoader,
 } from './authorization/components/RequiredLoginView';
+export { default as VerifyAlert } from './authorization/components/VerifyAlert';
 // TO DO: resolve missing nested import
 // export { MHVApp } from './authorization/containers/MHVApp';
 // export {

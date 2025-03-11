@@ -5,7 +5,6 @@ import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import { createSelector } from 'reselect';
 import fastLevenshtein from 'fast-levenshtein';
-
 import { apiRequest } from 'platform/utilities/api';
 import _ from 'platform/utilities/data';
 import { toggleValues } from '@department-of-veterans-affairs/platform-site-wide/selectors';
@@ -16,7 +15,6 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
 import {
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
@@ -392,7 +390,11 @@ export const hasNewPtsdDisability = formData =>
   isClaimingNew(formData) &&
   _.get('newDisabilities', formData, []).some(disability =>
     isDisabilityPtsd(disability.condition),
-  );
+  ) &&
+  // hasNewPtsdDisability gates the existing Form 0781 flow
+  // When the syncModern0781Flow flipper is set to true, we will display a new version of the flow.
+  // When the new version is visible, hasNewPtsdDisability should always return false so the legacy flow is hidden.
+  formData?.syncModern0781Flow !== true;
 
 export const showPtsdCombat = formData =>
   hasNewPtsdDisability(formData) &&

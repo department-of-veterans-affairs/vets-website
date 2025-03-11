@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import {
-  aboutMyselfRelationshipVeteranPages,
   aboutMyselfRelationshipFamilyMemberPages,
-  aboutSomeoneElseRelationshipVeteranPages,
-  aboutSomeoneElseRelationshipFamilyMemberPages,
-  aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages,
-  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
-  aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages,
-  aboutSomeoneElseRelationshipConnectedThroughWorkPages,
+  aboutMyselfRelationshipVeteranPages,
   aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
+  aboutSomeoneElseRelationshipConnectedThroughWorkPages,
+  aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
+  aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages,
+  aboutSomeoneElseRelationshipFamilyMemberPages,
+  aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages,
+  aboutSomeoneElseRelationshipVeteranPages,
   generalQuestionPages,
 } from '../config/schema-helpers/formFlowHelper';
+import { CHAPTER_1, CHAPTER_2, CHAPTER_3 } from '../constants';
 
 const formPages = [
   aboutMyselfRelationshipVeteranPages,
@@ -65,10 +66,17 @@ const ProgressBar = ({ pathname }) => {
   const onReviewPage = currentPath === 'review-then-submit';
   const onCategoryPage = currentPath === CHAPTER_1.PAGE_1.PATH;
 
+  // Add check for sign-in interrupt pages
+  const isSignInPage =
+    currentPath === 'category-requires-sign-in' ||
+    currentPath === 'topic-requires-sign-in' ||
+    currentPath === 'your-question-requires-sign-in';
+
   useEffect(
     () => {
       // Scroll back to the top of the form
       scrollTo('topScrollElement');
+      focusElement('h2');
       setViewedPages([...viewedPages, currentPath]);
 
       if (!viewedPages.includes(currentPath) && percent < 100) {
@@ -115,7 +123,7 @@ const ProgressBar = ({ pathname }) => {
     [currentPath],
   );
 
-  return isConstantPath || isFlowPath || onReviewPage ? (
+  return isConstantPath || isFlowPath || onReviewPage || isSignInPage ? (
     <div className="ava-progress-bar">
       <div
         className="ava-progress-bar-inner"

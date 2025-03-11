@@ -1,5 +1,3 @@
-import showVaExpandableAlert from './alerts/showVaAlertExpandable';
-
 import MobileAppCallout from './alerts/MobileAppCallout';
 
 import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
@@ -32,11 +30,7 @@ import {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
-  TOGGLE_ACCOUNT_TRANSITION_MODAL,
-  TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
   toggleFormSignInModal,
-  toggleAccountTransitionModal,
-  toggleAccountTransitionSuccessModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from './user-nav/actions';
@@ -63,7 +57,6 @@ const { exports: startVAFooter, footerElemementId } = require('./va-footer');
 const { exports: startUserNavWidget } = require('./user-nav');
 
 export {
-  showVaExpandableAlert,
   MobileAppCallout,
   EbenefitsLink,
   toggleValues,
@@ -84,13 +77,9 @@ export {
   TOGGLE_FORM_SIGN_IN_MODAL,
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
-  TOGGLE_ACCOUNT_TRANSITION_MODAL,
-  TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
   UPDATE_HEADER_TYPE,
   updateLayoutHeaderType,
   toggleFormSignInModal,
-  toggleAccountTransitionModal,
-  toggleAccountTransitionSuccessModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   AutoSSO,

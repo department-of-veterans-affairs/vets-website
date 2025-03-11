@@ -2,6 +2,7 @@ import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
+import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
 
 import fullSchema from '../../../../22-1990-schema.json';
 
@@ -9,16 +10,32 @@ import LearnMoreAboutMilitaryBaseTooltip from '../../../../components/LearnMoreA
 import MailingAddressViewField from '../../../../components/MailingAddressViewField';
 import YesNoReviewField from '../../../../components/YesNoReviewField';
 
-// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
-// const {
-//   usaPhone,
-//   email,
-// } = commonDefinitions;
-
 import { formFields } from '../../../../constants';
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
+}
+
+const stateRequiredCountries = new Set(['USA']);
+function customValidateAddress(errors, addressData, formData, currentSchema) {
+  if (
+    stateRequiredCountries.has(addressData.country) &&
+    addressData.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a state');
+  }
+  let isValidPostalCode = true;
+  if (addressData.country === 'USA') {
+    isValidPostalCode = isValidUSZipCode(addressData.postalCode);
+  }
+  if (addressData.country === 'CAN') {
+    isValidPostalCode = isValidCanPostalCode(addressData.postalCode);
+  }
+
+  if (addressData.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
 }
 
 const mailingAddress33 = {
@@ -72,14 +89,69 @@ const mailingAddress33 = {
       },
       [formFields.address]: {
         ...address.uiSchema('', false, null, true),
+        'ui:validations': [customValidateAddress],
+        'ui:options': {
+          updateSchema: (formData, addressSchema) => {
+            const livesOnMilitaryBase =
+              formData['view:mailingAddress']?.livesOnMilitaryBase;
+            const country =
+              formData['view:mailingAddress']?.address?.country || 'USA';
+            // Get the current required fields, excluding state
+            const required = (addressSchema.required || []).filter(
+              field => field !== 'state',
+            );
+
+            // Only add state as required for USA or military base
+            if (livesOnMilitaryBase || country === 'USA') {
+              required.push('state');
+            }
+            if (livesOnMilitaryBase) {
+              return {
+                ...addressSchema,
+                required,
+                properties: {
+                  ...addressSchema.properties,
+                  state: {
+                    type: 'string',
+                    title: 'AE/AA/AP',
+                    enum: ['AE', 'AA', 'AP'],
+                    enumNames: [
+                      'AE - APO/DPO/FPO',
+                      'AA - APO/DPO/FPO',
+                      'AP - APO/DPO/FPO',
+                    ],
+                  },
+                },
+              };
+            }
+            let stateSchema = {
+              type: 'string',
+              title: 'State/County/Province',
+            };
+            if (country === 'USA') {
+              stateSchema = {
+                ...stateSchema,
+                enum: constants.states.USA.map(state => state.value),
+                enumNames: constants.states.USA.map(state => state.label),
+              };
+            }
+            return {
+              ...addressSchema,
+              required,
+              properties: {
+                ...addressSchema.properties,
+                state: stateSchema,
+              },
+            };
+          },
+        },
         country: {
           'ui:title': 'Country',
+          // If you live on a military base, it's not required; otherwise it is
           'ui:required': formData =>
-            !formData.showMebDgi40Features ||
-            (formData.showMebDgi40Features &&
-              !formData['view:mailingAddress'].livesOnMilitaryBase),
+            !formData['view:mailingAddress'].livesOnMilitaryBase,
+          // If you live on a military base, the country field is disabled
           'ui:disabled': formData =>
-            formData.showMebDgi40Features &&
             formData['view:mailingAddress'].livesOnMilitaryBase,
           'ui:options': {
             updateSchema: (formData, schema, uiSchema) => {
@@ -92,7 +164,8 @@ const mailingAddress33 = {
                 ['view:mailingAddress', 'livesOnMilitaryBase'],
                 formData,
               );
-              if (formData.showMebDgi40Features && livesOnMilitaryBase) {
+
+              if (livesOnMilitaryBase) {
                 countryUI['ui:disabled'] = true;
                 const USA = {
                   value: 'USA',
@@ -107,7 +180,6 @@ const mailingAddress33 = {
               }
 
               countryUI['ui:disabled'] = false;
-
               return {
                 type: 'string',
                 enum: constants.countries.map(country => country.value),
@@ -137,11 +209,37 @@ const mailingAddress33 = {
           'ui:title': 'Street address line 2',
           'ui:validations': [
             (errors, field) => {
-              if (field?.length > 40) {
+              // If field is provided and contains only whitespace
+              if (field && isOnlyWhitespace(field)) {
+                errors.addError('Please enter a valid street address line 2');
+              } else if (field?.length > 40) {
                 errors.addError('maximum of 40 characters');
               }
             },
           ],
+          'ui:options': {
+            updateSchema: (formData, schema) => {
+              const addressData = get(
+                ['view:mailingAddress', 'address'],
+                formData,
+              );
+
+              // Make sure street2 is treated as a string (even if it's null or undefined)
+              if (addressData.street2 == null) {
+                addressData.street2 = ''; // Set to empty string to avoid validation errors
+              }
+
+              // If no value is provided, skip validation
+              if (!addressData.street2) {
+                return {
+                  ...schema,
+                  minLength: 0,
+                };
+              }
+
+              return schema;
+            },
+          },
         },
         city: {
           'ui:errorMessages': {
@@ -160,14 +258,27 @@ const mailingAddress33 = {
           ],
           'ui:options': {
             replaceSchema: formData => {
-              if (formData['view:mailingAddress']?.livesOnMilitaryBase) {
+              const livesOnMilitaryBase =
+                formData['view:mailingAddress']?.livesOnMilitaryBase;
+
+              if (livesOnMilitaryBase) {
+                // Always have APO/FPO
+                const baseEnum = ['APO', 'FPO'];
+                // Conditionally add DPO if feature toggle is enabled
+                if (formData?.mebDpoAddressOptionEnabled) {
+                  baseEnum.push('DPO');
+                }
+
                 return {
                   type: 'string',
-                  title: 'APO/FPO',
-                  enum: ['APO', 'FPO'],
+                  title: formData?.mebDpoAddressOptionEnabled
+                    ? 'APO/FPO/DPO'
+                    : 'APO/FPO',
+                  enum: baseEnum,
                 };
               }
 
+              // If not on a military base, show a normal City field
               return {
                 type: 'string',
                 title: 'City',
@@ -176,7 +287,6 @@ const mailingAddress33 = {
           },
         },
         state: {
-          'ui:title': 'State/County/Province',
           'ui:validations': [
             (errors, field) => {
               if (field?.length === 1) {
@@ -186,12 +296,6 @@ const mailingAddress33 = {
               }
             },
           ],
-          'ui:required': formData => {
-            return (
-              formData['view:mailingAddress']?.livesOnMilitaryBase ||
-              formData['view:mailingAddress']?.address?.country === 'USA'
-            );
-          },
         },
         postalCode: {
           'ui:options': {

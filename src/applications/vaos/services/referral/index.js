@@ -1,37 +1,69 @@
 import { apiRequestWithUrl } from '../utils';
 
 export async function getPatientReferrals() {
-  try {
-    const response = await apiRequestWithUrl(
-      `/vaos/v2/epsApi/referralDetails`,
-      {
-        method: 'GET',
-      },
-    );
+  const response = await apiRequestWithUrl(`/vaos/v2/epsApi/referrals`, {
+    method: 'GET',
+  });
 
-    return response.patientDetails.data;
-  } catch (error) {
-    return null;
-  }
+  return response.data;
 }
 
 export async function getPatientReferralById(referralId) {
-  try {
-    const response = await apiRequestWithUrl(
-      `/vaos/v2/epsApi/referralDetails/${referralId}`,
-      {
-        method: 'GET',
-      },
-    );
-    return response.data;
-  } catch (error) {
-    return null;
-  }
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/referrals/${referralId}`,
+    {
+      method: 'GET',
+    },
+  );
+  return response.data;
 }
 
 export async function getProviderById(providerId) {
   const response = await apiRequestWithUrl(
     `/vaos/v2/epsApi/providerDetails/${providerId}`,
+    {
+      method: 'GET',
+    },
+  );
+  return response.data;
+}
+
+export async function postReferralAppointment({
+  referralId,
+  slotId,
+  draftApppointmentId,
+}) {
+  const response = await apiRequestWithUrl(`/vaos/v2/epsApi/appointments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      referralId,
+      slotId,
+      draftApppointmentId,
+    }),
+  });
+  return response.data;
+}
+
+export async function postDraftReferralAppointment(referralId) {
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/draftReferralAppointment`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ referralId }),
+    },
+  );
+  return response.data;
+}
+
+export async function getAppointmentInfo(appointmentId) {
+  const response = await apiRequestWithUrl(
+    `/vaos/v2/epsApi/appointments/${appointmentId}`,
     {
       method: 'GET',
     },

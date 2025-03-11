@@ -49,6 +49,12 @@ import {
   FORM_REQUESTED_PROVIDERS,
   FORM_REQUESTED_PROVIDERS_SUCCEEDED,
   FORM_REQUESTED_PROVIDERS_FAILED,
+  FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS,
+  FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED,
+  FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED,
+  FORM_FETCH_RECENT_LOCATIONS_FAILED,
+  FORM_FETCH_RECENT_LOCATIONS,
+  FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED,
 } from './actions';
 
 import {
@@ -68,9 +74,7 @@ import { distanceBetween } from '../../utils/address';
 import { isTypeOfCareSupported } from '../../services/location';
 
 export const REASON_ADDITIONAL_INFO_TITLES = {
-  request: 'Add any details you’d like to share with your provider.',
-  direct:
-    'Please provide any additional details you’d like to share with your provider about this appointment.',
+  va: 'Add any details you’d like to share with your provider.',
   ccRequest:
     'Share any information that you think will help the provider prepare for your appointment. You don’t have to share anything if you don’t want to.',
 };
@@ -87,6 +91,8 @@ const initialState = {
   facilityDetails: {},
   clinics: {},
   eligibility: {},
+  patientProviderRelationships: [],
+  patientProviderRelationshipsStatus: FETCH_STATUS.notStarted,
   parentFacilities: null,
   ccEnabledSystems: null,
   pageChangeInProgress: false,
@@ -109,6 +115,8 @@ const initialState = {
   ccProviderPageSortMethod: FACILITY_SORT_METHODS.distanceFromResidential,
   facilityPageSortMethod: null,
   isNewAppointmentStarted: false,
+  fetchRecentLocationStatus: FETCH_STATUS.notStarted,
+  recentLocations: [],
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -135,6 +143,10 @@ function resetFormDataOnTypeOfCareChange(pages, oldData, data) {
 
     if (newData.vaFacility) {
       newData = unset('vaFacility', newData);
+    }
+
+    if (newData.isSingleVaFacility) {
+      newData = unset('isSingleVaFacility', newData);
     }
 
     // reset community care provider if type of care changes
@@ -273,8 +285,6 @@ export default function formReducer(state = initialState, action) {
         data: {
           ...state.data,
           facilityType: action.facilityType,
-          isSingleVaFacility:
-            action.facilityType !== FACILITY_TYPES.COMMUNITY_CARE,
         },
       };
     }
@@ -287,15 +297,34 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED: {
       let newSchema = action.schema;
       let newData = state.data;
-      let { facilities } = action;
-      const { typeOfCareId } = action;
-      const { address } = action;
-      const { cernerSiteIds } = action;
+      let { facilities, recentLocations } = action;
+      const {
+        typeOfCareId,
+        featureRecentLocationsFilter,
+        address,
+        cernerSiteIds,
+      } = action;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
-      const sortMethod = hasResidentialCoordinates
-        ? FACILITY_SORT_METHODS.distanceFromResidential
-        : FACILITY_SORT_METHODS.alphabetical;
+
+      const handleSortMethod = () => {
+        if (featureRecentLocationsFilter) {
+          return FACILITY_SORT_METHODS.recentLocations;
+        }
+        if (hasResidentialCoordinates) {
+          return FACILITY_SORT_METHODS.distanceFromResidential;
+        }
+        return FACILITY_SORT_METHODS.alphabetical;
+      };
+      const sortMethod = handleSortMethod();
+
+      facilities = facilities.filter(
+        facility => !!facility.address?.city && !!facility.address?.state,
+      );
+
+      recentLocations = recentLocations.filter(
+        facility => !!facility.address?.city && !!facility.address?.state,
+      );
 
       if (hasResidentialCoordinates && facilities.length) {
         facilities = facilities
@@ -318,6 +347,23 @@ export default function formReducer(state = initialState, action) {
           .sort((a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod]);
       }
 
+      if (hasResidentialCoordinates && recentLocations?.length) {
+        recentLocations = recentLocations.map(facility => {
+          const distanceFromResidentialAddress = distanceBetween(
+            address.latitude,
+            address.longitude,
+            facility.position.latitude,
+            facility.position.longitude,
+          );
+          return {
+            ...facility,
+            legacyVAR: {
+              ...facility.legacyVAR,
+              distanceFromResidentialAddress,
+            },
+          };
+        });
+      }
       const typeOfCareFacilities = facilities.filter(facility =>
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
@@ -329,15 +375,30 @@ export default function formReducer(state = initialState, action) {
         };
       }
 
-      newSchema = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: typeOfCareFacilities.map(facility => facility.id),
-          enumNames: typeOfCareFacilities,
-        },
-        newSchema,
-      );
+      if (sortMethod === FACILITY_SORT_METHODS.recentLocations) {
+        const typeOfCareRecentFacilities = recentLocations?.filter(facility =>
+          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+        );
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: typeOfCareRecentFacilities?.map(facility => facility.id),
+            enumNames: typeOfCareRecentFacilities,
+          },
+          newSchema,
+        );
+      } else {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: typeOfCareFacilities.map(facility => facility.id),
+            enumNames: typeOfCareFacilities,
+          },
+          newSchema,
+        );
+      }
 
       const { data, schema } = setupFormData(
         (newData = {
@@ -359,6 +420,7 @@ export default function formReducer(state = initialState, action) {
           ...state.facilities,
           [typeOfCareId]: facilities,
         },
+        recentLocations,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         showEligibilityModal: false,
@@ -411,15 +473,19 @@ export default function formReducer(state = initialState, action) {
     case FORM_PAGE_FACILITY_SORT_METHOD_UPDATED: {
       const formData = state.data;
       const typeOfCareId = getTypeOfCare(formData).id;
-      const { sortMethod } = action;
-      const { location } = action;
-      const { cernerSiteIds } = action;
+      const { location, cernerSiteIds, sortMethod } = action;
+      let { recentLocations } = action;
       let facilities = state.facilities[typeOfCareId];
       let newSchema = state.pages.vaFacilityV2;
       let { requestLocationStatus } = state;
+
       if (location && facilities?.length) {
         const { coords } = location;
         const { latitude, longitude } = coords;
+
+        facilities = facilities.filter(
+          facility => !!facility.address?.city && !!facility.address?.state,
+        );
 
         if (latitude && longitude) {
           facilities = facilities.map(facility => {
@@ -441,13 +507,44 @@ export default function formReducer(state = initialState, action) {
         }
 
         requestLocationStatus = FETCH_STATUS.succeeded;
+      } else if (location && recentLocations?.length) {
+        const { coords } = location;
+        const { latitude, longitude } = coords;
+
+        recentLocations = recentLocations.filter(
+          facility => !!facility.address?.city && !!facility.address?.state,
+        );
+
+        if (
+          latitude &&
+          longitude &&
+          sortMethod === FACILITY_SORT_METHODS.recentLocations
+        ) {
+          recentLocations = recentLocations.map(facility => {
+            const distanceFromResidentialAddress = distanceBetween(
+              latitude,
+              longitude,
+              facility.position.latitude,
+              facility.position.longitude,
+            );
+            return {
+              ...facility,
+              legacyVAR: {
+                ...facility.legacyVAR,
+                distanceFromResidentialAddress,
+              },
+            };
+          });
+        }
+
+        requestLocationStatus = FETCH_STATUS.succeeded;
       } else {
         requestLocationStatus = FETCH_STATUS.notStarted;
       }
 
       if (sortMethod === FACILITY_SORT_METHODS.alphabetical) {
         facilities = facilities.sort((a, b) => a.name.localeCompare(b.name));
-      } else {
+      } else if (sortMethod !== FACILITY_SORT_METHODS.recentLocations) {
         facilities = facilities.sort(
           (a, b) => a.legacyVAR[sortMethod] - b.legacyVAR[sortMethod],
         );
@@ -456,15 +553,31 @@ export default function formReducer(state = initialState, action) {
       const typeOfCareFacilities = facilities.filter(facility =>
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
-      newSchema = set(
-        'properties.vaFacility',
-        {
-          type: 'string',
-          enum: typeOfCareFacilities.map(facility => facility.id),
-          enumNames: typeOfCareFacilities,
-        },
-        newSchema,
-      );
+
+      if (sortMethod === FACILITY_SORT_METHODS.recentLocations) {
+        const typeOfCareRecentFacilities = recentLocations?.filter(facility =>
+          isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
+        );
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: typeOfCareRecentFacilities?.map(facility => facility.id),
+            enumNames: typeOfCareRecentFacilities,
+          },
+          newSchema,
+        );
+      } else {
+        newSchema = set(
+          'properties.vaFacility',
+          {
+            type: 'string',
+            enum: typeOfCareFacilities.map(facility => facility.id),
+            enumNames: typeOfCareFacilities,
+          },
+          newSchema,
+        );
+      }
 
       const { schema } = updateSchemasAndData(
         newSchema,
@@ -482,9 +595,30 @@ export default function formReducer(state = initialState, action) {
           ...state.facilities,
           [typeOfCareId]: facilities,
         },
+        recentLocations,
         childFacilitiesStatus: FETCH_STATUS.succeeded,
         facilityPageSortMethod: sortMethod,
         requestLocationStatus,
+      };
+    }
+    case FORM_FETCH_RECENT_LOCATIONS: {
+      return {
+        ...state,
+        fetchRecentLocationStatus: FETCH_STATUS.loading,
+      };
+    }
+    case FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED: {
+      const { recentLocations } = action;
+      return {
+        ...state,
+        fetchRecentLocationStatus: FETCH_STATUS.succeeded,
+        recentLocations,
+      };
+    }
+    case FORM_FETCH_RECENT_LOCATIONS_FAILED: {
+      return {
+        ...state,
+        fetchRecentLocationStatus: FETCH_STATUS.failed,
       };
     }
     case FORM_PAGE_FACILITY_V2_OPEN_FAILED: {
@@ -585,6 +719,22 @@ export default function formReducer(state = initialState, action) {
         },
         flowType: FLOW_TYPES.REQUEST,
       };
+    case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS:
+      return {
+        ...state,
+        patientProviderRelationshipsStatus: FETCH_STATUS.loading,
+      };
+    case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED:
+      return {
+        ...state,
+        patientProviderRelationshipsStatus: FETCH_STATUS.succeeded,
+        patientProviderRelationships: action.patientProviderRelationships,
+      };
+    case FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED:
+      return {
+        ...state,
+        patientProviderRelationshipsStatus: FETCH_STATUS.failed,
+      };
     case FORM_FETCH_FACILITY_DETAILS:
       return {
         ...state,
@@ -634,10 +784,7 @@ export default function formReducer(state = initialState, action) {
       let additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.ccRequest;
 
       if (formData.facilityType !== FACILITY_TYPES.COMMUNITY_CARE) {
-        additionalInfoTitle =
-          state.flowType === FLOW_TYPES.DIRECT
-            ? REASON_ADDITIONAL_INFO_TITLES.direct
-            : REASON_ADDITIONAL_INFO_TITLES.request;
+        additionalInfoTitle = REASON_ADDITIONAL_INFO_TITLES.va;
       } else {
         delete formData.reasonForAppointment;
       }

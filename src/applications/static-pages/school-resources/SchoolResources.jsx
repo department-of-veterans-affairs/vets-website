@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import widgetTypes from '../widgetTypes';
+import widgetTypes from 'platform/site-wide/widgetTypes';
 
 export async function createScoEventsWidget() {
   const widgets = Array.from(

@@ -147,11 +147,17 @@ const createArtifactText = (doc, config, text, options) => {
  * @returns {void}
  */
 const generateHeaderBanner = async (doc, header, data, config) => {
+  // eslint-disable-next-line no-param-reassign
+  doc.page.margins = {
+    top: 0,
+    bottom: 0,
+    left: 16.5,
+    right: 16.5,
+  };
   doc.moveDown(1);
   const currentHeight = doc.y;
 
   // Calculate text width
-  let width = 0;
   for (let i = 0; i < data.headerBanner.length; i += 1) {
     const element = data.headerBanner[i];
     const font =
@@ -159,12 +165,11 @@ const generateHeaderBanner = async (doc, header, data, config) => {
 
     doc.font(font);
     doc.fontSize(config.text.size);
-    width += doc.widthOfString(element.text);
   }
 
   // This math is based on US Letter page size and will have to be adjusted
   // if we ever offer document size as a parameter.
-  const leftMargin = (612 - 32 - width) / 2 + config.margins.left;
+  const leftMargin = 22;
 
   for (let i = 0; i < data.headerBanner.length; i += 1) {
     const element = data.headerBanner[i];
@@ -187,9 +192,9 @@ const generateHeaderBanner = async (doc, header, data, config) => {
 
   const height = doc.y - currentHeight + 25;
 
-  doc.rect(config.margins.left, currentHeight - 4, 580, height).stroke();
+  doc.rect(16.5, currentHeight - 4, 580, height).stroke();
 
-  doc.moveDown(3);
+  doc.moveDown(config.headerGap ?? 3);
 
   // This is an ugly hack that resets the document X position
   // so that the document header is shown correctly.
@@ -224,7 +229,7 @@ const generateInitialHeaderContent = async (
     top: 0,
     bottom: 0,
     left: config.margins.left,
-    right: 16,
+    right: config.margins.right,
   };
 
   const header = doc.struct('Div', {
@@ -271,15 +276,15 @@ const generateFinalHeaderContent = async (doc, data, config, startPage = 1) => {
       top: 0,
       bottom: 0,
       left: config.margins.left,
-      right: 16,
+      right: config.margins.right,
     };
 
     doc.markContent('Artifact');
     doc
       .font(config.text.font)
       .fontSize(config.text.size)
-      .text(data.headerLeft, 16, 12);
-    doc.text(data.headerRight, 16, 12, { align: 'right' });
+      .text(data.headerLeft, config.margins.left, 12);
+    doc.text(data.headerRight, config.margins.right, 12, { align: 'right' });
     doc.endMarkedContent();
   }
 };
@@ -312,13 +317,13 @@ const generateFooterContent = async (
       top: 0,
       bottom: 0,
       left: config.margins.left,
-      right: 16,
+      right: config.margins.right,
     };
     if (addSeparator) {
       doc.markContent('Artifact');
       doc
         .moveTo(config.margins.left, 766 - 12)
-        .lineTo(doc.page.width - 16, 766 - 12)
+        .lineTo(doc.page.width - config.margins.right, 766 - 12)
         .stroke();
       doc.endMarkedContent();
     }
@@ -358,7 +363,7 @@ const generateFooterContent = async (
  * @returns {Object} doc
  */
 const createDetailItem = async (doc, config, x, item) => {
-  const paragraphOptions = { lineGap: 6 };
+  const paragraphOptions = { lineGap: item.lineGap ?? 2 };
   let titleText = item.title ?? '';
   const content = [];
   const monospaceFont = config.text.monospaceFont || config.text.font;
@@ -378,7 +383,7 @@ const createDetailItem = async (doc, config, x, item) => {
       }),
     );
   } else {
-    const blockValueOptions = { lineGap: 6 };
+    const blockValueOptions = { lineGap: item.lineGap ?? 2 };
     paragraphOptions.lineGap = 2;
     if (titleText) {
       titleText += ' ';
@@ -425,22 +430,27 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
         doc
           .font(config.text.boldFont)
           .fontSize(config.text.size)
-          .text(titleText, x, doc.y, { lineGap: 2 });
+          .text(titleText, x, doc.y, {
+            lineGap: 2,
+            paragraphGap: item.paragraphGap ?? 2,
+          });
       }),
     );
   }
 
   for (let i = 0; i < item.value.length; i += 1) {
     const element = item.value[i];
+    let elementTitleText = element.title ?? '';
     const font =
       element.weight === 'bold' ? config.text.boldFont : config.text.font;
     const paragraphOptions = {
       continued: !!element.continued,
-      lineGap: 2,
+      lineGap: item.lineGap || 2,
       ...(i === item.value.length - 1 && {
-        paragraphGap: element?.paragraphGap ?? 6,
+        paragraphGap: element?.paragraphGap ?? 2,
       }),
     };
+
     if (element?.itemSeperator) {
       if (doc.y > doc.page.height - doc.page.margins.bottom) {
         // eslint-disable-next-line no-await-in-loop
@@ -448,16 +458,35 @@ const createRichTextDetailItem = async (doc, config, x, item) => {
       }
       addHorizontalRule(doc, ...Object.values(element.itemSeperatorOptions));
     }
+
     if (Array.isArray(element.value)) {
       content.push(
         doc.struct('List', () => {
-          doc.list(element.value, {
+          doc.font(font).list(element.value, {
             ...paragraphOptions,
             listType: 'bullet',
             bulletRadius: 2,
-            indent: 8,
+            indent: element.indent ?? 15,
             baseline: 'hanging',
           });
+        }),
+      );
+    } else if (element.title) {
+      elementTitleText += ': ';
+      content.push(
+        doc.struct('P', () => {
+          doc
+            .font(config.text.boldFont)
+            .fontSize(config.text.size)
+            .text(elementTitleText, x, doc.y, {
+              ...paragraphOptions,
+              continued: true,
+              indent: element.indent ?? 15,
+            });
+          doc
+            .font(config.text.font)
+            .fontSize(config.text.size)
+            .text(element.value);
         }),
       );
     } else {

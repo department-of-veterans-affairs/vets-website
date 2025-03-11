@@ -4,11 +4,12 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { SET_DATA } from 'platform/forms-system/src/js/actions';
-import { fireEvent, render } from '@testing-library/react';
+import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 import {
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns/arrayBuilderPatterns';
+import { updateSchemasAndData } from 'platform/forms-system/exportsFile';
 import ArrayBuilderSummaryPage from '../ArrayBuilderSummaryPage';
 import * as helpers from '../helpers';
 
@@ -95,12 +96,13 @@ describe('ArrayBuilderSummaryPage', () => {
       getIndexStub.restore();
       getIndexStub = null;
     }
+    cleanup();
   });
 
   function setupArrayBuilderSummaryPage({
     urlParams = '',
     arrayData = [],
-    title = 'Name and address of employer',
+    title = 'Review your employers',
     required = () => false,
     maxItems = 5,
     isReviewPage = false,
@@ -156,7 +158,7 @@ describe('ArrayBuilderSummaryPage', () => {
 
     const CustomPage = ArrayBuilderSummaryPage({
       arrayPath: 'employers',
-      firstItemPagePath: '/first-item/:index',
+      getFirstItemPagePath: () => '/first-item/:index',
       hasItemsKey: 'view:hasOption',
       isItemIncomplete: item => !item?.name,
       isReviewPage,
@@ -172,12 +174,24 @@ describe('ArrayBuilderSummaryPage', () => {
       getText,
     });
 
+    const {
+      data: processedData,
+      schema: processedSchema,
+      uiSchema: processedUiSchema,
+    } = updateSchemasAndData(
+      summaryPage.schema,
+      summaryPage.uiSchema,
+      data,
+      false,
+      data,
+    );
+
     const { container, getByText } = render(
       <Provider store={mockStore}>
         <CustomPage
-          schema={summaryPage.schema}
-          uiSchema={summaryPage.uiSchema}
-          data={data}
+          schema={processedSchema}
+          uiSchema={processedUiSchema}
+          data={processedData}
           onChange={() => {}}
           onSubmit={() => {}}
           onReviewPage={false}
@@ -195,7 +209,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should display appropriately with 0 items', () => {
     const { getText, container, getByText } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [],
       urlParams: '',
       maxItems: 5,
@@ -209,7 +222,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should display appropriately with 1 items', () => {
     const { getText, container, getByText } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -223,7 +235,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should display appropriately with max items', () => {
     const { getText, container, getByText } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [
         { name: 'Test' },
         { name: 'Test 2' },
@@ -236,7 +247,10 @@ describe('ArrayBuilderSummaryPage', () => {
     });
 
     expect(container.querySelector('va-radio')).to.not.exist;
-    expect(container.querySelector('va-card')).to.exist;
+    expect(container.querySelectorAll('va-card')).to.have.lengthOf(5);
+    expect(container.querySelector('va-alert')).to.include.text(
+      'You have added the maximum number',
+    );
   });
 
   it('should remove all appropriately', () => {
@@ -247,7 +261,6 @@ describe('ArrayBuilderSummaryPage', () => {
       getByText,
       setFormData,
     } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -269,7 +282,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should show an add button on the review page', () => {
     const { container, goToPath } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       isReviewPage: true,
@@ -284,7 +296,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should not show an add button on the review page if max items', () => {
     const { container } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [
         { name: 'Test' },
         { name: 'Test 2' },
@@ -303,7 +314,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should show an error alert on the review page if reviewErrors are present', () => {
     const { container } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [],
       urlParams: '',
       isReviewPage: true,
@@ -319,7 +329,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should not show an error alert on the review page if reviewErrors are not present', () => {
     const { container } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [],
       urlParams: '',
       isReviewPage: true,
@@ -335,7 +344,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should display summaryTitleWithoutItems and summaryDescriptionWithoutItems text override when array is empty', () => {
     const { container } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [],
       urlParams: '',
       maxItems: 5,
@@ -351,14 +359,11 @@ describe('ArrayBuilderSummaryPage', () => {
     const $legend = $fieldset.querySelector('legend');
     expect($legend).to.exist;
     expect($legend).to.include.text('Custom summary title');
-    const description = $fieldset.querySelector('p');
-    expect(description).to.exist;
-    expect(description).to.include.text('Custom summary description');
+    expect($legend).to.include.text('Custom summary description');
   });
 
   it('should display summaryTitle text override when array has data', () => {
     const { container } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -380,7 +385,6 @@ describe('ArrayBuilderSummaryPage', () => {
 
   it('should display summaryDescription text override when array has data', () => {
     const { container } = setupArrayBuilderSummaryPage({
-      title: 'Review your employers',
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
@@ -404,8 +408,11 @@ describe('ArrayBuilderSummaryPage', () => {
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
-      uiSchema: null,
-      schema: null,
+      uiSchema: {},
+      schema: {
+        type: 'object',
+        properties: {},
+      },
       useLinkInsteadOfYesNo: true,
     });
 
@@ -421,8 +428,11 @@ describe('ArrayBuilderSummaryPage', () => {
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
-      uiSchema: null,
-      schema: null,
+      uiSchema: {},
+      schema: {
+        type: 'object',
+        properties: {},
+      },
       useButtonInsteadOfYesNo: true,
     });
 
@@ -438,12 +448,128 @@ describe('ArrayBuilderSummaryPage', () => {
     const { container } = setupArrayBuilderSummaryPage({
       arrayData: [{ name: 'Test' }],
       urlParams: '',
-      uiSchema: null,
-      schema: null,
+      uiSchema: {},
+      schema: {
+        type: 'object',
+        properties: {},
+      },
       useLinkInsteadOfYesNo: true,
     });
 
     expect(container.querySelector('va-link-action[name="employersAddLink"]'))
       .to.exist;
+  });
+
+  it('should display a removed item alert from 1 -> 0 items', async () => {
+    const { container, setFormData } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    expect(container.querySelectorAll('va-card')).to.have.lengthOf(1);
+    fireEvent.click(
+      container.querySelector('va-button-icon[data-action="remove"]'),
+    );
+    const modal = container.querySelector('va-modal');
+    expect(modal).to.have.attribute('visible');
+    modal.__events.primaryButtonClick();
+    await waitFor(() => {
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.include.text('has been deleted');
+      expect(setFormData.args[0][0].employers).to.have.lengthOf(0);
+    });
+  });
+
+  it('should display a removed item alert from 2 -> 1 items', async () => {
+    const { container, setFormData } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    expect(container.querySelector('va-card')).length(2);
+    fireEvent.click(
+      container.querySelector('va-button-icon[data-action="remove"]'),
+    );
+    const modal = container.querySelector('va-modal');
+    expect(modal).to.have.attribute('visible');
+    modal.__events.primaryButtonClick();
+    await waitFor(() => {
+      const alert = container.querySelector('va-alert');
+      expect(alert).to.include.text('has been deleted');
+      expect(setFormData.args[0][0].employers).to.have.lengthOf(1);
+    });
+  });
+
+  it('radio should have h1 label-header-level if 0 items with minimal header', () => {
+    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+    sessionStorage.setItem(
+      'MINIMAL_HEADER_EXCLUDE_PATHS',
+      '["/introduction","/confirmation"]',
+    );
+
+    const { container } = setupArrayBuilderSummaryPage({
+      arrayData: [],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label-header-level')).to.equal('1');
+
+    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
+    sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+  });
+
+  it('radio should have h3 label-header-level if 0 items without minimal header', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      arrayData: [],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label-header-level')).to.equal('3');
+  });
+
+  it('title should be h1, card should have h2, and radio should have h2 label-header-level if 1+ items with minimal header', () => {
+    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+    sessionStorage.setItem(
+      'MINIMAL_HEADER_EXCLUDE_PATHS',
+      '["/introduction","/confirmation"]',
+    );
+
+    const { container } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    const title = container.querySelector('h1');
+    expect(title).to.include.text('Review your employers');
+    const card = container.querySelector('va-card');
+    expect(card.querySelector('h2')).to.exist;
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label-header-level')).to.equal('2');
+
+    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
+    sessionStorage.removeItem('MINIMAL_HEADER_EXCLUDE_PATHS');
+  });
+
+  it('title should be h3, card should have h4, and radio should have h4 label-header-level if 1+ items without minimal header', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    const title = container.querySelector('h3');
+    expect(title).to.include.text('Review your employers');
+    const cards = container.querySelectorAll('va-card');
+    expect(cards.length).to.equal(1);
+    expect(cards[0].querySelector('h4')).to.exist;
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label-header-level')).to.equal('4');
   });
 });

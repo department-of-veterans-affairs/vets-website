@@ -2,66 +2,43 @@ import React from 'react';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
-  digitalFormAddress,
-  digitalFormIdentificationInfo,
-  digitalFormNameAndDoB,
-  digitalFormPhoneAndEmail,
+  addressPages,
+  customStepPages,
+  listLoopPages,
+  personalInfoPages,
+  phoneAndEmailPages,
 } from './digitalFormPatterns';
+import transformForSubmit from '../config/submitTransformer';
 
 const getChapterKey = chapter =>
   chapter.type === 'digital_form_your_personal_info'
     ? 'personalInformationChapter'
     : `chapter${chapter.id}`;
 
-export const selectSchemas = page => {
-  switch (page.type) {
+/** @returns {FormConfigPages} */
+export const formatPages = chapter => {
+  switch (chapter.type) {
     case 'digital_form_address':
-      return digitalFormAddress(page);
+      return addressPages(chapter);
+    case 'digital_form_custom_step':
+      return customStepPages(chapter);
+    case 'digital_form_list_loop':
+      return listLoopPages(chapter);
     case 'digital_form_phone_and_email':
-      return digitalFormPhoneAndEmail(page);
+      return phoneAndEmailPages(chapter);
+    case 'digital_form_your_personal_info':
+      return personalInfoPages(chapter);
     default:
       return {};
   }
 };
 
-const formatChapter = chapter => {
-  let pages;
-
-  if (chapter.type === 'digital_form_your_personal_info') {
-    const [nameAndDob, identificationInfo] = chapter.pages;
-
-    pages = {
-      nameAndDateOfBirth: {
-        path: 'name-and-date-of-birth',
-        title: nameAndDob.pageTitle,
-        ...digitalFormNameAndDoB(nameAndDob),
-      },
-      identificationInformation: {
-        path: 'identification-information',
-        title: identificationInfo.pageTitle,
-        ...digitalFormIdentificationInfo(identificationInfo),
-      },
-    };
-  } else {
-    pages = {
-      // For now, all chapters except for "Your personal information" are
-      // assumed to contain only one page, and there are no
-      // separate IDs for pages. This will probably change at some point.
-      [chapter.id]: {
-        path: chapter.id.toString(),
-        title: chapter.pageTitle,
-        ...selectSchemas(chapter),
-      },
-    };
-  }
-
-  return {
-    [getChapterKey(chapter)]: {
-      title: chapter.chapterTitle,
-      pages,
-    },
-  };
-};
+const formatChapter = chapter => ({
+  [getChapterKey(chapter)]: {
+    title: chapter.chapterTitle,
+    pages: formatPages(chapter),
+  },
+});
 
 const formatChapters = chapters =>
   chapters.reduce(
@@ -72,21 +49,32 @@ const formatChapters = chapters =>
     {},
   );
 
+export const statementOfTruthBody =
+  'I confirm that the identifying information in this form is accurate and ' +
+  'has been represented correctly.';
+
+/** @returns {FormConfig} */
 export const createFormConfig = (form, options) => {
   const { chapters, formId, ombInfo, title } = form;
   const { rootUrl, trackingPrefix } = options;
   const subTitle = `VA Form ${formId}`;
 
   return {
+    preSubmitInfo: {
+      statementOfTruth: {
+        body: statementOfTruthBody,
+        messageAriaDescribedby: statementOfTruthBody,
+        fullNamePath: 'fullName',
+      },
+    },
     rootUrl,
-    urlPrefix: '/',
-    trackingPrefix,
-    // eslint-disable-next-line no-console
-    submit: () => console.log(`Submitted ${subTitle}`),
     introduction: props => <IntroductionPage {...props} ombInfo={ombInfo} />,
     confirmation: ConfirmationPage,
     formId,
     saveInProgress: {},
+    trackingPrefix,
+    transformForSubmit,
+    urlPrefix: '/',
     version: 0,
     prefillEnabled: true,
     savedFormMessages: {

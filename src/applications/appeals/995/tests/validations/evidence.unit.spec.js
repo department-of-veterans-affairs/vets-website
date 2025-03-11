@@ -112,7 +112,7 @@ describe('VA evidence', () => {
     it('should not show an error for a valid to date & range', () => {
       const errors = { addError: sinon.spy() };
       validateVaToDate(errors, {
-        evidenceDates: { from: '2022-01-01', to: '2022-02-02' },
+        evidenceDates: { from: '2022-01-01', to: '2023-02-02' },
       });
       expect(errors.addError.called).to.be.false;
     });
@@ -131,7 +131,7 @@ describe('VA evidence', () => {
     it('should show an error for a to date before from date', () => {
       const errors = { addError: sinon.spy() };
       validateVaToDate(errors, {
-        evidenceDates: { from: '2022-02-02', to: '2022-01-01' },
+        evidenceDates: { from: '2023-02-02', to: '2022-01-01' },
       });
       expect(errors.addError.calledWith(sharedErrorMessages.endDateBeforeStart))
         .to.be.true;
@@ -165,17 +165,15 @@ describe('VA evidence', () => {
       validateVaDate(errors, { treatmentDate: '2022-01' }, fullData);
       expect(errors.addError.called).to.be.false;
     });
-    it('should show an error for an invalid treatment date', () => {
+    it('should not show an error for an invalid treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '2000' }, fullData);
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
-        .true;
+      expect(errors.addError.notCalled).to.be.true;
     });
-    it('should show an error for a missing treatment date', () => {
+    it('should not show an error for a missing treatment date', () => {
       const errors = { addError: sinon.spy() };
       validateVaDate(errors, { treatmentDate: '' }, fullData);
-      expect(errors.addError.calledWith(errorMessages.evidence.blankDate)).to
-        .true;
+      expect(errors.addError.notCalled).to.be.true;
     });
     it('should show an error for a to date in the future', () => {
       const errors = { addError: sinon.spy() };
@@ -195,85 +193,191 @@ describe('VA evidence', () => {
   });
 
   describe('buildVaLocationString', () => {
-    const getLocation = ({
-      name = 'name',
-      issues = ['1', '2'],
-      from = '2022-01-01',
-      to = '2022-02-02',
-    } = {}) => ({
-      locationAndName: name,
-      issues,
-      evidenceDates: { from, to },
-    });
-    it('should add different joiners', () => {
-      expect(buildVaLocationString(getLocation())).to.eq(
-        'name122022-01-012022-02-02',
-      );
-      expect(buildVaLocationString(getLocation(), ',')).to.eq(
-        'name,1,2,,2022-01-01,2022-02-02',
-      );
-      expect(buildVaLocationString(getLocation(), ';')).to.eq(
-        'name;1;2;;2022-01-01;2022-02-02',
-      );
-    });
-    it('should return expected strings', () => {
-      expect(buildVaLocationString({})).to.eq('');
-      expect(buildVaLocationString({}, ',')).to.eq(',,,');
-      expect(
-        buildVaLocationString(
-          getLocation({ issues: [], from: '', to: '' }),
-          ',',
-        ),
-      ).to.eq('name,,,');
-      expect(
-        buildVaLocationString(getLocation({ from: '', to: '' }), ','),
-      ).to.eq('name,1,2,,,');
-      expect(buildVaLocationString(getLocation({ to: '' }), ',')).to.eq(
-        'name,1,2,,2022-01-01,',
-      );
-      expect(buildVaLocationString(getLocation(), ',')).to.eq(
-        'name,1,2,,2022-01-01,2022-02-02',
-      );
-    });
-    it('should remove empty dates', () => {
-      expect(buildVaLocationString(getLocation({ from: '--' }), ',')).to.eq(
-        'name,1,2,,,2022-02-02',
-      );
-      expect(buildVaLocationString(getLocation({ from: '-00-00' }), ',')).to.eq(
-        'name,1,2,,,2022-02-02',
-      );
-      expect(buildVaLocationString(getLocation({ to: '--' }), ',')).to.eq(
-        'name,1,2,,2022-01-01,',
-      );
-      expect(buildVaLocationString(getLocation({ to: '-00-00' }), ',')).to.eq(
-        'name,1,2,,2022-01-01,',
-      );
-    });
-    it('should add leading zeros to dates', () => {
-      expect(
-        buildVaLocationString(getLocation({ from: '2021-12-4' }), ','),
-      ).to.eq('name,1,2,,2021-12-04,2022-02-02');
-      expect(
-        buildVaLocationString(getLocation({ from: '2022-1-16' }), ','),
-      ).to.eq('name,1,2,,2022-01-16,2022-02-02');
-      expect(
-        buildVaLocationString(getLocation({ from: '2022-1-5' }), ','),
-      ).to.eq('name,1,2,,2022-01-05,2022-02-02');
+    describe('current form', () => {
+      const getLocation = ({
+        name = 'name',
+        issues = ['1', '2'],
+        from = '2022-01-01',
+        to = '2023-02-02',
+      } = {}) => ({
+        locationAndName: name,
+        issues,
+        evidenceDates: { from, to },
+      });
+      const setup = ({
+        data,
+        name,
+        issues,
+        from,
+        to,
+        joiner = '',
+        includeIssues = true,
+      } = {}) =>
+        buildVaLocationString({
+          data: data || getLocation({ name, issues, from, to }),
+          joiner,
+          includeIssues,
+          wrapped: false,
+        });
 
-      expect(
-        buildVaLocationString(getLocation({ to: '2022-12-3' }), ','),
-      ).to.eq('name,1,2,,2022-01-01,2022-12-03');
-      expect(
-        buildVaLocationString(getLocation({ to: '2022-3-17' }), ','),
-      ).to.eq('name,1,2,,2022-01-01,2022-03-17');
-      expect(buildVaLocationString(getLocation({ to: '2022-3-3' }), ',')).to.eq(
-        'name,1,2,,2022-01-01,2022-03-03',
-      );
+      it('should return an empty string', () => {
+        expect(buildVaLocationString()).to.eq('');
+        expect(setup({ data: {} })).to.eq('');
+        expect(setup({ data: { evidenceDates: {} } })).to.eq('');
+      });
+      it('should add different joiners', () => {
+        expect(setup()).to.eq('name122022-01-012023-02-02');
+        expect(setup({ joiner: ',' })).to.eq('name,1,2,2022-01-01,2023-02-02');
+        expect(setup({ joiner: ';' })).to.eq('name;1;2;2022-01-01;2023-02-02');
+      });
+      it('should return expected strings for original form', () => {
+        expect(setup({ data: {} })).to.eq('');
+        expect(setup({ data: {}, joiner: ',' })).to.eq(',,');
+        expect(
+          setup({
+            issues: [],
+            from: '',
+            to: '',
+            joiner: ',',
+          }),
+        ).to.eq('name,,');
+        expect(setup({ from: '', to: '', joiner: ',' })).to.eq('name,1,2,,');
+        expect(setup({ to: '', joiner: ',' })).to.eq('name,1,2,2022-01-01,');
+        expect(setup({ joiner: ',' })).to.eq('name,1,2,2022-01-01,2023-02-02');
+      });
+
+      it('should remove empty dates', () => {
+        expect(setup({ from: '--', joiner: ',' })).to.eq(
+          'name,1,2,,2023-02-02',
+        );
+        expect(setup({ from: '-00-00', joiner: ',' })).to.eq(
+          'name,1,2,,2023-02-02',
+        );
+        expect(setup({ to: '--', joiner: ',' })).to.eq('name,1,2,2022-01-01,');
+        expect(setup({ to: '-00-00', joiner: ',' })).to.eq(
+          'name,1,2,2022-01-01,',
+        );
+      });
+      it('should add leading zeros to dates', () => {
+        expect(setup({ from: '2021-12-4', joiner: ',' })).to.eq(
+          'name,1,2,2021-12-04,2023-02-02',
+        );
+        expect(setup({ from: '2022-1-16', joiner: ',' })).to.eq(
+          'name,1,2,2022-01-16,2023-02-02',
+        );
+        expect(setup({ from: '2022-1-5', joiner: ',' })).to.eq(
+          'name,1,2,2022-01-05,2023-02-02',
+        );
+
+        expect(setup({ to: '2022-12-3', joiner: ',' })).to.eq(
+          'name,1,2,2022-01-01,2022-12-03',
+        );
+        expect(setup({ to: '2022-3-17', joiner: ',' })).to.eq(
+          'name,1,2,2022-01-01,2022-03-17',
+        );
+        expect(setup({ to: '2022-3-3', joiner: ',' })).to.eq(
+          'name,1,2,2022-01-01,2022-03-03',
+        );
+      });
+
+      it('should not include issues', () => {
+        expect(
+          setup({
+            joiner: ',',
+            includeIssues: false,
+          }),
+        ).to.eq('name,2022-01-01,2023-02-02');
+      });
     });
-    it('should not include issues', () => {
-      expect(
-        buildVaLocationString(getLocation(), ',', { includeIssues: false }),
-      ).to.eq('name,,2022-01-01,2022-02-02');
+
+    describe('new form', () => {
+      const getLocation = ({
+        name = 'name',
+        issues = ['1', '2'],
+        date = '2024-05-06',
+        noDate = '',
+      } = {}) => ({
+        locationAndName: name,
+        issues,
+        treatmentDate: date,
+        noDate,
+      });
+      const setup = ({
+        data,
+        name,
+        issues,
+        date,
+        noDate,
+        joiner = '',
+        includeIssues = true,
+        wrapped = false,
+      } = {}) =>
+        buildVaLocationString({
+          data: data || getLocation({ name, issues, date, noDate }),
+          joiner,
+          includeIssues,
+          newForm: true,
+          wrapped,
+        });
+      it('should add different joiners', () => {
+        expect(setup()).to.eq('name122024-05-06false');
+        expect(setup({ noDate: false })).to.eq('name122024-05-06false');
+        expect(setup({ noDate: false, joiner: ',' })).to.eq(
+          'name,1,2,2024-05-06,false',
+        );
+        expect(setup({ noDate: true, joiner: ';' })).to.eq('name;1;2;;true');
+      });
+      it('should return expected strings for original form', () => {
+        expect(setup({ data: {} })).to.eq('false');
+        expect(setup({ data: {}, joiner: ',' })).to.eq(',,false');
+        expect(
+          setup({
+            issues: [],
+            noDate: false,
+            joiner: ',',
+          }),
+        ).to.eq('name,2024-05-06,false');
+        expect(
+          setup({
+            issues: [],
+            noDate: true,
+            joiner: ',',
+          }),
+        ).to.eq('name,,true');
+        expect(setup({ date: '', joiner: ',' })).to.eq('name,1,2,,false');
+        expect(setup({ noDate: false, joiner: ',' })).to.eq(
+          'name,1,2,2024-05-06,false',
+        );
+      });
+
+      it('should remove empty dates', () => {
+        expect(setup({ date: '-', joiner: ',' })).to.eq('name,1,2,,false');
+      });
+      it('should add leading zeros to month', () => {
+        expect(setup({ date: '2022-3', joiner: ',' })).to.eq(
+          'name,1,2,2022-03-01,false',
+        );
+      });
+      it('should get correct no date value', () => {
+        expect(
+          buildVaLocationString({
+            data: { ...getLocation(), noTreatmentDates: true },
+            joiner: ',',
+            wrapped: true,
+            newForm: true,
+          }),
+        ).to.eq('name,1,2,,true');
+      });
+
+      it('should not include issues', () => {
+        expect(
+          setup({
+            noDate: true,
+            joiner: ',',
+            includeIssues: false,
+          }),
+        ).to.eq('name,,true');
+      });
     });
   });
 
@@ -284,6 +388,7 @@ describe('VA evidence', () => {
       expect(isEmptyVaEntry({ locationAndName: '' })).to.be.true;
       expect(isEmptyVaEntry({ issues: null })).to.be.true;
       expect(isEmptyVaEntry({ issues: [] })).to.be.true;
+      // current form
       expect(isEmptyVaEntry({ evidenceDates: null })).to.be.true;
       expect(isEmptyVaEntry({ evidenceDates: {} })).to.be.true;
       expect(isEmptyVaEntry({ evidenceDates: { from: '--', to: '--' } })).to.be
@@ -299,6 +404,15 @@ describe('VA evidence', () => {
           evidenceDates: { from: '', to: '' },
         }),
       ).to.be.true;
+
+      expect(
+        isEmptyVaEntry(
+          { treatmentDate: null, noDate: null, newForm: true },
+          true,
+        ),
+      ).to.be.true;
+      expect(isEmptyVaEntry({ treatmentDate: null }, true)).to.be.true;
+
       // unknown keys are ignored
       expect(isEmptyVaEntry({ foo: 'bar' })).to.be.true;
     });
@@ -315,6 +429,12 @@ describe('VA evidence', () => {
           issues: ['test'],
           evidenceDates: { from: '2020-01-01', to: '2020-02-02' },
         }),
+      ).to.be.false;
+      expect(
+        isEmptyVaEntry(
+          { treatmentDate: null, noDate: true, newForm: true },
+          true,
+        ),
       ).to.be.false;
     });
   });
@@ -530,7 +650,7 @@ describe('Private evidence', () => {
     it('should not show an error for a valid to date & range', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateToDate(errors, {
-        treatmentDateRange: { from: '2022-01-01', to: '2022-02-02' },
+        treatmentDateRange: { from: '2022-01-01', to: '2023-02-02' },
       });
       expect(errors.addError.called).to.be.false;
     });
@@ -549,7 +669,7 @@ describe('Private evidence', () => {
     it('should show an error for a to date before from date', () => {
       const errors = { addError: sinon.spy() };
       validatePrivateToDate(errors, {
-        treatmentDateRange: { from: '2022-02-02', to: '2022-01-01' },
+        treatmentDateRange: { from: '2023-02-02', to: '2022-01-01' },
       });
       expect(errors.addError.calledWith(sharedErrorMessages.endDateBeforeStart))
         .to.be.true;
@@ -575,7 +695,7 @@ describe('Private evidence', () => {
       state = 'Confusion',
       postalCode = '55555',
       from = '2022-01-01',
-      to = '2022-02-02',
+      to = '2023-02-02',
     } = {}) => ({
       providerFacilityName: name,
       issues,
@@ -590,13 +710,13 @@ describe('Private evidence', () => {
     });
     it('should add different joiners', () => {
       expect(buildPrivateString(getLocation())).to.eq(
-        'nameUSA123 MainAnywhereConfusion55555122022-01-012022-02-02',
+        'nameUSA123 MainAnywhereConfusion55555122022-01-012023-02-02',
       );
       expect(buildPrivateString(getLocation(), ',')).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2023-02-02',
       );
       expect(buildPrivateString(getLocation(), ';')).to.eq(
-        'name;USA;123 Main;Anywhere;Confusion;55555;1;2;2022-01-01;2022-02-02',
+        'name;USA;123 Main;Anywhere;Confusion;55555;1;2;2022-01-01;2023-02-02',
       );
     });
     it('should return expected strings', () => {
@@ -672,15 +792,15 @@ describe('Private evidence', () => {
         'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
       );
       expect(buildPrivateString(getLocation(), ',')).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,2023-02-02',
       );
     });
     it('should remove empty dates', () => {
       expect(buildPrivateString(getLocation({ from: '--' }), ',')).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2023-02-02',
       );
       expect(buildPrivateString(getLocation({ from: '-00-00' }), ',')).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,,2023-02-02',
       );
       expect(buildPrivateString(getLocation({ to: '--' }), ',')).to.eq(
         'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-01,',
@@ -691,13 +811,13 @@ describe('Private evidence', () => {
     });
     it('should add leading zeros to dates', () => {
       expect(buildPrivateString(getLocation({ from: '2021-12-4' }), ',')).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2021-12-04,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2021-12-04,2023-02-02',
       );
       expect(buildPrivateString(getLocation({ from: '2022-1-16' }), ',')).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-16,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-16,2023-02-02',
       );
       expect(buildPrivateString(getLocation({ from: '2022-1-5' }), ',')).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-05,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,1,2,2022-01-05,2023-02-02',
       );
 
       expect(buildPrivateString(getLocation({ to: '2022-12-3' }), ',')).to.eq(
@@ -714,7 +834,7 @@ describe('Private evidence', () => {
       expect(
         buildPrivateString(getLocation(), ',', { includeIssues: false }),
       ).to.eq(
-        'name,USA,123 Main,Anywhere,Confusion,55555,2022-01-01,2022-02-02',
+        'name,USA,123 Main,Anywhere,Confusion,55555,2022-01-01,2023-02-02',
       );
     });
   });

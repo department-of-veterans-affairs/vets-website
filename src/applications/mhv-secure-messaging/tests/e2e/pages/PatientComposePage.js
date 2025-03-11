@@ -21,11 +21,9 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.contain(
-            `\n\n\nName\nTitleTest${mockRequest.body} `,
-          );
+          expect(request.body).to.contain(mockRequest.body);
           expect(request.category).to.eq(mockRequest.category);
-          expect(request.recipient_id).to.eq(mockRequest.recipientId);
+          expect(request.recipient_id).to.eq(mockRequest.recipient_id);
           expect(request.subject).to.eq(mockRequest.subject);
         }
       });
@@ -330,16 +328,11 @@ class PatientComposePage {
   };
 
   verifyClickableURLinMessageBody = url => {
-    const {
-      signatureName,
-      signatureTitle,
-      includeSignature,
-    } = mockSignature.data;
+    const { signatureName, signatureTitle } = mockSignature.data.attributes;
     cy.get(Locators.FIELDS.MESSAGE_BODY).should(
       'have.attr',
       'value',
-      `${includeSignature &&
-        `\n\n\n${signatureName}\n${signatureTitle}`}${url}`,
+      `\n\n\n${signatureName}\n${signatureTitle}\n${url}`,
     );
   };
 
@@ -363,7 +356,14 @@ class PatientComposePage {
     });
   };
 
-  clickConfirmDeleteButton = () => {
+  clickConfirmDeleteButton = mockResponse => {
+    cy.intercept(
+      'PATCH',
+      `${Paths.INTERCEPT.MESSAGE_THREADS}${
+        mockResponse.data.attributes.threadId
+      }/move?folder_id=-3`,
+      {},
+    ).as('deleteMessageWithAttachment');
     cy.get(Locators.ALERTS.DELETE_MESSAGE)
       .shadow()
       .find('button')
@@ -440,8 +440,8 @@ class PatientComposePage {
     cy.get(Locators.HEADER).should(`have.text`, text);
   };
 
-  verifyRecipientsDropdownStatus = value => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+  verifyAdditionalInfoDropdownStatus = value => {
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .shadow()
       .find(`a`)
       .should(`have.attr`, `aria-expanded`, value);
@@ -449,19 +449,19 @@ class PatientComposePage {
 
   verifyRecipientsDropdownLinks = () => {
     // verify `find-locations` link
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="preferences"]`)
       .should(`be.visible`);
 
     // verify `preferences` link
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .find(`a[href*="locations"]`)
       .should(`be.visible`)
       .and('not.have.attr', `target`, `_blank`);
   };
 
   openRecipientsDropdown = () => {
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
+    cy.get(Locators.DROPDOWN.ADD_INFO)
       .shadow()
       .find(`a`)
       .click({ force: true });
@@ -494,6 +494,35 @@ class PatientComposePage {
       .find(`.last-focusable-child`)
       .should('be.visible')
       .and(`have.text`, secondBtnText);
+  };
+
+  verifyAttchedFilesList = listLength => {
+    cy.get(`.attachments-section`)
+      .find(`.attachments-list`)
+      .children()
+      .should(`have.length`, listLength);
+  };
+
+  verifyRecipientsQuantityInGroup = (index, quantity) => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`optgroup`)
+      .eq(index)
+      .find('option')
+      .should(`have.length`, quantity);
+  };
+
+  verifyRecipientsGroupName = (index, text) => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`optgroup`)
+      .eq(index)
+      .invoke('attr', 'label')
+      .should(`eq`, text);
+  };
+
+  verifyFacilityNameByRecipientName = (recipientName, facilityName) => {
+    cy.contains(recipientName)
+      .parent()
+      .should('have.attr', 'label', facilityName);
   };
 }
 

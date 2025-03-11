@@ -1,10 +1,32 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
+import { formatReviewDate } from 'platform/forms-system/exportsFile';
+import { camelCase } from 'lodash';
+import {
+  customStepPage,
+  employmentHistory,
+  identificationInformation,
+  nameAndDateOfBirth,
+} from '../config/pages';
 
+/** @type {SchemaOptions} */
 const defaultSchema = {
   type: 'object',
 };
 
-export const digitalFormAddress = ({ additionalFields, pageTitle }) => {
+// This chapter contains only one page.
+/** @returns {FormConfigPages} */
+const singlePageChapter = ({ id, pageTitle, schema, uiSchema }) => ({
+  [id]: {
+    path: id.toString(),
+    schema,
+    title: pageTitle,
+    uiSchema,
+  },
+});
+
+/** @returns {FormConfigPages} */
+export const addressPages = ({ additionalFields, id, pageTitle }) => {
   const schema = {
     ...defaultSchema,
   };
@@ -21,53 +43,22 @@ export const digitalFormAddress = ({ additionalFields, pageTitle }) => {
     uiSchema.address = webComponentPatterns.addressUI();
   }
 
-  return { schema, uiSchema };
+  return singlePageChapter({ id, pageTitle, schema, uiSchema });
 };
 
-export const digitalFormNameAndDoB = ({ includeDateOfBirth, pageTitle }) => {
-  const schema = {
-    ...defaultSchema,
-    properties: {
-      fullName: webComponentPatterns.fullNameSchema,
-    },
-  };
-  const uiSchema = {
-    ...webComponentPatterns.titleUI(pageTitle),
-    fullName: webComponentPatterns.fullNameUI(),
-  };
+/** @returns {FormConfigPages} */
+export const customStepPages = chapter => {
+  const pages = {};
+  chapter.pages.forEach(page => {
+    // This assumes every pageTitle within a chapter is unique.
+    pages[camelCase(page.pageTitle)] = customStepPage(page);
+  });
 
-  if (includeDateOfBirth) {
-    schema.properties.dateOfBirth = webComponentPatterns.dateOfBirthSchema;
-    uiSchema.dateOfBirth = webComponentPatterns.dateOfBirthUI();
-  }
-
-  return { schema, uiSchema };
+  return pages;
 };
 
-export const digitalFormIdentificationInfo = ({
-  includeServiceNumber,
-  pageTitle,
-}) => {
-  const schema = {
-    ...defaultSchema,
-    properties: {
-      veteranId: webComponentPatterns.ssnOrVaFileNumberSchema,
-    },
-  };
-  const uiSchema = {
-    ...webComponentPatterns.titleUI(pageTitle),
-    veteranId: webComponentPatterns.ssnOrVaFileNumberUI(),
-  };
-
-  if (includeServiceNumber) {
-    schema.properties.serviceNumber = webComponentPatterns.serviceNumberSchema;
-    uiSchema.serviceNumber = webComponentPatterns.serviceNumberUI();
-  }
-
-  return { schema, uiSchema };
-};
-
-export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
+/** @returns {FormConfigPages} */
+export const phoneAndEmailPages = ({ additionalFields, id, pageTitle }) => {
   const schema = {
     ...defaultSchema,
     properties: {
@@ -84,8 +75,71 @@ export const digitalFormPhoneAndEmail = ({ additionalFields, pageTitle }) => {
 
   if (additionalFields.includeEmail) {
     schema.properties.emailAddress = webComponentPatterns.emailSchema;
+    // Email is always required when present.
+    schema.required = [...schema.required, 'emailAddress'];
     uiSchema.emailAddress = webComponentPatterns.emailUI();
   }
 
-  return { schema, uiSchema };
+  return singlePageChapter({ id, pageTitle, schema, uiSchema });
+};
+
+/** @returns {FormConfigPages} */
+export const listLoopPages = (
+  { additionalFields: { optional } },
+  arrayBuilder = arrayBuilderPages,
+) => {
+  /** @type {ArrayBuilderOptions} */
+  const options = {
+    arrayPath: 'employers',
+    nounSingular: 'employer',
+    nounPlural: 'employers',
+    required: !optional,
+    isItemIncomplete: item => !item?.name || !item.address || !item.dateRange,
+    maxItems: 4,
+    text: {
+      getItemName: item => item.name,
+      cardDescription: item =>
+        `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+          item?.dateRange?.to,
+        )}`,
+    },
+  };
+
+  const {
+    datePage,
+    detailPage,
+    introPage,
+    namePage,
+    summaryPage,
+  } = employmentHistory;
+
+  /** @returns {FormConfigPages} */
+  const pageBuilderCallback = pageBuilder => {
+    /** @type {FormConfigPages} */
+    const pages = {};
+
+    if (!optional) {
+      pages.employer = pageBuilder.introPage(introPage(options));
+    }
+
+    return {
+      ...pages,
+      employerSummary: pageBuilder.summaryPage(summaryPage(options)),
+      employerNamePage: pageBuilder.itemPage(namePage(options)),
+      employerDatePage: pageBuilder.itemPage(datePage),
+      employerDetailPage: pageBuilder.itemPage(detailPage),
+    };
+  };
+
+  return arrayBuilder(options, pageBuilderCallback);
+};
+
+/** @returns {FormConfigPages} */
+export const personalInfoPages = chapter => {
+  const [nameAndDob, identificationInfo] = chapter.pages;
+
+  return {
+    nameAndDateOfBirth: nameAndDateOfBirth(nameAndDob),
+    identificationInformation: identificationInformation(identificationInfo),
+  };
 };

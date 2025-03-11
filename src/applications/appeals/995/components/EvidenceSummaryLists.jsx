@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
+import { title4142WithId } from '../content/title';
 import { content } from '../content/evidenceSummary';
+import {
+  authorizationLabel,
+  authorizationError,
+} from '../content/evidencePrivateRecordsAuthorization';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
 import { content as vaContent } from '../content/evidenceVaRecords';
 import { parseDate } from '../../shared/utils/dates';
@@ -12,7 +17,10 @@ import { parseDate } from '../../shared/utils/dates';
 import {
   EVIDENCE_VA_PATH,
   EVIDENCE_PRIVATE_PATH,
+  EVIDENCE_PRIVATE_AUTHORIZATION,
   EVIDENCE_LIMITATION_PATH,
+  EVIDENCE_LIMITATION_PATH1,
+  EVIDENCE_LIMITATION_PATH2,
   EVIDENCE_UPLOAD_PATH,
   ATTACHMENTS_OTHER,
   LIMITATION_KEY,
@@ -24,12 +32,13 @@ import {
   FORMAT_READABLE_MMYY_DATE_FNS,
 } from '../../shared/constants';
 
-const listClassNames = [
-  'vads-u-border-top--1px',
-  'vads-u-border-color--gray-light',
-  'vads-u-padding-y--2',
-  'vads-u-padding-x--0',
-].join(' ');
+const listClassNames = (addBorder = true) =>
+  [
+    'vads-u-padding-x--0',
+    addBorder ? 'vads-u-border-top--1px' : '',
+    addBorder ? 'vads-u-border-color--gray-light' : '',
+    addBorder ? 'vads-u-padding-y--2' : '',
+  ].join(' ');
 
 const errorClassNames = [
   'usa-input-error',
@@ -46,34 +55,25 @@ const removeButtonClass = [
   'vads-u-margin-top--0',
 ].join(' ');
 
+const confirmationPageLabel = showListOnly =>
+  showListOnly
+    ? [
+        'vads-u-margin-bottom--0p5',
+        'vads-u-color--gray',
+        'vads-u-font-size--sm',
+      ].join(' ')
+    : 'vads-u-font-weight--bold';
+
 const formatDate = (date = '', format = FORMAT_COMPACT_DATE_FNS) =>
   // Use `parse` from date-fns because it is a non-ISO8061 formatted date string
   // const parsedDate = parse(date, FORMAT_YMD_DATE_FNS, new Date());
   parseDate(date, format, FORMAT_YMD_DATE_FNS) || '';
 
 /**
- * Changing header levels :(
- * @param {Boolean} onReviewPage - only passed in from EvidenceSummary
- * @param {Boolean} reviewMode - only passed in from EvidenceSummaryReview, and
- *  true when the review & submit page is not in edit mode
- * @returns {String} H-tag
- * Review & submit pages are nested inside an accordion, so we increase levels
- * by one, but when edit mode (opposite of reviewMode) is entered, the page
- * header (h4) disappears, so we match the other page header levels
- */
-
-// on summary page -- titles render as h4 and evidence as h5
-const getHeaderLevelH5toH4 = ({ onReviewPage, reviewMode }) =>
-  onReviewPage || reviewMode ? 'h5' : 'h4';
-
-// on review and submit page -- titles render as h5 and evidence as h6
-const getHeaderLevelH6toH5 = ({ onReviewPage, reviewMode }) =>
-  onReviewPage || reviewMode ? 'h6' : 'h5';
-/**
  * Build VA evidence list
  * @param {Object[]} list - VA evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -81,18 +81,25 @@ const getHeaderLevelH6toH5 = ({ onReviewPage, reviewMode }) =>
  */
 export const VaContent = ({
   list = [],
+  isOnReviewPage,
   reviewMode = false,
-  onReviewPage,
   handlers = {},
   testing,
   showScNewForm,
+  showListOnly = false,
 }) => {
-  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
-  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
-  return list?.length ? (
+  if (!list?.length) {
+    return null;
+  }
+  const Header = isOnReviewPage ? 'h5' : 'h4';
+
+  return (
     <>
-      <Header5>{content.vaTitle}</Header5>
-      <ul className="evidence-summary remove-bullets">
+      <Header className={`va-title ${confirmationPageLabel(showListOnly)}`}>
+        {content.vaTitle}
+      </Header>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="evidence-summary remove-bullets" role="list">
         {list.map((location, index) => {
           const {
             locationAndName,
@@ -125,15 +132,20 @@ export const VaContent = ({
           const hasErrors = Object.values(errors).join('');
 
           return (
-            <li key={locationAndName + index} className={listClassNames}>
+            <li
+              key={locationAndName + index}
+              className={`${listClassNames(
+                !showListOnly,
+              )} vads-u-margin-bottom--2`}
+            >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
-                  <Header6
-                    className="dd-privacy-hidden overflow-wrap-word"
+                  <strong
+                    className="va-location dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
-                  </Header6>
+                  </strong>
                 )}
                 <div
                   className="dd-privacy-hidden overflow-wrap-word"
@@ -181,7 +193,6 @@ export const VaContent = ({
                       label={`${content.remove} ${locationAndName}`}
                       text={content.remove}
                       secondary
-                      uswds
                     />
                   </div>
                 )}
@@ -191,16 +202,17 @@ export const VaContent = ({
         })}
       </ul>
     </>
-  ) : null;
+  );
 };
 
 VaContent.propTypes = {
   handlers: PropTypes.shape({}),
+  isOnReviewPage: PropTypes.bool,
   list: PropTypes.array,
   reviewMode: PropTypes.bool,
+  showListOnly: PropTypes.bool,
   showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
-  onReviewPage: PropTypes.bool,
 };
 
 /**
@@ -208,7 +220,7 @@ VaContent.propTypes = {
  * @param {Object[]} list - Private medical evidence array
  * @param {String} limitContent - Private evidence limitation
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -217,17 +229,131 @@ VaContent.propTypes = {
 export const PrivateContent = ({
   list = [],
   limitedConsent = '',
+  isOnReviewPage,
   reviewMode = false,
-  onReviewPage,
   handlers = {},
+  privacyAgreementAccepted,
   testing,
+  showListOnly = false,
+  showScNewForm = false,
+  showLimitedConsentYN = false,
 }) => {
-  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
-  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
-  return list?.length ? (
+  if (!list?.length) {
+    return null;
+  }
+  const Header = isOnReviewPage ? 'h5' : 'h4';
+
+  const showAddress = (
+    { street, street2, city, state, postalCode, country },
+    errors,
+  ) => (
+    <div
+      className="vads-u-margin-bottom--1 facility-address dd-privacy-hidden"
+      data-dd-action-name="Non-VA facility address"
+    >
+      <div>{street}</div>
+      {street2 && <div>{street2}</div>}
+      <div>
+        {city}, {state} {postalCode}
+      </div>
+      {country !== 'USA' && <div>{country}</div>}
+      {errors.address}
+    </div>
+  );
+
+  return (
     <>
-      <Header5>{content.privateTitle}</Header5>
-      <ul className="evidence-summary remove-bullets">
+      <Header
+        className={`private-title ${confirmationPageLabel(showListOnly)}`}
+      >
+        {content.privateTitle}
+      </Header>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="evidence-summary remove-bullets" role="list">
+        {showScNewForm && (
+          <li className={listClassNames(!showListOnly)}>
+            <div
+              className={`private-authorization ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {title4142WithId}
+            </div>
+            <div>
+              {privacyAgreementAccepted ? (
+                authorizationLabel
+              ) : (
+                // including non-empty error attribute for focus management
+                <span className="usa-input-error-message" error="error">
+                  {authorizationError}
+                </span>
+              )}
+            </div>
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-private-authorization"
+                  className="edit-item"
+                  to={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
+                  aria-label={`edit ${title4142WithId}`}
+                  data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
+                >
+                  {content.edit}
+                </Link>
+              </div>
+            )}
+          </li>
+        )}
+        {showScNewForm && (
+          <li className={listClassNames(!showListOnly)}>
+            <div
+              className={`private-limitation-yn ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {limitContent.title}
+            </div>
+            <div>{showLimitedConsentYN ? 'Yes' : 'No'}</div>
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-limitation-y-n"
+                  className="edit-item"
+                  to={`/${EVIDENCE_LIMITATION_PATH1}`}
+                  aria-label={`${content.edit} ${limitContent.title} `}
+                  data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
+                >
+                  {content.edit}
+                </Link>
+              </div>
+            )}
+          </li>
+        )}
+        {showLimitedConsentYN && (
+          <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
+            <div
+              className={`private-limitation ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {limitContent.textAreaTitle}
+            </div>
+            <div>{limitedConsent}</div>
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-limitation"
+                  className="edit-item"
+                  to={`/${EVIDENCE_LIMITATION_PATH2}`}
+                  aria-label={`${content.edit} ${limitContent.textAreaTitle}`}
+                  data-link={testing ? EVIDENCE_LIMITATION_PATH2 : null}
+                >
+                  {content.edit}
+                </Link>
+              </div>
+            )}
+          </li>
+        )}
         {list.map((facility, index) => {
           const {
             providerFacilityName,
@@ -257,15 +383,25 @@ export const PrivateContent = ({
           const hasErrors = Object.values(errors).join('');
 
           return (
-            <li key={providerFacilityName + index} className={listClassNames}>
+            <li
+              key={providerFacilityName + index}
+              className={`${listClassNames(
+                !showListOnly,
+              )} vads-u-margin-bottom--2`}
+            >
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
-                  <Header6
-                    className="dd-privacy-hidden overflow-wrap-word"
+                  <strong
+                    className="private-facility dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="Non-VA facility name"
                   >
                     {providerFacilityName}
-                  </Header6>
+                  </strong>
+                )}
+                {showListOnly ? (
+                  showAddress(providerFacilityAddress, errors)
+                ) : (
+                  <div>{errors.address}</div>
                 )}
                 <div
                   className="dd-privacy-hidden overflow-wrap-word"
@@ -276,7 +412,7 @@ export const PrivateContent = ({
                 <div>{errors.address}</div>
                 {errors.dates || (
                   <div
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden vads-u-margin-bottom--1p5"
                     data-dd-action-name="Non-VA facility treatment date range"
                   >
                     {errors.from || fromDate} – {errors.to || toDate}
@@ -301,7 +437,6 @@ export const PrivateContent = ({
                       label={`${content.remove} ${providerFacilityName}`}
                       text={content.remove}
                       secondary
-                      uswds
                     />
                   </div>
                 )}
@@ -309,53 +444,66 @@ export const PrivateContent = ({
             </li>
           );
         })}
-        <li key={LIMITATION_KEY} className={listClassNames}>
-          <Header6>{limitContent.title}</Header6>
-          <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
-          {!reviewMode && (
-            <div className="vads-u-margin-top--1p5">
-              <Link
-                id="edit-limitation"
-                className="edit-item"
-                to={`/${EVIDENCE_LIMITATION_PATH}`}
-                aria-label={`${content.edit} ${limitContent.name} `}
-                data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
-              >
-                {content.edit}
-              </Link>
-              {limitedConsent.length ? (
-                <va-button
-                  data-type={LIMITATION_KEY}
-                  onClick={handlers.showModal}
-                  class={removeButtonClass}
-                  label={`${content.remove} ${limitContent.name}`}
-                  text={content.remove}
-                  secondary
-                  uswds
-                />
-              ) : null}
-            </div>
-          )}
-        </li>
+        {!showScNewForm && (
+          <li key={LIMITATION_KEY} className={listClassNames(!showListOnly)}>
+            <strong
+              className={`private-limitation ${confirmationPageLabel(
+                showListOnly,
+              )}`}
+            >
+              {limitContent.title}
+            </strong>
+
+            <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
+
+            {!reviewMode && (
+              <div className="vads-u-margin-top--1p5">
+                <Link
+                  id="edit-limitation"
+                  className="edit-item"
+                  to={`/${EVIDENCE_LIMITATION_PATH}`}
+                  aria-label={`${content.edit} ${limitContent.name}`}
+                  data-link={testing ? EVIDENCE_LIMITATION_PATH : null}
+                >
+                  {content.edit}
+                </Link>
+                {limitedConsent.length ? (
+                  <va-button
+                    data-type={LIMITATION_KEY}
+                    onClick={handlers.showModal}
+                    class={removeButtonClass}
+                    label={`${content.remove} ${limitContent.name}`}
+                    text={content.remove}
+                    secondary
+                  />
+                ) : null}
+              </div>
+            )}
+          </li>
+        )}
       </ul>
     </>
-  ) : null;
+  );
 };
 
 PrivateContent.propTypes = {
   handlers: PropTypes.shape({}),
+  isOnReviewPage: PropTypes.bool,
   limitedConsent: PropTypes.string,
   list: PropTypes.array,
+  privacyAgreementAccepted: PropTypes.bool,
   reviewMode: PropTypes.bool,
+  showLimitedConsentYN: PropTypes.bool,
+  showListOnly: PropTypes.bool,
+  showScNewForm: PropTypes.bool,
   testing: PropTypes.bool,
-  onReviewPage: PropTypes.bool,
 };
 
 /**
  * Build uploaded evidence list
  * @param {Object[]} list - Uploaded evidence array
  * @param {Boolean} reviewMode - When true, hide editing links & buttons
- * @param {Boolean} onReviewPage - When true, list is rendered on review page
+ * @param {Boolean} isOnReviewPage - When true, list is rendered on review page
  * @param {Object} handlers - Event callback functions for links & buttons
  * @param {Boolean} testing - testing Links using data-attr; Links don't render
  *  an href when not wrapped in a Router
@@ -363,17 +511,24 @@ PrivateContent.propTypes = {
  */
 export const UploadContent = ({
   list = [],
+  isOnReviewPage,
   reviewMode = false,
-  onReviewPage,
   handlers = {},
   testing,
+  showListOnly = false,
 }) => {
-  const Header6 = getHeaderLevelH6toH5({ onReviewPage, reviewMode });
-  const Header5 = getHeaderLevelH5toH4({ onReviewPage, reviewMode });
-  return list?.length ? (
+  if (!list?.length) {
+    return null;
+  }
+  const Header = isOnReviewPage ? 'h5' : 'h4';
+
+  return (
     <>
-      <Header5>{content.otherTitle}</Header5>
-      <ul className="evidence-summary remove-bullets">
+      <Header className={`upload-title ${confirmationPageLabel(showListOnly)}`}>
+        {content.otherTitle}
+      </Header>
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ul className="evidence-summary remove-bullets" role="list">
         {list.map((upload, index) => {
           const errors = {
             attachmentId: upload.attachmentId
@@ -385,14 +540,16 @@ export const UploadContent = ({
           return (
             <li
               key={upload.name + index}
-              className={hasErrors ? errorClassNames : listClassNames}
+              className={
+                hasErrors ? errorClassNames : listClassNames(!showListOnly)
+              }
             >
-              <Header6
-                className="dd-privacy-hidden overflow-wrap-word"
+              <strong
+                className="upload-file dd-privacy-hidden overflow-wrap-word"
                 data-dd-action-name="Uploaded document file name"
               >
                 {upload.name}
-              </Header6>
+              </strong>
               <div>
                 {errors.attachmentId ||
                   ATTACHMENTS_OTHER[upload.attachmentId] ||
@@ -417,7 +574,6 @@ export const UploadContent = ({
                     label={`${content.delete} ${upload.name}`}
                     text={content.delete}
                     secondary
-                    uswds
                   />
                 </div>
               )}
@@ -426,13 +582,14 @@ export const UploadContent = ({
         })}
       </ul>
     </>
-  ) : null;
+  );
 };
 
 UploadContent.propTypes = {
   handlers: PropTypes.shape({}),
+  isOnReviewPage: PropTypes.bool,
   list: PropTypes.array,
   reviewMode: PropTypes.bool,
+  showListOnly: PropTypes.bool,
   testing: PropTypes.bool,
-  onReviewPage: PropTypes.bool,
 };

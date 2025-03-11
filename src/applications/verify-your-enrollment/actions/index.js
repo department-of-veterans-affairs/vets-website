@@ -68,93 +68,88 @@ export const updateVerifications = verifications => ({
   payload: verifications,
 });
 
-export const fetchClaimantId = () => {
+// Action constants
+
+/**
+ * doDGIBCall
+ * Helper that performs:
+ *  1) GET /dgib_verifications/claimant_lookup to get claimantId
+ *  2) POST /dgib_verifications/verification_record with that claimantId
+ * Then dispatches FETCH_PERSONAL_INFO_SUCCESS upon success.
+ */
+async function doDGIBCall(dispatch) {
+  const claimantRes = await apiRequest(
+    `${API_URL}/dgib_verifications/claimant_lookup`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    },
+  );
+  const verificationRecordRes = await apiRequest(
+    `${API_URL}/dgib_verifications/verification_record`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ claimantId: claimantRes.claimantId }),
+    },
+  );
+
+  // Dispatch success with both results
+  dispatch({
+    type: FETCH_PERSONAL_INFO_SUCCESS,
+    response: {
+      claimantLookup: claimantRes,
+      verificationRecord: verificationRecordRes,
+    },
+  });
+}
+/**
+ * fetchPersonalInfo
+ * 1) It tries apiRequest(API_URL, ...) first.
+ *    - If it returns a valid response (not 204), dispatch success with that data.
+ *    - If it returns status 204 or throws an error, we fall back to two doDGIBCall calls:
+ *      a) GET /dgib_verifications/claimant_lookup
+ *      b) POST /dgib_verifications/verification_record (using the claimantId )
+ */
+export const fetchPersonalInfo = () => {
   return async dispatch => {
-    dispatch({ type: CHECK_CLAIMANT_START });
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('Request timed out')), 5000),
-    );
+    dispatch({ type: FETCH_PERSONAL_INFO });
 
     try {
-      const response = await Promise.race([
-        apiRequest(`${API_URL}/dgib_verifications/claimant_lookup`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }),
-        timeoutPromise,
-      ]);
-      dispatch({
-        type: CHECK_CLAIMANT_SUCCESS,
-        claimantId: response.claimantId,
-      });
-    } catch (errors) {
-      dispatch({
-        type: CHECK_CLAIMANT_FAIL,
-        errors: errors.message || errors,
-      });
-    } finally {
-      dispatch({ type: CHECK_CLAIMANT_END });
-    }
-  };
-};
-export const fetchPersonalInfo = () => {
-  return async (dispatch, getState) => {
-    dispatch({ type: FETCH_PERSONAL_INFO });
-    const {
-      checkClaimant: { claimantId },
-    } = getState();
-    if (claimantId) {
-      try {
-        const [recordResponse] = await Promise.all([
-          // apiRequest(`${API_URL}/dgib_verifications/claimant_status`, {
-          //   method: 'POST',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //   },
-          //   body: JSON.stringify({ claimantId }),
-          // }),
-          apiRequest(`${API_URL}/dgib_verifications/verification_record`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ claimantId }),
-          }),
-        ]);
-        dispatch({
-          type: FETCH_PERSONAL_INFO_SUCCESS,
-          response: { recordResponse },
-        });
-      } catch (errors) {
-        dispatch({
-          type: FETCH_PERSONAL_INFO_FAILED,
-          errors,
-        });
-      }
-    } else {
-      return apiRequest(API_URL, {
+      // 1) First, call the main API
+      const mainResponse = await apiRequest(API_URL, {
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-        .then(response => {
-          dispatch({
-            type: FETCH_PERSONAL_INFO_SUCCESS,
-            response,
-          });
-        })
-        .catch(errors => {
-          dispatch({
-            type: FETCH_PERSONAL_INFO_FAILED,
-            errors,
-          });
+      });
+
+      if (mainResponse && mainResponse.status !== 204) {
+        dispatch({
+          type: FETCH_PERSONAL_INFO_SUCCESS,
+          response: mainResponse,
         });
+      } else {
+        // when the status is 204 (no content) do fallback calls
+        await doDGIBCall(dispatch);
+      }
+    } catch (error) {
+      // If there's an error in the first call, do the  doDGIBCall fallback
+      try {
+        await doDGIBCall(dispatch);
+      } catch (fallbackError) {
+        dispatch({
+          type: FETCH_PERSONAL_INFO_FAILED,
+          errors: fallbackError,
+        });
+      }
     }
-    return null;
   };
 };
+
 const customHeaders = {
   'Content-Type': 'application/json',
   'X-Key-Inflection': 'camel',
@@ -210,12 +205,11 @@ export const updateBankInfo = bankInfo => {
 export const verifyEnrollmentAction = verifications => {
   return async (dispatch, getState) => {
     dispatch({ type: VERIFY_ENROLLMENT });
-    const {
-      checkClaimant: { claimantId },
-      personalInfo,
-    } = getState();
+    const { personalInfo } = getState();
+    const claimantId = personalInfo?.personalInfo?.claimantLookup?.claimantId;
     const enrollmentVerifications =
-      personalInfo?.personalInfo?.recordResponse?.enrollmentVerifications || [];
+      personalInfo?.personalInfo?.verificationRecord?.enrollmentVerifications ||
+      [];
     const URL = claimantId
       ? `${API_URL}/dgib_verifications/verify_claimant`
       : `${API_URL}/verify`;
@@ -237,7 +231,7 @@ export const verifyEnrollmentAction = verifications => {
             verifiedThroughDate: lastVerification?.verificationEndDate,
             verificationMethod: 'VYE',
             appCommunication: {
-              responseype: 'Y',
+              responseType: 'Y',
             },
           };
         })()
@@ -253,6 +247,7 @@ export const verifyEnrollmentAction = verifications => {
         type: VERIFY_ENROLLMENT_SUCCESS,
         response,
       });
+      dispatch(fetchPersonalInfo());
     } catch (error) {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,

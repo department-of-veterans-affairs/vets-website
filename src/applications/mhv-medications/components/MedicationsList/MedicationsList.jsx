@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useHistory } from 'react-router-dom';
+import { datadogRum } from '@datadog/browser-rum';
 import MedicationsListCard from './MedicationsListCard';
 import {
   ALL_MEDICATIONS_FILTER_KEY,
@@ -13,10 +14,10 @@ import {
 } from '../../util/constants';
 import PrescriptionPrintOnly from '../PrescriptionDetails/PrescriptionPrintOnly';
 import { fromToNumbs } from '../../util/helpers';
-import { selectFilterFlag } from '../../util/selectors';
+import { selectFilterFlag, selectGroupingFlag } from '../../util/selectors';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const MAX_PAGE_LIST_LENGTH = 6;
-const perPage = 20;
 const MedicationsList = props => {
   const history = useHistory();
   const {
@@ -35,12 +36,16 @@ const MedicationsList = props => {
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
   const showFilterContent = useSelector(selectFilterFlag);
+  const showGroupingFlag = useSelector(selectGroupingFlag);
+
+  const perPage = showGroupingFlag ? 10 : 20;
 
   const displaynumberOfPrescriptionsSelector =
     ".no-print [data-testid='page-total-info']";
 
   const onPageChange = page => {
-    document.querySelector('.va-breadcrumbs-li')?.scrollIntoView();
+    datadogRum.addAction(dataDogActionNames.medicationsListPage.PAGINATION);
+    document.getElementById('showingRx').scrollIntoView();
     // replace terniary with true once loading spinner is added for the filter list fetch
     updateLoadingStatus(!showFilterContent, 'Loading your medications...');
     history.push(`/?page=${page}`);
@@ -104,13 +109,7 @@ const MedicationsList = props => {
       <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter" />
       <div className="print-only vads-u-margin--0 vads-u-width--full">
         {rxList?.length > 0 &&
-          rxList.map((rx, idx) => (
-            <PrescriptionPrintOnly
-              hideLineBreak={idx === rxList.length - 1}
-              key={idx}
-              rx={rx}
-            />
-          ))}
+          rxList.map((rx, idx) => <PrescriptionPrintOnly key={idx} rx={rx} />)}
       </div>
       <div
         className="vads-u-display--block vads-u-margin-top--3"

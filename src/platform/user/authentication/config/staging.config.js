@@ -4,7 +4,7 @@ import {
   EXTERNAL_REDIRECTS_ALT,
 } from '../constants';
 import {
-  defaultSignUpProviders,
+  legacySignInProviders,
   defaultSignInProviders,
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
@@ -15,7 +15,7 @@ import {
 export default {
   default: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    legacySignInProviders: { ...legacySignInProviders, mhv: false },
     isMobile: false,
     queryParams: {
       allowOAuth: true,
@@ -28,7 +28,7 @@ export default {
   },
   [EXTERNAL_APPS.MHV]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    legacySignInProviders: { ...legacySignInProviders, mhv: false },
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -41,7 +41,7 @@ export default {
   },
   [EXTERNAL_APPS.MY_VA_HEALTH]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    legacySignInProviders: { ...legacySignInProviders, mhv: false },
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -55,7 +55,7 @@ export default {
   },
   [EXTERNAL_APPS.EBENEFITS]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    legacySignInProviders: { ...legacySignInProviders, mhv: false },
     isMobile: false,
     queryParams: {
       allowOAuth: false,
@@ -68,7 +68,7 @@ export default {
   },
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: {
     allowedSignInProviders: { ...defaultSignInProviders },
-    allowedSignUpProviders: { ...defaultSignUpProviders },
+    legacySignInProviders: { ...legacySignInProviders, mhv: false },
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: true,
@@ -78,12 +78,10 @@ export default {
   },
   [EXTERNAL_APPS.VA_OCC_MOBILE]: {
     allowedSignInProviders: {
-      default: { ...defaultSignInProviders },
-      registeredApps: { dslogon: true },
+      logingov: true,
+      idme: true,
     },
-    allowedSignUpProviders: {
-      default: { ...defaultSignUpProviders },
-    },
+    legacySignInProviders: { ...legacySignInProviders, mhv: false },
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: false,
@@ -93,12 +91,12 @@ export default {
   },
   [EXTERNAL_APPS.ARP]: {
     allowedSignInProviders: {
-      idme: true,
+      idme: false,
       logingov: true,
     },
-    allowedSignUpProviders: {
-      idme: true,
-      logingov: true,
+    legacySignInProviders: {
+      mhv: false,
+      dslogon: false,
     },
     isMobile: false,
     queryParams: {
@@ -113,5 +111,25 @@ export default {
     OAuthEnabled: true,
     requiresVerification: false,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.ARP],
+  },
+  [EXTERNAL_APPS.SMHD]: {
+    allowedSignInProviders: {
+      idme: true,
+      logingov: true,
+    },
+    legacySignInProviders: {
+      mhv: false,
+      dslogon: false,
+    },
+    isMobile: false,
+    queryParams: {
+      allowOAuth: false,
+      allowPostLogin: false,
+      allowRedirect: false,
+    },
+    oAuthOptions: defaultMobileOAuthOptions,
+    OAuthEnabled: false,
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.SMHD],
   },
 };

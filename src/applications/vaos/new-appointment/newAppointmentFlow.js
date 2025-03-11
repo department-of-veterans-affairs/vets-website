@@ -21,6 +21,7 @@ import {
   GA_PREFIX,
   TYPES_OF_CARE,
   COVID_VACCINE_ID,
+  OH_ENABLED_TYPES_OF_CARE,
 } from '../utils/constants';
 import {
   getSiteIdFromFacilityId,
@@ -85,8 +86,28 @@ async function vaFacilityNext(state, dispatch) {
   const isCerner = isCernerLocation(location?.id, cernerSiteIds);
   const featureOHDirectSchedule = selectFeatureOHDirectSchedule(state);
   const featureOHRequest = selectFeatureOHRequest(state);
+  const typeOfCareEnabled = OH_ENABLED_TYPES_OF_CARE.includes(
+    getTypeOfCare(state.newAppointment.data)?.idV2,
+  );
 
-  if (isCerner && !featureOHDirectSchedule && !featureOHRequest) {
+  if (isCerner) {
+    if (featureOHDirectSchedule && featureOHRequest && typeOfCareEnabled) {
+      // Fetch eligibility if we haven't already
+      if (!eligibility) {
+        const siteId = getSiteIdFromFacilityId(location.id);
+
+        eligibility = await dispatch(
+          checkEligibility({
+            location,
+            siteId,
+            showModal: false,
+            isCerner: true,
+          }),
+        );
+      }
+
+      return 'selectProvider';
+    }
     return 'scheduleCerner';
   }
 
@@ -99,6 +120,7 @@ async function vaFacilityNext(state, dispatch) {
         location,
         siteId,
         showModal: true,
+        isCerner: false,
       }),
     );
   }
@@ -174,7 +196,7 @@ const flow = {
   },
   typeOfFacility: {
     url: '/new-appointment/choose-facility-type',
-    label: 'Where do you want to receive care?',
+    label: 'Where do you prefer to receive care?',
     next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -262,6 +284,11 @@ const flow = {
       return 'preferredDate';
     },
   },
+  selectProvider: {
+    url: '/new-appointment/provider',
+    label: 'Which provider do you want to schedule with?',
+    next: null,
+  },
   preferredDate: {
     url: '/new-appointment/preferred-date',
     label: 'When are you available for this appointment?',
@@ -312,12 +339,12 @@ const flow = {
   },
   contactInfo: {
     url: '/new-appointment/contact-info',
-    label: 'Confirm your contact information',
+    label: 'How should we contact you?',
     next: 'review',
   },
   review: {
     url: '/new-appointment/review',
-    label: 'Review your appointment details',
+    label: 'Review and confirm your appointment details',
   },
 };
 
@@ -375,10 +402,6 @@ export default function getNewAppointmentFlow(state) {
     },
     contactInfo: {
       ...flow.contactInfo,
-      label:
-        FLOW_TYPES.DIRECT === flowType
-          ? 'Confirm your contact information'
-          : 'How should we contact you?',
       url: featureBreadcrumbUrlUpdate
         ? 'contact-information'
         : '/new-appointment/contact-info',
@@ -416,7 +439,7 @@ export default function getNewAppointmentFlow(state) {
       ...flow.review,
       label:
         FLOW_TYPES.DIRECT === flowType
-          ? 'Review your appointment details'
+          ? 'Review and confirm your appointment details'
           : 'Review and submit your request',
       url: featureBreadcrumbUrlUpdate ? 'review' : '/new-appointment/review',
     },

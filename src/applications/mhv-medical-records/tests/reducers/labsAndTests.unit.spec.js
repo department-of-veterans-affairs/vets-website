@@ -166,7 +166,65 @@ describe('convertChemHemObservation', () => {
     expect(convertChemHemObservation(record)).to.deep.equal([
       {
         name: 'Name',
-        result: '138.0 mEq/L (Low)',
+        result: '138 mEq/L (Low)',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should retain significant digits in small numbers', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueQuantity: {
+            value: 0.0007,
+            unit: 'mEq/L',
+          },
+          status: 'final',
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: '0.0007 mEq/L',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should display string values as-is', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueQuantity: {
+            value: '0.0007000',
+            unit: 'mEq/L',
+          },
+          status: 'final',
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: '0.0007000 mEq/L',
         standardRange: EMPTY_FIELD,
         status: 'final',
         labComments: EMPTY_FIELD,
@@ -464,9 +522,9 @@ describe('mergeRadiologyLists', () => {
       { id: 2, sortDate: '2020-01-02T11:00:00Z', data: 'phr2' },
     ];
     const cvixList = [
-      { id: 3, sortDate: '2020-01-01T10:00:00Z', studyId: 'cvix1' },
-      { id: 4, sortDate: '2020-01-02T11:00:00Z', studyId: 'cvix2' },
-      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'cvix3' },
+      { id: 3, sortDate: '2020-01-01T10:00:00Z', studyId: 'c1', imageCount: 1 },
+      { id: 4, sortDate: '2020-01-02T11:00:00Z', studyId: 'c2', imageCount: 2 },
+      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'c3', imageCount: 3 },
     ];
     const result = mergeRadiologyLists(phrList, cvixList);
     expect(result).to.deep.equal([
@@ -474,15 +532,22 @@ describe('mergeRadiologyLists', () => {
         id: 1,
         sortDate: '2020-01-01T10:00:00Z',
         data: 'phr1',
-        studyId: 'cvix1',
+        studyId: 'c1',
+        imageCount: 1,
       },
       {
         id: 2,
         sortDate: '2020-01-02T11:00:00Z',
         data: 'phr2',
-        studyId: 'cvix2',
+        studyId: 'c2',
+        imageCount: 2,
       },
-      { id: 5, sortDate: '2020-01-03T12:00:00Z', studyId: 'cvix3' },
+      {
+        id: 5,
+        sortDate: '2020-01-03T12:00:00Z',
+        studyId: 'c3',
+        imageCount: 3,
+      },
     ]);
   });
 });

@@ -15,6 +15,9 @@ import royaltiesAndOtherProperties from './chapters/06-royalties-and-other-prope
 import assetTransfers from './chapters/07-asset-transfers';
 import trusts from './chapters/08-trusts';
 import annuities from './chapters/09-annuities';
+import unreportedAssets from './chapters/10-unreported-assets';
+import discontinuedIncomes from './chapters/11-discontinued-incomes';
+import incomeReceiptWaivers from './chapters/12-income-receipt-waivers';
 
 // const { } = fullSchema.properties;
 
@@ -67,6 +70,9 @@ const formConfig = {
     assetTransfers,
     trusts,
     annuities,
+    unreportedAssets,
+    discontinuedIncomes,
+    incomeReceiptWaivers,
   },
 };
 

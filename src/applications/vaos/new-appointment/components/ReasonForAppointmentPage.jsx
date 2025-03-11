@@ -144,7 +144,9 @@ export default function ReasonForAppointmentPage({ changeCrumb }) {
         'vads-u-margin-top--neg3': !isCommunityCare,
       })}
     >
-      {isCommunityCare && <h1 className="vads-u-font-size--h2">{pageTitle}</h1>}
+      {isCommunityCare && (
+        <h1 className="vaos__dynamic-font-size--h2">{pageTitle}</h1>
+      )}
       {!!schema && (
         <SchemaForm
           name="Reason for appointment"

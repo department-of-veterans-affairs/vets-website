@@ -10,6 +10,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectSystemIds,
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureFeSourceOfTruth,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
 import {
@@ -39,7 +40,7 @@ import {
   STARTED_NEW_APPOINTMENT_FLOW,
 } from '../../redux/sitewide';
 import { createAppointment } from '../../services/appointment';
-import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers.v2';
+import { transformFormToVAOSAppointment } from './helpers/formSubmitTransformers';
 
 export const FORM_PAGE_OPENED = 'covid19Vaccine/FORM_PAGE_OPENED';
 export const FORM_DATA_UPDATED = 'covid19Vaccine/FORM_DATA_UPDATED';
@@ -378,9 +379,9 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
-    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
-      getState(),
-    );
+    const state = getState();
+    const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
 
     dispatch({
       type: FORM_SUBMIT,
@@ -399,6 +400,7 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
+        useFeSourceOfTruth,
       });
 
       const data = selectCovid19VaccineFormData(getState());

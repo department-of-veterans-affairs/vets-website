@@ -40,7 +40,7 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     expect(radioSelector).to.exist;
     expect(radioSelector).to.have.attribute(
       'label',
-      'Where do you want to receive care?',
+      'Where do you prefer to receive care?',
     );
 
     // And the user should see radio buttons for each clinic
@@ -63,7 +63,7 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
     });
     await screen.findByText(/Continue/i);
 
-    fireEvent.click(await screen.findByText(/continue »/i));
+    fireEvent.click(await screen.findByText(/Continue/i));
 
     // Then there should be a validation error
     // Assertion currently disabled due to

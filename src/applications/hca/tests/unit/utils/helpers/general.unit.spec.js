@@ -6,7 +6,7 @@ import {
   maskSSN,
   normalizeFullName,
   replaceStrValues,
-} from '../../../../utils/helpers/general';
+} from '../../../../utils/helpers';
 
 describe('hca `createLiteralMap` method', () => {
   it('should create an object with correct properties based on array data', () => {
@@ -51,6 +51,17 @@ describe('hca `formatDate` method', () => {
     const value = '2024-11-19';
     const result = formatDate(value, 'yyyy-MM-dd');
     expect(result).to.equal('2024-11-19');
+  });
+
+  it('should correctly handle an invalid date string', () => {
+    const value = '2024/11/19';
+    const result = formatDate(value, 'yyyy-MM-dd');
+    expect(result).to.be.null;
+  });
+
+  it('should correctly handle a `null` value', () => {
+    const result = formatDate(null);
+    expect(result).to.be.null;
   });
 });
 
@@ -127,11 +138,25 @@ describe('hca `normalizeFullName` method', () => {
 });
 
 describe('hca `replaceStrValues` method', () => {
-  it('should successfully replace the placeholder with the given value', () => {
+  it('should successfully replace the placeholder(s) when the value is a string', () => {
     const src = 'Hello, %s!';
     const val = 'World';
     const result = replaceStrValues(src, val);
     expect(result).to.equal('Hello, World!');
+  });
+
+  it('should successfully replace the placeholder(s) when the value is an array', () => {
+    const src = 'Hello, %s! My name is %s.';
+    const val = ['World', 'John Smith'];
+    const result = replaceStrValues(src, val);
+    expect(result).to.equal('Hello, World! My name is John Smith.');
+  });
+
+  it('should successfully replace a custom placeholder with the given value', () => {
+    const src = 'Value is %d';
+    const val = '42';
+    const result = replaceStrValues(src, val, '%d');
+    expect(result).to.equal('Value is 42');
   });
 
   it('should return an empty string if the source is null or undefined', () => {
@@ -143,13 +168,6 @@ describe('hca `replaceStrValues` method', () => {
     const src = 'Hello, %s!';
     expect(replaceStrValues(src, null)).to.equal('');
     expect(replaceStrValues(src, undefined)).to.equal('');
-  });
-
-  it('should successfully replace a custom placeholder with the given value', () => {
-    const src = 'Value is %d';
-    const val = '42';
-    const result = replaceStrValues(src, val, '%d');
-    expect(result).to.equal('Value is 42');
   });
 
   it('should return an empty string if both source and value are null or undefined', () => {

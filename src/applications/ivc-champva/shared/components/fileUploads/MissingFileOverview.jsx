@@ -259,7 +259,7 @@ export default function MissingFileOverview({
   // Update sponsor to identify missing uploads
   const sponsorConditionalPages = getConditionalPages(pages, data);
   const sponsorMiss = {
-    name: data?.[nonListNameKey || 'veteransFullName'],
+    [nonListNameKey ?? 'name']: data?.[nonListNameKey || 'veteransFullName'],
     missingUploads: checkFlags(
       sponsorConditionalPages,
       data,

@@ -2,18 +2,14 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Programs from '../../../components/profile/Programs';
+import { mapProgramTypeToName } from '../../../utils/helpers';
 
 describe('<Programs>', () => {
   it('should render', () => {
-    const programTypes = ['Undergraduate', 'Graduate', 'OJT'];
+    const programTypes = ['OJT'];
     const facilityCode = '12345';
-    const name = 'Example Institution';
     const wrapper = shallow(
-      <Programs
-        programTypes={programTypes}
-        facilityCode={facilityCode}
-        institutionName={name}
-      />,
+      <Programs programTypes={programTypes} facilityCode={facilityCode} />,
     );
     expect(wrapper.type()).to.not.equal(null);
     expect(
@@ -22,18 +18,32 @@ describe('<Programs>', () => {
         .first()
         .text(),
     ).to.equal(
-      'The following programs are approved by the VA at this institution.',
+      'The following program is approved for VA benefits at this institution. For more information about specific programs, search the institution catalog or website.',
     );
-
     programTypes.forEach(programType => {
-      expect(
-        wrapper.contains(
-          <p className="vads-u-font-weight--bold vads-u-padding-right--2">
-            {programType}
-          </p>,
-        ),
-      ).to.equal(true);
+      const link = wrapper.find('[data-testid="program-link"]');
+      expect(link.exists()).to.be.true;
+      expect(link.text()).to.equal(
+        `See ${mapProgramTypeToName(programType)} programs`,
+      );
     });
+
+    wrapper.unmount();
+  });
+  it('should render the correct sentence for multiple program types', () => {
+    const programTypes = ['Undergraduate', 'Graduate'];
+    const facilityCode = '12345';
+    const wrapper = shallow(
+      <Programs programTypes={programTypes} facilityCode={facilityCode} />,
+    );
+    expect(
+      wrapper
+        .find('p')
+        .first()
+        .text(),
+    ).to.equal(
+      'The following programs are approved for VA benefits at this institution. For more information about specific programs, search the institution catalog or website.',
+    );
 
     wrapper.unmount();
   });

@@ -74,6 +74,7 @@ describe('getListWithRetry', () => {
     expect(
       mockDispatch.calledWith({
         type: Actions.Refresh.SET_INITIAL_FHIR_LOAD,
+        payload: sinon.match.date,
       }),
     ).to.be.true;
   });

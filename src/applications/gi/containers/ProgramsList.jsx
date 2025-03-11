@@ -1,49 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaButton,
   VaPagination,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatProgramType, generateMockPrograms } from '../utils/helpers';
-// import { fetchInstitutionPrograms } from '../../actions';
+import {
+  formatProgramType,
+  mapToAbbreviation,
+  getAbbreviationsAsArray,
+} from '../utils/helpers';
+import { fetchInstitutionPrograms } from '../actions';
 
 const ProgramsList = ({ match }) => {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector(state => state.institutionPrograms);
-  const location = useLocation();
-  const { institutionName } = location.state;
-
-  const { programType } = match.params;
-  // const { facilityCode } = match.params;
-
+  const { loading, error, institutionPrograms } = useSelector(
+    state => state.institutionPrograms,
+  );
+  const institutionName = localStorage.getItem('institutionName');
+  const { programType, facilityCode } = match.params;
   const formattedProgramType = formatProgramType(programType);
+  const abbreviatedProgramTypes = mapToAbbreviation(programType);
+  const abbreviatedList = getAbbreviationsAsArray(abbreviatedProgramTypes);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
+
   const [searchQuery, setSearchQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
+  const [searchError, setSearchError] = useState(null);
+  const resultsSummaryRef = useRef(null);
+  const noResultsMessageRef = useRef(null);
+
   const [key, setKey] = useState(0);
 
-  const [searchError, setSearchError] = useState(null);
+  const triggerRerender = () => {
+    setKey(prevKey => prevKey + 1);
+  };
 
-  const mockPrograms = generateMockPrograms(30);
-
-  const filteredPrograms = mockPrograms.filter(program =>
+  const filteredPrograms = institutionPrograms.filter(program =>
     program.attributes.description
-      .toLowerCase()
+      ?.toLowerCase()
       .includes(submittedQuery.toLowerCase()),
   );
 
   useEffect(
     () => {
       window.scrollTo(0, 0);
-      // dispatch(fetchInstitutionPrograms('3V000242', 'NCD'));
-      // dispatch(fetchInstitutionPrograms(facilityCode, programType));
+      dispatch(fetchInstitutionPrograms(facilityCode, abbreviatedProgramTypes));
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (submittedQuery && !filteredPrograms.length) {
+        setTimeout(() => {
+          noResultsMessageRef.current?.focus();
+        }, 0);
+      }
+    },
+    [submittedQuery],
   );
 
   const handleSearchInput = e => {
@@ -51,18 +69,19 @@ const ProgramsList = ({ match }) => {
     setSearchError(null);
   };
 
-  const triggerRerender = () => {
-    setKey(prevKey => prevKey + 1); // Changing the key forces a re-render
-  };
-
   const handleSearchSubmit = e => {
-    e?.preventDefault();
+    e.preventDefault();
     if (!searchQuery.trim()) {
       setSearchError('Please fill in a program name and then select search.');
       return;
     }
     setSubmittedQuery(searchQuery);
     setCurrentPage(1);
+    setTimeout(() => {
+      if (resultsSummaryRef.current && filteredPrograms.length > 0) {
+        resultsSummaryRef.current.focus();
+      }
+    }, 0);
   };
 
   const handleReset = () => {
@@ -71,6 +90,13 @@ const ProgramsList = ({ match }) => {
     setCurrentPage(1);
     triggerRerender();
     setSearchError(null);
+    setTimeout(() => {
+      const vaTextInputEl = document.getElementById('search-input');
+      if (vaTextInputEl) {
+        const internalInput = vaTextInputEl.shadowRoot?.querySelector('input');
+        internalInput?.focus();
+      }
+    }, 0);
   };
 
   // Calculate total pages and slice programs for pagination
@@ -90,14 +116,21 @@ const ProgramsList = ({ match }) => {
   const handlePageChange = page => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
+    setTimeout(() => {
+      if (resultsSummaryRef.current && filteredPrograms.length > 0) {
+        resultsSummaryRef.current.focus();
+      }
+    }, 0);
   };
 
   if (error) {
     return (
       <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
+        <h1 className="vads-u-margin-bottom--4">
+          {formattedProgramType} programs
+        </h1>
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-          {formattedProgramType}
+          {institutionName}
         </h2>
         <va-alert status="error" data-e2e-id="alert-box">
           <h2 slot="headline">We can’t load the program list right now</h2>
@@ -120,36 +153,60 @@ const ProgramsList = ({ match }) => {
   }
 
   return (
-    <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-      <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
+    <div className="programs-list-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+      <h1 className="vads-u-margin-bottom--4">
+        {formattedProgramType} programs
+      </h1>
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        {formattedProgramType}
+        {institutionName}
       </h2>
       <div
-        key={key}
-        className="search-container va-flex vads-u-align-items--flex-end"
+        className={`${institutionPrograms.length < 21 &&
+          'vads-u-margin-bottom--4'}`}
       >
-        <VaTextInput
-          error={searchError}
-          hint={null}
-          label="Search for a program name:"
-          message-aria-describedby="Search for a program name"
-          name="search-input"
-          onInput={handleSearchInput}
-          onKeyDown={e => e.key === 'Enter' && handleSearchSubmit(e)}
-          show-input-error
-        />
-        <VaButton onClick={handleSearchSubmit} text="Search" />
-        {submittedQuery && (
+        <h4 className="abbreviations" data-testid="abbreviations-container">
+          Abbreviation(s)
+        </h4>
+        {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+        <ul className="list-style" role="list">
+          {abbreviatedList.map(abb => (
+            <li className="vads-u-margin-bottom--0" key={abb}>
+              {abb}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {institutionPrograms.length > 20 && (
+        <div
+          key={key}
+          className="search-container va-flex vads-u-align-items--flex-end"
+        >
+          <VaTextInput
+            id="search-input"
+            error={searchError}
+            className="search-input"
+            label="Search for a program name:"
+            message-aria-describedby="Search for a program name"
+            name="search-input"
+            onInput={handleSearchInput}
+            onKeyDown={e => e.key === 'Enter' && handleSearchSubmit(e)}
+            show-input-error
+          />
           <VaButton
+            className="search-btn"
+            onClick={handleSearchSubmit}
+            text="Search"
+          />
+          <VaButton
+            className="reset-search"
             onClick={handleReset}
             secondary
-            text="Back to program list"
+            text="Reset search"
           />
-        )}
-      </div>
+        </div>
+      )}
       {filteredPrograms.length > 0 ? (
-        <p id="results-summary">
+        <p ref={resultsSummaryRef} tabIndex="-1" id="results-summary">
           {submittedQuery ? (
             <>
               {`Showing ${startIndex}-${endIndex} of ${
@@ -161,12 +218,12 @@ const ProgramsList = ({ match }) => {
             <>
               {`Showing ${startIndex}-${endIndex} of ${
                 filteredPrograms.length
-              } programs`}
+              } ${filteredPrograms.length === 1 ? 'program' : 'programs'}`}
             </>
           )}
         </p>
       ) : (
-        <p id="no-results-message">
+        <p id="no-results-message" ref={noResultsMessageRef} tabIndex="-1">
           {`We didn’t find any results for `}"
           <strong>{`${submittedQuery}`}</strong>
           ." Please enter a valid program name.
@@ -175,8 +232,16 @@ const ProgramsList = ({ match }) => {
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         {currentPrograms.map(program => (
-          <li className="vads-u-margin-bottom--2" key={program.id}>
-            {program.attributes.description}
+          <li
+            className="vads-u-margin-bottom--2"
+            data-testid="program-list-item"
+            key={program.id}
+          >
+            {program.attributes.programType === 'OJT'
+              ? `${program.attributes.ojtAppType} ${
+                  program.attributes.description
+                }`
+              : program.attributes.description}
           </li>
         ))}
       </ul>

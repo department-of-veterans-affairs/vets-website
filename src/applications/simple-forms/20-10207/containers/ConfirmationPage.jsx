@@ -1,26 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
+import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
 
-import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
-import { getSubmitterName } from '../helpers';
-
-const content = {
-  headlineText: 'You’ve submitted your request for priority processing',
-  nextStepsText: (
-    <>
-      <p>
-        We’ll review your request along with the supporting documents you
-        provided. And we’ll decide if we can prioritize your request. We’ll
-        notify you about our decision by mail.
-      </p>
-      <p>
-        If you are homeless, we’ll try to contact you by phone to get an address
-        if one was not provided.
-      </p>
-    </>
-  ),
-};
 const childContent = (
   <div>
     <h2>Where to mail additional documents</h2>
@@ -75,23 +57,48 @@ const childContent = (
   </div>
 );
 
-export const ConfirmationPage = () => {
+export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
-  const submitterFullName = getSubmitterName(form.data);
 
   return (
-    <ConfirmationPageView
-      formType="submission"
-      submitterHeader="Who submitted this form"
-      submitterName={submitterFullName}
+    <ConfirmationView
+      formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      content={content}
-      childContent={childContent}
-    />
+      pdfUrl={submission.response?.pdfUrl}
+      devOnly={{
+        showButtons: true,
+      }}
+    >
+      <ConfirmationView.SubmissionAlert
+        content={
+          <>
+            <p>
+              We’ll review your request along with any supporting documents you
+              provided. And we’ll decide if we can prioritize your request.
+              We’ll notify you about our decision by the mailing address
+              provided.
+            </p>
+            <p>
+              If you are homeless, we’ll try to contact you by phone to get an
+              address if one was not provided.
+            </p>
+            <p>Your confirmation number is {confirmationNumber}.</p>
+          </>
+        }
+      />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      {childContent}
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 
@@ -125,6 +132,9 @@ ConfirmationPage.propTypes = {
     }),
   }),
   name: PropTypes.string,
+  route: PropTypes.shape({
+    formConfig: PropTypes.object,
+  }),
 };
 
 function mapStateToProps(state) {

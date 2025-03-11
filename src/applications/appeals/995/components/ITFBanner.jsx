@@ -82,7 +82,9 @@ const ITFBanner = props => {
     <div className="itf-inner vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
       <div className="usa-content">
         {message}
-        <div className="vads-u-margin-top--2">{itfExpander}</div>
+        <div className="vads-u-margin-top--2 vads-u-padding-bottom--2">
+          {itfExpander}
+        </div>
         <VaButtonPair
           class="vads-u-margin-top--2"
           continue

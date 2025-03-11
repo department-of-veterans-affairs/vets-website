@@ -53,7 +53,10 @@ To run the IVC-CHAMPVA form apps locally:
 2.  Once you have completed local VA.gov setup per Platform
     documentation, simply
     start the server by running the following in a shell at the root of the `vets-website` repository (this will open a new browser window):
-    `` bash # Run from root of `vets-website` repo - opens local VA.gov in web browser yarn watch --open ``
+    ```bash
+    # Run from root of `vets-website` repo - opens local VA.gov in web browser 
+    yarn watch --open
+    ```
 
 3.  Then, in the newly opened browser window append the specific
     form application sub URL you wish to access to the base site URL
@@ -65,13 +68,13 @@ To run the IVC-CHAMPVA form apps locally:
     // vets-website/src/applications/ivc-champva/10-7959C/manifest.json:
     // ...
     {
-      "rootUrl": "/health-care/champva/other-insurance-form-10-7959c",
+      "rootUrl": "/family-and-caregiver-benefits/health-and-disability/champva/other-insurance-form-10-7959c",
       // ...
     }
     // ...
     ```
 
-    yielding: **localhost:3001/health-care/champva/other-insurance-form-10-7959c**
+    yielding: **localhost:3001/family-and-caregiver-benefits/health-and-disability/champva/other-insurance-form-10-7959c**
 
 ### Developing a Form
 
@@ -233,8 +236,8 @@ To mock portions of the API, [follow this guide here](https://github.com/departm
 To Save In Progress locally you must mock vets-api locally to intercept the frontend's User and SIP GET/PUT calls and return mock responses for them.
 
 1. Read over the [vets-website README info on Running a mock API](https://github.com/department-of-veterans-affairs/vets-website#running-a-mock-api-for-local-development). You will need to mock JSON static-responses for the user, SIP GET, & SIP PUT calls.
-2. View the example mock set up in [ivc-champva/10-7959C](https://github.com/department-of-veterans-affairs/vets-website/pull/29340)'s local-mock-responses file to get an idea of how to set up your responses and mocks files.
-3. To trigger the In-Progress state of the Intro-page's SIP-alert add the desired form-ID as a string into the `user.json`'s "in-progress-forms" array ([example here](https://github.com/department-of-veterans-affairs/vets-website/blob/8483a502755da0397e0a23ace2bd97d1791493de/src/applications/ivc-champva/10-7959C/tests/e2e/fixtures/mocks/user.json#L22)) -- e.g., `"in-progress-forms": ["10-7959C"]`, and the sip-get.json & sip-put.json support the SIP-alerts you see just above a form-pages back-continue buttons, as you input data into the fields
+2. View the example mock set up in [ivc-champva/10-7959f-2](https://github.com/department-of-veterans-affairs/vets-website/pull/33938)'s local-mock-responses file to get an idea of how to set up your responses and mocks files.
+3. To trigger the In-Progress state of the Intro-page's SIP-alert add the desired in progress form metadata into the mock `user.json`'s "in_progress_forms" array ([example here](https://github.com/department-of-veterans-affairs/vets-website/blob/c4be437b7cb7d4bfae5acb2b15cd79e5f58efee0/src/applications/ivc-champva/10-7959f-2/tests/e2e/fixtures/mocks/user.json#L22)). The sip-get.json & sip-put.json files will enable the SIP-alerts you see just above a form-pages back-continue buttons, as you input data into the fields
 4. Launch the mocked API using the following command
    ```bash
    # Run in vets-website
@@ -247,7 +250,7 @@ To Save In Progress locally you must mock vets-api locally to intercept the fron
    localStorage.setItem('hasSession', true);
    ```
 
-For an example of a functional API mock for SIP, see this [ivc-champva/10-7959C](https://github.com/department-of-veterans-affairs/vets-website/pull/29340) pull request.
+For an example of a functional API mock for SIP, see this [ivc-champva/10-7959f-2](https://github.com/department-of-veterans-affairs/vets-website/pull/33938) pull request.
 
 ## Scheduling Maintenance Windows for External Backend Service (PEGA)
 

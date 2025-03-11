@@ -3,6 +3,8 @@ import React from 'react';
 function Table() {
   return (
     <div className="custom-table">
+      {/* NOTE: This table purposely not converted to a va-table - DST */}
+      {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-table-component */}
       <table className="usa-table" role="presentation">
         <tbody>
           <tr>

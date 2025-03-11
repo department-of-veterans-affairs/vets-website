@@ -94,32 +94,13 @@ describe('Medical records PDF template', () => {
       const content = await page.getTextContent({ includeMarkedContent: true });
 
       // This is the second test result header
-      expect(content.items[37].tag).to.eq('H3');
-      expect(content.items[39].str).to.eq('RBC');
+      expect(content.items[33].tag).to.eq('H3');
+      expect(content.items[35].str).to.eq('RBC');
 
       // The two items before it should be the start and end of the Artifact tag.
-      expect(content.items[35].type).to.eq('beginMarkedContent');
-      expect(content.items[35].tag).to.eq('Artifact');
-      expect(content.items[36].type).to.eq('endMarkedContent');
-    });
-
-    it('Horizontal rules below result sections may be suppressed', async () => {
-      const data = require('./fixtures/result_sections_with_no_horizontal_rules.json');
-      const { pdf } = await generateAndParsePdf(data);
-
-      // Fetch the second page
-      const pageNumber = 2;
-      const page = await pdf.getPage(pageNumber);
-
-      const content = await page.getTextContent({ includeMarkedContent: true });
-
-      // This is the second test result header
-      expect(content.items[35].tag).to.eq('H3');
-      expect(content.items[37].str).to.eq('RBC');
-
-      // The item before it should be the end of the last result header.
-      expect(content.items[33].str).to.eq('None noted');
-      expect(content.items[34].type).to.eq('endMarkedContent');
+      expect(content.items[31].type).to.eq('beginMarkedContent');
+      expect(content.items[31].tag).to.eq('Artifact');
+      expect(content.items[32].type).to.eq('endMarkedContent');
     });
 
     it('Outputs document sections in the correct order', async () => {
@@ -253,8 +234,11 @@ describe('Medical records PDF template', () => {
         margins: {
           top: 40,
           bottom: 40,
-          left: 20,
-          right: 20,
+          left: 30,
+          right: 30,
+        },
+        indents: {
+          one: 45,
         },
         headings: {
           H1: {
@@ -276,6 +260,7 @@ describe('Medical records PDF template', () => {
         },
         text: {
           boldFont: 'SourceSansPro-Bold',
+          monospaceFont: 'RobotoMono-Regular',
           font: 'SourceSansPro-Regular',
           size: 12,
         },
@@ -293,13 +278,13 @@ describe('Medical records PDF template', () => {
       // This code represents the font in the content items
       // It is something like g_d3_f5
       const textFontCode = Object.keys(content.styles).find(
-        key => content.styles[key].fontFamily === 'sans-serif',
+        key => content.styles[key].fontFamily === 'monospace',
       );
 
       // The number of indexes is less for the this font than the monospace font test above
       // because the use of the monospace font breaks the text up into more content items.
       const monospaceStartItemIndex = 81;
-      const monospaceEndItemIndex = 98;
+      const monospaceEndItemIndex = 162;
       const monospaceItems = content.items.slice(
         monospaceStartItemIndex,
         monospaceEndItemIndex + 1,

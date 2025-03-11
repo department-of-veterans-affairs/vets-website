@@ -70,10 +70,6 @@
                     {
                         "facilityId": "668",
                         "isCerner": true
-                    },
-                    {
-                        "facilityId": "653",
-                        "isCerner": false
                     }
                 ],
                 "vaPatient": true,
@@ -112,7 +108,7 @@
                 "10-10EZR",
                 "21P-530",
                 "21P-527EZ",
-                "21P-530V2",
+                "21P-530EZ",
                 "686C-674",
                 "20-0995",
                 "20-0996",

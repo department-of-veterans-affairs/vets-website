@@ -1,11 +1,11 @@
 import 'platform/polyfills';
-import './sass/ask-va-too.scss';
+import './sass/ask-va.scss';
 
 import startApp from 'platform/startup';
 
-import routes from './routes';
-import reducer from './reducers';
 import manifest from './manifest.json';
+import reducer from './reducers';
+import routes from './routes';
 
 startApp({
   url: manifest.rootUrl,

@@ -1,7 +1,12 @@
+import { format, subMonths, getYear } from 'date-fns';
 import mockToggles from '../fixtures/toggles-response.json';
 import { Locators } from '../utils/constants';
 
 class GeneralFunctionsPage {
+  getPageHeader = () => {
+    return cy.get(`h1`);
+  };
+
   updatedThreadDates = data => {
     const currentDate = new Date();
     return {
@@ -29,18 +34,14 @@ class GeneralFunctionsPage {
     };
   };
 
-  updateFeatureToggles = (name, value) => {
+  // param [ArrayOfObjects{name: string, value: any}]
+  // returns {Object} - the updated mock toggles object.
+  updateFeatureToggles = toggles => {
     return {
       ...mockToggles,
       data: {
         ...mockToggles.data,
-        features: [
-          ...mockToggles.data.features,
-          {
-            name,
-            value,
-          },
-        ],
+        features: [...mockToggles.data.features, ...toggles],
       },
     };
   };
@@ -64,6 +65,10 @@ class GeneralFunctionsPage {
     cy.get(`h1`).should(`have.text`, text);
   };
 
+  verifyHeaderFocused = () => {
+    cy.get(`h1`).should(`be.focused`);
+  };
+
   verifyMaintenanceBanner = (startDate, endDate, text) => {
     cy.get(Locators.ALERTS.VA_ALERT)
       .find(`h2`)
@@ -76,6 +81,42 @@ class GeneralFunctionsPage {
     cy.contains(`End:`)
       .parent(`p`)
       .should(`include.text`, `End: ${this.getDateFormat(endDate)}`);
+  };
+
+  getRandomDateWithinLastNumberOfMonths = number => {
+    const now = new Date();
+    const currentDate = new Date();
+    currentDate.setMonth(now.getMonth() - number);
+
+    const randomTime =
+      currentDate.getTime() +
+      Math.random() * (now.getTime() - currentDate.getTime());
+    return new Date(randomTime).toISOString();
+  };
+
+  getParsedDate = date => {
+    let year = getYear(date);
+    let startMonth = format(subMonths(date, 1), 'MMMM');
+    const endMonth = format(date, 'MMMM');
+    if (endMonth === 'January') {
+      year -= 1;
+      startMonth = endMonth;
+    }
+    return {
+      year,
+      startMonth,
+      endMonth,
+    };
+  };
+
+  verifyLastBreadCrumb = value => {
+    cy.get(`.usa-breadcrumb__link`)
+      .last()
+      .should(`have.text`, value);
+  };
+
+  verifyPageTitle = value => {
+    cy.title().should(`contain`, value);
   };
 }
 

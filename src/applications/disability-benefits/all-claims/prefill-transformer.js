@@ -33,7 +33,7 @@ export const setClaimTypeNewOnly = formData =>
     formData,
   );
 
-export default function prefillTransformer(pages, formData, metadata) {
+export default function prefillTransformer(pages, formData, metadata, state) {
   const prefillRatedDisabilities = data => {
     const { disabilities } = data;
 
@@ -163,7 +163,8 @@ export default function prefillTransformer(pages, formData, metadata) {
     prefillSyncModern0781Flow,
   ];
 
-  const applyTransformations = (data = {}, transformer) => transformer(data);
+  const applyTransformations = (data = {}, transformer) =>
+    transformer(data, state);
 
   return {
     metadata,

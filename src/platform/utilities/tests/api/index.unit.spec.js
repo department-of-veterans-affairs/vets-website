@@ -44,7 +44,7 @@ describe('test wrapper', () => {
       expect(mockEnv.isProduction.called).to.be.true;
     });
 
-    it('should redirect to /session-expired if in production and session expired (401)', async () => {
+    it('should redirect to LoginModal if in production and session expired (401)', async () => {
       server.use(
         rest.get('*', (req, res, ctx) =>
           res(
@@ -74,7 +74,9 @@ describe('test wrapper', () => {
         );
       } catch (error) {
         expect(mockEnv.isProduction.called).to.be.true;
-        expect(window.location).to.eql('/session-expired');
+        expect(window.location).to.eql(
+          '/?next=loginModal&status=session_expired',
+        );
       }
     });
 
@@ -240,6 +242,27 @@ describe('test wrapper', () => {
         expect(expected.response.body).to.not.be.null;
         expect(error).to.deep.equal(JSON.parse(expected.response.body));
       });
+    });
+
+    it('should not impact empty JSON with (status: 202) No Content', async () => {
+      server.use(
+        rest.delete(
+          `https://dev-api.va.gov/my_health/v1/messaging/messages/1`,
+          (_, res, ctx) => res(ctx.status(202)),
+        ),
+      );
+
+      const response = await apiRequest(
+        'https://dev-api.va.gov/my_health/v1/messaging/messages/1',
+        {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
+
+      expect(response.ok).to.eql(true);
+      expect(expected.response.body).to.be.null;
+      expect(response.body._readableState.buffer.length).to.eql(0);
     });
 
     it('should not fail when downloading a file', async () => {

@@ -3,8 +3,8 @@ import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { mockApiRequest } from 'platform/testing/unit/helpers.js';
-import * as mapboxUtils from 'applications/facility-locator/utils/mapbox';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
+import * as mapboxUtils from 'platform/utilities/facilities-and-mapbox';
 import NearbyVetCenters from '../vet-center/NearByVetCenters';
 import NearByVALocations from '../vet-center/NearByVALocations';
 import VAFacilityInfoSection from '../vet-center/components/VAFacilityInfoSection';
@@ -502,7 +502,7 @@ describe('VAFacilityInfoSection', () => {
     expect(telephoneProps).to.deep.equal({
       contact: '216-391-0264',
       extension: '',
-      'message-aria-describedby': 'Main number',
+      'message-aria-describedby': 'Main phone',
     });
 
     wrapper.unmount();
@@ -511,7 +511,7 @@ describe('VAFacilityInfoSection', () => {
 describe('VAFacilityPhone', () => {
   it('should render VAFacilityPhone with a phone number title', () => {
     const wrapper = mount(
-      <VAFacilityPhone phoneNumber="301-000-0000" phoneTitle="Main number" />,
+      <VAFacilityPhone phoneNumber="301-000-0000" phoneTitle="Main phone" />,
     );
     expect(wrapper.find('strong').exists()).to.be.true;
     const telephone = wrapper.find('va-telephone');
@@ -519,7 +519,7 @@ describe('VAFacilityPhone', () => {
     expect(telephoneProps).to.deep.equal({
       contact: '301-000-0000',
       extension: '',
-      'message-aria-describedby': 'Main number',
+      'message-aria-describedby': 'Main phone',
     });
     wrapper.unmount();
   });

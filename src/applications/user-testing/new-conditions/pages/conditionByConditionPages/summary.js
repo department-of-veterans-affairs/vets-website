@@ -17,7 +17,9 @@ const summaryPage = {
       arrayBuilderOptions,
       {},
       {
-        hint: ' ', // Because there is maxItems: 100 if this empty string is not present the hint will count down from 100 which is a confusing user experience
+        // Because there is maxItems: 100 in the arrayBuilderOptions,
+        // if this null value is not present the hint will count down from 100 which is a confusing user experience
+        hint: null,
       },
     ),
   },

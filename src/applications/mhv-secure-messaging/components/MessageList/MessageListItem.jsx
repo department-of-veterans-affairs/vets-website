@@ -22,13 +22,15 @@ const MessageListItem = props => {
     category,
     activeFolder,
   } = props;
-  // const activeFolder = useSelector(state => state.sm.folders.folder);
+
+  const inSentOrDrafts =
+    activeFolder.folderId === DefaultFolders.DRAFTS.id ||
+    activeFolder.folderId === DefaultFolders.SENT.id;
 
   const getClassNames = () => {
-    // messages in draft folder have inconsistent readReceipt values
-    // we need to mark all messages in draft folder as read
-    return activeFolder.folderId === DefaultFolders.DRAFTS.id ||
-      readReceipt === 'READ'
+    // messages in draft and sent folders have inconsistent readReceipt values
+    // we need to mark all messages in draft and sent folders as read
+    return inSentOrDrafts || readReceipt === 'READ'
       ? readMessageClassList
       : unreadMessageClassList;
   };
@@ -67,13 +69,14 @@ const MessageListItem = props => {
       data-testid="message-list-item"
     >
       <div className="unread-column vads-l-col">
-        {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
+        {!inSentOrDrafts &&
           (readReceipt !== 'READ' && (
             <span
               aria-label="Unread message"
               role="img"
               className="unread-icon vads-u-margin-right--1 unread-bubble"
               alt="Unread message icon"
+              data-testid="unread-message-icon"
             />
           ))}
       </div>

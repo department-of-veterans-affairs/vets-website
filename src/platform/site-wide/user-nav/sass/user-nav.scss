@@ -80,8 +80,12 @@
 }
 
 /* OCTO Identity */
+// stylelint-disable-next-line color-no-hex
+$idme-background-green: #08833d;
 .login,
 .verify {
+  background: var(--vads-color-white);
+
   button {
     display: flex;
     justify-content: center;
@@ -109,20 +113,8 @@
       }
     }
 
-    &.idme-create {
-      box-shadow: inset 0 0 0 2px var(--vads-color-success-dark);
-      color: var(--vads-color-success-dark);
-      margin-bottom: 0;
-
-      &:hover {
-        box-shadow: inset 0 0 0 2px
-          var(--vads-button-color-background-primary-alt-active-on-light);
-        color: var(--vads-button-color-background-primary-alt-active-on-light);
-      }
-    }
-
     &.idme-button {
-      background: var(--vads-color-success-dark);
+      background: $idme-background-green;
 
       &:hover {
         background: var(
@@ -201,14 +193,6 @@
 }
 
 .verify {
-  button {
-    width: auto;
-
-    &.dslogon {
-      margin-bottom: 0.25em;
-    }
-  }
-
   h4 + p {
     margin-top: 0;
   }
@@ -236,15 +220,6 @@
 }
 
 .login.login-modal {
-  // temporary solution until DST can fix va-modal large property
-  margin-left: -1rem;
-  margin-right: 4rem;
-
-  @include media($medium-screen) {
-    margin-left: unset;
-    margin-right: unset;
-  }
-
   .downtime-notification.row {
     margin: 0 0 1em;
   }
@@ -263,17 +238,117 @@
       padding: unset;
     }
   }
+}
 
-  .fed-warning--v2 {
-    @include media($medium-screen) {
-      margin-left: 0.25rem;
-    }
+.fed-warning--v2 {
+  @include media($medium-screen) {
+    margin-left: 0.25rem;
   }
 }
 
 #ios-bug ul {
   list-style: square;
   padding-left: 1.5em;
+}
+
+// Verify buttons
+button.idme-verify-button {
+  padding: 0;
+  background: $idme-background-green;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 244px;
+  max-height: 42px;
+
+  span {
+    width: 50px;
+    border-right: 1px solid var(--vads-color-white);
+    display: block;
+    padding: 0.75rem;
+
+    & svg {
+      height: 16px;
+      padding: 0;
+    }
+  }
+
+  div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+
+    & svg {
+      height: 18px;
+      width: auto;
+      margin-left: 5px;
+    }
+  }
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+
+button.logingov-verify-button {
+  background: var(--vads-color-secondary);
+  width: auto;
+  max-width: 244px;
+  padding: 0.75rem 1.25rem;
+  max-height: fit-content;
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-self: center;
+  }
+
+  svg {
+    height: 15px;
+    width: auto;
+    margin-left: 5px;
+  }
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
+  }
+}
+
+button.idme-verify-buttons,
+button.logingov-verify-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 330px;
+  padding: 0.75em;
+  font-size: 16px;
+  margin: 1em 0;
+  white-space: normal !important;
+
+  svg {
+    height: 1em;
+    padding: 0 0.25em;
+  }
+}
+
+button.idme-verify-buttons {
+  background: var(--vads-color-success-dark);
+
+  &:hover {
+    background: var(--vads-button-color-background-primary-alt-active-on-light);
+  }
+}
+button.logingov-verify-buttons {
+  background: var(--vads-color-secondary);
+
+  &:hover {
+    background: var(--vads-color-secondary-darkest);
+  }
 }
 
 // DO NOT REMOVE without OCTO Identity

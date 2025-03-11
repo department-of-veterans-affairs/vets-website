@@ -7,9 +7,12 @@ const searchSchoolsPage = {
     'ui:objectViewField': PageFieldSummary,
     school: {
       'ui:title': FormElementTitle({
-        title: 'School Information',
+        title: 'School information',
       }),
       'ui:widget': EducationFacilitySearch,
+      'ui:errorMessages': {
+        required: 'Please select your school facility',
+      },
     },
   },
   schema: {

@@ -1,14 +1,15 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import recordEvent from '~/platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 
-const Welcome = ({ loading, name }) => (
+const Welcome = ({ name }) => (
   <div
     className={classnames(
       'vads-u-display--flex',
       'vads-u-justify-content--flex-start',
       'vads-u-margin-bottom--1p5',
-      { 'visibility:hidden': loading },
     )}
   >
     <h2
@@ -26,31 +27,37 @@ const Welcome = ({ loading, name }) => (
       )}
       {!name && <>Welcome</>}
     </h2>
-    <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg vads-u-display--flex vads-u-align-items--center">
+    <div className="vads-u-display--flex vads-u-align-items--center">
       <span
         className={classnames(
-          'vads-u-color--primary-dark',
           'vads-u-padding-left--4',
           'vads-u-padding-right--0p5',
+          'vads-u-color--primary-dark',
         )}
       >
         <va-icon icon="account_circle" size={3} />
       </span>
-      <va-link
+      <a
+        className="vads-u-font-size--md medium-screen:vads-u-font-size--lg"
         href="/profile"
-        text="Profile"
-        className="vads-u-visibility--screen-reader"
-      />
+        onClick={() => {
+          datadogRum.addAction('Click on Landing Page: Welcome - Profile');
+          recordEvent({
+            event: 'nav-link-click',
+            action: 'click',
+            'link-label': 'Profile',
+            'link-destination': '/profile',
+            'link-origin': window.location.href,
+          });
+        }}
+      >
+        Profile
+      </a>
     </div>
   </div>
 );
 
-Welcome.defaultProps = {
-  loading: true,
-};
-
 Welcome.propTypes = {
-  loading: PropTypes.bool,
   name: PropTypes.string,
 };
 

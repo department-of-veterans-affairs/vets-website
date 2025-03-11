@@ -18,7 +18,7 @@ describe('Medical Records validate breadcrumbs', () => {
       allergyDetail.id,
       allergyDetail,
     );
-    const breadcrumbsText = 'Allergies and reactions';
+    const breadcrumbsText = 'Back';
     AllergyDetailsPage.verifyBreadcrumbs(breadcrumbsText);
     AllergyDetailsPage.clickBreadcrumbs(breadcrumbsText);
 

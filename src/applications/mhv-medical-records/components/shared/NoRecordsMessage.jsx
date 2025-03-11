@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { recordType } from '../../util/constants';
 
 const NoRecordsMessage = ({ type }) => {
-  return (
+  let errorContent = (
     <va-card
       background
       class="record-list-item vads-u-margin-top--4 vads-u-margin-bottom--8"
@@ -16,6 +17,21 @@ const NoRecordsMessage = ({ type }) => {
       </h2>
     </va-card>
   );
+  if (type === recordType.VITALS) {
+    errorContent = (
+      <>
+        <p>Vitals include:</p>
+        <ul>
+          <li>Blood pressure and blood oxygen level</li>
+          <li>Breathing rate and heart rate</li>
+          <li>Height and weight</li>
+          <li>Temperature</li>
+        </ul>
+        {errorContent}
+      </>
+    );
+  }
+  return errorContent;
 };
 
 export default NoRecordsMessage;

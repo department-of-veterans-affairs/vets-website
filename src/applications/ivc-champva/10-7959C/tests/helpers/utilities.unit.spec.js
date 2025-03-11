@@ -1,11 +1,12 @@
 import { expect } from 'chai';
-import {
-  isRequiredFile,
-  nameWording,
-  getObjectsWithAttachmentId,
-} from '../../helpers/utilities';
+import { isRequiredFile, nameWordingExt } from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
-import { concatStreets } from '../../../shared/utilities';
+import {
+  concatStreets,
+  getObjectsWithAttachmentId,
+  nameWording,
+  validateText,
+} from '../../../shared/utilities';
 
 describe('isRequiredFile', () => {
   it("should return '(Required)' if required file in formContext", () => {
@@ -53,6 +54,14 @@ describe('nameWording', () => {
   });
 });
 
+describe('nameWordingExt', () => {
+  it("should set `beingVerb` to 'you’re' if certifierRole is 'applicant'", () => {
+    expect(nameWordingExt({ certifierRole: 'applicant' }).beingVerb).to.equal(
+      'you’re',
+    );
+  });
+});
+
 describe('getObjectsWithAttachmentId', () => {
   it('should return list of objects with the `attachmentId` property', () => {
     const objectList = [
@@ -84,5 +93,16 @@ describe('concatStreets function', () => {
     expect(concatStreets(addr).streetCombined.trim()).to.equal(
       `${addr.street}`,
     );
+  });
+});
+
+describe('validateText function', () => {
+  it('should provide an error message when illegal characters detected', () => {
+    const testStr = '"';
+    expect(validateText(testStr)).to.not.be.null;
+  });
+  it('should return null when no illegal characters detected', () => {
+    const testStr = "I am the applicant's grandmother";
+    expect(validateText(testStr)).to.be.null;
   });
 });

@@ -30,6 +30,7 @@ import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedI
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
 import validateParameters from '../utils/validateParameters';
+import logger from '../utils/logger';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -91,12 +92,19 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentEnableRootBot,
   );
 
+  const isDatadogLoggingEnabled = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableDatadogLogging,
+  );
+
+  logger.info('Winston logger: Ding! Testing, 1, 2, 3!');
+
   validateParameters({
     csrfToken,
     apiSession,
     userFirstName,
     userUuid,
     setParamLoadingStatus,
+    isDatadogLoggingEnabled,
   });
 
   const store = useWebChatStore({
@@ -112,7 +120,7 @@ const WebChat = ({
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);
-  signOutEventListener();
+  signOutEventListener(isDatadogLoggingEnabled);
 
   useBotPonyFill(setBotPonyfill, environment);
   useRxSkillEventListener(setIsRXSkill);

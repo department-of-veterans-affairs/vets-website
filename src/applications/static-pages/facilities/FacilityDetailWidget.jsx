@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { buildHours } from '../../facility-locator/utils/facilityHours';
+import { buildHours } from './facilityUtilities';
 import FacilityAddress from './FacilityAddress';
 import FacilityPhone from './FacilityPhone';
 import FacilityApiAlert from './FacilityApiAlert';

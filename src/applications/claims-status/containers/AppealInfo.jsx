@@ -175,8 +175,6 @@ export class AppealInfo extends React.Component {
               />
             )}
             {appealContent}
-          </div>
-          <div className="usa-width-one-third medium-4 column">
             {appeal && (
               <AppealHelpSidebar
                 location={appeal.attributes.location}

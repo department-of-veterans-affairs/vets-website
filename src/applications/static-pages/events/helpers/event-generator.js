@@ -106,37 +106,6 @@ const createRecurringEvents = () => {
 };
 
 /**
- * Creates past events.
- *
- * @export
- * @returns {Array<Object>} An array of event objects.
- */
-const createPastEvents = () => {
-  const lastYear = now
-    .clone()
-    .subtract(1, 'years')
-    .year();
-  return [
-    createEvent(
-      moment(`${lastYear}-01-04 10:15:00`).unix(),
-      moment(`${lastYear}-01-04 10:15:00`)
-        .add(1, 'hour')
-        .unix(),
-      'Past Event A',
-      { id: 'past' },
-    ),
-    createEvent(
-      moment(`${lastYear}-06-01 12:00:00`).unix(),
-      moment(`${lastYear}-06-01 12:00:00`)
-        .add(1, 'hour')
-        .unix(),
-      'Past Event B',
-      { id: 'past' },
-    ),
-  ];
-};
-
-/**
  * Creates future events.
  *
  * @export
@@ -374,7 +343,7 @@ const createActiveEvents = () => {
  * Generates test events for use in testing the Events app.
  *
  * Events are generated with start/end times contextual to 'now', and include
- * future events, past events, recurring events, and more.
+ * future events, recurring events, and more.
  *
  * @export
  * @returns {Array<Object>} An array of event objects
@@ -382,7 +351,6 @@ const createActiveEvents = () => {
 const generateTestEvents = () => {
   return fleshOutRecurringEvents(
     removeDuplicateEvents([
-      ...createPastEvents(),
       ...createFutureEvents(),
       ...createRecurringEvents(),
       ...createDuplicateEvents(),
@@ -395,7 +363,6 @@ const generateTestEvents = () => {
 export {
   generateTestEvents,
   createEvent,
-  createPastEvents,
   createFutureEvents,
   createRecurringEvents,
   createDuplicateEvents,
