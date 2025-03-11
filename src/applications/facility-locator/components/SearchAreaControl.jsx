@@ -45,6 +45,7 @@ const SearchAreaControl = ({
   return (
     <div id="search-area-control-container" className={containerClass()}>
       <va-button
+        data-testid="search-area-control"
         key={`search-area-control-${isEnabled}`}
         id="search-area-control"
         class={buttonClass}

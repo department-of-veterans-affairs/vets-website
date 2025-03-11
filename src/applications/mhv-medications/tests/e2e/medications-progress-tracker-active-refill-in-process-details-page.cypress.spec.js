@@ -16,9 +16,11 @@ describe('Medications Details Page Active Rx in Process Tracker', () => {
     detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails, cardNumber);
     detailsPage.verifyActiveRxStepOneProgressTrackerOnDetailsPage(
       Data.STEP_ONE_SUBMITTED,
+      Data.STEP_ONE_NOTE_ABOVE,
     );
     detailsPage.verifyActiveRefillInProcessStepTwoOnDetailsPage(
       Data.STEP_TWO_ACTIVE,
+      Data.STEP_TWO_PROCESS_ABOVE_TEXT,
     );
     detailsPage.verifyActiveRefillInProcessStepThreeOnDetailsPage(
       Data.STEP_THREE_SHIPPED,
