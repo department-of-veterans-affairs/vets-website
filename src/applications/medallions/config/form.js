@@ -69,13 +69,13 @@ const formConfig = {
           schema: veteranName.schema,
         },
         veteranInfo1: {
-          path: 'veteran-info-1',
+          path: 'veteran-personal-information-1',
           title: 'Veteran personal information',
           uiSchema: veteranInfo1.uiSchema,
           schema: veteranInfo1.schema,
         },
         veteranInfo2: {
-          path: 'veteran-info-2',
+          path: 'veteran-personal-information-1',
           title: 'Veteran personal information',
           uiSchema: veteranInfo2.uiSchema,
           schema: veteranInfo2.schema,
