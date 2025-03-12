@@ -180,3 +180,15 @@ export const arrayBuilderEventPageTitleUI = ({ title, editTitle = '' }) => {
     return title;
   });
 };
+
+// export const checkOptedOut = (formData, setFormData) => {
+//   const selection = formData?['view:answerCombatBehaviorQuestions'];
+
+//   if(selection == 'true') {
+
+
+
+//   } else if (selection === 'false') {
+
+//   }
+// }

@@ -38,6 +38,7 @@ import {
 } from '../../content/form0781/behaviorListPages';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
+import { checkShowDeleteBehavioralAnswersModal } from '../../content/form0781ConfirmDeleteBehavioralAnswers';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -95,6 +96,7 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorIntroCombatPage(formData),
     uiSchema: behaviorIntroCombatPage.uiSchema,
     schema: behaviorIntroCombatPage.schema,
+    onContinue: checkShowDeleteBehavioralAnswersModal,
   },
   behaviorListPage: {
     title: behaviorListPageTitle,

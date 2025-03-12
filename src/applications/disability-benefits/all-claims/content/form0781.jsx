@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
 
 export const form0781HeadingTag = 'VA FORM 21-0781';
-
 export const traumaticEventsExamples = (
   <va-accordion open-single>
     <va-accordion-item class="vads-u-margin-y--3" id="first" bordered>
@@ -186,3 +189,79 @@ export function titleWithTag(title, headingTag) {
     </>
   );
 }
+
+// onContinue callback
+// export function showModalOnContinue(formData, setFormData) {
+//   if (formData['view:answerCombatBehaviorQuestions'] === 'No' && hasBehaviorAnswersInForm(formData)) {
+//     setFormData({...formData, showBehaviorDeleteModal: true})
+//   };
+// }
+
+// function hasBehaviorAnswersInForm(formData) {
+//   // formData should have all data
+//   // If it doesn't app state data, useSelector
+// } 
+
+// This fires on continue click
+// This is a uiSchema validaiton function
+// function checkOptOutBehaviorQuestions(errors, formData) {
+//   // Is this no?
+//   if (formData['view:answerCombatBehaviorQuestions'] === 'No' && hasBehaviorAnswersInForm(formData)) {
+//     // Stops the continue from navigating
+//     errors.addError('Show modal');
+//   }
+// };
+
+// function handleDeleteBehaviorQuestions(formData, setFormData) {
+//   // make copy, clone fromData, clear fields
+//   // Use deepClone? Avoid lodash
+
+//   // This will be the scrubbed version of the formData:
+//   newFormData = {}
+
+//   setFormData(newFormData);
+// }
+
+// export function DeleteAnswersModal({formData}) {
+//   // If this doesnt work pull functions out of useState:
+//   // const showModal = hasBehaviorAnswersInForm(formData) && formData.showBehaviorDeleteModal
+
+//   const [hasBehaviorAnswers, setHasBehaviorAnswers] = useState(hasBehaviorAnswersInForm(formData));
+//   // Change name:
+//   const [continueClicked, setContinueClicked] = useState(formData.showBehaviorDeleteModal);
+//   const showModal = continueClicked && hasBehaviorAnswers
+
+//   // If can't access what I need in formData, you can use useSelector:
+//   // const fullFormData = useSelector(state => state.form.data)
+
+//   const dispatch = useDispatch();
+//   // setData is action
+//   const setFormData = data => dispatch(setData(data));
+
+//   const handlers = {
+//     confirmDelete: () => {
+//       handleDeleteBehaviorQuestions(formData, setFormData);
+//       setShowModal(false);
+//     },
+//     closeModal: () => setShowModal(false),
+//   };
+
+//   return (
+//     <>
+//       <VaModal
+//         status="warning"
+//         // visible={showModal}
+//         // visible={modal}
+//         visible={showModal}
+//         modalTitle={'TESTING'}
+//         // onCloseEvent={handlers.closeModal}
+//         // onPrimaryButtonClick={handlers.removeEvidence}
+//         onSecondaryButtonClick={handlers.closeModal}
+//         primaryButtonText={'Yes'}
+//         secondaryButtonText={'No'}
+//       >
+//         <p>Stuff</p>
+//       </VaModal>
+//     </>
+//   );
+// }

@@ -11,6 +11,10 @@ import {
   behaviorPageTitle,
   behaviorIntroCombatDescription,
 } from '../../content/form0781/behaviorListPages';
+import {
+  checkOptingOut,
+  DeleteAnswersModal,
+} from '../../content/form0781ConfirmDeleteBehavioralAnswers';
 
 export const uiSchema = {
   'ui:title': titleWithTag(behaviorPageTitle, form0781HeadingTag),
@@ -26,6 +30,10 @@ export const uiSchema = {
   'view:mentalHealthSupportAlert': {
     'ui:description': mentalHealthSupportAlert,
   },
+  'view:deleteAnswersModal': {
+    'ui:description': DeleteAnswersModal,
+  },
+  'ui:validations': [checkOptingOut],
 };
 
 export const schema = {
@@ -33,6 +41,10 @@ export const schema = {
   properties: {
     'view:answerCombatBehaviorQuestions': radioSchema(['true', 'false']),
     'view:mentalHealthSupportAlert': {
+      type: 'object',
+      properties: {},
+    },
+    'view:deleteAnswersModal': {
       type: 'object',
       properties: {},
     },
