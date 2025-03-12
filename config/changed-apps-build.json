@@ -256,6 +256,30 @@
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {
+      "rootFolder": "search",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sign-in-changes",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "simple-forms-engine",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "simple-forms",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "third-party-app-directory",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "survivor-dependent-education-benefit",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "terms-of-use",
       "continuousDeployment": false
     },
@@ -263,6 +287,14 @@
       "rootFolder": "toe",
       "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "travel-pay",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "user-testing",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "vaos",
