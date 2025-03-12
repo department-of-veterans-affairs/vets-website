@@ -497,7 +497,6 @@ export const filterDescription = {
 };
 
 export const smFooter = {
-  NEED_HELP: 'Need help?',
   HAVE_QUESTIONS: 'Have questions about how messages works?',
   LEARN_MORE: 'Learn more about messages',
   CONTACT_FACILITY:

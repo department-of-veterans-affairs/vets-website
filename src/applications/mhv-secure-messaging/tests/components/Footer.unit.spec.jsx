@@ -53,7 +53,8 @@ describe('SM Footer component', () => {
       store,
     });
     expect(screen.getByTestId('inbox-footer')).to.exist;
-    expect(screen.getByText(smFooter.NEED_HELP)).to.exist;
+    const vaNeedHelpComponent = document.querySelector('va-need-help');
+    expect(vaNeedHelpComponent).to.exist;
     expect(screen.getByText(smFooter.HAVE_QUESTIONS)).to.exist;
     expect(screen.getByText(smFooter.LEARN_MORE)).to.exist;
     expect(screen.getByText(smFooter.CONTACT_FACILITY)).to.exist;
