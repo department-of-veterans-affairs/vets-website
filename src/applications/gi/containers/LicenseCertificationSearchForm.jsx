@@ -59,7 +59,6 @@ export default function LicenseCertificationSearchForm() {
     if (nameParam) {
       setName(nameParam);
     }
-    // We intentionally only want this to run once on mount to set initial values
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
