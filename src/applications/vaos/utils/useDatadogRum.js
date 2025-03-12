@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 
 import environment from 'platform/utilities/environment';
-import { useSelector } from 'react-redux';
-import { selectFeatureDatadogRum } from '../redux/selectors';
 
 const initializeDatadogRum = () => {
   if (
@@ -32,20 +30,9 @@ const initializeDatadogRum = () => {
 };
 
 const useDatadogRum = () => {
-  const featureDatadogRum = useSelector(state =>
-    selectFeatureDatadogRum(state),
-  );
-
-  useEffect(
-    () => {
-      if (featureDatadogRum) {
-        initializeDatadogRum();
-      } else {
-        delete window.DD_RUM;
-      }
-    },
-    [featureDatadogRum],
-  );
+  useEffect(() => {
+    initializeDatadogRum();
+  }, []);
 };
 
 export { useDatadogRum };
