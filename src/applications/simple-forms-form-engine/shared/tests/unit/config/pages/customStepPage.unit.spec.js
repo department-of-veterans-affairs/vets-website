@@ -55,7 +55,7 @@ describe('customStepPage', () => {
 
   it('uses IDs for schema and uiSchema keys', () => {
     const componentIds = normalizedPage.components.map(
-      component => component.id,
+      component => `page${component.id}`,
     );
     const pageSchema = customStepPage(normalizedPage);
     const schemaKeys = Object.keys(pageSchema.schema.properties);
@@ -73,7 +73,7 @@ describe('customStepPage', () => {
     const { required } = pageSchema.schema;
 
     expect(required.length).to.eq(1);
-    expect(required[0]).to.eq(normalizedPage.components[0].id);
+    expect(required[0]).to.eq(`page${normalizedPage.components[0].id}`);
   });
 
   describe('selectSchemas', () => {
