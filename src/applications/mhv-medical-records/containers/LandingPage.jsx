@@ -41,8 +41,6 @@ const VACCINES_LABEL = 'Go to your vaccines';
 const ALLERGIES_AND_REACTIONS_LABEL = 'Go to your allergies and reactions';
 const HEALTH_CONDITIONS_LABEL = 'Go to your health conditions';
 const VITALS_LABEL = 'Go to your vitals';
-const MEDICAL_RECORDS_DOWNLOAD_LABEL_MAR_17 =
-  'Go to download your medical records reports';
 const MEDICAL_RECORDS_DOWNLOAD_LABEL =
   'Go to download your medical records reports';
 const MEDICAL_RECORDS_SETTINGS_LABEL =
@@ -469,6 +467,9 @@ const LandingPage = () => {
               <va-link
                 href="/health-care/review-medical-records/"
                 text="Learn more about medical records"
+                onClick={() => {
+                  sendDataDogAction('Learn more about medical records');
+                }}
               />
               <p>
                 Have questions about health information in your records? Send a
@@ -477,6 +478,9 @@ const LandingPage = () => {
               <va-link
                 href="/my-health/secure-messages/new-message/"
                 text="Start a new message"
+                onClick={() => {
+                  sendDataDogAction('Start a new message - MR help');
+                }}
               />
             </section>
           ) : (
@@ -527,16 +531,10 @@ const LandingPage = () => {
                         <Link
                           to="/download"
                           onClick={() => {
-                            sendDataDogAction(
-                              displayMarch17Updates
-                                ? MEDICAL_RECORDS_DOWNLOAD_LABEL_MAR_17
-                                : MEDICAL_RECORDS_DOWNLOAD_LABEL,
-                            );
+                            sendDataDogAction(MEDICAL_RECORDS_DOWNLOAD_LABEL);
                           }}
                         >
-                          {displayMarch17Updates
-                            ? MEDICAL_RECORDS_DOWNLOAD_LABEL_MAR_17
-                            : MEDICAL_RECORDS_DOWNLOAD_LABEL}
+                          {MEDICAL_RECORDS_DOWNLOAD_LABEL}
                         </Link>
                       </p>
                     </div>
