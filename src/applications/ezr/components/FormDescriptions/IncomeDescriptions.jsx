@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { formatCurrency } from '../../utils/helpers/general';
 
 const PreviousIncome = props => {
-  const { formData, incomeType, isVeteran } = props;
-  const { previousFinancialInfo } = formData;
+  const { incomeType, isVeteran } = props;
+  const { previousFinancialInfo } =
+    useSelector(state => state.form.data.nonPrefill) || {};
   const { veteranFinancialInfo, spouseFinancialInfo } = previousFinancialInfo;
   const incomeYear = isVeteran
     ? veteranFinancialInfo?.incomeYear

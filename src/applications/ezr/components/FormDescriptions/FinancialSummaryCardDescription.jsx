@@ -3,30 +3,28 @@ import PropTypes from 'prop-types';
 import { LAST_YEAR } from '../../utils/constants';
 import { includeSpousalInformation } from '../../utils/helpers/form-config';
 
-const SpousalFinancialInformation = formData => {
+const SpousalFinancialInformation = item => {
   return (
     <>
       <h4>Spouse’s annual income from {LAST_YEAR}</h4>
       <p className="vads-u-margin-bottom--0">
-        Gross annual income:{' '}
-        {formData['view:spouseGrossIncome']?.spouseGrossIncome}
+        Gross annual income: {item['view:spouseGrossIncome'].spouseGrossIncome}
       </p>
       <p className="vads-u-margin-y--0">
-        Net annual income: {formData['view:spouseNetIncome']?.spouseNetIncome}
+        Net annual income: {item['view:spouseNetIncome'].spouseNetIncome}
       </p>
       <p className="vads-u-margin-top--0">
-        Other income: {formData['view:spouseOtherIncome']?.spouseOtherIncome}
+        Other income: {item['view:spouseOtherIncome'].spouseOtherIncome}
       </p>
     </>
   );
 };
 
-const FinancialSummaryCardDescription = (item, props) => {
-  const { formData } = props;
+const FinancialSummaryCardDescription = item => {
   const spouseHasIncomes =
-    formData['view:spouseGrossIncome'] !== null &&
-    formData['view:spouseNetIncome'] !== null &&
-    formData['view:spouseOtherIncome'] !== null;
+    item?.['view:spouseGrossIncome'] !== null &&
+    item?.['view:spouseNetIncome'] !== null &&
+    item?.['view:spouseOtherIncome'] !== null;
 
   return item !== null ? (
     <>
@@ -41,8 +39,8 @@ const FinancialSummaryCardDescription = (item, props) => {
       <p className="vads-u-margin-top--0">
         Other income: {item['view:veteranOtherIncome'].veteranOtherIncome}
       </p>
-      {includeSpousalInformation(formData) && spouseHasIncomes ? (
-        <SpousalFinancialInformation data={item} />
+      {includeSpousalInformation(item) && spouseHasIncomes ? (
+        <SpousalFinancialInformation item={item} />
       ) : (
         ''
       )}

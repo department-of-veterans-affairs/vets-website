@@ -64,7 +64,7 @@ const App = props => {
         const defaultViewFields = {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
-          'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:householdEnabled': true,
           'view:isProvidersAndDependentsPrefillEnabled': isProvidersAndDependentsPrefillEnabled,
         };
 
@@ -116,8 +116,8 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
-    isProvidersAndDependentsPrefillEnabled:
-      state.featureToggles.isProvidersAndDependentsPrefillEnabled,
+    // isProvidersAndDependentsPrefillEnabled:
+    //   state.featureToggles.isProvidersAndDependentsPrefillEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
