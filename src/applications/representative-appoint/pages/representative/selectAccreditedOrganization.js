@@ -24,7 +24,7 @@ export const schema = {
 
 export const pageDepends = formData => {
   // in digital submission flow, display even if there's only one org
-  const minimumOrgs = isDigiSubmission(formData) ? 0 : 1;
+  const minimumOrgCount = isDigiSubmission(formData) ? 1 : 2;
 
   return (
     !!formData['view:selectedRepresentative'] &&
@@ -32,6 +32,6 @@ export const pageDepends = formData => {
       formData['view:selectedRepresentative'].attributes?.individualType,
     ) &&
     formData['view:selectedRepresentative'].attributes?.accreditedOrganizations
-      ?.data?.length > minimumOrgs
+      ?.data?.length >= minimumOrgCount
   );
 };
