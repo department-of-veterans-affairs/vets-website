@@ -47,10 +47,10 @@ export default function LicenseCertificationSearchForm() {
     () => {
       return dispatch(filterLcResults(name, dropdown.current.optionValue));
     },
-    [name],
+    [name, dropdown.current.optionValue],
   );
 
-  // If available, use url query params to assign initial dropdown values
+  // If available, use url query params to assign initial values ONLY on mount
   useEffect(() => {
     if (categoryParams) {
       setDropdown(updateCategoryDropdown(categoryParams[0]));
@@ -59,8 +59,8 @@ export default function LicenseCertificationSearchForm() {
     if (nameParam) {
       setName(nameParam);
     }
-
-    return null;
+    // We intentionally only want this to run once on mount to set initial values
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = (category, nameInput) => {

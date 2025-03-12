@@ -135,6 +135,7 @@ export default function LicenseCertificationSearchResults() {
     [pageParam],
   );
 
+  // handle UI for changes for high zoom levels
   useEffect(() => {
     window.addEventListener('resize', handleZoom);
     window.addEventListener('load', handleZoom);
