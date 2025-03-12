@@ -315,7 +315,7 @@ const DownloadFileType = props => {
           const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
           const pdfData = {
             fromDate:
-              fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'Any',
+              fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
             toDate:
               fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
             recordSets: generateBlueButtonData(recordData, recordFilter),
