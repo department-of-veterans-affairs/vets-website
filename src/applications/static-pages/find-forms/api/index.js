@@ -1,7 +1,11 @@
 import appendQuery from 'append-query';
 import { apiRequest } from 'platform/utilities/api';
 import { sentryLogger } from '../helpers/sentryLogger';
-import { fetchFormsFailure, fetchFormsSuccess } from '../actions';
+import {
+  fetchFormsFailure,
+  fetchFormsSuccess,
+  fetchFormsSuccessNoResults,
+} from '../actions';
 
 // Form URLs can be entered incorrectly, or the forms themselves can be deleted
 // by forms managers. This guards against sending users to 404 pages
@@ -67,9 +71,14 @@ export const fetchFormsApi = async (query, dispatch) => {
   try {
     const response = await apiRequest(FORMS_URL);
     const forms = response?.data;
+    // const forms = [];
 
     if (forms?.length) {
       dispatch(fetchFormsSuccess(forms, allFormsRetired(forms)));
+    }
+
+    if (forms?.length === 0) {
+      dispatch(fetchFormsSuccessNoResults([]));
     }
 
     return forms;
