@@ -216,8 +216,8 @@ describe('Compose container', () => {
     expect(alert).to.exist;
     expect(alert).to.have.attribute('status', 'warning');
     expect(alert).to.have.attribute('visible', 'true');
-    expect(alert.textContent).to.contain(alertTitle.MULTIPLE_TEAMS_BLOCKED);
-    expect(alert.textContent).to.contain(alertMessage.MULTIPLE_TEAMS_BLOCKED);
+    expect(alert.textContent).to.contain(alertTitle.ALL_TEAMS_BLOCKED);
+    expect(alert.textContent).to.contain(alertMessage.ALL_TEAMS_BLOCKED);
     const findLocationsLink = screen.getByText('Find your VA health facility');
     expect(findLocationsLink)
       .to.have.attribute('href')

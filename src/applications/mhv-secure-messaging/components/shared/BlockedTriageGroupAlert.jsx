@@ -209,6 +209,9 @@ const BlockedTriageGroupAlert = props => {
         } else if (noAssociations) {
           setAlertTitleText(alertTitle.NO_ASSOCIATIONS);
           setAlertInfoText(alertMessage.NO_ASSOCIATIONS);
+        } else if (allTriageGroupsBlocked) {
+          setAlertTitleText(alertTitle.ALL_TEAMS_BLOCKED);
+          setAlertInfoText(alertMessage.ALL_TEAMS_BLOCKED);
         } else {
           setAlertTitleText(alertTitle.MULTIPLE_TEAMS_BLOCKED);
           setAlertInfoText(alertMessage.MULTIPLE_TEAMS_BLOCKED);
