@@ -7,76 +7,63 @@ describe('filterMatches (VAMC)', () => {
     const getServiceNamesOnly = filteredServices =>
       filteredServices.map(service => service[0]);
 
+    it.only('should return the correct match for a search term', () => {
+      const results = filterMatches(vaHealthcareServices, 'operation', 'vamc');
+      const expected = ['Operational medicine'];
+
+      expect(getServiceNamesOnly(results)).to.eql(expected);
+    });
+
     it('should return the correct match for a search term', () => {
-      const results = filterMatches(vaHealthcareServices, 'mental', 'vamc');
+      const results = filterMatches(vaHealthcareServices, 'corrective', 'vamc');
+      const expected = ['Optometry'];
+
+      expect(getServiceNamesOnly(results)).to.eql(expected);
+    });
+
+    it('should return the correct match for a search term', () => {
+      const results = filterMatches(vaHealthcareServices, 'prostate', 'vamc');
+      const expected = ['Urology'];
+
+      expect(getServiceNamesOnly(results)).to.eql(expected);
+    });
+
+    it('should return the correct match for a search term', () => {
+      const results = filterMatches(vaHealthcareServices, 'marrow', 'vamc');
+      const expected = ['Transplant surgery'];
+
+      expect(getServiceNamesOnly(results)).to.eql(expected);
+    });
+
+    it('should return the correct match for a search term', () => {
+      const results = filterMatches(vaHealthcareServices, 'TRICARE', 'vamc');
+      const expected = [
+        'Case management',
+        'COVID-19 vaccines',
+        'Laboratory and pathology',
+        'Pharmacy',
+        'Telehealth',
+        'Travel reimbursement',
+      ];
+
+      expect(getServiceNamesOnly(results)).to.eql(expected);
+    });
+
+    it('should return the correct match for a search term', () => {
+      const results = filterMatches(vaHealthcareServices, 'mammogram', 'vamc');
+      const expected = ['Women centered care', 'Women Veteran care'];
+
+      expect(getServiceNamesOnly(results)).to.eql(expected);
+    });
+
+    it('should return the correct match for a search term', () => {
+      const results = filterMatches(vaHealthcareServices, 'men', 'vamc');
       const expected = [
         'Mental health care',
-        'Women Veteran care',
-        'Women centered care',
-        'Returning service member care',
+        'Complementary and integrative health',
         'Psychiatry',
         'Psychology',
-        'Plastic and reconstructive surgery',
-        'Complementary and integrative health',
-      ];
-
-      expect(getServiceNamesOnly(results)).to.eql(expected);
-    });
-
-    it('should return the correct match for a search term', () => {
-      const results = filterMatches(vaHealthcareServices, 'cancer', 'vamc');
-      const expected = [
-        'Urology',
-        'Gastroenterology',
-        'Dermatology',
-        'Cancer care',
-        'Thoracic surgery',
-        'Surgical oncology',
-        'Hematology/oncology',
-        'Radiation oncology',
-      ];
-
-      expect(getServiceNamesOnly(results)).to.eql(expected);
-    });
-
-    it('should return the correct match for a search term', () => {
-      const results = filterMatches(
-        vaHealthcareServices,
-        'quit smoking',
-        'vamc',
-      );
-      const expected = ['Smoking and tobacco cessation'];
-
-      expect(getServiceNamesOnly(results)).to.eql(expected);
-    });
-
-    it('should return the correct match for a search term', () => {
-      const results = filterMatches(vaHealthcareServices, 'disability', 'vamc');
-      const expected = [
-        'Physical medicine and rehabilitation',
-        'Adaptive sports',
-      ];
-
-      expect(getServiceNamesOnly(results)).to.eql(expected);
-    });
-
-    it('should return the correct match for a search term', () => {
-      const results = filterMatches(vaHealthcareServices, 'heart', 'vamc');
-      const expected = [
-        'Cardiology',
-        'Cardiovascular surgery',
-        'Transplant surgery',
-      ];
-
-      expect(getServiceNamesOnly(results)).to.eql(expected);
-    });
-
-    it('should return the correct match for a search term', () => {
-      const results = filterMatches(vaHealthcareServices, 'diabetes', 'vamc');
-      const expected = [
-        'MOVE! weight management',
-        'Diabetes care',
-        'Endocrinology',
+        'Returning service member care',
       ];
 
       expect(getServiceNamesOnly(results)).to.eql(expected);

@@ -23,37 +23,56 @@ export const FACILITY_TYPE_FILTERS = {
  * @param { boolean? } includes
  * @returns { number }
  */
-const termMatcher = (term, hsdatum, index, includes = false) => {
-  if (includes) {
-    return hsdatum[index]?.toLowerCase().includes(term?.toLowerCase()) ? 1 : -1;
-  }
-
-  const returnMatch = hsdatum[index]?.toLowerCase().search(term);
-
-  if (returnMatch === undefined) {
+const termMatcher = (term, hsdatum) => {
+  if (!hsdatum) {
     return -1;
   }
 
-  return returnMatch;
+  console.log('hsdatum: ', hsdatum);
+  const datumArray = hsdatum
+    .replace(/[()]/g, '')
+    .toLowerCase()
+    .split(' ');
+
+  const match = datumArray.find(datum => datum.startsWith(term.toLowerCase()));
+
+  return match?.length ? 1 : -1;
 };
 
 /** function matchHelper
  * @param { string } term
- * @param {[string, string, string[], string, string, boolean, boolean, boolean, boolean, number, string, string]} hsdatum
+ * @param {
+ *  [
+ *   string,   // 0. Name
+ *   string,   // 1. AKA
+ *   string[], // 2. Common conditions
+ *   string,   // 3. API ID
+ *   string,   // 4. Service type of care
+ *   boolean,  // 5. Show for Vet Center
+ *   boolean,  // 6. Show for VBA facilities
+ *   boolean,  // 7. Show for VAMC facilities
+ *   boolean,  // 8. Show for TRICARE
+ *   number,   // 9. Meta CMS field (node count)
+ *   string,   // 10. Description
+ *   string    // 11. TRICARE description
+ *  ]
+ * } hsdatum
  * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
  */
 const matchHelper = (term, hsdatum) => {
-  const safeRegexTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const regexTerm = new RegExp(safeRegexTerm, 'i');
+  // Remove special characters from the search term
+  const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // const regexTerm = new RegExp(safeRegexTerm, 'i');
 
   const returnMatcher = {
-    nameMatch: termMatcher(regexTerm, hsdatum, 0),
-    akaMatch: termMatcher(regexTerm, hsdatum, 1),
-    commonCondMatch: hsdatum[2].findIndex(commonCond =>
-      commonCond.toLowerCase().includes(term.toLowerCase()),
-    ),
-    descriptionMatch: termMatcher(term, hsdatum, 10, true),
-    tricareDescriptionMatch: termMatcher(term, hsdatum, 11, true),
+    nameMatch: termMatcher(safeTerm, hsdatum[0]),
+    akaMatch: termMatcher(safeTerm, hsdatum[1]),
+    commonCondMatch: termMatcher(safeTerm, hsdatum[2]),
+    // commonCondMatch: hsdatum[2].findIndex(commonCond =>
+    //   commonCond.toLowerCase().includes(term.toLowerCase()),
+    // ),
+    descriptionMatch: termMatcher(term, hsdatum[10]),
+    tricareDescriptionMatch: termMatcher(term, hsdatum[11]),
     hsdatum,
   };
 
@@ -93,7 +112,6 @@ export const filterDataByFacilityType = (selectorFiltered, facilityType) => {
   );
 };
 
-// Exported for unit testing
 export const filterMatches = (selector, term, facilityType) => {
   const selectorFiltered = selector.data
     .map(hsdatum => {
@@ -158,11 +176,14 @@ export default function useServiceType() {
    */
   const serviceTypeFilter = useCallback(
     (term, facilityType = '') => {
+      // If the typed term is the hardcoded VAMC "All VA health services" option,
+      // simply return that option
       if (term === allServicesOptionForVamc[0]) {
         return [allServicesOptionForVamc];
       }
 
-      // initial load of services
+      // When the autosuggest component is first loaded, return all services
+      // for that facility type alphabetized
       if (!term?.length && facilityType && selector.data) {
         const filteredServices = filterDataByFacilityType(
           selector.data,
@@ -171,6 +192,7 @@ export default function useServiceType() {
 
         const sortedServices = alphabetizeServices(filteredServices);
 
+        // If the facility type is VAMC, add the "All VA health services" option
         if (
           facilityType === FACILITY_TYPE_FILTERS.VAMC &&
           sortedServices?.length
@@ -181,6 +203,8 @@ export default function useServiceType() {
         return sortedServices;
       }
 
+      // If the user has typed the minimum number of characters,
+      // use the term to filter the matches
       if (selector.data) {
         const matches = filterMatches(selector, term, facilityType);
 
