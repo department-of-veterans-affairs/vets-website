@@ -12,8 +12,28 @@ describe('<ProgressBar />', () => {
 
   beforeEach(() => {
     store = mockStore({
-      askVA: {
-        categoryID: 'testCategory',
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      form: {
+        data: {
+          categoryId: '73524deb-d864-eb11-bb24-000d3a579c45',
+          selectCategory: 'Health care',
+          allowAttachments: false,
+          contactPreferences: ['Email'],
+          selectTopic: 'Audiology and hearing aids',
+          topicId: 'c0da1728-d91f-ed11-b83c-001dd8069009',
+          whoIsYourQuestionAbout: "It's a general question",
+          initialFormData: {
+            categoryId: undefined,
+            selectCategory: undefined,
+            selectTopic: undefined,
+            topicId: undefined,
+            whoIsYourQuestionAbout: undefined,
+          },
+        },
       },
     });
   });
@@ -23,7 +43,7 @@ describe('<ProgressBar />', () => {
   it('should render without crashing', async () => {
     const { getByText } = render(
       <Provider store={store}>
-        <ProgressBar pathname="/category-topic-1" categoryID="testCategory" />
+        <ProgressBar pathname="/category-topic-1" />
       </Provider>,
     );
 
@@ -35,7 +55,7 @@ describe('<ProgressBar />', () => {
   it('should show progress bar for constant path', async () => {
     const { getByText, rerender } = render(
       <Provider store={store}>
-        <ProgressBar pathname="/your-question" categoryID="testCategory" />
+        <ProgressBar pathname="/your-question" />
       </Provider>,
     );
 
@@ -45,7 +65,7 @@ describe('<ProgressBar />', () => {
 
     rerender(
       <Provider store={store}>
-        <ProgressBar pathname="/your-question" categoryID="testCategory" />
+        <ProgressBar pathname="/your-question" />
       </Provider>,
     );
 
@@ -57,10 +77,7 @@ describe('<ProgressBar />', () => {
   it('should show progress bar for flow path', async () => {
     const { getByText, rerender } = render(
       <Provider store={store}>
-        <ProgressBar
-          pathname="/about-myself-relationship-veteran-1"
-          categoryID="testCategory"
-        />
+        <ProgressBar pathname="/about-myself-relationship-veteran-1" />
       </Provider>,
     );
 
@@ -70,10 +87,7 @@ describe('<ProgressBar />', () => {
 
     rerender(
       <Provider store={store}>
-        <ProgressBar
-          pathname="/about-myself-relationship-veteran-1"
-          categoryID="testCategory"
-        />
+        <ProgressBar pathname="/about-myself-relationship-veteran-1" />
       </Provider>,
     );
 
@@ -85,10 +99,7 @@ describe('<ProgressBar />', () => {
   it('should update progress percent based on pathname', async () => {
     const { getByText, rerender } = render(
       <Provider store={store}>
-        <ProgressBar
-          pathname="/who-is-your-question-about"
-          categoryID="testCategory"
-        />
+        <ProgressBar pathname="/category-topic-2" />
       </Provider>,
     );
 
@@ -98,10 +109,7 @@ describe('<ProgressBar />', () => {
 
     rerender(
       <Provider store={store}>
-        <ProgressBar
-          pathname="/reason-you-contacted-us"
-          categoryID="testCategory"
-        />
+        <ProgressBar pathname="/who-is-your-question-about" />
       </Provider>,
     );
 
@@ -111,7 +119,7 @@ describe('<ProgressBar />', () => {
 
     rerender(
       <Provider store={store}>
-        <ProgressBar pathname="/your-question" categoryID="testCategory" />
+        <ProgressBar pathname="/your-question" />
       </Provider>,
     );
 
@@ -121,7 +129,7 @@ describe('<ProgressBar />', () => {
 
     rerender(
       <Provider store={store}>
-        <ProgressBar pathname="/review-then-submit" categoryID="testCategory" />
+        <ProgressBar pathname="/review-then-submit" />
       </Provider>,
     );
 
@@ -132,7 +140,7 @@ describe('<ProgressBar />', () => {
     // start going back
     rerender(
       <Provider store={store}>
-        <ProgressBar pathname="/review-then-submit" categoryID="testCategory" />
+        <ProgressBar pathname="/review-then-submit" />
       </Provider>,
     );
 
@@ -142,7 +150,7 @@ describe('<ProgressBar />', () => {
 
     rerender(
       <Provider store={store}>
-        <ProgressBar pathname="/your-question" categoryID="testCategory" />
+        <ProgressBar pathname="/your-question" />
       </Provider>,
     );
 
@@ -150,12 +158,35 @@ describe('<ProgressBar />', () => {
       expect(getByText('90% complete with form')).to.exist;
     });
 
+    const updatedStore = mockStore({
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      form: {
+        data: {
+          categoryId: '73524deb-d864-eb11-bb24-000d3a579c45',
+          selectCategory: 'Health care',
+          allowAttachments: false,
+          contactPreferences: ['Email'],
+          selectTopic: 'Audiology and hearing aids',
+          topicId: 'c0da1728-d91f-ed11-b83c-001dd8069009',
+          whoIsYourQuestionAbout: 'Myself',
+          initialFormData: {
+            categoryId: undefined,
+            selectCategory: undefined,
+            selectTopic: undefined,
+            topicId: undefined,
+            whoIsYourQuestionAbout: undefined,
+          },
+        },
+      },
+    });
+
     rerender(
-      <Provider store={store}>
-        <ProgressBar
-          pathname="/reason-you-contacted-us"
-          categoryID="testCategory"
-        />
+      <Provider store={updatedStore}>
+        <ProgressBar pathname="/who-is-your-question-about" />
       </Provider>,
     );
 
@@ -163,17 +194,50 @@ describe('<ProgressBar />', () => {
       expect(getByText('10% complete with form')).to.exist;
     });
 
+    const updatedStoreAgain = mockStore({
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      form: {
+        data: {
+          categoryId: '73524deb-d864-eb11-bb24-000d3a579c45',
+          selectCategory: 'Health care',
+          allowAttachments: false,
+          contactPreferences: ['Email'],
+          selectTopic: 'Billing and co-pays',
+          topicId: 'c0da1728-d91f-ed11-b83c-001dd8055555',
+          whoIsYourQuestionAbout: undefined,
+          initialFormData: {
+            categoryId: undefined,
+            selectCategory: undefined,
+            selectTopic: undefined,
+            topicId: undefined,
+            whoIsYourQuestionAbout: undefined,
+          },
+        },
+      },
+    });
+
     rerender(
-      <Provider store={store}>
-        <ProgressBar
-          pathname="/who-is-your-question-about"
-          categoryID="testCategory"
-        />
+      <Provider store={updatedStoreAgain}>
+        <ProgressBar pathname="/category-topic-2" />
       </Provider>,
     );
 
     await waitFor(() => {
       expect(getByText('5% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/review-then-submit" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('98% complete with form')).to.exist;
     });
   });
 });
