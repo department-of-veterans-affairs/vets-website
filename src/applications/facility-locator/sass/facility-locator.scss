@@ -18,6 +18,11 @@ $text-color: rgba(27, 27, 27, 1);
     margin: 0;
   }
 
+  .usa-hint {
+    display: block;
+    color: var(--vads-color-gray-medium);
+  }
+
   .p1 {
     padding: 0.5em 0;
   }
@@ -334,7 +339,7 @@ $text-color: rgba(27, 27, 27, 1);
       flex-basis: 100%;
 
       @media (min-width: $small-desktop-screen) {
-        flex-basis: 50%;
+        flex-basis: 100%;
       }
     }
 
@@ -358,7 +363,7 @@ $text-color: rgba(27, 27, 27, 1);
       margin-top: -24px;
 
       @media (min-width: $small-desktop-screen) {
-        flex-basis: 50%;
+        flex-basis: 100%;
       }
 
       &.facility-error {
@@ -392,11 +397,6 @@ $text-color: rgba(27, 27, 27, 1);
           margin-left: 12px;
         }
       }
-    }
-
-    va-button {
-      margin-top: 0;
-      width: 100%;
     }
 
     #location-input-container {
@@ -535,12 +535,10 @@ $text-color: rgba(27, 27, 27, 1);
   .typeahead-tablet {
     flex-basis: 100%;
 
-    @media (min-width: $small-desktop-screen) {
-      flex-basis: 50%;
-    }
-
     &:has(.usa-input-error) {
-      margin-bottom: 24px;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 0px;
+      }
     }
   }
 }
