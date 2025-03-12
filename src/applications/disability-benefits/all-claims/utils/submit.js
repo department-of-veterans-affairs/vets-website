@@ -417,10 +417,10 @@ export const addForm0781 = formData => {
  * @returns {object} object containing `treatmentMonth` (MM) and `treatmentYear` (YYYY)
  */
 export function extractDateParts(dateString) {
-  const match = dateString?.match(/^(\d{4})-(\d{2})/);
+  const match = dateString?.match(/^(\d{4}|\D+)-(\d{2}|\D+)/);
   return {
-    treatmentMonth: match ? match[2] : '',
-    treatmentYear: match ? match[1] : '',
+    treatmentMonth: match && /^\d{2}$/.test(match[2]) ? match[2] : '',
+    treatmentYear: match && /^\d{4}$/.test(match[1]) ? match[1] : '',
   };
 }
 

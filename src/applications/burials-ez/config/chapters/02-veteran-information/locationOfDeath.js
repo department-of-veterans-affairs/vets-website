@@ -21,108 +21,6 @@ export default {
         },
         labelHeaderLevel: '',
       }),
-      nursingHomeUnpaid: {
-        facilityName: textUI({
-          title: 'Name of the facility or nursing home that VA doesn’t pay for',
-          required: form =>
-            get('locationOfDeath.location', form) === 'nursingHomeUnpaid' &&
-            !form.facilityName,
-          errorMessages: {
-            required:
-              'Enter the name of the facility or nursing home that VA doesn’t pay for',
-          },
-        }),
-        facilityLocation: textUI({
-          title:
-            'City and state of the facility or nursing home that VA doesn’t pay for',
-          required: form =>
-            get('locationOfDeath.location', form) === 'nursingHomeUnpaid' &&
-            !form.facilityLocation,
-          errorMessages: {
-            required:
-              'Enter the city and state of the facility or nursing home that VA doesn’t pay for',
-          },
-        }),
-        'ui:options': {
-          hideIf: form =>
-            get('locationOfDeath.location', form) !== 'nursingHomeUnpaid',
-        },
-      },
-      nursingHomePaid: {
-        facilityName: textUI({
-          title: 'Name of the facility or nursing home that VA pays for',
-          required: form =>
-            get('locationOfDeath.location', form) === 'nursingHomePaid' &&
-            !form.facilityName,
-          errorMessages: {
-            required:
-              'Enter the name of the facility or nursing home that VA pays for',
-          },
-        }),
-        facilityLocation: textUI({
-          title:
-            'City and state of the facility or nursing home that VA pays for',
-          required: form =>
-            get('locationOfDeath.location', form) === 'nursingHomePaid' &&
-            !form.facilityLocation,
-          errorMessages: {
-            required:
-              'Enter the city and state of the facility or nursing home that VA pays for',
-          },
-        }),
-        'ui:options': {
-          hideIf: form =>
-            get('locationOfDeath.location', form) !== 'nursingHomePaid',
-        },
-      },
-      vaMedicalCenter: {
-        facilityName: textUI({
-          title: 'Name of the VA medical center',
-          required: form =>
-            get('locationOfDeath.location', form) === 'vaMedicalCenter' &&
-            !form.facilityName,
-          errorMessages: {
-            required: 'Enter the Name of the VA medical center',
-          },
-        }),
-        facilityLocation: textUI({
-          title: 'City and state of the VA medical center',
-          required: form =>
-            get('locationOfDeath.location', form) === 'vaMedicalCenter' &&
-            !form.facilityLocation,
-          errorMessages: {
-            required: 'Enter the city and state of the VA medical center',
-          },
-        }),
-        'ui:options': {
-          hideIf: form =>
-            get('locationOfDeath.location', form) !== 'vaMedicalCenter',
-        },
-      },
-      stateVeteransHome: {
-        facilityName: textUI({
-          title: 'Name of the state Veterans facility',
-          required: form =>
-            get('locationOfDeath.location', form) === 'stateVeteransHome' &&
-            !form.facilityName,
-          errorMessages: {
-            required: 'Enter the name of the state Veterans facility',
-          },
-        }),
-        facilityLocation: textUI({
-          title: 'City and state of the state Veterans facility',
-          required: form =>
-            get('locationOfDeath.location', form) === 'stateVeteransHome' &&
-            !form.facilityLocation,
-          errorMessages: {
-            required: 'Enter the city and state of the state Veterans facility',
-          },
-        }),
-        'ui:options': {
-          hideIf: form =>
-            get('locationOfDeath.location', form) !== 'stateVeteransHome',
-        },
-      },
       other: {
         ...textUI({
           title: 'Place where the Veteran’s death happened',
@@ -142,7 +40,13 @@ export default {
     type: 'object',
     required: ['locationOfDeath'],
     properties: {
-      locationOfDeath,
+      locationOfDeath: {
+        ...locationOfDeath,
+        properties: {
+          location: locationOfDeath.properties.location,
+          other: locationOfDeath.properties.other,
+        },
+      },
     },
   },
 };
