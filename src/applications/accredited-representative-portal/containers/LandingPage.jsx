@@ -37,7 +37,8 @@ const LandingPage = () => {
               their POA request in the portal.
             </p>
             <p>
-              Note: POA requests need to be submitted using the digital{' '}
+              <strong>Note</strong>: POA requests need to be submitted using the
+              digital{' '}
               <a
                 href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
                 target="_blank"
@@ -57,20 +58,21 @@ const LandingPage = () => {
               (VSO) representatives who accept POA requests on behalf of their
               organizations. In the future, the portal will support accredited
               VSOs, attorneys, and claims agents.
+              <a
+                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Learn more about accredited representatives (opens in a new tab)
+              </a>
             </p>
-            <a
-              href="https://www.va.gov/resources/va-accredited-representative-faqs/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn more about accredited representatives (opens in a new tab)
-            </a>
           </div>
 
           <va-banner
             data-label="Info banner"
             headline="Get early access to the portal for your organization"
             type="info"
+            class="home__banner"
             visible
           >
             <p>
