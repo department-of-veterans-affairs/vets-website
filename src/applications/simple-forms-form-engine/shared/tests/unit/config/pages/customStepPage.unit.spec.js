@@ -83,38 +83,53 @@ describe('customStepPage', () => {
       spy.restore();
     });
 
-    context('when component is a text input', () => {
-      beforeEach(() => {
-        spy = sinon.spy(textInput, 'default');
-      });
+    [
+      {
+        importedFunction: textArea,
+        component: {
+          hint: 'This is optional hint text',
+          id: '172747',
+          label: 'Custom text area',
+          required: false,
+          type: 'digital_form_text_area',
+        },
+      },
+      {
+        importedFunction: textInput,
+        component: {
+          hint: 'This is optional hint text',
+          id: '172748',
+          label: 'Custom text input',
+          required: true,
+          type: 'digital_form_text_input',
+        },
+      },
+    ].forEach(({ importedFunction, component }) => {
+      context(`when component type is ${component.type}`, () => {
+        beforeEach(() => {
+          spy = sinon.spy(importedFunction, 'default');
 
-      it('calls the correct function', () => {
-        customStepPage(normalizedPage);
+          normalizedPage.components = [...normalizedPage.components, component];
+        });
 
-        expect(spy.calledWithMatch(normalizedPage.components[0])).to.eq(true);
+        it('calls the correct function', () => {
+          customStepPage(normalizedPage);
+
+          expect(spy.calledWithMatch(component)).to.eq(true);
+        });
       });
     });
 
-    context('when component is a text area', () => {
-      const component = {
-        hint: 'This is optional hint text',
-        id: '172747',
-        label: 'Custom text area',
-        required: false,
-        type: 'digital_form_text_area',
-      };
+    context('when component is a date component', () => {
+      it('calls the correct function');
+    });
 
-      beforeEach(() => {
-        spy = sinon.spy(textArea, 'default');
+    context('when component is a radio button', () => {
+      it('calls the correct function');
+    });
 
-        normalizedPage.components = [...normalizedPage.components, component];
-      });
-
-      it('calls the correct function', () => {
-        customStepPage(normalizedPage);
-
-        expect(spy.calledWithMatch(component)).to.eq(true);
-      });
+    context('when component is a checkbox', () => {
+      it('calls the correct function');
     });
   });
 });
