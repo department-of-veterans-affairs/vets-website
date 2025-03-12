@@ -64,7 +64,12 @@ export default (state = initialState, action) => {
       };
     }
     case UPDATE_PAGINATION: {
-      return { ...state, page: action.page, startIndex: action.startIndex };
+      return {
+        ...state,
+        page: action.page,
+        startIndex: action.startIndex,
+        fetching: false,
+      };
     }
     default: {
       return { ...state };
