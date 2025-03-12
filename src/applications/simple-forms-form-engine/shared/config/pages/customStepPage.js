@@ -20,7 +20,7 @@ export default ({ components, bodyText, pageTitle }) => {
 
   components.forEach(component => {
     // This assumes every component on a page will have a unique label.
-    const key = `page${component.id}`;
+    const key = `component${component.id}`;
 
     const [componentSchema, componentUiSchema] = selectSchemas(component);
 
