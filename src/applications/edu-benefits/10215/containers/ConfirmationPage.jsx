@@ -114,6 +114,7 @@ export const ConfirmationPage = ({ router, route }) => {
       submitDate={submitDate}
       pdfUrl={submission?.response?.pdfUrl}
     >
+      {/* <ConfirmationView.SavePdfDownload /> */}
       {childContent}
       <ConfirmationView.NeedHelp content={<GetFormHelp />} />
     </ConfirmationView>

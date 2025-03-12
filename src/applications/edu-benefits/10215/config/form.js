@@ -36,7 +36,7 @@ export const arrayBuilderOptions = {
     getItemName: item => item.programName,
     cardDescription: item => {
       const percent = getFTECalcs(item).supportedFTEPercent;
-      return percent ? `${percent} supported student FTE` : 0;
+      return percent ? `${percent} supported student FTE` : null;
     },
     summaryTitle: props =>
       location?.pathname.includes('review-and-submit')
