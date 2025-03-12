@@ -114,6 +114,18 @@ export const selectFeaturePastApptDateRange = state =>
 export const selectFeatureFeSourceOfTruth = state =>
   toggleValues(state).vaOnlineSchedulingFeSourceOfTruth;
 
+export const selectFeatureFeSourceOfTruthVA = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthVA;
+
+export const selectFeatureFeSourceOfTruthCC = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthCC;
+
+export const selectFeatureFeSourceOfTruthModality = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthModality;
+
+export const selectFeatureFeSourceOfTruthTelehealth = state =>
+  toggleValues(state).vaOnlineSchedulingFeSourceOfTruthTelehealth;
+
 export const selectFeatureMhvRouteGuards = state =>
   toggleValues(state).vaOnlineSchedulingMhvRouteGuards;
 
