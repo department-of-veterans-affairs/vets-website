@@ -1,9 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  isAuthenticatedWithOAuth,
-  signInServiceName,
-} from 'platform/user/authentication/selectors';
+import { signInServiceName } from 'platform/user/authentication/selectors';
 import {
   VerifyIdmeButton,
   VerifyLogingovButton,
@@ -13,7 +10,6 @@ export default function Verify() {
   const isAuthenticated = useSelector(
     state => state?.user?.login?.currentlyLoggedIn,
   );
-  const useOAuth = useSelector(isAuthenticatedWithOAuth);
   const loginServiceName = useSelector(signInServiceName); // Get the current credential service provider (e.g., idme or logingov)
 
   let buttonContent;
@@ -22,15 +18,15 @@ export default function Verify() {
     // Use the loginServiceName to determine which VerifyButton to show
     buttonContent =
       loginServiceName === 'idme' ? (
-        <VerifyIdmeButton useOAuth={useOAuth} />
+        <VerifyIdmeButton />
       ) : (
-        <VerifyLogingovButton useOAuth={useOAuth} />
+        <VerifyLogingovButton />
       );
   } else {
     buttonContent = (
       <>
-        <VerifyLogingovButton />
-        <VerifyIdmeButton />
+        <VerifyLogingovButton useOAuth />
+        <VerifyIdmeButton useOAuth />
       </>
     );
   }
