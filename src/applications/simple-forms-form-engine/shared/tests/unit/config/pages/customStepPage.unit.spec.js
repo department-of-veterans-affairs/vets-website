@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as titlePattern from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import * as textArea from 'applications/simple-forms-form-engine/shared/config/components/textArea';
 import * as textInput from 'applications/simple-forms-form-engine/shared/config/components/textInput';
 import customStepPage from 'applications/simple-forms-form-engine/shared/config/pages/customStepPage';
 
@@ -70,21 +71,48 @@ describe('customStepPage', () => {
     expect(required[0]).to.eq('myCustomTextInput');
   });
 
-  context('when component is a text input', () => {
+  describe('schemas', () => {
     let spy;
-
-    beforeEach(() => {
-      spy = sinon.spy(textInput, 'default');
-    });
 
     afterEach(() => {
       spy.restore();
     });
 
-    it('calls the correct function', () => {
-      customStepPage(normalizedPage);
+    context('when component is a text input', () => {
+      beforeEach(() => {
+        spy = sinon.spy(textInput, 'default');
+      });
 
-      expect(spy.calledWithMatch(normalizedPage.components[0])).to.eq(true);
+      it('calls the correct function', () => {
+        customStepPage(normalizedPage);
+
+        expect(spy.calledWithMatch(normalizedPage.components[0])).to.eq(true);
+      });
+    });
+
+    context('when component is a text area', () => {
+      beforeEach(() => {
+        spy = sinon.spy(textArea, 'default');
+
+        normalizedPage.components = [
+          ...normalizedPage.components,
+          {
+            hint: 'This is optional hint text',
+            id: '172747',
+            label: 'Custom text area',
+            required: false,
+            type: 'digital_form_text_area',
+          },
+        ];
+      });
+
+      it('calls the correct function', () => {
+        customStepPage(normalizedPage);
+
+        expect(spy.calledWithMatch(normalizedPage.components.at(-1))).to.eq(
+          true,
+        );
+      });
     });
   });
 });

@@ -1,6 +1,15 @@
 import { camelCase, kebabCase } from 'lodash';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
-import textInput from '../components/textInput';
+import { textArea, textInput } from '../components';
+
+/** @returns {[SchemaOptions, UISchemaOptions]} */
+const selectSchemas = component => {
+  if (component.type === 'digital_form_text_area') {
+    return textArea(component);
+  }
+
+  return textInput(component);
+};
 
 /** @returns {PageSchema} */
 export default ({ components, bodyText, pageTitle }) => {
@@ -13,9 +22,7 @@ export default ({ components, bodyText, pageTitle }) => {
     // This assumes every component on a page will have a unique label.
     const key = camelCase(component.label);
 
-    // This will eventually become a switch statement or its own function as
-    // more components get added.
-    const [componentSchema, componentUiSchema] = textInput(component);
+    const [componentSchema, componentUiSchema] = selectSchemas(component);
 
     schema.properties[key] = componentSchema;
     uiSchema[key] = componentUiSchema;
