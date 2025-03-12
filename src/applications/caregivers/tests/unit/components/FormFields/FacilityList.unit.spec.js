@@ -3,7 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import content from '../../../../locales/en/content.json';
-import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
+import { mockFetchFacilitiesResponse } from '../../../mocks/fetchFacility';
 import FacilityList from '../../../../components/FormFields/FacilityList';
 
 describe('CG <FacilityList>', () => {

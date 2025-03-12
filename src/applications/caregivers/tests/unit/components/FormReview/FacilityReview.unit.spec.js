@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
+import { mockFetchFacilitiesResponse } from '../../../mocks/fetchFacility';
 import FacilityReview from '../../../../components/FormReview/FacilityReview';
 
 describe('CG <FacilityReview>', () => {
