@@ -1080,7 +1080,7 @@ const ReviewPage = props => {
                   hasUnviewedPages={chapter.hasUnviewedPages}
                 />
                 {props.formData.allowAttachments &&
-                  props.loggedIn && (
+                  props.isUserLOA3 && (
                     <div
                       className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
                       aria-hidden="false"
