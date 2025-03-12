@@ -35,7 +35,6 @@ import {
   updateSearchQuery,
 } from '../actions';
 import {
-  facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
   facilityLocatorMobileMapUpdate,
   facilityLocatorAutosuggestVAMCServices,
@@ -462,9 +461,6 @@ const FacilitiesMap = props => {
             ) : null}
             <SearchForm
               currentQuery={currentQuery}
-              facilitiesUseAddressTypeahead={
-                props.facilitiesUseAddressTypeahead
-              }
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
@@ -881,7 +877,6 @@ const FacilitiesMap = props => {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
-  facilitiesUseAddressTypeahead: facilitiesUseAddressTypeahead(state),
   mobileMapPinSelected: state.searchResult.mobileMapPinSelected,
   mobileMapUpdateEnabled: facilityLocatorMobileMapUpdate(state),
   pagination: state.searchResult.pagination,
