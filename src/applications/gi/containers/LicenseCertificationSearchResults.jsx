@@ -14,6 +14,7 @@ import {
   showMultipleNames,
   createCheckboxes,
   updateStateDropdown,
+  handleZoom,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
 
@@ -143,6 +144,20 @@ export default function LicenseCertificationSearchResults() {
     },
     [pageParam],
   );
+
+  useEffect(() => {
+    window.addEventListener('resize', handleZoom);
+    window.addEventListener('load', handleZoom);
+    window.addEventListener('zoom', handleZoom);
+    window.visualViewport?.addEventListener('resize', handleZoom);
+
+    return () => {
+      window.removeEventListener('resize', handleZoom);
+      window.removeEventListener('load', handleZoom);
+      window.removeEventListener('zoom', handleZoom);
+      window.visualViewport?.removeEventListener('resize', handleZoom);
+    };
+  }, []);
 
   const handleSearch = (categoryNames, name, state) => {
     const newParams = {
