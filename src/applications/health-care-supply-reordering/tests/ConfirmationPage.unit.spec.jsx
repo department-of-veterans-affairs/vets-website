@@ -6,11 +6,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 describe('ConfirmationPage', () => {
   const fakeStore = {
     getState: () => ({
-      featureToggles: {
-        loading: false,
-        // eslint-disable-next-line camelcase
-        supply_reordering_sleep_apnea_enabled: true,
-      },
       form: {
         data: {
           permanentAddress: {
@@ -102,11 +97,6 @@ describe('ConfirmationPage', () => {
   };
   const fakeStoreNoApenaToggle = {
     getState: () => ({
-      featureToggles: {
-        loading: false,
-        // eslint-disable-next-line camelcase
-        supply_reordering_sleep_apnea_enabled: false,
-      },
       form: {
         data: {
           permanentAddress: {
@@ -198,11 +188,6 @@ describe('ConfirmationPage', () => {
   };
   const fakeStoreNoSelections = {
     getState: () => ({
-      featureToggles: {
-        loading: false,
-        // eslint-disable-next-line camelcase
-        supply_reordering_sleep_apnea_enabled: true,
-      },
       form: {
         data: {
           permanentAddress: {
@@ -292,11 +277,6 @@ describe('ConfirmationPage', () => {
   };
   const fakeStorePtSubmittedOrder = {
     getState: () => ({
-      featureToggles: {
-        loading: false,
-        // eslint-disable-next-line camelcase
-        supply_reordering_sleep_apnea_enabled: true,
-      },
       form: {
         data: {
           permanentAddress: {
@@ -393,11 +373,6 @@ describe('ConfirmationPage', () => {
   };
   const fakeStoreServerError = {
     getState: () => ({
-      featureToggles: {
-        loading: false,
-        // eslint-disable-next-line camelcase
-        supply_reordering_sleep_apnea_enabled: true,
-      },
       form: {
         data: {
           permanentAddress: {
@@ -548,9 +523,6 @@ describe('ConfirmationPage', () => {
       <ConfirmationPage store={fakeStoreNoApenaToggle} />,
     );
     const vaAlert = confirmationPage.find('va-alert').last();
-    expect(vaAlert.find('h4').text()).to.equal(
-      'Request for hearing aid batteries and accessories',
-    );
     expect(
       vaAlert
         .find('li')
