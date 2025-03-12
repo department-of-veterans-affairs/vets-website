@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
 
 const AlertUnregistered = ({ headline, recordEvent, testId }) => {
   useEffect(
@@ -13,6 +14,7 @@ const AlertUnregistered = ({ headline, recordEvent, testId }) => {
         'alert-box-headline': headline,
         'alert-box-status': 'warning',
       });
+      datadogRum.addAction('Showed Alert Box: Unregistered');
     },
     [headline, recordEvent],
   );
