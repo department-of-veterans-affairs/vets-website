@@ -7,6 +7,10 @@ import {
   getPageKeysForReview,
   removeDuplicatesByChapterAndPageKey,
 } from '../../utils/reviewPageHelper';
+import {
+  getSchoolString,
+  getYesOrNoFromBool,
+} from '../../utils/reviewPageUtils';
 
 // Create sandbox for sinon stubs
 const sandbox = sinon.createSandbox();
@@ -14,37 +18,6 @@ const sandbox = sinon.createSandbox();
 // Mock platform helpers
 sandbox.stub(platformHelpers, 'getActiveExpandedPages').returns([]);
 sandbox.stub(platformSelectors, 'getViewedPages').returns(new Set());
-
-// Helper function for date formatting
-const formatDate = (date, format) => {
-  const d = new Date(date);
-  if (format === 'long') {
-    return d.toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    });
-  }
-  return date;
-};
-
-const convertDate = dob => {
-  if (dob) {
-    const bDay = dob.split('-');
-    const date = `${bDay[1]}/${bDay[2]}/${bDay[0]}`;
-    return formatDate(date, 'long');
-  }
-  return null;
-};
-
-// Helper function for masking SSN
-const maskSocial = ssn => {
-  if (!ssn) return null;
-  // Remove any non-numeric characters
-  const cleanSSN = ssn.replace(/\D/g, '');
-  if (cleanSSN.length !== 9) return null;
-  return `•••-••-${cleanSSN.slice(-4)}`;
-};
 
 describe('Helper Functions', () => {
   describe('getFileSize', () => {
@@ -72,42 +45,29 @@ describe('Helper Functions', () => {
   });
 
   describe('removeDuplicatesByChapterAndPageKey', () => {
-    it('should remove duplicates based on chapter and page keys', () => {
+    it('should remove duplicates based on chapter and page key', () => {
       const input = [
-        { chapterKey: 'ch1', pageKey: 'page1', data: 'first' },
-        { chapterKey: 'ch1', pageKey: 'page2', data: 'second' },
-        { chapterKey: 'ch1', pageKey: 'page1', data: 'duplicate' },
-        { chapterKey: 'ch2', pageKey: 'page1', data: 'different chapter' },
+        { chapter: 'ch1', pageKey: 'page1' },
+        { chapter: 'ch1', pageKey: 'page1' },
+        { chapter: 'ch2', pageKey: 'page2' },
       ];
-
       const result = removeDuplicatesByChapterAndPageKey(input);
-      expect(result).to.have.lengthOf(3);
-      expect(result[0]).to.deep.equal({
-        chapterKey: 'ch1',
-        pageKey: 'page1',
-        data: 'first',
-      });
-      expect(result[1]).to.deep.equal({
-        chapterKey: 'ch1',
-        pageKey: 'page2',
-        data: 'second',
-      });
-      expect(result[2]).to.deep.equal({
-        chapterKey: 'ch2',
-        pageKey: 'page1',
-        data: 'different chapter',
-      });
+      expect(result).to.have.lengthOf(2);
+      expect(result).to.deep.equal([
+        { chapter: 'ch1', pageKey: 'page1' },
+        { chapter: 'ch2', pageKey: 'page2' },
+      ]);
     });
 
-    it('should handle empty array', () => {
+    it('should handle empty input', () => {
       const result = removeDuplicatesByChapterAndPageKey([]);
-      expect(result).to.be.an('array').that.is.empty;
+      expect(result).to.have.lengthOf(0);
     });
 
-    it('should handle array with no duplicates', () => {
+    it('should handle input with no duplicates', () => {
       const input = [
-        { chapterKey: 'ch1', pageKey: 'page1' },
-        { chapterKey: 'ch2', pageKey: 'page2' },
+        { chapter: 'ch1', pageKey: 'page1' },
+        { chapter: 'ch2', pageKey: 'page2' },
       ];
       const result = removeDuplicatesByChapterAndPageKey(input);
       expect(result).to.have.lengthOf(2);
@@ -161,56 +121,38 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('Date Formatting', () => {
-    it('should convert YYYY-MM-DD to long date format', () => {
-      expect(convertDate('2024-03-11')).to.equal('March 11, 2024');
+  describe('getYesOrNoFromBool', () => {
+    it('should return "Yes" for true', () => {
+      expect(getYesOrNoFromBool(true)).to.equal('Yes');
     });
 
-    it('should handle single digit month and day', () => {
-      expect(convertDate('2024-01-05')).to.equal('January 5, 2024');
-    });
-
-    it('should handle last day of month', () => {
-      expect(convertDate('2024-12-31')).to.equal('December 31, 2024');
-    });
-
-    it('should handle leap year date', () => {
-      expect(convertDate('2024-02-29')).to.equal('February 29, 2024');
-    });
-
-    it('should return null for invalid input', () => {
-      expect(convertDate('')).to.be.null;
-      expect(convertDate(null)).to.be.null;
-      expect(convertDate(undefined)).to.be.null;
+    it('should return "No" for false', () => {
+      expect(getYesOrNoFromBool(false)).to.equal('No');
     });
   });
 
-  describe('SSN Masking', () => {
-    it('should mask SSN showing only last 4 digits', () => {
-      expect(maskSocial('123456789')).to.equal('•••-••-6789');
+  describe('getSchoolString', () => {
+    it('should combine school code and name', () => {
+      const schoolCode = '12345';
+      const schoolName = 'Test University';
+      expect(getSchoolString(schoolCode, schoolName)).to.equal(
+        '12345 - Test University',
+      );
     });
 
-    it('should handle SSN with dashes', () => {
-      expect(maskSocial('123-45-6789')).to.equal('•••-••-6789');
+    it('should return null if school name is missing', () => {
+      const schoolCode = '12345';
+      expect(getSchoolString(schoolCode)).to.be.null;
     });
 
-    it('should handle SSN with spaces', () => {
-      expect(maskSocial('123 45 6789')).to.equal('•••-••-6789');
+    it('should return null if school code is missing', () => {
+      const schoolName = 'Test University';
+      expect(getSchoolString(undefined, schoolName)).to.be.null;
     });
 
-    it('should return null for invalid SSN length', () => {
-      expect(maskSocial('12345')).to.be.null;
-      expect(maskSocial('1234567890')).to.be.null;
-    });
-
-    it('should return null for non-numeric SSN', () => {
-      expect(maskSocial('abc-de-fghi')).to.be.null;
-    });
-
-    it('should return null for invalid input', () => {
-      expect(maskSocial('')).to.be.null;
-      expect(maskSocial(null)).to.be.null;
-      expect(maskSocial(undefined)).to.be.null;
+    it('should return null if either value is null', () => {
+      expect(getSchoolString('12345', null)).to.be.null;
+      expect(getSchoolString(null, 'Test University')).to.be.null;
     });
   });
 
