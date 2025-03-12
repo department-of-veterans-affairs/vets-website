@@ -463,7 +463,16 @@ export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
 export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
   va: 'VA or military treatment providers',
   nonVa: 'Non-VA treatment providers or Vet Centers',
-  none: 'None',
+  none: 'No treatment providers to include',
+});
+
+export const TREATMENT_RECEIVED_HINTS = Object.freeze({
+  va:
+    'Select any VA or military medical provider types where you received treatment for traumatic events.',
+  nonVa:
+    'Select any Non-VA provider types where you received treatment for traumatic events.',
+  none:
+    'Select this option if you didn’t seek treatment for traumatic events with any provider, or prefer not to report them.',
 });
 
 export const TREATMENT_RECEIVED_VA = Object.freeze({
