@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Toggler } from '~/platform/utilities/feature-toggles';
 import PropTypes from 'prop-types';
 
-export function NeedHelp({ documentRequestPage, item }) {
+export function NeedHelp({ item }) {
   const alias =
     item && item.supportAliases
       ? item.supportAliases.map((name, index) => {
@@ -33,7 +33,7 @@ export function NeedHelp({ documentRequestPage, item }) {
               Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
               hearing loss, <va-telephone contact="711" tty="true" />.
             </p>
-            {documentRequestPage && (
+            {!!item && (
               <p>
                 The VA benefits hotline may refer to the “{item.friendlyName}”
                 request as {alias}.
@@ -54,7 +54,6 @@ export function NeedHelp({ documentRequestPage, item }) {
 }
 
 NeedHelp.propTypes = {
-  documentRequestPage: PropTypes.bool,
   item: PropTypes.object,
 };
 export default NeedHelp;

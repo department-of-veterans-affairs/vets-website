@@ -28,7 +28,7 @@ describe('<NeedHelp>', () => {
     expect($$('va-telephone', container).length).to.equal(2);
   });
   context('when cstFriendlyEvidenceRequests is true', () => {
-    it('should redner updated UI', () => {
+    it('should render updated UI', () => {
       const item = {
         closedDate: null,
         description: '21-4142 text',
@@ -49,13 +49,26 @@ describe('<NeedHelp>', () => {
       };
       const { container } = render(
         <Provider store={getStore()}>
-          <NeedHelp item={item} documentRequestPage />
+          <NeedHelp item={item} />
         </Provider>,
       );
       expect($('va-need-help', container)).to.exist;
       expect($$('va-telephone', container).length).to.equal(2);
       const alias = container.querySelector('.vads-u-font-weight--bold');
       expect(alias.textContent).to.include('VA Form 21-4142');
+    });
+    it('should render aliases with commas and "or" correctly', () => {
+      const item = {
+        supportAliases: ['Alias1', 'Alias2', 'Alias3', 'Alias4'],
+      };
+
+      const { queryAllByText } = render(
+        <Provider store={getStore()}>
+          <NeedHelp item={item} />
+        </Provider>,
+      );
+
+      expect(queryAllByText('"Alias1", "Alias2", "Alias3" or "Alias4"'));
     });
   });
 });

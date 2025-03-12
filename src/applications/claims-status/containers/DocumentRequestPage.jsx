@@ -172,7 +172,7 @@ class DocumentRequestPage extends React.Component {
         </>
       );
 
-      needHelpSection = <NeedHelp documentRequestPage item={trackedItem} />;
+      needHelpSection = <NeedHelp item={trackedItem} />;
     }
 
     const { claim, params, trackedItem } = this.props;
