@@ -145,7 +145,7 @@ const DownloadDateRange = () => {
             error={selectionError}
             ref={dateInputRef}
           >
-            <option value="any">Any</option>
+            <option value="any">All time</option>
             <option value={3}>Last 3 months</option>
             <option value={6}>Last 6 months</option>
             <option value={12}>Last 12 months</option>
