@@ -11,6 +11,6 @@ describe('Medications List Page Renew Rx Link', () => {
     cy.injectAxe();
     cy.axeCheck('main');
     listPage.verifyLearnHowToRenewPrescriptionsLinkExists();
-    listPage.clickLearnHowToRenewPrescriptionsLink();
+    listPage.verifyLearnHowToRenewPrescriptionsLink();
   });
 });
