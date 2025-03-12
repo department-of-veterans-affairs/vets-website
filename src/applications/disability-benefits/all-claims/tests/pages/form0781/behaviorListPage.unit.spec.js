@@ -108,7 +108,7 @@ describe('validating selections', () => {
       healthBehaviors: { addError: sinon.spy() },
       otherBehaviors: { addError: sinon.spy() },
     };
-    it('should show alert and add errors when none and behaviors are selected', () => {
+    it('should add error to the none checkbox when none and behaviors are selected', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
@@ -124,9 +124,9 @@ describe('validating selections', () => {
       validateBehaviorSelections(errors, formData);
 
       // errors
-      expect(errors.workBehaviors.addError.called).to.be.true;
+      expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
-      expect(errors.otherBehaviors.addError.called).to.be.true;
+      expect(errors.otherBehaviors.addError.called).to.be.false;
       expect(errors['view:noneCheckbox'].addError.called).to.be.true;
 
       // alert

@@ -173,20 +173,10 @@ export function showConflictingAlert(formData) {
 
 export function validateBehaviorSelections(errors, formData) {
   const isConflicting = showConflictingAlert(formData);
-  const selections = selectedBehaviorSections(formData);
 
-  // add error with no message to each checked section
+  // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
     errors['view:noneCheckbox'].addError(' ');
-    if (selections.workBehaviors === true) {
-      errors.workBehaviors.addError(' ');
-    }
-    if (selections.healthBehaviors === true) {
-      errors.healthBehaviors.addError(' ');
-    }
-    if (selections.otherBehaviors === true) {
-      errors.otherBehaviors.addError(' ');
-    }
   }
 }
 

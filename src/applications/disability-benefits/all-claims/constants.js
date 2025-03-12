@@ -457,7 +457,7 @@ export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
   health: 'Behavioral changes related to health',
   other: 'Other behavioral changes',
   unlisted: 'Other behavioral changes not listed here:',
-  none: 'None',
+  none: 'No behavioral changes to include',
 });
 
 export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
@@ -551,4 +551,15 @@ export const SUPPORTING_EVIDENCE_WITNESS = Object.freeze({
 
 export const SUPPORTING_EVIDENCE_OTHER = Object.freeze({
   personal: 'Personal diaries or journals',
+});
+
+export const BEHAVIOR_LIST_HINTS = Object.freeze({
+  work:
+    'Select any work related behavioral changes you experienced after your traumatic events.',
+  health:
+    'Select any health related behavioral changes you experienced after your traumatic events.',
+  other:
+    'Select any other types of behavioral changes you experienced after your traumatic events.',
+  none:
+    'Select this option if you didn’t experience any behavioral changes after your traumatic events, or prefer not to report them.',
 });
