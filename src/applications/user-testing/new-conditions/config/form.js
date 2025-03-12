@@ -7,11 +7,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
 import chooseDemo from '../pages/chooseDemo';
 import conditionByConditionPages from '../pages/conditionByConditionPages';
-import conditionsFirstPages from '../pages/conditionsFirstPages';
-import followUpCause from '../pages/followUpCause';
-import followUpCauseDescription from '../pages/followUpCauseDescription';
-import followUpDate from '../pages/followUpDate';
-import followUpIntro from '../pages/followUpIntro';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -20,7 +15,7 @@ const formConfig = {
   submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: 'new-conditions',
+  trackingPrefix: 'conditions',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   footerContent: FormFooter,
@@ -50,16 +45,11 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   defaultDefinitions: {},
   chapters: {
-    newConditionsChapter: {
+    conditionsChapter: {
       title: 'Conditions',
       pages: {
         chooseDemo,
         ...conditionByConditionPages,
-        ...conditionsFirstPages,
-        followUpIntro,
-        followUpDate,
-        followUpCause,
-        followUpCauseDescription,
       },
     },
   },
