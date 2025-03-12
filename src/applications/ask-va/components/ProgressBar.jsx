@@ -36,6 +36,7 @@ const formPages = [
 
 const getFormDataKeys = (flowList, pagePath) => {
   // Keys for custom pages with no schema properties and/or not in flowPaths list
+  if (pagePath === CHAPTER_1.PAGE_1.PATH) return 'selectCategory';
   if (pagePath === CHAPTER_1.PAGE_2.PATH) return 'selectTopic';
   if (pagePath === CHAPTER_1.PAGE_3.PATH) return 'selectSubtopic';
   if (pagePath === CHAPTER_2.PAGE_1.PATH) return 'whoIsYourQuestionAbout';
@@ -73,6 +74,7 @@ const findFlowPages = flows => {
 const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
   const [percent, setPercent] = useState(0);
   const [viewedPages, setViewedPages] = useState([]);
+  const [invalidPages, setInvalidPages] = useState([]);
   const [pagePercent, setPagePercent] = useState({});
   const [formCopy, setFormCopy] = useState({});
   const currentPath = pathname.replace('/', '');
@@ -92,6 +94,9 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
     currentPath === 'category-requires-sign-in' ||
     currentPath === 'topic-requires-sign-in' ||
     currentPath === 'your-question-requires-sign-in';
+
+  const removeViewedFromInvalidPages = (invalid, viewed) =>
+    invalid.filter(page => !viewed.includes(page));
 
   const buildReplacementObj = keys => {
     const replaceWith = {};
@@ -150,6 +155,31 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
           setPercent(pagePercent[currentPath]);
         if (onReviewPage) setPercent(pagePercent[currentPath]);
       }
+
+      if (onReviewPage && invalidPages.length > 0) {
+        const invalidKeys = invalidPages
+          .filter(path => path !== 'review-then-submit')
+          .map(pagePath => getFormDataKeys(flowPaths, pagePath))
+          .flat();
+
+        const questionKeys = viewedPages
+          .filter(
+            path =>
+              path !== 'review-then-submit' &&
+              path !== 'your-personal-information',
+          )
+          .map(pagePath => getFormDataKeys(flowPaths, pagePath))
+          .flat();
+
+        const filteredInvalid = removeViewedFromInvalidPages(
+          invalidKeys,
+          questionKeys,
+        );
+        const clearWith = buildReplacementObj(filteredInvalid);
+
+        if (Object.keys(clearWith).length)
+          setFormData({ ...formData, ...clearWith });
+      }
     },
     [currentPath],
   );
@@ -163,14 +193,7 @@ const ProgressBar = ({ pathname, formData, setFormData, emptyFormData }) => {
       ) {
         const nextPageIndex = viewedPages.indexOf(currentPath) + 1;
         const viewedPagesToClearData = viewedPages.slice(nextPageIndex);
-        const questionKeys = viewedPagesToClearData
-          .filter(path => path !== 'review-then-submit')
-          .map(pagePath => getFormDataKeys(flowPaths, pagePath))
-          .flat();
-        const clearWith = buildReplacementObj(questionKeys);
-
-        if (Object.keys(clearWith).length)
-          setFormData({ ...formData, ...clearWith });
+        setInvalidPages([...invalidPages, ...viewedPagesToClearData]);
 
         const resetViewedPagesToCurrentPath = viewedPages.slice(
           0,

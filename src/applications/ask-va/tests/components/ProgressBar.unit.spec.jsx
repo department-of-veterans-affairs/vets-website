@@ -158,8 +158,34 @@ describe('<ProgressBar />', () => {
       expect(getByText('90% complete with form')).to.exist;
     });
 
+    const updatedStore = mockStore({
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      form: {
+        data: {
+          categoryId: '73524deb-d864-eb11-bb24-000d3a579c45',
+          selectCategory: 'Health care',
+          allowAttachments: false,
+          contactPreferences: ['Email'],
+          selectTopic: 'Audiology and hearing aids',
+          topicId: 'c0da1728-d91f-ed11-b83c-001dd8069009',
+          whoIsYourQuestionAbout: 'Myself',
+          initialFormData: {
+            categoryId: undefined,
+            selectCategory: undefined,
+            selectTopic: undefined,
+            topicId: undefined,
+            whoIsYourQuestionAbout: undefined,
+          },
+        },
+      },
+    });
+
     rerender(
-      <Provider store={store}>
+      <Provider store={updatedStore}>
         <ProgressBar pathname="/who-is-your-question-about" />
       </Provider>,
     );
@@ -168,7 +194,7 @@ describe('<ProgressBar />', () => {
       expect(getByText('10% complete with form')).to.exist;
     });
 
-    const updatedStore = mockStore({
+    const updatedStoreAgain = mockStore({
       user: {
         login: {
           currentlyLoggedIn: true,
@@ -195,13 +221,23 @@ describe('<ProgressBar />', () => {
     });
 
     rerender(
-      <Provider store={updatedStore}>
+      <Provider store={updatedStoreAgain}>
         <ProgressBar pathname="/category-topic-2" />
       </Provider>,
     );
 
     await waitFor(() => {
       expect(getByText('5% complete with form')).to.exist;
+    });
+
+    rerender(
+      <Provider store={store}>
+        <ProgressBar pathname="/review-then-submit" />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(getByText('98% complete with form')).to.exist;
     });
   });
 });
