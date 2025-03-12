@@ -189,7 +189,6 @@ const IntroductionPage = ({ route }) => {
         messages={route.formConfig.savedFormMessages}
         formConfig={route.formConfig}
         pageList={route.pageList}
-        downtime={route.formConfig.downtime}
         startText="Start your 35% exemption request"
         headingLevel={2}
       />

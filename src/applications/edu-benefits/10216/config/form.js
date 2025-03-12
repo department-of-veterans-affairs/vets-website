@@ -88,6 +88,10 @@ const formConfig = {
           title: 'Tell us about yourself',
           uiSchema: certifyingOfficial.uiSchema,
           schema: certifyingOfficial.schema,
+          onNavForward: ({ goPath }) => {
+            goPath('/institution-details-1');
+            localStorage.removeItem('10216claimID');
+          },
         },
         institutionDetails: {
           path: 'institution-details-1',
