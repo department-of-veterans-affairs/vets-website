@@ -85,11 +85,11 @@ describe('GI Bill Comparison Tool - Programs List', () => {
   it('paginates correctly when there are more than 20 programs', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('va-pagination').should('exist');
-    cy.get('#results-summary').should('contain', 'Showing 1-20');
+    cy.get('#results-summary').should('contain', 'Showing 1 - 20');
     cy.get('va-pagination')
       .shadow()
       .find('[aria-label="Next page"]')
       .click();
-    cy.get('#results-summary').should('contain', 'Showing 21-');
+    cy.get('#results-summary').should('contain', 'Showing 21 -');
   });
 });
