@@ -104,6 +104,10 @@ const formConfig = {
           title: 'Tell us about yourself',
           uiSchema: institutionOfficial.uiSchema,
           schema: institutionOfficial.schema,
+          onNavForward: ({ goPath }) => {
+            goPath('/institution-details-1');
+            localStorage.removeItem('10215ClaimId');
+          },
         },
         institutionDetails: {
           path: 'institution-details-1',
