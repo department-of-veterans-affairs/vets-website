@@ -12,14 +12,23 @@ export const fetchMapBoxGeocoding = async (query, client = null) => {
     };
   }
 
+  const MAPBOX_QUERY_TYPES = [
+    'place',
+    'region',
+    'postcode',
+    'locality',
+    'country',
+    'neighborhood',
+  ];
+
   const fetchClient = client || mbxGeo(mapboxClient);
 
   return fetchClient
     .forwardGeocode({
-      // Pulled from 'src/applications/facility-locator/constants/index.js'
-      countries: ['us', 'pr', 'ph', 'gu', 'as', 'mp'],
-      // Pulled from 'src/applications/facility-locator/constants/index.js'
-      types: ['place', 'region', 'postcode', 'locality'],
+      // We intentionally exclude 'ph' because caregiver support services
+      // are only available in the U.S. and its territories.
+      countries: ['us', 'pr', 'gu', 'as', 'mp', 'vi'],
+      types: MAPBOX_QUERY_TYPES,
       autocomplete: false,
       query,
     })

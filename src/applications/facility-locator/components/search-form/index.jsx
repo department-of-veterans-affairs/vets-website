@@ -11,7 +11,6 @@ import {
   geolocateUser,
   getProviderSpecialties,
 } from '../../actions';
-import { facilityLocatorAutosuggestVAMCServices } from '../../utils/featureFlagSelectors';
 import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
@@ -256,7 +255,7 @@ export const SearchForm = props => {
         uswds
         modalTitle={
           currentQuery.geocodeError === 1
-            ? 'We need to use your location'
+            ? `Your device's location sharing is off.`
             : "We couldn't locate you"
         }
         onCloseEvent={() => props.clearGeocodeError()}
@@ -265,7 +264,7 @@ export const SearchForm = props => {
       >
         <p>
           {currentQuery.geocodeError === 1
-            ? 'Please enable location sharing in your browser to use this feature.'
+            ? 'To use your location when searching for a VA facility, go to the settings on your device and update sharing permissions.'
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
@@ -292,7 +291,7 @@ export const SearchForm = props => {
               id="facility-search"
               submit="prevent"
               text="Search"
-              class="vads-u-width--full"
+              full-width
             />
           </>
         ) : (
@@ -308,10 +307,6 @@ export const SearchForm = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
-});
-
 const mapDispatchToProps = {
   clearGeocodeError,
   clearSearchText,
@@ -322,6 +317,6 @@ const mapDispatchToProps = {
 SearchForm.propTypes = SearchFormTypes;
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(SearchForm);

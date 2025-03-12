@@ -2,14 +2,15 @@ import moment from 'moment-timezone';
 import prescriptions from '../fixtures/listOfPrescriptions.json';
 import allergies from '../fixtures/allergies.json';
 import allergiesList from '../fixtures/allergies-list.json';
-
+import tooltip from '../fixtures/tooltip-for-filtering-list-page.json';
 import activeRxRefills from '../fixtures/active-prescriptions-with-refills.json';
-
+import { Paths } from '../utils/constants';
 import nonVARx from '../fixtures/non-VA-prescription-on-list-page.json';
 import prescription from '../fixtures/prescription-details.json';
 import prescriptionFillDate from '../fixtures/prescription-dispensed-datails.json';
 import { medicationsUrls } from '../../../util/constants';
-import { Paths } from '../utils/constants';
+import tooltipVisible from '../fixtures/tooltip-visible-list-page.json';
+import noToolTip from '../fixtures/tooltip-not-visible-list-page.json';
 
 class MedicationsListPage {
   clickGotoMedicationsLink = (waitForMeds = false) => {
@@ -803,7 +804,11 @@ class MedicationsListPage {
       '/my_health/v1/medical_records/allergies',
       allergies,
     ).as('allergies');
+    cy.intercept('GET', '/my_health/v1/tooltips', tooltip).as('tooltips');
     cy.intercept('GET', `${Paths.MED_LIST}`, medication).as('Medications');
+    cy.intercept('POST', '/my_health/v1/tooltips', tooltipVisible).as(
+      'tooltipsVisible',
+    );
     cy.visit(medicationsUrls.MEDICATIONS_URL);
   };
 
@@ -913,6 +918,41 @@ class MedicationsListPage {
 
   verifyTitleNotesOnListPage = text => {
     cy.get('[data-testid="Title-Notes"]').should('contain', text);
+  };
+
+  verifyToolTipTextOnListPage = text => {
+    cy.get('[data-testid="rx-ipe-filtering-container"]')
+      .should('contain', text)
+      .and('be.visible');
+  };
+
+  clickToolTipCloseButtonOnListPage = () => {
+    cy.intercept(
+      'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
+      noToolTip,
+    ).as('noToolTip');
+    cy.get('[data-testid="rx-ipe-filtering-close"]').click({ force: true });
+  };
+
+  verifyToolTipNotVisibleOnListPage = () => {
+    cy.get('[data-testid="rx-ipe-filtering-stop-showing-this-hint"]').should(
+      'not.exist',
+    );
+  };
+
+  clickStopShowingThisHintLinkOnListPage = () => {
+    cy.intercept(
+      'PATCH',
+      'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
+      noToolTip,
+    ).as('noToolTip');
+    cy.get('[data-testid="rx-ipe-filtering-stop-showing-this-hint"]').click({
+      force: true,
+    });
+  };
+
+  verifyFilterAccordionDropDownIsFocused = () => {
+    cy.get('[data-testid="rx-filter"]').should('have.focus');
   };
 }
 
