@@ -60,8 +60,8 @@ FilterControls.propTypes = {
     label: PropTypes.string.isRequired,
     options: PropTypes.arrayOf(
       PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
+        optionValue: PropTypes.string.isRequired,
+        optionLabel: PropTypes.string.isRequired,
       }),
     ).isRequired,
   }).isRequired,
