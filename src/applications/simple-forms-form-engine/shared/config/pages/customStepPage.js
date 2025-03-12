@@ -1,4 +1,4 @@
-import { camelCase, kebabCase } from 'lodash';
+import { kebabCase } from 'lodash';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { textArea, textInput } from '../components';
 
@@ -20,7 +20,7 @@ export default ({ components, bodyText, pageTitle }) => {
 
   components.forEach(component => {
     // This assumes every component on a page will have a unique label.
-    const key = camelCase(component.label);
+    const key = component.id;
 
     const [componentSchema, componentUiSchema] = selectSchemas(component);
 

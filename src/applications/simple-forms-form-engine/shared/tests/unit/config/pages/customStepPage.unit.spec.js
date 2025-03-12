@@ -11,12 +11,14 @@ describe('customStepPage', () => {
     components: [
       {
         hint: 'This is optional hint text',
+        id: '12345',
         label: 'My custom text input',
         required: true,
         type: 'digital_form_text_input',
       },
       {
         hint: 'This text input is not required',
+        id: '54321',
         label: 'An optional text input',
         required: false,
         type: 'digital_form_text_input',
@@ -51,7 +53,10 @@ describe('customStepPage', () => {
     ).to.eq(true);
   });
 
-  it('creates a schema and uiSchema key for every component', () => {
+  it('uses IDs for schema and uiSchema keys', () => {
+    const componentIds = normalizedPage.components.map(
+      component => component.id,
+    );
     const pageSchema = customStepPage(normalizedPage);
     const schemaKeys = Object.keys(pageSchema.schema.properties);
     const uiSchemaKeys = Object.keys(pageSchema.uiSchema);
@@ -59,7 +64,7 @@ describe('customStepPage', () => {
     expect(schemaKeys.length).to.eq(normalizedPage.components.length);
 
     [schemaKeys, uiSchemaKeys].forEach(keys => {
-      expect(keys).to.include('myCustomTextInput', 'anOptionalTextInput');
+      expect(keys).to.include(...componentIds);
     });
   });
 
@@ -68,10 +73,10 @@ describe('customStepPage', () => {
     const { required } = pageSchema.schema;
 
     expect(required.length).to.eq(1);
-    expect(required[0]).to.eq('myCustomTextInput');
+    expect(required[0]).to.eq(normalizedPage.components[0].id);
   });
 
-  describe('schemas', () => {
+  describe('selectSchemas', () => {
     let spy;
 
     afterEach(() => {
@@ -91,27 +96,24 @@ describe('customStepPage', () => {
     });
 
     context('when component is a text area', () => {
+      const component = {
+        hint: 'This is optional hint text',
+        id: '172747',
+        label: 'Custom text area',
+        required: false,
+        type: 'digital_form_text_area',
+      };
+
       beforeEach(() => {
         spy = sinon.spy(textArea, 'default');
 
-        normalizedPage.components = [
-          ...normalizedPage.components,
-          {
-            hint: 'This is optional hint text',
-            id: '172747',
-            label: 'Custom text area',
-            required: false,
-            type: 'digital_form_text_area',
-          },
-        ];
+        normalizedPage.components = [...normalizedPage.components, component];
       });
 
       it('calls the correct function', () => {
         customStepPage(normalizedPage);
 
-        expect(spy.calledWithMatch(normalizedPage.components.at(-1))).to.eq(
-          true,
-        );
+        expect(spy.calledWithMatch(component)).to.eq(true);
       });
     });
   });
