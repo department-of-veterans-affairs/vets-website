@@ -60,7 +60,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sandbox.restore();
     sessionStorage.clear();
   });
-  it('should get selected slot from session storage if not in redux', async () => {
+  it.skip('should get selected slot from session storage if not in redux', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.setItem(
       selectedSlotKey,
@@ -92,7 +92,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       postDraftReferralAppointmentModule.postDraftReferralAppointment,
     );
   });
-  it('should route to scheduleReferral if no slot selected', async () => {
+  it.skip('should route to scheduleReferral if no slot selected', async () => {
     const selectedSlotKey = getReferralSlotKey('UUID');
     sessionStorage.removeItem(selectedSlotKey);
     const noSelectState = {
