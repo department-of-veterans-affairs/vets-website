@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export function NeedHelp({ item }) {
   const alias =
-    item && item.supportAliases.length > 0
+    item && item.supportAliases?.length > 0
       ? item.supportAliases.map((name, index) => {
           let separator = null;
 
