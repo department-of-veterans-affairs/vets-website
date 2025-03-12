@@ -182,12 +182,12 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
   };
 
-  clickLearnHowToRenewPrescriptionsLink = () => {
+  verifyLearnHowToRenewPrescriptionsLink = () => {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find(`[href="/health-care/refill-track-prescriptions"]`)
+      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
       .should('be.visible');
   };
 
@@ -931,10 +931,7 @@ class MedicationsListPage {
       'my_health/v1/tooltips/ad9ced53-3d27-4183-8b35-7c3cab737ce1',
       noToolTip,
     ).as('noToolTip');
-    cy.get('[data-testid="rx-ipe-filtering-close"]')
-      .shadow()
-      .find('[aria-hidden="true"]')
-      .click({ force: true });
+    cy.get('[data-testid="rx-ipe-filtering-close"]').click({ force: true });
   };
 
   verifyToolTipNotVisibleOnListPage = () => {

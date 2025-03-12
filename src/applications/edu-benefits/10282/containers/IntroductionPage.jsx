@@ -2,21 +2,17 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
 import OmbInfo from '../components/OmbInfo';
 
-const IntroductionPage = ({ router }) => {
+const IntroductionPage = ({ route }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
-
-  const startForm = event => {
-    event.preventDefault();
-    router.push('/applicant/information');
-  };
 
   return (
     <article className="schemaform-intro vads-u-padding-bottom--3 mobile-lg:vads-u-padding-bottom--6">
@@ -50,10 +46,12 @@ const IntroductionPage = ({ router }) => {
       </ul>
 
       <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
-        <va-link-action
-          href="#"
-          onClick={startForm}
-          text="Start your application"
+        <SaveInProgressIntro
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          formConfig={route.formConfig}
+          pageList={route.pageList}
+          startText="Start your application"
         />
       </div>
 
@@ -63,9 +61,13 @@ const IntroductionPage = ({ router }) => {
 };
 
 IntroductionPage.propTypes = {
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
 };
 
 export default IntroductionPage;

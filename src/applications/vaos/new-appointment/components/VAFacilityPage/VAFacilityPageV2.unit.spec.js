@@ -125,7 +125,6 @@ describe('VAOS Page: VAFacilityPage', () => {
       const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
         store,
       });
-
       await screen.findAllByRole('radio');
       const facilitiesSelect = await screen.findByTestId('facilitiesSelect');
       // call VaSelect custom event for onChange handling
