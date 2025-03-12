@@ -11,7 +11,6 @@ const ReviewPageSupplies = ({
   eligibility,
   formContext,
   apneaSupplies,
-  isSupplyReorderingSleepApneaEnabled,
 }) => (
   <>
     <dt className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
@@ -107,40 +106,37 @@ const ReviewPageSupplies = ({
             ))}
         </div>
       )}
-    {isSupplyReorderingSleepApneaEnabled && (
-      <dd className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
-        <span className="vads-u-font-weight--bold">
-          You have requested to receive the following CPAP supplies:
-        </span>
-        <span className="dd-privacy-mask">
-          ({selectedApneaProductInfo?.length} out of {apneaSupplies?.length}{' '}
-          selected)
-        </span>
-        {!eligibility?.apneas && (
-          <p className="vads-u-font-style--italic empty-state-ineligible-accessory-text">
-            You can’t add CPAP supplies to your order at this time due to
-            ineligibility.
-          </p>
+    <dd className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
+      <span className="vads-u-font-weight--bold">
+        You have requested to receive the following CPAP supplies:
+      </span>
+      <span className="dd-privacy-mask">
+        ({selectedApneaProductInfo?.length} out of {apneaSupplies?.length}{' '}
+        selected)
+      </span>
+      {!eligibility?.apneas && (
+        <p className="vads-u-font-style--italic empty-state-ineligible-accessory-text">
+          You can’t add CPAP supplies to your order at this time due to
+          ineligibility.
+        </p>
+      )}
+      {eligibility?.apneas &&
+        selectedApneaProductInfo?.length === 0 && (
+          <div className="empty-state-eligible-apnea-text">
+            <p className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-right--0p5">
+              No CPAP supplies added.
+            </p>
+            <button
+              className="va-button-link"
+              onClick={() => formContext.onEdit()}
+            >
+              Add CPAP supplies to your order
+            </button>
+          </div>
         )}
-        {eligibility?.apneas &&
-          selectedApneaProductInfo?.length === 0 && (
-            <div className="empty-state-eligible-apnea-text">
-              <p className="vads-u-font-style--italic vads-u-display--inline-block vads-u-margin-right--0p5">
-                No CPAP supplies added.
-              </p>
-              <button
-                className="va-button-link"
-                onClick={() => formContext.onEdit()}
-              >
-                Add CPAP supplies to your order
-              </button>
-            </div>
-          )}
-      </dd>
-    )}
+    </dd>
     {eligibility?.apneas &&
-      selectedApneaProductInfo?.length > 0 &&
-      isSupplyReorderingSleepApneaEnabled && (
+      selectedApneaProductInfo?.length > 0 && (
         <div className="vads-u-margin-bottom--3">
           {selectedApneaProductInfo &&
             selectedApneaProductInfo.map((product, index) => (
@@ -182,8 +178,6 @@ const mapStateToProps = (state, ownProps) => {
   const selectedApneaProductInfo = apneaSupplies?.filter(supply =>
     productIdArray?.includes(supply.productId),
   );
-  const isSupplyReorderingSleepApneaEnabled =
-    state.featureToggles.supply_reordering_sleep_apnea_enabled;
 
   return {
     batterySupplies,
@@ -194,7 +188,6 @@ const mapStateToProps = (state, ownProps) => {
     selectedApneaProductInfo,
     eligibility: state.form?.data?.eligibility,
     formContext: ownProps.formContext,
-    isSupplyReorderingSleepApneaEnabled,
   };
 };
 

@@ -81,21 +81,4 @@ describe('22-10216 <IntroductionPage>', () => {
 
     wrapper.unmount();
   });
-
-  // it('should start form when start application link is clicked', () => {
-  //   const router = {
-  //     push: () => {},
-  //   };
-  //   const wrapper = shallow(
-  //     <IntroductionPage router={router} {...fakeStore.getState()} />,
-  //   );
-  //   const vaLink = wrapper.find('va-link-action');
-  //   const event = { preventDefault: () => {} };
-  //   const preventDefault = sinon.spy(event, 'preventDefault');
-
-  //   expect(vaLink).to.exist;
-  //   vaLink.simulate('click', event);
-  //   expect(preventDefault.called).to.be.true;
-  //   wrapper.unmount();
-  // });
 });
