@@ -67,6 +67,7 @@ const CategorySelectPage = props => {
 
     onChange({
       ...formData,
+      initialFormData: { ...formData },
       categoryId: selected.id,
       selectCategory: selectedValue,
       allowAttachments: selected.attributes.allowAttachments,
