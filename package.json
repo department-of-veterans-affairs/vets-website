@@ -262,7 +262,7 @@
     "@babel/runtime": "^7.15.4",
     "@datadog/browser-logs": "^5.8.0",
     "@datadog/browser-rum": "^4.49.0",
-    "@department-of-veterans-affairs/component-library": "^49.4.0",
+    "@department-of-veterans-affairs/component-library": "^49.4.1",
     "@department-of-veterans-affairs/css-library": "^0.20.0",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
