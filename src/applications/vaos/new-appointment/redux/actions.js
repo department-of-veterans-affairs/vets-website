@@ -36,6 +36,7 @@ import {
 import { getSlots } from '../../services/slot';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  APPOINTMENT_STATUS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -718,7 +719,9 @@ export function onCalendarChange(
 
     isSame = appointments?.some(appointment => {
       const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
-      return d1.isSame(d2);
+      return (
+        appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
+      );
     });
   }
 
