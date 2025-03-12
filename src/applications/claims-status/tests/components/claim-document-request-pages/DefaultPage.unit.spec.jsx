@@ -98,7 +98,7 @@ describe('<DefaultPage>', () => {
         status: 'NEEDED_FROM_YOU',
         suspenseDate: nineMonthsAgoSuspenseDate,
         uploadsAllowed: true,
-        documents: '[]',
+        documents: [],
         date: '2024-03-07',
       };
       const { getByText, container } = renderWithRouter(
@@ -133,7 +133,7 @@ describe('<DefaultPage>', () => {
       status: 'NEEDED_FROM_YOU',
       suspenseDate: nineMonthsAgoSuspenseDate,
       uploadsAllowed: true,
-      documents: '[]',
+      documents: [],
       date: '2024-03-07',
     };
 
@@ -172,7 +172,7 @@ describe('<DefaultPage>', () => {
       status: 'NEEDED_FROM_OTHERS',
       suspenseDate: nineMonthsAgoSuspenseDate,
       uploadsAllowed: true,
-      documents: '[]',
+      documents: [],
       date: '2024-03-07',
     };
     const { getByText, container } = renderWithRouter(

@@ -42,9 +42,7 @@ const getStore = (
 describe('<ClaimStatusPage>', () => {
   it('should render null when there are no claims', () => {
     const { container, getByText } = renderWithRouter(
-      <Provider store={getStore()}>
-        <ClaimStatusPage {...props} params={params} />
-      </Provider>,
+      <ClaimStatusPage {...props} params={params} />,
     );
     expect($('.claim-status', container)).to.not.exist;
     getByText('Claim status is unavailable');
@@ -52,9 +50,7 @@ describe('<ClaimStatusPage>', () => {
 
   it('should render null when claim is null', () => {
     const { container, getByText } = renderWithRouter(
-      <Provider store={getStore()}>
-        <ClaimStatusPage {...props} claim={null} params={params} />
-      </Provider>,
+      <ClaimStatusPage {...props} claim={null} params={params} />,
     );
     expect($('.claim-status', container)).to.not.exist;
     getByText('Claim status is unavailable');
@@ -369,9 +365,7 @@ describe('<ClaimStatusPage>', () => {
 
     it('should render empty content when loading', () => {
       const { container } = renderWithRouter(
-        <Provider store={getStore()}>
-          <ClaimStatusPage {...props} loading params={params} />
-        </Provider>,
+        <ClaimStatusPage {...props} loading params={params} />,
       );
       expect($('.claim-status', container)).to.not.exist;
       expect($('va-loading-indicator', container)).to.exist;

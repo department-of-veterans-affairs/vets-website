@@ -2,8 +2,6 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { within, waitFor } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
@@ -11,9 +9,6 @@ import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 import { renderWithRouter } from '../utils';
 
 describe('<ClaimDetailLayout>', () => {
-  const store = createStore(() => ({
-    featureToggles: {},
-  }));
   it('should render loading indicator', () => {
     const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
 
@@ -36,11 +31,7 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const screen = renderWithRouter(
-      <Provider store={store}>
-        <ClaimDetailLayout claim={claim} />
-      </Provider>,
-    );
+    const screen = renderWithRouter(<ClaimDetailLayout claim={claim} />);
 
     expect(screen.getByRole('heading', { level: 1 })).to.contain.text(
       'Received on November 23, 2023',
@@ -57,9 +48,7 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { getByText, container } = renderWithRouter(
-      <Provider store={store}>
-        <ClaimDetailLayout currentTab="Status" claim={claim} />
-      </Provider>,
+      <ClaimDetailLayout currentTab="Status" claim={claim} />,
     );
 
     expect($('va-alert', container)).to.exist;
@@ -94,9 +83,7 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <Provider store={store}>
-        <ClaimDetailLayout currentTab="Files" claim={claim} />
-      </Provider>,
+      <ClaimDetailLayout currentTab="Files" claim={claim} />,
     );
 
     const tabList = $('.tabs', container);
@@ -153,9 +140,7 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <Provider store={store}>
-        <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />
-      </Provider>,
+      <ClaimDetailLayout currentTab="Files" claim={claim} message={message} />,
     );
 
     const selector = container.querySelector('va-alert');

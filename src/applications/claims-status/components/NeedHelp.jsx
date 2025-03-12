@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import PropTypes from 'prop-types';
 
 export function NeedHelp({ item }) {
   const alias =
-    item && item.supportAliases
+    item && item.supportAliases.length > 0
       ? item.supportAliases.map((name, index) => {
           let separator = null;
 
@@ -26,28 +25,18 @@ export function NeedHelp({ item }) {
   return (
     <va-need-help class="vads-u-margin-top--9">
       <div slot="content">
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}>
-          <Toggler.Enabled>
+        <p>
+          Call us at <va-telephone contact="8008271000" />. We're here Monday
+          through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,{' '}
+          <va-telephone contact="711" tty="true" />.
+        </p>
+        {!!item &&
+          alias && (
             <p>
-              Call us at <va-telephone contact="8008271000" />. We're here
-              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-              hearing loss, <va-telephone contact="711" tty="true" />.
+              The VA benefits hotline may refer to the “{item.friendlyName}”
+              request as {alias}.
             </p>
-            {!!item && (
-              <p>
-                The VA benefits hotline may refer to the “{item.friendlyName}”
-                request as {alias}.
-              </p>
-            )}
-          </Toggler.Enabled>
-          <Toggler.Disabled>
-            <p>
-              Call us at <va-telephone contact="8008271000" />. We're here
-              Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
-              hearing loss, <va-telephone contact="711" tty="true" />.
-            </p>
-          </Toggler.Disabled>
-        </Toggler>
+          )}
       </div>
     </va-need-help>
   );

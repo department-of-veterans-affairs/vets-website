@@ -133,7 +133,6 @@ class DocumentRequestPage extends React.Component {
 
   render() {
     let content;
-    let needHelpSection;
 
     if (this.props.loading) {
       content = (
@@ -171,8 +170,6 @@ class DocumentRequestPage extends React.Component {
           </Toggler>
         </>
       );
-
-      needHelpSection = <NeedHelp item={trackedItem} />;
     }
 
     const { claim, params, trackedItem } = this.props;
@@ -214,7 +211,7 @@ class DocumentRequestPage extends React.Component {
           <div className="usa-width-two-thirds medium-8 columns">
             <ClaimsBreadcrumbs crumbs={crumbs} />
             <div>{content}</div>
-            {needHelpSection}
+            <NeedHelp item={trackedItem} />
           </div>
         </div>
       </div>

@@ -27,7 +27,7 @@ export default function DefaultPage({
       <Toggler.Enabled>
         <div id="default-page" className="vads-u-margin-bottom--3">
           <h1 className="claims-header">
-            {item.friendlyName ? item.friendlyName : item.displayName}
+            {item.friendlyName || item.displayName}
           </h1>
 
           {item.status === 'NEEDED_FROM_YOU' ? (
@@ -70,7 +70,7 @@ export default function DefaultPage({
                 {evidenceDictionary[item.displayName].nextSteps}
               </>
             )}
-          {item.canUploadFile ? (
+          {item.canUploadFile && (
             <AddFilesForm
               field={field}
               progress={progress}
@@ -84,7 +84,7 @@ export default function DefaultPage({
               onCancel={onCancel}
               onDirtyFields={onDirtyFields}
             />
-          ) : null}
+          )}
         </div>
       </Toggler.Enabled>
       <Toggler.Disabled>

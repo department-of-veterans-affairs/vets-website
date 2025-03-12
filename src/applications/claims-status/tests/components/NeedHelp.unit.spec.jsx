@@ -5,25 +5,12 @@ import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 
 import { NeedHelp } from '../../components/NeedHelp';
 
 describe('<NeedHelp>', () => {
-  const getStore = (cstFriendlyEvidenceRequests = true) =>
-    createStore(() => ({
-      featureToggles: {
-        // eslint-disable-next-line camelcase
-        cst_friendly_evidence_requests: cstFriendlyEvidenceRequests,
-      },
-    }));
   it('should render', () => {
-    const { container } = render(
-      <Provider store={getStore(false)}>
-        <NeedHelp />
-      </Provider>,
-    );
+    const { container } = render(<NeedHelp />);
     expect($('va-need-help', container)).to.exist;
     expect($$('va-telephone', container).length).to.equal(2);
   });
@@ -47,11 +34,7 @@ describe('<NeedHelp>', () => {
         documents: '[]',
         date: '2024-03-07',
       };
-      const { container } = render(
-        <Provider store={getStore()}>
-          <NeedHelp item={item} />
-        </Provider>,
-      );
+      const { container } = render(<NeedHelp item={item} />);
       expect($('va-need-help', container)).to.exist;
       expect($$('va-telephone', container).length).to.equal(2);
       const alias = container.querySelector('.vads-u-font-weight--bold');
@@ -62,11 +45,7 @@ describe('<NeedHelp>', () => {
         supportAliases: ['Alias1', 'Alias2', 'Alias3', 'Alias4'],
       };
 
-      const { queryAllByText } = render(
-        <Provider store={getStore()}>
-          <NeedHelp item={item} />
-        </Provider>,
-      );
+      const { queryAllByText } = render(<NeedHelp item={item} />);
 
       expect(queryAllByText('"Alias1", "Alias2", "Alias3" or "Alias4"'));
     });
