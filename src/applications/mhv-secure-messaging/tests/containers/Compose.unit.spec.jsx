@@ -88,7 +88,8 @@ describe('Compose container', () => {
         triageTeams: { triageTeams },
         categories: { categories },
         recipients: {
-          associatedTriageGroupsQty: 0,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
           noAssociations: false,
           allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         },
