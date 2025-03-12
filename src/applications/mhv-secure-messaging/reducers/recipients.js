@@ -31,6 +31,12 @@ export const recipientsReducer = (state = initialState, action) => {
         associatedTriageGroups === associatedBlockedTriageGroups;
 
       const facilities = findBlockedFacilities(action.response.data);
+      const recipients = action.response.data.map(recipient => ({
+        ...formatRecipient(recipient.attributes),
+        name:
+          recipient.attributes.suggestedNameDisplay ||
+          recipient.attributes.name,
+      }));
 
       return {
         ...state,
@@ -39,20 +45,18 @@ export const recipientsReducer = (state = initialState, action) => {
 
         associatedBlockedTriageGroupsQty: associatedBlockedTriageGroups,
 
-        allRecipients: action.response.data.map(recipient =>
-          formatRecipient(recipient),
-        ),
+        allRecipients: recipients,
 
-        allowedRecipients: action.response.data
+        allowedRecipients: recipients
           .filter(
             recipient =>
-              recipient.attributes.blockedStatus === false &&
-              recipient.attributes.preferredTeam === true,
+              recipient.blockedStatus === false &&
+              recipient.preferredTeam === true,
           )
           .map(recipient => formatRecipient(recipient)),
 
-        blockedRecipients: action.response.data
-          .filter(recipient => recipient.attributes.blockedStatus === true)
+        blockedRecipients: recipients
+          .filter(recipient => recipient.blockedStatus === true)
           .map(recipient => formatRecipient(recipient)),
 
         blockedFacilities: facilities.fullyBlockedFacilities,
