@@ -9,6 +9,7 @@ export const API_ENDPOINTS = {
   downloadPdf: '/health_care_applications/download_pdf',
   enrollmentStatus: '/health_care_applications/enrollment_status',
   facilities: '/health_care_applications/facilities',
+  ratingInfo: '/health_care_applications/rating_info',
 };
 
 // declare global app URLs for use with content links

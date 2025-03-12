@@ -118,7 +118,9 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = isFutureAppointment(appt, isRequest, useFeSourceOfTruth);
+  const isUpcoming = useFeSourceOfTruth
+    ? appt.future
+    : isFutureAppointment(appt, isRequest);
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -297,6 +299,6 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(appts, useFeSourceOfTruth) {
+  return appts.map(appt => transformVAOSAppointment(appt, useFeSourceOfTruth));
 }

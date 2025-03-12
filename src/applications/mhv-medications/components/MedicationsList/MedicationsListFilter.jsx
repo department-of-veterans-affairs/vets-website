@@ -17,6 +17,7 @@ import {
   SESSION_SELECTED_FILTER_OPTION,
 } from '../../util/constants';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { RX_IPE_FILTERING_DESCRIPTION_ID } from './InProductionEducationFiltering';
 
 const MedicationsListFilter = props => {
   const { updateFilter, filterOption, setFilterOption, filterCount } = props;
@@ -100,6 +101,7 @@ const MedicationsListFilter = props => {
       data-testid="filter-accordion"
       class="filter-accordion"
       onAccordionItemToggled={handleAccordionItemToggle}
+      aria-describedby={RX_IPE_FILTERING_DESCRIPTION_ID}
       uswds
     >
       <VaAccordionItem

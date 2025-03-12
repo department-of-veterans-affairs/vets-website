@@ -68,6 +68,7 @@ function apptRequestSort(a, b) {
  * @param {String} endDate Date in YYYY-MM-DD format
  * @param {Boolean} fetchClaimStatus Boolean to fetch travel claim data
  * @param {Boolean} includeEPS Boolean to include EPS appointments
+ * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {Appointment[]} A FHIR searchset of booked Appointment resources
  */
 export async function fetchAppointments({
@@ -122,12 +123,14 @@ export async function fetchAppointments({
  * @param {String} startDate Date in YYYY-MM-DD format
  * @param {String} endDate Date in YYYY-MM-DD format
  * @param {Boolean} includeEPS Boolean to include EPS appointments
+ * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {Appointment[]} A FHIR searchset of pending Appointment resources
  */
 export async function getAppointmentRequests({
   startDate,
   endDate,
   includeEPS = false,
+  useFeSourceOfTruth = false,
 }) {
   try {
     const appointments = await getAppointments({
@@ -149,6 +152,7 @@ export async function getAppointmentRequests({
 
     const transformRequests = transformVAOSAppointments(
       requestsWithoutAppointments,
+      useFeSourceOfTruth,
     );
 
     transformRequests.push({
@@ -171,13 +175,14 @@ export async function getAppointmentRequests({
  * @export
  * @async
  * @param {string} id Appointment request id
+ * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {Appointment} An Appointment object for the given request id
  */
-export async function fetchRequestById({ id }) {
+export async function fetchRequestById({ id, useFeSourceOfTruth = false }) {
   try {
     const appointment = await getAppointment(id);
 
-    return transformVAOSAppointment(appointment);
+    return transformVAOSAppointment(appointment, useFeSourceOfTruth);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -194,16 +199,18 @@ export async function fetchRequestById({ id }) {
  * @param {string} id MAS or community care booked appointment id
  * @param {avs} Boolean to fetch avs data
  * @param {fetchClaimStatus} Boolean to fetch travel claim data
+ * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {Appointment} A transformed appointment with the given id
  */
 export async function fetchBookedAppointment({
   id,
   avs = true,
   fetchClaimStatus = true,
+  useFeSourceOfTruth = true,
 }) {
   try {
     const appointment = await getAppointment(id, avs, fetchClaimStatus);
-    return transformVAOSAppointment(appointment);
+    return transformVAOSAppointment(appointment, useFeSourceOfTruth);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -332,19 +339,21 @@ export function isValidPastAppointment(appt) {
  *
  * @export
  * @param {Appointment} appt The FHIR Appointment to check
+ * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {boolean} Whether or not the appointment is a valid upcoming
  *  appointment or request
  */
-export function isUpcomingAppointmentOrRequest(appt) {
+export function isUpcomingAppointmentOrRequest(appt, useFeSourceOfTruth) {
   if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
     const apptDateTime = moment(appt.start);
 
-    return (
-      !appt.vaos.isPastAppointment &&
-      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-      apptDateTime.isValid() &&
-      apptDateTime.isBefore(moment().add(395, 'days'))
-    );
+    return useFeSourceOfTruth
+      ? !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+          appt.vaos.isUpcomingAppointment
+      : !appt.vaos.isPastAppointment &&
+          !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+          apptDateTime.isValid() &&
+          apptDateTime.isBefore(moment().add(395, 'days'));
   }
 
   const today = moment().startOf('day');
@@ -384,24 +393,26 @@ export function isPendingOrCancelledRequest(appt) {
  *
  * @export
  * @param {Appointment} appt The FHIR Appointment to check
+ * @param {Boolean} useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {boolean} Whether or not the appointment is a valid upcoming
  *  appointment
  */
-export function isUpcomingAppointment(appt) {
+export function isUpcomingAppointment(appt, useFeSourceOfTruth) {
   if (CONFIRMED_APPOINTMENT_TYPES.has(appt.vaos.appointmentType)) {
     const apptDateTime = moment(appt.start);
 
-    return (
-      !appt.vaos.isPastAppointment &&
-      !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
-      apptDateTime.isValid() &&
-      apptDateTime.isAfter(moment().startOf('day')) &&
-      apptDateTime.isBefore(
-        moment()
-          .endOf('day')
-          .add(395, 'days'),
-      )
-    );
+    return useFeSourceOfTruth
+      ? !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+          appt.vaos.isUpcomingAppointment
+      : !appt.vaos.isPastAppointment &&
+          !FUTURE_APPOINTMENTS_HIDDEN_SET.has(appt.description) &&
+          apptDateTime.isValid() &&
+          apptDateTime.isAfter(moment().startOf('day')) &&
+          apptDateTime.isBefore(
+            moment()
+              .endOf('day')
+              .add(395, 'days'),
+          );
   }
 
   return false;
@@ -534,12 +545,13 @@ export function groupAppointmentsByMonth(appointments) {
  * @export
  * @param {Object} params
  * @param {VAOSAppointment} params.appointment The appointment to send
+ * @param {Boolean} params.useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {Appointment} The created appointment
  */
-export async function createAppointment({ appointment }) {
+export async function createAppointment({ appointment, useFeSourceOfTruth }) {
   const result = await postAppointment(appointment);
 
-  return transformVAOSAppointment(result);
+  return transformVAOSAppointment(result, useFeSourceOfTruth);
 }
 
 const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
@@ -550,9 +562,10 @@ const eventPrefix = `${GA_PREFIX}-cancel-appointment-submission`;
  * @export
  * @param {Object} params
  * @param {Appointment} params.appointment The appointment to cancel
+ * @param {Boolean} params.useFeSourceOfTruth whether to use vets-api payload as the FE source of truth
  * @returns {?Appointment} Returns either null or the updated appointment data
  */
-export async function cancelAppointment({ appointment }) {
+export async function cancelAppointment({ appointment, useFeSourceOfTruth }) {
   const additionalEventData = {
     appointmentType:
       appointment.status === APPOINTMENT_STATUS.proposed
@@ -577,7 +590,7 @@ export async function cancelAppointment({ appointment }) {
     });
     resetDataLayer();
 
-    return transformVAOSAppointment(updatedAppointment);
+    return transformVAOSAppointment(updatedAppointment, useFeSourceOfTruth);
   } catch (e) {
     captureError(e, true);
     recordEvent({
@@ -764,7 +777,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
 
-  return () => {
+  return useFeSourceOfTruth => {
     if (!promise || navigator.userAgent === 'node.js') {
       // Creating an array of start and end dates for each chunk
       const ranges = Array.from(Array(chunks).keys()).map(i => {
@@ -800,6 +813,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
           endDate: curr.end,
           useV2VA: true,
           useV2CC: true,
+          useFeSourceOfTruth,
         });
         batch.push(p1);
         return Promise.resolve([...batch].flat());
