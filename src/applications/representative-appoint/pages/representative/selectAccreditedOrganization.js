@@ -28,6 +28,6 @@ export const pageDepends = formData => {
       formData['view:selectedRepresentative'].attributes?.individualType,
     ) &&
     formData['view:selectedRepresentative'].attributes?.accreditedOrganizations
-      ?.data?.length > 1
+      ?.data?.length > 0
   );
 };
