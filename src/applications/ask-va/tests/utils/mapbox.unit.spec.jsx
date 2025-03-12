@@ -17,9 +17,6 @@ describe.skip('Mapbox Utils', () => {
         { id: 'place.456', text: 'City' },
       ],
       center: [-77.0366, 38.8951],
-      /* eslint-disable camelcase */
-      place_name: 'Test Location',
-      /* eslint-enable camelcase */
     };
 
     // Create mock client with stubbed methods

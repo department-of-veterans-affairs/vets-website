@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -82,7 +81,6 @@ describe('RequireSignInModal Component', () => {
 
     const modalContent = wrapper.find('VaModal').prop('children');
     const textContent = getTextContent(modalContent.props.children);
-    console.log('Modal text content:', textContent);
     expect(textContent).to.contain(
       'Because your question is about yourself or someone else',
     );
@@ -116,7 +114,6 @@ describe('RequireSignInModal Component', () => {
       .find('VaModal')
       .props()
       .onCloseEvent();
-    console.log('onClose called:', onCloseSpy.calledOnce);
     expect(onCloseSpy.calledOnce).to.be.true;
     wrapper.unmount();
   });
