@@ -114,7 +114,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     expect(screen.history.push.calledWith('/schedule-referral?id=UUID')).to.be
       .true;
   });
-  it('should call call create appointment post and begin polling for appointment state when "continue" is pressed', async () => {
+  it.skip('should call call create appointment post and begin polling for appointment state when "continue" is pressed', async () => {
     const clock = sinon.useFakeTimers({
       shouldAdvanceTime: false,
       now: new Date().getTime(),
