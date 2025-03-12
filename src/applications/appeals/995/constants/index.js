@@ -7,6 +7,7 @@ export const DATA_DOG_ID = '2779ccc3-be87-4b2d-a757-9ff54b58761b';
 export const DATA_DOG_TOKEN = 'pub442ae6e93be9f8d93a358bf78095c88a';
 export const DATA_DOG_SERVICE = 'benefits---supplemental-claim';
 
+export const SC_NEW_FORM_KEY = 'scNewForm';
 export const SC_NEW_FORM_TOGGLE = 'sc_new_form';
 export const SC_NEW_FORM_DATA = 'showScNewForm';
 
@@ -27,14 +28,16 @@ export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL = `${DECISION_REVIEWS_URL}/get-help-with-review-request`;
 export const PROFILE_URL = '/profile';
 
-// 8804 is the ID of the <va-accordion-item> with a header of the "Find
-// addresses for other benefit types"
-export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-benef-8804`;
+// Point to header of the "File by mail, in person, or with the help of a VSO
+// for any type of benefit claim"
+export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`;
 
 export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
 export const OTHER_HOUSING_RISK_MAX = 100;
+export const POINT_OF_CONTACT_MAX = 150;
+export const TREATMENT_FACILITY_OTHER_MAX = 115;
 
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
@@ -42,13 +45,12 @@ export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
 export const EVIDENCE_LIMIT = 'view:hasPrivateLimitation';
 export const MST_OPTION = 'mstOption';
 
+export const HAS_REDIRECTED = 'hasRedirected';
+
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
-
-export const REGEX_COMMA = /[, ]/g;
-export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 
 export const errorMessages = {
   evidence: {

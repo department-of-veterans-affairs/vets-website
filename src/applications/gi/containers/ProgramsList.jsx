@@ -126,9 +126,11 @@ const ProgramsList = ({ match }) => {
   if (error) {
     return (
       <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-        <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
+        <h1 className="vads-u-margin-bottom--4">
+          {formattedProgramType} programs
+        </h1>
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-          {formattedProgramType}
+          {institutionName}
         </h2>
         <va-alert status="error" data-e2e-id="alert-box">
           <h2 slot="headline">We can’t load the program list right now</h2>
@@ -152,9 +154,11 @@ const ProgramsList = ({ match }) => {
 
   return (
     <div className="programs-list-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
-      <h1 className="vads-u-margin-bottom--4">{institutionName}</h1>
+      <h1 className="vads-u-margin-bottom--4">
+        {formattedProgramType} programs
+      </h1>
       <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-        {formattedProgramType}
+        {institutionName}
       </h2>
       <div
         className={`${institutionPrograms.length < 21 &&
@@ -228,7 +232,11 @@ const ProgramsList = ({ match }) => {
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="remove-bullets" role="list">
         {currentPrograms.map(program => (
-          <li className="vads-u-margin-bottom--2" key={program.id}>
+          <li
+            className="vads-u-margin-bottom--2"
+            data-testid="program-list-item"
+            key={program.id}
+          >
             {program.attributes.programType === 'OJT'
               ? `${program.attributes.ojtAppType} ${
                   program.attributes.description

@@ -221,6 +221,8 @@ export const ALERT_TYPE_IMAGE_STATUS_ERROR = 'images status error';
 export const ALERT_TYPE_SUCCESS = 'success';
 export const ALERT_TYPE_BB_ERROR = 'blue button download error';
 export const ALERT_TYPE_SEI_ERROR = 'self-entered download error';
+export const ALERT_TYPE_CCD_ERROR =
+  'continuity of care document download error';
 
 export const pageTitles = {
   MEDICAL_RECORDS_PAGE_TITLE: 'Medical Records | Veterans Affairs',
@@ -434,7 +436,7 @@ export const Breadcrumbs = {
   VITALS: { href: Paths.VITALS, label: 'Vitals', isRouterLink: true },
   SETTINGS: {
     href: Paths.SETTINGS,
-    label: 'Medical records settings',
+    label: 'Manage your electronic sharing settings',
     isRouterLink: true,
   },
   DOWNLOAD: {

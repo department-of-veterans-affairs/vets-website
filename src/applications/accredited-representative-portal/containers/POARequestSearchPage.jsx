@@ -4,7 +4,9 @@ import {
   useSearchParams,
   redirect,
   Link,
+  useNavigation,
 } from 'react-router-dom';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import api from '../utilities/api';
 import POARequestCard from '../components/POARequestCard';
 import SortForm from '../components/SortForm';
@@ -26,14 +28,14 @@ const PENDING = {
   DESC_OPTION: 'Expiration date (farthest)',
 };
 
-const COMPLETED = {
+const PROCESSED = {
   ASC_OPTION: 'Processed date (nearest)',
   DESC_OPTION: 'Processed date (farthest)',
 };
 
 const STATUSES = {
   PENDING: 'pending',
-  COMPLETED: 'completed',
+  PROCESSED: 'processed',
 };
 
 const SearchResults = ({ poaRequests }) => {
@@ -67,44 +69,39 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
       to={`?status=${tabStatus}&sort=${tabSort}`}
       className={classNames.join(' ')}
       role="tab"
+      id={`tab-${tabStatus}`}
+      aria-controls={`tabpanel-${tabStatus}`}
+      aria-selected={active ? 'true' : 'false'}
     >
       {children}
     </Link>
   );
 };
 
-const DigitalSubmissionAlert = () => (
-  <va-alert data-testid="digital-submission-alert" status="info" visible>
-    <h2 data-testid="digital-submission-alert-heading" slot="headline">
-      Veterans can now digitally submit form 21-22 from VA.gov
-    </h2>
-    <p
-      data-testid="digital-submission-alert-description"
-      className="vads-u-margin-y--0"
-    >
-      Veterans can now{' '}
-      <a href="https://www.va.gov/get-help-from-accredited-representative/find-rep/">
-        find a VSO
-      </a>{' '}
-      and{' '}
-      <a href="https://www.va.gov/find-forms/about-form-21-22a/">
-        sign and submit
-      </a>{' '}
-      a digital version of form 21-22. Digital submissions will immediately
-      populate in the table below.
-    </p>
-  </va-alert>
-);
-
 const POARequestSearchPage = () => {
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
-
+  const navigation = useNavigation();
   return (
-    <>
-      <h1 data-testid="poa-requests-heading">Power of attorney requests</h1>
-      <DigitalSubmissionAlert />
-
+    <section className="poa-request">
+      <h1
+        data-testid="poa-requests-heading"
+        className="poa-request__search-header"
+      >
+        Power of attorney requests
+      </h1>
+      <p className="poa-request__copy">
+        You can accept or decline power of attorney (POA) requests in the
+        Accredited Representative Portal. Requests will expire and be removed
+        from the portal after 60 days.
+      </p>
+      <p className="poa-request__copy">
+        <strong>Note:</strong> requests need to be submitted using the digital
+        VA Form 21-22 on VA.gov.
+      </p>
+      <a href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/">
+        VA Form 21-22 (on VA.gov)
+      </a>
       <div className="poa-requests-page-table-container">
         <div role="tablist" className="poa-request__tabs">
           <StatusTabLink
@@ -115,55 +112,68 @@ const POARequestSearchPage = () => {
             Pending
           </StatusTabLink>
           <StatusTabLink
-            tabStatus={STATUSES.COMPLETED}
+            tabStatus={STATUSES.PROCESSED}
             searchStatus={searchStatus}
             tabSort={SORT_BY.RESOLVED_DESC}
           >
-            Completed
+            Processed
           </StatusTabLink>
         </div>
+        {navigation.state === 'loading' ? (
+          <VaLoadingIndicator message="Loading..." />
+        ) : (
+          <div
+            className={searchStatus}
+            id={`tabpanel-${searchStatus}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${searchStatus}`}
+          >
+            {(() => {
+              switch (searchStatus) {
+                case STATUSES.PENDING:
+                  return (
+                    <>
+                      <h2
+                        data-testid="poa-requests-table-heading"
+                        className="poa-request__tab-heading"
+                      >
+                        Pending POA requests
+                      </h2>
+                      <SortForm
+                        asc={SORT_BY.CREATED_ASC}
+                        desc={SORT_BY.CREATED_DESC}
+                        ascOption={PENDING.ASC_OPTION}
+                        descOption={PENDING.DESC_OPTION}
+                      />
+                    </>
+                  );
+                case STATUSES.PROCESSED:
+                  return (
+                    <>
+                      <h2
+                        data-testid="poa-requests-table-heading"
+                        className="poa-request__tab-heading"
+                      >
+                        Processed POA requests
+                      </h2>
+                      <SortForm
+                        asc={SORT_BY.RESOLVED_ASC}
+                        desc={SORT_BY.RESOLVED_DESC}
+                        ascOption={PROCESSED.ASC_OPTION}
+                        descOption={PROCESSED.DESC_OPTION}
+                      />
+                    </>
+                  );
+                default:
+                  throw new Error(`Unexpected status: ${searchStatus}`);
+              }
+            })()}
 
-        <div
-          className={searchStatus}
-          id={`panel-${searchStatus}`}
-          role="tabpanel"
-          aria-labelledby={`${searchStatus}`}
-        >
-          {(() => {
-            switch (searchStatus) {
-              case STATUSES.PENDING:
-                return (
-                  <>
-                    <h2 data-testid="poa-requests-table-heading">Pending</h2>
-                    <SortForm
-                      asc={SORT_BY.CREATED_ASC}
-                      desc={SORT_BY.CREATED_DESC}
-                      ascOption={PENDING.ASC_OPTION}
-                      descOption={PENDING.DESC_OPTION}
-                    />
-                  </>
-                );
-              case STATUSES.COMPLETED:
-                return (
-                  <>
-                    <h2 data-testid="poa-requests-table-heading">Completed</h2>
-                    <SortForm
-                      asc={SORT_BY.RESOLVED_ASC}
-                      desc={SORT_BY.RESOLVED_DESC}
-                      ascOption={COMPLETED.ASC_OPTION}
-                      descOption={COMPLETED.DESC_OPTION}
-                    />
-                  </>
-                );
-              default:
-                throw new Error(`Unexpected status: ${searchStatus}`);
-            }
-          })()}
-
-          <SearchResults poaRequests={poaRequests} />
-        </div>
+            <SearchResults poaRequests={poaRequests} />
+          </div>
+        )}
       </div>
-    </>
+    </section>
   );
 };
 

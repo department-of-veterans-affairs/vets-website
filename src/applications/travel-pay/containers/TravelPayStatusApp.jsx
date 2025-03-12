@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  isProfileLoading,
-  isLoggedIn,
-  isLOA3 as isLOA3Selector,
-} from '@department-of-veterans-affairs/platform-user/selectors';
 import { parseISO, isWithinInterval } from 'date-fns';
 import {
   VaBackToTop,
@@ -18,22 +13,16 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureT
 import { focusElement } from 'platform/utilities/ui';
 import { Element } from 'platform/utilities/scroll';
 import { scrollTo } from 'platform/utilities/ui/scroll';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-
-import BreadCrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs';
 import TravelClaimCard from '../components/TravelClaimCard';
 import TravelPayClaimFilters from '../components/TravelPayClaimFilters';
 import { HelpTextManage } from '../components/HelpText';
 import { getTravelClaims } from '../redux/actions';
 import { getDateFilters } from '../util/dates';
 import ErrorAlert from '../components/alerts/ErrorAlert';
-import VerifyIdentityAlert from '../components/alerts/VerifyIdentityAlert';
 
-export default function App({ children }) {
+export default function TravelPayStatusApp({ children }) {
   const dispatch = useDispatch();
-  const profileLoading = useSelector(state => isProfileLoading(state));
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-  const isIdentityVerified = useSelector(state => isLOA3Selector(state));
 
   const filterInfoRef = useRef();
 
@@ -46,9 +35,10 @@ export default function App({ children }) {
   // and validating logged in status
   // const user = useSelector(selectUser);
 
-  const { isLoading, travelClaims, error } = useSelector(
-    state => state.travelPay,
+  const { isLoading, data, error } = useSelector(
+    state => state.travelPay.travelClaims,
   );
+
   const [hasFetchedClaims, setHasFetchedClaims] = useState(false);
 
   const [selectedClaimsOrder, setSelectedClaimsOrder] = useState('mostRecent');
@@ -63,11 +53,11 @@ export default function App({ children }) {
   const [selectedDateFilter, setSelectedDateFilter] = useState('all');
   const [appliedDateFilter, setAppliedDateFilter] = useState('all');
 
-  if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
+  if (data.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
 
-    const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
-    const availableStatuses = new Set(travelClaims.map(c => c.claimStatus));
+    const topStatuses = new Set(['On hold', 'Denied', 'In manual review']);
+    const availableStatuses = new Set(data.map(c => c.claimStatus));
 
     const availableTopStatuses = intersection(
       Array.from(topStatuses),
@@ -87,10 +77,10 @@ export default function App({ children }) {
 
   const dateFilters = getDateFilters();
 
-  if (travelClaims.length > 0 && datesToFilterBy.length === 0) {
+  if (data.length > 0 && datesToFilterBy.length === 0) {
     // Sets initial date filters after travelClaims load
     const initialDateFilters = dateFilters.filter(filter =>
-      travelClaims.some(claim =>
+      data.some(claim =>
         isWithinInterval(new Date(claim.appointmentDateTime), {
           start: filter.start,
           end: filter.end,
@@ -113,10 +103,10 @@ export default function App({ children }) {
 
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort((a, b) => compareClaimsDate(a, b));
+      data.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort((a, b) => compareClaimsDate(b, a));
+      data.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
@@ -176,23 +166,12 @@ export default function App({ children }) {
 
   useEffect(
     () => {
-      if (
-        userLoggedIn &&
-        !hasFetchedClaims &&
-        isIdentityVerified &&
-        travelClaims.length === 0
-      ) {
+      if (data.length === 0 && !hasFetchedClaims) {
         dispatch(getTravelClaims());
         setHasFetchedClaims(true);
       }
     },
-    [
-      dispatch,
-      userLoggedIn,
-      travelClaims,
-      hasFetchedClaims,
-      isIdentityVerified,
-    ],
+    [dispatch, data, error, hasFetchedClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
@@ -201,7 +180,7 @@ export default function App({ children }) {
     filter => filter.label === appliedDateFilter,
   );
 
-  let displayedClaims = travelClaims.filter(claim => {
+  let displayedClaims = data.filter(claim => {
     const statusFilterIncludesClaim =
       appliedStatusFilters.length === 0 ||
       appliedStatusFilters.includes(claim.claimStatus);
@@ -271,7 +250,7 @@ export default function App({ children }) {
     [setCurrentPage],
   );
 
-  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
+  if (toggleIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -288,37 +267,16 @@ export default function App({ children }) {
     return null;
   }
 
-  if (userLoggedIn && !isIdentityVerified) {
-    return (
-      <Element name="topScrollElement">
-        <article className="usa-grid-full vads-u-padding-bottom--0">
-          <BreadCrumbs />
-          <h1 tabIndex="-1" data-testid="header">
-            Check your travel reimbursement claim status
-          </h1>
-
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-y--2">
-            <h2 className="vads-u-font-size--h4">
-              You can use this tool to check the status of your VA travel
-              claims.
-            </h2>
-            <VerifyIdentityAlert />
-          </div>
-        </article>
-      </Element>
-    );
-  }
-
   if (error) {
     return (
       <Element name="topScrollElement">
         <article className="usa-grid-full vads-u-padding-bottom--0">
-          <BreadCrumbs />
+          <Breadcrumbs />
           <h1 tabIndex="-1" data-testid="header">
             Check your travel reimbursement claim status
           </h1>
-          <div className="vads-l-col--12 medium-screen:vads-l-col--8 vads-u-margin-y--2">
-            <h2 className="vads-u-font-size--h4">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8">
+            <h2 className="vads-u-font-size--h4 vads-u-margin-bottom--4">
               You can use this tool to check the status of your VA travel
               claims.
             </h2>
@@ -333,7 +291,7 @@ export default function App({ children }) {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        <BreadCrumbs />
+        <Breadcrumbs />
         <h1 tabIndex="-1" data-testid="header">
           Check your travel reimbursement claim status
         </h1>
@@ -364,18 +322,8 @@ export default function App({ children }) {
               message="Loading Travel Claims..."
             />
           )}
-          {!userLoggedIn && (
-            <>
-              <p>Log in to view your travel claims</p>
-              <va-button
-                text="Sign in"
-                onClick={() => dispatch(toggleLoginModal(true))}
-              />
-            </>
-          )}
-          {userLoggedIn &&
-            !isLoading &&
-            travelClaims.length > 0 && (
+          {!isLoading &&
+            data.length > 0 && (
               <>
                 <div className="btsss-claims-sort-and-filter-container">
                   <h2 className="vads-u-font-size--h4">Your travel claims</h2>
@@ -448,10 +396,9 @@ export default function App({ children }) {
                 )}
               </>
             )}
-          {userLoggedIn &&
-            !isLoading &&
+          {!isLoading &&
             !error &&
-            travelClaims.length === 0 && <p>No travel claims to show.</p>}
+            data.length === 0 && <p>No travel claims to show.</p>}
           <VaBackToTop />
         </div>
       </article>
@@ -461,7 +408,7 @@ export default function App({ children }) {
   );
 }
 
-App.propTypes = {
+TravelPayStatusApp.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,

@@ -7,10 +7,10 @@ import ReferralTaskCard from './ReferralTaskCard';
 import { FETCH_STATUS } from '../../utils/constants';
 
 const isExpired = referral => {
-  if (!referral?.ReferralExpirationDate) {
+  if (!referral?.expirationDate) {
     return false;
   }
-  const expirationDate = referral.ReferralExpirationDate;
+  const { expirationDate } = referral;
   const now = new Date();
   const expiration = new Date(expirationDate);
   return isAfter(now, expiration);
@@ -22,14 +22,23 @@ export default function ReferralTaskCardWithReferral() {
   const params = new URLSearchParams(search);
   const id = params.get('id');
 
-  const { currentReferral, referralFetchStatus } = useGetReferralById(id);
+  const { referral, referralFetchStatus } = useGetReferralById(id);
 
   if (
     id &&
-    !currentReferral &&
-    (referralFetchStatus === FETCH_STATUS.succeeded ||
-      referralFetchStatus === FETCH_STATUS.failed)
+    (referralFetchStatus === FETCH_STATUS.loading ||
+      referralFetchStatus === FETCH_STATUS.notStarted)
   ) {
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        set-focus
+        message="Loading your data..."
+      />
+    );
+  }
+
+  if (id && referralFetchStatus === FETCH_STATUS.failed) {
     return (
       <va-alert
         data-testid="referral-error"
@@ -45,7 +54,7 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  if (isExpired(currentReferral)) {
+  if (isExpired(referral)) {
     return (
       <va-alert-expandable
         status="warning"
@@ -68,5 +77,5 @@ export default function ReferralTaskCardWithReferral() {
     );
   }
 
-  return <ReferralTaskCard data={currentReferral} />;
+  return <ReferralTaskCard data={referral} />;
 }

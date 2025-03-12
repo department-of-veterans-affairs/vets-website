@@ -41,7 +41,7 @@ const RadiologyImagesList = ({ isTesting }) => {
     isTesting || false,
   );
   const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
-
+  const [dicomDownload, setDicomDownload] = useState(false);
   const returnToDetailsPage = useCallback(
     () => history.push(`/labs-and-tests/${labId}`),
     [history, labId],
@@ -112,11 +112,18 @@ const RadiologyImagesList = ({ isTesting }) => {
     [radiologyDetails, returnToDetailsPage],
   );
 
+  const updateDicomDownload = truth => {
+    setDicomDownload(truth);
+    document.querySelector('#download-banner');
+  };
+
   const renderImageContent = () => (
     <>
       <PrintHeader />
       <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
-        Images: {radiologyDetails.name}
+        {imageList && imageList.length > 0
+          ? `Images: ${radiologyDetails.name}`
+          : radiologyDetails.name}
       </h1>
       <DateSubheading
         label="Date and time performed"
@@ -136,8 +143,8 @@ const RadiologyImagesList = ({ isTesting }) => {
         VA care team to share them directly.
       </p>
       <p>
-        If you want to try to sharing these images yourself, you can download
-        them as DICOM files in a ZIP folder.
+        If you want to try sharing these images yourself, you can download them
+        as DICOM files in a ZIP folder.
       </p>
       <p>Here’s what to know:</p>
       <ul>
@@ -158,16 +165,28 @@ const RadiologyImagesList = ({ isTesting }) => {
           saves a copy of your files to the computer you’re using.
         </li>
       </ul>
-      <p>
-        {radiologyDetails?.studyId && (
-          <va-link
-            download
-            filetype="ZIP folder"
-            href={`${apiImagingPath}/${radiologyDetails.studyId}/dicom`}
-            text="Download DICOM files"
-          />
-        )}
-      </p>
+      {radiologyDetails?.studyId && (
+        <>
+          <va-banner
+            id="download-banner"
+            show-close={false}
+            headline="Download started"
+            type="success"
+            visible={dicomDownload}
+          >
+            Check your device’s downloads location for your file.
+          </va-banner>
+          <p>
+            <va-link
+              download
+              filetype="ZIP folder"
+              href={`${apiImagingPath}/${radiologyDetails.studyId}/dicom`}
+              text="Download DICOM files"
+              onClick={() => updateDicomDownload(true)}
+            />
+          </p>
+        </>
+      )}
     </>
   );
 

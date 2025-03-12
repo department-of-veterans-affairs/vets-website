@@ -5,7 +5,6 @@ import {
   VaAlert,
   VaLinkAction,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Toggler } from 'platform/utilities/feature-toggles';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
 export const ContactInfoNeeded = () => {
@@ -25,22 +24,18 @@ export const ContactInfoNeeded = () => {
     !mobilePhone?.phoneNumber;
 
   return contactInfoIsNeeded ? (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.veteranOnboardingContactInfoFlow}>
-      <Toggler.Enabled>
-        <div className="vads-u-margin-top--4 vads-u-margin-bottom--4">
-          <VaAlert data-testid="account-blocked-alert" status="info" uswds>
-            <h2 slot="headline">We need your contact information</h2>
-            <p>
-              Add your contact information to your profile so that we can
-              contact you about your VA benefits and services.
-            </p>
-            <VaLinkAction
-              href="/my-va/welcome-va-setup/review-information/contact-information"
-              text="Add your contact information"
-            />
-          </VaAlert>
-        </div>
-      </Toggler.Enabled>
-    </Toggler>
+    <div className="vads-u-margin-top--4 vads-u-margin-bottom--4">
+      <VaAlert data-testid="account-blocked-alert" status="info" uswds>
+        <h2 slot="headline">We need your contact information</h2>
+        <p>
+          Add your contact information to your profile so that we can contact
+          you about your VA benefits and services.
+        </p>
+        <VaLinkAction
+          href="/my-va/welcome-va-setup"
+          text="Add your contact information"
+        />
+      </VaAlert>
+    </div>
   ) : null;
 };

@@ -46,14 +46,25 @@ export default function CCRequestLayout({ data: appointment }) {
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled request for community care appointment';
 
-  recordAppointmentDetailsNullStates({
-    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
-    [NULL_STATE_FIELD.PROVIDER]: !providerName,
-  });
+  recordAppointmentDetailsNullStates(
+    {
+      type: appointment.type,
+      modality: appointment.modality,
+      isCerner: appointment.vaos.isCerner,
+    },
+    {
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.PROVIDER]: !providerName,
+    },
+  );
 
   return (
     <PageLayout isDetailPage showNeedHelp>
-      <DetailPageLayout heading={heading} data={appointment}>
+      <DetailPageLayout
+        heading={heading}
+        data={appointment}
+        facility={facility}
+      >
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((date, index) => (

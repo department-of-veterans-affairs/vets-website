@@ -9,6 +9,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import PercentageCalc from '../components/PercentageCalc';
 import CustomReviewField from '../ReviewPage/CustomReviewField';
+import { isDateThirtyDaysOld } from '../utilities';
 
 export default {
   uiSchema: {
@@ -48,6 +49,18 @@ export default {
             required: 'Please enter a date',
           },
         }),
+        'ui:validations': [
+          (errors, fieldData, formData) => {
+            const {
+              institutionDetails: { termStartDate },
+            } = formData;
+            if (isDateThirtyDaysOld(fieldData, termStartDate)) {
+              errors.addError(
+                'The calculation date is more than 30 days from the term start date. Please enter a valid date within the timeframe.',
+              );
+            }
+          },
+        ],
       },
     },
   },

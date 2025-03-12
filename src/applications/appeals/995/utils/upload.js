@@ -2,11 +2,7 @@ import environment from '~/platform/utilities/environment';
 import fileUiSchema from '~/platform/forms-system/src/js/definitions/file';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
 
-import {
-  NEW_API,
-  EVIDENCE_UPLOAD_API,
-  EVIDENCE_UPLOAD_API_NEW,
-} from '../constants/apis';
+import { EVIDENCE_UPLOAD_API } from '../constants/apis';
 
 import {
   MAX_FILE_SIZE_MB,
@@ -38,13 +34,6 @@ export const fileUploadUi = content => ({
     hideLabelText: !content.label,
     hideOnReview: true,
     attachmentName: false,
-    updateUiSchema: formData => ({
-      'ui:options': {
-        fileUploadUrl: `${environment.API_URL}${
-          formData[NEW_API] ? EVIDENCE_UPLOAD_API_NEW : EVIDENCE_UPLOAD_API
-        }`,
-      },
-    }),
   }),
   'ui:field': FileField,
   'ui:description': content.description,

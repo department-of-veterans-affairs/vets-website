@@ -38,6 +38,7 @@ describe('VAOS Component: CCRequestLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         patientComments: 'This is a test:Additional information',
+        created: new Date().toISOString(),
         contact: {
           telecom: [
             {
@@ -195,6 +196,7 @@ describe('VAOS Component: CCRequestLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         patientComments: 'This is a test:Additional information',
+        created: new Date().toISOString(),
         contact: {
           telecom: [
             {

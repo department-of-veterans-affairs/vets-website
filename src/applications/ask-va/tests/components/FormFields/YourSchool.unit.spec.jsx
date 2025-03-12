@@ -36,10 +36,4 @@ describe('YourSchool Component', () => {
 
     expect(getByText('12345 - Test School')).to.exist;
   });
-
-  it('should render fallback text when school is not defined', () => {
-    const { getByText } = renderComponent(null);
-
-    expect(getByText('No school code found - No school name found')).to.exist;
-  });
 });

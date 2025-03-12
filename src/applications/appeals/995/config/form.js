@@ -97,6 +97,7 @@ import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import {
   focusAlertH3,
   focusRadioH3,
+  focusAlertOrRadio,
   focusH3,
   focusOnAlert,
   focusIssue,
@@ -107,7 +108,7 @@ import {
   appStateSelector,
 } from '../../shared/utils/issues';
 
-import { showScNewForm } from '../utils/toggle';
+import { showScNewForm, clearRedirect } from '../utils/toggle';
 
 // const { } = fullSchema.properties;
 const blankUiSchema = { 'ui:options': { hideOnReview: true } };
@@ -178,31 +179,14 @@ const formConfig = {
           schema: veteranInfo.schema,
         },
 
-        ...contactInfo,
-        choosePrimaryPhone: {
-          title: 'Primary phone number',
-          path: 'primary-phone-number',
-          // only visible if both the home & mobile phone are populated
-          depends: hasHomeAndMobilePhone,
-          CustomPage: PrimaryPhone,
-          CustomPageReview: PrimaryPhoneReview,
-          uiSchema: primaryPhone.uiSchema,
-          schema: primaryPhone.schema,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-      },
-    },
-
-    housing: {
-      title: 'Living situation',
-      pages: {
         housingRisk: {
-          title: 'Housing risk',
+          title: 'Housing risks',
           path: 'housing-risk',
           uiSchema: housingRisk.uiSchema,
           schema: housingRisk.schema,
           depends: showScNewForm,
-          scrollAndFocusTarget: focusRadioH3,
+          scrollAndFocusTarget: focusAlertOrRadio,
+          onContinue: clearRedirect,
         },
         livingSituation: {
           title: 'Living situation',
@@ -228,6 +212,19 @@ const formConfig = {
           uiSchema: pointOfContact.uiSchema,
           schema: pointOfContact.schema,
           depends: hasHousingRisk,
+        },
+
+        ...contactInfo,
+        choosePrimaryPhone: {
+          title: 'Primary phone number',
+          path: 'primary-phone-number',
+          // only visible if both the home & mobile phone are populated
+          depends: hasHomeAndMobilePhone,
+          CustomPage: PrimaryPhone,
+          CustomPageReview: PrimaryPhoneReview,
+          uiSchema: primaryPhone.uiSchema,
+          schema: primaryPhone.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
       },
     },
@@ -343,7 +340,7 @@ const formConfig = {
         // Duplicate of evidencePrivateLimitation page, but doesn't need to
         // CustomPage to handle navigation
         evidencePrivateLimitation2: {
-          title: 'Non-VA medical record limitations',
+          title: 'Non-VA medical record limitation details',
           path: EVIDENCE_LIMITATION_PATH2,
           depends: hasPrivateLimitation,
           uiSchema: evidencePrivateLimitation.uiSchema,

@@ -56,6 +56,7 @@ const EvidenceVaRecords = ({
   contentAfterButtons,
 }) => {
   const locations = getVAEvidence(data || {});
+  const showScNewForm = newFormToggle(data);
 
   // *** state ***
   // currentIndex is zero-based
@@ -71,11 +72,11 @@ const EvidenceVaRecords = ({
 
   const [currentState, setCurrentState] = useState(defaultState);
 
-  const getPageType = entry => (isEmptyVaEntry(entry) ? 'add' : 'edit');
+  const getPageType = entry =>
+    isEmptyVaEntry(entry, showScNewForm) ? 'add' : 'edit';
   const [addOrEdit, setAddOrEdit] = useState(getPageType(currentData));
 
   const availableIssues = getSelected(data).map(getIssueName);
-  const showScNewForm = newFormToggle(data);
   const setContent = showScNewForm ? content : contentOld;
 
   // *** validations ***
@@ -168,7 +169,7 @@ const EvidenceVaRecords = ({
 
   const addAndGoToPageIndex = index => {
     const newLocations = [...locations];
-    if (!isEmptyVaEntry(locations[index])) {
+    if (!isEmptyVaEntry(locations[index], showScNewForm)) {
       // only insert a new entry if the existing entry isn't empty
       newLocations.splice(index, 0, defaultData);
     }
@@ -251,7 +252,7 @@ const EvidenceVaRecords = ({
     onGoBack: () => {
       // show modal if there are errors; don't show _immediately after_ adding
       // a new empty entry
-      if (isEmptyVaEntry(currentData)) {
+      if (isEmptyVaEntry(currentData, showScNewForm)) {
         updateCurrentLocation({ remove: true });
       } else if (hasErrors(errors)) {
         updateState({ submitted: true, showModal: true });

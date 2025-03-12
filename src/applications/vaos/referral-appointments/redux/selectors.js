@@ -8,6 +8,19 @@ export function getProviderInfo(state) {
   };
 }
 
+export function getAppointmentCreateStatus(state) {
+  return state.referral.appointmentCreateStatus;
+}
+
+export function getReferralAppointmentInfo(state) {
+  return {
+    referralAppointmentInfo: state.referral.referralAppointmentInfo,
+    appointmentInfoLoading: state.referral.appointmentInfoLoading,
+    appointmentInfoError: state.referral.appointmentInfoError,
+    appointmentInfoTimeout: state.referral.appointmentInfoTimeout,
+  };
+}
+
 export function getDraftAppointmentInfo(state) {
   return {
     draftAppointmentInfo: state.referral.draftAppointmentInfo,
@@ -22,9 +35,10 @@ export function getReferrals(state) {
   };
 }
 
-export function getReferral(state) {
+export function getReferral(state, id) {
+  const referral = state.referral.referralDetails.find(ref => ref.uuid === id);
   return {
-    referrals: state.referral.referrals,
+    referral,
     referralFetchStatus: state.referral.referralFetchStatus,
   };
 }

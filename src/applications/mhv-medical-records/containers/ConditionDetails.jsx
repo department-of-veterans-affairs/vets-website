@@ -95,7 +95,7 @@ const ConditionDetails = props => {
 
   const generateConditionDetailsPdf = async () => {
     setDownloadStarted(true);
-    const title = `Health conditions: ${record.name}`;
+    const title = `${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };
@@ -111,8 +111,8 @@ ${record.name} \n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date}\n
 ${txtLine}\n
+Date entered: ${record.date}\n
 Provider: ${record.provider}\n
 Location: ${record.facility}\n
 Provider Notes: ${processList(record.comments)}\n`;
@@ -143,7 +143,7 @@ Provider Notes: ${processList(record.comments)}\n`;
         <>
           <PrintHeader />
           <HeaderSection
-            header={`Health conditions: ${record.name}`}
+            header={`${record.name}`}
             className="vads-u-margin-bottom--0"
             aria-describedby="condition-date"
             data-dd-privacy="mask"

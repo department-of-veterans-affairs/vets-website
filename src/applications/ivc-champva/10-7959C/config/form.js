@@ -2,6 +2,7 @@ import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
+import { defaultItemPageScrollAndFocusTarget as scrollAndFocusTarget } from 'platform/forms-system/src/js/patterns/array-builder';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -93,7 +94,7 @@ const formConfig = {
     collapsibleNavLinks: true,
   },
   downtime: {
-    dependencies: [externalServices.pega],
+    dependencies: [externalServices.pega, externalServices.form107959c],
   },
   preSubmitInfo: {
     required: true,
@@ -124,7 +125,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for CHAMPVA other health insurance certification.',
   },
-  title: 'File for CHAMPVA Other Health Insurance Certification',
+  title: 'Submit other health insurance VA Form 10-7959c',
   subTitle: 'CHAMPVA Other Health Insurance Certification (VA Form 10-7959c)',
   defaultDefinitions: {},
   chapters: {
@@ -136,11 +137,13 @@ const formConfig = {
           path: 'form-signature',
           title: 'Form signature',
           ...formSignatureSchema,
+          scrollAndFocusTarget,
         },
         signerEmail: {
           path: 'signer-email',
           title: 'Your email address',
           ...applicationEmailSchema,
+          scrollAndFocusTarget,
         },
       },
     },
@@ -154,16 +157,19 @@ const formConfig = {
               formData.certifierRole === 'applicant' ? 'Your' : 'Beneficiary’s'
             } name`,
           ...applicantNameDobSchema,
+          scrollAndFocusTarget,
         },
         applicantIdentity: {
           path: 'applicant-identification-info',
           title: formData => `${fnp(formData)} identification information`,
           ...applicantSsnSchema,
+          scrollAndFocusTarget,
         },
         applicantAddressInfo: {
           path: 'applicant-mailing-address',
           title: formData => `${fnp(formData)} mailing address`,
           ...applicantAddressInfoSchema,
+          scrollAndFocusTarget,
         },
 
         //
@@ -176,11 +182,13 @@ const formConfig = {
           path: 'applicant-contact-info',
           title: formData => `${fnp(formData)} contact information`,
           ...applicantContactInfoSchema,
+          scrollAndFocusTarget,
         },
         applicantGender: {
           path: 'applicant-gender',
           title: formData => `${fnp(formData)} sex listed at birth`,
           ...applicantGenderSchema,
+          scrollAndFocusTarget,
         },
       },
     },
@@ -191,12 +199,14 @@ const formConfig = {
           path: 'medicare-ab-status',
           title: formData => `${fnp(formData)} Medicare status`,
           ...applicantHasMedicareSchema,
+          scrollAndFocusTarget,
         },
         medicareClass: {
           path: 'medicare-plan',
           title: formData => `${fnp(formData)} Medicare coverage`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicareClassSchema,
+          scrollAndFocusTarget,
         },
         pharmacyBenefits: {
           path: 'medicare-pharmacy',
@@ -207,6 +217,7 @@ const formConfig = {
               get('applicantMedicareClass', formData),
             ),
           ...applicantMedicarePharmacySchema,
+          scrollAndFocusTarget,
         },
         // If 'yes' to previous question:
         partACarrier: {
@@ -214,12 +225,14 @@ const formConfig = {
           title: formData => `${fnp(formData)} Medicare Part A carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartACarrierSchema,
+          scrollAndFocusTarget,
         },
         partBCarrier: {
           path: 'medicare-b-carrier',
           title: formData => `${fnp(formData)} Medicare Part B carrier`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantMedicarePartBCarrierSchema,
+          scrollAndFocusTarget,
         },
         medicareABCards: {
           path: 'medicare-ab-upload',
@@ -228,12 +241,14 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...applicantMedicareABUploadSchema,
+          scrollAndFocusTarget,
         },
         hasMedicareD: {
           path: 'medicare-d-status',
           title: formData => `${fnp(formData)} Medicare Part D status`,
           depends: formData => get('applicantMedicareStatus', formData),
           ...applicantHasMedicareDSchema,
+          scrollAndFocusTarget,
         },
         partDCarrier: {
           path: 'medicare-d-carrier',
@@ -242,6 +257,7 @@ const formConfig = {
             get('applicantMedicareStatus', formData) &&
             get('applicantMedicareStatusD', formData),
           ...applicantMedicarePartDCarrierSchema,
+          scrollAndFocusTarget,
         },
         medicareDCards: {
           path: 'medicare-d-upload',
@@ -253,6 +269,7 @@ const formConfig = {
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
+          scrollAndFocusTarget,
         },
       },
     },
@@ -263,6 +280,7 @@ const formConfig = {
           path: 'insurance-status',
           title: formData => `${fnp(formData)} health insurance`,
           ...applicantHasInsuranceSchema(true),
+          scrollAndFocusTarget,
         },
         primaryType: {
           path: 'insurance-plan',
@@ -272,6 +290,7 @@ const formConfig = {
               formData.applicantPrimaryProvider
             } insurance plan`,
           ...applicantInsuranceTypeSchema(true),
+          scrollAndFocusTarget,
         },
         primaryMedigap: {
           path: 'insurance-medigap',
@@ -283,12 +302,14 @@ const formConfig = {
               formData.applicantPrimaryProvider
             } Medigap information`,
           ...applicantMedigapSchema(true),
+          scrollAndFocusTarget,
         },
         primaryProvider: {
           path: 'insurance-info',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData => `${fnp(formData)} health insurance information`,
           ...applicantProviderSchema(true),
+          scrollAndFocusTarget,
         },
         primaryThroughEmployer: {
           path: 'insurance-type',
@@ -298,6 +319,7 @@ const formConfig = {
               formData.applicantPrimaryProvider
             }`,
           ...applicantInsuranceThroughEmployerSchema(true),
+          scrollAndFocusTarget,
         },
         primaryPrescription: {
           path: 'insurance-prescription',
@@ -307,6 +329,7 @@ const formConfig = {
               formData.applicantPrimaryProvider
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(true),
+          scrollAndFocusTarget,
         },
         primaryEob: {
           path: 'insurance-eob',
@@ -318,6 +341,7 @@ const formConfig = {
               formData.applicantPrimaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEobSchema(true),
+          scrollAndFocusTarget,
         },
         primaryScheduleOfBenefits: {
           path: 'insurance-sob',
@@ -332,6 +356,7 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...applicantInsuranceSOBSchema(true),
+          scrollAndFocusTarget,
         },
         primaryCard: {
           path: 'insurance-upload',
@@ -340,6 +365,7 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...applicantInsuranceCardSchema(true),
+          scrollAndFocusTarget,
         },
         primaryComments: {
           path: 'insurance-comments',
@@ -349,12 +375,14 @@ const formConfig = {
               formData.applicantPrimaryProvider
             } additional comments`,
           ...applicantInsuranceCommentsSchema(true),
+          scrollAndFocusTarget,
         },
         hasSecondaryHealthInsurance: {
           path: 'secondary-insurance',
           depends: formData => get('applicantHasPrimary', formData),
           title: formData => `${fnp(formData)} additional health insurance`,
           ...applicantHasInsuranceSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryType: {
           path: 'secondary-insurance-plan',
@@ -366,6 +394,7 @@ const formConfig = {
               formData.applicantSecondaryProvider
             } insurance plan`,
           ...applicantInsuranceTypeSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryMedigap: {
           path: 'secondary-insurance-medigap',
@@ -378,6 +407,7 @@ const formConfig = {
               formData.applicantSecondaryProvider
             } Medigap information`,
           ...applicantMedigapSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryProvider: {
           path: 'secondary-insurance-info',
@@ -386,6 +416,7 @@ const formConfig = {
             get('applicantHasSecondary', formData),
           title: formData => `${fnp(formData)} health insurance information`,
           ...applicantProviderSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryThroughEmployer: {
           path: 'secondary-insurance-type',
@@ -397,6 +428,7 @@ const formConfig = {
               formData.applicantSecondaryProvider
             }`,
           ...applicantInsuranceThroughEmployerSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryPrescription: {
           path: 'secondary-insurance-prescription',
@@ -408,6 +440,7 @@ const formConfig = {
               formData.applicantSecondaryProvider
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryEob: {
           path: 'secondary-insurance-eob',
@@ -420,6 +453,7 @@ const formConfig = {
               formData.applicantSecondaryProvider
             } explanation of benefits`,
           ...applicantInsuranceEobSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryScheduleOfBenefits: {
           path: 'secondary-insurance-sob',
@@ -435,6 +469,7 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...applicantInsuranceSOBSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryCard: {
           path: 'secondary-insurance-card-upload',
@@ -445,6 +480,7 @@ const formConfig = {
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           ...applicantInsuranceCardSchema(false),
+          scrollAndFocusTarget,
         },
         secondaryComments: {
           path: 'secondary-insurance-comments',
@@ -456,6 +492,7 @@ const formConfig = {
               formData.applicantSecondaryProvider
             } additional comments`,
           ...applicantInsuranceCommentsSchema(false),
+          scrollAndFocusTarget,
         },
       },
     },
@@ -474,6 +511,7 @@ const formConfig = {
             },
           },
           schema: blankSchema,
+          scrollAndFocusTarget,
         },
         missingFileConsent: {
           path: 'consent-mail',
@@ -487,6 +525,7 @@ const formConfig = {
             },
           },
           schema: blankSchema,
+          scrollAndFocusTarget,
         },
       },
     },

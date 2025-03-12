@@ -1,154 +1,107 @@
-import React, { useState } from 'react';
-import {
-  VaCheckbox,
-  VaSelect,
-  VaTextInput,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import constants from 'vets-json-schema/dist/constants.json';
+import React from 'react';
+import PropTypes from 'prop-types';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import { useEditOrAddForm } from 'platform/forms-system/src/js/patterns/array-builder/useEditOrAddForm';
 import UnsavedFieldNote from './UnsavedFieldNote';
+import { PAGE_PATH } from '../constants';
 
-const COUNTRY_VALUES = constants.countries.map(country => country.value);
-const COUNTRY_NAMES = constants.countries.map(country => country.label);
+const EditAddress = props => {
+  const { data, schema, uiSchema, onChange, onSubmit } = useEditOrAddForm({
+    isEdit: true,
+    schema: props.schema,
+    uiSchema: props.uiSchema,
+    data: props.data,
+    onChange: props.onChange,
+    onSubmit: props.onSubmit,
+  });
 
-const MILITARY_STATE_VALUES = constants.militaryStates.map(
-  state => state.value,
-);
+  if (!schema) {
+    return null;
+  }
 
-// filtered States that include US territories
-const filteredStates = constants.states.USA.filter(
-  state => !MILITARY_STATE_VALUES.includes(state.value),
-);
-
-const STATE_VALUES = filteredStates.map(state => state.value);
-const STATE_NAMES = filteredStates.map(state => state.label);
-
-const EditAddress = ({ data, goToPath, setFormData }) => {
-  const [address, setAddress] = useState(data.permanentAddress || {});
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    setFormData({ ...data, permanentAddress: address });
-    goToPath('/contact-information');
-  };
-
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    setAddress(prevAddress => ({ ...prevAddress, [name]: value }));
+  const handlers = {
+    onUpdateReview: () => {
+      if (!document.querySelector('va-text-input[error],va-select[error]')) {
+        props.setFormData({ ...data });
+        props.updatePage();
+      }
+    },
+    onCancelReview: () => {
+      props.updatePage();
+    },
+    onCancel: () => {
+      props.goToPath(PAGE_PATH.CONTACT_INFORMATION);
+    },
   };
 
   return (
     <div>
-      <h2>Order medical supplies</h2>
-      <h3>Contact information</h3>
-      <UnsavedFieldNote fieldName="mailing address" />
-      <form onSubmit={handleSubmit}>
-        <VaCheckbox
-          label="I live on a U.S. military base outside of the United States."
-          onVaChange={e =>
-            setAddress(prevAddress => ({
-              ...prevAddress,
-              isMilitary: e.detail.checked,
-            }))
-          }
-          checked={address.isMilitary}
-        />
-
-        <VaSelect
-          label="Country (Required)"
-          name="country"
-          value={address.country}
-          onVaSelect={e =>
-            handleInputChange({
-              target: { name: 'country', value: e.detail.value },
-            })
-          }
-          required
-        >
-          {COUNTRY_VALUES.map((value, index) => (
-            <option key={value} value={value}>
-              {COUNTRY_NAMES[index]}
-            </option>
-          ))}
-        </VaSelect>
-
-        <VaTextInput
-          label="Street address (Required)"
-          name="street"
-          value={address.street}
-          onVaInput={e =>
-            handleInputChange({
-              target: { name: 'street', value: e.target.value },
-            })
-          }
-          required
-        />
-
-        <VaTextInput
-          label="Street address line 2"
-          name="street2"
-          value={address.street2}
-          onVaInput={e =>
-            handleInputChange({
-              target: { name: 'street2', value: e.target.value },
-            })
-          }
-        />
-
-        <VaTextInput
-          label="City (Required)"
-          name="city"
-          value={address.city}
-          onVaInput={e =>
-            handleInputChange({
-              target: { name: 'city', value: e.target.value },
-            })
-          }
-          required
-        />
-
-        <VaSelect
-          label="State (Required)"
-          name="state"
-          value={address.state}
-          onVaSelect={e =>
-            handleInputChange({
-              target: { name: 'state', value: e.detail.value },
-            })
-          }
-          required
-        >
-          {STATE_VALUES.map((value, index) => (
-            <option key={value} value={value}>
-              {STATE_NAMES[index]}
-            </option>
-          ))}
-        </VaSelect>
-
-        <VaTextInput
-          label="Postal code (Required)"
-          name="postalCode"
-          value={address.postalCode}
-          onVaInput={e =>
-            handleInputChange({
-              target: { name: 'postalCode', value: e.target.value },
-            })
-          }
-          required
-        />
-
-        <div>
-          <VaButton text="Update" onClick={handleSubmit} uswds />
-          <VaButton
-            text="Cancel"
-            secondary
-            onClick={() => goToPath('/contact-information')}
-            uswds
-          />
+      <UnsavedFieldNote fieldName="shipping address" />
+      <SchemaForm
+        addNameAttribute
+        name={props.name}
+        title={props.title}
+        data={data}
+        uiSchema={uiSchema}
+        schema={schema}
+        formContext={props.formContext}
+        appStateData={props.appStateData}
+        trackingPrefix={props.trackingPrefix}
+        onSubmit={onSubmit}
+        onChange={onChange}
+      >
+        <div className="vads-u-margin-y--2">
+          {props.onReviewPage ? (
+            <>
+              <va-button
+                text="Update Page"
+                onClick={handlers.onUpdateReview}
+                class="mhv-update-cancel-buttons"
+              />
+              <va-button
+                text="Cancel"
+                onClick={handlers.onCancelReview}
+                secondary
+                class="mhv-update-cancel-buttons"
+              />
+            </>
+          ) : (
+            <>
+              <va-button
+                text="Update"
+                submit="prevent"
+                class="mhv-update-cancel-buttons"
+              />
+              <va-button
+                text="Cancel"
+                onClick={handlers.onCancel}
+                secondary
+                class="mhv-update-cancel-buttons"
+              />
+            </>
+          )}
         </div>
-      </form>
+      </SchemaForm>
     </div>
   );
+};
+
+EditAddress.propTypes = {
+  schema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  appStateData: PropTypes.object,
+  data: PropTypes.object,
+  defaultEditButton: PropTypes.func,
+  formContext: PropTypes.object,
+  goToPath: PropTypes.func,
+  name: PropTypes.string,
+  setFormData: PropTypes.func,
+  title: PropTypes.string,
+  trackingPrefix: PropTypes.string,
+  updatePage: PropTypes.func,
+  onChange: PropTypes.func,
+  onReviewPage: PropTypes.bool,
+  onSubmit: PropTypes.func,
 };
 
 export default EditAddress;

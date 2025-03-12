@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { formatDate, maskSSN, normalizeFullName } from '../../utils/helpers';
 
@@ -8,9 +8,20 @@ const GuestVerifiedInformation = ({ user }) => {
     veteranDateOfBirth,
     veteranSocialSecurityNumber,
   } = user;
-  const veteranSSN = maskSSN(veteranSocialSecurityNumber);
-  const veteranDOB = formatDate(veteranDateOfBirth, 'MMMM dd, yyyy');
-  const veteranName = normalizeFullName(veteranFullName, true);
+
+  const veteranSSN = useMemo(() => maskSSN(veteranSocialSecurityNumber), [
+    veteranSocialSecurityNumber,
+  ]);
+
+  const veteranDOB = useMemo(
+    () => formatDate(veteranDateOfBirth, 'MMMM dd, yyyy'),
+    [veteranDateOfBirth],
+  );
+
+  const veteranName = useMemo(() => normalizeFullName(veteranFullName, true), [
+    veteranFullName,
+  ]);
+
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
       <p>Confirm your information before you continue.</p>
@@ -50,7 +61,11 @@ const GuestVerifiedInformation = ({ user }) => {
 };
 
 GuestVerifiedInformation.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.shape({
+    veteranFullName: PropTypes.object,
+    veteranDateOfBirth: PropTypes.string,
+    veteranSocialSecurityNumber: PropTypes.string,
+  }),
 };
 
 export default GuestVerifiedInformation;

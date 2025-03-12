@@ -112,3 +112,12 @@ export const clockIcon = (
     <va-icon icon="schedule" size={3} aria-hidden="true" />
   </span>
 );
+
+export const folderIcon = (
+  <span
+    className="vads-u-color--grey vads-u-margin-left--0p5"
+    aria-hidden="true"
+  >
+    <va-icon icon="folder" size={3} aria-hidden="true" />
+  </span>
+);

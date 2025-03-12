@@ -2,11 +2,12 @@ import React from 'react';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { isCompletingForm0781 } from '../../utils/form0781';
 import eventDetails from './traumaticEventDetails';
-import officialReport from './officialReport';
+import { officialReport, officialReportMst } from './officialReport';
 import policeReport from './policeReportLocation';
 import {
   eventsListPageTitle,
   eventsListDescription,
+  maxEventsAlert,
 } from '../../content/traumaticEventsList';
 import { eventDetailsPageTitle } from '../../content/traumaticEventDetails';
 import { officialReportPageTitle } from '../../content/officialReport';
@@ -16,7 +17,28 @@ import {
   form0781HeadingTag,
   mentalHealthSupportAlert,
 } from '../../content/form0781';
-import { OFFICIAL_REPORT_TYPES } from '../../constants';
+import { MILITARY_REPORT_TYPES, OTHER_REPORT_TYPES } from '../../constants';
+
+const isReviewAndSubmitPage = () => {
+  const pathParts = window.location.pathname.split('/');
+  return pathParts[pathParts.length - 1] === 'review-and-submit';
+};
+const summaryTitleUI = (summaryTitle, reviewAndSubmitTitle) => {
+  return () => (isReviewAndSubmitPage() ? reviewAndSubmitTitle : summaryTitle);
+};
+const summaryDescriptionUI = (
+  description,
+  reviewAndSubmitDescription = null,
+) => {
+  return () =>
+    isReviewAndSubmitPage() ? reviewAndSubmitDescription : description();
+};
+
+export const isMstEvent = formData => Boolean(formData.eventTypes?.mst);
+export const summaryPageTitleWithTag = titleWithTag(
+  eventsListPageTitle,
+  form0781HeadingTag,
+);
 
 /** @type {ArrayBuilderOptions} */
 export const options = {
@@ -27,24 +49,26 @@ export const options = {
   required: false,
   maxItems: 20,
   text: {
-    summaryTitle: titleWithTag(eventsListPageTitle, form0781HeadingTag),
-    summaryTitleWithoutItems: titleWithTag(
-      eventsListPageTitle,
-      form0781HeadingTag,
-    ),
-    summaryDescription: eventsListDescription,
+    summaryTitle: summaryTitleUI(summaryPageTitleWithTag, eventsListPageTitle),
+    summaryTitleWithoutItems: summaryPageTitleWithTag,
+    summaryDescription: summaryDescriptionUI(eventsListDescription, null),
     summaryDescriptionWithoutItems: eventsListDescription,
     getItemName: (props, index) => {
       return `Event #${index + 1}`;
     },
     cardDescription: item => {
-      const selectedReports = Object.entries(item?.reports || {})
-        .filter(([_, isSelected]) => isSelected)
-        .map(([key]) => OFFICIAL_REPORT_TYPES[key]);
-      if (item?.otherReports) {
-        selectedReports.push(item.otherReports);
+      const selectedReports = [
+        ...Object.entries(item?.militaryReports || {})
+          .filter(([_, isSelected]) => isSelected)
+          .map(([key]) => MILITARY_REPORT_TYPES[key]),
+        ...Object.entries(item?.otherReports || {})
+          .filter(([_, isSelected]) => isSelected)
+          .map(([key]) => OTHER_REPORT_TYPES[key]),
+      ];
+      if (item?.unlistedReport) {
+        selectedReports.push(item.unlistedReport);
       }
-      const reportsDescription = selectedReports.join(', ');
+      const reportsDescription = selectedReports.join('; ');
       return (
         <div>
           <p className="multiline-ellipsis-4">
@@ -63,8 +87,8 @@ export const options = {
       );
     },
     summaryAddButtonText: 'Add an event',
-    alertMaxItems:
-      'You have added the maximum number of allowed events for this application. You may edit or delete an event or choose to continue on in the application.',
+    reviewAddButtonText: 'Add an event',
+    alertMaxItems: maxEventsAlert,
     alertItemUpdated: props => {
       return `You’ve edited details about Event #${props.index + 1}`;
     },
@@ -89,34 +113,42 @@ export const options = {
 
 export const traumaticEventsPages = arrayBuilderPages(options, pageBuilder => ({
   eventsList: pageBuilder.summaryPage({
-    title: titleWithTag(eventsListPageTitle, form0781HeadingTag),
-    path: 'additional-forms/mental-health-statement/events-summary',
+    title: summaryPageTitleWithTag,
+    path: 'mental-health-form-0781/events-summary',
     depends: formData => isCompletingForm0781(formData),
     ContentBeforeButtons: (
       <div className="vads-u-margin-y--2p5">{mentalHealthSupportAlert()}</div>
     ),
   }),
   eventDetails: pageBuilder.itemPage({
-    title: titleWithTag(eventDetailsPageTitle, form0781HeadingTag),
-    path: 'additional-forms/mental-health-statement/:index/event-details',
-    depends: formData => isCompletingForm0781(formData) && formData.events,
+    title: eventDetailsPageTitle,
+    path: 'mental-health-form-0781/:index/event-details',
+    depends: formData => isCompletingForm0781(formData),
     uiSchema: eventDetails.uiSchema,
     schema: eventDetails.schema,
   }),
   officialReport: pageBuilder.itemPage({
-    title: titleWithTag(officialReportPageTitle, form0781HeadingTag),
-    path: `additional-forms/mental-health-statement/:index/event-report`,
+    title: officialReportPageTitle,
+    path: `mental-health-form-0781/:index/event-report`,
     depends: (formData, index) =>
-      isCompletingForm0781(formData) && formData.events?.[index],
+      formData.events?.[index] && !isMstEvent(formData),
     uiSchema: officialReport.uiSchema,
     schema: officialReport.schema,
   }),
+  officialReportMst: pageBuilder.itemPage({
+    title: officialReportPageTitle,
+    path: `mental-health-form-0781/:index/event-report-mst`,
+    depends: (formData, index) =>
+      formData.events?.[index] && isMstEvent(formData),
+    uiSchema: officialReportMst.uiSchema,
+    schema: officialReportMst.schema,
+  }),
   policeReport: pageBuilder.itemPage({
-    title: titleWithTag(policeReportLocationPageTitle, form0781HeadingTag),
-    path: `additional-forms/mental-health-statement/:index/event-police-report`,
+    title: policeReportLocationPageTitle,
+    path: `mental-health-form-0781/:index/event-police-report`,
     depends: (formData, index) =>
       isCompletingForm0781(formData) &&
-      formData.events?.[index]?.reports?.police,
+      formData.events?.[index]?.otherReports?.police,
     uiSchema: policeReport.uiSchema,
     schema: policeReport.schema,
   }),

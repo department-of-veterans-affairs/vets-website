@@ -8,6 +8,7 @@ import {
   createArrayBuilderUpdatedPath,
   getArrayIndexFromPathName,
   initGetText,
+  defaultSummaryPageScrollAndFocusTarget,
   defaultItemPageScrollAndFocusTarget,
 } from './helpers';
 import ArrayBuilderItemPage from './ArrayBuilderItemPage';
@@ -271,6 +272,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     isItemIncomplete = item => item?.name,
     minItems = 1,
     maxItems = 100,
+    hideMaxItemsAlert = false,
     text: userText = {},
     reviewPath = 'review-and-submit',
     required: userRequired,
@@ -506,6 +508,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      hideMaxItemsAlert,
       nounPlural,
       nounSingular,
       required,
@@ -522,7 +525,9 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
         isReviewPage: false,
         ...summaryPageProps,
       }),
-      scrollAndFocusTarget: 'form.rjsf h1, form.rjsf h3',
+      scrollAndFocusTarget:
+        pageConfig.scrollAndFocusTarget ||
+        defaultSummaryPageScrollAndFocusTarget,
       onNavForward: navForwardSummary,
       onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,

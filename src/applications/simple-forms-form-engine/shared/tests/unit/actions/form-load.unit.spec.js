@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DATA_FILES_PATH } from 'platform/site-wide/drupal-static-data/constants';
-import ENVIRONMENTS from 'site/constants/environments';
-import ENVIRONMENT_CONFIGURATIONS from 'site/constants/environments-configs';
+import environment from 'platform/utilities/environment';
 import {
   employmentQuestionnaire,
   normalizedForm,
@@ -19,7 +18,6 @@ import {
 
 const sinon = require('sinon');
 
-const PROD_ENV = ENVIRONMENT_CONFIGURATIONS[ENVIRONMENTS.VAGOVPROD];
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const initialState = {
@@ -39,7 +37,9 @@ describe('form-load actions', () => {
         .expects('fetch')
         .once()
         .withArgs(
-          `${PROD_ENV.BASE_URL}/${DATA_FILES_PATH}/${DIGITAL_FORMS_FILENAME}`,
+          `${
+            environment.BASE_URL
+          }/${DATA_FILES_PATH}/${DIGITAL_FORMS_FILENAME}`,
         );
 
       await fetchDrupalDigitalForms();

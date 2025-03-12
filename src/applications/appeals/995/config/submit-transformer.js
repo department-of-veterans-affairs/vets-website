@@ -1,11 +1,13 @@
 import { EVIDENCE_OTHER, SUPPORTED_BENEFIT_TYPES_LIST } from '../constants';
 import {
+  getHomeless,
   getAddress,
   getClaimantData,
   getEmail,
   getEvidence,
   getForm4142,
   getPhone,
+  getMstData,
 } from '../utils/submit';
 
 import { addIncludedIssues, getTimeZone } from '../../shared/utils/submit';
@@ -23,6 +25,8 @@ export function transform(formConfig, form) {
         ? benefitType
         : 'compensation',
       ...getClaimantData(formData),
+      ...getHomeless(formData),
+      ...getMstData(formData),
 
       veteran: {
         timezone: getTimeZone(),

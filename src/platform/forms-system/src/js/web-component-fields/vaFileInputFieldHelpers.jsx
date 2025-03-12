@@ -46,3 +46,5 @@ export const getFileSize = num => {
   }
   return `${num} B`;
 };
+
+export const allKeysAreEmpty = obj => Object.keys(obj).every(key => !obj[key]);

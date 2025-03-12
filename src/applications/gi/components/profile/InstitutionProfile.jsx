@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -25,6 +25,7 @@ import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
 import YellowRibbonSelector from './YellowRibbonSelector';
 import Programs from './Programs';
+import NewFeatureProgramsYRTAlert from './NewFeatureProgramsYRTAlert';
 
 export default function InstitutionProfile({
   institution,
@@ -43,7 +44,7 @@ export default function InstitutionProfile({
   const toggleGiProgramsFlag = useToggleValue(
     TOGGLE_NAMES.giComparisonToolProgramsToggleFlag,
   );
-
+  const [visibleAlert, setVisibleAlert] = useState(true);
   const shouldShowSchoolLocations = facilityMap =>
     facilityMap &&
     (facilityMap.main.extensions.length > 0 ||
@@ -172,6 +173,17 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
+      {((institution.yr === true && toggleValue) ||
+        (programTypes?.length > 0 && toggleGiProgramsFlag)) && (
+        <NewFeatureProgramsYRTAlert
+          institution={institution}
+          toggleValue={toggleValue}
+          toggleGiProgramsFlag={toggleGiProgramsFlag}
+          programTypes={programTypes}
+          visible={visibleAlert}
+          onClose={() => setVisibleAlert(false)}
+        />
+      )}
       {showSchoolContentBasedOnType(type) &&
         type !== 'FOREIGN' && (
           <ProfileSection
@@ -204,11 +216,11 @@ export default function InstitutionProfile({
             label="Yellow Ribbon Program information"
             id="yellow-ribbon-program-information"
           >
-            <p>
+            <p data-testid="yellow-ribbon-section">
               The Yellow Ribbon Program can help reduce your out-of-pocket
               tuition and fee costs at participating colleges and universities.
               By enrolling, you'll benefit from a contribution made by the
-              school. The VA will match this contribution
+              school. VA will match this contribution
               {type === 'FOREIGN' && `${` `}in United States Dollars (USD)`},
               covering up to the full cost of tuition and fees.
             </p>
@@ -223,6 +235,7 @@ export default function InstitutionProfile({
               href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
               text="Find out if you qualify for the Yellow Ribbon Program"
               className="vads-u-margin-bottom--2"
+              data-testid="yellow-ribbon-program-link"
             />
             {institution.yellowRibbonPrograms.length > 0 ? (
               <YellowRibbonSelector
@@ -279,11 +292,12 @@ export default function InstitutionProfile({
           />
         </ProfileSection>
       )}
-      {toggleGiProgramsFlag && (
-        <ProfileSection label="Programs" id="programs">
-          <Programs programTypes={programTypes} facilityCode={facilityCode} />
-        </ProfileSection>
-      )}
+      {toggleGiProgramsFlag &&
+        programTypes.length > 0 && (
+          <ProfileSection label="Programs" id="programs">
+            <Programs programTypes={programTypes} facilityCode={facilityCode} />
+          </ProfileSection>
+        )}
       {!isOJT && (
         <ProfileSection label="Academics" id="academics">
           <Academics institution={institution} onShowModal={showModal} />

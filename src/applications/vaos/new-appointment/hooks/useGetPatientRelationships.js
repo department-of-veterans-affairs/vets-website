@@ -1,19 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { FETCH_STATUS } from '../../utils/constants';
 import { useOHDirectScheduling } from './useOHDirectScheduling';
-import { getPatientProviderRelationships } from '../redux/selectors';
-import { fetchPatientProviderRelationships } from '../redux/actions';
+import { getPatientRelationships } from '../redux/actions';
+
+import { selectPatientProviderRelationships } from '../redux/selectors';
 
 export function useGetPatientRelationships() {
+  const [loading, setLoading] = useState(true);
+  const [patientRelationshipsError, setPatientRelationshipsError] = useState(
+    false,
+  );
   const dispatch = useDispatch();
   const featureOHDirectSchedule = useOHDirectScheduling();
 
+  // Fetches patient relationships
   const {
     patientProviderRelationships,
     patientProviderRelationshipsStatus,
   } = useSelector(
-    state => getPatientProviderRelationships(state),
+    state => selectPatientProviderRelationships(state),
     shallowEqual,
   );
 
@@ -21,10 +27,20 @@ export function useGetPatientRelationships() {
     () => {
       if (
         featureOHDirectSchedule &&
-        !patientProviderRelationships.length &&
         patientProviderRelationshipsStatus === FETCH_STATUS.notStarted
       ) {
-        dispatch(fetchPatientProviderRelationships());
+        dispatch(getPatientRelationships());
+      }
+
+      if (
+        patientProviderRelationshipsStatus === FETCH_STATUS.succeeded ||
+        patientProviderRelationshipsStatus === FETCH_STATUS.failed
+      ) {
+        setLoading(false);
+      }
+
+      if (patientProviderRelationshipsStatus === FETCH_STATUS.failed) {
+        setPatientRelationshipsError(true);
       }
     },
     [
@@ -34,7 +50,10 @@ export function useGetPatientRelationships() {
       patientProviderRelationships,
     ],
   );
+
   return {
+    loading,
+    patientRelationshipsError,
     patientProviderRelationships,
     patientProviderRelationshipsStatus,
   };

@@ -5,12 +5,16 @@ describe('22-10282 Edu form', () => {
   beforeEach(function() {
     if (Cypress.env('CI')) this.skip();
   });
+
   it('should be keyboard-only navigable', () => {
     // Go to application, should go to intro page
-    cy.visit('education/apply-for-education-benefits/10282/introduction');
+    cy.visit(
+      'education/other-va-education-benefits/ibm-skillsbuild-program/apply-form-22-10282',
+    );
     cy.injectAxeThenAxeCheck();
     // Tab to and press 'Start your application'
-    cy.realPress(['Tab', 'Enter']);
+    cy.repeatKey('Tab', 2);
+    cy.realPress(['Enter']);
 
     // Applicant name page
     cy.url().should(
@@ -262,6 +266,6 @@ describe('22-10282 Edu form', () => {
     cy.tabToSubmitForm();
 
     // Confirmation page
-    // cy.location('pathname').should('include', '/confirmation');
+    cy.location('pathname').should('include', '/confirmation');
   });
 });

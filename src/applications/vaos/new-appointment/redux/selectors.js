@@ -236,6 +236,10 @@ export function selectSingleSupportedVALocation(state) {
   return getNewAppointment(state)?.data?.isSingleVaFacility;
 }
 
+export function selectRecentLocationsStatus(state) {
+  return getNewAppointment(state).fetchRecentLocationStatus;
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -271,7 +275,12 @@ export function getFacilityPageV2Info(state) {
     sortMethod: selectFacilityPageSortMethod(state),
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
+    fetchRecentLocationStatus: selectRecentLocationsStatus(state),
   };
+}
+
+export function selectRecentLocations(state) {
+  return getNewAppointment(state).recentLocations;
 }
 
 export function getChosenClinicInfo(state) {
@@ -315,11 +324,12 @@ export function selectChosenFacilityInfo(state) {
   );
 }
 
-export function getPatientProviderRelationships(state) {
+export function selectPatientProviderRelationships(state) {
+  const newAppointment = getNewAppointment(state);
   return {
-    patientProviderRelationships: state.patientProviderRelationships,
+    patientProviderRelationships: newAppointment.patientProviderRelationships,
     patientProviderRelationshipsStatus:
-      state.patientProviderRelationshipsStatus,
+      newAppointment.patientProviderRelationshipsStatus,
   };
 }
 

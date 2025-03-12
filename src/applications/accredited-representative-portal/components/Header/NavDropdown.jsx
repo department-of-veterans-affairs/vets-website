@@ -32,47 +32,57 @@ const NavDropdown = ({
   btnText,
   icon,
   className,
-  name,
+  firstName,
+  lastName,
   iconClassName,
   secondaryIcon,
   srText,
   children,
-  dataTestId,
+  dropdownClass,
+  closeIcon,
+  view,
+  size,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
   const dropdownRef = useMouseDownOutside(() => setIsDropdownOpen(false));
 
   return (
-    <div className="va-dropdown" ref={dropdownRef}>
+    <div className={`va-dropdown ${dropdownClass}`} ref={dropdownRef}>
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
       <button
-        data-testid={`${icon}-toggle-dropdown`}
-        className={className}
+        data-testid={`${icon}-toggle-dropdown-${view}`}
+        className={
+          closeIcon && isDropdownOpen ? 'is--open nav__btn' : className
+        }
         aria-controls={icon}
         aria-expanded={isDropdownOpen}
         onClick={toggleDropdown}
         type="button"
       >
-        {btnText}
+        {closeIcon && isDropdownOpen ? 'Close' : btnText}
         <va-icon
-          icon={icon}
-          size={2}
+          icon={closeIcon && isDropdownOpen ? 'close' : icon}
+          size={size}
           srtext={srText}
           class="nav__user-btn-icon"
         />
-        <span data-testid={dataTestId}>{name}</span>
+        {firstName && (
+          <p className="nav__btn--user-name">
+            <span>{firstName}</span> <span>{lastName}</span>
+          </p>
+        )}
+
         {secondaryIcon && (
-          <va-icon
-            icon={secondaryIcon}
-            size={2}
-            srtext={srText}
-            class={iconClassName}
-          />
+          <va-icon icon={secondaryIcon} size={size} class={iconClassName} />
         )}
       </button>
       {isDropdownOpen && (
-        <div className="va-dropdown-panel  nav__dropdown" id={icon}>
+        <div
+          className="va-dropdown-panel  nav__dropdown"
+          id={icon}
+          data-testid={`${icon}-toggle-dropdown-${view}-list`}
+        >
           <ul className="nav__user-list">{children}</ul>
         </div>
       )}
@@ -84,12 +94,17 @@ NavDropdown.propTypes = {
   btnText: PropTypes.string,
   children: PropTypes.object,
   className: PropTypes.string,
+  closeIcon: PropTypes.string,
   dataTestId: PropTypes.string,
+  dropdownClass: PropTypes.string,
+  firstName: PropTypes.string,
   icon: PropTypes.string,
   iconClassName: PropTypes.string,
-  name: PropTypes.string,
+  lastName: PropTypes.string,
   secondaryIcon: PropTypes.string,
   srText: PropTypes.string,
+  view: PropTypes.string,
+  size: PropTypes.number,
 };
 
 export default NavDropdown;

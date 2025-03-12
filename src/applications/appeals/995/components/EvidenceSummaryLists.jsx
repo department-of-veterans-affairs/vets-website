@@ -9,7 +9,6 @@ import { content } from '../content/evidenceSummary';
 import {
   authorizationLabel,
   authorizationError,
-  authorizationEdit,
 } from '../content/evidencePrivateRecordsAuthorization';
 import { content as limitContent } from '../content/evidencePrivateLimitation';
 import { content as vaContent } from '../content/evidenceVaRecords';
@@ -296,7 +295,7 @@ export const PrivateContent = ({
                   id="edit-private-authorization"
                   className="edit-item"
                   to={`/${EVIDENCE_PRIVATE_AUTHORIZATION}`}
-                  aria-label={authorizationEdit}
+                  aria-label={`edit ${title4142WithId}`}
                   data-link={testing ? EVIDENCE_PRIVATE_AUTHORIZATION : null}
                 >
                   {content.edit}
@@ -321,7 +320,7 @@ export const PrivateContent = ({
                   id="edit-limitation-y-n"
                   className="edit-item"
                   to={`/${EVIDENCE_LIMITATION_PATH1}`}
-                  aria-label={`${content.edit} ${limitContent.nameYn} `}
+                  aria-label={`${content.edit} ${limitContent.title} `}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH1 : null}
                 >
                   {content.edit}
@@ -346,7 +345,7 @@ export const PrivateContent = ({
                   id="edit-limitation"
                   className="edit-item"
                   to={`/${EVIDENCE_LIMITATION_PATH2}`}
-                  aria-label={`${content.edit} ${limitContent.name}`}
+                  aria-label={`${content.edit} ${limitContent.textAreaTitle}`}
                   data-link={testing ? EVIDENCE_LIMITATION_PATH2 : null}
                 >
                   {content.edit}

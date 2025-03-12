@@ -2,13 +2,13 @@ import { datadogRum } from '@datadog/browser-rum';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-const DISABLED_ENVIRONMENTS = ['localhost', 'production'];
+const DISABLED_ENVIRONMENTS = ['localhost'];
 
 export const canUseRUM = () => {
   const env = environment.vspEnvironment();
 
   const alreadyInitialized = Boolean(window.DD_RUM?.getInitConfiguration());
-  const inTestEnv = window.Mocha;
+  const inTestEnv = window.Cypress || window.Mocha;
   const inDisabledEnv = DISABLED_ENVIRONMENTS.includes(env);
 
   return !alreadyInitialized && !inTestEnv && !inDisabledEnv;

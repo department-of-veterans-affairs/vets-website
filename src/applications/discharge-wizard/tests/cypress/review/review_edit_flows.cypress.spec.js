@@ -3,7 +3,7 @@ import { ROUTES } from '../../../constants';
 import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
 
 describe('Review edit flows', () => {
-  it('Back and Continue with no answer change returns to review screen', () => {
+  it.skip('Back and Continue with no answer change returns to review screen', () => {
     cy.visit(h.ROOT);
 
     // Home

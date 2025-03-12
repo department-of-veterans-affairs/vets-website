@@ -3,7 +3,7 @@ import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import DateAndTimeContent from './DateAndTimeContent';
-import { createReferral, getReferralSlotKey } from '../utils/referrals';
+import { createReferralById, getReferralSlotKey } from '../utils/referrals';
 import { createDraftAppointmentInfo } from '../utils/provider';
 import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 
@@ -17,7 +17,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
       selectedSlot: null,
     },
   };
-  const referral = createReferral(
+  const referral = createReferralById(
     '2024-12-05',
     'add2f0f4-a1ea-4dea-a504-a54ab57c68',
   );
@@ -89,7 +89,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ).to.exist;
   });
   it('should show error if conflicting appointment', async () => {
-    const selectedSlotKey = getReferralSlotKey(referral.UUID);
+    const selectedSlotKey = getReferralSlotKey(referral.uuid);
     sessionStorage.setItem(
       selectedSlotKey,
       '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov0',
@@ -127,7 +127,7 @@ describe('VAOS Component: DateAndTimeContent', () => {
     ).to.exist;
   });
   it('should select date if value in session storage', async () => {
-    const selectedSlotKey = getReferralSlotKey(referral.UUID);
+    const selectedSlotKey = getReferralSlotKey(referral.uuid);
     sessionStorage.setItem(
       selectedSlotKey,
       '5vuTac8v-practitioner-1-role-2|e43a19a8-b0cb-4dcf-befa-8cc511c3999b|2025-01-02T15:30:00Z|30m0s|1736636444704|ov1',

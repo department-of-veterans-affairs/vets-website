@@ -29,20 +29,14 @@ const IntroductionPage = ({ route, formId }) => {
         title="Request help with VA debt for overpayments and copay bills"
         subTitle="Financial Status Report (VA Form 5655)"
       />
-      <SaveInProgressIntro
-        startText="Start your request now"
-        unauthStartText="Sign in or create an account"
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        formConfig={formConfig}
-        formId={formId}
-        retentionPeriod="60 days"
-        downtime={route.formConfig.downtime}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
-        unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
-        hideUnauthedStartLink
-      />
+      <p>
+        You can use this form to request these types of help with your VA debt:
+      </p>
+      <ul>
+        <li>Waiver (debt forgiveness)</li>
+        <li>Compromise offer</li>
+        <li>Payment plan (if you need longer than 5 years to repay)</li>
+      </ul>
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help
       </h2>
@@ -80,8 +74,8 @@ const IntroductionPage = ({ route, formId }) => {
               details you’ll need on a recent pay stub or statement.
             </li>
             <li>
-              <strong>Assets.</strong> This includes available cash (not in a
-              bank).
+              <strong>Assets.</strong>
+              This includes cash in hand and in a checking or savings account.
             </li>
           </ul>
           <p>
@@ -90,9 +84,8 @@ const IntroductionPage = ({ route, formId }) => {
           </p>
           <ul>
             <li>
-              <strong>Additional assets.</strong> This includes cash in a
-              checking or savings account, stocks and bonds, real estate, cars,
-              jewelry, and other items of value.
+              <strong>Additional assets.</strong> This includes stocks and
+              bonds, real estate, cars, jewelry, and other items of value.
             </li>
             <li>
               <strong>Monthly living expenses.</strong> These include housing,
@@ -113,10 +106,11 @@ const IntroductionPage = ({ route, formId }) => {
             </li>
           </ul>
           <p>
-            If you need help with your request,{' '}
-            <a href="https://www.va.gov/vso/">
-              contact a local Veterans Service Organization (VSO).
-            </a>
+            <va-link
+              download
+              text="Download a reference guide to determine what counts as income and expenses (PDF, 5 pages)"
+              href="https://www.va.gov/healthbenefits/resources/publications/IB10-454_Reference_Guide_Income_and_Expenses.pdf"
+            />
           </p>
           <va-alert status="info" visible>
             <p className="vads-u-margin-top--0p25">
@@ -167,14 +161,17 @@ const IntroductionPage = ({ route, formId }) => {
       </va-process-list>
 
       <SaveInProgressIntro
-        buttonOnly
         startText="Start your request now"
         unauthStartText="Sign in or create an account"
-        pageList={route.pageList}
         messages={route.formConfig.savedFormMessages}
+        pageList={route.pageList}
         formConfig={formConfig}
         formId={formId}
+        retentionPeriod="60 days"
+        downtime={route.formConfig.downtime}
         prefillEnabled={route.formConfig.prefillEnabled}
+        verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
+        unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
         hideUnauthedStartLink
       />
 

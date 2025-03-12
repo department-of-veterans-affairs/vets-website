@@ -80,7 +80,9 @@ export const addStudentsOptions = {
       (!item?.schoolInformation?.lastTermSchoolInformation?.termBegin ||
         !item?.schoolInformation?.lastTermSchoolInformation?.dateTermEnded)) ||
     (item?.typeOfProgramOrBenefit &&
-      Object.values(item.typeOfProgramOrBenefit).includes(true) &&
+      ['ch35', 'fry', 'feca'].some(
+        key => item?.typeOfProgramOrBenefit?.[key] === true,
+      ) &&
       !item?.benefitPaymentDate),
   maxItems: 20,
   text: {
@@ -254,11 +256,28 @@ export const studentEducationBenefitsPage = {
         description: generateHelpText('Check all that the student receives'),
       }),
     },
+    otherProgramOrBenefit: {
+      ...textUI({
+        title:
+          'Briefly list any other programs the student receives education benefits from',
+        required: (formData, index) =>
+          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+            ?.other || formData?.typeOfProgramOrBenefit?.other,
+      }),
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !(
+            formData?.studentInformation?.[index]?.typeOfProgramOrBenefit
+              ?.other || formData?.typeOfProgramOrBenefit?.other
+          ),
+      },
+    },
     tuitionIsPaidByGovAgency: {
-      ...yesNoUI(
-        'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
-      ),
-      'ui:required': () => true,
+      ...yesNoUI({
+        title:
+          'Is the student enrolled in a program or school that’s entirely funded by the federal government?',
+        required: () => true,
+      }),
     },
     'view:programExamples': {
       'ui:description': ProgramExamples,
@@ -271,6 +290,7 @@ export const studentEducationBenefitsPage = {
     type: 'object',
     properties: {
       typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
+      otherProgramOrBenefit: textSchema,
       tuitionIsPaidByGovAgency: yesNoSchema,
       'view:programExamples': {
         type: 'object',
@@ -290,16 +310,7 @@ export const studentEducationBenefitsStartDatePage = {
       ...currentOrPastDateUI(
         'When did the student start receiving education benefit payments?',
       ),
-      'ui:required': (formData, index) => {
-        const addMode =
-          formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
-        const editMode = formData?.typeOfProgramOrBenefit;
-
-        return (
-          (addMode && Object.values(addMode).includes(true)) ||
-          (editMode && Object.values(editMode).includes(true))
-        );
-      },
+      'ui:required': () => true,
       'ui:options': {
         updateSchema: (formData, schema, _uiSchema, index) => {
           const itemData = formData?.studentInformation?.[index];
@@ -319,6 +330,7 @@ export const studentEducationBenefitsStartDatePage = {
   },
   schema: {
     type: 'object',
+    required: ['benefitPaymentDate'],
     properties: {
       benefitPaymentDate: currentOrPastDateSchema,
     },
@@ -371,7 +383,7 @@ export const studentAttendancePage = {
           'Has the student attended school continuously since they started school?',
         required: () => true,
         description: generateHelpText(
-          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year, like winter break or summer break',
+          'Attending school continuously means they didn’t stop attending school, except for normal breaks during the school year like winter break or summer break',
         ),
       }),
     },
@@ -558,27 +570,9 @@ export const previousTermDatesPage = {
         },
         termBegin: {
           ...currentOrPastDateUI('When did the previous school term start?'),
-          'ui:required': (formData, index) => {
-            const addMode =
-              formData?.studentInformation?.[index]?.schoolInformation
-                ?.studentDidAttendSchoolLastTerm;
-            const editMode =
-              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-            return addMode || editMode;
-          },
         },
         dateTermEnded: {
           ...currentOrPastDateUI('When did the previous school term end?'),
-          'ui:required': (formData, index) => {
-            const addMode =
-              formData?.studentInformation?.[index]?.schoolInformation
-                ?.studentDidAttendSchoolLastTerm;
-            const editMode =
-              formData?.schoolInformation?.studentDidAttendSchoolLastTerm;
-
-            return addMode || editMode;
-          },
         },
       },
     },
@@ -590,6 +584,7 @@ export const previousTermDatesPage = {
         type: 'object',
         properties: {
           lastTermSchoolInformation: {
+            required: ['termBegin', 'dateTermEnded'],
             type: 'object',
             properties: {
               termBegin: currentOrPastDateSchema,

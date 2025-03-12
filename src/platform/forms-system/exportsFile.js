@@ -15,6 +15,11 @@ export {
 export { default as SchemaForm } from './src/js/components/SchemaForm';
 
 export {
+  PersonalInformation,
+  personalInformationPage,
+} from './src/js/components/PersonalInformation';
+
+export {
   directDepositDescription,
   directDepositAlert,
   bankInfoHelpText,
@@ -178,8 +183,6 @@ export {
 } from './src/js/widgets/PhoneNumberWidget';
 
 export { default as TextWidget } from './src/js/widgets/TextWidget';
-
-export { default as ArrayCountWidget } from './src/js/widgets/ArrayCountWidget';
 
 export {
   closeReviewChapter,

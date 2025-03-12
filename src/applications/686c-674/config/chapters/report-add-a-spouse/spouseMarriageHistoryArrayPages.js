@@ -80,6 +80,8 @@ export const spouseMarriageHistorySummaryPage = {
       spouseMarriageHistoryOptions,
       {
         title: 'Does your spouse have any former marriages to add?',
+        hint:
+          'If yes, you’ll need to add at least one former marriage. You can add up to 20.',
         labels: {
           Y: 'Yes',
           N: 'No',
@@ -146,6 +148,11 @@ export const formerMarriageEndReasonPage = {
       'ui:options': {
         expandUnder: 'reasonMarriageEnded',
         expandUnderCondition: 'Other',
+        hideIf: (formData, index) =>
+          !(
+            formData?.spouseMarriageHistory?.[index]?.reasonMarriageEnded ===
+              'Other' || formData?.reasonMarriageEnded === 'Other'
+          ),
         keepInPageOnReview: true,
       },
     },
@@ -198,7 +205,7 @@ export const formerMarriageEndDatePage = {
 
             if (end < start) {
               errors.addError(
-                'Marriage end date must be the on or after the marriage start date',
+                'Marriage end date must be on or after the marriage start date',
               );
             }
           },
@@ -223,7 +230,7 @@ export const formerMarriageStartLocationPage = {
         labelHeaderLevel: '4',
       },
       outsideUsa: {
-        'ui:title': 'They got married outside the U.S.',
+        'ui:title': 'This occurred outside the U.S.',
         'ui:webComponentField': VaCheckboxField,
       },
       location: {

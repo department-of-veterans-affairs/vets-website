@@ -12,7 +12,7 @@ describe('VAOS provider utils', () => {
   describe('createDraftAppointmentInfo', () => {
     const providerObjectTwoSlots = draftAppointmentUtil.createDraftAppointmentInfo(
       2,
-      '222',
+      'add2f0f4-a1ea-4dea-a504-a54ab57c6802',
     );
     it('Creates a provider with specified number of slots', () => {
       expect(providerObjectTwoSlots.slots.slots.length).to.equal(2);

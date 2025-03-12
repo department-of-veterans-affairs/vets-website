@@ -337,8 +337,6 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
-export const SHOW_ADD_DISABILITIES_ENHANCEMENT =
-  'showAddDisabilitiesEnhancement';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
@@ -412,11 +410,73 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
   other: 'Other traumatic events',
 });
 
-export const OFFICIAL_REPORT_TYPES = Object.freeze({
-  restricted: 'Restricted report',
-  unrestricted: 'Unrestricted report',
+export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
+  military: 'Military incident reports',
+  other: 'Other reporting options',
+  none: 'No reports to include',
+});
+
+export const MILITARY_REPORT_TYPES = Object.freeze({
+  restricted:
+    'Restricted incident report (filed with the military while requesting confidentiality)',
+  unrestricted:
+    'Unrestricted incident report (filed with the military without requesting confidentiality)',
+  pre2005: 'Incident report filed with the military before 2005',
+});
+
+export const OTHER_REPORT_TYPES = Object.freeze({
   police: 'Police report',
-  none: 'No report',
+  unsure: 'An official report was filed, but I’m not sure which type it was.',
+});
+
+export const NO_REPORT_TYPE = Object.freeze({
+  none: 'I don’t have official reports to include.',
+});
+
+export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
+  reassignment: 'workBehaviors',
+  absences: 'workBehaviors',
+  performance: 'workBehaviors',
+  consultations: 'healthBehaviors',
+  episodes: 'healthBehaviors',
+  medications: 'healthBehaviors',
+  selfMedication: 'healthBehaviors',
+  substances: 'healthBehaviors',
+  appetite: 'healthBehaviors',
+  pregnancy: 'healthBehaviors',
+  screenings: 'healthBehaviors',
+  socialEconomic: 'otherBehaviors',
+  relationships: 'otherBehaviors',
+  misconduct: 'otherBehaviors',
+});
+
+export const MH_0781_URL_PREFIX = 'mental-health-form-0781';
+
+export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
+  work: 'Behavioral changes related to work',
+  health: 'Behavioral changes related to health',
+  other: 'Other behavioral changes',
+  unlisted: 'Other behavioral changes not listed here:',
+  none: 'None',
+});
+
+export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
+  va: 'VA or military treatment providers',
+  nonVa: 'Non-VA treatment providers or Vet Centers',
+  none: 'None',
+});
+
+export const TREATMENT_RECEIVED_VA = Object.freeze({
+  medicalCenter: 'VA medical centers (also called a VAMC)',
+  communityOutpatient:
+    'Community-based outpatient clinics (also called a CBOC)',
+  vaPaid: 'VA paid community care providers',
+  dod: 'Department of Defense military treatment facilities (also called MTFs)',
+});
+
+export const TREATMENT_RECEIVED_NON_VA = Object.freeze({
+  nonVa: 'Non-VA health care providers',
+  vaCenters: 'VA Vet Centers',
 });
 
 export const BEHAVIOR_CHANGES_WORK = Object.freeze({
@@ -443,4 +503,11 @@ export const BEHAVIOR_CHANGES_OTHER = Object.freeze({
   socialEconomic: 'Economic or social behavioral changes',
   relationships: 'Changes in or breakup of a significant relationship',
   misconduct: 'Disciplinary or legal difficulties',
+  unlisted: 'I experienced other behavioral changes that were not in this list',
 });
+
+export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
+  ...BEHAVIOR_CHANGES_WORK,
+  ...BEHAVIOR_CHANGES_HEALTH,
+  ...BEHAVIOR_CHANGES_OTHER,
+};

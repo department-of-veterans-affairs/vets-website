@@ -20,17 +20,21 @@ const recordWebVitalsEvent = event => {
   recordEvent(webVitalsEvent);
 };
 
-const trackWebVitals =
-  // Exclude production for now.
-  !environment.isProduction() &&
-  // Exclude cypress containers and localhost from tracking web vitals.
-  environment.BASE_URL.indexOf('localhost') < 0;
+const trackWebVitals = ({ sampleEvents = false }) => {
+  if (sampleEvents) {
+    // Sample ~1% of events.
+    return Math.random() < 0.01;
+  }
 
-if (trackWebVitals) {
+  // Exclude cypress containers and localhost from tracking web vitals.
+  return environment.BASE_URL.indexOf('localhost') < 0;
+};
+
+if (trackWebVitals({ sampleEvents: environment.isProduction() })) {
   onCLS(recordWebVitalsEvent);
   onINP(recordWebVitalsEvent);
   onLCP(recordWebVitalsEvent);
   onTTFB(recordWebVitalsEvent);
 }
 
-export { recordWebVitalsEvent };
+export { recordWebVitalsEvent, trackWebVitals };

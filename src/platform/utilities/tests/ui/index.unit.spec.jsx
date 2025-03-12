@@ -1,16 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, waitFor } from '@testing-library/react';
-import sinon from 'sinon';
 
-import { $ } from '../../../forms-system/src/js/utilities/ui';
-
-import {
-  displayFileSize,
-  formatSSN,
-  isReactComponent,
-  customScrollAndFocus,
-} from '../../ui';
+import { displayFileSize, formatSSN, isReactComponent } from '../../ui';
 
 describe('ui/index', () => {
   describe('formatSSN', () => {
@@ -77,54 +68,6 @@ describe('ui/index', () => {
     });
     it('should return false for undefined', () => {
       expect(isReactComponent()).to.be.false;
-    });
-  });
-
-  // Not testing the scroll part of this function
-  describe('customScrollAndFocus', () => {
-    it('should focus on h3 when no param is passed', () => {
-      const { container } = render(
-        <>
-          <div id="main">
-            <div name="topScrollElement" />
-            <h1>H1</h1>
-            <h2>H2</h2>
-            <h3>H3</h3>
-          </div>
-        </>,
-      );
-
-      const h3 = $('h3', container);
-      customScrollAndFocus();
-
-      waitFor(() => {
-        expect(document.activeElement).to.eq(h3);
-      });
-    });
-    it('should focus when passed a string selector', () => {
-      const { container } = render(
-        <>
-          <div id="main">
-            <div name="topScrollElement" />
-            <h1>H1</h1>
-            <h2>H2</h2>
-            <h3>H3</h3>
-          </div>
-        </>,
-      );
-      customScrollAndFocus('h2');
-
-      const h2 = $('h2', container);
-      waitFor(() => {
-        expect(document.activeElement).to.eq(h2);
-      });
-    });
-    it('should call function when passed a function', () => {
-      const spy = sinon.spy();
-      customScrollAndFocus(spy);
-      waitFor(() => {
-        expect(spy.called).to.be.true;
-      });
     });
   });
 

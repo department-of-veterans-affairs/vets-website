@@ -79,7 +79,7 @@ Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
 ${txtLine}\n\n
 Details\n
-Date: ${record.date}\n
+Date entered: ${record.date}\n
 Location: ${record.location}\n
 Written by: ${record.writtenBy}\n
 ${record.signedBy !== EMPTY_FIELD && `Signed by: ${record.signedBy}\n`}

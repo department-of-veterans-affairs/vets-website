@@ -36,15 +36,31 @@ describe('ProofOfVeteranStatusCard', () => {
     expect(view.queryByText(/Latest period of service/)).to.exist;
     expect(view.queryByText(/United States Army • 2009-2013/)).to.exist;
   });
-  it('should render the DOD ID Number', () => {
+  it('should render the DoD ID Number', () => {
     const view = renderWithTestData(testData);
-    expect(view.queryByText(/DOD ID Number/)).to.exist;
+    expect(view.queryByText(/DoD ID Number/)).to.exist;
     expect(view.queryByText(/6198661986/)).to.exist;
   });
-  it('should render the VA disability rating', () => {
+  it('should render the VA disability rating when it exists', () => {
     const view = renderWithTestData(testData);
     expect(view.queryByText(/VA disability rating/)).to.exist;
     expect(view.queryByText(/70/)).to.exist;
+  });
+  it('should not render the VA disability rating when it is zero', () => {
+    const view = renderWithTestData({
+      ...testData,
+      totalDisabilityRating: 0,
+    });
+    expect(view.queryByText(/VA disability rating/)).not.to.exist;
+    expect(view.queryByText(/^0%$/)).not.to.exist;
+  });
+  it('should not render the VA disability rating when it is null', () => {
+    const view = renderWithTestData({
+      ...testData,
+      totalDisabilityRating: null,
+    });
+    expect(view.queryByText(/VA disability rating/)).not.to.exist;
+    expect(view.queryByText(/^null%$/)).not.to.exist;
   });
   it('should render the description', () => {
     const view = renderWithTestData(testData);

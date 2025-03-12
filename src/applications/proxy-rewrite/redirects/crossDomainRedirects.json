@@ -1579,5 +1579,29 @@
     "src": "/boston",
     "dest": "/boston-va-regional-benefit-office/",
     "catchAll": true
+  },
+    {
+    "domain": "www.benefits.va.gov",
+    "src": "/manchester",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROMANCHESTER",
+    "dest": "/manchester-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/reno",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/RORENO",
+    "dest": "/reno-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

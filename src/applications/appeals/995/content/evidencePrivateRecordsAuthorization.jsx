@@ -33,9 +33,6 @@ export const authorizationHeader = <h3>{title4142}</h3>;
 export const authorizationError =
   'You must give us authorization for us to get your non-VA medical records';
 
-// for edit link aria-label
-export const authorizationEdit = 'edit authorization choice';
-
 export const authorizationInfo = (
   <>
     <p id="authorize-text">

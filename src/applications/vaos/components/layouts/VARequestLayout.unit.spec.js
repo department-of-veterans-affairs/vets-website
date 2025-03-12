@@ -38,6 +38,7 @@ describe('VAOS Component: VARequestLayout', () => {
       const appointment = {
         reasonForAppointment: 'This is a test',
         patientComments: 'Additional information:colon',
+        created: new Date().toISOString(),
         contact: {
           telecom: [
             {
@@ -327,6 +328,7 @@ describe('VAOS Component: VARequestLayout', () => {
       const appointment = {
         reasonForAppointment: 'This is a test',
         patientComments: 'Additional information:colon',
+        created: new Date().toISOString(),
         contact: {
           telecom: [
             {

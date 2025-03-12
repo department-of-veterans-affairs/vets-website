@@ -111,17 +111,6 @@ export const SHARED_PATHS = {
   },
 };
 
-// declare default SIGI values
-export const SIGI_GENDERS = {
-  NB: 'Non-binary',
-  M: 'Man',
-  F: 'Woman',
-  TM: 'Transgender man',
-  TF: 'Transgender woman',
-  O: 'A gender not listed here',
-  NA: 'Prefer not to answer',
-};
-
 // declare default schema for view fields
 export const VIEW_FIELD_SCHEMA = {
   type: 'object',

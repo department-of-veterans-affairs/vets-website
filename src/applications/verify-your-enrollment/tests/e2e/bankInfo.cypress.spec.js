@@ -20,7 +20,13 @@ describe('Direct deposit information', () => {
     cy.intercept('GET', '/vye/v1', { statusCode: 200 }).as('getVye');
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.login(mockUser);
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
+      onBeforeLoad(win) {
+        cy.stub(win.performance, 'getEntriesByType').returns([
+          { type: 'reload' },
+        ]);
+      },
+    });
     cy.wait('@getVye');
   });
   const fillForm = () => {

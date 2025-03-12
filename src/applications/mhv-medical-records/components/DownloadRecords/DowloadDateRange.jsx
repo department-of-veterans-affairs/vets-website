@@ -13,6 +13,7 @@ import NeedHelpSection from './NeedHelpSection';
 import { updateReportDateRange } from '../../actions/downloads';
 import { pageTitles } from '../../util/constants';
 import { sendDataDogAction } from '../../util/helpers';
+import useFocusOutline from '../../hooks/useFocusOutline';
 
 const DownloadDateRange = () => {
   const history = useHistory();
@@ -62,13 +63,21 @@ const DownloadDateRange = () => {
   const dateInputRef = useRef(null);
   const startDateRef = useRef(null);
   const endDateRef = useRef(null);
+  const progressBarRef = useRef(null);
+
+  useFocusOutline(progressBarRef);
 
   useEffect(
     () => {
-      focusElement(document.querySelector('h1'));
+      setTimeout(() => {
+        const heading = progressBarRef?.current?.shadowRoot?.querySelector(
+          'h2',
+        );
+        focusElement(heading);
+      }, 400);
       updatePageTitle(pageTitles.DOWNLOAD_FORMS_PAGES_TITLE);
     },
-    [dispatch],
+    [progressBarRef],
   );
 
   useEffect(
@@ -79,6 +88,33 @@ const DownloadDateRange = () => {
     },
     [customFromDate, customToDate, dispatch],
   );
+
+  const handleBack = () => {
+    history.push('/download');
+    sendDataDogAction('Date range  - Back');
+  };
+
+  const handleSubmit = () => {
+    if (selectedDate === '') {
+      setSelectionError(ERROR_VALID_DATE_RANGE);
+      focusElement('#input-error-message', {}, dateInputRef.current.shadowRoot);
+      return;
+    }
+    if (selectedDate === 'custom') {
+      if (customFromDate === '') {
+        setCustomFromError(ERROR_VALID_START_DATE);
+        focusElement('#error-message', {}, startDateRef.current.shadowRoot);
+        return;
+      }
+      if (customToDate === '') {
+        setCustomToError(ERROR_VALID_END_DATE);
+        focusElement('#error-message', {}, endDateRef.current.shadowRoot);
+        return;
+      }
+    }
+    history.push('/download/record-type');
+    sendDataDogAction('Date range  - Continue');
+  };
 
   return (
     <div>
@@ -92,96 +128,68 @@ const DownloadDateRange = () => {
           current={1}
           heading-text="Select date range"
           total={3}
+          header-level={2}
+          ref={progressBarRef}
         />
       </div>
-      <h2>Select date range</h2>
-      <div className="vads-u-margin-bottom--3">
-        <VaSelect
-          label="Date range"
-          onVaSelect={handleDateSelect}
-          value=""
-          data-testid="va-select-date-range"
-          error={selectionError}
-          ref={dateInputRef}
-        >
-          <option value="any">Any</option>
-          <option value={3}>Last 3 months</option>
-          <option value={6}>Last 6 months</option>
-          <option value={12}>Last 12 months</option>
-          <option value="custom">Custom</option>
-        </VaSelect>
-      </div>
-      {selectedDate === 'custom' && (
+
+      <form>
         <div className="vads-u-margin-bottom--3">
-          <VaDate
-            label="Start date"
-            required="true"
-            error={customFromError}
-            data-testid="va-date-start-date"
-            onDateChange={e => {
-              if (e.target.value) {
-                const [year, month, day] = e.target.value?.split('-');
-                if (parseInt(year, 10) >= 1900 && month && day) {
-                  setCustomFromError(null);
-                  setCustomFromDate(e.target.value);
-                }
-              }
-            }}
-            ref={startDateRef}
-          />
-          <VaDate
-            label="End date"
-            required="true"
-            error={customToError}
-            data-testid="va-date-end-date"
-            onDateChange={e => {
-              const [year, month, day] = e.target.value.split('-');
-              if (parseInt(year, 10) >= 1900 && month && day) {
-                setCustomToError(null);
-                setCustomToDate(e.target.value);
-              }
-            }}
-            ref={endDateRef}
-          />
+          <VaSelect
+            label="Date range"
+            onVaSelect={handleDateSelect}
+            value=""
+            data-testid="va-select-date-range"
+            error={selectionError}
+            ref={dateInputRef}
+          >
+            <option value="any">All time</option>
+            <option value={3}>Last 3 months</option>
+            <option value={6}>Last 6 months</option>
+            <option value={12}>Last 12 months</option>
+            <option value="custom">Custom</option>
+          </VaSelect>
         </div>
-      )}
-      <VaButtonPair
-        continue
-        onSecondaryClick={() => {
-          history.push('/download');
-          sendDataDogAction('Date range  - Back');
-        }}
-        onPrimaryClick={e => {
-          e.preventDefault();
-          if (selectedDate === '') {
-            setSelectionError(ERROR_VALID_DATE_RANGE);
-            focusElement(
-              '#input-error-message',
-              {},
-              dateInputRef.current.shadowRoot,
-            );
-            return;
-          }
-          if (selectedDate === 'custom') {
-            if (customFromDate === '') {
-              setCustomFromError(ERROR_VALID_START_DATE);
-              focusElement(
-                '#error-message',
-                {},
-                startDateRef.current.shadowRoot,
-              );
-              return;
-            }
-            if (customToDate === '') {
-              setCustomToError(ERROR_VALID_END_DATE);
-              focusElement('#error-message', {}, endDateRef.current.shadowRoot);
-              return;
-            }
-          }
-          history.push('/download/record-type');
-          sendDataDogAction('Date range  - Continue');
-        }}
-      />
+        {selectedDate === 'custom' && (
+          <div className="vads-u-margin-bottom--3">
+            <VaDate
+              label="Start date"
+              required="true"
+              error={customFromError}
+              data-testid="va-date-start-date"
+              onDateChange={e => {
+                if (e.target.value) {
+                  const [year, month, day] = e.target.value?.split('-');
+                  if (parseInt(year, 10) >= 1900 && month && day) {
+                    setCustomFromError(null);
+                    setCustomFromDate(e.target.value);
+                  }
+                }
+              }}
+              ref={startDateRef}
+            />
+            <VaDate
+              label="End date"
+              required="true"
+              error={customToError}
+              data-testid="va-date-end-date"
+              onDateChange={e => {
+                const [year, month, day] = e.target.value.split('-');
+                if (parseInt(year, 10) >= 1900 && month && day) {
+                  setCustomToError(null);
+                  setCustomToDate(e.target.value);
+                }
+              }}
+              ref={endDateRef}
+            />
+          </div>
+        )}
+        <VaButtonPair
+          continue
+          onSecondaryClick={handleBack}
+          onPrimaryClick={handleSubmit}
+        />
+      </form>
       <NeedHelpSection />
     </div>
   );

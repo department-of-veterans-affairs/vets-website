@@ -1,21 +1,31 @@
 @import "~@department-of-veterans-affairs/css-library/dist/tokens/scss/variables";
 
 .poa-request {
+  max-width: 660px;
+
   &__search-header {
     margin: 0 0 24px;
   }
+  &__copy {
+    margin: 0 0 16px 0;
+  }
   &__tabs {
     margin: 60px 0 24px;
-    background-color: $uswds-system-color-gray-cool-10;
-    border: 2px solid $uswds-system-color-gray-cool-10;
+    background-color: $vads-color-base-lighter;
+    border: 2px solid $vads-color-base-lighter;
     border-radius: 6px;
     display: flex;
+    max-width: 320px;
 
     @media (min-width: $small-desktop-screen) {
       margin: 24px 0;
-      max-width: 320px;
     }
   }
+
+  &__tab-heading {
+    margin: 0;
+  }
+
   &__tab-link {
     font-size: 20px;
     flex: 1;
@@ -28,6 +38,14 @@
       font-weight: 700;
       background-color: $vads-color-white;
       border-radius: 6px;
+    }
+
+    &:visited {
+      color: inherit;
+    }
+
+    &:hover {
+      text-decoration: none;
     }
   }
   &__sort-by {
@@ -69,7 +87,7 @@
   &__card {
     margin-bottom: 20px;
 
-    >a {
+    > a {
       display: flex;
     }
 
@@ -100,6 +118,22 @@
         align-items: center;
         margin-top: 8px;
         flex-wrap: wrap;
+      }
+
+      &--submission-status {
+        font-weight: 700;
+
+        @media (min-width: $small-desktop-screen) {
+          display: flex;
+          align-items: center;
+        }
+
+        [icon="error"] {
+          color: $vads-color-error;
+        }
+        [icon] {
+          margin-right: 6px;
+        }
       }
 
       &--label {

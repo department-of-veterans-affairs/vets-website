@@ -1,14 +1,12 @@
 import get from 'platform/utilities/data/get';
 import set from 'platform/utilities/data/set';
-import {
-  getUrlPathIndex,
-  isMinimalHeaderPath,
-} from 'platform/forms-system/src/js/helpers';
+import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
+import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
 import {
   focusByOrder,
+  focusElement,
   scrollTo,
   scrollToTop,
-  waitForRenderThenFocus,
 } from 'platform/utilities/ui';
 import { DEFAULT_ARRAY_BUILDER_TEXT } from './arrayBuilderText';
 
@@ -277,6 +275,26 @@ export const maxItemsHint = ({
   return hint;
 };
 
+export const defaultSummaryPageScrollAndFocusTarget = () => {
+  const minimalHeader = isMinimalHeaderPath();
+  const headerLevel = minimalHeader ? '1' : '3';
+  const radioHeader = document.querySelector(
+    `va-radio[label-header-level="${headerLevel}"]`,
+  );
+
+  if (minimalHeader) {
+    scrollTo('header-minimal');
+  } else {
+    scrollToTop('topScrollElement');
+  }
+
+  if (radioHeader) {
+    focusElement(`h${headerLevel}`, null, radioHeader);
+  } else {
+    focusByOrder([`form h${headerLevel}`, 'va-segmented-progress-bar']);
+  }
+};
+
 export const defaultItemPageScrollAndFocusTarget = () => {
   const minimalHeader = isMinimalHeaderPath();
   const headerLevel = minimalHeader ? 'h1' : 'h3';
@@ -295,10 +313,30 @@ export const defaultItemPageScrollAndFocusTarget = () => {
   );
 
   if (radioHeader) {
-    waitForRenderThenFocus(headerLevel, radioHeader.shadowRoot);
+    focusElement(headerLevel, null, radioHeader);
   } else if (checkboxGroupHeader) {
-    waitForRenderThenFocus(headerLevel, checkboxGroupHeader.shadowRoot);
+    focusElement(headerLevel, null, checkboxGroupHeader);
   } else {
     focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
   }
+};
+
+export const replaceItemInFormData = ({
+  formData,
+  newItem,
+  arrayPath,
+  index,
+}) => {
+  let newFormData = formData;
+
+  if (formData?.[arrayPath]?.[index]) {
+    newFormData = {
+      ...formData,
+      [arrayPath]: formData[arrayPath].map((item, i) => {
+        return i === index ? newItem : item;
+      }),
+    };
+  }
+
+  return newFormData;
 };

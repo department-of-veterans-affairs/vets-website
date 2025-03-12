@@ -250,7 +250,7 @@ ${vitalTypeDisplayNames[records[0].type]}\n
 ${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatUserDob(user)}\n
 ${reportGeneratedBy}\n
-Showing ${records.length} from newest to oldest
+Showing ${records.length} records from newest to oldest
 ${records
       .map(
         vital => `${txtLine}\n\n
@@ -388,7 +388,7 @@ Provider notes: ${vital.notes}\n\n`,
           data-dd-privacy="mask"
           data-dd-action-name="[vitals detail - name - Print]"
         >
-          Vitals: {vitalTypeDisplayNames[records[0].type]}
+          {vitalTypeDisplayNames[records[0].type]}
         </h1>
         <ul className="vital-records-list vads-u-margin--0 vads-u-padding--0 print-only">
           {records?.length > 0 &&

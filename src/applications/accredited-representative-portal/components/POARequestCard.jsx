@@ -5,9 +5,11 @@ import {
   expiresSoon,
   formatStatus,
   resolutionDate,
+  formSubmissionStatus,
+  hideStatus,
 } from '../utilities/poaRequests';
 
-const POARequestCard = ({ poaRequest, id }) => {
+const POARequestCard = ({ poaRequest }) => {
   const lastName = poaRequest?.powerOfAttorneyForm?.claimant?.name?.last;
   const firstName = poaRequest?.powerOfAttorneyForm?.claimant?.name?.first;
   const city = poaRequest?.powerOfAttorneyForm?.claimant?.address.city;
@@ -15,20 +17,22 @@ const POARequestCard = ({ poaRequest, id }) => {
   const zipCode = poaRequest?.powerOfAttorneyForm?.claimant?.address.zipCode;
   const poaStatus =
     poaRequest.resolution?.decisionType || poaRequest.resolution?.type;
-
+  const poaRequestSubmission =
+    poaRequest?.powerOfAttorneyFormSubmission?.status;
   return (
     <li>
       <va-card class="poa-request__card">
         <span
-          data-testid={`poa-request-card-${id}-status`}
-          className="usa-label poa-request__card-field poa-request__card-field--status"
+          data-testid={`poa-request-card-${poaRequest.id}-status`}
+          className={`usa-label poa-request__card-field poa-request__card-field--status status status--processing ${hideStatus(
+            poaRequestSubmission,
+          )}`}
         >
           {formatStatus(poaStatus)}
         </span>
         <Link to={`/poa-requests/${poaRequest.id}`}>
-          <span className="sr-only">View details for </span>
           <h3
-            data-testid={`poa-request-card-${id}-name`}
+            data-testid={`poa-request-card-${poaRequest.id}-name`}
             className="poa-request__card-title vads-u-font-size--h4"
           >
             {`${lastName}, ${firstName}`}
@@ -36,11 +40,17 @@ const POARequestCard = ({ poaRequest, id }) => {
         </Link>
 
         <p className="poa-request__card-field poa-request__card-field--location">
-          <span data-testid={`poa-request-card-${id}-city`}>{city}</span>
+          <span data-testid={`poa-request-card-${poaRequest.id}-city`}>
+            {city}
+          </span>
           {', '}
-          <span data-testid={`poa-request-card-${id}-state`}>{state}</span>
+          <span data-testid={`poa-request-card-${poaRequest.id}-state`}>
+            {state}
+          </span>
           {', '}
-          <span data-testid={`poa-request-card-${id}-zip`}>{zipCode}</span>
+          <span data-testid={`poa-request-card-${poaRequest.id}-zip`}>
+            {zipCode}
+          </span>
         </p>
 
         <p
@@ -48,30 +58,48 @@ const POARequestCard = ({ poaRequest, id }) => {
           className="poa-request__card-field poa-request__card-field--request"
         >
           {poaStatus === 'declination' && (
-            <>
-              <span className="poa-request__card-field--label">
-                POA request declined on:
-              </span>
-              {resolutionDate(poaRequest.resolution?.createdAt, id)}
-            </>
+            <span
+              className={`poa-request__card-field--label ${hideStatus(
+                poaRequestSubmission,
+              )}`}
+            >
+              POA request declined on:
+              {resolutionDate(poaRequest.resolution?.createdAt, poaRequest.id)}
+            </span>
           )}
           {poaStatus === 'acceptance' && (
-            <>
-              <span className="poa-request__card-field--label">
-                POA request accepted on:
+            <span
+              className={`poa-request__card-field--label ${hideStatus(
+                poaRequestSubmission,
+              )}`}
+            >
+              POA request accepted on:
+              <span>
+                {resolutionDate(
+                  poaRequest.resolution?.createdAt,
+                  poaRequest.id,
+                )}
               </span>
-              {resolutionDate(poaRequest.resolution?.createdAt, id)}
-            </>
+            </span>
           )}
 
           {poaStatus === 'expiration' && (
-            <>
-              <span className="poa-request__card-field--label">
-                POA request expired on:
+            <span
+              className={`poa-request__card-field--label ${hideStatus(
+                poaRequestSubmission,
+              )}`}
+            >
+              POA request expired on:
+              <span>
+                {resolutionDate(
+                  poaRequest.resolution?.createdAt,
+                  poaRequest.id,
+                )}
               </span>
-              {resolutionDate(poaRequest.resolution?.createdAt, id)}
-            </>
+            </span>
           )}
+
+          {formSubmissionStatus(poaRequestSubmission)}
 
           {!poaRequest.resolution && (
             <>
@@ -87,7 +115,7 @@ const POARequestCard = ({ poaRequest, id }) => {
               <span className="poa-request__card-field--label">
                 POA request expires on:
               </span>
-              {resolutionDate(poaRequest.expiresAt, id)}
+              {resolutionDate(poaRequest.expiresAt, poaRequest.id)}
               <span className="poa-request__card-field--expiry">
                 {expiresSoon(poaRequest.expiresAt)}
               </span>

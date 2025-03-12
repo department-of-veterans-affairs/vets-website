@@ -1,8 +1,6 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
@@ -13,7 +11,6 @@ const definitions = formConfig.defaultDefinitions;
 describe('Form Configuration', () => {
   const {
     institutionDetails,
-    additionalErrorChapter,
   } = formConfig.chapters.institutionDetailsChapter.pages;
   const { schema, uiSchema } = institutionDetails;
   it('should have the correct uiSchema and schema for institutionDetails', () => {
@@ -53,19 +50,6 @@ describe('Form Configuration', () => {
 
     expect(goPath.calledWith('/additional-form')).to.be.true;
     validateFacilityCodeStub.restore();
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={additionalErrorChapter.schema}
-        onSubmit={onSubmit}
-        data={formData}
-        uiSchema={additionalErrorChapter.uiSchema}
-        definitions={{}}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    const alertNodes = formDOM.querySelector('#additional-form-needed-alert');
-    expect(alertNodes).to.exist;
   });
   it('should validate facility code length', () => {
     const errors = {

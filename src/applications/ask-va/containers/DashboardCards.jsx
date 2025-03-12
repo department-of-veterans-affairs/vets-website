@@ -5,7 +5,7 @@ import {
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { compareDesc, parse } from 'date-fns';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import {
@@ -43,17 +43,20 @@ const DashboardCards = () => {
         status: getVAStatusFromCRM(inquiry.attributes.status),
       },
     }));
-
     const uniqueCategories = [
       ...new Set(
-        transformedInquiries.map(item => item.attributes.categoryName),
+        transformedInquiries
+          .filter(
+            item => item.attributes.levelOfAuthentication !== 'Unauthenticated',
+          )
+          .map(item => item.attributes.categoryName),
       ),
     ];
 
     return { transformedInquiries, uniqueCategories };
   };
 
-  const getApiData = url => {
+  const getApiData = useCallback(url => {
     setLoading(true);
 
     const processData = data => {
@@ -78,12 +81,20 @@ const DashboardCards = () => {
         setLoading(false);
         hasError(true);
       });
-  };
-
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
-    getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
   }, []);
+
+  useEffect(
+    () => {
+      // Focus element if we're on the main dashboard
+      if (window.location.pathname.includes('introduction')) {
+        focusElement('.schemaform-title > h1');
+      }
+
+      // Always fetch inquiries data regardless of route
+      getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
+    },
+    [getApiData],
+  );
 
   const filterAndSortInquiries = loa => {
     return inquiries
@@ -158,14 +169,14 @@ const DashboardCards = () => {
             <li key={card.id} className="dashboard-card-list">
               <va-card class="vacard">
                 <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-                  <div className="vads-u-margin-bottom--1p5">
+                  <dl className="vads-u-margin-bottom--1p5">
                     <dt className="sr-only">Status</dt>
                     <dd>
                       <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
                         {getVAStatusFromCRM(card.attributes.status)}
                       </span>
                     </dd>
-                  </div>
+                  </dl>
                   <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
                     {`Submitted on ${formatDate(card.attributes.createdOn)}`}
                   </span>

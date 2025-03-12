@@ -6,7 +6,6 @@
     },
     "exports": {
       "." :"./exportsFile.js",
-      "./showVaAlertExpandable": "./alerts/showVaAlertExpandable.js",
       "./MobileAppCallout": "./alerts/MobileAppCallout.jsx",
       "./EbenefitsLink": "./ebenefits/containers/EbenefitsLink.jsx",
       "./selectors": "./feature-toggles/selectors.js",

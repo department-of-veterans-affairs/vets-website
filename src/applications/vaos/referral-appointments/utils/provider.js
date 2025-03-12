@@ -102,19 +102,22 @@ const createProviderDetails = (numberOfSlots, providerId = '111') => {
 };
 
 const draftAppointments = {
-  '0': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6800': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -171,19 +174,22 @@ const draftAppointments = {
       },
     },
   },
-  '111': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6801': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -240,19 +246,22 @@ const draftAppointments = {
       },
     },
   },
-  '222': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6802': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -309,19 +318,166 @@ const draftAppointments = {
       },
     },
   },
-  '333': {
+  'add2f0f4-a1ea-4dea-a504-a54ab57c6803': {
     appointment: {
       id: 'EEKoGzEf',
       state: 'draft',
       patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
     },
     provider: {
       id: '9mN718pH',
-      name: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
       isActive: true,
       individualProviders: [
         {
-          name: 'Dr. Moreen S. Rafa',
+          name: 'Dr. Bones',
+          npi: '91560381x',
+        },
+      ],
+      providerOrganization: {
+        name: 'Meridian Health (Sandbox 5vuTac8v)',
+      },
+      location: {
+        name: 'FHA South Melbourne Medical Complex',
+        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+        latitude: 28.08061,
+        longitude: -80.60322,
+        timezone: 'America/New_York',
+      },
+      networkIds: ['sandboxnetwork-5vuTac8v'],
+      schedulingNotes:
+        'New patients need to send their previous records to the office prior to their appt.',
+      appointmentTypes: [
+        {
+          id: 'ov',
+          name: 'Office Visit',
+          isSelfSchedulable: true,
+        },
+      ],
+      specialties: [
+        {
+          id: '208800000X',
+          name: 'Urology',
+        },
+      ],
+      visitMode: 'phone',
+      features: {
+        isDigital: true,
+        directBooking: {
+          isEnabled: true,
+          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
+        },
+      },
+    },
+    slots: {
+      count: 2,
+      slots: [],
+    },
+    drivetime: {
+      origin: {
+        latitude: 40.7128,
+        longitude: -74.006,
+      },
+      destination: {
+        distanceInMiles: 313,
+        driveTimeInSecondsWithoutTraffic: 19096,
+        driveTimeInSecondsWithTraffic: 19561,
+        latitude: 44.475883,
+        longitude: -73.212074,
+      },
+    },
+  },
+  timeout: {
+    appointment: {
+      id: 'timeout-appointment-id',
+      state: 'draft',
+      patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
+    },
+    provider: {
+      id: '9mN718pH',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
+      isActive: true,
+      individualProviders: [
+        {
+          name: 'Dr. Bones',
+          npi: '91560381x',
+        },
+      ],
+      providerOrganization: {
+        name: 'Meridian Health (Sandbox 5vuTac8v)',
+      },
+      location: {
+        name: 'FHA South Melbourne Medical Complex',
+        address: '1105 Palmetto Ave, Melbourne, FL, 32901, US',
+        latitude: 28.08061,
+        longitude: -80.60322,
+        timezone: 'America/New_York',
+      },
+      networkIds: ['sandboxnetwork-5vuTac8v'],
+      schedulingNotes:
+        'New patients need to send their previous records to the office prior to their appt.',
+      appointmentTypes: [
+        {
+          id: 'ov',
+          name: 'Office Visit',
+          isSelfSchedulable: true,
+        },
+      ],
+      specialties: [
+        {
+          id: '208800000X',
+          name: 'Urology',
+        },
+      ],
+      visitMode: 'phone',
+      features: {
+        isDigital: true,
+        directBooking: {
+          isEnabled: true,
+          requiredFields: ['phone', 'address', 'name', 'birthdate', 'gender'],
+        },
+      },
+    },
+    slots: {
+      count: 2,
+      slots: [],
+    },
+    drivetime: {
+      origin: {
+        latitude: 40.7128,
+        longitude: -74.006,
+      },
+      destination: {
+        distanceInMiles: 313,
+        driveTimeInSecondsWithoutTraffic: 19096,
+        driveTimeInSecondsWithTraffic: 19561,
+        latitude: 44.475883,
+        longitude: -73.212074,
+      },
+    },
+  },
+  'eps-error': {
+    appointment: {
+      id: 'eps-error-appointment-id',
+      state: 'draft',
+      patientId: 'care-nav-patient-casey',
+      startDate: '2025-01-02T15:30:00Z',
+      modality: 'In person',
+      typeOfCare: 'Physical Therapy',
+    },
+    provider: {
+      id: '9mN718pH',
+      name: 'Dr. Bones @ FHA South Melbourne Medical Complex',
+      isActive: true,
+      individualProviders: [
+        {
+          name: 'Dr. Bones',
           npi: '91560381x',
         },
       ],
@@ -387,7 +543,10 @@ const draftAppointments = {
  * @param {String} referralId The ID for the referral
  * @returns {Object} draftAppointmentInfo object
  */
-const createDraftAppointmentInfo = (numberOfSlots, referralId = '0') => {
+const createDraftAppointmentInfo = (
+  numberOfSlots,
+  referralId = 'add2f0f4-a1ea-4dea-a504-a54ab57c6800',
+) => {
   const draftAppointmentInfo = draftAppointments[referralId];
   const tomorrow = dateFns.addDays(dateFns.startOfDay(new Date()), 1);
   draftAppointmentInfo.slots = { count: numberOfSlots, slots: [] };

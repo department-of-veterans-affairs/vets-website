@@ -26,7 +26,7 @@
 
       p {
         margin: 4px 0 14px;
-        color: $vads-color-gray-medium;
+        color: $vads-color-base;
       }
 
       .poa-request-details__form--error & {
@@ -81,11 +81,11 @@
         display: flex;
         flex-direction: column;
 
-      @media (min-width: $small-desktop-screen) {
-        flex-direction: row;
-        height: 56px;
-        align-items: center;
-      }
+        @media (min-width: $small-desktop-screen) {
+          flex-direction: row;
+          height: 56px;
+          align-items: center;
+        }
 
         &:first-child {
           border-top: 1px solid $vads-color-base;
@@ -119,8 +119,17 @@
   &__subtitle {
     margin: 0;
 
+    .poa-request__card-field--label & {
+      margin-left: 5px;
+      font-weight: normal;
+    }
+
     .poa-request-details__list & {
       margin-bottom: 24px;
+      display: block;
+      @media (min-width: $small-desktop-screen) {
+        margin-bottom: 0;
+      }
     }
 
     .poa-request-details__list-item:last-child & {
@@ -137,29 +146,15 @@
     margin: 8px 0;
     display: flex;
     align-items: center;
+    font-size: 24px;
+    font-family: inherit;
+    @media (min-width: $small-desktop-screen) {
+      font-size: 1.875rem;
+    }
   }
 
   &__status {
     margin-left: 15px;
-    color: $vads-color-base;
-
-    &.pending {
-      background-color: $vads-color-warning-lighter;
-      border: 1px solid $vads-color-warning-darker;
-    }
-    &.acceptance {
-      background-color: $vads-color-success-lighter;
-      border: 1px solid $vads-color-success;
-    }
-    &.declination,
-    &.expiration {
-      background-color: $uswds-system-color-red-warm-10;
-      border: 1px solid $uswds-system-color-red-warm-vivid-50;
-    }
-    &.processing {
-      background-color: $uswds-system-color-gray-5;
-      border: 1px solid $uswds-system-color-gray-cool-60;
-    }
   }
 
   &__table {
@@ -197,5 +192,11 @@
 
   &__info {
     max-width: 650px;
+  }
+}
+.processing-date {
+  > span {
+    font-weight: bold;
+    margin-left: 3px;
   }
 }

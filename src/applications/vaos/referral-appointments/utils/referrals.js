@@ -4,6 +4,37 @@ const { addDays, addMonths, format, subMonths } = require('date-fns');
 
 const defaultUUIDBase = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
 const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
+
+/**
+ * Creates a referral list object relative to a start date.
+ *
+ * @param {String} startDate The date in 'yyyy-MM-dd' format to base the referrals around
+ * @param {String} uuid The UUID for the referral
+ * @param {String} providerId The ID for the provider
+ * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
+ * @returns {Object} Referral object
+ */
+
+const createReferralListItem = (
+  startDate,
+  uuid,
+  providerId = '111',
+  expirationDate,
+  categoryOfCare = 'Physical Therapy',
+) => {
+  const [year, month, day] = startDate.split('-');
+  const relativeDate = new Date(year, month - 1, day);
+  const mydFormat = 'yyyy-MM-dd';
+  return {
+    uuid,
+    referralDate: startDate,
+    categoryOfCare,
+    expirationDate:
+      expirationDate || format(addMonths(relativeDate, 6), mydFormat),
+    providerId,
+  };
+};
+
 /**
  * Creates a referral object relative to a start date.
  *
@@ -13,7 +44,7 @@ const expiredUUIDBase = '445e2d1b-7150-4631-97f2-f6f473bdef';
  * @param {String} expirationDate The date in 'yyyy-MM-dd' format to expire the referral
  * @returns {Object} Referral object
  */
-const createReferral = (
+const createReferralById = (
   startDate,
   uuid,
   providerId = '111',
@@ -24,43 +55,37 @@ const createReferral = (
   const relativeDate = new Date(year, month - 1, day);
 
   const mydFormat = 'yyyy-MM-dd';
-  const mydWithTimeFormat = 'yyyy-MM-dd kk:mm:ss';
 
   return {
-    ReferralCategory: 'Inpatient',
-    ReferralDate: format(relativeDate, mydFormat),
-    ReferralExpirationDate:
+    uuid,
+    referralDate: format(relativeDate, mydFormat),
+    expirationDate:
       expirationDate || format(addMonths(relativeDate, 6), mydFormat),
-    ReferralLastUpdateDate: format(relativeDate, mydFormat),
-    ReferralLastUpdateDateTime: format(relativeDate, mydWithTimeFormat),
-    ReferralNumber: 'VA0000009880',
-    ReferringFacility: 'Batavia VA Medical Center',
-    ReferringProvider: '534_520824810',
-    SourceOfReferral: 'Interfaced from VA',
-    Status: 'Approved',
-    CategoryOfCare: categoryOfCare,
-    StationID: '528A4',
-    Sta6: '534',
-    ReferringProviderNPI: '534_520824810',
-    ReferringFacilityInfo: {
-      FacilityName: 'Batavia VA Medical Center',
-      FacilityCode: '528A4',
-      Description: 'Batavia VA Medical Center',
-      Address: {
-        Address1: '222 Richmond Avenue',
-        City: 'BATAVIA',
-        State: 'NY',
-        ZipCode: '14020',
+    referralNumber: 'VA0000009880',
+    status: 'Approved',
+    categoryOfCare,
+    stationId: '528A4',
+    sta6: '534',
+    referringFacility: 'Batavia VA Medical Center',
+    referringFacilityInfo: {
+      facilityName: 'Batavia VA Medical Center',
+      facilityCode: '528A4',
+      description: 'Batavia VA Medical Center',
+      address: {
+        address1: '222 Richmond Avenue',
+        city: 'BATAVIA',
+        state: 'NY',
+        zipCode: '14020',
       },
-      Phone: '(585) 297-1000',
-      Fax: '(585) 786-1258',
+      phone: '(585) 297-1000',
     },
-    ReferralStatus: 'open',
-    UUID: uuid,
-    numberOfAppointments: 1,
-    providerName: 'Dr. Moreen S. Rafa @ FHA South Melbourne Medical Complex',
-    providerLocation: 'FHA South Melbourne Medical Complex',
-    providerId,
+    referralStatus: 'open',
+    provider: {
+      id: providerId,
+      name: 'Dr. Moreen S. Rafa',
+      location: 'FHA South Melbourne Medical Complex',
+    },
+    appointments: [],
   };
 };
 
@@ -92,7 +117,7 @@ const createReferrals = (
     const mydFormat = 'yyyy-MM-dd';
     const referralDate = format(startDate, mydFormat);
     referrals.push(
-      createReferral(
+      createReferralListItem(
         referralDate,
         `${uuidBase}${i.toString().padStart(2, '0')}`,
         providerIds[i % providerIds.length],
@@ -123,7 +148,7 @@ const filterReferrals = referrals => {
     return [];
   }
   return referrals.filter(
-    referral => referral.CategoryOfCare === 'Physical Therapy',
+    referral => referral.categoryOfCare === 'Physical Therapy',
   );
 };
 
@@ -134,21 +159,22 @@ const filterReferrals = referrals => {
  * @returns {String} Address string
  */
 const getAddressString = addressObject => {
-  let addressString = addressObject.Address1;
-  if (addressObject.Address2) {
-    addressString = `${addressString}, ${addressObject.Address2}`;
+  let addressString = addressObject.address1;
+  if (addressObject.address2) {
+    addressString = `${addressString}, ${addressObject.address2}`;
   }
   if (addressObject.street3) {
-    addressString = `${addressString}, ${addressObject.Address3}`;
+    addressString = `${addressString}, ${addressObject.address3}`;
   }
-  addressString = `${addressString}, ${addressObject.City}, ${
-    addressObject.State
-  }, ${addressObject.ZipCode}`;
+  addressString = `${addressString}, ${addressObject.city}, ${
+    addressObject.state
+  }, ${addressObject.zipCode}`;
   return addressString;
 };
 
 module.exports = {
-  createReferral,
+  createReferralById,
+  createReferralListItem,
   createReferrals,
   getReferralSlotKey,
   filterReferrals,

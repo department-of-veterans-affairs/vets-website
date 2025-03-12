@@ -23,7 +23,6 @@ export const APPOINTMENT_STATUS = {
 };
 
 export const VIDEO_TYPES = {
-  gfe: 'MOBILE_GFE',
   clinic: 'CLINIC_BASED',
   adhoc: 'ADHOC',
   mobile: 'MOBILE_ANY',
@@ -240,6 +239,7 @@ export const FACILITY_SORT_METHODS = {
   distanceFromCurrentLocation: 'distanceFromCurrentLocation',
   distanceFromFacility: 'distanceFromFacility',
   alphabetical: 'alphabetical',
+  recentLocations: 'recentLocations',
 };
 
 export const LANGUAGES = [

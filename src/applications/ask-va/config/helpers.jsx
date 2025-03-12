@@ -2,7 +2,7 @@ import { format, isValid, parse } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import { enUS } from 'date-fns/locale';
 import React from 'react';
-import { clockIcon, starIcon, successIcon } from '../utils/helpers';
+import { clockIcon, folderIcon, starIcon, successIcon } from '../utils/helpers';
 
 import {
   CategoryBenefitsIssuesOutsidetheUS,
@@ -228,21 +228,24 @@ export const contactRules = {
   },
 };
 
-export const getContactMethods = (category, topic) => {
-  // const contactRules = initializeContactRules();
-  const allContactMethods = {
-    PHONE: 'Phone call',
-    EMAIL: 'Email',
-    US_MAIL: 'U.S. mail',
-  };
+export const getContactMethods = (contactPreferences = []) => {
+  let contactMethods = {};
 
-  if (contactRules[category] && contactRules[category][topic]) {
-    return contactRules[category][topic].reduce((acc, method) => {
-      acc[method] = allContactMethods[method];
-      return acc;
-    }, {});
+  if (contactPreferences.length > 0) {
+    contactPreferences.forEach(item => {
+      if (item === 'Phone') contactMethods.PHONE = 'Phone call';
+      if (item === 'Email') contactMethods.EMAIL = 'Email';
+      if (item === 'USMail') contactMethods.US_MAIL = 'U.S. mail';
+    });
+  } else {
+    contactMethods = {
+      PHONE: 'Phone call',
+      EMAIL: 'Email',
+      US_MAIL: 'U.S. mail',
+    };
   }
-  return allContactMethods;
+
+  return contactMethods;
 };
 
 export const isEqualToOnlyEmail = obj => {
@@ -674,23 +677,51 @@ export const getVAStatusFromCRM = status => {
 };
 
 export const getVAStatusIconAndMessage = {
-  Solved: {
-    icon: successIcon,
-    message:
-      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
-  },
   New: {
     icon: starIcon,
     message: "We received your question. We'll review it soon.",
+    color: 'vads-u-border-color--primary',
   },
   'In progress': {
     icon: clockIcon,
     message: "We're reviewing your question.",
+    color: 'vads-u-border-color--grey',
+  },
+  Replied: {
+    icon: successIcon,
+    message:
+      "We either answered your question or didn't have enough information to answer your question. If you need more help, ask a new question.",
+    color: 'vads-u-border-color--green',
   },
   Reopened: {
     icon: clockIcon,
     message: "We received your reply. We'll respond soon.",
+    color: 'vads-u-border-color--grey',
   },
+  Closed: {
+    icon: folderIcon,
+    message: 'We closed this question after 60 days without any updates.',
+    color: 'vads-u-border-color--grey',
+  },
+};
+
+export const getDescriptiveTextFromCRM = status => {
+  switch ((status ?? '').toLowerCase()) {
+    case 'new':
+      return 'Your inquiry is current in queue to be reviewed.';
+    case 'in progress':
+      return 'Your inquiry is currently being reviewed by an agent.';
+    case 'solved':
+      return 'Your inquiry has been closed. If you have additional questions please open a new inquiry.';
+    case 'reopened':
+      return 'Your reply to this inquiry has been received, and the inquiry is currently being reviewed by an agent.';
+    case 'closed':
+      return 'Closed.';
+    case 'reference number not found':
+      return "No Results found. We could not locate an inquiry that matches your ID. Please check the number and re-enter. If you receive this message again, you can submit a new inquiry with your original question. Include your old inquiry number for reference and we'll work to get your question fully answered.";
+    default:
+      return 'error';
+  }
 };
 
 // Function to convert date to Response Inbox format using date-fns
@@ -706,6 +737,8 @@ export const convertDateForInquirySubheader = dateString => {
     utcDate.setUTCMinutes(utcDate.getMinutes());
     utcDate.setUTCSeconds(utcDate.getSeconds());
   } catch (error) {
+    // TODO: This catch block doesn't seem to be hit in testing. johall-tw
+    // istanbul ignore next
     return 'Invalid Date';
   }
 
@@ -720,7 +753,8 @@ export const convertDateForInquirySubheader = dateString => {
     'America/New_York',
     "MMM. d, yyyy 'at' h:mm aaaa 'E.T'",
     { locale: enUS },
-  ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+    // ).replace(/AM|PM/, match => `${match.toLowerCase()}.`);
+  ).replace(/[AaPp]\.{0,1}[Mm]\.{0,1}/, match => `${match.toLowerCase()}`);
 };
 
 export const formatDate = (dateString, formatType = 'short') => {
@@ -758,8 +792,12 @@ export const getFiles = files => {
   });
 };
 
+export const getFileSizeMB = size => size * 0.00000095367432;
+
 export const DownloadLink = ({ fileUrl, fileName, fileSize }) => {
-  const fileSizeText = fileSize ? ` (${(fileSize * 0.001).toFixed(2)} MB)` : '';
+  const fileSizeText = fileSize
+    ? ` (${getFileSizeMB(fileSize).toFixed(2)} MB)`
+    : '';
 
   return (
     <a href={fileUrl} download={fileName}>

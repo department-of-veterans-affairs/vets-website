@@ -9,8 +9,9 @@ import {
   ssnUI,
   ssnSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import React from 'react';
 
-function required(formData, rawIndex) {
+export function required(formData, rawIndex) {
   const index = parseInt(rawIndex, 10);
   if (Number.isFinite(index)) {
     return formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild;
@@ -23,7 +24,7 @@ export const stepchild = {
     ...titleUI({
       title: "Child's biological parents",
     }),
-    isBiologicalChild: yesNoUI({
+    isBiologicalChildOfSpouse: yesNoUI({
       title: 'Is this child the biological child of your current spouse?',
       required,
       errorMessages: {
@@ -37,11 +38,23 @@ export const stepchild = {
         required: 'Enter the date.',
       },
     }),
+    'view:biologicalParentInfo': {
+      'ui:description': () => (
+        <va-additional-info trigger="How we define when a child enters your household">
+          <ul>
+            <li>
+              You start supporting them financially, <strong>or</strong>
+            </li>
+            <li>The child starts living with you</li>
+          </ul>
+        </va-additional-info>
+      ),
+    },
     biologicalParentName: firstNameLastNameNoSuffixUI(
       title => `Child’s biological parent’s ${title}`,
     ),
     biologicalParentSsn: {
-      ...ssnUI('this child’s biological parent’s Social Security number'),
+      ...ssnUI('Child’s biological parent’s Social Security number'),
       'ui:required': required,
     },
     biologicalParentDob: currentOrPastDateUI({
@@ -55,8 +68,12 @@ export const stepchild = {
   schema: {
     type: 'object',
     properties: {
-      isBiologicalChild: yesNoSchema,
+      isBiologicalChildOfSpouse: yesNoSchema,
       dateEnteredHousehold: currentOrPastDateSchema,
+      'view:biologicalParentInfo': {
+        type: 'object',
+        properties: {},
+      },
       biologicalParentName: firstNameLastNameNoSuffixSchema,
       biologicalParentSsn: ssnSchema,
       biologicalParentDob: currentOrPastDateSchema,

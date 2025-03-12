@@ -46,16 +46,27 @@ export default function VARequestLayout({ data: appointment }) {
   else if (APPOINTMENT_STATUS.cancelled === status)
     heading = 'Canceled request for appointment';
 
-  recordAppointmentDetailsNullStates({
-    [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
-    [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
-    [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
-    [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
-  });
+  recordAppointmentDetailsNullStates(
+    {
+      type: appointment.type,
+      modality: appointment.modality,
+      isCerner: appointment.vaos.isCerner,
+    },
+    {
+      [NULL_STATE_FIELD.TYPE_OF_CARE]: !typeOfCareName,
+      [NULL_STATE_FIELD.FACILITY_ID]: !facilityId,
+      [NULL_STATE_FIELD.FACILITY_DETAILS]: !facility,
+      [NULL_STATE_FIELD.FACILITY_PHONE]: !facilityPhone,
+    },
+  );
 
   return (
     <PageLayout isDetailPage showNeedHelp>
-      <DetailPageLayout heading={heading} data={appointment}>
+      <DetailPageLayout
+        heading={heading}
+        data={appointment}
+        facility={facility}
+      >
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
             {preferredDates.map((date, index) => (

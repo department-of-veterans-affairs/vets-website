@@ -10,5 +10,4 @@ const submitForm = (form, formConfig) => {
     // buildSubmitEventData(form.data),
   );
 };
-
 export default submitForm;

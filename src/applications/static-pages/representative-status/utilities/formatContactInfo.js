@@ -1,6 +1,14 @@
 import { parsePhoneNumber } from './phoneNumbers';
 
-export function formatContactInfo(poaAttributes) {
+function blobToBase64(_blob) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result);
+    reader.readAsDataURL(_blob);
+  });
+}
+
+export async function formatContactInfo(poaAttributes) {
   const {
     addressLine1,
     addressLine2,
@@ -40,12 +48,9 @@ export function formatContactInfo(poaAttributes) {
   ].join('\n');
 
   const blob = new Blob([vcfData], { type: 'text/vcard' });
-  const vcfUrl = URL.createObjectURL(blob);
+  const vcfUrl = window?.Mocha
+    ? await blobToBase64(blob)
+    : URL.createObjectURL(blob);
 
-  return {
-    concatAddress,
-    contact,
-    extension,
-    vcfUrl,
-  };
+  return { concatAddress, contact, extension, vcfUrl };
 }

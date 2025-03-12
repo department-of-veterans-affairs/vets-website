@@ -46,7 +46,7 @@ const TravelReview = props => {
     <div data-testid="review-body">
       <p>{t('you-can-submit-your-claim-now-in-this-tool')}</p>
       <Trans
-        i18nKey="if-you-choose-to-file-later"
+        i18nKey="if-you-choose-to-file-later--v2"
         components={[<span key="bold" className="vads-u-font-weight--bold" />]}
       />
       <div className="vads-u-display--flex vads-u-border-bottom--1px vads-u-align-items--baseline">

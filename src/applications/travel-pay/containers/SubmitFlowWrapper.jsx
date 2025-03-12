@@ -1,15 +1,9 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom-v5-compat';
 
 import { Element } from 'platform/utilities/scroll';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
-import {
-  selectVAPMailingAddress,
-  selectVAPResidentialAddress,
-  isProfileLoading,
-  isLoggedIn,
-} from 'platform/user/selectors';
 import { scrollToFirstError } from 'platform/utilities/ui';
 
 import IntroductionPage from '../components/submit-flow/pages/IntroductionPage';
@@ -18,18 +12,44 @@ import VehiclePage from '../components/submit-flow/pages/VehiclePage';
 import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
-import BreadCrumbs from '../components/Breadcrumbs';
-
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
-import { appointment1 } from '../services/mocks/appointments';
 
-const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
-  // TODO: Placeholders until backend integration
-  // API call based on the URL Params, but for now is hard coded
-  const appointment = appointment1;
-  // This will actually be handled by the redux action, but for now it lives here
-  const [isSubmissionError, setIsSubmissionError] = useState(false);
+import Breadcrumbs from '../components/Breadcrumbs';
+import { selectAppointment } from '../redux/selectors';
+import { HelpTextManage } from '../components/HelpText';
+import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
+
+const SubmitFlowWrapper = () => {
+  const dispatch = useDispatch();
+  const { apptId } = useParams();
+
+  const { data: appointmentData, error, isLoading } = useSelector(
+    selectAppointment,
+  );
+  const { error: submissionError } = useSelector(
+    state => state.travelPay.claimSubmission,
+  );
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const toggleIsLoading = useToggleLoadingValue();
+  const canSubmitMileage = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
+
+  useEffect(
+    () => {
+      if (apptId && !appointmentData && !error) {
+        dispatch(getAppointmentData(apptId));
+      }
+    },
+    [dispatch, appointmentData, apptId, error],
+  );
 
   const [yesNo, setYesNo] = useState({
     mileage: '',
@@ -40,19 +60,16 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+  const [isAgreementError, setIsAgreementError] = useState(false);
 
   const onSubmit = () => {
     if (!isAgreementChecked) {
+      setIsAgreementError(true);
       scrollToFirstError();
       return;
     }
-    // Placeholder until actual submit is hooked up
-
-    // Uncomment to simulate successful submission
-    // setPageIndex(pageIndex + 1);
-
-    // Uncomment to simulate an error
-    setIsSubmissionError(true);
+    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
+    setPageIndex(pageIndex + 1);
   };
 
   const pageList = [
@@ -60,7 +77,6 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'intro',
       component: (
         <IntroductionPage
-          appointment={appointment}
           onStart={e => {
             e.preventDefault();
             setPageIndex(pageIndex + 1);
@@ -72,7 +88,6 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'mileage',
       component: (
         <MileagePage
-          appointment={appointment}
           pageIndex={pageIndex}
           setPageIndex={setPageIndex}
           setYesNo={setYesNo}
@@ -97,7 +112,6 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'address',
       component: (
         <AddressPage
-          address={homeAddress || mailingAddress}
           yesNo={yesNo}
           setYesNo={setYesNo}
           setIsUnsupportedClaimType={setIsUnsupportedClaimType}
@@ -110,13 +124,12 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
       page: 'review',
       component: (
         <ReviewPage
-          appointment={appointment}
-          address={homeAddress || mailingAddress}
           onSubmit={onSubmit}
           setYesNo={setYesNo}
           setPageIndex={setPageIndex}
           isAgreementChecked={isAgreementChecked}
           setIsAgreementChecked={setIsAgreementChecked}
+          isError={isAgreementError}
         />
       ),
     },
@@ -126,21 +139,7 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
     },
   ];
 
-  const profileLoading = useSelector(state => isProfileLoading(state));
-  const userLoggedIn = useSelector(state => isLoggedIn(state));
-
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
-
-  const toggleIsLoading = useToggleLoadingValue();
-  const canSubmitMileage = useToggleValue(
-    TOGGLE_NAMES.travelPaySubmitMileageExpense,
-  );
-
-  if ((profileLoading && !userLoggedIn) || toggleIsLoading) {
+  if (toggleIsLoading || isLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -159,8 +158,8 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
 
   return (
     <Element name="topScrollElement">
-      <article className="usa-grid-full vads-u-margin-bottom--3">
-        <BreadCrumbs />
+      <article className="usa-grid-full vads-u-margin-bottom--0">
+        <Breadcrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
@@ -169,26 +168,21 @@ const SubmitFlowWrapper = ({ homeAddress, mailingAddress }) => {
               setIsUnsupportedClaimType={setIsUnsupportedClaimType}
             />
           )}
-          {isSubmissionError && <SubmissionErrorPage />}
+          {submissionError && <SubmissionErrorPage />}
           {!isUnsupportedClaimType &&
-            !isSubmissionError &&
+            !submissionError &&
             pageList[pageIndex].component}
+          <div className="vads-u-margin-top--4">
+            <va-need-help>
+              <div slot="content">
+                <HelpTextManage />
+              </div>
+            </va-need-help>
+          </div>
         </div>
       </article>
     </Element>
   );
 };
 
-SubmitFlowWrapper.propTypes = {
-  homeAddress: PropTypes.object,
-  mailingAddress: PropTypes.object,
-};
-
-function mapStateToProps(state) {
-  return {
-    homeAddress: selectVAPResidentialAddress(state),
-    mailingAddress: selectVAPMailingAddress(state),
-  };
-}
-
-export default connect(mapStateToProps)(SubmitFlowWrapper);
+export default SubmitFlowWrapper;

@@ -7,7 +7,6 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig5490 from '../../5490/config/form';
 import formConfig1995 from '../../1995/config/form';
 import formConfig10203 from '../../10203/config/form';
 
@@ -169,12 +168,6 @@ const pageTests = (page, formConfig, addressType = 'veteran') => {
 };
 
 describe('Edu contactInformationPage', () => {
-  describe('5490', () =>
-    pageTests(
-      formConfig5490.chapters.personalInformation.pages.contactInformation,
-      formConfig5490,
-      'relative',
-    ));
   describe('1995', () =>
     pageTests(
       formConfig1995.chapters.personalInformation.pages.contactInformation,

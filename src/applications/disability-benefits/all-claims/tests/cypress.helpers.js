@@ -178,6 +178,9 @@ export const setup = (cy, testOptions = {}) => {
     if (testOptions?.prefillData?.startedFormVersion) {
       formData.startedFormVersion = testOptions.prefillData.startedFormVersion;
     }
+    if (testOptions?.prefillData?.syncModern0781Flow) {
+      formData.syncModern0781Flow = testOptions.prefillData.syncModern0781Flow;
+    }
 
     cy.intercept('GET', `${MOCK_SIPS_API}*`, {
       formData,
@@ -283,7 +286,7 @@ export const pageHooks = cy => ({
   'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        const comboBox = `[id="root_newDisabilities_${index}_condition"]`;
+        const autocomplete = `[id="root_newDisabilities_${index}_condition"]`;
         const input = '#inputField';
         const option = '[role="option"]';
 
@@ -291,11 +294,11 @@ export const pageHooks = cy => ({
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
 
-          cy.findByText(/remove/i, { selector: 'button' }).should('be.visible');
+          cy.get('va-button[text="Remove"]').should('be.visible');
         }
 
         // click on input and type search text
-        cy.get(comboBox)
+        cy.get(autocomplete)
           .shadow()
           .find(input)
           .type(disability.condition, { force: true });
@@ -306,7 +309,7 @@ export const pageHooks = cy => ({
             .first()
             .click();
 
-          cy.get(comboBox)
+          cy.get(autocomplete)
             .shadow()
             .find(input)
             .should('have.value', disability.condition);
@@ -319,7 +322,7 @@ export const pageHooks = cy => ({
                 .eq(1)
                 .click();
 
-              cy.get(comboBox)
+              cy.get(autocomplete)
                 .shadow()
                 .find(input)
                 .should('have.value', selectedOption);
@@ -327,7 +330,7 @@ export const pageHooks = cy => ({
         }
 
         // click save
-        cy.findByText(/save/i, { selector: 'button' }).click();
+        cy.get('va-button[text="Save"]').click();
       });
     });
   },

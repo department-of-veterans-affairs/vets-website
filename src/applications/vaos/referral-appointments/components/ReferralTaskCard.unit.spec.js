@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { expect } from 'chai';
 import { format } from 'date-fns';
 import ReferralTaskCard from './ReferralTaskCard';
-import { createReferral } from '../utils/referrals';
+import { createReferralById } from '../utils/referrals';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -29,10 +29,10 @@ describe('VAOS Component: ReferralTaskCard', () => {
   });
 
   const uuid = 'add2f0f4-a1ea-4dea-a504-a54ab57c68';
-  const referralData = createReferral('2024-09-06', uuid);
-  referralData.ReferralExpirationDate = '2025-03-04';
+  const referralData = createReferralById('2024-09-06', uuid);
+  referralData.expirationDate = '2025-03-04';
   const expectedDateFormated = format(
-    new Date(referralData.ReferralExpirationDate),
+    new Date(referralData.expirationDate),
     'PP',
   );
 
@@ -57,31 +57,7 @@ describe('VAOS Component: ReferralTaskCard', () => {
     ).to.exist;
     expect(
       screen.getByText(
-        `We’ve approved your referral for 1 appointment with a community care provider. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
-      ),
-    ).to.exist;
-    expect(screen.queryByTestId(`referral-task-card-schedule-referral-${uuid}`))
-      .to.exist;
-  });
-
-  it('should display referral task card when there are multiple appointments', () => {
-    const store = createTestStore();
-    const referral = {
-      ...referralData,
-      numberOfAppointments: 3,
-    };
-    const screen = renderWithStoreAndRouter(
-      <ReferralTaskCard data={referral} />,
-      { store },
-    );
-    expect(
-      screen.getByRole('heading', {
-        name: 'Schedule your physical therapy appointment',
-      }),
-    ).to.exist;
-    expect(
-      screen.getByText(
-        `We’ve approved your referral for 3 appointments with a community care provider. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
+        `We’ve approved your community care referral. You must schedule all appointments for this referral by ${expectedDateFormated}.`,
       ),
     ).to.exist;
     expect(screen.queryByTestId(`referral-task-card-schedule-referral-${uuid}`))
@@ -92,7 +68,7 @@ describe('VAOS Component: ReferralTaskCard', () => {
     const store = createTestStore();
     const referral = {
       ...referralData,
-      ReferralExpirationDate: '2024-09-08',
+      expirationDate: '2024-09-08',
     };
     const screen = renderWithStoreAndRouter(
       <ReferralTaskCard data={referral} />,

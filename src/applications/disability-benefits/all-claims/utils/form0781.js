@@ -2,16 +2,17 @@
 import _ from 'platform/utilities/data';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
 import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
-import { isClaimingNew } from '.';
+import { isClaimingIncrease, isClaimingNew } from '.';
 import { form0781WorkflowChoices } from '../content/form0781/workflowChoicePage';
 import { titleWithTag, form0781HeadingTag } from '../content/form0781';
+import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
 
 /**
- * Helper method to determin if a series of veteran selections match ONLY
+ * Helper method to determine if a series of veteran selections match ONLY
  * the condition of type === combat
  */
 function combatOnlySelection(formData) {
-  const eventTypes = formData?.mentalHealth?.eventTypes || {};
+  const eventTypes = formData?.eventTypes || {};
   // ensure the Vet has only selected the 'combat' event type
   const combatSelected = eventTypes.combat;
   const nonCombatSelections = Object.keys(eventTypes)
@@ -27,19 +28,15 @@ function combatOnlySelection(formData) {
  * @returns
  *   TRUE if
  *     - is set on form via the backend
- *     - Veteran is claiming a new disability
- *     - Veteran has selected connected condition choices on 'screener page'
+ *     - Veteran is claiming a new disability, and not a claim for increase
  *   else
  *     - returns false
  */
 export function showForm0781Pages(formData) {
-  const conditions = formData?.mentalHealth?.conditions || {};
   return (
     formData?.syncModern0781Flow === true &&
     isClaimingNew(formData) &&
-    Object.entries(conditions).some(
-      ([key, value]) => key !== 'none' && value === true,
-    )
+    !isClaimingIncrease(formData)
   );
 }
 
@@ -71,28 +68,13 @@ export function isCompletingForm0781(formData) {
  * Checks if
  * 1. modern 0781 pages should be showing
  * 2. the option to complete the online form is selected
- * 3. MST is selected as a mentalHealth eventType
+ * 3. MST is selected as an eventType
  *
  * @param {object} formData
  * @returns {boolean} true if MST is selected, false otherwise
  */
 export function isRelatedToMST(formData) {
-  return (
-    isCompletingForm0781(formData) &&
-    formData?.mentalHealth?.eventTypes?.mst === true
-  );
-}
-
-/**
- * Checks if
- * 1. the option to complete the online form is selected
- * 2. the user is adding an event
- *
- * @param {object} formData
- * @returns {boolean} true if Add an event is selected, false otherwise
- */
-export function isAddingEvent(formData) {
-  return isCompletingForm0781(formData) && formData['view:addEvent'] === true;
+  return isCompletingForm0781(formData) && formData?.eventTypes?.mst === true;
 }
 
 /*
@@ -121,7 +103,7 @@ export function showBehaviorIntroCombatPage(formData) {
 /*
  * @returns
  *   FALSE
- *     - IF Vetern has ONLY selected "Traumatic Events Related To Comabt"
+ *     - IF Vetern has ONLY selected "Traumatic Events Related To Combat"
  *       - AND has explicitly opted out of providing more info
  *     - ELSE IF Veteran should not see 0781 pages
  *   TRUE
@@ -136,6 +118,38 @@ export function showBehaviorListPage(formData) {
     ((showBehaviorIntroCombatPage(formData) && answerQuestions) ||
       !combatOnlySelection(formData))
   );
+}
+
+/**
+ * Checks if a specific behavior description page should display for selected behavior type. It should display if:
+ * 1. modern 0781 pages should be showing
+ * 2. the given checkbox formData has a value of true
+ *
+ * @param {object} formData - full form data
+ * @param {string} behaviorSection - selected behavior section
+ * @param {string} behaviorType - selected behavior type
+ * @returns {boolean} true if the page should display, false otherwise
+ */
+export function showBehaviorDescriptionsPage(
+  formData,
+  behaviorSection,
+  behaviorType,
+) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.[behaviorSection]?.[behaviorType] === true
+  );
+}
+
+export function showUnlistedDescriptionPage(formData) {
+  return (
+    isCompletingForm0781(formData) &&
+    formData?.otherBehaviors?.unlisted === true
+  );
+}
+
+export function showBehaviorSummaryPage(formData) {
+  return isCompletingForm0781(formData) && hasSelectedBehaviors(formData);
 }
 
 /**

@@ -169,7 +169,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           to pay this debt.
         </DebtSummaryMessage>
       );
-    case '081': // TODO: No Definition in mockup
+    // case '081': TODO: No Definition in mockup
     case '500':
     case '510':
     case '503':

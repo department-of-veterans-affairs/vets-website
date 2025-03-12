@@ -27,7 +27,7 @@ function AddressConfirmation({ subHeader, userAddress }) {
     .trim();
 
   const getCountry = countryCode => {
-    return countries.find(c => c.value === countryCode).label || countryCode;
+    return countries.find(c => c.value === countryCode)?.label || countryCode;
   };
 
   return (

@@ -3,6 +3,7 @@ import {
   subHours,
   isWithinInterval,
   parseJSON,
+  isValid,
   format,
   differenceInHours,
 } from 'date-fns';
@@ -25,7 +26,7 @@ export const generateCSPBanner = ({ csp }) => {
     ? {
         headline: `You may have trouble signing in with some of your accounts`,
         status: 'warning',
-        message: `We’re sorry. We’re working to fix some problems with ID.me, but you can still sign in to VA.gov using your Login.gov account. If you’d like to sign in with your ID.me, DS Logon, or My HealtheVet accounts, please check back later.`,
+        message: `We’re sorry. We’re working to fix some problems with ID.me, but you can still sign in to VA.gov using your Login.gov account. If you’d like to sign in with your ID.me or DS Logon accounts, please check back later.`,
       }
     : {
         headline: `You may have trouble signing in with ${
@@ -109,8 +110,8 @@ export const renderDowntimeBanner = statuses => {
  * @returns An object needed to create the React-node (va-alert) maintenance banner
  */
 export const createMaintenanceBanner = ({
-  start_time: startingTime,
-  end_time: endingTime,
+  startTime: startingTime,
+  endTime: endingTime,
 }) => {
   const { headline, status } = DOWNTIME_BANNER_CONFIG.maintenance;
 
@@ -119,6 +120,10 @@ export const createMaintenanceBanner = ({
   const endTime = parseJSON(endingTime);
   const hours = differenceInHours(endTime, startTime);
   const howLongMaintLasts = `${hours} hour${hours > 1 ? 's' : ''}`;
+
+  if (!isValid(startTime) || !isValid(endTime)) {
+    return null;
+  }
 
   const startsAt = format(startTime, `h:mm bbbb`);
   const endsAt = fmtTZ(endTime, `h:mm bbbb z`);
@@ -148,7 +153,7 @@ export const createMaintenanceBanner = ({
  */
 export const determineMaintenance = maintArray =>
   maintArray.find(maintService =>
-    ['global', ...AUTH_DEPENDENCIES].includes(maintService.external_service),
+    ['global', ...AUTH_DEPENDENCIES].includes(maintService.externalService),
   );
 
 /**
@@ -176,9 +181,10 @@ export const renderMaintenanceWindow = maintArray => {
     return null;
   }
 
-  const maintenanceBanner = createMaintenanceBanner(
-    determineMaintenance(maintArray),
-  );
+  const bannerOptions = determineMaintenance(maintArray);
+  if (!bannerOptions) return null;
+
+  const maintenanceBanner = createMaintenanceBanner(bannerOptions);
 
   return maintenanceBanner &&
     isInMaintenanceWindow(

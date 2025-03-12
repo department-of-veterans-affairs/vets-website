@@ -17,17 +17,22 @@ import {
   startDirectScheduleFlow,
 } from '../../redux/actions';
 import { selectTypeOfCarePage } from '../../redux/selectors';
+import { selectFeatureFeSourceOfTruth } from '../../../redux/selectors';
 import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
 import { getLongTermAppointmentHistoryV2 } from '../../../services/appointment';
 import { getPageTitle } from '../../newAppointmentFlow';
+import TypeOfCareRadioWidget from '../VAFacilityPage/TypeOfCareRadioWidget';
 
 const pageKey = 'typeOfCare';
 
 export default function TypeOfCarePage() {
   const pageTitle = useSelector(state => getPageTitle(state, pageKey));
+  const useFeSourceOfTruth = useSelector(state =>
+    selectFeatureFeSourceOfTruth(state),
+  );
 
   const dispatch = useDispatch();
   const {
@@ -93,7 +98,8 @@ export default function TypeOfCarePage() {
     },
     uiSchema: {
       typeOfCareId: {
-        'ui:widget': 'radio',
+        'ui:title': pageTitle,
+        'ui:widget': TypeOfCareRadioWidget,
         'ui:options': {
           classNames: 'vads-u-margin-top--neg2',
           hideLabelText: true,
@@ -138,7 +144,7 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistoryV2();
+              getLongTermAppointmentHistoryV2(useFeSourceOfTruth);
             }
 
             setData(newData);
