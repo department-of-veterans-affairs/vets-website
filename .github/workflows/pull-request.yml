@@ -127,7 +127,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          node-version: 22.11.0
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -183,7 +183,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          node-version: 22.11.0
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -244,7 +244,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          node-version: 22.11.0
 
       - name: Configure AWS credentials
         uses: ./.github/workflows/configure-aws-credentials
@@ -302,7 +302,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          node-version: 22.11.0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
