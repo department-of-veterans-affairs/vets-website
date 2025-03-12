@@ -60,6 +60,7 @@
   "dischargeWizardFeatures": "discharge_wizard_features",
   "disputeDebt": "dispute_debt",
   "enrollmentVerification": "enrollment_verification",
+  "ezrProvidersAndDependentsPrefillEnabled": "ezr_form_prefill_with_providers_and_dependents",
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesAutoSuggestVAMCServicesEnabled": "facilities_autosuggest_vamc_services_enabled",
