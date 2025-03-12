@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -26,6 +26,7 @@ export default function LicenseCertificationSearchResults() {
   const location = useLocation();
   const history = useHistory();
 
+  const searchInfoWrapperRef = useRef(null);
   const previousRoute = history.location.state?.path;
   const previousRouteHome =
     previousRoute === '/licenses-certifications-and-prep-courses' ||
@@ -49,7 +50,7 @@ export default function LicenseCertificationSearchResults() {
     error,
   } = useSelector(state => state.licenseCertificationSearch);
 
-  const [currentPage, setCurrentPage] = useState(pageParam);
+  const [currentPage, setCurrentPage] = useState(Number(pageParam));
   const [smallScreen, setSmallScreen] = useState(isSmallScreen());
   const [allowUpdate, setAllowUpdate] = useState(false);
   const [activeCategories, setActiveCategories] = useState(categoryParams);
@@ -71,13 +72,21 @@ export default function LicenseCertificationSearchResults() {
     currentPage * itemsPerPage,
   );
 
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      const controller = new AbortController();
+
+      dispatch(fetchLicenseCertificationResults(controller.signal));
+
+      return () => {
+        controller.abort();
+      };
+    }
+    return null;
+  }, []);
+
   useEffect(
     () => {
-      if (!hasFetchedOnce) {
-        dispatch(fetchLicenseCertificationResults());
-        return;
-      }
-
       if (hasFetchedOnce && (allowUpdate || stateParam)) {
         dispatch(
           filterLcResults(
@@ -93,7 +102,7 @@ export default function LicenseCertificationSearchResults() {
         }
       }
     },
-    [hasFetchedOnce, stateParam, allowUpdate],
+    [hasFetchedOnce, stateParam, allowUpdate, previousRoute],
   );
 
   useEffect(
@@ -130,7 +139,7 @@ export default function LicenseCertificationSearchResults() {
   useEffect(
     () => {
       window.scroll({ top: 0, bottom: 0, behavior: 'smooth' });
-      setCurrentPage(pageParam);
+      setCurrentPage(Number(pageParam));
     },
     [pageParam],
   );
@@ -174,7 +183,11 @@ export default function LicenseCertificationSearchResults() {
       page,
     );
     setCurrentPage(page);
-    window.scroll({ top: 0, bottom: 0, behavior: 'smooth' }); // troubleshoot scrollTo functions in platform to align with standards
+    setTimeout(() => {
+      if (searchInfoWrapperRef.current) {
+        searchInfoWrapperRef.current.focus();
+      }
+    }, 500);
   };
 
   const handleGoToDetails = (e, id, name) => {
@@ -221,7 +234,18 @@ export default function LicenseCertificationSearchResults() {
       };
     });
 
-    setCategoryCheckboxes(newCheckboxes);
+    if (newCheckboxes.filter(checkbox => checkbox.checked).length === 3) {
+      const final = newCheckboxes.map(checkbox => {
+        return {
+          ...checkbox,
+          checked: true,
+        };
+      });
+
+      return setCategoryCheckboxes(final);
+    }
+
+    return setCategoryCheckboxes(newCheckboxes);
   };
 
   const handleResetSearch = () => {
@@ -264,19 +288,21 @@ export default function LicenseCertificationSearchResults() {
           <h1 className="mobile-lg:vads-u-text-align--left vads-u-margin-bottom--4">
             Search results
           </h1>
-          <p className="vads-u-margin-top--0 usa-width-two-thirds ">
-            We didn't find any results for "<strong>{nameParam}</strong>
-            ." Please{' '}
-            <va-link
-              href="./"
-              onClick={e => handleGoHome(e)}
-              text="go back to search"
-            />{' '}
-            and try using different words or checking the spelling of the words
-            you're using.
+          <div className="vads-u-margin-top--0 usa-width-two-thirds ">
             <p className="">
-              If you don’t see a test or prep course listed, it may be a valid
-              test that’s not yet approved. For license or certification, take
+              We didn't find any results for "<strong>{nameParam}</strong>
+              ." Please{' '}
+              <va-link
+                href="./"
+                onClick={e => handleGoHome(e)}
+                text="go back to search"
+              />{' '}
+              and try using different words or checking the spelling of the
+              words you're using.
+            </p>
+            <p className="">
+              If you don't see a test or prep course listed, it may be a valid
+              test that's not yet approved. For license or certification, take
               the test, then apply for approval by submitting VA Form 22-0803.{' '}
               <va-link
                 text="Get VA Form 22-0803 to download."
@@ -289,7 +315,7 @@ export default function LicenseCertificationSearchResults() {
                 href="https://www.va.gov/find-forms/about-form-22-10272/"
               />
             </p>
-          </p>
+          </div>
         </div>
       </>
     );
@@ -316,6 +342,7 @@ export default function LicenseCertificationSearchResults() {
                   nameParam={nameParam}
                   stateParam={stateParam}
                   previousRouteHome={previousRouteHome}
+                  ref={searchInfoWrapperRef}
                 />
               </div>
 
@@ -324,8 +351,8 @@ export default function LicenseCertificationSearchResults() {
                   <div
                     className={
                       !smallScreen
-                        ? 'column small-4 vads-u-padding--0'
-                        : 'column small-12 vads-u-padding--0'
+                        ? 'column small-4 vads-u-padding--0 zoom-wrapper'
+                        : 'column small-12 vads-u-padding--0 zoom-wrapper'
                     }
                   >
                     <div className="filter-your-results lc-filter-accordion-wrapper vads-u-margin-bottom--2">
