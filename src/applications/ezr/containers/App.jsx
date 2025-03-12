@@ -24,7 +24,11 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isProvidersAndDependentsPrefillEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -61,6 +65,7 @@ const App = props => {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:isProvidersAndDependentsPrefillEnabled': isProvidersAndDependentsPrefillEnabled,
         };
 
         setFormData({
@@ -70,7 +75,12 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isAppLoading, canSubmitFinancialInfo, veteranFullName],
+    [
+      isAppLoading,
+      canSubmitFinancialInfo,
+      veteranFullName,
+      isProvidersAndDependentsPrefillEnabled,
+    ],
   );
 
   // Add Datadog UX monitoring to the application
@@ -106,6 +116,8 @@ const mapStateToProps = state => ({
   features: {
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
+    isProvidersAndDependentsPrefillEnabled:
+      state.featureToggles.isProvidersAndDependentsPrefillEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
