@@ -140,27 +140,27 @@ export const mentalHealthSupportResources = (
   </>
 );
 
-export const mentalHealthSupportAlertInlineImportable = () => (
-  <va-alert-expandable
-    status="info"
-    trigger="How do I get mental health support right now?"
-  >
-    <p>
-      We understand that some of the questions may be difficult to answer. If
-      you need to take a break and come back to your application, your
-      information will be saved.
-    </p>
-    <br />
-    <p>
-      If you’re a Veteran in crisis or concerned about one, connect with our
-      caring, qualified Veterans Crisis Line responders for confidential help.
-      Many of them are Veterans themselves. This service is private, free, and
-      available 24/7.
-    </p>
-    <br />
-    {mentalHealthSupportResources}
-  </va-alert-expandable>
-);
+// export const mentalHealthSupportAlertInlineImportable = () => (
+//   <va-alert-expandable
+//     status="info"
+//     trigger="How do I get mental health support right now?"
+//   >
+//     <p>
+//       We understand that some of the questions may be difficult to answer. If
+//       you need to take a break and come back to your application, your
+//       information will be saved.
+//     </p>
+//     <br />
+//     <p>
+//       If you’re a Veteran in crisis or concerned about one, connect with our
+//       caring, qualified Veterans Crisis Line responders for confidential help.
+//       Many of them are Veterans themselves. This service is private, free, and
+//       available 24/7.
+//     </p>
+//     <br />
+//     {mentalHealthSupportResources}
+//   </va-alert-expandable>
+// );
 
 export const mentalHealthSupportAlert = () => {
   return (
