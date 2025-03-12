@@ -251,31 +251,50 @@ const IntroductionPage = props => {
         <Link className="vads-c-action-link--blue" to={getStartPage}>
           Start your question without signing in
         </Link>
-        <h2 slot="headline">Only use Ask VA for non-urgent needs</h2>
-        <h3 className="vads-u-margin-top--3">
-          If you need help now, use one of these urgen communication options
-        </h3>
+        <h2
+          slot="headline"
+          className="vads-u-margin-top--6 vads vads-u-margin-bottom--3"
+        >
+          Only use Ask VA for non-urgent needs
+        </h2>
+        <p className="vads-u-margin-bottom--2">
+          <strong>If you think you think have a medical emergency,</strong> call
+          911 or go to the nearest emergency room.
+        </p>
+        <p className="vads-u-margin-bottom--2">
+          <strong>If you need to talk to someone right away, </strong>
+          contact the Veterans Crisis Line. Whatever you’re struggling
+          with—chronic pain, anxiety, depression, trouble sleeping, anger, or
+          even homelessness—we can support you. Our Veterans Crisis Line is
+          confidential (private), free, and available 24/7.
+        </p>
+        <p className="vads-u-margin-bottom--2">
+          To connect with a Veterans Crisis Line responder anytime, day or
+          night:
+        </p>
         <ul>
           <li>
-            <strong>If you’re in crisis or having thoughts of suicide,</strong>{' '}
-            connect with our Veterans Crisis Line. We offer confidential support
-            anytime, day or night.{' '}
-            <div className="vads-u-margin-top--1 vads-u-margin-bottom--1">
-              <va-button
-                secondary="true"
-                text="Connect with the Veterans Crisis Line"
-                href="https://www.veteranscrisisline.net/"
-              />
-            </div>
+            Call <va-telephone contact="988" />, then select 1.
           </li>
           <li>
-            <strong>If you think your life or health is in danger,</strong> call{' '}
-            <va-telephone contact="911" message-aria-describedby="9 1 1" /> or
-            go to the nearest emergency room.
+            Start a{' '}
+            <a
+              rel="noreferrer noopener"
+              href="https://www.veteranscrisisline.net/get-help/chat"
+            >
+              confidential chat
+            </a>
+            .
+          </li>
+          <li>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-telephone-component */}
+            Text <a href="tel:+1838255">838255</a>.
           </li>
         </ul>
-        <h2>Check the status of your question</h2>
-        <p className="vads-u-margin--0">Reference number</p>
+        <h2 className="vads-u-margin-top--6 vads-u-margin-bottom-2">
+          Check the status of your question
+        </h2>
+        <p className="vads-u-margin--0">Enter your reference number</p>
         <VaSearchInput
           big
           buttonText="Search"
