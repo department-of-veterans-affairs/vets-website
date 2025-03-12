@@ -18,7 +18,6 @@ import {
   isLoggedIn,
   isLOA3,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
@@ -35,10 +34,7 @@ import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import ReviewSectionContent from '../components/reviewPage/ReviewSectionContent';
 import SaveCancelButtons from '../components/reviewPage/SaveCancelButtons';
 import formConfig from '../config/form';
-import { DownloadLink, formatDate } from '../config/helpers';
-import submitTransformer from '../config/submit-transformer';
-import { URL, envUrl, mockTestingFlagforAPI } from '../constants';
-import { mockSubmitResponse } from '../utils/mockData';
+import { DownloadLink } from '../config/helpers';
 import {
   chapterTitles,
   createPageListByChapterAskVa,
@@ -46,7 +42,19 @@ import {
   getPageKeysForReview,
   pagesToMoveConfig,
 } from '../utils/reviewPageHelper';
-import { askVAAttachmentStorage } from '../utils/StorageAdapter';
+import {
+  convertDate,
+  deleteStoredFile,
+  getAttachmentDisplayData,
+  getSchoolString,
+  getStoredAttachments,
+  getYesOrNoFromBool,
+  handleChapterToggle,
+  handleDataUpdate,
+  handleFormSubmission,
+  maskSocial,
+  scrollToElement,
+} from '../utils/reviewPageUtils';
 
 const { scroller } = Scroll;
 
@@ -62,38 +70,21 @@ const ReviewPage = props => {
   const scrollToChapter = chapterKey => {
     scroller.scrollTo(
       `chapter${chapterKey}ScrollElement`,
-      window.Forms?.scroll || {
-        duration: 500,
-        delay: 2,
-        smooth: true,
-      },
+      scrollToElement(chapterKey),
     );
   };
 
-  const getYesOrNoFromBool = answer => (answer ? 'Yes' : 'No');
-
-  const convertDate = dob => {
-    if (dob) {
-      const bDay = dob.split('-');
-      const date = `${bDay[1]}/${bDay[2]}/${bDay[0]}`;
-      return formatDate(date, 'long');
-    }
-    return null;
-  };
-
-  const maskSocial = ssn => {
-    if (ssn) {
-      return `•••-••-${ssn.slice(-4)}`;
-    }
-    return null;
-  };
-
   const handleToggleChapter = ({ name, open, pageKeys }) => {
-    if (open) {
-      dispatch(closeReviewChapter(name, pageKeys));
+    const { shouldClose, chapterName, affectedPages } = handleChapterToggle(
+      open,
+      name,
+      pageKeys,
+    );
+    if (shouldClose) {
+      dispatch(closeReviewChapter(chapterName, affectedPages));
     } else {
-      dispatch(openReviewChapter(name));
-      scrollToChapter(name);
+      dispatch(openReviewChapter(chapterName));
+      scrollToChapter(chapterName);
     }
   };
 
@@ -108,17 +99,15 @@ const ReviewPage = props => {
   // };
 
   const getUploadedFiles = async () => {
-    const storedFile = await askVAAttachmentStorage.get('attachments');
-    if (storedFile?.length > 0) {
-      setAttachments(storedFile);
+    const storedFiles = await getStoredAttachments();
+    if (storedFiles.length > 0) {
+      setAttachments(storedFiles);
     }
   };
 
   const deleteFile = async fileID => {
-    const uploadedFiles = await askVAAttachmentStorage.get('attachments');
-    const removedFile = uploadedFiles.filter(file => file.fileID !== fileID);
-    await askVAAttachmentStorage.set('attachments', removedFile);
-    setAttachments(attachments.filter(file => file.fileID !== fileID));
+    const remainingFiles = await deleteStoredFile(fileID);
+    setAttachments(remainingFiles);
   };
 
   const handleEdit = (pageKey, editing, index = null) => {
@@ -157,86 +146,42 @@ const ReviewPage = props => {
   };
 
   const handleSetData = (...args) => {
-    props.setData(...args);
-    if (props.onSetData) {
-      props.onSetData();
-    }
+    handleDataUpdate(props.setData, args, props.onSetData);
   };
 
-  const postFormData = async (url, data) => {
-    const id = formConfig.formId;
+  const handleSubmit = async () => {
     setIsDisabled(true);
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    if (mockTestingFlagforAPI) {
-      // Simulate API delay
-      return new Promise(resolve => {
-        setTimeout(() => {
-          setIsDisabled(false);
-          resolve(mockSubmitResponse);
-          const inquiryNumber = 'A-20230622-306458';
-          const contactPreference = props.formData.contactPreference || 'Email';
-          askVAAttachmentStorage.clear();
-          dispatch(removeAskVaForm(id));
+    try {
+      await handleFormSubmission({
+        formData: props.formData,
+        isLoggedIn: props.loggedIn,
+        isUserLOA3: props.isUserLOA3,
+        onSuccess: ({ inquiryNumber, contactPreference }) => {
+          dispatch(removeAskVaForm(formConfig.formId));
           props.router.push({
             pathname: '/confirmation',
             state: { contactPreference, inquiryNumber },
           });
-        }, 500);
+        },
+        onError: error => {
+          setIsDisabled(false);
+          // TODO - need error modal instead of forwarding to confirmation per final design
+          // Temporary alert dialog for testing
+          alert(error.error);
+        },
       });
+    } catch (error) {
+      setIsDisabled(false);
+      alert(error.error);
     }
-
-    return apiRequest(url, options)
-      .then(response => {
-        setIsDisabled(false);
-        const { inquiryNumber } = response;
-        const contactPreference = props.formData.contactPreference || 'Email';
-        askVAAttachmentStorage.clear();
-        dispatch(removeAskVaForm(id));
-        props.router.push({
-          pathname: '/confirmation',
-          state: { contactPreference, inquiryNumber },
-        });
-      })
-      .catch(error => {
-        setIsDisabled(false);
-        askVAAttachmentStorage.clear();
-        // TODO - need error modal instead of forwarding to confirmation per final design
-        // Temporary alert dialog for testing
-        alert(error.error);
-      });
   };
 
-  const getSchoolString = (code, name) => {
-    if (code && name) return `${code} - ${name}`;
-    return null;
-  };
-
-  const handleSubmit = async () => {
-    const files = await askVAAttachmentStorage.get('attachments');
-    const transformedData = submitTransformer(
-      props.formData,
-      files,
-      props.askVA,
+  const nonEditAttachmentsMode = () => {
+    const { hasAttachments: hasFiles, displayData } = getAttachmentDisplayData(
+      attachments,
     );
 
-    if (props.loggedIn && props.isUserLOA3) {
-      // auth call
-      postFormData(`${envUrl}${URL.AUTH_INQUIRIES}`, transformedData);
-    } else {
-      // no auth call
-      postFormData(`${envUrl}${URL.INQUIRIES}`, transformedData);
-    }
-  };
-
-  const nonEditAttachmentsMode = hasAttachments => {
-    if (hasAttachments === 0) {
+    if (!hasFiles) {
       return (
         <div>
           <h4 className="vads-u-margin-top--0">
@@ -254,16 +199,16 @@ const ReviewPage = props => {
       <div className="vads-u-display--flex vads-u-justify-content--space-between">
         <dt className="vads-u-margin-right--2">Attachments</dt>
         <div>
-          {attachments.map(file => (
+          {displayData.map(file => (
             <dd
               className="vads-u-margin-bottom--2 vads-u-color--link-default"
-              key={`${file.fileID}-${file.fileName}`}
+              key={`${file.id}-${file.name}`}
             >
               <va-icon icon="attach_file" size={3} />
               <DownloadLink
                 fileUrl={file.base64}
-                fileName={file.fileName}
-                fileSize={file.fileSize}
+                fileName={file.name}
+                fileSize={file.size}
               />
             </dd>
           ))}
@@ -1097,7 +1042,7 @@ const ReviewPage = props => {
                             <dl className="review vads-u-margin-top--0 vads-u-margin-bottom--0">
                               <dl className="review-row vads-u-border-top--0 vads-u-margin-top--0 vads-u-margin-bottom--0">
                                 {!editAttachments ? (
-                                  nonEditAttachmentsMode(attachments.length)
+                                  nonEditAttachmentsMode()
                                 ) : (
                                   <>
                                     {attachments.map(file => (
