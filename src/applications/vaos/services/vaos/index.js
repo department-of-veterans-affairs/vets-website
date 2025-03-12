@@ -82,12 +82,20 @@ export function getAppointment(id, avs = false, fetchClaimStatus = false) {
   ).then(parseApiObject);
 }
 
-export function getFacilities(ids, children = false) {
-  return apiRequestWithUrl(
-    `/vaos/v2/facilities?children=${children}&${ids
-      .map(id => `ids[]=${getTestFacilityId(id)}`)
-      .join('&')}`,
-  ).then(parseApiList);
+export function getFacilities(
+  ids,
+  children = false,
+  sortByRecentLocations = false,
+) {
+  const baseUrl = `/vaos/v2/facilities?children=${children}&${ids
+    .map(id => `ids[]=${getTestFacilityId(id)}`)
+    .join('&')}`;
+
+  const url = sortByRecentLocations
+    ? `${baseUrl}&sort_by=recentLocations`
+    : baseUrl;
+
+  return apiRequestWithUrl(url).then(parseApiList);
 }
 
 export function getClinics({ locationId, clinicIds, typeOfCareId }) {
