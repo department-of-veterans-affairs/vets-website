@@ -24,6 +24,7 @@ class CCServiceTypeAhead extends Component {
 
   componentDidUpdate(prevProps) {
     if (
+      !this.props.useProgressiveDisclosure &&
       !prevProps.currentQuery?.specialties &&
       this.state.services.length === 0
     ) {
@@ -219,9 +220,7 @@ class CCServiceTypeAhead extends Component {
               <span className="usa-input-error-message" role="alert">
                 <span id="error-message">
                   <span className="sr-only">Error</span>
-                  {this.props.useProgressiveDisclosure
-                    ? 'Start typing and select an available service'
-                    : 'Please search for an available service'}
+                  Start typing and select a service type
                 </span>
               </span>
             )}

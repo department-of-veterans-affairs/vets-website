@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   capitalizeFirstLetter,
   formatList,
@@ -40,8 +41,7 @@ export default function LicenseCertificationSearchInfo({
                 <strong key={index}>
                   {capitalizeFirstLetter(category, ['course'])}
                 </strong>
-                "
-                {(index !== activeCategories.length - 1 || nameParam) && <>,</>}
+                "{(!previousRouteHome || nameParam) && <>,</>}
               </span>
             );
           })
@@ -170,3 +170,17 @@ export default function LicenseCertificationSearchInfo({
     </div>
   );
 }
+
+LicenseCertificationSearchInfo.propTypes = {
+  activeCategories: PropTypes.arrayOf(PropTypes.string).isRequired,
+  currentPage: PropTypes.number.isRequired,
+  filteredResults: PropTypes.array.isRequired,
+  itemsPerPage: PropTypes.number.isRequired,
+  nameParam: PropTypes.string,
+  previousRouteHome: PropTypes.bool.isRequired,
+  stateParam: PropTypes.string.isRequired,
+};
+
+LicenseCertificationSearchInfo.defaultProps = {
+  nameParam: '',
+};

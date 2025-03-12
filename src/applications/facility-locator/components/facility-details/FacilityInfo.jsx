@@ -37,7 +37,11 @@ class FacilityInfo extends Component {
         {website &&
           website !== 'NULL' && (
             <p className="vads-u-margin--0">
-              <va-link href={website} text="Visit our website" />
+              <va-link
+                data-testid="facility-info-url"
+                href={website}
+                text="Visit our website"
+              />
             </p>
           )}
         {phone &&

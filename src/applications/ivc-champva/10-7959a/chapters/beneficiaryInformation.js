@@ -63,11 +63,12 @@ export const applicantMemberNumberSchema = {
           },
           'ui:options': {
             uswds: true,
-            hint: `This number is usually the same as ${
-              formData?.certifierRole === 'applicant'
-                ? 'your'
-                : 'the beneficiary’s'
-            } Social Security number.`,
+            hint: `This number is usually the same as ${nameWording(
+              formData,
+              true,
+              false,
+              true,
+            )} Social Security number.`,
           },
         };
       },
@@ -105,6 +106,7 @@ export const applicantAddressSchema = {
     },
     applicantNewAddress: {
       ...radioUI({
+        type: 'radio',
         updateUiSchema: formData => {
           const labels = {
             yes: 'Yes',

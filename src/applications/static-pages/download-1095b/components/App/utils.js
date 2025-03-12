@@ -4,6 +4,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 export const errorTypes = Object.freeze({
   NOT_FOUND: 'not found',
   DOWNLOAD_ERROR: 'download error',
+  SYSTEM_ERROR: 'system error',
 });
 
 export const phoneComponent = number => {
@@ -12,19 +13,6 @@ export const phoneComponent = number => {
       <va-telephone contact={number} /> (
       <va-telephone contact={CONTACTS['711']} tty />)
     </>
-  );
-};
-
-export const LastUpdatedComponent = props => {
-  return (
-    <p>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Related to:</strong> Health care
-      </span>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Document last updated:</strong> {props.lastUpdated}
-      </span>
-    </p>
   );
 };
 
@@ -62,7 +50,11 @@ export const unavailableComponent = () => {
 };
 
 export const downloadErrorComponent = (
-  <div id="downloadError" className="vads-u-margin-bottom--2p5">
+  <div
+    id="downloadError"
+    data-testid="downloadError"
+    className="vads-u-margin-bottom--2p5"
+  >
     <va-alert close-btn-aria-label="Close notification" status="error" visible>
       <p className="vads-u-margin-y--0">
         We’re sorry. Something went wrong when we tried to download your form.
@@ -71,4 +63,15 @@ export const downloadErrorComponent = (
       </p>
     </va-alert>
   </div>
+);
+
+export const systemErrorComponent = (
+  <va-alert close-btn-aria-label="Close notification" status="error" visible>
+    <h3 slot="headline">System error</h3>
+    <p className="vads-u-margin-y--0">
+      We’re sorry, something went wrong on our end. Try to view your 1095-B
+      later. If the issue persists, call us at{' '}
+      {phoneComponent(CONTACTS['222_VETS'])}. We’re here 24/7.
+    </p>
+  </va-alert>
 );

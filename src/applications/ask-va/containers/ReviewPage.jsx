@@ -277,7 +277,10 @@ const ReviewPage = props => {
   }, []);
 
   return (
-    <article className="vads-u-padding-x--2p5 vads-u-padding-bottom--7">
+    <article
+      className="vads-u-padding-x--2p5 vads-u-padding-bottom--7"
+      data-testid="review-page"
+    >
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
       <div className="vads-u-margin-y--3">
@@ -288,6 +291,7 @@ const ReviewPage = props => {
             onCloseEvent={() => setShowAlert(false)}
             status="info"
             visible
+            data-testid="review-alert"
           >
             <h3 id="track-your-status-on-mobile" slot="headline">
               Editing answers
@@ -302,7 +306,7 @@ const ReviewPage = props => {
           </VaAlert>
         ) : null}
       </div>
-      <VaAccordion>
+      <VaAccordion data-testid="review-accordion">
         {props.chapters
           .filter(chapter => chapter.name === 'categoryTopics')
           .map(chapter => {
@@ -315,6 +319,7 @@ const ReviewPage = props => {
                 id={chapter.name}
                 open
                 className="vads-u-margin-bottom--2"
+                data-testid={`review-chapter-${chapter.name}`}
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}

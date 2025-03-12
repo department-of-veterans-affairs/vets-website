@@ -4,7 +4,23 @@ import { expect } from 'chai';
 import ProcessList from '../../../components/shared/ProcessList';
 import { refillProcessStepGuide } from '../../../util/processListData';
 
-describe('ProcessList Component using step guide data', () => {
+describe('ProcessList Component', () => {
+  const stepGuideProps = options => {
+    const {
+      prescription,
+      showTrackingAlert,
+      pharmacyPhone,
+      isRefillRunningLate,
+    } = options;
+    return {
+      prescription,
+      title: showTrackingAlert
+        ? 'Check the status of your next refill'
+        : 'Refill request status',
+      pharmacyPhone,
+      isRefillRunningLate,
+    };
+  };
   const renderProcessList = (data = refillProcessStepGuide) => {
     return render(<ProcessList stepGuideProps={data} />);
   };
@@ -55,7 +71,7 @@ describe('ProcessList Component using step guide data', () => {
           'When our pharmacy starts processing your request, the status will change to',
         ) &&
         element.querySelector('strong')?.textContent ===
-          'Active: Refill in process.'
+          'Active: Refill in Process.'
       );
     });
 
@@ -66,5 +82,96 @@ describe('ProcessList Component using step guide data', () => {
     expect(firstStep).to.exist;
     expect(secondStep).to.exist;
     expect(thirdStep).to.exist;
+  });
+
+  it('renders the correct content when status is Active and there is a completeDateTime value', () => {
+    const shippedToday = new Date();
+    const options = {
+      prescription: {
+        prescriptionName: 'testRx',
+        refillDate: '2025-02-24T03:39:11Z',
+        refillSubmitDate: '2025-02-24T03:39:11Z',
+        dispStatus: 'Active',
+        trackingList: [
+          {
+            trackingNumber: '1234567890',
+            carrier: 'UPS',
+            completeDateTime: shippedToday,
+          },
+        ],
+      },
+      showTrackingAlert: true,
+      pharmacyPhone: '123-456-7890',
+      isRefillRunningLate: false,
+    };
+    const screen = renderProcessList(stepGuideProps(options));
+    const trackingNumber = screen.getByText('Tracking number:');
+    expect(trackingNumber).to.exist;
+  });
+
+  it('renders the correct content for Active: Submitted status', () => {
+    const options = {
+      prescription: {
+        prescriptionName: 'testRx',
+        refillDate: '2025-02-24T03:39:11Z',
+        refillSubmitDate: '2025-02-24T03:39:11Z',
+        dispStatus: 'Active: Submitted',
+        trackingList: [],
+      },
+      showTrackingAlert: true,
+      pharmacyPhone: '123-456-7890',
+      isRefillRunningLate: false,
+    };
+
+    const screen = renderProcessList(stepGuideProps(options));
+    const checkBackText = screen.getByText('Check back for updates.');
+    expect(checkBackText).to.exist;
+  });
+
+  it('renders the correct content for Active: Refill in Process status', () => {
+    const options = {
+      prescription: {
+        prescriptionName: 'testRx',
+        refillDate: '2025-02-24T03:39:11Z',
+        refillSubmitDate: '2025-02-24T03:39:11Z',
+        dispStatus: 'Active: Refill in Process',
+        trackingList: [],
+      },
+      showTrackingAlert: true,
+      pharmacyPhone: '123-456-7890',
+      isRefillRunningLate: false,
+    };
+
+    const screen = renderProcessList(stepGuideProps(options));
+    const headerElement = screen.getByText((_, element) => {
+      return (
+        element.getAttribute('header') ===
+        'We’re processing your refill request'
+      );
+    });
+    expect(headerElement).to.exist;
+  });
+
+  it('renders the correct content for Active status', () => {
+    const options = {
+      prescription: {
+        prescriptionName: 'testRx',
+        refillDate: '2025-02-24T03:39:11Z',
+        refillSubmitDate: '2025-02-24T03:39:11Z',
+        dispStatus: 'Active',
+        trackingList: [],
+      },
+      showTrackingAlert: true,
+      pharmacyPhone: '123-456-7890',
+      isRefillRunningLate: false,
+    };
+
+    const screen = renderProcessList(stepGuideProps(options));
+    const headerElement = screen.getByText((_, element) => {
+      return (
+        element.getAttribute('header') === 'We received your refill request'
+      );
+    });
+    expect(headerElement).to.exist;
   });
 });
