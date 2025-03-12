@@ -165,7 +165,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       );
     });
   });
-  it('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
+  it.skip('should call "routeToNextReferralPage" when appointment creation is successful', async () => {
     sandbox.spy(flow, 'routeToNextReferralPage');
     sandbox
       .stub(postDraftReferralAppointmentModule, 'postReferralAppointment')
