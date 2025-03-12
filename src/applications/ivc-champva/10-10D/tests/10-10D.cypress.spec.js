@@ -163,8 +163,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             cy.url().then(url => {
               fillTextWebComponent(
-                'applicantSSN_ssn',
-                data.applicants[getIdx(url)].applicantSSN.ssn,
+                'applicantSSN',
+                data.applicants[getIdx(url)].applicantSSN,
               );
             });
             cy.axeCheck();

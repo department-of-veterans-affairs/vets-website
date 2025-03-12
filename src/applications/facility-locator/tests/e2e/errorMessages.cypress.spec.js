@@ -1,23 +1,16 @@
-import FacilityHelpers from '../facility-helpers-cypress';
-import FeaturesHelpers from '../features-helpers-cypress';
-import CcpHelpers from '../ccp-helpers-cypress';
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
+
+import FacilityHelpers from './helpers/facility-helpers-cypress';
+import FeaturesHelpers from './helpers/features-helpers-cypress';
+import CcpHelpers from './helpers/ccp-helpers-cypress';
 
 import {
   enabledFeatures,
   featureCombinationsTogglesToTest,
-  isFeatureEnabled,
 } from './featureTogglesToTest';
-import {
-  FACILITY_TYPES,
-  errorMessageContains,
-  findSelectInVaSelect,
-  selectFacilityTypeInDropdown,
-  typeAndSelectInCCPServiceTypeInput,
-  typeInCityStateInput,
-} from './helpers';
+import * as h from './helpers';
 
 const featureSets = featureCombinationsTogglesToTest([
-  'facilities_use_address_typeahead',
   'facilities_use_fl_progressive_disclosure',
 ]);
 
@@ -25,113 +18,104 @@ for (const featureSet of featureSets) {
   describe(`Facility search error messages ${enabledFeatures(
     featureSet,
   )}`, () => {
-    const isAddressTypeaheadEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_address_typeahead'),
-    );
-    const isProgDiscEnabled = featureSet.some(
-      isFeatureEnabled('facilities_use_fl_progressive_disclosure'),
-    );
+    const addrErrorMessage =
+      'Enter a zip code or a city and state in the search box';
 
-    let addrErrorMessage = 'Please fill in a city, state, or postal code.';
-    let serviceErrorMessage = 'Please search for an available service';
-    if (isAddressTypeaheadEnabled || isProgDiscEnabled) {
-      addrErrorMessage =
-        'Enter a zip code or a city and state in the search box';
-    }
-    if (isProgDiscEnabled) {
-      serviceErrorMessage = 'Start typing and select an available service';
-    }
+    const serviceErrorMessage = 'ErrorStart typing and select a service type';
+
     beforeEach(() => {
       cy.intercept('GET', '/v0/maintenance_windows', []);
       FeaturesHelpers.initApplicationMock(featureSet);
       CcpHelpers.initApplicationMock('1223X2210X', 'mockDentists');
       FacilityHelpers.initApplicationMock();
-      cy.visit('/find-locations');
-    });
 
-    afterEach(() => {
-      cy.injectAxe();
-      cy.axeCheck();
+      cy.visit(h.ROOT_URL);
+      cy.injectAxeThenAxeCheck();
     });
 
     it('shows error message in location field on invalid search', () => {
-      cy.get('#facility-search').click({ waitForAnimations: true });
-      cy.get('.usa-input-error-message').contains(addrErrorMessage);
-      cy.get('#street-city-state-zip').should('be.focused');
+      cy.injectAxeThenAxeCheck();
+      h.submitSearchForm();
+      h.errorMessageContains(addrErrorMessage);
+      h.elementIsFocused(h.CITY_STATE_ZIP_INPUT);
     });
 
     it('shows error message on leaving location field empty', () => {
-      cy.get('#street-city-state-zip').focus();
-      findSelectInVaSelect('#facility-type-dropdown').focus();
-      if (isAddressTypeaheadEnabled) {
-        cy.get('.usa-input-error-message').contains(
-          'Enter a zip code or a city and state in the search box',
-        );
-      } else {
-        cy.get('.usa-input-error-message').contains(addrErrorMessage);
-      }
-      cy.get('#street-city-state-zip').type('A');
-      cy.get('#street-city-state-zip').type('{esc}');
-      cy.get('.usa-input-error-message').should('not.exist');
+      h.focusElement(h.CITY_STATE_ZIP_INPUT);
+      h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
+
+      h.errorMessageContains(addrErrorMessage);
+
+      h.typeInCityStateInput('A', true);
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when leaving facility type field empty', () => {
-      typeInCityStateInput('Austin, TX', true);
-      findSelectInVaSelect('#facility-type-dropdown').focus();
-      cy.get('#facility-search').click({ waitForAnimations: true });
-      cy.get('#facility-type-dropdown')
+      h.typeInCityStateInput('Austin, TX', true);
+      h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
+      h.submitSearchForm();
+
+      cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('.usa-error-message')
-        .contains('Please choose a facility type.');
-      cy.get('#facility-type-dropdown')
+        .contains('Select a facility type');
+      cy.get(h.FACILITY_TYPE_DROPDOWN)
         .shadow()
         .find('select')
         .select('VA health');
-      cy.get('.usa-input-error-message').should('not.exist');
+
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when leaving service type field empty', () => {
-      cy.get('#street-city-state-zip').type('Austin, TX');
-      selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
+      h.typeInCityStateInput('Austin, TX');
+      h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
 
       // Wait for services to be saved to state and input field to not be disabled
       cy.wait('@mockServices');
 
-      cy.get('#service-type-ahead-input').should('not.be.disabled');
-      cy.get('#facility-search').click({ waitForAnimations: true });
-      errorMessageContains(serviceErrorMessage);
-      typeAndSelectInCCPServiceTypeInput('Clinic/Center - Urgent Care');
-      cy.get('.usa-input-error-message').should('not.exist');
+      h.verifyElementIsNotDisabled(h.CCP_SERVICE_TYPE_INPUT);
+      h.submitSearchForm();
+      h.errorMessageContains(serviceErrorMessage);
+      h.typeAndSelectInCCPServiceTypeInput('Clinic/Center - Urgent Care');
+
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when typing in `back pain`, NOT selecting a service type, and attempting to search', () => {
-      selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
-      cy.get('#service-type-ahead-input').type('back pain');
-      cy.get('#facility-search').click({ waitForAnimations: true });
-      cy.get('.usa-input-error-message').contains(serviceErrorMessage);
+      h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
+      h.typeInCCPServiceTypeInput('back pain');
+      h.submitSearchForm();
+
+      h.errorMessageContains(serviceErrorMessage);
     });
 
     it('does not show error message when selecting a service type, then tab-ing/focusing back to the facility type field, then tab-ing forward to service type field', () => {
-      selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
-      typeAndSelectInCCPServiceTypeInput('Clinic/Center - Urgent Care');
-      findSelectInVaSelect('#facility-type-dropdown').focus();
-      cy.get('#service-type-ahead-input');
-      cy.get('.usa-input-error-message').should('not.exist');
+      h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
+      h.typeAndSelectInCCPServiceTypeInput('Clinic/Center - Urgent Care');
+      h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
+
+      h.verifyElementExists(h.CCP_SERVICE_TYPE_INPUT);
+      h.verifyElementDoesNotExist(h.SEARCH_FORM_ERROR_MESSAGE);
     });
 
     it('shows error message when deleting service after search', () => {
-      cy.get('#street-city-state-zip').type('Austin, TX');
-      selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
+      h.typeInCityStateInput('Austin, TX');
+      h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
+
       cy.wait('@mockServices');
-      typeAndSelectInCCPServiceTypeInput('Dentist - Orofacial Pain');
-      cy.get('#facility-search').click({ waitForAnimations: true });
-      cy.get('#search-results-subheader').contains(
+
+      h.typeAndSelectInCCPServiceTypeInput('Dentist - Orofacial Pain');
+      h.submitSearchForm();
+
+      h.verifyElementShouldContainString(
+        h.SEARCH_RESULTS_SUMMARY,
         /results.*Community providers.*Dentist - Orofacial Pain.*Austin, Texas/,
       );
-      cy.get('#service-type-ahead-input').clear();
-      cy.get('#facility-search').click({ waitForAnimations: true });
-      cy.get('.usa-input-error-message').contains(serviceErrorMessage);
-      cy.get('#service-type-ahead-input').should('be.empty');
+
+      h.clearInput(h.CCP_SERVICE_TYPE_INPUT);
+      h.submitSearchForm();
+      h.errorMessageContains(serviceErrorMessage);
     });
   });
 }

@@ -209,7 +209,7 @@ describe('Thread Details container', () => {
 
     expect(
       screen.getByText(
-        'If you need help sooner, use one of these urgent communication options:',
+        'If you need help sooner, use one of these urgent communications options:',
       ),
     ).to.exist;
 
@@ -357,7 +357,7 @@ describe('Thread Details container', () => {
     expect(screen.queryByText('Start a new message')).to.be.null;
     expect(
       screen.getByText(
-        'If you need help sooner, use one of these urgent communication options:',
+        'If you need help sooner, use one of these urgent communications options:',
       ),
     ).to.exist;
 

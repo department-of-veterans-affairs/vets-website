@@ -11,18 +11,51 @@ import {
   dispStatusObj,
 } from './constants';
 
+// this function is needed to account for the prescription.trackingList dates coming in this format "Mon, 24 Feb 2025 03:39:11 EST" which is not recognized by momentjs
+const convertToISO = dateString => {
+  // Regular expression to match the expected date format
+  const regex = /^\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} [A-Z]{3}$/;
+  // Return false if the format is invalid
+  if (!regex.test(dateString)) {
+    return false;
+  }
+  // Return false if the date is invalid
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return false;
+  }
+
+  return date.toISOString();
+};
+
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @param {*} noDateMessage message when there is no date being passed
+ * @param {*} dateWithMessage message when there is a date being passed, node date will be appended to the end of this message
  * @returns {String} fromatted timestamp
  */
-export const dateFormat = (timestamp, format = null) => {
-  if (timestamp) {
-    return moment
-      .tz(timestamp, 'America/New_York')
-      .format(format || 'MMMM D, YYYY');
+export const dateFormat = (
+  timestamp,
+  format = null,
+  noDateMessage = null,
+  dateWithMessage = null,
+) => {
+  if (!timestamp) {
+    return noDateMessage || EMPTY_FIELD;
   }
-  return EMPTY_FIELD;
+
+  const isoTimestamp = convertToISO(timestamp);
+  const isoTimeStampOrParamTimestamp = isoTimestamp || timestamp;
+  const finalTimestamp = moment
+    .tz(isoTimeStampOrParamTimestamp, 'America/New_York')
+    .format(format || 'MMMM D, YYYY');
+
+  if (dateWithMessage && finalTimestamp) {
+    return `${dateWithMessage}${finalTimestamp}`;
+  }
+
+  return finalTimestamp;
 };
 
 /**
@@ -222,9 +255,15 @@ export const fromToNumbs = (page, total, listLength, maxPerPage) => {
  * @param {Object} location - The location object from React Router, containing the current pathname.
  * @param {String} prescriptionId - A prescription object, used for the details page.
  * @param {Object} pagination - The pagination object used for the prescription list page.
+ * @param {Boolean} removeLandingPage - mhvMedicationsRemoveLandingPage feature flag value (to be removed once turned on in prod)
  * @returns {Array<Object>} An array of breadcrumb objects with `url` and `label` properties.
  */
-export const createBreadcrumbs = (location, prescription, currentPage) => {
+export const createBreadcrumbs = (
+  location,
+  prescription,
+  currentPage,
+  removeLandingPage,
+) => {
   const { pathname } = location;
   const defaultBreadcrumbs = [
     {
@@ -238,11 +277,13 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   ];
   const {
     subdirectories,
+    // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
     MEDICATIONS_ABOUT,
     MEDICATIONS_URL,
     MEDICATIONS_REFILL,
   } = medicationsUrls;
 
+  // TODO: remove once mhvMedicationsRemoveLandingPage is turned on in prod
   if (pathname.includes(subdirectories.ABOUT)) {
     return [
       ...defaultBreadcrumbs,
@@ -251,7 +292,9 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   }
   if (pathname === subdirectories.BASE) {
     return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      ...(!removeLandingPage
+        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
+        : []),
       {
         href: `${MEDICATIONS_URL}?page=${currentPage || 1}`,
         label: 'Medications',
@@ -260,7 +303,9 @@ export const createBreadcrumbs = (location, prescription, currentPage) => {
   }
   if (pathname === subdirectories.REFILL) {
     return defaultBreadcrumbs.concat([
-      { href: MEDICATIONS_ABOUT, label: 'About medications' },
+      ...(!removeLandingPage
+        ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
+        : [{ href: MEDICATIONS_URL, label: 'Medications' }]),
       { href: MEDICATIONS_REFILL, label: 'Refill prescriptions' },
     ]);
   }

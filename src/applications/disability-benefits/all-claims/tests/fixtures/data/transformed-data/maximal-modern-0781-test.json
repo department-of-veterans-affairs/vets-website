@@ -34,54 +34,73 @@
       "effectiveDate": { "from": "2099-12-01", "to": "2100-01-01" }
     },
     "syncModern0781Flow": true,
-    "eventTypes": {
-      "combat": true,
-      "mst": true,
-      "nonMst": true,
-      "other": true
+    "form0781": {
+      "eventTypes": {
+        "combat": true,
+        "mst": true,
+        "nonMst": true,
+        "other": true
+      },
+      "events": [
+        {
+          "details": "Briefly describe what happened during your traumatic event in the military.",
+          "location": "Where did the event happen?",
+          "otherReports": "Other official report type not listed here",
+          "timing": "When did the event happen?",
+          "reports": {
+            "restricted": true,
+            "unrestricted": true,
+            "police": true,
+            "none": true
+          },
+          "agency": "Name of the agency that issued the report",
+          "city": "report city",
+          "state": "report state",
+          "township": "report township",
+          "country": "USA"
+        }
+      ],
+      "workBehaviors": {
+        "absences": true,
+        "performance": true,
+        "reassignment": true
+      },
+      "healthBehaviors": {
+        "appetite": true,
+        "consultations": true,
+        "episodes": true,
+        "medications": true,
+        "pregnancy": true,
+        "screenings": true,
+        "selfMedication": true,
+        "substances": true
+      },
+      "otherBehaviors": {
+        "misconduct": true,
+        "relationships": true,
+        "socialEconomic": true,
+        "unlisted": true
+      },
+      "treatmentProvidersDetails": [
+        {
+          "facilityInfo": "Treatment Center the First, Bigcity, AK, USA",
+          "treatmentMonth": "01",
+          "treatmentYear": "2008"
+        }
+      ],
+      "treatmentReceivedNonVaProvider": {
+        "nonVa": true,
+        "vaCenters": true
+      },
+      "treatmentReceivedVaProvider": {
+        "medicalCenter": true,
+        "communityOutpatient": true,
+        "vaPaid": true,
+        "dod": true
+      },
+      "optionIndicator": "yes",
+      "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?"
     },
-    "events": [
-      {
-        "details": "Briefly describe what happened during your traumatic event in the military.",
-        "location": "Where did the event happen?",
-        "otherReports": "Other official report type not listed here",
-        "timing": "When did the event happen?",
-        "reports": {
-          "restricted": true,
-          "unrestricted": true,
-          "police": true,
-          "none": true
-        },
-        "agency": "Name of the agency that issued the report",
-        "city": "report city",
-        "state": "report state",
-        "township": "report township",
-        "country": "USA"
-      }
-    ],
-    "workBehaviors": {
-      "absences": true,
-      "performance": true,
-      "reassignment": true
-    },
-    "healthBehaviors": {
-      "appetite": true,
-      "consultations": true,
-      "episodes": true,
-      "medications": true,
-      "pregnancy": true,
-      "screenings": true,
-      "selfMedication": true,
-      "substances": true
-    },
-    "otherBehaviors": {
-      "misconduct": true,
-      "relationships": true,
-      "socialEconomic": true,
-      "unlisted": true
-    },
-    "optionIndicator": "yes",
-    "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
     "none": false,
     "vaTreatmentFacilities": [
       {
@@ -96,7 +115,8 @@
           "Diabetes mellitus0",
           "Diabetes mellitus1",
           "heart attack (myocardial infarction)"
-        ]
+        ],
+        "treatmentLocation0781Related": true
       },
       {
         "treatmentCenterName": "Treatment Center the Second",
@@ -109,7 +129,8 @@
           "asthma",
           "heart attack (myocardial infarction)",
           "ankylosis in knee, bilateral"
-        ]
+        ],
+        "treatmentLocation0781Related": false
       }
     ],
     "confinements": [

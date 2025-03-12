@@ -26,7 +26,7 @@ describe('EmergencyNote component', () => {
     ).to.exist;
     expect(
       getByText(
-        'If you need help sooner, use one of these urgent communication options:',
+        'If you need help sooner, use one of these urgent communications options:',
       ),
     ).to.exist;
     expect(

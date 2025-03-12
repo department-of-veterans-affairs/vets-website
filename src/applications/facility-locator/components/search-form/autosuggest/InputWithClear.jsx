@@ -21,6 +21,7 @@ function InputWithClear({
   getInputProps,
   getToggleButtonProps,
   inputId,
+  inputRef,
   className,
   onClearClick,
   isOpen,
@@ -37,8 +38,8 @@ function InputWithClear({
          */}
         <input
           className="input-with-clear vads-u-width--full"
-          {...getInputProps({ ...downshiftInputProps })}
-          data-testid="input-with-clear"
+          {...getInputProps({ ref: inputRef, ...downshiftInputProps })}
+          data-testid={`${inputId}-input-with-clear`}
         />
         <InputControlsContainer
           isOpen={isOpen}
@@ -63,7 +64,7 @@ InputWithClear.propTypes = {
   onClearClick: PropTypes.func.isRequired,
   className: PropTypes.string,
   downshiftInputProps: PropTypes.object,
-
+  inputRef: PropTypes.any,
   // others not specified, may be passed from function
 };
 

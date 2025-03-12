@@ -9,9 +9,11 @@ import * as additionalInformationPage from '../../pages/form0781/additionalInfor
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
 import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
 import * as behaviorListPage from '../../pages/form0781/behaviorListPage';
-import * as reassignmentDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/reassignmentDescriptionPage';
-import * as unlistedDescriptionPage from '../../pages/form0781/behaviorChangeDescriptions/unlistedDescriptionPage';
+import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
+import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
+import * as treatmentReceivedPage from '../../pages/form0781/treatmentReceivedPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
+import * as reviewPage from '../../pages/form0781/reviewPage';
 import {
   showForm0781Pages,
   showManualUpload0781Page,
@@ -20,7 +22,6 @@ import {
   showBehaviorIntroPage,
   showBehaviorIntroCombatPage,
   showBehaviorListPage,
-  showReassignmentDescriptionPage,
   showUnlistedDescriptionPage,
   showBehaviorSummaryPage,
 } from '../../utils/form0781';
@@ -32,8 +33,8 @@ import { eventTypesPageTitle } from '../../content/traumaticEventTypes';
 import {
   behaviorPageTitle,
   behaviorListPageTitle,
-  reassignmentPageTitle,
   unlistedPageTitle,
+  unlistedDescriptionPageNumber,
   behaviorSummaryPageTitle,
 } from '../../content/form0781/behaviorListPages';
 import { consentPageTitle } from '../../content/form0781/consentPage';
@@ -103,19 +104,13 @@ export const form0781PagesConfig = {
     uiSchema: behaviorListPage.uiSchema,
     schema: behaviorListPage.schema,
   },
-  reassignmentDescriptionPage: {
-    title: reassignmentPageTitle,
-    path: 'mental-health-form-0781/behavior-changes-1-description',
-    depends: formData => showReassignmentDescriptionPage(formData),
-    uiSchema: reassignmentDescriptionPage.uiSchema,
-    schema: reassignmentDescriptionPage.schema,
-  },
-  unlistedDescriptionPage: {
+  ...behaviorDescriptions.makePages(),
+  unlistedBehaviorDescriptionPage: {
     title: unlistedPageTitle,
-    path: 'mental-health-form-0781/behavior-changes-2-description',
+    path: `mental-health-form-0781/behavior-changes-${unlistedDescriptionPageNumber}-description`,
     depends: formData => showUnlistedDescriptionPage(formData),
-    uiSchema: unlistedDescriptionPage.uiSchema,
-    schema: unlistedDescriptionPage.schema,
+    uiSchema: unlistedBehaviorDescriptionPage.uiSchema,
+    schema: unlistedBehaviorDescriptionPage.schema,
   },
   behaviorSummaryPage: {
     title: behaviorSummaryPageTitle,
@@ -123,6 +118,12 @@ export const form0781PagesConfig = {
     depends: formData => showBehaviorSummaryPage(formData),
     uiSchema: behaviorSummaryPage.uiSchema,
     schema: behaviorSummaryPage.schema,
+  },
+  treatmentReceivedPage: {
+    path: 'mental-health-form-0781/treatment-received',
+    depends: formData => showBehaviorSummaryPage(formData),
+    uiSchema: treatmentReceivedPage.uiSchema,
+    schema: treatmentReceivedPage.schema,
   },
   // Conclusion Pages
   consentPage: {
@@ -138,5 +139,11 @@ export const form0781PagesConfig = {
     depends: formData => isCompletingForm0781(formData),
     uiSchema: additionalInformationPage.uiSchema,
     schema: additionalInformationPage.schema,
+  },
+  reviewPage: {
+    path: 'mental-health-form-0781/review-page',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: reviewPage.uiSchema,
+    schema: reviewPage.schema,
   },
 };
