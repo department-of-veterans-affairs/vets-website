@@ -15,8 +15,8 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import {
-  isLOA3,
   isLoggedIn,
+  isLOA3,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import PropTypes from 'prop-types';
@@ -1085,7 +1085,7 @@ const ReviewPage = props => {
                   hasUnviewedPages={chapter.hasUnviewedPages}
                 />
                 {props.formData.allowAttachments &&
-                  props.loggedIn && (
+                  props.isUserLOA3 && (
                     <div
                       className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
                       aria-hidden="false"
