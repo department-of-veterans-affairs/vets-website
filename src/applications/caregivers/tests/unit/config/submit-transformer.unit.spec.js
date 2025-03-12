@@ -7,7 +7,7 @@ import oneSecondaryCaregiver from '../../e2e/fixtures/data/oneSecondaryCaregiver
 import twoSecondaryCaregivers from '../../e2e/fixtures/data/twoSecondaryCaregivers.json';
 import signAsRepresentativeNo from '../../e2e/fixtures/data/signAsRepresentativeNo.json';
 import signAsRepresentativeYes from '../../e2e/fixtures/data/signAsRepresentativeYes.json';
-import { mockFetchFacilitiesResponse } from '../../mocks/responses';
+import { mockFetchFacilitiesResponse } from '../../mocks/fetchFacility';
 
 describe('CG `submitTransformer` method', () => {
   it('should transform required parties correctly (minimal with primary)', () => {
