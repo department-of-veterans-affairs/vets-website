@@ -77,6 +77,18 @@ export const militaryBranchTypeLabels = Object.freeze({
   SPACE_FORCE: 'Space Force',
 });
 
+export const militaryBranchComponentTypes = Object.freeze({
+  ACTIVE_DUTY: 'ACTIVE_DUTY',
+  NATIONAL_GUARD_SERVICE: 'NATIONAL_GUARD_SERVICE',
+  RESERVE_SERVICE: 'RESERVE_SERVICE',
+});
+
+export const militaryBranchComponentTypeLabels = Object.freeze({
+  ACTIVE_DUTY: 'Active Duty',
+  NATIONAL_GUARD_SERVICE: 'National Guard Service',
+  RESERVE_SERVICE: 'Reserve Service',
+});
+
 export const expectedSeparationLabels = Object.freeze({
   UP_TO_3_MONTHS: '0 to 3 months',
   MORE_THAN_3_MONTHS_LESS_THAN_6_MONTHS: '4 to 6 months',
