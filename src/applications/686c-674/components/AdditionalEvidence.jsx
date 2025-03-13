@@ -9,7 +9,7 @@ export const AdditionalEvidence = Component => (
         We can only accept <strong>JPEG, JPG, PNG or PDF</strong> file types
       </li>
       <li>
-        You can upload one or more files, but they have to add up to{' '}
+        You can upload oneee or more files, but they have to add up to{' '}
         <strong>10 MB or less</strong>
       </li>
     </ul>
