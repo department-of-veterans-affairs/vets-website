@@ -15,7 +15,7 @@ on:
         required: false
         default: 'false'
   schedule:
-    - cron: 0 18 * * 1-5
+    - cron: 0 17 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
