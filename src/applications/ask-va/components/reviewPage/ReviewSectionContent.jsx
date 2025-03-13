@@ -26,7 +26,7 @@ const ReviewSectionContent = ({
             <div className="vads-u-justify-content--flex-end">
               <VaButton
                 text="Edit"
-                label="Edit Your school information"
+                label={`Edit ${title}`}
                 onClick={() => editSection(reviewListKeys, title)}
                 secondary
               />
