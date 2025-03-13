@@ -19,7 +19,7 @@ const defaultContext = {
 
 export const SmocContext = createContext(defaultContext);
 
-const SmocContextProvider = ({ children }) => {
+const SmocContextProvider = ({ children, value }) => {
   const [yesNo, setYesNo] = useState(defaultContext.yesNo);
   const [pageIndex, setPageIndex] = useState(defaultContext.pageIndex);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(
@@ -32,19 +32,24 @@ const SmocContextProvider = ({ children }) => {
     defaultContext.isAgreementError,
   );
 
+  const state = {
+    pageIndex,
+    setPageIndex,
+    yesNo,
+    setYesNo,
+    isUnsupportedClaimType,
+    setIsUnsupportedClaimType,
+    isAgreementChecked,
+    setIsAgreementChecked,
+    isAgreementError,
+    setIsAgreementError,
+  };
+
   return (
     <SmocContext.Provider
       value={{
-        pageIndex,
-        setPageIndex,
-        yesNo,
-        setYesNo,
-        isUnsupportedClaimType,
-        setIsUnsupportedClaimType,
-        isAgreementChecked,
-        setIsAgreementChecked,
-        isAgreementError,
-        setIsAgreementError,
+        ...state,
+        ...(value ?? {}),
       }}
     >
       {children}
@@ -54,6 +59,21 @@ const SmocContextProvider = ({ children }) => {
 
 SmocContextProvider.propTypes = {
   children: PropTypes.node,
+  value: PropTypes.shape({
+    yesNo: PropTypes.shape({
+      mileage: PropTypes.string,
+      vehicle: PropTypes.string,
+      address: PropTypes.string,
+    }),
+    pageIndex: PropTypes.number,
+    setPageIndex: PropTypes.func,
+    isUnsupportedClaimType: PropTypes.bool,
+    setIsUnsupportedClaimType: PropTypes.func,
+    isAgreementChecked: PropTypes.bool,
+    setIsAgreementChecked: PropTypes.func,
+    isAgreementError: PropTypes.bool,
+    setIsAgreementError: PropTypes.func,
+  }),
 };
 
 export default SmocContextProvider;
