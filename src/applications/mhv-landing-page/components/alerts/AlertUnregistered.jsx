@@ -40,7 +40,7 @@ const AlertUnregistered = ({ headline, recordEvent, ssoe, testId }) => {
           <VaTelephone contact="800-877-8339" tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET. Ask
           the representative to confirm in your records that you’re registered
-          at a VA health facility.
+          at a VA health facility.{' '}
           <strong>
             They can then help fix the problem or connect you with your facility
             to register.
