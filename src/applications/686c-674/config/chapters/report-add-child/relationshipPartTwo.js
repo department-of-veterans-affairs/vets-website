@@ -115,5 +115,6 @@ export const relationshipPartTwo = {
         properties: {},
       },
     },
+    required: ['relationshipToChild'],
   },
 };

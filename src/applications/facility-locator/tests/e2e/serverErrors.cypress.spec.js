@@ -7,7 +7,6 @@ import * as h from './helpers';
 
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
-  'facilities_use_address_typeahead',
 ]);
 
 for (const featureSet of featureSetsToTest) {

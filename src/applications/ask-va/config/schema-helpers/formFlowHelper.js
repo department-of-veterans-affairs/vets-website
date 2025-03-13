@@ -216,7 +216,8 @@ const ch3Pages = {
     schema: searchSchoolsPage.schema,
     depends: form =>
       (form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        form.selectTopic === TopicEducationBenefitOverpayments &&
+        form.useSchoolInProfile === schoolInYourProfileOptions.NO) ||
       ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
         !form.schoolInfo?.schoolName) &&
         (form.yourRole === yourRoleOptionsEducation.SCO ||

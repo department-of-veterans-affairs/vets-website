@@ -1,11 +1,12 @@
 // Node modules.
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 // Relative imports.
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import environment from 'platform/utilities/environment';
 import {
   VaAlertSignIn,
   VaButton,
@@ -18,20 +19,52 @@ import {
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
-import { isLOA1 as isLOA1Selector } from '~/platform/user/selectors';
+import { selectAuthStatus } from '../../selectors/auth-status';
 import {
-  notFoundComponent,
-  unavailableComponent,
   downloadErrorComponent,
   errorTypes,
+  notFoundComponent,
+  systemErrorComponent,
+  unavailableComponent,
 } from './utils';
 import '../../sass/download-1095b.scss';
 
-export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
+export const App = ({ displayToggle, toggleLoginModal }) => {
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' });
   const cspId = useSelector(signInServiceName);
   const [verifyAlertVariant, setverifyAlertVariant] = useState(null);
+  const profile = useSelector(state => selectAuthStatus(state));
+  const isAppLoading = useMemo(
+    () => {
+      return profile.isLoadingProfile;
+    },
+    [profile],
+  );
+
+  useEffect(
+    () => {
+      if (profile.isUserLOA3 !== true || displayToggle !== true) {
+        return;
+      }
+
+      apiRequest('/form1095_bs/available_forms')
+        .then(response => {
+          if (response.errors || response.availableForms.length === 0) {
+            updateFormError({ error: true, type: errorTypes.NOT_FOUND });
+          }
+          // return response.availableForms;
+          const mostRecentYearData = response.availableForms[0];
+          if (mostRecentYearData?.year) {
+            updateYear(mostRecentYearData.year);
+          }
+        })
+        .catch(() => {
+          updateFormError({ error: true, type: errorTypes.SYSTEM_ERROR });
+        });
+    },
+    [profile.isUserLOA3, displayToggle],
+  );
 
   useEffect(
     () => {
@@ -51,20 +84,6 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
       .catch(() => {
         updateFormError({ error: true, type: errorTypes.DOWNLOAD_ERROR });
         return false;
-      });
-  };
-
-  const getAvailableForms = () => {
-    return apiRequest('/form1095_bs/available_forms')
-      .then(response => {
-        if (response.errors || response.availableForms.length === 0) {
-          updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-        }
-        return response.availableForms;
-      })
-      .catch(() => {
-        updateFormError({ error: true, type: errorTypes.NOT_FOUND });
-        return null; // Return null in case of an error
       });
   };
 
@@ -102,7 +121,7 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
       };
       setverifyAlertVariant(getverifyAlertVariant());
     },
-    [cspId, isLOA1],
+    [cspId, profile.isUserLOA1],
   );
 
   const showSignInModal = () => {
@@ -125,27 +144,13 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     });
   };
 
-  useEffect(
-    () => {
-      getAvailableForms().then(result => {
-        if (result) {
-          const mostRecentYearData = result[0];
-          if (mostRecentYearData?.lastUpdated && mostRecentYearData?.year) {
-            updateYear(mostRecentYearData.year);
-          }
-        }
-      });
-    },
-    [loggedIn],
-  );
-
   const downloadForm = (
     <>
       <va-card>
         <div>
-          <h4 className="vads-u-margin-bottom--0 vads-u-margin-top--0">
+          <h3 className="vads-u-margin-bottom--0 vads-u-margin-top--0 vads-u-font-size--h4">
             1095-B Proof of VA health coverage
-          </h4>
+          </h3>
           <span>
             <b>Tax year:</b> {year}
           </span>
@@ -156,6 +161,9 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
           <div className="vads-u-padding-bottom--1">
             <va-link
               download
+              href={encodeURI(
+                `${environment.API_URL}/v0/form1095_bs/download_pdf/${year}`,
+              )}
               id="pdf-download-link"
               label="Download PDF (best for printing)"
               text="Download PDF (best for printing)"
@@ -169,6 +177,9 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
           <div className="vads-u-padding-top--1">
             <va-link
               download
+              href={encodeURI(
+                `${environment.API_URL}/v0/form1095_bs/download_txt/${year}`,
+              )}
               id="txt-download-link"
               label="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
               text="Download Text file (best for screen readers, enlargers, and refreshable Braille displays)"
@@ -203,31 +214,45 @@ export const App = ({ displayToggle, isLOA1, loggedIn, toggleLoginModal }) => {
     </VaAlertSignIn>
   );
 
-  if (loggedIn) {
+  const getVerifiedComponent = () => {
+    if (formError.type === errorTypes.SYSTEM_ERROR) {
+      return systemErrorComponent;
+    }
     if (!displayToggle) {
       return unavailableComponent();
     }
     if (formError.type === errorTypes.NOT_FOUND) {
       return notFoundComponent();
     }
-    if (isLOA1) {
-      return verifyAlertVariant;
-    }
     return downloadForm;
+  };
+
+  // determine what to render
+  if (isAppLoading) {
+    return (
+      <div>
+        <va-loading-indicator
+          label="Loading"
+          message="Loading your 1095-B information..."
+        />
+      </div>
+    );
+  }
+  if (profile.isUserLOA1) {
+    return verifyAlertVariant;
+  }
+  if (profile.isUserLOA3) {
+    return getVerifiedComponent();
   }
   return loggedOutComponent;
 };
 
 App.propTypes = {
-  displayToggle: PropTypes.bool,
-  isLOA1: PropTypes.bool,
-  loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
+  displayToggle: PropTypes.bool,
 };
 const mapStateToProps = state => ({
   displayToggle: state?.featureToggles?.showDigitalForm1095b,
-  isLOA1: isLOA1Selector(state),
-  loggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({

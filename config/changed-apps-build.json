@@ -54,7 +54,7 @@
     },
     {
       "rootFolder": "combined-debt-portal",
-      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP> <@U02HWQYB8G1>"
     },
     {
       "rootFolder": "coronavirus-screener",
@@ -115,7 +115,7 @@
     },
     {
       "rootFolder": "financial-status-report",
-      "slackGroup": "<@U022GNYPJ1L>"
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP> <@U02HWQYB8G1>"
     },
     {
       "rootFolder": "fry-dea",
@@ -206,6 +206,14 @@
       "slackGroup": "<@U022GNYPJ1L>"
     },
     {
+      "rootFolder": "office-directory",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "pact-act",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "pensions",
       "slackGroup": "<@C0667PCPVLM>",
       "continuousDeployment": false
@@ -216,12 +224,72 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "post-911-gib-status",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "pre-need",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "pre-need-integration",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "proxy-rewrite",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "public-outreach-materials",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "rated-disabilities",
       "slackGroup": "@benefits-app-builds"
     },
     {
-      "rootFolder": "static-pages",
-      "slackGroup": "@C059Q28DV99"
+      "rootFolder": "representative-appoint",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "representative-search",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "resources-and-support",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sah",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sco",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "search",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "sign-in-changes",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "simple-forms-engine",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "simple-forms",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "third-party-app-directory",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "survivor-dependent-education-benefit",
+      "slackGroup": "<@U022GNYPJ1L>"
     },
     {
       "rootFolder": "terms-of-use",
@@ -233,8 +301,40 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "travel-pay",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "user-testing",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "vaos",
       "slackGroup": "@vaos-fe-dev"
+    },
+    {
+      "rootFolder": "verify",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "verify-your-enrollment",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "veteran-id-card",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "virtual-agent",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "vre",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "yellow-ribbon",
+      "slackGroup": "<@U022GNYPJ1L>"
     }
   ]
 }

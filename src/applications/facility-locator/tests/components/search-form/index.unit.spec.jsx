@@ -2,7 +2,7 @@ import React from 'react';
 
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import SearchForm from '../../../components/search-form';
+import { SearchForm } from '../../../components/search-form';
 import { benefitsServices } from '../../../config';
 
 describe('SearchForm', () => {
@@ -49,14 +49,16 @@ describe('SearchForm', () => {
     const wrapper = shallow(<SearchForm currentQuery={query} />);
     const modal = wrapper.find('ForwardRef(VaModal)');
     expect(modal.prop('visible')).to.be.true;
-    expect(modal.prop('modalTitle')).to.equal('We need to use your location');
+    expect(modal.prop('modalTitle')).to.equal(
+      `Your device's location sharing is off.`,
+    );
     expect(
       modal
         .dive()
         .find('p')
         .text(),
     ).to.equal(
-      'Please enable location sharing in your browser to use this feature.',
+      'To use your location when searching for a VA facility, go to the settings on your device and update sharing permissions.',
     );
     wrapper.unmount();
   });

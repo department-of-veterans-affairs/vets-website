@@ -18,7 +18,7 @@ describe('Medications Details Page Shipping Information for Rx', () => {
     site.loginWithFeatureToggles(user, noTrackerFlag);
     listPage.visitMedicationsListPageURL(prescriptions);
     detailsPage.clickMedicationDetailsLink(rxTrackingDetails, cardNumber);
-    cy.get('@noMedications')
+    cy.get('@Medications')
       .its('response')
       .then(res => {
         expect(res.body.data[15].attributes).to.include({
