@@ -260,6 +260,7 @@
   "travelPayPowerSwitch": "travel_pay_power_switch",
   "travelPayViewClaimDetails": "travel_pay_view_claim_details",
   "travelPaySubmitMileageExpense": "travel_pay_submit_mileage_expense",
+  "travelPayClaimsManagement": "travel_pay_claims_management",
   "useFacilitiesApiV2ForCernerCTA": "use_facilities_api_v2_for_cerner_cta",
   "useLighthouseFormsSearchLogic": "new_va_forms_search",
   "vaDependentsV2": "va_dependents_v2",
