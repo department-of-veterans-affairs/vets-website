@@ -56,11 +56,29 @@ import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
-    const { getInitialFormValues } = this.props;
+    const { getInitialFormValues, showUpdateRadios } = this.props;
+
+    const initialFormValues = getInitialFormValues();
+
+    const formSchema = {
+      ...this.props.formSchema,
+      properties: {
+        ...this.props.formSchema.properties,
+        updateLocationChoice: { type: 'string', enum: ['yes', 'no'] },
+      },
+    };
+    const uiSchema = {
+      ...this.props.uiSchema,
+      properties: {
+        ...this.props.uiSchema.properties,
+        updateLocationChoice: { widget: 'radio' },
+      },
+    };
+
     this.onChangeFormDataAndSchemas(
-      getInitialFormValues(),
-      this.props.formSchema,
-      this.props.uiSchema,
+      initialFormValues,
+      showUpdateRadios ? formSchema : this.props.formSchema,
+      showUpdateRadios ? uiSchema : this.props.uiSchema,
     );
     this.focusOnFirstFormElement();
   }
@@ -383,6 +401,7 @@ ProfileInformationEditView.propTypes = {
   openModal: PropTypes.func.isRequired,
   recordCustomProfileEvent: PropTypes.func.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
+  showUpdateRadios: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
   updateFormFieldWithSchema: PropTypes.func.isRequired,
   validateAddress: PropTypes.func.isRequired,
@@ -422,12 +441,12 @@ export const mapStateToProps = (state, ownProps) => {
 
   return {
     /*
-    This ternary is to deal with an edge case: if the user is currently viewing
-    the address validation view we need to handle things differently or text in
-    the modal would be inaccurate. This is an unfortunate hack to get around an
-    existing hack we've been using to determine if we need to show the address
-    validation view or not.
-    */
+        This ternary is to deal with an edge case: if the user is currently viewing
+        the address validation view we need to handle things differently or text in
+        the modal would be inaccurate. This is an unfortunate hack to get around an
+        existing hack we've been using to determine if we need to show the address
+        validation view or not.
+        */
     activeEditView:
       activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
