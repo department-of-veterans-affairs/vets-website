@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
+
 import { formatDateTime } from '../util/dates';
 import { STATUSES } from '../constants';
 
@@ -12,6 +14,11 @@ export default function ClaimDetailsContent({
   facilityName,
   modifiedOn,
 }) {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const claimsMgmtToggle = useToggleValue(
+    TOGGLE_NAMES.travelPayClaimsManagement,
+  );
+
   const [appointmentDate, appointmentTime] = formatDateTime(
     appointmentDateTime,
     true,
@@ -29,7 +36,8 @@ export default function ClaimDetailsContent({
         Claim number: {claimNumber}
       </span>
       <h2 className="vads-u-font-size--h3">Claim status: {claimStatus}</h2>
-      {claimStatus === STATUSES.Denied.name && <AppealContent />}
+      {claimsMgmtToggle &&
+        claimStatus === STATUSES.Denied.name && <AppealContent />}
       <h2 className="vads-u-font-size--h3">Claim information</h2>
       <p className="vads-u-font-weight--bold vads-u-margin-bottom--0">Where</p>
       <p className="vads-u-margin-y--0">
