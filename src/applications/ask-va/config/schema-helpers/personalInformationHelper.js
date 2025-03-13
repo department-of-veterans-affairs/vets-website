@@ -34,7 +34,7 @@ const ssnServiceInfo = (
   </div>
 );
 
-const validateSSandSNGroup = (errors, values, formData) => {
+export const validateSSandSNGroup = (errors, values, formData) => {
   if (
     !(
       (formData.whoIsYourQuestionAbout === 'Someone else' &&

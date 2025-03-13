@@ -21,6 +21,7 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureRemovePodiatry,
+  selectFeatureDirectScheduleAppointmentConflict,
 } from '../../redux/selectors';
 import { removeDuplicateId } from '../../utils/data';
 
@@ -149,8 +150,14 @@ export function getChosenSlot(state) {
 }
 
 export function getDateTimeSelect(state, pageKey) {
+  const featureDirectScheduleAppointmentConflict = selectFeatureDirectScheduleAppointmentConflict(
+    state,
+  );
   const newAppointment = getNewAppointment(state);
-  const { appointmentSlotsStatus } = newAppointment;
+  const {
+    appointmentSlotsStatus,
+    isAppointmentSelectionError,
+  } = newAppointment;
   const data = getFormData(state);
   const formInfo = getFormPageInfo(state, pageKey);
   const { availableSlots } = newAppointment;
@@ -170,6 +177,9 @@ export function getDateTimeSelect(state, pageKey) {
     timezone,
     timezoneDescription,
     typeOfCareId,
+    isAppointmentSelectionError: featureDirectScheduleAppointmentConflict
+      ? isAppointmentSelectionError
+      : false,
   };
 }
 
@@ -236,6 +246,10 @@ export function selectSingleSupportedVALocation(state) {
   return getNewAppointment(state)?.data?.isSingleVaFacility;
 }
 
+export function selectRecentLocationsStatus(state) {
+  return getNewAppointment(state).fetchRecentLocationStatus;
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -271,7 +285,12 @@ export function getFacilityPageV2Info(state) {
     sortMethod: selectFacilityPageSortMethod(state),
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
+    fetchRecentLocationStatus: selectRecentLocationsStatus(state),
   };
+}
+
+export function selectRecentLocations(state) {
+  return getNewAppointment(state).recentLocations;
 }
 
 export function getChosenClinicInfo(state) {
