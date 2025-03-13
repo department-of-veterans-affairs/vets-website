@@ -302,6 +302,14 @@ const DownloadFileType = props => {
     [recordData],
   );
 
+  const formatDateRange = () => {
+    return {
+      fromDate:
+        fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'any',
+      toDate: fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+    };
+  };
+
   const generatePdf = useCallback(
     async () => {
       try {
@@ -314,10 +322,7 @@ const DownloadFileType = props => {
           const scaffold = generatePdfScaffold(user, title, subject);
           const pdfName = `VA-Blue-Button-report-${getNameDateAndTime(user)}`;
           const pdfData = {
-            fromDate:
-              fromDate && fromDate !== 'any' ? formatDateLong(fromDate) : 'Any',
-            toDate:
-              fromDate && fromDate !== 'any' ? formatDateLong(toDate) : 'any',
+            ...formatDateRange(),
             recordSets: generateBlueButtonData(recordData, recordFilter),
             ...scaffold,
             name,
@@ -369,7 +374,8 @@ const DownloadFileType = props => {
             title,
             subject,
           )}`;
-          const content = getTxtContent(recordData, user);
+          const dateRange = formatDateRange();
+          const content = getTxtContent(recordData, user, dateRange);
 
           generateTextFile(content, pdfName, user);
           dispatch({ type: Actions.Downloads.BB_SUCCESS });

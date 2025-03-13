@@ -45,7 +45,7 @@ describe('Blue Button report PDF template', () => {
       expect(tag).to.equal('H1');
       const text = content.items[22].str;
       expect(text.length).to.be.gt(0);
-      expect(text).to.equal('VA medical records');
+      expect(text).to.equal('VA Blue Button® report');
     });
 
     it('All sections are contained by a root level Document element', async () => {
