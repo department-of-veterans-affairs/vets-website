@@ -101,7 +101,9 @@ describe('ReviewPage', () => {
 
     const accordionItem = container.querySelector('va-accordion-item');
     expect(accordionItem).to.exist;
-    expect(accordionItem.getAttribute('header')).to.equal('Your information');
+    expect(accordionItem.getAttribute('header')).to.equal(
+      "Veteran's information",
+    );
   });
 
   it('should render edit mode alert with correct content', () => {
@@ -166,7 +168,9 @@ describe('ReviewPage', () => {
 
     const reviewChapter = container.querySelector('va-accordion-item');
     expect(reviewChapter).to.exist;
-    expect(reviewChapter.getAttribute('header')).to.equal('Your information');
+    expect(reviewChapter.getAttribute('header')).to.equal(
+      "Veteran's information",
+    );
 
     // The ReviewCollapsibleChapter should be present but not expanded
     const chapterContent = container.querySelector(
