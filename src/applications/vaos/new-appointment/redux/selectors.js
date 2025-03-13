@@ -250,6 +250,10 @@ export function selectRecentLocationsStatus(state) {
   return getNewAppointment(state).fetchRecentLocationStatus;
 }
 
+export function selectRecentLocations(state) {
+  return getNewAppointment(state).recentLocations;
+}
+
 export function getFacilityPageV2Info(state) {
   const formInfo = getFormPageInfo(state, 'vaFacilityV2');
   const data = getFormData(state);
@@ -286,11 +290,8 @@ export function getFacilityPageV2Info(state) {
     typeOfCare,
     cernerSiteIds: selectRegisteredCernerFacilityIds(state),
     fetchRecentLocationStatus: selectRecentLocationsStatus(state),
+    recentLocations: selectRecentLocations(state),
   };
-}
-
-export function selectRecentLocations(state) {
-  return getNewAppointment(state).recentLocations;
 }
 
 export function getChosenClinicInfo(state) {

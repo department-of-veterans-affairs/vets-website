@@ -285,6 +285,37 @@ describe('<DashboardCards>', () => {
         expect(resultsInfo.textContent).to.include('Showing 5-6 of 6');
       });
     });
+
+    it('should focus on filter summary when page changes', async () => {
+      const view = render(
+        <Provider store={mockStore}>
+          <DashboardCards />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const resultsInfo = view.container.querySelector(
+          '.vads-u-margin-top--2',
+        );
+        expect(resultsInfo).to.exist;
+      });
+
+      // Change to page 2
+      const pagination = view.container.querySelector('va-pagination');
+      pagination.dispatchEvent(
+        new CustomEvent('pageSelect', {
+          detail: { page: 2 },
+          bubbles: true,
+        }),
+      );
+
+      await waitFor(() => {
+        const filterSummary = view.container.querySelector(
+          '.vads-u-margin-top--2',
+        );
+        expect(document.activeElement).to.equal(filterSummary);
+      });
+    });
   });
 
   describe('loading state', () => {
@@ -535,16 +566,28 @@ describe('<DashboardCards>', () => {
         expect(tabs).to.exist;
 
         // Check for both tab labels
-        expect(view.getByText('Business')).to.exist;
-        expect(view.getByText('Personal')).to.exist;
+        const businessTab = view.container.querySelector(
+          '.react-tabs__tab-list li:first-child',
+        );
+        const personalTab = view.container.querySelector(
+          '.react-tabs__tab-list li:last-child',
+        );
+        expect(businessTab.textContent).to.equal('Business');
+        expect(personalTab.textContent).to.equal('Personal');
 
         // Business tab should be active by default and show business content
         expect(view.getByText('Business question')).to.exist;
-        expect(view.container.querySelector('va-card')).to.exist;
+
+        // Check filtered results info is inside tab panel with correct padding
+        const filterInfo = view.container.querySelector(
+          '.vads-u-padding-x--2p5',
+        );
+        expect(filterInfo).to.exist;
+        expect(filterInfo.textContent).to.include('in Business');
       });
     });
 
-    it('should switch content when changing tabs', async () => {
+    it('should switch content and filtered results info when changing tabs', async () => {
       const view = render(
         <Provider store={mockStore}>
           <DashboardCards />
@@ -552,18 +595,28 @@ describe('<DashboardCards>', () => {
       );
 
       await waitFor(() => {
-        // Initially should show business content
+        // Initially should show business content and filtered info
         expect(view.getByText('Business question')).to.exist;
+        const filterInfo = view.container.querySelector(
+          '.vads-u-padding-x--2p5',
+        );
+        expect(filterInfo.textContent).to.include('in Business');
       });
 
       // Click the Personal tab
-      const personalTab = view.getByText('Personal');
+      const personalTab = view.container.querySelector(
+        '.react-tabs__tab-list li:last-child',
+      );
       fireEvent.click(personalTab);
 
       await waitFor(() => {
-        // Should now show personal content
+        // Should now show personal content and filtered info
         expect(view.getByText('Personal question')).to.exist;
         expect(view.queryByText('Business question')).to.not.exist;
+        const filterInfo = view.container.querySelector(
+          '.vads-u-padding-x--2p5',
+        );
+        expect(filterInfo.textContent).to.include('in Personal');
       });
     });
 
@@ -611,11 +664,16 @@ describe('<DashboardCards>', () => {
       await waitFor(() => {
         expect(view.container.querySelector('va-loading-indicator')).to.not
           .exist;
-        expect(view.getByText('Business')).to.exist;
+        const businessTab = view.container.querySelector(
+          '.react-tabs__tab-list li:first-child',
+        );
+        expect(businessTab.textContent).to.equal('Business');
       });
 
       // Switch to personal tab
-      const personalTab = view.getByText('Personal');
+      const personalTab = view.container.querySelector(
+        '.react-tabs__tab-list li:last-child',
+      );
       fireEvent.click(personalTab);
 
       // Wait for personal content
