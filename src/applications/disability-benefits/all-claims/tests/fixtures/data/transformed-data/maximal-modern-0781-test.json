@@ -99,7 +99,8 @@
         "dod": true
       },
       "optionIndicator": "yes",
-      "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?"
+      "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
+      "none": false
     },
     "vaTreatmentFacilities": [
       {
