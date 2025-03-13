@@ -1,5 +1,4 @@
 import SelectOrganization from '../../components/SelectOrganization';
-import { pageDepends as isDigiSubmission } from './representativeSubmissionMethod';
 
 export const uiSchema = {
   selectedAccreditedOrganizationId: {
@@ -23,8 +22,12 @@ export const schema = {
 };
 
 export const pageDepends = formData => {
-  // in digital submission flow, display even if there's only one org
-  const minimumOrgCount = isDigiSubmission(formData) ? 1 : 2;
+  /*
+    tentatively displaying org select screen in all digital submission 
+    cases (even if there's only one org)
+  */
+  const minimumOrgCount =
+    formData.representativeSubmissionMethod === 'digital' ? 1 : 2;
 
   return (
     !!formData['view:selectedRepresentative'] &&
