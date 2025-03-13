@@ -285,6 +285,37 @@ describe('<DashboardCards>', () => {
         expect(resultsInfo.textContent).to.include('Showing 5-6 of 6');
       });
     });
+
+    it('should focus on filter summary when page changes', async () => {
+      const view = render(
+        <Provider store={mockStore}>
+          <DashboardCards />
+        </Provider>,
+      );
+
+      await waitFor(() => {
+        const resultsInfo = view.container.querySelector(
+          '.vads-u-margin-top--2',
+        );
+        expect(resultsInfo).to.exist;
+      });
+
+      // Change to page 2
+      const pagination = view.container.querySelector('va-pagination');
+      pagination.dispatchEvent(
+        new CustomEvent('pageSelect', {
+          detail: { page: 2 },
+          bubbles: true,
+        }),
+      );
+
+      await waitFor(() => {
+        const filterSummary = view.container.querySelector(
+          '.vads-u-margin-top--2',
+        );
+        expect(document.activeElement).to.equal(filterSummary);
+      });
+    });
   });
 
   describe('loading state', () => {
