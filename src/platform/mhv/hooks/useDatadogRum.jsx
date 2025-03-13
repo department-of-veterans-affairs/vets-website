@@ -32,6 +32,7 @@ const initializeDatadogRum = config => {
 
 const setRumUser = user => {
   datadogRum.setUser({
+    ...user,
     id: user.id || 'no-id-found',
   });
 };
@@ -64,7 +65,11 @@ const setDatadogRumUser = user => {
     !window.Mocha &&
     user?.id
   ) {
-    setRumUser({ id: user.id });
+    setRumUser({
+      id: user.id,
+      hasEHRM: user.hasEHRM,
+      hasVista: user.hasVista,
+    });
   }
 };
 
