@@ -74,6 +74,10 @@ const CategorySelectPage = props => {
       contactPreferences: selected.attributes.contactPreferences,
       categoryRequiresSignIn:
         selected.attributes.requiresAuthentication && !isLoggedIn,
+      schoolInfo: {
+        schoolFacilityCode: 31800132,
+        schoolName: 'NEW YORK UNIVERSITY',
+      },
     });
   };
 
