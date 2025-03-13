@@ -41,48 +41,25 @@ export const FACILITY_TYPE_FILTERS = {
   TRICARE: 'tricare',
 };
 
-const createArrayFromServiceData = data =>
-  data
-    .replace(/[()]/g, '')
-    .toLowerCase()
-    .split(' ');
-
-const serviceMatchesTerm = (term, serviceData) =>
-  serviceData.toLowerCase().startsWith(term.toLowerCase());
-
-const lookForMatch = (term, arrayFromServiceData) =>
-  arrayFromServiceData.find(service => serviceMatchesTerm(term, service));
+const escapeForRegex = term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /**
  * Receives a term and either a string or string array value to match against
  * e.g. a name such as "Mental health" or a list of common conditions such as
- * ["addiction", "depression", "anxiety"]
+ * ["addiction", "depression", "bipolar disorder"]
  *
  * Ultimately we want to check each word of any string or string array value
  * to see if it starts with the given search term
- * Returns 1 if a match is found, -1 if it is not
  * @param { string } term
  * @param { string | string[] } serviceData
  * @returns { number }
  */
 const termMatcher = (term, serviceData) => {
-  const isMultiWord = string => string.trim().includes(' ');
+  // `//b` is a word boundary regex that ensures we're matching whole words at the beginning of the word
+  const regex = new RegExp(`\\b${escapeForRegex(term)}`, 'i');
 
   if (!serviceData || !serviceData?.length) {
     return false;
-  }
-
-  if (isMultiWord(term)) {
-    if (Array.isArray(serviceData)) {
-      // console.log('term: ', term);
-      // console.log('serviceData: ', serviceData);
-      const match = serviceData.find(chunk => serviceMatchesTerm(term, chunk));
-
-      return match?.length > 0;
-    }
-
-    console.log('here: ', term, serviceData);
-    return serviceMatchesTerm(term, serviceData);
   }
 
   // Common conditions is an array of strings and requires more drilling down
@@ -90,22 +67,13 @@ const termMatcher = (term, serviceData) => {
     const arrayToMatch = [...serviceData];
 
     const foundMatches = arrayToMatch.find(chunk => {
-      let toMatch = [chunk];
-
-      // If the string in the array is multiple words, break it up
-      if (isMultiWord(chunk)) {
-        toMatch = createArrayFromServiceData(chunk);
-      }
-
-      return lookForMatch(term, toMatch);
+      return regex.test(chunk);
     });
 
     return foundMatches?.length > 0;
   }
 
-  const arrayToMatch = createArrayFromServiceData(serviceData);
-
-  return lookForMatch(term, arrayToMatch)?.length > 0;
+  return regex.test(serviceData);
 };
 
 /** Given a term and a VA health service, determine if the term is found in the service data
@@ -123,13 +91,13 @@ const termMatcher = (term, serviceData) => {
  */
 const determineIfServiceMatches = (term, service) => {
   // Remove special characters from the search term
-  const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  // const safeTerm = term.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&');
   const serviceToMatch = [...service];
 
   const matchDeterminant = {
-    nameMatch: termMatcher(safeTerm, service[0]),
-    akaMatch: termMatcher(safeTerm, service[1]),
-    commonCondMatch: termMatcher(safeTerm, service[2]),
+    nameMatch: termMatcher(term, service[0]),
+    akaMatch: termMatcher(term, service[1]),
+    commonCondMatch: termMatcher(term, service[2]),
     descriptionMatch: termMatcher(term, service[10]),
     tricareDescriptionMatch: termMatcher(term, service[11]),
   };
