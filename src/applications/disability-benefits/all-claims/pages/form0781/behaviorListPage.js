@@ -64,7 +64,7 @@ export const uiSchema = {
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.none,
     labelHeaderLevel: '4',
     labels: {
-      none: behaviorListNoneLabel,
+      'view:noBehaviorChanges': behaviorListNoneLabel,
     },
     required: false,
   }),
@@ -87,7 +87,7 @@ export const schema = {
     workBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_WORK)),
     healthBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_HEALTH)),
     otherBehaviors: checkboxGroupSchema(Object.keys(BEHAVIOR_CHANGES_OTHER)),
-    'view:noneCheckbox': checkboxGroupSchema(['none']),
+    'view:noneCheckbox': checkboxGroupSchema(['view:noBehaviorChanges']),
     'view:behaviorAdditionalInformation': {
       type: 'object',
       properties: {},
