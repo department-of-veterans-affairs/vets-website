@@ -14,7 +14,7 @@ import {
   filterDescription,
 } from '../../util/constants';
 import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
-import { dateFormat } from '../../util/helpers';
+import { dateFormat, isCustomFolder } from '../../util/helpers';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query, threadCount } = props;
@@ -214,22 +214,28 @@ const SearchForm = props => {
     );
   };
 
-  const isCustomFolder =
-    folder.name !== DefaultFolders.INBOX.header &&
-    folder.name !== DefaultFolders.SENT.header &&
-    folder.name !== DefaultFolders.DRAFTS.header &&
-    folder.name !== DefaultFolders.DELETED.header;
+  const isCustom = useMemo(() => isCustomFolder(folder.folderId), [
+    folder.folderId,
+  ]);
 
-  const ddTitle = `${isCustomFolder ? 'Custom Folder' : `${folder.name}`}`;
-  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+  const ddTitle = useMemo(
+    () => {
+      return `${isCustom ? 'Custom Folder' : `${folder.name}`}`;
+    },
+    [folder.name, isCustom],
+  );
+  const ddPrivacy = useMemo(() => `${isCustom ? 'mask' : 'allow'}`, [isCustom]);
 
   const filterLabelHeading = useMemo(
     () => {
+      if (isCustom) {
+        return `Filter messages in ${folder.name}`;
+      }
       return `Filter messages in ${
-        folder.name === 'Deleted' ? 'Trash' : folder.name
-      } `;
+        folder.name === 'Deleted' ? 'trash' : folder.name.toLowerCase()
+      }`;
     },
-    [folder.name],
+    [folder.name, isCustom],
   );
 
   const filterLabelBody = useMemo(
