@@ -163,14 +163,16 @@ const ReviewPage = props => {
             state: { contactPreference, inquiryNumber },
           });
         },
-        onError: error => {
-          setIsDisabled(false);
-          alert(error.error);
-        },
+        // onError: error => {
+        //   setIsDisabled(false);
+        //   // TODO - need error modal instead of forwarding to confirmation per final design
+        //   // Temporary alert dialog for testing
+        // },
       });
     } catch (error) {
       setIsDisabled(false);
-      alert(error.error);
+      // TODO - need error modal instead of forwarding to confirmation per final design
+      // Temporary alert dialog for testing
     }
   };
 
