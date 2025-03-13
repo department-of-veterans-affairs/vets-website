@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 
 const defaultContext = {
   pageIndex: 0,
-  setPageIndex: () => {},
+  setPageIndex: null,
   yesNo: {
     mileage: '',
     vehicle: '',
     address: '',
   },
   isUnsupportedClaimType: false,
-  setIsUnsupportedClaimType: () => {},
+  setIsUnsupportedClaimType: null,
   isAgreementChecked: false,
-  setIsAgreementChecked: () => {},
+  setIsAgreementChecked: null,
   isAgreementError: false,
-  setIsAgreementError: () => {},
+  setIsAgreementError: null,
 };
 
 export const SmocContext = createContext(defaultContext);
