@@ -270,10 +270,9 @@ const IntroductionPage = props => {
         </p>
         <p className="vads-u-margin-bottom--2">
           <strong>If you need to talk to someone right away, </strong>
-          contact the Veterans Crisis Line. Whatever you’re struggling contact
-          the Veterans Crisis Line. Whatever you’re struggling with—chronic
-          pain, anxiety, depression, trouble sleeping, anger, or even
-          homelessness—we can support you. Our Veterans Crisis Line is
+          contact the Veterans Crisis Line. Whatever you’re struggling
+          with—chronic pain, anxiety, depression, trouble sleeping, anger, or
+          even homelessness—we can support you. Our Veterans Crisis Line is
           confidential (private), free, and available 24/7.
         </p>
         <p className="vads-u-margin-bottom--2">
