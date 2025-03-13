@@ -1,28 +1,14 @@
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import React from 'react';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import PropTypes from 'prop-types';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import formConfig from '../config/form';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
 
-const IntroductionPage = props => {
-  // Toggle from hearing aid supplies to hearing aid + CPAP supplies.
-  const {
-    TOGGLE_NAMES,
-    useToggleValue,
-    useToggleLoadingValue,
-  } = useFeatureToggle();
-  const toggleName = TOGGLE_NAMES.supplyReorderingSleepApneaEnabled;
-  const isSupplyReorderingSleepApneaEnabled = useToggleValue(toggleName);
-  const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
-  const supplyDescription = isSupplyReorderingSleepApneaEnabled
-    ? 'hearing aid or CPAP supplies'
-    : 'hearing aid batteries and accessories';
-  if (isLoadingFeatureFlags)
-    return <va-loading-indicator message="Loading your information..." />;
+const IntroductionPage = ({ route }) => {
+  const supplyDescription = 'hearing aid or CPAP supplies';
 
   return (
     <>
@@ -35,14 +21,14 @@ const IntroductionPage = props => {
         <div className="schemaform-intro">
           <SaveInProgressIntro
             hideUnauthedStartLink
-            prefillEnabled={props.route.formConfig.prefillEnabled}
-            messages={props.route.formConfig.savedFormMessages}
-            pageList={props.route.pageList}
-            verifyRequiredPrefill={props.route.formConfig.verifyRequiredPrefill}
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            pageList={route.pageList}
+            verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
             unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
             startText={`Order ${supplyDescription}`}
             unauthStartText="Sign in to start your order"
-            formConfig={formConfig}
+            formConfig={route.formConfig}
           >
             Please complete this form to order {supplyDescription}.
           </SaveInProgressIntro>
@@ -85,9 +71,7 @@ const IntroductionPage = props => {
                   </li>
                   <li>Select any hearing aids that need batteries</li>
                   <li>Select any hearing aid accessories you need</li>
-                  {isSupplyReorderingSleepApneaEnabled && (
-                    <li>Select any CPAP supplies you need</li>
-                  )}
+                  <li>Select any CPAP supplies you need</li>
                   <li>Review and submit order</li>
                 </ul>
                 <p>
@@ -123,17 +107,31 @@ const IntroductionPage = props => {
           <SaveInProgressIntro
             buttonOnly
             hideUnauthedStartLink
-            prefillEnabled={props.route.formConfig.prefillEnabled}
-            messages={props.route.formConfig.savedFormMessages}
-            pageList={props.route.pageList}
+            prefillEnabled={route.formConfig.prefillEnabled}
+            messages={route.formConfig.savedFormMessages}
+            pageList={route.pageList}
             startText={`Order ${supplyDescription}`}
             unauthStartText="Sign in to start your order"
-            formConfig={formConfig}
+            formConfig={route.formConfig}
           />
         </div>
       </DowntimeNotification>
     </>
   );
+};
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool.isRequired,
+      savedFormMessages: PropTypes.object.isRequired,
+      verifyRequiredPrefill: PropTypes.bool.isRequired,
+    }).isRequired,
+    pageList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+  }),
 };
 
 export default IntroductionPage;
