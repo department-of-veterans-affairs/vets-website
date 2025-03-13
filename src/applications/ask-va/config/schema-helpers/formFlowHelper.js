@@ -215,13 +215,14 @@ const ch3Pages = {
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
     depends: form =>
-      (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
-        !form.schoolInfo?.schoolName ||
-        (form.selectCategory === CategoryDebt &&
-          form.selectTopic === TopicEducationBenefitOverpayments)) &&
-      (form.yourRole === yourRoleOptionsEducation.SCO ||
-        form.yourRole ===
-          yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
+      (form.selectCategory === CategoryDebt &&
+        form.selectTopic === TopicEducationBenefitOverpayments &&
+        form.useSchoolInProfile === schoolInYourProfileOptions.NO) ||
+      ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
+        !form.schoolInfo?.schoolName) &&
+        (form.yourRole === yourRoleOptionsEducation.SCO ||
+          form.yourRole ===
+            yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP)),
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -583,6 +584,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'stateOfFacility',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',

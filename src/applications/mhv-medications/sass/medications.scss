@@ -365,6 +365,10 @@ va-checkbox {
     position: absolute;
     top: 1.25rem;
     right: 1.25rem;
-    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    background: 0;
+    color: inherit;
+    width: auto;
   }
 }

@@ -29,6 +29,8 @@ export const uiSchema = {
       itemAriaLabel: data => data.treatmentCenterName,
       viewField: treatmentView,
       showSave: true,
+      reviewMode: true,
+      confirmRemove: true,
       updateSchema: (formData, schema) => ({
         ...schema,
         minItems: hasVAEvidence(formData) ? 1 : 0,

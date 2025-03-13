@@ -144,6 +144,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_21P_530EZ]: `${tryGetAppUrl('burials-ez')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${tryGetAppUrl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${tryGetAppUrl('10203-edu-benefits')}/`,
+    [VA_FORM_IDS.FORM_22_10282]: `${tryGetAppUrl('10282-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1990EZ]: `${tryGetAppUrl('1990ez-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_1995]: `${tryGetAppUrl('1995-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_26_1880]: `${tryGetAppUrl('coe')}/`,
@@ -320,6 +321,13 @@ export const MY_VA_SIP_FORMS = [
     title: 'Rogers STEM Scholarship (22-10203)',
     description: 'Rogers STEM Scholarship application (22-10203)',
     trackingPrefix: 'edu-10203-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10282,
+    benefit: 'IBM SkillsBuild Training Program Intake Application',
+    title: 'IBM SkillsBuild Training Program Intake Application (22-10282)',
+    description: 'IBM SkillsBuild Training Program Intake (22-10282)',
+    trackingPrefix: 'edu-10282-',
   },
   {
     id: VA_FORM_IDS.FORM_26_1880,
