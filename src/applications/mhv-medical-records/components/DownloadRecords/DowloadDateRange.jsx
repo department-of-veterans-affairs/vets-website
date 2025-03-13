@@ -51,7 +51,7 @@ const DownloadDateRange = () => {
         );
       }
       const valMap = {
-        any: 'Any',
+        any: 'All time',
         '3': 'Last 3 months',
         '6': 'Last 6 months',
         '12': 'Last 12 months',
