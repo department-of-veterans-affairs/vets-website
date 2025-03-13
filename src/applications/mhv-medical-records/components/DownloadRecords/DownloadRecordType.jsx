@@ -117,7 +117,7 @@ const DownloadRecordType = () => {
   const selectedDateRange = useMemo(
     () => {
       if (dateFilterOption === 'any') {
-        return 'Any';
+        return 'All time';
       }
       if (dateFilterOption === 'custom') {
         return 'Custom';

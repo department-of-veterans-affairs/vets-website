@@ -61,6 +61,7 @@
   "disputeDebt": "dispute_debt",
   "enrollmentVerification": "enrollment_verification",
   "ezrProdEnabled": "ezr_prod_enabled",
+  "ezrProvidersAndDependentsPrefillEnabled": "ezr_form_prefill_with_providers_and_dependents",
   "ezrUploadEnabled": "ezr_upload_enabled",
   "facilitiesAutoSuggestVAMCServicesEnabled": "facilities_autosuggest_vamc_services_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
