@@ -285,16 +285,14 @@ function main() {
     ? CHANGED_FILE_PATHS.map(filePath =>
         filePath
           .split('/')
-          .slice(0, 3)
+          .slice(0, 4)
           .join('/'),
       )
     : [];
 
   console.log(changedAppsForStressTest);
   const existingTestsToStressTest = allAllowListSpecs.filter(specPath =>
-    changedAppsForStressTest.some(filePath =>
-      specPath.includes(`${filePath}/`),
-    ),
+    changedAppsForStressTest.some(filePath => specPath.includes(`${filePath}`)),
   );
 
   const newTestsToStressTest = CHANGED_FILE_PATHS.filter(
