@@ -309,7 +309,7 @@ export default function formReducer(state = initialState, action) {
         !!action.address?.latitude && !!action.address?.longitude;
 
       const handleSortMethod = () => {
-        if (featureRecentLocationsFilter) {
+        if (featureRecentLocationsFilter && recentLocations?.length) {
           return FACILITY_SORT_METHODS.recentLocations;
         }
         if (hasResidentialCoordinates) {
