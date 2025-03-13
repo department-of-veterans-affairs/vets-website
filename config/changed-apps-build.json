@@ -224,6 +224,18 @@
       "continuousDeployment": false
     },
     {
+      "rootFolder": "post-911-gib-status",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "pre-need",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "pre-need-integration",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
       "rootFolder": "proxy-rewrite",
       "slackGroup": "<@U022GNYPJ1L>"
     },
@@ -299,6 +311,30 @@
     {
       "rootFolder": "vaos",
       "slackGroup": "@vaos-fe-dev"
+    },
+    {
+      "rootFolder": "verify",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "verify-your-enrollment",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "veteran-id-card",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "virtual-agent",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "vre",
+      "slackGroup": "<@U022GNYPJ1L>"
+    },
+    {
+      "rootFolder": "yellow-ribbon",
+      "slackGroup": "<@U022GNYPJ1L>"
     }
   ]
 }
