@@ -23,12 +23,14 @@ describe('TravelClaimDetails', () => {
     featureTogglesAreLoading = false,
     hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
+    hasClaimsManagementFlag = true,
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
       /* eslint-disable camelcase */
       travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
+      travel_pay_claims_management: hasClaimsManagementFlag,
       /* eslint-enable camelcase */
     },
   });
@@ -104,5 +106,19 @@ describe('TravelClaimDetails', () => {
     expect(
       $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
     ).to.exist;
+  });
+
+  it('does not render claims management content with flag off', async () => {
+    global.fetch.restore();
+    mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
+
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: getState({ hasClaimsManagementFlag: false }),
+    });
+
+    expect(await screen.findByText('Claim status: Denied')).to.exist;
+    expect(
+      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
+    ).to.not.exist;
   });
 });
