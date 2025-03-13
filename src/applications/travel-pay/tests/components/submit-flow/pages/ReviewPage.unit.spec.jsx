@@ -6,6 +6,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 
 import ReviewPage from '../../../../components/submit-flow/pages/ReviewPage';
 import reducer from '../../../../redux/reducer';
+import SmocContextProvider from '../../../../context/SmocContext';
 
 const home = {
   addressLine1: '345 Home Address St.',
@@ -34,7 +35,6 @@ const mockAppt = {
 
 const practitioner = 'Kenneth J. Bernardo';
 
-const onSubmitSpy = sinon.spy();
 const setIsAgreementCheckedSpy = sinon.spy();
 const setPageIndexSpy = sinon.spy();
 const setYesNoSpy = sinon.spy();
@@ -65,19 +65,23 @@ describe('Review page', () => {
   };
 
   const props = {
-    onSubmit: () => onSubmitSpy(),
     isAgreementChecked: false,
     isError: false,
-    setIsAgreementChecked: () => setIsAgreementCheckedSpy(),
-    setPageIndex: () => setPageIndexSpy(),
-    setYesNo: () => setYesNoSpy(),
+    setIsAgreementChecked: setIsAgreementCheckedSpy,
+    setPageIndex: setPageIndexSpy,
+    setYesNo: setYesNoSpy,
   };
 
   it('should render properly with all data', () => {
-    const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
-      initialState: getData(),
-      reducers: reducer,
-    });
+    const screen = renderWithStoreAndRouter(
+      <SmocContextProvider value={props}>
+        <ReviewPage />
+      </SmocContextProvider>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
 
     expect(screen.getByText('Review your travel claim')).to.exist;
     expect(screen.queryByText(/with Kenneth J. Bernardo/i)).to.not.exist;
@@ -101,10 +105,15 @@ describe('Review page', () => {
   });
 
   it('should render properly with practitioners if present', () => {
-    const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
-      initialState: getData({ pract: practitioner }),
-      reducers: reducer,
-    });
+    const screen = renderWithStoreAndRouter(
+      <SmocContextProvider value={props}>
+        <ReviewPage />
+      </SmocContextProvider>,
+      {
+        initialState: getData({ pract: practitioner }),
+        reducers: reducer,
+      },
+    );
 
     expect(screen.getByText('Review your travel claim')).to.exist;
     expect(screen.getByText(/with Kenneth J. Bernardo/i)).to.exist;
@@ -130,10 +139,15 @@ describe('Review page', () => {
   });
 
   it('should reset page index and answers when start over is pressed', () => {
-    const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
-      initialState: getData(),
-      reducers: reducer,
-    });
+    const screen = renderWithStoreAndRouter(
+      <SmocContextProvider value={props}>
+        <ReviewPage />
+      </SmocContextProvider>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
 
     expect(screen.getByText('Review your travel claim')).to.exist;
 
@@ -143,10 +157,15 @@ describe('Review page', () => {
   });
 
   it('should submit okay', () => {
-    const screen = renderWithStoreAndRouter(<ReviewPage {...props} />, {
-      initialState: getData(),
-      reducers: reducer,
-    });
+    const screen = renderWithStoreAndRouter(
+      <SmocContextProvider value={props}>
+        <ReviewPage />
+      </SmocContextProvider>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
 
     expect(screen.getByText('Review your travel claim')).to.exist;
 
@@ -155,12 +174,14 @@ describe('Review page', () => {
     checkbox.__events.vaChange();
 
     $('va-button-pair').__events.primaryClick(); // file claim
-    expect(onSubmitSpy.called).to.be.true;
+    expect(setPageIndexSpy.called).to.be.true;
   });
 
   it('should not show the error message if the travel agreement is checked', () => {
     const screen = renderWithStoreAndRouter(
-      <ReviewPage {...props} isAgreementChecked />,
+      <SmocContextProvider value={{ ...props, isAgreementChecked: true }}>
+        <ReviewPage />
+      </SmocContextProvider>,
       {
         initialState: getData(),
         reducers: reducer,
@@ -182,10 +203,15 @@ describe('Review page', () => {
   });
 
   it('should render an error if filing without agreeing to terms', () => {
-    renderWithStoreAndRouter(<ReviewPage {...props} isError />, {
-      initialState: getData(),
-      reducers: reducer,
-    });
+    renderWithStoreAndRouter(
+      <SmocContextProvider value={{ ...props, isAgreementError: true }}>
+        <ReviewPage />
+      </SmocContextProvider>,
+      {
+        initialState: getData(),
+        reducers: reducer,
+      },
+    );
 
     const checkbox = $('va-checkbox[name="accept-agreement"]');
     expect(checkbox).to.exist;

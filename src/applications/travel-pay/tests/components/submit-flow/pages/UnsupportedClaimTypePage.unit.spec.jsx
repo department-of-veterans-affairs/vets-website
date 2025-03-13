@@ -5,6 +5,7 @@ import { fireEvent, render } from '@testing-library/react';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import UnsupportedClaimTypePage from '../../../../components/submit-flow/pages/UnsupportedClaimTypePage';
+import SmocContextProvider from '../../../../context/SmocContext';
 
 describe('Unsupported claim type page', () => {
   const setUnsupportedClaimSpy = sinon.spy();
@@ -12,12 +13,16 @@ describe('Unsupported claim type page', () => {
 
   const props = {
     pageIndex: 2,
-    setIsUnsupportedClaimType: () => setUnsupportedClaimSpy(),
-    setPageIndex: () => setPageIndexSpy(),
+    setIsUnsupportedClaimType: setUnsupportedClaimSpy,
+    setPageIndex: setPageIndexSpy,
   };
 
   it('should render with back button', () => {
-    const screen = render(<UnsupportedClaimTypePage {...props} />);
+    const screen = render(
+      <SmocContextProvider value={props}>
+        <UnsupportedClaimTypePage />
+      </SmocContextProvider>,
+    );
 
     expect(
       screen.getByText(`We can’t file this claim in this tool at this time`),
