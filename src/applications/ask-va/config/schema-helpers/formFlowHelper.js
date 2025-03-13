@@ -584,6 +584,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'stateOfFacility',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
