@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { mentalHealthSupportAlert } from '../content/form0781';
+import { checkValidations } from '../../../appeals/shared/validations';
+import { scrollToFirstError } from 'platform/utilities/ui';
 
-const BehaviorIntroCombatPage = ({ goBack, data, setFormData }) => {
+const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   // TODO: MOVE TO CONTENT FILE
   const combatIntroTitle =
     'Do you want to answer the optional questions about behavorial changes?';
@@ -15,10 +17,33 @@ const BehaviorIntroCombatPage = ({ goBack, data, setFormData }) => {
   const answerCombatQuestionsChoice = 'Yes, I want to answer these questions.';
   const optOutOfCombatQuestionsChoice = 'No, I want to skip these questions.';
 
+  const missingSelectionErrorMessage =
+    'A response is needed for this question. If you don’t wish to answer optional questions about behavioral changes, you may select ‘no’ and continue.';
+
+  const selectionField = 'view:answerCombatBehaviorQuestions';
+
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
     null,
   );
+
+  const [hasError, setHasError] = useState(null);
+
+  const missingSelection = (error, _fieldData, formData) => {
+    if (!formData?.[selectionField]) {
+      error.addError?.(missingSelectionErrorMessage);
+    }
+  };
+
+  // NOTE: this and checkValidaitons is lifted from appeals
+  const checkErrors = (formData = data) => {
+    // We will add a second validation function here
+    const error = checkValidations([missingSelection], optIn, formData);
+    const result = error?.[0] || null;
+
+    setHasError(result);
+    return result;
+  };
 
   const handlers = {
     onSelection: event => {
@@ -32,8 +57,7 @@ const BehaviorIntroCombatPage = ({ goBack, data, setFormData }) => {
         };
         setFormData(formData);
         // ?????? setFormData lags a little, so check updated data
-        // checkErrors(formData);
-
+        checkErrors(formData);
         // Think this is DOMO stuff:
         // recordEvent({
         //   event: 'int-radio-button-option-click',
@@ -41,6 +65,15 @@ const BehaviorIntroCombatPage = ({ goBack, data, setFormData }) => {
         //   'radio-button-optionLabel': content[`${value}Label`],
         //   'radio-button-required': false,
         // });
+      }
+    },
+    onSubmit: event => {
+      event.preventDefault();
+
+      if (checkErrors()) {
+        scrollToFirstError({ focusOnAlertRole: true });
+      } else if (optIn) {
+        goForward(data);
       }
     },
   };
@@ -58,13 +91,14 @@ const BehaviorIntroCombatPage = ({ goBack, data, setFormData }) => {
 
       <p>{combatIntroDescription}</p>
 
-      <form>
+      {/* Do we need to register the handler in both the onSubmit and the go forward? */}
+      <form onSubmit={handlers.onSubmit}>
         <div />
         <VaRadio
           class="vads-u-margin-y--2"
           label={combatIntroTitle}
           label-header-level={4}
-          // error={}
+          error={hasError}
           onVaValueChange={handlers.onSelection}
           required
           // Think we need this but not sure why:
@@ -91,7 +125,7 @@ const BehaviorIntroCombatPage = ({ goBack, data, setFormData }) => {
         </VaRadio>
         {/* This works but this cannot be kosher (function call): */}
         <>{mentalHealthSupportAlert()}</>
-        <FormNavButtons goBack={goBack} goForward={() => {}} />
+        <FormNavButtons goBack={goBack} goForward={handlers.onSubmit} />
       </form>
     </div>
   );
