@@ -28,12 +28,8 @@ export const createCauseFollowUpTitles = formData => {
   return causeTitle[formData.cause];
 };
 
-// TODO: [Apply fix for index is null in hideIf and required for multi-page list and loop edit in new-conditions application](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/721)
-// Remove this conditional once the fix is applied
-const createCauseFollowUpConditional = (formData, index, causeType) => {
-  const cause = formData?.[arrayBuilderOptions.arrayPath]
-    ? formData?.[arrayBuilderOptions.arrayPath][index]?.cause
-    : formData.cause;
+const createCauseFollowUpConditional = (index, fullData, causeType) => {
+  const cause = fullData?.[arrayBuilderOptions.arrayPath][index]?.cause;
   return cause !== causeType;
 };
 
@@ -64,64 +60,72 @@ const causeFollowUpPage = {
     primaryDescription: textareaUI({
       title:
         'Briefly describe the injury or exposure that caused your condition. For example, I operated loud machinery while in the service, and this caused me to lose my hearing.',
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'NEW'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'NEW'),
+      hideIf: (_formData, index, fullData) =>
+        createCauseFollowUpConditional(index, fullData, 'NEW'),
+      required: (_formData, index, fullData) =>
+        !createCauseFollowUpConditional(index, fullData, 'NEW'),
       charcount: true,
     }),
     causedByCondition: selectUI({
       title:
         "Choose the service-connected disability that caused the new condition that you're claiming here.",
       updateSchema: (_formData, _schema, _uiSchema, index, _path, fullData) => {
+        // console.log('fullData in updateSchema', fullData);
+        // console.log('index in updateSchema', index);
         return selectSchema(getOtherConditions(index, fullData));
       },
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'SECONDARY'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'SECONDARY'),
+      hideIf: (_formData, index, fullData) => {
+        // console.log('fullData in hideIf', fullData);
+        // console.log('index in hideIf', index);
+        return createCauseFollowUpConditional(index, fullData, 'SECONDARY');
+      },
+      required: (_formData, index, fullData) => {
+        // console.log('fullData in required', fullData);
+        // console.log('index in required', index);
+        return !createCauseFollowUpConditional(index, fullData, 'SECONDARY');
+      },
     }),
     causedByConditionDescription: textareaUI({
       title: 'Briefly describe how this disability caused your new condition.',
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'SECONDARY'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'SECONDARY'),
+      hideIf: (_formData, index, fullData) =>
+        createCauseFollowUpConditional(index, fullData, 'SECONDARY'),
+      required: (_formData, index, fullData) =>
+        !createCauseFollowUpConditional(index, fullData, 'SECONDARY'),
       charcount: true,
     }),
     worsenedDescription: textUI({
       title:
         'Briefly describe the injury or exposure during your military service that caused your existing disability to get worse.',
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'WORSENED'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'WORSENED'),
+      hideIf: (_formData, index, fullData) =>
+        createCauseFollowUpConditional(index, fullData, 'WORSENED'),
+      required: (_formData, index, fullData) =>
+        !createCauseFollowUpConditional(index, fullData, 'WORSENED'),
       charcount: true,
     }),
     worsenedEffects: textareaUI({
       title:
         'Tell us how the disability affected you before your service, and how it affects you now after your service.',
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'WORSENED'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'WORSENED'),
+      hideIf: (_formData, index, fullData) =>
+        createCauseFollowUpConditional(index, fullData, 'WORSENED'),
+      required: (_formData, index, fullData) =>
+        !createCauseFollowUpConditional(index, fullData, 'WORSENED'),
       charcount: true,
     }),
     vaMistreatmentDescription: textareaUI({
       title:
         'Briefly describe the injury or event while you were under VA care that caused your disability.',
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'VA'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'VA'),
+      hideIf: (_formData, index, fullData) =>
+        createCauseFollowUpConditional(index, fullData, 'VA'),
+      required: (_formData, index, fullData) =>
+        !createCauseFollowUpConditional(index, fullData, 'VA'),
       charcount: true,
     }),
     vaMistreatmentLocation: textUI({
       title: 'Tell us where this happened.',
-      hideIf: (formData, index) =>
-        createCauseFollowUpConditional(formData, index, 'VA'),
-      required: (formData, index) =>
-        !createCauseFollowUpConditional(formData, index, 'VA'),
+      hideIf: (_formData, index, fullData) =>
+        createCauseFollowUpConditional(index, fullData, 'VA'),
+      required: (_formData, index, fullData) =>
+        !createCauseFollowUpConditional(index, fullData, 'VA'),
       charcount: true,
     }),
   },
