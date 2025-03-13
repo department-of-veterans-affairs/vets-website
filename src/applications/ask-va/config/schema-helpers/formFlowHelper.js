@@ -88,7 +88,7 @@ export const flowPaths = {
   general: 'general-question',
 };
 
-const ch3Pages = {
+export const ch3Pages = {
   yourRole: {
     editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_ROLE.TITLE,
