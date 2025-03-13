@@ -8,8 +8,10 @@ import * as recordEventModule from 'platform/monitoring/record-event';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
   mockFetchFacilitiesResponse,
-  mockFacilitiesResponse,
-} from '../../mocks/responses';
+  mockVetsApiFacilitiesResponse,
+  mockFetchFacilitiesReponseWithoutAddress,
+  mockVetsApiFacilitiesWithoutAddressResponse,
+} from '../../mocks/fetchFacility';
 import content from '../../../locales/en/content.json';
 
 describe('CG fetchFacilities action', () => {
@@ -65,6 +67,10 @@ describe('CG fetchFacilities action', () => {
 
       await waitFor(() => {
         expect(apiRequestStub.callCount).to.equal(1);
+        expect(sentrySpy.called).to.be.true;
+        expect(sentrySpy.firstCall.args[0]).to.equal(
+          'FetchFacilities facilityIds',
+        );
       });
     });
 
@@ -119,9 +125,19 @@ describe('CG fetchFacilities action', () => {
     });
 
     it('formats facility addresses', async () => {
-      apiRequestStub.resolves(mockFacilitiesResponse);
+      apiRequestStub.resolves(mockVetsApiFacilitiesResponse);
       const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
+    });
+
+    it('formats facility without address', async () => {
+      apiRequestStub.resolves(mockVetsApiFacilitiesWithoutAddressResponse);
+      const response = await fetchFacilities({ long, lat, perPage, radius });
+      expect(response).to.deep.eq(mockFetchFacilitiesReponseWithoutAddress);
 
       await waitFor(() => {
         expect(apiRequestStub.callCount).to.equal(1);
@@ -155,6 +171,9 @@ describe('CG fetchFacilities action', () => {
 
       expect(sentrySpy.called).to.be.true;
       expect(sentrySpy.firstCall.args[0]).to.equal(
+        'FetchFacilities facilityIds',
+      );
+      expect(sentrySpy.secondCall.args[0]).to.equal(
         'Error fetching Lighthouse VA facilities',
       );
 
@@ -178,9 +197,12 @@ describe('CG fetchFacilities action', () => {
 
       expect(sentrySpy.called).to.be.true;
       expect(sentrySpy.firstCall.args[0]).to.equal(
-        'Error fetching Lighthouse VA facilities',
+        'FetchFacilities facilityIds',
       );
       expect(sentrySpy.secondCall.args[0]).to.equal(
+        'Error fetching Lighthouse VA facilities',
+      );
+      expect(sentrySpy.thirdCall.args[0]).to.equal(
         'Error in fetchFacilities. Clearing csrfToken in localStorage.',
       );
       expect(localStorage.getItem('csrfToken')).to.eql('');

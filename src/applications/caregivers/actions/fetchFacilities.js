@@ -4,7 +4,7 @@ import { apiRequest } from 'platform/utilities/api';
 import { ensureValidCSRFToken } from './ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
-const formatAddress = address => {
+const formatAddress = (address = {}) => {
   const joinAddressParts = (...parts) => {
     const [city, state, zip] = parts;
     const stateZip = state && zip ? `${state} ${zip}` : state || zip;
@@ -12,7 +12,7 @@ const formatAddress = address => {
   };
 
   return {
-    address1: address.address1,
+    address1: address?.address1 || '',
     address2: [address?.address2, address?.address3].filter(Boolean).join(', '),
     address3: joinAddressParts(address?.city, address?.state, address?.zip),
   };
@@ -58,6 +58,12 @@ export const fetchFacilities = async ({
     headers: { 'Content-Type': 'application/json' },
   });
 
+  Sentry.withScope(scope => {
+    scope.setLevel(Sentry.Severity.Log);
+    scope.setExtra('facilityId(s)', formatFacilityIds(facilityIds));
+    Sentry.captureMessage('FetchFacilities facilityIds');
+  });
+
   return fetchRequest
     .then(response => {
       if (!response?.data?.length) {
@@ -74,7 +80,7 @@ export const fetchFacilities = async ({
           ...attributes,
           id: facility.id,
           address: {
-            physical: formatAddress(attributes?.address.physical),
+            physical: formatAddress(attributes?.address?.physical ?? {}),
           },
         };
       });

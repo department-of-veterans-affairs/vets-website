@@ -1,97 +1,116 @@
 import { expect } from 'chai';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
-
+import sinon from 'sinon';
 import {
-  aboutYourselfGeneralSchema,
   aboutYourselfGeneralUISchema,
-  personalInformationAboutYourselfUiSchemas,
   personalInformationFormSchemas,
   personalInformationUiSchemas,
+  validateSSandSNGroup,
 } from '../../../config/schema-helpers/personalInformationHelper';
 
-describe('Personal Information Form Schemas', () => {
-  describe('personalInformationFormSchemas', () => {
-    it('should have correct schema for first name', () => {
-      const schema = personalInformationFormSchemas.first;
-      expect(schema).to.have.property('type', 'string');
-      expect(schema).to.have.property('pattern', '^[A-Za-z]+$');
-      expect(schema).to.have.property('maxLength', 25);
+describe('personalInformationHelper', () => {
+  describe('validateSSandSNGroup', () => {
+    let errors;
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.createSandbox();
+      errors = {
+        addError: sandbox.spy(),
+      };
     });
 
-    it('should have correct schema for suffix with select schema', () => {
-      const schema = personalInformationFormSchemas.suffix;
-      expect(schema).to.have.property('type', 'string');
-      expect(schema.enum).to.include.members(['Jr.', 'Sr.', 'II', 'III', 'IV']);
+    afterEach(() => {
+      sandbox.restore();
     });
 
-    it('should have correct schema for social or service number group', () => {
-      const schema = personalInformationFormSchemas.socialOrServiceNum;
-      expect(schema).to.have.property('type', 'object');
-      expect(schema.properties).to.have.property('ssn');
-      expect(schema.properties).to.have.property('serviceNumber');
+    it('should not add error when SSN is provided', () => {
+      const values = { ssn: '123456789' };
+      const formData = { whoIsYourQuestionAbout: 'Myself' };
+      validateSSandSNGroup(errors, values, formData);
+      expect(errors.addError.called).to.be.false;
     });
 
-    describe('personalInformationFormSchemas', () => {
-      it('should have correct schema for date of birth', () => {
-        const schema = personalInformationFormSchemas.dateOfBirth;
-        expect(schema).to.have.property('type', 'string');
-      });
-    });
-  });
-
-  describe('aboutYourselfGeneralSchema', () => {
-    it('should have correct schema for general information fields', () => {
-      const schema = aboutYourselfGeneralSchema.first;
-      expect(schema).to.have.property('type', 'string');
-      expect(schema).to.have.property('pattern', '^[A-Za-z]+$');
-      expect(schema).to.have.property('maxLength', 25);
-    });
-  });
-});
-
-describe('Personal Information UI Schemas', () => {
-  describe('personalInformationUiSchemas', () => {
-    it('should render VaTextInputField for first name', () => {
-      const uiSchema = personalInformationUiSchemas.first;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaTextInputField);
-      expect(uiSchema['ui:title']).to.equal('First name');
+    it('should not add error when service number is provided', () => {
+      const values = { serviceNumber: '12345678' };
+      const formData = { whoIsYourQuestionAbout: 'Myself' };
+      validateSSandSNGroup(errors, values, formData);
+      expect(errors.addError.called).to.be.false;
     });
 
-    it('should render VaSelectField for suffix', () => {
-      const uiSchema = personalInformationUiSchemas.suffix;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaSelectField);
-      expect(uiSchema['ui:options'].widgetClassNames).to.equal(
-        'form-select-medium',
-      );
+    it('should add error when neither SSN nor service number is provided', () => {
+      const values = {};
+      const formData = { whoIsYourQuestionAbout: 'Myself' };
+      validateSSandSNGroup(errors, values, formData);
+      expect(
+        errors.addError.calledWith(
+          'Please enter your Social Security number or Service number',
+        ),
+      ).to.be.true;
     });
 
-    it('should have ssn UI with validation for socialOrServiceNum', () => {
-      const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-      expect(uiSchema['ui:title'].props.children[0].type).to.equal('p');
-      expect(uiSchema['ui:validations'][0]).to.be.a('function');
-    });
-  });
-
-  describe('personalInformationAboutYourselfUiSchemas', () => {
-    it('should render VaTextInputField for first name with uswds option', () => {
-      const uiSchema = personalInformationAboutYourselfUiSchemas.first;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaTextInputField);
-      expect(uiSchema['ui:options'].uswds).to.be.true;
+    it('should not add error for general questions', () => {
+      const values = {};
+      const formData = { whoIsYourQuestionAbout: "It's a general question" };
+      validateSSandSNGroup(errors, values, formData);
+      expect(errors.addError.called).to.be.false;
     });
 
-    it('should have correct hideIf logic for socialOrServiceNum', () => {
-      const uiSchema =
-        personalInformationAboutYourselfUiSchemas.socialOrServiceNum;
-      expect(uiSchema['ui:options'].hideIf).to.be.a('function');
+    it('should not add error for family members', () => {
+      const values = {};
+      const formData = {
+        whoIsYourQuestionAbout: 'Someone else',
+        relationshipToVeteran: "I'm a family member of a Veteran",
+      };
+      validateSSandSNGroup(errors, values, formData);
+      expect(errors.addError.called).to.be.false;
+    });
+
+    it('should not add error for work-related connections', () => {
+      const values = {};
+      const formData = {
+        whoIsYourQuestionAbout: 'Someone else',
+        relationshipToVeteran:
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+      };
+      validateSSandSNGroup(errors, values, formData);
+      expect(errors.addError.called).to.be.false;
     });
   });
 
-  describe('aboutYourselfGeneralUISchema', () => {
-    it('should render VaTextInputField for first name with uswds option', () => {
-      const uiSchema = aboutYourselfGeneralUISchema.first;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaTextInputField);
-      expect(uiSchema['ui:options'].uswds).to.be.true;
+  describe('schema validations', () => {
+    it('should validate first name pattern', () => {
+      const { first } = personalInformationFormSchemas;
+      expect(first.pattern).to.equal('^[A-Za-z]+$');
+      expect(first.minLength).to.equal(1);
+      expect(first.maxLength).to.equal(25);
+    });
+
+    it('should validate branch of service schema', () => {
+      const { branchOfService } = personalInformationFormSchemas;
+      expect(branchOfService.type).to.equal('string');
+    });
+
+    it('should validate social or service number schema', () => {
+      const { socialOrServiceNum } = personalInformationFormSchemas;
+      expect(socialOrServiceNum.type).to.equal('object');
+      expect(socialOrServiceNum.properties).to.have.keys([
+        'ssn',
+        'serviceNumber',
+      ]);
+    });
+
+    it('should validate UI schema required fields', () => {
+      const { first, last } = personalInformationUiSchemas;
+      expect(first['ui:required']()).to.be.true;
+      expect(last['ui:required']()).to.be.true;
+    });
+
+    it('should validate about yourself general UI schema', () => {
+      const { first, middle, last, suffix } = aboutYourselfGeneralUISchema;
+      expect(first['ui:options'].uswds).to.be.true;
+      expect(middle['ui:options'].uswds).to.be.true;
+      expect(last['ui:options'].uswds).to.be.true;
+      expect(suffix['ui:options'].uswds).to.be.true;
     });
   });
 });

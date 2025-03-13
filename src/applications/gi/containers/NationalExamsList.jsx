@@ -80,9 +80,9 @@ const NationalExamsList = () => {
         exams (admissions tests required for college or graduate school and
         tests for college credit)—even if you’re already receiving other
         education benefits. We’ll pay you back for the cost to register and any
-        administrative fees. We’ll prorate the entitlement charges based on the
-        actual amount of the fee charged for the test. The amount covered by VA
-        may differ from the actual cost of the exam.
+        administrative fees. We may adjust the entitlement charges according to
+        the actual payment. The reimbursement covered by VA may differ from the
+        actual cost of the exam.
       </p>
       <va-link
         href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/"
@@ -139,7 +139,7 @@ const NationalExamsList = () => {
           tabIndex="-1"
           className="vads-u-margin-top--3 vads-u-margin-bottom--2"
         >
-          {`Showing ${startIndex}-${endIndex} of ${
+          {`Showing ${startIndex} - ${endIndex} of ${
             nationalExams.length
           } national exams`}
         </p>

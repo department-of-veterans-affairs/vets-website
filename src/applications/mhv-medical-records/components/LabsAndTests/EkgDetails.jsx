@@ -16,6 +16,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  sendDataDogAction,
 } from '../../util/helpers';
 
 import { pageTitles } from '../../util/constants';
@@ -129,7 +130,14 @@ const EkgDetails = props => {
           </LabelValue>
 
           <p className="vads-u-margin-top--3 no-print">
-            <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
+            <a
+              href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/"
+              onClick={() => {
+                sendDataDogAction(
+                  'Learn how to get records from your VA health facility',
+                );
+              }}
+            >
               Learn how to get records from your VA health facility
             </a>
           </p>
