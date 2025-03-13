@@ -80,6 +80,9 @@
       "socialEconomic": true,
       "unlisted": true
     },
+    "treatmentNoneCheckbox" : {
+      "none": false
+    },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,
       "vaCenters": true

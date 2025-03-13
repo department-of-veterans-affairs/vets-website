@@ -391,7 +391,7 @@
       "vaPaid": true,
       "dod": true
     },
-    "view:treatmentNoneCheckbox": {
+    "treatmentNoneCheckbox": {
       "none": false
     },
     "optionIndicator": "yes",

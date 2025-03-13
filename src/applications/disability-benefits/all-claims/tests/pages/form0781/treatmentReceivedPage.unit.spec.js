@@ -167,7 +167,7 @@ describe('validating selections', () => {
           nonVa: false,
           vaCenters: true,
         },
-        'view:treatmentNoneCheckbox': { none: false },
+        treatmentNoneCheckbox: { none: false },
       };
 
       validateProviders(errors, formData);
