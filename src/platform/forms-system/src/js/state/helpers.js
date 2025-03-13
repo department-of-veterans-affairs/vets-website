@@ -104,12 +104,12 @@ export function updateRequiredFields(
   return schema;
 }
 
-export function isContentExpanded(data, matcher, formData) {
+export function isContentExpanded(data, matcher, formData, index, fullData) {
   if (typeof matcher === 'undefined') {
     return !!data;
   }
   if (typeof matcher === 'function') {
-    return matcher(data, formData);
+    return matcher(data, formData, index, fullData);
   }
 
   return data === matcher;
@@ -130,6 +130,7 @@ export function setHiddenFields(
   formData,
   path = [],
   fullData,
+  index,
 ) {
   if (!uiSchema) {
     return schema;
@@ -141,10 +142,13 @@ export function setHiddenFields(
 
   let updatedSchema = schema;
   const hideIf = get(['ui:options', 'hideIf'], uiSchema);
-  const index = path.reduce(
-    (current, next) => (typeof next === 'number' ? next : current),
-    null,
-  );
+  if (index == null) {
+    // eslint-disable-next-line no-param-reassign
+    index = path.reduce(
+      (current, next) => (typeof next === 'number' ? next : current),
+      null,
+    );
+  }
 
   if (hideIf && hideIf(formData, index, fullData)) {
     if (!updatedSchema['ui:hidden']) {
@@ -159,16 +163,17 @@ export function setHiddenFields(
     ['ui:options', 'expandUnderCondition'],
     uiSchema,
   );
-  if (
-    expandUnder &&
-    !isContentExpanded(
+  if (expandUnder) {
+    const isExpanded = isContentExpanded(
       containingObject[expandUnder],
       expandUnderCondition,
       formData,
-    )
-  ) {
-    if (!updatedSchema['ui:collapsed']) {
-      updatedSchema = set('ui:collapsed', true, updatedSchema);
+      index,
+      fullData,
+    );
+    const isCollapsed = !isExpanded;
+    if (updatedSchema['ui:collapsed'] !== isCollapsed) {
+      updatedSchema = set('ui:collapsed', isCollapsed, updatedSchema);
     }
   } else if (updatedSchema['ui:collapsed']) {
     updatedSchema = unset('ui:collapsed', updatedSchema);
@@ -183,6 +188,7 @@ export function setHiddenFields(
           formData,
           path.concat(next),
           fullData,
+          index,
         );
 
         if (newSchema !== updatedSchema.properties[next]) {
@@ -209,6 +215,7 @@ export function setHiddenFields(
         formData,
         path.concat(idx),
         fullData,
+        idx,
       ),
     );
 
@@ -660,7 +667,14 @@ export function updateSchemasAndData(
   );
 
   // Update the schema with any fields that are now hidden because of the data change
-  newSchema = setHiddenFields(newSchema, uiSchema, formData, [], fullData);
+  newSchema = setHiddenFields(
+    newSchema,
+    uiSchema,
+    formData,
+    [], // path
+    fullData,
+    index,
+  );
 
   // Update the uiSchema and  schema with any general updates based on the new data
   const newUiSchema = updateUiSchema(
@@ -704,11 +718,20 @@ export function updateSchemasAndData(
   };
 }
 
+const pageWithCurrentIndex = (page, activeContext) => {
+  if (
+    activeContext &&
+    page.arrayPath &&
+    page.index === undefined &&
+    page.arrayPath === activeContext.arrayPath
+  ) {
+    return { ...page, index: activeContext.index };
+  }
+  return page;
+};
+
 export function recalculateSchemaAndData(reduxFormState) {
-  // eslint-disable-next-line no-unused-vars
   const activeContext = getActiveFormPageContext();
-  // TODO: upcoming work - Use activeContext to correctly do recalculations
-  // for isActivePage, updateUiSchema, first time rendering, etc.
 
   return Object.keys(reduxFormState.pages).reduce((state, pageKey) => {
     // on each data change, we need to do the following steps
@@ -727,13 +750,15 @@ export function recalculateSchemaAndData(reduxFormState) {
 
     let newState = state;
 
+    const pageWithIndex = pageWithCurrentIndex(page, activeContext);
+
     /**
      * If the page is inactive, in the case of a feature toggle setting or data conditional,
      * an issue in the schema recalculation is presented in the next conditional statements
      * if two pages (one active, one inactive) use the same data keys in their respective
      * schemas. Thus we should not need to recalculate inactive pages any further.
      */
-    if (!isActivePage(page, formData)) {
+    if (!isActivePage(pageWithIndex, formData)) {
       return newState;
     }
 
