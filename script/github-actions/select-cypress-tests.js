@@ -290,9 +290,10 @@ function main() {
       )
     : [];
 
+  console.log(changedAppsForStressTest);
   const existingTestsToStressTest = allAllowListSpecs.filter(specPath =>
     changedAppsForStressTest.some(filePath =>
-      specPath.includes(`/${filePath}/`),
+      specPath.includes(`${filePath}/`),
     ),
   );
 
