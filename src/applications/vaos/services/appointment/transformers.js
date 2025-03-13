@@ -73,9 +73,9 @@ export function isPastAppointment(appt) {
  * @param {*} appt VAOS Service appointment object
  * @param {*} isRequest is appointment a request
  */
-export function isFutureAppointment(appt, isRequest, useFeSourceOfTruth) {
+export function isFutureAppointment(appt, isRequest) {
   const apptDateTime = moment(appt.start);
-  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
+  const isPast = isPastAppointment(appt);
   return (
     !isRequest &&
     !isPast &&
