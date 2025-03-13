@@ -280,6 +280,16 @@ export const Breadcrumbs = {
     label: 'Edit draft',
     isRouterLink: true,
   },
+  CONTACT_LIST: {
+    href: Paths.CONTACT_LIST,
+    label: 'Contact list',
+    isRouterLink: true,
+  },
+  REPLY: {
+    href: Paths.REPLY,
+    label: 'Reply',
+    isRouterLink: true,
+  },
 };
 
 export const InnerNavigationPaths = [
