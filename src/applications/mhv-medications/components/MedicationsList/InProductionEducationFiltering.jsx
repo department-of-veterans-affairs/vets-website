@@ -83,20 +83,6 @@ const InProductionEducationFiltering = () => {
           >
             Filter the medications list to easily find what you are looking for.
           </p>
-          <VaButton
-            className="vads-u-margin-top--3"
-            secondary
-            text="Stop showing this hint"
-            data-testid="rx-ipe-filtering-stop-showing-this-hint"
-            onClick={handleStopShowing}
-            aria-describedby="rx-ipe-filtering-stop-showing-this-hint-info"
-          />
-          <span
-            id="rx-ipe-filtering-stop-showing-this-hint-info"
-            className="sr-only"
-          >
-            This hint for filtering will not appear anymore
-          </span>
           <button
             aria-label="Dismiss filtering hint"
             id="rx-ipe-filtering-close"
@@ -112,6 +98,20 @@ const InProductionEducationFiltering = () => {
               role="img"
             />
           </button>
+          <VaButton
+            className="vads-u-margin-top--3"
+            secondary
+            text="Stop showing this hint"
+            data-testid="rx-ipe-filtering-stop-showing-this-hint"
+            onClick={handleStopShowing}
+            aria-describedby="rx-ipe-filtering-stop-showing-this-hint-info"
+          />
+          <span
+            id="rx-ipe-filtering-stop-showing-this-hint-info"
+            className="sr-only"
+          >
+            This hint for filtering will not appear anymore
+          </span>
         </div>
       )}
     </>

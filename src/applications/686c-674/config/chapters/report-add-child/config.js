@@ -1,5 +1,3 @@
-/** @type {ArrayBuilderOptions} */
-
 function isFieldMissing(value) {
   return value === undefined || value === null || value === '';
 }
@@ -63,7 +61,33 @@ function isItemIncomplete(item) {
     isChildDisabilityInfoIncomplete(item) ||
     typeof item?.doesChildLiveWithYou === 'undefined' ||
     typeof item?.hasChildEverBeenMarried === 'undefined' ||
-    isMarriageInfoIncomplete(item)
+    isMarriageInfoIncomplete(item) ||
+    // relationshipPartTwo (Only if child is NOT biological)
+    (item?.isBiologicalChild === false &&
+      isObjectEmpty(item?.relationshipToChild)) ||
+    // stepchild Page
+    (item?.relationshipToChild?.stepchild &&
+      (typeof item?.isBiologicalChildOfSpouse === 'undefined' ||
+        isFieldMissing(item?.dateEnteredHousehold) ||
+        isFieldMissing(item?.biologicalParentName?.first) ||
+        isFieldMissing(item?.biologicalParentName?.last) ||
+        isFieldMissing(item?.biologicalParentSsn) ||
+        isFieldMissing(item?.biologicalParentDob))) ||
+    // disabilityPartTwo (If child has a disability)
+    (item?.doesChildHaveDisability === true &&
+      typeof item?.doesChildHavePermanentDisability === 'undefined') ||
+    // marriageEndDetailsPartOne (If child has ever been married)
+    (item?.hasChildEverBeenMarried &&
+      (isFieldMissing(item?.marriageEndDate) ||
+        isFieldMissing(item?.marriageEndReason))) ||
+    // marriageEndDetailsPartTwo (If marriage ended for 'other' reason)
+    (item?.marriageEndReason === 'other' &&
+      isFieldMissing(item?.marriageEndDescription)) ||
+    // childAddressPartOne & childAddressPartTwo (If child does NOT live with user)
+    (item?.doesChildLiveWithYou === false &&
+      (isObjectEmpty(item?.address) ||
+        isFieldMissing(item?.livingWith?.first) ||
+        isFieldMissing(item?.livingWith?.last)))
   );
 }
 
@@ -73,7 +97,7 @@ export const arrayBuilderOptions = {
   nounPlural: 'children',
   required: true,
   isItemIncomplete,
-  maxItems: 10,
+  maxItems: 20,
   text: {
     getItemName: () => {
       return 'Child';

@@ -258,10 +258,11 @@ const responses = {
 
     if (sort_by === 'recentLocations') {
       return res.json({
-        data: recentLocations.data.filter(
+        data: recentLocations?.data.filter(
           facility =>
-            ids.includes(facility.id) ||
-            (children === 'true' && ids.some(id => facility.id.startsWith(id))),
+            ids.includes(facility?.id) ||
+            (children === 'true' &&
+              ids?.some(id => facility?.id.startsWith(id))),
         ),
       });
     }
