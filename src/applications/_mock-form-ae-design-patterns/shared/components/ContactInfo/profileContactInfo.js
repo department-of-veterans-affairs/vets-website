@@ -113,6 +113,7 @@ const profileContactInfo = ({
           content,
           contactPath,
           editContactInfoHeadingLevel,
+          prefillPatternEnabled,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page

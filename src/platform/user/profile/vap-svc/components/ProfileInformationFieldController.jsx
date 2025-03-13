@@ -436,13 +436,20 @@ class ProfileInformationFieldController extends React.Component {
           forceEditView={forceEditView}
           cancelButtonText={this.props?.cancelButtonText}
           saveButtonText={this.props?.saveButtonText}
+          showMailingAddressUpdateLocationChoice={
+            this.props?.prefillPatternEnabled &&
+            this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
+          }
         />
       );
     }
 
     if (showValidationView) {
+      // allow custom address validation view to be passed in as a prop
+      const AddressValidationContent =
+        this.props?.AddressValidationView || AddressValidationView;
       content = (
-        <AddressValidationView
+        <AddressValidationContent
           refreshTransaction={this.refreshTransactionNotProps}
           transaction={transaction}
           transactionRequest={transactionRequest}
@@ -532,6 +539,11 @@ ProfileInformationFieldController.propTypes = {
   showEditView: PropTypes.bool.isRequired,
   showValidationView: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
+  AddressValidationView: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   CustomConfirmCancelModal: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func,
@@ -545,6 +557,7 @@ ProfileInformationFieldController.propTypes = {
   editViewData: PropTypes.object,
   forceEditView: PropTypes.bool,
   isDeleteDisabled: PropTypes.bool,
+  prefillPatternEnabled: PropTypes.bool,
   refreshTransaction: PropTypes.func,
   refreshTransactionRequest: PropTypes.func,
   saveButtonText: PropTypes.string,
@@ -590,12 +603,12 @@ export const mapStateToProps = (state, ownProps) => {
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
     blockEditMode: !!(activeEditView && hasUnsavedEdits),
     /*
-    This ternary is to deal with an edge case: if the user is currently viewing
-    the address validation view we need to handle things differently or text in
-    the modal would be inaccurate. This is an unfortunate hack to get around an
-    existing hack we've been using to determine if we need to show the address
-    validation view or not.
-    */
+      This ternary is to deal with an edge case: if the user is currently viewing
+      the address validation view we need to handle things differently or text in
+      the modal would be inaccurate. This is an unfortunate hack to get around an
+      existing hack we've been using to determine if we need to show the address
+      validation view or not.
+      */
     activeEditView:
       activeEditView === ACTIVE_EDIT_VIEWS.ADDRESS_VALIDATION
         ? addressValidationType

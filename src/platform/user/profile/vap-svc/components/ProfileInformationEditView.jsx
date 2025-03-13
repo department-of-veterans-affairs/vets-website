@@ -9,6 +9,10 @@ import { isEmptyAddress } from 'platform/forms/address/helpers';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
@@ -54,9 +58,35 @@ import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
+const MailingAddressUpdateLocationDescription = () => (
+  <p>
+    If you select "yes", this information will be updated across multiple VA.gov
+    benefits and services. Read more about{' '}
+    <va-link
+      href="/change-address/"
+      text="changing your address in your VA.gov profile"
+      external
+    />
+  </p>
+);
+
+const mailingAddressUpdateLocationUiSchema = radioUI({
+  title: 'Do you also want to update this information in your VA.gov profile?',
+  description: MailingAddressUpdateLocationDescription,
+  labels: {
+    yes: 'Yes, also update my profile',
+    no: 'No, only update this form',
+  },
+});
+
+const mailingAddressUpdateLocationSchema = radioSchema(['yes', 'no']);
+
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
-    const { getInitialFormValues, showUpdateRadios } = this.props;
+    const {
+      getInitialFormValues,
+      showMailingAddressUpdateLocationChoice,
+    } = this.props;
 
     const initialFormValues = getInitialFormValues();
 
@@ -64,21 +94,21 @@ export class ProfileInformationEditView extends Component {
       ...this.props.formSchema,
       properties: {
         ...this.props.formSchema.properties,
-        updateLocationChoice: { type: 'string', enum: ['yes', 'no'] },
+        updateLocationChoice: mailingAddressUpdateLocationSchema,
       },
+      required: [...this.props.formSchema.required, 'updateLocationChoice'],
     };
     const uiSchema = {
       ...this.props.uiSchema,
-      properties: {
-        ...this.props.uiSchema.properties,
-        updateLocationChoice: { widget: 'radio' },
-      },
+      updateLocationChoice: mailingAddressUpdateLocationUiSchema,
     };
 
     this.onChangeFormDataAndSchemas(
       initialFormValues,
-      showUpdateRadios ? formSchema : this.props.formSchema,
-      showUpdateRadios ? uiSchema : this.props.uiSchema,
+      showMailingAddressUpdateLocationChoice
+        ? formSchema
+        : this.props.formSchema,
+      showMailingAddressUpdateLocationChoice ? uiSchema : this.props.uiSchema,
     );
     this.focusOnFirstFormElement();
   }
@@ -418,6 +448,7 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
+  showMailingAddressUpdateLocationChoice: PropTypes.bool,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
