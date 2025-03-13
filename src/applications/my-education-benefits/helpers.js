@@ -390,6 +390,7 @@ export const formPages = {
   contactInformation: {
     contactInformation: 'contactInformation',
     mailingAddress: 'mailingAddress',
+    newMailingAddress: 'newMailingAddress',
     mailingAddressMilitaryBaseUpdates: 'mailingAddressMilitaryBaseUpdates',
     preferredContactMethod: 'preferredContactMethod',
     newPreferredContactMethod: 'newPreferredContactMethod',

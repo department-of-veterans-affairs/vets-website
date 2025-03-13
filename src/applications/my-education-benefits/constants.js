@@ -46,3 +46,8 @@ export const formFields = {
   viewStopWarning: 'view:stopWarning',
   viewUserFullName: 'view:userFullName',
 };
+
+// Feature flags for my-education-benefits
+export const featureFlags = {
+  addressValidation: 'mebAddressValidation',
+};
