@@ -75,10 +75,9 @@ export function isPastAppointment(appt) {
  */
 export function isFutureAppointment(appt, isRequest) {
   const apptDateTime = moment(appt.start);
-  const isPast = isPastAppointment(appt);
   return (
     !isRequest &&
-    !isPast &&
+    !isPastAppointment(appt) &&
     apptDateTime.isValid() &&
     apptDateTime.isAfter(moment().startOf('day'))
   );
@@ -114,7 +113,8 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
-  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
+  const isPast = appt.past;
+  // const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
