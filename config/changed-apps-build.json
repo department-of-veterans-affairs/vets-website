@@ -54,7 +54,7 @@
     },
     {
       "rootFolder": "combined-debt-portal",
-      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP> <@U02HWQYB8G1>"
     },
     {
       "rootFolder": "coronavirus-screener",
@@ -115,7 +115,7 @@
     },
     {
       "rootFolder": "financial-status-report",
-      "slackGroup": "<@U022GNYPJ1L>"
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP> <@U02HWQYB8G1>"
     },
     {
       "rootFolder": "fry-dea",
