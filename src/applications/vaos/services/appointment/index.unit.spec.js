@@ -16,6 +16,7 @@ import {
   getLongTermAppointmentHistoryV2,
   isUpcomingAppointmentOrRequest,
   isValidPastAppointment,
+  getVAAppointmentLocationId,
 } from '.';
 import {
   APPOINTMENT_STATUS,
@@ -845,6 +846,48 @@ describe('VAOS Services: Appointment ', () => {
       const filtered = hiddenAppts.filter(isUpcomingAppointmentOrRequest);
       expect(hiddenAppts.length).to.equal(2);
       expect(filtered.length).to.equal(0);
+    });
+  });
+
+  describe('getVAAppointmentLocationId', () => {
+    it('should return null for undefined appointment', () => {
+      expect(getVAAppointmentLocationId(undefined)).to.be.null;
+    });
+
+    it('should return 612A4 for Vista Site 612', () => {
+      const appointment = {
+        location: {
+          vistaId: '612',
+          stationId: '612Fake',
+        },
+        videoData: {
+          kind: VIDEO_TYPES.mobile,
+        },
+        vaos: {
+          isUpcomingAppointment: true,
+          isVideo: true,
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+        },
+      };
+      expect(getVAAppointmentLocationId(appointment)).to.equal('612A4');
+    });
+
+    it('should return sta6aid for regular appointments', () => {
+      const appointment = {
+        location: {
+          vistaId: '983',
+          stationId: '983GC',
+        },
+        videoData: {
+          kind: VIDEO_TYPES.mobile,
+        },
+        vaos: {
+          isUpcomingAppointment: true,
+          isVideo: true,
+          appointmentType: APPOINTMENT_TYPES.vaAppointment,
+        },
+      };
+      expect(getVAAppointmentLocationId(appointment)).to.equal('983GC');
     });
   });
 
