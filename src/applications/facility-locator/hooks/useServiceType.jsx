@@ -8,6 +8,32 @@ import { connectDrupalStaticDataFileVaHealthServices } from 'platform/site-wide/
 // sure our code handles what services actually exist in prod
 import vaHealthcareServices from '../tests/hooks/test-va-healthcare-services.json';
 
+/** VA health service example structure
+ * [
+    'Mental health care',     0. Name (string)
+    'Behavioral health',      1. AKA (string)
+    [                         2. Common conditions (string[])
+      'addiction',
+      'depression',
+      'anxiety',
+      'trauma',
+      'PTSD',
+      'bipolar disorder',
+      'schizophrenia',
+      'OCD'
+    ],
+    'mentalHealth',            3. API ID (string)
+    'Mental health care',      4. Service type of care (string)
+    true,                      5. Show for Vet Center (boolean)
+    false,                     6. Show for VBA facilities (boolean)
+    true,                      7. Show for VAMC facilities (boolean)
+    false,                     8. Show for TRICARE (boolean)
+    443,                       9. Service ID (number)
+    'Regular description',     10. Description (string)
+    'TRICARE description'      11. TRICARE description (string)
+  ]
+ */
+
 export const FACILITY_TYPE_FILTERS = {
   VET_CENTER: 'vet_center',
   VBA: 'vba',
@@ -15,132 +41,125 @@ export const FACILITY_TYPE_FILTERS = {
   TRICARE: 'tricare',
 };
 
-/**
- * function termMatcher
- * @param { string } term
- * @param {[string, string, string[], string, string, boolean, boolean, boolean, boolean, number, string, string]} hsdatum
- * @param { number } index
- * @param { boolean? } includes
- * @returns { number }
- */
-const termMatcher = (term, hsdatum) => {
-  if (!hsdatum) {
-    return -1;
-  }
-
-  console.log('hsdatum: ', hsdatum);
-  const datumArray = hsdatum
+const createArrayFromServiceData = data =>
+  data
     .replace(/[()]/g, '')
     .toLowerCase()
     .split(' ');
 
-  const match = datumArray.find(datum => datum.startsWith(term.toLowerCase()));
+const serviceMatchesTerm = (term, serviceData) =>
+  serviceData.toLowerCase().startsWith(term.toLowerCase());
 
-  return match?.length ? 1 : -1;
-};
+const lookForMatch = (term, arrayFromServiceData) =>
+  arrayFromServiceData.find(service => serviceMatchesTerm(term, service));
 
-/** function matchHelper
+/**
+ * Receives a term and either a string or string array value to match against
+ * e.g. a name such as "Mental health" or a list of common conditions such as
+ * ["addiction", "depression", "anxiety"]
+ *
+ * Ultimately we want to check each word of any string or string array value
+ * to see if it starts with the given search term
+ * Returns 1 if a match is found, -1 if it is not
  * @param { string } term
- * @param {
- *  [
- *   string,   // 0. Name
- *   string,   // 1. AKA
- *   string[], // 2. Common conditions
- *   string,   // 3. API ID
- *   string,   // 4. Service type of care
- *   boolean,  // 5. Show for Vet Center
- *   boolean,  // 6. Show for VBA facilities
- *   boolean,  // 7. Show for VAMC facilities
- *   boolean,  // 8. Show for TRICARE
- *   number,   // 9. Meta CMS field (node count)
- *   string,   // 10. Description
- *   string    // 11. TRICARE description
- *  ]
- * } hsdatum
- * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
+ * @param { string | string[] } serviceData
+ * @returns { number }
  */
-const matchHelper = (term, hsdatum) => {
-  // Remove special characters from the search term
-  const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  // const regexTerm = new RegExp(safeRegexTerm, 'i');
+const termMatcher = (term, serviceData) => {
+  const isMultiWord = string => string.trim().includes(' ');
 
-  const returnMatcher = {
-    nameMatch: termMatcher(safeTerm, hsdatum[0]),
-    akaMatch: termMatcher(safeTerm, hsdatum[1]),
-    commonCondMatch: termMatcher(safeTerm, hsdatum[2]),
-    // commonCondMatch: hsdatum[2].findIndex(commonCond =>
-    //   commonCond.toLowerCase().includes(term.toLowerCase()),
-    // ),
-    descriptionMatch: termMatcher(term, hsdatum[10]),
-    tricareDescriptionMatch: termMatcher(term, hsdatum[11]),
-    hsdatum,
-  };
-
-  if (
-    returnMatcher.nameMatch >= 0 ||
-    returnMatcher.akaMatch >= 0 ||
-    returnMatcher.commonCondMatch >= 0
-  ) {
-    returnMatcher.priorityMatch = 1;
-    returnMatcher.secondaryMatch = 0;
-  } else if (
-    returnMatcher.descriptionMatch >= 0 ||
-    returnMatcher.tricareDescriptionMatch >= 0
-  ) {
-    returnMatcher.secondaryMatch = 1;
-    returnMatcher.priorityMatch = 0;
+  if (!serviceData || !serviceData?.length) {
+    return false;
   }
 
-  return returnMatcher;
-};
+  if (isMultiWord(term)) {
+    if (Array.isArray(serviceData)) {
+      // console.log('term: ', term);
+      // console.log('serviceData: ', serviceData);
+      const match = serviceData.find(chunk => serviceMatchesTerm(term, chunk));
 
-const prioritySort = (a, b) => {
-  if (a.priorityMatch > b.priorityMatch) return -1;
-  if (a.priorityMatch < b.priorityMatch) return 1;
-  if (a.secondaryMatch > b.secondaryMatch) return -1;
-  if (a.secondaryMatch < b.secondaryMatch) return 1;
-  return 0;
-};
+      return match?.length > 0;
+    }
 
-export const filterDataByFacilityType = (selectorFiltered, facilityType) => {
-  return selectorFiltered.filter(
-    hsdatum =>
-      (hsdatum[5] && facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
-      (hsdatum[6] && facilityType === FACILITY_TYPE_FILTERS.VBA) ||
-      (hsdatum[7] && facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
-      (hsdatum[8] && facilityType === FACILITY_TYPE_FILTERS.TRICARE),
-  );
-};
+    console.log('here: ', term, serviceData);
+    return serviceMatchesTerm(term, serviceData);
+  }
 
-export const filterMatches = (selector, term, facilityType) => {
-  const selectorFiltered = selector.data
-    .map(hsdatum => {
-      const matched = matchHelper(term, hsdatum);
+  // Common conditions is an array of strings and requires more drilling down
+  if (Array.isArray(serviceData)) {
+    const arrayToMatch = [...serviceData];
 
-      if (matched.priorityMatch || matched.secondaryMatch) {
-        return matched;
+    const foundMatches = arrayToMatch.find(chunk => {
+      let toMatch = [chunk];
+
+      // If the string in the array is multiple words, break it up
+      if (isMultiWord(chunk)) {
+        toMatch = createArrayFromServiceData(chunk);
       }
 
-      return null;
-    })
-    .filter(v => v)
-    .sort(prioritySort)
-    .map(data => data.hsdatum);
+      return lookForMatch(term, toMatch);
+    });
 
-  if (facilityType) {
-    return filterDataByFacilityType(selectorFiltered, facilityType);
+    return foundMatches?.length > 0;
   }
 
-  return selectorFiltered;
+  const arrayToMatch = createArrayFromServiceData(serviceData);
+
+  return lookForMatch(term, arrayToMatch)?.length > 0;
 };
 
-export const alphabetizeServices = services => {
+/** Given a term and a VA health service, determine if the term is found in the service data
+ * Priority matches are on name and AKA
+ * Secondary matches are on common conditions, description and TRICARE description
+ * We check each whole word of any of the above five fields to see it starts with the term
+ *
+ * Example: term = "can"
+ * If the description contains the word "cancer," it matches
+ * If a common condition is "lung cancer," it matches
+ * If the AKA has the word "scan," it's not a match
+ * @param { string } term
+ * @param { VA health service } service
+ * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }}
+ */
+const determineIfServiceMatches = (term, service) => {
+  // Remove special characters from the search term
+  const safeTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const serviceToMatch = [...service];
+
+  const matchDeterminant = {
+    nameMatch: termMatcher(safeTerm, service[0]),
+    akaMatch: termMatcher(safeTerm, service[1]),
+    commonCondMatch: termMatcher(safeTerm, service[2]),
+    descriptionMatch: termMatcher(term, service[10]),
+    tricareDescriptionMatch: termMatcher(term, service[11]),
+  };
+
+  if (matchDeterminant.nameMatch || matchDeterminant.akaMatch) {
+    serviceToMatch.primaryMatch = true;
+  } else if (
+    matchDeterminant.commonCondMatch ||
+    matchDeterminant.descriptionMatch ||
+    matchDeterminant.tricareDescriptionMatch
+  ) {
+    serviceToMatch.secondaryMatch = true;
+  }
+
+  return serviceToMatch;
+};
+
+/**
+ * Alphabetizes a given array of VA health services
+ * by the name of the service (first index)
+ * @param { VA health service[] } services
+ * @returns { VA health service[] }
+ */
+const alphabetizeServices = services => {
   return services.sort((a, b) => {
-    if (a[0] < b[0]) {
+    if (a[0].toLowerCase() < b[0].toLowerCase()) {
       return -1;
     }
 
-    if (a[0] > b[0]) {
+    if (a[0].toLowerCase() > b[0].toLowerCase()) {
       return 1;
     }
 
@@ -148,15 +167,88 @@ export const alphabetizeServices = services => {
   });
 };
 
+/**
+ * Given an array of VA health services with primaryMatch or secondaryMatch keys,
+ * return an array with alpha-sorted primary matches first
+ * and alpha-sorted secondary matches second
+ * @param { VA health service[] } matches
+ * @returns { VA health service[] } sortedMatches
+ */
+const sortMatches = matches => {
+  const primaryMatches = matches.filter(match => match.primaryMatch);
+  const secondaryMatches = matches.filter(match => match.secondaryMatch);
+  const sortedMatches = [];
+
+  if (primaryMatches?.length) {
+    sortedMatches.push(...alphabetizeServices(primaryMatches));
+  }
+
+  if (secondaryMatches?.length) {
+    sortedMatches.push(...alphabetizeServices(secondaryMatches));
+  }
+
+  return sortedMatches;
+};
+
+/**
+ * Returns all available services for a given facility type using
+ * the booleans that indicate which service they belong to
+ * @param { VA health service[] } allServices
+ * @param { string } facilityType
+ * @returns { VA health service[] }
+ */
+export const filterServicesByFacilityType = (allServices, facilityType) => {
+  return allServices.filter(
+    service =>
+      (service[5] && facilityType === FACILITY_TYPE_FILTERS.VET_CENTER) ||
+      (service[6] && facilityType === FACILITY_TYPE_FILTERS.VBA) ||
+      (service[7] && facilityType === FACILITY_TYPE_FILTERS.VAMC) ||
+      (service[8] && facilityType === FACILITY_TYPE_FILTERS.TRICARE),
+  );
+};
+
+/**
+ * Look through all services for a given facility,
+ * check for "starts with" matches
+ * sort alphabetically by priority and return
+ * @param { VA health service[] } allServicesByFacilityType
+ * @param { string } term
+ * @returns { VA health service[] or [] }
+ */
+export const filterMatches = (allServicesByFacilityType, term) => {
+  const matchedServices = [];
+
+  allServicesByFacilityType.forEach(service => {
+    const checkedService = determineIfServiceMatches(term, service);
+
+    if (checkedService.primaryMatch || checkedService.secondaryMatch) {
+      matchedServices.push(checkedService);
+    }
+  });
+
+  if (!matchedServices) {
+    return [];
+  }
+
+  if (matchedServices?.length === 1) {
+    return matchedServices;
+  }
+
+  return sortMatches(matchedServices);
+};
+
 export default function useServiceType() {
   const dispatch = useDispatch();
-  const allServicesOptionForVamc = ['All VA health services'];
+  const ALL_SERVICES_VAMC = ['All VA health services'];
   const localEnv = environment?.BUILDTYPE === 'localhost';
 
   let selector = useSelector(
     state => state.drupalStaticData.vaHealthServicesData || [],
   );
 
+  // Facility Locator can't run on localhost:3002,
+  // which is where the VA health services data is served
+  // Locally, we can use a static JSON file copied from the prod data
   if (localEnv) {
     selector = vaHealthcareServices;
   }
@@ -169,51 +261,69 @@ export default function useServiceType() {
   );
 
   /**
-   * function serviceTypeFilter
+   * When the autosuggest component is first loaded,
+   * return all services for that facility type alphabetized
+   * @param { VA health service[] } filteredServices
+   * @param { string } facilityType
+   * @returns { VA health service[]} sortedServices
+   */
+  const populateInitialServiceList = (
+    allServicesByFacilityType,
+    facilityType,
+  ) => {
+    const sortedServices = alphabetizeServices(allServicesByFacilityType);
+
+    // If the facility type is VAMC, add the "All VA health services" option
+    if (facilityType === FACILITY_TYPE_FILTERS.VAMC && sortedServices?.length) {
+      return [ALL_SERVICES_VAMC, ...sortedServices];
+    }
+
+    return sortedServices;
+  };
+
+  /**
+   * Entry point for getting services for the autosuggest dropdown
+   * after the data fetch
    * @param { string } term
-   * @param { string? } facilityType
+   * @param { string } facilityType
    * @returns {{nameMatch: number, akaMatch: number, commonCondMatch: number, descriptionMatch: number, tricareDescriptionMatch: number, hsdatum:[string, string, string|null, string, string, boolean, boolean, boolean, boolean, number, string, string] }[]}
    */
   const serviceTypeFilter = useCallback(
-    (term, facilityType = '') => {
+    (term, facilityType) => {
       // If the typed term is the hardcoded VAMC "All VA health services" option,
       // simply return that option
-      if (term === allServicesOptionForVamc[0]) {
-        return [allServicesOptionForVamc];
+      if (term === ALL_SERVICES_VAMC[0]) {
+        return [ALL_SERVICES_VAMC];
       }
 
-      // When the autosuggest component is first loaded, return all services
-      // for that facility type alphabetized
-      if (!term?.length && facilityType && selector.data) {
-        const filteredServices = filterDataByFacilityType(
+      if (selector.data) {
+        const allServicesByFacilityType = filterServicesByFacilityType(
           selector.data,
           facilityType,
         );
 
-        const sortedServices = alphabetizeServices(filteredServices);
-
-        // If the facility type is VAMC, add the "All VA health services" option
-        if (
-          facilityType === FACILITY_TYPE_FILTERS.VAMC &&
-          sortedServices?.length
-        ) {
-          return [allServicesOptionForVamc, ...sortedServices];
+        if (!allServicesByFacilityType?.length) {
+          return [];
         }
 
-        return sortedServices;
-      }
+        if (!term?.length) {
+          return populateInitialServiceList(
+            allServicesByFacilityType,
+            facilityType,
+          );
+        }
 
-      // If the user has typed the minimum number of characters,
-      // use the term to filter the matches
-      if (selector.data) {
-        const matches = filterMatches(selector, term, facilityType);
+        // If the user has typed the minimum number of characters,
+        // use the term to filter the matches
+        const matches = filterMatches(allServicesByFacilityType, term);
 
         if (facilityType === FACILITY_TYPE_FILTERS.VAMC && matches?.length) {
-          return [allServicesOptionForVamc, ...matches];
+          return [ALL_SERVICES_VAMC, ...matches];
         }
 
         return matches;
       }
+
       return [];
     },
     [selector],

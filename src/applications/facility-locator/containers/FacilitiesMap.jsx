@@ -887,7 +887,8 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
-  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
+  vamcAutoSuggestEnabled: true,
+  // vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
