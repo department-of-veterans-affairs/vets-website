@@ -218,7 +218,8 @@ const ch3Pages = {
       (form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
         !form.schoolInfo?.schoolName ||
         (form.selectCategory === CategoryDebt &&
-          form.selectTopic === TopicEducationBenefitOverpayments)) &&
+          form.selectTopic === TopicEducationBenefitOverpayments &&
+          form.useSchoolInProfile === schoolInYourProfileOptions.NO)) &&
       (form.yourRole === yourRoleOptionsEducation.SCO ||
         form.yourRole ===
           yourRoleOptionsEducation.TRAINING_OR_APPRENTICESHIP_SUP),
