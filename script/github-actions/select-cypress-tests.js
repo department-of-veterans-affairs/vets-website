@@ -292,7 +292,12 @@ function main() {
 
   console.log('Changed Apps For Stress Test: ', changedAppsForStressTest);
   const existingTestsToStressTest = allAllowListSpecs.filter(specPath =>
-    changedAppsForStressTest.some(filePath => specPath.includes(filePath)),
+    changedAppsForStressTest.some(
+      filePath =>
+        (!filePath.startsWith('src/applications') &&
+          specPath.includes(filePath)) ||
+        specPath.includes(`${filePath}/`),
+    ),
   );
 
   const newTestsToStressTest = CHANGED_FILE_PATHS.filter(
