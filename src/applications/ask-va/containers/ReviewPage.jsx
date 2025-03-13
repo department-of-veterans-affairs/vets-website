@@ -165,8 +165,6 @@ const ReviewPage = props => {
         },
         onError: error => {
           setIsDisabled(false);
-          // TODO - need error modal instead of forwarding to confirmation per final design
-          // Temporary alert dialog for testing
           alert(error.error);
         },
       });

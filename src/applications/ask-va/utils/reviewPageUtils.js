@@ -148,7 +148,7 @@ export const submitFormData = async ({
       setTimeout(() => {
         onSuccess?.(mockSubmitResponse);
         resolve(mockSubmitResponse);
-      }, 5000);
+      }, 500);
     });
   }
 
