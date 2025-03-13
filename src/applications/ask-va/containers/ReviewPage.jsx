@@ -15,8 +15,8 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import {
-  isLoggedIn,
   isLOA3,
+  isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -1086,11 +1086,11 @@ const ReviewPage = props => {
 
       <div className="vads-u-margin-top--4 vads-u-display--flex">
         <va-button back onClick={() => props.goBack()} />
-        <va-button
-          text="Submit question"
-          disabled={isDisabled}
-          onClick={handleSubmit}
-        />
+        {isDisabled ? (
+          <va-button text="Submit question" disabled />
+        ) : (
+          <va-button text="Submit question" onClick={handleSubmit} />
+        )}
       </div>
     </article>
   );
