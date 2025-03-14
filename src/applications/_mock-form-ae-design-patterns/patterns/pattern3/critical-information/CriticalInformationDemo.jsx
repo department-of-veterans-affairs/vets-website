@@ -1,13 +1,18 @@
 import React from 'react';
-// import { VaServiceListItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ServiceListDemo = () => {
   return (
     <div className="vads-l-grid-container vads-u-padding-y--2">
-      <h1>Service List Demo</h1>
-      <p>This is a demo of the Service List Item component pattern.</p>
+      <h1>Critical Information Demo</h1>
+      <p>This is a demo of the Critical Information component pattern.</p>
 
       <div className="vads-l-row">
+        <div className="medium-screen:vads-l-col--6 vads-l-col--12">
+          <va-critical-information
+            link="https://www.va.gov/disability"
+            text="Submit documents by July 12, 2025"
+          />
+        </div>
         <div className="medium-screen:vads-l-col--6 vads-l-col--12">
           <va-service-list-item
             serviceDetails={{

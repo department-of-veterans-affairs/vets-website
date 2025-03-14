@@ -68,6 +68,13 @@ export const tabsConfig = {
       bgColor: '--vads-color-success-dark',
       textColor: '--vads-color-white',
     },
+    {
+      name: 'Critical Information Demo',
+      path: '/3/critical-information-demo',
+      description: 'Pattern 3 - Critical Information Demo',
+      bgColor: '--vads-color-secondary-darkest',
+      textColor: '--vads-color-white',
+    },
   ],
 };
 

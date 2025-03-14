@@ -35,6 +35,7 @@ import { withLayout } from './vadx/app/layout/withLayout';
 import { Servers } from './vadx/app/pages/servers/Servers';
 import { FeatureToggles } from './vadx/app/pages/feature-toggles/FeatureToggles';
 import ServiceListDemo from './patterns/pattern3/service-list/ServiceListDemo';
+import CriticalInformationDemo from './patterns/pattern3/critical-information/CriticalInformationDemo';
 
 // Higher order component to wrap routes in the PatternConfigProvider and other common components
 const routeHoc = Component => props => (
@@ -131,6 +132,10 @@ const pattern3Routes = [
   {
     path: '/3/service-list-demo',
     component: routeHoc(ServiceListDemo),
+  },
+  {
+    path: '/3/critical-information-demo',
+    component: routeHoc(CriticalInformationDemo),
   },
 ];
 

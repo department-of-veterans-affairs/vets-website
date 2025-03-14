@@ -46,6 +46,11 @@ export const VADXPlugin = () => {
           <li>
             <Link to="/3/service-list-demo">Service List Demo</Link>
           </li>
+          <li>
+            <Link to="/3/critical-information-demo">
+              Critical Information Demo
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
