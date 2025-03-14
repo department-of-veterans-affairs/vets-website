@@ -61,7 +61,7 @@ export default function ReferralsAndRequests() {
       <p>
         <va-link
           href="https://www.va.gov/resources/how-to-get-community-care-referrals-and-schedule-appointments/"
-          text="Find out more about community care referral"
+          text="Find out more about community care referrals"
         />
       </p>
       <ReferralList referrals={referrals} referralsError={referralsError} />

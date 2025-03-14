@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useSignalFetch } from '../utils/useSignalFetch';
 
 import {
   capitalizeFirstLetter,
@@ -11,7 +12,7 @@ import {
   updateQueryParam,
 } from '../utils/helpers';
 
-import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
+import { filterLcResults } from '../actions';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
 import Dropdown from '../components/Dropdown';
@@ -40,27 +41,16 @@ export default function LicenseCertificationSearchForm() {
     ...filteredResults,
   ];
 
-  useEffect(() => {
-    if (!hasFetchedOnce) {
-      const controller = new AbortController();
-
-      dispatch(fetchLicenseCertificationResults(controller.signal));
-
-      return () => {
-        controller.abort();
-      };
-    }
-    return null;
-  }, []);
+  useSignalFetch(hasFetchedOnce);
 
   useEffect(
     () => {
       return dispatch(filterLcResults(name, dropdown.current.optionValue));
     },
-    [name],
+    [name, dropdown.current.optionValue],
   );
 
-  // If available, use url query params to assign initial dropdown values
+  // If available, use url query params to assign initial values ONLY on mount
   useEffect(() => {
     if (categoryParams) {
       setDropdown(updateCategoryDropdown(categoryParams[0]));
@@ -69,8 +59,7 @@ export default function LicenseCertificationSearchForm() {
     if (nameParam) {
       setName(nameParam);
     }
-
-    return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = (category, nameInput) => {

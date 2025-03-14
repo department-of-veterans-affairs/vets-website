@@ -199,67 +199,62 @@ export function filterLcResults(
 export function fetchLicenseCertificationResults(signal) {
   const url = `${api.url}/lcpe/lacs`;
 
-  return dispatch => {
+  return async dispatch => {
     dispatch({ type: FETCH_LC_RESULTS_STARTED });
 
-    return fetch(url, {
-      ...api.settings,
-      signal, // Add the signal to the fetch options
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error(res.statusText);
-      })
-      .then(results => {
-        const { lacs } = results;
-        dispatch({
-          type: FETCH_LC_RESULTS_SUCCEEDED,
-          payload: lacs,
-        });
-      })
-      .catch(err => {
-        // Only dispatch error if it's not an abort error
-        if (err.name !== 'AbortError') {
-          dispatch({
-            type: FETCH_LC_RESULTS_FAILED,
-            payload: err.message,
-          });
-        }
+    try {
+      const res = await fetch(url, {
+        ...api.settings,
+        signal,
       });
+
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+
+      const { lacs } = await res.json();
+      dispatch({
+        type: FETCH_LC_RESULTS_SUCCEEDED,
+        payload: lacs,
+      });
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        dispatch({
+          type: FETCH_LC_RESULTS_FAILED,
+          payload: err.message,
+        });
+      }
+    }
   };
 }
 
 export function fetchLcResult(id, signal) {
-  return dispatch => {
+  return async dispatch => {
     const url = `${api.url}/lcpe/lacs/${id}`;
     dispatch({ type: FETCH_LC_RESULT_STARTED });
 
-    return fetch(url, {
-      ...api.settings,
-      signal,
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error(res.statusText);
-      })
-      .then(result => {
-        dispatch({
-          type: FETCH_LC_RESULT_SUCCEEDED,
-          payload: result.lac,
-        });
-      })
-      .catch(err => {
-        if (err.name !== 'AbortError') {
-          dispatch({
-            type: FETCH_LC_RESULT_FAILED,
-            payload: err.message,
-          });
-        }
+    try {
+      const res = await fetch(url, {
+        ...api.settings,
+        signal,
       });
+
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const { lac } = await res.json();
+      dispatch({
+        type: FETCH_LC_RESULT_SUCCEEDED,
+        payload: lac,
+      });
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        dispatch({
+          type: FETCH_LC_RESULT_FAILED,
+          payload: err.message,
+        });
+      }
+    }
   };
 }
 

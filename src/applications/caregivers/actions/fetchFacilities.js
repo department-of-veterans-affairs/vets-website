@@ -92,7 +92,8 @@ export const fetchFacilities = async ({
     })
     .catch(error => {
       Sentry.withScope(scope => {
-        scope.setExtra('error', error.errors);
+        scope.setExtra('error', error);
+        scope.setExtra('errors', error.errors);
         Sentry.captureMessage(content['error--facilities-fetch']);
       });
 

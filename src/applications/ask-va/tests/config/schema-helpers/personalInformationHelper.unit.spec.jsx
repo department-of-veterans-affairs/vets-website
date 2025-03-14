@@ -88,8 +88,8 @@ describe('Personal Information UI Schemas', () => {
       });
 
       it('should require SSN/Service number for non-general questions', () => {
-        const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-        const validateFn = uiSchema['ui:validations'][0];
+        const validateFn =
+          personalInformationUiSchemas.socialOrServiceNum['ui:validations'][0];
 
         validateFn(
           errors,
@@ -102,8 +102,8 @@ describe('Personal Information UI Schemas', () => {
       });
 
       it('should not require SSN/Service number for general questions', () => {
-        const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-        const validateFn = uiSchema['ui:validations'][0];
+        const validateFn =
+          personalInformationUiSchemas.socialOrServiceNum['ui:validations'][0];
 
         validateFn(
           errors,
@@ -115,16 +115,40 @@ describe('Personal Information UI Schemas', () => {
         expect(errors.addError.called).to.be.false;
       });
 
-      it('should not require SSN/Service number for family members', () => {
-        const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-        const validateFn = uiSchema['ui:validations'][0];
+      it('should not require SSN/Service number for connected through work', () => {
+        const validateFn =
+          personalInformationUiSchemas.socialOrServiceNum['ui:validations'][0];
 
         validateFn(
           errors,
           {},
           {
             whoIsYourQuestionAbout: 'Someone else',
-            relationshipToVeteran: "I'm a family member of a Veteran",
+            relationshipToVeteran:
+              "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+          },
+        );
+        expect(errors.addError.called).to.be.false;
+      });
+
+      it('should accept either SSN or service number when provided', () => {
+        const validateFn =
+          personalInformationUiSchemas.socialOrServiceNum['ui:validations'][0];
+
+        validateFn(
+          errors,
+          { ssn: '123-45-6789' },
+          {
+            whoIsYourQuestionAbout: 'Myself',
+          },
+        );
+        expect(errors.addError.called).to.be.false;
+
+        validateFn(
+          errors,
+          { serviceNumber: '12345678' },
+          {
+            whoIsYourQuestionAbout: 'Myself',
           },
         );
         expect(errors.addError.called).to.be.false;
@@ -238,6 +262,54 @@ describe('Personal Information UI Schemas', () => {
         'Please provide one of the following:',
       );
       wrapper.unmount();
+    });
+  });
+});
+
+describe('UI Schema Validation Functions', () => {
+  describe('dateOfBirth UI Schema', () => {
+    const uiSchema = personalInformationAboutYourselfUiSchemas.dateOfBirth;
+
+    it('should require date of birth for personal questions', () => {
+      const required = uiSchema['ui:required']({
+        whoIsYourQuestionAbout: 'Myself',
+      });
+      expect(required).to.be.true;
+    });
+
+    it('should not require date of birth for connected through work', () => {
+      const required = uiSchema['ui:required']({
+        whoIsYourQuestionAbout: 'Someone else',
+        relationshipToVeteran:
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+      });
+      expect(required).to.be.false;
+    });
+
+    it('should hide date of birth for general questions', () => {
+      const hideIf = uiSchema['ui:options'].hideIf({
+        whoIsYourQuestionAbout: "It's a general question",
+      });
+      expect(hideIf).to.be.true;
+    });
+  });
+
+  describe('branchOfService UI Schema', () => {
+    const uiSchema = personalInformationAboutYourselfUiSchemas.branchOfService;
+
+    it('should not require branch of service for non-veterans', () => {
+      const required = uiSchema['ui:required']({
+        whoIsYourQuestionAbout: 'Myself',
+        isVeteran: false,
+      });
+      expect(required).to.be.false;
+    });
+
+    it('should hide branch of service when not required', () => {
+      const hideIf = uiSchema['ui:options'].hideIf({
+        whoIsYourQuestionAbout: "It's a general question",
+      });
+      expect(hideIf).to.be.true;
     });
   });
 });

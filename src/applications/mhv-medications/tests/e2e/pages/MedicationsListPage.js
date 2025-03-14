@@ -182,12 +182,12 @@ class MedicationsListPage {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]').should('exist');
   };
 
-  clickLearnHowToRenewPrescriptionsLink = () => {
+  verifyLearnHowToRenewPrescriptionsLink = () => {
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]');
     cy.get('[data-testid="learn-to-renew-precsriptions-link"]')
 
       .shadow()
-      .find(`[href="/health-care/refill-track-prescriptions"]`)
+      .find(`[href="/resources/how-to-renew-a-va-prescription"]`)
       .should('be.visible');
   };
 

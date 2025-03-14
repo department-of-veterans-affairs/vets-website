@@ -425,7 +425,7 @@
     flex-direction: column;
   }
 
-  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  &.high-zoom {
     width: 100%;
   }
 }
@@ -433,13 +433,13 @@
 .lc-result-cards-wrapper {
   list-style: none;
 
-  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  &.high-zoom {
     width: 100%;
   }
 }
 
 .zoom-wrapper {
-  @media screen and (-webkit-min-device-pixel-ratio: 3) {
+  &.high-zoom {
     width: 100%;
   }
 }

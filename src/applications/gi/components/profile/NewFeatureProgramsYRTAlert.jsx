@@ -39,6 +39,7 @@ export default function NewFeatureProgramsYRTAlert({
           : 'New feature'}
       </h2>
       <p className="vads-u-margin-y--0">
+        Go to the “On this page” directory or click{' '}
         {institution.yr === true &&
           toggleValue && (
             <>
@@ -50,7 +51,7 @@ export default function NewFeatureProgramsYRTAlert({
               >
                 Yellow Ribbon Program information
               </a>
-              {programTypes?.length > 0 && ' & '}
+              {programTypes?.length > 0 && ' and '}
             </>
           )}{' '}
         {programTypes?.length > 0 &&
@@ -58,9 +59,7 @@ export default function NewFeatureProgramsYRTAlert({
             <a href="#programs" onClick={e => handleLinkClick(e, 'programs')}>
               Programs
             </a>
-          )}{' '}
-        were added. Go to “On this page” directory to navigate to those
-        sections.
+          )}
       </p>
     </VaAlert>
   );

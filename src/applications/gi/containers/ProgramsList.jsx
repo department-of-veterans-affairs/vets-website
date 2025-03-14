@@ -209,14 +209,14 @@ const ProgramsList = ({ match }) => {
         <p ref={resultsSummaryRef} tabIndex="-1" id="results-summary">
           {submittedQuery ? (
             <>
-              {`Showing ${startIndex}-${endIndex} of ${
+              {`Showing ${startIndex} - ${endIndex} of ${
                 filteredPrograms.length
               } results for `}
               "<strong>{submittedQuery}</strong>"
             </>
           ) : (
             <>
-              {`Showing ${startIndex}-${endIndex} of ${
+              {`Showing ${startIndex} - ${endIndex} of ${
                 filteredPrograms.length
               } ${filteredPrograms.length === 1 ? 'program' : 'programs'}`}
             </>

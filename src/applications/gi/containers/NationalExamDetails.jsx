@@ -120,8 +120,7 @@ const NationalExamDetails = () => {
         <div className="exams-table">
           <h3 className="vads-u-margin-y--0">Test Info</h3>
           <p className="vads-u-margin-bottom--0">
-            Showing 1-
-            {totalTests} of {totalTests} tests
+            Showing 1 - {totalTests} of {totalTests} tests
           </p>
           <va-table full-width table-type={isMobile ? 'bordered' : undefined}>
             <va-table-row slot="headers">

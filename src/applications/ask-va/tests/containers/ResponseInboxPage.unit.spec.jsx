@@ -36,6 +36,10 @@ describe('ResponseInboxPage', () => {
   let FileUploadStub;
 
   beforeEach(() => {
+    global.window.URL = {
+      createObjectURL: () => {},
+      revokeObjectURL: () => {},
+    };
     fetchStub = sinon.stub(global, 'fetch');
     apiRequestStub = sinon.stub(apiModule, 'apiRequest');
     environmentStub = sinon.stub(environment, 'API_URL');

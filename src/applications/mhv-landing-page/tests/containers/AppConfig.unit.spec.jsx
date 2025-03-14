@@ -12,10 +12,14 @@ import AppConfig from '../../containers/AppConfig';
 import { appName } from '../../manifest.json';
 
 describe(`${appName} -- <AppConfig />`, () => {
-  const initialStateFn = ({ accountUuid = 'test-id' } = {}) => ({
+  const initialStateFn = ({
+    accountUuid = 'test-id',
+    facilities = [],
+  } = {}) => ({
     user: {
       profile: {
         accountUuid,
+        facilities,
       },
     },
   });
@@ -53,7 +57,13 @@ describe(`${appName} -- <AppConfig />`, () => {
 
       await waitFor(() => {
         getByText('child node');
-        expect(setRumUserSpy.calledWith({ id: 'test-id' })).to.be.true;
+        expect(
+          setRumUserSpy.calledWith({
+            id: 'test-id',
+            hasEHRM: false,
+            hasVista: false,
+          }),
+        ).to.be.true;
       });
     });
 
@@ -70,6 +80,78 @@ describe(`${appName} -- <AppConfig />`, () => {
       await waitFor(() => {
         getByText('child node');
         expect(setRumUserSpy.called).to.be.false;
+      });
+    });
+
+    it('sets hasVista based on profile', async () => {
+      const initialState = initialStateFn({
+        accountUuid: 'test-id',
+        facilities: [{ isCerner: false }],
+      });
+      const { getByText } = renderWithStoreAndRouter(
+        <AppConfig setDatadogRumUserFn={setRumUserSpy}>
+          <p>child node</p>
+        </AppConfig>,
+        { initialState },
+      );
+
+      await waitFor(() => {
+        getByText('child node');
+        expect(
+          setRumUserSpy.calledWith({
+            id: 'test-id',
+            hasEHRM: false,
+            hasVista: true,
+          }),
+        ).to.be.true;
+      });
+    });
+
+    it('sets hasEHRM based on profile', async () => {
+      const initialState = initialStateFn({
+        accountUuid: 'test-id',
+        facilities: [{ isCerner: true }],
+      });
+      const { getByText } = renderWithStoreAndRouter(
+        <AppConfig setDatadogRumUserFn={setRumUserSpy}>
+          <p>child node</p>
+        </AppConfig>,
+        { initialState },
+      );
+
+      await waitFor(() => {
+        getByText('child node');
+        expect(
+          setRumUserSpy.calledWith({
+            id: 'test-id',
+            hasEHRM: true,
+            hasVista: false,
+          }),
+        ).to.be.true;
+      });
+    });
+
+    it('sets both hasEHRM and hasVista based on profile', async () => {
+      const initialState = initialStateFn({
+        accountUuid: 'test-id',
+        facilities: [{ isCerner: true }, { isCerner: false }],
+      });
+      const { getByText } = renderWithStoreAndRouter(
+        <AppConfig setDatadogRumUserFn={setRumUserSpy}>
+          <p>child node</p>
+        </AppConfig>,
+        { initialState },
+      );
+
+      await waitFor(() => {
+        getByText('child node');
+        expect(
+          setRumUserSpy.calledWith({
+            id: 'test-id',
+            hasEHRM: true,
+            hasVista: true,
+          }),
+        ).to.be.true;
       });
     });
   });

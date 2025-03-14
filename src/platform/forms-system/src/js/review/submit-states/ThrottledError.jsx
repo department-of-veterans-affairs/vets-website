@@ -18,6 +18,7 @@ export default function ThrottledError(props) {
   } else {
     ariaDescribedBy = null;
   }
+  const hideBackButton = formConfig?.useTopBackLink || false;
 
   return (
     <>
@@ -35,20 +36,35 @@ export default function ThrottledError(props) {
       </Row>
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons vads-u-margin-y--2">
-        <Column classNames="small-6 medium-5">
-          <Back onButtonClick={onBack} />
-        </Column>
-        <Column classNames="small-6 medium-5">
-          <ProgressButton
-            ariaDescribedBy={ariaDescribedBy}
-            onButtonClick={onSubmit}
-            buttonText={buttonText}
-            buttonClass="usa-button-primary"
-          />
-        </Column>
-        <Column classNames="small-1 medium-1 end">
-          <div className="hidden">&nbsp;</div>
-        </Column>
+        {hideBackButton ? (
+          <>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText={buttonText}
+                buttonClass="usa-button-primary"
+              />
+            </Column>
+          </>
+        ) : (
+          <>
+            <Column classNames="small-6 medium-5">
+              <Back onButtonClick={onBack} />
+            </Column>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText={buttonText}
+                buttonClass="usa-button-primary"
+              />
+            </Column>
+            <Column classNames="small-1 medium-1 end">
+              <div className="hidden">&nbsp;</div>
+            </Column>
+          </>
+        )}
       </Row>
     </>
   );

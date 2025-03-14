@@ -164,7 +164,6 @@ const SettingsPage = () => {
             sendDataDogAction(
               isSharing ? 'Opt out - Settings page' : 'Opt in - Settings page',
             );
-            // If you want to focus an element, you can call it here or handle it elsewhere
           }}
         />
       </va-card>
@@ -177,21 +176,24 @@ const SettingsPage = () => {
     } sharing your electronic health information?`;
     const primaryButtonText = isSharing ? 'Opt out' : 'Opt in';
     const secondaryButtonText = isSharing ? "Don't opt out" : "Don't opt in";
+    const handleCloseEvent = () => {
+      handleCloseModal();
+      sendDataDogAction(`Close opt ${isSharing ? 'out' : 'in'} modal`);
+    };
+    const handlePrimaryButtonClick = () => {
+      handleUpdateSharing(isSharing);
+      sendDataDogAction(`${primaryButtonText} - Modal`);
+    };
+    const handleSecondaryButtonClick = () => {
+      handleCloseModal();
+      sendDataDogAction(`${secondaryButtonText} - Modal`);
+    };
     return (
       <VaModal
         modalTitle={title}
-        onCloseEvent={() => {
-          handleCloseModal();
-          sendDataDogAction(`Close opt ${isSharing ? 'out' : 'in'} modal`);
-        }}
-        onPrimaryButtonClick={() => {
-          handleUpdateSharing(isSharing);
-          sendDataDogAction(`${primaryButtonText} - Modal`);
-        }}
-        onSecondaryButtonClick={() => {
-          handleCloseModal();
-          sendDataDogAction(`${secondaryButtonText} - Modal`);
-        }}
+        onCloseEvent={handleCloseEvent}
+        onPrimaryButtonClick={handlePrimaryButtonClick}
+        onSecondaryButtonClick={handleSecondaryButtonClick}
         primaryButtonText={primaryButtonText}
         secondaryButtonText={secondaryButtonText}
         visible

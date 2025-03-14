@@ -125,9 +125,21 @@ class ProfileInformationFieldController extends React.Component {
           successCallback();
         }
       } else if (!forceEditView) {
-        // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
-        // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
-        waitForRenderThenFocus(`#${getEditButtonId(fieldName)}`, document, 50);
+        if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
+          waitForRenderThenFocus(
+            `#${getRemoveButtonId(fieldName)}`,
+            document,
+            50,
+          );
+        } else {
+          // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
+          // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
+          waitForRenderThenFocus(
+            `#${getEditButtonId(fieldName)}`,
+            document,
+            50,
+          );
+        }
       }
     } else if (
       forceEditView &&

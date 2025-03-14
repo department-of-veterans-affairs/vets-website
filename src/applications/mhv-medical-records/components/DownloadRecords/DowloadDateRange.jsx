@@ -35,27 +35,29 @@ const DownloadDateRange = () => {
         setSelectedDate('');
         return;
       }
-
+      const { value } = e.detail;
       setSelectionError(null);
-      setSelectedDate(e.detail.value);
-      if (e.detail.value === 'any') {
+      setSelectedDate(value);
+      if (value === 'any') {
         dispatch(updateReportDateRange('any', 'any', 'any'));
-      } else if (e.detail.value !== 'custom') {
+      } else if (value !== 'custom') {
         const currentDate = new Date();
         dispatch(
           updateReportDateRange(
-            e.detail.value,
-            format(subMonths(currentDate, e.detail.value), 'yyyy-MM-dd'),
+            value,
+            format(subMonths(currentDate, value), 'yyyy-MM-dd'),
             format(currentDate, 'yyyy-MM-dd'),
           ),
         );
       }
-      // handle DD RUM
-      const selectedNode = Array.from(e.target.childNodes).find(
-        node => node.value === e.detail.value,
-      );
-      const selectedText = selectedNode ? selectedNode.innerText : '';
-      sendDataDogAction(`Date range option - ${selectedText}`);
+      const valMap = {
+        any: 'All time',
+        '3': 'Last 3 months',
+        '6': 'Last 6 months',
+        '12': 'Last 12 months',
+        custom: 'Custom',
+      };
+      sendDataDogAction(`Date range option - ${valMap[value]}`);
     },
     [setSelectedDate, dispatch],
   );

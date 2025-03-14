@@ -35,7 +35,7 @@ describe('LandingPage', () => {
         'Who the portal is for',
       );
       expect(getByTestId('landing-page-portal-for-text').textContent).to.eq(
-        'Currently, the portal is only for Veterans Service Organization (VSO) representatives who accept POA requests on behalf of their organizations. In the future, the portal will support accredited VSOs, attorneys, and claims agents.Learn more about accredited representatives (opens in a new tab)',
+        'Currently, the portal is only for Veterans Service Organization (VSO) representatives who accept POA requests on behalf of their organizations. In the future, the portal will support accredited VSOs, attorneys, and claims agents.',
       );
     });
   });

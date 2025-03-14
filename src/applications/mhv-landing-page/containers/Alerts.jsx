@@ -10,6 +10,7 @@ import {
 
 import {
   hasMhvBasicAccount,
+  isAuthenticatedWithSSOe,
   isLOA3,
   isVAPatient,
   mhvAccountStatusUserError,
@@ -25,6 +26,7 @@ const Alerts = () => {
   const userHasMhvBasicAccount = useSelector(hasMhvBasicAccount);
   const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
   const cspId = useSelector(signInServiceName);
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
 
   const mhvAccountStatusUserErrors = useSelector(mhvAccountStatusUserError);
   const mhvAccountStatusSortedErrors = useSelector(
@@ -40,7 +42,7 @@ const Alerts = () => {
   }
 
   if (!userRegistered) {
-    return <AlertUnregistered />;
+    return <AlertUnregistered ssoe={ssoe} />;
   }
 
   if (mhvAccountStatusSortedErrors.length > 0) {

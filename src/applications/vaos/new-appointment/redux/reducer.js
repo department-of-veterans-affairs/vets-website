@@ -117,6 +117,7 @@ const initialState = {
   isNewAppointmentStarted: false,
   fetchRecentLocationStatus: FETCH_STATUS.notStarted,
   recentLocations: [],
+  isAppointmentSelectionError: false,
 };
 
 function setupFormData(data, schema, uiSchema) {
@@ -308,7 +309,7 @@ export default function formReducer(state = initialState, action) {
         !!action.address?.latitude && !!action.address?.longitude;
 
       const handleSortMethod = () => {
-        if (featureRecentLocationsFilter) {
+        if (featureRecentLocationsFilter && recentLocations?.length) {
           return FACILITY_SORT_METHODS.recentLocations;
         }
         if (hasResidentialCoordinates) {
@@ -776,6 +777,7 @@ export default function formReducer(state = initialState, action) {
           ...state.data,
           selectedDates: action.selectedDates,
         },
+        isAppointmentSelectionError: action.isAppointmentSelectionError,
       };
     }
     case FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED: {

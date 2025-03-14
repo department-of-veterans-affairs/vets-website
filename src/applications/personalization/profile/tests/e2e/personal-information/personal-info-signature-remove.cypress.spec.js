@@ -44,13 +44,13 @@ describe('PERSONAL INFORMATION REMOVE SIGNATURE', () => {
       .find(`button`)
       .click();
 
-    cy.get('#edit-messages-signature').should('be.focused');
+    cy.get('#remove-messages-signature').should('be.focused');
 
     // close modal by cross btn
     cy.get(`#remove-messages-signature`).click();
     cy.get(`.first-focusable-child`).click();
 
-    cy.get('#edit-messages-signature').should('be.focused');
+    cy.get('#remove-messages-signature').should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });

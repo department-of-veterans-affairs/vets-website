@@ -28,6 +28,8 @@ import {
   mhvAccountStatusErrorsSorted,
 } from './mhvAccountStatus';
 
+import { profileHasEHRM, profileHasVista } from './facilities';
+
 export {
   hasMhvAccount,
   hasMhvBasicAccount,
@@ -44,6 +46,8 @@ export {
   mhvAccountStatusErrorsSorted,
   mhvAccountStatusNonUserError,
   personalizationEnabled,
+  profileHasEHRM,
+  profileHasVista,
   selectDrupalStaticData,
   selectGreetingName,
   selectProfile,

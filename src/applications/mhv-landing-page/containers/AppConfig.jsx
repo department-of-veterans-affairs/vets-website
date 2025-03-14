@@ -5,7 +5,7 @@ import {
   setDatadogRumUser,
   useDatadogRum,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { selectProfile } from '../selectors';
+import { selectProfile, profileHasEHRM, profileHasVista } from '../selectors';
 
 const AppConfig = ({
   children,
@@ -32,7 +32,9 @@ const AppConfig = ({
     () => {
       const id = profile?.accountUuid;
       if (id) {
-        setDatadogRumUserFn({ id });
+        const hasEHRM = profileHasEHRM({ profile });
+        const hasVista = profileHasVista({ profile });
+        setDatadogRumUserFn({ id, hasEHRM, hasVista });
       }
     },
     [profile, setDatadogRumUserFn],

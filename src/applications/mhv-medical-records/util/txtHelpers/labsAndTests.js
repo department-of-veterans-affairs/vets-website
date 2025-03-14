@@ -37,11 +37,7 @@ ${
                 details.push(`Location: ${record.labLocation}`);
               if (record.date) details.push(`Date completed: ${record.date}`);
               if (record.comments) {
-                details.push(
-                  `Provider notes: ${record.comments
-                    .map(comment => `\n${comment}`)
-                    .join('')}`,
-                );
+                details.push(`Provider notes: ${record.comments}`);
               }
 
               details.push(' ', 'Results:', ' ');

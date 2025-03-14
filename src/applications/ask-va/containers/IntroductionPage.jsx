@@ -121,6 +121,10 @@ const IntroductionPage = props => {
   const handleSearchByReferenceNumber = async () => {
     const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
     await getApiData(url);
+    const headingElement = document.querySelector(
+      '[data-testid="status-message"] h3, [data-testid="error-message"] p:first-child',
+    );
+    if (headingElement) headingElement.focus();
   };
 
   const handleSearchInputChange = async e => {
@@ -133,8 +137,8 @@ const IntroductionPage = props => {
   const questionStatus = () => {
     if (hasError) {
       return (
-        <div className="vads-u-margin-y--3">
-          <p>
+        <div className="vads-u-margin-y--3" data-testid="error-message">
+          <p tabIndex="-1">
             We didn’t find a question with reference number "
             <span className="vads-u-font-weight--bold">
               {searchReferenceNumber}
@@ -156,8 +160,11 @@ const IntroductionPage = props => {
         getVAStatusIconAndMessage[AskVAStatus]?.color
       }`;
       return (
-        <>
-          <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
+        <div data-testid="status-message">
+          <h3
+            className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2"
+            tabIndex="-1"
+          >
             Showing the status for reference number "
             <span className="vads-u-font-weight--bold">
               {searchReferenceNumber}
@@ -176,7 +183,7 @@ const IntroductionPage = props => {
               </p>
             )}
           </div>
-        </>
+        </div>
       );
     }
 
