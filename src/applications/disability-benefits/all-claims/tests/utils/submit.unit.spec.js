@@ -672,11 +672,6 @@ describe('transformTreatmentFacilities', () => {
 });
 
 describe('extractDateParts', () => {
-  it('should return empty strings if the date string is invalid or missing', () => {
-    const result = extractDateParts('invalid-date');
-    expect(result).to.deep.equal({ treatmentMonth: '', treatmentYear: '' });
-  });
-
   it('should correctly extract the month and year from a valid date string', () => {
     const result = extractDateParts('2022-05-15');
     expect(result).to.deep.equal({
@@ -685,8 +680,23 @@ describe('extractDateParts', () => {
     });
   });
 
+  it('should return an empty treatmentMonth if the month is missing or non-numeric', () => {
+    const result = extractDateParts('2022-XX-XX');
+    expect(result).to.deep.equal({ treatmentMonth: '', treatmentYear: '2022' });
+  });
+
+  it('should return empty strings if both the year and month are missing or non-numeric', () => {
+    const result = extractDateParts('XXXX-XX-XX');
+    expect(result).to.deep.equal({ treatmentMonth: '', treatmentYear: '' });
+  });
+
   it('should return empty strings if the date string is undefined', () => {
     const result = extractDateParts(undefined);
+    expect(result).to.deep.equal({ treatmentMonth: '', treatmentYear: '' });
+  });
+
+  it('should return empty strings if the date string is invalid or missing', () => {
+    const result = extractDateParts('invalid-date');
     expect(result).to.deep.equal({ treatmentMonth: '', treatmentYear: '' });
   });
 });

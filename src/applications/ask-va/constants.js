@@ -96,6 +96,8 @@ export const TopicEducationBenefitsAndWorkStudy =
   'Education benefits and work study';
 export const TopicEducationBenefitOverpayments =
   'Education benefit overpayments (for school officials)';
+export const TopicEducationBenefitOverpaymentsForStudents =
+  'Education benefit overpayments (for students)';
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [

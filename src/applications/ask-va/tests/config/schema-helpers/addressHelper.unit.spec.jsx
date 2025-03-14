@@ -13,12 +13,12 @@ import {
 
 export const stateRequiredCountries = new Set(['USA', 'CAN', 'MEX']);
 
-const militaryStates = states.USA.filter(
-  state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
-).map(state => state.value);
-const militaryLabels = states.USA.filter(
-  state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA',
-).map(state => state.label);
+const militaryStates = ['AE', 'AP', 'AA'];
+const militaryLabels = [
+  'Armed Forces Europe',
+  'Armed Forces Pacific',
+  'Armed Forces Americas',
+];
 const usaStates = states.USA.map(state => state.value);
 const usaLabels = states.USA.map(state => state.label);
 const canProvinces = states.CAN.map(state => state.value);
@@ -80,6 +80,34 @@ describe('Address Page Schema and UI Schema', () => {
       expect(result.street['ui:required']()).to.be.true;
       expect(result.city['ui:required']({ onBaseOutsideUS: false })).to.be.true;
     });
+
+    it('should handle military address visibility correctly', () => {
+      const result = uiSchema('Test Address', true);
+      expect(
+        result.militaryAddress['ui:options'].hideIf({ onBaseOutsideUS: false }),
+      ).to.be.true;
+      expect(
+        result.militaryAddress['ui:options'].hideIf({ onBaseOutsideUS: true }),
+      ).to.be.false;
+    });
+
+    it('should handle state field visibility correctly', () => {
+      const result = uiSchema('Test Address', true);
+      expect(result.state['ui:options'].hideIf({ onBaseOutsideUS: false })).to
+        .be.false;
+      expect(result.state['ui:options'].hideIf({ onBaseOutsideUS: true })).to.be
+        .true;
+    });
+
+    it('should handle state field requirement based on country', () => {
+      const result = uiSchema('Test Address', true);
+      expect(
+        result.state['ui:required']({ onBaseOutsideUS: false, country: 'USA' }),
+      ).to.be.true;
+      expect(
+        result.state['ui:required']({ onBaseOutsideUS: false, country: 'CAN' }),
+      ).to.be.false;
+    });
   });
 
   describe('isMilitaryCity function', () => {
@@ -87,8 +115,29 @@ describe('Address Page Schema and UI Schema', () => {
       expect(isMilitaryCity('APO')).to.be.true;
     });
 
+    it('should identify FPO as a military city', () => {
+      expect(isMilitaryCity('FPO')).to.be.true;
+    });
+
+    it('should identify DPO as a military city', () => {
+      expect(isMilitaryCity('DPO')).to.be.true;
+    });
+
+    it('should handle lowercase military cities', () => {
+      expect(isMilitaryCity('apo')).to.be.true;
+      expect(isMilitaryCity('fpo')).to.be.true;
+      expect(isMilitaryCity('dpo')).to.be.true;
+    });
+
+    it('should handle military cities with whitespace', () => {
+      expect(isMilitaryCity('  APO  ')).to.be.true;
+      expect(isMilitaryCity('  FPO  ')).to.be.true;
+    });
+
     it('should identify non-military cities correctly', () => {
       expect(isMilitaryCity('New York')).to.be.false;
+      expect(isMilitaryCity('')).to.be.false;
+      expect(isMilitaryCity(undefined)).to.be.false;
     });
   });
 
@@ -129,7 +178,7 @@ describe('Address Page Schema and UI Schema', () => {
         }
 
         if (stateList) {
-          // We have a list and it’s different, so we need to make schema updates
+          // We have a list and it's different, so we need to make schema updates
           if (addressSchema.properties.state.enum !== stateList) {
             const withEnum = set(
               'state.enum',
@@ -143,14 +192,14 @@ describe('Address Page Schema and UI Schema', () => {
             );
           }
 
-          // We don’t have a state list for the current country, but there’s an enum in the schema
+          // We don't have a state list for the current country, but there's an enum in the schema
           // so we need to update it
         } else if (addressSchema.properties.state.enum) {
           const withoutEnum = unset('state.enum', schemaUpdate.properties);
           schemaUpdate.properties = unset('state.enumNames', withoutEnum);
         }
 
-        // We constrain the state list when someone picks a city that’s a military base
+        // We constrain the state list when someone picks a city that's a military base
         if (
           country === 'USA' &&
           isMilitaryCity(city) &&
@@ -178,24 +227,86 @@ describe('Address Page Schema and UI Schema', () => {
         path: ['address'],
         addressSchema: mockAddressSchema,
       });
-      expect(result.properties.state.enum).to.include.members([
-        'CA',
-        'TX',
-        'NY',
-      ]);
+      expect(result.properties.state.enum).to.include.members(usaStates);
+      expect(result.properties.state.enumNames).to.include.members(usaLabels);
     });
 
-    it('should update schema when city is a military base', () => {
+    it('should update schema when country is Canada', () => {
       const result = addressChangeSelector({
-        formData: { country: 'USA', city: 'APO' },
+        formData: { country: 'CAN' },
         path: ['address'],
         addressSchema: mockAddressSchema,
       });
-      expect(result.properties.state.enum).to.include.members([
-        'AE',
-        'AP',
-        'AA',
-      ]);
+      expect(result.properties.state.enum).to.include.members(canProvinces);
+      expect(result.properties.state.enumNames).to.include.members(canLabels);
+    });
+
+    it('should update schema when country is Mexico', () => {
+      const result = addressChangeSelector({
+        formData: { country: 'MEX' },
+        path: ['address'],
+        addressSchema: mockAddressSchema,
+      });
+      expect(result.properties.state.enum).to.include.members(mexStates);
+      expect(result.properties.state.enumNames).to.include.members(mexLabels);
+    });
+
+    it('should remove enum when country is not USA, Canada, or Mexico', () => {
+      const result = addressChangeSelector({
+        formData: { country: 'GBR' },
+        path: ['address'],
+        addressSchema: mockAddressSchema,
+      });
+      expect(result.properties.state).to.not.have.property('enum');
+      expect(result.properties.state).to.not.have.property('enumNames');
+    });
+
+    it('should update schema when city is a military base', () => {
+      const mockSchema = {
+        properties: {
+          state: {
+            enum: usaStates,
+            enumNames: usaLabels,
+          },
+        },
+      };
+      const result = addressChangeSelector({
+        formData: { country: 'USA', city: 'APO' },
+        addressSchema: mockSchema,
+        path: [],
+      });
+      expect(result.properties.state.enum).to.deep.equal(militaryStates);
+      expect(result.properties.state.enumNames).to.deep.equal(militaryLabels);
+    });
+
+    it('should not update schema when state list matches current enum', () => {
+      const mockSchemaWithUSAStates = {
+        properties: {
+          state: {
+            enum: usaStates,
+            enumNames: usaLabels,
+          },
+        },
+        required: ['street', 'city'],
+      };
+
+      const result = addressChangeSelector({
+        formData: { country: 'USA' },
+        path: ['address'],
+        addressSchema: mockSchemaWithUSAStates,
+      });
+      expect(result.properties.state.enum).to.equal(usaStates);
+      expect(result.properties.state.enumNames).to.equal(usaLabels);
+    });
+
+    it('should handle undefined country by defaulting to USA', () => {
+      const result = addressChangeSelector({
+        formData: {},
+        path: ['address'],
+        addressSchema: mockAddressSchema,
+      });
+      expect(result.properties.state.enum).to.include.members(usaStates);
+      expect(result.properties.state.enumNames).to.include.members(usaLabels);
     });
   });
 });
