@@ -457,13 +457,22 @@ export const BEHAVIOR_LIST_SECTION_SUBTITLES = Object.freeze({
   health: 'Behavioral changes related to health',
   other: 'Other behavioral changes',
   unlisted: 'Other behavioral changes not listed here:',
-  none: 'None',
+  none: 'No behavioral changes to include',
 });
 
 export const TREATMENT_RECEIVED_SUBTITLES = Object.freeze({
   va: 'VA or military treatment providers',
   nonVa: 'Non-VA treatment providers or Vet Centers',
-  none: 'None',
+  none: 'No treatment providers to include',
+});
+
+export const TREATMENT_RECEIVED_HINTS = Object.freeze({
+  va:
+    'Select any VA or military medical provider types where you received treatment for traumatic events.',
+  nonVa:
+    'Select any Non-VA provider types where you received treatment for traumatic events.',
+  none:
+    'Select this option if you didn’t seek treatment for traumatic events with any provider, or prefer not to report them.',
 });
 
 export const TREATMENT_RECEIVED_VA = Object.freeze({
@@ -511,3 +520,14 @@ export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
   ...BEHAVIOR_CHANGES_HEALTH,
   ...BEHAVIOR_CHANGES_OTHER,
 };
+
+export const BEHAVIOR_LIST_HINTS = Object.freeze({
+  work:
+    'Select any work related behavioral changes you experienced after your traumatic events.',
+  health:
+    'Select any health related behavioral changes you experienced after your traumatic events.',
+  other:
+    'Select any other types of behavioral changes you experienced after your traumatic events.',
+  none:
+    'Select this option if you didn’t experience any behavioral changes after your traumatic events, or prefer not to report them.',
+});
