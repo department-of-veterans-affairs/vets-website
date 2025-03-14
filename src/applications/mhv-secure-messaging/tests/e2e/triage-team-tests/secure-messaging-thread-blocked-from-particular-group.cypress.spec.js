@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import { AXE_CONTEXT, Paths, Locators, Alerts } from '../utils/constants';
 import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipients-response.json';
+import mockBlockedRecipients from '../fixtures/recipientsResponse/group-blocked-recipients-response.json';
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 
 describe('Verify Thread - Blocked from particular Triage Group', () => {

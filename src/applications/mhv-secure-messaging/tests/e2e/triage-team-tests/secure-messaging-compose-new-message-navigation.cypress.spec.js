@@ -1,12 +1,20 @@
-import PatientInboxPage from '../pages/PatientInboxPage';
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import { AXE_CONTEXT, Locators, Data, Alerts, Paths } from '../utils/constants';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
-import { AXE_CONTEXT, Locators, Paths, Alerts } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import mockMessages from '../fixtures/messages-response.json';
+import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
+import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/all-TG-blocked-recipients-response.json';
 
-describe('SM TRIAGE GROUPS ALERTS', () => {
-  it('user not associated with any group', () => {
+describe('SM USER NEW MESSAGE COMPOSE NAVIGATION', () => {
+  it('verify non-associated user could not visit new message page using direct url', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadPageForNoProvider(mockNoRecipients);
+
+    cy.visit(Paths.NEW_MESSAGE);
+
+    GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
@@ -23,24 +31,21 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
       Paths.FIND_LOCATIONS,
     );
 
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('user blocked from all groups', () => {
-    const allBlockedResponse = {
-      ...mockNoRecipients,
-      meta: {
-        ...mockNoRecipients.meta,
-        associatedTriageGroups: 7,
-        associatedBlockedTriageGroups: 7,
-      },
-    };
-
+  it('verify blocked user could not visit new message page using direct url', () => {
     SecureMessagingSite.login();
-    PatientInboxPage.loadPageForNoProvider(allBlockedResponse);
+    PatientInboxPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      mockFacilityBlockedRecipients,
+    );
+
+    cy.visit(Paths.NEW_MESSAGE);
+
+    GeneralFunctionsPage.verifyPageHeader(Data.START_NEW_MSG);
 
     cy.get(Locators.ALERTS.BLOCKED_GROUP)
       .find(`h2`)
@@ -56,8 +61,6 @@ describe('SM TRIAGE GROUPS ALERTS', () => {
       'href',
       Paths.FIND_LOCATIONS,
     );
-
-    cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

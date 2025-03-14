@@ -7,8 +7,9 @@ import { clearThread } from '../actions/threadDetails';
 import { retrieveMessageThread } from '../actions/messages';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import { closeAlert } from '../actions/alerts';
-import { PageTitles, Paths } from '../util/constants';
+import { PageTitles, Paths, BlockedTriageAlertStyles } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
@@ -16,6 +17,7 @@ const Compose = () => {
   const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
+  const { noAssociations } = useSelector(state => state.sm.recipients);
   const removeLandingPageFF = useSelector(
     state =>
       state.featureToggles[
@@ -24,6 +26,7 @@ const Compose = () => {
   );
   const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
+  const { allTriageGroupsBlocked } = recipients;
 
   const [acknowledged, setAcknowledged] = useState(false);
   const [draftType, setDraftType] = useState('');
@@ -138,7 +141,23 @@ const Compose = () => {
         />
       )}
 
-      {draftType && !acknowledged ? (
+      {draftType &&
+        (noAssociations || allTriageGroupsBlocked) && (
+          <div className="vads-l-grid-container compose-container">
+            <h1>Start a new message</h1>
+            <BlockedTriageGroupAlert
+              alertStyle={
+                allTriageGroupsBlocked
+                  ? BlockedTriageAlertStyles.WARNING
+                  : BlockedTriageAlertStyles.INFO
+              }
+            />
+          </div>
+        )}
+
+      {draftType &&
+      !acknowledged &&
+      (noAssociations === (undefined || false) && !allTriageGroupsBlocked) ? (
         <InterstitialPage
           acknowledge={() => {
             setAcknowledged(true);
@@ -147,11 +166,13 @@ const Compose = () => {
         />
       ) : (
         <>
-          {draftType && (
-            <div className="vads-l-grid-container compose-container">
-              {content()}
-            </div>
-          )}
+          {draftType &&
+            (noAssociations === (undefined || false) &&
+              !allTriageGroupsBlocked) && (
+              <div className="vads-l-grid-container compose-container">
+                {content()}
+              </div>
+            )}
         </>
       )}
     </>
