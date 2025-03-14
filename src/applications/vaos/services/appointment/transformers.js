@@ -113,8 +113,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
-  const isPast = appt.past;
-  // const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
+  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;
