@@ -12,6 +12,7 @@ import {
   getReactions,
   processList,
   validateField,
+  validateIfAvailable,
   createNoDescriptionText,
   createVAPharmacyText,
   fromToNumbs,
@@ -49,6 +50,22 @@ describe('Validate Field function', () => {
 
   it('should return 0', () => {
     expect(validateField(0)).to.equal(0);
+  });
+});
+
+describe('Validate if Available function', () => {
+  it('should return the value', () => {
+    expect(validateIfAvailable('Test')).to.equal('Test');
+  });
+
+  it("should return 'Test field not available' when no value is passed", () => {
+    expect(validateIfAvailable('Test field')).to.equal(
+      'Test field not available',
+    );
+  });
+
+  it('should return 0', () => {
+    expect(validateIfAvailable(0)).to.equal(0);
   });
 });
 
