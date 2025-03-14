@@ -9,37 +9,24 @@ const Breadcrumbs = () => {
       href: '/',
       label: 'Home',
     },
-    ...(navigation.path === '/'
+    {
+      href: '/school-administrators/',
+      label: 'Resources for schools',
+    },
+    {
+      href:
+        '/education/apply-for-education-benefits/application/10215/introduction/',
+      label: 'Report 85/15 Rule enrollment ratios',
+    },
+    ...(navigation.path.endsWith('/calculation-instructions')
       ? [
           {
-            href: '/find-forms/',
-            label: 'Find VA Form',
-          },
-          {
-            href: '/education/apply-for-education-benefits/application/10215/',
-            label: 'About VA Form 22-10215',
+            href:
+              '/education/apply-for-education-benefits/application/10215/calculation-instructions',
+            label: 'Calculation instructions',
           },
         ]
-      : [
-          {
-            href: '/school-administrators/',
-            label: 'Resources for schools',
-          },
-          {
-            href:
-              '/education/apply-for-education-benefits/application/10215/introduction/',
-            label: 'Report 85/15 Rule enrollment ratios',
-          },
-          ...(navigation.path.endsWith('/calculation-instructions')
-            ? [
-                {
-                  href:
-                    '/education/apply-for-education-benefits/application/10215/calculation-instructions',
-                  label: 'Calculation instructions',
-                },
-              ]
-            : []),
-        ]),
+      : []),
   ];
   return (
     <div className="row">

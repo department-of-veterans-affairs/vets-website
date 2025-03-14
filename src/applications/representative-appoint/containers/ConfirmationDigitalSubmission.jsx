@@ -116,7 +116,7 @@ export default function ConfirmationDigitalSubmission() {
         text="Go back to VA.gov"
         label="Go back to VA.gov"
         href="/"
-        type="secondary"
+        type="primary"
       />
 
       <div>

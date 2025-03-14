@@ -8,16 +8,10 @@ import {
   ssnSchema,
   ssnUI,
   yesNoSchema,
-  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
-import {
-  branchesOfService,
-  CHAPTER_3,
-  suffixes,
-  yesNoOptions,
-} from '../../constants';
+import { branchesOfService, suffixes } from '../../constants';
 import { isBranchOfServiceRequired } from '../helpers';
 
 const ssnServiceInfo = (
@@ -96,60 +90,6 @@ export const aboutYourselfGeneralSchema = {
   },
   last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
   suffix: selectSchema(suffixes),
-};
-
-export const personalInformationUiSchemas = {
-  first: {
-    'ui:title': 'First name',
-    'ui:webComponentField': VaTextInputField,
-    'ui:autocomplete': 'given-name',
-    'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a first name' },
-  },
-  middle: {
-    'ui:title': 'Middle name',
-    'ui:webComponentField': VaTextInputField,
-    'ui:autocomplete': 'additional-name',
-  },
-  last: {
-    'ui:title': 'Last name',
-    'ui:webComponentField': VaTextInputField,
-    'ui:autocomplete': 'family-name',
-    'ui:required': () => true,
-    'ui:errorMessages': { required: 'Please enter a last name' },
-  },
-  suffix: {
-    'ui:title': 'Suffix',
-    'ui:webComponentField': VaSelectField,
-    'ui:autocomplete': 'honorific-suffix',
-    'ui:options': {
-      widgetClassNames: 'form-select-medium',
-      hideEmptyValueInReview: true,
-    },
-  },
-  isVeteranDeceased: yesNoUI({
-    title: CHAPTER_3.VET_DECEASED.TITLE,
-    labels: yesNoOptions,
-    required: () => true,
-    errorMessages: {
-      required: 'Please let us know if the Veteran is deceased',
-    },
-  }),
-  socialOrServiceNum: {
-    'ui:title': ssnServiceInfo,
-    'ui:validations': [validateSSandSNGroup],
-    'ui:options': { showFieldLabel: true },
-    ssn: ssnUI(),
-    serviceNumber: serviceNumberUI('Service number'),
-  },
-  dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
-  branchOfService: {
-    'ui:title': 'Branch of service',
-    'ui:webComponentField': VaSelectField,
-    'ui:options': {
-      hideIf: formData => !isBranchOfServiceRequired(formData),
-    },
-  },
 };
 
 export const personalInformationAboutYourselfUiSchemas = {

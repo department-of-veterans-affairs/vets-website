@@ -9,7 +9,7 @@
     true,
     true,
     false,
-    455,
+    456,
     "If you’re returning from military service, we can help you readjust to civilian life and get started with VA health care. We can also help connect you with programs like mental health services and education and career counseling.",
     ""
   ],
@@ -99,11 +99,11 @@
     "militarySexualTrauma",
     "Mental health care",
     true,
-    null,
+    false,
     true,
-    null,
+    false,
     388,
-    "Military sexual trauma can happen to both genders. If you experienced sexual assault or harassment during military service—no matter when you served—we provide counseling and treatment.",
+    "Military sexual trauma can happen to anyone. If you experienced sexual assault or harassment during military service—no matter when you served—we provide counseling and treatment.",
     ""
   ],
   [
@@ -130,7 +130,7 @@
     true,
     false,
     false,
-    305,
+    306,
     "",
     ""
   ],
@@ -214,7 +214,7 @@
     true,
     true,
     false,
-    254,
+    256,
     "If you’re homeless or at risk of becoming homeless, we can help. We offer many programs and services, including free health care. And we can help you connect with resources in your community.",
     ""
   ],
@@ -263,7 +263,7 @@
     false,
     true,
     false,
-    215,
+    216,
     "Whole health puts you at the center of care, rather than your illnesses or conditions. We work with you to develop a personalized health plan based on your values, needs, and goals.",
     ""
   ],
@@ -397,7 +397,7 @@
     true,
     true,
     false,
-    124,
+    126,
     "We can help you reach your job and career goals with one-on-one support, counseling, and training.",
     ""
   ],
@@ -469,6 +469,28 @@
     ""
   ],
   [
+    "Dental/oral surgery",
+    "Mouth, teeth, gum, and oral care",
+    [
+      "teeth cleaning",
+      "fillings",
+      "restorations",
+      "root canal",
+      "bridges",
+      "dental implants",
+      "dentures"
+    ],
+    "dental",
+    "Specialty care",
+    false,
+    false,
+    true,
+    false,
+    114,
+    "If you’re eligible for VA dental care, we provide dental screenings, cleanings, X-rays and fillings. We also provide specialty dental procedures like root canal, restorations and dentures.",
+    "We offer dental screenings, cleanings, X-rays, and fillings. We also provide specialty dental procedures like root canals, restorations, and dentures."
+  ],
+  [
     "Nutrition, food, and dietary care",
     null,
     [],
@@ -495,28 +517,6 @@
     113,
     "We use imaging to help screen for, diagnose, and treat illness and injury. We provide X-rays and other imaging technologies.",
     ""
-  ],
-  [
-    "Dental/oral surgery",
-    "Mouth, teeth, gum, and oral care",
-    [
-      "teeth cleaning",
-      "fillings",
-      "restorations",
-      "root canal",
-      "bridges",
-      "dental implants",
-      "dentures"
-    ],
-    "dental",
-    "Specialty care",
-    false,
-    false,
-    true,
-    false,
-    113,
-    "If you’re eligible for VA dental care, we provide dental screenings, cleanings, X-rays and fillings. We also provide specialty dental procedures like root canal, restorations and dentures.",
-    "We offer dental screenings, cleanings, X-rays, and fillings. We also provide specialty dental procedures like root canals, restorations, and dentures."
   ],
   [
     "Cardiology",
@@ -849,7 +849,7 @@
     null,
     true,
     null,
-    74,
+    75,
     "We offer a wide range of activities (arts and crafts, games, sports, exercise) that we can adapt to your needs.",
     ""
   ],
@@ -988,6 +988,23 @@
     "Our specialists offer reproductive health care services, including contraception, pregnancy care, and fertility treatment."
   ],
   [
+    "Diabetes care",
+    null,
+    [
+      "Diabetes type 1",
+      "Diabetes type 2"
+    ],
+    "diabetic",
+    "Specialty care",
+    false,
+    false,
+    true,
+    false,
+    58,
+    "We offer treatment for type 1 and 2 diabetes. We work with you, your family and caregivers to help you live a healthier life through treatment, monitoring, diet and education.",
+    ""
+  ],
+  [
     "Otolaryngology",
     "Ear, nose and throat; head and neck surgery",
     [
@@ -1040,23 +1057,6 @@
     null,
     57,
     "The sleep medicine service diagnoses and treats your sleep problems, including trouble sleeping, breathing difficulties while sleeping, snoring, teeth grinding and jaw clenching.",
-    ""
-  ],
-  [
-    "Diabetes care",
-    null,
-    [
-      "Diabetes type 1",
-      "Diabetes type 2"
-    ],
-    "diabetic",
-    "Specialty care",
-    false,
-    false,
-    true,
-    false,
-    57,
-    "We offer treatment for type 1 and 2 diabetes. We work with you, your family and caregivers to help you live a healthier life through treatment, monitoring, diet and education.",
     ""
   ],
   [
@@ -1126,6 +1126,20 @@
     "If you have joint or autoimmune conditions, we offer care and treatment."
   ],
   [
+    "Workshops and classes",
+    null,
+    [],
+    "workshops",
+    null,
+    true,
+    false,
+    false,
+    false,
+    49,
+    "We offer workshops and classes if you want to connect with other Veterans but don't want a group counseling setting.",
+    "We offer workshops and classes if you want to connect with other Veterans and military community members but don't want a group counseling setting."
+  ],
+  [
     "Advice nurse",
     null,
     [],
@@ -1154,20 +1168,6 @@
     "If you have an infection, we can help evaluate and treat it. We can help with hepatitis, HIV/AIDS, and tuberculosis. "
   ],
   [
-    "Workshops and classes",
-    null,
-    [],
-    "workshops",
-    null,
-    true,
-    false,
-    false,
-    false,
-    48,
-    "We offer workshops and classes if you want to connect with other Veterans but don't want a group counseling setting.",
-    "We offer workshops and classes if you want to connect with other Veterans and military community members but don't want a group counseling setting."
-  ],
-  [
     "Urgent care",
     "Walk-in care",
     [
@@ -1183,7 +1183,7 @@
     false,
     true,
     false,
-    47,
+    48,
     "We provide immediate, walk-in care for minor injuries and non-emergency illnesses that are not life-threatening but need early attention.",
     ""
   ],
@@ -1303,6 +1303,20 @@
     ""
   ],
   [
+    "Disability compensation",
+    null,
+    [],
+    "DisabilityClaimAssistance",
+    null,
+    false,
+    true,
+    false,
+    false,
+    31,
+    "",
+    ""
+  ],
+  [
     "Wound care and ostomy",
     null,
     [],
@@ -1343,20 +1357,6 @@
     27,
     "If you or a Veteran you care about has a life-threatening injury, infection, illness or breathing problem, we offer comprehensive care and constant monitoring in our intensive care units (ICUs).",
     "If you have a life-threatening injury, infection, illness, or breathing problem, we offer comprehensive care and constant monitoring in our intensive care units (ICUs)."
-  ],
-  [
-    "Disability compensation",
-    null,
-    [],
-    "DisabilityClaimAssistance",
-    null,
-    false,
-    true,
-    false,
-    false,
-    27,
-    "",
-    ""
   ],
   [
     "Thoracic surgery",
@@ -1415,7 +1415,7 @@
     true,
     false,
     false,
-    23,
+    24,
     "",
     ""
   ],
@@ -1434,6 +1434,20 @@
     "If you have a condition or disease that affects the brain, spine, or nervous system, we can help. We offer expert care and surgery when needed."
   ],
   [
+    "Pre-discharge claims",
+    null,
+    [],
+    "PreDischargeClaimAssistance",
+    null,
+    false,
+    true,
+    false,
+    false,
+    21,
+    "",
+    ""
+  ],
+  [
     "HIV/hepatitis care",
     null,
     [
@@ -1448,20 +1462,6 @@
     false,
     20,
     "If you have a diagnosis of HIV or hepatitis A, B or C, we can provide you with the latest treatment methods and support. We also offer prevention education and testing for these infectious diseases.",
-    ""
-  ],
-  [
-    "Pre-discharge claims",
-    null,
-    [],
-    "PreDischargeClaimAssistance",
-    null,
-    false,
-    true,
-    false,
-    false,
-    20,
-    "",
     ""
   ],
   [
@@ -1535,6 +1535,20 @@
     ""
   ],
   [
+    "Military sexual trauma-related claims",
+    null,
+    [],
+    "MilitarySexualTraumaClaims",
+    null,
+    false,
+    true,
+    false,
+    false,
+    16,
+    "",
+    ""
+  ],
+  [
     "Burials and memorials",
     null,
     [],
@@ -1549,16 +1563,16 @@
     ""
   ],
   [
-    "Military sexual trauma-related claims",
+    "Veterans Pension",
     null,
     [],
-    "MilitarySexualTraumaClaims",
+    "Pensions",
     null,
     false,
     true,
     false,
     false,
-    14,
+    15,
     "",
     ""
   ],
@@ -1577,10 +1591,10 @@
     ""
   ],
   [
-    "VetSuccess on Campus",
+    "Education benefits for family members",
     null,
     [],
-    "VetSuccessOnCampus",
+    "FamilyEducationBenefits",
     null,
     false,
     true,
@@ -1591,10 +1605,10 @@
     ""
   ],
   [
-    "Veterans Pension",
+    "VetSuccess on Campus",
     null,
     [],
-    "Pensions",
+    "VetSuccessOnCampus",
     null,
     false,
     true,
@@ -1633,10 +1647,24 @@
     ""
   ],
   [
-    "Education benefits for family members",
+    "Home loans",
     null,
     [],
-    "FamilyEducationBenefits",
+    "VAHomeLoanAssistance",
+    null,
+    false,
+    true,
+    false,
+    false,
+    12,
+    "",
+    ""
+  ],
+  [
+    "Survivor compensation",
+    null,
+    [],
+    "FamilyMemberClaimAssistance",
     null,
     false,
     true,
@@ -1661,10 +1689,10 @@
     "If you have problems in your small intestine, colon, rectum, or pelvic area, we can help. Our compassionate and skilled team can provide surgery when needed."
   ],
   [
-    "Home loans",
+    "Transition assistance",
     null,
     [],
-    "VAHomeLoanAssistance",
+    "TransitionAssistance",
     null,
     false,
     true,
@@ -1689,38 +1717,10 @@
     ""
   ],
   [
-    "Transition assistance",
-    null,
-    [],
-    "TransitionAssistance",
-    null,
-    false,
-    true,
-    false,
-    false,
-    10,
-    "",
-    ""
-  ],
-  [
     "Careers and employment",
     null,
     [],
     "EducationAndCareerCounseling",
-    null,
-    false,
-    true,
-    false,
-    false,
-    10,
-    "",
-    ""
-  ],
-  [
-    "Survivor compensation",
-    null,
-    [],
-    "FamilyMemberClaimAssistance",
     null,
     false,
     true,
@@ -1740,7 +1740,7 @@
     true,
     false,
     false,
-    7,
+    8,
     "",
     ""
   ],
@@ -1754,7 +1754,7 @@
     true,
     false,
     false,
-    7,
+    8,
     "",
     ""
   ],
@@ -1768,7 +1768,7 @@
     true,
     false,
     false,
-    7,
+    8,
     "",
     ""
   ],
@@ -1815,6 +1815,20 @@
     ""
   ],
   [
+    "Chaplain services",
+    "Spiritual care, pastoral  care",
+    [],
+    "chaplain",
+    "Social programs and services",
+    false,
+    false,
+    true,
+    false,
+    5,
+    "VA Chaplains address spiritual, emotional, moral, religious, and ethical concerns of VA patients. Their services are available to religious and non-religious inpatient and outpatient Veterans, their caregivers, and their families. They provide spiritual care and supportive services for survivors. Chaplains are available 24/7 upon request.",
+    ""
+  ],
+  [
     "Virtual Health Resource Center (VHRC)",
     "Technical support and training",
     [],
@@ -1829,20 +1843,6 @@
     ""
   ],
   [
-    "Chaplain services",
-    "Spiritual care, pastoral  care",
-    [],
-    "chaplain",
-    "Social programs and services",
-    false,
-    false,
-    true,
-    false,
-    2,
-    "VA Chaplains address spiritual, emotional, moral, religious, and ethical concerns of VA patients. Their services are available to religious and non-religious inpatient and outpatient Veterans, their caregivers, and their families. They provide spiritual care and supportive services for survivors. Chaplains are available 24/7 upon request.",
-    ""
-  ],
-  [
     "Veterans Service Organizations (VSO)",
     null,
     [],
@@ -1852,7 +1852,7 @@
     true,
     false,
     false,
-    2,
+    4,
     "",
     ""
   ],
@@ -1874,7 +1874,7 @@
     false,
     true,
     false,
-    2,
+    4,
     "If you have difficulty speaking or understanding what other people are saying, we diagnose and treat problems with fluency, voice, understanding, and other communication disorders. We also diagnose and treat problems that affect your ability to swallow.",
     ""
   ],

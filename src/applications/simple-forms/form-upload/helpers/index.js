@@ -26,6 +26,16 @@ const formMappings = {
       'Improved Pension Eligibility Verification Report (Veteran with No Children)',
     pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
   },
+  '21-4192': {
+    subTitle:
+      'Request for Employment Information in Connection with Claim for Disability Benefits',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-4192-ARE.pdf',
+  },
+  '21-8940': {
+    subTitle:
+      'Application for Increased Compensation Based on Un-employability',
+    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf',
+  },
 };
 
 export const getFormNumber = (pathname = null) => {
