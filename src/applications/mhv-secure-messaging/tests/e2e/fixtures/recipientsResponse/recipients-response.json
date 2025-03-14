@@ -5,7 +5,7 @@
       "type": "all_triage_teams",
       "attributes": {
         "triageTeamId": 7026562,
-        "name": "###ABC_XYZ_TRIAGE_TEAM_PCMM_ASSOCIATION_747###",
+        "name": "###ABC_XYZ_TRIAGE_TEAM###",
         "stationNumber": "607",
         "blockedStatus": false,
         "relationType": "PATIENT",

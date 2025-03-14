@@ -1,7 +1,7 @@
 import mockMessages from '../fixtures/threads-response.json';
-import mockCategories from '../fixtures/categories-response.json';
+// import mockCategories from '../fixtures/categories-response.json';
+// import mockToggles from '../fixtures/toggles-response.json';
 import mockFolders from '../fixtures/folder-response.json';
-import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
 import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
@@ -9,25 +9,26 @@ import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response
 import { Data, Assertions, Locators, Paths, Alerts } from '../utils/constants';
 
 class FolderLoadPage {
-  foldersSetup = () => {
-    cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
-      'featureToggle',
-    );
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(
-      'categories',
-    );
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
-      'folders',
-    );
-    // cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
-    //   'inboxMessages',
-    // );
-    cy.visit('my-health/secure-messages/inbox/', {
-      onBeforeLoad: win => {
-        cy.stub(win, 'print');
-      },
-    });
-  };
+  // update to make this.loadFolderMessages method independent of 'PatientInboxPage.loadInboxMessages();'
+  // foldersSetup = () => {
+  //   cy.intercept('GET', Paths.INTERCEPT.FEATURE_TOGGLES, mockToggles).as(
+  //     'featureToggle',
+  //   );
+  //   cy.intercept('GET', Paths.INTERCEPT.MESSAGE_CATEGORY, mockCategories).as(
+  //     'categories',
+  //   );
+  //   cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
+  //     'folders',
+  //   );
+  //   // cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
+  //   //   'inboxMessages',
+  //   // );
+  //   cy.visit('my-health/secure-messages/inbox/', {
+  //     onBeforeLoad: win => {
+  //       cy.stub(win, 'print');
+  //     },
+  //   });
+  // };
 
   loadFolders = (foldersResponse = mockFolders) => {
     cy.intercept(
@@ -44,7 +45,7 @@ class FolderLoadPage {
     folderResponseIndex,
     messagesList,
   ) => {
-    this.foldersSetup();
+    // this.foldersSetup();
     this.loadFolders();
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],

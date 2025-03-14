@@ -2,9 +2,12 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
+import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
+import mockMessages from './fixtures/threads-response.json';
+import mockSingleMessage from './fixtures/inboxResponse/single-message-response.json';
 import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 
-describe('Secure Messaging Compose', () => {
+describe('SM MESSAGING COMPOSE', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
@@ -83,5 +86,47 @@ describe('Secure Messaging Compose', () => {
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
+});
+
+describe('COMPOSE WITH PLAIN TG NAMES', () => {
+  const updatedMockRecipientsResponse = {
+    ...mockRecipients,
+    data: [
+      {
+        ...mockRecipients.data[0],
+        attributes: {
+          ...mockRecipients.data[0].attributes,
+          suggestedNameDisplay: 'TG | Type | Name',
+        },
+      },
+      ...mockRecipients.data.slice(1),
+    ],
+  };
+
+  beforeEach(() => {
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
+      mockMessages,
+      mockSingleMessage,
+      updatedMockRecipientsResponse,
+    );
+    PatientInboxPage.navigateToComposePage();
+  });
+
+  it('verify recipients list indicates suggested TG name', () => {
+    cy.get(`#options`)
+      .find(
+        `[value=${
+          updatedMockRecipientsResponse.data[0].attributes.triageTeamId
+        }]`,
+      )
+      .should(
+        `have.text`,
+        `${
+          updatedMockRecipientsResponse.data[0].attributes.suggestedNameDisplay
+        }`,
+      );
+    cy.injectAxeThenAxeCheck();
   });
 });
