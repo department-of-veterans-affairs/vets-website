@@ -16,7 +16,7 @@ export const vaosApi = createApi({
             `/vaos/v2/epsApi/referrals/${referralId}`,
           );
         } catch (error) {
-          captureError(error);
+          captureError(error, false, 'fetch single referral');
           return {
             error: { status: error.status || 500, message: error.message },
           };
