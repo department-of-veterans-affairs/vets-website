@@ -14,6 +14,7 @@ export function selectEnrollmentStatus(state) {
       loading,
       parsedStatus,
       preferredFacility,
+      nonPrefill,
     },
   } = state;
   return {
@@ -23,5 +24,6 @@ export function selectEnrollmentStatus(state) {
     hasPreferredFacility: !!preferredFacility,
     canSubmitFinancialInfo,
     hasServerError,
+    nonPrefill,
   };
 }
