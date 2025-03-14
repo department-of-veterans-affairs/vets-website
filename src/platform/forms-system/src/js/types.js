@@ -37,6 +37,7 @@
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
  * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
+ * @property {boolean} [hideFormTitleConfirmation] If title should be hidden for confirmation page. Will override hideFormTitle.
  * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
@@ -292,7 +293,7 @@
  * @property {boolean} [enableAnalytics] Enable google analytic events. Sent on blur. Use a browser extension such as Adswerve to view the events in the console.
  * @property {string} [expandUnder] The key of the uiSchema directly before this field
  * @property {boolean} [expandContentFocus] Used with expandUnder. When the field expands under, it exclusively shows a vertical, blue bar, is indented, and focuses on the field's input.
- * @property {boolean | (value: string, formData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData) => !!value`
+ * @property {boolean | (value: string, formData: any, index: boolean, fullData: any) => boolean} [expandUnderCondition] `expandUnderCondition: (value, formData, index, fullData) => !!value`. value is the value of the target `expandUnder` field.
  * @property {boolean} [forceDivWrapper] Used as an a11y helper when you need to wrap a field in a div
  * @property {string | JSX.Element} [formDescription] Used with `useFormsPattern`. A JSX or string description that it is also a11y (screen reader) friendly. useFormsPattern and uswds must be true.
  * @property {string} [formHeading] Used with `useFormsPattern`. Intended to be used as the form page header. useFormsPattern and uswds must be true.

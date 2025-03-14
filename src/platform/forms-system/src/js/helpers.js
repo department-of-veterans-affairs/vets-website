@@ -657,7 +657,9 @@ export function hideFormTitle(formConfig, pathName, formData) {
   const page = pageList.find(p => p.path === pathName);
 
   if (pathName === '/confirmation') {
-    return formConfig.hideFormTitle ?? false;
+    return !!(formConfig.hideFormTitleConfirmation === undefined
+      ? formConfig.hideFormTitle
+      : formConfig.hideFormTitleConfirmation);
   }
 
   if (!page || !page.chapterKey) {
@@ -806,4 +808,44 @@ export function getUrlPathIndex(url) {
     .reverse()
     .find(part => !Number.isNaN(Number(part)));
   return indexString ? Number(indexString) : undefined;
+}
+
+/**
+ * Converts a url path to a formConfig's page path, which for arrays will include `:index`
+ *
+ * @param {string} urlPath for example `window.location.pathname` is a valid urlPath
+ * @param {string} [rootUrl] Optional - First part of the url path to remove
+ * @returns {string}
+ */
+export function convertUrlPathToPageConfigPath(urlPath, rootUrl = null) {
+  if (!urlPath) {
+    return urlPath;
+  }
+
+  try {
+    let pageConfigPath = urlPath;
+    let root = rootUrl;
+
+    pageConfigPath = pageConfigPath.split('/').filter(Boolean);
+
+    if (root) {
+      root = root.split('/').filter(Boolean);
+
+      pageConfigPath = pageConfigPath.reduce((acc, _, index) => {
+        if (pageConfigPath[index] !== root[index]) {
+          acc.push(pageConfigPath[index]);
+        }
+        return acc;
+      }, []);
+    }
+
+    pageConfigPath = pageConfigPath.join('/');
+
+    // change path/0/name to path/:index/name
+    // change path/0 to path/:index
+    // keep path/name as path/name
+    return pageConfigPath.replace(/\/\d{1,2}(?=\/|$)/, '/:index');
+  } catch {
+    return urlPath;
+  }
 }

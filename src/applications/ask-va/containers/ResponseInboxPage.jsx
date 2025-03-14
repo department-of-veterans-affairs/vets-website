@@ -141,12 +141,26 @@ const ResponseInboxPage = ({ router }) => {
   }, []);
 
   const getDownload = (fileName, fileContent) => {
+    const fileExtension = fileName.split('.');
+    const extension = fileExtension.pop();
+    const fileType =
+      extension === 'pdf' ? 'application/pdf' : `image/${extension}`;
+
+    const decoded = atob(fileContent);
+    const byteCharacters = atob(decoded.split(',')[1]);
+    const byteArray = Uint8Array.from(byteCharacters, char =>
+      char.charCodeAt(0),
+    );
+    const blob = new Blob([byteArray], { type: fileType });
+    const url = window.URL.createObjectURL(blob);
+
     const link = document.createElement('a');
-    link.href = `data:image/png;base64,${fileContent}`;
+    link.href = url;
     link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();
     link.remove();
+    window.URL.revokeObjectURL(url);
   };
 
   const getDownloadData = url => {
