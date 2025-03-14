@@ -1608,5 +1608,23 @@
     "domain": "www.benefits.va.gov",
     "src": "/compensation/rates-index.asp",
     "dest": "/disability/compensation-rates/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/resources_comp",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBenefits"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/sb",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationBirthDefects"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/Compensation/special_Benefit_Allowances_",
+    "dest": "/disability/compensation-rates/",
+    "batch": "compensationSpecialBenefits"
   }
 ]
