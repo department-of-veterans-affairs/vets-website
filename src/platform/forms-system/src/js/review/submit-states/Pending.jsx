@@ -15,26 +15,43 @@ export default function Pending(props) {
   } else {
     ariaDescribedBy = null;
   }
+  const hideBackButton = formConfig?.useTopBackLink || false;
 
   return (
     <>
       <PreSubmitSection formConfig={formConfig} />
       <Row classNames="form-progress-buttons vads-u-margin-y--2">
-        <Column classNames="small-6 medium-5">
-          <Back onButtonClick={onBack} />
-        </Column>
-        <Column classNames="small-6 medium-5">
-          <ProgressButton
-            ariaDescribedBy={ariaDescribedBy}
-            onButtonClick={onSubmit}
-            buttonText="Sending..."
-            disabled
-            buttonClass="usa-button-disabled"
-          />
-        </Column>
-        <Column classNames="small-1 medium-1 end">
-          <div className="hidden">&nbsp;</div>
-        </Column>
+        {hideBackButton ? (
+          <>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText="Sending..."
+                disabled
+                buttonClass="usa-button-disabled"
+              />
+            </Column>
+          </>
+        ) : (
+          <>
+            <Column classNames="small-6 medium-5">
+              <Back onButtonClick={onBack} />
+            </Column>
+            <Column classNames="small-6 medium-5">
+              <ProgressButton
+                ariaDescribedBy={ariaDescribedBy}
+                onButtonClick={onSubmit}
+                buttonText="Sending..."
+                disabled
+                buttonClass="usa-button-disabled"
+              />
+            </Column>
+            <Column classNames="small-1 medium-1 end">
+              <div className="hidden">&nbsp;</div>
+            </Column>
+          </>
+        )}
       </Row>
     </>
   );

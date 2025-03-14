@@ -7,7 +7,7 @@ describe('arrayBuilderOptions', () => {
     expect(arrayBuilderOptions.nounSingular).to.equal('child');
     expect(arrayBuilderOptions.nounPlural).to.equal('children');
     expect(arrayBuilderOptions.required).to.be.true;
-    expect(arrayBuilderOptions.maxItems).to.equal(10);
+    expect(arrayBuilderOptions.maxItems).to.equal(20);
   });
 
   describe('isItemIncomplete', () => {

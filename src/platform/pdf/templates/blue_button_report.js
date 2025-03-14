@@ -71,7 +71,7 @@ const generateTitleSection = (doc, parent, data) => {
     title: 'Title',
   });
   titleSection.add(
-    createHeading(doc, 'H1', config, 'VA medical records', {
+    createHeading(doc, 'H1', config, 'VA Blue Button® report', {
       x: config.margins.left,
       paragraphGap: 12,
     }),
@@ -152,6 +152,8 @@ const generateTitleSection = (doc, parent, data) => {
 };
 
 const generateDateRangeParagraph = (section, doc, data) => {
+  const dateRangeText =
+    data.fromDate === 'any' ? 'All time' : `${data.fromDate} to ${data.toDate}`;
   section.add(
     doc.struct('P', () => {
       doc
@@ -163,15 +165,10 @@ const generateDateRangeParagraph = (section, doc, data) => {
       doc
         .font(config.text.font)
         .fontSize(config.text.size)
-        .text(
-          `${data.fromDate} to ${data.toDate}`,
-          config.margins.left,
-          doc.y,
-          {
-            paragraphOptions: { lineGap: 20 },
-            continued: false,
-          },
-        );
+        .text(dateRangeText, config.margins.left, doc.y, {
+          paragraphOptions: { lineGap: 20 },
+          continued: false,
+        });
     }),
   );
   doc.moveDown();

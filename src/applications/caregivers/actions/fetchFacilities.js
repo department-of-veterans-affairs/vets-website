@@ -4,7 +4,7 @@ import { apiRequest } from 'platform/utilities/api';
 import { ensureValidCSRFToken } from './ensureValidCSRFToken';
 import content from '../locales/en/content.json';
 
-const formatAddress = address => {
+const formatAddress = (address = {}) => {
   const joinAddressParts = (...parts) => {
     const [city, state, zip] = parts;
     const stateZip = state && zip ? `${state} ${zip}` : state || zip;
@@ -12,7 +12,7 @@ const formatAddress = address => {
   };
 
   return {
-    address1: address.address1,
+    address1: address?.address1 || '',
     address2: [address?.address2, address?.address3].filter(Boolean).join(', '),
     address3: joinAddressParts(address?.city, address?.state, address?.zip),
   };
@@ -80,7 +80,7 @@ export const fetchFacilities = async ({
           ...attributes,
           id: facility.id,
           address: {
-            physical: formatAddress(attributes?.address.physical),
+            physical: formatAddress(attributes?.address?.physical ?? {}),
           },
         };
       });
@@ -92,7 +92,8 @@ export const fetchFacilities = async ({
     })
     .catch(error => {
       Sentry.withScope(scope => {
-        scope.setExtra('error', error.errors);
+        scope.setExtra('error', error);
+        scope.setExtra('errors', error.errors);
         Sentry.captureMessage(content['error--facilities-fetch']);
       });
 

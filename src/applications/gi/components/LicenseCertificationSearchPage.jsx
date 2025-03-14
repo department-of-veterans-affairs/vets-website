@@ -4,7 +4,7 @@ import LicenseCertificationFaq from './LicenseCertificationFaq';
 
 export default function LicenseCertificationSearchPage() {
   useEffect(() => {
-    window.scrollTo(0, 0); // create function for reuse
+    window.scrollTo(0, 0);
   }, []);
 
   return (
