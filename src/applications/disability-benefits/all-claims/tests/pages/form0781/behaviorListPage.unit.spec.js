@@ -118,7 +118,7 @@ describe('validating selections', () => {
         otherBehaviors: {
           unlisted: true,
         },
-        'view:noneCheckbox': { none: true },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
       };
 
       validateBehaviorSelections(errors, formData);
@@ -150,7 +150,7 @@ describe('validating selections', () => {
           reassignment: false,
           absences: false,
         },
-        'view:noneCheckbox': { none: true },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
       };
 
       validateBehaviorSelections(errors, formData);
@@ -172,7 +172,7 @@ describe('validating selections', () => {
           reassignment: false,
           absences: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
 
       validateBehaviorSelections(errors, formData);

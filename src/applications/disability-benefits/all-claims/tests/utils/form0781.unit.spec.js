@@ -270,7 +270,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'workBehaviors', 'reassignment'),
@@ -293,7 +293,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'workBehaviors', 'reassignment'),
@@ -317,7 +317,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'workBehaviors', 'reassignment'),
@@ -341,7 +341,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: true,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'otherBehaviors', 'misconduct'),
@@ -363,7 +363,7 @@ describe('showBehaviorDescriptionPages', () => {
           relationships: true,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'otherBehaviors', 'misconduct'),
@@ -387,7 +387,7 @@ describe('showBehaviorDescriptionPages', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(
         showBehaviorDescriptionsPage(formData, 'otherBehaviors', 'misconduct'),
@@ -414,7 +414,7 @@ describe('showUnlistedDescriptionPage', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(showUnlistedDescriptionPage(formData)).to.eq(true);
     });
@@ -434,7 +434,7 @@ describe('showUnlistedDescriptionPage', () => {
           relationships: true,
           misconduct: false,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(showUnlistedDescriptionPage(formData)).to.eq(false);
     });
@@ -455,7 +455,7 @@ describe('showUnlistedDescriptionPage', () => {
           misconduct: false,
           unlisted: false,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(showUnlistedDescriptionPage(formData)).to.eq(false);
     });
@@ -480,7 +480,7 @@ describe('showBehaviorSummaryPage', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
       expect(showBehaviorSummaryPage(formData)).to.eq(true);
     });
@@ -518,7 +518,7 @@ describe('showBehaviorSummaryPage', () => {
           misconduct: false,
           unlisted: false,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
       };
 
       expect(showBehaviorSummaryPage(formData)).to.eq(false);
@@ -531,7 +531,7 @@ describe('showBehaviorSummaryPage', () => {
         syncModern0781Flow: true,
         'view:mentalHealthWorkflowChoice':
           form0781WorkflowChoices.COMPLETE_ONLINE_FORM,
-        'view:noneCheckbox': { none: true },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': true },
       };
       expect(showBehaviorSummaryPage(formData)).to.eq(false);
     });
