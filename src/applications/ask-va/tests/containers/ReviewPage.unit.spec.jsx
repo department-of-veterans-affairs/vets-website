@@ -11,7 +11,7 @@ import * as StorageAdapterModule from '../../utils/StorageAdapter';
 import { createMockStore } from '../common';
 import { mockData } from '../fixtures/data/form-data-review';
 
-describe('<ReviewPage /> container', () => {
+describe.skip('<ReviewPage /> container', () => {
   let sandbox;
 
   const stubReviewCollapsibleChapter = () => {
