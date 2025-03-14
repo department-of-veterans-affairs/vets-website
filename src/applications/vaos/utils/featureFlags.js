@@ -9,7 +9,6 @@ module.exports = [
   { name: 'vaOnlineSchedulingExpressCare', value: true },
   { name: 'vaOnlineSchedulingFlatFacilityPage', value: true },
   { name: 'vaOnlineSchedulingVAOSServiceVAAppointments', value: true },
-  { name: 'vaOnlineSchedulingVAOSServiceCCAppointments', value: true },
   { name: 'vaOnlineSchedulingStatusImprovement', value: true },
   { name: 'vaOnlineSchedulingClinicFilter', value: true },
   { name: 'vaOnlineSchedulingUseDsot', value: true },

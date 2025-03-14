@@ -18,7 +18,6 @@ import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage/Reques
 describe('VAOS Backend Service Alert', () => {
   const initialState = {
     featureToggles: {
-      vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
     },
   };

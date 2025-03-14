@@ -20,7 +20,6 @@ const initialState = {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingPast: true,
     vaOnlineSchedulingVAOSServiceVAAppointments: true,
-    vaOnlineSchedulingVAOSServiceCCAppointments: true,
   },
 };
 
