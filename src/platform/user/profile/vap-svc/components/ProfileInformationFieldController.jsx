@@ -56,6 +56,7 @@ import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformation
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
 import { updateMessagingSignature } from '../../actions/mhv';
+import ProfileInformationEditViewFc from './ProfileInformationEditViewFc';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -414,34 +415,68 @@ class ProfileInformationFieldController extends React.Component {
     );
 
     if (showEditView || forceEditView) {
-      content = (
-        <ProfileInformationEditView
-          getInitialFormValues={() =>
-            getInitialFormValues({
-              fieldName,
-              data: this.props.data,
-              modalData: this.props.editViewData,
-            })
-          }
-          onCancel={this.onCancel}
-          fieldName={this.props.fieldName}
-          apiRoute={this.props.apiRoute}
-          convertCleanDataToPayload={this.props.convertCleanDataToPayload}
-          uiSchema={this.props.uiSchema}
-          formSchema={this.requireFieldBasedOnInitialValue(
-            this.props.formSchema,
-          )}
-          title={title}
-          recordCustomProfileEvent={recordCustomProfileEvent}
-          forceEditView={forceEditView}
-          cancelButtonText={this.props?.cancelButtonText}
-          saveButtonText={this.props?.saveButtonText}
-          showMailingAddressUpdateLocationChoice={
-            this.props?.prefillPatternEnabled &&
-            this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
-          }
-        />
-      );
+      if (
+        this.props?.prefillPatternEnabled &&
+        this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
+      ) {
+        content = (
+          <ProfileInformationEditViewFc
+            getInitialFormValues={() =>
+              getInitialFormValues({
+                fieldName,
+                data: this.props.data,
+                modalData: this.props.editViewData,
+              })
+            }
+            onCancel={this.onCancel}
+            fieldName={this.props.fieldName}
+            apiRoute={this.props.apiRoute}
+            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
+            uiSchema={this.props.uiSchema}
+            formSchema={this.requireFieldBasedOnInitialValue(
+              this.props.formSchema,
+            )}
+            title={title}
+            recordCustomProfileEvent={recordCustomProfileEvent}
+            forceEditView={forceEditView}
+            cancelButtonText={this.props?.cancelButtonText}
+            saveButtonText={this.props?.saveButtonText}
+            showMailingAddressUpdateProfileChoice={
+              this.props?.prefillPatternEnabled &&
+              this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
+            }
+          />
+        );
+      } else {
+        content = (
+          <ProfileInformationEditView
+            getInitialFormValues={() =>
+              getInitialFormValues({
+                fieldName,
+                data: this.props.data,
+                modalData: this.props.editViewData,
+              })
+            }
+            onCancel={this.onCancel}
+            fieldName={this.props.fieldName}
+            apiRoute={this.props.apiRoute}
+            convertCleanDataToPayload={this.props.convertCleanDataToPayload}
+            uiSchema={this.props.uiSchema}
+            formSchema={this.requireFieldBasedOnInitialValue(
+              this.props.formSchema,
+            )}
+            title={title}
+            recordCustomProfileEvent={recordCustomProfileEvent}
+            forceEditView={forceEditView}
+            cancelButtonText={this.props?.cancelButtonText}
+            saveButtonText={this.props?.saveButtonText}
+            showMailingAddressUpdateProfileChoice={
+              this.props?.prefillPatternEnabled &&
+              this.props?.fieldName === FIELD_NAMES.MAILING_ADDRESS
+            }
+          />
+        );
+      }
     }
 
     if (showValidationView) {

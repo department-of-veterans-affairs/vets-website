@@ -58,8 +58,11 @@ import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
-const MailingAddressUpdateLocationDescription = () => (
-  <p>
+const MailingAddressUpdateProfileDescription = () => (
+  <p
+    className="vads-u-color--gray-medium vads-u-margin-top--0"
+    style={{ paddingInline: '2px' }}
+  >
     If you select "yes", this information will be updated across multiple VA.gov
     benefits and services. Read more about{' '}
     <va-link
@@ -70,22 +73,22 @@ const MailingAddressUpdateLocationDescription = () => (
   </p>
 );
 
-const mailingAddressUpdateLocationUiSchema = radioUI({
+const mailingAddressUpdateProfileUiSchema = radioUI({
   title: 'Do you also want to update this information in your VA.gov profile?',
-  description: MailingAddressUpdateLocationDescription,
+  description: MailingAddressUpdateProfileDescription,
   labels: {
     yes: 'Yes, also update my profile',
     no: 'No, only update this form',
   },
 });
 
-const mailingAddressUpdateLocationSchema = radioSchema(['yes', 'no']);
+const mailingAddressUpdateProfileSchema = radioSchema(['yes', 'no']);
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {
     const {
       getInitialFormValues,
-      showMailingAddressUpdateLocationChoice,
+      showMailingAddressUpdateProfileChoice,
     } = this.props;
 
     const initialFormValues = getInitialFormValues();
@@ -94,21 +97,21 @@ export class ProfileInformationEditView extends Component {
       ...this.props.formSchema,
       properties: {
         ...this.props.formSchema.properties,
-        updateLocationChoice: mailingAddressUpdateLocationSchema,
+        updateProfileChoice: mailingAddressUpdateProfileSchema,
       },
-      required: [...this.props.formSchema.required, 'updateLocationChoice'],
+      required: [...this.props.formSchema.required, 'updateProfileChoice'],
     };
     const uiSchema = {
       ...this.props.uiSchema,
-      updateLocationChoice: mailingAddressUpdateLocationUiSchema,
+      updateProfileChoice: mailingAddressUpdateProfileUiSchema,
     };
 
     this.onChangeFormDataAndSchemas(
       initialFormValues,
-      showMailingAddressUpdateLocationChoice
+      showMailingAddressUpdateProfileChoice
         ? formSchema
         : this.props.formSchema,
-      showMailingAddressUpdateLocationChoice ? uiSchema : this.props.uiSchema,
+      showMailingAddressUpdateProfileChoice ? uiSchema : this.props.uiSchema,
     );
     this.focusOnFirstFormElement();
   }
@@ -431,7 +434,6 @@ ProfileInformationEditView.propTypes = {
   openModal: PropTypes.func.isRequired,
   recordCustomProfileEvent: PropTypes.func.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
-  showUpdateRadios: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
   updateFormFieldWithSchema: PropTypes.func.isRequired,
   validateAddress: PropTypes.func.isRequired,
@@ -448,7 +450,8 @@ ProfileInformationEditView.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
-  showMailingAddressUpdateLocationChoice: PropTypes.bool,
+  shouldOnlyUpdateForm: PropTypes.bool,
+  showMailingAddressUpdateProfileChoice: PropTypes.bool,
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
@@ -470,6 +473,12 @@ export const mapStateToProps = (state, ownProps) => {
     FIELD_NAMES.MAILING_ADDRESS,
   );
 
+  const field = selectEditedFormField(state, fieldName);
+
+  const shouldOnlyUpdateForm =
+    ownProps.showMailingAddressUpdateProfileChoice &&
+    field?.value?.updateProfileChoice === 'yes';
+
   return {
     /*
         This ternary is to deal with an edge case: if the user is currently viewing
@@ -490,6 +499,7 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    shouldOnlyUpdateForm,
   };
 };
 
