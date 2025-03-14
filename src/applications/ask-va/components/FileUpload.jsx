@@ -1,4 +1,8 @@
 import { VaFileInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  isLOA3,
+  isLoggedIn,
+} from '@department-of-veterans-affairs/platform-user/selectors';
 import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -32,8 +36,6 @@ const FileUpload = props => {
   const [fileErrors, setFileErrors] = useState([]);
   const [indexDBError, setIndexDBError] = useState([]);
   const route = useSelector(state => state.navigation.route.path);
-  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
   const getErrorMessage = fileID => {
     if (indexDBError.length > 0 && indexDBError.includes(fileID)) {
