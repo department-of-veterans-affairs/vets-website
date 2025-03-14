@@ -5,8 +5,13 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 import DependentDeclarationField from '../FormFields/DependentDeclarationField';
 import DependentDescription from '../FormDescriptions/DependentDescription';
 import DependentList from '../FormFields/DependentList';
-import { DEPENDENT_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
+import {
+  DEPENDENT_VIEW_FIELDS,
+  SHARED_PATHS,
+  MAX_DEPENDENTS,
+} from '../../utils/constants';
 import content from '../../locales/en/content.json';
+import DependentsMaxWarning from '../FormAlerts/DependentsMaxWarning';
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -92,7 +97,15 @@ const DependentSummary = props => {
         </legend>
 
         {/** Additional Info component for description */}
-        <DependentDescription />
+        {dependents.length === 0 ? (
+          <>
+            <DependentDescription />
+          </>
+        ) : null}
+
+        {!onReviewPage && dependents.length >= MAX_DEPENDENTS ? (
+          <DependentsMaxWarning />
+        ) : null}
 
         {/** Dependent tile list */}
         {dependents.length > 0 ? (
@@ -106,7 +119,7 @@ const DependentSummary = props => {
           </div>
         ) : null}
 
-        {!onReviewPage ? (
+        {!onReviewPage && dependents.length < MAX_DEPENDENTS ? (
           <>
             {/** Field radio group */}
             <div data-testid="ezr-dependent-declaration-field">
