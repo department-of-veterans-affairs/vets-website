@@ -1,10 +1,19 @@
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal, VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { mentalHealthSupportAlert } from '../content/form0781';
 import { checkValidations } from '../../../appeals/shared/validations';
 import { scrollToFirstError } from 'platform/utilities/ui';
+
+// TODO: CAN THESE KEYS EXIST OUTSIDE OF THIS FLOW? (SINCE WE ARE CHECKING the full data store)
+const BEHAVIORAL_COMBAT_FIELD_KEYS = [
+  'workBehaviors',
+  'healthBehaviors',
+  'otherBehaviors',
+  'unlistedBehaviors',
+  'behaviorsDetails',
+];
 
 const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   // TODO: MOVE TO CONTENT FILE
@@ -22,12 +31,15 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 
   const selectionField = 'view:answerCombatBehaviorQuestions';
 
+  const deleteCombatAnswersModalTitle = "Change response to 'no'?";
+
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
     null,
   );
 
   const [hasError, setHasError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const missingSelection = (error, _fieldData, formData) => {
     if (!formData?.[selectionField]) {
@@ -37,7 +49,6 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 
   // NOTE: this and checkValidaitons is lifted from appeals
   const checkErrors = (formData = data) => {
-    // We will add a second validation function here
     const error = checkValidations([missingSelection], optIn, formData);
     const result = error?.[0] || null;
 
@@ -45,36 +56,58 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
     return result;
   };
 
+  const checkAlreadyAnsweredQuestions = () => {
+    return BEHAVIORAL_COMBAT_FIELD_KEYS.some(key => key in data && data[key]);
+  };
+
+  const deleteBehavioralAnswers = () => {
+    console.log("Deleting answers")
+    // const deepClone = structuredClone(data);
+
+    // BEHAVIORAL_COMBAT_FIELD_KEYS.forEach(key => {
+    //   delete deepClone[key];
+    // });
+
+    // setFormData(deepClone);
+  };
+
   const handlers = {
     onSelection: event => {
-      const { selection } = event?.detail || {};
-      if (selection) {
-        setOptIn(selection);
+      const { value } = event?.detail || {};
 
+      if (value) {
+        setOptIn(value);
         const formData = {
           ...data,
-          'view:answerCombatBehaviorQuestions': event.detail?.value,
+          'view:answerCombatBehaviorQuestions': value,
         };
         setFormData(formData);
         // ?????? setFormData lags a little, so check updated data
         checkErrors(formData);
-        // Think this is DOMO stuff:
-        // recordEvent({
-        //   event: 'int-radio-button-option-click',
-        //   'radio-button-label': content.label,
-        //   'radio-button-optionLabel': content[`${value}Label`],
-        //   'radio-button-required': false,
-        // });
       }
     },
     onSubmit: event => {
       event.preventDefault();
 
+      const { selection } = event?.detail || {};
+
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
+      } else if (selection === 'false' && checkAlreadyAnsweredQuestions()) {
+        setShowModal(true);
       } else if (optIn) {
         goForward(data);
       }
+    },
+    onCloseModal: () => {
+      setShowModal(false);
+    },
+    onConfirmDeleteBehavioralAnswers: () => {
+      deleteBehavioralAnswers();
+      handlers.onCloseModal();
+    },
+    onCancelDeleteBehavioralAnswers: () => {
+      handlers.onCloseModal();
     },
   };
 
@@ -91,6 +124,19 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 
       <p>{combatIntroDescription}</p>
 
+      <VaModal
+        modalTitle={deleteCombatAnswersModalTitle}
+        visible={showModal}
+        onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
+        onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
+        onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
+        primaryButtonText={'Change my response'}
+        secondaryButtonText={'Cancel and return to claim'}
+      >
+        {/* TODO: list existing answers  */}
+        <p>Stuff</p>
+      </VaModal>
+
       {/* Do we need to register the handler in both the onSubmit and the go forward? */}
       <form onSubmit={handlers.onSubmit}>
         <div />
@@ -105,20 +151,17 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
           uswds
         >
           <va-radio-option
-            key={'yes-choice'}
+            key="yes-choice"
             label={answerCombatQuestionsChoice}
-            // id={'yes-choice'}
-            // These are strings in the existing implementation:
-            value={'true'}
+            value="true"
             checked={optIn === 'true'}
             uswds
           />
 
           <va-radio-option
-            key={'no-choice'}
-            // id={'no-choice'}
+            key="no-choice"
             label={optOutOfCombatQuestionsChoice}
-            value={'false'}
+            value="false"
             checked={optIn === 'false'}
             uswds
           />
