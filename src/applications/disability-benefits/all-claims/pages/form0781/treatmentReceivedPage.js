@@ -42,7 +42,7 @@ export const uiSchema = {
     },
     required: false,
   }),
-  'view:treatmentNoneCheckbox': checkboxGroupUI({
+  treatmentNoneCheckbox: checkboxGroupUI({
     title: TREATMENT_RECEIVED_SUBTITLES.none,
     labelHeaderLevel: '4',
     labels: {
@@ -66,6 +66,6 @@ export const schema = {
     treatmentReceivedNonVaProvider: checkboxGroupSchema(
       Object.keys(TREATMENT_RECEIVED_NON_VA),
     ),
-    'view:treatmentNoneCheckbox': checkboxGroupSchema(['none']),
+    treatmentNoneCheckbox: checkboxGroupSchema(['none']),
   },
 };
