@@ -1,5 +1,5 @@
 import threadResponse from '../fixtures/thread-response-new-api.json';
-import inboxMessages from '../fixtures/messages-response.json';
+import inboxMessages from '../fixtures/threads-response.json';
 import { dateFormat } from '../../../util/helpers';
 import { Locators, Paths } from '../utils/constants';
 import PatientInterstitialPage from './PatientInterstitialPage';

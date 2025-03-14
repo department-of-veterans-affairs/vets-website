@@ -21,7 +21,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2664983"
@@ -48,7 +50,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2665844"
@@ -75,7 +79,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2649146"
@@ -102,7 +108,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2649112"
@@ -129,7 +137,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/2402958"
@@ -156,7 +166,9 @@
         "proxySenderName": null,
         "hasAttachment": true,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1486341"
@@ -183,7 +195,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/1417653"
@@ -210,7 +224,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/874509"
@@ -237,7 +253,9 @@
         "proxySenderName": null,
         "hasAttachment": false,
         "unsentDrafts": false,
-        "unreadMessages": true
+        "unreadMessages": true,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/873619"
@@ -264,7 +282,9 @@
         "proxySenderName": null,
         "hasAttachment": true,
         "unsentDrafts": false,
-        "unreadMessages": false
+        "unreadMessages": false,
+        "isOhMessage": false,
+        "suggestedNameDisplay": null
       },
       "links": {
         "self": "https://staging-api.va.gov/my_health/v1/messaging/threads/873626"
