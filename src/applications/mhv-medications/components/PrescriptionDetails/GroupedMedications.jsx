@@ -3,8 +3,11 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { datadogRum } from '@datadog/browser-rum';
-import { EMPTY_FIELD } from '../../util/constants';
-import { dateFormat, fromToNumbs } from '../../util/helpers';
+import {
+  dateFormat,
+  fromToNumbs,
+  validateIfAvailable,
+} from '../../util/helpers';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
@@ -78,13 +81,25 @@ const GroupedMedications = props => {
                 <dd className="last-filled-info-grouped-rx">
                   <LastFilledInfo {...rx} />
                 </dd>
-                <dd>Quantity: {rx.quantity}</dd>
                 <dd>
-                  Prescribed on {dateFormat(rx.orderedDate, 'MMMM D, YYYY')}
+                  {rx.quantity
+                    ? `Quantity: ${rx.quantity}`
+                    : validateIfAvailable('Quantity')}
                 </dd>
                 <dd>
-                  Prescribed by{' '}
-                  {(rx.providerFirstName && rx.providerLastName) || EMPTY_FIELD}
+                  Prescribed on{' '}
+                  {dateFormat(
+                    rx.orderedDate,
+                    'MMMM D, YYYY',
+                    'date not available',
+                  )}
+                </dd>
+                <dd>
+                  {rx.providerFirstName && rx.providerLastName
+                    ? `Prescribed by ${rx.providerLastName}, ${
+                        rx.providerFirstName
+                      }`
+                    : validateIfAvailable('Provider name')}
                 </dd>
               </dl>
             );
