@@ -28,8 +28,14 @@ export const ConfirmationPage = ({ router, route }) => {
     },
     [submission],
   );
+  useEffect(() => {
+    const h2 = document.querySelector('.custom-classname h2');
+    const h3 = document.createElement('h3');
+    h3.innerHTML = h2.innerHTML;
+    h2.parentNode.replaceChild(h3, h2);
+  }, []);
 
-  const childContent = (
+  const childContent = downloadLink => (
     <div>
       <va-alert close-btn-aria-label="Close notification" status="into" visible>
         <h2 slot="headline">Complete all submission steps</h2>
@@ -43,21 +49,9 @@ export const ConfirmationPage = ({ router, route }) => {
         To submit your form, follow the steps below
       </h2>
       <va-process-list uswds>
-        <va-process-list-item header="Download and save your form">
+        <va-process-list-item>
           <div itemProp="itemListElement">
-            <p>
-              Make sure that your completed form is saved as a PDF on your
-              device.
-            </p>
-            <p>
-              <va-link
-                href={`${
-                  environment.API_URL
-                }/v0/education_benefits_claims/download_pdf/${claimId}`}
-                text="Download VA Form 22-10215"
-                download
-              />
-            </p>
+            <p>{downloadLink}</p>
           </div>
         </va-process-list-item>
         <va-process-list-item header="Upload the form to the VA education portal">
@@ -112,10 +106,13 @@ export const ConfirmationPage = ({ router, route }) => {
       formConfig={route?.formConfig}
       confirmationNumber={confirmationNumber}
       submitDate={submitDate}
-      pdfUrl={submission?.response?.pdfUrl}
+      pdfUrl={`${
+        environment.API_URL
+      }/v0/education_benefits_claims/download_pdf/${claimId}`}
     >
-      {/* <ConfirmationView.SavePdfDownload /> */}
-      {childContent}
+      {childContent(
+        <ConfirmationView.SavePdfDownload className="custom-classname" />,
+      )}
       <ConfirmationView.NeedHelp content={<GetFormHelp />} />
     </ConfirmationView>
   );
