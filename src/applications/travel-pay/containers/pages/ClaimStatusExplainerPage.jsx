@@ -70,8 +70,9 @@ const ClaimStatusExplainerPage = () => {
                 <h2 className="vads-u-font-size--h3">{grouping.name}</h2>
                 <p>{grouping.description}</p>
                 <ul>
-                  {STATUSES.map(
-                    status =>
+                  {Object.keys(STATUSES).map(s => {
+                    const status = STATUSES[s];
+                    return (
                       grouping.includes.includes(status.name) && (
                         <li key={status.name}>
                           <b>{status.name} — </b> {status.description}
@@ -83,8 +84,9 @@ const ClaimStatusExplainerPage = () => {
                             </ul>
                           )}
                         </li>
-                      ),
-                  )}
+                      )
+                    );
+                  })}
                 </ul>
               </React.Fragment>
             ))}
