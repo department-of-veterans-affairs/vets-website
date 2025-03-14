@@ -4,11 +4,29 @@ import classNames from 'classnames';
 
 import { scrollAndFocus } from 'platform/utilities/scroll';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
-import { DEPENDENT_VIEW_FIELDS } from '../../utils/constants';
+import { DEPENDENT_VIEW_FIELDS, LAST_YEAR } from '../../utils/constants';
 import content from '../../locales/en/content.json';
+
+const yesNoLabels = hasList => {
+  if (hasList) {
+    return {
+      labels: {
+        Y: content['household-dependent-report-yes-addtl'],
+        N: content['household-dependent-report-no-addtl'],
+      },
+    };
+  }
+  return {
+    labels: {
+      Y: content['household-dependent-report-yes'],
+      N: content['household-dependent-report-no'],
+    },
+  };
+};
 
 const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
   const fieldsetRef = useRef(null);
+  const labels = yesNoLabels(hasList);
 
   // set focus to this component on form error
   useEffect(
@@ -43,6 +61,17 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
         <span className="schemaform-required-span">
           {content['validation-required-label']}
         </span>
+        <p className="usa-hint">
+          We consider your spouse, including same-sex and common-law marriages,
+          to be your dependent.
+        </p>
+        <p className="usa-hint">
+          Your unmarried child can also be your dependent if they are under 18
+          years old, between 18 and 23 years old and enrolled in school in{' '}
+          {LAST_YEAR}, or they’re living with a permanent disability that
+          happened before they turned 18 years old.
+        </p>
+        <p className="usa-hint">You can add up to six dependents.</p>
       </legend>
 
       {/** Error message */}
@@ -63,6 +92,7 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
           id={`root_${DEPENDENT_VIEW_FIELDS.add}`}
           value={defaultValue}
           onChange={onChange}
+          options={labels}
         />
       </div>
     </fieldset>
