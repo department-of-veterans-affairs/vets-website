@@ -114,8 +114,9 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
+  // todo: need to cleanup when using api response to determine a cc request
   const isRequest = useFeSourceOfTruth
-    ? appt.pending
+    ? appt.pending || appointmentType === APPOINTMENT_TYPES.ccRequest
     : appointmentType === APPOINTMENT_TYPES.request ||
       appointmentType === APPOINTMENT_TYPES.ccRequest;
   const isUpcoming = useFeSourceOfTruth

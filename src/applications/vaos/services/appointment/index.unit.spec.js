@@ -551,6 +551,7 @@ describe('VAOS Services: Appointment ', () => {
         startDate,
         endDate,
         useV2: true,
+        useFeSourceOfTruth: true,
       });
 
       // Then expect a CC appointment request to be returned.
