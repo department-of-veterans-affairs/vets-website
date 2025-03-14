@@ -31,7 +31,8 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 
   const selectionField = 'view:answerCombatBehaviorQuestions';
 
-  const deleteCombatAnswersModalTitle = "Change response to 'no'?";
+  const deleteCombatAnswersModalTitle =
+    'Change to skip questions about behavioral changes?';
 
   const [optIn, setOptIn] = useState(
     data?.['view:answerCombatBehaviorQuestions'],
@@ -110,6 +111,28 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
       handlers.onCloseModal();
     },
   };
+  const modalContent = (
+    <>
+      <h4 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
+        {deleteCombatAnswersModalTitle}
+      </h4>
+      <p>
+        <b>What to know:</b>
+        If you change to skip questions about behavioral changes, we’ll remove
+        information you provided about these behavioral changes:
+      </p>
+
+      <ul>
+        {BEHAVIORAL_COMBAT_FIELD_KEYS.map(key => (
+          <li key={key}>{data[key]}</li>
+        ))}
+      </ul>
+
+      <p>
+        <b>Do you want to skip questions about behavioral challenges?</b>
+      </p>
+    </>
+  );
 
   return (
     <div className="vads-u-margin-y--2">
@@ -126,7 +149,9 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 
       <VaModal
         modalTitle={deleteCombatAnswersModalTitle}
-        visible={showModal}
+        // Temporary to see the modal on load:
+        visible
+        // visible={showModal}
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
@@ -134,7 +159,8 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
         secondaryButtonText={'Cancel and return to claim'}
       >
         {/* TODO: list existing answers  */}
-        <p>Stuff</p>
+        {modalContent}
+        {/* <p>Stuff</p> */}
       </VaModal>
 
       {/* Do we need to register the handler in both the onSubmit and the go forward? */}
