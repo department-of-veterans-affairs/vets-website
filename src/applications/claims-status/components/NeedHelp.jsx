@@ -30,13 +30,12 @@ export function NeedHelp({ item }) {
           through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,{' '}
           <va-telephone contact="711" tty="true" />.
         </p>
-        {!!item &&
-          alias && (
-            <p>
-              The VA benefits hotline may refer to the “{item.friendlyName}”
-              request as {alias}.
-            </p>
-          )}
+        {alias && (
+          <p>
+            The VA benefits hotline may refer to the “{item.friendlyName}”
+            request as {alias}.
+          </p>
+        )}
       </div>
     </va-need-help>
   );
