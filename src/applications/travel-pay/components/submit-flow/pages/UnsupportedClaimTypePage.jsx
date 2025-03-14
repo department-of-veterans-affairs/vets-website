@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useContext } from 'react';
 
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
+import { SmocContext } from '../../../context/SmocContext';
 
-const UnsupportedClaimTypePage = ({
-  pageIndex,
-  setIsUnsupportedClaimType,
-  setPageIndex,
-}) => {
+const UnsupportedClaimTypePage = () => {
+  const { pageIndex, setIsUnsupportedClaimType, setPageIndex } = useContext(
+    SmocContext,
+  );
   useEffect(() => {
     focusElement('h1');
     scrollToTop('topScrollElement');
@@ -32,12 +31,6 @@ const UnsupportedClaimTypePage = ({
       <va-button class="vads-u-margin-y--2" text="Back" onClick={onBack} />
     </div>
   );
-};
-
-UnsupportedClaimTypePage.propTypes = {
-  pageIndex: PropTypes.number,
-  setIsUnsupportedClaimType: PropTypes.func,
-  setPageIndex: PropTypes.func,
 };
 
 export default UnsupportedClaimTypePage;
