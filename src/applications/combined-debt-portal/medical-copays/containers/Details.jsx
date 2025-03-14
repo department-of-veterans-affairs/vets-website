@@ -6,7 +6,7 @@ import DetailCopayPage from './DetailCopayPage';
 import DetailPage from './DetailPage';
 
 export const TOGGLE_NAMES = {
-  showPaymentHistoryMVP: 'show_payment_history_mvp',
+  showVHAPaymentHistory: 'vha_show_payment_history',
 };
 
 const Details = ({ match, ...rest }) => {
