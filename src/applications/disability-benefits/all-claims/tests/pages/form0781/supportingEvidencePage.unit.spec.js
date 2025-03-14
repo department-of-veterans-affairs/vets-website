@@ -114,7 +114,7 @@ describe('validating selections', () => {
       supportingEvidenceOther: { addError: sinon.spy() },
       supportingEvidenceUnlisted: { addError: sinon.spy() },
     };
-    it('should show alert and add errors when none and supporting evidence is selected', () => {
+    it('should add error to the none checkbox when none and supporting evidence is selected', () => {
       const formData = {
         syncModern0781Flow: true,
         supportingEvidenceReports: {
@@ -141,10 +141,10 @@ describe('validating selections', () => {
       validateSupportingEvidenceSelections(errors, formData);
 
       // errors
-      expect(errors.supportingEvidenceReports.addError.called).to.be.true;
+      expect(errors.supportingEvidenceReports.addError.called).to.be.false;
       expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
-      expect(errors.supportingEvidenceWitness.addError.called).to.be.true;
-      expect(errors.supportingEvidenceOther.addError.called).to.be.true;
+      expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
+      expect(errors.supportingEvidenceOther.addError.called).to.be.false;
       expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.true;
 
       // alert
