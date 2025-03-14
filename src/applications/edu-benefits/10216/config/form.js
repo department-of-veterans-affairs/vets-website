@@ -42,11 +42,13 @@ const formConfig = {
   ),
   formId: '22-10216',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your education benefits application (22-10216) is in progress.',
-    //   expired: 'Your saved education benefits application (22-10216) has expired. If you want to apply for education benefits, please start a new application.',
-    //   saved: 'Your education benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your education benefits application (22-10216) is in progress.',
+      expired:
+        'Your saved education benefits application (22-10216) has expired. If you want to apply for education benefits, please start a new application.',
+      saved: 'Your education benefits application has been saved.',
+    },
   },
   customText: {
     reviewPageTitle: 'Review',
@@ -86,6 +88,10 @@ const formConfig = {
           title: 'Tell us about yourself',
           uiSchema: certifyingOfficial.uiSchema,
           schema: certifyingOfficial.schema,
+          onNavForward: ({ goPath }) => {
+            goPath('/institution-details-1');
+            localStorage.removeItem('10216claimID');
+          },
         },
         institutionDetails: {
           path: 'institution-details-1',
