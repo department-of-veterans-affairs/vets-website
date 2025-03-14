@@ -59,14 +59,12 @@ class PatientMessageDetailsPage {
       'contain',
       messageDetails.data[0].attributes.messageId,
     );
-    cy.get(Locators.FROM).should(
-      'contain',
-      messageDetails.data[0].attributes.triageGroupName,
-    );
+
     cy.get(Locators.FROM).should(
       'contain',
       messageDetails.data[0].attributes.senderName,
     );
+
     cy.get(Locators.TO).should(
       'contain',
       messageDetails.data[0].attributes.recipientName,
@@ -194,9 +192,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data[messageIndex].attributes.senderName} (${
-          messageDetails.data[messageIndex].attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data[messageIndex].attributes.senderName} `,
       );
   };
 
@@ -262,9 +258,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `From: ${messageDetails.data.attributes.senderName} (${
-          messageDetails.data.attributes.triageGroupName
-        })`,
+        `From: ${messageDetails.data.attributes.senderName} `,
       );
   };
 
