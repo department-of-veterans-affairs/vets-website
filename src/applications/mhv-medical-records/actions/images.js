@@ -14,7 +14,17 @@ export const requestImages = studyId => async dispatch => {
     const response = await requestImagingStudy(studyId);
     dispatch({ type: Actions.Images.REQUEST_IMAGE_STUDY, response });
   } catch (error) {
-    dispatch({ type: Actions.Images.SET_REQUEST_API_FAILED, payload: true });
+    const studyRequestLimitReached = error?.errors?.some(err =>
+      err?.detail?.includes('You have exceeded your limit of three'),
+    );
+    if (studyRequestLimitReached) {
+      dispatch({
+        type: Actions.Images.SET_REQUEST_LIMIT_REACHED,
+        payload: true,
+      });
+    } else {
+      dispatch({ type: Actions.Images.SET_REQUEST_API_FAILED, payload: true });
+    }
     throw error;
   }
 };

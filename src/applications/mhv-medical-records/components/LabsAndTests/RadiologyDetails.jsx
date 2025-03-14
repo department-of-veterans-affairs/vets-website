@@ -81,6 +81,7 @@ const RadiologyDetails = props => {
   const {
     imageStatus: studyJobs,
     notificationStatus,
+    studyRequestLimitReached,
     imageRequestApiFailed,
   } = useSelector(state => state.mr.images);
 
@@ -126,11 +127,11 @@ const RadiologyDetails = props => {
 
   useEffect(
     () => {
-      if (imageRequestApiFailed) {
+      if (imageRequestApiFailed || studyRequestLimitReached) {
         setProcessingRequest(false);
       }
     },
-    [imageRequestApiFailed],
+    [imageRequestApiFailed, studyRequestLimitReached],
   );
 
   useEffect(
@@ -368,6 +369,14 @@ ${record.results}`;
     </>
   );
 
+  const overRequestLimit = () => (
+    <p>
+      You can’t request images for this report right now. You can only have 3
+      image requests at a time. Once a report is done processing you can request
+      images for this report here.
+    </p>
+  );
+
   const imageStatusContent = () => {
     if (radiologyDetails.studyId) {
       if (processingRequest) {
@@ -387,11 +396,13 @@ ${record.results}`;
       return (
         <>
           {(!studyJob || studyJob.status === studyJobStatus.NONE) &&
+            !studyRequestLimitReached &&
             imagesNotRequested(studyJob)}
           {(studyJob?.status === studyJobStatus.NEW ||
             studyJob?.status === studyJobStatus.PROCESSING) &&
             imageAlertProcessing(studyJob)}
           {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
+          {studyRequestLimitReached && overRequestLimit()}
           {(imageRequestApiFailed ||
             studyJob?.status === studyJobStatus.ERROR) &&
             imageAlertError(studyJob)}
