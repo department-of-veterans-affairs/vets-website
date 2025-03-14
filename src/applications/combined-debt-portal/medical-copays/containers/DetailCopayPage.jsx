@@ -118,33 +118,40 @@ const DetailCopayPage = ({ match }) => {
 
         <Alert type={alert} copay={selectedCopay} />
 
-        <div className="vads-u-padding--3 vads-u-margin-y--3">
-          <div className="vads-l-row">
-            <div className="vads-l-col--12 medium-screen:vads-l-col--4">
-              <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-                Copay details
-              </h2>
-              <dl className="vads-u-margin--0">
-                <dt className="vads-u-font-weight--bold">Current balance</dt>
-                <dd className="vads-u-margin-left--0">
-                  {formatCurrency(selectedCopay?.pHNewBalance)}
-                </dd>
-                <dt className="vads-u-font-weight--bold vads-u-margin-top--2">
-                  Payment due
-                </dt>
-                <dd className="vads-u-margin-left--0">
-                  {formatDate(getPaymentDueDate())}
-                </dd>
-                <dt className="vads-u-font-weight--bold vads-u-margin-top--2">
-                  Account number
-                </dt>
-                <dd className="vads-u-margin-left--0">{acctNum}</dd>
-              </dl>
+        <div className="vads-u-margin-y--3">
+          <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
+            Copay details
+          </h2>
+          <dl className="vads-u-margin--0">
+            <div
+              role="none"
+              className="vads-u-display--flex vads-u-flex-direction--row"
+            >
+              <dt>Current balance:</dt>
+              <dd className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
+                {formatCurrency(selectedCopay?.pHNewBalance)}
+              </dd>
             </div>
-          </div>
+            <div
+              role="none"
+              className="vads-u-display--flex vads-u-flex-direction--row"
+            >
+              <dt>Payment due:</dt>
+              <dd className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
+                {formatDate(getPaymentDueDate())}
+              </dd>
+            </div>
+          </dl>
+          <h2 className="vads-u-margin-top--2 vads-u-font-size--h3">
+            Account number
+          </h2>
+          <p className="vads-u-margin--0">{acctNum}</p>
         </div>
 
-        <h2 id="current-statement" className="vads-u-margin-bottom--2">
+        <h2
+          id="current-statement"
+          className="vads-u-margin-bottom--2 vads-u-margin-top--4"
+        >
           Current statement
         </h2>
         <p>{getStatementDateRange()}</p>
