@@ -268,7 +268,7 @@
     "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@mapbox/mapbox-sdk": "~0.13.2",
-    "@reduxjs/toolkit": "^2.2.5",
+    "@reduxjs/toolkit": "^1.9.5",
     "blob-polyfill": "^5.0.20210201",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
