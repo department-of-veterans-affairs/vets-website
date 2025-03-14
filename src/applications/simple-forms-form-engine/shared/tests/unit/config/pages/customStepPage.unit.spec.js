@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as titlePattern from 'platform/forms-system/src/js/web-component-patterns/titlePattern';
+import customStepPage from 'applications/simple-forms-form-engine/shared/config/pages/customStepPage';
 import * as textArea from 'applications/simple-forms-form-engine/shared/config/components/textArea';
 import * as textInput from 'applications/simple-forms-form-engine/shared/config/components/textInput';
-import customStepPage from 'applications/simple-forms-form-engine/shared/config/pages/customStepPage';
+import * as date from 'applications/simple-forms-form-engine/shared/config/components/date';
 
 describe('customStepPage', () => {
   const normalizedPage = {
@@ -85,6 +86,18 @@ describe('customStepPage', () => {
 
     [
       {
+        importedFunction: date,
+        component: {
+          hint:
+            'This date component includes the day as well as the month and the year.',
+          id: '172748',
+          label: 'Date with Day',
+          required: true,
+          type: 'digital_form_date_component',
+          dateFormat: 'month_day_year',
+        },
+      },
+      {
         importedFunction: textArea,
         component: {
           hint: 'This is optional hint text',
@@ -118,10 +131,6 @@ describe('customStepPage', () => {
           expect(spy.calledWithMatch(component)).to.eq(true);
         });
       });
-    });
-
-    context('when component is a date component', () => {
-      it('calls the correct function');
     });
 
     context('when component is a radio button', () => {

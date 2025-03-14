@@ -1,14 +1,17 @@
 import { kebabCase } from 'lodash';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
-import { textArea, textInput } from '../components';
+import { date, textArea, textInput } from '../components';
 
 /** @returns {[SchemaOptions, UISchemaOptions]} */
 const selectSchemas = component => {
-  if (component.type === 'digital_form_text_area') {
-    return textArea(component);
+  switch (component.type) {
+    case 'digital_form_date_component':
+      return date(component);
+    case 'digital_form_text_area':
+      return textArea(component);
+    default:
+      return textInput(component);
   }
-
-  return textInput(component);
 };
 
 /** @returns {PageSchema} */
