@@ -35,7 +35,9 @@
         "cancellable": false,
         "localStartTime": "2023-10-13T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
-        "telehealth": null
+        "telehealth": null,
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -153,7 +155,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -270,7 +274,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -386,7 +392,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -516,7 +524,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -592,7 +602,9 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "MOBILE_ANY"
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -646,7 +658,9 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "MOBILE_GFE"
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -684,7 +698,9 @@
         "status": "cancelled",
         "cancellable": false,
         "localStartTime": "2023-12-21T09:00:00.000-06:00",
-        "telehealth": null
+        "telehealth": null,
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -801,7 +817,9 @@
               "WomensHealth"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -856,7 +874,9 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "MOBILE_ANY"
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -976,7 +996,9 @@
             },
             "visn": "10"
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1106,7 +1128,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1213,7 +1237,9 @@
               "WomensHealth"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1313,7 +1339,9 @@
               "WomensHealth"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1354,7 +1382,9 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "CLINIC_BASED"
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1395,7 +1425,9 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "CLINIC_BASED"
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1488,7 +1520,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1581,7 +1615,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1674,7 +1710,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1767,7 +1805,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1834,7 +1874,9 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "ADHOC"
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1901,7 +1943,9 @@
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
           "vvsKind": "ADHOC"
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -1989,7 +2033,9 @@
               "WomensHealth"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -2077,7 +2123,9 @@
               "WomensHealth"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -2253,7 +2301,9 @@
             "visn": "20",
             "ehrSystem": "Oracle"
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -2400,7 +2450,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -2527,7 +2579,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -2674,7 +2728,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -3045,7 +3101,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -3153,7 +3211,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -3343,7 +3403,9 @@
             },
             "visn": "10"
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -3539,7 +3601,9 @@
             "message": "Data retrieved successfully.",
             "success": true
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -3744,7 +3808,9 @@
             "createdOn": "2024-03-22T21:22:34.465Z",
             "modifiedOn": "2024-01-01T16:44:34.465"
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -3929,149 +3995,151 @@
             },
             "visn": "10"
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
       "id": "71e70ef6668e3a5ca41f0c0f1e1dddbd44e5a72462338efa807ac2ed1e3f1962",
       "type": "appointments",
       "attributes": {
-          "id": "71e70ef6668e3a5ca41f0c0f1e1dddbd44e5a72462338efa807ac2ed1e3f1962",
-          "identifier": [
-              {
-                  "system": "Appointment/",
-                  "value": "4139383439373030"
-              },
-              {
-                  "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
-                  "value": "984:9700"
-              }
-          ],
-          "kind": "telehealth",
-          "status": "booked",
-          "serviceType": "foodAndNutrition",
-          "serviceTypes": [
-              {
-                  "coding": [
-                      {
-                          "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
-                          "code": "foodAndNutrition"
-                      }
-                  ]
-              }
-          ],
-          "serviceCategory": [
-              {
-                  "coding": [
-                      {
-                          "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
-                          "code": "REGULAR",
-                          "display": "REGULAR"
-                      }
-                  ],
-                  "text": "REGULAR"
-              }
-          ],
-          "reasonCode": {
-              "text": "reason code:ROUTINEVISIT|comments:test"
+        "id": "71e70ef6668e3a5ca41f0c0f1e1dddbd44e5a72462338efa807ac2ed1e3f1962",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "4139383439373030"
           },
-          "patientIcn": "1012845331V153043",
-          "locationId": "984",
-          "clinic": "1313",
-          "start": "2025-04-30T20:20:00Z",
-          "end": "2025-04-30T21:20:00Z",
-          "minutesDuration": 60,
-          "slot": {
-              "id": "3230323530343330323032303A323032353034333032313230",
-              "start": "2025-04-30T20:20:00Z",
-              "end": "2025-04-30T21:20:00Z"
-          },
-          "created": "2024-11-19T00:00:00Z",
-          "cancellable": false,
-          "extension": {
-              "ccLocation": {
-                  "address": {}
-              },
-              "vistaStatus": [
-                  "FUTURE"
-              ],
-              "preCheckinAllowed": false,
-              "eCheckinAllowed": false,
-              "clinic": {
-                  "physicalLocation": "B330, 1E-151",
-                  "phoneNumber": "2728",
-                  "phoneNumberExtension": ""
-              }
-          },
-          "localStartTime": "2025-04-30T16:20:00.000-04:00",
-          "station": "984",
-          "ien": "9700",
-          "serviceName": "DAY NUTRITION",
-          "friendlyName": "DAY NUTRITION",
-          "physicalLocation": "B330, 1E-151",
-          "location": {
-              "id": "984",
-              "type": "appointments",
-              "attributes": {
-                  "id": "984",
-                  "vistaSite": "984",
-                  "vastParent": "984",
-                  "type": "va_health_facility",
-                  "name": "Dayton VA Medical Center",
-                  "classification": "VA Medical Center (VAMC)",
-                  "timezone": {
-                      "timeZoneId": "America/New_York"
-                  },
-                  "lat": 39.74935,
-                  "long": -84.2532,
-                  "website": "https://www.dayton.va.gov/locations/directions.asp",
-                  "phone": {
-                      "main": "937-268-6511"
-                  },
-                  "physicalAddress": {
-                      "type": "physical",
-                      "line": [
-                          "4100 West Third Street"
-                      ],
-                      "city": "Dayton",
-                      "state": "OH",
-                      "postalCode": "45428-9000"
-                  },
-                  "healthService": [
-                      "Audiology",
-                      "Cardiology",
-                      "DentalServices",
-                      "Dermatology",
-                      "Gastroenterology",
-                      "Gynecology",
-                      "MentalHealthCare",
-                      "Nutrition",
-                      "Ophthalmology",
-                      "Optometry",
-                      "Orthopedics",
-                      "Podiatry",
-                      "PrimaryCare",
-                      "SpecialtyCare",
-                      "Urology",
-                      "WomensHealth"
-                  ],
-                  "ehrSystem": "VistA"
-              }
-          },
-          "type": "VA",
-          "modality": "vaVideoCareAtHome",
-          "past": false,
-          "future": true,
-          "pending": false,
-          "travelPayClaim": {
-              "metadata": {
-                  "status": 200,
-                  "success": true,
-                  "message": "No claims found."
-              }
+          {
+            "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+            "value": "984:9700"
           }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "serviceType": "foodAndNutrition",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "foodAndNutrition"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "REGULAR",
+                "display": "REGULAR"
+              }
+            ],
+            "text": "REGULAR"
+          }
+        ],
+        "reasonCode": {
+          "text": "reason code:ROUTINEVISIT|comments:test"
+        },
+        "patientIcn": "1012845331V153043",
+        "locationId": "984",
+        "clinic": "1313",
+        "start": "2025-04-30T20:20:00Z",
+        "end": "2025-04-30T21:20:00Z",
+        "minutesDuration": 60,
+        "slot": {
+          "id": "3230323530343330323032303A323032353034333032313230",
+          "start": "2025-04-30T20:20:00Z",
+          "end": "2025-04-30T21:20:00Z"
+        },
+        "created": "2024-11-19T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "FUTURE"
+          ],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {
+            "physicalLocation": "B330, 1E-151",
+            "phoneNumber": "2728",
+            "phoneNumberExtension": ""
+          }
+        },
+        "localStartTime": "2025-04-30T16:20:00.000-04:00",
+        "station": "984",
+        "ien": "9700",
+        "serviceName": "DAY NUTRITION",
+        "friendlyName": "DAY NUTRITION",
+        "physicalLocation": "B330, 1E-151",
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ],
+            "ehrSystem": "VistA"
+          }
+        },
+        "type": "VA",
+        "modality": "vaVideoCareAtHome",
+        "past": true,
+        "future": true,
+        "pending": false,
+        "travelPayClaim": {
+          "metadata": {
+            "status": 200,
+            "success": true,
+            "message": "No claims found."
+          }
+        }
       }
-  },
+    },
     {
       "id": "03aa456vvs",
       "type": "Appointment",
@@ -4141,7 +4209,9 @@
         },
         "extension": {
           "patientHasMobileGfe": true
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -4213,7 +4283,9 @@
         },
         "extension": {
           "patientHasMobileGfe": true
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -4347,7 +4419,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -4481,7 +4555,9 @@
               "SpecialtyCare"
             ]
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -4696,7 +4772,9 @@
             },
             "visn": "10"
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -4829,7 +4907,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     },
     {
@@ -4941,7 +5021,9 @@
               "code": "NORMAL"
             }
           }
-        }
+        },
+        "past": true,
+        "pending": false
       }
     }
   ]

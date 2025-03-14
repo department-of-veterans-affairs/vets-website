@@ -1,14 +1,14 @@
-import moment from 'moment';
 import { isEmpty } from 'lodash';
+import moment from 'moment';
+import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 import {
   APPOINTMENT_TYPES,
-  TYPE_OF_VISIT,
   COVID_VACCINE_ID,
   PURPOSE_TEXT_V2,
+  TYPE_OF_VISIT,
 } from '../../utils/constants';
 import { getTimezoneByFacilityId } from '../../utils/timezone';
 import { transformFacilityV2 } from '../location/transformers';
-import { getProviderName, getTypeOfCareById } from '../../utils/appointment';
 
 export function getAppointmentType(appt) {
   // Cerner appointments have a different structure than VAOS appointments
@@ -113,7 +113,7 @@ export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
-  const isPast = isPastAppointment(appt);
+  const isPast = useFeSourceOfTruth ? appt.past : isPastAppointment(appt);
   const isRequest =
     appointmentType === APPOINTMENT_TYPES.request ||
     appointmentType === APPOINTMENT_TYPES.ccRequest;

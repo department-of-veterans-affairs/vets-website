@@ -166,6 +166,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         const yesterday = moment().subtract(1, 'day');
         const responses = MockAppointmentResponse.createAtlasResponses({
           localStartTime: yesterday,
+          past: true,
         });
         mockAppointmentApi({
           response: responses[0],
@@ -251,6 +252,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         const yesterday = moment().subtract(1, 'day');
         const responses = MockAppointmentResponse.createGfeResponses({
           localStartTime: yesterday,
+          past: true,
         });
         mockAppointmentApi({
           response: responses[0],
@@ -336,6 +338,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         const yesterday = moment().subtract(1, 'day');
         const responses = MockAppointmentResponse.createClinicResponses({
           localStartTime: yesterday,
+          past: true,
         });
         mockAppointmentApi({
           response: responses[0],
