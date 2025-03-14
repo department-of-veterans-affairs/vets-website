@@ -124,7 +124,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     });
   });
 
-  it('should dispay CC document title', async () => {
+  it('should display CC document title', async () => {
     // Arrange
     const response = new MockAppointmentResponse({
       kind: 'cc',
@@ -262,6 +262,49 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     await waitFor(() => {
       screen.queryByText(/You have canceled your appointment/i);
+    });
+  });
+
+  describe('When FE source of truth toggle is on', () => {
+    const defaultState = {
+      featureToggles: {
+        ...initialState.featureToggles,
+        vaOnlineSchedulingFeSourceOfTruth: true,
+      },
+    };
+    it('should go back to requests page when clicking top link', async () => {
+      // Arrange
+      const response = new MockAppointmentResponse({
+        status: APPOINTMENT_STATUS.proposed,
+        pending: true,
+      });
+      mockAppointmentsApi({
+        end: moment()
+          .add(2, 'day')
+          .format('YYYY-MM-DD'),
+        start: moment()
+          .subtract(120, 'days')
+          .format('YYYY-MM-DD'),
+        statuses: ['proposed', 'cancelled'],
+        response: [response],
+      });
+      const screen = renderWithStoreAndRouter(<AppointmentList />, {
+        initialState: defaultState,
+        path: '/pending',
+      });
+
+      const detailLinks = await screen.findByRole('link', { name: /Details/i });
+
+      fireEvent.click(detailLinks);
+      expect(await screen.findByText('Request for appointment')).to.be.ok;
+      const link = screen.container.querySelector(
+        'va-link[text="Back to pending appointments"]',
+      );
+      userEvent.click(link);
+      expect(screen.history.push.called).to.be.true;
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0]).to.equal('/pending');
+      });
     });
   });
 
