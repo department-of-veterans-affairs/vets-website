@@ -5,7 +5,7 @@ export const getData = ({
   isVerified = true,
   data = {},
   contestableIssues = {},
-  loaLevel = 3,
+  loaLevel,
   signInServiceName,
   loading = false,
 } = {}) => ({
