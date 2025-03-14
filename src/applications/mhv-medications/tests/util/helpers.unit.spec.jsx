@@ -55,7 +55,7 @@ describe('Validate Field function', () => {
 
 describe('Validate if Available function', () => {
   it('should return the value', () => {
-    expect(validateIfAvailable('Test')).to.equal('Test');
+    expect(validateIfAvailable('Test field name', 'Test')).to.equal('Test');
   });
 
   it("should return 'Test field not available' when no value is passed", () => {
@@ -65,7 +65,7 @@ describe('Validate if Available function', () => {
   });
 
   it('should return 0', () => {
-    expect(validateIfAvailable(0)).to.equal(0);
+    expect(validateIfAvailable('Test field name', 0)).to.equal(0);
   });
 });
 
