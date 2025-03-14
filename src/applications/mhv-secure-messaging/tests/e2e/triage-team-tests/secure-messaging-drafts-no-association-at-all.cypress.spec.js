@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import { Alerts, AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
 import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-response.json';
 

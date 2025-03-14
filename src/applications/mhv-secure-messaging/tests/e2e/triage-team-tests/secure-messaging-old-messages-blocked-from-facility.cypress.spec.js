@@ -4,7 +4,7 @@ import { AXE_CONTEXT, Locators, Alerts, Paths } from '../utils/constants';
 import mockMessages from '../fixtures/threads-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/facility-blocked-recipients-response.json';
-import mockRecipients from '../fixtures/recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
 describe('Verify old messages - blocked from facility', () => {
