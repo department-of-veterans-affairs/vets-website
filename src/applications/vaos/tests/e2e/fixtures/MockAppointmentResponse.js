@@ -45,6 +45,7 @@ export default class MockAppointmentResponse {
     serviceType = 'primaryCare',
     status = 'booked',
     future = false,
+    pending = false,
   } = {}) {
     const requestedPeriods = [];
     let timestamp = moment();
@@ -90,6 +91,7 @@ export default class MockAppointmentResponse {
         vvsKind,
       },
       future,
+      pending,
     };
   }
 
