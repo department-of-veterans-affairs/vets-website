@@ -72,10 +72,10 @@ export default function CompleteReferral() {
   const { appointment, provider } = referralAppointmentInfo;
 
   const appointmentDate = format(
-    new Date(appointment.startDate),
+    new Date(appointment.start),
     'EEEE, MMMM do, yyyy',
   );
-  const appointmentTime = format(new Date(appointment.startDate), 'h:mm aaaa');
+  const appointmentTime = format(new Date(appointment.start), 'h:mm aaaa');
 
   return (
     <ReferralLayout
@@ -111,7 +111,7 @@ export default function CompleteReferral() {
               {appointmentTime}
             </h2>
             <strong data-testid="appointment-type">
-              {appointment.typeOfCare} with{' '}
+              {appointment.referral.typeOfCare} with{' '}
               {provider.individualProviders[0].name}
             </strong>
             <p
@@ -126,7 +126,7 @@ export default function CompleteReferral() {
                   size={3}
                 />
               </span>
-              {appointment.modality} at {provider.location.name}
+              {appointment.referral.modality} at {provider.location.name}
             </p>
             <p
               className="vads-u-margin-left--4 vads-u-margin-top--0p5"

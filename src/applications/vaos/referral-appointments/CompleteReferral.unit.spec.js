@@ -11,14 +11,14 @@ import {
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
 import { FETCH_STATUS } from '../utils/constants';
-import { createDraftAppointmentInfo } from './utils/provider';
-import { createReferralAppointment } from './utils/appointment';
+import { createMockEpsAppointment } from './utils/appointment';
+import * as epsAppointmentUtils from './utils/appointment';
 
 describe('CompleteReferral', () => {
-  const referralAppointmentInfo = createReferralAppointment(
+  const referralAppointmentInfo = createMockEpsAppointment(
     'appointment-id',
     'booked',
-    createDraftAppointmentInfo(2),
+    epsAppointmentUtils.appointmentData,
   );
   const sandbox = sinon.createSandbox();
 
@@ -94,17 +94,17 @@ describe('CompleteReferral', () => {
 
     expect(getByTestId('appointment-block')).to.exist;
     expect(getByTestId('appointment-date')).to.have.text(
-      'Thursday, January 2nd, 2025',
+      'Thursday, November 21st, 2024',
     );
     expect(getByTestId('appointment-type')).to.have.text(
       'Physical Therapy with Dr. Bones',
     );
 
     expect(getByTestId('appointment-modality')).to.have.text(
-      'In person at FHA South Melbourne Medical Complex',
+      'In Person at Test Medical Complex',
     );
     expect(getByTestId('appointment-clinic')).to.have.text(
-      'Clinic: Meridian Health (Sandbox 5vuTac8v)',
+      'Clinic: Meridian Health',
     );
   });
 });
