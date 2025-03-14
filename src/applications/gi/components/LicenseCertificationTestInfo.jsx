@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useState } from 'react';
+import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
@@ -9,6 +9,7 @@ import {
 
 function LcTestInfo({ tests }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const testInfoWrapperRef = useRef(null);
 
   useLayoutEffect(
     // eslint-disable-next-line consistent-return
@@ -76,6 +77,11 @@ function LcTestInfo({ tests }) {
 
   const handlePageChange = page => {
     setCurrentPage(page);
+    setTimeout(() => {
+      if (testInfoWrapperRef.current) {
+        testInfoWrapperRef.current.focus();
+      }
+    });
   };
 
   return (
@@ -86,8 +92,14 @@ function LcTestInfo({ tests }) {
           : 'vads-u-padding-bottom--9'
       }
     >
-      <h3>Test info</h3>
-      <p className="vads-u-color--gray-dark vads-u-margin--0 vads-u-padding-top--1">
+      <h3 className="vads-u-margin-bottom--2">Test info</h3>
+      <p
+        ref={testInfoWrapperRef}
+        tabIndex={-1}
+        aria-live="polite"
+        aria-atomic="true"
+        className="vads-u-color--gray-dark vads-u-margin--0"
+      >
         Showing{' '}
         <>
           {`${formatResultCount(tests, currentPage, itemsPerPage)} of ${
@@ -152,7 +164,7 @@ LcTestInfo.propTypes = {
   tests: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      fee: PropTypes.number,
+      fee: PropTypes.string,
     }),
   ).isRequired,
 };

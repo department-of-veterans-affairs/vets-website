@@ -4,7 +4,6 @@ import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
 import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
-import { hasSession } from 'platform/user/profile/utilities';
 import { externalApplicationsConfig } from './usip-config';
 import {
   AUTH_EVENTS,
@@ -197,7 +196,7 @@ export const createAndStoreReturnUrl = () => {
     // If we are not on the USiP, we should always return the user back to their current location
     returnUrl = window.location.toString();
   }
-  if (window.location.pathname === '/verify/' && !hasSession()) {
+  if (window.location.pathname === '/verify/') {
     returnUrl = '/';
   }
 

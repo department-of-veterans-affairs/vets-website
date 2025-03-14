@@ -55,7 +55,7 @@ import BenefitApplications from './benefit-application-drafts/BenefitApplication
 import EducationAndTraining from './education-and-training/EducationAndTraining';
 import { ContactInfoNeeded } from '../../profile/components/alerts/ContactInfoNeeded';
 
-const DashboardHeader = ({ showNotifications, user }) => {
+const DashboardHeader = ({ isLOA3, showNotifications, user }) => {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const hideNotificationsSection = useToggleValue(
     TOGGLE_NAMES.myVaHideNotificationsSection,
@@ -115,7 +115,7 @@ const DashboardHeader = ({ showNotifications, user }) => {
           });
         }}
       />
-      <ContactInfoNeeded />
+      {isLOA3 && <ContactInfoNeeded />}
       {showNotifications && !hideNotificationsSection && <Notifications />}
     </div>
   );
@@ -180,6 +180,7 @@ const LOA1Content = ({
 };
 
 DashboardHeader.propTypes = {
+  isLOA3: PropTypes.bool,
   showNotifications: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -309,6 +310,7 @@ const Dashboard = ({
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
+                isLOA3={isLOA3}
                 showNotifications={showNotifications}
                 user={props.user}
               />

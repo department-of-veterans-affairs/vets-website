@@ -56,13 +56,13 @@ const EditAddress = props => {
               <va-button
                 text="Update Page"
                 onClick={handlers.onUpdateReview}
-                class="vads-u-width--full vads-u-margin-bottom--2"
+                class="mhv-update-cancel-buttons"
               />
               <va-button
                 text="Cancel"
                 onClick={handlers.onCancelReview}
                 secondary
-                class="vads-u-width--full vads-u-margin-bottom--2 "
+                class="mhv-update-cancel-buttons"
               />
             </>
           ) : (
@@ -70,13 +70,13 @@ const EditAddress = props => {
               <va-button
                 text="Update"
                 submit="prevent"
-                class="vads-u-width--full vads-u-margin-bottom--2"
+                class="mhv-update-cancel-buttons"
               />
               <va-button
                 text="Cancel"
                 onClick={handlers.onCancel}
                 secondary
-                class="vads-u-width--full vads-u-margin-bottom--2"
+                class="mhv-update-cancel-buttons"
               />
             </>
           )}

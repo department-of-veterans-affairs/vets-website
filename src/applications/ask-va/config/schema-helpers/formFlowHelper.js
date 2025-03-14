@@ -5,6 +5,7 @@ import {
   CHAPTER_3,
   schoolInYourProfileOptions,
   TopicEducationBenefitOverpayments,
+  TopicEducationBenefitOverpaymentsForStudents,
   yourRoleOptionsEducation,
 } from '../../constants';
 import {
@@ -87,7 +88,7 @@ export const flowPaths = {
   general: 'general-question',
 };
 
-const ch3Pages = {
+export const ch3Pages = {
   yourRole: {
     editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_ROLE.TITLE,
@@ -216,7 +217,8 @@ const ch3Pages = {
     schema: searchSchoolsPage.schema,
     depends: form =>
       (form.selectCategory === CategoryDebt &&
-        form.selectTopic === TopicEducationBenefitOverpayments) ||
+        form.selectTopic === TopicEducationBenefitOverpayments &&
+        form.useSchoolInProfile === schoolInYourProfileOptions.NO) ||
       ((form.useSchoolInProfile === schoolInYourProfileOptions.NO ||
         !form.schoolInfo?.schoolName) &&
         (form.yourRole === yourRoleOptionsEducation.SCO ||
@@ -230,6 +232,18 @@ const ch3Pages = {
     CustomPageReview: CustomPageReviewField,
     uiSchema: schoolStOrResidencyPage.uiSchema,
     schema: schoolStOrResidencyPage.schema,
+  },
+  // This only applies for category topic = Education benefit overpayments (for students):
+  schoolStOrResidencyForDebtEduStudents: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    editModeOnReviewPage: false,
+    CustomPage: SchoolStateOrResidencyStateCustomPage,
+    CustomPageReview: CustomPageReviewField,
+    uiSchema: schoolStOrResidencyPage.uiSchema,
+    schema: schoolStOrResidencyPage.schema,
+    depends: form =>
+      form.selectCategory === CategoryDebt &&
+      form.selectTopic === TopicEducationBenefitOverpaymentsForStudents,
   },
   stateOfSchool: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -438,6 +452,7 @@ const aboutMyselfRelationshipVeteran = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'schoolStOrResidencyForDebtEduStudents',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -463,6 +478,7 @@ const aboutMyselfRelationshipFamilyMember = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'schoolStOrResidencyForDebtEduStudents',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',
@@ -521,6 +537,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'schoolStOrResidencyForDebtEduStudents',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -545,6 +562,7 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'schoolStOrResidencyForDebtEduStudents',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -583,6 +601,7 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'schoolStOrResidencyForDebtEduStudents',
   'yourVAHealthFacility',
   'theirVREInformation',
   'theirVRECounselor',
@@ -622,6 +641,7 @@ const generalQuestion = [
   'searchSchools',
   'useThisSchool',
   'stateOfSchool',
+  'schoolStOrResidencyForDebtEduStudents',
   'yourVAHealthFacility',
   'yourVREInformation',
   'yourVRECounselor',

@@ -15,9 +15,11 @@ const EnrollmentStatus = ({ route }) => {
   );
   const alertStatus = isEnrolledInESR ? 'continue' : 'warning';
 
-  return !hasServerError ? (
+  if (hasServerError) return <ServerErrorAlert />;
+
+  return (
     <>
-      <va-alert status={alertStatus} data-testid="hca-enrollment-alert" uswds>
+      <va-alert status={alertStatus} data-testid="hca-enrollment-alert">
         <WarningHeadline />
         <WarningStatus />
         <WarningExplanation />
@@ -26,8 +28,6 @@ const EnrollmentStatus = ({ route }) => {
 
       <EnrollmentStatusFAQ />
     </>
-  ) : (
-    <ServerErrorAlert />
   );
 };
 

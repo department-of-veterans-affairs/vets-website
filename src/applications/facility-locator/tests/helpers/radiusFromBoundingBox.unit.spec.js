@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import { radiusFromBoundingBox } from '../../utils/facilityDistance';
-import { MIN_RADIUS } from '../../constants';
+import {
+  LocationType,
+  MIN_RADIUS,
+  MIN_RADIUS_EXP,
+  MIN_RADIUS_NCA,
+} from '../../constants';
 
 describe('radiusFromBoundingBox', () => {
   it('should return a valid computed radius - Dallas', () => {
@@ -26,5 +31,30 @@ describe('radiusFromBoundingBox', () => {
     ];
     const [, radToUse] = radiusFromBoundingBox(testZip92052Bbox);
     expect(radToUse === MIN_RADIUS).to.eql(true);
+  });
+
+  it('should return a default 10 miles radius - zip 92052', () => {
+    const testZip92052Bbox = [
+      {
+        bbox: [-117.357412, 33.21172839552, -117.35718939552, 33.21189160448],
+      },
+    ];
+    const [, radToUse] = radiusFromBoundingBox(
+      testZip92052Bbox,
+      LocationType.CEMETERY,
+    );
+    expect(radToUse === MIN_RADIUS_NCA).to.eql(true);
+  });
+
+  it('should return a default 10 miles radius - zip 92052', () => {
+    const testZip92052Bbox = [
+      { bbox: [-117.357412, 33.21172839552, -117.35718939552, 33.21189160448] },
+    ];
+    const [, radToUse] = radiusFromBoundingBox(
+      testZip92052Bbox,
+      LocationType.HEALTH,
+      true,
+    );
+    expect(radToUse === MIN_RADIUS_EXP).to.eql(true);
   });
 });
