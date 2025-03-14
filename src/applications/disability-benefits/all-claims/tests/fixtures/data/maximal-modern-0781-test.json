@@ -215,7 +215,7 @@
       {
         "cause": "NEW",
         "primaryDescription": "It makes no sense for this particular condition, but hey, this is only test data.",
-        "condition": "PTSD",
+        "condition": "asthma",
         "view:descriptionInfo": {}
       },
       {
