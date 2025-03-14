@@ -169,9 +169,8 @@ export function pollFetchAppointmentInfo(
         },
       });
       const appointmentInfo = await getAppointmentInfo(appointmentId);
-
       // If the appointment is still in draft state, retry the request in 1 second to avoid spamming the api with requests
-      if (appointmentInfo.appointment.state === 'draft') {
+      if (appointmentInfo.appointment.status === 'draft') {
         setTimeout(() => {
           dispatch(
             pollFetchAppointmentInfo(appointmentId, {
