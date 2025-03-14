@@ -1,6 +1,6 @@
 // src/applications/edu-benefits/10215/helpers.test.js
 import { expect } from 'chai';
-import { getFTECalcs } from '../helpers';
+import { childContent, getFTECalcs } from '../helpers';
 
 describe('getFTECalcs', () => {
   it('should return correct FTE calculations for supported and non-supported values', () => {
@@ -56,5 +56,11 @@ describe('getFTECalcs', () => {
       total: 0,
       supportedFTEPercent: null,
     });
+  });
+  it('should render the pdf download link', () => {
+    const downloadLink = 'Download Link';
+    const goBack = () => {};
+    const content = childContent(downloadLink, goBack);
+    expect(content.props.children[0].props.children[1]).to.exist;
   });
 });

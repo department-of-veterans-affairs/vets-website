@@ -14,17 +14,18 @@ export default function transform(form) {
       const fteCalcs = getFTECalcs(program);
       program.fte.totalFTE = fteCalcs?.total;
       program.fte.supportedPercentageFTE =
-        fteCalcs?.supportedFTEPercent &&
-        Number(
-          fteCalcs?.supportedFTEPercent.substring(
-            0,
-            fteCalcs?.supportedFTEPercent.length - 1,
-          ),
-        );
+        (fteCalcs?.supportedFTEPercent &&
+          Number(
+            fteCalcs?.supportedFTEPercent.substring(
+              0,
+              fteCalcs?.supportedFTEPercent.length - 1,
+            ),
+          )) ||
+        0;
     }
     if (program.fte) {
-      program.fte.nonSupported = parseInt(program.fte.nonSupported, 10);
-      program.fte.supported = parseInt(program.fte.supported, 10);
+      program.fte.nonSupported = parseInt(program.fte.nonSupported, 10) || 0;
+      program.fte.supported = parseInt(program.fte.supported, 10) || 0;
     }
     return program;
   });
