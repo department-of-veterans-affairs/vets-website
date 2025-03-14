@@ -808,8 +808,6 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
         const p1 = await fetchAppointments({
           startDate: curr.start,
           endDate: curr.end,
-          useV2VA: true,
-          useV2CC: true,
           useFeSourceOfTruth,
         });
         batch.push(p1);

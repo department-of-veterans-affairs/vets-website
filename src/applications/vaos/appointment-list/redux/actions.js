@@ -5,7 +5,6 @@ import moment from 'moment';
 import { selectPatientFacilities } from '@department-of-veterans-affairs/platform-user/cerner-dsot/selectors';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureVAOSServiceCCAppointments,
   selectFeatureVAOSServiceRequests,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureFeSourceOfTruth,
@@ -145,7 +144,6 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             endDate: moment()
               .add(featureVAOSServiceRequests ? 1 : 0, 'days')
               .format('YYYY-MM-DD'),
-            useV2: featureVAOSServiceRequests,
             includeEPS,
             useFeSourceOfTruth,
           })
@@ -391,13 +389,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
       const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
         state,
       );
-      const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-        state,
-      );
-      const useV2 =
-        type === 'cc'
-          ? featureVAOSServiceCCAppointments
-          : featureVAOSServiceVAAppointments;
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
 
       let appointment = selectAppointmentById(state, id, [
@@ -419,7 +410,6 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         appointment = await fetchBookedAppointment({
           id,
           type,
-          useV2,
           useFeSourceOfTruth,
         });
       }
