@@ -71,14 +71,13 @@ export const fetchFormsApi = async (query, dispatch) => {
   try {
     const response = await apiRequest(FORMS_URL);
     const forms = response?.data;
-    // const forms = [];
 
     if (forms?.length) {
       dispatch(fetchFormsSuccess(forms, allFormsRetired(forms)));
     }
 
     if (forms?.length === 0) {
-      dispatch(fetchFormsSuccessNoResults([]));
+      dispatch(fetchFormsSuccessNoResults());
     }
 
     return forms;

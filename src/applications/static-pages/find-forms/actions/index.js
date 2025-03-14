@@ -24,8 +24,7 @@ export const fetchFormsSuccess = (results, hasOnlyRetiredForms) => ({
   type: FETCH_FORMS_SUCCESS,
 });
 
-export const fetchFormsSuccessNoResults = results => ({
-  results,
+export const fetchFormsSuccessNoResults = () => ({
   type: FETCH_FORMS_SUCCESS_NO_RESULTS,
 });
 

@@ -96,7 +96,7 @@ describe('Find VA Forms reducer: findVAFormsReducer', () => {
     });
 
     describe('FETCH_FORMS_SUCCESS_NO_RESULTS', () => {
-      it('returns the correct state when Closest Match is used', () => {
+      it('returns the correct state when no results are returned', () => {
         const results = [];
 
         expect(
