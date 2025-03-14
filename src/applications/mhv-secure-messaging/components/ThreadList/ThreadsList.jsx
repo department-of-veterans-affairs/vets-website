@@ -109,6 +109,7 @@ const ThreadsList = props => {
                     threadList[0]?.threadPageSize / threadsPerPage,
                   )}
                   uswds
+                  data-dd-action-name="Pagination"
                 />
               </div>
             </div>

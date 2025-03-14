@@ -52,7 +52,11 @@ const InnerNavigation = () => {
               ${handleActiveLinksStyle(path)}
             `}
           >
-            <Link className="inner-nav-link" to={path.path}>
+            <Link
+              className="inner-nav-link"
+              to={path.path}
+              data-dd-action-name={`${path.label} link`}
+            >
               {path.label}
             </Link>
           </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { smFooter } from '../util/constants';
 
 const GetFormHelp = () => {
   return (
@@ -14,7 +15,11 @@ const GetFormHelp = () => {
           administrator. They may be able to add the team for you.
         </p>
         <p>
-          <a href="/find-locations" target="_blank">
+          <a
+            href="/find-locations"
+            target="_blank"
+            data-dd-action-name={`${smFooter.FIND_FACILITY}`}
+          >
             Find your VA health facility
           </a>
         </p>

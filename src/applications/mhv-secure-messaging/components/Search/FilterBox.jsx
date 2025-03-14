@@ -7,7 +7,11 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import moment from 'moment';
-import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
+import {
+  DateRangeOptions,
+  DateRangeValues,
+  SelectCategories,
+} from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
 
 const FilterBox = forwardRef((props, ref) => {
@@ -92,7 +96,7 @@ const FilterBox = forwardRef((props, ref) => {
         </VaModal>
       )}
 
-      <va-accordion data-dd-action-name="Add Filters Accordion" open-single>
+      <va-accordion data-dd-action-name="Accordion - Filter" open-single>
         <va-accordion-item id="additional-filter-accordion">
           <h3 slot="headline" className="headline-text">
             Add filters
@@ -110,11 +114,14 @@ const FilterBox = forwardRef((props, ref) => {
                 );
               }}
               data-testid="category-dropdown"
-              data-dd-action-name={`${category?.label ??
-                '-Select-'} Category Dropdown`}
+              data-dd-action-name="Filter category dropdown"
             >
               {SelectCategories.map(item => (
-                <option key={item.value} value={item.value}>
+                <option
+                  key={item.value}
+                  value={item.value}
+                  data-dd-action-name={`Filter category option - ${item.label}`}
+                >
                   {item.label}
                 </option>
               ))}
@@ -128,10 +135,18 @@ const FilterBox = forwardRef((props, ref) => {
               value={dateRange}
               onVaSelect={e => setDateRange(e.detail.value)}
               data-testid="date-range-dropdown"
-              data-dd-action-name={`${dateRange?.toUpperCase()} Months Date Range Dropdown`}
+              data-dd-action-name="Filter Date Range Dropdown"
             >
               {DateRangeOptions.map(item => (
-                <option key={item.value} value={item.value}>
+                <option
+                  key={item.value}
+                  value={item.value}
+                  data-dd-action-name={`Filter ${
+                    item.label.toLocaleLowerCase() === DateRangeValues.CUSTOM
+                      ? 'Custom date'
+                      : item.label
+                  }`}
+                >
                   {item.label}
                 </option>
               ))}
