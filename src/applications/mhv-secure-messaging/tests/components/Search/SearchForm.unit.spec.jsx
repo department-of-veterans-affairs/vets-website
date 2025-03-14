@@ -43,10 +43,10 @@ describe('Search form', () => {
 
   it('displays the name of folder to be searched', async () => {
     const screen = setup();
-    const folderStatementStart = screen.getByText('Filter messages in Inbox');
+    const folderStatementStart = screen.getByText('Filter messages in inbox');
 
     expect(folderStatementStart.textContent).to.contain(
-      `Filter messages in ${folder.name}`,
+      `Filter messages in ${folder.name.toLowerCase()}`,
     );
   });
   it('displays keyword field', () => {

@@ -103,10 +103,7 @@ const FolderHeader = props => {
     [folder, location.pathname, removeLandingPageFF],
   );
 
-  const { folderName, ddTitle, ddPrivacy } = handleHeader(
-    folder.folderId,
-    folder,
-  );
+  const { folderName, ddTitle, ddPrivacy } = handleHeader(folder);
 
   return (
     <>
