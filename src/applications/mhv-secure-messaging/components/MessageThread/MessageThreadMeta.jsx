@@ -5,7 +5,7 @@ import { dateFormat } from '../../util/helpers';
 const MessageThreadMeta = props => {
   const {
     message,
-    fromMe,
+    isSent,
     replyMessage,
     activeReplyDraftMessage,
     draftMessageHistoryItem,
@@ -39,9 +39,9 @@ const MessageThreadMeta = props => {
           <span data-dd-privacy="mask">
             {draftMessageHistoryItem
               ? `${draftMessageHistoryItem[0]?.senderName} ${
-                  !fromMe ? draftMessageHistoryItem[0]?.triageGroupName : ''
+                  !isSent ? draftMessageHistoryItem[0]?.triageGroupName : ''
                 }`
-              : `${senderName} ${!fromMe ? `(${triageGroupName})` : ''}`}
+              : `${senderName} ${!isSent ? `(${triageGroupName})` : ''}`}
           </span>
         </p>
         <p
@@ -68,7 +68,7 @@ const MessageThreadMeta = props => {
 };
 
 MessageThreadMeta.propTypes = {
-  fromMe: PropTypes.bool.isRequired,
+  isSent: PropTypes.bool.isRequired,
   activeReplyDraftMessage: PropTypes.object,
   draftMessageHistoryItem: PropTypes.array,
   forPrint: PropTypes.bool,
