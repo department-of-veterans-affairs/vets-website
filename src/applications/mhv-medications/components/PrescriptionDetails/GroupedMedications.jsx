@@ -3,12 +3,13 @@ import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { datadogRum } from '@datadog/browser-rum';
+import { useSelector } from 'react-redux';
 import { EMPTY_FIELD } from '../../util/constants';
 import { dateFormat, fromToNumbs } from '../../util/helpers';
 import LastFilledInfo from '../shared/LastFilledInfo';
 import { dataDogActionNames } from '../../util/dataDogConstants';
+import { selectGroupingListCountFlag } from '../../util/selectors';
 
-const MAX_PAGE_LIST_LENGTH = 2;
 const MAX_GROUPED_LIST_LENGTH = 26;
 
 const GroupedMedications = props => {
@@ -21,11 +22,17 @@ const GroupedMedications = props => {
   const totalListCount = truncatedGroupedMedicationsList?.length;
   const [currentGroupedList, setCurrentGroupedList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const decreaseGroupingListPerPageCount = useSelector(
+    selectGroupingListCountFlag,
+  );
+
+  // using a 2 items per page on staging for testing, and 10 in production
+  const maxPageListLength = decreaseGroupingListPerPageCount ? 2 : 10;
 
   useEffect(
     () => {
-      const indexOfLastItem = currentPage * MAX_PAGE_LIST_LENGTH;
-      const indexOfFirstItem = indexOfLastItem - MAX_PAGE_LIST_LENGTH;
+      const indexOfLastItem = currentPage * maxPageListLength;
+      const indexOfFirstItem = indexOfLastItem - maxPageListLength;
       const currentItems = truncatedGroupedMedicationsList?.slice(
         indexOfFirstItem,
         indexOfLastItem,
@@ -45,7 +52,7 @@ const GroupedMedications = props => {
     currentPage,
     totalListCount,
     currentGroupedList?.length,
-    MAX_PAGE_LIST_LENGTH,
+    maxPageListLength,
   );
 
   return (
@@ -89,13 +96,13 @@ const GroupedMedications = props => {
               </dl>
             );
           })}
-        {totalListCount > MAX_PAGE_LIST_LENGTH && (
+        {totalListCount > maxPageListLength && (
           <VaPagination
             onPageSelect={e => onPageChange(e.detail.page)}
             max-page-list-length={3}
             className="vads-u-justify-content--center no-print vads-u-margin-top--3"
             page={currentPage}
-            pages={Math.ceil(totalListCount / MAX_PAGE_LIST_LENGTH)}
+            pages={Math.ceil(totalListCount / maxPageListLength)}
             uswds
           />
         )}
