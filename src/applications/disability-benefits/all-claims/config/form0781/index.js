@@ -13,6 +13,8 @@ import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions
 import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
 import * as treatmentReceivedPage from '../../pages/form0781/treatmentReceivedPage';
 import * as behaviorSummaryPage from '../../pages/form0781/behaviorSummaryPage';
+import * as reviewPage from '../../pages/form0781/reviewPage';
+import * as choiceDestructiveModalPage from '../../pages/form0781/choiceDestructiveModalPage';
 import {
   showForm0781Pages,
   showManualUpload0781Page,
@@ -38,6 +40,7 @@ import {
 } from '../../content/form0781/behaviorListPages';
 import { consentPageTitle } from '../../content/form0781/consentPage';
 import { additionalInformationPageTitle } from '../../content/form0781/additionalInformationPage';
+import ChoiceDestructiveModal from '../../components/ChoiceDestructiveModal';
 
 /**
  * Configuration for our modern 0781 paper sync (2024/2025)
@@ -51,6 +54,16 @@ export const form0781PagesConfig = {
     depends: formData => showForm0781Pages(formData),
     uiSchema: workflowChoicePage.uiSchema,
     schema: workflowChoicePage.schema,
+  },
+  choiceDestructiveModalPage: {
+    title: 'Hello title',
+    path: 'mental-health-form-0781/wfcdma',
+    depends: formData => showForm0781Pages(formData),
+    CustomPage: ChoiceDestructiveModal,
+    CustomPageReview: null,
+    uiSchema: choiceDestructiveModalPage.uiSchema,
+    schema: choiceDestructiveModalPage.schema,
+    returnUrl: '/mental-health-form-0781/workflow',
   },
   manualUploadPage: {
     title: manualUploadPageTitle,
@@ -138,5 +151,11 @@ export const form0781PagesConfig = {
     depends: formData => isCompletingForm0781(formData),
     uiSchema: additionalInformationPage.uiSchema,
     schema: additionalInformationPage.schema,
+  },
+  reviewPage: {
+    path: 'mental-health-form-0781/review-page',
+    depends: formData => isCompletingForm0781(formData),
+    uiSchema: reviewPage.uiSchema,
+    schema: reviewPage.schema,
   },
 };

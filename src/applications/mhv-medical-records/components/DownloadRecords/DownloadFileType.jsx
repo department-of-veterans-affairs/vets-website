@@ -390,14 +390,6 @@ const DownloadFileType = props => {
     [fileType],
   );
 
-  const handleDdRum = useCallback(e => {
-    const selectedNode = Array.from(e.target.childNodes).find(
-      node => node.value === e.detail.value,
-    );
-    const selectedText = selectedNode ? selectedNode.innerText : '';
-    sendDataDogAction(`${selectedText} - File type`);
-  }, []);
-
   const selectFileTypeHandler = e => {
     checkFileTypeValidity();
     if (e?.detail?.value) setFileTypeError(null);
@@ -417,7 +409,15 @@ const DownloadFileType = props => {
     } else if (fileType === 'txt') {
       generateTxt().then(() => history.push('/download'));
     }
-    sendDataDogAction('File type - Continue - Record type');
+    sendDataDogAction('Download report');
+  };
+
+  const handleValueChange = e => {
+    const { value } = e.detail;
+    setFileType(value);
+    const typeText = value === 'pdf' ? 'PDF' : 'Text file';
+    sendDataDogAction(`${typeText} - File type`);
+    selectFileTypeHandler(e);
   };
 
   return (
@@ -466,11 +466,7 @@ const DownloadFileType = props => {
 
               <VaRadio
                 label="If you use assistive technology, a text file may work better for you."
-                onVaValueChange={e => {
-                  setFileType(e.detail.value);
-                  handleDdRum(e);
-                  selectFileTypeHandler(e);
-                }}
+                onVaValueChange={handleValueChange}
                 error={fileTypeError}
               >
                 <va-radio-option label="PDF" value="pdf" name="file-type" />
@@ -482,7 +478,7 @@ const DownloadFileType = props => {
               </VaRadio>
               {downloadStarted && <DownloadSuccessAlert />}
               <div className="vads-u-margin-top--1">
-                <DownloadingRecordsInfo />
+                <DownloadingRecordsInfo description="Blue Button Report" />
               </div>
             </fieldset>
 
