@@ -16,11 +16,7 @@ import PastAppointmentsPage from '../pages/PastAppointmentsPage';
 import RequestedAppointmentsPage from '../pages/RequestedAppointmentsPage/RequestedAppointmentsPage';
 
 describe('VAOS Backend Service Alert', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
-    },
-  };
+  const initialState = {};
 
   beforeEach(() => {
     mockFetch();

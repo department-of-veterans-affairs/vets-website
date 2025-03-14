@@ -32,13 +32,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show VA appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
-    };
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
@@ -92,7 +85,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -103,14 +96,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show CC appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
@@ -145,7 +130,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -156,14 +141,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show at home video appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
@@ -199,7 +176,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
     await screen.findAllByLabelText(
@@ -209,14 +186,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show phone appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
@@ -251,7 +220,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -263,14 +232,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
   });
 
   it('should show cancelled appointment text', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
     const now = moment();
     const start = moment(now).subtract(30, 'days');
     const end = moment(now).add(395, 'days');
@@ -306,7 +267,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 
@@ -318,14 +279,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     expect(screen.baseElement).to.contain.text('Community care');
   });
   it('should show VA appointment text for telehealth appointments without vvsKind', async () => {
-    const myInitialState = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
-      },
-    };
     const now = new Date();
     const start = subDays(now, 30);
     const end = addDays(now, 395);
@@ -375,7 +328,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     });
 
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsPage />, {
-      initialState: myInitialState,
+      initialState,
       reducers,
     });
 

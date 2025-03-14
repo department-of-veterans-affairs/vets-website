@@ -22,11 +22,7 @@ import { mockAppointmentSubmit } from '../../tests/mocks/helpers';
 describe('VAOS vaccine flow: ReviewPage', () => {
   let store;
   let start;
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingVAOSServiceVAAppointments: true,
-    },
-  };
+  const initialState = {};
 
   beforeEach(() => {
     mockFetch();

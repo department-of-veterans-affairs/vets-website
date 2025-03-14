@@ -37,9 +37,6 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
     start = moment.tz();
     store = createTestStore({
       ...initialState,
-      featureToggles: {
-        vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      },
       newAppointment: {
         pages: {},
         data: {

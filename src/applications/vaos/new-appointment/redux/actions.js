@@ -887,9 +887,6 @@ export function checkCommunityCareEligibility() {
 export function submitAppointmentOrRequest(history) {
   return async (dispatch, getState) => {
     const state = getState();
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const newAppointment = getNewAppointment(state);
@@ -931,14 +928,10 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
 
-        if (featureVAOSServiceVAAppointments) {
-          if (featureBreadcrumbUrlUpdate) {
-            history.push(`/${appointment.id}?confirmMsg=true`);
-          } else {
-            history.push(`/va/${appointment.id}?confirmMsg=true`);
-          }
+        if (featureBreadcrumbUrlUpdate) {
+          history.push(`/${appointment.id}?confirmMsg=true`);
         } else {
-          history.push('/new-appointment/confirmation');
+          history.push(`/va/${appointment.id}?confirmMsg=true`);
         }
       } catch (error) {
         const extraData = {

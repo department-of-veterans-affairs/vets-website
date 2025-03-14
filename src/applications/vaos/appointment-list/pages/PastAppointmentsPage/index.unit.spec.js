@@ -19,7 +19,6 @@ const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingPast: true,
-    vaOnlineSchedulingVAOSServiceVAAppointments: true,
   },
 };
 
