@@ -62,7 +62,14 @@ const formConfig = {
     <ConfirmationPage router={router} route={route} />
   ),
   formId: '22-10215',
-  saveInProgress: {},
+  saveInProgress: {
+    messages: {
+      inProgress: 'Your form (22-10215) is in progress.',
+      expired:
+        'Your saved form (22-10215) has expired. Please start a new form.',
+      saved: 'Your form has been saved.',
+    },
+  },
   version: 0,
   prefillEnabled: true,
   preSubmitInfo: {
@@ -76,13 +83,17 @@ const formConfig = {
     },
   },
   customText: {
+    appSavedSuccessfullyMessage: 'We’ve saved your form.',
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    finishAppLaterMessage: 'Finish this form later',
     reviewPageTitle: 'Review',
+    startNewAppButtonText: 'Start a new form',
     submitButtonText: 'Continue',
   },
   savedFormMessages: {
-    notFound: 'Please start over to apply for new form benefits.',
-    noAuth:
-      'Please sign in again to continue your application for education benefits.',
+    notFound: 'Please start over.',
+    noAuth: 'Please sign in again to continue your form.',
   },
   title: 'Report 85/15 Rule enrollment ratios',
   subTitle: () => (
