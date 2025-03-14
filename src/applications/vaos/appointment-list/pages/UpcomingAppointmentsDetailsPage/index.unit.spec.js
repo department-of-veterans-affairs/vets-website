@@ -23,13 +23,10 @@ import MockAppointmentResponse from '../../../tests/e2e/fixtures/MockAppointment
 describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
     featureToggles: {
-      // eslint-disable-next-line camelcase
-      show_new_schedule_view_appointments_page: true,
       vaOnlineSchedulingBreadcrumbUrlUpdate: true,
       vaOnlineSchedulingCancel: true,
       vaOnlineSchedulingPast: true,
       vaOnlineSchedulingRequests: true,
-      vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
     },
   };

@@ -78,7 +78,9 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -130,7 +132,9 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -183,7 +187,9 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -234,7 +240,9 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -288,7 +296,9 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       statuses: ['proposed', 'cancelled'],
       response: [],
     });
@@ -358,7 +368,7 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
 
     mockAppointmentsApi({
       start: format(subDays(now, 120), 'yyyy-MM-dd'),
-      end: format(now, 'yyyy-MM-dd'),
+      end: format(addDays(now, 1), 'yyyy-MM-dd'),
       statuses: ['proposed', 'cancelled'],
       response: [],
     });

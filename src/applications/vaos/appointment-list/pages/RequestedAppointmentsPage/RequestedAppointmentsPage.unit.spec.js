@@ -15,7 +15,6 @@ import RequestedAppointmentsPage from './RequestedAppointmentsPage';
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
 

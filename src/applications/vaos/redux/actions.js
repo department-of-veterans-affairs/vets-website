@@ -11,7 +11,6 @@ import { GA_PREFIX } from '../utils/constants';
 import { captureError } from '../utils/error';
 import {
   selectFeatureCCDirectScheduling,
-  selectFeatureVAOSServiceRequests,
   selectFeatureFeSourceOfTruth,
 } from './selectors';
 import { getIsInCCPilot } from '../referral-appointments/utils/pilot';
@@ -81,9 +80,6 @@ export function fetchPendingAppointments() {
       });
 
       const state = getState();
-      const featureVAOSServiceRequests = selectFeatureVAOSServiceRequests(
-        state,
-      );
       const featureCCDirectScheduling = selectFeatureCCDirectScheduling(state);
       const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
       const patientFacilities = selectPatientFacilities(state);
@@ -97,7 +93,7 @@ export function fetchPendingAppointments() {
           .subtract(120, 'days')
           .format('YYYY-MM-DD'),
         endDate: moment()
-          .add(featureVAOSServiceRequests ? 2 : 0, 'days')
+          .add(2, 'days')
           .format('YYYY-MM-DD'),
         includeEPS,
         useFeSourceOfTruth,
@@ -121,12 +117,7 @@ export function fetchPendingAppointments() {
       });
 
       try {
-        let facilityData;
-        if (featureVAOSServiceRequests) {
-          facilityData = getAdditionalFacilityInfoV2(data);
-        } else {
-          facilityData = await getAdditionalFacilityInfo(data);
-        }
+        const facilityData = getAdditionalFacilityInfoV2(data);
         if (facilityData) {
           dispatch({
             type: FETCH_FACILITY_LIST_DATA_SUCCEEDED,

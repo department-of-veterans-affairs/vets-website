@@ -20,8 +20,6 @@ describe('VAOS Backend Service Alert', () => {
     featureToggles: {
       vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      // eslint-disable-next-line camelcase
-      show_new_schedule_view_appointments_page: true,
     },
   };
 
@@ -74,7 +72,9 @@ describe('VAOS Backend Service Alert', () => {
       start: moment()
         .subtract(120, 'days')
         .format('YYYY-MM-DD'),
-      end: moment().format('YYYY-MM-DD'),
+      end: moment()
+        .add(1, 'days')
+        .format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['proposed', 'cancelled'],
     });
@@ -364,7 +364,6 @@ describe('VAOS Backend Service Alert', () => {
         ...initialState,
         featureToggles: {
           ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
         },
       },
     });
@@ -453,7 +452,6 @@ describe('VAOS Backend Service Alert', () => {
         ...initialState,
         featureToggles: {
           ...initialState.featureToggles,
-          vaOnlineSchedulingVAOSServiceRequests: true,
         },
       },
     });

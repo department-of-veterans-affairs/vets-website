@@ -15,7 +15,6 @@ import { FETCH_STATUS } from '../utils/constants';
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
     vaOnlineSchedulingCCDirectScheduling: true,
   },
 };

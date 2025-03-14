@@ -29,7 +29,6 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     featureToggles: {
       vaOnlineSchedulingBreadcrumbUrlUpdate: true,
       vaOnlineSchedulingVAOSServiceCCAppointments: true,
-      vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingBookingExclusion: false,
     },
   };

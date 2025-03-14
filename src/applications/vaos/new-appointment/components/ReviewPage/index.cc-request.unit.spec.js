@@ -24,9 +24,6 @@ import { mockAppointmentSubmit } from '../../../tests/mocks/helpers';
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
-    vaOnlineSchedulingVAOSServiceRequests: true,
   },
 };
 

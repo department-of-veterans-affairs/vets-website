@@ -25,8 +25,6 @@ import { mockFacilityFetch } from '../../../tests/mocks/fetch';
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
-    // eslint-disable-next-line camelcase
-    show_new_schedule_view_appointments_page: true,
   },
 };
 
@@ -35,7 +33,6 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   const defaultState = {
     ...initialState,
-    featureToggles: { vaOnlineSchedulingVAOSServiceRequests: true },
     newAppointment: {
       pages: {},
       data: {
