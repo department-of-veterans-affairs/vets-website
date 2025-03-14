@@ -57,6 +57,8 @@ import {
   selectGroupingFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
+  selectRemoveLandingPageFlag,
+  selectIPEContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
@@ -65,6 +67,8 @@ import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames, pageType } from '../util/dataDogConstants';
 import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 import RefillAlert from '../components/shared/RefillAlert';
+import NeedHelp from '../components/shared/NeedHelp';
+import InProductionEducationFiltering from '../components/MedicationsList/InProductionEducationFiltering';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -93,6 +97,8 @@ const Prescriptions = () => {
   const showFilterContent = useSelector(selectFilterFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
+  const showIPEContent = useSelector(selectIPEContentFlag);
   const pagination = useSelector(
     showFilterContent
       ? state => state.rx.prescriptions?.prescriptionsFilteredPagination
@@ -620,10 +626,22 @@ const Prescriptions = () => {
           className="vads-u-margin-top--0 vads-u-margin-bottom--4"
           data-testid="Title-Notes"
         >
-          When you share your medications list with providers, make sure you
-          also tell them about your allergies and reactions to medications.{' '}
+          {removeLandingPage ? (
+            <>
+              Bring your medications list to each appointment. And tell your
+              provider about any new allergies or reactions. If you use Meds by
+              Mail, you can also call your servicing center and ask them to
+              update your records.
+            </>
+          ) : (
+            <>
+              When you share your medications list with providers, make sure you
+              also tell them about your allergies and reactions to medications.
+            </>
+          )}
           {!showAllergiesContent && (
             <>
+              {' '}
               If you print or download this list, we’ll include a list of your
               allergies.
             </>
@@ -726,6 +744,7 @@ const Prescriptions = () => {
                         setFilterOption={setFilterOption}
                         filterCount={filterCount}
                       />
+                      {showIPEContent && <InProductionEducationFiltering />}
                     </>
                   )}
                   {paginatedPrescriptionsList?.length ||
@@ -796,6 +815,7 @@ const Prescriptions = () => {
                             <BeforeYouDownloadDropdown page={pageType.LIST} />
                           </>
                         )}
+                      {removeLandingPage && <NeedHelp page={pageType.LIST} />}
                     </>
                   ) : (
                     <>

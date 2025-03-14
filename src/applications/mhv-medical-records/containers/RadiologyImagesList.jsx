@@ -18,6 +18,7 @@ import {
   pageTitles,
   studyJobStatus,
 } from '../util/constants';
+import { sendDataDogAction } from '../util/helpers';
 
 const RadiologyImagesList = ({ isTesting }) => {
   const apiImagingPath = `${
@@ -41,7 +42,7 @@ const RadiologyImagesList = ({ isTesting }) => {
     isTesting || false,
   );
   const [isStudyJobsLoaded, setStudyJobsLoaded] = useState(isTesting || false);
-  const [dicomDownload, setDicomDownload] = useState(false);
+  const [dicomDownloadStarted, setDicomDownloadStarted] = useState(false);
   const returnToDetailsPage = useCallback(
     () => history.push(`/labs-and-tests/${labId}`),
     [history, labId],
@@ -112,8 +113,9 @@ const RadiologyImagesList = ({ isTesting }) => {
     [radiologyDetails, returnToDetailsPage],
   );
 
-  const updateDicomDownload = truth => {
-    setDicomDownload(truth);
+  const handleDicomDownload = () => {
+    setDicomDownloadStarted(true);
+    sendDataDogAction('Download DICOM files');
     document.querySelector('#download-banner');
   };
 
@@ -121,7 +123,9 @@ const RadiologyImagesList = ({ isTesting }) => {
     <>
       <PrintHeader />
       <h1 className="vads-u-margin-bottom--0" aria-describedby="radiology-date">
-        Images: {radiologyDetails.name}
+        {imageList && imageList.length > 0
+          ? `Images: ${radiologyDetails.name}`
+          : radiologyDetails.name}
       </h1>
       <DateSubheading
         label="Date and time performed"
@@ -170,7 +174,7 @@ const RadiologyImagesList = ({ isTesting }) => {
             show-close={false}
             headline="Download started"
             type="success"
-            visible={dicomDownload}
+            visible={dicomDownloadStarted}
           >
             Check your device’s downloads location for your file.
           </va-banner>
@@ -180,7 +184,7 @@ const RadiologyImagesList = ({ isTesting }) => {
               filetype="ZIP folder"
               href={`${apiImagingPath}/${radiologyDetails.studyId}/dicom`}
               text="Download DICOM files"
-              onClick={() => updateDicomDownload(true)}
+              onClick={handleDicomDownload}
             />
           </p>
         </>

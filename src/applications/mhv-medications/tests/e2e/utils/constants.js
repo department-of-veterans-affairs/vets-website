@@ -43,6 +43,23 @@ export const Data = {
   DELAY_ALERT_DETAILS_BANNER:
     'Your refill request for this medication is taking longer than expected',
   CHECK_STATUS_HEADER: 'Check the status of your next refill',
+  HELP_TEXT: 'Need help?',
+  LIST_PAGE_TITLE_NOTES: 'Bring your medications list',
+  PROGRESS_LIST_HEADER: 'How the refill process works',
+  STEP_ONE_HEADER: 'You request a refill',
+  STEP_TWO_HEADER: 'We process your refill request',
+  STEP_THREE_HEADER: 'We ship your refill to you',
+  STEP_THREE_NOTE:
+    'Remember to request your next refill at least 15 days before ',
+  STEP_ONE_SUBMITTED: 'We received your refill request',
+  STEP_TWO_SUBMITTED: 'We will process your refill request',
+  STEP_THREE_SUBMITTED: 'We will ship your refill',
+  STEP_TWO_ACTIVE: 'We processed your refill',
+  STEP_THREE_SHIPPED: 'We shipped your refill',
+  STEP_ONE_NOTE_ABOVE: 'Step 1: Date completed not available',
+  STEP_TWO_PROCESS_ABOVE_TEXT: 'Step 2: Completed on October 1, 2023',
+  STEP_ONE_DATE_TEXT: 'Step 1: Completed on October 2, 2023',
+  TOOL_TIP_TEXT: 'Filter the medications list',
 };
 export const Paths = {
   LANDING_LIST:

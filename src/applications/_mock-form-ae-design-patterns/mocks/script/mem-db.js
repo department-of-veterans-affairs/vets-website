@@ -1,15 +1,20 @@
 const _ = require('lodash');
 
-const { loa3UserWithNoContactInfo, loa3User } = require('../endpoints/user');
+const {
+  loa3UserWithNoContactInfo,
+  loa3User,
+  loa3UserWithNoEmail,
+} = require('../endpoints/user');
 
 const possibleUsers = {
   loa3UserWithNoContactInfo,
   loa3User,
+  loa3UserWithNoEmail,
 };
 
 // in memory db
 const memDb = {
-  user: possibleUsers.loa3UserWithNoContactInfo,
+  user: possibleUsers.loa3User,
 };
 
 // sanitize user input

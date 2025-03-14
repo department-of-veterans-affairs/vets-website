@@ -37,15 +37,12 @@ const LandingPage = () => {
               their POA request in the portal.
             </p>
             <p>
-              Note: POA requests need to be submitted using the digital{' '}
-              <a
+              <strong>Note</strong>: POA requests need to be submitted using the
+              digital{' '}
+              <va-link
                 href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                VA Form 21-22 (opens in a new tab)
-              </a>
-              .
+                text="VA Form 21-22"
+              />
             </p>
           </div>
           <div className="home__content-copy">
@@ -57,20 +54,18 @@ const LandingPage = () => {
               (VSO) representatives who accept POA requests on behalf of their
               organizations. In the future, the portal will support accredited
               VSOs, attorneys, and claims agents.
+              <va-link
+                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
+                text="Learn more about accredited representatives"
+              />
             </p>
-            <a
-              href="https://www.va.gov/resources/va-accredited-representative-faqs/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Learn more about accredited representatives (opens in a new tab)
-            </a>
           </div>
 
           <va-banner
             data-label="Info banner"
             headline="Get early access to the portal for your organization"
             type="info"
+            class="home__banner"
             visible
           >
             <p>
@@ -82,9 +77,11 @@ const LandingPage = () => {
             <p>
               If you’re interested in having your organization join our test
               program, email us at{' '}
-              <a href="mailto:RepresentativePortalHelp@va.gov">
-                RepresentativePortalHelp@va.gov
-              </a>
+              <va-link
+                class="home__link--email"
+                href="mailto:RepresentativePortalHelp@va.gov"
+                text="RepresentativePortalHelp@va.gov"
+              />
               .
             </p>
           </va-banner>
@@ -101,14 +98,11 @@ const LandingPage = () => {
               Organization (VSO) representative can help you file a claim or
               request a decision review.
             </p>
-            <a
-              href="https://www.va.gov/get-help-from-accredited-representative/"
-              className="home__link"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Get help from an accredited representative (opens in a new tab)
-            </a>
+            <va-link
+              class="home__link"
+              href="https://www.va.gov/get-help-from-accredited-representative"
+              text="Get help from an accredited representative"
+            />
           </div>
         </div>
       </div>
@@ -134,14 +128,12 @@ const LandingPage = () => {
               the portal. If you’d like to give us feedback, you can sign up to
               be invited to future feedback sessions with our VA research team.
             </p>
-            <a
+            <va-link
+              class="home__link"
+              reverse
               href="https://docs.google.com/forms/d/1VvExHYQWsNgSho5zu9nCgF_l7AYFyun-B6-2EHOr8MA/edit?ts=6759c5e9"
-              className="home__link"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Sign up to participate in feedback sessions (opens in a new tab)
-            </a>
+              text="Sign up to participate in feedback sessions"
+            />
           </div>
         </div>
       </div>

@@ -166,7 +166,7 @@ export const mentalHealthSupportAlert = () => {
   return (
     <va-alert-expandable
       status="info"
-      trigger="How do I get mental health support right now?"
+      trigger="Learn how to get mental health help now"
     >
       <p>
         We understand that some of the questions may be difficult to answer. If

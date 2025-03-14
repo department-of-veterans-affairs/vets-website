@@ -28,7 +28,7 @@ const radioLabels = {
 };
 
 const hintText =
-  'This includes any coverage through a family member, health insurance from an employer, and supplemental or secondary insurance. You can add up to 2 health insurance policies';
+  'This includes any coverage through a family member, health insurance from an employer, and supplemental or secondary insurance.';
 
 const yesNoContent = {
   title:
@@ -55,7 +55,11 @@ const options = {
       item?.type === 'other'
         ? `${item?.otherType}`
         : `${radioLabels[(item?.type)]}`,
-    summaryTitle: 'Beneficiary’s health insurance review',
+    summaryTitle: item => {
+      return `${nameWording(item?.formData, true, true, true) ||
+        'Beneficiary’s'} health insurance review`;
+    },
+    summaryDescription: '',
     cancelAddButtonText: 'Cancel adding this insurance',
   },
 };
@@ -72,6 +76,7 @@ export const insuranceStatusSchema = {
     }),
     hasOhi: {
       ...yesNoUI({
+        type: 'radio',
         updateUiSchema: formData => {
           return {
             'ui:title': `${
@@ -104,9 +109,6 @@ const policyPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Policy information',
-      description: `You can add up to ${
-        options?.maxItems
-      } health insurance policies.`,
       nounSingular: options.nounSingular,
     }),
     name: textUI('Name of insurance provider'),
@@ -133,6 +135,7 @@ const insuranceProviderPage = {
     ),
     type: {
       ...radioUI({
+        type: 'radio',
         title:
           'What type of insurance does the beneficiary have through this provider?',
         labels: radioLabels,

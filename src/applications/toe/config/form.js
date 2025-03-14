@@ -14,6 +14,7 @@ import get from 'platform/utilities/data/get';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
+import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import * as BUCKETS from 'site/constants/buckets';
@@ -71,6 +72,28 @@ const checkImageSrc = (() => {
 
   return `${bucket}/img/check-sample.png`;
 })();
+
+const stateRequiredCountries = new Set(['USA']);
+function customValidateAddress(errors, addressData, formData, currentSchema) {
+  if (
+    stateRequiredCountries.has(addressData.country) &&
+    addressData.state === undefined &&
+    currentSchema.required.length
+  ) {
+    errors.state.addError('Please select a state');
+  }
+  let isValidPostalCode = true;
+  if (addressData.country === 'USA') {
+    isValidPostalCode = isValidUSZipCode(addressData.postalCode);
+  }
+  if (addressData.country === 'CAN') {
+    isValidPostalCode = isValidCanPostalCode(addressData.postalCode);
+  }
+
+  if (addressData.postalCode && !isValidPostalCode) {
+    errors.postalCode.addError('Please provide a valid postal code');
+  }
+}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -654,6 +677,7 @@ const formConfig = {
               },
               [formFields.address]: {
                 ...address.uiSchema('', false, null, true),
+                'ui:validations': [customValidateAddress],
                 'ui:options': {
                   updateSchema: (formData, addressSchema) => {
                     const livesOnMilitaryBase =
@@ -661,9 +685,21 @@ const formConfig = {
                     const country =
                       formData['view:mailingAddress']?.address?.country ||
                       'USA';
+
+                    // Get the current required fields, excluding state
+                    const required = (addressSchema.required || []).filter(
+                      field => field !== 'state',
+                    );
+
+                    // Only add state as required for USA or military base
+                    if (livesOnMilitaryBase || country === 'USA') {
+                      required.push('state');
+                    }
+
                     if (livesOnMilitaryBase) {
                       return {
                         ...addressSchema,
+                        required,
                         properties: {
                           ...addressSchema.properties,
                           state: {
@@ -696,6 +732,7 @@ const formConfig = {
                     }
                     return {
                       ...addressSchema,
+                      required,
                       properties: {
                         ...addressSchema.properties,
                         state: stateSchema,
@@ -759,6 +796,24 @@ const formConfig = {
                     },
                   ],
                 },
+                street2: {
+                  'ui:title': 'Street address line 2',
+                  'ui:validations': [
+                    (errors, fieldValue) => {
+                      // Optional check for whitespace
+                      if (fieldValue && !fieldValue.trim().length) {
+                        errors.addError('Address line 2 can’t be only spaces');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    // Always set minLength to 0 so an empty string doesn't fail
+                    updateSchema: (_formData, schema) => ({
+                      ...schema,
+                      minLength: 0,
+                    }),
+                  },
+                },
                 city: {
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
@@ -801,9 +856,15 @@ const formConfig = {
                   },
                 },
                 state: {
-                  'ui:required': formData =>
-                    formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                    formData['view:mailingAddress']?.address?.country === 'USA',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (field?.length === 1) {
+                        errors.addError('Must be more than 1 character');
+                      } else if (field?.length > 31) {
+                        errors.addError('Must be less than 31 characters');
+                      }
+                    },
+                  ],
                 },
                 postalCode: {
                   'ui:errorMessages': {
@@ -1291,7 +1352,7 @@ const formConfig = {
                   },
                   accountType: {
                     type: 'string',
-                    enum: ['checking', 'savings'],
+                    enum: ['Checking', 'Savings'],
                   },
                   routingNumber: {
                     type: 'string',
