@@ -3,8 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { Validator } from 'jsonschema';
 
-import formConfig from '../../config/form';
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import formConfig from '../../config/form';
 
 describe('526 all claims schema tests', () => {
   const v = new Validator();
