@@ -139,7 +139,7 @@ const NationalExamsList = () => {
           tabIndex="-1"
           className="vads-u-margin-top--3 vads-u-margin-bottom--2"
         >
-          {`Showing ${startIndex}-${endIndex} of ${
+          {`Showing ${startIndex} - ${endIndex} of ${
             nationalExams.length
           } national exams`}
         </p>

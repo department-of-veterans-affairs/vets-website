@@ -110,6 +110,11 @@ va-checkbox-group va-text-input[error]::part(label) {
   }
 }
 
+/* file upload with incorrect password and input error for missing password */
+.schemaform-file-error va-text-input[error] {
+  margin-left: -1.3rem;
+}
+
 article[data-location="review-and-submit"] {
   dd {
     word-break: break-word;

@@ -1936,7 +1936,7 @@ jobs:
           --arg ref "${{ github.ref }}" \
           --arg msg "${{ github.event.head_commit.message }}" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: ($msg | split("\n")[0]), entry_app: $entry}}')"     
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: ($msg | gsub("\""; "\\\"") | split("\n") | .[0]), entry_app: $entry}}')"     
                 
   notify-failure:
     name: Notify Failure
