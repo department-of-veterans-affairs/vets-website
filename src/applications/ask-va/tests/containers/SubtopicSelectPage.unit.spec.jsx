@@ -97,6 +97,26 @@ describe('<SubtopicSelect /> component', () => {
     expect(options[1].getAttribute('label')).to.equal('Avengers Defend');
   });
 
+  it('should show error alert when API request fails', async () => {
+    const apiRequestStub = sandbox.stub(apiModule, 'apiRequest');
+    apiRequestStub.rejects(new Error('API Error'));
+
+    const { container } = renderComponent();
+
+    // First, we should see the loading indicator
+    expect(container.querySelector('va-loading-indicator')).to.exist;
+
+    // After the API call fails, loading should be false and error alert should be shown
+    await waitFor(() => {
+      expect(container.querySelector('va-loading-indicator')).to.not.exist;
+      const errorHeading = container.querySelector('h2[slot="headline"]');
+      expect(errorHeading).to.exist;
+      // Check that the error heading contains the expected text
+      expect(errorHeading.textContent).to.include('sorry');
+      expect(errorHeading.textContent).to.include('Something went wrong');
+    });
+  });
+
   describe('handleChange', () => {
     it('should update form data when selecting a subtopic', async () => {
       const apiRequestStub = sandbox.stub(apiModule, 'apiRequest');

@@ -40,6 +40,7 @@ import {
 import { getSlots } from '../../services/slot';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  APPOINTMENT_STATUS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
@@ -798,13 +799,32 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   };
 }
 
-export function onCalendarChange(selectedDates) {
+export function onCalendarChange(
+  selectedDates,
+  maxSelections,
+  upcomingAppointments,
+) {
+  let isSame = false;
+  if (maxSelections === 1 && selectedDates?.length > 0) {
+    const date = selectedDates[0];
+
+    const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
+    const appointments = upcomingAppointments[d1.format('YYYY-MM')];
+
+    isSame = appointments?.some(appointment => {
+      const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
+      return (
+        appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
+      );
+    });
+  }
+
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
+    isAppointmentSelectionError: isSame,
   };
 }
-
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
