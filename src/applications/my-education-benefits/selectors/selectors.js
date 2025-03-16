@@ -74,4 +74,7 @@ export const getAppData = state => ({
   mebDpoAddressOptionEnabled: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebDpoAddressOptionEnabled
   ],
+  mebAddressValidationApi: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.mebAddressValidationApi
+  ],
 });

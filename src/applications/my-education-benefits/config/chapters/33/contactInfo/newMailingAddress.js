@@ -3,7 +3,6 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
 import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 
 import fullSchema from '../../../../22-1990-schema.json';
@@ -13,7 +12,7 @@ import MailingAddressViewField from '../../../../components/MailingAddressViewFi
 import YesNoReviewField from '../../../../components/YesNoReviewField';
 import AddressValidationModal from '../../../../components/AddressValidationModal';
 
-import { formFields, featureFlags } from '../../../../constants';
+import { formFields } from '../../../../constants';
 import {
   setAddressValidationModalOpen,
   acceptValidatedAddress,
@@ -25,14 +24,6 @@ function isOnlyWhitespace(str) {
 
 // Custom validation function to integrate with address validation
 const validateAddressWithAPI = async (formData, errors, state, props) => {
-  // Skip validation if the feature flag is not enabled
-  const isAddressValidationEnabled = toggleValues(state)[
-    featureFlags.addressValidation
-  ];
-  if (!isAddressValidationEnabled) {
-    return errors;
-  }
-
   // Get the mailing address from the form data
   const mailingAddress =
     formData[formFields.viewMailingAddress]?.[formFields.address];
@@ -363,7 +354,7 @@ const newMailingAddress33 = {
                 errors.addError('maximum of 20 characters');
               }
             },
-          ],
+          ], // mebAddressValidationApi
           'ui:options': {
             replaceSchema: formData => {
               const livesOnMilitaryBase =
@@ -459,18 +450,5 @@ const newMailingAddress33 = {
   },
 };
 
-// This enhances the base configuration with the address validation functionality
-const enhanceWithAddressValidation = config => {
-  return {
-    ...config,
-    FormWrapper: NewMailingAddressWithValidation,
-  };
-};
-
-// Export the enhanced configuration
-const configWithAddressValidation = enhanceWithAddressValidation(
-  newMailingAddress33,
-);
-
-export { validateAddressWithAPI, NewMailingAddressWithValidation };
-export default configWithAddressValidation;
+export { NewMailingAddressWithValidation };
+export default newMailingAddress33;
