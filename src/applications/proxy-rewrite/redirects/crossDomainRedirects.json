@@ -1603,5 +1603,10 @@
     "src": "/RORENO",
     "dest": "/reno-va-regional-benefit-office/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/compensation/rates-index.asp",
+    "dest": "/disability/compensation-rates/"
   }
 ]
