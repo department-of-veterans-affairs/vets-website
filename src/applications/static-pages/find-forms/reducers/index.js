@@ -4,6 +4,7 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  FETCH_FORMS_SUCCESS_NO_RESULTS,
   INITIAL_SORT_STATE,
   FAF_OPTION_CLOSEST_MATCH,
   UPDATE_HOW_TO_SORT,
@@ -33,7 +34,6 @@ export default (state = initialState, action) => {
     }
     case FETCH_FORMS_SUCCESS: {
       const clonedResults = cloneDeep(action.results);
-
       return {
         ...state,
         fetching: false,
@@ -45,6 +45,13 @@ export default (state = initialState, action) => {
             : clonedResults.sort((a, b) =>
                 sortTheResults(state.sortByPropertyName, a, b),
               ),
+      };
+    }
+    case FETCH_FORMS_SUCCESS_NO_RESULTS: {
+      return {
+        ...state,
+        fetching: false,
+        results: [],
       };
     }
     case UPDATE_HOW_TO_SORT: {
@@ -64,7 +71,11 @@ export default (state = initialState, action) => {
       };
     }
     case UPDATE_PAGINATION: {
-      return { ...state, page: action.page, startIndex: action.startIndex };
+      return {
+        ...state,
+        page: action.page,
+        startIndex: action.startIndex,
+      };
     }
     default: {
       return { ...state };

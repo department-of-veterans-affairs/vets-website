@@ -62,6 +62,40 @@ describe('Schemaform review: ReviewPage', () => {
     tree.unmount();
   });
 
+  it('should render h1 header if MINIMAL_HEADER_APPLICABLE is true', () => {
+    sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+
+    const treeWithMinimalHeader = shallow(
+      <ReviewPage
+        form={form}
+        openChapters={{}}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPreSubmit={f => f}
+        location={location}
+      />,
+    );
+
+    expect(treeWithMinimalHeader.find('h1').exists()).to.be.true;
+    treeWithMinimalHeader.unmount();
+
+    sessionStorage.removeItem('MINIMAL_HEADER_APPLICABLE');
+
+    const treeWithoutMinimalHeader = shallow(
+      <ReviewPage
+        form={form}
+        openChapters={{}}
+        route={{ formConfig, pageList }}
+        setEditMode={f => f}
+        setPreSubmit={f => f}
+        location={location}
+      />,
+    );
+
+    expect(treeWithoutMinimalHeader.find('h1').exists()).to.be.false;
+    treeWithoutMinimalHeader.unmount();
+  });
+
   it('should appropriately render a downtime notification', () => {
     const tree = shallow(
       <ReviewPage
