@@ -427,14 +427,11 @@ describe('Authentication Utilities', () => {
         setup({});
       });
 
-      it('should return "/" when pathname is "/verify/" and hasSession() is false', () => {
+      it('should return "/" when pathname is "/verify/"', () => {
         setup({ path: '/verify/' });
-        sinon.stub(authUtilities, 'hasSession').returns(false);
 
         expect(authUtilities.createAndStoreReturnUrl()).to.equal('/');
         expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal('/');
-
-        authUtilities.hasSession.restore();
       });
     });
 

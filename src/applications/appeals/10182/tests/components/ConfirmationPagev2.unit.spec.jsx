@@ -110,7 +110,7 @@ describe('ConfirmationPageV2', () => {
     expect(reviewInfo).to.not.contain(
       'evidence that is already on your record',
     );
-    expect(reviewInfo).to.contain('P.O. Box 27063');
+    expect(reviewInfo).to.contain('PO Box 27063');
     expect(reviewInfo).to.not.contain('when your hearing is scheduled');
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
@@ -169,7 +169,7 @@ describe('ConfirmationPageV2', () => {
     expect(reviewInfo).to.not.contain(
       'evidence that is already on your record',
     );
-    expect(reviewInfo).to.not.contain('P.O. Box 27063');
+    expect(reviewInfo).to.not.contain('PO Box 27063');
     expect(reviewInfo).to.contain('when your hearing is scheduled');
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
@@ -192,7 +192,7 @@ describe('ConfirmationPageV2', () => {
 
     const reviewInfo = $('.board-review-option-info', container).textContent;
     expect(reviewInfo).to.contain('evidence that is already on your record');
-    expect(reviewInfo).to.not.contain('P.O. Box 27063');
+    expect(reviewInfo).to.not.contain('PO Box 27063');
     expect(reviewInfo).to.not.contain('when your hearing is scheduled');
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);

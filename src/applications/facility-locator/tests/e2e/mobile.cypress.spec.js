@@ -11,7 +11,6 @@ const randomInput = 'Random Input To be Cleared';
 
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
-  'facilities_use_address_typeahead',
   'facility_locator_mobile_map_update',
 ]);
 
@@ -98,12 +97,7 @@ Cypress.Commands.add('checkSearch', isMobileMapUpdateEnabled => {
 
 for (const featureSet of featureSetsToTest) {
   describe(`Mobile ${enabledFeatures(featureSet)}`, () => {
-    const clearInputSelector = featureSet.some(
-      isFeatureEnabled('facilities_use_address_typeahead'),
-    )
-      ? '#clear-street-city-state-zip'
-      : '#clear-input';
-
+    const clearInputSelector = '#clear-street-city-state-zip';
     const isMobileMapUpdateEnabled = featureSet.some(
       isFeatureEnabled('facility_locator_mobile_map_update'),
     );

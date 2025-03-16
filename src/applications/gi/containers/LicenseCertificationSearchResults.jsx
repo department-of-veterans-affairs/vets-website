@@ -5,8 +5,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import ADDRESS_DATA from 'platform/forms/address/data';
 
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useSignalFetch } from '../utils/useSignalFetch';
 
-import { filterLcResults, fetchLicenseCertificationResults } from '../actions';
+import { filterLcResults } from '../actions';
 import {
   handleLcResultsSearch,
   isSmallScreen,
@@ -14,6 +15,7 @@ import {
   showMultipleNames,
   createCheckboxes,
   updateStateDropdown,
+  handleZoom,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
 
@@ -72,18 +74,7 @@ export default function LicenseCertificationSearchResults() {
     currentPage * itemsPerPage,
   );
 
-  useEffect(() => {
-    if (!hasFetchedOnce) {
-      const controller = new AbortController();
-
-      dispatch(fetchLicenseCertificationResults(controller.signal));
-
-      return () => {
-        controller.abort();
-      };
-    }
-    return null;
-  }, []);
+  useSignalFetch(hasFetchedOnce);
 
   useEffect(
     () => {
@@ -143,6 +134,21 @@ export default function LicenseCertificationSearchResults() {
     },
     [pageParam],
   );
+
+  // handle UI for changes for high zoom levels
+  useEffect(() => {
+    window.addEventListener('resize', handleZoom);
+    window.addEventListener('load', handleZoom);
+    window.addEventListener('zoom', handleZoom);
+    window.visualViewport?.addEventListener('resize', handleZoom);
+
+    return () => {
+      window.removeEventListener('resize', handleZoom);
+      window.removeEventListener('load', handleZoom);
+      window.removeEventListener('zoom', handleZoom);
+      window.visualViewport?.removeEventListener('resize', handleZoom);
+    };
+  }, []);
 
   const handleSearch = (categoryNames, name, state) => {
     const newParams = {
