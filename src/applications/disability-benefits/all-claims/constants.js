@@ -413,6 +413,7 @@ export const TRAUMATIC_EVENT_TYPES = Object.freeze({
 export const OFFICIAL_REPORT_TYPES_SUBTITLES = Object.freeze({
   military: 'Military incident reports',
   other: 'Other reporting options',
+  none: 'No reports to include',
 });
 
 export const MILITARY_REPORT_TYPES = Object.freeze({
@@ -425,8 +426,11 @@ export const MILITARY_REPORT_TYPES = Object.freeze({
 
 export const OTHER_REPORT_TYPES = Object.freeze({
   police: 'Police report',
-  unsure: 'A police report was filed but I’m not sure which type it was',
-  none: 'No official report was filed',
+  unsure: 'An official report was filed, but I’m not sure which type it was.',
+});
+
+export const NO_REPORT_TYPE = Object.freeze({
+  none: 'I don’t have official reports to include.',
 });
 
 export const LISTED_BEHAVIOR_TYPES_WITH_SECTION = Object.freeze({
@@ -507,3 +511,35 @@ export const ALL_BEHAVIOR_CHANGE_DESCRIPTIONS = {
   ...BEHAVIOR_CHANGES_HEALTH,
   ...BEHAVIOR_CHANGES_OTHER,
 };
+
+export const SUPPORTING_EVIDENCE_SUBTITLES = Object.freeze({
+  reports: 'Reports about your traumatic events',
+  records: 'Records of receiving care after your traumatic events',
+  witness: 'Lay or witness statements (also called buddy statements)',
+  other: 'Other supporting documents',
+  unlisted: 'Other supporting documents not listed here:',
+  none: 'None',
+});
+
+export const SUPPORTING_EVIDENCE_REPORT = Object.freeze({
+  police: 'Reports from civilian police officers',
+});
+
+export const SUPPORTING_EVIDENCE_RECORD = Object.freeze({
+  physicians:
+    'Records of visits to civilian physicians or caregivers any time after the incident',
+  counseling: 'Records of visits to counseling facilities or health clinics',
+  crisis:
+    'Records of visits to rape crisis centers or centers for domestic abuse',
+});
+
+export const SUPPORTING_EVIDENCE_WITNESS = Object.freeze({
+  family: 'Statements from family members or roommates',
+  faculty: 'Statements from faculty members',
+  service: 'Statements from fellow service members',
+  clergy: 'Statements from chaplains or clergy members',
+});
+
+export const SUPPORTING_EVIDENCE_OTHER = Object.freeze({
+  personal: 'Personal diaries or journals',
+});

@@ -72,6 +72,7 @@ function UserNav({ profile }) {
           secondaryIcon="chevron_left"
           iconClassName="user-nav__chevron"
           view="desktop"
+          size={2}
         >
           <UserNavLinks />
         </NavDropdown>
@@ -85,6 +86,7 @@ function UserNav({ profile }) {
           iconClassName="user-nav__chevron"
           dropdownClass="nav__user-menu"
           view="mobile"
+          size={3}
         >
           <UserNavLinks />
         </NavDropdown>
@@ -94,9 +96,10 @@ function UserNav({ profile }) {
           icon="menu"
           srText="toggle menu"
           dropdownClass="nav__full-width"
-          className="nav__btn"
+          className="nav__btn is--menu"
           closeIcon="close"
           view="mobile"
+          size={2}
         >
           <UserHelpLinks />
         </NavDropdown>

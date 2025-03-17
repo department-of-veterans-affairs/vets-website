@@ -11,7 +11,6 @@ import {
   geolocateUser,
   getProviderSpecialties,
 } from '../../actions';
-import { facilityLocatorAutosuggestVAMCServices } from '../../utils/featureFlagSelectors';
 import { LocationType } from '../../constants';
 import { setFocus } from '../../utils/helpers';
 import { SearchFormTypes } from '../../types';
@@ -19,13 +18,12 @@ import { SearchFormTypes } from '../../types';
 // Components
 import BottomRow from './BottomRow';
 import FacilityType from './facility-type';
-import LocationInput from './location';
 import ServiceType from './service-type';
+import AddressAutosuggest from './location/AddressAutosuggest';
 
 export const SearchForm = props => {
   const {
     currentQuery,
-    facilitiesUseAddressTypeahead,
     isMobile,
     isSmallDesktop,
     isTablet,
@@ -42,25 +40,6 @@ export const SearchForm = props => {
   const locationInputFieldRef = useRef(null);
   const lastQueryRef = useRef(null);
   const [searchInitiated, setSearchInitiated] = useState(false);
-
-  const onlySpaces = str => /^\s+$/.test(str);
-
-  const handleQueryChange = e => {
-    // prevent users from entering only spaces
-    // because this will not trigger a change
-    // when they exit the field
-    onChange({
-      searchString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
-  };
-
-  const handleLocationBlur = e => {
-    // force redux state to register a change
-    onChange({ searchString: ' ' });
-    handleQueryChange(e);
-  };
 
   const handleFacilityTypeChange = e => {
     onChange({
@@ -256,7 +235,7 @@ export const SearchForm = props => {
         uswds
         modalTitle={
           currentQuery.geocodeError === 1
-            ? 'We need to use your location'
+            ? `Your device's location sharing is off.`
             : "We couldn't locate you"
         }
         onCloseEvent={() => props.clearGeocodeError()}
@@ -265,23 +244,19 @@ export const SearchForm = props => {
       >
         <p>
           {currentQuery.geocodeError === 1
-            ? 'Please enable location sharing in your browser to use this feature.'
+            ? 'To use your location when searching for a VA facility, go to the settings on your device and update sharing permissions.'
             : 'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.'}
         </p>
       </VaModal>
       <form id="facility-search-controls" onSubmit={handleSubmit}>
-        <LocationInput
+        <AddressAutosuggest
           currentQuery={currentQuery}
-          facilitiesUseAddressTypeahead={facilitiesUseAddressTypeahead}
-          geolocateUser={props.geolocateUser}
-          handleClearInput={handleClearInput}
-          handleGeolocationButtonClick={handleGeolocationButtonClick}
-          handleLocationBlur={handleLocationBlur}
-          handleQueryChange={handleQueryChange}
+          geolocateUser={handleGeolocationButtonClick}
+          inputRef={locationInputFieldRef}
           isMobile={isMobile}
           isSmallDesktop={isSmallDesktop}
           isTablet={isTablet}
-          locationInputFieldRef={locationInputFieldRef}
+          onClearClick={handleClearInput}
           onChange={onChange}
           useProgressiveDisclosure={useProgressiveDisclosure}
         />
@@ -292,7 +267,7 @@ export const SearchForm = props => {
               id="facility-search"
               submit="prevent"
               text="Search"
-              class="vads-u-width--full"
+              full-width
             />
           </>
         ) : (
@@ -308,10 +283,6 @@ export const SearchForm = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
-});
-
 const mapDispatchToProps = {
   clearGeocodeError,
   clearSearchText,
@@ -322,6 +293,6 @@ const mapDispatchToProps = {
 SearchForm.propTypes = SearchFormTypes;
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(SearchForm);

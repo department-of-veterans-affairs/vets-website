@@ -262,6 +262,12 @@ const DownloadReportPage = ({ runningUnitTest }) => {
     sendDataDogAction('Download Continuity of Care Document xml Link');
   };
 
+  const handleDownloadSelfEnteredPdf = e => {
+    e.preventDefault();
+    generateSEIPdf();
+    sendDataDogAction('Download self-entered health information PDF link');
+  };
+
   return (
     <div>
       <h1>Download your medical records reports</h1>
@@ -409,11 +415,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
             <va-link
               download
               href="#"
-              onClick={e => {
-                e.preventDefault();
-                generateSEIPdf();
-                sendDataDogAction('Self entered health information PDF link ');
-              }}
+              onClick={handleDownloadSelfEnteredPdf}
               text="Download self-entered health information report (PDF)"
               data-testid="downloadSelfEnteredButton"
             />
@@ -426,7 +428,7 @@ const DownloadReportPage = ({ runningUnitTest }) => {
           </p>
           <ExternalLink
             href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'va-blue-button')}
-            text="Go to the previous version of MyHealtheVet to download historical
+            text="Go to the previous version of My HealtheVet to download historical
             goals"
           />
         </va-accordion-item>

@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import { useReviewPage } from '../hooks/useReviewPage';
 import { getEntityAddressAsObject } from '../utilities/helpers';
 
+import { pageDepends as submissionPageDepends } from '../pages/representative/representativeSubmissionMethod';
+
 import AddressEmailPhone from './AddressEmailPhone';
 
 const ContactAccreditedRepresentative = props => {
   const { formData, goBack, goForward, goToPath } = props;
   const rep = formData?.['view:selectedRepresentative'];
-  const v2IsEnabled = formData?.['view:v2IsEnabled'];
   const repAttributes = rep?.attributes;
   const addressData = getEntityAddressAsObject(repAttributes);
   const email = repAttributes?.email;
@@ -27,8 +28,7 @@ const ContactAccreditedRepresentative = props => {
     ) &&
     representative.attributes?.accreditedOrganizations?.data?.length > 1;
 
-  // will need to update this when we can determine submission methods
-  const submissionMethodRequired = orgSelectionRequired && v2IsEnabled;
+  const submissionMethodRequired = submissionPageDepends(formData);
 
   const handleGoBack = () => {
     if (isReviewPage) {

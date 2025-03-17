@@ -301,7 +301,7 @@ export const createBreadcrumbs = (
       },
     ]);
   }
-  if (pathname === subdirectories.REFILL) {
+  if (pathname.includes(subdirectories.REFILL)) {
     return defaultBreadcrumbs.concat([
       ...(!removeLandingPage
         ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]
