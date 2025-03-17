@@ -13,9 +13,9 @@ function mergeJsonFiles(fileNames, outputFile) {
 
       Object.entries(parsedData).forEach(([key, value]) => {
         if (
-          Number(value.lines.pct) === 0 ||
-          Number(value.functions.pct) === 0 ||
-          Number(value.statements.pct) === 0 ||
+          Number(value.lines.pct) === 0 &&
+          Number(value.functions.pct) === 0 &&
+          Number(value.statements.pct) === 0 &&
           Number(value.branches.pct) === 0
         ) {
           console.log(`Excluding ${key} due to 0% coverage.`);
