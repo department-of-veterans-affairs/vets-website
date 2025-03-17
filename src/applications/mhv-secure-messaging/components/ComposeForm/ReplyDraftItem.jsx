@@ -467,6 +467,16 @@ const ReplyDraftItem = props => {
         cancelButtonText={navigationError?.cancelButtonText}
         saveDraftHandler={saveDraftHandler}
         savedDraft={savedDraft}
+        confirmButtonDDActionName={
+          attachments.length > 0
+            ? "Save draft without attachments button - Can't save with attachments modal"
+            : undefined
+        }
+        cancelButtonDDActionName={
+          attachments.length > 0
+            ? "Edit draft button - Can't save with attachments modal"
+            : undefined
+        }
       />
 
       <h3 className="vads-u-margin-bottom--0p5" slot="headline">
