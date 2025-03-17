@@ -5,26 +5,41 @@ import { render, waitFor, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import ContactAccreditedRepresentative from '../../../components/ContactAccreditedRepresentative';
 import selectedRep from '../../fixtures/data/representative.json';
+import { pageDepends } from '../../../pages/representative/representativeSubmissionMethod';
+import {
+  userIsDigitalSubmitEligible,
+  entityAcceptsDigitalPoaRequests,
+} from '../../../utilities/helpers';
+
+const getProps = () => {
+  return {
+    props: {
+      loggedIn: true,
+      formData: {
+        'view:selectedRepresentative': selectedRep.data,
+        identityValidation: { hasIcn: true, hasParticipantId: true },
+        'view:applicantIsVeteran': 'Yes',
+        'view:v2IsEnabled': true,
+      },
+    },
+    mockStore: {
+      getState: () => ({
+        form: {
+          data: {
+            'view:selectedRepresentative': selectedRep.data,
+            identityValidation: { hasIcn: true, hasParticipantId: true },
+            'view:applicantIsVeteran': 'Yes',
+            'view:v2IsEnabled': true,
+          },
+        },
+      }),
+      loggedIn: true,
+      subscribe: () => {},
+    },
+  };
+};
 
 describe('<ContactAccreditedRepresentative>', () => {
-  const getProps = () => {
-    return {
-      props: {
-        loggedIn: true,
-        formData: { 'view:selectedRepresentative': selectedRep.data },
-      },
-      mockStore: {
-        getState: () => ({
-          form: {
-            data: { 'view:selectedRepresentative': selectedRep.data },
-          },
-        }),
-        loggedIn: true,
-        subscribe: () => {},
-      },
-    };
-  };
-
   it('should render component', () => {
     const { props, mockStore } = getProps();
 
@@ -168,5 +183,57 @@ describe('<ContactAccreditedRepresentative>', () => {
         expect(goToPathSpy.calledWith('/review-and-submit')).to.be.true;
       });
     });
+  });
+});
+
+it('should navigate to the representative submission method page when submissionMethodRequired is true', async () => {
+  Object.defineProperty(window, 'location', {
+    value: { search: '?review=true' },
+    writable: true,
+  });
+  const { props, mockStore } = getProps();
+
+  const goToPathSpy = sinon.spy();
+
+  const formData = { props };
+  formData.identityValidation = {
+    hasIcn: true,
+    hasParticipantId: true,
+  };
+
+  formData['view:applicantIsVeteran'] = 'Yes';
+  formData['view:v2IsEnabled'] = true;
+  formData['view:selectedRepresentative'] = {
+    attributes: {
+      accreditedOrganizations: {
+        data: [
+          {
+            attributes: { canAcceptDigitalPoaRequests: true },
+          },
+        ],
+      },
+    },
+  };
+
+  sinon.stub(pageDepends, 'pageDepends').returns(true);
+  sinon
+    .stub(userIsDigitalSubmitEligible, 'userIsDigitalSubmitEligible')
+    .returns(true);
+  sinon
+    .stub(entityAcceptsDigitalPoaRequests, 'entityAcceptsDigitalPoaRequests')
+    .returns(true);
+
+  const { getByText } = render(
+    <Provider store={mockStore}>
+      <ContactAccreditedRepresentative {...props} goToPath={goToPathSpy} />
+    </Provider>,
+  );
+
+  fireEvent.click(getByText('Continue'));
+
+  await waitFor(() => {
+    expect(
+      goToPathSpy.calledWith('/representative-submission-method?review=true'),
+    ).to.be.true;
   });
 });

@@ -13,7 +13,7 @@ describe('MHV Signin CTA', () => {
     const linkText = 'order medical supplies';
 
     it('unanthenticated user', async () => {
-      const { queryByTestId, queryByRole, getByText } = render(
+      const { container, queryByTestId, getByText } = render(
         <Provider store={mockStore()}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
@@ -24,11 +24,12 @@ describe('MHV Signin CTA', () => {
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.exist;
       expect(getByText(RegExp(serviceDescription))).to.exist;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
+      expect(container.querySelector(`va-link-action[text="${linkText}"]`)).to
+        .not.exist;
     });
 
     it('unverified user', async () => {
-      const { queryByTestId, queryByRole, getByText } = render(
+      const { container, queryByTestId, getByText } = render(
         <Provider store={mockStore()}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
@@ -41,11 +42,12 @@ describe('MHV Signin CTA', () => {
       expect(queryByTestId('mhv-unverified-alert')).to.exist;
       expect(getByText(RegExp(serviceDescription))).to.exist;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
+      expect(container.querySelector(`va-link-action[text="${linkText}"]`)).to
+        .not.exist;
     });
 
     it('verified user', async () => {
-      const { queryByTestId, queryByRole } = render(
+      const { container, queryByTestId } = render(
         <Provider store={mockStore()}>
           <MhvSimpleSigninCallToAction
             serviceDescription={serviceDescription}
@@ -59,7 +61,36 @@ describe('MHV Signin CTA', () => {
       );
       expect(queryByTestId('mhv-unverified-alert')).to.be.null;
       expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.exist;
+      expect(container.querySelector(`va-link-action[text="${linkText}"]`)).to
+        .exist;
+    });
+
+    it('renders mhvAccount is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSimpleSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading
+            profileLoading={false}
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
+    });
+
+    it('renders profile is loading indicator', () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <MhvSimpleSigninCallToAction
+            serviceDescription={serviceDescription}
+            userIsLoggedIn={false}
+            mhvAccountLoading={false}
+            profileLoading
+          />
+        </Provider>,
+      );
+      getByTestId('mhv-signin-widget-loading');
     });
   });
 });

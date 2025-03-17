@@ -30,6 +30,7 @@ import {
   getNameDateAndTime,
   formatDateAndTime,
   formatUserDob,
+  sendDataDogAction,
 } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
@@ -236,7 +237,7 @@ ${record.results}`;
       {allowMarchUpdates ? (
         <va-link
           className="vads-u-margin-top--1"
-          href="www.va.gov/profile/notifications"
+          href="/profile/notifications"
           text="Go to notification settings"
         />
       ) : (
@@ -244,6 +245,9 @@ ${record.results}`;
           className="vads-u-margin-top--1"
           href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'profiles')}
           text="Go back to the previous version of My HealtheVet"
+          onClick={() => {
+            sendDataDogAction('Go back to MHV - Radiology');
+          }}
         />
       )}
     </>
@@ -317,6 +321,9 @@ ${record.results}`;
             to={`/labs-and-tests/${record.id}/images`}
             className="vads-c-action-link--blue"
             data-testid="radiology-view-all-images"
+            onClick={() => {
+              sendDataDogAction('View all images');
+            }}
           >
             View all {radiologyDetails.imageCount} images
           </Link>

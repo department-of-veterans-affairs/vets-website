@@ -339,3 +339,36 @@ va-checkbox {
     background: var(--vads-color-gray-medium);
   }
 }
+
+#rx-ipe-filtering-container {
+  border: 2px solid var(--vads-color-base);
+  background-color: var(--vads-color-base-lighter);
+  border-radius: 12px;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    right: 20px;
+    z-index: 1;
+    background-color: var(--vads-color-base-lighter);
+    border: 2px solid transparent;
+    border-top-color: var(--vads-color-base);
+    border-left-color: var(--vads-color-base);
+    transform: rotate(45deg);
+  }
+
+  #rx-ipe-filtering-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    margin: 0;
+    padding: 0;
+    background: 0;
+    color: inherit;
+    width: auto;
+  }
+}

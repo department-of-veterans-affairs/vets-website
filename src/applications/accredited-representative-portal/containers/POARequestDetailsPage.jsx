@@ -107,9 +107,9 @@ const AccessToSome = () => {
 };
 const checkAuthorizations = x => {
   if (x) {
-    return <Authorized />;
+    return <NoAccess />;
   }
-  return <NoAccess />;
+  return <Authorized />;
 };
 const checkLimitations = (limitations, limit) => {
   const checkLimitation = limitations.includes(limit);
@@ -357,19 +357,21 @@ const POARequestDetailsPage = () => {
               <li>
                 <p>Change of address</p>
                 <p>
-                  {checkAuthorizations(
-                    poaRequest?.powerOfAttorneyForm.authorizations
-                      .addressChange,
+                  {poaRequest?.powerOfAttorneyForm.authorizations
+                    .addressChange ? (
+                    <Authorized />
+                  ) : (
+                    <NoAccess />
                   )}
                 </p>
               </li>
               <li>
                 <p>Protected medical records</p>
                 <p>
-                  {recordDisclosureLimitations.length === 0 && <NoAccess />}
+                  {recordDisclosureLimitations.length === 0 && <Authorized />}
                   {recordDisclosureLimitations.length < 4 &&
                     recordDisclosureLimitations.length > 0 && <AccessToSome />}
-                  {recordDisclosureLimitations.length === 4 && <Authorized />}
+                  {recordDisclosureLimitations.length === 4 && <NoAccess />}
                 </p>
               </li>
               <li>
@@ -409,7 +411,7 @@ const POARequestDetailsPage = () => {
                 <VaRadio
                   header-aria-describedby={null}
                   label="Do you accept or decline this POA request?"
-                  label-header-level={2}
+                  label-header-level={4}
                   class="poa-request-details__form-label"
                   onVaValueChange={handleChange}
                   required

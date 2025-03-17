@@ -6,8 +6,11 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
-import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
-import { BTSSS_PORTAL_URL } from '../../../constants';
+import {
+  HelpTextOptions,
+  HelpTextGeneral,
+  HelpTextModalities,
+} from '../../HelpText';
 import SmocRadio from '../../SmocRadio';
 
 const AddressPage = ({
@@ -93,7 +96,7 @@ const AddressPage = ({
       >
         <div className="vads-u-margin-y--2">
           <p>
-            Answer “Yes” if you traveled from the address listed here and you
+            Answer “yes” if you traveled from the address listed here and you
             confirm that it’s not a Post Office box.
           </p>
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
@@ -120,26 +123,10 @@ const AddressPage = ({
           <hr aria-hidden="true" className="vads-u-margin-y--0" />
         </div>
       </SmocRadio>
-
-      <va-additional-info
-        class="vads-u-margin-y--3"
+      <HelpTextOptions
         trigger="If you didn't travel from your home address"
-      >
-        <p>
-          <strong>
-            If you traveled from a different address, you can’t file a claim in
-            this tool right now.
-          </strong>{' '}
-          But you can file your claim online through the
-          <va-link
-            external
-            href={BTSSS_PORTAL_URL}
-            text="Beneficiary Travel Self Service System (BTSSS)"
-          />
-          . Or you can use VA Form 10-3542 to submit a claim by mail or in
-          person.
-        </p>
-      </va-additional-info>
+        headline="If you traveled from a different address, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue
