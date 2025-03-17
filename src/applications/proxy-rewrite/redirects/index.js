@@ -32,21 +32,14 @@ const redirectIfNecessary = currentWindow => {
         const { batch } = batchRedirect;
 
         if (BATCHES?.[batch]) {
-          const { fileExtension, numbers } = BATCHES?.[batch];
+          const { regexMatch } = BATCHES?.[batch];
 
-          numbers.forEach(number => {
-            const fullPathToMatch = new RegExp(
-              `${batchRedirect.src}${number}${fileExtension}`,
-              'i',
-            );
-
-            if (fullPathToMatch.test(currentPath)) {
-              // eslint-disable-next-line no-param-reassign
-              currentWindow.location.href = `${environment.BASE_URL}${
-                batchRedirect.dest
-              }`;
-            }
-          });
+          if (regexMatch.test(currentPath)) {
+            // eslint-disable-next-line no-param-reassign
+            currentWindow.location.href = `${environment.BASE_URL}${
+              batchRedirect.dest
+            }`;
+          }
         }
       }
     });
