@@ -261,11 +261,17 @@ const SmBreadcrumbs = () => {
                 }}
                 className="vads-u-font-size--md"
                 data-testid="sm-breadcrumbs-back"
+                data-dd-action-name="Breadcrumb - Back"
               >
                 Back
               </Link>
             ) : (
-              <Link to={crumb.href} className="vads-u-font-size--md">
+              <Link
+                to={crumb.href}
+                className="vads-u-font-size--md"
+                data-dd-privacy="mask"
+                data-dd-action-name="Breadcrumb - Back to"
+              >
                 {`Back to ${crumb.label}`}
               </Link>
             )}
@@ -279,6 +285,7 @@ const SmBreadcrumbs = () => {
           onRouteChange={handleRouteChange}
           className="mobile-lg:vads-u-margin-y--2"
           dataTestid="sm-breadcrumbs"
+          data-dd-action-name="Breadcrumb"
           uswds
         />
       )}
