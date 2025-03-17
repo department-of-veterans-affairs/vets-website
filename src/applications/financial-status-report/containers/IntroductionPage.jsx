@@ -3,16 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import formConfig from '../config/form';
-import UnverifiedPrefillAlert from '../components/shared/UnverifiedPrefillAlert';
+import ShowAlertOrSip from '../components/shared/ShowAlertOrSip';
 import { WIZARD_STATUS } from '../wizard/constants';
 import manifest from '../manifest.json';
 import { clearJobIndex } from '../utils/session';
+import UnverifiedPrefillAlert from '../components/shared/UnverifiedPrefillAlert';
 
-const IntroductionPage = ({ route, formId }) => {
+const IntroductionPage = ({
+  route,
+  location,
+  user,
+  formId: formIdFromState,
+}) => {
   useEffect(() => {
     focusElement('h1');
     clearJobIndex();
@@ -22,6 +26,35 @@ const IntroductionPage = ({ route, formId }) => {
   const showWizard = useToggleValue(
     TOGGLE_NAMES.showFinancialStatusReportWizard,
   );
+
+  if (!route || !route.formConfig || !route.pageList) {
+    return <div>Loading...</div>;
+  }
+
+  const { formConfig, pageList } = route;
+  const {
+    formId = formIdFromState,
+    prefillEnabled,
+    savedFormMessages,
+    downtime,
+    verifyRequiredPrefill,
+  } = formConfig;
+
+  const sipOptions = {
+    formId,
+    startText: 'Start your request now',
+    unauthStartText: 'Sign in or create an account',
+    messages: savedFormMessages,
+    gaStartEventName: 'fsr-request-debt-help-form-5655',
+    pageList,
+    formConfig,
+    retentionPeriod: '60 days',
+    downtime,
+    prefillEnabled,
+    verifyRequiredPrefill,
+    unverifiedPrefillAlert: <UnverifiedPrefillAlert />,
+    hideUnauthedStartLink: true,
+  };
 
   return (
     <div className="fsr-introduction schemaform-intro">
@@ -37,6 +70,12 @@ const IntroductionPage = ({ route, formId }) => {
         <li>Compromise offer</li>
         <li>Payment plan (if you need longer than 5 years to repay)</li>
       </ul>
+
+      <ShowAlertOrSip
+        basename={location?.basename || ''}
+        sipOptions={sipOptions}
+      />
+
       <h2 className="vads-u-font-size--h3">
         Follow these steps to request help
       </h2>
@@ -160,19 +199,11 @@ const IntroductionPage = ({ route, formId }) => {
         </va-process-list-item>
       </va-process-list>
 
-      <SaveInProgressIntro
-        startText="Start your request now"
-        unauthStartText="Sign in or create an account"
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        formConfig={formConfig}
-        formId={formId}
-        retentionPeriod="60 days"
-        downtime={route.formConfig.downtime}
-        prefillEnabled={route.formConfig.prefillEnabled}
-        verifyRequiredPrefill={route.formConfig.verifyRequiredPrefill}
-        unverifiedPrefillAlert={<UnverifiedPrefillAlert />}
-        hideUnauthedStartLink
+      <ShowAlertOrSip
+        user={user}
+        basename={location?.basename || ''}
+        sipOptions={sipOptions}
+        bottom
       />
 
       <va-omb-info
@@ -189,19 +220,24 @@ const IntroductionPage = ({ route, formId }) => {
 const mapStateToProps = state => ({
   formId: state.form.formId,
   user: state.user,
+  location: state.location,
 });
 
 IntroductionPage.propTypes = {
-  formId: PropTypes.string.isRequired,
   route: PropTypes.shape({
+    pageList: PropTypes.array.isRequired,
     formConfig: PropTypes.shape({
+      formId: PropTypes.string,
       downtime: PropTypes.object,
       prefillEnabled: PropTypes.bool,
       savedFormMessages: PropTypes.object,
       verifyRequiredPrefill: PropTypes.string,
-    }),
-    pageList: PropTypes.array.isRequired,
+    }).isRequired,
   }).isRequired,
+  formId: PropTypes.string,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+  }),
   user: PropTypes.shape({}),
 };
 
