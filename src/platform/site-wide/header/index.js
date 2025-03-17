@@ -42,8 +42,6 @@ const setupMinimalHeader = () => {
     if (headerMinimal.dataset?.excludePaths) {
       excludePathsString = headerMinimal.dataset.excludePaths;
       excludePaths = JSON.parse(excludePathsString);
-      // Remove the data attribute from the DOM since it's no longer needed
-      headerMinimal.removeAttribute('data-exclude-paths');
     }
   }
 
