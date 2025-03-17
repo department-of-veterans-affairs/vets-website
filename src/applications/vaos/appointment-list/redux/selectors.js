@@ -283,11 +283,12 @@ export function selectBackendServiceFailuresInfo(state) {
     backendServiceFailures,
   };
 }
-
-export function selectStartDate(appointment) {
+export function selectStartDate(appointment, useFeSourceOfTruth) {
   if (
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
-    appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
+    useFeSourceOfTruth
+      ? appointment.vaos.isPendingAppointment
+      : appointment.vaos.appointmentType === APPOINTMENT_TYPES.request ||
+        appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest
   ) {
     return moment(appointment.requestedPeriod[0].start);
   }
