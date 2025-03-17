@@ -4,11 +4,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import capitalize from 'lodash/capitalize';
 
-import { CONDITION_BY_CONDITION, CONDITIONS_FIRST } from '../constants';
+import { CONDITION_BY_CONDITION, CFI_FIRST } from '../constants';
 
 const demoOptions = {
   CONDITION_BY_CONDITION: capitalize(CONDITION_BY_CONDITION),
-  CONDITIONS_FIRST: capitalize(CONDITIONS_FIRST),
+  CFI_FIRST: capitalize(CFI_FIRST),
 };
 
 /** @type {PageSchema} */

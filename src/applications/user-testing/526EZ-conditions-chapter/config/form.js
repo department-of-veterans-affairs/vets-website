@@ -1,6 +1,7 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import FormFooter from '../components/FormFooter';
+import FormFooter from 'platform/forms/components/FormFooter';
+import GetFormHelp from '../components/GetFormHelp';
 import { SUBTITLE, TITLE } from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -18,6 +19,7 @@ const formConfig = {
   trackingPrefix: 'conditions',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  getHelp: GetFormHelp,
   footerContent: FormFooter,
   // dev: {
   //   showNavLinks: true,

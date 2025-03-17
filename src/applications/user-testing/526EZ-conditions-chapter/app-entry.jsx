@@ -1,11 +1,11 @@
 import '@department-of-veterans-affairs/platform-polyfills';
-import './sass/new-conditions.scss';
-
 import { startAppFromIndex } from '@department-of-veterans-affairs/platform-startup/exports';
 
-import routes from './routes';
-import reducer from './reducers';
 import manifest from './manifest.json';
+import reducer from './reducers';
+import routes from './routes';
+
+import './sass/526EZ-conditions-chapter.scss';
 
 startAppFromIndex({
   entryName: manifest.entryName,
