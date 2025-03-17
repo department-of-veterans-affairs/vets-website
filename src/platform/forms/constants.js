@@ -165,6 +165,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_DISPUTE_DEBT]: `${tryGetAppUrl('DISPUTE-DEBT')}/`,
     [VA_FORM_IDS.FORM_1330M2]: `${tryGetAppUrl('1330M2')}/`,
     [VA_FORM_IDS.FORM_1330M]: `${tryGetAppUrl('1330M')}/`,
+    [VA_FORM_IDS.FORM_22_10216]: `${tryGetAppUrl('10216-edu-benefits')}/`,
   };
 };
 
@@ -523,6 +524,15 @@ export const MY_VA_SIP_FORMS = [
     title: 'hearing aid batteries and accessories (MDOT)',
     description: 'hearing aid batteries and accessories (MDOT)',
     trackingPrefix: 'bam-2346a-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_22_10216,
+    benefit: 'Request exemption from the 85/15 Rule reporting requirements',
+    title:
+      'Request exemption from the 85/15 Rule reporting requirements (22-10216)',
+    description:
+      '35% Exemption Request from 85/15 Reporting Requirement (VA Form 22-10216)',
+    trackingPrefix: 'edu-10216-',
   },
 ];
 
