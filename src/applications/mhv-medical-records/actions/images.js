@@ -8,6 +8,13 @@ import {
   requestImagingStudy,
 } from '../api/MrApi';
 
+export const setStudyRequestLimitReached = limitReached => async dispatch => {
+  dispatch({
+    type: Actions.Images.SET_REQUEST_LIMIT_REACHED,
+    payload: limitReached,
+  });
+};
+
 export const requestImages = studyId => async dispatch => {
   try {
     dispatch({ type: Actions.Images.SET_REQUEST_API_FAILED, payload: false });
@@ -18,10 +25,7 @@ export const requestImages = studyId => async dispatch => {
       err?.detail?.includes('You have exceeded your limit of three'),
     );
     if (studyRequestLimitReached) {
-      dispatch({
-        type: Actions.Images.SET_REQUEST_LIMIT_REACHED,
-        payload: true,
-      });
+      dispatch(setStudyRequestLimitReached(true));
     } else {
       dispatch({ type: Actions.Images.SET_REQUEST_API_FAILED, payload: true });
     }

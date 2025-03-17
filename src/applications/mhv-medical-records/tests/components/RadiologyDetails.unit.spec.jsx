@@ -10,6 +10,7 @@ import radiologyMhvWithImages from '../fixtures/radiologyMhvWithImages.json';
 import radiologyMhvWithImagesNew from '../fixtures/radiologyMhvWithImagesNew.json';
 import radiologyMhvWithImageError from '../fixtures/radiologyMhvWithImageError.json';
 import images from '../fixtures/images.json';
+import threeImageRequestInProgress from '../fixtures/threeImageRequestInProgress.json';
 import radiologyWithMissingFields from '../fixtures/radiologyWithMissingFields.json';
 import {
   convertCvixRadiologyRecord,
@@ -372,8 +373,8 @@ describe('Radiology details component - over request limit', () => {
         labsAndTestsDetails: radiologyRecord,
       },
       images: {
-        ...images,
-        studyRequestLimitReached: true, // Simulating over-request limit
+        ...threeImageRequestInProgress,
+        studyRequestLimitReached: true, // simulating request limit reached
       },
     },
     featureToggles: {

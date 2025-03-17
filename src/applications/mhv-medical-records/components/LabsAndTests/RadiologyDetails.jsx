@@ -38,6 +38,7 @@ import {
   fetchImageRequestStatus,
   fetchBbmiNotificationStatus,
   requestImages,
+  setStudyRequestLimitReached,
 } from '../../actions/images';
 import useAlerts from '../../hooks/use-alerts';
 import HeaderSection from '../shared/HeaderSection';
@@ -45,25 +46,31 @@ import LabelValue from '../shared/LabelValue';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
-
-  const user = useSelector(state => state.user.profile);
-  const allowTxtDownloads = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
-      ],
-  );
-
-  const allowMarchUpdates = useSelector(
-    state =>
-      state.featureToggles[
-        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
-      ],
-  );
-
   const dispatch = useDispatch();
   const elementRef = useRef(null);
   const processingAlertHeadingRef = useRef(null);
+
+  const user = useSelector(state => state.user.profile);
+  const { allowTxtDownloads, allowMarchUpdates } = useSelector(state => ({
+    allowTxtDownloads:
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsAllowTxtDownloads
+      ],
+    allowMarchUpdates:
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicalRecordsUpdateLandingPage
+      ],
+  }));
+  const radiologyDetails = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsDetails,
+  );
+  const {
+    imageStatus: studyJobs,
+    notificationStatus,
+    studyRequestLimitReached,
+    imageRequestApiFailed,
+  } = useSelector(state => state.mr.images);
+
   const [
     imageProcessingAlertRendered,
     setImageProcessingAlertRendered,
@@ -75,15 +82,6 @@ const RadiologyDetails = props => {
   const [pollInterval, setPollInterval] = useState(2000);
 
   const [processingRequest, setProcessingRequest] = useState(false);
-  const radiologyDetails = useSelector(
-    state => state.mr.labsAndTests.labsAndTestsDetails,
-  );
-  const {
-    imageStatus: studyJobs,
-    notificationStatus,
-    studyRequestLimitReached,
-    imageRequestApiFailed,
-  } = useSelector(state => state.mr.images);
 
   const activeAlert = useAlerts(dispatch);
 
@@ -98,6 +96,24 @@ const RadiologyDetails = props => {
       dispatch(fetchBbmiNotificationStatus());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (studyJobs?.length) {
+        const jobsInProcess = studyJobs.filter(
+          job =>
+            job.status === studyJobStatus.PROCESSING ||
+            job.status === studyJobStatus.NEW,
+        );
+        if (jobsInProcess.length >= 3) {
+          dispatch(setStudyRequestLimitReached(true));
+        } else if (studyRequestLimitReached) {
+          dispatch(setStudyRequestLimitReached(false));
+        }
+      }
+    },
+    [studyJobs],
   );
 
   useEffect(
@@ -369,7 +385,7 @@ ${record.results}`;
     </>
   );
 
-  const overRequestLimit = () => (
+  const requestLimitReachedAlert = () => (
     <p>
       You can’t request images for this report right now. You can only have 3
       image requests at a time. Once a report is done processing you can request
@@ -402,7 +418,11 @@ ${record.results}`;
             studyJob?.status === studyJobStatus.PROCESSING) &&
             imageAlertProcessing(studyJob)}
           {studyJob?.status === studyJobStatus.COMPLETE && imageAlertComplete()}
-          {studyRequestLimitReached && overRequestLimit()}
+          {studyRequestLimitReached &&
+            studyJob.status !== studyJobStatus.PROCESSING &&
+            studyJob.status !== studyJobStatus.NEW &&
+            studyJob.status !== studyJobStatus.COMPLETE &&
+            requestLimitReachedAlert()}
           {(imageRequestApiFailed ||
             studyJob?.status === studyJobStatus.ERROR) &&
             imageAlertError(studyJob)}
