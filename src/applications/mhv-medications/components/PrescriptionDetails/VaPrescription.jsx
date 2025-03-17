@@ -368,11 +368,13 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Instructions
                 </h3>
-                <p>{validateIfAvailable('Instructions', prescription?.sig)}</p>
+                <p data-testid="rx-instructions">
+                  {validateIfAvailable('Instructions', prescription?.sig)}
+                </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Reason for use
                 </h3>
-                <p>
+                <p data-testid="rx-reason-for-use">
                   {validateIfAvailable(
                     'Reason for use',
                     prescription?.indicationForUse,

@@ -659,6 +659,18 @@ class MedicationsDetailsPage {
   verifyMedDescriptionFieldInRefillAccordionDetailsPage = text => {
     cy.get('[data-testid="rx-description"]').should('contain', text);
   };
+
+  verifyPharmacyPhoneNumberOnDetailsPage = text => {
+    cy.get('[data-testid="pharmacy-phone"]').should('contain', text);
+  };
+
+  verifyReasonForUseOnDetailsPage = text => {
+    cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyInstructionsOnDetailsPage = text => {
+    cy.get('[data-testid="rx-instructions"]').should('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;
