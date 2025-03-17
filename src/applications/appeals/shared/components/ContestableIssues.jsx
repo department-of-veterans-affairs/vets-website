@@ -240,9 +240,7 @@ const ContestableIssues = props => {
               : null}
           </p>
         </VaModal>
-        <ul className="issues remove-bullets vads-u-border-top--1px vads-u-border-color--gray-light">
-          {content}
-        </ul>
+        <ul className="issues remove-bullets">{content}</ul>
         {onReviewPage && inReviewMode ? null : (
           <Link
             className="add-new-issue vads-c-action-link--green"

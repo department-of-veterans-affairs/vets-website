@@ -48,29 +48,14 @@ va-checkbox-group va-text-input[error]::part(label) {
  .issues {
 
   .widget-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-
     .widget-checkbox-wrap {
       margin: 0;
       width: 3.125rem;
       min-width: 3.125rem;
+    }
 
-      label {
-        margin-top: 0;
-      }
-
-      /* contestable issues widget - copy uswds v3 style */
-      label:before {
-        box-shadow: rgb(27, 27, 27) 0px 0px 0px 2px;
-      }
-
-      [type="checkbox"] {
-        width: 1.125rem;
-        height: 1.125rem;
-        margin: 0;
-      }
+    va-checkbox::part(label) {
+      font-weight: 700;
     }
 
     .widget-content {

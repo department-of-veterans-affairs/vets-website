@@ -40,7 +40,8 @@
           "decisionIssueId": 42,
           "ratingIssueReferenceId": "52",
           "ratingDecisionReferenceId": "999"
-        }
+        },
+        "view:selected": true
       },
       {
         "type": "contestableIssue",
@@ -52,11 +53,18 @@
           "decisionIssueId": 44,
           "ratingIssueReferenceId": "66",
           "ratingDecisionReferenceId": null
-        }
+        },
+        "view:selected": true
       }
     ],
     "legacyCount": 2,
-    "additionalIssues": [],
+    "additionalIssues": [
+      {
+        "issue": "Test",
+        "decisionDate": "2022-1-1",
+        "view:selected": true
+      }
+    ],
     "optionIndicator": "",
     "locations": [],
     "providerFacility": [],

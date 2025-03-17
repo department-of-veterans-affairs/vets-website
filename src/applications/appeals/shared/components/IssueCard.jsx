@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isValid, format } from 'date-fns';
 import { Link } from 'react-router';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { replaceDescriptionContent } from '../utils/replace';
 import {
@@ -56,7 +57,7 @@ export const IssueCardContent = ({
   );
 
   return (
-    <div id={id} className="widget-content-wrap">
+    <div id={id} className="vads-u-width--full">
       {description && (
         <p
           className="vads-u-margin-bottom--0 dd-privacy-hidden"
@@ -103,23 +104,12 @@ IssueCardContent.propTypes = {
  * @return {JSX.Element}
  */
 export const IssueCard = ({
-  id,
   index,
   item = {},
-  options = {},
   onChange,
   showCheckbox,
   onRemove,
-  onReviewPage,
 }) => {
-  // On the review & submit page, there may be more than one
-  // of these components in edit mode with the same content, e.g. 526
-  // ratedDisabilities & unemployabilityDisabilities causing
-  // duplicate input ids/names... an `appendId` value is added to the
-  // ui:options
-  const appendId = options.appendId ? `_${options.appendId}` : '';
-  const elementId = `${id}_${index}${appendId}`;
-  const itemIsSelected = item[SELECTED];
   const isEditable = !!item.issue;
   const issueName = item.issue || item.ratingIssueSubjectText;
 
@@ -127,20 +117,10 @@ export const IssueCard = ({
     'widget-wrapper',
     isEditable ? 'additional-issue' : '',
     showCheckbox ? '' : 'checkbox-hidden',
-    showCheckbox ? 'vads-u-padding-top--3' : '',
-    'vads-u-padding-right--3',
-    'vads-u-margin-bottom--0',
-    'vads-u-border-bottom--1px',
-    'vads-u-border-color--gray-light',
-  ].join(' ');
-
-  const titleClass = [
-    'widget-title',
-    'dd-privacy-hidden',
-    'vads-u-font-size--h4',
-    'vads-u-margin--0',
-    'capitalize',
-    'overflow-wrap-word',
+    showCheckbox ? '' : 'vads-u-padding-top--2',
+    showCheckbox ? '' : 'vads-u-margin-bottom--0',
+    showCheckbox ? '' : 'vads-u-border-bottom--1px',
+    showCheckbox ? '' : 'vads-u-border-color--gray-light',
   ].join(' ');
 
   const removeButtonClass = [
@@ -151,8 +131,13 @@ export const IssueCard = ({
   ].join(' ');
 
   const handlers = {
+    stopEvent: event => {
+      event.preventDefault();
+      event.stopPropagation();
+    },
     onRemove: event => {
       event.preventDefault();
+      event.stopPropagation();
       onRemove(index);
     },
     onChange: event => onChange(index, event),
@@ -160,7 +145,8 @@ export const IssueCard = ({
 
   const editControls =
     showCheckbox && isEditable ? (
-      <div>
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+      <div onClick={handlers.stopEvent}>
         <Link
           to={{
             pathname: '/add-issue',
@@ -177,58 +163,39 @@ export const IssueCard = ({
           label={`remove ${issueName}`}
           onClick={handlers.onRemove}
           text="Remove"
-          uswds
         />
       </div>
     ) : null;
-
-  // Issues h4 disappears in edit mode, so we need to match the page header
-  // level
-  const Header = onReviewPage ? 'h5' : 'h4';
 
   return (
     <li id={`issue-${index}`} name={`issue-${index}`} key={index}>
       <div className={wrapperClass}>
         {showCheckbox ? (
-          <div
-            className="widget-checkbox-wrap"
-            data-dd-action-name="Issue name"
-          >
-            <input
-              type="checkbox"
-              id={elementId}
-              name={elementId}
-              checked={itemIsSelected}
-              onChange={handlers.onChange}
-              aria-describedby={`issue-${index}-description`}
-              aria-labelledby={`issue-${index}-title`}
-              data-dd-action-name="Issue Name"
-            />
-            <label
-              className="schemaform-label"
-              htmlFor={elementId}
-              data-dd-action-name="Contestable Issue Name"
+          <div className="dd-privacy-hidden" data-dd-action-name="Issue name">
+            <VaCheckbox
+              label={issueName}
+              checked={item[SELECTED]}
+              tile
+              onVaChange={handlers.onChange}
             >
-              {' '}
-            </label>
+              <div slot="internal-description">
+                <IssueCardContent id={`issue-${index}-description`} {...item} />
+                {editControls}
+              </div>
+            </VaCheckbox>
           </div>
-        ) : null}
-        <div
-          className={`widget-content ${
-            editControls ? 'widget-editable vads-u-padding-bottom--2' : ''
-          }`}
-          data-index={index}
-        >
-          <Header
-            id={`issue-${index}-title`}
-            className={titleClass}
-            data-dd-action-name="contestable issue name"
-          >
-            {issueName}
-          </Header>
-          <IssueCardContent id={`issue-${index}-description`} {...item} />
-          {editControls}
-        </div>
+        ) : (
+          <>
+            <div
+              className="dd-privacy-hidden"
+              data-dd-action-name="rated issue name"
+            >
+              <strong>{issueName}</strong>
+            </div>
+            <IssueCardContent id={`issue-${index}-description`} {...item} />
+            {editControls}
+          </>
+        )}
       </div>
     </li>
   );
