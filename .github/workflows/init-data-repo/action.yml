@@ -19,7 +19,7 @@ runs:
 
     - name: Check Node version
       id: print-node-version
-      run: echo "double check:" ${steps.get-node-version.outputs.NODE_VERSION}
+      run: echo "double check--> ${{ steps.get-node-version.outputs.NODE_VERSION }}"
     
     - name: Setup Node
       uses: actions/setup-node@v4
