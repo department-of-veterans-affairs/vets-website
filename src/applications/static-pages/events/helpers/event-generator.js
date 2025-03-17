@@ -1,8 +1,8 @@
-import moment from 'moment-timezone';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { fleshOutRecurringEvents, removeDuplicateEvents } from '.';
 
-moment.tz.setDefault('America/New_York');
-const now = moment().clone();
+const now = zonedTimeToUtc(new Date(), 'America/New_York');
+
 let lastEntityId = 0;
 
 /**
