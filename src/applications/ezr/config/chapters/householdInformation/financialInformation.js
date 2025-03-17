@@ -48,9 +48,9 @@ const options = {
 
 // build schemas based on declared options
 const summaryPageSchemas = FinancialSummaryPage(options);
-const annualIncomePageSchemas = VeteranAnnualIncomePage(options);
-const deductiblePageSchemas = DeductibleExpensesPage(options);
-const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage(options);
+const annualIncomePageSchemas = VeteranAnnualIncomePage();
+const deductiblePageSchemas = DeductibleExpensesPage();
+const spouseAnnualIncomePageSchemas = SpouseAnnualIncomePage();
 
 /**
  * build list of pages to populate in the form config
@@ -69,21 +69,21 @@ const FinancialInformationPages = arrayBuilderPages(options, pageBuilder => ({
     uiSchema: summaryPageSchemas.uiSchema,
     schema: summaryPageSchemas.schema,
   }),
-  veteranFinancialInformation: pageBuilder.itemPage({
-    title: 'your annual income',
+  veteranAnnualIncome: pageBuilder.itemPage({
+    title: 'Your annual income',
     path: 'household-information/financial-information/:index/annual-income',
     uiSchema: annualIncomePageSchemas.uiSchema,
     schema: annualIncomePageSchemas.schema,
   }),
-  spouseFinancialInformation: pageBuilder.itemPage({
-    title: 'spouse annual income',
+  spouseAnnualIncome: pageBuilder.itemPage({
+    title: 'Spouse annual income',
     path: 'household-information/financial-information/:index/spousal-income',
     depends: includeSpousalInformation,
     uiSchema: spouseAnnualIncomePageSchemas.uiSchema,
     schema: spouseAnnualIncomePageSchemas.schema,
   }),
-  veteranDeductibleInformation: pageBuilder.itemPage({
-    title: 'deductible page',
+  veteranDeductible: pageBuilder.itemPage({
+    title: 'Deductible expenses',
     path: 'household-information/financial-information/:index/deductible',
     uiSchema: deductiblePageSchemas.uiSchema,
     schema: deductiblePageSchemas.schema,

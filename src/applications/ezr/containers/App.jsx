@@ -64,7 +64,7 @@ const App = props => {
         const defaultViewFields = {
           'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
-          'view:householdEnabled': true,
+          'view:householdEnabled': !!canSubmitFinancialInfo,
           'view:isProvidersAndDependentsPrefillEnabled': isProvidersAndDependentsPrefillEnabled,
         };
 

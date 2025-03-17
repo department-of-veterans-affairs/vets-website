@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LAST_YEAR } from '../../utils/constants';
 import { includeSpousalInformation } from '../../utils/helpers/form-config';
@@ -21,6 +21,17 @@ const SpousalFinancialInformation = item => {
 };
 
 const FinancialSummaryCardDescription = item => {
+  // Hide the 'Delete' button within the summary card
+  useEffect(() => {
+    const deleteButton = document.querySelector(
+      'va-card va-button-icon[data-action="remove"]',
+    );
+
+    if (deleteButton) {
+      deleteButton.style.display = 'none';
+    }
+  });
+
   const spouseHasIncomes =
     item?.['view:spouseGrossIncome'] !== null &&
     item?.['view:spouseNetIncome'] !== null &&

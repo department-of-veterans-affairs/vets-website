@@ -392,7 +392,7 @@ const formConfig = {
           schema: veteranAnnualIncome.schema,
         },
         veteranAnnualIncomeV2: {
-          ...FinancialInformationPages.veteranFinancialInformation,
+          ...FinancialInformationPages.veteranAnnualIncome,
           depends: includeHouseholdInformationWithV2Prefill,
         },
         spouseAnnualIncome: {
@@ -404,7 +404,7 @@ const formConfig = {
           schema: spouseAnnualIncome.schema,
         },
         spouseAnnualIncomeV2: {
-          ...FinancialInformationPages.spouseFinancialInformation,
+          ...FinancialInformationPages.spouseAnnualIncome,
           depends: includeSpousalInformationWithV2Prefill,
         },
         deductibleExpenses: {
@@ -416,7 +416,7 @@ const formConfig = {
           schema: deductibleExpenses.schema,
         },
         deductibleExpensesV2: {
-          ...FinancialInformationPages.veteranDeductibleInformation,
+          ...FinancialInformationPages.veteranDeductible,
           depends: includeHouseholdInformationWithV2Prefill,
         },
       },

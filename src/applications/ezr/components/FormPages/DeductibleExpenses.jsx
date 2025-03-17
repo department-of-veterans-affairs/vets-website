@@ -22,9 +22,9 @@ const {
  * Declare schema attributes for deductibles page
  * @returns {PageSchema}
  */
-export const DeductibleExpensesPage = options => ({
+export const DeductibleExpensesPage = () => ({
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI(options, {
+    ...arrayBuilderItemFirstPageTitleUI({
       title: `Deductible expenses from ${LAST_YEAR}`,
       description:
         'These deductible expenses will lower the amount of money we count as your income.',

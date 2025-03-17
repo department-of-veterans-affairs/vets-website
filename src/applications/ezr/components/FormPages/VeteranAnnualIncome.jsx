@@ -22,9 +22,9 @@ const {
  * Declare schema attributes for income page
  * @returns {PageSchema}
  */
-export const VeteranAnnualIncomePage = options => ({
+export const VeteranAnnualIncomePage = () => ({
   uiSchema: {
-    ...arrayBuilderItemFirstPageTitleUI(options, {
+    ...arrayBuilderItemFirstPageTitleUI({
       title: `Your annual income from ${LAST_YEAR}`,
     }),
     'view:veteranGrossIncome': {
