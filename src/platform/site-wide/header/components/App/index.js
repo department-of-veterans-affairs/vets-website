@@ -95,6 +95,22 @@ export const App = ({
         setHeaderState(newHeaderState);
         dispatch(updateLayoutHeaderType(newHeaderState));
       }
+
+      // Restores storage values if removed during onPopState
+      if (
+        newHeaderState === 'minimal' &&
+        sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE') !== true
+      ) {
+        const headerMinimal = document.querySelector('#header-minimal');
+
+        sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
+        if (headerMinimal.dataset?.excludePaths) {
+          sessionStorage.setItem(
+            'MINIMAL_HEADER_EXCLUDE_PATHS',
+            headerMinimal.dataset.excludePaths,
+          );
+        }
+      }
     },
     [show, showMinimalHeader, path, isDesktop, dispatch, headerState],
   );
