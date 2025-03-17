@@ -1,16 +1,26 @@
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 
+import { CONDITION_BY_CONDITION } from '../../constants';
 import causePage from './cause';
-import causeFollowUpPage from './causeFollowUp';
+import causeNewPage from './causeNew';
+import causeSecondaryPage from './causeSecondary';
+import causeVAPage from './causeVA';
+import causeWorsenedPage from './causeWorsened';
 import conditionPage from './condition';
-import datePage from './date';
 import introPage from './intro';
+import newConditionDatePage from './newConditionDate';
+import ratedDisabilityDatePage from './ratedDisabilityDate';
 import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import { arrayBuilderOptions, hasSideOfBody } from './utils';
-import { CONDITION_BY_CONDITION } from '../../constants';
 
 const isActiveDemo = formData => formData.demo === 'CONDITION_BY_CONDITION';
+
+const isNewCondition = (formData, index) =>
+  formData?.[arrayBuilderOptions.arrayPath]?.[index]?.newCondition;
+
+const hasCause = (formData, index, cause) =>
+  formData?.[arrayBuilderOptions.arrayPath]?.[index]?.cause === cause;
 
 const conditionByConditionPages = arrayBuilderPages(
   arrayBuilderOptions,
@@ -30,7 +40,7 @@ const conditionByConditionPages = arrayBuilderPages(
       schema: summaryPage.schema,
     }),
     conditionByConditionCondition: pageBuilder.itemPage({
-      title: 'Claim a new condition',
+      title: 'Select condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/condition`,
       depends: isActiveDemo,
       uiSchema: conditionPage.uiSchema,
@@ -39,14 +49,7 @@ const conditionByConditionPages = arrayBuilderPages(
         const { formData, index } = props;
         const item = formData?.[arrayBuilderOptions.arrayPath]?.[index];
 
-        // TODO: [Depends should clear the data of the dependent pages when the condition is no longer true](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/691)
-        // This fixed bug where side of body was not being cleared when condition was edited which could result in 'Asthma, right'
-        // However, with this fix, when user doesn't change condition, side of body is still cleared which could confuse users
-        // The depends should potentially clear the data of the dependent pages when the condition is no longer true
-        // TODO: use setFormData instead of mutating formData directly.
-        if (item) {
-          item.sideOfBody = undefined;
-        }
+        if (item) item.sideOfBody = undefined;
 
         return helpers.navForwardKeepUrlParams(props);
       },
@@ -55,30 +58,75 @@ const conditionByConditionPages = arrayBuilderPages(
       title: 'Side of body of new condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/side-of-body`,
       depends: (formData, index) =>
-        isActiveDemo(formData) && hasSideOfBody(formData, index),
+        isActiveDemo(formData) &&
+        isNewCondition(formData, index) &&
+        hasSideOfBody(formData, index),
       uiSchema: sideOfBodyPage.uiSchema,
       schema: sideOfBodyPage.schema,
     }),
-    conditionByConditionDate: pageBuilder.itemPage({
-      title: 'Date of new condition',
-      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/date`,
-      depends: isActiveDemo,
-      uiSchema: datePage.uiSchema,
-      schema: datePage.schema,
+    conditionByConditionRatedDisabilityDate: pageBuilder.itemPage({
+      title: 'Start date of rated disability worsening',
+      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/rated-disability-date`,
+      depends: (formData, index) =>
+        isActiveDemo(formData) && !isNewCondition(formData, index),
+      uiSchema: ratedDisabilityDatePage.uiSchema,
+      schema: ratedDisabilityDatePage.schema,
+    }),
+    conditionByConditionNewConditionDate: pageBuilder.itemPage({
+      title: 'Start date of new condition',
+      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/new-condition-date`,
+      depends: (formData, index) =>
+        isActiveDemo(formData) && isNewCondition(formData, index),
+      uiSchema: newConditionDatePage.uiSchema,
+      schema: newConditionDatePage.schema,
     }),
     conditionByConditionCause: pageBuilder.itemPage({
       title: 'Cause of new condition',
       path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause`,
-      depends: isActiveDemo,
+      depends: (formData, index) =>
+        isActiveDemo(formData) && isNewCondition(formData, index),
       uiSchema: causePage.uiSchema,
       schema: causePage.schema,
     }),
-    conditionByConditionCauseFollowUp: pageBuilder.itemPage({
-      title: 'Cause follow up for new condition',
-      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause-follow-up`,
-      depends: isActiveDemo,
-      uiSchema: causeFollowUpPage.uiSchema,
-      schema: causeFollowUpPage.schema,
+    conditionByConditionCauseNew: pageBuilder.itemPage({
+      title: 'Cause of new condition',
+      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause-new`,
+      depends: (formData, index) =>
+        isActiveDemo(formData) &&
+        isNewCondition(formData, index) &&
+        hasCause(formData, index, 'NEW'),
+      uiSchema: causeNewPage.uiSchema,
+      schema: causeNewPage.schema,
+    }),
+    conditionByConditionCauseSecondary: pageBuilder.itemPage({
+      title: 'Cause of new condition',
+      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause-secondary`,
+      depends: (formData, index) =>
+        isActiveDemo(formData) &&
+        isNewCondition(formData, index) &&
+        hasCause(formData, index, 'SECONDARY'),
+      uiSchema: causeSecondaryPage.uiSchema,
+      schema: causeSecondaryPage.schema,
+    }),
+    conditionByConditionCauseWorsened: pageBuilder.itemPage({
+      title: 'Cause of new condition',
+      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause-worsened`,
+      depends: (formData, index) =>
+        isActiveDemo(formData) &&
+        isNewCondition(formData, index) &&
+        hasCause(formData, index, 'WORSENED'),
+      uiSchema: causeWorsenedPage.uiSchema,
+      schema: causeWorsenedPage.schema,
+    }),
+    conditionByConditionCauseVA: pageBuilder.itemPage({
+      title: 'Cause of new condition',
+      path: `new-conditions-${CONDITION_BY_CONDITION}/:index/cause-va`,
+      depends: (formData, index) =>
+        isActiveDemo(formData) &&
+        isNewCondition(formData, index) &&
+        hasCause(formData, index, 'VA'),
+      uiSchema: causeVAPage.uiSchema,
+      schema: causeVAPage.schema,
     }),
   }),
 );

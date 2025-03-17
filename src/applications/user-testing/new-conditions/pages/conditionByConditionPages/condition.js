@@ -1,93 +1,50 @@
 import React from 'react';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import {
+  radioUI,
+  radioSchema,
   titleUI,
   withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import Autocomplete from '../../components/Autocomplete';
-import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionOptions } from '../../content/conditionOptions';
-import { conditionInstructions } from '../../content/newConditions';
-import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
+import { NewConditionDescription } from '../../content/conditions';
+import {
+  arrayBuilderOptions,
+  createDefaultAndEditTitles,
+  missingConditionMessage,
+  validateCondition,
+} from './utils';
 
-const { arrayPath } = arrayBuilderOptions;
-
-export const missingConditionMessage =
-  'Enter a condition, diagnosis, or short description of your symptoms';
-
-const regexNonWord = /[^\w]/g;
-const generateSaveInProgressId = str =>
-  (str || 'blank').replace(regexNonWord, '').toLowerCase();
-
-export const validateLength = (err, fieldData) => {
-  if (fieldData.length > 255) {
-    err.addError('This needs to be less than 256 characters');
-  }
-};
-
-export const validateNotMissing = (err, fieldData) => {
-  const isMissingCondition =
-    !fieldData?.trim() ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
-
-  if (isMissingCondition) {
-    err.addError(missingConditionMessage);
-  }
-};
-
-export const validateNotDuplicate = (err, fieldData, formData, path) => {
-  const index = getUrlPathIndex(window.location.pathname);
-
-  const lowerCasedConditions =
-    formData?.[path]?.map(condition => condition.condition?.toLowerCase()) ||
-    [];
-
-  const fieldDataLowerCased = fieldData?.toLowerCase() || '';
-  const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
-
-  const hasDuplicate = lowerCasedConditions.some((condition, i) => {
-    if (index === i) return false;
-
-    return (
-      condition === fieldDataLowerCased ||
-      generateSaveInProgressId(condition) === fieldDataSaveInProgressId
-    );
-  });
-
-  if (hasDuplicate) {
-    err.addError('You’ve already added this condition to your claim');
-  }
-};
-
-const validateCondition = (err, fieldData = '', formData = {}) => {
-  validateLength(err, fieldData);
-  validateNotMissing(err, fieldData);
-  validateNotDuplicate(err, fieldData, formData, arrayPath);
+const ratedDisabilities = {
+  Lupus: 'Lupus, 40%',
+  'Hearing loss': 'Hearing loss, 10%',
+  'New condition': 'Add a new condition',
 };
 
 /** @returns {PageSchema} */
 const conditionPage = {
   uiSchema: {
     ...titleUI(
-      () =>
-        createDefaultAndEditTitles(
-          'Tell us the new condition you want to claim',
-          `Edit condition`,
-        ),
+      () => createDefaultAndEditTitles('Select condition', `Edit condition`),
       withAlertOrDescription({
         nounSingular: arrayBuilderOptions.nounSingular,
-        description: conditionInstructions,
         hasMultipleItemPages: true,
       }),
     ),
-    condition: {
+    ratedDisability: radioUI({
+      title:
+        'Select a rated disability that worsened or a new condition to claim',
+      labels: ratedDisabilities,
+    }),
+    newCondition: {
+      'ui:description': NewConditionDescription,
       'ui:field': data => (
         <Autocomplete
           availableResults={conditionOptions}
           debounceDelay={200}
           id={data.idSchema.$id}
-          label="Enter your condition"
+          label="Select or enter condition"
           formData={data.formData}
           onChange={data.onChange}
         />
@@ -99,17 +56,24 @@ const conditionPage = {
       'ui:options': {
         useAllFormData: true,
         hideLabelText: true,
+        expandUnder: 'ratedDisability',
+        expandUnderCondition: 'New condition',
+        expandedContentFocus: true,
       },
+      'ui:required': (formData, index) =>
+        formData?.[arrayBuilderOptions.arrayPath]?.[index]?.ratedDisability ===
+        'New condition',
     },
   },
   schema: {
     type: 'object',
     properties: {
-      condition: {
+      ratedDisability: radioSchema(Object.keys(ratedDisabilities)),
+      newCondition: {
         type: 'string',
       },
     },
-    required: ['condition'],
+    required: ['ratedDisability'],
   },
 };
 
