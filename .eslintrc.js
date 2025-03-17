@@ -150,6 +150,7 @@ module.exports = {
     },
     {
       files: ['**/*.unit.spec.*'],
+      excludedFiles: ['**/*.unit.spec.jsx'],
       rules: {
         'no-restricted-syntax': [
           'error',
