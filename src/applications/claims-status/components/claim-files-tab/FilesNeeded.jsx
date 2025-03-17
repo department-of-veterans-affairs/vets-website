@@ -34,6 +34,10 @@ export default function FilesNeeded({ item, previousPage = null }) {
     if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
       displayName = standard5103Item.displayName;
     }
+
+    if (cstFriendlyEvidenceRequests && item.friendlyName) {
+      displayName = `Provide ${item.friendlyName}`;
+    }
     return displayName;
   };
 
@@ -41,6 +45,9 @@ export default function FilesNeeded({ item, previousPage = null }) {
     const itemWithNewDescription = itemsWithNewDescriptions.find(
       i => i.type === item.displayName,
     );
+    if (cstFriendlyEvidenceRequests && item.friendlyDescription) {
+      return item.friendlyDescription;
+    }
     return itemWithNewDescription !== undefined
       ? itemWithNewDescription.description
       : truncateDescription(item.description); // Truncating the item description to only 200 characters incase it is long
