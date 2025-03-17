@@ -15,6 +15,8 @@ import {
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureFeSourceOfTruth,
+  selectFeatureRecentLocationsFilter,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -22,6 +24,8 @@ import {
   getFormData,
   getTypeOfCareFacilities,
   getCCEType,
+  selectRecentLocations,
+  selectRecentLocationsStatus,
 } from './selectors';
 import {
   getLocation,
@@ -36,10 +40,12 @@ import {
 import { getSlots } from '../../services/slot';
 import { getPreciseLocation } from '../../utils/address';
 import {
+  APPOINTMENT_STATUS,
   FACILITY_SORT_METHODS,
   FACILITY_TYPES,
   FLOW_TYPES,
   GA_PREFIX,
+  FETCH_STATUS,
 } from '../../utils/constants';
 import {
   transformFormToVAOSAppointment,
@@ -154,6 +160,12 @@ export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_SUCCEEDED';
 export const FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED =
   'newAppointment/FORM_FETCH_PATIENT_PROVIDER_RELATIONSHIPS_FAILED';
+export const FORM_FETCH_RECENT_LOCATIONS =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS';
+export const FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED';
+export const FORM_FETCH_RECENT_LOCATIONS_FAILED =
+  'newAppointment/FORM_FETCH_RECENT_LOCATIONS_FAILED';
 
 export function openFormPage(page, uiSchema, schema) {
   return {
@@ -294,6 +306,8 @@ export function checkEligibility({ location, showModal, isCerner }) {
       state,
     );
     const featureClinicFilter = selectFeatureClinicFilter(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
+
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
     });
@@ -309,6 +323,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
             location,
             typeOfCare,
             directSchedulingEnabled,
+            useFeSourceOfTruth,
             isCerner: true,
           });
 
@@ -344,6 +359,7 @@ export function checkEligibility({ location, showModal, isCerner }) {
           directSchedulingEnabled,
           useV2: featureVAOSServiceVAAppointments,
           featureClinicFilter,
+          useFeSourceOfTruth,
         });
 
         if (showModal) {
@@ -376,6 +392,25 @@ export function checkEligibility({ location, showModal, isCerner }) {
   };
 }
 
+async function fetchRecentLocations(dispatch, siteIds) {
+  try {
+    dispatch({ type: FORM_FETCH_RECENT_LOCATIONS });
+    const recentLocations = getLocationsByTypeOfCareAndSiteIds({
+      siteIds,
+      sortByRecentLocations: true,
+    });
+    dispatch({
+      type: FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED,
+      recentLocations,
+    });
+    return recentLocations;
+  } catch (e) {
+    captureError(e, true, 'recent locations - facility page');
+    dispatch({ type: FORM_FETCH_RECENT_LOCATIONS_FAILED });
+    return [];
+  }
+}
+
 export function openFacilityPageV2(page, uiSchema, schema) {
   return async (dispatch, getState) => {
     try {
@@ -383,6 +418,15 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
+
+      let recentLocations = selectRecentLocations(initialState);
+      const isRecentLocationsFetched =
+        selectRecentLocationsStatus(initialState) === FETCH_STATUS.succeeded;
+
+      const featureRecentLocationsFilter = selectFeatureRecentLocationsFilter(
+        initialState,
+      );
+
       if (typeOfCareId) {
         const siteIds = selectSystemIds(initialState);
         const cernerSiteIds = selectRegisteredCernerFacilityIds(initialState);
@@ -393,6 +437,14 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         dispatch({
           type: FORM_PAGE_FACILITY_V2_OPEN,
         });
+
+        if (featureRecentLocationsFilter && !isRecentLocationsFetched) {
+          recentLocations = await fetchRecentLocations(dispatch, siteIds);
+          recordItemsRetrieved(
+            'recent-locations',
+            recentLocations?.length || 0,
+          );
+        }
 
         // Fetch facilities that support this type of care
         if (!typeOfCareFacilities) {
@@ -409,11 +461,13 @@ export function openFacilityPageV2(page, uiSchema, schema) {
         dispatch({
           type: FORM_PAGE_FACILITY_V2_OPEN_SUCCEEDED,
           facilities: typeOfCareFacilities || [],
+          recentLocations: recentLocations || [],
           typeOfCareId,
           schema,
           uiSchema,
           cernerSiteIds,
           address: selectVAPResidentialAddress(initialState),
+          featureRecentLocationsFilter,
         });
 
         // If we have an already selected location or only have a single location
@@ -509,9 +563,19 @@ export function updateCCProviderSortMethod(sortMethod, selectedFacility = {}) {
 
 export function updateFacilitySortMethod(sortMethod, uiSchema) {
   return async (dispatch, getState) => {
+    const initialState = getState();
+    const siteIds = selectSystemIds(initialState);
     let location = null;
     const facilities = getTypeOfCareFacilities(getState());
     const cernerSiteIds = selectRegisteredCernerFacilityIds(getState());
+
+    const featureRecentLocationsFilter = selectFeatureRecentLocationsFilter(
+      initialState,
+    );
+    let recentLocations = selectRecentLocations(initialState);
+    const isRecentLocationsFetched =
+      selectRecentLocationsStatus(initialState) === FETCH_STATUS.succeeded;
+
     const calculatedDistanceFromCurrentLocation = facilities.some(
       f => !!f.legacyVAR?.distanceFromCurrentLocation,
     );
@@ -521,6 +585,7 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
       sortMethod,
       uiSchema,
       cernerSiteIds,
+      recentLocations,
     };
 
     if (
@@ -552,11 +617,41 @@ export function updateFacilitySortMethod(sortMethod, uiSchema) {
           sortMethod,
           uiSchema,
           cernerSiteIds,
+          recentLocations,
         });
         dispatch({
           type: FORM_REQUEST_CURRENT_LOCATION_FAILED,
         });
       }
+    } else if (
+      sortMethod === FACILITY_SORT_METHODS.recentLocations &&
+      featureRecentLocationsFilter
+    ) {
+      if (!isRecentLocationsFetched) {
+        try {
+          dispatch({
+            type: FORM_FETCH_RECENT_LOCATIONS,
+          });
+          const getRecentLocations = await fetchRecentLocations(
+            dispatch,
+            siteIds,
+          );
+          recentLocations = getRecentLocations;
+          dispatch({
+            type: FORM_FETCH_RECENT_LOCATIONS_SUCCEEDED,
+            recentLocations,
+          });
+        } catch (e) {
+          captureError(e, true, 'recent locations - facility page');
+          dispatch({
+            type: FORM_FETCH_RECENT_LOCATIONS_FAILED,
+          });
+        }
+      }
+      dispatch({
+        ...action,
+        recentLocations,
+      });
     } else {
       dispatch(action);
     }
@@ -704,13 +799,32 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
   };
 }
 
-export function onCalendarChange(selectedDates) {
+export function onCalendarChange(
+  selectedDates,
+  maxSelections,
+  upcomingAppointments,
+) {
+  let isSame = false;
+  if (maxSelections === 1 && selectedDates?.length > 0) {
+    const date = selectedDates[0];
+
+    const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
+    const appointments = upcomingAppointments[d1.format('YYYY-MM')];
+
+    isSame = appointments?.some(appointment => {
+      const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
+      return (
+        appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
+      );
+    });
+  }
+
   return {
     type: FORM_CALENDAR_DATA_CHANGED,
     selectedDates,
+    isAppointmentSelectionError: isSame,
   };
 }
-
 export function openCommunityCarePreferencesPage(page, uiSchema, schema) {
   return {
     type: FORM_PAGE_COMMUNITY_CARE_PREFS_OPENED,
@@ -793,6 +907,7 @@ export function submitAppointmentOrRequest(history) {
       state,
     );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
+    const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
     const typeOfCare = getTypeOfCare(getFormData(state))?.name;
@@ -818,6 +933,7 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
+          useFeSourceOfTruth,
         });
 
         dispatch({
@@ -909,11 +1025,15 @@ export function submitAppointmentOrRequest(history) {
         let requestData;
         if (isCommunityCare) {
           requestBody = transformFormToVAOSCCRequest(getState());
-          requestData = await createAppointment({ appointment: requestBody });
+          requestData = await createAppointment({
+            appointment: requestBody,
+            useFeSourceOfTruth,
+          });
         } else {
           requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
+            useFeSourceOfTruth,
           });
         }
 

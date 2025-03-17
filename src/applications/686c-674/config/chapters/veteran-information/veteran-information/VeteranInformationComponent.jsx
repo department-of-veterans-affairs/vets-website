@@ -5,7 +5,6 @@ import { isValid, format } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-import { genderLabels } from '~/platform/static-data/labels';
 import { selectProfile } from '~/platform/user/selectors';
 
 import { srSubstitute } from '~/platform/forms-system/src/js/utilities/ui/mask-string';
@@ -21,32 +20,33 @@ import { parseDateToDateObj } from '../../../utilities';
 // instead of "number ending with 1,234"
 const mask = value => {
   const number = (value || '').toString().slice(-4);
-  return srSubstitute(
-    `●●●–●●–${number}`,
-    `ending with ${number.split('').join(' ')}`,
-  );
+  return srSubstitute(`${number}`, `ending with ${number.split('').join(' ')}`);
 };
 
 export const VeteranInformation = ({ formData }) => {
-  const { ssnLastFour, vaFileLastFour } = formData?.veteranInformation || {};
-  const { dob, gender, userFullName = {} } = useSelector(selectProfile);
+  const { ssnLastFour } = formData?.veteranInformation || {};
+  const { dob, userFullName = {} } = useSelector(selectProfile);
   const { first, middle, last, suffix } = userFullName;
 
   const dobDateObj = parseDateToDateObj(dob || null, FORMAT_YMD_DATE_FNS);
 
   return (
     <>
-      <div className="blue-bar-block">
-        <strong
+      <div className="vads-u-border--1px vads-u-border-color--gray-medium vads-u-padding-x--2 vads-u-padding-y--1">
+        <h4 className="vads-u-font-size--h3 vads-u-margin-top--1">
+          Personal information
+        </h4>
+        <p
           className="name dd-privacy-hidden"
           data-dd-action-name="Veteran's name"
         >
+          <strong>Name:</strong>{' '}
           {`${first || ''} ${middle || ''} ${last || ''}`}
           {suffix ? `, ${suffix}` : null}
-        </strong>
+        </p>
         {ssnLastFour ? (
           <p className="ssn">
-            Social Security number:{' '}
+            <strong>Last 4 digits of Social Security number:</strong>{' '}
             <span
               className="dd-privacy-mask"
               data-dd-action-name="Veteran's SSN"
@@ -55,19 +55,8 @@ export const VeteranInformation = ({ formData }) => {
             </span>
           </p>
         ) : null}
-        {vaFileLastFour ? (
-          <p className="vafn">
-            VA file number:{' '}
-            <span
-              className="dd-privacy-mask"
-              data-dd-action-name="Veteran's VA file number"
-            >
-              {mask(vaFileLastFour)}
-            </span>
-          </p>
-        ) : null}
         <p>
-          Date of birth:{' '}
+          <strong>Date of birth:</strong>{' '}
           {isValid(dobDateObj) ? (
             <span
               className="dob dd-privacy-mask"
@@ -77,28 +66,29 @@ export const VeteranInformation = ({ formData }) => {
             </span>
           ) : null}
         </p>
-        <p>
-          Gender:{' '}
-          <span
-            className="gender dd-privacy-hidden"
-            data-dd-action-name="Veteran's gender"
-          >
-            {genderLabels?.[gender] || ''}
-          </span>
-        </p>
       </div>
 
       <br role="presentation" />
 
       <p>
-        <strong>Note:</strong> If you need to update your personal information,
-        you can call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />.
-        We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+        <strong>Note:</strong> To protect your personal information, we don’t
+        allow online changes to your name, date of birth, or Social Security
+        number. If you need to change this information, call us at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday
+        through Friday, 8:00 a.m. to 9:00 p.m.{' '}
         <dfn>
           <abbr title="Eastern Time">ET</abbr>
         </dfn>
         .
       </p>
+      <a
+        href="/resources/how-to-change-your-legal-name-on-file-with-va/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Find more detailed instructions for how to change your legal name (opens
+        in new tab)
+      </a>
     </>
   );
 };
