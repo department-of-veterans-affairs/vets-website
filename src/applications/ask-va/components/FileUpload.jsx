@@ -33,6 +33,7 @@ const FileUpload = props => {
   const [indexDBError, setIndexDBError] = useState([]);
   const route = useSelector(state => state.navigation.route.path);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
   const getErrorMessage = fileID => {
     if (indexDBError.length > 0 && indexDBError.includes(fileID)) {
@@ -156,7 +157,7 @@ const FileUpload = props => {
     });
   };
 
-  return isLoggedIn ? (
+  return isLoggedIn && isLOA3 ? (
     <div>
       <div className="usa-form-group">
         {route === '/your-question' && (

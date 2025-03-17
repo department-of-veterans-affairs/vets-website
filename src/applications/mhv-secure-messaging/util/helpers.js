@@ -223,13 +223,26 @@ export const handleHeader = (folderId, folder) => {
 };
 
 export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
+  const systemFolderHeaders = [
+    Folders.INBOX.header,
+    Folders.SENT.header,
+    Folders.DRAFTS.header,
+    Folders.DELETED.header,
+  ];
+
+  const isCustomFolder = !systemFolderHeaders.includes(folderName);
+
   if (folderName) {
     const titleTag = removeLandingPageFF
       ? PageTitles.NEW_MESSAGE_PAGE_TITLE_TAG
       : PageTitles.PAGE_TITLE_TAG;
     return `${
-      removeLandingPageFF ? `Messages: ` : ''
-    }${folderName} ${titleTag}`;
+      removeLandingPageFF
+        ? `Messages: ${
+            folderName && !isCustomFolder ? folderName : 'More folders'
+          } ${titleTag}`
+        : `${folderName} ${titleTag}`
+    }`;
   }
 
   const folderTitleTag = removeLandingPageFF

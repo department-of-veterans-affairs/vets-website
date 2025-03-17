@@ -173,7 +173,7 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
-      {((institution.yr === true && toggleValue) ||
+      {((institution.yr === true && toggleValue && programTypes?.length > 0) ||
         (programTypes?.length > 0 && toggleGiProgramsFlag)) && (
         <NewFeatureProgramsYRTAlert
           institution={institution}
