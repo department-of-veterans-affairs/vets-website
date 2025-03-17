@@ -214,7 +214,7 @@ export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
     Folders.DELETED.header,
   ];
 
-  const isCustomFolder = !systemFolderHeaders.includes(folderName);
+  const isSystemFolder = systemFolderHeaders.includes(folderName);
 
   if (folderName) {
     const titleTag = removeLandingPageFF
@@ -223,7 +223,7 @@ export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
     return `${
       removeLandingPageFF
         ? `Messages: ${
-            folderName && !isCustomFolder ? folderName : 'More folders'
+            folderName && isSystemFolder ? folderName : 'More folders'
           } ${titleTag}`
         : `${folderName} ${titleTag}`
     }`;
