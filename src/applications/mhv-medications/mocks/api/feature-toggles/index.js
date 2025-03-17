@@ -10,6 +10,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsDisplayRefillProgress = true,
     mhvMedicationsRemoveLandingPage = true,
     mhvMedicationsShowIpeContent = true,
+    mhvMedicationsPartialFillContent = true,
   } = toggles;
 
   return {
@@ -55,6 +56,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_show_ipe_content',
           value: mhvMedicationsShowIpeContent,
+        },
+        {
+          name: 'mhv_medications_partial_fill_content',
+          value: mhvMedicationsPartialFillContent,
         },
       ],
     },

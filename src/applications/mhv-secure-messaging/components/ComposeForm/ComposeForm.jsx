@@ -791,6 +791,16 @@ const ComposeForm = props => {
           saveError={saveError}
           setSetErrorModal={setSavedDraft}
           setIsModalVisible={updateModalVisible}
+          confirmButtonDDActionName={
+            saveError && savedDraft
+              ? "Save draft without attachments button - Can't save with attachments modal"
+              : undefined
+          }
+          cancelButtonDDActionName={
+            saveError && savedDraft
+              ? "Edit draft button - Can't save with attachments modal"
+              : undefined
+          }
         />
         <div>
           {!noAssociations &&

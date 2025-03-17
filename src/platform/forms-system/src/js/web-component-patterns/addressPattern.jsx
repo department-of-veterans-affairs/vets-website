@@ -228,6 +228,7 @@ export const updateFormDataAddress = (
 export function addressUI(options) {
   let cachedPath;
   let cityMaxLength = 100;
+  let stateMaxLength = 100;
 
   const omit = key => options?.omit?.includes(key);
   let customRequired = key => options?.required?.[key];
@@ -443,6 +444,7 @@ export function addressUI(options) {
         if (customRequired('state')) {
           return customRequired('state')(formData, index);
         }
+
         if (cachedPath) {
           const { country } = get(cachedPath, formData) ?? {};
           return country && country === USA.value;
@@ -473,7 +475,11 @@ export function addressUI(options) {
          *
          * If the country value is anything other than USA, Canada, or Mexico, change the title and default to string.
          */
-        replaceSchema: (formData, _schema, _uiSchema, index, path) => {
+        replaceSchema: (formData, schema, _uiSchema, index, path) => {
+          if (schema.maxLength) {
+            stateMaxLength = schema.maxLength;
+          }
+
           const addressPath = getAddressPath(path); // path is ['address', 'currentField']
           cachedPath = addressPath;
           const data = get(addressPath, formData) ?? {};
@@ -520,6 +526,7 @@ export function addressUI(options) {
           return {
             type: 'string',
             title: 'State/Province/Region',
+            maxLength: stateMaxLength,
           };
         },
       },
