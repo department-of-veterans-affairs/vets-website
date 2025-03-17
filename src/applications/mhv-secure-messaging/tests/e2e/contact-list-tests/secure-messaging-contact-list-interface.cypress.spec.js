@@ -7,6 +7,7 @@ import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
+import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import PatientComposePage from '../pages/PatientComposePage';
 
 describe('SM CONTACT LIST', () => {
@@ -61,7 +62,8 @@ describe('SM CONTACT LIST', () => {
   });
 
   it(`verify contact list wit plain TG names`, () => {
-    const updatedMockRecipientsResponse = GeneralFunctionsPage.updateRecipientSuggestedName(
+    const updatedMockRecipientsResponse = GeneralFunctionsPage.updateTGSuggestedName(
+      mockRecipients,
       'TG | Type | Name',
     );
 

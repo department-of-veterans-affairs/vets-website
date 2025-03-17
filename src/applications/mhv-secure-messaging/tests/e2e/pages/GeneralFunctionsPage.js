@@ -1,6 +1,5 @@
 import { format, subMonths, getYear } from 'date-fns';
 import mockToggles from '../fixtures/toggles-response.json';
-import mockRecipients from '../fixtures/recipientsResponse/recipients-response.json';
 import { Locators } from '../utils/constants';
 
 class GeneralFunctionsPage {
@@ -47,18 +46,18 @@ class GeneralFunctionsPage {
     };
   };
 
-  updateRecipientSuggestedName = (name, recipients = mockRecipients) => {
+  updateTGSuggestedName = (response, name) => {
     return {
-      ...recipients,
+      ...response,
       data: [
         {
-          ...recipients.data[0],
+          ...response.data[0],
           attributes: {
-            ...recipients.data[0].attributes,
+            ...response.data[0].attributes,
             suggestedNameDisplay: name,
           },
         },
-        ...recipients.data.slice(1),
+        ...response.data.slice(1),
       ],
     };
   };
