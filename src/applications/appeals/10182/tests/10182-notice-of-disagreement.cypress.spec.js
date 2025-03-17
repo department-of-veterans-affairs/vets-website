@@ -78,9 +78,11 @@ const testConfig = createTestConfig(
             testData.contestedIssues?.forEach(issue => {
               if (issue[SELECTED]) {
                 cy.get(
-                  `h4:contains("${issue.attributes.ratingIssueSubjectText}")`,
+                  `va-checkbox[label*="${
+                    issue.attributes.ratingIssueSubjectText
+                  }"]`,
                 )
-                  .closest('li')
+                  .shadow()
                   .find('input[type="checkbox"]')
                   .click();
               }

@@ -218,8 +218,12 @@ export const pageHooks = {
         });
         testData.contestedIssues.forEach(issue => {
           if (issue[SELECTED]) {
-            cy.get(`h4:contains("${issue.attributes.ratingIssueSubjectText}")`)
-              .closest('li')
+            cy.get(
+              `va-checkbox[label*="${
+                issue.attributes.ratingIssueSubjectText
+              }"]`,
+            )
+              .shadow()
               .find('input[type="checkbox"]')
               .click({ force: true });
           }
