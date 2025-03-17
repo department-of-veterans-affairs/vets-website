@@ -22,6 +22,7 @@ import StatusDropdown from '../shared/StatusDropdown';
 import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
+  selectPartialFillContentFlag,
   selectRefillContentFlag,
   selectRefillProgressFlag,
 } from '../../util/selectors';
@@ -36,6 +37,7 @@ const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const showPartialFillContent = useSelector(selectPartialFillContentFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -131,6 +133,23 @@ const VaPrescription = prescription => {
     return latestTrackingStatus
       ? 'Check the status of your next refill'
       : 'Refill request status';
+  };
+
+  const determineRefillLabel = (
+    isPartialFill,
+    rxHistory,
+    refillPosition,
+    i,
+  ) => {
+    if (showPartialFillContent && isPartialFill) {
+      return 'Partial fill';
+    }
+    if (showPartialFillContent) {
+      return i + 1 === rxHistory.length ? 'Original fill' : 'Refill';
+    }
+    return i + 1 === rxHistory.length
+      ? 'Original fill'
+      : `Refill ${refillPosition}`;
   };
 
   const content = () => {
@@ -661,6 +680,14 @@ const VaPrescription = prescription => {
                             } = entry;
                             const refillPosition = refillHistory.length - i - 1;
                             const refillLabelId = `rx-refill-${refillPosition}`;
+                            const isPartialFill =
+                              entry.prescriptionSource === 'PF';
+                            const refillLabel = determineRefillLabel(
+                              isPartialFill,
+                              refillHistory,
+                              refillPosition,
+                              i,
+                            );
                             return (
                               <va-accordion-item
                                 bordered="true"
@@ -675,10 +702,23 @@ const VaPrescription = prescription => {
                                   id={refillLabelId}
                                   slot="headline"
                                 >
-                                  {i + 1 === refillHistory.length
-                                    ? 'Original fill'
-                                    : `Refill`}
+                                  {refillLabel}
                                 </h4>
+                                {showPartialFillContent &&
+                                  isPartialFill && (
+                                    <>
+                                      <p>
+                                        This fill has a smaller quantity on
+                                        purpose. This is temporary.
+                                      </p>
+                                      <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
+                                        Quantity
+                                      </h4>
+                                      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+                                        {validateField(entry.quantity)}
+                                      </p>
+                                    </>
+                                  )}
                                 {i === 0 && (
                                   <>
                                     <h4
