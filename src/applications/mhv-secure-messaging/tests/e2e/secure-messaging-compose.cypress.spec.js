@@ -2,10 +2,10 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
-import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
 import mockMessages from './fixtures/threads-response.json';
 import mockSingleMessage from './fixtures/inboxResponse/single-message-response.json';
 import { AXE_CONTEXT, Locators, Data } from './utils/constants';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 
 describe('SM MESSAGING COMPOSE', () => {
   beforeEach(() => {
@@ -90,19 +90,9 @@ describe('SM MESSAGING COMPOSE', () => {
 });
 
 describe('COMPOSE WITH PLAIN TG NAMES', () => {
-  const updatedMockRecipientsResponse = {
-    ...mockRecipients,
-    data: [
-      {
-        ...mockRecipients.data[0],
-        attributes: {
-          ...mockRecipients.data[0].attributes,
-          suggestedNameDisplay: 'TG | Type | Name',
-        },
-      },
-      ...mockRecipients.data.slice(1),
-    ],
-  };
+  const updatedMockRecipientsResponse = GeneralFunctionsPage.updateRecipientSuggestedName(
+    'TG | Type | Name',
+  );
 
   beforeEach(() => {
     SecureMessagingSite.login();
