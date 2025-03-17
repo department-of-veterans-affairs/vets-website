@@ -421,7 +421,10 @@ const VaPrescription = prescription => {
                   Reason for use
                 </h3>
                 <p>{validateField(prescription?.indicationForUse)}</p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  data-testid="rx-quantity"
+                >
                   Quantity
                 </h3>
                 <p>{validateField(prescription.quantity)}</p>
