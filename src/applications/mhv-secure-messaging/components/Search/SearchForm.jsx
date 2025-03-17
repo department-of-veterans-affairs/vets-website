@@ -280,7 +280,7 @@ const SearchForm = props => {
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
                 data-testid="keyword-search-input"
-                data-dd-action-name={`${filterLabelBody} Input Field`}
+                data-dd-action-name="Input Field - Filter"
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
                 }}
