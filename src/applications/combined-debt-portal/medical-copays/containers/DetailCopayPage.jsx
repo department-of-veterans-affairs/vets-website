@@ -59,19 +59,6 @@ const DetailCopayPage = ({ match }) => {
     }).format(amount);
   };
 
-  const getStatementDateRange = () => {
-    if (
-      !selectedCopay?.statementStartDate ||
-      !selectedCopay?.statementEndDate
-    ) {
-      return 'This statement shows your current charges.';
-    }
-
-    const startDate = formatDate(selectedCopay.statementStartDate);
-    const endDate = formatDate(selectedCopay.statementEndDate);
-    return `This statement shows charges you received between ${startDate} and ${endDate}.`;
-  };
-
   useHeaderPageTitle(title);
 
   useEffect(() => {
@@ -118,7 +105,7 @@ const DetailCopayPage = ({ match }) => {
 
         <Alert type={alert} copay={selectedCopay} />
 
-        <div className="vads-u-margin-y--3">
+        <div className="vads-u-margin-y--4">
           <h2 className="vads-u-margin-top--0 vads-u-font-size--h3">
             Copay details
           </h2>
@@ -147,22 +134,20 @@ const DetailCopayPage = ({ match }) => {
           </h2>
           <p className="vads-u-margin--0">{acctNum}</p>
         </div>
+        <div className="vads-u-margin-y--4">
+          <h2
+            id="current-statement"
+            className="vads-u-margin-bottom--0 vads-u-margin-top--4"
+          >
+            Current statement
+          </h2>
 
-        <h2
-          id="current-statement"
-          className="vads-u-margin-bottom--2 vads-u-margin-top--4"
-        >
-          Current statement
-        </h2>
-        <p>{getStatementDateRange()}</p>
+          <StatementTable
+            charges={charges}
+            formatCurrency={formatCurrency}
+            selectedCopay={selectedCopay}
+          />
 
-        <StatementTable
-          charges={charges}
-          formatCurrency={formatCurrency}
-          selectedCopay={selectedCopay}
-        />
-
-        <div className="vads-u-margin-y--3">
           <DownloadStatement
             key={selectedId}
             statementId={selectedId}
@@ -170,28 +155,33 @@ const DetailCopayPage = ({ match }) => {
             fullName={fullName}
           />
         </div>
+        <div className="vads-u-margin-y--4">
+          <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--4">
+            Previous statements
+          </h2>
+          <p>
+            Review your charges and download your mailed statements from the
+            past 6 months for this facility.
+          </p>
+          {statements
+            ?.filter(statement => statement.id !== selectedId)
+            ?.map(statement => (
+              <div key={statement.id} className="vads-u-margin-y--2">
+                <DownloadStatement
+                  key={statement.id}
+                  statementId={statement.id}
+                  statementDate={statement.pSStatementDate}
+                  fullName={fullName}
+                />
+              </div>
+            ))}
+        </div>
+        <div className="vads-u-margin-y--4">
+          <h2 className="vads-u-margin-bottom--0 vads-u-margin-top--4">
+            Statement addresses
+          </h2>
 
-        <h2 className="vads-u-margin-y--4">Previous statements</h2>
-        <p>
-          Review your charges and download your mailed statements from the past
-          6 months for this facility.
-        </p>
-        {statements
-          ?.filter(statement => statement.id !== selectedId)
-          ?.map(statement => (
-            <div key={statement.id} className="vads-u-margin-y--2">
-              <DownloadStatement
-                key={statement.id}
-                statementId={statement.id}
-                statementDate={statement.pSStatementDate}
-                fullName={fullName}
-              />
-            </div>
-          ))}
-
-        <h2 className="vads-u-margin-y--4">Statement addresses</h2>
-        <div>
-          <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
             Sender address
           </h3>
           <p className="vads-u-margin-top--0">
@@ -204,7 +194,7 @@ const DetailCopayPage = ({ match }) => {
             }`}
           </p>
 
-          <h3 className="vads-u-font-size--h4 vads-u-margin-top--4">
+          <h3 className="vads-u-font-size--h4 vads-u-margin-top--2">
             Recipient address
           </h3>
           <p className="vads-u-margin-top--0">
@@ -213,11 +203,12 @@ const DetailCopayPage = ({ match }) => {
             {selectedCopay?.pHCity}, {selectedCopay?.pHState}{' '}
             {selectedCopay?.pHZipCdeOutput}
           </p>
+          <p>
+            <strong>Note:</strong> If your address has changed, call{' '}
+            <va-telephone contact="8662602614" />.
+          </p>
         </div>
-        <p className="vads-u-margin-top--2">
-          <strong>Note:</strong> If your address has changed, call{' '}
-          <va-telephone contact="8662602614" />.
-        </p>
+
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
