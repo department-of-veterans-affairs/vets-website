@@ -27,4 +27,15 @@ describe('go bill CT new homepage', () => {
     cy.contains('.comparison-tool-link', 'Schools and employers').click();
     cy.url().should('contain', '/schools-and-employers');
   });
+  it('should direct to the Licenses and Certifications page', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.contains('.comparison-tool-link', 'Licenses and certifications').click();
+    cy.url().should('contain', '/licenses-certifications-and-prep-courses');
+  });
+
+  it('should direct to the National Exams page', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.contains('.comparison-tool-link', 'National Exams').click();
+    cy.url().should('contain', '/national-exams');
+  });
 });
