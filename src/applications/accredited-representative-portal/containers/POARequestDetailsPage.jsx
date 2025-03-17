@@ -153,7 +153,7 @@ const POARequestDetailsPage = () => {
   useEffect(() => {
     focusElement('h1');
   }, []);
-
+  document.title = `POA request ${claimantLastName}, ${claimantFirstName} | Veterans Affairs`;
   return (
     <>
       {navigation.state === 'loading' ? (

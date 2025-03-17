@@ -1,6 +1,8 @@
 import React from 'react';
 
 const LandingPage = () => {
+  document.title =
+    'Welcome to the Accredited Representative Portal | Veterans Affairs';
   return (
     <section className="home">
       <div className="home__hero">

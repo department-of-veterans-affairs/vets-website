@@ -79,6 +79,7 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
 };
 
 const POARequestSearchPage = () => {
+  document.title = 'Power of attorney requests | Veterans Affairs';
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();
