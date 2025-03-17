@@ -1,70 +1,66 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-const FacilityConfirmation = props => {
-  const { data, goBack, goForward, goToPath } = props;
-  const selectedFacility = data['view:plannedClinic'].veteranSelected;
-  const selectedCaregiverSupportFacility =
-    data['view:plannedClinic'].caregiverSupport;
+// declare routes for page navigation
+const navRoutes = {
+  back: '/veteran-information/va-medical-center/locator?review=true',
+  forward: '/review-and-submit',
+};
 
-  const isReviewPage = () => {
+const FacilityConfirmation = ({ data, goBack, goForward, goToPath }) => {
+  const selectedFacility = data?.['view:plannedClinic']?.veteranSelected;
+  const selectedCaregiverSupportFacility =
+    data?.['view:plannedClinic']?.caregiverSupport;
+
+  const isReviewPage = useMemo(() => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get('review') === 'true';
-  };
+  }, []);
 
-  const onGoForward = () => {
-    if (isReviewPage()) {
-      goToPath('/review-and-submit');
-    } else {
-      goForward(data);
-    }
-  };
+  const handleNavigation = (path, fallback) =>
+    isReviewPage ? goToPath(path) : fallback(data);
 
-  const onGoBack = () => {
-    if (isReviewPage()) {
-      goToPath('/veteran-information/va-medical-center/locator?review=true');
-    } else {
-      goBack();
-    }
-  };
-
-  const addressText = facility => {
+  const renderAddress = facility => {
+    if (!facility) return null;
+    const { name, address } = facility;
+    const { physical } = address || {};
+    const LineBreak = <br role="presentation" />;
     return (
-      <>
-        <strong className="vads-u-font-size--h4 vads-u-margin-top--0">
-          {facility.name}
-        </strong>
-        <br role="presentation" />
-        {facility?.address?.physical?.address1 && (
+      <p className="va-address-block">
+        {name && (
           <>
-            {facility.address.physical.address1}
-            <br role="presentation" />
+            <strong className="vads-u-font-size--h4 vads-u-margin-top--0">
+              {name}
+            </strong>
+            {LineBreak}
           </>
         )}
-        {facility?.address?.physical?.address2 && (
+        {physical?.address1 && (
           <>
-            {facility.address.physical.address2}
-            <br role="presentation" />
+            {physical.address1}
+            {LineBreak}
           </>
         )}
-        {facility?.address?.physical?.address3 && (
-          <>{facility.address.physical.address3}</>
+        {physical?.address2 && (
+          <>
+            {physical.address2}
+            {LineBreak}
+          </>
         )}
-      </>
+        {physical?.address3 && <>{physical.address3}</>}
+      </p>
     );
   };
 
   return (
-    <div>
+    <>
       <h3>Caregiver support location</h3>
       <p>
         This is the location we’ve assigned to support the caregiver in the
         application process:
       </p>
-      <p className="va-address-block">
-        {addressText(selectedCaregiverSupportFacility)}
-      </p>
+      {renderAddress(selectedCaregiverSupportFacility)}
       <p>
         This VA health facility has a Caregiver Support Team coordinator. And
         this facility is closest to where the Veteran receives or plans to
@@ -75,9 +71,12 @@ const FacilityConfirmation = props => {
         The Veteran will still receive their health care at the facility you
         selected:
       </p>
-      <p className="va-address-block">{addressText(selectedFacility)}</p>
-      <FormNavButtons goBack={onGoBack} goForward={onGoForward} />
-    </div>
+      {renderAddress(selectedFacility)}
+      <FormNavButtons
+        goBack={handleNavigation(navRoutes.back, goBack)}
+        goForward={handleNavigation(navRoutes.forward, goForward)}
+      />
+    </>
   );
 };
 
