@@ -13,7 +13,6 @@ const CC_PROVIDER = 'Community providers (in VA’s network)';
 const NON_VA_URGENT_CARE = 'In-network community urgent care';
 const featureSetsToTest = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
-  'facilities_use_address_typeahead',
 ]);
 
 const loadAndSelectCCProviders = () => {

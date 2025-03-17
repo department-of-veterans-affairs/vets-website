@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useLcpFilter } from '../utils/useLcpFilter';
+import { useSignalFetch } from '../utils/useSignalFetch';
+
 import {
   capitalizeFirstLetter,
   handleLcResultsSearch,
@@ -10,6 +11,8 @@ import {
   updateCategoryDropdown,
   updateQueryParam,
 } from '../utils/helpers';
+
+import { filterLcResults } from '../actions';
 
 import LicenseCertificationKeywordSearch from '../components/LicenseCertificationKeywordSearch';
 import Dropdown from '../components/Dropdown';
@@ -20,6 +23,8 @@ export default function LicenseCertificationSearchForm() {
   const location = useLocation();
 
   const { nameParam, categoryParams } = showLcParams(location);
+
+  const dispatch = useDispatch();
 
   const [dropdown, setDropdown] = useState(updateCategoryDropdown());
   const [name, setName] = useState('');
@@ -36,13 +41,16 @@ export default function LicenseCertificationSearchForm() {
     ...filteredResults,
   ];
 
-  useLcpFilter({
-    flag: 'singleFetch',
-    name,
-    categoryValues: dropdown.current.optionValue,
-  });
+  useSignalFetch(hasFetchedOnce);
 
-  // If available, use url query params to assign initial dropdown values
+  useEffect(
+    () => {
+      return dispatch(filterLcResults(name, dropdown.current.optionValue));
+    },
+    [name, dropdown.current.optionValue],
+  );
+
+  // If available, use url query params to assign initial values ONLY on mount
   useEffect(() => {
     if (categoryParams) {
       setDropdown(updateCategoryDropdown(categoryParams[0]));
@@ -51,6 +59,7 @@ export default function LicenseCertificationSearchForm() {
     if (nameParam) {
       setName(nameParam);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearch = (category, nameInput) => {

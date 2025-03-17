@@ -143,10 +143,10 @@ describe('hasPrivateLimitation', () => {
       [EVIDENCE_PRIVATE]: true,
       [EVIDENCE_LIMIT]: limit,
     });
-    // only returns false when explicitly set to false
+    // returns false when limitation is falsy, and true when truthy
     expect(hasPrivateLimitation(getData(false))).to.be.false;
-    expect(hasPrivateLimitation(getData())).to.be.true;
-    expect(hasPrivateLimitation(getData(''))).to.be.true;
+    expect(hasPrivateLimitation(getData())).to.be.false;
+    expect(hasPrivateLimitation(getData(''))).to.be.false;
     expect(hasPrivateLimitation(getData('test'))).to.be.true;
     expect(hasPrivateLimitation(getData(true))).to.be.true;
   });

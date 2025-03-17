@@ -100,8 +100,5 @@ export const isProductionEnv = () => {
   );
 };
 
-export const showLocationOfDeath = () =>
-  window.sessionStorage.getItem('showLocationOfDeath') === 'true';
-
 export const showUploadDocuments = () =>
   window.sessionStorage.getItem('showUploadDocuments') === 'true';

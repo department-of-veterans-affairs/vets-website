@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import { CalendarContext } from './CalendarContext';
 
 /* 
  * Because we want to create a background for a jagged grid of cells,
@@ -49,6 +51,7 @@ export default function CalendarOptionsSlots({
   timezone,
   showWeekends,
 }) {
+  const { isAppointmentSelectionError } = useContext(CalendarContext);
   const currentSlots = availableSlots.filter(slot =>
     slot?.start?.startsWith(currentlySelectedDate),
   );
@@ -88,9 +91,19 @@ export default function CalendarOptionsSlots({
     'vads-u-padding-left--1p5': hasError,
     ...marginClasses,
     ...justifyClasses,
+    'usa-input-error': hasError && isAppointmentSelectionError,
+    'vads-u-margin-top--0': hasError && isAppointmentSelectionError,
+    'vads-u-margin-bottom--0': hasError && isAppointmentSelectionError,
+    'vads-u-padding-top--0': hasError && isAppointmentSelectionError,
+    'vads-u-padding-bottom--0': hasError && isAppointmentSelectionError,
   });
   return (
-    <div className={cssClasses}>
+    <div
+      className={cssClasses}
+      style={{
+        position: hasError && isAppointmentSelectionError ? 'static' : null,
+      }}
+    >
       {currentSlots.map((slot, index) => {
         const checked = selectedDates.some(
           selectedDate => selectedDate === slot.start,
@@ -144,3 +157,16 @@ export default function CalendarOptionsSlots({
     </div>
   );
 }
+CalendarOptionsSlots.propTypes = {
+  availableSlots: PropTypes.array,
+  currentlySelectedDate: PropTypes.string,
+  hasError: PropTypes.bool,
+  id: PropTypes.string,
+  maxSelections: PropTypes.number,
+  rowSize: PropTypes.number,
+  selectedCellIndex: PropTypes.number,
+  selectedDates: PropTypes.array,
+  showWeekends: PropTypes.bool,
+  timezone: PropTypes.string,
+  onChange: PropTypes.func,
+};

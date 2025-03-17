@@ -4,6 +4,7 @@ import {
   fetchFormsAction,
   fetchFormsFailure,
   fetchFormsSuccess,
+  fetchFormsSuccessNoResults,
   updatePaginationAction,
   updateResults,
   updateSortByPropertyName,
@@ -13,6 +14,7 @@ import {
   FETCH_FORMS,
   FETCH_FORMS_FAILURE,
   FETCH_FORMS_SUCCESS,
+  FETCH_FORMS_SUCCESS_NO_RESULTS,
   INITIAL_SORT_STATE,
   UPDATE_HOW_TO_SORT,
   UPDATE_PAGINATION,
@@ -53,6 +55,16 @@ describe('Find VA Forms actions', () => {
         hasOnlyRetiredForms,
         results,
         type: FETCH_FORMS_SUCCESS,
+      });
+    });
+  });
+
+  describe('fetchFormsSuccessNoResults', () => {
+    it('should return an action in the shape we expect', () => {
+      const action = fetchFormsSuccessNoResults();
+
+      expect(action).to.be.deep.equal({
+        type: FETCH_FORMS_SUCCESS_NO_RESULTS,
       });
     });
   });

@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 import vaDebounce from 'platform/utilities/data/debounce';
-import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import UseMyLocation from './UseMyLocation';
 import AddressInputError from './AddressInputError';
 import { searchAddresses } from '../../../utils/mapHelpers';
 import Autosuggest from '../autosuggest';
 
-const MIN_SEARCH_CHARS = 3;
 const onlySpaces = str => /^\s+$/.test(str);
+const MIN_SEARCH_CHARS = 3;
 
 function AddressAutosuggest({
   currentQuery,
@@ -98,14 +97,6 @@ function AddressAutosuggest({
     updateSearch,
   ]);
 
-  const handleGeolocationButtonClick = e => {
-    e.preventDefault();
-    recordEvent({
-      event: 'fl-get-geolocation',
-    });
-    geolocateUser();
-  };
-
   const onBlur = () => {
     const value = inputValue?.trimStart() || '';
     onChange({ searchString: ' ' });
@@ -190,7 +181,7 @@ function AddressAutosuggest({
       /* eslint-disable prettier/prettier */
       labelSibling={(
         <UseMyLocation
-          onClick={handleGeolocationButtonClick}
+          onClick={geolocateUser}
           geolocationInProgress={currentQuery.geolocationInProgress}
           useProgressiveDisclosure={useProgressiveDisclosure}
           isSmallDesktop={isSmallDesktop}
@@ -198,11 +189,12 @@ function AddressAutosuggest({
           isMobile={isMobile}
         />
       )}
-      /* eslint-enable prettier/prettier */
-      minCharacters={MIN_SEARCH_CHARS}
       keepDataOnBlur
       showDownCaret={false}
       shouldShowNoResults
+      showOptionsRestriction={
+        !!inputValue && inputValue.length >= MIN_SEARCH_CHARS
+      }
       isLoading={isGeocoding}
       loadingMessage="Searching..."
       useProgressiveDisclosure={useProgressiveDisclosure || false}

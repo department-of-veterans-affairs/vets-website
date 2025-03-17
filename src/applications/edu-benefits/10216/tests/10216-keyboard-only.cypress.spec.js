@@ -25,16 +25,11 @@ describe('22-10216 Edu form', () => {
         },
       },
     });
-    // Go to application, should go to about page
-    cy.visit(`${manifest.rootUrl}`);
-    cy.injectAxeThenAxeCheck();
-    // // Tab to and press 'Go to the online tool' to go to the introduction page
 
-    cy.tabToElement('[text="Go to the online tool"]');
-    cy.realPress('Enter');
+    // Go to application, should go to Introduction page
+    cy.visit(`${manifest.rootUrl}/introduction`);
 
     // Tab to and press 'Start your 35% exemption request' to start form
-
     cy.injectAxeThenAxeCheck();
     cy.tabToElement('va-accordion-item[header="VA education service help"]');
     cy.realPress('Space');
@@ -42,13 +37,13 @@ describe('22-10216 Edu form', () => {
     cy.wait(100);
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Education Liaison Representative');
-    cy.tabToElement('[text="Start your 35% exemption request"]');
+    cy.tabToElement('[class="schemaform-start-button"]');
     cy.realPress('Enter');
 
     // // Institution details page
     cy.url().should(
       'include',
-      formConfig.chapters.institutionDetailsChapter.pages.institutionOfficial
+      formConfig.chapters.institutionDetailsChapter.pages.certifyingOfficial
         .path,
     );
     cy.injectAxeThenAxeCheck();
@@ -129,10 +124,19 @@ describe('22-10216 Edu form', () => {
     // // Review and sumbit page
 
     cy.url().should('include', 'review-and-submit');
+    cy.get('[id="inputField"]').type('John Doe');
+    cy.get('[id="checkbox-element"]').check({ force: true });
     cy.injectAxeThenAxeCheck();
+    // Certification Statement
+    cy.tabToElement('input[name="veteran-signature"]');
+    cy.realType('John Doe');
+    cy.tabToElementAndPressSpace('va-checkbox');
+    cy.realPress('Space');
     cy.tabToSubmitForm();
+    // Confirmation Page will not show up on the local machine
 
     // // Confirmation page
+
     cy.location('pathname', { timeout: 10000 }).should(
       'include',
       '/confirmation',
@@ -141,11 +145,11 @@ describe('22-10216 Edu form', () => {
     cy.tabToElement('[data-testid="print-page"]');
     cy.realPress('Enter');
     cy.injectAxeThenAxeCheck();
-    cy.tabToElement('[text="Go to VA Form 22-10215 now"]');
+    cy.tabToElement('[text="Go to VA Form 22-10216 now"]');
     cy.realPress('Enter');
     cy.url().should(
       'include',
-      '/education/apply-for-education-benefits/application/10215',
+      '/education/apply-for-education-benefits/application/10216',
     );
   });
 });

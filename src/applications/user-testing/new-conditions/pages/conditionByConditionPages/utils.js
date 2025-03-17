@@ -174,12 +174,8 @@ export const validateCondition = (err, fieldData = '', formData = {}) => {
   validateNotDuplicate(err, fieldData, formData, arrayBuilderOptions.arrayPath);
 };
 
-// TODO: [Fix the formData prop on edit so that it contains all form data](https://github.com/department-of-veterans-affairs/vagov-claim-classification/issues/689)
-// formData contains all form data on add and only item data on edit which results in the need for the conditional below
 export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.[arrayBuilderOptions.arrayPath]
-    ? formData?.[arrayBuilderOptions.arrayPath][index]?.newCondition
-    : formData.newCondition;
+  const condition = formData?.[arrayBuilderOptions.arrayPath][index]?.condition;
 
   const conditionObject = conditionObjects.find(
     conditionObj => conditionObj.option === condition,
