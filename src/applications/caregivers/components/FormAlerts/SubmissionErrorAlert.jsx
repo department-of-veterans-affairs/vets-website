@@ -9,7 +9,7 @@ const SubmissionErrorAlert = () => {
   }, []);
 
   return (
-    <va-alert status="error">
+    <va-alert status="error" class="vads-u-margin-y--4">
       <h3 slot="headline">We didn’t receive your online application</h3>
       <p>
         We’re sorry. Something went wrong when you tried to submit your
