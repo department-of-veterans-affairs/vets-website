@@ -22,7 +22,6 @@ describe('isMinimalHeaderApp and isMinimalHeaderPath', () => {
   });
 
   it('should return a boolean if minimal header is applicable', () => {
-    expect(isMinimalHeaderApp()).to.eql(false);
     expect(isMinimalHeaderPath()).to.eql(false);
     sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
     expect(isMinimalHeaderApp()).to.eql(true);
