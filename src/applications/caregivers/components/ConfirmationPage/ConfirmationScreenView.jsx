@@ -16,20 +16,18 @@ const ConfirmationScreenView = ({ name, route, timestamp }) => {
   );
 
   useEffect(() => {
-    focusElement('.caregiver-success-message');
+    focusElement('va-alert[status="success"]');
     scrollToTop();
   }, []);
 
   return (
     <>
-      <div className="caregiver-success-message vads-u-margin-bottom--4">
-        <va-alert status="success">
-          <h2 slot="headline" className="vads-u-font-size--h3">
-            {content['confirmation--alert-heading']}
-          </h2>
-          <div>{content['confirmation--alert-text']}</div>
-        </va-alert>
-      </div>
+      <va-alert status="success" class="vads-u-margin-bottom--4">
+        <h2 slot="headline" className="vads-u-font-size--h3">
+          {content['confirmation--alert-heading']}
+        </h2>
+        <div>{content['confirmation--alert-text']}</div>
+      </va-alert>
 
       <va-summary-box class="vads-u-margin-bottom--4">
         <h3 slot="headline">{content['confirmation--info-heading']}</h3>
