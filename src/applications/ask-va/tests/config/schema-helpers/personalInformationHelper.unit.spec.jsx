@@ -2,14 +2,13 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import sinon from 'sinon';
-import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
 
 import {
   aboutYourselfGeneralSchema,
   aboutYourselfGeneralUISchema,
   personalInformationAboutYourselfUiSchemas,
   personalInformationFormSchemas,
-  personalInformationUiSchemas,
+  validateSSandSNGroup,
 } from '../../../config/schema-helpers/personalInformationHelper';
 
 describe('Personal Information Form Schemas', () => {
@@ -34,11 +33,9 @@ describe('Personal Information Form Schemas', () => {
       expect(schema.properties).to.have.property('serviceNumber');
     });
 
-    describe('personalInformationFormSchemas', () => {
-      it('should have correct schema for date of birth', () => {
-        const schema = personalInformationFormSchemas.dateOfBirth;
-        expect(schema).to.have.property('type', 'string');
-      });
+    it('should have correct schema for date of birth', () => {
+      const schema = personalInformationFormSchemas.dateOfBirth;
+      expect(schema).to.have.property('type', 'string');
     });
   });
 
@@ -53,91 +50,6 @@ describe('Personal Information Form Schemas', () => {
 });
 
 describe('Personal Information UI Schemas', () => {
-  describe('personalInformationUiSchemas', () => {
-    it('should render VaTextInputField for first name', () => {
-      const uiSchema = personalInformationUiSchemas.first;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaTextInputField);
-      expect(uiSchema['ui:title']).to.equal('First name');
-    });
-
-    it('should render VaSelectField for suffix', () => {
-      const uiSchema = personalInformationUiSchemas.suffix;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaSelectField);
-      expect(uiSchema['ui:options'].widgetClassNames).to.equal(
-        'form-select-medium',
-      );
-    });
-
-    it('should have ssn UI with validation for socialOrServiceNum', () => {
-      const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-      expect(uiSchema['ui:title'].props.children[0].type).to.equal('p');
-      expect(uiSchema['ui:validations'][0]).to.be.a('function');
-    });
-
-    describe('validateSSandSNGroup', () => {
-      let sandbox;
-      let errors;
-
-      beforeEach(() => {
-        sandbox = sinon.createSandbox();
-        errors = { addError: sandbox.spy() };
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      it('should require SSN/Service number for non-general questions', () => {
-        const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-        const validateFn = uiSchema['ui:validations'][0];
-
-        validateFn(
-          errors,
-          {},
-          {
-            whoIsYourQuestionAbout: 'Myself',
-          },
-        );
-        expect(errors.addError.calledOnce).to.be.true;
-      });
-
-      it('should not require SSN/Service number for general questions', () => {
-        const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-        const validateFn = uiSchema['ui:validations'][0];
-
-        validateFn(
-          errors,
-          {},
-          {
-            whoIsYourQuestionAbout: "It's a general question",
-          },
-        );
-        expect(errors.addError.called).to.be.false;
-      });
-
-      it('should not require SSN/Service number for family members', () => {
-        const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
-        const validateFn = uiSchema['ui:validations'][0];
-
-        validateFn(
-          errors,
-          {},
-          {
-            whoIsYourQuestionAbout: 'Someone else',
-            relationshipToVeteran: "I'm a family member of a Veteran",
-          },
-        );
-        expect(errors.addError.called).to.be.false;
-      });
-    });
-
-    it('should render branch of service field with hideIf logic', () => {
-      const uiSchema = personalInformationUiSchemas.branchOfService;
-      expect(uiSchema['ui:webComponentField']).to.equal(VaSelectField);
-      expect(uiSchema['ui:options'].hideIf).to.be.a('function');
-    });
-  });
-
   describe('personalInformationAboutYourselfUiSchemas', () => {
     it('should render VaTextInputField for first name with uswds option', () => {
       const uiSchema = personalInformationAboutYourselfUiSchemas.first;
@@ -210,6 +122,18 @@ describe('Personal Information UI Schemas', () => {
         }),
       ).to.be.false;
     });
+
+    it('should hide branch of service when not required', () => {
+      const uiSchema =
+        personalInformationAboutYourselfUiSchemas.branchOfService;
+      const hideIfFn = uiSchema['ui:options'].hideIf;
+
+      expect(
+        hideIfFn({
+          whoIsYourQuestionAbout: "It's a general question",
+        }),
+      ).to.be.true;
+    });
   });
 
   describe('aboutYourselfGeneralUISchema', () => {
@@ -224,7 +148,8 @@ describe('Personal Information UI Schemas', () => {
     let wrapper;
 
     it('should render correctly', () => {
-      const uiSchema = personalInformationUiSchemas.socialOrServiceNum;
+      const uiSchema =
+        personalInformationAboutYourselfUiSchemas.socialOrServiceNum;
       wrapper = mount(uiSchema['ui:title']);
 
       expect(wrapper.find('.vads-u-margin-bottom--neg2p5')).to.have.lengthOf(1);
@@ -239,5 +164,74 @@ describe('Personal Information UI Schemas', () => {
       );
       wrapper.unmount();
     });
+  });
+});
+
+describe('validateSSandSNGroup', () => {
+  let sandbox;
+  let errors;
+
+  beforeEach(() => {
+    sandbox = sinon.createSandbox();
+    errors = { addError: sandbox.spy() };
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it('should require SSN/Service number for non-general questions', () => {
+    validateSSandSNGroup(
+      errors,
+      {},
+      {
+        whoIsYourQuestionAbout: 'Myself',
+      },
+    );
+    expect(errors.addError.calledOnce).to.be.true;
+  });
+
+  it('should not require SSN/Service number for general questions', () => {
+    validateSSandSNGroup(
+      errors,
+      {},
+      {
+        whoIsYourQuestionAbout: "It's a general question",
+      },
+    );
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not require SSN/Service number for connected through work', () => {
+    validateSSandSNGroup(
+      errors,
+      {},
+      {
+        whoIsYourQuestionAbout: 'Someone else',
+        relationshipToVeteran:
+          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)",
+      },
+    );
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should accept either SSN or service number when provided', () => {
+    validateSSandSNGroup(
+      errors,
+      { ssn: '123-45-6789' },
+      {
+        whoIsYourQuestionAbout: 'Myself',
+      },
+    );
+    expect(errors.addError.called).to.be.false;
+
+    validateSSandSNGroup(
+      errors,
+      { serviceNumber: '12345678' },
+      {
+        whoIsYourQuestionAbout: 'Myself',
+      },
+    );
+    expect(errors.addError.called).to.be.false;
   });
 });

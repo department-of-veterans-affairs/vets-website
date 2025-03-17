@@ -68,6 +68,7 @@ export default function VAFacilityPageV2() {
     sortMethod,
     typeOfCare,
     fetchRecentLocationStatus,
+    recentLocations,
   } = useSelector(state => getFacilityPageV2Info(state), shallowEqual);
 
   const sortOptions = useMemo(
@@ -83,15 +84,15 @@ export default function VAFacilityPageV2() {
         },
         { value: 'alphabetical', label: 'Alphabetically' },
       ];
-      if (featureRecentLocationsFilter) {
-        options.unshift({
+      if (featureRecentLocationsFilter && recentLocations?.length) {
+        options.push({
           value: 'recentLocations',
           label: 'By recent locations',
         });
       }
       return options;
     },
-    [featureRecentLocationsFilter],
+    [featureRecentLocationsFilter, recentLocations],
   );
 
   const uiSchema = {

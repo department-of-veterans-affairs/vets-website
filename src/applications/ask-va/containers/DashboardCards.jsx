@@ -137,6 +137,9 @@ const DashboardCards = () => {
 
   const handlePageChange = newPage => {
     setCurrentPage(newPage);
+    setTimeout(() => {
+      focusElement(filterSummaryRef?.current);
+    }, 0);
   };
 
   const handleTabChange = tabIndex => {
