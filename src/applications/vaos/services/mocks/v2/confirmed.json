@@ -87,9 +87,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "CHECKED OUT"
-          ],
+          "vistaStatus": ["CHECKED OUT"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": true
         },
@@ -124,9 +122,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -206,9 +202,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "CHECKED OUT"
-          ],
+          "vistaStatus": ["CHECKED OUT"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": true
         },
@@ -243,9 +237,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -325,9 +317,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "CHECKED OUT"
-          ],
+          "vistaStatus": ["CHECKED OUT"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": true
         },
@@ -361,9 +351,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -454,9 +442,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "ACT REQ/CHECKED OUT"
-          ],
+          "vistaStatus": ["ACT REQ/CHECKED OUT"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {}
@@ -493,9 +479,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -562,9 +546,7 @@
             ],
             "name": {
               "family": "Smith",
-              "given": [
-                "Megan"
-              ]
+              "given": ["Megan"]
             },
             "practiceName": null
           },
@@ -577,9 +559,7 @@
             ],
             "name": {
               "family": "Dali",
-              "given": [
-                "Salvador"
-              ]
+              "given": ["Salvador"]
             },
             "practiceName": null
           }
@@ -640,9 +620,7 @@
             ],
             "name": {
               "family": "Nightingale",
-              "given": [
-                "Florence"
-              ]
+              "given": ["Florence"]
             }
           }
         ],
@@ -730,9 +708,7 @@
             ],
             "name": {
               "family": "NADEAU",
-              "given": [
-                "MARCY"
-              ]
+              "given": ["MARCY"]
             },
             "practiceName": "Dayton OH VAMC"
           }
@@ -791,9 +767,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -856,9 +830,7 @@
             ],
             "name": {
               "family": "Jones",
-              "given": [
-                "Peter"
-              ]
+              "given": ["Peter"]
             }
           }
         ],
@@ -909,10 +881,7 @@
           {
             "name": {
               "family": "Everett",
-              "given": [
-                "CERNER",
-                "DO"
-              ]
+              "given": ["CERNER", "DO"]
             }
           }
         ],
@@ -958,19 +927,11 @@
             },
             "mailingAddress": {
               "type": "postal",
-              "line": [
-                null,
-                null,
-                null
-              ]
+              "line": [null, null, null]
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "420 North James Road",
-                null,
-                null
-              ],
+              "line": ["420 North James Road", null, null],
               "city": "Columbus",
               "state": "OH",
               "postalCode": "43219-1834"
@@ -1054,9 +1015,7 @@
             ],
             "name": {
               "family": "ZZZPPP",
-              "given": [
-                "LLL"
-              ]
+              "given": ["LLL"]
             }
           }
         ],
@@ -1074,9 +1033,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ],
+          "vistaStatus": ["NO ACTION TAKEN"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {
@@ -1112,9 +1069,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4337 North Union Road"
-              ],
+              "line": ["4337 North Union Road"],
               "city": "Middletown",
               "state": "OH",
               "postalCode": "45005-5211"
@@ -1157,9 +1112,7 @@
           {
             "name": {
               "family": "BERMEL",
-              "given": [
-                "MICHAEL"
-              ]
+              "given": ["MICHAEL"]
             }
           }
         ],
@@ -1171,9 +1124,7 @@
         "extension": {
           "ccLocation": {
             "address": {
-              "line": [
-                "10640 MAIN ST ; STE 100"
-              ],
+              "line": ["10640 MAIN ST ; STE 100"],
               "city": "FAIRFAX",
               "state": "VA",
               "postalCode": "22030",
@@ -1211,9 +1162,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -1262,9 +1211,7 @@
         "description": "Podiatry DS SEOC 1.0.8 PRCT",
         "patientIcn": "1013124304V115761",
         "locationId": "984",
-        "practitioners": [
-          {}
-        ],
+        "practitioners": [{}],
         "start": "2024-08-22T12:00:00Z",
         "created": "2024-08-22T20:33:54Z",
         "localStartTime": "2024-08-21T09:00:00.000-06:00",
@@ -1273,9 +1220,7 @@
         "extension": {
           "ccLocation": {
             "address": {
-              "line": [
-                "1323 W 3RD ST"
-              ],
+              "line": ["1323 W 3RD ST"],
               "city": "DAYTON",
               "state": "OH",
               "postalCode": "45402",
@@ -1313,9 +1258,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -1478,9 +1421,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ]
+          "vistaStatus": ["NO ACTION TAKEN"]
         },
         "serviceName": "FTC C&P AUDIO BEV",
         "physicalLocation": "FORT COLLINS AUDIO",
@@ -1505,9 +1446,7 @@
               "main": "970-224-1550"
             },
             "physicalAddress": {
-              "line": [
-                "2509 Research Boulevard"
-              ],
+              "line": ["2509 Research Boulevard"],
               "city": "Fort Collins",
               "state": "CO",
               "postalCode": "80526-8108"
@@ -1573,9 +1512,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ]
+          "vistaStatus": ["NO ACTION TAKEN"]
         },
         "serviceName": "FTC C&P AUDIO BEV",
         "physicalLocation": "FORT COLLINS AUDIO",
@@ -1600,9 +1537,7 @@
               "main": "970-224-1550"
             },
             "physicalAddress": {
-              "line": [
-                "2509 Research Boulevard"
-              ],
+              "line": ["2509 Research Boulevard"],
               "city": "Fort Collins",
               "state": "CO",
               "postalCode": "80526-8108"
@@ -1668,9 +1603,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ]
+          "vistaStatus": ["NO ACTION TAKEN"]
         },
         "serviceName": "FTC C&P AUDIO BEV",
         "physicalLocation": "FORT COLLINS AUDIO",
@@ -1695,9 +1628,7 @@
               "main": "970-224-1550"
             },
             "physicalAddress": {
-              "line": [
-                "2509 Research Boulevard"
-              ],
+              "line": ["2509 Research Boulevard"],
               "city": "Fort Collins",
               "state": "CO",
               "postalCode": "80526-8108"
@@ -1763,9 +1694,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ]
+          "vistaStatus": ["NO ACTION TAKEN"]
         },
         "serviceName": "FTC C&P AUDIO BEV",
         "physicalLocation": "FORT COLLINS AUDIO",
@@ -1790,9 +1719,7 @@
               "main": "970-224-1550"
             },
             "physicalAddress": {
-              "line": [
-                "2509 Research Boulevard"
-              ],
+              "line": ["2509 Research Boulevard"],
               "city": "Fort Collins",
               "state": "CO",
               "postalCode": "80526-8108"
@@ -1844,9 +1771,7 @@
             ],
             "name": {
               "family": "Normal",
-              "given": [
-                "Abbey"
-              ]
+              "given": ["Abbey"]
             }
           }
         ],
@@ -1913,9 +1838,7 @@
             ],
             "name": {
               "family": "Normal",
-              "given": [
-                "Abbey"
-              ]
+              "given": ["Abbey"]
             }
           }
         ],
@@ -1973,9 +1896,7 @@
         "extension": {
           "ccLocation": {
             "address": {
-              "line": [
-                "1 E NATIONAL RD ; STE 300"
-              ],
+              "line": ["1 E NATIONAL RD ; STE 300"],
               "city": "VANDALIA",
               "state": "OH",
               "postalCode": "45377",
@@ -2007,9 +1928,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -2063,9 +1982,7 @@
         "extension": {
           "ccLocation": {
             "address": {
-              "line": [
-                "1 E NATIONAL RD ; STE 300"
-              ],
+              "line": ["1 E NATIONAL RD ; STE 300"],
               "city": "VANDALIA",
               "state": "OH",
               "postalCode": "45377",
@@ -2097,9 +2014,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -2154,9 +2069,7 @@
         "station": null,
         "ien": null,
         "avsPath": null,
-        "preferredDates": [
-          "Wed, August 21, 2024 in the afternoon"
-        ],
+        "preferredDates": ["Wed, August 21, 2024 in the afternoon"],
         "location": {
           "id": "668",
           "type": "appointments",
@@ -2222,11 +2135,7 @@
             ],
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4815 North Assembly Street",
-                null,
-                null
-              ],
+              "line": ["4815 North Assembly Street", null, null],
               "city": "Spokane",
               "state": "WA",
               "postalCode": "99205-6185"
@@ -2359,9 +2268,7 @@
             ],
             "name": {
               "family": "BERNARDO",
-              "given": [
-                "KENNETH J"
-              ]
+              "given": ["KENNETH J"]
             }
           }
         ],
@@ -2379,9 +2286,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "FUTURE"
-          ],
+          "vistaStatus": ["FUTURE"],
           "preCheckinAllowed": true,
           "eCheckinAllowed": true,
           "clinic": {
@@ -2419,9 +2324,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -2480,9 +2383,7 @@
             ],
             "name": {
               "family": "Poldass",
-              "given": [
-                "Aarathi"
-              ]
+              "given": ["Aarathi"]
             },
             "practiceName": "Cheyenne VA Medical Center"
           }
@@ -2548,9 +2449,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -2637,9 +2536,7 @@
             ],
             "name": {
               "family": "BERNARDO",
-              "given": [
-                "KENNETH J"
-              ]
+              "given": ["KENNETH J"]
             }
           }
         ],
@@ -2657,9 +2554,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "FUTURE"
-          ],
+          "vistaStatus": ["FUTURE"],
           "preCheckinAllowed": true,
           "eCheckinAllowed": true,
           "clinic": {
@@ -2697,9 +2592,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -2780,9 +2673,7 @@
             ],
             "name": {
               "family": "ISS",
-              "given": [
-                "PROVIDERONE"
-              ]
+              "given": ["PROVIDERONE"]
             }
           }
         ],
@@ -2800,9 +2691,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ],
+          "vistaStatus": ["NO ACTION TAKEN"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {
@@ -2836,9 +2725,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -2907,9 +2794,7 @@
             ],
             "name": {
               "family": "ISS",
-              "given": [
-                "PROVIDERONE"
-              ]
+              "given": ["PROVIDERONE"]
             }
           }
         ],
@@ -2927,9 +2812,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ],
+          "vistaStatus": ["NO ACTION TAKEN"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {
@@ -2963,9 +2846,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -3017,9 +2898,7 @@
             ],
             "name": {
               "family": "Chapman",
-              "given": [
-                "Jeremy"
-              ]
+              "given": ["Jeremy"]
             },
             "practiceName": "Cheyenne VA Medical Center"
           }
@@ -3070,9 +2949,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -3163,9 +3040,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "FUTURE"
-          ],
+          "vistaStatus": ["FUTURE"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {
@@ -3196,9 +3071,7 @@
               "main": "970-224-1550"
             },
             "physicalAddress": {
-              "line": [
-                "2509 Research Boulevard"
-              ],
+              "line": ["2509 Research Boulevard"],
               "city": "Fort Collins",
               "state": "CO",
               "postalCode": "80526-8108"
@@ -3251,10 +3124,7 @@
           {
             "name": {
               "family": "Everett",
-              "given": [
-                "CERNER",
-                "DO"
-              ]
+              "given": ["CERNER", "DO"]
             }
           }
         ],
@@ -3336,11 +3206,7 @@
             ],
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "420 North James Road",
-                null,
-                null
-              ],
+              "line": ["420 North James Road", null, null],
               "city": "Columbus",
               "state": "OH",
               "postalCode": "43219-1834"
@@ -3443,9 +3309,7 @@
           {
             "name": {
               "family": "Bones",
-              "given": [
-                "Dr."
-              ]
+              "given": ["Dr."]
             }
           }
         ],
@@ -3527,11 +3391,7 @@
             ],
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "420 North James Road",
-                null,
-                null
-              ],
+              "line": ["420 North James Road", null, null],
               "city": "Columbus",
               "state": "OH",
               "postalCode": "43219-1834"
@@ -3641,9 +3501,7 @@
           {
             "name": {
               "family": "Bones",
-              "given": [
-                "Dr."
-              ]
+              "given": ["Dr."]
             }
           }
         ],
@@ -3725,11 +3583,7 @@
             ],
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "420 North James Road",
-                null,
-                null
-              ],
+              "line": ["420 North James Road", null, null],
               "city": "Columbus",
               "state": "OH",
               "postalCode": "43219-1834"
@@ -3843,10 +3697,7 @@
           {
             "name": {
               "family": "Everett",
-              "given": [
-                "CERNER",
-                "DO"
-              ]
+              "given": ["CERNER", "DO"]
             }
           }
         ],
@@ -3928,11 +3779,7 @@
             ],
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "420 North James Road",
-                null,
-                null
-              ],
+              "line": ["420 North James Road", null, null],
               "city": "Columbus",
               "state": "OH",
               "postalCode": "43219-1834"
@@ -4060,9 +3907,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "FUTURE"
-          ],
+          "vistaStatus": ["FUTURE"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {
@@ -4098,9 +3943,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street"
-              ],
+              "line": ["4100 West Third Street"],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -4127,8 +3970,8 @@
           }
         },
         "type": "VA",
-        "modality": "vaVideoCareAtHome",
-        "past": true,
+        "modality": "vaInPerson",
+        "past": false,
         "future": true,
         "pending": false,
         "travelPayClaim": {
@@ -4173,9 +4016,7 @@
             ],
             "name": {
               "family": "Smith",
-              "given": [
-                "Meg"
-              ]
+              "given": ["Meg"]
             }
           }
         ],
@@ -4247,9 +4088,7 @@
             ],
             "name": {
               "family": "Smith",
-              "given": [
-                "Meg"
-              ]
+              "given": ["Meg"]
             }
           }
         ],
@@ -4345,9 +4184,7 @@
             ],
             "name": {
               "family": "ALSAHHAR",
-              "given": [
-                "SAMI"
-              ]
+              "given": ["SAMI"]
             }
           }
         ],
@@ -4370,9 +4207,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ],
+          "vistaStatus": ["NO ACTION TAKEN"],
           "patientHasMobileGfe": true,
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
@@ -4403,9 +4238,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4337 North Union Road"
-              ],
+              "line": ["4337 North Union Road"],
               "city": "Middletown",
               "state": "OH",
               "postalCode": "45005-5211"
@@ -4481,9 +4314,7 @@
             ],
             "name": {
               "family": "ALSAHHAR",
-              "given": [
-                "SAMI"
-              ]
+              "given": ["SAMI"]
             }
           }
         ],
@@ -4506,9 +4337,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "NO ACTION TAKEN"
-          ],
+          "vistaStatus": ["NO ACTION TAKEN"],
           "patientHasMobileGfe": true,
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
@@ -4539,9 +4368,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4337 North Union Road"
-              ],
+              "line": ["4337 North Union Road"],
               "city": "Middletown",
               "state": "OH",
               "postalCode": "45005-5211"
@@ -4589,9 +4416,7 @@
           {
             "name": {
               "family": "HEALTH CARE PROFS",
-              "given": [
-                "A & D"
-              ]
+              "given": ["A & D"]
             }
           }
         ],
@@ -4601,9 +4426,7 @@
         "extension": {
           "ccLocation": {
             "address": {
-              "line": [
-                "1601 NEEDMORE RD ; STE 1 &amp; 2"
-              ],
+              "line": ["1601 NEEDMORE RD ; STE 1 &amp; 2"],
               "city": "DAYTON",
               "state": "OH",
               "postalCode": "45414",
@@ -4687,11 +4510,7 @@
             ],
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "4100 West Third Street",
-                null,
-                null
-              ],
+              "line": ["4100 West Third Street", null, null],
               "city": "Dayton",
               "state": "OH",
               "postalCode": "45428-9000"
@@ -4839,9 +4658,7 @@
           "ccLocation": {
             "address": {}
           },
-          "vistaStatus": [
-            "FUTURE"
-          ],
+          "vistaStatus": ["FUTURE"],
           "preCheckinAllowed": false,
           "eCheckinAllowed": false,
           "clinic": {}
@@ -4876,9 +4693,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"
@@ -4937,9 +4752,7 @@
             ],
             "name": {
               "family": "NADEAU",
-              "given": [
-                "MARCY"
-              ]
+              "given": ["MARCY"]
             },
             "practiceName": "Cheyenne VA Medical Center"
           }
@@ -4990,9 +4803,7 @@
             },
             "physicalAddress": {
               "type": "physical",
-              "line": [
-                "2360 East Pershing Boulevard"
-              ],
+              "line": ["2360 East Pershing Boulevard"],
               "city": "Cheyenne",
               "state": "WY",
               "postalCode": "82001-5356"

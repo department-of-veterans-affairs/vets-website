@@ -45,6 +45,7 @@ export default class MockAppointmentResponse {
     serviceType = 'primaryCare',
     status = 'booked',
     future = false,
+    pending = false,
     past = false,
   } = {}) {
     const requestedPeriods = [];
@@ -91,6 +92,7 @@ export default class MockAppointmentResponse {
         vvsKind,
       },
       future,
+      pending,
       past,
     };
   }
