@@ -74,6 +74,7 @@ const responses = {
   'POST /vaos/v2/appointments': (req, res) => {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
+      kind,
     } = req.body;
     const selectedClinic = clinicsV2.data.filter(
       clinic => clinic.id === req.body.clinic,
@@ -86,6 +87,8 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const pending = req.body.status === 'proposed';
+    const future = req.body.status === 'booked';
     let reasonForAppointment;
     let patientComments;
     if (req.body.kind === 'cc') {
@@ -106,6 +109,8 @@ const responses = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
+        created: new Date().toISOString(),
+        kind,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
@@ -124,6 +129,8 @@ const responses = {
           selectedClinic[0]?.attributes.physicalLocation || null,
         reasonForAppointment,
         patientComments,
+        future,
+        pending,
       },
     };
     currentMockId += 1;

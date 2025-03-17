@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom';
 import ThreadListItem from './ThreadListItem';
 import { Paths, threadSortingOptions } from '../../util/constants';
 import ThreadListSort from './ThreadListSort';
-import Footer from '../Footer';
 
 const ThreadsList = props => {
   const {
@@ -109,12 +108,12 @@ const ThreadsList = props => {
                     threadList[0]?.threadPageSize / threadsPerPage,
                   )}
                   uswds
+                  data-dd-action-name="Pagination"
                 />
               </div>
             </div>
           </div>
         )}
-        <Footer />
       </div>
     </>
   );
