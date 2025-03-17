@@ -7,6 +7,13 @@ import TravelClaimDetails from './components/TravelClaimDetails';
 import ClaimStatusExplainerPage from './containers/pages/ClaimStatusExplainerPage';
 import SubmitFlowWrapper from './containers/SubmitFlowWrapper';
 import App from './containers/App';
+import SmocContextProvider from './context/SmocContext';
+
+const SmocFlow = (
+  <SmocContextProvider>
+    <SubmitFlowWrapper />
+  </SmocContextProvider>
+);
 
 const routes = (
   <Routes>
@@ -24,7 +31,7 @@ const routes = (
         path="/file-new-claim"
         element={<Navigate to="/" replace />}
       />
-      <Route path="/file-new-claim/:apptId" element={<SubmitFlowWrapper />} />
+      <Route path="/file-new-claim/:apptId" element={SmocFlow} />
       <Route path="/claims/:id" element={<TravelClaimDetails />} />
     </Route>
     <Route path="*" element={<PageNotFound />} />
