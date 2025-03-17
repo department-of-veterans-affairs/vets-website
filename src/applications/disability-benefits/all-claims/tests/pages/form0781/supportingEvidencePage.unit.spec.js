@@ -140,15 +140,13 @@ describe('validating selections', () => {
 
       validateSupportingEvidenceSelections(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.true;
+
       expect(errors.supportingEvidenceReports.addError.called).to.be.false;
       expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
       expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
       expect(errors.supportingEvidenceOther.addError.called).to.be.false;
       expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.true;
-
-      // alert
-      expect(showConflictingAlert(formData)).to.be.true;
     });
   });
 
@@ -163,7 +161,7 @@ describe('validating selections', () => {
       supportingEvidenceOther: { addError: sinon.spy() },
       supportingEvidenceUnlisted: { addError: sinon.spy() },
     };
-    it('should not show alert or add errors when none is selected and with no other selected supporting evidence', () => {
+    it('should not add errors when none is selected and with no other selected supporting evidence', () => {
       const formData = {
         syncModern0781Flow: true,
         supportingEvidenceReports: {
@@ -175,18 +173,17 @@ describe('validating selections', () => {
 
       validateSupportingEvidenceSelections(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.false;
+
       expect(errors.supportingEvidenceReports.addError.called).to.be.false;
       expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
       expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
       expect(errors.supportingEvidenceOther.addError.called).to.be.false;
       expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.false;
       expect(errors.supportingEvidenceUnlisted.addError.called).to.be.false;
-      // alert
-      expect(showConflictingAlert(formData)).to.be.false;
     });
 
-    it('should not show alert or add errors when none is unselected and supporting evidence is selected', () => {
+    it('should not add errors when none is unselected and supporting evidence is selected', () => {
       const formData = {
         syncModern0781Flow: true,
         supportingEvidenceReports: {
@@ -197,16 +194,14 @@ describe('validating selections', () => {
 
       validateSupportingEvidenceSelections(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.false;
+
       expect(errors.supportingEvidenceReports.addError.called).to.be.false;
       expect(errors.supportingEvidenceRecords.addError.called).to.be.false;
       expect(errors.supportingEvidenceWitness.addError.called).to.be.false;
       expect(errors.supportingEvidenceOther.addError.called).to.be.false;
       expect(errors.supportingEvidenceNoneCheckbox.addError.called).to.be.false;
       expect(errors.supportingEvidenceUnlisted.addError.called).to.be.false;
-
-      // alert
-      expect(showConflictingAlert(formData)).to.be.false;
     });
   });
 });

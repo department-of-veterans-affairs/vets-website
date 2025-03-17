@@ -103,7 +103,7 @@ describe('validating selections', () => {
       treatmentReceivedNonVaProvider: { addError: sinon.spy() },
       treatmentReceivedVaProvider: { addError: sinon.spy() },
     };
-    it('should an error to the none checkbox when none and providers are selected', () => {
+    it('should add error to the none checkbox when none and providers are selected', () => {
       const formData = {
         syncModern0781Flow: true,
         treatmentReceivedNonVaProvider: {
@@ -121,13 +121,11 @@ describe('validating selections', () => {
 
       validateProviders(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.true;
+
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
       expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.true;
-
-      // alert
-      expect(showConflictingAlert(formData)).to.be.true;
     });
   });
 
@@ -139,7 +137,7 @@ describe('validating selections', () => {
       treatmentReceivedNonVaProvider: { addError: sinon.spy() },
       treatmentReceivedVaProvider: { addError: sinon.spy() },
     };
-    it('should not show alert or add errors when none is selected and with no other selected providers', () => {
+    it('should not add errors when none is selected and with no other selected providers', () => {
       const formData = {
         syncModern0781Flow: true,
         treatmentReceivedNonVaProvider: {
@@ -151,16 +149,14 @@ describe('validating selections', () => {
 
       validateProviders(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.false;
+
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
       expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.false;
-
-      // alert
-      expect(showConflictingAlert(formData)).to.be.false;
     });
 
-    it('should not show alert or add errors when none is unselected and providers are selected', () => {
+    it('should not add errors when none is unselected and providers are selected', () => {
       const formData = {
         syncModern0781Flow: true,
         treatmentReceivedNonVaProvider: {
@@ -172,13 +168,11 @@ describe('validating selections', () => {
 
       validateProviders(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.false;
+
       expect(errors.treatmentReceivedVaProvider.addError.called).to.be.false;
       expect(errors.treatmentReceivedNonVaProvider.addError.called).to.be.false;
       expect(errors['view:treatmentNoneCheckbox'].addError.called).to.be.false;
-
-      // alert
-      expect(showConflictingAlert(formData)).to.be.false;
     });
   });
 });

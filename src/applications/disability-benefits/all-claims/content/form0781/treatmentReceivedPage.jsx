@@ -95,7 +95,7 @@ export function showConflictingAlert(formData) {
 export function validateProviders(errors, formData) {
   const isConflicting = showConflictingAlert(formData);
 
-  // add error message to none checkbox
+  // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
     errors['view:treatmentNoneCheckbox'].addError(
       'If you select no treatment providers to include, unselect other treatment providers before continuing.',
