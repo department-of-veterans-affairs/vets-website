@@ -141,7 +141,7 @@ describe('validating selections', () => {
       healthBehaviors: { addError: sinon.spy() },
       otherBehaviors: { addError: sinon.spy() },
     };
-    it('should not add errors when none is selected and with no other selected behaviors', () => {
+    it('should not add errors when none is selected with no other selected behaviors', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
