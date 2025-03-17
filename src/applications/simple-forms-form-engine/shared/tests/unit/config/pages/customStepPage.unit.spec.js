@@ -5,6 +5,7 @@ import customStepPage from 'applications/simple-forms-form-engine/shared/config/
 import * as textArea from 'applications/simple-forms-form-engine/shared/config/components/textArea';
 import * as textInput from 'applications/simple-forms-form-engine/shared/config/components/textInput';
 import * as date from 'applications/simple-forms-form-engine/shared/config/components/date';
+import * as radioButton from 'applications/simple-forms-form-engine/shared/config/components/radioButton';
 
 describe('customStepPage', () => {
   const normalizedPage = {
@@ -95,6 +96,28 @@ describe('customStepPage', () => {
           required: true,
           type: 'digital_form_date_component',
           dateFormat: 'month_day_year',
+        },
+      },
+      {
+        importedFunction: radioButton,
+        component: {
+          hint: 'This radio component has two options.',
+          id: '172742',
+          label: 'Test radio component',
+          required: false,
+          type: 'digital_form_radio_button',
+          responseOptions: [
+            {
+              id: '172743',
+              label: 'My custom option',
+              description: 'This option has optional description text.',
+            },
+            {
+              id: '172744',
+              label: 'A second option',
+              description: null,
+            },
+          ],
         },
       },
       {
