@@ -176,7 +176,9 @@ export function validateBehaviorSelections(errors, formData) {
 
   // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors['view:noneCheckbox'].addError(' ');
+    errors['view:noneCheckbox'].addError(
+      'If you select no behavioral changes to include, unselect other behavioral changes before continuing.',
+    );
   }
 }
 
