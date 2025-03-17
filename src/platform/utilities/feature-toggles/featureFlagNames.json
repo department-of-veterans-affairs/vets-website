@@ -297,6 +297,7 @@
   "vaOnlineSchedulingFeSourceOfTruthTelehealth": "va_online_scheduling_fe_source_of_truth_telehealth",
   "vaOnlineSchedulingMhvRouteGuards": "va_online_scheduling_mhv_route_guards",
   "vaOnlineSchedulingDirectScheduleAppointmentConflict": "va_online_scheduling_direct_schedule_appointment_conflict",
+  "vaOnlineSchedulingDisplayPastCancelledAppointments": "va_online_scheduling_display_past_cancelled_appointments",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
   "virtualAgentComponentTesting": "virtual_agent_component_testing",
