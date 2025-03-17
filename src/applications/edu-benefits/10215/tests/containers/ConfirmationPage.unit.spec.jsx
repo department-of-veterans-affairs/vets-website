@@ -1,94 +1,82 @@
 import React from 'react';
-
 import { expect } from 'chai';
-// import sinon from 'sinon';
+import sinon from 'sinon';
 import { Provider } from 'react-redux';
-// import { fireEvent, render } from '@testing-library/react';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { shallow, mount } from 'enzyme';
+import { cleanup } from '@testing-library/react';
+import { createStore } from 'redux';
+import { createInitialState } from '@department-of-veterans-affairs/platform-forms-system/state/helpers';
+import { mount } from 'enzyme';
+import testData from '../fixtures/data/test-data.json';
+import formConfig from '../../config/form';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-const storeBase = {
+const submitDate = new Date();
+const initialState = {
   form: {
+    ...createInitialState(formConfig),
+    testData,
     submission: {
-      timestamp: '2024-01-02T03:04:05.067Z',
       response: {
-        confirmationNumber: '123123123',
-        pdfUrl: '',
+        confirmationNumber: '1234567890',
       },
-    },
-    data: {
-      institutionName: 'Doe University',
-      facilityCode: '12345',
-      termStartDate: '2000-11-26',
-      dateOfCalculations: '2021-11-26',
+      timestamp: submitDate,
     },
   },
 };
+const mockStore = state => createStore(() => state);
 
-describe('<ConfirmationPage>', () => {
-  const middleware = [thunk];
-  const mockStore = configureStore(middleware);
-  it('should render with data', () => {
-    const router = {
-      push: () => {},
-    };
-    const wrapper = shallow(
-      <Provider store={mockStore(storeBase)}>
-        <ConfirmationPage router={router} />
-      </Provider>,
-    );
-    expect(wrapper.find('ConfirmationPage').exists()).to.be.true;
-    wrapper.unmount();
+const mountPage = (state = initialState) => {
+  const safeState = {
+    form: {
+      submission: {
+        response: { confirmationNumber: '1234567890', pdfUrl: '' },
+        timestamp: '',
+      },
+      ...state.form,
+    },
+  };
+
+  const store = mockStore(safeState);
+  return mount(
+    <Provider store={store}>
+      <ConfirmationPage route={{ formConfig }} />
+    </Provider>,
+  );
+};
+
+describe('ConfirmationPage', () => {
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = mountPage();
   });
 
-  // it('should print the page', () => {
-  //   const printSpy = sinon.spy(window, 'print');
-  //   const router = {
-  //     push: () => {},
-  //   };
-  //   const wrapper = shallow(
-  //     <Provider store={mockStore(storeBase)}>
-  //       <ConfirmationPage router={router} />
-  //     </Provider>,
-  //   );
-  //   const printButton = wrapper.find('[data-testid="print-page"]');
-  //  fireEvent.click(printButton);
-  //   expect(printSpy.calledOnce).to.be.true;
-  //   printSpy.restore();
-  //   wrapper.unmount();
+  afterEach(() => {
+    if (wrapper) {
+      wrapper.unmount();
+    }
+    cleanup();
+  });
 
-  // const { getByTestId } = render(
-  //   <Provider store={mockStore(storeBase)}>
-  //     <ConfirmationPage router={router} />
-  //   </Provider>,
-  // );
-  // expect(getByTestId('print-page')).to.exist;
-  // fireEvent.click(getByTestId('print-page'));
-  // expect(printSpy.calledOnce).to.be.true;
-  // printSpy.restore();
-  // });
-  // it('should replace h2 with h3 and retain text content', async () => {
-  //   const router = {
-  //     push: () => {},
-  //   };
+  it('passes the correct props to ConfirmationPageView', () => {
+    const confirmationViewProps = wrapper.find('ConfirmationView').props();
 
-  //   const wrapper = mount(
-  //     <Provider store={mockStore(storeBase)}>
-  //       <ConfirmationPage router={router} />
-  //     </Provider>,
-  //   );
+    expect(confirmationViewProps.submitDate).to.equal(submitDate);
+    expect(confirmationViewProps.confirmationNumber).to.equal('1234567890');
+  });
 
-  //   // Ensure h3 is now in the DOM
-  //   const h3Element = document.querySelector('.custom-classname h2');
-  //   await expect(h3Element).to.exist;
-  //   expect(h3Element.textContent).to.equal('Test Heading');
+  it('should select form from state when state.form is defined', () => {
+    expect(wrapper.text()).to.includes(
+      'Complete all submission stepsThis form requires additional steps for successful submission.',
+    );
+  });
 
-  //   // Ensure h2 is no longer present
-  //   const h2Element = document.querySelector('.custom-classname h2');
-  //   expect(h2Element).to.not.exist;
+  it('should print the page', () => {
+    const printSpy = sinon.spy(window, 'print');
 
-  //   wrapper.unmount();
-  // });
+    expect(wrapper.find('[data-testid="print-page"]')).to.exist;
+    wrapper.find('[data-testid="print-page"]').simulate('click');
+    expect(printSpy.calledOnce).to.be.true;
+    printSpy.restore();
+  });
 });

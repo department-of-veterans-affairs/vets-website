@@ -22,18 +22,31 @@ export const ConfirmationPage = ({ router, route }) => {
       if (submission?.response?.id) {
         localStorage.setItem(
           '10215ClaimId',
+
           JSON.stringify(submission?.response?.id),
         );
       }
       setClaimId(JSON.parse(localStorage.getItem('10215ClaimId')));
     },
+
     [submission],
   );
+
   useEffect(() => {
-    const h2 = document.querySelector('.custom-classname h2');
-    const h3 = document.createElement('h3');
-    h3.innerHTML = h2.innerHTML;
-    h2.parentNode.replaceChild(h3, h2);
+    const h2Element = document.querySelector('.custom-classname h2');
+    if (h2Element) {
+      const h3 = document.createElement('h3');
+      h3.innerHTML = h2Element.innerHTML;
+      h2Element.parentNode.replaceChild(h3, h2Element);
+    }
+    return () => {
+      const h3Element = document.querySelector('.custom-classname h3');
+      if (h3Element) {
+        const h2 = document.createElement('h2');
+        h2.innerHTML = h3Element.innerHTML;
+        h3Element.parentNode.replaceChild(h2, h3Element);
+      }
+    };
   }, []);
 
   return (
@@ -45,10 +58,10 @@ export const ConfirmationPage = ({ router, route }) => {
         environment.API_URL
       }/v0/education_benefits_claims/download_pdf/${claimId}`}
     >
-      {/* {childContent(
+      {childContent(
         <ConfirmationView.SavePdfDownload className="custom-classname" />,
         goBack,
-      )} */}
+      )}
       <ConfirmationView.NeedHelp content={<GetFormHelp />} />
     </ConfirmationView>
   );
