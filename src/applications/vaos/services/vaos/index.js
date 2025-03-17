@@ -147,6 +147,7 @@ export function getSchedulingConfigurations(locationIds, ccEnabled = null) {
 }
 
 export function getAvailableV2Slots(facilityId, clinicId, startDate, endDate) {
+  // console.log(`request: ${`/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`}`)
   return apiRequestWithUrl(
     `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`,
   ).then(parseApiList);

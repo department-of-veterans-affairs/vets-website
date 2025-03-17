@@ -12,7 +12,6 @@ import {
   selectFeatureCommunityCare,
   selectSystemIds,
   selectRegisteredCernerFacilityIds,
-  selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureFeSourceOfTruth,
@@ -693,9 +692,6 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
 
     const startDateMonth = moment(startDate).format('YYYY-MM');
     const endDateMonth = moment(endDate).format('YYYY-MM');
-    const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
-      state,
-    );
     const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
@@ -758,14 +754,11 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           // previous or next day. This insures available slots are displayed
           // for the correct day.
           .map(slot => {
-            if (featureVAOSServiceVAAppointments) {
-              const zonedDate = utcToZonedTime(slot.start, timezone);
-              const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
-                timeZone: timezone,
-              });
-              return { ...slot, start: time };
-            }
-            return slot;
+            const zonedDate = utcToZonedTime(slot.start, timezone);
+            const time = format(zonedDate, "yyyy-MM-dd'T'HH:mm:ss", {
+              timeZone: timezone,
+            });
+            return { ...slot, start: time };
           })
           .sort((a, b) => a.start.localeCompare(b.start));
         dispatch({

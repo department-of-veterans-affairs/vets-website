@@ -213,6 +213,17 @@ export function mockAppointmentSlotFetch({
       .endOf('month')
       .startOf('day');
 
+  // console.log({
+  //   facilityId,
+  //   preferredDate,
+  //   start,
+  //   end,
+  //   clinicId,
+  //   withError,
+  // });
+  // console.log(data);
+  // console.log(`mocking: ${`/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${start.format()}&end=${end.format()}`}`);
+
   if (withError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
