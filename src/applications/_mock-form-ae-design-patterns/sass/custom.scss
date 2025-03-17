@@ -96,3 +96,28 @@ padding-left: 0;
   width: 23rem;
   }
 }
+
+// PATTERN 3 - CRITICAL INFO DEMO PAGE
+.claim-list-item {
+  ul.details {
+    list-style: none;
+    padding-left: 0;
+  }
+}
+
+.claim-list-item-header {
+  margin-top: 0;
+
+  span {
+    display: block;
+    width: fit-content;
+    font-size: 1rem;
+    font-family: $font-family-sans;
+    font-weight: normal;
+    line-height: 1.5;
+  }
+
+  .usa-label {
+    margin-bottom: 1em;
+  }
+}

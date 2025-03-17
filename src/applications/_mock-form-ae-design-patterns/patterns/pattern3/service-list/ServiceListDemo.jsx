@@ -1,5 +1,5 @@
 import React from 'react';
-// import { VaServiceListItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaServiceListItem } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ServiceListDemo = () => {
   return (
@@ -9,7 +9,7 @@ const ServiceListDemo = () => {
 
       <div className="vads-l-row">
         <div className="medium-screen:vads-l-col--6 vads-l-col--12">
-          <va-service-list-item
+          <VaServiceListItem
             serviceDetails={{
               'Approved on': 'May 5, 2011',
               Program: 'Post-9/11 GI Bill',
