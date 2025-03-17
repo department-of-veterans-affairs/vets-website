@@ -88,6 +88,9 @@
           "treatmentYear": "2008"
         }
       ],
+      "treatmentNoneCheckbox" : {
+        "none": false
+      },
       "treatmentReceivedNonVaProvider": {
         "nonVa": true,
         "vaCenters": true
