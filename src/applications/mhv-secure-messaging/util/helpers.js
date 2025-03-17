@@ -195,7 +195,7 @@ export const handleHeader = folder => {
     Object.values(Folders).find(f => f.id === folderId)?.header || folder.name;
 
   const ddTitle = `${
-    isCustomFolder ? 'Custom Folder' : `Messages: ${folderName}`
+    isCustomFolder(folderId) ? 'Custom Folder' : `Messages: ${folderName}`
   } h1`;
   const ddPrivacy = `${isCustomFolder(folderId) ? 'mask' : 'allow'}`;
 
