@@ -46,7 +46,7 @@ const HealthCareCTA = ({
       <>
         {!isLOA1 &&
           viewMhvLink && (
-            <p>
+            <div className="vads-u-margin-bottom--2">
               <va-link
                 active
                 text="Go to My HealtheVet"
@@ -60,7 +60,7 @@ const HealthCareCTA = ({
                   })
                 }
               />
-            </p>
+            </div>
           )}
 
         {(!isVAPatient || isLOA1) && (
