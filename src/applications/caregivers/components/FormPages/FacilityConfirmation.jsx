@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
@@ -18,14 +18,33 @@ const FacilityConfirmation = ({ data, goBack, goForward, goToPath }) => {
     return urlParams.get('review') === 'true';
   }, []);
 
-  const handleNavigation = (path, fallback) =>
-    isReviewPage ? goToPath(path) : fallback(data);
+  const onGoBack = useCallback(
+    () => (isReviewPage ? goToPath(navRoutes.back) : goBack()),
+    [goBack, goToPath, isReviewPage],
+  );
+
+  const onGoForward = useCallback(
+    () => (isReviewPage ? goToPath(navRoutes.forward) : goForward(data)),
+    [data, goForward, goToPath, isReviewPage],
+  );
 
   const renderAddress = facility => {
     if (!facility) return null;
-    const { name, address } = facility;
-    const { physical } = address || {};
-    const LineBreak = <br role="presentation" />;
+
+    const { name, address: { physical } = {} } = facility;
+    const addressText = [
+      physical?.address1,
+      physical?.address2,
+      physical?.address3,
+    ]
+      .filter(Boolean)
+      .map((line, index, src) => (
+        <React.Fragment key={line}>
+          {line}
+          {index < src.length - 1 && <br role="presentation" />}
+        </React.Fragment>
+      ));
+
     return (
       <p className="va-address-block">
         {name && (
@@ -33,22 +52,10 @@ const FacilityConfirmation = ({ data, goBack, goForward, goToPath }) => {
             <strong className="vads-u-font-size--h4 vads-u-margin-top--0">
               {name}
             </strong>
-            {LineBreak}
+            <br role="presentation" />
           </>
         )}
-        {physical?.address1 && (
-          <>
-            {physical.address1}
-            {LineBreak}
-          </>
-        )}
-        {physical?.address2 && (
-          <>
-            {physical.address2}
-            {LineBreak}
-          </>
-        )}
-        {physical?.address3 && <>{physical.address3}</>}
+        {addressText}
       </p>
     );
   };
@@ -72,10 +79,7 @@ const FacilityConfirmation = ({ data, goBack, goForward, goToPath }) => {
         selected:
       </p>
       {renderAddress(selectedFacility)}
-      <FormNavButtons
-        goBack={handleNavigation(navRoutes.back, goBack)}
-        goForward={handleNavigation(navRoutes.forward, goForward)}
-      />
+      <FormNavButtons goBack={onGoBack} goForward={onGoForward} />
     </>
   );
 };
