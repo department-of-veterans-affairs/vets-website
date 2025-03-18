@@ -643,6 +643,34 @@ class MedicationsDetailsPage {
       `${rxDetails.data.attributes.prescriptionName}`,
     );
   };
+
+  verifyQuantityNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+  };
+
+  verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="order-date"]').should('contain', text);
+  };
+
+  verifyProviderNameNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="provider-name"]').should('contain', text);
+  };
+
+  verifyMedDescriptionFieldInRefillAccordionDetailsPage = text => {
+    cy.get('[data-testid="rx-description"]').should('contain', text);
+  };
+
+  verifyPharmacyPhoneNumberOnDetailsPage = text => {
+    cy.get('[data-testid="pharmacy-phone"]').should('contain', text);
+  };
+
+  verifyReasonForUseOnDetailsPage = text => {
+    cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyInstructionsOnDetailsPage = text => {
+    cy.get('[data-testid="rx-instructions"]').should('contain', text);
+  };
 }
 
 export default MedicationsDetailsPage;
