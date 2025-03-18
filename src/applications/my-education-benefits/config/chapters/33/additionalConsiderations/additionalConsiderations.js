@@ -5,52 +5,35 @@ import { formFields } from '../../../../constants';
 import { formPages } from '../../../../helpers';
 
 /**
- * Determines the "Question X of Y" text for Additional Considerations pages.
+ * Determines the "Question X of Y" text for Additional Considerations pages,
+ * assuming mebKickerNotificationEnabled is always ON.
  */
 function additionalConsiderationsQuestionTitleText(
   order,
   chosenBenefit,
   pageName,
-  mebKickerNotificationEnabled,
 ) {
-  if (mebKickerNotificationEnabled) {
-    const pageOrder = {
-      'active-duty-kicker': 1,
-      'reserve-kicker': 2,
-      'six-hundred-dollar-buy-up': 3,
-    };
-    const pageNumber = pageOrder[pageName] || order;
-    const totalPages = chosenBenefit === 'chapter30' ? 3 : 2;
-    return `Question ${pageNumber} of ${totalPages}`;
-  }
-
-  const legacyPageOrder = {
+  const pageOrder = {
     'active-duty-kicker': 1,
     'reserve-kicker': 2,
-    'academy-commission': 3,
-    'rotc-commission': 4,
-    'loan-payment': 5,
-    'six-hundred-dollar-buy-up': 6,
+    'six-hundred-dollar-buy-up': 3,
   };
-  const pageNumber = legacyPageOrder[pageName] || order;
-  const totalPages = chosenBenefit === 'chapter30' ? 6 : 5;
+
+  const pageNumber = pageOrder[pageName] || order;
+  // If the user has chosen chapter30, we show 3 pages; otherwise, 2
+  const totalPages = chosenBenefit === 'chapter30' ? 3 : 2;
   return `Question ${pageNumber} of ${totalPages}`;
 }
 
 /**
- * Renders the heading for each Additional Considerations question.
+ * Renders the heading for each Additional Considerations question,
+ * always treating the feature flag as active.
  */
-function additionalConsiderationsQuestionTitle(
-  order,
-  chosenBenefit,
-  pageName,
-  mebKickerNotificationEnabled,
-) {
+function additionalConsiderationsQuestionTitle(order, chosenBenefit, pageName) {
   const titleText = additionalConsiderationsQuestionTitleText(
     order,
     chosenBenefit,
     pageName,
-    mebKickerNotificationEnabled,
   );
 
   return (
@@ -70,7 +53,7 @@ function additionalConsiderationsQuestionTitle(
 }
 
 /**
- * Template function for Additional Considerations "page"
+ * Template function for each Additional Considerations "page"
  */
 function AdditionalConsiderationTemplate(page, formField, options = {}) {
   const { title, additionalInfo } = page;
@@ -83,7 +66,6 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
   };
   const displayType = displayTypeMapping[formField] || '';
 
-  // Prepare the UI snippet that will be displayed on this page
   let additionalInfoView;
   if (
     additionalInfo ||
@@ -92,7 +74,6 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
   ) {
     const uiDescription = (
       <>
-        {/* Conditionally render the KickerWidget */}
         {options.kickerNotificationAlert && (
           <>
             {page.name === 'active-duty-kicker' && (
@@ -104,12 +85,10 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
           </>
         )}
 
-        {/* Conditionally render the ExclusionPeriodsWidget */}
         {options.includeExclusionWidget && (
           <ExclusionPeriodsWidget displayType={displayType} />
         )}
 
-        {/* Render additional info if available */}
         {additionalInfo && (
           <>
             <br />
@@ -131,23 +110,20 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     path: page.name,
     title: data => {
       const chosenBenefit = data?.formData?.chosenBenefit;
-      const mebKickerFlag = data?.formData?.mebKickerNotificationEnabled;
+      // Always treat kicker as ON; no mebKickerNotificationEnabled check
       return additionalConsiderationsQuestionTitleText(
         page.order,
         chosenBenefit,
         page.name,
-        mebKickerFlag,
       );
     },
     uiSchema: {
       'ui:description': data => {
         const chosenBenefit = data?.formData?.chosenBenefit;
-        const mebKickerFlag = data?.formData?.mebKickerNotificationEnabled;
         return additionalConsiderationsQuestionTitle(
           page.order,
           chosenBenefit,
           page.name,
-          mebKickerFlag,
         );
       },
       [formFields[formField]]: {
@@ -174,7 +150,8 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
 }
 
 /**
- * Final export: Additional Considerations config object
+ * Final export: Additional Considerations config object,
+ * always treating mebKickerNotificationEnabled as true.
  */
 const additionalConsiderations33 = {
   // 1) Active Duty Kicker
@@ -202,7 +179,6 @@ const additionalConsiderations33 = {
       formFields.federallySponsoredAcademy,
       { includeExclusionWidget: true },
     ),
-    depends: formData => !formData.mebKickerNotificationEnabled,
   },
 
   // 4) Senior ROTC
@@ -212,7 +188,6 @@ const additionalConsiderations33 = {
       formFields.seniorRotcCommission,
       { includeExclusionWidget: true },
     ),
-    depends: formData => !formData.mebKickerNotificationEnabled,
   },
 
   // 5) Loan Payment
@@ -222,7 +197,6 @@ const additionalConsiderations33 = {
       formFields.loanPayment,
       { includeExclusionWidget: true },
     ),
-    depends: formData => !formData.mebKickerNotificationEnabled,
   },
 
   // 6) $600 Buy-Up (chapter30)
