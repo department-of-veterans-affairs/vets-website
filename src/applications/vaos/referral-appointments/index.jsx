@@ -11,7 +11,6 @@ import ScheduleReferral from './ScheduleReferral';
 import ReviewAndConfirm from './ReviewAndConfirm';
 import ChooseDateAndTime from './ChooseDateAndTime';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import { useGetReferralById } from './hooks/useGetReferralById';
 import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
 import FormLayout from '../new-appointment/components/FormLayout';
@@ -22,6 +21,7 @@ import {
   getAppointmentCreateStatus,
   getReferralAppointmentInfo,
 } from './redux/selectors';
+import { useGetReferralByIdQuery } from '../redux/api/vaosApi';
 
 export default function ReferralAppointments() {
   useManualScrollRestoration();
@@ -31,27 +31,28 @@ export default function ReferralAppointments() {
   const params = new URLSearchParams(search);
   const id = params.get('id');
   const [, appointmentId] = pathname.split('/schedule-referral/complete/');
-
-  const { referral, referralFetchStatus } = useGetReferralById(id);
   const { appointmentInfoLoading } = useSelector(getReferralAppointmentInfo);
   const appointmentCreateStatus = useSelector(getAppointmentCreateStatus);
+  const { data: referral, error, isLoading } = useGetReferralByIdQuery(id, {
+    skip: !id,
+  });
 
   useEffect(
     () => {
-      if (referralFetchStatus === FETCH_STATUS.succeeded) {
+      if (referral) {
         scrollAndFocus('h1');
-      } else if (referralFetchStatus === FETCH_STATUS.failed) {
+      } else if (error) {
         scrollAndFocus('h2');
       }
     },
-    [referralFetchStatus],
+    [error, referral],
   );
 
   if (!isInCCPilot) {
     return <Redirect from={basePath.url} to="/" />;
   }
 
-  if (!referral && referralFetchStatus === FETCH_STATUS.failed) {
+  if (!referral && error) {
     // Referral Layout shows the error component is apiFailure is true
     return <ReferralLayout apiFailure hasEyebrow heading="Referral Error" />;
   }
@@ -66,12 +67,7 @@ export default function ReferralAppointments() {
     );
   }
 
-  if (
-    (!referral ||
-      referralFetchStatus === FETCH_STATUS.loading ||
-      referralFetchStatus === FETCH_STATUS.notStarted) &&
-    !appointmentId
-  ) {
+  if ((!referral || isLoading) && !appointmentId) {
     // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">
