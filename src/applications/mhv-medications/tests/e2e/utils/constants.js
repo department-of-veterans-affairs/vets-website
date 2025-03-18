@@ -62,6 +62,7 @@ export const Data = {
   STEP_ONE_DATE_TEXT: 'Step 1: Completed',
   STEP_ONE_NO_DATE: 'Date completed not available',
   STEP_TWO_DATE: 'Completed on October 1, 2023',
+  STEP_TWO_NOTE: 'We’ll provide an expected fill date.',
   STEP_TWO_DELAY: 'The refill process is taking longer than usual',
   STEP_TWO_PROCESS: 'Step 2: In process',
   STEP_TWO_PROCESS_HEADER: 'We’re processing your refill request',

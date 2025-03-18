@@ -605,12 +605,16 @@ class MedicationsDetailsPage {
       .and('contain', date);
   };
 
-  verifyProcessStepTwoHeaderOnDetailsPage = text => {
-    cy.get('[data-testid="submitted-step-two"]').should('contain', text);
+  verifyProcessStepTwoHeaderOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="submitted-step-two"]')
+      .should('contain', text)
+      .and('contain', note);
   };
 
-  verifyProcessStepThreeHeaderOnDetailsPage = text => {
-    cy.get('[data-testid="submitted-step-three"]').should('contain', text);
+  verifyProcessStepThreeHeaderOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="submitted-step-three"]')
+      .should('contain', text)
+      .and('contain', note);
   };
 
   verifyActiveRxStepOneProgressTrackerOnDetailsPage = (

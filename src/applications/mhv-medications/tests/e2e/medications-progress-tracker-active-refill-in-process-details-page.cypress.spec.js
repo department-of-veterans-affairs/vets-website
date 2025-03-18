@@ -13,7 +13,7 @@ describe('Medications Details Page Active Rx in Process Tracker', () => {
   beforeEach(() => {
     site.login();
   });
-  it('visits Medications Details Page Active Rx In Process Tracker', () => {
+  it('visits Medications Details Page Active Rx In Process Shipped', () => {
     const cardNumber = 2;
     listPage.visitMedicationsListPageURL(prescriptions);
     detailsPage.clickMedicationDetailsLink(mockPrescriptionDetails, cardNumber);
@@ -37,7 +37,7 @@ describe('Medications Details Page Active Rx in Process Tracker', () => {
     cy.axeCheck('main');
   });
 
-  it('visits Medications Details Page Active Rx In Process Tracker', () => {
+  it('visits Medications Details Page Active Rx In Process Step Two', () => {
     const cardNumber = 14;
     const upDatedRefillDate = listPage.updatedRefillDates(prescriptions);
     listPage.visitMedicationsListPageURL(upDatedRefillDate);
