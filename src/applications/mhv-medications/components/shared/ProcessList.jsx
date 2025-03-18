@@ -101,7 +101,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="progress-step-two"
                   checkmark
                   header="We processed your refill"
-                  status-text="Step 1: Completed"
+                  status-text="Step 2: Completed"
                 >
                   <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
                     {getCompletedDateOrDefaultMessage(dispensedDate)}
@@ -186,7 +186,10 @@ const ProcessList = ({ stepGuideProps }) => {
                   header="We’ll ship your refill"
                   status-text="Step 3: Not started"
                 >
-                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                  <p
+                    data-testid="step-three-submit-note"
+                    className="vads-u-color--gray-dark vads-u-margin-top--0p5"
+                  >
                     We’ll provide the tracking information when available.
                   </p>
                 </va-process-list-item>

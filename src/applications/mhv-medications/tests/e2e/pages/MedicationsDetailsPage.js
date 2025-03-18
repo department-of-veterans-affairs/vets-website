@@ -613,28 +613,47 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="submitted-step-three"]').should('contain', text);
   };
 
-  verifyActiveRxStepOneProgressTrackerOnDetailsPage = (text, data) => {
+  verifyActiveRxStepOneProgressTrackerOnDetailsPage = (
+    text,
+    data,
+    dateInfo,
+  ) => {
     cy.get('[header="We received your refill request"]')
       .should('contain', text)
-      .and('contain', data);
+      .and('contain', data)
+      .and('contain', dateInfo);
   };
 
-  verifyActiveRxStepTwoProgressTrackerOnDetailsPage = text => {
-    cy.get('[data-testid="active-step-two"]').should('contain', text);
-  };
-
-  verifyActiveRxStepThreeProgressTrackerOnDetailsPage = text => {
-    cy.get('[data-testid="active-step-three"]').should('contain', text);
-  };
-
-  verifyActiveRefillInProcessStepTwoOnDetailsPage = (text, note) => {
-    cy.get('[data-testid="progress-step-two"]')
+  verifyActiveRxStepTwoProgressTrackerOnDetailsPage = (text, data, note) => {
+    cy.get('[data-testid="active-step-two"]')
       .should('contain', text)
+      .and('contain', data)
       .and('contain', note);
   };
 
-  verifyActiveRefillInProcessStepThreeOnDetailsPage = text => {
-    cy.get('[data-testid="progress-step-three"]').should('contain', text);
+  verifyActiveRxStepThreeProgressTrackerOnDetailsPage = (text, data, note) => {
+    cy.get('[data-testid="active-step-three"]')
+      .should('contain', text)
+      .and('contain', data)
+      .and('contain', note);
+  };
+
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = (text, note, dateInfo) => {
+    cy.get('[data-testid="progress-step-two"]')
+      .should('contain', text)
+      .and('contain', note)
+      .and('contain', dateInfo);
+  };
+
+  verifyActiveRefillInProcessStepThreeOnDetailsPage = (
+    text,
+    note,
+    dateInfo,
+  ) => {
+    cy.get('[data-testid="progress-step-three"]')
+      .should('contain', text)
+      .and('contain', note)
+      .and('contain', dateInfo);
   };
 
   verifyTrackingForSubmittedRefillOnDetailsPage = () => {
