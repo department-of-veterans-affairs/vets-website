@@ -11,7 +11,7 @@ import YesNoReviewField from '../../../../components/YesNoReviewField';
 import AddressValidationModal from '../../../../components/AddressValidationModal';
 
 import { formFields } from '../../../../constants';
-import { validateAddress } from '../../../../actions';
+import { validateAddress, setAddressValidated } from '../../../../actions';
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -19,7 +19,13 @@ function isOnlyWhitespace(str) {
 
 // Proper form system validation function to integrate with address validation
 // This works with the VA forms system
-const validateAddressWithAPI = async (formData, errors, formState) => {
+const validateAddressWithAPI = async (
+  errors,
+  addressData,
+  formData,
+  currentSchema,
+  formState,
+) => {
   // Get the mailing address from the form data
   const mailingAddress =
     formData[formFields.viewMailingAddress]?.[formFields.address];
@@ -49,20 +55,30 @@ const validateAddressWithAPI = async (formData, errors, formState) => {
       return errors;
     }
 
+    // If we're already validating, show loading message
+    if (addressValidation.isValidating) {
+      errors.addError('Validating your address...');
+      return errors;
+    }
+
     try {
       // Dispatch address validation action directly using the Redux store
       const validateAddressAction = validateAddress(mailingAddress);
       const response = await validateAddressAction(store.dispatch);
 
-      // If we got valid addresses but there are suggested corrections, show the validation modal
-      if (
-        response?.addresses?.length > 0 &&
-        response.addresses[0].addressMetaData.confidenceScore < 100
-      ) {
-        // Add form error to block submission while modal is open
-        errors.addError(
-          'We need to verify your address before continuing. Please review the suggested addresses.',
-        );
+      // If we got addresses back
+      if (response?.addresses?.length > 0) {
+        const { confidenceScore } = response.addresses[0].addressMetaData;
+
+        if (confidenceScore < 100) {
+          // Show the modal for low confidence matches
+          errors.addError(
+            'We need to verify your address before continuing. Please review the suggested addresses.',
+          );
+        } else {
+          // Auto-validate for high confidence matches
+          store.dispatch(setAddressValidated(true));
+        }
       }
     } catch (error) {
       // For API failures, we should still block submission
@@ -82,7 +98,30 @@ const validateAddressWithAPI = async (formData, errors, formState) => {
 };
 
 const stateRequiredCountries = new Set(['USA']);
-function customValidateAddress(errors, addressData, formData, currentSchema) {
+function customValidateAddress(
+  errors,
+  addressData,
+  formData,
+  currentSchema,
+  formState,
+) {
+  // Check if address needs validation (US non-military address)
+  const needsValidation =
+    addressData.country === 'USA' &&
+    !formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase];
+
+  // If we need validation, check if it's validated
+  if (needsValidation) {
+    const { store } = formState.additionalContext;
+    const currentState = store.getState();
+    const { addressValidation } = currentState.data;
+
+    if (!addressValidation.validated) {
+      errors.addError('Please validate your address before continuing.');
+    }
+  }
+
+  // Continue with regular validation
   if (
     stateRequiredCountries.has(addressData.country) &&
     addressData.state === undefined &&
@@ -90,6 +129,7 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
   ) {
     errors.state.addError('Please select a state');
   }
+
   let isValidPostalCode = true;
   if (addressData.country === 'USA') {
     isValidPostalCode = isValidUSZipCode(addressData.postalCode);
