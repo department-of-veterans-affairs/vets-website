@@ -671,7 +671,7 @@ class PatientInboxPage {
       .select(dropDownValue);
   };
 
-  verifyFilterMessageHeadingText = (text = 'Filter messages in Inbox') => {
+  verifyFilterMessageHeadingText = (text = 'Filter messages in inbox') => {
     cy.get(Locators.FIELDS.FILTER_MESSAGE_TEXT)
       .should('be.visible')
       .and('contain.text', `${text}`);

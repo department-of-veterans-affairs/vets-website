@@ -31,7 +31,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
-const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
+const epsAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -472,21 +472,21 @@ const responses = {
     }
 
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { state } = draftAppointment.appointment;
+    let { status } = draftAppointment.appointment;
 
     // Mock polling for appointment state change
     if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      state = 'confirmed';
+      status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
-      data: ccDirectAppointmentUtils.createReferralAppointment(
+      data: epsAppointmentUtils.createMockEpsAppointment(
         appointmentId,
-        state,
-        draftAppointment,
+        status,
+        epsAppointmentUtils.appointmentData,
       ),
     });
   },

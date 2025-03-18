@@ -5,10 +5,13 @@ import { useSelector } from 'react-redux';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
 import { selectAppointment } from '../../../redux/selectors';
 import SmocRadio from '../../SmocRadio';
+
+const title = 'Are you only claiming mileage?';
 
 const MileagePage = ({
   pageIndex,
@@ -21,6 +24,8 @@ const MileagePage = ({
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
 
@@ -48,7 +53,7 @@ const MileagePage = ({
       <SmocRadio
         name="mileage"
         value={yesNo.mileage}
-        label="Are you only claiming mileage?"
+        label={title}
         error={requiredAlert}
         onValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
