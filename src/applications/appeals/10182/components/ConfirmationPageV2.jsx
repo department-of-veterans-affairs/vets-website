@@ -114,11 +114,12 @@ export const ConfirmationPageV2 = () => {
             </p>
             <div className="va-address-block">
               <div>Board of Veterans’ Appeals</div>
-              <div>P.O. Box 27063</div>
+              <div>PO Box 27063</div>
               <div>Washington, DC 20038</div>
             </div>
             <p>
-              <strong>Fax:</strong> 1-844-678-8979
+              <strong>Fax:</strong>{' '}
+              <va-telephone not-clickable contact="8446788979" />
             </p>
           </>
         )}
