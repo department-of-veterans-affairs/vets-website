@@ -267,7 +267,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="active-step-two"
                   checkmark
                   header="We processed your refill"
-                  status-text="Step 1: Completed"
+                  status-text="Step 2: Completed"
                 >
                   <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
                     {getCompletedDateOrDefaultMessage(dispensedDate)}
