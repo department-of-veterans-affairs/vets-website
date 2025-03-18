@@ -26,7 +26,7 @@ export default function Disclaimer() {
           If you need technical assistance on “How to use the Comparison Tool”
           please see the user guide
           <va-link
-            href="https://staging.va.gov/gids/508_gi_bill_comparison_tool_user_guide.pdf"
+            href="/gids/508_gi_bill_comparison_tool_user_guide.pdf"
             external
             text=""
           />
