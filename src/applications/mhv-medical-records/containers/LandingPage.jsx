@@ -64,6 +64,7 @@ const LandingPage = () => {
     isAccelerating,
     isAcceleratingAllergies,
     isAcceleratingVitals,
+    isAcceleratingLabsAndTests,
   } = useAcceleratedData();
 
   const accordionRef = useRef(null);
@@ -149,7 +150,7 @@ const LandingPage = () => {
                 Get results of your VA medical tests. This includes blood tests,
                 X-rays, and other imaging tests.
               </p>
-              {isAccelerating ? (
+              {isAccelerating && !isAcceleratingLabsAndTests ? (
                 <a
                   className="vads-c-action-link--blue vads-u-margin-bottom--0p5"
                   href={getCernerURL('/pages/health_record/results', true)}

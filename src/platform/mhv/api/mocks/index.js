@@ -64,7 +64,7 @@ const imagingDownload = require('./medical-records/mhv-radiology/imaging-downloa
 
 const responses = {
   ...commonResponses,
-  'GET /v0/user': user.defaultUser,
+  'GET /v0/user': user.acceleratedCernerUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
