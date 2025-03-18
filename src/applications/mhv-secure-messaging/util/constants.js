@@ -501,9 +501,9 @@ export const CernerTransitioningFacilities = {
 };
 
 export const filterDescription = {
-  noMsgId: 'Enter information from one of these fields: To, from, or subject',
+  noMsgId: 'Enter information from one of these fields: to, from, or subject',
   withMsgId:
-    'Enter information from one of these fields: To, from, message ID, or subject',
+    'Enter information from one of these fields: to, from, message ID, or subject',
 };
 
 export const smFooter = {
