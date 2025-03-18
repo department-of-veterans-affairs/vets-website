@@ -79,16 +79,6 @@ export const supportingEvidenceAdditionalInformation = (
 export const supportingEvidenceNoneLabel =
   'I don’t have any supporting documents to submit.';
 
-export const supportingEvidenceValidationError = (
-  <va-alert status="error" uswds>
-    <p className="vads-u-font-size--base">
-      You selected one or more types of reports for this event, but you also
-      selected ‘I don’t have any supporting documents to submit.’
-    </p>
-    <p>Revise your selection so they don’t conflict to continue.</p>
-  </va-alert>
-);
-
 /**
  * Returns true if 'none' selected, false otherwise
  * @param {object} formData
@@ -183,22 +173,11 @@ export function showConflictingAlert(formData) {
 
 export function validateSupportingEvidenceSelections(errors, formData) {
   const isConflicting = showConflictingAlert(formData);
-  const selections = selectedDocumentsSections(formData);
 
-  // add error with no message to each checked section
+  // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors.supportingEvidenceNoneCheckbox.addError(' ');
-    if (selections.supportingEvidenceReports === true) {
-      errors.supportingEvidenceReports.addError(' ');
-    }
-    if (selections.supportingEvidenceRecords === true) {
-      errors.supportingEvidenceRecords.addError(' ');
-    }
-    if (selections.supportingEvidenceWitness === true) {
-      errors.supportingEvidenceWitness.addError(' ');
-    }
-    if (selections.supportingEvidenceOther === true) {
-      errors.supportingEvidenceOther.addError(' ');
-    }
+    errors.supportingEvidenceNoneCheckbox.addError(
+      'If you select no supporting documents to include, unselect other supporting documents before continuing.',
+    );
   }
 }
