@@ -23,6 +23,52 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
+// Proper form system validation function to integrate with address validation
+// This works with the VA forms system
+const validateAddressWithAPI = async (formData, errors, formState) => {
+  // Get the mailing address from the form data
+  const mailingAddress =
+    formData[formFields.viewMailingAddress]?.[formFields.address];
+
+  if (!mailingAddress) {
+    return errors;
+  }
+
+  // Skip address validation for military addresses, APO/FPO/DPO, and non-US addresses
+  if (
+    formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase] ||
+    mailingAddress.country !== 'USA'
+  ) {
+    return errors;
+  }
+
+  // Access Redux store through formState
+  if (formState?.additionalContext?.store) {
+    const { store } = formState.additionalContext;
+
+    try {
+      // Dispatch address validation action directly using the Redux store
+      const validateAddressAction = validateAddress(mailingAddress);
+      const response = await validateAddressAction(store.dispatch);
+
+      // If suggested addresses found, open modal and block submission
+      if (
+        response?.addresses?.length > 0 &&
+        response.addresses[0].addressMetaData.confidenceScore < 100
+      ) {
+        store.dispatch(setAddressValidationModalOpen(true));
+
+        // Add form error to block submission while modal is open
+        errors.addError('We need to verify your address before continuing.');
+      }
+    } catch (error) {
+      // Continue with form submission if API fails
+    }
+  }
+
+  return errors;
+};
+
 const stateRequiredCountries = new Set(['USA']);
 function customValidateAddress(errors, addressData, formData, currentSchema) {
   if (
@@ -46,7 +92,7 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
 }
 
 // This is the container component that will connect to Redux and handle address validation
-const NewMailingAddressWithValidation = ({ formData, viewForm, onSubmit }) => {
+const NewMailingAddressWithValidation = ({ formData, viewForm }) => {
   const { addressValidation } = useSelector(state => state.data);
   const dispatch = useDispatch();
 
@@ -56,62 +102,12 @@ const NewMailingAddressWithValidation = ({ formData, viewForm, onSubmit }) => {
   };
 
   const handleAcceptAddress = addressData => {
-    // Update the form data with the selected address
-    const updatedFormData = {
-      ...formData,
-      [formFields.viewMailingAddress]: {
-        ...formData[formFields.viewMailingAddress],
-        [formFields.address]: addressData,
-      },
-    };
-
     // Accept the address in Redux state
     dispatch(acceptValidatedAddress(addressData));
 
-    // Continue with form submission
-    onSubmit(updatedFormData);
+    // Close the modal
+    dispatch(setAddressValidationModalOpen(false));
   };
-
-  // Custom onSubmit handler for the form to handle address validation
-  const handleSubmit = () => {
-    const mailingAddress =
-      formData[formFields.viewMailingAddress]?.[formFields.address];
-
-    // Skip validation for military bases and non-US addresses
-    if (
-      formData[formFields.viewMailingAddress]?.[
-        formFields.livesOnMilitaryBase
-      ] ||
-      mailingAddress?.country !== 'USA'
-    ) {
-      onSubmit(formData);
-      return;
-    }
-
-    // Validate the address
-    dispatch(validateAddress(mailingAddress))
-      .then(response => {
-        // If we got suggested addresses and they're different from user input, show the validation modal
-        if (
-          response?.addresses?.length > 0 &&
-          response.addresses[0].addressMetaData.confidenceScore < 100
-        ) {
-          dispatch(setAddressValidationModalOpen(true));
-        } else {
-          // No suggested addresses or high confidence score, continue with form submission
-          onSubmit(formData);
-        }
-      })
-      .catch(() => {
-        // If validation fails, still allow the form to submit
-        onSubmit(formData);
-      });
-  };
-
-  // Create a modified viewForm with the custom submit handler
-  const modifiedViewForm = React.cloneElement(viewForm, {
-    onSubmit: handleSubmit,
-  });
 
   // Clean up when unmounting
   React.useEffect(
@@ -125,7 +121,7 @@ const NewMailingAddressWithValidation = ({ formData, viewForm, onSubmit }) => {
 
   return (
     <>
-      {modifiedViewForm}
+      {viewForm}
       {addressValidation.modalOpen && (
         <AddressValidationModal
           isOpen={addressValidation.modalOpen}
@@ -425,7 +421,7 @@ const uiSchemaWithValidation = {
       viewComponent: NewMailingAddressWithValidation,
     },
   },
-  'ui:validations': [],
+  'ui:validations': [validateAddressWithAPI],
 };
 
 const newMailingAddress33 = {
