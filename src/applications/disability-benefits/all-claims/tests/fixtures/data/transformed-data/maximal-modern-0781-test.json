@@ -101,6 +101,27 @@
       "optionIndicator": "yes",
       "additionalInformation": "Is there anything else you want to tell us about your mental health conditions, or related traumatic events and behavioral changes?",
       "none": false
+      "supportingEvidenceReports": {
+        "police": true
+      },
+      "supportingEvidenceRecords": {
+        "physicians": true,
+        "counseling": true,
+        "crisis": true
+      },
+      "supportingEvidenceWitness": {
+        "family": true,
+        "faculty": false,
+        "service": false,
+        "clergy": true
+      },
+      "supportingEvidenceOther": {
+        "personal": false
+      },
+      "supportingEvidenceUnlisted": "unlisted document",
+      "supportingEvidenceNoneCheckbox": {
+        "none": false
+      }
     },
     "vaTreatmentFacilities": [
       {

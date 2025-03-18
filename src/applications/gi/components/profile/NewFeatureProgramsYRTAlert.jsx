@@ -39,7 +39,7 @@ export default function NewFeatureProgramsYRTAlert({
           : 'New feature'}
       </h2>
       <p className="vads-u-margin-y--0">
-        Go to “On this page” directory or click{' '}
+        Go to the “On this page” directory or click{' '}
         {institution.yr === true &&
           toggleValue && (
             <>
