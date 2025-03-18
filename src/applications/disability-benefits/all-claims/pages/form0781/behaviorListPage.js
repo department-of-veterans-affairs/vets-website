@@ -14,11 +14,10 @@ import {
   behaviorListAdditionalInformation,
   behaviorListPageTitle,
   validateBehaviorSelections,
-  behaviorListValidationError,
-  showConflictingAlert,
 } from '../../content/form0781/behaviorListPages';
 import {
   BEHAVIOR_LIST_SECTION_SUBTITLES,
+  BEHAVIOR_LIST_HINTS,
   BEHAVIOR_CHANGES_WORK,
   BEHAVIOR_CHANGES_HEALTH,
   BEHAVIOR_CHANGES_OTHER,
@@ -27,15 +26,10 @@ import {
 export const uiSchema = {
   'ui:title': titleWithTag(behaviorListPageTitle, form0781HeadingTag),
   'ui:description': behaviorListDescription,
-  'view:conflictingResponseAlert': {
-    'ui:description': behaviorListValidationError,
-    'ui:options': {
-      hideIf: formData => showConflictingAlert(formData) === false,
-    },
-  },
   workBehaviors: checkboxGroupUI({
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.work,
     labelHeaderLevel: '4',
+    hint: BEHAVIOR_LIST_HINTS.work,
     labels: {
       ...BEHAVIOR_CHANGES_WORK,
     },
@@ -44,6 +38,7 @@ export const uiSchema = {
   healthBehaviors: checkboxGroupUI({
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.health,
     labelHeaderLevel: '4',
+    hint: BEHAVIOR_LIST_HINTS.health,
     labels: {
       ...BEHAVIOR_CHANGES_HEALTH,
     },
@@ -52,6 +47,7 @@ export const uiSchema = {
   otherBehaviors: checkboxGroupUI({
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.other,
     labelHeaderLevel: '4',
+    hint: BEHAVIOR_LIST_HINTS.other,
     labels: {
       ...BEHAVIOR_CHANGES_OTHER,
     },
@@ -63,6 +59,7 @@ export const uiSchema = {
   'view:noneCheckbox': checkboxGroupUI({
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.none,
     labelHeaderLevel: '4',
+    hint: BEHAVIOR_LIST_HINTS.none,
     labels: {
       none: behaviorListNoneLabel,
     },
