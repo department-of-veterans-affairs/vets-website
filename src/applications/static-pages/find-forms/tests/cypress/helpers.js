@@ -13,6 +13,8 @@ export const MODAL_DOWNLOAD_LINK = '[data-e2e-id="modal-download-link"]';
 export const MODAL_CLOSE_BUTTON = '.va-modal-close';
 export const MODAL = 'va-modal';
 export const FORM_DETAIL_HEADER = '[data-testid="va_form--downloadable-pdf"]';
+export const NO_RESULTS = '[data-e2e-id="ff-no-results"]';
+export const NO_RESULTS_DD214 = '[data-e2e-id="ff-no-results-dd214"]';
 
 export const goToNextPage = () =>
   cy
@@ -132,3 +134,28 @@ export const validateSearchResult = (
       .and('be.visible');
   }
 };
+
+export const verifyElementExists = selector =>
+  cy
+    .get(selector)
+    .should('exist')
+    .and('be.visible');
+
+export const verifyElementShouldContainText = (selector, text) =>
+  cy
+    .get(selector)
+    .should('exist')
+    .and('be.visible')
+    .and('contain.text', text);
+
+export const verifyTextInsideLink = (selector, text) =>
+  cy
+    .get(selector)
+    .eq(0)
+    .shadow()
+    .find('a')
+    .should('exist')
+    .and('have.text', text);
+
+export const verifyElementDoesNotExist = selector =>
+  cy.get(selector).should('not.exist');
