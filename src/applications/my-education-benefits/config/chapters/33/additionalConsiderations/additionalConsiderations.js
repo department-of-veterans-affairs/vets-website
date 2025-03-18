@@ -27,7 +27,6 @@ function additionalConsiderationsQuestionTitleText(
 
 /**
  * Renders the heading for each Additional Considerations question,
- * always treating the feature flag as active.
  */
 function additionalConsiderationsQuestionTitle(order, chosenBenefit, pageName) {
   const titleText = additionalConsiderationsQuestionTitleText(
