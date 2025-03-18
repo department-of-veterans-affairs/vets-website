@@ -5,7 +5,7 @@ import mockSpecialCharsMessage from './fixtures/message-response-specialchars.js
 import mockMessages from './fixtures/threads-response.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 import mockRecipients from './fixtures/recipientsResponse/recipients-response.json';
-import mockBlockedRecipientsResponse from './fixtures/recipientsResponse/blocked-recipients-response.json';
+import mockBlockedRecipientsResponse from './fixtures/recipientsResponse/group-blocked-recipients-response.json';
 
 describe('recipients dropdown box', () => {
   it('preferredTriageTeam select dropdown default ', () => {
