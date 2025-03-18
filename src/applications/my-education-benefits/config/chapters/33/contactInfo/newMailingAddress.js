@@ -116,7 +116,7 @@ const NewMailingAddressWithValidation = ({ formData, viewForm, onSubmit }) => {
       formData[formFields.viewMailingAddress]?.[
         formFields.livesOnMilitaryBase
       ] ||
-      mailingAddress.country !== 'USA'
+      mailingAddress?.country !== 'USA'
     ) {
       onSubmit(formData);
       return;
@@ -130,7 +130,6 @@ const NewMailingAddressWithValidation = ({ formData, viewForm, onSubmit }) => {
           response?.addresses?.length > 0 &&
           response.addresses[0].addressMetaData.confidenceScore < 100
         ) {
-          // Show the address validation modal
           dispatch(setAddressValidationModalOpen(true));
         } else {
           // No suggested addresses or high confidence score, continue with form submission
@@ -161,8 +160,6 @@ const NewMailingAddressWithValidation = ({ formData, viewForm, onSubmit }) => {
   return (
     <>
       {modifiedViewForm}
-
-      {/* Address Validation Modal */}
       {addressValidation.modalOpen && (
         <AddressValidationModal
           isOpen={addressValidation.modalOpen}
@@ -459,13 +456,7 @@ const uiSchemaWithValidation = {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
-      viewComponent: props => (
-        <NewMailingAddressWithValidation
-          {...props}
-          validateAddress={addressData => dispatch =>
-            dispatch(validateAddress(addressData))}
-        />
-      ),
+      viewComponent: NewMailingAddressWithValidation,
     },
   },
   'ui:validations': [validateAddressWithAPI],
