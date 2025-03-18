@@ -16,10 +16,20 @@ import {
   validateCondition,
 } from './utils';
 
-const ratedDisabilities = {
-  Lupus: 'Lupus, 40%',
-  'Hearing loss': 'Hearing loss, 10%',
-  'New condition': 'Add a new condition',
+const createRatedDisabilitiesSchema = fullData => {
+  const ratedDisabilities = {};
+
+  fullData.ratedDisabilities.forEach(disability => {
+    ratedDisabilities[
+      `${disability.name} (${disability.ratingPercentage}% of max ${
+        disability.maximumRatingPercentage
+      }% rating)`
+    ] = `${disability.name} (${disability.ratingPercentage}% of max ${
+      disability.maximumRatingPercentage
+    }% rating)`;
+  });
+
+  return { ...ratedDisabilities, 'New condition': 'Add a new condition' };
 };
 
 /** @returns {PageSchema} */
@@ -35,7 +45,18 @@ const conditionPage = {
     ratedDisability: radioUI({
       title:
         'Select a rated disability that worsened or a new condition to claim',
-      labels: ratedDisabilities,
+      updateSchema: (
+        _formData,
+        _schema,
+        _uiSchema,
+        _index,
+        _path,
+        fullData,
+      ) => {
+        return radioSchema(
+          Object.keys(createRatedDisabilitiesSchema(fullData)),
+        );
+      },
     }),
     newCondition: {
       'ui:description': NewConditionDescription,
@@ -68,7 +89,11 @@ const conditionPage = {
   schema: {
     type: 'object',
     properties: {
-      ratedDisability: radioSchema(Object.keys(ratedDisabilities)),
+      ratedDisability: radioSchema(
+        Object.keys({
+          Error: 'Error',
+        }),
+      ),
       newCondition: {
         type: 'string',
       },
