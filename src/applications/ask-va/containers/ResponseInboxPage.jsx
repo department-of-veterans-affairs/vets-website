@@ -146,12 +146,14 @@ const ResponseInboxPage = ({ router }) => {
     const fileType =
       extension === 'pdf' ? 'application/pdf' : `image/${extension}`;
 
-    const binaryString = atob(fileContent);
-    const bytes = new Uint8Array(binaryString.length);
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    const blob = new Blob([bytes], { type: fileType });
+    const decoded = atob(fileContent);
+    const base64String =
+      decoded.split(',')[1] === undefined ? decoded : decoded.split(',')[1];
+    const byteCharacters = atob(base64String);
+    const byteArray = Uint8Array.from(byteCharacters, char =>
+      char.charCodeAt(0),
+    );
+    const blob = new Blob([byteArray], { type: fileType });
     const url = window.URL.createObjectURL(blob);
 
     const link = document.createElement('a');
