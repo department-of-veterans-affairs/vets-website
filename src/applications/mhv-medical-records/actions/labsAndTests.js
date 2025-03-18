@@ -5,6 +5,7 @@ import {
   getMhvRadiologyTests,
   getMhvRadiologyDetails,
   getImagingStudies,
+  getAcceleratedLabsAndTests,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
@@ -12,50 +13,65 @@ import { getListWithRetry } from './common';
 import { dispatchDetails } from '../util/helpers';
 import { radiologyRecordHash } from '../util/radiologyUtil';
 
-export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
+export const getLabsAndTestsList = (
+  isCurrent = false,
+  isAccelerating = false,
+) => async dispatch => {
   dispatch({
     type: Actions.LabsAndTests.UPDATE_LIST_STATE,
     payload: Constants.loadStates.FETCHING,
   });
   try {
-    const [
-      labsAndTestsResponse,
-      radiologyResponse,
-      cvixRadiologyResponse,
-    ] = await Promise.all([
-      getListWithRetry(dispatch, getLabsAndTests),
-      getMhvRadiologyTests(),
-      getImagingStudies(),
-    ]);
-
-    /** Helper function to hash radiology responses */
-    const hashRadiologyResponses = async responses => {
-      if (!Array.isArray(responses)) return [];
-
-      return Promise.all(
-        responses.map(async record => ({
-          ...record,
-          hash: await radiologyRecordHash(record),
-        })),
+    if (isAccelerating) {
+      const labsAndTestsResponse = await getListWithRetry(
+        dispatch,
+        getAcceleratedLabsAndTests,
       );
-    };
+      dispatch({
+        type: Actions.LabsAndTests.GET_UNIFIED_LIST,
+        labsAndTestsResponse,
+        isCurrent,
+      });
+    } else {
+      const [
+        labsAndTestsResponse,
+        radiologyResponse,
+        cvixRadiologyResponse,
+      ] = await Promise.all([
+        getListWithRetry(dispatch, getLabsAndTests),
+        getMhvRadiologyTests(),
+        getImagingStudies(),
+      ]);
 
-    // Use the helper function for both responses
-    const [
-      hashedRadiologyResponse,
-      hashedCvixRadiologyResponse,
-    ] = await Promise.all([
-      hashRadiologyResponses(radiologyResponse),
-      hashRadiologyResponses(cvixRadiologyResponse),
-    ]);
+      /** Helper function to hash radiology responses */
+      const hashRadiologyResponses = async responses => {
+        if (!Array.isArray(responses)) return [];
 
-    dispatch({
-      type: Actions.LabsAndTests.GET_LIST,
-      labsAndTestsResponse,
-      radiologyResponse: hashedRadiologyResponse,
-      cvixRadiologyResponse: hashedCvixRadiologyResponse,
-      isCurrent,
-    });
+        return Promise.all(
+          responses.map(async record => ({
+            ...record,
+            hash: await radiologyRecordHash(record),
+          })),
+        );
+      };
+
+      // Use the helper function for both responses
+      const [
+        hashedRadiologyResponse,
+        hashedCvixRadiologyResponse,
+      ] = await Promise.all([
+        hashRadiologyResponses(radiologyResponse),
+        hashRadiologyResponses(cvixRadiologyResponse),
+      ]);
+
+      dispatch({
+        type: Actions.LabsAndTests.GET_LIST,
+        labsAndTestsResponse,
+        radiologyResponse: hashedRadiologyResponse,
+        cvixRadiologyResponse: hashedCvixRadiologyResponse,
+        isCurrent,
+      });
+    }
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;

@@ -5,6 +5,8 @@ import edipiNotFound from '../util/edipiNotFound';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
+const API_BASE_PATH_V2 = `${environment.API_URL}/my_health/v2`;
+
 const headers = {
   'Content-Type': 'application/json',
 };
@@ -28,6 +30,11 @@ export const getRefreshStatus = () => {
 
 export const getLabsAndTests = async () => {
   return apiRequest(`${apiBasePath}/medical_records/labs_and_tests`, {
+    headers,
+  });
+};
+export const getAcceleratedLabsAndTests = async () => {
+  return apiRequest(`${API_BASE_PATH_V2}/medical_records/labs_and_tests`, {
     headers,
   });
 };

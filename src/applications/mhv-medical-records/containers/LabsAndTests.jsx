@@ -17,6 +17,7 @@ import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import AcceleratedCernerFacilityAlert from '../components/shared/AcceleratedCernerFacilityAlert';
+import useAcceleratedData from '../hooks/useAcceleratedData';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -32,13 +33,18 @@ const LabsAndTests = () => {
   const labsAndTestsCurrentAsOf = useSelector(
     state => state.mr.labsAndTests.listCurrentAsOf,
   );
+  const { isAcceleratingLabsAndTests } = useAcceleratedData();
+
+  const dispatchAction = isCurrent => {
+    return getLabsAndTestsList(isCurrent, isAcceleratingLabsAndTests);
+  };
 
   useListRefresh({
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
     refreshStatus: refresh.status,
     extractType: [refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR],
-    dispatchAction: getLabsAndTestsList,
+    dispatchAction,
     dispatch,
   });
 
