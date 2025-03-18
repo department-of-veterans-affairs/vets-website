@@ -14,6 +14,13 @@ import {
   BEHAVIOR_LIST_SECTION_SUBTITLES,
 } from '../constants';
 
+const DELETABLE_FORM_DATA_KEYS = [
+  'workBehaviors',
+  'healthBehaviors',
+  'otherBehaviors',
+  'behaviorsDetails',
+];
+
 const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   // TODO: MOVE TO CONTENT FILE
   const combatIntroTitle =
@@ -57,7 +64,13 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   };
 
   const deleteBehavioralAnswers = () => {
-    console.log("Deleting answers")
+    const deepClone = structuredClone(data);
+
+    DELETABLE_FORM_DATA_KEYS.forEach(key => {
+      deepClone[key] = {};
+    });
+
+    setFormData(deepClone);
   };
 
   const handlers = {
@@ -78,13 +91,11 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
     onSubmit: event => {
       event.preventDefault();
 
-      const { selection } = event?.detail || {};
-
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
         // hasSelectedBehaviors indicates they checked behavior changes boxes
         // on the next page, behaviorListPage
-      } else if (selection === 'false' && hasSelectedBehaviors(data)) {
+      } else if (optIn === 'false' && hasSelectedBehaviors(data)) {
         setShowModal(true);
       } else if (optIn) {
         goForward(data);
@@ -96,6 +107,7 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
     onConfirmDeleteBehavioralAnswers: () => {
       deleteBehavioralAnswers();
       handlers.onCloseModal();
+      goForward(data);
     },
     onCancelDeleteBehavioralAnswers: () => {
       handlers.onCloseModal();
@@ -103,8 +115,6 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   };
 
   const modalContent = () => {
-    // const listSelectedBehaviors = () => {
-    // Straight lifted from the other utility:
     const allBehaviorTypes = {
       ...data.workBehaviors,
       ...data.healthBehaviors,
@@ -118,23 +128,22 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
         return acc;
       }, {});
 
-    const allBehaviorDescriptions = ALL_BEHAVIOR_CHANGE_DESCRIPTIONS;
-
-    // const newObject = {};
-    const behaviors = Object.keys(allBehaviorDescriptions).map(behaviorType => {
-      if (behaviorType in allSelectedBehaviorTypes) {
-        return behaviorType === 'unlisted'
-          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
-          : allBehaviorDescriptions[behaviorType];
-      }
+    const behaviors = Object.keys(ALL_BEHAVIOR_CHANGE_DESCRIPTIONS).map(
+      behaviorType => {
+        if (behaviorType in allSelectedBehaviorTypes) {
+          return behaviorType === 'unlisted'
+            ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+        }
     });
 
-    // Some of these are undefined for whatever reason
+    // Some of these are undefined for whatever reason. Why?
     const describedBehaviors = behaviors.filter(
       element => element !== undefined,
     );
+
     const describedBehaviorsCount = describedBehaviors.length;
-    const firstThreeBehaviors = describedBehaviors.slice(2);
+    const firstThreeBehaviors = describedBehaviors.slice(0, 2);
     const remainingBehaviors = describedBehaviorsCount - 3;
 
     return (
@@ -151,9 +160,11 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
           {firstThreeBehaviors.map((behaviorDescription, i) => (
             <li key={i}>{behaviorDescription}</li>
           ))}
-          <li>
-            And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
-          </li>
+          {remainingBehaviors > 0 && (
+            <li>
+              And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
+            </li>
+          )}
         </ul>
         <p>
           <b>Do you want to skip questions about behavioral challenges?</b>
@@ -178,8 +189,7 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
       <VaModal
         // modalTitle={deleteCombatAnswersModalTitle}
         // Temporary to see the modal on load:
-        // visible={showModal}
-        visible
+        visible={showModal}
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
@@ -228,5 +238,4 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 };
 
 // TODO: PROPS VALIDATION
-
 export default BehaviorIntroCombatPage;

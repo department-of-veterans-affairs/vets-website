@@ -116,7 +116,7 @@ function hasSelectedNoneCheckbox(formData) {
  * @param {object} formData
  * @returns {object}
  */
-export function selectedBehaviorSections(formData) {
+function selectedBehaviorSections(formData) {
   const workBehaviorsSelected = Object.values(
     formData.workBehaviors || {},
   ).some(selected => selected === true);
@@ -265,13 +265,10 @@ export const summarizeBehaviors = formData => {
       return acc;
     }, {});
 
-    // Return without the constructed jsx
   const selectedBehaviorsWithDetails = getDescriptionForBehavior(
     allSelectedBehaviorTypes,
     formData.behaviorsDetails,
   );
 
-  return selectedBehaviorsWithDetails;
-
-  // return behaviorSummariesList(selectedBehaviorsWithDetails);
+  return behaviorSummariesList(selectedBehaviorsWithDetails);
 };
