@@ -1,5 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { signInServiceName } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
+import {
+  isLoggedIn,
+  isLOA3,
+  selectProfile,
+} from '@department-of-veterans-affairs/platform-user/selectors';
 import UnauthenticatedAlert from '../mhv-signin-cta/components/messages/UnauthenticatedAlert';
 import UnverifiedAlert from '../mhv-signin-cta/components/messages/UnverifiedAlert';
 
@@ -74,6 +80,22 @@ MhvSimpleSigninCallToAction.propTypes = {
   serviceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,
   userIsVerified: PropTypes.bool,
+};
+
+/**
+ * Map state properties.
+ * @param {Object} state the current state
+ * @returns state properties
+ */
+export const mapStateToProps = state => {
+  const { loading, mhvAccount } = selectProfile(state);
+  return {
+    serviceName: signInServiceName(state),
+    userIsLoggedIn: isLoggedIn(state),
+    userIsVerified: isLOA3(state),
+    mhvAccountLoading: mhvAccount.loading,
+    profileLoading: loading,
+  };
 };
 
 export default MhvSimpleSigninCallToAction;
