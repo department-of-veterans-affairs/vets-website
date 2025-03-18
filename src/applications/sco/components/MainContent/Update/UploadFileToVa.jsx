@@ -31,11 +31,11 @@ const UploadFileToVa = () => {
               <ul className="vads-u-margin-left--neg2p5">
                 <LiSpanAndVaLink
                   hrefText="VA Form 22-10215: Statement of Assurance of Compliance with 85% Enrollment Ratios"
-                  href="/85-15-rule-enrollment-ratio"
+                  href="/school-administrators/85-15-rule-enrollment-ratio"
                 />
                 <LiSpanAndVaLink
                   hrefText="VA Form 22-10216: 35% Exemption Request from 85/15 Reporting Requirement"
-                  href="/35-percent-exemption"
+                  href="/school-administrators/35-percent-exemption"
                 />
               </ul>
               <h4>Accepted PDF forms for download</h4>
