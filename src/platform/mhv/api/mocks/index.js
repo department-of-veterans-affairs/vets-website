@@ -75,6 +75,7 @@ const responses = {
     mhvAcceleratedDeliveryEnabled: true,
     mhvAcceleratedDeliveryAllergiesEnabled: true,
     mhvAcceleratedDeliveryVitalSignsEnabled: true,
+    mhvAcceleratedDeliveryLabsAndTestsEnabled: true,
   }),
 
   // VAMC facility data that apps query for on startup
