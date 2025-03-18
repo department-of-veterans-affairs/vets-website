@@ -10,8 +10,8 @@ export const treatmentReceivedDescription = (
       of your traumatic events including any behavioral changes you experienced.
     </p>
     <p>
-      If you didn’t receive any treatment for your traumatic events, select{' '}
-      <strong>‘I didn’t receive treatment for my traumatic events.’</strong>
+      You may not have received treatment for your traumatic events. It’s OK if
+      you don’t report receiving treatment at any provider.
     </p>
     <p>
       You’ll be able to upload or request records from these treatment providers
@@ -22,16 +22,6 @@ export const treatmentReceivedDescription = (
 
 export const treatmentReceivedNoneLabel =
   'I didn’t receive treatment for my traumatic events.';
-
-export const providerListValidationError = (
-  <va-alert status="error" uswds>
-    <p className="vads-u-font-size--base">
-      You selected one or more types of reports for this event, but you also
-      selected ‘I don’t have any supporting documents to submit.’
-    </p>
-    <p>Revise your selection so they don’t conflict to continue.</p>
-  </va-alert>
-);
 
 /**
  * Returns true if 'none' selected, false otherwise
@@ -104,16 +94,11 @@ export function showConflictingAlert(formData) {
 
 export function validateProviders(errors, formData) {
   const isConflicting = showConflictingAlert(formData);
-  const selections = treatmentReceivedSections(formData);
 
-  // add error with no message to each checked section
+  // add error message to none checkbox if conflict exists
   if (isConflicting === true) {
-    errors['view:treatmentNoneCheckbox'].addError(' ');
-    if (selections.treatmentReceivedVaProvider === true) {
-      errors.treatmentReceivedVaProvider.addError(' ');
-    }
-    if (selections.treatmentReceivedNonVaProvider === true) {
-      errors.treatmentReceivedNonVaProvider.addError(' ');
-    }
+    errors['view:treatmentNoneCheckbox'].addError(
+      'If you select no treatment providers to include, unselect other treatment providers before continuing.',
+    );
   }
 }
