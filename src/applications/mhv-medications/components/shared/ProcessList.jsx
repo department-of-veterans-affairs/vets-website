@@ -239,7 +239,7 @@ const ProcessList = ({ stepGuideProps }) => {
                 </va-process-list-item>
                 <va-process-list-item
                   pending
-                  header="We'll ship your refill"
+                  header="We’ll ship your refill"
                   status-text="Step 3: Not started"
                 >
                   <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
