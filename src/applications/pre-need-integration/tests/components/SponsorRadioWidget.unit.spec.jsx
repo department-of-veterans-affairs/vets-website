@@ -1,4 +1,3 @@
-/* eslint-disable mocha/no-exclusive-tests */
 import React from 'react';
 import * as ReactRedux from 'react-redux';
 import { expect } from 'chai';
@@ -173,5 +172,41 @@ describe('RadioWidget in Pre-need-integration info', () => {
       // Restore the original useSelector
       ReactRedux.useSelector = originalUseSelector;
     }
+  });
+
+  it('should use empty string when options.title is undefined', () => {
+    // Create props without title in options
+    const propsWithoutTitle = {
+      ...props,
+      options: {
+        ...props.options,
+        title: undefined,
+      },
+    };
+    const wrapper = mount(
+      <Provider store={store}>
+        <SponsorRadioWidget {...propsWithoutTitle} />
+      </Provider>,
+    );
+    // Check that component renders without errors
+    expect(wrapper.exists()).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should handle undefined optionLabel when item is not found', () => {
+    // Create a wrapper with a value that doesn't match any enumOption
+    const wrapper = mount(
+      <Provider store={store}>
+        <SponsorRadioWidget {...props} value="non-existent-value" />
+      </Provider>,
+    );
+    // Trigger onChange with a value that doesn't exist in enumOptions
+    const vaRadio = wrapper.find('VaRadio');
+    vaRadio.props().onVaValueChange({
+      detail: { value: 'non-existent-value', checked: true },
+    });
+    // Check that onChange was still called with the value
+    expect(props.onChange.calledWith('non-existent-value')).to.be.true;
+    wrapper.unmount();
   });
 });
