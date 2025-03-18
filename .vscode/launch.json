@@ -7,19 +7,6 @@
             "name": "Launch Chrome Debugger",
             "url": "http://localhost:3001",
             "webRoot": "${workspaceFolder}"
-        },
-        {
-            "name": "Run Current Test File",
-            "type": "node",
-            "request": "launch",
-            "runtimeExecutable": "yarn",
-            "args": [
-                "test:unit",
-                "--log-level=error",
-                "${file}"
-            ],
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen"
         }
     ]
 }
