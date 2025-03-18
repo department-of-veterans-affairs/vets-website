@@ -135,7 +135,7 @@ const formConfig = {
         [formPages.contactInformation.newMailingAddress]: {
           depends: formData => formData?.mebAddressValidationApi,
           title: 'Mailing address',
-          path: 'contact-information/mailing-address',
+          path: 'contact-information/mailing-address-validation',
           uiSchema: newMailingAddress33.uiSchema,
           schema: newMailingAddress33.schema,
         },
