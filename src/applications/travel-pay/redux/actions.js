@@ -61,7 +61,7 @@ export function getClaimDetails(id) {
       const claimsUrl = `${environment.API_URL}/travel_pay/v0/claims/${id}`;
       const response = await apiRequest(claimsUrl);
 
-      dispatch(fetchClaimDetailsSuccess(id, response));
+      dispatch(fetchClaimDetailsSuccess(id, response.data));
     } catch (error) {
       dispatch(fetchClaimDetailsFailure(error));
     }

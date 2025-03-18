@@ -68,7 +68,7 @@ const responses = {
   //     ],
   //   });
   // },
-  'GET /travel_pay/v0/claims/:id': claimDetails.v1.data,
+  'GET /travel_pay/v0/claims/:id': claimDetails.v1,
   // 'GET /travel_pay/v0/claims/:id': (req, res) => {
   //   return res.status(403).json({
   //     errors: [
