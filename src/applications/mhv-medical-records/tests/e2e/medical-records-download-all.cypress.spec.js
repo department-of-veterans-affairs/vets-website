@@ -47,7 +47,7 @@ describe('Test download all page', () => {
     //   'Please enter a year between 1900 and 2124',
     // );
 
-    DownloadAllPage.selectDateRangeDropdown('Any');
+    DownloadAllPage.selectDateRangeDropdown('All time');
     DownloadAllPage.clickContinueOnDownloadAllPage();
 
     DownloadAllPage.selectVaccinesCheckbox();
