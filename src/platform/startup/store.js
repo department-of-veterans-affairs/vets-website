@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import persistState from 'redux-localstorage';
 // Relative imports.
 import i18Reducer from 'applications/static-pages/i18Select/reducers';
+import { vaosApi } from 'applications/vaos/redux/api/vaosApi';
 import announcements from '../site-wide/announcements/reducers';
 import createAnalyticsMiddleware from './analytics-middleware';
 import environment from '../utilities/environment';
@@ -68,7 +69,11 @@ export default function createCommonStore(
   const store = createStore(
     combineReducers(reducer),
     compose(
-      applyMiddleware(thunk, createAnalyticsMiddleware(analyticsEvents)),
+      applyMiddleware(
+        thunk,
+        createAnalyticsMiddleware(analyticsEvents),
+        vaosApi.middleware,
+      ),
       persistState('i18State'),
       useDevTools ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
     ),
