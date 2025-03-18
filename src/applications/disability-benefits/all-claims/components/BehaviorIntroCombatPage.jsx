@@ -1,19 +1,18 @@
-import { VaModal, VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaModal,
+  VaRadio,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { mentalHealthSupportAlert } from '../content/form0781';
 import { checkValidations } from '../../../appeals/shared/validations';
 import { scrollToFirstError } from 'platform/utilities/ui';
-
-// TODO: CAN THESE KEYS EXIST OUTSIDE OF THIS FLOW? (SINCE WE ARE CHECKING the full data store)
-const BEHAVIORAL_COMBAT_FIELD_KEYS = [
-  'workBehaviors',
-  'healthBehaviors',
-  'otherBehaviors',
-  'unlistedBehaviors',
-  'behaviorsDetails',
-];
+import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
+import {
+  ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
+  BEHAVIOR_LIST_SECTION_SUBTITLES,
+} from '../constants';
 
 const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   // TODO: MOVE TO CONTENT FILE
@@ -57,19 +56,8 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
     return result;
   };
 
-  const checkAlreadyAnsweredQuestions = () => {
-    return BEHAVIORAL_COMBAT_FIELD_KEYS.some(key => key in data && data[key]);
-  };
-
   const deleteBehavioralAnswers = () => {
     console.log("Deleting answers")
-    // const deepClone = structuredClone(data);
-
-    // BEHAVIORAL_COMBAT_FIELD_KEYS.forEach(key => {
-    //   delete deepClone[key];
-    // });
-
-    // setFormData(deepClone);
   };
 
   const handlers = {
@@ -94,7 +82,9 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
-      } else if (selection === 'false' && checkAlreadyAnsweredQuestions()) {
+        // hasSelectedBehaviors indicates they checked behavior changes boxes
+        // on the next page, behaviorListPage
+      } else if (selection === 'false' && hasSelectedBehaviors(data)) {
         setShowModal(true);
       } else if (optIn) {
         goForward(data);
@@ -111,28 +101,66 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
       handlers.onCloseModal();
     },
   };
-  const modalContent = (
-    <>
-      <h4 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
-        {deleteCombatAnswersModalTitle}
-      </h4>
-      <p>
-        <b>What to know:</b>
-        If you change to skip questions about behavioral changes, we’ll remove
-        information you provided about these behavioral changes:
-      </p>
 
-      <ul>
-        {BEHAVIORAL_COMBAT_FIELD_KEYS.map(key => (
-          <li key={key}>{data[key]}</li>
-        ))}
-      </ul>
+  const modalContent = () => {
+    // const listSelectedBehaviors = () => {
+    // Straight lifted from the other utility:
+    const allBehaviorTypes = {
+      ...data.workBehaviors,
+      ...data.healthBehaviors,
+      ...data.otherBehaviors,
+    };
 
-      <p>
-        <b>Do you want to skip questions about behavioral challenges?</b>
-      </p>
-    </>
-  );
+    const allSelectedBehaviorTypes = Object.entries(allBehaviorTypes)
+      .filter(([, value]) => value === true)
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+
+    const allBehaviorDescriptions = ALL_BEHAVIOR_CHANGE_DESCRIPTIONS;
+
+    // const newObject = {};
+    const behaviors = Object.keys(allBehaviorDescriptions).map(behaviorType => {
+      if (behaviorType in allSelectedBehaviorTypes) {
+        return behaviorType === 'unlisted'
+          ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
+          : allBehaviorDescriptions[behaviorType];
+      }
+    });
+
+    // Some of these are undefined for whatever reason
+    const describedBehaviors = behaviors.filter(
+      element => element !== undefined,
+    );
+    const describedBehaviorsCount = describedBehaviors.length;
+    const firstThreeBehaviors = describedBehaviors.slice(2);
+    const remainingBehaviors = describedBehaviorsCount - 3;
+
+    return (
+      <>
+        <h4 className="vads-u-font-size--h4 vads-u-color--base vads-u-margin--0">
+          {deleteCombatAnswersModalTitle}
+        </h4>
+        <p>
+          <b>What to know:</b>
+          If you change to skip questions about behavioral changes, we’ll remove
+          information you provided about these behavioral changes:
+        </p>
+        <ul>
+          {firstThreeBehaviors.map((behaviorDescription, i) => (
+            <li key={i}>{behaviorDescription}</li>
+          ))}
+          <li>
+            And, <b>{remainingBehaviors} other behavioral changes</b>{' '}
+          </li>
+        </ul>
+        <p>
+          <b>Do you want to skip questions about behavioral challenges?</b>
+        </p>
+      </>
+    );
+  };
 
   return (
     <div className="vads-u-margin-y--2">
@@ -148,19 +176,19 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
       <p>{combatIntroDescription}</p>
 
       <VaModal
-        modalTitle={deleteCombatAnswersModalTitle}
+        // modalTitle={deleteCombatAnswersModalTitle}
         // Temporary to see the modal on load:
-        visible
         // visible={showModal}
+        visible
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
         primaryButtonText={'Change my response'}
         secondaryButtonText={'Cancel and return to claim'}
+        status="warning"
       >
-        {/* TODO: list existing answers  */}
-        {modalContent}
-        {/* <p>Stuff</p> */}
+        {/* TODO: is function call correct way to do this? */}
+        {modalContent()}
       </VaModal>
 
       {/* Do we need to register the handler in both the onSubmit and the go forward? */}
@@ -192,7 +220,6 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
             uswds
           />
         </VaRadio>
-        {/* This works but this cannot be kosher (function call): */}
         <>{mentalHealthSupportAlert()}</>
         <FormNavButtons goBack={goBack} goForward={handlers.onSubmit} />
       </form>
