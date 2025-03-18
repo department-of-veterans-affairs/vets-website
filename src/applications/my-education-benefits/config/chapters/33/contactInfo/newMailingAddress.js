@@ -23,40 +23,6 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
-// Custom validation function to integrate with address validation
-const validateAddressWithAPI = async (formData, errors, state, props) => {
-  // Get the mailing address from the form data
-  const mailingAddress =
-    formData[formFields.viewMailingAddress]?.[formFields.address];
-
-  if (!mailingAddress) {
-    return errors;
-  }
-
-  // Skip address validation for military addresses, APO/FPO/DPO, and non-US addresses
-  if (
-    formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase] ||
-    mailingAddress.country !== 'USA'
-  ) {
-    return errors;
-  }
-
-  // Dispatch address validation action
-  try {
-    await props.validateAddress(mailingAddress);
-    // Note: The modal display and validation blocking is handled by the component now
-  } catch (error) {
-    // If there's an error with the validation API, allow the form to continue
-    // Using an alternative to console.error to avoid linter errors
-    const logger = window.console;
-    if (logger && logger.error) {
-      logger.error('Address validation error:', error);
-    }
-  }
-
-  return errors;
-};
-
 const stateRequiredCountries = new Set(['USA']);
 function customValidateAddress(errors, addressData, formData, currentSchema) {
   if (
@@ -459,7 +425,7 @@ const uiSchemaWithValidation = {
       viewComponent: NewMailingAddressWithValidation,
     },
   },
-  'ui:validations': [validateAddressWithAPI],
+  'ui:validations': [],
 };
 
 const newMailingAddress33 = {
