@@ -69,6 +69,18 @@ const responses = {
   //   });
   // },
   'GET /travel_pay/v0/claims/:id': claimDetails.v1.data,
+  // 'GET /travel_pay/v0/claims/:id': (req, res) => {
+  //   return res.status(403).json({
+  //     errors: [
+  //       {
+  //         title: 'Forbidden',
+  //         status: 403,
+  //         detail: 'Forbidden.',
+  //         code: 'VA900',
+  //       },
+  //     ],
+  //   });
+  // },
 
   // Submitting a new claim
   'POST /travel_pay/v0/claims': { claimId: '12345' },

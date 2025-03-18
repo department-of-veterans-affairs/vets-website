@@ -79,12 +79,7 @@ export default function TravelClaimDetails() {
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <Breadcrumbs />
         {error && <h1>There was an error loading the claim details.</h1>}
-        {data[id] && (
-          <>
-            <p>This is claim details</p>
-            <ClaimDetailsContent {...data[id]} />
-          </>
-        )}
+        {data[id] && <ClaimDetailsContent {...data[id]} />}
         <hr />
 
         <div className="vads-u-margin-bottom--4">

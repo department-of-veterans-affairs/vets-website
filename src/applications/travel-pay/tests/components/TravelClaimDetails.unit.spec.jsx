@@ -2,10 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import TravelClaimDetails from '../../components/TravelClaimDetails';
+import reducer from '../../redux/reducer';
 
 describe('TravelClaimDetails', () => {
   const claimDetailsProps = {
@@ -21,6 +21,9 @@ describe('TravelClaimDetails', () => {
     featureTogglesAreLoading = false,
     hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
+    loadingDetails = false,
+    detailsError = null,
+    detailsData = {},
   } = {}) => ({
     featureToggles: {
       loading: featureTogglesAreLoading,
@@ -28,6 +31,13 @@ describe('TravelClaimDetails', () => {
       travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
       /* eslint-enable camelcase */
+    },
+    travelPay: {
+      claimDetails: {
+        isLoading: loadingDetails,
+        error: detailsError,
+        data: detailsData,
+      },
     },
   });
 
@@ -39,7 +49,6 @@ describe('TravelClaimDetails', () => {
     global.window.location = {
       replace: sinon.spy(),
     };
-    mockApiRequest({ ...claimDetailsProps });
   });
 
   afterEach(() => {
@@ -47,30 +56,40 @@ describe('TravelClaimDetails', () => {
   });
 
   it('Successfully renders', async () => {
-    const screen = renderWithStoreAndRouter(
-      <TravelClaimDetails {...claimDetailsProps} />,
-      {
-        initialState: { ...getState() },
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: {
+        ...getState({ detailsData: { '1234': { ...claimDetailsProps } } }),
       },
-    );
+      path: '/claims/1234',
+      reducers: reducer,
+    });
 
     await waitFor(() => {
-      expect(screen.queryByText('Claim number: TC0928098230498')).to.exist;
+      expect(
+        screen.getByText(
+          /If you're eligible for reimbursement, we'll deposit your reimbursement in your bank account./i,
+        ),
+      );
     });
   });
 
   it('redirects to the root path when claim statuses feature flag is false', async () => {
-    renderWithStoreAndRouter(<TravelClaimDetails {...claimDetailsProps} />, {
+    renderWithStoreAndRouter(<TravelClaimDetails />, {
       initialState: { ...getState({ hasStatusFeatureFlag: false }) },
+      path: '/claims/1234',
+      reducers: reducer,
     });
 
     await waitFor(() => {
       expect(window.location.replace.calledWith('/')).to.be.true;
     });
   });
+
   it('redirects to claim details when claim details feature flag is false', async () => {
-    renderWithStoreAndRouter(<TravelClaimDetails {...claimDetailsProps} />, {
+    renderWithStoreAndRouter(<TravelClaimDetails />, {
       initialState: { ...getState({ hasDetailsFeatureFlag: false }) },
+      path: '/claims/1234',
+      reducers: reducer,
     });
 
     await waitFor(() => {
@@ -78,21 +97,21 @@ describe('TravelClaimDetails', () => {
         .true;
     });
   });
-  it('handles failed data fetching and displays an error', async () => {
-    global.fetch.restore();
-    mockApiRequest({ errors: [{ title: 'Bad Request', status: 400 }] }, false);
 
-    const screen = renderWithStoreAndRouter(
-      <TravelClaimDetails {...claimDetailsProps} />,
-      {
-        initialState: { ...getState() },
+  it('handles failed data fetching and displays an error', async () => {
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: {
+        ...getState({
+          detailsError: { errors: [{ title: 'Bad Request', status: 400 }] },
+        }),
       },
-    );
+      path: '/claims/1234',
+      reducers: reducer,
+    });
 
     await waitFor(() => {
-      expect(
-        screen.queryByText('There was an error loading the claim details.'),
-      ).to.exist;
+      expect(screen.getByText(/There was an error loading the claim details/i))
+        .to.exist;
     });
   });
 });
