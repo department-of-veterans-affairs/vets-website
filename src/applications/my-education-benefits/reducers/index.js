@@ -30,6 +30,7 @@ import {
   ADDRESS_VALIDATION_MODAL_TOGGLE,
   ADDRESS_VALIDATION_ACCEPT,
   ADDRESS_VALIDATION_RESET,
+  ADDRESS_VALIDATION_VALIDATED,
 } from '../actions';
 import { formFields } from '../constants';
 
@@ -52,6 +53,7 @@ const initialState = {
     modalOpen: false,
     originalAddress: null,
     selectedAddress: null,
+    validated: false,
   },
 };
 const handleDirectDepositApi = action => {
@@ -262,6 +264,15 @@ export default {
             ...state.addressValidation,
             selectedAddress: action.address,
             modalOpen: false,
+            validated: true,
+          },
+        };
+      case ADDRESS_VALIDATION_VALIDATED:
+        return {
+          ...state,
+          addressValidation: {
+            ...state.addressValidation,
+            validated: action.value,
           },
         };
       case ADDRESS_VALIDATION_RESET:

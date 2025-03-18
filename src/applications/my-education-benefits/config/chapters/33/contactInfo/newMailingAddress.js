@@ -17,6 +17,7 @@ import {
   acceptValidatedAddress,
   validateAddress,
   resetAddressValidation,
+  setAddressValidated,
 } from '../../../../actions';
 
 function isOnlyWhitespace(str) {
@@ -34,7 +35,7 @@ const validateAddressWithAPI = async (formData, errors, formState) => {
     return errors;
   }
 
-  // Skip address validation for military addresses, APO/FPO/DPO, and non-US addresses
+  // Skip validation for military addresses, APO/FPO/DPO, and non-US addresses
   if (
     formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase] ||
     mailingAddress.country !== 'USA'
@@ -46,12 +47,21 @@ const validateAddressWithAPI = async (formData, errors, formState) => {
   if (formState?.additionalContext?.store) {
     const { store } = formState.additionalContext;
 
+    // Get current state
+    const currentState = store.getState();
+    const { addressValidation } = currentState.data;
+
+    // If address is already validated, we can proceed
+    if (addressValidation.validated) {
+      return errors;
+    }
+
     try {
       // Dispatch address validation action directly using the Redux store
       const validateAddressAction = validateAddress(mailingAddress);
       const response = await validateAddressAction(store.dispatch);
 
-      // If suggested addresses found, open modal and block submission
+      // If suggested addresses found with low confidence, open modal and block submission
       if (
         response?.addresses?.length > 0 &&
         response.addresses[0].addressMetaData.confidenceScore < 100
@@ -59,10 +69,24 @@ const validateAddressWithAPI = async (formData, errors, formState) => {
         store.dispatch(setAddressValidationModalOpen(true));
 
         // Add form error to block submission while modal is open
-        errors.addError('We need to verify your address before continuing.');
+        errors.addError(
+          'We need to verify your address before continuing. Please review the suggested addresses.',
+        );
+      } else if (response?.addresses?.length > 0) {
+        // High confidence match, mark as validated
+        store.dispatch(setAddressValidated(true));
       }
     } catch (error) {
-      // Continue with form submission if API fails
+      // For API failures, we should still block submission
+      // This prevents bypassing validation when the API is down
+      errors.addError(
+        'We were unable to validate your address. Please try again later.',
+      );
+
+      const logger = window.console;
+      if (logger && logger.error) {
+        logger.error('Address validation error:', error);
+      }
     }
   }
 
@@ -104,6 +128,9 @@ const NewMailingAddressWithValidation = ({ formData, viewForm }) => {
   const handleAcceptAddress = addressData => {
     // Accept the address in Redux state
     dispatch(acceptValidatedAddress(addressData));
+
+    // Mark address as validated
+    dispatch(setAddressValidated(true));
 
     // Close the modal
     dispatch(setAddressValidationModalOpen(false));

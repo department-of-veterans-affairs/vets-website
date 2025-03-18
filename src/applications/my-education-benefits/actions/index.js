@@ -77,6 +77,7 @@ export const ADDRESS_VALIDATION_MODAL_TOGGLE =
   'ADDRESS_VALIDATION_MODAL_TOGGLE';
 export const ADDRESS_VALIDATION_ACCEPT = 'ADDRESS_VALIDATION_ACCEPT';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
+export const ADDRESS_VALIDATION_VALIDATED = 'ADDRESS_VALIDATION_VALIDATED';
 
 const FIVE_SECONDS = 5000;
 const ONE_MINUTE_IN_THE_FUTURE = () => {
@@ -336,6 +337,13 @@ export function acceptValidatedAddress(address) {
   return {
     type: ADDRESS_VALIDATION_ACCEPT,
     address,
+  };
+}
+
+export function setAddressValidated(value) {
+  return {
+    type: ADDRESS_VALIDATION_VALIDATED,
+    value,
   };
 }
 
