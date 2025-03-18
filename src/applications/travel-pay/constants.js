@@ -4,6 +4,8 @@ export const FIND_FACILITY_TP_CONTACT_LINK =
   '/HEALTHBENEFITS/vtp/beneficiary_travel_pocs.asp';
 export const TRAVEL_PAY_INFO_LINK =
   '/health-care/get-reimbursed-for-travel-pay/';
+export const REIMBURSEMENT_URL =
+  '/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
 
 export const STATUS_GROUPINGS = [
   {
