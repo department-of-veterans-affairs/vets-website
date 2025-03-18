@@ -211,6 +211,7 @@ const ProcessList = ({ stepGuideProps }) => {
                   </p>
                 </va-process-list-item>
                 <va-process-list-item
+                  data-testid="process-delay-header"
                   active
                   header={
                     isRefillRunningLate

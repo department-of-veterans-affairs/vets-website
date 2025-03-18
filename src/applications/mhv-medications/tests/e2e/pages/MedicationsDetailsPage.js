@@ -638,8 +638,13 @@ class MedicationsDetailsPage {
       .and('contain', note);
   };
 
-  verifyActiveRefillInProcessStepTwoOnDetailsPage = (text, note, dateInfo) => {
-    cy.get('[data-testid="progress-step-two"]')
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = (
+    locator,
+    text,
+    note,
+    dateInfo,
+  ) => {
+    cy.get(locator)
       .should('contain', text)
       .and('contain', note)
       .and('contain', dateInfo);
@@ -689,6 +694,12 @@ class MedicationsDetailsPage {
 
   verifyInstructionsOnDetailsPage = text => {
     cy.get('[data-testid="rx-instructions"]').should('contain', text);
+  };
+
+  verifyStepTwoHeaderOnDetailPageForRxInProcess = (process, text) => {
+    cy.get('[data-testid="process-delay-header"]')
+      .should('contain', text)
+      .and('contain', process);
   };
 }
 
