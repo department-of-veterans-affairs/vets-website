@@ -72,10 +72,9 @@ export default function ReferralAppointments() {
       referralFetchStatus === FETCH_STATUS.notStarted) &&
     !appointmentId
   ) {
-    // @TODO: Switch to using ReferralLayout
     return (
       <FormLayout pageTitle="Review Approved Referral">
-        <va-loading-indicator set-focus message="Loading your data..." />
+        <ReferralLayout loadingMessage="Loading your data..." />
       </FormLayout>
     );
   }
