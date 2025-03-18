@@ -24,8 +24,13 @@ export default function Disclaimer() {
         <span>
           {' '}
           If you need technical assistance on “How to use the Comparison Tool”
-          please see the user guide (insert here user guide). If you have data
-          questions about the GI Bill Comparison Tool, email us at{' '}
+          <va-link
+            href="https://staging.va.gov/gids/508_gi_bill_comparison_tool_user_guide.pdf"
+            external
+            text="please see the user guide"
+          />
+          If you have data questions about the GI Bill Comparison Tool, email us
+          at{' '}
           <a href="mailto: vbacoeducomptoolinq@va.gov">
             vbacoeducomptoolinq@va.gov
           </a>
