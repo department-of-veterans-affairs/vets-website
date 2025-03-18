@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
 import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
-import { useSelector, useDispatch } from 'react-redux';
 
 import fullSchema from '../../../../22-1990-schema.json';
 
@@ -12,13 +11,7 @@ import YesNoReviewField from '../../../../components/YesNoReviewField';
 import AddressValidationModal from '../../../../components/AddressValidationModal';
 
 import { formFields } from '../../../../constants';
-import {
-  setAddressValidationModalOpen,
-  acceptValidatedAddress,
-  validateAddress,
-  resetAddressValidation,
-  setAddressValidated,
-} from '../../../../actions';
+import { validateAddress } from '../../../../actions';
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
@@ -110,87 +103,6 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
   }
 }
 
-// This is the container component that will connect to Redux and handle address validation
-const NewMailingAddressWithValidation = ({ formData, viewForm }) => {
-  const { addressValidation } = useSelector(state => state.data);
-  const dispatch = useDispatch();
-
-  // Watch for address changes and trigger validation
-  useEffect(
-    () => {
-      const mailingAddress =
-        formData?.[formFields.viewMailingAddress]?.[formFields.address];
-
-      const isComplete =
-        mailingAddress?.street &&
-        mailingAddress?.city &&
-        mailingAddress?.state &&
-        mailingAddress?.postalCode;
-
-      const isUS = mailingAddress?.country === 'USA';
-
-      const isMilitaryBase =
-        formData?.[formFields.viewMailingAddress]?.[
-          formFields.livesOnMilitaryBase
-        ];
-
-      // Only validate complete US addresses that aren't military bases
-      if (
-        isComplete &&
-        isUS &&
-        !isMilitaryBase &&
-        !addressValidation.validated
-      ) {
-        dispatch(validateAddress(mailingAddress));
-      }
-    },
-    [formData, addressValidation.validated, dispatch],
-  );
-
-  // Handlers for address validation modal
-  const handleCloseModal = () => {
-    dispatch(setAddressValidationModalOpen(false));
-  };
-
-  const handleAcceptAddress = addressData => {
-    // Accept the address in Redux state
-    dispatch(acceptValidatedAddress(addressData));
-
-    // Mark address as validated
-    dispatch(setAddressValidated(true));
-
-    // Close the modal
-    dispatch(setAddressValidationModalOpen(false));
-  };
-
-  // Clean up when unmounting
-  React.useEffect(
-    () => {
-      return () => {
-        dispatch(resetAddressValidation());
-      };
-    },
-    [dispatch],
-  );
-
-  return (
-    <>
-      {viewForm}
-      {addressValidation.modalOpen && (
-        <AddressValidationModal
-          isOpen={addressValidation.modalOpen}
-          onClose={handleCloseModal}
-          userEnteredAddress={
-            formData[formFields.viewMailingAddress]?.[formFields.address]
-          }
-          suggestedAddresses={addressValidation.suggestedAddresses || []}
-          onAcceptAddress={handleAcceptAddress}
-        />
-      )}
-    </>
-  );
-};
-
 // Extend the UI Schema to add the validate address function to props
 const uiSchemaWithValidation = {
   'view:subHeadings': {
@@ -226,6 +138,7 @@ const uiSchemaWithValidation = {
           If you’d like to update your mailing address, please edit the form
           fields below.
         </p>
+        <AddressValidationModal />
       </>
     ),
     [formFields.livesOnMilitaryBase]: {
@@ -407,7 +320,7 @@ const uiSchemaWithValidation = {
               errors.addError('maximum of 20 characters');
             }
           },
-        ], // mebAddressValidationApi
+        ],
         'ui:options': {
           replaceSchema: formData => {
             const livesOnMilitaryBase =
@@ -469,14 +382,6 @@ const uiSchemaWithValidation = {
         },
       },
     },
-    'ui:options': {
-      hideLabelText: true,
-      showFieldLabel: false,
-      viewComponent: NewMailingAddressWithValidation,
-    },
-  },
-  'view:addressValidationModal': {
-    'ui:description': AddressValidationModal,
   },
   'ui:validations': [validateAddressWithAPI],
 };
@@ -513,5 +418,4 @@ const newMailingAddress33 = {
   },
 };
 
-export { NewMailingAddressWithValidation };
 export default newMailingAddress33;
