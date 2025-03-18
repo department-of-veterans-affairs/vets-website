@@ -448,7 +448,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       const link = screen.container.querySelector(
         'va-link[text="Back to pending appointments"]',
       );
-      fireEvent.click(link);
+
+      await waitFor(() => {
+        expect(link).to.be.ok;
+
+        fireEvent.click(link);
+      });
       await waitFor(
         () => expect(screen.queryByText(/Pending appointments/i)).to.be.ok,
       );
