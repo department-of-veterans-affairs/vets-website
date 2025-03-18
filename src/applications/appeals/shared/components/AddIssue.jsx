@@ -23,6 +23,8 @@ import { setStorage } from '../utils/addIssue';
 import { checkValidations } from '../validations';
 import { uniqueIssue, missingIssueName } from '../validations/issues';
 
+import { replaceWhitespace } from '../utils/replace';
+
 const AddIssue = ({
   validations,
   description,
@@ -59,7 +61,9 @@ const AddIssue = ({
   const dateValidations = [validations.validateDate];
   const uniqueValidations = [uniqueIssue];
 
-  const [issueName, setIssueName] = useState(currentData.issue || '');
+  const [issueName, setIssueName] = useState(
+    replaceWhitespace(currentData.issue || ''),
+  );
   const [inputDirty, setInputDirty] = useState(false);
 
   const [issueDate, setIssueDate] = useState(currentData.decisionDate);
@@ -132,8 +136,10 @@ const AddIssue = ({
     onIssueNameChange: event => {
       setIssueName(event.target.value);
     },
-    onInputBlur: () => {
+    onInputBlur: event => {
       setInputDirty(true);
+      // Trim whitespace &  from issue name
+      setIssueName(replaceWhitespace(event.target.value || ''));
     },
     onDateChange: event => {
       setIssueDate(event.target.value);
