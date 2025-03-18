@@ -342,7 +342,11 @@ const VaPrescription = prescription => {
                   Prescribed on
                 </h3>
                 <p datat-testid="ordered-date">
-                  {dateFormat(prescription.orderedDate)}
+                  {dateFormat(
+                    prescription.orderedDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed by
@@ -567,7 +571,11 @@ const VaPrescription = prescription => {
                               className="vads-u-margin--0 vads-u-margin-bottom--1"
                               data-testid="dispensedDate"
                             >
-                              {dateFormat(entry.dispensedDate)}
+                              {dateFormat(
+                                entry.dispensedDate,
+                                'MMMM D, YYYY',
+                                'Date not available',
+                              )}
                             </p>
                             <h4
                               className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-top--2 vads-u-margin--0"
@@ -581,6 +589,8 @@ const VaPrescription = prescription => {
                             >
                               {dateFormat(
                                 latestTrackingStatus?.completeDateTime,
+                                'MMMM D, YYYY',
+                                'Date not available',
                               )}
                             </p>
                             <h4
