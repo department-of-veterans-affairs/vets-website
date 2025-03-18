@@ -6,6 +6,7 @@ import { VaButtonPair } from '@department-of-veterans-affairs/component-library/
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import {
   HelpTextOptions,
   HelpTextGeneral,
@@ -21,6 +22,12 @@ const AddressPage = ({
   setYesNo,
   setIsUnsupportedClaimType,
 }) => {
+  const title = !address
+    ? 'We can’t file this claim in this tool at this time'
+    : 'Did you travel from your home address?';
+
+  useSetPageTitle(title);
+
   useEffect(
     () => {
       scrollToTop('topScrollElement');
@@ -54,9 +61,7 @@ const AddressPage = ({
   if (!address) {
     return (
       <>
-        <h1 className="vads-u-margin-bottom--2">
-          We can’t file this claim in this tool at this time
-        </h1>
+        <h1 className="vads-u-margin-bottom--2">{title}</h1>
         <va-alert
           close-btn-aria-label="Close notification"
           status="warning"
@@ -89,7 +94,7 @@ const AddressPage = ({
         name="address"
         value={yesNo.address}
         error={requiredAlert}
-        label="Did you travel from your home address?"
+        label={title}
         onValueChange={e => {
           setYesNo({ ...yesNo, address: e.detail.value });
         }}
