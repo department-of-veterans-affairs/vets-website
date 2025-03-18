@@ -14,7 +14,6 @@ import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import { useGetReferralById } from './hooks/useGetReferralById';
 import { useIsInCCPilot } from './hooks/useIsInCCPilot';
 import { FETCH_STATUS } from '../utils/constants';
-import FormLayout from '../new-appointment/components/FormLayout';
 import { scrollAndFocus } from '../utils/scrollAndFocus';
 import CompleteReferral from './CompleteReferral';
 import ReferralLayout from './components/ReferralLayout';
@@ -72,11 +71,7 @@ export default function ReferralAppointments() {
       referralFetchStatus === FETCH_STATUS.notStarted) &&
     !appointmentId
   ) {
-    return (
-      <FormLayout pageTitle="Review Approved Referral">
-        <ReferralLayout loadingMessage="Loading your data..." />
-      </FormLayout>
-    );
+    return <ReferralLayout loadingMessage="Loading your data..." />;
   }
 
   if (appointmentId) {
