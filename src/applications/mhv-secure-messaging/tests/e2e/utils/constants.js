@@ -3,6 +3,7 @@ import { pageNotFoundHeading } from '@department-of-veterans-affairs/platform-si
 export const AXE_CONTEXT = '.secure-messaging-container';
 
 export const Paths = {
+  MHV_MAIN: '/my-health/',
   UI_MAIN: '/my-health/secure-messages',
   UI_PILOT: '/my-health/secure-messages-pilot',
   SM_API_BASE: '/my_health/v1/messaging',
@@ -24,11 +25,12 @@ export const Paths = {
   SIGNATURE: '/signature',
   FIND_LOCATIONS: '/find-locations/',
   FIND_LOCATION: '/find-locations',
-  HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
+  HEALTH_CARE_SEND_RECEIVE_MSG: '/health-care/send-receive-messages/',
   MHV_LANDING_PAGE: '/my-health',
   MHV_SM: '/secure-messages',
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
+  NEW_MESSAGE: '/my-health/secure-messages/new-message/',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -165,7 +167,6 @@ export const Locators = {
     HEADER: `#heading`,
     MODEL_TITLE_ALERT: '.va-modal-alert-title',
     TRIAGE_ALERT: '[data-testid="blocked-triage-group-alert"] > div > a',
-    TRIAGE_GROUP: '[data-testid="blocked-triage-group-alert"]',
     CLOSE_NOTIFICATION: '.va-alert',
     REPT_SELECT: '[data-testid="compose-recipient-select"]',
     DRAFT_MODAL: '[data-testid="delete-draft-modal"]',
@@ -219,6 +220,7 @@ export const Locators = {
     FIELD_ERROR: `#input-error-message`,
     REMOVE_THIS_FOLDER: `[data-testid="remove-this-folder"]`,
     OLD_MSG_HEAD: `[data-testid=expired-alert-message]`,
+    NO_ASSOCIATION: '[data-testid="not-connected-alert"]',
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -400,13 +402,13 @@ export const Data = {
   },
   FAQ_LINK: {
     URL: {
-      SEND: `/find-locations/`,
+      FACILITY: `/find-locations/`,
       EMRG: `tel:911`,
       SETTINGS: `/mhv-portal-web/preferences`,
       PAY: `/health-care/pay-copay-bill/dispute-charges/`,
     },
     TEXT: {
-      SEND: `Find your nearest VA health facility`,
+      FACILITY: `Find your nearest VA health facility`,
       EMRG_BTN: `Connect with the Veterans Crisis Line`,
       EMRG: `911`,
       SETTINGS: `My HealtheVet (opens in new tab)`,

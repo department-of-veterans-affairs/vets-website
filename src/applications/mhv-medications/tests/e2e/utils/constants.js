@@ -56,6 +56,19 @@ export const Data = {
   STEP_THREE_SUBMITTED: 'We will ship your refill',
   STEP_TWO_ACTIVE: 'We processed your refill',
   STEP_THREE_SHIPPED: 'We shipped your refill',
+  STEP_ONE_NOTE_ABOVE: 'Step 1: Date completed not available',
+  STEP_TWO_PROCESS_ABOVE_TEXT: 'Step 2: Completed on October 1, 2023',
+  STEP_ONE_DATE_TEXT: 'Step 1: Completed on October 2, 2023',
+  TOOL_TIP_TEXT: 'Filter the medications list',
+  QUANTITY_EMPTY: 'Quantity not available',
+  DATE_EMPTY: 'not available',
+  PROVIDER_NAME: 'Provider name not available',
+  SHIPPED_ON_EMPTY: 'Date not available',
+  IMAGE_EMPTY: 'Image not available',
+  MEDICATION_DESCRIPTION_EMPTY: 'No description available',
+  PHARMACY_PHONE_NUMBER_EMPTY: 'Pharmacy phone number not available',
+  REASON_FOR_USE_EMPTY: 'Reason for use not available',
+  INSTRUCTIONS_EMPTY: 'Instructions not available',
 };
 export const Paths = {
   LANDING_LIST:

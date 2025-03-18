@@ -4,13 +4,13 @@ import LicenseCertificationFaq from './LicenseCertificationFaq';
 
 export default function LicenseCertificationSearchPage() {
   useEffect(() => {
-    window.scrollTo(0, 0); // create function for reuse
+    window.scrollTo(0, 0);
   }, []);
 
   return (
     <div className="lc-page-wrapper">
       <section className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--2p5 mobile-lg:vads-u-padding-x--2">
-        <div className="row ">
+        <div className="row">
           <h1 className="mobile-lg:vads-u-text-align--left usa-width-two-thirds">
             Licenses, certifications, and prep courses
           </h1>

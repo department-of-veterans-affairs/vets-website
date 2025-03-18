@@ -45,7 +45,7 @@ describe('Blue Button report PDF template', () => {
       expect(tag).to.equal('H1');
       const text = content.items[22].str;
       expect(text.length).to.be.gt(0);
-      expect(text).to.equal('VA medical records');
+      expect(text).to.equal('VA Blue Button® report');
     });
 
     it('All sections are contained by a root level Document element', async () => {
@@ -122,8 +122,9 @@ describe('Blue Button report PDF template', () => {
       const data = cloneDeep(require('./fixtures/all_sections.json'));
 
       // Mark some sections as having no records.
-      data.recordSets[0].records = [];
-      data.recordSets[3].records = [];
+      data.recordSets[0].records = []; // lab and test results
+      data.recordSets[3].records = []; // allergies
+      data.recordSets[7].records = []; // appointments
 
       const { pdf } = await generateAndParsePdf(data);
 
@@ -153,7 +154,7 @@ describe('Blue Button report PDF template', () => {
       const listItemsText = listItems
         .filter(item => item.str)
         .map(item => item.str);
-      expect(listItemsText.length).to.equal(data.recordSets.length - 2);
+      expect(listItemsText.length).to.equal(data.recordSets.length - 3);
 
       // Get Records not in this Report section.
       const noRecordsItemIndex = content.items.findIndex(
@@ -180,7 +181,7 @@ describe('Blue Button report PDF template', () => {
       const unavailableListItemsText = unavailableListItems
         .filter(item => item.str)
         .map(item => item.str);
-      expect(unavailableListItemsText.length).to.equal(2);
+      expect(unavailableListItemsText.length).to.equal(3);
     });
   });
 
@@ -189,7 +190,7 @@ describe('Blue Button report PDF template', () => {
       const data = require('./fixtures/all_sections.json');
       const { pdf } = await generateAndParsePdf(data);
 
-      const pageNumber = 3;
+      const pageNumber = 2;
       const page = await pdf.getPage(pageNumber);
 
       const content = await page.getTextContent({ includeMarkedContent: true });

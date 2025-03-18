@@ -107,17 +107,20 @@ function getAtlasLocation(appt) {
   };
 }
 
-export function transformVAOSAppointment(appt) {
+export function transformVAOSAppointment(appt, useFeSourceOfTruth) {
   const appointmentType = getAppointmentType(appt);
   const isCerner = appt?.id?.startsWith('CERN');
   const isCC = appt.kind === 'cc';
   const isVideo = appt.kind === 'telehealth' && !!appt.telehealth?.vvsKind;
   const isAtlas = !!appt.telehealth?.atlas;
   const isPast = isPastAppointment(appt);
-  const isRequest =
-    appointmentType === APPOINTMENT_TYPES.request ||
-    appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const isUpcoming = isFutureAppointment(appt, isRequest);
+  const isRequest = useFeSourceOfTruth
+    ? appt.pending
+    : appointmentType === APPOINTMENT_TYPES.request ||
+      appointmentType === APPOINTMENT_TYPES.ccRequest;
+  const isUpcoming = useFeSourceOfTruth
+    ? appt.future
+    : isFutureAppointment(appt, isRequest);
   const providers = appt.practitioners;
   const start = moment(appt.localStartTime, 'YYYY-MM-DDTHH:mm:ss');
   const serviceCategoryName = appt.serviceCategory?.[0]?.text;
@@ -296,6 +299,6 @@ export function transformVAOSAppointment(appt) {
   };
 }
 
-export function transformVAOSAppointments(appts) {
-  return appts.map(appt => transformVAOSAppointment(appt));
+export function transformVAOSAppointments(appts, useFeSourceOfTruth) {
+  return appts.map(appt => transformVAOSAppointment(appt, useFeSourceOfTruth));
 }

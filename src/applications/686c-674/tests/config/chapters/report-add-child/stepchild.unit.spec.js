@@ -8,7 +8,6 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
-import { required } from '../../../../config/chapters/report-add-child/stepchild';
 
 const defaultStore = createCommonStore();
 
@@ -40,13 +39,5 @@ describe('686 add child stepchild', () => {
 
     const formDOM = getFormDOM(form);
     expect(formDOM.querySelectorAll('va-text-input').length).to.eq(3);
-  });
-
-  it('should use required function appropriately', () => {
-    const newFormData = {
-      childrenToAdd: [{ relationshipToChild: { stepchild: true } }],
-    };
-    expect(required(newFormData, 0)).to.eql(true);
-    expect(required({ relationshipToChild: { stepchild: true } })).to.eql(true);
   });
 });

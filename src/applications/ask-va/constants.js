@@ -1,8 +1,29 @@
+// import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const envUrl = environment.API_URL;
 
 export const baseURL = '/ask_va_api/v0';
+
+// TODO: This logic assumes that the feature toggle is checked within
+// a React component. Need to tweak for use as a constant.
+//
+// const {
+//   TOGGLE_NAMES,
+//   useToggleLoadingValue,
+//   useToggleValue,
+// } = useFeatureToggle();
+
+// const toggleName = TOGGLE_NAMES.askVaMockApiForTesting;
+// const isMockApiEnabled = useToggleValue(toggleName);
+// const isLoadingFeatureFlags = useToggleLoadingValue(toggleName);
+
+// const isLocalhost = envUrl === 'http://localhost:3000';
+// const isToggleEnabled = !isLoadingFeatureFlags && isMockApiEnabled;
+// const isProduction = environment.isProduction();
+
+// export const mockTestingFlagforAPI =
+//   (isToggleEnabled || isLocalhost) && !isProduction;
 
 export const mockTestingFlagforAPI = envUrl === 'http://localhost:3000'; // enable this flag when testing locally for API calls
 
@@ -96,6 +117,8 @@ export const TopicEducationBenefitsAndWorkStudy =
   'Education benefits and work study';
 export const TopicEducationBenefitOverpayments =
   'Education benefit overpayments (for school officials)';
+export const TopicEducationBenefitOverpaymentsForStudents =
+  'Education benefit overpayments (for students)';
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [

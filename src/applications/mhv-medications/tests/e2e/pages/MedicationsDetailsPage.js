@@ -599,8 +599,10 @@ class MedicationsDetailsPage {
       .should('contain', phoneNumber);
   };
 
-  verifyProcessStepOneHeaderOnDetailsPage = text => {
-    cy.get('[data-testid="submitted-step-one"]').should('contain', text);
+  verifyProcessStepOneHeaderOnDetailsPage = (text, date) => {
+    cy.get('[data-testid="submitted-step-one"]')
+      .should('contain', text)
+      .and('contain', date);
   };
 
   verifyProcessStepTwoHeaderOnDetailsPage = text => {
@@ -611,11 +613,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="submitted-step-three"]').should('contain', text);
   };
 
-  verifyActiveRxStepOneProgressTrackerOnDetailsPage = text => {
-    cy.get('[header="We received your refill request"]').should(
-      'contain',
-      text,
-    );
+  verifyActiveRxStepOneProgressTrackerOnDetailsPage = (text, data) => {
+    cy.get('[header="We received your refill request"]')
+      .should('contain', text)
+      .and('contain', data);
   };
 
   verifyActiveRxStepTwoProgressTrackerOnDetailsPage = text => {
@@ -626,8 +627,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="active-step-three"]').should('contain', text);
   };
 
-  verifyActiveRefillInProcessStepTwoOnDetailsPage = text => {
-    cy.get('[data-testid="progress-step-two"]').should('contain', text);
+  verifyActiveRefillInProcessStepTwoOnDetailsPage = (text, note) => {
+    cy.get('[data-testid="progress-step-two"]')
+      .should('contain', text)
+      .and('contain', note);
   };
 
   verifyActiveRefillInProcessStepThreeOnDetailsPage = text => {
@@ -639,6 +642,34 @@ class MedicationsDetailsPage {
       'contain',
       `${rxDetails.data.attributes.prescriptionName}`,
     );
+  };
+
+  verifyQuantityNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="rx-quantity"]').should('have.text', text);
+  };
+
+  verifyPrescribedOnDateNoAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="order-date"]').should('contain', text);
+  };
+
+  verifyProviderNameNotAvailableOnDetailsPage = text => {
+    cy.get('[data-testid="provider-name"]').should('contain', text);
+  };
+
+  verifyMedDescriptionFieldInRefillAccordionDetailsPage = text => {
+    cy.get('[data-testid="rx-description"]').should('contain', text);
+  };
+
+  verifyPharmacyPhoneNumberOnDetailsPage = text => {
+    cy.get('[data-testid="pharmacy-phone"]').should('contain', text);
+  };
+
+  verifyReasonForUseOnDetailsPage = text => {
+    cy.get('[data-testid="rx-reason-for-use"]').should('contain', text);
+  };
+
+  verifyInstructionsOnDetailsPage = text => {
+    cy.get('[data-testid="rx-instructions"]').should('contain', text);
   };
 }
 

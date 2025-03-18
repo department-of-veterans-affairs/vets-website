@@ -1,5 +1,6 @@
 import MockDate from 'mockdate';
 import { expect } from 'chai';
+
 import { getDateFilters, formatDateTime } from '../../util/dates';
 
 function formatDateRange(dateRange) {
@@ -207,13 +208,17 @@ describe('getDateFilters', () => {
 });
 
 describe('formatDateTime', () => {
-  // Skipping this until we can figure out how to set the timezone for this one test in jest
-  // Currently failing depending on what timezone the test is run in
-  it.skip('should format datetime', () => {
+  it('should format datetime', () => {
+    // Get original TZ
+    const originalTZ = process.env.TZ;
+    // Update the TZ for this one test
+    process.env = Object.assign(process.env, { TZ: 'America/Los_Angeles' });
     expect(formatDateTime('2024-06-25T14:00:00Z')).to.deep.equal([
       'Tuesday, June 25, 2024',
       '7:00 AM',
     ]);
+    // Set it back to the original
+    process.env = Object.assign(process.env, { TZ: originalTZ });
   });
 
   it('should format datetime without UTC indicator', () => {
