@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
@@ -61,20 +61,15 @@ const validateAddressWithAPI = async (formData, errors, formState) => {
       const validateAddressAction = validateAddress(mailingAddress);
       const response = await validateAddressAction(store.dispatch);
 
-      // If suggested addresses found with low confidence, open modal and block submission
+      // If we got valid addresses but there are suggested corrections, show the validation modal
       if (
         response?.addresses?.length > 0 &&
         response.addresses[0].addressMetaData.confidenceScore < 100
       ) {
-        store.dispatch(setAddressValidationModalOpen(true));
-
         // Add form error to block submission while modal is open
         errors.addError(
           'We need to verify your address before continuing. Please review the suggested addresses.',
         );
-      } else if (response?.addresses?.length > 0) {
-        // High confidence match, mark as validated
-        store.dispatch(setAddressValidated(true));
       }
     } catch (error) {
       // For API failures, we should still block submission
@@ -119,6 +114,38 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
 const NewMailingAddressWithValidation = ({ formData, viewForm }) => {
   const { addressValidation } = useSelector(state => state.data);
   const dispatch = useDispatch();
+
+  // Watch for address changes and trigger validation
+  useEffect(
+    () => {
+      const mailingAddress =
+        formData?.[formFields.viewMailingAddress]?.[formFields.address];
+
+      const isComplete =
+        mailingAddress?.street &&
+        mailingAddress?.city &&
+        mailingAddress?.state &&
+        mailingAddress?.postalCode;
+
+      const isUS = mailingAddress?.country === 'USA';
+
+      const isMilitaryBase =
+        formData?.[formFields.viewMailingAddress]?.[
+          formFields.livesOnMilitaryBase
+        ];
+
+      // Only validate complete US addresses that aren't military bases
+      if (
+        isComplete &&
+        isUS &&
+        !isMilitaryBase &&
+        !addressValidation.validated
+      ) {
+        dispatch(validateAddress(mailingAddress));
+      }
+    },
+    [formData, addressValidation.validated, dispatch],
+  );
 
   // Handlers for address validation modal
   const handleCloseModal = () => {
@@ -448,6 +475,9 @@ const uiSchemaWithValidation = {
       viewComponent: NewMailingAddressWithValidation,
     },
   },
+  'view:addressValidationModal': {
+    'ui:description': AddressValidationModal,
+  },
   'ui:validations': [validateAddressWithAPI],
 };
 
@@ -474,6 +504,10 @@ const newMailingAddress33 = {
             ...address.schema(fullSchema, true),
           },
         },
+      },
+      'view:addressValidationModal': {
+        type: 'object',
+        properties: {},
       },
     },
   },
