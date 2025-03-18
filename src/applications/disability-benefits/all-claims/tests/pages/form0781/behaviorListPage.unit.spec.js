@@ -108,7 +108,7 @@ describe('validating selections', () => {
       healthBehaviors: { addError: sinon.spy() },
       otherBehaviors: { addError: sinon.spy() },
     };
-    it('should show alert and add errors when none and behaviors are selected', () => {
+    it('should add error to the none checkbox when none and behaviors are selected', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
@@ -123,14 +123,12 @@ describe('validating selections', () => {
 
       validateBehaviorSelections(errors, formData);
 
-      // errors
-      expect(errors.workBehaviors.addError.called).to.be.true;
-      expect(errors.healthBehaviors.addError.called).to.be.false;
-      expect(errors.otherBehaviors.addError.called).to.be.true;
-      expect(errors['view:noneCheckbox'].addError.called).to.be.true;
-
-      // alert
       expect(showConflictingAlert(formData)).to.be.true;
+
+      expect(errors.workBehaviors.addError.called).to.be.false;
+      expect(errors.healthBehaviors.addError.called).to.be.false;
+      expect(errors.otherBehaviors.addError.called).to.be.false;
+      expect(errors['view:noneCheckbox'].addError.called).to.be.true;
     });
   });
 
@@ -143,7 +141,7 @@ describe('validating selections', () => {
       healthBehaviors: { addError: sinon.spy() },
       otherBehaviors: { addError: sinon.spy() },
     };
-    it('should not show alert or add errors when none is selected and with no other selected behaviors', () => {
+    it('should not add errors when none is selected with no other selected behaviors', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
@@ -155,17 +153,15 @@ describe('validating selections', () => {
 
       validateBehaviorSelections(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.false;
+
       expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
       expect(errors['view:noneCheckbox'].addError.called).to.be.false;
-
-      // alert
-      expect(showConflictingAlert(formData)).to.be.false;
     });
 
-    it('should not show alert or add errors when none is unselected and behaviors are selected', () => {
+    it('should add errors when none is unselected and behaviors are selected', () => {
       const formData = {
         syncModern0781Flow: true,
         workBehaviors: {
@@ -177,14 +173,12 @@ describe('validating selections', () => {
 
       validateBehaviorSelections(errors, formData);
 
-      // errors
+      expect(showConflictingAlert(formData)).to.be.false;
+
       expect(errors.workBehaviors.addError.called).to.be.false;
       expect(errors.healthBehaviors.addError.called).to.be.false;
       expect(errors.otherBehaviors.addError.called).to.be.false;
       expect(errors['view:noneCheckbox'].addError.called).to.be.false;
-
-      // alert
-      expect(showConflictingAlert(formData)).to.be.false;
     });
   });
 });

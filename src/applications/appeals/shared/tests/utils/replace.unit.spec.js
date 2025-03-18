@@ -1,10 +1,21 @@
 import { expect } from 'chai';
 
 import {
+  replaceWhitespace,
   replaceDescriptionContent,
   replaceSubmittedData,
   fixDateFormat,
 } from '../../utils/replace';
+
+describe('replaceWhitespace', () => {
+  it('should return an empty string', () => {
+    expect(replaceWhitespace('')).to.eq('');
+    expect(replaceWhitespace('    ')).to.eq('');
+    expect(replaceWhitespace('       ab')).to.eq('ab');
+    expect(replaceWhitespace('cd       ')).to.eq('cd');
+    expect(replaceWhitespace('a b  c  d    e')).to.eq('a b c d e');
+  });
+});
 
 describe('replaceDescriptionContent', () => {
   it('should return an empty string', () => {
