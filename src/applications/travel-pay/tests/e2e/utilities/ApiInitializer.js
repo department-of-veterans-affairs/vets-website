@@ -22,6 +22,15 @@ class ApiInitializer {
     },
   };
 
+  initializeClaimDetails = {
+    happyPath: () => {
+      cy.intercept('GET', '/travel_pay/v0/claims/*', {
+        fixture:
+          'applications/travel-pay/tests/fixtures/travel-claim-details-v1.json',
+      }).as('details');
+    },
+  };
+
   submitClaim = {
     happyPath: () => {
       cy.intercept('POST', '/travel_pay/v0/claims', {
