@@ -17,6 +17,7 @@ const ThreadListItem = props => {
     draftDate,
     subject,
     recipientName,
+    suggestedNameDisplay,
     hasAttachment,
     messageId,
     category,
@@ -127,7 +128,7 @@ const ThreadListItem = props => {
               data-dd-privacy="mask"
               data-dd-action-name="Triage Group Name"
             >
-              To: {recipientName}
+              To: {suggestedNameDisplay || recipientName}
             </span>
           )}
         </div>

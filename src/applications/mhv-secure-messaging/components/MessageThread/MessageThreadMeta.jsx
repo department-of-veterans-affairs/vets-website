@@ -11,7 +11,14 @@ const MessageThreadMeta = props => {
     draftMessageHistoryItem,
     forPrint,
   } = props;
-  const { recipientName, senderName, triageGroupName, messageId, sentDate } =
+  const {
+    recipientName,
+    senderName,
+    triageGroupName,
+    suggestedNameDisplay,
+    messageId,
+    sentDate,
+  } =
     message ||
     replyMessage ||
     activeReplyDraftMessage ||
@@ -41,7 +48,9 @@ const MessageThreadMeta = props => {
               ? `${draftMessageHistoryItem[0]?.senderName} ${
                   !isSent ? draftMessageHistoryItem[0]?.triageGroupName : ''
                 }`
-              : `${senderName} ${!isSent ? `(${triageGroupName})` : ''}`}
+              : `${senderName} ${
+                  !isSent ? `(${suggestedNameDisplay || triageGroupName})` : ''
+                }`}
           </span>
         </p>
         <p
@@ -50,7 +59,9 @@ const MessageThreadMeta = props => {
         >
           <>To: </>
           <span data-dd-privacy="mask">
-            {recipientName || draftMessageHistoryItem[0]?.recipientName}
+            {(isSent && suggestedNameDisplay) ||
+              recipientName ||
+              draftMessageHistoryItem[0]?.recipientName}
           </span>
         </p>
         <p
