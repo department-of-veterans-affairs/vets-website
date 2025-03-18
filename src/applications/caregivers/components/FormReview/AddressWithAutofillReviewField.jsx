@@ -4,7 +4,7 @@ import { states } from 'platform/forms/address';
 import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
-export const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
+const AddressWithAutofillReviewField = ({ formData, inputLabel }) => {
   const addressRows = useMemo(
     () =>
       ['street', 'street2', 'city', 'state', 'postalCode', 'county'].map(
@@ -56,3 +56,5 @@ AddressWithAutofillReviewField.propTypes = {
   formData: PropTypes.object,
   inputLabel: PropTypes.string,
 };
+
+export default AddressWithAutofillReviewField;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { AddressWithAutofillReviewField } from '../../../../components/FormReview/AddressWithAutofillReviewField';
+import AddressWithAutofillReviewField from '../../../../components/FormReview/AddressWithAutofillReviewField';
 import content from '../../../../locales/en/content.json';
 
 const defaultData = {
