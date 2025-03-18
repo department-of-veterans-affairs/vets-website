@@ -9,7 +9,7 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../tests/mocks/setup';
-import { createReferralAppointment } from './utils/appointment';
+import { createMockEpsAppointment } from './utils/appointment';
 import { createReferralById, getReferralSlotKey } from './utils/referrals';
 import { FETCH_STATUS } from '../utils/constants';
 import { createDraftAppointmentInfo } from './utils/provider';
@@ -130,14 +130,11 @@ describe('VAOS Component: ReviewAndConfirm', () => {
       .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
       .onFirstCall()
       .resolves(
-        createReferralAppointment(draftAppointmentInfo.appointment.id, 'draft'),
+        createMockEpsAppointment(draftAppointmentInfo.appointment.id, 'draft'),
       )
       .onSecondCall()
       .resolves(
-        createReferralAppointment(
-          draftAppointmentInfo.appointment.id,
-          'confirmed',
-        ),
+        createMockEpsAppointment(draftAppointmentInfo.appointment.id, 'booked'),
       );
 
     const screen = renderWithStoreAndRouter(
@@ -174,7 +171,7 @@ describe('VAOS Component: ReviewAndConfirm', () => {
     sandbox
       .stub(postDraftReferralAppointmentModule, 'getAppointmentInfo')
       .resolves(
-        createReferralAppointment(
+        createMockEpsAppointment(
           draftAppointmentInfo.appointment.id,
           'confirmed',
         ),
