@@ -115,7 +115,7 @@ export const createProtectedRoute = (route, state) => {
   }
 
   // Don't protect routes in localhost environment
-  if (environment.isLocalhost) {
+  if (environment.isLocalhost()) {
     return route;
   }
 
