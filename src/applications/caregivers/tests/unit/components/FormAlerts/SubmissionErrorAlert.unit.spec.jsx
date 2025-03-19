@@ -6,8 +6,8 @@ import { expect } from 'chai';
 import SubmissionErrorAlert from '../../../../components/FormAlerts/SubmissionErrorAlert';
 
 describe('CG <SubmissionErrorAlert>', () => {
-  const getData = () => ({
-    mockStore: {
+  const subject = () => {
+    const mockStore = {
       getState: () => ({
         form: {
           submission: { response: undefined, timestamp: undefined },
@@ -16,25 +16,23 @@ describe('CG <SubmissionErrorAlert>', () => {
       }),
       subscribe: () => {},
       dispatch: () => {},
-    },
-  });
-  const subject = ({ mockStore }) => {
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <SubmissionErrorAlert />
       </Provider>,
     );
     const selectors = () => ({
-      wrapper: container.querySelector('.caregiver-error-message'),
       download: container.querySelector('.caregiver-application--download'),
+      vaAlert: container.querySelector('va-alert[status="error"]'),
     });
     return { container, selectors };
   };
 
   it('should render content and download application container', () => {
-    const { mockStore } = getData();
-    const { selectors } = subject({ mockStore });
-    expect(selectors().wrapper).to.not.be.empty;
-    expect(selectors().download).to.not.be.empty;
+    const { selectors } = subject();
+    const { download, vaAlert } = selectors();
+    expect(vaAlert).to.not.be.empty;
+    expect(download).to.not.be.empty;
   });
 });

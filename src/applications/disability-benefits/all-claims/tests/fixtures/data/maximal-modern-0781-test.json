@@ -379,7 +379,7 @@
       "unlisted": true
     },
     "view:noneCheckbox": {
-      "none": false
+      "view:noBehaviorChanges": false
     },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,
