@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import moment from 'moment';
+import moment from 'moment-timezone';
 import * as Sentry from '@sentry/browser';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { selectVAPResidentialAddress } from '@department-of-veterans-affairs/platform-user/selectors';
@@ -803,16 +803,19 @@ export function onCalendarChange(
   selectedDates,
   maxSelections,
   upcomingAppointments,
+  timezone,
 ) {
   let isSame = false;
-  if (maxSelections === 1 && selectedDates?.length > 0) {
-    const date = selectedDates[0];
-
-    const d1 = moment(date, 'YYYY-MM-DDTHH:mm:ss');
-    const appointments = upcomingAppointments[d1.format('YYYY-MM')];
+  if (maxSelections === 1 && selectedDates?.length > 0 && timezone) {
+    const selectedDate = selectedDates[0];
+    const key = moment(selectedDate, 'YYYY-MM-DDTHH:mm:ss');
+    const appointments = upcomingAppointments[key.format('YYYY-MM')];
 
     isSame = appointments?.some(appointment => {
-      const d2 = moment(appointment.start, 'YYYY-MM-DDTHH:mm:ss');
+      // Convert slot date to calendar timezone since slot dates are in UTC
+      const d1 = moment.tz(selectedDate, timezone);
+      const d2 = moment.tz(appointment.start, `${appointment.timezone}`);
+
       return (
         appointment.status !== APPOINTMENT_STATUS.cancelled && d1.isSame(d2)
       );
