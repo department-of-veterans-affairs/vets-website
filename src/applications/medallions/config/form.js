@@ -12,6 +12,7 @@ import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
 import supportingDocuments from '../pages/supportingDocuments';
 import supportingDocumentsUpload from '../pages/supportingDocumentsUpload';
+import viewPersonalInformation from '../pages/viewPersonalInformation';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -52,6 +53,12 @@ const formConfig = {
       pages: {
         personalInformation: {
           path: 'personal-information',
+          title: 'Your Name',
+          uiSchema: viewPersonalInformation.uiSchema,
+          schema: viewPersonalInformation.schema,
+        },
+        personalInformation2: {
+          path: 'personal-information2',
           title: 'Your Name',
           uiSchema: personalInformation.uiSchema,
           schema: personalInformation.schema,
