@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Form, useNavigate } from 'react-router-dom';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import api from '../utilities/api';
 
 const SEARCH_PARAMS = {
@@ -11,19 +10,7 @@ const SEARCH_PARAMS = {
   SORT: 'sort',
 };
 
-const mapStateToProps = state => ({
-  accreditedRepresentativePortalSortBy: toggleValues(state)[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalSortBy
-  ],
-});
-
-const SortForm = ({
-  asc,
-  desc,
-  ascOption,
-  descOption,
-  accreditedRepresentativePortalSortBy,
-}) => {
+const SortForm = ({ asc, desc, ascOption, descOption }) => {
   const navigate = useNavigate();
   const url = new URL(window.location);
   const params = new URLSearchParams(url.search);
@@ -44,10 +31,16 @@ const SortForm = ({
     }
     return null;
   };
+  const accreditedRepresentativePortalSortBy = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.accreditedRepresentativePortalSortBy
+      ],
+  );
 
   return (
     <>
-      {!accreditedRepresentativePortalSortBy.accreditedRepresentativePortalSortBy && (
+      {!accreditedRepresentativePortalSortBy && (
         <Form id="search-form" role="search" className="poa-request__sort-by">
           <VaSelect
             onVaSelect={handleChange}
@@ -73,4 +66,4 @@ const SortForm = ({
   );
 };
 
-export default connect(mapStateToProps)(SortForm);
+export default SortForm;

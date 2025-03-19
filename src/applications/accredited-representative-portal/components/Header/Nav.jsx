@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getSignInUrl } from '../../utilities/constants';
 import UserNav from './UserNav';
 
@@ -18,20 +17,21 @@ function SignInButton() {
   );
 }
 
-const mapStateToProps = state => ({
-  accreditedRepresentativePortalHelp: toggleValues(state)[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalHelp
-  ],
-  accreditedRepresentativePortalProfile: toggleValues(state)[
-    FEATURE_FLAG_NAMES.accreditedRepresentativePortalProfile
-  ],
-});
-
-export const Nav = (
-  accreditedRepresentativePortalHelp,
-  accreditedRepresentativePortalProfile,
-) => {
+export const Nav = () => {
   const profile = useLoaderData()?.profile;
+  const portalHelp = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.accreditedRepresentativePortalHelp
+      ],
+  );
+  const portalProfile = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.accreditedRepresentativePortalProfile
+      ],
+  );
+  // console.log(portalHelp, portalProfile);
   return (
     <nav className="nav">
       <div className="nav__container nav__container-primary vads-u-display--flex">
@@ -60,12 +60,8 @@ export const Nav = (
         {profile ? (
           <UserNav
             profile={profile}
-            accreditedRepresentativePortalProfile={
-              accreditedRepresentativePortalProfile.accreditedRepresentativePortalProfile
-            }
-            accreditedRepresentativePortalHelp={
-              accreditedRepresentativePortalHelp.accreditedRepresentativePortalProfile
-            }
+            accreditedRepresentativePortalProfile={portalProfile}
+            accreditedRepresentativePortalHelp={portalHelp}
           />
         ) : (
           <SignInButton />
@@ -82,7 +78,7 @@ export const Nav = (
             >
               Power of Attorney Requests
             </Link>
-            {!accreditedRepresentativePortalHelp.accreditedRepresentativePortalHelp && (
+            {!portalHelp && (
               <Link
                 to="/get-help"
                 className="nav__btn desktop"
@@ -97,4 +93,4 @@ export const Nav = (
     </nav>
   );
 };
-export default connect(mapStateToProps)(Nav);
+export default Nav;
