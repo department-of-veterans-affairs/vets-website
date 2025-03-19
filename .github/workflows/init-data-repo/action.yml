@@ -19,6 +19,7 @@ runs:
 
     - name: Check Node version
       id: print-node-version
+      shell: bash
       run: echo "double check--> ${{ steps.get-node-version.outputs.NODE_VERSION }}"
     
     - name: Setup Node
