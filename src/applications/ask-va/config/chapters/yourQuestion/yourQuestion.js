@@ -43,7 +43,6 @@ const yourQuestionPage = {
             formData.selectCategory === CategoryEducation ||
             formData.selectTopic === CategoryEducation
           ),
-        maxLength: 140,
       },
     },
     question: {
@@ -72,6 +71,7 @@ const yourQuestionPage = {
     properties: {
       subject: {
         type: 'string',
+        maxLength: 140,
       },
       question: {
         type: 'string',
