@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { states } from 'platform/forms/address';
@@ -13,134 +13,150 @@ import { REQUIRED_ADDRESS_FIELDS } from '../../utils/constants';
 import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
-const PrimaryAddressWithAutofill = props => {
-  const { formContext, formData, idSchema, onChange, schema } = props;
-  const { reviewMode, submitted } = formContext;
+// define our custom error messages
+const errorMessages = {
+  street: { required: content['validation-address--street-required'] },
+  city: { required: content['validation-address--city-required'] },
+  state: { required: content['validation-address--state-required'] },
+  postalCode: {
+    required: content['validation-address--postalCode-required'],
+    pattern: content['validation-address--postalCode-pattern'],
+  },
+  county: {
+    required: content['validation-address--county-required'],
+    pattern: content['validation-address--county-pattern'],
+  },
+};
+
+// define our custom input labels
+const inputLabelMap = {
+  primaryAddress: content['primary-input-label'],
+  secondaryOneAddress: content['secondary-one-input-label'],
+  secondaryTwoAddress: content['secondary-two-input-label'],
+};
+
+const AddressWithAutofill = props => {
+  const { formContext, formData, idSchema, onChange, schema, name } = props;
   const { properties: schemaProps } = schema;
-  const { veteranAddress } = useSelector(state => state.form.data);
-  const [dirtyFields, setDirtyFields] = useState([]);
+  const veteranAddress = useSelector(state => state.form.data.veteranAddress);
+  const [dirtyFields, setDirtyFields] = useState(new Set());
 
-  // define our custom error messages
-  const errorMessages = {
-    street: { required: content['validation-address--street-required'] },
-    city: { required: content['validation-address--city-required'] },
-    state: { required: content['validation-address--state-required'] },
-    postalCode: {
-      required: content['validation-address--postalCode-required'],
-      pattern: content['validation-address--postalCode-pattern'],
-    },
-    county: {
-      required: content['validation-address--county-required'],
-      pattern: content['validation-address--county-pattern'],
-    },
-  };
+  const parseFieldName = useCallback(field => field.split('_').pop(), []);
 
-  // define our custom input labels
-  const inputLabelMap = {
-    primaryAddress: content['primary-input-label'],
-    secondaryOneAddress: content['secondary-one-input-label'],
-    secondaryTwoAddress: content['secondary-two-input-label'],
-  };
-
-  // populate our dirty fields array on user interaction
-  const addDirtyField = useCallback(
-    field => {
-      if (!dirtyFields.includes(field)) {
-        setDirtyFields(prevState => [...prevState, field]);
-      }
-    },
-    [dirtyFields],
-  );
-
-  // define our checkbox input change event
-  const handleCheck = useCallback(
-    event => {
-      formData['view:autofill'] = event.target.checked;
-      // transform and send data back to the form
-      const dataToSend = formData['view:autofill']
-        ? { ...formData, ...veteranAddress }
-        : { 'view:autofill': false };
-      addDirtyField('autofill');
-      onChange(dataToSend);
-    },
-    [addDirtyField, formData, onChange, veteranAddress],
-  );
-
-  const updateAllFormDataForAutocomplete = useCallback(
+  // ensure formData has all field values if/when browser autocomplete fires
+  const updateFormDataForAutocomplete = useCallback(
     () => {
       [...REQUIRED_ADDRESS_FIELDS, 'street2'].forEach(field => {
-        const fieldName = `root_${props.name}_${field}`;
-        const { value } = document.getElementById(fieldName);
-        formData[field] = value;
+        const fieldName = `root_${name}_${field}`;
+        const inputElement = document.getElementById(fieldName);
+        if (inputElement) formData[field] = inputElement.value;
       });
     },
-    [formData, props.name],
+    [formData, name],
   );
 
-  // define our non-checkbox input change event
+  const addDirtyField = useCallback(
+    field => setDirtyFields(prevState => new Set(prevState).add(field)),
+    [],
+  );
+
+  const handleCheck = useCallback(
+    event => {
+      const isChecked = event.target.checked;
+      const updatedData = isChecked
+        ? { ...veteranAddress, 'view:autofill': true }
+        : { 'view:autofill': false };
+      addDirtyField('autofill');
+      onChange(updatedData);
+    },
+    [addDirtyField, onChange, veteranAddress],
+  );
+
   const handleChange = useCallback(
     event => {
-      const fieldName = event.target.name.split('_').pop();
+      const fieldName = parseFieldName(event.target.name);
       formData[fieldName] = event.target.value;
-      // uncheck autofill since we have modified the input value
-      if (formData['view:autofill']) formData['view:autofill'] = false;
-      // send updated date to the form
-      updateAllFormDataForAutocomplete();
+      formData['view:autofill'] = false;
+      updateFormDataForAutocomplete();
       onChange(formData);
     },
-    [formData, onChange, updateAllFormDataForAutocomplete],
+    [formData, onChange, parseFieldName, updateFormDataForAutocomplete],
   );
 
-  // define our non-checkbox input blur event
   const handleBlur = useCallback(
     event => {
-      const { name } = event.target;
-      const fieldName = name.split('_').pop();
+      const fieldName = parseFieldName(event.target.name);
       addDirtyField(fieldName);
-      // make sure that formData has all field values
-      // browser autocomplete does not consistently trigger input/change events
-      updateAllFormDataForAutocomplete();
+      updateFormDataForAutocomplete();
       onChange(formData);
     },
-    [addDirtyField, formData, onChange, updateAllFormDataForAutocomplete],
+    [
+      addDirtyField,
+      formData,
+      onChange,
+      parseFieldName,
+      updateFormDataForAutocomplete,
+    ],
   );
 
-  // check for validation errors if field is dirty or form has been submitted
-  const showError = field => {
-    const fieldIsDirty = dirtyFields.includes(field);
-    if (submitted || fieldIsDirty) {
-      // validate required fields
+  const fieldError = useCallback(
+    field => {
+      // skip validation if field is prestine & submission has not occurred
+      if (!formContext.submitted && !dirtyFields.has(field)) return null;
+
+      // validate field for required data
       if (REQUIRED_ADDRESS_FIELDS.includes(field) && !formData[field]) {
         return errorMessages[field].required;
       }
-      // validate fields with required pattern matches
-      if (schemaProps[field].pattern) {
-        const regex = new RegExp(schemaProps[field].pattern, 'i');
-        if (!regex.test(formData[field].trim())) {
-          return errorMessages[field].pattern;
-        }
+
+      // validate field for pattern regex match
+      if (
+        schemaProps[field].pattern &&
+        !new RegExp(schemaProps[field].pattern, 'i').test(
+          formData[field]?.trim(),
+        )
+      ) {
+        return errorMessages[field].pattern;
       }
-    }
-    return null;
-  };
-  return reviewMode ? (
-    <AddressWithAutofillReviewField
-      formData={formData}
-      inputLabel={inputLabelMap[props.name]}
-    />
-  ) : (
+
+      // default return
+      return null;
+    },
+    [dirtyFields, formData, schemaProps, formContext.submitted],
+  );
+
+  const stateOptions = useMemo(
+    () =>
+      states.USA.map(state => (
+        <option key={state.value} value={state.value}>
+          {state.label}
+        </option>
+      )),
+    [],
+  );
+
+  if (formContext.reviewMode) {
+    return (
+      <AddressWithAutofillReviewField
+        formData={formData}
+        inputLabel={inputLabelMap[name]}
+      />
+    );
+  }
+
+  return (
     <div className="cg-address-with-autofill">
       <p>{content['caregiver-address-description--vet-home']}</p>
       <p className="va-address-block vads-u-margin-left--0 vads-u-margin-bottom--4">
         {veteranAddress.street} {veteranAddress.street2}
-        <br />
+        <br role="presentation" />
         {veteranAddress.city}, {veteranAddress.state}{' '}
         {veteranAddress.postalCode}
       </p>
 
       <VaCheckbox
-        id="root_caregiverAddress_autofill"
-        name="root_caregiverAddress_autofill"
+        id={`root_${name}_autofill`}
+        name={`root_${name}_autofill`}
         checked={formData['view:autofill']}
         label={content['caregiver-address-same-as-vet-label']}
         onVaChange={handleCheck}
@@ -152,15 +168,15 @@ const PrimaryAddressWithAutofill = props => {
         value={formData.street}
         label={replaceStrValues(
           content['form-address-street-label'],
-          inputLabelMap[props.name],
+          inputLabelMap[name],
         )}
         hint={content['caregiver-address-street-hint']}
+        autocomplete="address-line1"
         className="cg-address-input"
-        error={showError('street')}
+        error={fieldError('street')}
         onInput={handleChange}
         onBlur={handleBlur}
         required
-        autocomplete="address-line1"
       />
 
       <VaTextInput
@@ -168,10 +184,10 @@ const PrimaryAddressWithAutofill = props => {
         name={idSchema.street2.$id}
         value={formData.street2}
         label={content['form-address-street2-label']}
+        autocomplete="address-line2"
         className="cg-address-input"
         onInput={handleChange}
         onBlur={handleBlur}
-        autocomplete="address-line2"
       />
 
       <VaTextInput
@@ -179,12 +195,12 @@ const PrimaryAddressWithAutofill = props => {
         name={idSchema.city.$id}
         value={formData.city}
         label={content['form-address-city-label']}
+        autocomplete="address-level2"
         className="cg-address-input"
-        error={showError('city')}
+        error={fieldError('city')}
         onInput={handleChange}
         onBlur={handleBlur}
         required
-        autocomplete="address-level2"
       />
 
       <VaSelect
@@ -192,18 +208,14 @@ const PrimaryAddressWithAutofill = props => {
         name={idSchema.state.$id}
         value={formData.state}
         label={content['form-address-state-label']}
+        autocomplete="address-level1"
         className="cg-address-select"
-        error={showError('state')}
+        error={fieldError('state')}
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
-        autocomplete="address-level1"
       >
-        {states.USA.map(state => (
-          <option key={state.value} value={state.value}>
-            {state.label}
-          </option>
-        ))}
+        {stateOptions}
       </VaSelect>
 
       <VaTextInput
@@ -211,13 +223,13 @@ const PrimaryAddressWithAutofill = props => {
         name={idSchema.postalCode.$id}
         value={formData.postalCode}
         label={content['form-address-postalCode-label']}
+        autocomplete="postal-code"
         className="cg-address-input"
-        error={showError('postalCode')}
+        error={fieldError('postalCode')}
         pattern={schemaProps.postalCode.pattern}
         onInput={handleChange}
         onBlur={handleBlur}
         required
-        autocomplete="postal-code"
       />
 
       <VaTextInput
@@ -227,7 +239,7 @@ const PrimaryAddressWithAutofill = props => {
         label={content['form-address-county-label']}
         hint={content['form-address-county-hint']}
         className="cg-address-input"
-        error={showError('county')}
+        error={fieldError('county')}
         pattern={schemaProps.county.pattern}
         onInput={handleChange}
         onBlur={handleBlur}
@@ -239,8 +251,7 @@ const PrimaryAddressWithAutofill = props => {
   );
 };
 
-PrimaryAddressWithAutofill.propTypes = {
-  errorSchema: PropTypes.object,
+AddressWithAutofill.propTypes = {
   formContext: PropTypes.object,
   formData: PropTypes.object,
   idSchema: PropTypes.object,
@@ -249,4 +260,4 @@ PrimaryAddressWithAutofill.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default PrimaryAddressWithAutofill;
+export default AddressWithAutofill;
