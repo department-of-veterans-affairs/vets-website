@@ -6,7 +6,6 @@ import { sendDataDogAction } from '../../util/helpers';
 
 const LabsAndTestsListItem = props => {
   const { record } = props;
-
   return (
     <va-card
       background
@@ -58,5 +57,12 @@ const LabsAndTestsListItem = props => {
 export default LabsAndTestsListItem;
 
 LabsAndTestsListItem.propTypes = {
-  record: PropTypes.object,
+  record: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    date: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    orderedBy: PropTypes.string,
+    signedBy: PropTypes.string,
+  }).isRequired,
 };

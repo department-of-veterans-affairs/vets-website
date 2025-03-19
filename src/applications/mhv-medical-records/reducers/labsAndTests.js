@@ -1,4 +1,4 @@
-import { parseISO } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatObservationInterpretations,
@@ -479,6 +479,36 @@ export const convertLabsAndTestsRecord = record => {
     : { ...record, type: labTypes.OTHER };
 };
 
+export function formatDateTime(datetimeString) {
+  const dateTime = new Date(datetimeString);
+  const formattedDate = format(dateTime, 'MMMM d, yyyy');
+  const formattedTime = format(dateTime, 'h:mm a');
+
+  return { formattedDate, formattedTime };
+}
+
+// Need signed by
+// the types need to line up
+export const convertUnifiedLabsAndTestRecord = record => {
+  const NONE_NOTED = 'None noted';
+  const { formattedDate, formattedTime } = formatDateTime(
+    record.attributes.dateCompleted,
+  );
+  const date = formattedDate
+    ? `${formattedDate}, ${formattedTime}`
+    : NONE_NOTED;
+  return {
+    id: record.id,
+    name: record.attributes.display || NONE_NOTED,
+    date,
+    type: record.attributes.testCode || labTypes.OTHER,
+    orderedBy: record.attributes.orderedBy || NONE_NOTED,
+    base: {
+      ...record,
+    },
+  };
+};
+
 function sortByDate(array) {
   return array.sort((a, b) => {
     const dateA = parseISO(a.sortDate);
@@ -518,6 +548,23 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsDetails: action.response,
+      };
+    }
+    case Actions.LabsAndTests.GET_UNIFIED_LIST: {
+      const { data } = action.labsAndTestsResponse;
+      return {
+        ...state,
+        listCurrentAsOf: action.isCurrent ? new Date() : null,
+        listState: loadStates.FETCHED,
+        labsAndTestsList: data
+          .map(record => convertUnifiedLabsAndTestRecord(record))
+          .sort((a, b) => {
+            const dateA = parseISO(a.base.attributes.dateCompleted);
+            const dateB = parseISO(b.base.attributes.dateCompleted);
+            if (!a.base.attributes.dateCompleted) return 1; // Push nulls to the end
+            if (!b.base.attributes.dateCompleted) return -1; // Keep non-nulls at the front
+            return dateB - dateA;
+          }),
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

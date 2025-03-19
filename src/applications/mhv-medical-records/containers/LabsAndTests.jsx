@@ -92,20 +92,30 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={[refreshExtractTypes.CHEM_HEM, refreshExtractTypes.VPR]}
-          newRecordsFound={
-            Array.isArray(labsAndTests) &&
-            Array.isArray(updatedRecordList) &&
-            labsAndTests.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
+        {!isAcceleratingLabsAndTests && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={[
+              refreshExtractTypes.CHEM_HEM,
+              refreshExtractTypes.VPR,
+            ]}
+            newRecordsFound={
+              Array.isArray(labsAndTests) &&
+              Array.isArray(updatedRecordList) &&
+              labsAndTests.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
+        <RecordList
+          type={recordType.LABS_AND_TESTS}
+          records={labsAndTests?.map(allergy => ({
+            ...allergy,
+            isOracleHealthData: isAcceleratingLabsAndTests,
+          }))}
         />
-
-        <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
     </div>
   );
