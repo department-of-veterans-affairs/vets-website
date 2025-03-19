@@ -43,6 +43,7 @@ const AddressWithAutofill = props => {
 
   const parseFieldName = useCallback(field => field.split('_').pop(), []);
 
+  // ensure formData has all field values if/when browser autocomplete fires
   const updateFormDataForAutocomplete = useCallback(
     () => {
       [...REQUIRED_ADDRESS_FIELDS, 'street2'].forEach(field => {
@@ -100,12 +101,15 @@ const AddressWithAutofill = props => {
 
   const fieldError = useCallback(
     field => {
+      // skip validation if field is prestine & submission has not occurred
       if (!formContext.submitted && !dirtyFields.has(field)) return null;
 
+      // validate field for required data
       if (REQUIRED_ADDRESS_FIELDS.includes(field) && !formData[field]) {
         return errorMessages[field].required;
       }
 
+      // validate field for pattern regex match
       if (
         schemaProps[field].pattern &&
         !new RegExp(schemaProps[field].pattern, 'i').test(
@@ -115,6 +119,7 @@ const AddressWithAutofill = props => {
         return errorMessages[field].pattern;
       }
 
+      // default return
       return null;
     },
     [dirtyFields, formData, schemaProps, formContext.submitted],
