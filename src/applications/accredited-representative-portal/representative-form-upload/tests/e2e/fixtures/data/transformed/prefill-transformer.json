@@ -1,19 +1,18 @@
 {
   "pages": {},
   "formData": {
-    "fullName": {
-      "first": "John",
-      "last": "Veteran"
+    "veteranFullName": {
+      "first": "Hector",
+      "last": "Allen"
     },
     "address": {
       "postalCode": "12345"
     },
-    "phoneNumber": "1231231234",
     "email": "john@veteran.com",
     "idNumber": {
-      "ssn": "234232345",
-      "vaFileNumber": "456454567"
+      "ssn": "796126859"
     },
+    "dateOfBirth": "1932-02-05",
     "loa": 3
   },
   "metadata": {},
@@ -24,8 +23,8 @@
           "current": 3
         },
         "userFullName": {
-          "first": "John",
-          "last": "Veteran"
+          "first": "Hector",
+          "last": "Allen"
         }
       }
     }

@@ -77,7 +77,7 @@ export const veteranInformationPage = {
 /** @type {CustomPageType} */
 export function VeteranInformationPage(props) {
   const alert = MUST_MATCH_ALERT(
-    'claimant-information',
+    'veteran-information',
     onCloseAlert,
     props.data,
   );

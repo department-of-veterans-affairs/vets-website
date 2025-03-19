@@ -34,7 +34,7 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
         </h3>
       ) : (
         <h3 slot="headline">
-          Claimant’s identification information must match your PDF
+          Veteran’s identification information must match your PDF
         </h3>
       )}
       {isLoa3 ? (
@@ -50,7 +50,7 @@ export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
         </p>
       ) : (
         <p>
-          If the Claimant’s identification information you enter here doesn’t
+          If the Veteran’s identification information you enter here doesn’t
           match your uploaded PDF, it will cause processing delays.
         </p>
       )}
@@ -137,5 +137,18 @@ export const FORM_UPLOAD_INSTRUCTION_ALERT = onCloseEvent => (
         information, we won’t be able to process it.
       </p>
     </React.Fragment>
+  </VaAlert>
+);
+
+export const FORM_UPLOAD_FILE_UPLOADING_ALERT = onCloseEvent => (
+  <VaAlert
+    close-btn-aria-label="Close notification"
+    status="error"
+    visible
+    closeable
+    slim
+    onCloseEvent={onCloseEvent}
+  >
+    File upload must be complete to continue.
   </VaAlert>
 );

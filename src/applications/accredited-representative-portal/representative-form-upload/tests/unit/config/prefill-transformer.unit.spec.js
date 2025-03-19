@@ -11,14 +11,14 @@ describe('prefillTransformer', () => {
       profile: {
         loa: { current: 3 },
         userFullName: {
-          first: 'John',
-          last: 'Veteran',
+          first: 'Hector',
+          last: 'Allen',
         },
       },
     },
   };
 
-  it('should transform json correctly', () => {
+  it('should transform veteran json correctly', () => {
     const formData = { veteran: veteran.data };
 
     const transformedResult = prefillTransformer(
@@ -29,6 +29,19 @@ describe('prefillTransformer', () => {
     );
     expect(transformedResult).to.deep.equal(transformedFixture);
   });
+
+  // debugger
+  // it('should transform non-veteran json correctly', () => {
+  //   const formData = { veteran: veteran.data };
+
+  //   const transformedResult = prefillTransformer(
+  //     pages,
+  //     formData,
+  //     metadata,
+  //     state,
+  //   );
+  //   expect(transformedResult).to.deep.equal(transformedFixture);
+  // });
 
   it('handles empty veteran', () => {
     const formData = {};

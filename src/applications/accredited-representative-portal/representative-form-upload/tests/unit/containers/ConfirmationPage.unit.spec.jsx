@@ -9,7 +9,7 @@ import formConfig from '../../../config/form';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/confirmation';
-const config = formConfig(TEST_URL);
+const config = formConfig;
 
 const veteranFullName = {
   first: 'John',
@@ -62,6 +62,7 @@ describe('Confirmation page', () => {
     }).to.throw();
   });
 
+  // debugger; need to fix
   it('shows status success and the correct name of applicant', () => {
     const { container, getByText } = render(
       <Provider store={mockStore(storeBase)}>

@@ -1,19 +1,17 @@
 const prefillTransformer = (pages, formData, metadata, state) => {
   const { veteran = {} } = formData;
   const {
-    fullName,
-    ssn,
-    vaFileNumber,
+    veteranFullName,
+    veteranSsn,
     address = {},
-    phoneNumber,
     email,
+    veteranDateOfBirth,
   } = veteran;
   const { profile } = state.user;
   const {
     loa,
     ssn: profileSsn,
     userFullName: profileFullName,
-    vaFileNumber: profileVaFileNumber,
     zip: profileZip,
   } = profile;
 
@@ -23,20 +21,19 @@ const prefillTransformer = (pages, formData, metadata, state) => {
       address: {
         postalCode: address.postalCode || profileZip,
       },
-      fullName: fullName
+      dateOfBirth: veteranDateOfBirth,
+      veteranFullName: veteranFullName
         ? {
-            first: fullName.first,
-            last: fullName.last,
+            first: veteranFullName.first,
+            last: veteranFullName.last,
           }
         : {
             first: profileFullName.first,
             last: profileFullName.last,
           },
-      phoneNumber: phoneNumber || profile.phoneNumber,
       email: email || profile.email,
       idNumber: {
-        ssn: ssn || profileSsn,
-        vaFileNumber: vaFileNumber || profileVaFileNumber,
+        ssn: veteranSsn || profileSsn,
       },
       loa: loa.current,
     },
