@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { setPlannedClinics } from '../../../../utils/helpers/schema';
+import { setPlannedClinics } from '../../../../utils/helpers';
 
 describe('CG `setPlannedClinics` method', () => {
   it('should set an empty array if no state is set', () => {

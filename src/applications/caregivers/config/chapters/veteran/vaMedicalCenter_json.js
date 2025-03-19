@@ -2,18 +2,20 @@ import {
   titleUI,
   selectUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import {
   MED_CENTER_LABELS,
   MED_CENTERS_BY_STATE,
-  STATE_LABELS,
-} from '../../../utils/constants';
-import { setPlannedClinics } from '../../../utils/helpers/schema';
+  setPlannedClinics,
+} from '../../../utils/helpers';
 import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { veteran } = fullSchema.properties;
 const { plannedClinic } = veteran.properties;
+
+const STATE_LABELS = createUSAStateLabels(states);
 
 const vaMedicalCenterJson = {
   uiSchema: {
