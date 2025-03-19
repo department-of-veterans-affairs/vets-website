@@ -1,6 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+
 import ClaimDetailsContent from '../../components/ClaimDetailsContent';
 
 describe('ClaimDetailsContent', () => {
@@ -14,8 +17,29 @@ describe('ClaimDetailsContent', () => {
     modifiedOn: '2024-05-31T16:40:45.781Z',
   };
 
+  const getState = ({
+    featureTogglesAreLoading = false,
+    hasStatusFeatureFlag = true,
+    hasDetailsFeatureFlag = true,
+    hasClaimsManagementFlag = true,
+  } = {}) => ({
+    featureToggles: {
+      loading: featureTogglesAreLoading,
+      /* eslint-disable camelcase */
+      travel_pay_power_switch: hasStatusFeatureFlag,
+      travel_pay_view_claim_details: hasDetailsFeatureFlag,
+      travel_pay_claims_management: hasClaimsManagementFlag,
+      /* eslint-enable camelcase */
+    },
+  });
+
   it('Successfully renders', () => {
-    const screen = render(<ClaimDetailsContent {...claimDetailsProps} />);
+    const screen = renderWithStoreAndRouter(
+      <ClaimDetailsContent {...claimDetailsProps} />,
+      {
+        initialState: getState(),
+      },
+    );
 
     expect(
       screen.getByText(
@@ -25,5 +49,33 @@ describe('ClaimDetailsContent', () => {
     expect(screen.getByText('Claim number: TC0928098230498')).to.exist;
     expect(screen.getByText('Tomah VA Medical Center')).to.exist;
     expect(screen.getByText('Claim status: Claim submitted')).to.exist;
+  });
+
+  it('renders appeal link for denied claims', () => {
+    const screen = renderWithStoreAndRouter(
+      <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
+      {
+        initialState: getState(),
+      },
+    );
+
+    expect(screen.getByText('Claim status: Denied')).to.exist;
+    expect(
+      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
+    ).to.exist;
+  });
+
+  it('does not render claims management content with flag off', () => {
+    const screen = renderWithStoreAndRouter(
+      <ClaimDetailsContent {...claimDetailsProps} claimStatus="Denied" />,
+      {
+        initialState: getState({ hasClaimsManagementFlag: false }),
+      },
+    );
+
+    expect(screen.getByText('Claim status: Denied')).to.exist;
+    expect(
+      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
+    ).to.not.exist;
   });
 });
