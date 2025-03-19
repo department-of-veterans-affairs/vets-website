@@ -9,6 +9,7 @@ import fullSchema from '../../../../22-1990-schema.json';
 import LearnMoreAboutMilitaryBaseTooltip from '../../../../components/LearnMoreAboutMilitaryBaseTooltip';
 import YesNoReviewField from '../../../../components/YesNoReviewField';
 import AddressValidationModal from '../../../../components/AddressValidationModal';
+import CustomAddressField from '../../../../components/CustomAddressField';
 
 import { formFields } from '../../../../constants';
 import { validateAddress } from '../../../../actions';
@@ -176,6 +177,7 @@ const newMailingAddress33 = {
       },
       [formFields.address]: {
         ...address.uiSchema('', false, null, true),
+        'ui:widget': CustomAddressField,
         'ui:validations': [customValidateAddress],
         'ui:options': {
           updateSchema: (formData, addressSchema) => {

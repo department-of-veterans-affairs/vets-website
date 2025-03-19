@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import {
-  toggleModal as toggleModalAction,
+  setAddressValidationModalOpen,
   acceptValidatedAddress,
   setAddressValidated,
-  resetAddressValidation,
 } from '../actions';
 import { formFields } from '../constants';
 
@@ -18,168 +16,116 @@ function AddressValidationModal(props) {
     addressValidation,
     formData,
     setFormData,
-    resetAddressValidation: resetValidation,
-    setAddressValidated: setValidated,
-    toggleModal,
-    acceptValidatedAddress: acceptAddress,
+    setModalOpen,
+    acceptAddress,
+    setValidated,
   } = props;
 
-  const { modalOpen, suggestedAddresses = [], validated } = addressValidation;
+  const {
+    modalOpen,
+    suggestedAddresses = [],
+    isValidating,
+  } = addressValidation;
 
-  const userEnteredAddress =
-    formData?.[formFields.viewMailingAddress]?.[formFields.address];
-
-  // Track which address is selected in the modal (user entered or suggested)
-  const [selectedAddress, setSelectedAddress] = React.useState('userEntered');
-
-  // Control modal visibility based on validation state
+  // Control modal visibility based on validation state and suggested addresses
   useEffect(
     () => {
-      if (suggestedAddresses?.length > 0 && !validated) {
-        toggleModal(true);
-      } else {
-        toggleModal(false);
+      if (suggestedAddresses?.length > 0 && !isValidating) {
+        setModalOpen(true);
       }
     },
-    [suggestedAddresses, validated, toggleModal],
+    [suggestedAddresses, isValidating, setModalOpen],
   );
 
-  // Reset selected address when modal opens/closes
-  useEffect(
-    () => {
-      if (modalOpen) {
-        setSelectedAddress('userEntered');
-      }
-    },
-    [modalOpen],
-  );
+  const handleAcceptAddress = selectedAddress => {
+    // Update address in form data
+    const updatedFormData = {
+      ...formData,
+      [formFields.viewMailingAddress]: {
+        ...formData[formFields.viewMailingAddress],
+        [formFields.address]: selectedAddress,
+        addressValidated: true,
+      },
+    };
+    setFormData(updatedFormData);
 
-  // Reset validation when component unmounts
-  useEffect(
-    () => {
-      return () => {
-        resetValidation();
-      };
-    },
-    [resetValidation],
-  );
-
-  // Handle user clicking "Use this address" button
-  const handleAcceptAddress = () => {
-    let addressToUse;
-
-    if (selectedAddress === 'userEntered') {
-      // User wants to keep their original address
-      addressToUse = userEnteredAddress;
-    } else {
-      // User selected a suggested address
-      const selectedSuggestion = suggestedAddresses.find(
-        (_, index) => `suggested-${index}` === selectedAddress,
-      );
-      addressToUse = selectedSuggestion;
-    }
-
-    // Update address in Redux
-    acceptAddress(addressToUse);
-
-    // Mark as validated
+    // Update Redux state
+    acceptAddress(selectedAddress);
     setValidated(true);
+    setModalOpen(false);
+  };
 
-    // Update form data directly
-    if (setFormData && formData) {
-      const updatedFormData = {
-        ...formData,
-        [formFields.viewMailingAddress]: {
-          ...formData[formFields.viewMailingAddress],
-          [formFields.address]: addressToUse,
-        },
-      };
-      setFormData(updatedFormData);
-    }
-
-    // Close modal
-    toggleModal(false);
+  const handleCancel = () => {
+    setModalOpen(false);
   };
 
   // Format address for display
   const formatAddress = address => {
     if (!address) return '';
-
     const { street, street2, city, state, postalCode } = address;
-    let formattedAddress = street || '';
-
-    if (street2) {
-      formattedAddress += ` ${street2}`;
-    }
-
-    if (city || state || postalCode) {
-      formattedAddress += `, ${city || ''}, ${state || ''} ${postalCode || ''}`;
-    }
-
-    return formattedAddress;
+    const parts = [
+      street,
+      street2,
+      [city, state, postalCode].filter(Boolean).join(' '),
+    ].filter(Boolean);
+    return parts.join(', ');
   };
 
+  const userEnteredAddress =
+    formData[formFields.viewMailingAddress]?.[formFields.address];
+
   return (
-    <Modal
-      id="address-validation-modal"
-      status="info"
+    <VaModal
+      modalTitle="Please review your mailing address"
       visible={modalOpen}
-      onClose={() => toggleModal(false)}
-      title="Please review your mailing address"
-      primaryButton={{
-        text: 'Use this address',
-        onClick: handleAcceptAddress,
+      onCloseEvent={handleCancel}
+      onPrimaryButtonClick={() => handleAcceptAddress(userEnteredAddress)}
+      onSecondaryButtonClick={() => {
+        if (suggestedAddresses.length > 0) {
+          handleAcceptAddress(suggestedAddresses[0]);
+        }
       }}
-      secondaryButton={{
-        text: 'Cancel',
-        onClick: () => toggleModal(false),
-      }}
+      primaryButtonText="Use address as entered"
+      secondaryButtonText={
+        suggestedAddresses.length > 0 ? 'Use suggested address' : 'Cancel'
+      }
+      status="info"
     >
       <p>
         We've compared your address with the U.S. Postal Service's database.
-        Please choose an address to use from the options below.
+        Please choose which address you'd like to use:
       </p>
 
-      <div className="vads-u-margin-top--2">
-        <VaRadio
-          label="Address I entered"
-          name="addressSelection"
-          checked={selectedAddress === 'userEntered'}
-          onValueChange={() => setSelectedAddress('userEntered')}
-          description={formatAddress(userEnteredAddress)}
-        />
-      </div>
-
-      {suggestedAddresses.map((address, index) => (
-        <div className="vads-u-margin-top--2" key={`suggested-${index}`}>
-          <VaRadio
-            label={`Suggested address ${index + 1}`}
-            name="addressSelection"
-            checked={selectedAddress === `suggested-${index}`}
-            onValueChange={() => setSelectedAddress(`suggested-${index}`)}
-            description={formatAddress(address)}
-          />
-        </div>
-      ))}
-
-      <div className="vads-u-margin-top--3">
-        <p>
-          If none of these options are correct, you can close this window and
-          update your address in the form.
+      <div className="vads-u-margin-y--2">
+        <strong>Address as entered:</strong>
+        <p className="vads-u-margin-top--0">
+          {formatAddress(userEnteredAddress)}
         </p>
       </div>
-    </Modal>
+
+      {suggestedAddresses.length > 0 && (
+        <div className="vads-u-margin-y--2">
+          <strong>Suggested address:</strong>
+          <p className="vads-u-margin-top--0">
+            {formatAddress(suggestedAddresses[0])}
+          </p>
+        </div>
+      )}
+    </VaModal>
   );
 }
 
 AddressValidationModal.propTypes = {
-  addressValidation: PropTypes.object,
+  addressValidation: PropTypes.shape({
+    modalOpen: PropTypes.bool,
+    suggestedAddresses: PropTypes.array,
+    isValidating: PropTypes.bool,
+  }),
   formData: PropTypes.object,
   setFormData: PropTypes.func,
-  acceptValidatedAddress: PropTypes.func,
-  toggleModal: PropTypes.func,
-  setAddressValidated: PropTypes.func,
-  resetAddressValidation: PropTypes.func,
+  setModalOpen: PropTypes.func,
+  acceptAddress: PropTypes.func,
+  setValidated: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -189,10 +135,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFormData: setData,
-  acceptValidatedAddress,
-  toggleModal: toggleModalAction,
-  setAddressValidated,
-  resetAddressValidation,
+  setModalOpen: setAddressValidationModalOpen,
+  acceptAddress: acceptValidatedAddress,
+  setValidated: setAddressValidated,
 };
 
 export default connect(
