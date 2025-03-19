@@ -44,7 +44,6 @@ export default function initializeRealUserMonitoring(customRumSettings) {
   // This should only be set to `true` to enable RUM locally
   // Otherwise this should be `false`
   const overrideChecks = false;
-
   const useRUM = canUseRUM() || overrideChecks;
 
   if (useRUM) {
