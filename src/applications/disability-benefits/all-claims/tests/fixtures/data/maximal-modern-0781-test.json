@@ -379,7 +379,7 @@
       "unlisted": true
     },
     "view:noneCheckbox": {
-      "none": false
+      "view:noBehaviorChanges": false
     },
     "treatmentReceivedNonVaProvider": {
       "nonVa": true,
@@ -417,6 +417,27 @@
       "view:bankAccountNumber": "*********1234",
       "view:bankRoutingNumber": "*****2115",
       "view:bankName": "Comerica"
+    },
+    "supportingEvidenceReports": {
+      "police": true
+    },
+    "supportingEvidenceRecords": {
+      "physicians": true,
+      "counseling": true,
+      "crisis": true
+    },
+    "supportingEvidenceWitness": {
+      "family": true,
+      "faculty": false,
+      "service": false,
+      "clergy": true
+    },
+    "supportingEvidenceOther": {
+      "personal": false
+    },
+    "supportingEvidenceUnlisted": "unlisted document",
+    "supportingEvidenceNoneCheckbox": {
+      "none": false
     }
   }
 }

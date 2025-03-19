@@ -182,9 +182,9 @@ const NewRecordsIndicator = ({
           aria-live="polite"
           data-testid="new-records-last-updated"
         >
-          {`Last updated at ${lastSuccessfulUpdate.time} on ${
-            lastSuccessfulUpdate.date
-          }`}
+          {`Last updated at ${lastSuccessfulUpdate.time} ${
+            lastSuccessfulUpdate.timeZone
+          } on ${lastSuccessfulUpdate.date}`}
         </va-card>
       );
     }

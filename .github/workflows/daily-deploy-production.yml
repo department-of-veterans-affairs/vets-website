@@ -15,7 +15,7 @@ on:
         required: false
         default: 'false'
   schedule:
-    - cron: 0 18 * * 1-5
+    - cron: 0 17 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
@@ -33,12 +33,33 @@ jobs:
       id: holiday-check
       uses: department-of-veterans-affairs/vsp-github-actions/holiday-checker@main
   
+  yesterday-checker:
+    runs-on: ubuntu-latest
+    outputs:
+      was_yesterday_holiday: ${{ steps.yesterday.outputs.was_yesterday_holiday }}
+    steps:
+    - name: Check if yesterday was a holiday
+      id: yesterday
+      run: |
+        # Get yesterday's date in Eastern Time
+        YESTERDAY=$(TZ='America/New_York' date -d "yesterday" +"%Y-%m-%d")
+        # Define your holiday list (adjust as needed)
+        HOLIDAYS="2025-01-01 2025-07-04 2025-12-25"
+        if [[ " $HOLIDAYS " == *" $YESTERDAY "* ]]; then
+          echo "yesterday was a holiday"
+          echo "was_yesterday_holiday=true" >> $GITHUB_OUTPUT
+        else
+          echo "yesterday was not a holiday"
+          echo "was_yesterday_holiday=false" >> $GITHUB_OUTPUT
+        fi
+
   main-deployment:
     needs: holiday-checker
     runs-on: ubuntu-latest
     outputs:
       workflow_enabled_vets_website: ${{ steps.check-status.outputs.workflow_enabled_vets_website }}
       workflow_enabled_content_build: ${{ steps.check-status.outputs.workflow_enabled_content_build }}
+      reenabled: ${{ steps.enable-workflows.outputs.reenabled }}
     steps: 
     - name: Bypass Check - Force Enable Workflows
       if: ${{ github.event.inputs.bypass_freeze == 'true' }}
@@ -98,7 +119,7 @@ jobs:
           curl -X PATCH -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/department-of-veterans-affairs/content-build/actions/workflows/daily-deploy-production.yml/enable
-          
+          echo "reenabled=true" >> $GITHUB_OUTPUT
   notify-freeze:
     name: Notify Freeze Activated
     runs-on: ubuntu-latest
@@ -120,8 +141,10 @@ jobs:
   notify-freeze-ends:
     name: Notify Freeze Ended
     runs-on: ubuntu-latest
-    needs: [holiday-checker, main-deployment] 
-    if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' && (needs.main-deployment.outputs.workflow_enabled_vets_website == 'false' || needs.main-deployment.outputs.workflow_enabled_content_build == 'false') }}  
+    needs: [holiday-checker, main-deployment, yesterday-checker] 
+    if: ${{ 
+          github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'false' && needs.main-deployment.outputs.reenabled == 'true' && needs.yesterday-checker.outputs.was_yesterday_holiday == 'true'
+         }}  
     steps:
     - name: Checkout Repository
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017

@@ -65,9 +65,14 @@ const CategorySelectPage = props => {
       await askVAAttachmentStorage.clear();
     })();
 
+    const initialData =
+      formData.initialFormData === undefined
+        ? { ...formData }
+        : { ...formData.initialFormData };
+
     onChange({
       ...formData,
-      initialFormData: { ...formData },
+      initialFormData: initialData,
       categoryId: selected.id,
       selectCategory: selectedValue,
       allowAttachments: selected.attributes.allowAttachments,
