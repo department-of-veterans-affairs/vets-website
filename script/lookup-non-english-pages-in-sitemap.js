@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const libxmljs2 = require('libxmljs2');
+const { XMLParser } = require('fast-xml-parser');
 const fetch = require('node-fetch');
 
 const SITEMAP_URL = `http://${process.env.WEB_HOST || 'localhost'}:${process.env
@@ -22,13 +22,18 @@ const getUrlsFromXMLDoc = doc => {
   return doc.find('//xmlns:loc', SITEMAP_LOC_NS).map(n => n.text());
 };
 
+function parseXML(body) {
+  const parser = new XMLParser();
+  return parser.parse(body);
+}
+
 const parseNonEnglishContent = () => {
   return fetch(SITEMAP_URL)
     .then(res => {
       return res.text();
     })
     .then(body => {
-      return libxmljs2.parseXmlString(body);
+      return parseXML(body);
     })
 
     .then(doc => {
