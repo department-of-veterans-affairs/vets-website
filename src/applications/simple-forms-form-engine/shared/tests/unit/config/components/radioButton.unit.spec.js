@@ -74,6 +74,7 @@ describe('radioButton', () => {
             myCustomOption: component.responseOptions[0].description,
             aSecondOption: component.responseOptions[1].description,
           },
+          tile: true,
         }),
       ).to.eq(true);
     });

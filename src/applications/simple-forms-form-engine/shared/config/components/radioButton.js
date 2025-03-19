@@ -3,6 +3,7 @@ import {
   radioSchema,
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { hasDescriptions } from '../../utils/responseOptions';
 
 /**
  *
@@ -40,6 +41,12 @@ export default ({ hint, label, responseOptions }) => {
 
   return [
     radioSchema(keys),
-    radioUI({ title: label, hint, labels, descriptions }),
+    radioUI({
+      title: label,
+      hint,
+      labels,
+      descriptions,
+      tile: hasDescriptions(responseOptions),
+    }),
   ];
 };
