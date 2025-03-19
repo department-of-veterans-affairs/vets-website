@@ -38,7 +38,6 @@ export default function transformForSubmit(formConfig, form) {
   });
   copyOfData.pharmacyUpload = pharmacyUpload;
 
-  // TODO: why does medical upload not show up in the final object?
   const medicalUpload = copyOfData?.medicalUpload?.map(el => {
     return { ...el, attachmentId: 'MEDDOCS' };
   });
