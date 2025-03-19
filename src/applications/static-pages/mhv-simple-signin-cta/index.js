@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { signInServiceName } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 import {
@@ -26,14 +27,16 @@ export const MhvSimpleSigninCallToAction = ({
   linkText,
   linkUrl,
   headingLevel,
-  mhvAccountLoading = false,
-  profileLoading = false,
-  serviceDescription,
-  serviceName,
-  userIsLoggedIn = false,
-  userIsVerified = false,
+  serviceDescription = '',
 }) => {
   const headerLevel = parseInt(headingLevel, 10) || 3;
+  const {
+    loading: profileLoading,
+    mhvAccount: { loading: mhvAccountLoading },
+  } = useSelector(selectProfile);
+  const serviceName = useSelector(signInServiceName);
+  const userIsLoggedIn = useSelector(isLoggedIn);
+  const userIsVerified = useSelector(isLOA3);
   const loading = profileLoading || mhvAccountLoading;
 
   if (loading) {
@@ -80,22 +83,6 @@ MhvSimpleSigninCallToAction.propTypes = {
   serviceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,
   userIsVerified: PropTypes.bool,
-};
-
-/**
- * Map state properties.
- * @param {Object} state the current state
- * @returns state properties
- */
-export const mapStateToProps = state => {
-  const { loading, mhvAccount } = selectProfile(state);
-  return {
-    serviceName: signInServiceName(state),
-    userIsLoggedIn: isLoggedIn(state),
-    userIsVerified: isLOA3(state),
-    mhvAccountLoading: mhvAccount.loading,
-    profileLoading: loading,
-  };
 };
 
 export default MhvSimpleSigninCallToAction;
