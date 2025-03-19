@@ -43,6 +43,7 @@ const yourQuestionPage = {
             formData.selectCategory === CategoryEducation ||
             formData.selectTopic === CategoryEducation
           ),
+        maxLength: 140,
       },
     },
     question: {
