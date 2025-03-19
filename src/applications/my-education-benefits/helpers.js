@@ -421,7 +421,7 @@ export const formPages = {
       name: 'six-hundred-dollar-buy-up',
       order: 3,
       title:
-        'Did you make additional contributions (up to $600) to increase the amount of your monthly benefits',
+        'Did you make additional contributions (up to $600) to increase the amount of your monthly benefits?',
     },
   },
   directDeposit: 'directDeposit',
