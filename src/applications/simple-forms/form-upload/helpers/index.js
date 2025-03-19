@@ -35,11 +35,7 @@ const formMappings = {
     subTitle:
       'Application for Increased Compensation Based on Un-employability',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-8940-ARE.pdf',
-  },
-  '21-686c': {
-    subTitle: 'Declaration of Status of Dependents',
-    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
-  },
+  }
 };
 
 export const getFormNumber = (pathname = null) => {
