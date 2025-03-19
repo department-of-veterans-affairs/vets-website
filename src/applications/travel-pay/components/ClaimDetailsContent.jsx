@@ -80,7 +80,11 @@ ClaimDetailsContent.propTypes = {
 function AppealContent() {
   return (
     <>
-      <va-link text="Appeal the claim decision" href="/decision-reviews" />
+      <va-link
+        external
+        text="Appeal the claim decision"
+        href="/decision-reviews"
+      />
       <va-additional-info
         class="vads-u-margin-y--3"
         trigger="What to expect when you appeal"
