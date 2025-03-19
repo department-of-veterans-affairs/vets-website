@@ -67,6 +67,7 @@ describe('checkbox', () => {
               description: component.responseOptions[0].description,
             },
           },
+          tile: true,
         }),
       ).to.eq(true);
     });

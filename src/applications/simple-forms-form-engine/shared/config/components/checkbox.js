@@ -3,6 +3,7 @@ import {
   checkboxGroupSchema,
   checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { hasDescriptions } from '../../utils/responseOptions';
 
 /**
  *
@@ -38,6 +39,12 @@ export default ({ hint, label, required, responseOptions }) => {
 
   return [
     checkboxGroupSchema(keys),
-    checkboxGroupUI({ title: label, hint, labels, required }),
+    checkboxGroupUI({
+      title: label,
+      hint,
+      labels,
+      required,
+      tile: hasDescriptions(responseOptions),
+    }),
   ];
 };
