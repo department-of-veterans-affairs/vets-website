@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import UnverifiedPrefillAlert from './UnverifiedPrefillAlert';
+import NeedsToVerifyAlert from './NeedsToVerifyAlert';
 
 export const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
   const loggedIn = useSelector(isLoggedIn);
@@ -18,8 +18,8 @@ export const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
     return null;
   }
 
-  if (!loggedIn && !isVerified) {
-    return <UnverifiedPrefillAlert basename={basename} />;
+  if (loggedIn && !isVerified) {
+    return <NeedsToVerifyAlert basename={basename} />;
   }
 
   return (
@@ -30,7 +30,6 @@ export const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
 };
 
 ShowAlertOrSip.propTypes = {
-  loginModalOn: PropTypes.func.isRequired,
   sipOptions: PropTypes.shape({
     formId: PropTypes.string.isRequired,
     messages: PropTypes.object,
@@ -45,11 +44,6 @@ ShowAlertOrSip.propTypes = {
     hideUnauthedStartLink: PropTypes.bool,
   }).isRequired,
 
-  user: PropTypes.shape({
-    login: PropTypes.shape({
-      currentlyLoggedIn: PropTypes.bool.isRequired,
-    }).isRequired,
-  }).isRequired,
   basename: PropTypes.string,
   bottom: PropTypes.bool,
 };

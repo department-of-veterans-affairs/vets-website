@@ -9,7 +9,6 @@ import ShowAlertOrSip from '../components/shared/ShowAlertOrSip';
 import { WIZARD_STATUS } from '../wizard/constants';
 import manifest from '../manifest.json';
 import { clearJobIndex } from '../utils/session';
-import UnverifiedPrefillAlert from '../components/shared/UnverifiedPrefillAlert';
 
 const IntroductionPage = ({
   route,
@@ -37,7 +36,6 @@ const IntroductionPage = ({
     prefillEnabled,
     savedFormMessages,
     downtime,
-    verifyRequiredPrefill,
   } = formConfig;
 
   const sipOptions = {
@@ -51,9 +49,8 @@ const IntroductionPage = ({
     retentionPeriod: '60 days',
     downtime,
     prefillEnabled,
-    verifyRequiredPrefill,
-    unverifiedPrefillAlert: <UnverifiedPrefillAlert />,
     hideUnauthedStartLink: true,
+    useActionLinks: true,
   };
 
   return (
