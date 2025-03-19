@@ -5,10 +5,13 @@ import { useSelector } from 'react-redux';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+import { HelpTextOptions } from '../../HelpText';
 import { formatDateTime } from '../../../util/dates';
-import { BTSSS_PORTAL_URL } from '../../../constants';
 import { selectAppointment } from '../../../redux/selectors';
 import SmocRadio from '../../SmocRadio';
+
+const title = 'Are you only claiming mileage?';
 
 const MileagePage = ({
   pageIndex,
@@ -21,6 +24,8 @@ const MileagePage = ({
     focusElement('h1', {}, 'va-radio');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
 
@@ -48,7 +53,7 @@ const MileagePage = ({
       <SmocRadio
         name="mileage"
         value={yesNo.mileage}
-        label="Are you claiming only mileage?"
+        label={title}
         error={requiredAlert}
         onValueChange={e => {
           setYesNo({ ...yesNo, mileage: e.detail.value });
@@ -77,7 +82,7 @@ const MileagePage = ({
         <ul>
           <li>We pay round-trip mileage for your scheduled appointments.</li>
           <li>
-            We may only pay return mileage for unscheduled appointments, like
+            We may only pay return mileage for unscheduled appointments like
             walk-ins and labs.
           </li>
         </ul>
@@ -87,27 +92,11 @@ const MileagePage = ({
           text="Check current mileage rates"
         />
       </va-additional-info>
-
-      <va-additional-info
-        class="vads-u-margin-bottom--3"
+      <HelpTextOptions
         trigger="If you have other expenses to claim"
-      >
-        <p>
-          <strong>
-            If you need to submit receipts for other expenses like tolls, meals,
-            or lodging, you can’t file a claim in this tool right now.
-          </strong>{' '}
-          But you can file your claim online through the{' '}
-          <va-link
-            external
-            href={BTSSS_PORTAL_URL}
-            text="Beneficiary Travel Self Service System (BTSSS)"
-          />
-          . Or you can use VA Form 10-3542 to submit a claim by mail or in
-          person.
-        </p>
-      </va-additional-info>
-
+        headline="If you need to submit receipts for other expenses like tolls, meals,
+            or lodging, you can’t file a claim in this tool right now."
+      />
       <VaButtonPair
         class="vads-u-margin-y--2"
         continue

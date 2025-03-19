@@ -41,8 +41,9 @@ describe('22-10215 Edu Benefits Form', () => {
     cy.visit(`${manifest.rootUrl}`);
     cy.injectAxeThenAxeCheck();
 
-    cy.tabToElement('va-link-action');
-    cy.realPress('Enter');
+    // Uncomment when about page is created
+    // cy.tabToElement('va-link-action');
+    // cy.realPress('Enter');
 
     cy.tabToElement(
       'va-accordion-item[header="What are the due dates for submitting my 85/15 Rule enrollment ratios?"]',
@@ -60,8 +61,8 @@ describe('22-10215 Edu Benefits Form', () => {
       'How do I request an exemption from routine 85/15 Rule enrollment ratio reporting?',
     );
 
-    // // Tab to and press 'Start your 85/15 enrollment ratios report' to go to the introduction page
-    cy.tabToElement('[text="Start your 85/15 enrollment ratios report"]');
+    // // Tab to and press 'Start your form without signing in' to go to the introduction page
+    cy.repeatKey('Tab', 2);
     cy.realPress('Enter');
 
     // Institution Official Page

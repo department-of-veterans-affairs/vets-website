@@ -9,6 +9,8 @@ import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
   mockFetchFacilitiesResponse,
   mockVetsApiFacilitiesResponse,
+  mockFetchFacilitiesReponseWithoutAddress,
+  mockVetsApiFacilitiesWithoutAddressResponse,
 } from '../../mocks/fetchFacility';
 import content from '../../../locales/en/content.json';
 
@@ -126,6 +128,16 @@ describe('CG fetchFacilities action', () => {
       apiRequestStub.resolves(mockVetsApiFacilitiesResponse);
       const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
+
+      await waitFor(() => {
+        expect(apiRequestStub.callCount).to.equal(1);
+      });
+    });
+
+    it('formats facility without address', async () => {
+      apiRequestStub.resolves(mockVetsApiFacilitiesWithoutAddressResponse);
+      const response = await fetchFacilities({ long, lat, perPage, radius });
+      expect(response).to.deep.eq(mockFetchFacilitiesReponseWithoutAddress);
 
       await waitFor(() => {
         expect(apiRequestStub.callCount).to.equal(1);

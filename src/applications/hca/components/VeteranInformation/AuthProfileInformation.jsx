@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import AuthenticatedShortFormAlert from '../FormAlerts/AuthenticatedShortFormAlert';
 import { formatDate, normalizeFullName } from '../../utils/helpers';
@@ -7,15 +7,22 @@ import { CONTACTS } from '../../utils/imports';
 
 const AuthProfileInformation = ({ user }) => {
   const { veteranFullName, veteranDateOfBirth, totalDisabilityRating } = user;
-  const veteranDOB = veteranDateOfBirth
-    ? formatDate(veteranDateOfBirth, 'MMMM dd, yyyy')
-    : null;
-  const veteranName = normalizeFullName(veteranFullName, true);
 
-  const ShortFormAlert =
-    totalDisabilityRating >= HIGH_DISABILITY_MINIMUM ? (
-      <AuthenticatedShortFormAlert />
-    ) : null;
+  const veteranDOB = useMemo(
+    () => formatDate(veteranDateOfBirth, 'MMMM dd, yyyy'),
+    [veteranDateOfBirth],
+  );
+  const veteranName = useMemo(() => normalizeFullName(veteranFullName, true), [
+    veteranFullName,
+  ]);
+
+  const ShortFormAlert = useMemo(
+    () =>
+      totalDisabilityRating >= HIGH_DISABILITY_MINIMUM ? (
+        <AuthenticatedShortFormAlert />
+      ) : null,
+    [totalDisabilityRating],
+  );
 
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
@@ -82,7 +89,11 @@ const AuthProfileInformation = ({ user }) => {
 };
 
 AuthProfileInformation.propTypes = {
-  user: PropTypes.object,
+  user: PropTypes.shape({
+    veteranFullName: PropTypes.object,
+    veteranDateOfBirth: PropTypes.string,
+    totalDisabilityRating: PropTypes.number,
+  }),
 };
 
 export default AuthProfileInformation;

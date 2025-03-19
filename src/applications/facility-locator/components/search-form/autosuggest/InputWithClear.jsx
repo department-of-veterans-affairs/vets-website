@@ -38,9 +38,8 @@ function InputWithClear({
          */}
         <input
           className="input-with-clear vads-u-width--full"
-          {...getInputProps({ ...downshiftInputProps })}
-          data-testid="input-with-clear"
-          ref={inputRef}
+          {...getInputProps({ ref: inputRef, ...downshiftInputProps })}
+          data-testid={`${inputId}-input-with-clear`}
         />
         <InputControlsContainer
           isOpen={isOpen}

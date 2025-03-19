@@ -5,20 +5,29 @@ import { ConfirmationView } from 'platform/forms-system/src/js/components/Confir
 
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
-  const { submission } = form;
-  const submitDate = submission.timestamp;
-  const confirmationNumber = submission.response?.confirmationNumber;
+  const submission = form?.submission || {};
+  const submitDate = submission?.timestamp || '';
+  const confirmationNumber = submission?.response?.confirmationNumber || '';
 
   return (
     <ConfirmationView
       formConfig={props.route?.formConfig}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      pdfUrl={submission.response?.pdfUrl}
+      pdfUrl={submission?.response?.pdfUrl || ''}
       devOnly={{
         showButtons: true,
       }}
-    />
+    >
+      <ConfirmationView.SubmissionAlert actions={null} />
+      <ConfirmationView.SavePdfDownload />
+      <ConfirmationView.ChapterSectionCollection />
+      <ConfirmationView.PrintThisPage />
+      <ConfirmationView.WhatsNextProcessList item1Actions={null} />
+      <ConfirmationView.HowToContact />
+      <ConfirmationView.GoBackLink />
+      <ConfirmationView.NeedHelp />
+    </ConfirmationView>
   );
 };
 

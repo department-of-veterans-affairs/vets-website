@@ -356,11 +356,17 @@ export const addForm4142 = formData => {
     }),
   };
   delete clonedData.limitedConsent;
-  delete clonedData.providerFacility;
+  if (!clonedData.syncModern0781Flow) {
+    delete clonedData.providerFacility;
+  }
   return clonedData;
 };
 
 export const addForm0781 = formData => {
+  if (formData.syncModern0781Flow === true) {
+    return formData;
+  }
+
   const clonedData = _.cloneDeep(formData);
   const incidentKeys = getFlatIncidentKeys();
   const incidents = incidentKeys
@@ -400,6 +406,180 @@ export const addForm0781 = formData => {
     delete clonedData.additionalIncidentText;
     delete clonedData.additionalSecondaryIncidentText;
   }
+  return clonedData;
+};
+
+/**
+ * Extracts the month and year from a date string in the format YYYY-MM-DD
+ * If the date is missing or invalid, returns empty strings
+ *
+ * @param {string} dateString the date string to parse
+ * @returns {object} object containing `treatmentMonth` (MM) and `treatmentYear` (YYYY)
+ */
+export function extractDateParts(dateString) {
+  const match = dateString?.match(/^(\d{4}|\D+)-(\d{2}|\D+)/);
+  return {
+    treatmentMonth: match && /^\d{2}$/.test(match[2]) ? match[2] : '',
+    treatmentYear: match && /^\d{4}$/.test(match[1]) ? match[1] : '',
+  };
+}
+
+/**
+ * Transforms a provider facility object into the required structure
+ * Extracts relevant address information and formats it as a comma-separated string
+ *
+ * @param {object} facility the provider facility object to transform
+ * @returns {object} transformed facility with `facilityInfo`, `treatmentMonth`, and `treatmentYear`
+ */
+export function transformProviderFacility(facility) {
+  const facilityInfo = [
+    facility.providerFacilityName,
+    facility.providerFacilityAddress?.street,
+    facility.providerFacilityAddress?.street2,
+    facility.providerFacilityAddress?.city,
+    facility.providerFacilityAddress?.state,
+    facility.providerFacilityAddress?.postalCode,
+    facility.providerFacilityAddress?.country,
+  ]
+    .filter(Boolean)
+    .join(', ');
+
+  const { treatmentMonth, treatmentYear } = extractDateParts(
+    facility.treatmentDateRange?.from,
+  );
+
+  return { facilityInfo, treatmentMonth, treatmentYear };
+}
+
+/**
+ * Transforms a VA facility object into the required structure
+ * Extracts relevant address information and formats it as a comma-separated string
+ *
+ * @param {object} facility the VA facility object to transform
+ * @returns {object} transformed facility with `facilityInfo`, `treatmentMonth`, and `treatmentYear`
+ */
+export function transformVaFacility(facility) {
+  const facilityInfo = [
+    facility.treatmentCenterName,
+    facility.treatmentCenterAddress?.city,
+    facility.treatmentCenterAddress?.state,
+    facility.treatmentCenterAddress?.country,
+  ]
+    .filter(Boolean)
+    .join(', ');
+
+  const { treatmentMonth, treatmentYear } = extractDateParts(
+    facility.treatmentDateRange?.from,
+  );
+
+  return { facilityInfo, treatmentMonth, treatmentYear };
+}
+
+/**
+ * Transforms and filters treatment facilities from both provider and VA sources
+ * Only includes facilities where `treatmentLocation0781Related` is true
+ *
+ * @param {array} providerFacilities array of provider facility objects to transform
+ * @param {array} vaFacilities array of VA facility objects to transform
+ * @returns {array} array of transformed facility objects
+ */
+export function transformTreatmentFacilities(
+  providerFacilities = [],
+  vaFacilities = [],
+) {
+  return [
+    ...providerFacilities
+      .filter(f => f.treatmentLocation0781Related)
+      .map(transformProviderFacility),
+    ...vaFacilities
+      .filter(f => f.treatmentLocation0781Related)
+      .map(transformVaFacility),
+  ];
+}
+
+export const addForm0781V2 = formData => {
+  if (!formData.syncModern0781Flow) {
+    return formData;
+  }
+  const clonedData = _.cloneDeep(formData);
+
+  clonedData.form0781 = {
+    ...(clonedData.eventTypes && { eventTypes: clonedData.eventTypes }),
+    ...(clonedData.events && { events: clonedData.events }),
+    ...(clonedData.workBehaviors && {
+      workBehaviors: clonedData.workBehaviors,
+    }),
+    ...(clonedData.healthBehaviors && {
+      healthBehaviors: clonedData.healthBehaviors,
+    }),
+    ...(clonedData.otherBehaviors && {
+      otherBehaviors: clonedData.otherBehaviors,
+    }),
+    ...(clonedData.behaviorsDetails && {
+      behaviorsDetails: clonedData.behaviorsDetails,
+    }),
+    ...(clonedData.supportingEvidenceReports && {
+      supportingEvidenceReports: clonedData.supportingEvidenceReports,
+    }),
+    ...(clonedData.supportingEvidenceRecords && {
+      supportingEvidenceRecords: clonedData.supportingEvidenceRecords,
+    }),
+    ...(clonedData.supportingEvidenceWitness && {
+      supportingEvidenceWitness: clonedData.supportingEvidenceWitness,
+    }),
+    ...(clonedData.supportingEvidenceOther && {
+      supportingEvidenceOther: clonedData.supportingEvidenceOther,
+    }),
+    ...(clonedData.supportingEvidenceUnlisted && {
+      supportingEvidenceUnlisted: clonedData.supportingEvidenceUnlisted,
+    }),
+    ...(clonedData.supportingEvidenceNoneCheckbox && {
+      supportingEvidenceNoneCheckbox: clonedData.supportingEvidenceNoneCheckbox,
+    }),
+    ...(clonedData.treatmentReceivedVaProvider && {
+      treatmentReceivedVaProvider: clonedData.treatmentReceivedVaProvider,
+    }),
+    ...(clonedData.treatmentReceivedNonVaProvider && {
+      treatmentReceivedNonVaProvider: clonedData.treatmentReceivedNonVaProvider,
+    }),
+    ...(clonedData.treatmentNoneCheckbox && {
+      treatmentNoneCheckbox: clonedData.treatmentNoneCheckbox,
+    }),
+    ...(!!clonedData.providerFacility || !!clonedData.vaTreatmentFacilities
+      ? {
+          treatmentProvidersDetails: transformTreatmentFacilities(
+            clonedData.providerFacility || [],
+            clonedData.vaTreatmentFacilities || [],
+          ),
+        }
+      : {}),
+    ...(clonedData.optionIndicator && {
+      optionIndicator: clonedData.optionIndicator,
+    }),
+    ...(clonedData.additionalInformation && {
+      additionalInformation: clonedData.additionalInformation,
+    }),
+  };
+
+  delete clonedData.eventTypes;
+  delete clonedData.events;
+  delete clonedData.workBehaviors;
+  delete clonedData.healthBehaviors;
+  delete clonedData.otherBehaviors;
+  delete clonedData.behaviorsDetails;
+  delete clonedData.supportingEvidenceReports;
+  delete clonedData.supportingEvidenceRecords;
+  delete clonedData.supportingEvidenceWitness;
+  delete clonedData.supportingEvidenceOther;
+  delete clonedData.supportingEvidenceUnlisted;
+  delete clonedData.supportingEvidenceNoneCheckbox;
+  delete clonedData.treatmentReceivedVaProvider;
+  delete clonedData.treatmentReceivedNonVaProvider;
+  delete clonedData.treatmentNoneCheckbox;
+  delete clonedData.providerFacility;
+  delete clonedData.optionIndicator;
+  delete clonedData.additionalInformation;
+
   return clonedData;
 };
 

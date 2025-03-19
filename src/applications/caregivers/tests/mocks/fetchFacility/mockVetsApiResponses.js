@@ -447,3 +447,60 @@ export const mockVetsApiFacilitiesResponse = {
     },
   },
 };
+
+export const mockVetsApiFacilitiesWithoutAddressResponse = {
+  data: [
+    {
+      id: 'vha_568PB',
+      type: 'va_facilities',
+      attributes: {
+        name: 'Sturgis VA Compensated Work Therapy/Transitional Residence',
+        facilityType: 'va_health_facility',
+        classification: 'Other Outpatient Services (OOS)',
+        parent: {
+          id: 'vha_568',
+          link:
+            'https://sandbox-api.va.gov/services/va_facilities/v1/facilities/vha_568',
+        },
+        website: 'https://www.va.gov/find-locations/facility/vha_568PB',
+        lat: 44.41247351,
+        long: -103.47384472,
+        timeZone: 'America/Denver',
+        phone: {
+          fax: '605-720-7219',
+          main: '605-720-4729',
+          pharmacy: '605-745-2033',
+          afterHours: '605-720-4729',
+          patientAdvocate: '605-720-7179',
+          enrollmentCoordinator: '605-720-7095',
+          healthConnect: '833-983-0492',
+        },
+        hours: {
+          monday: '24/7',
+          tuesday: '24/7',
+          wednesday: '24/7',
+          thursday: '24/7',
+          friday: '24/7',
+          saturday: '24/7',
+          sunday: '24/7',
+        },
+        operationalHoursSpecialInstructions: [
+          'Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m.',
+        ],
+        mobile: false,
+        operatingStatus: {
+          code: 'NORMAL',
+        },
+        visn: '23',
+      },
+    },
+  ],
+  meta: {
+    pagination: {
+      currentPage: 1,
+      perPage: 5,
+      totalEntries: 12,
+      totalPages: 3,
+    },
+  },
+};

@@ -11,12 +11,8 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 
-export function required(formData, rawIndex) {
-  const index = parseInt(rawIndex, 10);
-  if (Number.isFinite(index)) {
-    return formData?.childrenToAdd?.[index]?.relationshipToChild?.stepchild;
-  }
-  return formData?.relationshipToChild?.stepchild;
+function required() {
+  return true;
 }
 
 export const stepchild = {

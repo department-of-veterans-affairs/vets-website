@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   VaFileInput,
@@ -164,18 +165,43 @@ class AddFilesForm extends React.Component {
     return (
       <>
         <div className="add-files-form">
-          <VaFileInput
-            id="file-upload"
-            className="vads-u-margin-bottom--3"
-            error={this.getErrorMessage()}
-            label="Upload additional evidence"
-            hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50MB (non-PDF) or 150 MB (PDF only)."
-            accept={FILE_TYPES.map(type => `.${type}`).join(',')}
-            onVaChange={e => this.add(e.detail.files)}
-            name="fileUpload"
-            additionalErrorClass="claims-upload-input-error-message"
-            aria-describedby="file-requirements"
-          />
+          <Toggler
+            toggleName={Toggler.TOGGLE_NAMES.cstFriendlyEvidenceRequests}
+          >
+            <Toggler.Enabled>
+              <div>
+                <h2>Upload Documents</h2>
+                <p>If you have a document to upload, you can do that here.</p>
+                <VaFileInput
+                  id="file-upload"
+                  className="vads-u-margin-bottom--3"
+                  error={this.getErrorMessage()}
+                  label="Upload document(s)"
+                  hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
+                  accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                  onVaChange={e => this.add(e.detail.files)}
+                  name="fileUpload"
+                  additionalErrorClass="claims-upload-input-error-message"
+                  aria-describedby="file-requirements"
+                  uswds
+                />
+              </div>
+            </Toggler.Enabled>
+            <Toggler.Disabled>
+              <VaFileInput
+                id="file-upload"
+                className="vads-u-margin-bottom--3"
+                error={this.getErrorMessage()}
+                label="Upload additional evidence"
+                hint="You can upload a .pdf, .gif, .jpg, .jpeg, .bmp, or .txt file. Your file should be no larger than 50 MB (non-PDF) or 150 MB (PDF only)."
+                accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+                onVaChange={e => this.add(e.detail.files)}
+                name="fileUpload"
+                additionalErrorClass="claims-upload-input-error-message"
+                aria-describedby="file-requirements"
+              />
+            </Toggler.Disabled>
+          </Toggler>
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (

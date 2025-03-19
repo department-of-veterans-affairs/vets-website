@@ -25,23 +25,19 @@ import SearchResultsHeader from '../components/SearchResultsHeader';
 import SegmentedControl from '../components/SegmentedControl';
 
 import {
-  clearGeocodeError,
-  clearSearchText,
   clearSearchResults,
   fetchVAFacility,
   searchWithBounds,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  getProviderSpecialties,
-  geolocateUser,
   mapMoved,
   selectMobileMapPin,
   updateSearchQuery,
 } from '../actions';
 import {
-  facilitiesUseAddressTypeahead,
   facilitiesPpmsSuppressAll,
   facilityLocatorMobileMapUpdate,
+  facilityLocatorAutosuggestVAMCServices,
   facilitiesUseFlProgressiveDisclosure,
   facilityLocatorPredictiveLocationSearch,
 } from '../utils/featureFlagSelectors';
@@ -64,7 +60,11 @@ const mapboxGlContainer = 'mapbox-gl-container';
 const zoomMessageDivID = 'screenreader-zoom-message';
 
 const FacilitiesMap = props => {
-  const { mobileMapPinSelected, mobileMapUpdateEnabled } = props;
+  const {
+    mobileMapPinSelected,
+    mobileMapUpdateEnabled,
+    vamcAutoSuggestEnabled,
+  } = props;
   const [map, setMap] = useState(null);
   const [verticalSize, setVerticalSize] = useState(0);
   const [horizontalSize, setHorizontalSize] = useState(0);
@@ -77,6 +77,7 @@ const FacilitiesMap = props => {
   );
   const [isSearching, setIsSearching] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [searchInitiated, setSearchInitiated] = useState(false);
 
   // refs
   const mapboxContainerRef = useRef(null);
@@ -231,11 +232,14 @@ const FacilitiesMap = props => {
 
   const handleSearchArea = () => {
     if (!map) return;
+
     resetMapElements();
-    const { currentQuery } = props;
     lastZoom = null;
+
+    const { currentQuery } = props;
     const center = map.getCenter().wrap();
     const bounds = map.getBounds();
+
     recordEvent({
       event: 'fl-search',
       'fl-search-fac-type': currentQuery.facilityType,
@@ -244,6 +248,7 @@ const FacilitiesMap = props => {
 
     const currentMapBoundsDistance = calculateSearchArea();
 
+    setSearchInitiated(true);
     props.genSearchAreaFromCenter({
       lat: center.lat,
       lng: center.lng,
@@ -460,23 +465,19 @@ const FacilitiesMap = props => {
               <PpmsServiceError currentQuery={props.currentQuery} />
             ) : null}
             <SearchForm
-              clearGeocodeError={props.clearGeocodeError}
-              clearSearchText={props.clearSearchText}
               currentQuery={currentQuery}
-              facilitiesUseAddressTypeahead={
-                props.facilitiesUseAddressTypeahead
-              }
-              geolocateUser={props.geolocateUser}
-              getProviderSpecialties={props.getProviderSpecialties}
               isMobile={isMobile}
               isSmallDesktop={isSmallDesktop}
               isTablet={isTablet}
               mobileMapUpdateEnabled={mobileMapUpdateEnabled}
               onChange={props.updateSearchQuery}
               onSubmit={handleSearch}
+              searchInitiated={searchInitiated}
               selectMobileMapPin={props.selectMobileMapPin}
+              setSearchInitiated={setSearchInitiated}
               suppressPPMS={props.suppressPPMS}
               useProgressiveDisclosure={useProgressiveDisclosure}
+              vamcAutoSuggestEnabled={vamcAutoSuggestEnabled}
             />
             <EmergencyCareAlert
               shouldShow={isEmergencyCareType || isCcpEmergencyCareTypes}
@@ -533,6 +534,7 @@ const FacilitiesMap = props => {
                         mobile={false}
                         mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                         results={results}
+                        selectMobileMapPin={props.selectMobileMapPin}
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
@@ -563,6 +565,7 @@ const FacilitiesMap = props => {
                   mobileMapUpdateEnabled={mobileMapUpdateEnabled}
                   results={results}
                   searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                  selectMobileMapPin={props.selectMobileMapPin}
                   shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                   smallDesktop
                   zoomMessageDivID={zoomMessageDivID}
@@ -605,6 +608,7 @@ const FacilitiesMap = props => {
                         searchAreaButtonEnabled={
                           !!map && searchAreaButtonEnabled()
                         }
+                        selectMobileMapPin={props.selectMobileMapPin}
                         shouldRenderSearchArea={
                           !!map && shouldRenderSearchArea()
                         }
@@ -652,6 +656,7 @@ const FacilitiesMap = props => {
                     mobileMapUpdateEnabled
                     results={results}
                     searchAreaButtonEnabled={!!map && searchAreaButtonEnabled()}
+                    selectMobileMapPin={props.selectMobileMapPin}
                     shouldRenderSearchArea={!!map && shouldRenderSearchArea()}
                     smallDesktop={false}
                     zoomMessageDivID={zoomMessageDivID}
@@ -804,11 +809,17 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
-      if (searchResultTitleRef.current && props.resultTime) {
+      const { inProgress, searchStarted } = props.currentQuery;
+
+      if (searchResultTitleRef.current && !inProgress && searchStarted) {
         setFocus(searchResultTitleRef.current);
       }
     },
-    [props.resultTime],
+    [
+      searchResultTitleRef.current,
+      props.currentQuery.inProgress,
+      props.currentQuery.searchStarted,
+    ],
   );
 
   useEffect(
@@ -879,7 +890,6 @@ const FacilitiesMap = props => {
 
 const mapStateToProps = state => ({
   currentQuery: state.searchQuery,
-  facilitiesUseAddressTypeahead: facilitiesUseAddressTypeahead(state),
   mobileMapPinSelected: state.searchResult.mobileMapPinSelected,
   mobileMapUpdateEnabled: facilityLocatorMobileMapUpdate(state),
   pagination: state.searchResult.pagination,
@@ -890,17 +900,14 @@ const mapStateToProps = state => ({
   suppressPPMS: facilitiesPpmsSuppressAll(state),
   usePredictiveGeolocation: facilityLocatorPredictiveLocationSearch(state),
   useProgressiveDisclosure: facilitiesUseFlProgressiveDisclosure(state),
+  vamcAutoSuggestEnabled: facilityLocatorAutosuggestVAMCServices(state),
 });
 
 const mapDispatchToProps = {
-  clearGeocodeError,
   clearSearchResults,
-  clearSearchText,
   fetchVAFacility,
   genBBoxFromAddress,
   genSearchAreaFromCenter,
-  geolocateUser,
-  getProviderSpecialties,
   mapMoved,
   searchWithBounds,
   selectMobileMapPin,

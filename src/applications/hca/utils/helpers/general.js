@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, parseISO, isValid } from 'date-fns';
 import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
 
 /**
@@ -7,14 +7,10 @@ import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-str
  * @param {Array} arrayToMap - an array of arrays that defines the keys/values to map
  * @returns {Object} - an object literal
  */
-export function createLiteralMap(arrayToMap) {
-  return arrayToMap.reduce((obj, [value, keys]) => {
-    for (const key of keys) {
-      Object.defineProperty(obj, key, { value });
-    }
-    return obj;
-  }, {});
-}
+export const createLiteralMap = arrayToMap =>
+  Object.fromEntries(
+    arrayToMap.flatMap(([value, keys]) => keys.map(key => [key, value])),
+  );
 
 /**
  * Helper that formats a date string using date-fns. This works around an
@@ -24,9 +20,11 @@ export function createLiteralMap(arrayToMap) {
  * @param {String} str - the format string to return
  * @returns {String} - the formatted date string
  */
-export function formatDate(val, str) {
-  return format(new Date(val.replaceAll('-', '/').split('T')[0]), str);
-}
+export const formatDate = (val, str = 'yyyy-MM-dd') => {
+  if (!val) return null;
+  const parsedDate = parseISO(val);
+  return isValid(parsedDate) ? format(parsedDate, str) : null;
+};
 
 /**
  * Helper that visually-masks the Veteran's Social Security number and separates
@@ -36,14 +34,14 @@ export function formatDate(val, str) {
  * @returns {Element} - React element containing the masked string and
  * screenreader-compatible output
  */
-export function maskSSN(value = '') {
+export const maskSSN = (value = '') => {
   if (!value) return srSubstitute('', 'is blank');
-  const number = value.toString().slice(-4);
+  const number = value.slice(-4);
   return srSubstitute(
     `●●●–●●–${number}`,
-    `ending with ${number.split('').join(' ')}`,
+    `ending with ${[...number].join(' ')}`,
   );
-}
+};
 
 /**
  * Helper that builds a full name string based on provided input values
@@ -52,21 +50,28 @@ export function maskSSN(value = '') {
  * the middle name as part of the returned string
  * @returns {String} - the name string with all extra whitespace removed
  */
-export function normalizeFullName(name = {}, outputMiddle = false) {
+export const normalizeFullName = (name = {}, outputMiddle = false) => {
   const { first = '', middle = '', last = '', suffix = '' } = name;
-  const nameToReturn = outputMiddle
-    ? `${first} ${middle !== null ? middle : ''} ${last} ${suffix}`
-    : `${first} ${last} ${suffix}`;
-  return nameToReturn.replace(/ +(?= )/g, '').trim();
-}
+  const nameToReturn = `${first} ${
+    outputMiddle && middle !== null ? middle : ''
+  } ${last} ${suffix}`.trim();
+  return nameToReturn.replace(/\s+/g, ' ');
+};
 
 /**
  * Helper that replaces specified parts of a string with a dynamic value
  * @param {String} src - the original string to parse
- * @param {String} val - the value to input into the new string
+ * @param {String|Array} val - the value to input into the new string
  * @param {String} char - the value to be replaced in the original string
  * @returns {String} - the new string with all replaced values
  */
-export function replaceStrValues(src, val, char = '%s') {
-  return src && val ? src.toString().replace(char, val) : '';
-}
+export const replaceStrValues = (src, val, char = '%s') => {
+  if (!src || !val) return '';
+  if (Array.isArray(val)) {
+    return val.reduce(
+      (result, value) => result.replace(char, value),
+      src.toString(),
+    );
+  }
+  return src.toString().replace(char, val);
+};
