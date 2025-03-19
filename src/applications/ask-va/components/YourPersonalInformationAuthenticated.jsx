@@ -15,7 +15,7 @@ const PersonalAuthenticatedInformation = ({
 }) => {
   useEffect(
     () => {
-      if (!isLoggedIn || !hasPrefillInformation(formData)) {
+      if (!hasPrefillInformation(formData || !isLoggedIn)) {
         goForward(formData);
       }
     },
