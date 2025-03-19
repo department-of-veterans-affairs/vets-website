@@ -742,14 +742,17 @@ const VaPrescription = prescription => {
                                 {showPartialFillContent &&
                                   isPartialFill && (
                                     <>
-                                      <p>
+                                      <p data-testid="partial-fill-text">
                                         This fill has a smaller quantity on
                                         purpose. This is temporary.
                                       </p>
                                       <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                                         Quantity
                                       </h4>
-                                      <p className="vads-u-margin--0 vads-u-margin-bottom--1">
+                                      <p
+                                        data-testid="rx-quantity-partial"
+                                        className="vads-u-margin--0 vads-u-margin-bottom--1"
+                                      >
                                         {validateIfAvailable(
                                           'Quantity',
                                           entry.quantity,
