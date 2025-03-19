@@ -147,7 +147,9 @@ const ResponseInboxPage = ({ router }) => {
       extension === 'pdf' ? 'application/pdf' : `image/${extension}`;
 
     const decoded = atob(fileContent);
-    const byteCharacters = atob(decoded.split(',')[1]);
+    const base64String =
+      decoded.split(',')[1] === undefined ? decoded : decoded.split(',')[1];
+    const byteCharacters = atob(base64String);
     const byteArray = Uint8Array.from(byteCharacters, char =>
       char.charCodeAt(0),
     );
