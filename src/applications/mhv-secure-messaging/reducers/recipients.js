@@ -33,9 +33,6 @@ export const recipientsReducer = (state = initialState, action) => {
       const facilities = findBlockedFacilities(action.response.data);
       const recipients = action.response.data.map(recipient => ({
         ...formatRecipient(recipient.attributes),
-        name:
-          recipient.attributes.suggestedNameDisplay ||
-          recipient.attributes.name,
       }));
 
       return {
