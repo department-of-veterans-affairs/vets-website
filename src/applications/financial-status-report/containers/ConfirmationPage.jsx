@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -115,11 +116,28 @@ const ConfirmationPage = ({ form, download }) => {
     return null;
   };
 
-  useEffect(() => {
-    focusElement('.schemaform-title > h1');
+  useEffect(
+    () => {
+      focusElement('.schemaform-title > h1');
 
-    scrollToTop();
-  }, []);
+      const recordDebtSelectionWithResolutionOption = () => {
+        const { selectedDebtsAndCopays } = data;
+        selectedDebtsAndCopays.forEach(debt => {
+          recordEvent({
+            event: 'fsr-submission-success',
+            'debt-type': debt.debtType,
+            'debt-id': debt.compositeDebtId,
+            'resolution-option': debt.resolutionOption,
+          });
+        });
+      };
+
+      recordDebtSelectionWithResolutionOption();
+
+      scrollToTop();
+    },
+    [data],
+  );
 
   const renderLongFormAlert = () => {
     return (
