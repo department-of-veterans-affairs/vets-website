@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -11,6 +11,7 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { isBefore, isAfter } from 'date-fns';
 import RecordList from '../components/RecordList/RecordList';
 import {
   recordType,
@@ -44,6 +45,7 @@ import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 import useAcceleratedData from '../hooks/useAcceleratedData';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
+import SortRecordList from '../components/RecordList/SortRecordList';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -65,11 +67,58 @@ const Allergies = props => {
       ],
   );
 
+  const allowFilterSort = useSelector(
+    state =>
+      state.featureToggles[FEATURE_FLAG_NAMES.mhvMedicalRecordsFilterAndSort],
+  );
+
   const user = useSelector(state => state.user.profile);
   const { isAcceleratingAllergies } = useAcceleratedData();
 
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const [selectedSort, setSelectedSort] = useState(
+    allowFilterSort ? 'alphabetically' : '',
+  );
+
+  const sortString = useMemo(
+    () => {
+      switch (selectedSort) {
+        case 'alphabetically':
+          return 'alphabetically';
+        case 'ascDate':
+          return 'Newest to oldest (date entered)';
+        case 'dscDate':
+          return 'Oldest to newest (date entered)';
+        default:
+          return '';
+      }
+    },
+    [selectedSort],
+  );
+
+  const sortedAllergies = useMemo(
+    () => {
+      switch (selectedSort) {
+        case 'alphabetically':
+          return allergies?.sort((a, b) => {
+            return a.name.localeCompare(b.name);
+          });
+        case 'ascDate':
+          return allergies?.sort((a, b) => {
+            return isBefore(new Date(a.date), new Date(b.date));
+          });
+        case 'dscDate':
+          return allergies?.sort((a, b) => {
+            return isAfter(new Date(a.date), new Date(b.date));
+          });
+        default:
+          return allergies;
+      }
+    },
+    [selectedSort, allergies],
+  );
 
   const dispatchAction = isCurrent => {
     return getAllergiesList(isCurrent, isAcceleratingAllergies);
@@ -212,26 +261,52 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             }}
           />
         )}
-
-        <PrintDownload
-          description="Allergies - List"
-          list
-          downloadPdf={generateAllergiesPdf}
-          allowTxtDownloads={allowTxtDownloads}
-          downloadTxt={generateAllergiesTxt}
-        />
-        <DownloadingRecordsInfo
-          allowTxtDownloads={allowTxtDownloads}
-          description="Allergies"
-        />
+        {allowFilterSort ? (
+          <SortRecordList
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
+            showDateEntered
+          />
+        ) : (
+          <>
+            <PrintDownload
+              description="Allergies - List"
+              list
+              downloadPdf={generateAllergiesPdf}
+              allowTxtDownloads={allowTxtDownloads}
+              downloadTxt={generateAllergiesTxt}
+            />
+            <DownloadingRecordsInfo
+              allowTxtDownloads={allowTxtDownloads}
+              description="Allergies"
+            />
+          </>
+        )}
         <RecordList
-          records={allergies?.map(allergy => ({
+          records={sortedAllergies?.map(allergy => ({
             ...allergy,
             isOracleHealthData: isAcceleratingAllergies,
           }))}
           type={recordType.ALLERGIES}
+          sortedBy={sortString}
         />
       </RecordListSection>
+      {allowFilterSort && (
+        <>
+          <DownloadingRecordsInfo
+            allowTxtDownloads={allowTxtDownloads}
+            description="Allergies"
+          />
+          <PrintDownload
+            description="Allergies - List"
+            list
+            downloadPdf={generateAllergiesPdf}
+            allowTxtDownloads={allowTxtDownloads}
+            downloadTxt={generateAllergiesTxt}
+          />
+          <div className="vads-u-margin-bottom--5 no-print" />
+        </>
+      )}
     </div>
   );
 };
