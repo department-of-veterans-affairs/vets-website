@@ -36,7 +36,6 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           isMobile={isMobile}
           key={result.id}
           location={result}
-          query={searchQuery}
         />
       ) : (
         <VaFacilityResult

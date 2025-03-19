@@ -53,8 +53,18 @@ export default class PageObject {
     return this;
   }
 
-  assertLink({ name, exist = true } = {}) {
-    cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
+  assertLink({ name, exist = true, useShadowDOM = false } = {}) {
+    if (useShadowDOM) {
+      cy.get('va-link')
+        .as('link')
+        .shadow();
+      cy.get('@link')
+        .contains(name)
+        .should(exist ? 'exist' : 'not.exist');
+    } else {
+      cy.findByRole('link', { name }).should(exist ? 'exist' : 'not.exist');
+    }
+
     return this;
   }
 
