@@ -24,7 +24,10 @@ import {
 } from '../../constants';
 
 export const uiSchema = {
-  'ui:title': titleWithTag(behaviorListPageTitle, form0781HeadingTag),
+  'ui:title': titleWithTag(
+    '~~OLD behaviorListPageTitle OLD~~',
+    form0781HeadingTag,
+  ),
   'ui:description': behaviorListDescription,
   workBehaviors: checkboxGroupUI({
     title: BEHAVIOR_LIST_SECTION_SUBTITLES.work,
