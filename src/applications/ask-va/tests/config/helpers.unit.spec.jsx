@@ -47,6 +47,7 @@ import {
   TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
+  branchOfServiceRuleforCategories,
   contactOptions,
   isQuestionAboutVeteranOrSomeoneElseLabels,
   relationshipOptionsMyself,
@@ -442,16 +443,8 @@ describe('Components and Utility Functions', () => {
   });
 
   describe('should return true if branch of service category selected and whoIsYourQuestionAbout is not GENERAL', () => {
-    const branchOfServiceCategories = [
-      'Veteran ID Card (VIC)',
-      'Disability compensation',
-      'Survivor benefits',
-      'Burials and memorials',
-      'Center for Women Veterans',
-    ];
-
     it('required for branch of service categories', () => {
-      branchOfServiceCategories.forEach(category => {
+      branchOfServiceRuleforCategories.forEach(category => {
         const result = isBranchOfServiceRequired({
           selectCategory: category,
           whoIsYourQuestionAbout: `anything except ${
