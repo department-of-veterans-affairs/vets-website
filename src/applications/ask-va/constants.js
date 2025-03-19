@@ -94,31 +94,32 @@ export const branchesOfService = [
 ];
 
 // Categories
+export const CategoryBenefitsIssuesOutsidetheUS =
+  'Benefits issues outside the U.S.';
 export const CategoryDebt =
   'Debt for benefit overpayments and health care copay bills';
 export const CategoryEducation = 'Education benefits and work study';
-export const CategoryHealthCare = 'Health care';
-export const CategoryVeteranReadinessAndEmployment =
-  'Veteran Readiness and Employment';
 export const CategoryGuardianshipCustodianshipFiduciaryIssues =
   'Guardianship, custodianship, or fiduciary issues';
+export const CategoryHealthCare = 'Health care';
 export const CategoryHousingAssistanceAndHomeLoans =
   'Housing assistance and home loans';
-export const CategoryBenefitsIssuesOutsidetheUS =
-  'Benefits issues outside the U.S.';
+export const CategoryVeteranReadinessAndEmployment =
+  'Veteran Readiness and Employment';
 
 // Topics
-export const TopicVeteranReadinessAndEmploymentChapter31 =
-  'Veteran Readiness and Employment (Chapter 31)';
-export const TopicSpeciallyAdapatedHousing =
-  'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
 export const TopicAppraisals = 'Appraisals';
+export const TopicDisabilityCompensation = 'Disability compensation';
 export const TopicEducationBenefitsAndWorkStudy =
   'Education benefits and work study';
 export const TopicEducationBenefitOverpayments =
   'Education benefit overpayments (for school officials)';
 export const TopicEducationBenefitOverpaymentsForStudents =
   'Education benefit overpayments (for students)';
+export const TopicVeteranReadinessAndEmploymentChapter31 =
+  'Veteran Readiness and Employment (Chapter 31)';
+export const TopicSpeciallyAdapatedHousing =
+  'Specially Adapted Housing (SAH) and Special Home Adaptation (SHA) grants';
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
@@ -145,7 +146,6 @@ export const branchOfServiceRuleforCategories = [
   'Survivor benefits',
   'Burials and memorials',
   'Center for Women Veterans',
-  'Benefits issues outside the U.S.',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page

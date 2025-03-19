@@ -270,7 +270,11 @@ class SchemaForm extends React.Component {
           <p className="usa-hint vads-u-margin-top--0 vads-u-margin-bottom--0">
             If you select “yes,” this information will be updated across
             multiple VA benefits and services. Read more about{' '}
-            <a href="https://www.va.gov/change-address/">
+            <a
+              href="https://www.va.gov/change-address/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               changing your address in your VA.gov profile (opens in new tab)
             </a>
             .
