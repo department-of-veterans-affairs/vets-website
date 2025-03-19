@@ -337,6 +337,21 @@ jobs:
           delimiter: ','
           output-type: 'folder'
 
+      # debugging effort - generating app coverage report and archiving it
+
+      - name: Run HCA coverage
+        run: |
+          yarn test:coverage-app hca
+
+      - name: Archive unit test results
+        uses: ./.github/workflows/upload-artifact
+        with:
+            name: index.html
+            path: coverage/
+
+      # debugging effort - generating app coverage report and archiving it
+
+      
       - name: Run unit tests
         run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
         env:
@@ -1101,7 +1116,21 @@ jobs:
           pattern: unit-test-report-*
           path: qa-standards-dashboard-data/src/testing-reports/data
           merge-multiple: true
-      
+
+      # debugging effort - generating app coverage report and archiving it
+
+      - name: Run HCA coverage
+        run: |
+          yarn test:coverage-app hca
+
+      - name: Archive unit test results
+        uses: ./.github/workflows/upload-artifact
+        with:
+            name: index.html
+            path: coverage/
+
+      # debugging effort - generating app coverage report and archiving it
+
       - name: Archive unit test coverage
         if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
