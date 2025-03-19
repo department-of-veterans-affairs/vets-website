@@ -44,6 +44,7 @@ import {
   CategoryHousingAssistanceAndHomeLoans,
   CategoryVeteranReadinessAndEmployment,
   TopicAppraisals,
+  TopicDisabilityCompensation,
   TopicEducationBenefitsAndWorkStudy,
   TopicSpeciallyAdapatedHousing,
   TopicVeteranReadinessAndEmploymentChapter31,
@@ -442,17 +443,52 @@ describe('Components and Utility Functions', () => {
     });
   });
 
-  describe('should return true if branch of service category selected and whoIsYourQuestionAbout is not GENERAL', () => {
-    it('required for branch of service categories', () => {
+  describe('isBranchOfServiceRequired', () => {
+    it('should return true for branch of service categories when not GENERAL', () => {
       branchOfServiceRuleforCategories.forEach(category => {
         const result = isBranchOfServiceRequired({
           selectCategory: category,
-          whoIsYourQuestionAbout: `anything except ${
-            whoIsYourQuestionAboutLabels.GENERAL
-          }`,
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
         });
         expect(result).to.be.true;
       });
+    });
+
+    it('should return false for branch of service categories when GENERAL', () => {
+      branchOfServiceRuleforCategories.forEach(category => {
+        const result = isBranchOfServiceRequired({
+          selectCategory: category,
+          whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.GENERAL,
+        });
+        expect(result).to.be.false;
+      });
+    });
+
+    it('should return true for Benefits Issues Outside US with Disability Compensation when not GENERAL', () => {
+      const result = isBranchOfServiceRequired({
+        selectCategory: CategoryBenefitsIssuesOutsidetheUS,
+        selectTopic: TopicDisabilityCompensation,
+        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
+      });
+      expect(result).to.be.true;
+    });
+
+    it('should return false for Benefits Issues Outside US with Disability Compensation when GENERAL', () => {
+      const result = isBranchOfServiceRequired({
+        selectCategory: CategoryBenefitsIssuesOutsidetheUS,
+        selectTopic: TopicDisabilityCompensation,
+        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.GENERAL,
+      });
+      expect(result).to.be.false;
+    });
+
+    it('should return false for Benefits Issues Outside US with non-Disability Compensation topic', () => {
+      const result = isBranchOfServiceRequired({
+        selectCategory: CategoryBenefitsIssuesOutsidetheUS,
+        selectTopic: 'Some Other Topic',
+        whoIsYourQuestionAbout: whoIsYourQuestionAboutLabels.MYSELF,
+      });
+      expect(result).to.be.false;
     });
   });
 
