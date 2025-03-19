@@ -110,7 +110,7 @@ describe('Form 0781 workflow choice page', () => {
         }}
         definitions={{}}
         formData={{}}
-        onSubmit={onSubmit}
+        onSubmit={onSubmit} 
       />,
     );
 

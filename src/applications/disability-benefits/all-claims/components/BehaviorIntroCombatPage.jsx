@@ -21,6 +21,9 @@ const DELETABLE_FORM_DATA_KEYS = [
   'behaviorsDetails',
 ];
 
+export const missingSelectionErrorMessage =
+  'A response is needed for this question. If you don’t wish to answer optional questions about behavioral changes, you may select ‘no’ and continue.';
+
 const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   // TODO: MOVE TO CONTENT FILE
   const combatIntroTitle =
@@ -31,9 +34,6 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
 
   const answerCombatQuestionsChoice = 'Yes, I want to answer these questions.';
   const optOutOfCombatQuestionsChoice = 'No, I want to skip these questions.';
-
-  const missingSelectionErrorMessage =
-    'A response is needed for this question. If you don’t wish to answer optional questions about behavioral changes, you may select ‘no’ and continue.';
 
   const selectionField = 'view:answerCombatBehaviorQuestions';
 
@@ -49,6 +49,7 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   const [showModal, setShowModal] = useState(false);
 
   const missingSelection = (error, _fieldData, formData) => {
+    console.log("Errors triggered")
     if (!formData?.[selectionField]) {
       error.addError?.(missingSelectionErrorMessage);
     }
@@ -90,7 +91,6 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
     },
     onSubmit: event => {
       event.preventDefault();
-
       if (checkErrors()) {
         scrollToFirstError({ focusOnAlertRole: true });
         // hasSelectedBehaviors indicates they checked behavior changes boxes
@@ -231,7 +231,11 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
           />
         </VaRadio>
         <>{mentalHealthSupportAlert()}</>
-        <FormNavButtons goBack={goBack} goForward={handlers.onSubmit} />
+        <FormNavButtons
+          goBack={goBack}
+          goForward={handlers.onSubmit}
+          submitToContinue
+        />
       </form>
     </div>
   );
