@@ -184,36 +184,20 @@ export const getLastSentMessage = messages => {
   );
 };
 
-export const handleHeader = (folderId, folder) => {
-  let folderName;
+export const isCustomFolder = folderId => {
+  return folderId > 0;
+};
 
-  switch (folderId) {
-    case Folders.INBOX.id: // Inbox
-      folderName = Folders.INBOX.header;
-      break;
-    case Folders.SENT.id: // Sent
-      folderName = Folders.SENT.header;
-      break;
-    case Folders.DRAFTS.id: // Drafts
-      folderName = Folders.DRAFTS.header;
-      break;
-    case Folders.DELETED.id: // Trash
-      folderName = Folders.DELETED.header;
-      break;
-    default:
-      folderName = folder.name;
-  }
+export const handleHeader = folder => {
+  const { folderId } = folder;
 
-  const isCustomFolder =
-    folderName !== Folders.INBOX.header &&
-    folderName !== Folders.SENT.header &&
-    folderName !== Folders.DRAFTS.header &&
-    folderName !== Folders.DELETED.header;
+  const folderName =
+    Object.values(Folders).find(f => f.id === folderId)?.header || folder.name;
 
   const ddTitle = `${
-    isCustomFolder ? 'Custom Folder' : `Messages: ${folderName}`
+    isCustomFolder(folderId) ? 'Custom Folder' : `Messages: ${folderName}`
   } h1`;
-  const ddPrivacy = `${isCustomFolder ? 'mask' : 'allow'}`;
+  const ddPrivacy = `${isCustomFolder(folderId) ? 'mask' : 'allow'}`;
 
   return {
     folderName,
@@ -230,7 +214,7 @@ export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
     Folders.DELETED.header,
   ];
 
-  const isCustomFolder = !systemFolderHeaders.includes(folderName);
+  const isSystemFolder = systemFolderHeaders.includes(folderName);
 
   if (folderName) {
     const titleTag = removeLandingPageFF
@@ -239,7 +223,7 @@ export const getPageTitle = ({ removeLandingPageFF, folderName, pathname }) => {
     return `${
       removeLandingPageFF
         ? `Messages: ${
-            folderName && !isCustomFolder ? folderName : 'More folders'
+            folderName && isSystemFolder ? folderName : 'More folders'
           } ${titleTag}`
         : `${folderName} ${titleTag}`
     }`;

@@ -1,7 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatDate } from '../../combined/utils/helpers';
 
 const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
+  const getStatementDateRange = () => {
+    if (
+      !selectedCopay?.statementStartDate ||
+      !selectedCopay?.statementEndDate
+    ) {
+      return 'This statement shows your current charges.';
+    }
+
+    const startDate = formatDate(selectedCopay.statementStartDate);
+    const endDate = formatDate(selectedCopay.statementEndDate);
+    return `This statement shows charges you received between ${startDate} and ${endDate}.`;
+  };
   const renderDescription = charge => (
     <div>
       <div>
@@ -55,7 +68,7 @@ const StatementTable = ({ charges, formatCurrency, selectedCopay }) => {
   };
 
   return (
-    <va-table table-type="bordered">
+    <va-table table-type="bordered" table-title={getStatementDateRange()}>
       <va-table-row slot="headers">
         <span>Date</span>
         <span>Description</span>
