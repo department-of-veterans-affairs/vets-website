@@ -142,10 +142,10 @@ export async function getAppointmentRequests({
 
     const requestsWithoutAppointments = appointments.data.filter(appt => {
       // Filter out appointments that are not requests
-      return (
-        getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
-        getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest
-      );
+      return useFeSourceOfTruth
+        ? appt.pending
+        : getAppointmentType(appt) === APPOINTMENT_TYPES.request ||
+            getAppointmentType(appt) === APPOINTMENT_TYPES.ccRequest;
     });
 
     requestsWithoutAppointments.sort(apptRequestSort);
@@ -271,17 +271,14 @@ export function getVAAppointmentLocationId(appointment) {
   if (
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&
-    !isClinicVideoAppointment(appointment)
+    !isClinicVideoAppointment(appointment) &&
+    appointment.location.vistaId === '612'
   ) {
     // 612 doesn't exist in the facilities api, but it's a valid VistA site
     // So, we want to show the facility information for the actual parent location
     // in that system, which is 612A4. This is really only visible for at home
     // video appointments, as the facility we direct users to in order to cancel
-    if (appointment.location.vistaId === '612') {
-      return '612A4';
-    }
-
-    return appointment?.location?.vistaId;
+    return '612A4';
   }
 
   return appointment?.location?.stationId;

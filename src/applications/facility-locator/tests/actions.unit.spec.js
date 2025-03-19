@@ -19,7 +19,6 @@ import {
   clearGeocodeError,
   clearSearchResults,
   clearSearchText,
-  fetchProviderDetail,
   fetchVAFacility,
   genBBoxFromAddress,
   getProviderSpecialties,
@@ -73,16 +72,6 @@ describe('Actions', () => {
         null,
       )(dispatch).then(() => {
         expect(returnAllCare.called);
-      });
-    });
-
-    describe('fetchProviderDetail', () => {
-      beforeEach(() => mockFetch());
-      it('should have correct dispatch type', () => {
-        const dispatch = sinon.spy();
-        return fetchProviderDetail()(dispatch).then(() => {
-          expect(dispatch.firstCall.args[0].type).to.deep.equal(SEARCH_STARTED);
-        });
       });
     });
 

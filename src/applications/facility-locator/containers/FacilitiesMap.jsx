@@ -802,11 +802,17 @@ const FacilitiesMap = props => {
 
   useEffect(
     () => {
-      if (searchResultTitleRef.current && props.resultTime) {
+      const { inProgress, searchStarted } = props.currentQuery;
+
+      if (searchResultTitleRef.current && !inProgress && searchStarted) {
         setFocus(searchResultTitleRef.current);
       }
     },
-    [props.resultTime],
+    [
+      searchResultTitleRef.current,
+      props.currentQuery.inProgress,
+      props.currentQuery.searchStarted,
+    ],
   );
 
   useEffect(

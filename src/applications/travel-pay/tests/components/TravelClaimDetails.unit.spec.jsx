@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import TravelClaimDetails from '../../components/TravelClaimDetails';
@@ -16,10 +18,12 @@ describe('TravelClaimDetails', () => {
     createdOn: '2024-05-27T16:40:45.781Z',
     modifiedOn: '2024-05-31T16:40:45.781Z',
   };
+
   const getState = ({
     featureTogglesAreLoading = false,
     hasStatusFeatureFlag = true,
     hasDetailsFeatureFlag = true,
+    hasClaimsManagementFlag = true,
     loadingDetails = false,
     detailsError = null,
     detailsData = {},
@@ -29,6 +33,7 @@ describe('TravelClaimDetails', () => {
       /* eslint-disable camelcase */
       travel_pay_power_switch: hasStatusFeatureFlag,
       travel_pay_view_claim_details: hasDetailsFeatureFlag,
+      travel_pay_claims_management: hasClaimsManagementFlag,
       /* eslint-enable camelcase */
     },
     travelPay: {
@@ -118,5 +123,33 @@ describe('TravelClaimDetails', () => {
 
     expect(screen.getByText(/There was an error loading the claim details/i)).to
       .exist;
+  });
+
+  it('renders appeal link for denied claims', async () => {
+    global.fetch.restore();
+    mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
+
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: getState(),
+    });
+
+    expect(await screen.findByText('Claim status: Denied')).to.exist;
+    expect(
+      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
+    ).to.exist;
+  });
+
+  it('does not render claims management content with flag off', async () => {
+    global.fetch.restore();
+    mockApiRequest({ ...claimDetailsProps, claimStatus: 'Denied' });
+
+    const screen = renderWithStoreAndRouter(<TravelClaimDetails />, {
+      initialState: getState({ hasClaimsManagementFlag: false }),
+    });
+
+    expect(await screen.findByText('Claim status: Denied')).to.exist;
+    expect(
+      $('va-link[text="Appeal the claim decision"][href="/decision-reviews"]'),
+    ).to.not.exist;
   });
 });
