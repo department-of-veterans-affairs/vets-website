@@ -16,6 +16,7 @@ import { usePrevious } from 'platform/utilities/react-hooks';
 import { withRouter } from 'react-router';
 import { refreshProfile } from 'platform/user/exportsFile';
 import { useRouteMetadata } from './useRouteMetadata';
+import { ContactInfoFormAppConfigProvider } from './ContactInfoFormAppConfigContext';
 
 export const BuildPageBase = ({
   title,
@@ -26,6 +27,7 @@ export const BuildPageBase = ({
   editContactInfoHeadingLevel,
   router,
   prefillPatternEnabled,
+  ...rest
 }) => {
   const dispatch = useDispatch();
   const Heading = editContactInfoHeadingLevel || 'h3';
@@ -84,30 +86,32 @@ export const BuildPageBase = ({
   };
 
   return (
-    <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
-      <InitializeVAPServiceID>
-        {field !== 'MAILING_ADDRESS' && (
-          <va-alert status="info" visible slim>
-            <p className="vads-u-margin--0">
-              Any changes you make will also be reflected on your VA.gov
-              profile.
-            </p>
-          </va-alert>
-        )}
-        <Heading ref={headerRef} className="vads-u-font-size--h3">
-          {title}
-        </Heading>
-        <ProfileInformationFieldController
-          forceEditView
-          fieldName={FIELD_NAMES[field]}
-          isDeleteDisabled
-          cancelCallback={handlers.cancel}
-          successCallback={handlers.success}
-          saveButtonText="Update"
-          prefillPatternEnabled={prefillPatternEnabled}
-        />
-      </InitializeVAPServiceID>
-    </div>
+    <ContactInfoFormAppConfigProvider value={{ ...rest, goToPath, returnPath }}>
+      <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+        <InitializeVAPServiceID>
+          {field !== 'MAILING_ADDRESS' && (
+            <va-alert status="info" visible slim>
+              <p className="vads-u-margin--0">
+                Any changes you make will also be reflected on your VA.gov
+                profile.
+              </p>
+            </va-alert>
+          )}
+          <Heading ref={headerRef} className="vads-u-font-size--h3">
+            {title}
+          </Heading>
+          <ProfileInformationFieldController
+            forceEditView
+            fieldName={FIELD_NAMES[field]}
+            isDeleteDisabled
+            cancelCallback={handlers.cancel}
+            successCallback={handlers.success}
+            saveButtonText="Update"
+            prefillPatternEnabled={prefillPatternEnabled}
+          />
+        </InitializeVAPServiceID>
+      </div>
+    </ContactInfoFormAppConfigProvider>
   );
 };
 

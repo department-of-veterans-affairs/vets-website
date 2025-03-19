@@ -18,6 +18,8 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { useContactInfoFormAppConfig } from 'applications/_mock-form-ae-design-patterns/shared/components/ContactInfo/ContactInfoFormAppConfigContext';
+import { setData } from 'platform/forms-system/src/js/actions';
 import {
   createTransaction,
   refreshTransaction,
@@ -26,6 +28,7 @@ import {
   updateFormFieldWithSchema,
   validateAddress,
 } from '../actions';
+import { updateMessagingSignature } from '../../actions/mhv';
 
 import {
   ACTIVE_EDIT_VIEWS,
@@ -60,7 +63,6 @@ import VAPServiceEditModalErrorMessage from './base/VAPServiceEditModalErrorMess
 import CopyMailingAddress from '../containers/CopyMailingAddress';
 
 import { createPersonalInfoUpdate } from '../actions/personalInformation';
-import { updateMessagingSignature } from '../../actions/mhv';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
@@ -90,6 +92,34 @@ const mailingAddressUpdateProfileUiSchema = radioUI({
 
 const mailingAddressUpdateProfileSchema = radioSchema(['yes', 'no']);
 
+const updateSchemasForMailingAddressUpdateProfileChoice = (
+  showMailingAddressUpdateProfileChoice,
+  formSchema,
+  uiSchema,
+) => {
+  if (showMailingAddressUpdateProfileChoice) {
+    return {
+      formSchema: {
+        ...formSchema,
+        properties: {
+          ...formSchema.properties,
+          updateProfileChoice: mailingAddressUpdateProfileSchema,
+        },
+        required: [...formSchema.required, 'updateProfileChoice'],
+      },
+      uiSchema: {
+        ...uiSchema,
+        updateProfileChoice: mailingAddressUpdateProfileUiSchema,
+      },
+    };
+  }
+
+  return {
+    formSchema,
+    uiSchema,
+  };
+};
+
 export const ProfileInformationEditViewFc = ({
   getInitialFormValues,
   showMailingAddressUpdateProfileChoice,
@@ -115,14 +145,14 @@ export const ProfileInformationEditViewFc = ({
   createTransaction: createTransactionAction,
   createPersonalInfoUpdate: createPersonalInfoUpdateAction,
   updateMessagingSignature: updateMessagingSignatureAction,
+  setData: setDataAction,
+  ...rest
 }) => {
+  // console.log('rest', rest);
+  const contactInfoFormAppConfig = useContactInfoFormAppConfig();
+  // console.log('contactInfoFormAppConfig', contactInfoFormAppConfig);
   const editFormRef = useRef(null);
   const [intervalId, setIntervalId] = useState(null);
-
-  // Helper functions
-  const onChangeFormDataAndSchemas = (value, schema, uiSchemaUpdate) => {
-    updateFormFieldWithSchemaAction(fieldName, value, schema, uiSchemaUpdate);
-  };
 
   const isPendingTransactionMemo = useMemo(
     () => {
@@ -160,32 +190,24 @@ export const ProfileInformationEditViewFc = ({
     [transaction, analyticsSectionName, refreshTransactionAction],
   );
 
-  // ComponentMount
+  // Component mount effects
   useEffect(() => {
     const initialFormValues = getInitialFormValues();
 
-    const enhancedFormSchema = showMailingAddressUpdateProfileChoice
-      ? {
-          ...formSchema,
-          properties: {
-            ...formSchema.properties,
-            updateProfileChoice: mailingAddressUpdateProfileSchema,
-          },
-          required: [...formSchema.required, 'updateProfileChoice'],
-        }
-      : formSchema;
+    const {
+      uiSchema: updatedUiSchema,
+      formSchema: updatedFormSchema,
+    } = updateSchemasForMailingAddressUpdateProfileChoice(
+      showMailingAddressUpdateProfileChoice,
+      formSchema,
+      uiSchema,
+    );
 
-    const enhancedUiSchema = showMailingAddressUpdateProfileChoice
-      ? {
-          ...uiSchema,
-          updateProfileChoice: mailingAddressUpdateProfileUiSchema,
-        }
-      : uiSchema;
-
-    onChangeFormDataAndSchemas(
+    updateFormFieldWithSchemaAction(
+      fieldName,
       initialFormValues,
-      enhancedFormSchema,
-      enhancedUiSchema,
+      updatedFormSchema,
+      updatedUiSchema,
     );
 
     focusOnFirstFormElement();
@@ -269,7 +291,8 @@ export const ProfileInformationEditViewFc = ({
 
   const copyMailingAddress = mailingAddress => {
     const newAddressValue = { ...field.value, ...mailingAddress };
-    onChangeFormDataAndSchemas(
+    updateFormFieldWithSchemaAction(
+      fieldName,
       transformInitialFormValues(newAddressValue),
       field.formSchema,
       field.uiSchema,
@@ -291,7 +314,7 @@ export const ProfileInformationEditViewFc = ({
     ];
 
     if (!addressFieldNames.includes(fieldName)) {
-      onChangeFormDataAndSchemas(value, schema, uiSchemaUpdate);
+      updateFormFieldWithSchemaAction(fieldName, value, schema, uiSchemaUpdate);
       return;
     }
 
@@ -303,7 +326,12 @@ export const ProfileInformationEditViewFc = ({
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
 
-    onChangeFormDataAndSchemas(newFieldValue, schema, uiSchemaUpdate);
+    updateFormFieldWithSchemaAction(
+      fieldName,
+      newFieldValue,
+      schema,
+      uiSchemaUpdate,
+    );
   };
 
   const onSubmit = () => {
@@ -339,8 +367,19 @@ export const ProfileInformationEditViewFc = ({
 
     if (isAddressField) {
       if (shouldOnlyUpdateForm) {
+        const { formKey, keys } = contactInfoFormAppConfig;
+        const updatedFormAppData = {
+          ...rest.formAppData,
+          [keys.wrapper]: {
+            ...rest.formAppData[keys.wrapper],
+            [formKey]: field.value,
+          },
+        };
+
+        setDataAction(updatedFormAppData);
         return;
       }
+
       validateAddressAction(
         apiRoute,
         method,
@@ -514,6 +553,7 @@ export const mapStateToProps = (state, ownProps) => {
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
     shouldOnlyUpdateForm,
+    formAppData: state?.form?.data,
   };
 };
 
@@ -526,6 +566,7 @@ const mapDispatchToProps = {
   validateAddress,
   createPersonalInfoUpdate,
   updateMessagingSignature,
+  setData,
 };
 
 export default connect(

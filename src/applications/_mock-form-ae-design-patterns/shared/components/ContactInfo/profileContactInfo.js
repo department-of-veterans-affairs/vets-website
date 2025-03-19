@@ -107,14 +107,17 @@ const profileContactInfo = ({
     config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
       path: `${contactPath}/edit-mailing-address`,
-      CustomPage: props =>
-        EditAddress({
-          ...props,
-          content,
-          contactPath,
-          editContactInfoHeadingLevel,
-          prefillPatternEnabled,
-        }),
+      CustomPage: props => (
+        <EditAddress
+          {...props}
+          content={content}
+          contactPath={contactPath}
+          editContactInfoHeadingLevel={editContactInfoHeadingLevel}
+          prefillPatternEnabled={prefillPatternEnabled}
+          keys={keys}
+          formKey={addressKey}
+        />
+      ),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
       uiSchema: {},
@@ -138,6 +141,7 @@ const profileContactInfo = ({
           requiredKeys: contactInfoRequiredKeys,
           contactInfoPageKey,
           disableMockContactInfo,
+          keys,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -162,6 +166,7 @@ const profileContactInfo = ({
           requiredKeys: contactInfoRequiredKeys,
           contactInfoPageKey,
           disableMockContactInfo,
+          keys,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -184,6 +189,7 @@ const profileContactInfo = ({
           requiredKeys: contactInfoRequiredKeys,
           contactInfoPageKey,
           disableMockContactInfo,
+          keys,
         }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
