@@ -1,17 +1,15 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-
 import CustomReviewField from '../../../../components/FormReview/CustomReviewField';
 
 describe('CG <CustomReviewField>', () => {
-  const getData = ({ formData }) => ({
-    props: {
-      uiSchema: { 'ui:title': 'Review Field Title' },
+  const uiTitle = 'Review Field Title';
+  const subject = ({ formData }) => {
+    const props = {
+      uiSchema: { 'ui:title': uiTitle },
       formData,
-    },
-  });
-  const subject = ({ props }) => {
+    };
     const { container } = render(
       <CustomReviewField>
         <div {...props} />
@@ -21,14 +19,14 @@ describe('CG <CustomReviewField>', () => {
       title: container.querySelector('dt', '.review-row'),
       value: container.querySelector('dd', '.review-row'),
     });
-    return { container, selectors };
+    return { selectors };
   };
 
   it('should render the correct field title & value', () => {
     const formData = 'Some input data';
-    const { props } = getData({ formData });
-    const { selectors } = subject({ props });
-    expect(selectors().title).to.contain.text(props.uiSchema['ui:title']);
-    expect(selectors().value).to.contain.text(formData);
+    const { selectors } = subject({ formData });
+    const { title, value } = selectors();
+    expect(title).to.contain.text(uiTitle);
+    expect(value).to.contain.text(formData);
   });
 });

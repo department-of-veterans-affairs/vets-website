@@ -43,7 +43,7 @@ describe(`${pageTitle} page`, () => {
       submitBtn: container.querySelector('button[type="submit"]'),
       errors: container.querySelectorAll('[role="alert"]'),
       inputs: container.querySelectorAll('input, select, textarea'),
-      vaAlert: container.querySelector('.caregivers-upload-warning'),
+      vaAlert: container.querySelector('va-alert[status="warning"]'),
     });
     return { selectors };
   };

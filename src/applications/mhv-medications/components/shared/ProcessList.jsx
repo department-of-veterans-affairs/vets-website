@@ -91,26 +91,31 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="progress-step-one"
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
-                    refillSubmitDate,
-                  )}`}
-                />
+                  status-text="Step 1: Completed"
+                >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    {getCompletedDateOrDefaultMessage(refillSubmitDate)}
+                  </p>
+                </va-process-list-item>
                 <va-process-list-item
                   data-testid="progress-step-two"
                   checkmark
                   header="We processed your refill"
-                  status-text={`Step 2: ${getCompletedDateOrDefaultMessage(
-                    dispensedDate,
-                  )}`}
-                />
+                  status-text="Step 2: Completed"
+                >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    {getCompletedDateOrDefaultMessage(dispensedDate)}
+                  </p>
+                </va-process-list-item>
                 <va-process-list-item
                   data-testid="progress-step-three"
                   checkmark
                   header="We shipped your refill"
-                  status-text={`Step 3: ${getCompletedDateOrDefaultMessage(
-                    completeDateTime,
-                  )}`}
+                  status-text="Step 3: Completed"
                 >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    {getCompletedDateOrDefaultMessage(completeDateTime)}
+                  </p>
                   {!orderedMoreThanFifteenDaysAgo() && (
                     <>
                       <section className="vads-u-margin-bottom--3 vads-u-margin-top--2">
@@ -159,24 +164,35 @@ const ProcessList = ({ stepGuideProps }) => {
                   data-testid="submitted-step-one"
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
-                    refillSubmitDate,
-                  )}`}
+                  status-text="Step 1: Completed"
                 >
-                  <p>Check back for updates.</p>
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    {getCompletedDateOrDefaultMessage(refillSubmitDate)}
+                  </p>
                 </va-process-list-item>
                 <va-process-list-item
                   data-testid="submitted-step-two"
                   pending
-                  header="We will process your refill request"
+                  header="We’ll process your refill request"
                   status-text="Step 2: Not started"
-                />
+                >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    We’ll provide an expected fill date.
+                  </p>
+                </va-process-list-item>
                 <va-process-list-item
                   data-testid="submitted-step-three"
                   pending
-                  header="We will ship your refill"
+                  header="We’ll ship your refill"
                   status-text="Step 3: Not started"
-                />
+                >
+                  <p
+                    data-testid="step-three-submit-note"
+                    className="vads-u-color--gray-dark vads-u-margin-top--0p5"
+                  >
+                    We’ll provide the tracking information when available.
+                  </p>
+                </va-process-list-item>
               </va-process-list>
             </>
           );
@@ -188,29 +204,52 @@ const ProcessList = ({ stepGuideProps }) => {
                 <va-process-list-item
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
-                    refillSubmitDate,
-                  )}`}
-                />
-                <va-process-list-item
-                  active
-                  header="We’re processing your refill request"
-                  status-text="Step 2: In process"
+                  status-text="Step 1: Completed"
                 >
-                  <p>
-                    We expect to fill it on {dateFormat(refillDate)}. If you
-                    need it sooner, call your VA pharmacy
-                    <CallPharmacyPhone
-                      cmopDivisionPhone={pharmacyPhone}
-                      page={pageType.REFILL}
-                    />
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    {getCompletedDateOrDefaultMessage(refillSubmitDate)}
                   </p>
                 </va-process-list-item>
                 <va-process-list-item
+                  data-testid="process-delay-header"
+                  active
+                  header={
+                    isRefillRunningLate
+                      ? 'The refill process is taking longer than usual'
+                      : 'We’re processing your refill request'
+                  }
+                  status-text="Step 2: In process"
+                >
+                  {isRefillRunningLate ? (
+                    <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                      We expected to fill it on {dateFormat(refillDate)}. Call
+                      your VA pharmacy for an update
+                      <CallPharmacyPhone
+                        cmopDivisionPhone={pharmacyPhone}
+                        page={pageType.REFILL}
+                      />
+                    </p>
+                  ) : (
+                    <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                      We expect to fill your prescription on{' '}
+                      {dateFormat(refillDate)}. If you need it sooner, call your
+                      VA pharmacy
+                      <CallPharmacyPhone
+                        cmopDivisionPhone={pharmacyPhone}
+                        page={pageType.REFILL}
+                      />
+                    </p>
+                  )}
+                </va-process-list-item>
+                <va-process-list-item
                   pending
-                  header="We will ship your refill"
+                  header="We’ll ship your refill"
                   status-text="Step 3: Not started"
-                />
+                >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    We’ll provide the tracking information when available.
+                  </p>
+                </va-process-list-item>
               </va-process-list>
             </>
           );
@@ -222,24 +261,32 @@ const ProcessList = ({ stepGuideProps }) => {
                 <va-process-list-item
                   checkmark
                   header="We received your refill request"
-                  status-text={`Step 1: ${getCompletedDateOrDefaultMessage(
-                    refillSubmitDate,
-                  )}`}
-                />
+                  status-text="Step 1: Completed"
+                >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    {getCompletedDateOrDefaultMessage(refillSubmitDate)}
+                  </p>
+                </va-process-list-item>
                 <va-process-list-item
                   data-testid="active-step-two"
                   checkmark
                   header="We processed your refill"
-                  status-text={`Step 2: ${getCompletedDateOrDefaultMessage(
-                    dispensedDate,
-                  )}`}
-                />
+                  status-text="Step 2: Completed"
+                >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    {getCompletedDateOrDefaultMessage(dispensedDate)}
+                  </p>
+                </va-process-list-item>
                 <va-process-list-item
                   data-testid="active-step-three"
                   pending
-                  header="We will ship your refill"
+                  header="We'll ship your refill"
                   status-text="Step 3: Not started"
-                />
+                >
+                  <p className="vads-u-color--gray-dark vads-u-margin-top--0p5">
+                    We’ll provide the tracking information when available.
+                  </p>
+                </va-process-list-item>
               </va-process-list>
             </>
           );

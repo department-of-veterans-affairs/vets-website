@@ -260,7 +260,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
     );
     const useFeSourceOfTruth = selectFeatureFeSourceOfTruth(getState());
     const patientFacilities = selectPatientFacilities(getState());
-
     const includeEPS = getIsInCCPilot(
       featureCCDirectScheduling,
       patientFacilities || [],
@@ -284,7 +283,6 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
         includeEPS,
         useFeSourceOfTruth,
       });
-
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));
       const backendServiceFailures =
         results.find(appt => appt.hasOwnProperty('meta')) || null;
