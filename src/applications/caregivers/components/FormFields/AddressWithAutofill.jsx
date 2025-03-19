@@ -7,7 +7,7 @@ import {
   VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofillReviewField';
+import AddressWithAutofillReviewField from '../FormReview/AddressWithAutofillReviewField';
 import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
 import { REQUIRED_ADDRESS_FIELDS } from '../../utils/constants';
 import { replaceStrValues } from '../../utils/helpers';
