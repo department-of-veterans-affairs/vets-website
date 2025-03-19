@@ -171,33 +171,6 @@ const additionalConsiderations33 = {
     ),
   },
 
-  // 3) Academy Commission
-  [formPages.additionalConsiderations.militaryAcademy.name]: {
-    ...AdditionalConsiderationTemplate(
-      formPages.additionalConsiderations.militaryAcademy,
-      formFields.federallySponsoredAcademy,
-      { includeExclusionWidget: true },
-    ),
-  },
-
-  // 4) Senior ROTC
-  [formPages.additionalConsiderations.seniorRotc.name]: {
-    ...AdditionalConsiderationTemplate(
-      formPages.additionalConsiderations.seniorRotc,
-      formFields.seniorRotcCommission,
-      { includeExclusionWidget: true },
-    ),
-  },
-
-  // 5) Loan Payment
-  [formPages.additionalConsiderations.loanPayment.name]: {
-    ...AdditionalConsiderationTemplate(
-      formPages.additionalConsiderations.loanPayment,
-      formFields.loanPayment,
-      { includeExclusionWidget: true },
-    ),
-  },
-
   // 6) $600 Buy-Up (chapter30)
   [formPages.additionalConsiderations.sixHundredDollarBuyUp.name]: {
     ...AdditionalConsiderationTemplate(
