@@ -34,7 +34,7 @@ export default function transformForSubmit(formConfig, form) {
   // ---
   // Add type/category info to file uploads:
   const pharmacyUpload = copyOfData?.pharmacyUpload?.map(el => {
-    return { ...el, attachmentId: '1500' };
+    return { ...el, attachmentId: 'MEDDOCS' };
   });
   copyOfData.pharmacyUpload = pharmacyUpload;
 
