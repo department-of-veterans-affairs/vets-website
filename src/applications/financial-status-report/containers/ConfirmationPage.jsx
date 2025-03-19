@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '~/platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
@@ -11,7 +11,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import GetFormHelp from '../components/shared/GetFormHelp';
 import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/shared/DownloadFormPDF';
-import { fsrReasonDisplay } from '../utils/helpers';
+import { fsrReasonDisplay, currency } from '../utils/helpers';
 import { DEBT_TYPES } from '../constants';
 import {
   isStreamlinedLongForm,
@@ -120,19 +120,20 @@ const ConfirmationPage = ({ form, download }) => {
     () => {
       focusElement('.schemaform-title > h1');
 
-      const recordDebtSelectionWithResolutionOption = () => {
-        const { selectedDebtsAndCopays } = data;
-        selectedDebtsAndCopays.forEach(debt => {
-          recordEvent({
-            event: 'fsr-submission-success',
-            'debt-type': debt.debtType,
-            'debt-id': debt.compositeDebtId,
-            'resolution-option': debt.resolutionOption,
-          });
+      data.selectedDebtsAndCopays.forEach(debt => {
+        recordEvent({
+          event: 'fsr-submission-success-confirmation',
+          'debt-type': debt.debtType,
+          'debt-label':
+            debt.debtType === DEBT_TYPES.DEBT
+              ? `${currency(debt?.currentAr)} overpayment for ${deductionCodes[
+                  debt.deductionCode
+                ] || debt.benefitType}`
+              : `${currency(debt?.pHAmtDue)} for ${debt.station.facilityName ||
+                  getMedicalCenterNameByID(debt.station.facilitYNum)}`,
+          'resolution-option': debt.resolutionOption,
         });
-      };
-
-      recordDebtSelectionWithResolutionOption();
+      });
 
       scrollToTop();
     },
