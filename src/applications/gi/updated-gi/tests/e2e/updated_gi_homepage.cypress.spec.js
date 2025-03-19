@@ -24,7 +24,7 @@ describe('go bill CT new homepage', () => {
 
   it('should direct to the schools and employers search tabs', () => {
     cy.injectAxeThenAxeCheck();
-    cy.contains('.comparison-tool-link', 'Schools and employers').click();
+    cy.contains('Schools and employers').click();
     cy.url().should('contain', '/schools-and-employers');
   });
 });
