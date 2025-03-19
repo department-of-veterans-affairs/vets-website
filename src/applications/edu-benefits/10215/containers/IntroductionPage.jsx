@@ -76,7 +76,7 @@ const IntroductionPage = ({ router }) => {
         <va-link
           external
           text="Review the calculation instructions"
-          href="/education/apply-for-education-benefits/application/10215/calculation-instructions"
+          href="/school-administrators/85-15-rule-enrollment-ratio/calculation-instructions"
         />
       </p>
 
