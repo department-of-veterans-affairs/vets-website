@@ -2,7 +2,6 @@ import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import constants from 'vets-json-schema/dist/constants.json';
 import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
-import { setData } from 'platform/forms-system/src/js/actions';
 
 import fullSchema from '../../../../22-1990-schema.json';
 
@@ -12,79 +11,6 @@ import AddressValidationModal from '../../../../components/AddressValidationModa
 import CustomAddressField from '../../../../components/CustomAddressField';
 
 import { formFields } from '../../../../constants';
-import { validateAddress } from '../../../../actions';
-
-// Proper form system validation function to integrate with address validation
-// This works with the VA forms system
-const validateAddressWithAPI = async (
-  errors,
-  addressData,
-  formData,
-  formContext,
-) => {
-  // Get the mailing address from the form data
-  const mailingAddress =
-    formData[formFields.viewMailingAddress]?.[formFields.address];
-
-  if (!mailingAddress) {
-    return errors;
-  }
-
-  // Skip validation for military addresses, APO/FPO/DPO, and non-US addresses
-  if (
-    formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase] ||
-    mailingAddress.country !== 'USA'
-  ) {
-    return errors;
-  }
-
-  // Check validation state in form data
-  if (formData[formFields.viewMailingAddress]?.addressValidated) {
-    return errors;
-  }
-
-  try {
-    // Make API call using Redux action
-    const validateAddressAction = validateAddress(mailingAddress);
-    const response = await validateAddressAction(formContext.store.dispatch);
-
-    // If we got addresses back
-    if (response?.addresses?.length > 0) {
-      const { confidenceScore } = response.addresses[0].addressMetaData;
-
-      if (confidenceScore < 100) {
-        // Show the modal for low confidence matches
-        errors.addError(
-          'We need to verify your address before continuing. Please review the suggested addresses.',
-        );
-      } else {
-        // Auto-validate for high confidence matches
-        // Update form data using setData
-        const updatedFormData = {
-          ...formData,
-          [formFields.viewMailingAddress]: {
-            ...formData[formFields.viewMailingAddress],
-            addressValidated: true,
-          },
-        };
-        formContext.store.dispatch(setData(updatedFormData));
-      }
-    }
-  } catch (error) {
-    // For API failures, we should still block submission
-    // This prevents bypassing validation when the API is down
-    errors.addError(
-      'We were unable to validate your address. Please try again later.',
-    );
-
-    const logger = window.console;
-    if (logger && logger.error) {
-      logger.error('Address validation error:', error);
-    }
-  }
-
-  return errors;
-};
 
 const stateRequiredCountries = new Set(['USA']);
 function customValidateAddress(errors, addressData, formData, currentSchema) {
@@ -234,7 +160,6 @@ const newMailingAddress33 = {
         },
       },
     },
-    'ui:validations': [validateAddressWithAPI],
   },
   schema: {
     type: 'object',
