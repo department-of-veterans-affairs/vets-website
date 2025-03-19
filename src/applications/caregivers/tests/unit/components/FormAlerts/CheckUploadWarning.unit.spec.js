@@ -20,7 +20,7 @@ describe('CG <CheckUploadWarning>', () => {
     const focusSpy = sinon.spy(focusUtils, 'focusElement');
     subject();
     await waitFor(() => {
-      expect(focusSpy.args[0][0]).to.eq('.caregivers-upload-warning');
+      expect(focusSpy.args[0][0]).to.eq('va-alert[status="warning"]');
       focusSpy.restore();
     });
   });
