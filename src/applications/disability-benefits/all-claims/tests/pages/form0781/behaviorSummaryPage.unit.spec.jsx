@@ -29,7 +29,7 @@ describe('Behavior Summary Page', () => {
           misconduct: false,
           unlisted: true,
         },
-        'view:noneCheckbox': { none: false },
+        'view:noneCheckbox': { 'view:noBehaviorChanges': false },
         behaviorsDetails: {
           absences: 'exhausted leave',
           unlisted: 'some other behavior',
