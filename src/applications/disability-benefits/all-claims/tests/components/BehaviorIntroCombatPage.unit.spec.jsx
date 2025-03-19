@@ -69,26 +69,23 @@ describe('BehaviorIntroCombatPage', () => {
     });
 
     describe('Delete existing answers modal', () => {
-      // describe('When the user has already answered behavioral questions, changes the selection to opt out and clicks continue', () => {
-      //   const data = {
-      //     'view:answerCombatBehaviorQuestions': 'false',
-      //     healthBehaviors: {
-      //       appetite: true,
-      //     },
-      //   };
+      describe('When the user has already answered behavioral questions, changes the selection to opt out and clicks continue', () => {
+        const data = {
+          'view:answerCombatBehaviorQuestions': 'false',
+          healthBehaviors: {
+            appetite: true,
+          },
+        };
 
-      //   // This doesn't pass when the happy path test runs, it passes without. Async related?
-      //   it('displays a prompt to delete the answers and prevents the page from submitting', async () => {
-      //     const { container } = render(page({ data, goForward: goForwardSpy }));
+        it('displays a prompt to delete the answers and prevents the page from submitting', () => {
+          const goForwardSpy = sinon.spy();
+          const { container } = render(page({ data, goForward: goForwardSpy }));
 
-      //     fireEvent.click($('button[type="submit"]', container));
-      //     // Think we need async await for the modal
-      //     await waitFor(() => {
-      //       expect($('va-modal[visible="true"]', container)).to.exist;
-      //       expect(goForwardSpy.notCalled).to.be.true;
-      //     });
-      //   });
-      // });
+          fireEvent.click($('button[type="submit"]', container));
+          expect($('va-modal[visible="true"]', container)).to.exist;
+          expect(goForwardSpy.notCalled).to.be.true;
+        });
+      });
     });
   });
 });

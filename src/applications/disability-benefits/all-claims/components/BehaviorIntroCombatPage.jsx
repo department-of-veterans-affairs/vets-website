@@ -49,7 +49,6 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   const [showModal, setShowModal] = useState(false);
 
   const missingSelection = (error, _fieldData, formData) => {
-    console.log("Errors triggered")
     if (!formData?.[selectionField]) {
       error.addError?.(missingSelectionErrorMessage);
     }
