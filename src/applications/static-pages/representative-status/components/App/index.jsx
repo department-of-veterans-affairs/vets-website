@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import {
+  isLOA1,
+  selectProfile,
+} from '@department-of-veterans-affairs/platform-user/selectors';
 import { Auth } from '../States/Auth';
 import { Unauth } from '../States/Unauth';
 import { useRepresentativeStatus } from '../../hooks/useRepresentativeStatus';
@@ -12,20 +15,6 @@ export const App = ({ baseHeader, toggleLoginModal, isLoggedIn }) => {
   const DynamicSubheader = `h${baseHeader + 1}`;
 
   const loggedIn = isLoggedIn;
-
-  const {
-    useToggleValue,
-    useToggleLoadingValue,
-    TOGGLE_NAMES,
-  } = useFeatureToggle();
-
-  const togglesLoading = useToggleLoadingValue();
-
-  const appEnabled = useToggleValue(TOGGLE_NAMES.representativeStatusEnabled);
-
-  if (togglesLoading || !appEnabled) {
-    return null;
-  }
 
   return (
     <>
@@ -64,6 +53,8 @@ App.propTypes = {
 const mapStateToProps = state => ({
   hasRepresentative: state?.user?.login?.hasRepresentative || null,
   isLoggedIn: state?.user?.login?.currentlyLoggedIn || false,
+  isUserLOA1: isLOA1(state),
+  signInServiceName: selectProfile(state).signIn?.serviceName,
 });
 
 const mapDispatchToProps = dispatch => ({
