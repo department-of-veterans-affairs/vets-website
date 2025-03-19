@@ -6,6 +6,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetFormHelp from '../containers/GetFormHelp';
 
+import personalInformation from '../pages/personalInformation';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 import mailingAddress from '../pages/mailingAddress';
 import phoneAndEmailAddress from '../pages/phoneAndEmailAddress';
@@ -49,6 +50,12 @@ const formConfig = {
     applicantInformation: {
       title: 'Applicant information',
       pages: {
+        personalInformation: {
+          path: 'personal-information',
+          title: 'Your Name',
+          uiSchema: personalInformation.uiSchema,
+          schema: personalInformation.schema,
+        },
         nameAndDateOfBirth: {
           path: 'name-and-date-of-birth',
           title: 'Name and date of birth',
