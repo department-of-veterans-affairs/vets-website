@@ -20,7 +20,11 @@ export function EditAddress() {
       >
         <div>
           If you don't have a mailing address you can use{' '}
-          <a href="https://faq.usps.com/s/article/What-is-General-Delivery">
+          <a
+            href="https://faq.usps.com/s/article/What-is-General-Delivery"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             General Delivery (opens in new tab)
           </a>{' '}
           through your local post office.
@@ -39,6 +43,8 @@ export function EditAddress() {
           isDeleteDisabled
           cancelCallback={() => navigate('/letter-page')}
           successCallback={() => navigate('/letter-page')}
+          saveButtonText="Save address"
+          cancelButtonText="Cancel edit"
         />
       </InitializeVAPServiceID>
     </div>

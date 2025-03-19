@@ -13,21 +13,24 @@ const HomePage = () => {
         and compare approved schools, employers, exams, licenses, and
         certifications to see how much your VA benefits can help cover.
       </p>
-      <div className="vads-u-display--flex flex-container">
+      <div
+        className="vads-u-display--flex flex-container"
+        style={{ gap: '20px' }}
+      >
         <LinkWithDescription
           text="Schools and employers"
           description="Search and compare public and private schools. Filter by on-the-job training, apprenticeships, and more."
-          link="/schools-and-employers"
+          href="/schools-and-employers"
         />
         <LinkWithDescription
-          text="Licenses and certifications"
+          text="Licenses, certifications, and prep courses"
           description="Search for licenses, certifications, and prep courses. You can submit a form to get reimbursed."
-          link="/licenses-certifications-and-prep-courses"
+          href="/licenses-certifications-and-prep-courses"
         />
         <LinkWithDescription
-          text="National Exams"
+          text="National exams"
           description="Take national exams such as SAT, ACT, GRE, GMAT, and more. You can submit a form to get reimbursed."
-          link="/national-exams"
+          href="/national-exams"
         />
       </div>
     </div>
