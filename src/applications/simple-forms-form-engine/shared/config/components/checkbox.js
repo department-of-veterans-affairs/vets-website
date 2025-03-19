@@ -1,13 +1,13 @@
 import { camelCase } from 'lodash';
 import {
-  radioSchema,
-  radioUI,
+  checkboxGroupSchema,
+  checkboxGroupUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /**
  *
  * @param {Array<NormalizedResponseOption} responseOptions
- * @returns {[Array<string>, Record<string, string>, Record<string, string>]}
+ * @returns {[Array<string>, Record<string, UISchemaOptions>]}
  */
 export const formatResponseOptions = responseOptions => {
   /** @type {Array<string>} */
@@ -16,30 +16,28 @@ export const formatResponseOptions = responseOptions => {
   /** @type {Record<string, string>} */
   const labels = {};
 
-  /** @type {Record<string, string>} */
-  const descriptions = {};
-
   responseOptions.forEach(option => {
     const key = camelCase(option.label);
 
     keys.push(key);
-    labels[key] = option.label;
-    descriptions[key] = option.description;
+    labels[key] = {
+      title: option.label,
+      description: option.description,
+    };
   });
 
-  return [keys, labels, descriptions];
+  return [keys, labels];
 };
 
 /**
- *
  * @param {DigitalFormComponent} component
  * @returns {[SchemaOptions, UISchemaOptions]}
  */
-export default ({ hint, label, responseOptions }) => {
-  const [keys, labels, descriptions] = formatResponseOptions(responseOptions);
+export default ({ hint, label, required, responseOptions }) => {
+  const [keys, labels] = formatResponseOptions(responseOptions);
 
   return [
-    radioSchema(keys),
-    radioUI({ title: label, hint, labels, descriptions }),
+    checkboxGroupSchema(keys),
+    checkboxGroupUI({ title: label, hint, labels, required }),
   ];
 };

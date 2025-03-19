@@ -5,7 +5,10 @@ import {
   currentOrPastMonthYearDateUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-/** @returns {[SchemaOptions, UISchemaOptions]} */
+/**
+ * @param {DigitalFormComponent} component
+ * @returns {[SchemaOptions, UISchemaOptions]}
+ */
 export default ({ dateFormat, hint, label }) =>
   dateFormat === 'month_year'
     ? [
