@@ -26,10 +26,6 @@ const formMappings = {
       'Improved Pension Eligibility Verification Report (Veteran with No Children)',
     pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
   },
-  '21-686c': {
-    subTitle: 'Declaration of Status of Dependents',
-    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
-  },
 };
 
 export const getFormNumber = (pathname = null) => {

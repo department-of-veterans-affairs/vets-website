@@ -11,7 +11,7 @@ import mockSipPut from './fixtures/mocks/sip-put.json';
 import mockSipGet from './fixtures/mocks/sip-get.json';
 import mockScannedFormUpload from './fixtures/mocks/scanned-form-upload.json';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/introduction';
+const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/introduction';
 const config = formConfig(TEST_URL);
 const mockSubmit = JSON.stringify({
   confirmationNumber: '48fac28c-b332-4549-a45b-3423297111f4',
@@ -157,7 +157,7 @@ const testConfig = createTestConfig(
     // Remove this setting when the form has a content page in production.
     skip: Cypress.env('CI'),
   },
-  { ...manifest, rootUrl: '/form-upload/21-0779/' },
+  { ...manifest, rootUrl: '/form-upload/21-686c/' },
   config,
 );
 

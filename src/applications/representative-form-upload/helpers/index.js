@@ -7,25 +7,6 @@ import {
 } from '../config/constants';
 
 const formMappings = {
-  '21-0779': {
-    subTitle:
-      'Request for Nursing Home Information in Connection with Claim for Aid and Attendance',
-    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
-  },
-  '21-509': {
-    subTitle: 'Statement of Dependency of Parent(s)',
-    pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-509-ARE.pdf',
-  },
-  '21P-0518-1': {
-    subTitle:
-      'Improved Pension Eligibility Verification Report (Surviving Spouse with No Children)',
-    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0518-1-ARE.pdf',
-  },
-  '21P-0516-1': {
-    subTitle:
-      'Improved Pension Eligibility Verification Report (Veteran with No Children)',
-    pdfDownloadUrl: 'http://www.vba.va.gov/pubs/forms/VBA-21P-0516-1-ARE.pdf',
-  },
   '21-686c': {
     subTitle: 'Declaration of Status of Dependents',
     pdfDownloadUrl: 'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',

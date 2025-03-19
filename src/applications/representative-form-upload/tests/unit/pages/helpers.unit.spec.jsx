@@ -6,7 +6,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../config/form';
 import { CustomTopContent } from '../../../pages/helpers';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/test-page';
+const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/test-page';
 const config = formConfig(TEST_URL);
 
 const mockStore = {
@@ -84,7 +84,7 @@ describe('CustomTopContent', () => {
     // );
     expect(breadcrumbs).to.have.attr(
       'breadcrumb-list',
-      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload/21-0779/introduction","label":"Upload form 21-0779"}]',
+      '[{"href":"/","label":"VA.gov home"},{"href":"/find-forms","label":"Find a VA form"},{"href":"/find-forms/upload/21-686c/introduction","label":"Upload form 21-686c"}]',
     );
   });
 });

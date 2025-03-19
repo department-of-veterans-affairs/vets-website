@@ -24,17 +24,18 @@ describe('Helpers', () => {
   describe('getFormNumber', () => {
     it('returns correct path when formNumber matches', () => {
       global.window.location = {
-        pathname: '/find-forms/upload/21-0779/upload',
+        pathname: '/find-forms/upload/21-686c/upload',
       };
-      expect(getFormNumber()).to.eq('21-0779');
+      expect(getFormNumber()).to.eq('21-686c');
     });
 
-    it('retains upper-case characters from formMappings', () => {
-      global.window.location = {
-        pathname: '/find-forms/upload/21p-0518-1/upload',
-      };
-      expect(getFormNumber()).to.eq('21P-0518-1');
-    });
+    // put back in when we have a form with upper-case characters
+    // it('retains upper-case characters from formMappings', () => {
+    //   global.window.location = {
+    //     pathname: '/find-forms/upload/21p-0518-1/upload',
+    //   };
+    //   expect(getFormNumber()).to.eq('21P-0518-1');
+    // });
 
     it('returns empty string when formNumber does not match', () => {
       global.window.location = {
@@ -47,16 +48,16 @@ describe('Helpers', () => {
   describe('getFormContent', () => {
     it('returns appropriate content when the form number is mapped', () => {
       global.window.location = {
-        pathname: 'find-forms/upload/21-0779/upload',
+        pathname: 'find-forms/upload/21-686c/upload',
       };
-      expect(getFormContent()).to.include({ title: 'Upload form 21-0779' });
+      expect(getFormContent()).to.include({ title: 'Upload form 21-686c' });
     });
   });
 
   describe('getPdfDownloadUrl', () => {
     it('returns the url', () => {
-      expect(getPdfDownloadUrl('21-0779')).to.eq(
-        'https://www.vba.va.gov/pubs/forms/VBA-21-0779-ARE.pdf',
+      expect(getPdfDownloadUrl('21-686c')).to.eq(
+        'https://www.vba.va.gov/pubs/forms/VBA-21-686c-ARE.pdf',
       );
     });
 

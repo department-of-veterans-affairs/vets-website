@@ -6,7 +6,7 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../config/form';
 import CustomReviewTopContent from '../../../components/CustomReviewTopContent';
 
-const TEST_URL = 'https://dev.va.gov/form-upload/21-0779/test-page';
+const TEST_URL = 'https://dev.va.gov/form-upload/21-686c/test-page';
 const config = formConfig(TEST_URL);
 
 const mockStore = withPhoneNumber => ({
