@@ -20,16 +20,10 @@ const createRatedDisabilitiesSchema = fullData => {
   const ratedDisabilities = {};
 
   fullData.ratedDisabilities.forEach(disability => {
-    ratedDisabilities[
-      `${disability.name} (${disability.ratingPercentage}% of max ${
-        disability.maximumRatingPercentage
-      }% rating)`
-    ] = `${disability.name} (${disability.ratingPercentage}% of max ${
-      disability.maximumRatingPercentage
-    }% rating)`;
+    ratedDisabilities[disability.name] = disability.name;
   });
 
-  return { ...ratedDisabilities, 'New condition': 'Add a new condition' };
+  return { ...ratedDisabilities, 'Add a new condition': 'Add a new condition' };
 };
 
 /** @returns {PageSchema} */
