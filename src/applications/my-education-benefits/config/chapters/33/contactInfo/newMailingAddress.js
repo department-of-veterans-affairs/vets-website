@@ -2,6 +2,7 @@ import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import constants from 'vets-json-schema/dist/constants.json';
 import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import fullSchema from '../../../../22-1990-schema.json';
 
@@ -10,7 +11,7 @@ import YesNoReviewField from '../../../../components/YesNoReviewField';
 import AddressValidationModal from '../../../../components/AddressValidationModal';
 
 import { formFields } from '../../../../constants';
-import { validateAddress, setAddressValidated } from '../../../../actions';
+import { validateAddress } from '../../../../actions';
 
 // Proper form system validation function to integrate with address validation
 // This works with the VA forms system
@@ -18,8 +19,7 @@ const validateAddressWithAPI = async (
   errors,
   addressData,
   formData,
-  currentSchema,
-  formState,
+  formContext,
 ) => {
   // Get the mailing address from the form data
   const mailingAddress =
@@ -37,55 +37,48 @@ const validateAddressWithAPI = async (
     return errors;
   }
 
-  // Access Redux store through formState
-  if (formState?.additionalContext?.store) {
-    const { store } = formState.additionalContext;
+  // Check validation state in form data
+  if (formData[formFields.viewMailingAddress]?.addressValidated) {
+    return errors;
+  }
 
-    // Get current state
-    const currentState = store.getState();
-    const { addressValidation } = currentState.data;
+  try {
+    // Make API call using Redux action
+    const validateAddressAction = validateAddress(mailingAddress);
+    const response = await validateAddressAction(formContext.store.dispatch);
 
-    // If address is already validated, we can proceed
-    if (addressValidation.validated) {
-      return errors;
-    }
+    // If we got addresses back
+    if (response?.addresses?.length > 0) {
+      const { confidenceScore } = response.addresses[0].addressMetaData;
 
-    // If we're already validating, show loading message
-    if (addressValidation.isValidating) {
-      errors.addError('Validating your address...');
-      return errors;
-    }
-
-    try {
-      // Dispatch address validation action directly using the Redux store
-      const validateAddressAction = validateAddress(mailingAddress);
-      const response = await validateAddressAction(store.dispatch);
-
-      // If we got addresses back
-      if (response?.addresses?.length > 0) {
-        const { confidenceScore } = response.addresses[0].addressMetaData;
-
-        if (confidenceScore < 100) {
-          // Show the modal for low confidence matches
-          errors.addError(
-            'We need to verify your address before continuing. Please review the suggested addresses.',
-          );
-        } else {
-          // Auto-validate for high confidence matches
-          store.dispatch(setAddressValidated(true));
-        }
+      if (confidenceScore < 100) {
+        // Show the modal for low confidence matches
+        errors.addError(
+          'We need to verify your address before continuing. Please review the suggested addresses.',
+        );
+      } else {
+        // Auto-validate for high confidence matches
+        // Update form data using setData
+        const updatedFormData = {
+          ...formData,
+          [formFields.viewMailingAddress]: {
+            ...formData[formFields.viewMailingAddress],
+            addressValidated: true,
+          },
+        };
+        formContext.store.dispatch(setData(updatedFormData));
       }
-    } catch (error) {
-      // For API failures, we should still block submission
-      // This prevents bypassing validation when the API is down
-      errors.addError(
-        'We were unable to validate your address. Please try again later.',
-      );
+    }
+  } catch (error) {
+    // For API failures, we should still block submission
+    // This prevents bypassing validation when the API is down
+    errors.addError(
+      'We were unable to validate your address. Please try again later.',
+    );
 
-      const logger = window.console;
-      if (logger && logger.error) {
-        logger.error('Address validation error:', error);
-      }
+    const logger = window.console;
+    if (logger && logger.error) {
+      logger.error('Address validation error:', error);
     }
   }
 
@@ -93,27 +86,18 @@ const validateAddressWithAPI = async (
 };
 
 const stateRequiredCountries = new Set(['USA']);
-function customValidateAddress(
-  errors,
-  addressData,
-  formData,
-  currentSchema,
-  formState,
-) {
+function customValidateAddress(errors, addressData, formData, currentSchema) {
   // Check if address needs validation (US non-military address)
   const needsValidation =
     addressData.country === 'USA' &&
     !formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase];
 
-  // If we need validation, check if it's validated
-  if (needsValidation) {
-    const { store } = formState.additionalContext;
-    const currentState = store.getState();
-    const { addressValidation } = currentState.data;
-
-    if (!addressValidation.validated) {
-      errors.addError('Please validate your address before continuing.');
-    }
+  // If we need validation, check if it's validated in form data
+  if (
+    needsValidation &&
+    !formData[formFields.viewMailingAddress]?.addressValidated
+  ) {
+    errors.addError('Please validate your address before continuing.');
   }
 
   // Continue with regular validation
@@ -136,6 +120,8 @@ function customValidateAddress(
   if (addressData.postalCode && !isValidPostalCode) {
     errors.postalCode.addError('Please provide a valid postal code');
   }
+
+  return errors;
 }
 
 const newMailingAddress33 = {
@@ -262,6 +248,10 @@ const newMailingAddress33 = {
         properties: {
           [formFields.livesOnMilitaryBase]: {
             type: 'boolean',
+          },
+          addressValidated: {
+            type: 'boolean',
+            default: false,
           },
           livesOnMilitaryBaseInfo: {
             type: 'object',
