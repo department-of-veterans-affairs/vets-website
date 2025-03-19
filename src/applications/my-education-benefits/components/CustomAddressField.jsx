@@ -2,8 +2,7 @@ import React from 'react';
 import { setData } from 'platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addressUI } from 'platform/forms-system/src/js/definitions/address';
-import { LoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { addressUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { validateAddress } from '../actions';
 import { formFields } from '../constants';
@@ -37,13 +36,19 @@ function CustomAddressField(props) {
     }
   }
 
+  const LoadingIndicator = () => (
+    <div className="vads-u-margin-bottom--2">
+      <va-loading-indicator
+        message="Validating your address..."
+        setFocus
+        data-testid="address-validation-loading"
+      />
+    </div>
+  );
+
   return (
     <div>
-      {props.isValidating && (
-        <div className="vads-u-margin-bottom--2">
-          <LoadingIndicator message="Validating address..." />
-        </div>
-      )}
+      {props.isValidating && <LoadingIndicator />}
       <div {...addressUI('', false, null, true)}>
         <input
           type="text"
