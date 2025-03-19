@@ -424,11 +424,24 @@
     display: flex;
     flex-direction: column;
   }
+
+  &.high-zoom {
+    width: 100%;
+  }
 }
 
 .lc-result-cards-wrapper {
   list-style: none;
-  // padding-left: 0;
+
+  &.high-zoom {
+    width: 100%;
+  }
+}
+
+.zoom-wrapper {
+  &.high-zoom {
+    width: 100%;
+  }
 }
 
 .lc-filter-accordion-wrapper {

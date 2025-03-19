@@ -85,6 +85,7 @@ describe('ProcessList Component', () => {
   });
 
   it('renders the correct content when status is Active and there is a completeDateTime value', () => {
+    const shippedToday = new Date();
     const options = {
       prescription: {
         prescriptionName: 'testRx',
@@ -95,7 +96,7 @@ describe('ProcessList Component', () => {
           {
             trackingNumber: '1234567890',
             carrier: 'UPS',
-            completeDateTime: '2025-02-24T03:39:11Z',
+            completeDateTime: shippedToday,
           },
         ],
       },
@@ -113,7 +114,7 @@ describe('ProcessList Component', () => {
       prescription: {
         prescriptionName: 'testRx',
         refillDate: '2025-02-24T03:39:11Z',
-        refillSubmitDate: '2025-02-24T03:39:11Z',
+        refillSubmitDate: '2025-02-24T12:00:00Z',
         dispStatus: 'Active: Submitted',
         trackingList: [],
       },
@@ -123,7 +124,7 @@ describe('ProcessList Component', () => {
     };
 
     const screen = renderProcessList(stepGuideProps(options));
-    const checkBackText = screen.getByText('Check back for updates.');
+    const checkBackText = screen.getByText('Completed on February 24, 2025');
     expect(checkBackText).to.exist;
   });
 

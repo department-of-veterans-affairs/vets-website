@@ -31,19 +31,31 @@ const convertToISO = dateString => {
 /**
  * @param {*} timestamp
  * @param {*} format momentjs formatting guide found here https://momentjs.com/docs/#/displaying/format/
+ * @param {*} noDateMessage message when there is no date being passed
+ * @param {*} dateWithMessage message when there is a date being passed, node date will be appended to the end of this message
  * @returns {String} fromatted timestamp
  */
-export const dateFormat = (timestamp, format = null) => {
-  const isoTimestamp = convertToISO(timestamp);
-
-  const finalTimestamp = isoTimestamp || timestamp;
-
-  if (finalTimestamp) {
-    return moment
-      .tz(finalTimestamp, 'America/New_York')
-      .format(format || 'MMMM D, YYYY');
+export const dateFormat = (
+  timestamp,
+  format = null,
+  noDateMessage = null,
+  dateWithMessage = null,
+) => {
+  if (!timestamp) {
+    return noDateMessage || EMPTY_FIELD;
   }
-  return EMPTY_FIELD;
+
+  const isoTimestamp = convertToISO(timestamp);
+  const isoTimeStampOrParamTimestamp = isoTimestamp || timestamp;
+  const finalTimestamp = moment
+    .tz(isoTimeStampOrParamTimestamp, 'America/New_York')
+    .format(format || 'MMMM D, YYYY');
+
+  if (dateWithMessage && finalTimestamp) {
+    return `${dateWithMessage}${finalTimestamp}`;
+  }
+
+  return finalTimestamp;
 };
 
 /**
@@ -73,6 +85,17 @@ export const validateField = fieldValue => {
     return fieldValue;
   }
   return EMPTY_FIELD;
+};
+
+/**
+ * @param {String} fieldName field name
+ * @param {String} fieldValue value that is being validated
+ */
+export const validateIfAvailable = (fieldName, fieldValue) => {
+  if (fieldValue || fieldValue === 0) {
+    return fieldValue;
+  }
+  return `${fieldName} not available`;
 };
 
 /**
@@ -289,7 +312,7 @@ export const createBreadcrumbs = (
       },
     ]);
   }
-  if (pathname === subdirectories.REFILL) {
+  if (pathname.includes(subdirectories.REFILL)) {
     return defaultBreadcrumbs.concat([
       ...(!removeLandingPage
         ? [{ href: MEDICATIONS_ABOUT, label: 'About medications' }]

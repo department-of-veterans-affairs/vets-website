@@ -2,12 +2,11 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
 
 describe('hca IntroductionPage', () => {
-  const getData = ({
+  const subject = ({
     isLoading = false,
     loaState = 3,
     loggedIn = true,
@@ -15,14 +14,14 @@ describe('hca IntroductionPage', () => {
     hasESRecord = false,
     overrideEnabled = false,
     statusCode = null,
-  } = {}) => ({
-    props: {
+  } = {}) => {
+    const props = {
       route: {
         formConfig,
         pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
       },
-    },
-    mockStore: {
+    };
+    const mockStore = {
       getState: () => ({
         featureToggles: {
           // eslint-disable-next-line camelcase
@@ -67,98 +66,65 @@ describe('hca IntroductionPage', () => {
       }),
       subscribe: () => {},
       dispatch: () => {},
-    },
-  });
-
-  it('should render `va-loading-indicator` when enrollment status is loading', () => {
-    const { mockStore, props } = getData({ isLoading: true });
+    };
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
       </Provider>,
     );
-    const selector = container.querySelector('va-loading-indicator');
-    expect(selector).to.exist;
+    const selectors = () => ({
+      enrollmentAlert: container.querySelector(
+        '[data-testid="hca-enrollment-alert"]',
+      ),
+      identityAlert: container.querySelector(
+        '[data-testid="hca-identity-alert"]',
+      ),
+      serverErrorAlert: container.querySelector(
+        '[data-testid="hca-server-error-alert"]',
+      ),
+      vaLoadingIndicator: container.querySelector('va-loading-indicator'),
+      vaOmbInfo: container.querySelector('va-omb-info'),
+      vaProcessList: container.querySelector('va-process-list'),
+    });
+    return { selectors };
+  };
+
+  it('should render `va-loading-indicator` when enrollment status is loading', () => {
+    const { selectors } = subject({ isLoading: true });
+    expect(selectors().vaLoadingIndicator).to.exist;
   });
 
   it('should show identity verification alert when the user is LOA1 status', () => {
-    const { mockStore, props } = getData({ loaState: 1 });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector(
-      '[data-testid="hca-identity-alert"]',
-    );
-    expect(selector).to.exist;
+    const { selectors } = subject({ loaState: 1 });
+    expect(selectors().identityAlert).to.exist;
   });
 
   it('should show process description when no enrollment record exists', () => {
-    const { mockStore, props } = getData({});
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('va-process-list');
-    expect(selector).to.exist;
+    const { selectors } = subject();
+    expect(selectors().vaProcessList).to.exist;
   });
 
   it('should show process description when override is enabled', () => {
-    const { mockStore, props } = getData({
-      hasESRecord: true,
-      overrideEnabled: true,
-    });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector('va-process-list');
-    expect(selector).to.exist;
+    const { selectors } = subject({ hasESRecord: true, overrideEnabled: true });
+    expect(selectors().vaProcessList).to.exist;
   });
 
   it('should show process description when user is logged out', () => {
-    const { mockStore, props } = getData({ loggedIn: false });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    const selectors = {
-      list: container.querySelector('va-process-list'),
-      ombInfo: container.querySelector('va-omb-info'),
-    };
-    expect(selectors.list).to.exist;
-    expect(selectors.ombInfo).to.exist;
+    const { selectors } = subject({ loggedIn: false });
+    const { vaOmbInfo, vaProcessList } = selectors();
+    expect(vaProcessList).to.exist;
+    expect(vaOmbInfo).to.exist;
   });
 
   it('should show enrollment status alert when record exists', () => {
-    const { mockStore, props } = getData({ hasESRecord: true });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    const selector = container.querySelector(
-      '[data-testid="hca-enrollment-alert"]',
-    );
-    expect(selector).to.exist;
+    const { selectors } = subject({ hasESRecord: true });
+    expect(selectors().enrollmentAlert).to.exist;
   });
 
   it('should show server error alert when error occurs', () => {
-    const { mockStore, props } = getData({ hasError: true });
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-    const selectors = {
-      alert: container.querySelector('[data-testid="hca-server-error-alert"]'),
-      ombInfo: container.querySelector('va-omb-info'),
-    };
-    expect(selectors.alert).to.exist;
-    expect(selectors.ombInfo).to.not.exist;
+    const { selectors } = subject({ hasError: true });
+    const { serverErrorAlert, vaOmbInfo } = selectors();
+    expect(serverErrorAlert).to.exist;
+    expect(vaOmbInfo).to.not.exist;
   });
 });

@@ -665,17 +665,13 @@ class PatientInboxPage {
     );
   };
 
-  clickAdditionalFilterButton = () => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
-  };
-
   selectDateRange = dropDownValue => {
     cy.get(Locators.FIELDS.DATE_RANGE_DROPDOWN)
       .find('select')
       .select(dropDownValue);
   };
 
-  verifyFilterMessageHeadingText = (text = 'Filter messages in Inbox') => {
+  verifyFilterMessageHeadingText = (text = 'Filter messages in inbox') => {
     cy.get(Locators.FIELDS.FILTER_MESSAGE_TEXT)
       .should('be.visible')
       .and('contain.text', `${text}`);
@@ -700,26 +696,6 @@ class PatientInboxPage {
       .each(el => {
         cy.wrap(el).should(`be.visible`);
       });
-  };
-
-  verifyFilterCategoryDropdown = data => {
-    cy.get(Locators.FIELDS.CATEGORY_OPTION).each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(data);
-        });
-    });
-  };
-
-  verifyFilterDateRangeDropdown = data => {
-    cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(data);
-        });
-    });
   };
 
   maintenanceWindowResponse = (startDate, endDate) => {

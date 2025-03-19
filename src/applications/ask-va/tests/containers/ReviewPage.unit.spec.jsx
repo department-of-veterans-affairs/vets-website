@@ -1,14 +1,14 @@
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
 import { Provider } from 'react-redux';
-import { createMockStore } from '../common';
-import ReviewPage from '../../containers/ReviewPage';
+import sinon from 'sinon';
+import * as FileUpload from '../../components/FileUpload';
 import * as ReviewCollapsibleChapter from '../../components/ReviewCollapsibleChapter';
 import * as ReviewSectionContent from '../../components/reviewPage/ReviewSectionContent';
-import * as FileUpload from '../../components/FileUpload';
+import ReviewPage from '../../containers/ReviewPage';
 import * as StorageAdapterModule from '../../utils/StorageAdapter';
+import { createMockStore } from '../common';
 import { mockData } from '../fixtures/data/form-data-review';
 
 describe('<ReviewPage /> container', () => {
