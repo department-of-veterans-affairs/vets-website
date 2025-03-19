@@ -3,6 +3,7 @@ import formConfig from '../../../config/form';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
 import mockData from '../../e2e/fixtures/data/test-data.json';
+import { insuranceOptions } from '../../../chapters/healthInsuranceInformation';
 
 describe('Certifier role page', () => {
   testNumberOfWebComponentFields(
@@ -148,6 +149,77 @@ describe('Insurance status page', () => {
   );
 });
 
+describe('health insurance array builder options isItemIncomplete', () => {
+  it('should return false if all required fields are populated', () => {
+    const completeItem = {
+      type: 'group',
+      name: 'BCBS',
+      policyNum: '123',
+      providerPhone: '1231231234',
+    };
+    expect(insuranceOptions.isItemIncomplete(completeItem)).to.be.false;
+  });
+  it('should return true if required fields are missing', () => {
+    const completeItem = {
+      policyNum: '123',
+      providerPhone: '1231231234',
+    };
+    expect(insuranceOptions.isItemIncomplete(completeItem)).to.be.true;
+  });
+});
+
+describe('health insurance array builder options.text', () => {
+  it('should getItemName when given an item', () => {
+    const completeItem = {
+      type: 'group',
+      name: 'BCBS',
+      policyNum: '123',
+      providerPhone: '1231231234',
+    };
+    expect(insuranceOptions.text.getItemName(completeItem)).to.eq(
+      completeItem.name,
+    );
+  });
+
+  it('should return cardDescription matching otherType when given an item of type other', () => {
+    const completeItem = {
+      type: 'other',
+      otherType: 'some other type',
+      name: 'BCBS',
+      policyNum: '123',
+      providerPhone: '1231231234',
+    };
+    expect(insuranceOptions.text.cardDescription(completeItem)).to.eq(
+      'some other type',
+    );
+  });
+
+  it('should return cardDescription when given an item', () => {
+    const completeItem = {
+      type: 'group',
+      name: 'BCBS',
+      policyNum: '123',
+      providerPhone: '1231231234',
+    };
+    expect(insuranceOptions.text.cardDescription(completeItem)).to.eq(
+      'Employer sponsored insurance (group)',
+    );
+  });
+
+  it('should return summaryTitle when given an item', () => {
+    const completeItem = {
+      type: 'group',
+      name: 'BCBS',
+      policyNum: '123',
+      providerPhone: '1231231234',
+      formData: mockData.data,
+    };
+    expect(insuranceOptions.text.summaryTitle(completeItem)).to.include(
+      'health insurance review',
+    );
+  });
+});
+
 describe('Insurance status (role: other) page', () => {
   testNumberOfWebComponentFields(
     formConfig,
@@ -244,6 +316,17 @@ describe('Sponsor name (role: other) page', () => {
     4,
     'Sponsor name (role: other)',
     { ...mockData.data, certifierRole: 'other' },
+  );
+});
+
+describe('Sponsor name (role: sponsor) page', () => {
+  testNumberOfWebComponentFields(
+    formConfig,
+    formConfig.chapters.sponsorInformation.pages.page2.schema,
+    formConfig.chapters.sponsorInformation.pages.page2.uiSchema,
+    4,
+    'Sponsor name (role: sponsor)',
+    { ...mockData.data, certifierRole: 'sponsor' },
   );
 });
 
