@@ -452,7 +452,7 @@ const VaPrescription = prescription => {
                 >
                   Quantity
                 </h3>
-                <p>{validateField(prescription.quantity)}</p>
+                <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
                 {isDisplayingDocumentation &&
                   // Any of the Rx's NDC's will work here. They should all show the same information
                   refillHistory.some(p => p.cmopNdcNumber) && (
@@ -750,7 +750,10 @@ const VaPrescription = prescription => {
                                         Quantity
                                       </h4>
                                       <p className="vads-u-margin--0 vads-u-margin-bottom--1">
-                                        {validateField(entry.quantity)}
+                                        {validateIfAvailable(
+                                          'Quantity',
+                                          entry.quantity,
+                                        )}
                                       </p>
                                     </>
                                   )}
