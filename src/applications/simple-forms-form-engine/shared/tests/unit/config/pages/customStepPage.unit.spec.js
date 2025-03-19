@@ -6,6 +6,7 @@ import * as textArea from 'applications/simple-forms-form-engine/shared/config/c
 import * as textInput from 'applications/simple-forms-form-engine/shared/config/components/textInput';
 import * as date from 'applications/simple-forms-form-engine/shared/config/components/date';
 import * as radioButton from 'applications/simple-forms-form-engine/shared/config/components/radioButton';
+import * as checkbox from 'applications/simple-forms-form-engine/shared/config/components/checkbox';
 
 describe('customStepPage', () => {
   const normalizedPage = {
@@ -87,6 +88,24 @@ describe('customStepPage', () => {
 
     [
       {
+        importedFunction: checkbox,
+        component: {
+          hint: null,
+          id: '172746',
+          label: 'A single checkbox option can be used to confirm agreement',
+          required: true,
+          type: 'digital_form_checkbox',
+          responseOptions: [
+            {
+              id: '172745',
+              label: 'I agree with this statement',
+              description:
+                'I agree to be bound forever and always by this statement.',
+            },
+          ],
+        },
+      },
+      {
         importedFunction: date,
         component: {
           hint:
@@ -154,14 +173,6 @@ describe('customStepPage', () => {
           expect(spy.calledWithMatch(component)).to.eq(true);
         });
       });
-    });
-
-    context('when component is a radio button', () => {
-      it('calls the correct function');
-    });
-
-    context('when component is a checkbox', () => {
-      it('calls the correct function');
     });
   });
 });

@@ -14,6 +14,7 @@
  * @property {string} label
  * @property {boolean} required
  * @property {Array<NormalizedResponseOption>} [responseOptions]
+ * @property {string} type
  */
 
 /**

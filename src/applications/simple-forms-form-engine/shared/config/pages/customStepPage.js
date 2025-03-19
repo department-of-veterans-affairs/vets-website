@@ -1,10 +1,21 @@
 import { kebabCase } from 'lodash';
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
-import { date, radioButton, textArea, textInput } from '../components';
+import {
+  checkbox,
+  date,
+  radioButton,
+  textArea,
+  textInput,
+} from '../components';
 
-/** @returns {[SchemaOptions, UISchemaOptions]} */
+/**
+ * @param {DigitalFormComponent} component
+ * @returns {[SchemaOptions, UISchemaOptions]}
+ */
 const selectSchemas = component => {
   switch (component.type) {
+    case 'digital_form_checkbox':
+      return checkbox(component);
     case 'digital_form_date_component':
       return date(component);
     case 'digital_form_radio_button':
