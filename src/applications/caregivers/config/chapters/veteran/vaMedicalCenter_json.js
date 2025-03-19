@@ -9,7 +9,7 @@ import {
   MED_CENTERS_BY_STATE,
   setPlannedClinics,
 } from '../../../utils/helpers';
-import { fullSchema } from '../../../utils/imports';
+import { fullSchema, STATES_USA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
 const { veteran } = fullSchema.properties;
@@ -40,7 +40,7 @@ const vaMedicalCenterJson = {
     properties: {
       'view:plannedClinicState': {
         type: 'string',
-        enum: states.USA.map(state => state.value).filter(
+        enum: STATES_USA.map(state => state.value).filter(
           state => !!MED_CENTERS_BY_STATE[state],
         ),
       },
