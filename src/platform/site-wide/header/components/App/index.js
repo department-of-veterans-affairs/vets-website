@@ -56,13 +56,33 @@ export const App = ({
   show,
   showMegaMenu,
   showNavLogin,
-  showMinimalHeader,
+  setupMinimalHeader,
 }) => {
   const dispatch = useDispatch();
   const path = useSelector(state => state?.navigation?.route?.path);
+  const [showMinimalHeader, setShowMinimalHeader] = useState(
+    setupMinimalHeader(),
+  );
   const [headerState, setHeaderState] = useState(null);
   const [isDesktop, setIsDesktop] = useState(
     window.innerWidth >= MOBILE_BREAKPOINT_PX,
+  );
+
+  useEffect(
+    () => {
+      // For when the user presses back or forward in the browser
+      // (not localhost), and the the browser uses bfcache to restore the page.
+      // This happens when the app is different (outside of react router).
+      // See https://web.dev/articles/bfcache#update-data-after-restore
+      const onBFCacheRestore = event => {
+        if (event.persisted) {
+          setShowMinimalHeader(setupMinimalHeader());
+        }
+      };
+      window.addEventListener('pageshow', onBFCacheRestore);
+      return () => window.removeEventListener('pageshow', onBFCacheRestore);
+    },
+    [setupMinimalHeader],
   );
 
   useEffect(() => {
@@ -95,22 +115,6 @@ export const App = ({
         setHeaderState(newHeaderState);
         dispatch(updateLayoutHeaderType(newHeaderState));
       }
-
-      // Restores storage values if removed during onPopState
-      if (
-        newHeaderState === 'minimal' &&
-        sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE') !== true
-      ) {
-        const headerMinimal = document.querySelector('#header-minimal');
-
-        sessionStorage.setItem('MINIMAL_HEADER_APPLICABLE', 'true');
-        if (headerMinimal.dataset?.excludePaths) {
-          sessionStorage.setItem(
-            'MINIMAL_HEADER_EXCLUDE_PATHS',
-            headerMinimal.dataset.excludePaths,
-          );
-        }
-      }
     },
     [show, showMinimalHeader, path, isDesktop, dispatch, headerState],
   );
@@ -130,6 +134,7 @@ export const App = ({
 
 App.propTypes = {
   megaMenuData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setupMinimalHeader: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   showMegaMenu: PropTypes.bool.isRequired,
   showNavLogin: PropTypes.bool.isRequired,

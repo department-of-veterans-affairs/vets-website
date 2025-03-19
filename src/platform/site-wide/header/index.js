@@ -65,7 +65,7 @@ export default (store, megaMenuData) => {
           show={props.show !== 'false'}
           showMegaMenu={props.showMegaMenu !== 'false'}
           showNavLogin={props.showNavLogin !== 'false'}
-          showMinimalHeader={setupMinimalHeader()}
+          setupMinimalHeader={setupMinimalHeader}
         />
       </Provider>,
       root,
