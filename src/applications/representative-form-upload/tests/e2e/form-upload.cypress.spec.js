@@ -51,7 +51,7 @@ const mockVamcUser = {
 };
 
 const uploadImgPath =
-  'src/applications/simple-forms/form-upload/tests/e2e/fixtures/data/vba_21_4138.pdf';
+  'src/applications/representative-form-upload/tests/e2e/fixtures/data/vba_21_686c.pdf';
 
 const testConfig = createTestConfig(
   {

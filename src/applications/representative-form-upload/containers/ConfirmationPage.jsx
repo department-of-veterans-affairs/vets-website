@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { ConfirmationPageView } from '../../simple-forms/shared/components/ConfirmationPageView';
+import { ConfirmationPageView } from '../components/ConfirmationPageView';
 
 const content = {
   headlineText: 'You’ve submitted your form',
