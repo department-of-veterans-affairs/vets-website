@@ -1,10 +1,17 @@
 import React from 'react';
 import { createRoutesWithSaveInProgress } from '@department-of-veterans-affairs/platform-forms/save-in-progress/helpers';
 import { connect } from 'react-redux';
+import environment from '~/platform/utilities/environment';
 import formConfig from './config/form';
 import App from './containers/App';
 import AuthenticatedRoute from './containers/AuthenticatedRoute';
 import { createProtectedRoute } from './utils/helpers/route-guard';
+
+// Import the helper functions for feature toggle checks
+/**
+ * DEBUGGING TIP: Uncomment these imports when debugging feature toggle issues
+ * import { checkRouteGuardEnabled, getFeatureToggleStatus } from './utils/helpers/route-guard';
+ */
 
 /**
  * Maps state to props for the ConnectedAuthRoute component.
@@ -36,6 +43,35 @@ const wrapWithAuth = Component => props => (
 
 // Use createProtectedRoute from route-guard.js
 const protectedRouteWithAuth = (route, state) => {
+  /**
+   * Feature Toggle Check
+   *
+   * DEBUGGING TIP: When troubleshooting route protection issues:
+   * 1. Check if the feature toggle is correctly set in Flipper Admin UI
+   * 2. Uncomment the imports at the top of this file
+   * 3. Uncomment the code below to use the helper functions
+   * 4. Uncomment the console.log below to see the actual toggle value
+   *
+   * const isEnabled = checkRouteGuardEnabled(state);
+   * const featureToggleStatus = getFeatureToggleStatus(state);
+   */
+
+  // Don't protect routes when in localhost environment
+  // This ensures a smooth local development experience
+  if (environment.isLocalhost()) {
+    /**
+     * DEBUGGING TIP: To see the feature toggle status:
+     * 1. Uncomment the featureToggleStatus variable above
+     * 2. Then uncomment the line below
+     *
+     * This can help diagnose issues with route protection in localhost
+     * The feature toggle should be managed via Flipper Admin UI (http://localhost:3000/flipper/features/ezr_route_guard_enabled)
+     *
+     * // console.log('DEBUG routes.jsx: Bypassing protection in localhost. Feature toggle:', featureToggleStatus);
+     */
+    return route; // Return the original route without any auth wrapping
+  }
+
   const protectedRoute = createProtectedRoute(route, state);
 
   // If the route should be protected, wrap it with our auth component
@@ -53,7 +89,11 @@ const protectedRouteWithAuth = (route, state) => {
 const formRoutes = createRoutesWithSaveInProgress(formConfig);
 
 // Create protected routes
-const protectedRoutes = formRoutes.map(route => protectedRouteWithAuth(route));
+// Map each form route to a protected route
+// This will respect the feature toggle setting from Flipper Admin UI
+const protectedRoutes = formRoutes.map(route =>
+  protectedRouteWithAuth(route, null),
+);
 
 /**
  * The main route configuration for the application.
