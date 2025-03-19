@@ -1,0 +1,106 @@
+{
+  "stats": {
+    "suites": 0,
+    "tests": 0,
+    "passes": 0,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-03-19T17:25:35.946Z",
+    "end": "2025-03-19T17:25:35.946Z",
+    "duration": 0,
+    "testsRegistered": 0,
+    "passPercent": null,
+    "pendingPercent": null,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "47c28ad4-4545-4fe0-89c8-5e1897a0ae1f",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [
+        {
+          "title": "\"before each\" hook: beforeEach",
+          "fullTitle": "\"before each\" hook: beforeEach",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cov_qaw57qkz8().f[20]++;\ncov_qaw57qkz8().s[70]++;\nsetupJSDom();\ncov_qaw57qkz8().s[71]++;\nresetFetch();\ncov_qaw57qkz8().s[72]++;\ncleanupStorage();\ncov_qaw57qkz8().s[73]++;\nif (isStressTest == 'false') {\n  cov_qaw57qkz8().b[12][0]++;\n  cov_qaw57qkz8().s[74]++;\n  checkAllowList(this);\n} else {\n  cov_qaw57qkz8().b[12][1]++;\n}\ncov_qaw57qkz8().s[75]++;\nif ((cov_qaw57qkz8().b[14][0]++, process.env.CI) || (cov_qaw57qkz8().b[14][1]++, ['trace', 'debug'].includes(process.env.LOG_LEVEL))) {\n  cov_qaw57qkz8().b[13][0]++;\n  cov_qaw57qkz8().s[76]++;\n  console.log('running: ', this.currentTest.file.slice(this.currentTest.file.indexOf('src')));\n} else {\n  cov_qaw57qkz8().b[13][1]++;\n}",
+          "err": {},
+          "uuid": "4f9945c7-de41-4826-8846-7e8f0204c24c",
+          "parentUUID": null,
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after each\" hook: afterEach",
+          "fullTitle": "\"after each\" hook: afterEach",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "cov_qaw57qkz8().f[21]++;\ncov_qaw57qkz8().s[77]++;\ncleanupStorage();\ncov_qaw57qkz8().s[78]++;\nflushPromises();",
+          "err": {},
+          "uuid": "f7ce4896-e381-408d-b48e-3ec5f3aa4102",
+          "parentUUID": null,
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [],
+      "suites": [],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 10000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.7.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "undefined_2025-03-19T172535862Z",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "min",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "consoleReporter": "min",
+        "reportDir": "mocha/results",
+        "reportFilename": "undefined_2025-03-19T172535862Z",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}
