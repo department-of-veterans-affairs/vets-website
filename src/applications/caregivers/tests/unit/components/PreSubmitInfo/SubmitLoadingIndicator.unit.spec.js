@@ -10,7 +10,7 @@ describe('CG <SubmitLoadingIndicator>', () => {
     const selectors = () => ({
       loader: container.querySelector('.loading-container'),
     });
-    return { container, selectors };
+    return { selectors };
   };
 
   it('should not render loading container when submission has not been made', () => {
