@@ -67,7 +67,12 @@ export default function ReferralAppointments() {
   }
 
   if ((!referral || isLoading) && !appointmentId) {
-    return <ReferralLayout loadingMessage="Loading your data..." />;
+    return (
+      <ReferralLayout
+        loadingMessage="Loading your data..."
+        heading="Review Approved Referral"
+      />
+    );
   }
 
   if (appointmentId) {
