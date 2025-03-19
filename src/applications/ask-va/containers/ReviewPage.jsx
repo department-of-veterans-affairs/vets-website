@@ -1265,7 +1265,7 @@ const ReviewPage = props => {
                 {props.formData.allowAttachments &&
                   props.isUserLOA3 && (
                     <div
-                      className="usa-accordion-content schemaform-chapter-accordion-content vads-u-padding-top--0"
+                      className="schemaform-chapter-accordion-content vads-u-padding-top--0"
                       aria-hidden="false"
                     >
                       <div className="form-review-panel-page vads-u-margin-bottom--0">
