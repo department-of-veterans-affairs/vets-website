@@ -417,36 +417,9 @@ export const formPages = {
           'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
       },
     },
-    militaryAcademy: {
-      name: 'academy-commission',
-      order: 3,
-      title:
-        'Did you graduate and receive a commission from the United States Military Academy, Naval Academy, Air Force Academy, or Coast Guard Academy?',
-    },
-    seniorRotc: {
-      name: 'rotc-commission',
-      order: 4,
-      title: 'Were you commissioned as a result of Senior ROTC?',
-      additionalInfo: {
-        trigger: 'What is Senior ROTC?',
-        info:
-          'The Senior Reserve Officer Training CORPS (SROTC) - more commonly referred to as the Reserve Officer Training Corps (ROTC) - is an officer training and scholarship program for post-secondary students authorized under Chapter 103 of Title 10 of the United States Code. If you were commissioned through this, please check "Yes". If you received your commission through a non-scholarship program, please check "No".',
-      },
-    },
-    loanPayment: {
-      name: 'loan-payment',
-      order: 5,
-      title:
-        'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
-      additionalInfo: {
-        trigger: 'What does this mean?',
-        info:
-          "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
-      },
-    },
     sixHundredDollarBuyUp: {
       name: 'six-hundred-dollar-buy-up',
-      order: 6,
+      order: 3,
       title:
         'Did you make additional contributions (up to $600) to increase the amount of your monthly benefits',
     },
