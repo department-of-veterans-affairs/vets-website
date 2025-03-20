@@ -18,7 +18,7 @@ jobs:
       - name: Debug Incoming Payload
         run: |
           echo "Received commit message:"
-          echo "${{ github.event.client_payload.github_message }}"
+          echo '${{ github.event.client_payload.github_message }}'
           
       - name: Notify application team in Slack
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
