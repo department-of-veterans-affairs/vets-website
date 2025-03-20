@@ -1,2 +1,2 @@
 Staged Continuous deployment test file. Change added
-testing a quoted commit message for deploy. Testing this again.
+testing a quoted commit message for deploy. Test 7!
