@@ -1,29 +1,35 @@
 export default function prefillTransformer(pages, formData, metadata) {
   const prefillPersonalInformation = data => {
+    const personalInfo = data?.personalInformation || {};
+    const veteranInfo = data?.veteranServiceInformation || {};
+
     return {
       aboutYourself: {
-        ...data.personalInformation,
+        ...personalInfo,
         socialOrServiceNum: {
-          serviceNumber: data.personalInformation.serviceNumber,
-          ssn: data.personalInformation.socialSecurityNumber,
+          serviceNumber: personalInfo?.serviceNumber || '',
+          ssn: personalInfo?.socialSecurityNumber || '',
         },
-        ...data.veteranServiceInformation,
+        ...veteranInfo,
       },
     };
   };
 
   const prefillContactInformation = data => {
+    const contactInfo = data?.contactInformation || {};
+    const avaProfile = data?.avaProfile || {};
+
     return {
-      ...data.contactInformation,
-      ...data.avaProfile,
-      phoneNumber: data.contactInformation.phone,
-      emailAddress: data.contactInformation.email,
+      ...contactInfo,
+      ...avaProfile,
+      phoneNumber: contactInfo?.phone || '',
+      emailAddress: contactInfo?.email || '',
     };
   };
 
   const prefillFormData = {
-    ...prefillPersonalInformation(formData),
-    ...prefillContactInformation(formData),
+    ...prefillPersonalInformation(formData || {}),
+    ...prefillContactInformation(formData || {}),
   };
 
   return {
