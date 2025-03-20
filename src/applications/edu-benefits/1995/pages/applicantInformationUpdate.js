@@ -99,7 +99,7 @@ export const uiSchema = {
   },
   applicantGender: {
     'ui:widget': 'radio',
-    'ui:title': 'Gender',
+    'ui:title': 'Sex',
     'ui:options': {
       labels: genderLabels,
     },

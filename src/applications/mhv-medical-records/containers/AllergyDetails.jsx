@@ -195,7 +195,10 @@ Provider notes: ${allergyData.notes} \n`;
               allowTxtDownloads={allowTxtDownloads}
               downloadTxt={generateAllergyTxt}
             />
-            <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+            <DownloadingRecordsInfo
+              description="Allergy Detail"
+              allowTxtDownloads={allowTxtDownloads}
+            />
 
             <div
               className="max-80 vads-u-margin-top--4"

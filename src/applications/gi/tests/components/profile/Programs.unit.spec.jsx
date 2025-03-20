@@ -18,17 +18,14 @@ describe('<Programs>', () => {
         .first()
         .text(),
     ).to.equal(
-      'The following program is approved by the VA at this institution.',
+      'The following program is approved for VA benefits at this institution. For more information about specific programs, search the institution catalog or website.',
     );
-
     programTypes.forEach(programType => {
-      expect(
-        wrapper.contains(
-          <p className="vads-u-font-weight--bold vads-u-padding-right--2">
-            {mapProgramTypeToName(programType)}
-          </p>,
-        ),
-      ).to.equal(true);
+      const link = wrapper.find('[data-testid="program-link"]');
+      expect(link.exists()).to.be.true;
+      expect(link.text()).to.equal(
+        `See ${mapProgramTypeToName(programType)} programs`,
+      );
     });
 
     wrapper.unmount();
@@ -45,7 +42,7 @@ describe('<Programs>', () => {
         .first()
         .text(),
     ).to.equal(
-      'The following programs are approved by the VA at this institution.',
+      'The following programs are approved for VA benefits at this institution. For more information about specific programs, search the institution catalog or website.',
     );
 
     wrapper.unmount();

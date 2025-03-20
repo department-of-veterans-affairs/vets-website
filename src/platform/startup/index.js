@@ -8,7 +8,6 @@ import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
 import { updateRoute } from 'platform/site-wide/user-nav/actions';
 import startReactApp from './react';
-import runAxeCheck from './axe-check';
 import setUpCommonFunctionality from './setup';
 
 /**
@@ -48,11 +47,6 @@ export default function startApp({
     analyticsEvents,
     preloadScheduledDowntimes,
   });
-
-  // If the build is not production, run an axe check in the browser
-  if (process.env.NODE_ENV !== 'production') {
-    runAxeCheck();
-  }
 
   let history = browserHistory;
   if (url) {

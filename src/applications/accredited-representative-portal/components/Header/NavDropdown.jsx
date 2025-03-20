@@ -40,6 +40,8 @@ const NavDropdown = ({
   children,
   dropdownClass,
   closeIcon,
+  view,
+  size,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -49,7 +51,7 @@ const NavDropdown = ({
     <div className={`va-dropdown ${dropdownClass}`} ref={dropdownRef}>
       {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
       <button
-        data-testid={`${icon}-toggle-dropdown`}
+        data-testid={`${icon}-toggle-dropdown-${view}`}
         className={
           closeIcon && isDropdownOpen ? 'is--open nav__btn' : className
         }
@@ -59,10 +61,9 @@ const NavDropdown = ({
         type="button"
       >
         {closeIcon && isDropdownOpen ? 'Close' : btnText}
-
         <va-icon
           icon={closeIcon && isDropdownOpen ? 'close' : icon}
-          size={2}
+          size={size}
           srtext={srText}
           class="nav__user-btn-icon"
         />
@@ -73,16 +74,15 @@ const NavDropdown = ({
         )}
 
         {secondaryIcon && (
-          <va-icon
-            icon={secondaryIcon}
-            size={2}
-            srtext={srText}
-            class={iconClassName}
-          />
+          <va-icon icon={secondaryIcon} size={size} class={iconClassName} />
         )}
       </button>
       {isDropdownOpen && (
-        <div className="va-dropdown-panel  nav__dropdown" id={icon}>
+        <div
+          className="va-dropdown-panel  nav__dropdown"
+          id={icon}
+          data-testid={`${icon}-toggle-dropdown-${view}-list`}
+        >
           <ul className="nav__user-list">{children}</ul>
         </div>
       )}
@@ -103,6 +103,8 @@ NavDropdown.propTypes = {
   lastName: PropTypes.string,
   secondaryIcon: PropTypes.string,
   srText: PropTypes.string,
+  view: PropTypes.string,
+  size: PropTypes.number,
 };
 
 export default NavDropdown;

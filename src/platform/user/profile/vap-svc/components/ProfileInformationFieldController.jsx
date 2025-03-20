@@ -38,7 +38,7 @@ import getProfileInfoFieldAttributes from '../util/getProfileInfoFieldAttributes
 //
 // Given a valid entry from the vap-svc/constants FIELD
 // NAMES, it will return a string like `#edit-mobile-phone-number`
-import { getEditButtonId } from '../util/id-factory';
+import { getEditButtonId, getRemoveButtonId } from '../util/id-factory';
 import {
   isFailedTransaction,
   isPendingTransaction,
@@ -55,6 +55,7 @@ import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformation
 
 import ProfileInformationView from './ProfileInformationView';
 import ProfileInformationEditView from './ProfileInformationEditView';
+import { updateMessagingSignature } from '../../actions/mhv';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -124,9 +125,21 @@ class ProfileInformationFieldController extends React.Component {
           successCallback();
         }
       } else if (!forceEditView) {
-        // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
-        // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
-        waitForRenderThenFocus(`#${getEditButtonId(fieldName)}`, document, 50);
+        if (prevProps.showRemoveModal && !this.props.showRemoveModal) {
+          waitForRenderThenFocus(
+            `#${getRemoveButtonId(fieldName)}`,
+            document,
+            50,
+          );
+        } else {
+          // forcesEditView will result in now standard edit button being rendered, so we don't want to focus on it
+          // focusElement did not work here on iphone or safari, so using waitForRenderThenFocus
+          waitForRenderThenFocus(
+            `#${getEditButtonId(fieldName)}`,
+            document,
+            50,
+          );
+        }
       }
     } else if (
       forceEditView &&
@@ -171,13 +184,25 @@ class ProfileInformationFieldController extends React.Component {
         this.props.fieldName,
       );
     }
-    this.props.createTransaction(
-      this.props.apiRoute,
-      'DELETE',
-      this.props.fieldName,
-      payload,
-      this.props.analyticsSectionName,
-    );
+    if (this.props.fieldName === FIELD_NAMES.MESSAGING_SIGNATURE) {
+      this.props.updateMessagingSignature(
+        {
+          signatureName: '',
+          signatureTitle: '',
+          includeSignature: false,
+        },
+        this.props.fieldName,
+        'POST',
+      );
+    } else {
+      this.props.createTransaction(
+        this.props.apiRoute,
+        'DELETE',
+        this.props.fieldName,
+        payload,
+        this.props.analyticsSectionName,
+      );
+    }
   };
 
   confirmDeleteAction = e => {
@@ -376,6 +401,7 @@ class ProfileInformationFieldController extends React.Component {
                 <button
                   aria-label={`Remove ${title}`}
                   type="button"
+                  id={getRemoveButtonId(fieldName)}
                   className="mobile-lg:vads-u-margin--0 usa-button-secondary"
                   onClick={this.handleDeleteInitiated}
                 >
@@ -528,6 +554,7 @@ ProfileInformationFieldController.propTypes = {
   title: PropTypes.string,
   transaction: PropTypes.object,
   transactionRequest: PropTypes.object,
+  updateMessagingSignature: PropTypes.func,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -597,6 +624,7 @@ const mapDispatchToProps = {
   refreshTransaction,
   openModal,
   createTransaction,
+  updateMessagingSignature,
 };
 
 export default connect(

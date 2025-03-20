@@ -12,14 +12,7 @@ export default function BurialsApp({ location, children }) {
     loading: isLoadingFeatures,
     burialFormEnabled,
     burialDocumentUploadUpdate,
-    burialLocationOfDeathUpdate,
-    burialModuleEnabled,
   } = useSelector(state => state?.featureToggles);
-
-  // Conditional to use new Burial module path in vets-api if enabled
-  formConfig.submitUrl = burialModuleEnabled
-    ? '/burials/v0/claims'
-    : '/v0/burial_claims';
 
   useBrowserMonitoring();
 
@@ -27,20 +20,12 @@ export default function BurialsApp({ location, children }) {
     () => {
       if (!isLoadingFeatures) {
         window.sessionStorage.setItem(
-          'showLocationOfDeath',
-          !!burialLocationOfDeathUpdate,
-        );
-        window.sessionStorage.setItem(
           'showUploadDocuments',
           !!burialDocumentUploadUpdate,
         );
       }
     },
-    [
-      isLoadingFeatures,
-      burialLocationOfDeathUpdate,
-      burialDocumentUploadUpdate,
-    ],
+    [isLoadingFeatures, burialDocumentUploadUpdate],
   );
 
   if (isLoadingFeatures) {

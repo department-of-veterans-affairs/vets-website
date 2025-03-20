@@ -1,17 +1,18 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
+import { pageNotFoundTestId } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
 
 const testStatuses = [
-  'Claim Submitted',
+  'Claim submitted',
   'Saved',
-  'In Process',
+  'In process',
   'Incomplete',
   'Appealed',
-  'Manual Review',
+  'In manual review',
   'Closed',
-  'On Hold',
+  'On hold',
 ];
 
 Cypress.Commands.add('openFilters', () => {
@@ -35,6 +36,11 @@ describe(`${appName} -- Status Page`, () => {
 
   afterEach(() => {
     cy.clock().invoke('restore');
+  });
+
+  it('navigates to the platform 404 page if route not found', () => {
+    cy.visit(`${rootUrl}/banana`);
+    cy.findByTestId(pageNotFoundTestId).should('exist');
   });
 
   it('defaults to "most recent" sort order', () => {
@@ -76,7 +82,7 @@ describe(`${appName} -- Status Page`, () => {
     //   .click();
 
     // Instead just find the text for the link and click it
-    cy.contains('Back to your travel reimbursement claims').click();
+    cy.contains('Check your travel reimbursement claim status').click();
 
     cy.location('pathname').should('eq', '/my-health/travel-pay/claims/');
   });
@@ -176,7 +182,7 @@ describe(`${appName} -- Status Page`, () => {
     cy.get('va-button[data-testid="Sort travel claims"]').click();
 
     cy.openFilters();
-    cy.selectVaCheckbox('Claim Submitted', true);
+    cy.selectVaCheckbox('Claim submitted', true);
     cy.get('select[name="claimsDates"]').select('All of 2023');
     cy.get('select[name="claimsDates"]').should('have.value', 'All of 2023');
 

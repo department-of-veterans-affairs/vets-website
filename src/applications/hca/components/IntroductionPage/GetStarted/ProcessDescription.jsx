@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
@@ -12,31 +12,35 @@ import SaveTimeSipAlert from '../../FormAlerts/SaveTimeSipAlert';
 import ProcessTimeline from './ProcessTimeline';
 import content from '../../../locales/en/content.json';
 
-const ProcessDescription = ({ route }) => {
-  const { isLoggedIn } = useSelector(selectAuthStatus);
-  const { savedForms } = useSelector(selectProfile);
-
-  // set display variables
-  const formID = VA_FORM_IDS.FORM_10_10EZ;
-  const hasSavedForm = savedForms.some(o => o.form === formID);
-  const className = classnames({ 'vads-u-display--none': hasSavedForm });
-
-  // build SaveInProgressIntro component
-  const sipIntro = ({ buttonOnly = false, children = null }) => {
-    const { formConfig, pageList } = route;
-    const { savedFormMessages, prefillEnabled, downtime } = formConfig;
-    const sipProps = {
-      startText: content['sip-start-form-text'],
-      messages: savedFormMessages,
-      prefillEnabled,
-      buttonOnly,
-      downtime,
-      pageList,
+const ProcessDescription = ({ route: { formConfig, pageList } }) => {
+  const { className, isLoggedIn } = useSelector(state => {
+    const hasSavedForm = selectProfile(state).savedForms.some(
+      ({ form }) => form === VA_FORM_IDS.FORM_10_10EZ,
+    );
+    return {
+      className: classnames({ 'vads-u-display--none': hasSavedForm }),
+      isLoggedIn: selectAuthStatus(state).isLoggedIn,
     };
-    return <SaveInProgressIntro {...sipProps}>{children}</SaveInProgressIntro>;
-  };
+  });
 
-  // render based on display enrollment & feature toggle data
+  const sipIntro = useCallback(
+    ({ buttonOnly = false, children = null }) => {
+      const { savedFormMessages, prefillEnabled, downtime } = formConfig;
+      const sipProps = {
+        startText: content['sip-start-form-text'],
+        messages: savedFormMessages,
+        prefillEnabled,
+        buttonOnly,
+        downtime,
+        pageList,
+      };
+      return (
+        <SaveInProgressIntro {...sipProps}>{children}</SaveInProgressIntro>
+      );
+    },
+    [formConfig, pageList],
+  );
+
   return (
     <>
       <p className={className} data-testid="hca-process-description">
@@ -66,7 +70,14 @@ const ProcessDescription = ({ route }) => {
 };
 
 ProcessDescription.propTypes = {
-  route: PropTypes.object,
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      savedFormMessages: PropTypes.array,
+      prefillEnabled: PropTypes.bool,
+      downtime: PropTypes.object,
+    }),
+    pageList: PropTypes.array,
+  }),
 };
 
 export default ProcessDescription;

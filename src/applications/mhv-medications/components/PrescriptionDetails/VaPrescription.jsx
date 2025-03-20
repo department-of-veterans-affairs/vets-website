@@ -5,15 +5,17 @@ import { Link } from 'react-router-dom';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   VaAccordion,
-  VaAccordionItem,
+  VaAlert,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { datadogRum } from '@datadog/browser-rum';
 import {
   validateField,
+  validateIfAvailable,
   getImageUri,
   dateFormat,
   createOriginalFillRecord,
   pharmacyPhoneNumber,
+  isRefillTakingLongerThanExpected,
 } from '../../util/helpers';
 import TrackingInfo from '../shared/TrackingInfo';
 import FillRefillButton from '../shared/FillRefillButton';
@@ -22,15 +24,19 @@ import ExtraDetails from '../shared/ExtraDetails';
 import {
   selectGroupingFlag,
   selectRefillContentFlag,
+  selectRefillProgressFlag,
 } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
-import { dataDogActionNames } from '../../util/dataDogConstants';
+import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import GroupedMedications from './GroupedMedications';
+import CallPharmacyPhone from '../shared/CallPharmacyPhone';
+import ProcessList from '../shared/ProcessList';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showGroupingContent = useSelector(selectGroupingFlag);
+  const showRefillProgressContent = useSelector(selectRefillProgressFlag);
   const isDisplayingDocumentation = useSelector(
     state =>
       state.featureToggles[
@@ -51,6 +57,10 @@ const VaPrescription = prescription => {
     prescription?.dispensedDate ||
     prescription?.rxRfRecords.find(record => record.dispensedDate);
   const latestTrackingStatus = prescription?.trackingList?.[0];
+  const showTrackingAlert =
+    prescription?.trackingList?.[0] &&
+    prescription?.dispStatus === 'Active: Submitted';
+  const isRefillRunningLate = isRefillTakingLongerThanExpected(prescription);
 
   const determineStatus = () => {
     if (pendingRenewal) {
@@ -78,6 +88,52 @@ const VaPrescription = prescription => {
     }
   };
 
+  const stepGuideProps = {
+    prescription,
+    title: showTrackingAlert
+      ? 'Check the status of your next refill'
+      : 'Refill request status',
+    pharmacyPhone,
+    isRefillRunningLate,
+  };
+
+  const displayTrackingAlert = () => {
+    if (showRefillProgressContent && showTrackingAlert) {
+      return (
+        <>
+          {latestTrackingStatus && (
+            <TrackingInfo
+              {...latestTrackingStatus}
+              prescriptionName={prescription.prescriptionName}
+            />
+          )}
+        </>
+      );
+    }
+    if (!showRefillProgressContent) {
+      return (
+        <>
+          {latestTrackingStatus && (
+            <TrackingInfo
+              {...latestTrackingStatus}
+              prescriptionName={prescription.prescriptionName}
+            />
+          )}
+        </>
+      );
+    }
+    return <></>;
+  };
+
+  const getPrescriptionStatusHeading = () => {
+    if (!isRefillRunningLate) {
+      return '';
+    }
+    return latestTrackingStatus
+      ? 'Check the status of your next refill'
+      : 'Refill request status';
+  };
+
   const content = () => {
     if (prescription) {
       return (
@@ -93,47 +149,88 @@ const VaPrescription = prescription => {
             {/* TODO: clean after grouping flag is gone */}
             {!showGroupingContent && (
               <>
-                {latestTrackingStatus && (
-                  <TrackingInfo
-                    {...latestTrackingStatus}
-                    prescriptionName={prescription.prescriptionName}
-                  />
-                )}
+                {displayTrackingAlert()}
                 <h2 className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--2">
                   About your prescription
                 </h2>
                 {prescription && <ExtraDetails {...prescription} />}
               </>
             )}
-            {showRefillContent && prescription?.isRefillable ? (
-              <Link
-                // TODO: clean after grouping flag is gone
-                className={`${
-                  !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
-                }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
-                to="/refill"
-                data-testid="refill-nav-link"
-                data-dd-action-name={
-                  dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
-                }
-              >
-                {/* TODO: clean after grouping flag is gone */}
-                {!showGroupingContent &&
-                  `${hasBeenDispensed ? 'Refill' : 'Fill'} this prescription`}
-                {showGroupingContent &&
-                  `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
-              </Link>
-            ) : (
-              <FillRefillButton {...prescription} />
+            {/* TODO: clean after refill progress content flag is gone */}
+            {!showRefillProgressContent && (
+              <>
+                {showRefillContent && prescription?.isRefillable ? (
+                  <Link
+                    // TODO: clean after grouping flag is gone
+                    className={`${
+                      !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
+                    }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
+                    to="/refill"
+                    data-testid="refill-nav-link"
+                    data-dd-action-name={
+                      dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                    }
+                  >
+                    {/* TODO: clean after grouping flag is gone */}
+                    {!showGroupingContent &&
+                      `${
+                        hasBeenDispensed ? 'Refill' : 'Fill'
+                      } this prescription`}
+                    {showGroupingContent &&
+                      `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                  </Link>
+                ) : (
+                  <FillRefillButton {...prescription} />
+                )}
+              </>
             )}
             {/* TODO: clean after grouping flag is gone */}
             {showGroupingContent && (
               <>
-                {latestTrackingStatus && (
-                  <TrackingInfo
-                    {...latestTrackingStatus}
-                    prescriptionName={prescription.prescriptionName}
-                  />
+                {displayTrackingAlert()}
+
+                {isRefillRunningLate && (
+                  <h2
+                    className="vads-u-margin-top--3 vads-u-padding-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+                    data-testid="check-status-text"
+                  >
+                    {getPrescriptionStatusHeading()}
+                  </h2>
+                )}
+
+                {showRefillProgressContent &&
+                  isRefillRunningLate && (
+                    <VaAlert
+                      data-testid="rx-details-refill-alert"
+                      status="warning"
+                      className="vads-u-margin-bottom--2"
+                      uswds
+                    >
+                      <h3
+                        slot="headline"
+                        className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+                      >
+                        Your refill request for this medication is taking longer
+                        than expected
+                      </h3>
+                      <p>
+                        Call your VA pharmacy{' '}
+                        {pharmacyPhone && (
+                          <CallPharmacyPhone
+                            cmopDivisionPhone={pharmacyPhone}
+                            page={pageType.DETAILS}
+                          />
+                        )}
+                        to check on your refill, if you haven’t received it in
+                        the mail yet.
+                      </p>
+                    </VaAlert>
+                  )}
+                {showRefillProgressContent && (
+                  <>
+                    <ProcessList stepGuideProps={stepGuideProps} />
+                    <div className="vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-lighter" />
+                  </>
                 )}
                 <h2
                   className="vads-u-margin-top--0 vads-u-margin-bottom--4"
@@ -145,6 +242,35 @@ const VaPrescription = prescription => {
                     <>Most recent prescription</>
                   )}
                 </h2>
+                {/* TODO: clean after refill progress content flag is gone */}
+                {showRefillProgressContent && (
+                  <>
+                    {showRefillContent && prescription?.isRefillable ? (
+                      <Link
+                        // TODO: clean after grouping flag is gone
+                        className={`${
+                          !showGroupingContent ? 'vads-u-margin-top--3 ' : ''
+                        }vads-u-display--block vads-c-action-link--green vads-u-margin-bottom--3`}
+                        to="/refill"
+                        data-testid="refill-nav-link"
+                        data-dd-action-name={
+                          dataDogActionNames.detailsPage.FILL_THIS_PRESCRIPTION
+                        }
+                      >
+                        {/* TODO: clean after grouping flag is gone */}
+                        {!showGroupingContent &&
+                          `${
+                            hasBeenDispensed ? 'Refill' : 'Fill'
+                          } this prescription`}
+                        {showGroupingContent &&
+                          `Request a ${hasBeenDispensed ? 'refill' : 'fill'}`}
+                      </Link>
+                    ) : (
+                      <FillRefillButton {...prescription} />
+                    )}
+                  </>
+                )}
+
                 {prescription && <ExtraDetails {...prescription} />}
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescription number
@@ -162,7 +288,10 @@ const VaPrescription = prescription => {
               Refills left
             </h3>
             <p data-testid="refills-left">
-              {validateField(prescription.refillRemaining)}
+              {validateIfAvailable(
+                'Number of refills left',
+                prescription.refillRemaining,
+              )}
             </p>
             {!pendingMed && (
               <>
@@ -170,7 +299,11 @@ const VaPrescription = prescription => {
                   Request refills by this prescription expiration date
                 </h3>
                 <p data-testid="expiration-date">
-                  {dateFormat(prescription.expirationDate)}
+                  {dateFormat(
+                    prescription.expirationDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
               </>
             )}
@@ -210,7 +343,9 @@ const VaPrescription = prescription => {
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Facility
             </h3>
-            <p data-testid="facility-name">{prescription.facilityName}</p>
+            <p data-testid="facility-name">
+              {validateIfAvailable('Facility', prescription.facilityName)}
+            </p>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Pharmacy phone number
             </h3>
@@ -224,7 +359,7 @@ const VaPrescription = prescription => {
                   (<va-telephone tty contact="711" />)
                 </>
               ) : (
-                EMPTY_FIELD
+                validateIfAvailable('Pharmacy phone number')
               )}
             </div>
             {/* TODO: clean after grouping flag is gone */}
@@ -233,20 +368,31 @@ const VaPrescription = prescription => {
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Instructions
                 </h3>
-                <p>{validateField(prescription?.sig)}</p>
+                <p data-testid="rx-instructions">
+                  {validateIfAvailable('Instructions', prescription?.sig)}
+                </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Reason for use
                 </h3>
-                <p>{validateField(prescription?.indicationForUse)}</p>
+                <p data-testid="rx-reason-for-use">
+                  {validateIfAvailable(
+                    'Reason for use',
+                    prescription?.indicationForUse,
+                  )}
+                </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Quantity
                 </h3>
-                <p>{validateField(prescription.quantity)}</p>
+                <p>{validateIfAvailable('Quantity', prescription.quantity)}</p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed on
                 </h3>
                 <p datat-testid="ordered-date">
-                  {dateFormat(prescription.orderedDate)}
+                  {dateFormat(
+                    prescription.orderedDate,
+                    'MMMM D, YYYY',
+                    'Date not available',
+                  )}
                 </p>
                 <h3 className="vads-u-font-size--base vads-u-font-family--sans">
                   Prescribed by
@@ -254,12 +400,10 @@ const VaPrescription = prescription => {
                 <p>
                   {prescription?.providerFirstName &&
                   prescription?.providerLastName
-                    ? validateField(
-                        `${prescription.providerLastName}, ${
-                          prescription.providerFirstName
-                        }`,
-                      )
-                    : EMPTY_FIELD}
+                    ? `${prescription.providerLastName}, ${
+                        prescription.providerFirstName
+                      }`
+                    : validateIfAvailable('Provider name')}
                 </p>
               </>
             )}
@@ -279,7 +423,10 @@ const VaPrescription = prescription => {
                   Reason for use
                 </h3>
                 <p>{validateField(prescription?.indicationForUse)}</p>
-                <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+                <h3
+                  className="vads-u-font-size--base vads-u-font-family--sans"
+                  data-testid="rx-quantity"
+                >
                   Quantity
                 </h3>
                 <p>{validateField(prescription.quantity)}</p>
@@ -537,12 +684,15 @@ const VaPrescription = prescription => {
                             const refillPosition = refillHistory.length - i - 1;
                             const refillLabelId = `rx-refill-${refillPosition}`;
                             return (
-                              <VaAccordionItem
+                              <va-accordion-item
                                 bordered="true"
                                 key={i}
-                                subHeader={`Filled on ${dateFormat(
+                                subHeader={dateFormat(
                                   entry.dispensedDate,
-                                )}`}
+                                  'MMMM D, YYYY',
+                                  'Date not available',
+                                  'Filled on ',
+                                )}
                               >
                                 <h4
                                   className="vads-u-font-size--h6"
@@ -568,6 +718,8 @@ const VaPrescription = prescription => {
                                     >
                                       {dateFormat(
                                         latestTrackingStatus?.completeDateTime,
+                                        'MMMM D, YYYY',
+                                        'Date not available',
                                       )}
                                     </p>
                                   </>
@@ -659,14 +811,13 @@ const VaPrescription = prescription => {
                                     </>
                                   ) : (
                                     <>
-                                      No description available. Call{' '}
-                                      <VaPharmacyText phone={pharmacyPhone} />{' '}
-                                      if you need help identifying this
-                                      medication.
+                                      No description available. If you need help
+                                      identifying this medication, call{' '}
+                                      <VaPharmacyText phone={pharmacyPhone} />.
                                     </>
                                   )}
                                 </div>
-                              </VaAccordionItem>
+                              </va-accordion-item>
                             );
                           })}
                         </VaAccordion>

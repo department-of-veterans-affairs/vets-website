@@ -10,10 +10,12 @@ import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.
 import PatientComposePage from '../pages/PatientComposePage';
 
 describe('SM Contact list', () => {
-  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
-    'mhv_secure_messaging_edit_contact_list',
-    true,
-  );
+  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles([
+    {
+      name: 'mhv_secure_messaging_edit_contact_list',
+      value: true,
+    },
+  ]);
 
   it('verify contact list link', () => {
     SecureMessagingSite.login(updatedFeatureToggle);

@@ -112,6 +112,22 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-marriage-of-child/0/date-child-married': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
+      'report-child-stopped-attending-school/0/date-child-left-school': ({
+        afterHook,
+      }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-stepchild-no-longer-part-of-household/0/child-address': ({
         afterHook,
       }) => {
@@ -125,11 +141,19 @@ const testConfig = createTestConfig(
         });
       },
 
+      '686-report-dependent-death/0/date-of-death': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       '686-report-add-child/introduction': ({ afterHook }) => {
         afterHook(() => {
           cy.get('.usa-button-primary').click();
         });
       },
+
       '686-report-add-child/summary': ({ afterHook }) => {
         afterHook(() => {
           cy.get('va-radio-option[value="N"]').click();

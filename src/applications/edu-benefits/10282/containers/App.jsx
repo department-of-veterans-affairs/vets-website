@@ -5,6 +5,9 @@ import formConfig from '../config/form';
 import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function App({ location, children }) {
+  React.useEffect(() => {
+    document.title = 'Apply for the IBM SkillsBuild program | Veterans Affairs';
+  }, []);
   return (
     <div className="form-22-10282-container row">
       <Breadcrumbs />

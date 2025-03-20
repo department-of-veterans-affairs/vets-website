@@ -8,20 +8,18 @@ const Programs = ({ programTypes, facilityCode }) => {
     <>
       <p>
         The following{' '}
-        {programTypes.length === 1 ? 'program is' : 'programs are'} approved by
-        the VA at this institution.
+        {programTypes.length === 1 ? 'program is' : 'programs are'} approved for
+        VA benefits at this institution. For more information about specific
+        programs, search the institution catalog or website.
       </p>
       {programTypes.map((programType, index) => (
         <span
           key={index}
           className="program-link-wrapper vads-u-display--flex vads-u-justify-content--space-between"
         >
-          <p className="vads-u-font-weight--bold vads-u-padding-right--2">
-            {mapProgramTypeToName(programType)}
-          </p>
           <Link
             to={{
-              pathname: `/institution/${facilityCode}/${mapToDashedName(
+              pathname: `../institution/${facilityCode}/${mapToDashedName(
                 programType,
               )
                 .trim()
@@ -29,10 +27,10 @@ const Programs = ({ programTypes, facilityCode }) => {
                 .replace(/\s+/g, '-')
                 .replace(/\//g, '-')}`,
             }}
-            className="vads-u-display--flex vads-u-align-items--center"
+            className="vads-u-display--flex vads-u-align-items--center vads-u-margin-bottom--2"
             data-testid="program-link"
           >
-            See All
+            See {mapProgramTypeToName(programType)} programs
           </Link>
         </span>
       ))}

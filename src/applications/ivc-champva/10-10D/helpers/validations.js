@@ -1,5 +1,5 @@
-import { objDiff } from './utilities';
-import { makeHumanReadable } from '../../shared/utilities';
+import { objDiff, onReviewPage } from './utilities';
+import { makeHumanReadable, validateText } from '../../shared/utilities';
 
 /* 
 This validation checks if the `certProp` value matches the corresponding
@@ -24,7 +24,7 @@ export const fieldsMustMatchValidation = (
     return; // This validation is not applicable here.
   }
 
-  if (target === undefined) return;
+  if (target === undefined || !onReviewPage()) return;
 
   // E.g.: `certifierName` => `Name`:
   const friendlyName = makeHumanReadable(certProp)
@@ -96,4 +96,44 @@ export const certifierEmailValidation = (errors, page, formData) => {
     'applicantEmailAddress',
     '_undefined', // Sponsor has no email field
   );
+};
+
+/**
+ * Runs `validateText` against all properties in an address object
+ * to make sure they don't contain illegal characters (as defined in `validateText`).
+ *
+ * @param {Object} errors Formlib error objects corresponding to the address fields
+ * @param {Object} page Form data accessible on the current page
+ * @param {Object} formData All form fields and their data, or the current list loop item data
+ * @param {String} addressProp keyname for the address property in
+ * `formData` we want to access - can be omitted when checking an address prop in
+ * a list loop item (see /applicant-mailing-address for example)
+ */
+export const validAddressCharsOnly = (errors, page, formData, addressProp) => {
+  // Get address fields we want to check
+  const addressFields = addressProp ? formData[addressProp] : page; // if in list loop, page is just the address fields
+  // Iterate over all address properties and check all string values
+  // to make sure they don't violate our list of acceptable characters:
+  Object.keys(addressFields || {}).forEach(key => {
+    const val = addressFields[key];
+    if (typeof val === 'string') {
+      const res = validateText(addressFields[key]);
+      if (res) {
+        const targetErr = addressProp ? errors[addressProp][key] : errors[key];
+        targetErr.addError(res);
+      }
+    }
+  });
+};
+
+export const sponsorAddressCleanValidation = (errors, page, formData) => {
+  return validAddressCharsOnly(errors, page, formData, 'sponsorAddress');
+};
+
+export const certifierAddressCleanValidation = (errors, page, formData) => {
+  return validAddressCharsOnly(errors, page, formData, 'certifierAddress');
+};
+
+export const applicantAddressCleanValidation = (errors, page, formData) => {
+  return validAddressCharsOnly(errors, page, formData);
 };

@@ -6,7 +6,7 @@ import UnsavedFieldNote from '../components/UnsavedFieldNote';
 
 const blankSchema = { type: 'object', properties: {} };
 
-const Description = ({ formData }) => {
+export const Description = ({ formData }) => {
   const { emailAddress, permanentAddress } = formData;
 
   return (

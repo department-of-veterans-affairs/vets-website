@@ -107,14 +107,17 @@ const clickSearchButton = () => {
   cy.get('button#facility-search').click();
 };
 
-// const clickSearchButton = text => {
-//   cy.get('input#facility-search').should('exist');
-//   cy.get('input#facility-search').click();
-// };
-
 const clickRadioButton = selector => {
-  const newSelector =
-    mapSelectorShorthand(selector) || `va-radio-option[value*="${selector}"]`;
+  const RADIO_DEFAULT_SELECTOR = `va-radio-option[value*="${selector}"]`;
+  const newSelector = mapSelectorShorthand(selector) || RADIO_DEFAULT_SELECTOR;
+
+  cy.get(newSelector).should('exist');
+  cy.get(newSelector).click();
+};
+
+const clickRadioButtonYesNo = selector => {
+  const RADIO_LABEL_SELECTOR = `va-radio-option[label*="${selector}"]`;
+  const newSelector = mapSelectorShorthand(selector) || RADIO_LABEL_SELECTOR;
 
   cy.get(newSelector).should('exist');
   cy.get(newSelector).click();
@@ -189,6 +192,8 @@ export default class STEPS {
   static clickLink = clickLink;
 
   static clickRadioButton = clickRadioButton;
+
+  static clickRadioButtonYesNo = clickRadioButtonYesNo;
 
   static clickCallToActionButton = clickCallToActionButton;
 

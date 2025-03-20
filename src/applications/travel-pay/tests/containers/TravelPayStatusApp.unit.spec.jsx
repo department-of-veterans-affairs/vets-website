@@ -7,7 +7,11 @@ import MockDate from 'mockdate';
 
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
-import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
+import {
+  mockFetch,
+  mockApiRequest,
+  setFetchJSONFailure,
+} from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import reducer from '../../redux/reducer';
 import TravelPayStatusApp from '../../containers/TravelPayStatusApp';
@@ -46,7 +50,7 @@ describe('TravelPayStatusApp', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -97,7 +101,7 @@ describe('TravelPayStatusApp', () => {
     MockDate.reset();
   });
 
-  it('should redirect if feature flag is off', async () => {
+  it('should redirect if feature flag is off', () => {
     renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
         areFeatureTogglesLoading: false,
@@ -106,12 +110,10 @@ describe('TravelPayStatusApp', () => {
       path: `/claims/`,
       reducers: reducer,
     });
-    await waitFor(() => {
-      expect(window.location.replace.called).to.be.true;
-    });
+    expect(window.location.replace.called).to.be.true;
   });
 
-  it('should redirect the root path / to /claims/ and render the app.', async () => {
+  it('should redirect the root path / to /claims/ and render the app.', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
       <TravelPayStatusApp />,
       {
@@ -120,12 +122,11 @@ describe('TravelPayStatusApp', () => {
         reducers: reducer,
       },
     );
-    expect(
-      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
-    ).to.exist;
+    expect(screenFeatureToggle.getByTestId('travel-pay-loading-indicator')).to
+      .exist;
   });
 
-  it('should render loading state if feature flag is loading', async () => {
+  it('should render loading state if feature flag is loading', () => {
     const screenFeatureToggle = renderWithStoreAndRouter(
       <TravelPayStatusApp />,
       {
@@ -134,14 +135,20 @@ describe('TravelPayStatusApp', () => {
         reducers: reducer,
       },
     );
-    expect(
-      await screenFeatureToggle.getByTestId('travel-pay-loading-indicator'),
-    ).to.exist;
+    expect(screenFeatureToggle.getByTestId('travel-pay-loading-indicator')).to
+      .exist;
   });
 
   it('handles a failed fetch of claims when user is not a Veteran', async () => {
     global.fetch.restore();
-    mockApiRequest({ errors: [{ title: 'Forbidden', status: 403 }] }, false);
+
+    mockFetch();
+    setFetchJSONFailure(
+      global.fetch.withArgs(sinon.match(`/travel_pay/v0/claims`)),
+      {
+        errors: [{ title: 'Forbidden', status: 403 }],
+      },
+    );
 
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
       initialState: getData({
@@ -155,18 +162,23 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      expect(screen.findByText(/We can’t find any travel claims for you/i)).to
+      expect(screen.getByText(/We can’t find any travel claims for you/i)).to
         .exist;
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
       expect($('va-additional-info')).to.not.exist;
+      expect($('va-alert[status="warning"]')).to.exist;
     });
   });
 
   it('handles a unspecified errors', async () => {
     global.fetch.restore();
-    mockApiRequest(
-      { errors: [{ title: 'Service unavilable', status: 500 }] },
-      false,
+
+    mockFetch();
+    setFetchJSONFailure(
+      global.fetch.withArgs(sinon.match(`/travel_pay/v0/claims`)),
+      {
+        errors: [{ title: 'Service unavilable', status: 500 }],
+      },
     );
 
     const screen = renderWithStoreAndRouter(<TravelPayStatusApp />, {
@@ -181,10 +193,11 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      expect(screen.findByText(/we can’t access your travel claims right now/i))
+      expect(screen.getByText(/we can’t access your travel claims right now/i))
         .to.exist;
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
       expect($('va-additional-info')).to.not.exist;
+      expect($('va-alert[status="error"]')).to.exist;
     });
   });
 
@@ -201,9 +214,9 @@ describe('TravelPayStatusApp', () => {
       reducers: reducer,
     });
 
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(0);
-      expect(await screen.findByText('No travel claims to show.')).to.exist;
+      expect(screen.getByText('No travel claims to show.')).to.exist;
     });
   });
 
@@ -215,7 +228,7 @@ describe('TravelPayStatusApp', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -234,10 +247,9 @@ describe('TravelPayStatusApp', () => {
       reducers: reducer,
     });
 
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(1);
-      expect(await screen.findByText('Travel reimbursement claim details')).to
-        .exist;
+      expect(screen.getByText('Travel reimbursement claim details')).to.exist;
     });
   });
 
@@ -249,7 +261,7 @@ describe('TravelPayStatusApp', () => {
           id: '6ea23179-e87c-44ae-a20a-f31fb2c132fb',
           claimNumber: 'TC0928098230498',
           claimName: 'string',
-          claimStatus: 'In Process',
+          claimStatus: 'In process',
           appointmentDateTime: aprDate,
           appointmentName: 'more recent',
           appointmentLocation: 'Cheyenne VA Medical Center',
@@ -269,7 +281,7 @@ describe('TravelPayStatusApp', () => {
       reducers: reducer,
     });
 
-    await waitFor(async () => {
+    await waitFor(() => {
       expect(screen.queryAllByTestId('travel-claim-details').length).to.eq(1);
       expect(screen.queryByText('Travel reimbursement claim details')).to.be
         .null;
@@ -287,7 +299,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -308,7 +320,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(aprDate);
+      const [date, time] = formatDateTime(aprDate, true);
       userEvent.selectOptions(
         screen.getByLabelText(
           'Show appointments with travel claims in this order',
@@ -353,13 +365,13 @@ describe('TravelPayStatusApp', () => {
       const filterNames = statusFilters.map(filter => filter.name);
 
       const orderedStatuses = [
-        'On Hold',
+        'On hold',
         'Denied',
-        'In Manual Review',
+        'In manual review',
         'Appealed',
-        'Claim Submitted',
+        'Claim submitted',
         'Closed',
-        'In Process',
+        'In process',
         'Incomplete',
         'Saved',
       ];
@@ -383,8 +395,8 @@ describe('TravelPayStatusApp', () => {
     global.fetch.restore();
     const topStatusesSubset = travelClaims.data.filter(
       claim =>
-        claim.claimStatus === 'On Hold' ||
-        claim.claimStatus === 'In Manual Review',
+        claim.claimStatus === 'On hold' ||
+        claim.claimStatus === 'In manual review',
     );
     mockApiRequest({ data: topStatusesSubset });
 
@@ -407,7 +419,7 @@ describe('TravelPayStatusApp', () => {
       const statusFilters = screen.getAllByTestId(/status-filter_/);
       const filterNames = statusFilters.map(filter => filter.name);
 
-      const orderedStatuses = ['On Hold', 'In Manual Review'];
+      const orderedStatuses = ['On hold', 'In manual review'];
       expect(filterNames).to.eql(orderedStatuses);
     });
   });
@@ -415,7 +427,7 @@ describe('TravelPayStatusApp', () => {
     global.fetch.restore();
     const nonTopStatuses = travelClaims.data.filter(
       claim =>
-        !['On Hold', 'Denied', 'In Manual Review'].includes(claim.claimStatus),
+        !['On hold', 'Denied', 'In manual review'].includes(claim.claimStatus),
     );
     mockApiRequest({ data: nonTopStatuses });
 
@@ -440,9 +452,9 @@ describe('TravelPayStatusApp', () => {
 
       const orderedStatuses = [
         'Appealed',
-        'Claim Submitted',
+        'Claim submitted',
         'Closed',
-        'In Process',
+        'In process',
         'Incomplete',
         'Saved',
       ];
@@ -453,8 +465,8 @@ describe('TravelPayStatusApp', () => {
     global.fetch.restore();
     const topStatusesSubset = travelClaims.data.filter(
       claim =>
-        claim.claimStatus === 'On Hold' ||
-        claim.claimStatus === 'In Manual Review' ||
+        claim.claimStatus === 'On hold' ||
+        claim.claimStatus === 'In manual review' ||
         claim.claimStatus === 'Closed' ||
         claim.claimStatus === 'Saved',
     );
@@ -480,8 +492,8 @@ describe('TravelPayStatusApp', () => {
       const filterNames = statusFilters.map(filter => filter.name);
 
       const orderedStatuses = [
-        'On Hold',
-        'In Manual Review',
+        'On hold',
+        'In manual review',
         'Closed',
         'Saved',
       ];
@@ -500,7 +512,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(() => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(
@@ -525,8 +537,8 @@ describe('TravelPayStatusApp', () => {
       );
 
       expect(
-        screen.findByText(
-          'Showing 1 ‒ 10 of 31 claims, sorted by date (most recent), with 1 filter applied.',
+        screen.getByText(
+          'Showing 1 ‒ 1 of 1 claims, sorted by date (most recent), with 1 filter applied.',
         ),
       ).to.exist;
       expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
@@ -550,7 +562,7 @@ describe('TravelPayStatusApp', () => {
     });
 
     await waitFor(async () => {
-      const [date, time] = formatDateTime(previousYearDate);
+      const [date, time] = formatDateTime(previousYearDate, true);
 
       userEvent.click(
         document.querySelector(
@@ -583,7 +595,7 @@ describe('TravelPayStatusApp', () => {
       );
 
       expect(
-        await screen.findByText(
+        screen.getByText(
           'Showing 1 ‒ 1 of 1 claims, sorted by date (most recent), with 2 filters applied.',
         ),
       ).to.exist;
@@ -612,7 +624,7 @@ describe('TravelPayStatusApp', () => {
 
     await waitFor(async () => {
       expect(
-        await screen.findByText(
+        await screen.queryByText(
           'Showing 1 ‒ 10 of 31 claims, sorted by date (most recent).',
         ),
       ).to.exist;

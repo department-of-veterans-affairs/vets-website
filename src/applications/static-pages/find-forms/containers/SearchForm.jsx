@@ -1,16 +1,53 @@
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
+import recordEvent from 'platform/monitoring/record-event';
+import URLSearchParams from 'url-search-params';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getFindFormsAppState } from '../helpers/selectors';
-import { fetchFormsThunk } from '../actions';
+import { fetchFormsAction, updatePaginationAction } from '../actions';
+import { fetchFormsApi } from '../api';
+import { MAX_PAGE_LIST_LENGTH } from '../constants';
 
-export const SearchForm = ({ fetchForms }) => {
+export const SearchForm = () => {
   const query = new URLSearchParams(window.location.search).get('q') ?? '';
   const [queryState, setQueryState] = useState(query);
   const [showQueryError, setShowQueryError] = useState(false);
+  const dispatch = useDispatch();
 
   const findFormInputFieldRef = useRef(null);
+
+  const searchForForms = async () => {
+    const { history, location } = window;
+    const queryParams = new URLSearchParams(location.search);
+
+    queryParams.set('q', queryState);
+    history.replaceState({}, '', `${location.pathname}?${queryParams}`);
+
+    dispatch(fetchFormsAction(queryState));
+    dispatch(updatePaginationAction());
+
+    const forms = await fetchFormsApi(queryState, dispatch);
+
+    if (forms?.length) {
+      const totalPages = Math.ceil(forms.length / MAX_PAGE_LIST_LENGTH);
+
+      recordEvent({
+        event: 'view_search_results',
+        'search-page-path': '/find-forms',
+        'search-query': query,
+        'search-results-total-count': forms.length,
+        'search-results-total-pages': totalPages,
+        'search-selection': 'Find forms',
+        'search-typeahead-enabled': false,
+        'search-location': 'Find A Form',
+        'sitewide-search-app-used': false,
+        'type-ahead-option-keyword-selected': undefined,
+        'type-ahead-option-position': undefined,
+        'type-ahead-options-list': undefined,
+        'type-ahead-options-count': undefined,
+      });
+    }
+  };
 
   useEffect(() => {
     if (queryState.length === 0) {
@@ -18,7 +55,7 @@ export const SearchForm = ({ fetchForms }) => {
     } else if (queryState.length === 1) {
       setShowQueryError(true);
     } else if (queryState) {
-      fetchForms(queryState);
+      searchForForms();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,8 +94,7 @@ export const SearchForm = ({ fetchForms }) => {
       return;
     }
 
-    // Fetch the forms if valid query
-    fetchForms(queryState);
+    searchForForms();
   };
 
   const errorTestId = showQueryError ? 'find-form-error-body' : '';
@@ -89,6 +125,7 @@ export const SearchForm = ({ fetchForms }) => {
           className="usa-input-error-message vads-u-margin-bottom--0p5"
           role="alert"
           data-e2e-id="find-form-error-message"
+          data-testid="find-form-error-message"
         >
           <span className="sr-only">Error</span>
           Please fill in a keyword, form name, or number.
@@ -107,18 +144,11 @@ export const SearchForm = ({ fetchForms }) => {
 };
 
 SearchForm.propTypes = {
-  fetchForms: PropTypes.func.isRequired,
+  fetching: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
-  fetching: getFindFormsAppState(state).fetching,
+  fetching: state.findVAFormsReducer.fetching,
 });
 
-const mapDispatchToProps = dispatch => ({
-  fetchForms: (query, options) => dispatch(fetchFormsThunk(query, options)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchForm);
+export default connect(mapStateToProps)(SearchForm);

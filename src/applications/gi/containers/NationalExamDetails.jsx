@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { fetchNationalExamDetails } from '../actions';
 import {
   formatNationalExamName,
@@ -53,38 +52,6 @@ const NationalExamDetails = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Remove this once the table width is updated in the component
-  useLayoutEffect(
-    // eslint-disable-next-line consistent-return
-    () => {
-      if (!error) {
-        const observer = new MutationObserver(() => {
-          const vaTableInner = document.querySelector(
-            '.exams-table va-table-inner',
-          );
-          if (vaTableInner?.shadowRoot) {
-            const { shadowRoot } = vaTableInner;
-            const usaTable = shadowRoot.querySelector('.usa-table');
-            if (usaTable) {
-              usaTable.style.width = '100%';
-            }
-          }
-        });
-
-        const vaTable = document.querySelector('.exams-table va-table');
-        if (vaTable) {
-          observer.observe(vaTable, {
-            attributes: true,
-            childList: true,
-            subtree: true,
-          });
-        }
-        return () => observer.disconnect();
-      }
-    },
-    [examDetails, error],
-  );
-
   if (error) {
     return (
       <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
@@ -127,17 +94,12 @@ const NationalExamDetails = () => {
           <p className="vads-u-margin-bottom--0">Showing 1 of 1 test</p>
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul className="remove-bullets" role="list">
-            <li>
-              <strong>Fee Description: </strong>
+            <li data-testid="fee-description">
+              <strong>Fee description: </strong>
               {test.name}
             </li>
-            <li>
-              <strong>Dates:</strong>{' '}
-              {moment(test.beginDate).format('MM/DD/YY')} -{' '}
-              {moment(test.endDate).format('MM/DD/YY')}
-            </li>
-            <li>
-              <strong>Amount:</strong>{' '}
+            <li data-testid="maximum-reimbursement">
+              <strong>Maximum reimbursement:</strong>{' '}
               {Number(test.fee).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'USD',
@@ -145,6 +107,11 @@ const NationalExamDetails = () => {
               })}
             </li>
           </ul>
+          <p>
+            <strong>
+              The amount reimbursed may differ from the actual cost of the exam.
+            </strong>
+          </p>
         </div>
       );
     }
@@ -153,22 +120,18 @@ const NationalExamDetails = () => {
         <div className="exams-table">
           <h3 className="vads-u-margin-y--0">Test Info</h3>
           <p className="vads-u-margin-bottom--0">
-            Showing 1-
-            {totalTests} of {totalTests} tests
+            Showing 1 - {totalTests} of {totalTests} tests
           </p>
           <va-table full-width table-type={isMobile ? 'bordered' : undefined}>
             <va-table-row slot="headers">
-              <span className="table-header">Fee Description</span>
-              <span className="table-header">Dates</span>
-              <span className="table-header">Amount</span>
+              <span className="table-header">Fee description</span>
+              <span className="table-header" style={{ whiteSpace: 'nowrap' }}>
+                Maximum reimbursement
+              </span>
             </va-table-row>
             {validTests.map((test, i) => (
               <va-table-row key={i}>
                 <span>{test.name}</span>
-                <span className="table-width">
-                  {moment(test.beginDate).format('MM/DD/YY')} -{' '}
-                  {moment(test.endDate).format('MM/DD/YY')}
-                </span>
                 <span>
                   {Number(test.fee).toLocaleString('en-US', {
                     style: 'currency',
@@ -179,6 +142,11 @@ const NationalExamDetails = () => {
               </va-table-row>
             ))}
           </va-table>
+          <p>
+            <strong>
+              The amount reimbursed may differ from the actual cost of the exam.
+            </strong>
+          </p>
         </div>
       );
     }
@@ -218,8 +186,8 @@ const NationalExamDetails = () => {
         <div>
           <p className="vads-u-margin-bottom--0p5">
             Print and fill out form Request for Reimbursement of National Exam
-            Fee. Send the completed application to the Regional Processing
-            Office for your region listed in the form.
+            Fee after you’ve taken the test. Send the completed application to
+            the Regional Processing Office for your region listed in the form.
           </p>
           <div className="vads-u-margin-bottom--4">
             <va-link

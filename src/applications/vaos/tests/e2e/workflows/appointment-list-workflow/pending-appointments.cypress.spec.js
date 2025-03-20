@@ -30,6 +30,7 @@ describe('VAOS pending appointment flow', () => {
           id: i,
           localStartTime: moment(),
           status: APPOINTMENT_STATUS.proposed,
+          pending: true,
         });
         response.push(appt);
       }
@@ -54,6 +55,7 @@ describe('VAOS pending appointment flow', () => {
         localStartTime: moment(),
         serviceType: 'primaryCare',
         status: APPOINTMENT_STATUS.proposed,
+        pending: true,
       });
 
       mockAppointmentsGetApi({ response: [appt] });
@@ -82,6 +84,7 @@ describe('VAOS pending appointment flow', () => {
         serviceType: 'primaryCare',
         status: APPOINTMENT_STATUS.proposed,
         created: past,
+        pending: true,
       });
 
       mockAppointmentsGetApi({ response: [appt] });

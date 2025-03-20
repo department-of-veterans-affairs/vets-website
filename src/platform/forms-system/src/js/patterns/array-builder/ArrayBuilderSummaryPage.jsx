@@ -87,6 +87,7 @@ const useHeadingLevels = (userHeaderLevel, isReviewPage) => {
  *   getFirstItemPagePath: (formData, index) => string,
  *   getText: import('./arrayBuilderText').ArrayBuilderGetText
  *   hasItemsKey: string,
+ *   hideMaxItemsAlert: boolean,
  *   introPath: string,
  *   isItemIncomplete: function,
  *   isReviewPage: boolean,
@@ -106,6 +107,7 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
     getFirstItemPagePath,
     getText,
     hasItemsKey,
+    hideMaxItemsAlert,
     introPath,
     isItemIncomplete,
     isReviewPage,
@@ -419,21 +421,37 @@ export default function ArrayBuilderSummaryPage(arrayBuilderOptions) {
       );
     };
 
-    const Alerts = () => (
-      <>
-        <MaxItemsAlert show={isMaxItemsReached} ref={maxItemsAlertRef}>
-          {getText(
-            'alertMaxItems',
-            updatedItemData,
-            props.data,
-            updateItemIndex,
-          )}
-        </MaxItemsAlert>
-        <RemovedAlert show={showRemovedAlert} />
-        <UpdatedAlert show={showUpdatedAlert} />
-        <ReviewErrorAlert show={showReviewErrorAlert} />
-      </>
-    );
+    const Alerts = () => {
+      const showMaxItemsAlert = isMaxItemsReached && !hideMaxItemsAlert;
+      const alertsShown =
+        showMaxItemsAlert ||
+        showUpdatedAlert ||
+        showRemovedAlert ||
+        showReviewErrorAlert;
+      const isButtonOrLink = useLinkInsteadOfYesNo || useButtonInsteadOfYesNo;
+
+      return (
+        <div
+          className={
+            alertsShown && isButtonOrLink && !arrayData?.length
+              ? 'vads-u-margin-bottom--4'
+              : ''
+          }
+        >
+          <MaxItemsAlert show={showMaxItemsAlert} ref={maxItemsAlertRef}>
+            {getText(
+              'alertMaxItems',
+              updatedItemData,
+              props.data,
+              updateItemIndex,
+            )}
+          </MaxItemsAlert>
+          <RemovedAlert show={showRemovedAlert} />
+          <UpdatedAlert show={showUpdatedAlert} />
+          <ReviewErrorAlert show={showReviewErrorAlert} />
+        </div>
+      );
+    };
 
     const Cards = () => (
       <ArrayBuilderCards

@@ -24,6 +24,17 @@ export const facilityTypeChoices = {
   },
 };
 
+// Submission data
+export const facilityTypeSubmissionChoices = {
+  nonVa: 'PRIVATE HEALTH CARE PROVIDER',
+  vetCenter: 'VA VET CENTER',
+  ccp: 'COMMUNITY CARE',
+  vamcCobc:
+    'VA MEDICAL CENTERS (VAMC) AND COMMUNITY-BASED OUTPATIENT CLINICS (CBOC)',
+  mtf: 'DEPARTMENT OF DEFENSE (DOD) MILITARY TREATMENT FACILITY(IES) (MTF)',
+  other: 'OTHER',
+};
+
 export const facilityTypeError =
   'You must select or specify at least one facility type';
 

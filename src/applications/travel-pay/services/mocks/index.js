@@ -2,14 +2,20 @@ const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const travelClaims = require('./travel-claims-31.json');
-// const appointmentClaim = require('./vaos-appointment-with-claim.json');
-// const appointmentNoclaim = require('./vaos-appointment-no-claim.json');
-const appointmentOriginal = require('./vaos-appointment-original.json');
-const user = require('./user.json');
-// const noAddressUser = require('./user-no-address.json');
+
+const appointment = {
+  original: require('./vaos-appointment-original.json'),
+  claim: require('./vaos-appointment-with-claim.json'),
+  noClaim: require('./vaos-appointment-no-claim.json'),
+};
+
+const user = {
+  withAddress: require('./user.json'),
+  noAddress: require('./user-no-address.json'),
+};
 
 const responses = {
-  'GET /v0/user': user,
+  'GET /v0/user': user.withAddress,
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
@@ -17,6 +23,7 @@ const responses = {
         { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
         { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
         { name: `${TOGGLE_NAMES.travelPaySubmitMileageExpense}`, value: true },
+        { name: `${TOGGLE_NAMES.travelPayClaimsManagement}`, value: true },
       ],
     },
   },
@@ -61,7 +68,7 @@ const responses = {
     return res.json({
       id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
       claimNumber: 'TC0928098230498',
-      claimStatus: 'Claim Submitted',
+      claimStatus: 'Claim submitted',
       appointmentDateTime: '2024-05-26T16:40:45.781Z',
       facilityName: 'Tomah VA Medical Center',
       createdOn: '2024-05-27T16:40:45.781Z',
@@ -70,7 +77,7 @@ const responses = {
   },
 
   // Submitting a new claim
-  'POST /travel_pay/v0/claims': { data: { claimId: '12345' } },
+  'POST /travel_pay/v0/claims': { claimId: '12345' },
   // 'POST /travel_pay/v0/claims': (req, res) => {
   //   return res.status(502).json({
   //     errors: [
@@ -86,7 +93,7 @@ const responses = {
 
   // Get travel-pay appointment
   'GET /vaos/v2/appointments/:id': (req, res) => {
-    return res.json(appointmentOriginal);
+    return res.json(appointment.original);
   },
   // 'GET /vaos/v2/appointments/:id': (req, res) => {
   //   return res.status(503).json({

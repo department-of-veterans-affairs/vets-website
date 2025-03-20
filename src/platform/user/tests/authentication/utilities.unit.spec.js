@@ -426,6 +426,13 @@ describe('Authentication Utilities', () => {
 
         setup({});
       });
+
+      it('should return "/" when pathname is "/verify/"', () => {
+        setup({ path: '/verify/' });
+
+        expect(authUtilities.createAndStoreReturnUrl()).to.equal('/');
+        expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal('/');
+      });
     });
 
     it('should return the `authReturnUrl` if it is already presented', () => {

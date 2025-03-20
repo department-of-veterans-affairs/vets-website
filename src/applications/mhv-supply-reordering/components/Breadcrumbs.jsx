@@ -1,5 +1,4 @@
 import React from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import manifest from '../manifest.json';
 
 const breadcrumbList = [
@@ -9,14 +8,23 @@ const breadcrumbList = [
   },
   {
     href: '/my-health',
-    label: 'Health care',
+    label: 'My HealtheVet',
   },
   {
     href: manifest.rootUrl,
     label: manifest.appName,
   },
 ];
+const bcString = JSON.stringify(breadcrumbList);
 
-const Breadcrumbs = () => <VaBreadcrumbs breadcrumbList={breadcrumbList} />;
+const Breadcrumbs = () => (
+  <va-breadcrumbs
+    className="breadcrumbs-container"
+    breadcrumb-list={bcString}
+    label="Breadcrumb"
+    home-veterans-affairs={false}
+    data-testid="breadcrumbs"
+  />
+);
 
 export default Breadcrumbs;

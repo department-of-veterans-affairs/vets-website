@@ -8,9 +8,9 @@ const ReviewSectionContent = ({
   items = [],
 }) => {
   const removeNullitems = items.filter(item => item.data);
-  const reviewListKeys = removeNullitems.map(
-    item => keys.filter(key => key.split('_')[0] === item.key)[0],
-  );
+  const reviewListKeys = removeNullitems
+    .map(item => keys.filter(key => key.split('_')[0] === item.key)[0])
+    .filter(key => key !== undefined && key !== null);
 
   return (
     <div
@@ -26,7 +26,7 @@ const ReviewSectionContent = ({
             <div className="vads-u-justify-content--flex-end">
               <VaButton
                 text="Edit"
-                label="Edit Your school information"
+                label={`Edit ${title}`}
                 onClick={() => editSection(reviewListKeys, title)}
                 secondary
               />

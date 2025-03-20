@@ -23,7 +23,7 @@ export default function AppointmentTasksSection({ appointment }) {
       <va-link-action
         data-testid="file-claim-link"
         className="vads-u-margin-top--1"
-        href={`/appointments/claims/?date=${appointment.start}`}
+        href={`/my-health/travel-pay/file-new-claim/${appointment.id}`}
         text="File a travel reimbursement claim"
       />
     </Section>

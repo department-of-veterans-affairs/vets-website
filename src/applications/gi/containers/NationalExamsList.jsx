@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   VaPagination,
@@ -10,9 +10,12 @@ import { fetchNationalExams } from '../actions';
 import { formatNationalExamName } from '../utils/helpers';
 
 const NationalExamsList = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [currentPage, setCurrentPage] = useState(1);
+  const query = new URLSearchParams(location.search);
+  const initialPage = Number(query.get('page')) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const itemsPerPage = 10;
   const resultsSummaryRef = useRef(null);
   const { loading, error, nationalExams } = useSelector(
@@ -38,6 +41,11 @@ const NationalExamsList = () => {
 
   const handlePageChange = page => {
     setCurrentPage(page);
+    history.replace({
+      pathname: location.pathname,
+      search: `?page=${page}`,
+    });
+
     window.scrollTo(0, 0);
     setTimeout(() => {
       if (resultsSummaryRef.current) {
@@ -46,9 +54,14 @@ const NationalExamsList = () => {
     }, 0);
   };
 
-  const handleRouteChange = examId => event => {
+  const handleRouteChange = exam => event => {
     event.preventDefault();
-    history.push(`/national-exams/${examId}`);
+    const selectedExamName = formatNationalExamName(exam.name);
+    history.push(
+      `/national-exams/${exam.enrichedId}?examName=${encodeURIComponent(
+        selectedExamName,
+      )}`,
+    );
   };
 
   const NationalExamsInfo = () => (
@@ -67,9 +80,9 @@ const NationalExamsList = () => {
         exams (admissions tests required for college or graduate school and
         tests for college credit)—even if you’re already receiving other
         education benefits. We’ll pay you back for the cost to register and any
-        administrative fees. We’ll prorate the entitlement charges based on the
-        actual amount of the fee charged for the test. The amount covered by VA
-        may differ from the actual cost of the exam.
+        administrative fees. We may adjust the entitlement charges according to
+        the actual payment. The reimbursement covered by VA may differ from the
+        actual cost of the exam.
       </p>
       <va-link
         href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/national-tests/"
@@ -101,6 +114,7 @@ const NationalExamsList = () => {
       </div>
     );
   }
+
   if (loading) {
     return (
       <div className="national-exams-container row vads-u-margin-bottom--8 vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
@@ -116,7 +130,7 @@ const NationalExamsList = () => {
   }
 
   return (
-    <div className="national-exams-container  row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
+    <div className="national-exams-container row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
       <div className="usa-width-two-thirds">
         <NationalExamsInfo />
         <p
@@ -125,7 +139,7 @@ const NationalExamsList = () => {
           tabIndex="-1"
           className="vads-u-margin-top--3 vads-u-margin-bottom--2"
         >
-          {`Showing ${startIndex}-${endIndex} of ${
+          {`Showing ${startIndex} - ${endIndex} of ${
             nationalExams.length
           } national exams`}
         </p>
@@ -138,7 +152,7 @@ const NationalExamsList = () => {
                   {formatNationalExamName(exam.name)}
                 </h3>
                 <VaLink
-                  href={`national-exams/${exam.enrichedId}`}
+                  href={`/national-exams/${exam.enrichedId}`}
                   text={`View test amount details for ${formatNationalExamName(
                     exam.name,
                   )}`}
@@ -146,7 +160,7 @@ const NationalExamsList = () => {
                   message-aria-describedby={`View test amount details for ${formatNationalExamName(
                     exam.name,
                   )}`}
-                  onClick={handleRouteChange(exam.enrichedId)}
+                  onClick={handleRouteChange(exam)}
                 />
               </va-card>
             </li>

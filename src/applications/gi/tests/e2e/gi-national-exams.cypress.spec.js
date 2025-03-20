@@ -16,7 +16,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'isUpdatedGi', value: true }],
+        features: [{ name: 'gi_comparison_tool_lce_toggle_flag', value: true }],
       },
     }).as('featureToggles');
   });
@@ -65,12 +65,12 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
 
     it('paginates correctly when there are more than 10 exams', () => {
       cy.injectAxeThenAxeCheck();
-      cy.get('#results-summary').should('contain', 'Showing 1-10');
+      cy.get('#results-summary').should('contain', 'Showing 1 - 10');
       cy.get('[data-testid="currentPage"]')
         .shadow()
         .find('[aria-label="Next page"]')
         .click();
-      cy.get('#results-summary').should('contain', 'Showing 11-19');
+      cy.get('#results-summary').should('contain', 'Showing 11 - 19');
     });
 
     it('displays an error message when national exams fetch fails', () => {
@@ -210,7 +210,7 @@ describe('GI Bill Comparison Tool - National Exams Page', () => {
         .within(() => {
           cy.get('h3').should('contain.text', 'Test Info');
           cy.get('p').should('contain.text', 'Showing 1 of 1 test');
-          cy.contains('Fee Description:').should('be.visible');
+          cy.contains('Maximum reimbursement:').should('be.visible');
           cy.contains('AP Exam Fee International').should('be.visible');
         });
     });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { ConfirmationView } from 'platform/forms-system/src/js/components/ConfirmationView';
@@ -8,10 +8,25 @@ import ProcessList from '../components/ProcessList';
 
 export const ConfirmationPage = ({ router, route }) => {
   const isAccredited = localStorage.getItem('isAccredited') === 'true';
+  const [claimID, setClaimID] = React.useState(null);
   const form = useSelector(state => state.form || {});
   const { submission } = form;
   const submitDate = submission?.timestamp;
   const confirmationNumber = submission?.response?.confirmationNumber;
+
+  useEffect(
+    () => {
+      if (submission?.response?.id) {
+        localStorage.setItem(
+          '10216claimID',
+          JSON.stringify(submission?.response?.id),
+        );
+      }
+      setClaimID(JSON.parse(localStorage.getItem('10216claimID')));
+    },
+    [submission],
+  );
+
   const goBack = e => {
     e.preventDefault();
     router.push('/review-and-submit');
@@ -27,7 +42,7 @@ export const ConfirmationPage = ({ router, route }) => {
         To submit your {!isAccredited ? 'forms' : 'form'}, follow the steps
         below
       </h2>
-      <ProcessList isAccredited={isAccredited} />
+      <ProcessList isAccredited={isAccredited} id={claimID} />
       <p>
         <va-button
           secondary

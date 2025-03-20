@@ -1,11 +1,10 @@
-import { withRouter } from 'react-router';
 import React from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import PropTypes from 'prop-types';
 import { useRouteMetadata } from './useRouteMetadata';
 import useContactInfo from './useContactInfo';
 
-const ContactInfoLoaderBase = ({
+export const ContactInfoLoader = ({
   router,
   children,
   requiredKeys,
@@ -34,7 +33,7 @@ const ContactInfoLoaderBase = ({
   return <div>{children}</div>;
 };
 
-ContactInfoLoaderBase.propTypes = {
+ContactInfoLoader.propTypes = {
   children: PropTypes.node.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func.isRequired,
@@ -44,5 +43,3 @@ ContactInfoLoaderBase.propTypes = {
   prefillPatternEnabled: PropTypes.bool,
   requiredKeys: PropTypes.arrayOf(PropTypes.string),
 };
-
-export const ContactInfoLoader = withRouter(ContactInfoLoaderBase);

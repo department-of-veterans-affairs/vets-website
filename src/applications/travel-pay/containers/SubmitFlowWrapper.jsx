@@ -12,11 +12,12 @@ import VehiclePage from '../components/submit-flow/pages/VehiclePage';
 import AddressPage from '../components/submit-flow/pages/AddressPage';
 import ReviewPage from '../components/submit-flow/pages/ReviewPage';
 import ConfirmationPage from '../components/submit-flow/pages/ConfirmationPage';
-import BreadCrumbs from '../components/Breadcrumbs';
-import { selectAppointment } from '../redux/selectors';
-
 import UnsupportedClaimTypePage from '../components/submit-flow/pages/UnsupportedClaimTypePage';
 import SubmissionErrorPage from '../components/submit-flow/pages/SubmissionErrorPage';
+
+import Breadcrumbs from '../components/Breadcrumbs';
+import { selectAppointment } from '../redux/selectors';
+import { HelpTextManage } from '../components/HelpText';
 import { getAppointmentData, submitMileageOnlyClaim } from '../redux/actions';
 
 const SubmitFlowWrapper = () => {
@@ -59,13 +60,15 @@ const SubmitFlowWrapper = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [isUnsupportedClaimType, setIsUnsupportedClaimType] = useState(false);
   const [isAgreementChecked, setIsAgreementChecked] = useState(false);
+  const [isAgreementError, setIsAgreementError] = useState(false);
 
   const onSubmit = () => {
     if (!isAgreementChecked) {
+      setIsAgreementError(true);
       scrollToFirstError();
       return;
     }
-    dispatch(submitMileageOnlyClaim(appointmentData.start));
+    dispatch(submitMileageOnlyClaim(appointmentData.localStartTime));
     setPageIndex(pageIndex + 1);
   };
 
@@ -126,6 +129,7 @@ const SubmitFlowWrapper = () => {
           setPageIndex={setPageIndex}
           isAgreementChecked={isAgreementChecked}
           setIsAgreementChecked={setIsAgreementChecked}
+          isError={isAgreementError}
         />
       ),
     },
@@ -154,8 +158,8 @@ const SubmitFlowWrapper = () => {
 
   return (
     <Element name="topScrollElement">
-      <article className="usa-grid-full vads-u-margin-bottom--3">
-        <BreadCrumbs />
+      <article className="usa-grid-full vads-u-margin-bottom--0">
+        <Breadcrumbs />
         <div className="vads-l-col--12 medium-screen:vads-l-col--8">
           {isUnsupportedClaimType && (
             <UnsupportedClaimTypePage
@@ -168,6 +172,13 @@ const SubmitFlowWrapper = () => {
           {!isUnsupportedClaimType &&
             !submissionError &&
             pageList[pageIndex].component}
+          <div className="vads-u-margin-top--4">
+            <va-need-help>
+              <div slot="content">
+                <HelpTextManage />
+              </div>
+            </va-need-help>
+          </div>
         </div>
       </article>
     </Element>
