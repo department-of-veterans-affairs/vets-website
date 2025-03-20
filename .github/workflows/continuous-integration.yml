@@ -1928,9 +1928,9 @@ jobs:
     steps:
       - name: Debug Repository Dispatch Payload
         run: |
-          printf -v COMMIT_MSG "%s" "${{ github.event.head_commit.message }}"
-          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//; s/"//g')
-          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//')  # Strip newlines
+          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)  # Properly escape for JSON
 
           echo 'Dispatching with payload:'
           echo "$(jq -n --arg sha "${{ github.sha }}" \
@@ -1941,9 +1941,9 @@ jobs:
 
       - name: Run CD Production Deploy workflow
         run: |
-          printf -v COMMIT_MSG "%s" "${{ github.event.head_commit.message }}"
-          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//; s/"//g')
-          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//')  # Strip newlines
+          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)  # Properly escape for JSON
 
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
