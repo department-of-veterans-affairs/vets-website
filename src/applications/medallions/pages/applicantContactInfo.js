@@ -12,7 +12,7 @@ export default {
       'We’ll contact you at the email address and phone number you provide here.',
     ),
     yourContactInfoEmail: {
-      ...emailUI(),
+      ...emailUI('E-mail address'),
       'ui:errorMessages': {
         required: 'Enter an email address',
         format:

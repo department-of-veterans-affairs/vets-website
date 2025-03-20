@@ -11,7 +11,7 @@ export const applicantRelationToVetRadio = {
       personalRep: 'Personal representative',
       repOfVSO: 'Representative of Veterans Service Organization (VSO)',
       repOfCemetery: 'Representative of a cemetery',
-      repOfFuneralHome: 'Representative of a funeral home',
+      repOfFuneralHome: 'I’m a representative of a funeral home',
       other: 'Other',
     },
     required: () => true,
