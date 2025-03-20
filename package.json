@@ -80,7 +80,7 @@
   },
   "nyc": {
     "sourceMap": false,
-    "instrument": true,
+    "instrument": false,
     "include": [
       "src/**"
     ],
