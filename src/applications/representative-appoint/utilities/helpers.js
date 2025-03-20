@@ -271,6 +271,7 @@ export const addressExists = address =>
 
 export const userIsDigitalSubmitEligible = formData => {
   return (
+    preparerIsVeteran({ formData }) && // only Veteran users are eligible at this time
     formData?.identityValidation?.hasIcn &&
     formData?.identityValidation?.hasParticipantId &&
     formData?.['view:v2IsEnabled']
@@ -306,7 +307,7 @@ export const filterOrganizations = formData => {
       ?.data;
   const submissionMethod = formData.representativeSubmissionMethod;
 
-  if (submissionMethod === 'online') {
+  if (submissionMethod === 'digital') {
     return organizations?.filter(
       org => org.attributes?.canAcceptDigitalPoaRequests === true,
     );

@@ -9,13 +9,16 @@ import {
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { formatDateTime } from '../../../util/dates';
 import TravelAgreementContent from '../../TravelAgreementContent';
 import { selectAppointment } from '../../../redux/selectors';
-import { getPractionerName } from '../../../util/appointment-helpers';
+
+const title = 'Review your travel claim';
 
 const ReviewPage = ({
   address,
+  isError,
   onSubmit,
   setPageIndex,
   setYesNo,
@@ -26,6 +29,8 @@ const ReviewPage = ({
     focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
+
+  useSetPageTitle(title);
 
   const { data } = useSelector(selectAppointment);
 
@@ -42,11 +47,11 @@ const ReviewPage = ({
 
   return (
     <div>
-      <h1 tabIndex="-1">Review your travel claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       <p>Confirm the information is correct before you submit your claim.</p>
 
       <h2 className="vads-u-margin-bottom--0">Claims</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         What you’re claiming
       </h3>
@@ -55,22 +60,19 @@ const ReviewPage = ({
         {data.location?.attributes?.name
           ? ` at ${data.location.attributes.name}`
           : ''}{' '}
-        {data.practitioners?.length > 0 &&
-        typeof data.practitioners[0].name !== 'undefined'
-          ? `with ${getPractionerName(data.practitioners)}`
-          : ''}{' '}
-        on {formattedDate} at {formattedTime}.
+        {data.practitionerName ? `with ${data.practitionerName}` : ''} on{' '}
+        {formattedDate} at {formattedTime}.
       </p>
 
       <h2 className="vads-u-margin-bottom--0">Travel method</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         How you traveled
       </h3>
       <p className="vads-u-margin-y--0">In your own vehicle</p>
 
       <h2 className="vads-u-margin-bottom--0">Starting address</h2>
-      <hr className="vads-u-margin-y--1" />
+      <hr aria-hidden="true" className="vads-u-margin-y--1" />
       <h3 className="vads-u-font-size--h4 vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-margin-top--2">
         Where you traveled from
       </h3>
@@ -113,7 +115,7 @@ const ReviewPage = ({
           name="accept-agreement"
           description={null}
           error={
-            !isAgreementChecked
+            isError
               ? 'You must accept the beneficiary travel agreement before continuing.'
               : null
           }
@@ -125,9 +127,10 @@ const ReviewPage = ({
       </va-card>
 
       <VaButtonPair
-        class="vads-u-margin-top--2"
-        leftButtonText="File claim"
-        rightButtonText="Start over"
+        className="vads-u-margin-top--2"
+        continue
+        rightButtonText="File claim"
+        leftButtonText="Start over"
         onPrimaryClick={onSubmit}
         onSecondaryClick={onBack}
       />
@@ -138,6 +141,7 @@ const ReviewPage = ({
 ReviewPage.propTypes = {
   address: PropTypes.object,
   isAgreementChecked: PropTypes.bool,
+  isError: PropTypes.bool,
   setIsAgreementChecked: PropTypes.func,
   setPageIndex: PropTypes.func,
   setYesNo: PropTypes.func,

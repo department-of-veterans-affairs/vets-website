@@ -71,6 +71,7 @@ const yourQuestionPage = {
     properties: {
       subject: {
         type: 'string',
+        maxLength: 140,
       },
       question: {
         type: 'string',

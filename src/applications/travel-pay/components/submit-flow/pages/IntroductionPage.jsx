@@ -2,19 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { HelpTextManage } from '../../HelpText';
 import AppointmentErrorAlert from '../../alerts/AppointmentErrorAlert';
 import { selectAppointment } from '../../../redux/selectors';
-import { isPastAppt } from '../../../util/dates';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
 import { AppointmentInfoText } from '../../AppointmentDetails';
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
+
+const title = 'File a travel reimbursement claim';
 
 const IntroductionPage = ({ onStart }) => {
+  useSetPageTitle(title);
   const { data, error, isLoading } = useSelector(selectAppointment);
 
   return (
     <div>
-      <h1 tabIndex="-1">File a travel reimbursement claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       {isLoading && (
         <va-loading-indicator
           label="Loading"
@@ -23,9 +25,7 @@ const IntroductionPage = ({ onStart }) => {
         />
       )}
       {error && <AppointmentErrorAlert />}
-      {data && (
-        <AppointmentInfoText appointment={data} isPast={isPastAppt(data)} />
-      )}
+      {data && <AppointmentInfoText appointment={data} />}
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow the steps below to apply for beneficiary travel claim.
       </h2>
@@ -36,6 +36,7 @@ const IntroductionPage = ({ onStart }) => {
             your direct deposit set up, you can file a reimbursement claim now.
           </p>
           <va-link
+            external
             href={`${TRAVEL_PAY_INFO_LINK}#eligibility-for-general-health`}
             text="Travel reimbursement eligibility"
           />
@@ -46,11 +47,12 @@ const IntroductionPage = ({ onStart }) => {
             We’ll just ask you a few questions—you won’t need receipts.
           </p>
           {data &&
-            isPastAppt(data) && (
+            !data.isOutOfBounds &&
+            data.isPast && (
               <va-link-action
                 onClick={e => onStart(e)}
                 href="javascript0:void"
-                text="File a mileage only claim"
+                text="File a mileage-only claim"
               />
             )}
           <p>
@@ -60,6 +62,7 @@ const IntroductionPage = ({ onStart }) => {
             or in person.
           </p>
           <va-link
+            external
             href={TRAVEL_PAY_INFO_LINK}
             text="Learn how to file claims for other expenses"
           />
@@ -89,12 +92,6 @@ const IntroductionPage = ({ onStart }) => {
           exp-date="11/30/2027"
         />
       </div>
-
-      <va-need-help>
-        <div slot="content">
-          <HelpTextManage />
-        </div>
-      </va-need-help>
     </div>
   );
 };

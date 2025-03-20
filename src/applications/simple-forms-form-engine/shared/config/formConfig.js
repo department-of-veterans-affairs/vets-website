@@ -88,6 +88,43 @@ export const normalizedForm = {
       chapterTitle: 'Generated List & Loop',
       pageTitle: 'List & Loop',
     },
+    {
+      id: 172736,
+      type: 'digital_form_custom_step',
+      chapterTitle: 'My custom step',
+      pages: [
+        {
+          bodyText: 'My custom body text',
+          components: [
+            {
+              hint: 'This is optional hint text',
+              label: 'My custom text input',
+              required: true,
+              type: 'digital_form_text_input',
+            },
+          ],
+          pageTitle: 'My custom page',
+        },
+        {
+          bodyText: 'With additonal body text',
+          components: [
+            {
+              hint: null,
+              label: 'A text input with no hint text',
+              required: true,
+              type: 'digital_form_text_input',
+            },
+            {
+              hint: 'This text input is not required',
+              label: 'An optional text input',
+              required: false,
+              type: 'digital_form_text_input',
+            },
+          ],
+          pageTitle: 'An additional page',
+        },
+      ],
+    },
   ],
 };
 

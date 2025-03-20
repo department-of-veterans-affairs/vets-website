@@ -16,7 +16,9 @@ export const ChildAdditionalEvidence = () => {
     childFormData => childFormData?.relationshipToChild?.adopted,
   );
   const hasDisabledChild = childrenToAdd.some(
-    childFormData => childFormData?.doesChildHavePermanentDisability,
+    childFormData =>
+      childFormData?.doesChildHaveDisability &&
+      childFormData?.doesChildHavePermanentDisability,
   );
 
   const showBirthCertificate = livesOutsideUSA || hasStepChild;
@@ -36,6 +38,7 @@ export const ChildAdditionalEvidence = () => {
         <va-accordion-item
           id="supporting-evidence"
           header="Supporting evidence you need to submit"
+          level="3"
         >
           {showBirthCertificate && (
             <ul>

@@ -1928,16 +1928,19 @@ jobs:
     steps:
       - name: Run CD Production Deploy workflow
         run: |
+          printf -v COMMIT_MSG "%s" "${{ github.event.head_commit.message }}"
+          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//; s/"//g')
+          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)
+
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
-          --arg msg "${{ github.event.head_commit.message }}" \
+          --arg msg "$ESCAPED_MSG" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: ($msg | split("\n")[0]), entry_app: $entry}}')"     
-                
+          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')"                 
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-22.04

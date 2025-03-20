@@ -102,7 +102,8 @@
           "diabetesmellitus0": true,
           "diabetesmellitus1": true,
           "heartattackmyocardialinfarction": true
-        }
+        },
+        "treatmentLocation0781Related": true
       },
       {
         "treatmentCenterName": "Treatment Center the Second",
@@ -117,7 +118,8 @@
           "asthma": true,
           "heartattackmyocardialinfarction": true,
           "ankylosisinkneebilateral": true
-        }
+        },
+        "treatmentLocation0781Related": false
       }
     ],
     "view:hasEvidence": true,
@@ -377,6 +379,19 @@
       "unlisted": true
     },
     "view:noneCheckbox": {
+      "view:noBehaviorChanges": false
+    },
+    "treatmentReceivedNonVaProvider": {
+      "nonVa": true,
+      "vaCenters": true
+    },
+    "treatmentReceivedVaProvider": {
+      "medicalCenter": true,
+      "communityOutpatient": true,
+      "vaPaid": true,
+      "dod": true
+    },
+    "view:treatmentNoneCheckbox": {
       "none": false
     },
     "optionIndicator": "yes",
@@ -402,6 +417,27 @@
       "view:bankAccountNumber": "*********1234",
       "view:bankRoutingNumber": "*****2115",
       "view:bankName": "Comerica"
+    },
+    "supportingEvidenceReports": {
+      "police": true
+    },
+    "supportingEvidenceRecords": {
+      "physicians": true,
+      "counseling": true,
+      "crisis": true
+    },
+    "supportingEvidenceWitness": {
+      "family": true,
+      "faculty": false,
+      "service": false,
+      "clergy": true
+    },
+    "supportingEvidenceOther": {
+      "personal": false
+    },
+    "supportingEvidenceUnlisted": "unlisted document",
+    "supportingEvidenceNoneCheckbox": {
+      "none": false
     }
   }
 }

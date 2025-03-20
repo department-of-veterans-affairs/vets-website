@@ -91,33 +91,6 @@ describe('API utilities', () => {
       expect(url).to.include('/power_of_attorney_requests/123');
     });
 
-    it('preserves 401 unauthorized responses', async () => {
-      const errorResponse = new Response(
-        JSON.stringify({
-          errors: ['Access token JWT is malformed'],
-          status: 'UNAUTHORIZED',
-        }),
-        {
-          status: 401,
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
-      fetchStub.resolves(errorResponse);
-
-      try {
-        await api.getPOARequest('123');
-        expect.fail('Should have thrown an error');
-      } catch (error) {
-        expect(error).to.be.instanceOf(Response);
-        expect(error.status).to.equal(401);
-        const errorData = await error.json();
-        expect(errorData.errors).to.deep.equal([
-          'Access token JWT is malformed',
-        ]);
-        expect(errorData.status).to.equal('UNAUTHORIZED');
-      }
-    });
-
     it('preserves 403 forbidden responses', async () => {
       const errorResponse = new Response(
         JSON.stringify({

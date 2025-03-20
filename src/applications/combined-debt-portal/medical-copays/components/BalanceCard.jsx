@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   currency,
   calcDueDate,
@@ -29,7 +31,7 @@ const PastDueContent = ({ id, date, amount }) => (
     <strong data-testid={`due-date-${id}`}>{formatDate(date)}</strong> was{' '}
     {currency(amount)}. If you haven’t paid your balance in full or requested
     financial help, contact the VA Health Resource Center at{' '}
-    <va-telephone contact="8664001238" /> (
+    <va-telephone contact={CONTACTS.HEALTH_RESOURCE_CENTER} /> (
     <va-telephone tty contact={CONTACTS[711]} />
     ).
   </p>
@@ -42,10 +44,27 @@ PastDueContent.propTypes = {
 };
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+  // boolean value to represent if toggles are still loading or not
+  const togglesLoading = useToggleLoadingValue();
+  // value of specific toggle
+  const showResolveCopayOption = useToggleValue(
+    TOGGLE_NAMES.showVHAPaymentHistory,
+  );
+
   const isCurrentBalance = verifyCurrentBalance(date);
   const linkText = isCurrentBalance
     ? `Check details and resolve this bill`
     : `Check details`;
+
+  // give features a chance to fully load before we conditionally render
+  if (togglesLoading) {
+    return <VaLoadingIndicator message="Loading features..." />;
+  }
 
   return (
     <va-card
@@ -92,6 +111,26 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         {linkText}
         <va-icon icon="navigate_next" size={2} class="cdp-link-icon--active" />
       </Link>
+      {showResolveCopayOption && (
+        <div className="vads-u-margin-top--1">
+          <Link
+            className="vads-u-font-weight--bold"
+            to={`/copay-balances/${id}/resolve`}
+            data-testid={`resolve-link-${id}`}
+            aria-label={`Resolve this debt for ${facility}`}
+            onClick={() => {
+              recordEvent({ event: 'cta-link-click-copay-balance-card' });
+            }}
+          >
+            Resolve this bill
+            <va-icon
+              icon="navigate_next"
+              size={2}
+              class="cdp-link-icon--active"
+            />
+          </Link>
+        </div>
+      )}
     </va-card>
   );
 };

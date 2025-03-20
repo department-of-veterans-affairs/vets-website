@@ -28,9 +28,9 @@ export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL = `${DECISION_REVIEWS_URL}/get-help-with-review-request`;
 export const PROFILE_URL = '/profile';
 
-// 8804 is the ID of the <va-accordion-item> with a header of the "Find
-// addresses for other benefit types"
-export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#find-addresses-for-other-benef-8804`;
+// Point to header of the "File by mail, in person, or with the help of a VSO
+// for any type of benefit claim"
+export const BENEFIT_OFFICES_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`;
 
 export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
@@ -51,9 +51,6 @@ export const HAS_REDIRECTED = 'hasRedirected';
 // the application after using the "Finish this application later" link
 // See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
 export const DEFAULT_BENEFIT_TYPE = 'compensation';
-
-export const REGEX_COMMA = /[, ]/g;
-export const REGEX_EMPTY_DATE = /(--|-00-00)/;
 
 export const errorMessages = {
   evidence: {

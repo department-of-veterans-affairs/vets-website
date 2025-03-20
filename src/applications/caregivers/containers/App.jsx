@@ -8,8 +8,7 @@ import { useDefaultFormData } from '../hooks/useDefaultFormData';
 import formConfig from '../config/form';
 import content from '../locales/en/content.json';
 
-const App = props => {
-  const { location, children } = props;
+const App = ({ location, children }) => {
   const { isLoadingFeatureFlags: loading } = useSelector(selectFeatureToggles);
 
   // Set default view fields within the form data
@@ -32,8 +31,8 @@ const App = props => {
 };
 
 App.propTypes = {
-  children: PropTypes.any,
-  location: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  location: PropTypes.object.isRequired,
+  children: PropTypes.node,
 };
 
 export default App;

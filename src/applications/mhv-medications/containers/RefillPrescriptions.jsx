@@ -24,6 +24,7 @@ import {
   selectRefillContentFlag,
   selectFilterFlag,
   selectRefillProgressFlag,
+  selectRemoveLandingPageFlag,
 } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
@@ -33,7 +34,10 @@ import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import PrintOnlyPage from './PrintOnlyPage';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import RefillAlert from '../components/shared/RefillAlert';
-import { dataDogActionNames } from '../util/dataDogConstants';
+import NeedHelp from '../components/shared/NeedHelp';
+import { dataDogActionNames, pageType } from '../util/dataDogConstants';
+import ProcessList from '../components/shared/ProcessList';
+import { refillProcessStepGuide } from '../util/processListData';
 
 const RefillPrescriptions = ({ isLoadingList = true }) => {
   // Hooks
@@ -67,6 +71,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showFilterContent = useSelector(selectFilterFlag);
   const showRefillProgressContent = useSelector(selectRefillProgressFlag);
+  const removeLandingPage = useSelector(selectRemoveLandingPageFlag);
   const allergies = useSelector(state => state.rx.allergies?.allergiesList);
   const allergiesError = useSelector(state => state.rx.allergies.error);
   const userName = useSelector(state => state.user.profile.userFullName);
@@ -184,6 +189,10 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
         </div>
       );
     }
+    const stepGuideProps = {
+      processSteps: refillProcessStepGuide.processSteps,
+      title: refillProcessStepGuide.title,
+    };
     return (
       <div>
         <h1
@@ -333,6 +342,10 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                 renewablePrescriptionsList={fullRenewList}
               />
             )}
+            {showRefillProgressContent && (
+              <ProcessList stepGuideProps={stepGuideProps} />
+            )}
+            {removeLandingPage && <NeedHelp page={pageType.REFILL} />}
           </>
         )}
       </div>

@@ -39,10 +39,10 @@ describe('Veteran Contact Phone Email page', () => {
     expect(schema.properties.veteranEmail.maxLength).to.equal(61);
   });
 
-  it('should require email when LOA3 is true and representative submission method is online', () => {
+  it('should require email when LOA3 is true and representative submission method is digital', () => {
     const formData = {
       'view:isUserLOA3': true,
-      representativeSubmissionMethod: 'online',
+      representativeSubmissionMethod: 'digital',
     };
 
     const { container } = render(
@@ -66,7 +66,7 @@ describe('Veteran Contact Phone Email page', () => {
     expect(emailField).to.have.attribute('required');
   });
 
-  it('should NOT require email when LOA3 is false or representative submission method is not online', () => {
+  it('should NOT require email when LOA3 is false or representative submission method is not digital', () => {
     const formData = {
       'view:isUserLOA3': false,
       representativeSubmissionMethod: 'mail',

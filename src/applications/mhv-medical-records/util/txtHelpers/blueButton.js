@@ -22,7 +22,7 @@ import { formatUserDob } from '../helpers';
  * @param {Object} data - The data from content downloads.
  * @returns a string parsed from the data being passed for all record downloads txt.
  */
-export const getTxtContent = (data, { userFullName, dob }) => {
+export const getTxtContent = (data, { userFullName, dob }, dateRange) => {
   const sections = [
     {
       label: 'Labs and Tests',
@@ -79,7 +79,7 @@ export const getTxtContent = (data, { userFullName, dob }) => {
     .join('\n\n');
 
   return `
-Blue Button report
+VA Blue Button® report
 
 This report includes key information from your VA medical records.
 ${userFullName.last}, ${userFullName.first}\n
@@ -97,6 +97,13 @@ Need help?
 ${txtLine}
 The following records have been downloaded:
 ${txtLineDotted}
+
+Date range: ${
+    dateRange.fromDate === 'any'
+      ? 'All time'
+      : `${dateRange.fromDate} to ${dateRange.toDate}`
+  }
+
 ${recordsSection}
 
 ${contentSection}

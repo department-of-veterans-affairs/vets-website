@@ -11,6 +11,7 @@ const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
 const clinicsV2 = require('./v2/clinics.json');
 const patientProviderRelationships = require('./v2/patient_provider_relationships.json');
+const recentLocations = require('./v2/recent_locations.json');
 
 // To locally test appointment details null state behavior, comment out
 // the inclusion of confirmed.json and uncomment the inclusion of
@@ -30,7 +31,7 @@ const requestsV2 = require('./v2/requests.json');
 // CC Direct Scheduling mocks
 const referralUtils = require('../../referral-appointments/utils/referrals');
 const providerUtils = require('../../referral-appointments/utils/provider');
-const ccDirectAppointmentUtils = require('../../referral-appointments/utils/appointment');
+const epsAppointmentUtils = require('../../referral-appointments/utils/appointment');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -73,6 +74,7 @@ const responses = {
   'POST /vaos/v2/appointments': (req, res) => {
     const {
       practitioners = [{ identifier: [{ system: null, value: null }] }],
+      kind,
     } = req.body;
     const selectedClinic = clinicsV2.data.filter(
       clinic => clinic.id === req.body.clinic,
@@ -85,6 +87,8 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const pending = req.body.status === 'proposed';
+    const future = req.body.status === 'booked';
     let reasonForAppointment;
     let patientComments;
     if (req.body.kind === 'cc') {
@@ -105,6 +109,8 @@ const responses = {
       id: `mock${currentMockId}`,
       attributes: {
         ...req.body,
+        created: new Date().toISOString(),
+        kind,
         localStartTime: req.body.slot?.id ? localTime : null,
         preferredProviderName: providerNpi ? providerMock[providerNpi] : null,
         contact: {
@@ -123,6 +129,8 @@ const responses = {
           selectedClinic[0]?.attributes.physicalLocation || null,
         reasonForAppointment,
         patientComments,
+        future,
+        pending,
       },
     };
     currentMockId += 1;
@@ -140,6 +148,11 @@ const responses = {
       appt.attributes.status = 'cancelled';
       appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
       appt.attributes.cancellable = false;
+      if (appt.attributes.start) {
+        appt.attributes.future = moment(appt.attributes.start).isAfter(
+          moment(),
+        );
+      }
     }
 
     return res.json({
@@ -155,6 +168,13 @@ const responses = {
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
     const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+    for (const appointment of appointments) {
+      if (appointment.attributes.start) {
+        appointment.attributes.future = moment(
+          appointment.attributes.start,
+        ).isAfter(moment());
+      }
+    }
     const filteredAppointments = appointments.filter(appointment => {
       return req.query.statuses.some(status => {
         if (appointment.attributes.status === status) {
@@ -207,8 +227,14 @@ const responses = {
     const appointments = {
       data: requestsV2.data.concat(confirmedV2.data).concat(mockAppts),
     };
+    const appointment = appointments.data.find(
+      appt => appt.id === req.params.id,
+    );
+    if (appointment.start) {
+      appointment.future = moment(appointment.start).isAfter(moment());
+    }
     return res.json({
-      data: appointments.data.find(appt => appt.id === req.params.id),
+      data: appointment,
     });
   },
   'GET /vaos/v2/scheduling/configurations': (req, res) => {
@@ -235,6 +261,18 @@ const responses = {
   'GET /vaos/v2/facilities': (req, res) => {
     const { ids } = req.query;
     const { children } = req.query;
+    const { sort_by } = req.query;
+
+    if (sort_by === 'recentLocations') {
+      return res.json({
+        data: recentLocations?.data.filter(
+          facility =>
+            ids.includes(facility?.id) ||
+            (children === 'true' &&
+              ids?.some(id => facility?.id.startsWith(id))),
+        ),
+      });
+    }
 
     return res.json({
       data: facilitiesV2.data.filter(
@@ -276,6 +314,7 @@ const responses = {
     const isDirect = req.query.type === 'direct';
     const ineligibilityReasons = [];
 
+    // Direct scheduling, Facility 983, not primaryCare
     if (
       isDirect &&
       req.query.facility_id.startsWith('984') &&
@@ -289,7 +328,13 @@ const responses = {
         ],
       });
     }
-    if (!isDirect && !req.query.facility_id.startsWith('983')) {
+
+    // Request, not Facility 983, not Facility 692 (OH)
+    if (
+      !isDirect &&
+      (!req.query.facility_id.startsWith('983') &&
+        !req.query.facility_id.startsWith('692'))
+    ) {
       ineligibilityReasons.push({
         coding: [
           {
@@ -413,7 +458,7 @@ const responses = {
     });
   },
   'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
-    let successPollCount = 5; // The number of times to poll before returning a confirmed appointment
+    let successPollCount = 2; // The number of times to poll before returning a confirmed appointment
     const { appointmentId } = req.params;
 
     if (appointmentId === 'timeout-appointment-id') {
@@ -427,21 +472,21 @@ const responses = {
     }
 
     const count = draftAppointmentPollCount[appointmentId] || 0;
-    let { state } = draftAppointment.appointment;
+    let { status } = draftAppointment.appointment;
 
     // Mock polling for appointment state change
     if (count < successPollCount) {
       draftAppointmentPollCount[appointmentId] = count + 1;
     } else {
-      state = 'confirmed';
+      status = 'booked';
       draftAppointmentPollCount[appointmentId] = 0;
     }
 
     return res.json({
-      data: ccDirectAppointmentUtils.createReferralAppointment(
+      data: epsAppointmentUtils.createMockEpsAppointment(
         appointmentId,
-        state,
-        draftAppointment,
+        status,
+        epsAppointmentUtils.appointmentData,
       ),
     });
   },

@@ -52,6 +52,8 @@ export function EditAddress() {
           isDeleteDisabled
           cancelCallback={() => navigate('/letter-page')}
           successCallback={() => navigate('/letter-page')}
+          saveButtonText="Save address"
+          cancelButtonText="Cancel edit"
         />
       </InitializeVAPServiceID>
     </div>

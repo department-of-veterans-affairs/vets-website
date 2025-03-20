@@ -42,25 +42,4 @@ describe('Edu 10282 contact information', () => {
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
-  it('should call gaGenderInfoHelpText when the additional info is clicked', () => {
-    const gaSpy = sinon.spy(window.dataLayer, 'push');
-    const form = mount(
-      <DefinitionTester
-        definitions={definitions}
-        schema={schema}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    form.find('va-additional-info').simulate('click');
-    expect(gaSpy.calledOnce).to.be.true;
-    expect(gaSpy.firstCall.args[0]).to.deep.equal({
-      event: 'edu-10282--form-IBM-SkillsBuild-program-gender-help-text-clicked',
-      'help-text-label':
-        'What to know before you decide to share your gender identity',
-    });
-
-    gaSpy.restore();
-    form.unmount();
-  });
 });

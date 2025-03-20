@@ -41,6 +41,7 @@ const NavDropdown = ({
   dropdownClass,
   closeIcon,
   view,
+  size,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -62,7 +63,7 @@ const NavDropdown = ({
         {closeIcon && isDropdownOpen ? 'Close' : btnText}
         <va-icon
           icon={closeIcon && isDropdownOpen ? 'close' : icon}
-          size="3"
+          size={size}
           srtext={srText}
           class="nav__user-btn-icon"
         />
@@ -73,12 +74,7 @@ const NavDropdown = ({
         )}
 
         {secondaryIcon && (
-          <va-icon
-            icon={secondaryIcon}
-            size={2}
-            srtext={srText}
-            class={iconClassName}
-          />
+          <va-icon icon={secondaryIcon} size={size} class={iconClassName} />
         )}
       </button>
       {isDropdownOpen && (
@@ -108,6 +104,7 @@ NavDropdown.propTypes = {
   secondaryIcon: PropTypes.string,
   srText: PropTypes.string,
   view: PropTypes.string,
+  size: PropTypes.number,
 };
 
 export default NavDropdown;

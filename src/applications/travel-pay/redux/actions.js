@@ -1,5 +1,6 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { transformVAOSAppointment } from '../util/appointment-helpers';
 
 export const FETCH_TRAVEL_CLAIMS_STARTED = 'FETCH_TRAVEL_CLAIMS_STARTED';
 export const FETCH_TRAVEL_CLAIMS_SUCCESS = 'FETCH_TRAVEL_CLAIMS_SUCCESS';
@@ -54,7 +55,10 @@ export function getAppointmentData(apptId) {
         environment.API_URL
       }/vaos/v2/appointments/${apptId}?_include=facilities,travel_pay_claims`;
       const response = await apiRequest(apptUrl);
-      dispatch(fetchAppointmentSuccess(response.data.attributes));
+      const appointmentData = transformVAOSAppointment(
+        response.data.attributes,
+      );
+      dispatch(fetchAppointmentSuccess(appointmentData));
     } catch (error) {
       dispatch(fetchAppointmentFailure(error));
     }

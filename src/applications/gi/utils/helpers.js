@@ -511,6 +511,10 @@ export const isSearchByLocationPage = () => {
 
 export const giDocumentTitle = () => {
   let crumbLiEnding = 'GI Bill® Comparison Tool ';
+  const isUpdatedGi = window.location.pathname.includes(
+    'schools-and-employers',
+  );
+  if (isUpdatedGi) crumbLiEnding += '- Schools and employers ';
   const searchByName = isSearchByNamePage();
   const searchByLocationPage = isSearchByLocationPage();
   if (searchByName) {
@@ -614,7 +618,7 @@ export const updateQueryParam = (history, location, newParams) => {
   const searchParams = new URLSearchParams(location.search);
 
   Object.entries(newParams).forEach(([key, value]) => {
-    searchParams.set(key, value);
+    searchParams.set(key, encodeURIComponent(value));
   });
 
   history.push({
@@ -627,7 +631,13 @@ export const showLcParams = location => {
   const searchParams = new URLSearchParams(location.search);
   const categories = searchParams.getAll('category');
 
-  const nameParam = searchParams.get('name') ?? '';
+  const rawName = location.search.split('name=')[1]?.split('&')[0] ?? '';
+
+  // Decode the name while preserving + characters
+  const nameParam = decodeURIComponent(rawName)
+    .replace(/%20/g, ' ')
+    .replace(/%2B/g, '+');
+
   const categoryParams = categories.length === 0 ? ['all'] : categories;
   const stateParam = searchParams.get('state') ?? 'all';
   const initialCategoryParam = searchParams.get('initial') ?? 'all';
@@ -1093,4 +1103,26 @@ export const toTitleCase = str => {
   });
 
   return titled.join(' ');
+};
+
+export const handleZoom = () => {
+  const zoomLevel = Math.round(
+    (window.devicePixelRatio /
+      ((window.devicePixelRatio / window.outerWidth) * window.innerWidth)) *
+      100,
+  );
+
+  const elements = [
+    ...document.querySelectorAll('.lc-results-wrapper'),
+    ...document.querySelectorAll('.lc-result-cards-wrapper'),
+    ...document.querySelectorAll('.zoom-wrapper'),
+  ];
+
+  elements.forEach(element => {
+    if (zoomLevel >= 300) {
+      element.classList.add('high-zoom');
+    } else {
+      element.classList.remove('high-zoom');
+    }
+  });
 };
