@@ -17,12 +17,12 @@ const TestComponent = ({ loggedIn = false }) => {
 };
 
 describe('initializeRealUserMonitoring', () => {
-  let useRUMStub;
+  let enableRUMStub;
   let initSpy;
   let startSessionReplayRecordingStub;
 
   beforeEach(() => {
-    useRUMStub = sinon.stub(constants, 'useRUM');
+    enableRUMStub = sinon.stub(constants, 'enableRUM');
     initSpy = sinon.spy(datadogRum, 'init');
     startSessionReplayRecordingStub = sinon.stub(
       datadogRum,
@@ -31,14 +31,14 @@ describe('initializeRealUserMonitoring', () => {
   });
 
   afterEach(() => {
-    useRUMStub.restore();
+    enableRUMStub.restore();
     initSpy.restore();
     startSessionReplayRecordingStub.restore();
   });
 
   context('when useRUM is true', () => {
     it('should call init and startSessionReplayRecording ', () => {
-      useRUMStub.returns(true);
+      enableRUMStub.returns(true);
       initializeRealUserMonitoring.default();
       expect(initSpy.called).to.be.true;
       expect(initSpy.calledOnce).to.be.true;
@@ -47,7 +47,7 @@ describe('initializeRealUserMonitoring', () => {
   });
   context('when useRUM is false', () => {
     it('should not call init and startSessionReplayRecording ', () => {
-      useRUMStub.returns(false);
+      enableRUMStub.returns(false);
       initializeRealUserMonitoring.default();
       expect(initSpy.notCalled).to.be.true;
       expect(startSessionReplayRecordingStub.notCalled).to.be.true;

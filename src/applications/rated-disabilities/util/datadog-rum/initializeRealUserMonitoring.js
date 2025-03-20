@@ -2,7 +2,7 @@ import { datadogRum } from '@datadog/browser-rum';
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-import { useRUM } from '../../constants';
+import { enableRUM } from '../../constants';
 
 // https://docs.datadoghq.com/real_user_monitoring/browser/#configuration
 const defaultRumSettings = {
@@ -30,7 +30,7 @@ const defaultRumSettings = {
 // Don't call this function if not logged in
 export default function initializeRealUserMonitoring(customRumSettings) {
   // Prevent RUM from re-initializing the SDK OR running on local/CI environments.
-  if (useRUM) {
+  if (enableRUM()) {
     datadogRum.init({
       ...defaultRumSettings,
       ...customRumSettings,

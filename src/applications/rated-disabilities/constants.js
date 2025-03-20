@@ -5,7 +5,7 @@ const DISABLED_ENVIRONMENTS = ['localhost'];
 // Otherwise this should be `false`
 const overrideChecks = false;
 
-const canUseRUM = () => {
+export const canUseRUM = () => {
   const env = environment.vspEnvironment();
 
   const alreadyInitialized = Boolean(window.DD_RUM?.getInitConfiguration());
@@ -16,6 +16,6 @@ const canUseRUM = () => {
 };
 
 // This is used in useDataDogRum
-export const useRUM = () => {
+export const enableRUM = () => {
   return canUseRUM() || overrideChecks;
 };
