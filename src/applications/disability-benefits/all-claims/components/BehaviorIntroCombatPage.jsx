@@ -8,7 +8,6 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { scrollToFirstError } from 'platform/utilities/ui';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { mentalHealthSupportAlert } from '../content/form0781';
-// import { checkValidations } from '../../../appeals/shared/validations';
 import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
 import {
   ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
@@ -134,9 +133,12 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
         if (behaviorType in allSelectedBehaviorTypes) {
           return behaviorType === 'unlisted'
             ? BEHAVIOR_LIST_SECTION_SUBTITLES.other
-          : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
+            : ALL_BEHAVIOR_CHANGE_DESCRIPTIONS[behaviorType];
         }
-    });
+
+        return null;
+      },
+    );
 
     // Some of these are undefined for whatever reason. Why?
     const describedBehaviors = behaviors.filter(
@@ -188,14 +190,13 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
       <p>{combatIntroDescription}</p>
 
       <VaModal
-        // modalTitle={deleteCombatAnswersModalTitle}
-        // Temporary to see the modal on load:
+        modalTitle={deleteCombatAnswersModalTitle}
         visible={showModal}
         onPrimaryButtonClick={handlers.onConfirmDeleteBehavioralAnswers}
         onSecondaryButtonClick={handlers.onCancelDeleteBehavioralAnswers}
         onCloseEvent={handlers.onCancelDeleteBehavioralAnswers}
-        primaryButtonText={'Change my response'}
-        secondaryButtonText={'Cancel and return to claim'}
+        primaryButtonText="Change my response"
+        secondaryButtonText="Cancel and return to claim"
         status="warning"
       >
         {/* TODO: is function call correct way to do this? */}
@@ -242,5 +243,4 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   );
 };
 
-// TODO: PROPS VALIDATION
 export default BehaviorIntroCombatPage;
