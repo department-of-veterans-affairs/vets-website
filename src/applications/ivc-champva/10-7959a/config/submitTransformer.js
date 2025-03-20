@@ -33,18 +33,23 @@ export default function transformForSubmit(formConfig, form) {
 
   // ---
   // Add type/category info to file uploads:
+  const pharmacyUpload = copyOfData?.pharmacyUpload?.map(el => {
+    return { ...el, attachmentId: 'MEDDOCS' };
+  });
+  copyOfData.pharmacyUpload = pharmacyUpload;
+
   const medicalUpload = copyOfData?.medicalUpload?.map(el => {
-    return { ...el, documentType: 'itemized billing statement' };
+    return { ...el, attachmentId: 'MEDDOCS' };
   });
   copyOfData.medicalUpload = medicalUpload;
 
   const primaryEob = copyOfData?.primaryEob?.map(el => {
-    return { ...el, documentType: 'Eob' };
+    return { ...el, attachmentId: 'EOB' };
   });
   copyOfData.primaryEob = primaryEob;
 
   const secondaryEob = copyOfData?.secondaryEob?.map(el => {
-    return { ...el, documentType: 'Eob' };
+    return { ...el, attachmentId: 'EOB' };
   });
   copyOfData.secondaryEob = secondaryEob;
   // ---
