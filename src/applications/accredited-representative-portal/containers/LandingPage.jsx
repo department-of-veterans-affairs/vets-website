@@ -38,11 +38,12 @@ const LandingPage = () => {
             </p>
             <p>
               <strong>Note</strong>: POA requests need to be submitted using the
-              digital{' '}
+              online{' '}
               <va-link
                 href="https://www.va.gov/get-help-from-accredited-representative/appoint-rep/introduction/"
-                text="VA Form 21-22"
+                text="VA Form 21-22 (on VA.gov)"
               />
+              .
             </p>
           </div>
           <div className="home__content-copy">
