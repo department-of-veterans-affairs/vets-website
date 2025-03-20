@@ -15,6 +15,11 @@ jobs:
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
+      - name: Debug Incoming Payload
+        run: |
+          echo "Received commit message:"
+          echo "${{ github.event.client_payload.github_message }}"
+          
       - name: Notify application team in Slack
         uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
