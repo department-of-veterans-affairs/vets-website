@@ -20,6 +20,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  SortTypes,
 } from '../util/constants';
 import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
@@ -79,20 +80,20 @@ const Allergies = props => {
   const [downloadStarted, setDownloadStarted] = useState(false);
 
   const [selectedSort, setSelectedSort] = useState(
-    allowFilterSort ? 'alphabetically' : '',
+    allowFilterSort ? SortTypes.ALPHABETICAL.value : '',
   );
 
   const sortString = useMemo(
     () => {
       switch (selectedSort) {
-        case 'alphabetically':
-          return 'alphabetically';
-        case 'ascDate':
-          return 'Newest to oldest (date entered)';
-        case 'dscDate':
-          return 'Oldest to newest (date entered)';
+        case SortTypes.ALPHABETICAL.value:
+          return SortTypes.ALPHABETICAL.label;
+        case SortTypes.ASC_DATE.value:
+          return SortTypes.ASC_DATE.labelWithDateEntered;
+        case SortTypes.DSC_DATE.value:
+          return SortTypes.DSC_DATE.labelWithDateEntered;
         default:
-          return '';
+          return SortTypes.ALPHABETICAL.label;
       }
     },
     [selectedSort],
@@ -101,15 +102,15 @@ const Allergies = props => {
   const sortedAllergies = useMemo(
     () => {
       switch (selectedSort) {
-        case 'alphabetically':
+        case SortTypes.ALPHABETICAL.value:
           return allergies?.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-        case 'ascDate':
+        case SortTypes.ASC_DATE.value:
           return allergies?.sort((a, b) => {
             return isBefore(new Date(a.date), new Date(b.date));
           });
-        case 'dscDate':
+        case SortTypes.DSC_DATE.value:
           return allergies?.sort((a, b) => {
             return isAfter(new Date(a.date), new Date(b.date));
           });

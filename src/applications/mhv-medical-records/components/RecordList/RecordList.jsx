@@ -104,7 +104,9 @@ const RecordList = props => {
         </span>
       </p>
       <h2 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0 vads-u-padding--0 vads-u-font-weight--normal vads-u-border-color--gray-light print-only">
-        Showing {totalEntries} records from newest to oldest
+        {`Showing ${totalEntries} records${
+          allowFilterSort ? `, ${sortedBy}` : ' from newest to oldest'
+        }`}
       </h2>
       <div className="no-print">
         {currentRecords?.length > 0 &&

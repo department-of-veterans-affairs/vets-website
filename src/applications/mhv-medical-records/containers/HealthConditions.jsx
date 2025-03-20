@@ -13,6 +13,7 @@ import {
   accessAlertTypes,
   refreshExtractTypes,
   CernerAlertContent,
+  SortTypes,
 } from '../util/constants';
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
@@ -70,20 +71,20 @@ const HealthConditions = () => {
   );
 
   const [selectedSort, setSelectedSort] = useState(
-    allowFilterSort ? 'ascDate' : '',
+    allowFilterSort ? SortTypes.ASC_DATE.value : '',
   );
 
   const sortString = useMemo(
     () => {
       switch (selectedSort) {
-        case 'alphabetically':
-          return 'alphabetically';
-        case 'ascDate':
-          return 'Newest to oldest (date entered)';
-        case 'dscDate':
-          return 'Oldest to newest (date entered)';
+        case SortTypes.ALPHABETICAL.value:
+          return SortTypes.ALPHABETICAL.label;
+        case SortTypes.ASC_DATE.value:
+          return SortTypes.ASC_DATE.labelWithDateEntered;
+        case SortTypes.DSC_DATE.value:
+          return SortTypes.DSC_DATE.labelWithDateEntered;
         default:
-          return '';
+          return SortTypes.ASC_DATE.labelWithDateEntered;
       }
     },
     [selectedSort],
@@ -92,15 +93,15 @@ const HealthConditions = () => {
   const sortedConditions = useMemo(
     () => {
       switch (selectedSort) {
-        case 'alphabetically':
+        case SortTypes.ALPHABETICAL.value:
           return conditions?.sort((a, b) => {
             return a.name.localeCompare(b.name);
           });
-        case 'ascDate':
+        case SortTypes.ASC_DATE.value:
           return conditions?.sort((a, b) => {
             return isBefore(new Date(a.date), new Date(b.date));
           });
-        case 'dscDate':
+        case SortTypes.DSC_DATE.value:
           return conditions?.sort((a, b) => {
             return isAfter(new Date(a.date), new Date(b.date));
           });
