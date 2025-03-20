@@ -8,13 +8,25 @@ export const Locators = {
     TITLE_LABEL: `#root_signatureTitle-label`,
     NAME_FIELD: `#root_signatureName`,
     TITLE_FIELD: `#root_signatureTitle`,
-    ALERT: `#messagingSignature-alert`,
+    ALERTS: {
+      ALERT: `#messagingSignature-alert`,
+      FIELD_ERROR: '[role="alert"]',
+      CROSS_BTN: `.first-focusable-child`,
+      CONFIRM_CANCEL_MODAL: `[data-testid="confirm-cancel-modal"]`,
+    },
   },
 };
 
 export const Data = {
   SIGNATURE: {
     UPDATE_SAVED: `Update saved.`,
+    ALERTS: {
+      EMPTY_FIELD: `Error Both fields are required to save a signature.`,
+      CANCEL_CHANGES: `Cancel changes?`,
+      CANCEL_ALERT: `You haven't finished editing and saving the changes to your messages signature. If you cancel now, we won't save your changes.`,
+      CANCEL_BTN: `Yes, cancel my changes`,
+      BACK_TO_EDIT_BTN: `No, go back to editing`,
+    },
   },
 };
 

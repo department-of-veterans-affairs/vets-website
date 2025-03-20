@@ -13,6 +13,20 @@ class PersonalInformationPage {
     return cy.get(`h1`);
   };
 
+  getCancelChangesBtn = () => {
+    return cy
+      .get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .first();
+  };
+
+  getBackToEditBtn = () => {
+    return cy
+      .get(`.usa-button-group__item > va-button`, { includeShadowDom: true })
+      .find(`button`, { includeShadowDom: true })
+      .last();
+  };
+
   load = (togglesResponse = mockToggles, signatureResponse = mockSignature) => {
     cy.intercept('v0/profile/full_name', mockFullNameSuccess).as(`full_name`);
 
