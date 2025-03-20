@@ -1,81 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { addressUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { validateAddress as validateAddressAction } from '../actions';
+import { setAddressValidationModalOpen } from '../actions';
 import { formFields } from '../constants';
 
 export function CustomAddressField({
   formData,
   onChange,
   onBlur,
-  validateAddress,
   setFormData,
+  setModalOpen,
   stateOptions,
 }) {
-  const [isValidating, setIsValidating] = useState(false);
-
-  const handleValidateAddress = async addressData => {
-    // Skip validation for military addresses and non-US addresses
-    const livesOnMilitaryBase =
-      formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase];
-
-    if (livesOnMilitaryBase || addressData.country !== 'USA') {
-      // Auto-validate non-US and military addresses
-      const newFormData = {
-        ...formData,
-        [formFields.viewMailingAddress]: {
-          ...formData[formFields.viewMailingAddress],
-          addressValidated: true,
-        },
-      };
-      setFormData(newFormData);
-      return;
-    }
-
-    setIsValidating(true);
-    try {
-      const response = await validateAddress(addressData);
-
-      if (response?.addresses?.length > 0) {
-        const { confidenceScore } = response.addresses[0].addressMetaData;
-
-        if (confidenceScore >= 100) {
-          // Auto-validate for high confidence matches
-          const newFormData = {
-            ...formData,
-            [formFields.viewMailingAddress]: {
-              ...formData[formFields.viewMailingAddress],
-              addressValidated: true,
-            },
-          };
-          setFormData(newFormData);
-        } else {
-          // Show modal for low confidence matches through Redux
-          // The modal component will handle updating addressValidated when user selects an address
-          const newFormData = {
-            ...formData,
-            [formFields.viewMailingAddress]: {
-              ...formData[formFields.viewMailingAddress],
-              addressValidated: false,
-            },
-          };
-          setFormData(newFormData);
-        }
-      }
-    } catch (error) {
-      // Log error but don't block submission
-      const logger = window.console;
-      if (logger && logger.error) {
-        logger.error('Address validation error:', error);
-      }
-    } finally {
-      setIsValidating(false);
-    }
-  };
-
   const handleChange = field => {
     // Reset validation when address changes
     const newFormData = {
@@ -89,18 +28,17 @@ export function CustomAddressField({
     onChange(field);
   };
 
+  const handleBlur = () => {
+    // Open the validation modal when the user is done entering the address
+    setModalOpen(true);
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   const addressPattern = addressUI();
   return (
     <div {...addressPattern}>
-      {isValidating && (
-        <div className="vads-u-margin-bottom--2">
-          <va-loading-indicator
-            message="Validating your address..."
-            setFocus
-            data-testid="address-validation-loading"
-          />
-        </div>
-      )}
       <va-text-input
         name="street"
         label="Street"
@@ -143,14 +81,7 @@ export function CustomAddressField({
         value={formData?.postalCode || ''}
         onInput={e => handleChange({ ...formData, postalCode: e.target.value })}
         required
-        onBlur={async () => {
-          if (formData && !isValidating) {
-            await handleValidateAddress(formData);
-          }
-          if (onBlur) {
-            onBlur();
-          }
-        }}
+        onBlur={handleBlur}
       />
     </div>
   );
@@ -160,8 +91,8 @@ CustomAddressField.propTypes = {
   formData: PropTypes.object,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
-  validateAddress: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  setModalOpen: PropTypes.func.isRequired,
   stateOptions: PropTypes.array,
 };
 
@@ -170,8 +101,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  validateAddress: validateAddressAction,
   setFormData: setData,
+  setModalOpen: setAddressValidationModalOpen,
 };
 
 export default connect(

@@ -8,6 +8,7 @@ import {
   setAddressValidationModalOpen,
   acceptValidatedAddress,
   setAddressValidated,
+  validateAddress,
 } from '../actions';
 import { formFields } from '../constants';
 
@@ -19,22 +20,58 @@ function AddressValidationModal(props) {
     setModalOpen,
     acceptAddress,
     setValidated,
+    validateAddress: validateAddressAction,
   } = props;
 
   const {
-    // modalOpen,
+    modalOpen,
     suggestedAddresses = [],
     isValidating,
   } = addressValidation;
 
-  // Control modal visibility based on validation state and suggested addresses
+  // Perform address validation when modal opens
   useEffect(
     () => {
-      if (suggestedAddresses?.length > 0 && !isValidating) {
-        setModalOpen(true);
+      const validateAddressData = async () => {
+        const addressData =
+          formData[formFields.viewMailingAddress]?.[formFields.address];
+
+        // Skip validation for military addresses and non-US addresses
+        const livesOnMilitaryBase =
+          formData[formFields.viewMailingAddress]?.[
+            formFields.livesOnMilitaryBase
+          ];
+
+        if (livesOnMilitaryBase || addressData?.country !== 'USA') {
+          // Auto-validate non-US and military addresses
+          const newFormData = {
+            ...formData,
+            [formFields.viewMailingAddress]: {
+              ...formData[formFields.viewMailingAddress],
+              addressValidated: true,
+            },
+          };
+          setFormData(newFormData);
+          setModalOpen(false);
+          return;
+        }
+
+        try {
+          await validateAddressAction(addressData);
+        } catch (error) {
+          // Log error but don't block submission
+          const logger = window.console;
+          if (logger && logger.error) {
+            logger.error('Address validation error:', error);
+          }
+        }
+      };
+
+      if (modalOpen) {
+        validateAddressData();
       }
     },
-    [suggestedAddresses, isValidating, setModalOpen],
+    [modalOpen, formData, setFormData, setModalOpen, validateAddressAction],
   );
 
   const handleAcceptAddress = selectedAddress => {
@@ -75,43 +112,55 @@ function AddressValidationModal(props) {
     formData[formFields.viewMailingAddress]?.[formFields.address];
 
   return (
-    <VaModal
-      modalTitle="Please review your mailing address"
-      visible
-      onCloseEvent={handleCancel}
-      onPrimaryButtonClick={() => handleAcceptAddress(userEnteredAddress)}
-      onSecondaryButtonClick={() => {
-        if (suggestedAddresses.length > 0) {
-          handleAcceptAddress(suggestedAddresses[0]);
+    <div>
+      <VaModal
+        modalTitle="Please review your mailing address"
+        visible={modalOpen}
+        onCloseEvent={handleCancel}
+        onPrimaryButtonClick={() => handleAcceptAddress(userEnteredAddress)}
+        onSecondaryButtonClick={() => {
+          if (suggestedAddresses.length > 0) {
+            handleAcceptAddress(suggestedAddresses[0]);
+          }
+        }}
+        primaryButtonText="Use address as entered"
+        secondaryButtonText={
+          suggestedAddresses.length > 0 ? 'Use suggested address' : 'Cancel'
         }
-      }}
-      primaryButtonText="Use address as entered"
-      secondaryButtonText={
-        suggestedAddresses.length > 0 ? 'Use suggested address' : 'Cancel'
-      }
-      status="info"
-    >
-      <p>
-        We've compared your address with the U.S. Postal Service's database.
-        Please choose which address you'd like to use:
-      </p>
+        status="info"
+      >
+        {isValidating ? (
+          <va-loading-indicator
+            message="Validating your address..."
+            setFocus
+            data-testid="address-validation-loading"
+          />
+        ) : (
+          <>
+            <p>
+              We've compared your address with the U.S. Postal Service's
+              database. Please choose which address you'd like to use:
+            </p>
 
-      <div className="vads-u-margin-y--2">
-        <strong>Address as entered:</strong>
-        <p className="vads-u-margin-top--0">
-          {formatAddress(userEnteredAddress)}
-        </p>
-      </div>
+            <div className="vads-u-margin-y--2">
+              <strong>Address as entered:</strong>
+              <p className="vads-u-margin-top--0">
+                {formatAddress(userEnteredAddress)}
+              </p>
+            </div>
 
-      {suggestedAddresses.length > 0 && (
-        <div className="vads-u-margin-y--2">
-          <strong>Suggested address:</strong>
-          <p className="vads-u-margin-top--0">
-            {formatAddress(suggestedAddresses[0])}
-          </p>
-        </div>
-      )}
-    </VaModal>
+            {suggestedAddresses.length > 0 && (
+              <div className="vads-u-margin-y--2">
+                <strong>Suggested address:</strong>
+                <p className="vads-u-margin-top--0">
+                  {formatAddress(suggestedAddresses[0])}
+                </p>
+              </div>
+            )}
+          </>
+        )}
+      </VaModal>
+    </div>
   );
 }
 
@@ -126,18 +175,22 @@ AddressValidationModal.propTypes = {
   setModalOpen: PropTypes.func,
   acceptAddress: PropTypes.func,
   setValidated: PropTypes.func,
+  validateAddress: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  addressValidation: state.data.addressValidation,
-  formData: state.form.data,
-});
+const mapStateToProps = state => {
+  return {
+    addressValidation: state.data.addressValidation,
+    formData: state.form.data,
+  };
+};
 
 const mapDispatchToProps = {
   setFormData: setData,
   setModalOpen: setAddressValidationModalOpen,
   acceptAddress: acceptValidatedAddress,
   setValidated: setAddressValidated,
+  validateAddress,
 };
 
 export default connect(
