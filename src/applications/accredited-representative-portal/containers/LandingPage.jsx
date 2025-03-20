@@ -55,11 +55,11 @@ const LandingPage = () => {
               (VSO) representatives who accept POA requests on behalf of their
               organizations. In the future, the portal will support accredited
               VSOs, attorneys, and claims agents.
-              <va-link
-                href="https://www.va.gov/resources/va-accredited-representative-faqs/"
-                text="Learn more about accredited representatives"
-              />
             </p>
+            <va-link
+              href="https://www.va.gov/resources/va-accredited-representative-faqs/"
+              text="Learn more about accredited representatives"
+            />
           </div>
 
           <va-banner
@@ -75,16 +75,16 @@ const LandingPage = () => {
               joining our test program. Once you start using the portal, we’ll
               ask you to give us feedback on your experience.
             </p>
-            <p>
+            <p className="home__banner-email">
               If you’re interested in having your organization join our test
               program, email us at{' '}
-              <va-link
-                class="home__link--email"
-                href="mailto:RepresentativePortalHelp@va.gov"
-                text="RepresentativePortalHelp@va.gov"
-              />
-              .
             </p>
+            <va-link
+              class="home__link--email"
+              href="mailto:RepresentativePortalHelp@va.gov"
+              text="RepresentativePortalHelp@va.gov"
+            />
+            .
           </va-banner>
         </div>
       </div>
