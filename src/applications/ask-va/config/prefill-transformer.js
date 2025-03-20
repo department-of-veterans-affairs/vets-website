@@ -3,12 +3,18 @@ export default function prefillTransformer(pages, formData, metadata) {
     const personalInfo = data?.personalInformation || {};
     const veteranInfo = data?.veteranServiceInformation || {};
 
+    const {
+      serviceNumber,
+      socialSecurityNumber,
+      ...restPersonalInfo
+    } = personalInfo;
+
     return {
       aboutYourself: {
-        ...personalInfo,
+        ...restPersonalInfo,
         socialOrServiceNum: {
-          serviceNumber: personalInfo?.serviceNumber || '',
-          ssn: personalInfo?.socialSecurityNumber || '',
+          serviceNumber: serviceNumber || '',
+          ssn: socialSecurityNumber || '',
         },
         ...veteranInfo,
       },
@@ -19,11 +25,13 @@ export default function prefillTransformer(pages, formData, metadata) {
     const contactInfo = data?.contactInformation || {};
     const avaProfile = data?.avaProfile || {};
 
+    const { phone, email, ...restContactInfo } = contactInfo;
+
     return {
-      ...contactInfo,
+      ...restContactInfo,
       ...avaProfile,
-      phoneNumber: contactInfo?.phone || '',
-      emailAddress: contactInfo?.email || '',
+      phoneNumber: phone || '',
+      emailAddress: email || '',
     };
   };
 
