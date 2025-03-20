@@ -29,6 +29,11 @@ import {
 } from './mhvAccountStatus';
 
 import { profileHasEHRM, profileHasVista } from './facilities';
+import {
+  selectVaPatient,
+  selectProfileLoa,
+  selectProfileLogInProvider,
+} from './accountInformation';
 
 export {
   hasMhvAccount,
@@ -50,7 +55,10 @@ export {
   profileHasVista,
   selectDrupalStaticData,
   selectGreetingName,
+  selectVaPatient,
   selectProfile,
+  selectProfileLoa,
+  selectProfileLogInProvider,
   signInServiceEnabled,
   signInServiceName,
   showVerifyAndRegisterAlert,
