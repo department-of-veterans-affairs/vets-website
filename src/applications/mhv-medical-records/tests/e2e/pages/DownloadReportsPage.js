@@ -30,7 +30,7 @@ class DownloadReportsPage {
     ).as('ccdGenerateResponse');
     cy.intercept(
       'GET',
-      '/my_health/v1/medical_records/ccd/download**',
+      '/my_health/v1/medical_records/ccd/download?2025-03-19T15:39:37.000-0400',
       // '/my_health/v1/medical_records/ccd/download?date=2024-11-20T11:57:07.000-0500', // '/my_health/v1/medical_records/ccd/download**',
       ccdDownloadResponse,
     ).as('ccdDownloadResponse');
