@@ -19,7 +19,11 @@ export const ShowAlertOrSip = ({ basename, sipOptions, bottom }) => {
   }
 
   if (loggedIn && !isVerified) {
-    return <NeedsToVerifyAlert basename={basename} />;
+    return bottom ? (
+      <div className={classes} />
+    ) : (
+      <NeedsToVerifyAlert basename={basename} />
+    );
   }
 
   return (
