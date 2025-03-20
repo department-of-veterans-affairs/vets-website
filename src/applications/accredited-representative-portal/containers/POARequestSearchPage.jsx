@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useLoaderData,
   useSearchParams,
@@ -78,8 +78,13 @@ const StatusTabLink = ({ tabStatus, searchStatus, tabSort, children }) => {
   );
 };
 
-const POARequestSearchPage = () => {
-  document.title = 'Power of attorney requests | Veterans Affairs';
+const POARequestSearchPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
   const poaRequests = useLoaderData();
   const searchStatus = useSearchParams()[0].get('status');
   const navigation = useNavigation();

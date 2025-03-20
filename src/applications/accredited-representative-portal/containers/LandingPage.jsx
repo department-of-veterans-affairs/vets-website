@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const LandingPage = () => {
-  document.title =
-    'Welcome to the Accredited Representative Portal | Veterans Affairs';
+const LandingPage = title => {
+  useEffect(
+    () => {
+      document.title = title.title;
+    },
+    [title],
+  );
   return (
     <section className="home">
       <div className="home__hero">
