@@ -15,19 +15,18 @@ export const ConditionsIntro = () => (
 
 export const NewConditionDescription = () => (
   <>
-    <h4>Tell us the new condition you want to claim</h4>
     <p>Add a condition below. You can add more conditions later.</p>
-    <h5>If your condition isn’t listed</h5>
+    <h4>If your condition isn’t listed</h4>
     <p>
       You can claim a condition that isn’t listed. Enter your condition,
       diagnosis or short description of your symptoms.
     </p>
-    <h5>Examples of conditions</h5>
+    <h4>Examples of conditions</h4>
     <ul>
       <li>PTSD (post-traumatic stress disorder)</li>
       <li>Hearing loss</li>
       <li>Ankylosis in knee</li>
     </ul>
-    <h5>Add a new condition</h5>
+    <h4>Add a new condition</h4>
   </>
 );

@@ -5,6 +5,28 @@ import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/a
 import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
 
+const arrayPath = 'conditionByCondition';
+
+export const isActiveDemo = (formData, currentDemo) =>
+  formData.demo === currentDemo;
+
+const checkNewConditionRadio = ratedDisability =>
+  ratedDisability === 'Add a new condition' ||
+  ratedDisability === 'Edit new condition';
+
+export const isNewCondition = (formData, index) => {
+  if (formData?.[arrayPath]) {
+    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
+
+    return checkNewConditionRadio(ratedDisability);
+  }
+
+  return checkNewConditionRadio(formData?.ratedDisability);
+};
+
+export const hasCause = (formData, index, cause) =>
+  formData?.[arrayPath]?.[index]?.cause === cause;
+
 export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   const search = getArrayUrlSearchParams();
   const isEdit = search.get('edit');
@@ -14,8 +36,6 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   }
   return defaultTitle;
 };
-
-const isNewCondition = itemData => itemData?.newCondition;
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
 const capitalizeFirstLetter = string => {
@@ -59,14 +79,11 @@ const causeFollowUpChecks = {
 
 const isItemIncomplete = item => {
   if (!isNewCondition(item)) {
-    return !item?.ratedDisability || !item?.ratedDisabilityDate;
+    return !item?.ratedDisability;
   }
 
   return (
-    !item?.newCondition ||
-    !item?.newConditionDate ||
-    !item?.cause ||
-    causeFollowUpChecks[item.cause](item)
+    !item?.newCondition || !item?.cause || causeFollowUpChecks[item.cause](item)
   );
 };
 
@@ -109,7 +126,7 @@ const cardDescription = item => {
 
 /** @type {ArrayBuilderOptions} */
 export const arrayBuilderOptions = {
-  arrayPath: 'conditionByCondition',
+  arrayPath,
   nounSingular: 'condition',
   nounPlural: 'conditions',
   required: true,
@@ -175,7 +192,8 @@ export const validateCondition = (err, fieldData = '', formData = {}) => {
 };
 
 export const hasSideOfBody = (formData, index) => {
-  const condition = formData?.[arrayBuilderOptions.arrayPath][index]?.condition;
+  const condition =
+    formData?.[arrayBuilderOptions.arrayPath][index]?.newCondition;
 
   const conditionObject = conditionObjects.find(
     conditionObj => conditionObj.option === condition,

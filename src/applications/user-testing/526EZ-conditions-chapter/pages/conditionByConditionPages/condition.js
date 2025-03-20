@@ -1,20 +1,27 @@
-import React from 'react';
+import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
-  radioUI,
   radioSchema,
+  radioUI,
   titleUI,
   withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import Autocomplete from '../../components/Autocomplete';
-import { conditionOptions } from '../../content/conditionOptions';
-import { NewConditionDescription } from '../../content/conditions';
-import {
-  arrayBuilderOptions,
-  createDefaultAndEditTitles,
-  missingConditionMessage,
-  validateCondition,
-} from './utils';
+import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
+
+const createNewConditionOption = () => {
+  const search = getArrayUrlSearchParams();
+  const isEdit = search.get('edit');
+
+  if (isEdit) {
+    return {
+      'Edit new condition': 'Edit new condition',
+    };
+  }
+
+  return {
+    'Add a new condition': 'Add a new condition',
+  };
+};
 
 const createRatedDisabilitiesSchema = fullData => {
   const ratedDisabilities = {};
@@ -23,14 +30,34 @@ const createRatedDisabilitiesSchema = fullData => {
     ratedDisabilities[disability.name] = disability.name;
   });
 
-  return { ...ratedDisabilities, 'Add a new condition': 'Add a new condition' };
+  const newConditionOption = createNewConditionOption();
+
+  return { ...ratedDisabilities, ...newConditionOption };
+};
+
+const createRatedDisabilitiesDescriptions = fullData => {
+  return fullData.ratedDisabilities.reduce((acc, disability) => {
+    let text = `Current rating: ${disability.ratingPercentage}%`;
+
+    if (disability.ratingPercentage === disability.maximumRatingPercentage) {
+      text += ` (You’re already at the maximum for this rated disability.)`;
+    }
+
+    acc[disability.name] = text;
+
+    return acc;
+  }, {});
 };
 
 /** @returns {PageSchema} */
 const conditionPage = {
   uiSchema: {
     ...titleUI(
-      () => createDefaultAndEditTitles('Select condition', `Edit condition`),
+      () =>
+        createDefaultAndEditTitles(
+          'Tell us which condition you want to claim',
+          `Edit condition`,
+        ),
       withAlertOrDescription({
         nounSingular: arrayBuilderOptions.nounSingular,
         hasMultipleItemPages: true,
@@ -39,6 +66,14 @@ const conditionPage = {
     ratedDisability: radioUI({
       title:
         'Select a rated disability that worsened or a new condition to claim',
+      hint: 'Select one, you will have the opportunity to add more later.',
+      updateUiSchema: (_formData, fullData) => {
+        return {
+          'ui:options': {
+            descriptions: createRatedDisabilitiesDescriptions(fullData),
+          },
+        };
+      },
       updateSchema: (
         _formData,
         _schema,
@@ -52,33 +87,6 @@ const conditionPage = {
         );
       },
     }),
-    newCondition: {
-      'ui:description': NewConditionDescription,
-      'ui:field': data => (
-        <Autocomplete
-          availableResults={conditionOptions}
-          debounceDelay={200}
-          id={data.idSchema.$id}
-          label="Select or enter condition"
-          formData={data.formData}
-          onChange={data.onChange}
-        />
-      ),
-      'ui:errorMessages': {
-        required: missingConditionMessage,
-      },
-      'ui:validations': [validateCondition],
-      'ui:options': {
-        useAllFormData: true,
-        hideLabelText: true,
-        expandUnder: 'ratedDisability',
-        expandUnderCondition: 'New condition',
-        expandedContentFocus: true,
-      },
-      'ui:required': (formData, index) =>
-        formData?.[arrayBuilderOptions.arrayPath]?.[index]?.ratedDisability ===
-        'New condition',
-    },
   },
   schema: {
     type: 'object',
@@ -88,9 +96,6 @@ const conditionPage = {
           Error: 'Error',
         }),
       ),
-      newCondition: {
-        type: 'string',
-      },
     },
     required: ['ratedDisability'],
   },
