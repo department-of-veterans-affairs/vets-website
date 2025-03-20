@@ -166,7 +166,8 @@ const HealthConditions = () => {
           />
         )}
         <RecordList
-          records={sortedConditions}
+          // DO NOT REMOVE MAP, COMPONENET WILL NOT RERENDER WITHOUT IT
+          records={sortedConditions?.map(cond => cond)}
           type={recordType.HEALTH_CONDITIONS}
           sortedBy={sortString}
         />
