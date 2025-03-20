@@ -317,7 +317,7 @@
       "presets": ["@babel/env", "@babel/preset-react"],
       "plugins": [
         ["babel-plugin-transform-import-ignore", { "patterns": [".scss", ".css", ".sass"] }],
-        ["istanbul", { "exclude": ["**/tests/**/*", "**/mocks/**/*"] }],
+        ["istanbul", { "exclude": ["**/tests/**/*", "**/mocks/**/*", "**/config/**/*"] }],
         "transform-class-properties",
         "dynamic-import-node",
         "transform-react-remove-prop-types",
