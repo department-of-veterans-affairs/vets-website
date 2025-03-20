@@ -65,8 +65,7 @@ const TopicSelectPage = props => {
       contactPreferences: selected.attributes.contactPreferences,
       selectTopic: selectedValue,
       topicId: selected.id,
-      topicRequiresSignIn:
-        selected.attributes.requiresAuthentication && !isLoggedIn,
+      topicRequiresSignIn: selected.attributes.requiresAuthentication,
     });
   };
 
