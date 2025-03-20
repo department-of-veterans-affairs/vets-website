@@ -19,7 +19,7 @@ export const selectProfileLoa = ({ profile } = { profile: {} }) => {
   if (!profile || !profile.loa) {
     return null;
   }
-  return profile?.loa.current;
+  return profile.loa.current;
 };
 
 /**
