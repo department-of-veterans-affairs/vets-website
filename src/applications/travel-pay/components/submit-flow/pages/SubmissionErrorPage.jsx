@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
 
+import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import { HelpTextGeneral, HelpTextModalities } from '../../HelpText';
 import { TRAVEL_PAY_INFO_LINK } from '../../../constants';
+
+const title = 'We couldn’t file your claim';
 
 const SubmissionErrorPage = () => {
   useEffect(() => {
@@ -10,9 +13,11 @@ const SubmissionErrorPage = () => {
     scrollToTop('topScrollElement');
   }, []);
 
+  useSetPageTitle(title);
+
   return (
     <div>
-      <h1 tabIndex="-1">We couldn’t file your claim</h1>
+      <h1 tabIndex="-1">{title}</h1>
       <va-alert
         close-btn-aria-label="Close notification"
         status="error"

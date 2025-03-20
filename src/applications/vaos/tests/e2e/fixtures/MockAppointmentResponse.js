@@ -46,6 +46,7 @@ export default class MockAppointmentResponse {
     status = 'booked',
     future = false,
     pending = false,
+    past = false,
   } = {}) {
     const requestedPeriods = [];
     let timestamp = moment();
@@ -92,10 +93,16 @@ export default class MockAppointmentResponse {
       },
       future,
       pending,
+      past,
     };
   }
 
-  static createAtlasResponses({ localStartTime, future = false, count = 1 }) {
+  static createAtlasResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -115,6 +122,7 @@ export default class MockAppointmentResponse {
             },
             vvsKind: VIDEO_TYPES.adhoc,
             future,
+            past,
           }),
       );
   }
@@ -133,7 +141,12 @@ export default class MockAppointmentResponse {
       );
   }
 
-  static createClinicResponses({ localStartTime, future = false, count = 1 }) {
+  static createClinicResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -144,11 +157,17 @@ export default class MockAppointmentResponse {
             localStartTime,
             vvsKind: VIDEO_TYPES.clinic,
             future,
+            past,
           }),
       );
   }
 
-  static createGfeResponses({ localStartTime, future = false, count = 1 }) {
+  static createGfeResponses({
+    localStartTime,
+    future = false,
+    past = false,
+    count = 1,
+  }) {
     return Array(count)
       .fill(count)
       .map(
@@ -160,6 +179,7 @@ export default class MockAppointmentResponse {
             vvsKind: VIDEO_TYPES.mobile,
             patientHasMobileGfe: true,
             future,
+            past,
           }),
       );
   }

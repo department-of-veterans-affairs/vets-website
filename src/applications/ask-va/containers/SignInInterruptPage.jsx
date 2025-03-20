@@ -9,15 +9,15 @@ import ProgressButton from '~/platform/forms-system/src/js/components/ProgressBu
 import manifest from '../manifest.json';
 
 const SignInInterruptPage = ({ goBack, goForward }) => {
-  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
   useEffect(
     () => {
-      if (isLoggedIn) {
+      if (isLOA3) {
         goForward();
       }
     },
-    [isLoggedIn, goForward],
+    [isLOA3, goForward],
   );
 
   const navigateToAskVAAndTriggerLoginModal = () => {
@@ -62,7 +62,6 @@ SignInInterruptPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    isLoggedIn: state.user.login.currentlyLoggedIn,
     formData: state.form.data,
   };
 }
