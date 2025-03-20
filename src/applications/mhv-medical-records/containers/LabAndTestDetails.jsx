@@ -61,6 +61,11 @@ const LabAndTestDetails = () => {
       />
     );
   }
+  // console.log({ labAndTestDetails });
+  // if (isOHAceleuFided){
+  //   <return <New Thing that sdoes everytinbg/>
+  // }
+  // TODO: Delete this around the 4th of July
   if (labAndTestDetails?.type === labTypes.CHEM_HEM) {
     return <ChemHemDetails record={labAndTestDetails} fullState={fullState} />;
   }
