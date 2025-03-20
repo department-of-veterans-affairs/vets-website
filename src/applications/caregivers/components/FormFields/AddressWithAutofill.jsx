@@ -1,17 +1,15 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import {
-  VaCheckbox,
-  VaSelect,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofillReviewField';
 import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
 import { REQUIRED_ADDRESS_FIELDS } from '../../utils/constants';
 import { replaceStrValues } from '../../utils/helpers';
-import { STATES_USA } from '../../utils/imports';
+import { REACT_BINDINGS, STATES_USA } from '../../utils/imports';
 import content from '../../locales/en/content.json';
+
+// define react binding components
+const { VaCheckbox, VaSelect, VaTextInput } = REACT_BINDINGS;
 
 // define our custom error messages
 const errorMessages = {

@@ -2,12 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
-
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
+import { REACT_BINDINGS } from '../../utils/imports';
 import GeneralErrorAlert from '../FormAlerts/GeneralErrorAlert';
+
+// define react binding components
+const { VaSelect } = REACT_BINDINGS;
 
 const apiRequestWithUrl = `${
   environment.API_URL
