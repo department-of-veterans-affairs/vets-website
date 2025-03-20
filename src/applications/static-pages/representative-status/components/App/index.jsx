@@ -29,7 +29,10 @@ export const App = ({
   return (
     <>
       {!loggedIn && (
-        <Unauth toggleLoginModal={toggleLoginModal} headingLevel={baseHeader} />
+        <Unauth
+          toggleLoginModal={toggleLoginModal}
+          DynamicHeader={DynamicHeader}
+        />
       )}
       {isUserLOA1 && <VerifyAlert />}
 
