@@ -1928,7 +1928,7 @@ jobs:
     steps:
       - name: Run CD Production Deploy workflow
         run: |
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          printf -v COMMIT_MSG "%s" "${{ github.event.head_commit.message }}"
           FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//; s/"//g')
           ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)
 
