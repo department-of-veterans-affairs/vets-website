@@ -15,7 +15,7 @@ import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import manifest from '../manifest.json';
 
-const SignInInterruptPage = ({ goBack, goForward }) => {
+const SignInInterruptPage = ({ goBack, goForward, formData }) => {
   const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
   const signInService = useSelector(signInServiceName);
 
@@ -23,10 +23,10 @@ const SignInInterruptPage = ({ goBack, goForward }) => {
     () => {
       focusElement('.headline > h4');
       if (isLOA3) {
-        goForward();
+        goForward(formData);
       }
     },
-    [isLOA3, goForward],
+    [isLOA3, goForward, formData],
   );
 
   const navigateToAskVAAndTriggerLoginModal = () => {
