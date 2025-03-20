@@ -5,28 +5,13 @@ import {
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-import { NULL_CONDITION_STRING } from '../../constants';
+import { NULL_CONDITION_STRING, RATED_OR_NEW_RADIOS } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
 
-const arrayPath = 'conditionByCondition';
+const arrayPath = 'demos';
 
 export const isActiveDemo = (formData, currentDemo) =>
-  formData.demo === currentDemo;
-
-const checkNewConditionRadio = ratedDisability =>
-  !ratedDisability ||
-  ratedDisability === 'Add a new condition' ||
-  ratedDisability === 'Edit new condition';
-
-export const isNewCondition = (formData, index) => {
-  if (formData?.[arrayPath]) {
-    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
-
-    return checkNewConditionRadio(ratedDisability);
-  }
-
-  return checkNewConditionRadio(formData?.ratedDisability);
-};
+  formData?.demo === currentDemo;
 
 export const hasCause = (formData, index, cause) =>
   formData?.[arrayPath]?.[index]?.cause === cause;
@@ -68,6 +53,33 @@ export const hasRemainingRatedDisabilities = fullData => {
   }
 
   return Object.keys(createNonSelectedRatedDisabilities(fullData)).length > 0;
+};
+
+const checkNewConditionRadio = ratedDisability =>
+  !ratedDisability ||
+  ratedDisability === 'Add a new condition' ||
+  ratedDisability === 'Edit new condition';
+
+export const isNewCondition = (formData, index) => {
+  if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
+    if (formData?.[arrayPath]) {
+      const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
+
+      return ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData);
+    }
+
+    return (
+      formData?.ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData)
+    );
+  }
+
+  if (formData?.[arrayPath]) {
+    const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
+
+    return checkNewConditionRadio(ratedDisability);
+  }
+
+  return checkNewConditionRadio(formData?.ratedDisability);
 };
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms

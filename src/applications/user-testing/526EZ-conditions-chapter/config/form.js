@@ -7,7 +7,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import manifest from '../manifest.json';
 import chooseDemo from '../pages/chooseDemo';
-import conditionByConditionPages from '../pages/conditionByConditionPages';
+import ratedOrNewNextPagePages from '../pages/ratedOrNewNextPage';
+import ratedOrNewRadiosPages from '../pages/ratedOrNewRadios';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -51,7 +52,8 @@ const formConfig = {
       title: 'Conditions',
       pages: {
         chooseDemo,
-        ...conditionByConditionPages,
+        ...ratedOrNewNextPagePages,
+        ...ratedOrNewRadiosPages,
       },
     },
   },

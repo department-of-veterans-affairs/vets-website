@@ -4,11 +4,11 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import capitalize from 'lodash/capitalize';
 
-import { CONDITION_BY_CONDITION, CFI_FIRST } from '../constants';
+import { RATED_OR_NEW_NEXT_PAGE, RATED_OR_NEW_RADIOS } from '../constants';
 
 const demoOptions = {
-  CONDITION_BY_CONDITION: capitalize(CONDITION_BY_CONDITION),
-  CFI_FIRST: capitalize(CFI_FIRST),
+  [RATED_OR_NEW_NEXT_PAGE.name]: capitalize(RATED_OR_NEW_NEXT_PAGE.label),
+  [RATED_OR_NEW_RADIOS.name]: capitalize(RATED_OR_NEW_RADIOS.label),
 };
 
 /** @type {PageSchema} */

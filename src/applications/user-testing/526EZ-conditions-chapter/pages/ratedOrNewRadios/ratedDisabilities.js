@@ -1,4 +1,3 @@
-import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 import {
   radioSchema,
   radioUI,
@@ -10,33 +9,10 @@ import {
   arrayBuilderOptions,
   createDefaultAndEditTitles,
   createNonSelectedRatedDisabilities,
-} from './utils';
+} from '../shared/utils';
 
-const createNewConditionOption = () => {
-  const search = getArrayUrlSearchParams();
-  const isEdit = search.get('edit');
-
-  if (isEdit) {
-    return {
-      'Edit new condition': 'Edit new condition',
-    };
-  }
-
-  return {
-    'Add a new condition': 'Add a new condition',
-  };
-};
-
-const createRatedDisabilitiesSchema = fullData => {
-  const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
-    fullData,
-  );
-
-  return {
-    ...nonSelectedRatedDisabilities,
-    ...createNewConditionOption(),
-  };
-};
+const createRatedDisabilitiesSchema = fullData =>
+  createNonSelectedRatedDisabilities(fullData);
 
 const createRatedDisabilitiesDescriptions = fullData => {
   return fullData.ratedDisabilities.reduce((acc, disability) => {
@@ -58,8 +34,8 @@ const conditionPage = {
     ...titleUI(
       () =>
         createDefaultAndEditTitles(
-          'Tell us which condition you want to claim',
-          `Edit condition`,
+          'Tell us which conditions you want to claim',
+          `Edit rated disability that worsened`,
         ),
       withAlertOrDescription({
         nounSingular: arrayBuilderOptions.nounSingular,
@@ -67,8 +43,7 @@ const conditionPage = {
       }),
     ),
     ratedDisability: radioUI({
-      title:
-        'Select a rated disability that worsened or a new condition to claim',
+      title: 'Select which existing disability has worsened.',
       hint: 'Select one, you will have the opportunity to add more later.',
       updateUiSchema: (_formData, fullData) => {
         return {
