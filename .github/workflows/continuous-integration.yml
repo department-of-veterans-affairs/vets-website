@@ -1926,24 +1926,12 @@ jobs:
     needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
-      - name: Debug Repository Dispatch Payload
-        run: |
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
-          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//')  # Strip newlines
-          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)  # Properly escape for JSON
-
-          echo 'Dispatching with payload:'
-          echo "$(jq -n --arg sha "${{ github.sha }}" \
-          --arg ref "${{ github.ref }}" \
-          --arg msg "$FIRST_LINE" \
-          --arg entry "${{ needs.build.outputs.entry_names }}" \
-          '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')"
-
       - name: Run CD Production Deploy workflow
         run: |
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
-          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//')  # Strip newlines
-          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)  # Properly escape for JSON
+          FIRST_LINE=$(echo "${{ github.event.head_commit.message }}" | sed -E 's/\n.*//; s/"//g')
+
+          # Ensure the message is properly escaped for JSON
+          ESCAPED_MSG=$(echo "$FIRST_LINE" | jq -Rsa .)
 
           curl -X POST \
           -H "Accept: application/vnd.github.v3+json" \
