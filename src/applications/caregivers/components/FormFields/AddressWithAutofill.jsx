@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { states } from 'platform/forms/address';
 import {
   VaCheckbox,
   VaSelect,
@@ -11,6 +10,7 @@ import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofil
 import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
 import { REQUIRED_ADDRESS_FIELDS } from '../../utils/constants';
 import { replaceStrValues } from '../../utils/helpers';
+import { STATES_USA } from '../../utils/imports';
 import content from '../../locales/en/content.json';
 
 // define our custom error messages
@@ -127,7 +127,7 @@ const AddressWithAutofill = props => {
 
   const stateOptions = useMemo(
     () =>
-      states.USA.map(state => (
+      STATES_USA.map(state => (
         <option key={state.value} value={state.value}>
           {state.label}
         </option>
