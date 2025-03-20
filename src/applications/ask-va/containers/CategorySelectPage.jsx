@@ -77,8 +77,7 @@ const CategorySelectPage = props => {
       selectCategory: selectedValue,
       allowAttachments: selected.attributes.allowAttachments,
       contactPreferences: selected.attributes.contactPreferences,
-      categoryRequiresSignIn:
-        selected.attributes.requiresAuthentication && !isLoggedIn,
+      categoryRequiresSignIn: selected.attributes.requiresAuthentication,
     });
   };
 
