@@ -1928,9 +1928,9 @@ jobs:
     steps:
       - name: Run CD Production Deploy workflow
         run: |
-          FIRST_LINE=$(echo "${{ github.event.head_commit.message }}" | sed -E 's/\n.*//')
-
-          ESCAPED_MSG=$(echo "$FIRST_LINE" | tr -d '"' | jq -Rs .)
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          FIRST_LINE=$(echo "$COMMIT_MSG" | sed -E 's/\n.*//')  # Keep only the first line
+          ENCODED_MSG=$(echo -n "$FIRST_LINE" | base64)  
 
 
           curl -X POST \
@@ -1939,7 +1939,7 @@ jobs:
           https://api.github.com/repos/${{ github.repository }}/dispatches \
           -d "$(jq -n --arg sha "${{ github.sha }}" \
           --arg ref "${{ github.ref }}" \
-          --arg msg "$ESCAPED_MSG" \
+          --arg msg "$ENCODED_MSG" \
           --arg entry "${{ needs.build.outputs.entry_names }}" \
           '{event_type: "cd-production-deploy", client_payload: {github_sha: $sha, github_ref: $ref, github_message: $msg, entry_app: $entry}}')" 
                          
