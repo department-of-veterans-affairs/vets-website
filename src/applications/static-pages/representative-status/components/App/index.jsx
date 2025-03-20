@@ -6,7 +6,6 @@ import { toggleLoginModal as toggleLoginModalAction } from '@department-of-veter
 import {
   isLOA1,
   isLOA3,
-  isLoggedIn,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
@@ -21,28 +20,36 @@ export const App = ({
   toggleLoginModal,
   isUserLOA1,
   isUserLOA3,
-  loggedIn,
 }) => {
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
 
-  return (
-    <>
-      {!loggedIn && (
-        <Unauth
-          toggleLoginModal={toggleLoginModal}
-          DynamicHeader={DynamicHeader}
-        />
-      )}
-      {isUserLOA1 && <VerifyAlert />}
+  if (isUserLOA1) {
+    return (
+      <>
+        <VerifyAlert />
+      </>
+    );
+  }
 
-      {isUserLOA3 && (
+  if (isUserLOA3) {
+    return (
+      <>
         <Auth
           DynamicHeader={DynamicHeader}
           DynamicSubheader={DynamicSubheader}
           useRepresentativeStatus={useRepresentativeStatus}
         />
-      )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Unauth
+        toggleLoginModal={toggleLoginModal}
+        DynamicHeader={DynamicHeader}
+      />
     </>
   );
 };
@@ -58,7 +65,6 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   hasRepresentative: state?.user?.login?.hasRepresentative || null,
-  loggedIn: isLoggedIn(state),
   isUserLOA1: isLOA1(state),
   isUserLOA3: isLOA3(state),
   signInServiceName: selectProfile(state).signIn?.serviceName,
