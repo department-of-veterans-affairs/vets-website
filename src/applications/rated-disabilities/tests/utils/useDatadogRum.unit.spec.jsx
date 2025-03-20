@@ -6,8 +6,10 @@ import React from 'react';
 import { datadogRum } from '@datadog/browser-rum';
 import { render } from '@testing-library/react';
 
-import * as initializeRealUserMonitoring from '../../util/datadog-rum/initializeRealUserMonitoring';
 import { useBrowserMonitoring } from '../../util/datadog-rum/useBrowserMonitoring';
+import * as initializeRealUserMonitoring from '../../util/datadog-rum/initializeRealUserMonitoring';
+import * as constants from '../../constants';
+
 // eslint-disable-next-line react/prop-types
 const TestComponent = ({ loggedIn = false }) => {
   useBrowserMonitoring({ loggedIn });
@@ -15,12 +17,12 @@ const TestComponent = ({ loggedIn = false }) => {
 };
 
 describe('initializeRealUserMonitoring', () => {
-  // let envStub;
+  let useRUMStub;
   let initSpy;
   let startSessionReplayRecordingStub;
 
   beforeEach(() => {
-    // envStub = sinon.stub(constants, 'isProductionEnv');
+    useRUMStub = sinon.stub(constants, 'useRUM');
     initSpy = sinon.spy(datadogRum, 'init');
     startSessionReplayRecordingStub = sinon.stub(
       datadogRum,
@@ -29,25 +31,24 @@ describe('initializeRealUserMonitoring', () => {
   });
 
   afterEach(() => {
-    // envStub.restore();
+    useRUMStub.restore();
     initSpy.restore();
     startSessionReplayRecordingStub.restore();
   });
 
-  context('when isProductionEnv is true', () => {
+  context('when useRUM is true', () => {
     it('should call init and startSessionReplayRecording ', () => {
-      // envStub.returns(true);
-      initializeRealUserMonitoring.initializeRealUserMonitoring();
+      useRUMStub.returns(true);
+      initializeRealUserMonitoring.default();
       expect(initSpy.called).to.be.true;
-
       expect(initSpy.calledOnce).to.be.true;
       expect(startSessionReplayRecordingStub.calledOnce).to.be.true;
     });
   });
-  context('when isProductionEnv is false', () => {
+  context('when useRUM is false', () => {
     it('should not call init and startSessionReplayRecording ', () => {
-      // envStub.returns(false);
-      initializeRealUserMonitoring.initializeRealUserMonitoring();
+      useRUMStub.returns(false);
+      initializeRealUserMonitoring.default();
       expect(initSpy.notCalled).to.be.true;
       expect(startSessionReplayRecordingStub.notCalled).to.be.true;
     });
