@@ -147,10 +147,7 @@ export const Results = ({
                     <strong>When:</strong>
                   </p>
                   <div className="vads-u-display--flex vads-u-flex-direction--column">
-                    <p
-                      className="vads-u-margin--0"
-                      data-testid="event-date-time"
-                    >
+                    <p className="vads-u-margin--0">
                       {formattedStartsAt} – {formattedEndsAt} {endsAtTimezone}
                     </p>
                     {event?.fieldDatetimeRangeTimezone?.length > 1 && (
