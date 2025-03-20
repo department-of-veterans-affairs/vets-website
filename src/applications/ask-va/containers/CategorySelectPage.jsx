@@ -9,7 +9,7 @@ import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavBut
 import { clearFormData, removeAskVaForm, setCategoryID } from '../actions';
 import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
-import { URL, getApiUrl } from '../constants';
+import { URL, getApiUrl, hasPrefillInformation } from '../constants';
 import { askVAAttachmentStorage } from '../utils/StorageAdapter';
 
 const CategorySelectPage = props => {
@@ -110,7 +110,7 @@ const CategorySelectPage = props => {
   );
 
   const handleGoBack = () => {
-    if (!isLoggedIn) {
+    if (!hasPrefillInformation(formData)) {
       dispatch(clearFormData());
       dispatch(removeAskVaForm(formId));
       router.push('/');
