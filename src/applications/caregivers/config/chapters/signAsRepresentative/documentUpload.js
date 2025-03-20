@@ -11,8 +11,8 @@ import {
 import {
   createPayload,
   parseResponse,
-} from '../../../utils/helpers/file-attachments';
-import { hideUploadWarningAlert } from '../../../utils/helpers/form-config';
+  hideUploadWarningAlert,
+} from '../../../utils/helpers';
 import SupportingDocumentDescription from '../../../components/FormDescriptions/SupportingDocumentDescription';
 import CheckUploadWarning from '../../../components/FormAlerts/CheckUploadWarning';
 import { emptySchema } from '../../../definitions/sharedSchema';
