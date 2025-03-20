@@ -292,11 +292,9 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(selectors().searchInputError.textContent).to.eq(
-            `Error${content['error--facilities-parent-facility']}`,
-          );
-          expect(selectors().searchInputError.parentElement).to.have.class(
-            'caregiver-facilities-search-input-error',
+          expect(selectors().radioList).to.have.attr(
+            'error',
+            content['error--facilities-parent-facility'],
           );
         });
       });
@@ -381,11 +379,9 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(selectors().searchInputError.textContent).to.eq(
-            `Error${content['error--facilities-parent-facility']}`,
-          );
-          expect(selectors().searchInputError.parentElement).to.have.class(
-            'caregiver-facilities-search-input-error',
+          expect(selectors().radioList).to.have.attr(
+            'error',
+            content['error--facilities-parent-facility'],
           );
         });
       });

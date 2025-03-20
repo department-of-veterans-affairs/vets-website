@@ -135,7 +135,7 @@ const FacilitySearch = props => {
           }
 
           // Display error if selected facility and selected facility's parent facility do not offer caregiver services
-          setSearchInputError(content['error--facilities-parent-facility']);
+          setFacilitiesListError(content['error--facilities-parent-facility']);
           return null;
         }
 
@@ -162,7 +162,7 @@ const FacilitySearch = props => {
 
         // Display error if selected facility and selected facility's parent facility do not offer caregiver services
         if (!offersCaregiverSupport(parentFacility)) {
-          setSearchInputError(content['error--facilities-parent-facility']);
+          setFacilitiesListError(content['error--facilities-parent-facility']);
           return null;
         }
 
