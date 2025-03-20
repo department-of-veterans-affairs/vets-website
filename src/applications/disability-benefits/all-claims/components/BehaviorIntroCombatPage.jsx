@@ -5,14 +5,16 @@ import {
 import React, { useState } from 'react';
 
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import { mentalHealthSupportAlert } from '../content/form0781';
-import { checkValidations } from '../../../appeals/shared/validations';
 import { scrollToFirstError } from 'platform/utilities/ui';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { mentalHealthSupportAlert } from '../content/form0781';
+// import { checkValidations } from '../../../appeals/shared/validations';
 import { hasSelectedBehaviors } from '../content/form0781/behaviorListPages';
 import {
   ALL_BEHAVIOR_CHANGE_DESCRIPTIONS,
   BEHAVIOR_LIST_SECTION_SUBTITLES,
 } from '../constants';
+import { checkValidations } from '../utils/submit';
 
 const DELETABLE_FORM_DATA_KEYS = [
   'workBehaviors',
@@ -64,7 +66,7 @@ const BehaviorIntroCombatPage = ({ goBack, goForward, data, setFormData }) => {
   };
 
   const deleteBehavioralAnswers = () => {
-    const deepClone = structuredClone(data);
+    const deepClone = cloneDeep(data);
 
     DELETABLE_FORM_DATA_KEYS.forEach(key => {
       deepClone[key] = {};

@@ -118,33 +118,31 @@ describe('BehaviorIntroCombatPage', () => {
           expect(goForwardSpy.called).to.be.true;
         });
       });
-    // 
-    // it('should fire the `setFormData` spy when confirming the action', async () => {
-    //     const { props } = getData({ providers: policyData.populated });
-    //     const { container } = render(<InsuranceSummary {...props} />);
-    //     const selectors = {
-    //       removeBtn: container.querySelector('.ezr-button-remove'),
-    //       modal: container.querySelector('va-modal'),
-    //     };
 
-    //     fireEvent.click(selectors.removeBtn);
-    //     selectors.modal.__events.primaryButtonClick();
-
-    //     await waitFor(() => {
-    //       expect(props.setFormData.called).to.be.true;
-    //     });
-    //   });
       describe('Modal Selections', () => {
-        describe('When the close button is clicked', () => {
-          const data = {
-            'view:answerCombatBehaviorQuestions': 'false',
-            healthBehaviors: {
-              appetite: true,
-            },
-          };
+        const filledOutDataWithOptOut = {
+          'view:answerCombatBehaviorQuestions': 'false',
+          healthBehaviors: {
+            appetite: true,
+          },
+          workBehaviors: {
+            performance: true,
+          },
+          otherBehaviors: {
+            socialEconomic: true,
+          },
+          behaviorsDetails: {
+            appetite: 'Details of appetite behavior',
+            performance: 'Details of performance behavior',
+            socialEconomic: 'Details of socialEconomic behavior',
+          },
+        };
 
+        describe('When the close button is clicked', () => {
           it('closes the modal', () => {
-            const { container } = render(page({ data }));
+            const { container } = render(
+              page({ data: filledOutDataWithOptOut }),
+            );
 
             fireEvent.click($('button[type="submit"]', container));
 
@@ -156,43 +154,51 @@ describe('BehaviorIntroCombatPage', () => {
         });
 
         describe('When the confirm button is clicked', () => {
-          // TODO: INCLUDE ALL BEHAVIOR ANSWERS, PLUS BEHAVIOR DETAILS INCLUDED
-          const data = {
-            'view:answerCombatBehaviorQuestions': 'false',
-            healthBehaviors: {
-              appetite: true,
-            },
-          };
+          it('closes the modal, deletes answered questions and checkboxes and advances to the next page', () => {
+            const setFormDataSpy = sinon.spy();
+            const goForwardSpy = sinon.spy();
 
-          it('closes the modal and deletes answered questons', () => {
-            const { container } = render(page({ data }));
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+                setFormData: setFormDataSpy,
+                goForward: goForwardSpy,
+              }),
+            );
 
             fireEvent.click($('button[type="submit"]', container));
 
             const modal = container.querySelector('va-modal');
 
-            modal.__events.secondaryButtonClick();
+            modal.__events.primaryButtonClick();
             expect($('va-modal[visible="true"]', container)).not.to.exist;
 
-            // CONFIRM DELETES ANSWERED QUESTIONS
+            expect(
+              setFormDataSpy.calledWith({
+                'view:answerCombatBehaviorQuestions': 'false',
+                healthBehaviors: {},
+                workBehaviors: {},
+                otherBehaviors: {},
+                behaviorsDetails: {},
+              }),
+            );
 
-            // FROM OTHER TEST: I DON'T THINK THIS IS DETERMINISTIC ENOUGH:
-            // await waitFor(() => {
-            //   expect(props.setFormData.called).to.be.true;
-            // });
+            expect(goForwardSpy.called).to.be.true;
           });
         });
 
         describe('When the cancel button is clicked', () => {
-          const data = {
-            'view:answerCombatBehaviorQuestions': 'false',
-            healthBehaviors: {
-              appetite: true,
-            },
-          };
+          it('closes the modal, does not delete answered questons and does not advance to the next page', () => {
+            const setFormDataSpy = sinon.spy();
+            const goForwardSpy = sinon.spy();
 
-          it('closes the modal and does not delete answered questons', () => {
-            const { container } = render(page({ data }));
+            const { container } = render(
+              page({
+                data: filledOutDataWithOptOut,
+                setFormData: setFormDataSpy,
+                goForward: goForwardSpy,
+              }),
+            );
 
             fireEvent.click($('button[type="submit"]', container));
 
@@ -201,10 +207,8 @@ describe('BehaviorIntroCombatPage', () => {
             modal.__events.secondaryButtonClick();
             expect($('va-modal[visible="true"]', container)).not.to.exist;
 
-            // CONFIRM DOES NOT DELETE ANSWERED QUESTIONS
-
-
-
+            expect(setFormDataSpy.notCalled).to.be.true;
+            expect(goForwardSpy.notCalled).to.be.true;
           });
         });
       });
