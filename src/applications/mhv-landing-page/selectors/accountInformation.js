@@ -7,7 +7,7 @@ export const selectProfileLogInProvider = ({ profile } = { profile: {} }) => {
   if (!profile || !profile.signIn) {
     return '';
   }
-  return profile?.signIn?.serviceName;
+  return profile.signIn.serviceName;
 };
 
 /**
