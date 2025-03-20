@@ -8,7 +8,7 @@ import * as consentPage from '../../pages/form0781/consentPage';
 import * as additionalInformationPage from '../../pages/form0781/additionalInformationPage';
 import * as behaviorIntroPage from '../../pages/form0781/behaviorIntroPage';
 import * as behaviorIntroCombatPage from '../../pages/form0781/behaviorIntroCombatPage';
-import * as behaviorListPageOLD from '../../pages/form0781/behaviorListPageOLD';
+// import * as behaviorListPageOLD from '../../pages/form0781/behaviorListPageOLD';
 import BehaviorListPage from '../../components/BehaviorListPage';
 import * as behaviorDescriptions from '../../pages/form0781/behaviorDescriptions';
 import * as unlistedBehaviorDescriptionPage from '../../pages/form0781/unlistedBehaviorDescriptionPage';
@@ -100,13 +100,13 @@ export const form0781PagesConfig = {
     uiSchema: behaviorIntroCombatPage.uiSchema,
     schema: behaviorIntroCombatPage.schema,
   },
-  behaviorListPageOLD: {
-    title: behaviorListPageTitle,
-    path: 'mental-health-form-0781/behavior-changes-list-old',
-    depends: formData => showBehaviorListPage(formData),
-    uiSchema: behaviorListPageOLD.uiSchema,
-    schema: behaviorListPageOLD.schema,
-  },
+  // behaviorListPageOLD: {
+  //   title: behaviorListPageTitle,
+  //   path: 'mental-health-form-0781/behavior-changes-list-old',
+  //   depends: formData => showBehaviorListPage(formData),
+  //   uiSchema: behaviorListPageOLD.uiSchema,
+  //   schema: behaviorListPageOLD.schema,
+  // },
   behaviorListPage: {
     title: behaviorListPageTitle,
     path: 'mental-health-form-0781/behavior-changes-list',
