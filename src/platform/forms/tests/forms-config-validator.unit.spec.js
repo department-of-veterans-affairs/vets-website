@@ -13,7 +13,7 @@ const validatedConfigs = new Map();
 
 const formConfigFnParams = {
   'form-upload': '/find-forms/upload/21-0779',
-  'representative-form-upload': '/representative-form-upload/upload/21-686c',
+  'representative-form-upload': '/representative-form-upload/21-686c',
 };
 
 const missingFromVetsJsonSchema = [
