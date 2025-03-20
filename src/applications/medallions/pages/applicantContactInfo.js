@@ -12,7 +12,7 @@ export default {
       'We’ll contact you at the email address and phone number you provide here.',
     ),
     yourContactInfoEmail: {
-      ...emailUI('E-mail address'),
+      ...emailUI(),
       'ui:errorMessages': {
         required: 'Enter an email address',
         format:
@@ -24,8 +24,6 @@ export default {
       'ui:errorMessages': {
         required: 'Enter a phone number',
         pattern: 'Phone number should be between 10-15 digits long',
-        symbols:
-          'You entered a character we can’t accept. Try removing spaces and any special characters like commas or brackets.',
       },
     },
   },
@@ -40,7 +38,7 @@ export default {
         type: 'string',
         minLength: 10,
         maxLength: 15,
-        pattern: '^\\d{3}-?\\d{3}-?\\d{4}$',
+        pattern: '^(\\d{3}|\\(\\d{3}\\))-?\\d{3}-?\\d{4}$',
       },
     },
     required: ['yourContactInfoEmail', 'yourContactInfoPhone'],
