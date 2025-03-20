@@ -53,7 +53,7 @@ const App = ({ formEnabled }) => {
           <br />
           <VaLinkAction
             href={manifest?.rootUrl}
-            text="Start VA Form 10-7979c online"
+            text="Start VA Form 10-7959c online"
           />
         </li>
         <li>
