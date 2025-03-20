@@ -7,7 +7,7 @@ import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
-} from '../../utils/helpers/form-config';
+} from '../../utils/helpers';
 import { SIGNATURE_CERTIFICATION_STATEMENTS } from '../../utils/constants';
 import StatementOfTruth from './StatementOfTruth';
 import SignatureCheckbox from './SignatureCheckbox';

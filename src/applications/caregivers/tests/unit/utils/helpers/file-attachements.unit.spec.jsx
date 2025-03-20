@@ -1,10 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import * as recordEventModule from 'platform/monitoring/record-event';
-import {
-  createPayload,
-  parseResponse,
-} from '../../../../utils/helpers/file-attachments';
+import { createPayload, parseResponse } from '../../../../utils/helpers';
 
 describe('CG `createPayload` method', () => {
   let mockFile;
