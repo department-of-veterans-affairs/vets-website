@@ -22,7 +22,7 @@ function AddressValidationModal(props) {
   } = props;
 
   const {
-    modalOpen,
+    // modalOpen,
     suggestedAddresses = [],
     isValidating,
   } = addressValidation;
@@ -77,7 +77,7 @@ function AddressValidationModal(props) {
   return (
     <VaModal
       modalTitle="Please review your mailing address"
-      visible={modalOpen}
+      visible
       onCloseEvent={handleCancel}
       onPrimaryButtonClick={() => handleAcceptAddress(userEnteredAddress)}
       onSecondaryButtonClick={() => {

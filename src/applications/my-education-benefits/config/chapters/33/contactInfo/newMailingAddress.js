@@ -1,33 +1,23 @@
 import React from 'react';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
 import { isValidUSZipCode, isValidCanPostalCode } from 'platform/forms/address';
 
 import fullSchema from '../../../../22-1990-schema.json';
 
 import LearnMoreAboutMilitaryBaseTooltip from '../../../../components/LearnMoreAboutMilitaryBaseTooltip';
+import MailingAddressViewField from '../../../../components/MailingAddressViewField';
 import YesNoReviewField from '../../../../components/YesNoReviewField';
 import AddressValidationModal from '../../../../components/AddressValidationModal';
-import CustomAddressField from '../../../../components/CustomAddressField';
-
 import { formFields } from '../../../../constants';
+
+function isOnlyWhitespace(str) {
+  return str && !str.trim().length;
+}
 
 const stateRequiredCountries = new Set(['USA']);
 function customValidateAddress(errors, addressData, formData, currentSchema) {
-  // Check if address needs validation (US non-military address)
-  const needsValidation =
-    addressData.country === 'USA' &&
-    !formData[formFields.viewMailingAddress]?.[formFields.livesOnMilitaryBase];
-
-  // If we need validation, check if it's validated in form data
-  if (
-    needsValidation &&
-    !formData[formFields.viewMailingAddress]?.addressValidated
-  ) {
-    errors.addError('Please validate your address before continuing.');
-  }
-
-  // Continue with regular validation
   if (
     stateRequiredCountries.has(addressData.country) &&
     addressData.state === undefined &&
@@ -35,7 +25,6 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
   ) {
     errors.state.addError('Please select a state');
   }
-
   let isValidPostalCode = true;
   if (addressData.country === 'USA') {
     isValidPostalCode = isValidUSZipCode(addressData.postalCode);
@@ -47,8 +36,6 @@ function customValidateAddress(errors, addressData, formData, currentSchema) {
   if (addressData.postalCode && !isValidPostalCode) {
     errors.postalCode.addError('Please provide a valid postal code');
   }
-
-  return errors;
 }
 
 const newMailingAddress33 = {
@@ -87,7 +74,6 @@ const newMailingAddress33 = {
             If you’d like to update your mailing address, please edit the form
             fields below.
           </p>
-          <AddressValidationModal />
         </>
       ),
       [formFields.livesOnMilitaryBase]: {
@@ -103,7 +89,6 @@ const newMailingAddress33 = {
       },
       [formFields.address]: {
         ...address.uiSchema('', false, null, true),
-        'ui:widget': CustomAddressField,
         'ui:validations': [customValidateAddress],
         'ui:options': {
           updateSchema: (formData, addressSchema) => {
@@ -111,10 +96,12 @@ const newMailingAddress33 = {
               formData['view:mailingAddress']?.livesOnMilitaryBase;
             const country =
               formData['view:mailingAddress']?.address?.country || 'USA';
+            // Get the current required fields, excluding state
             const required = (addressSchema.required || []).filter(
               field => field !== 'state',
             );
 
+            // Only add state as required for USA or military base
             if (livesOnMilitaryBase || country === 'USA') {
               required.push('state');
             }
@@ -158,12 +145,190 @@ const newMailingAddress33 = {
             };
           },
         },
+        country: {
+          'ui:title': 'Country',
+          // If you live on a military base, it's not required; otherwise it is
+          'ui:required': formData =>
+            !formData['view:mailingAddress'].livesOnMilitaryBase,
+          // If you live on a military base, the country field is disabled
+          'ui:disabled': formData =>
+            formData['view:mailingAddress'].livesOnMilitaryBase,
+          'ui:options': {
+            updateSchema: (formData, schema, uiSchema) => {
+              const countryUI = uiSchema;
+              const addressFormData = get(
+                ['view:mailingAddress', 'address'],
+                formData,
+              );
+              const livesOnMilitaryBase = get(
+                ['view:mailingAddress', 'livesOnMilitaryBase'],
+                formData,
+              );
+
+              if (livesOnMilitaryBase) {
+                countryUI['ui:disabled'] = true;
+                const USA = {
+                  value: 'USA',
+                  label: 'United States',
+                };
+                addressFormData.country = USA.value;
+                return {
+                  enum: [USA.value],
+                  enumNames: [USA.label],
+                  default: USA.value,
+                };
+              }
+
+              countryUI['ui:disabled'] = false;
+              return {
+                type: 'string',
+                enum: constants.countries.map(country => country.value),
+                enumNames: constants.countries.map(country => country.label),
+              };
+            },
+          },
+        },
+        street: {
+          'ui:title': 'Street address',
+          'ui:errorMessages': {
+            required: 'Please enter your full street address',
+          },
+          'ui:validations': [
+            (errors, field) => {
+              if (isOnlyWhitespace(field)) {
+                errors.addError('Please enter your full street address');
+              } else if (field?.length < 3) {
+                errors.addError('minimum of 3 characters');
+              } else if (field?.length > 40) {
+                errors.addError('maximum of 40 characters');
+              }
+            },
+          ],
+        },
+        street2: {
+          'ui:title': 'Street address line 2',
+          'ui:validations': [
+            (errors, field) => {
+              // If field is provided and contains only whitespace
+              if (field && isOnlyWhitespace(field)) {
+                errors.addError('Please enter a valid street address line 2');
+              } else if (field?.length > 40) {
+                errors.addError('maximum of 40 characters');
+              }
+            },
+          ],
+          'ui:options': {
+            updateSchema: (formData, schema) => {
+              const addressData = get(
+                ['view:mailingAddress', 'address'],
+                formData,
+              );
+
+              // Make sure street2 is treated as a string (even if it's null or undefined)
+              if (addressData.street2 == null) {
+                addressData.street2 = ''; // Set to empty string to avoid validation errors
+              }
+
+              // If no value is provided, skip validation
+              if (!addressData.street2) {
+                return {
+                  ...schema,
+                  minLength: 0,
+                };
+              }
+
+              return schema;
+            },
+          },
+        },
+        city: {
+          'ui:errorMessages': {
+            required: 'Please enter a valid city',
+          },
+          'ui:validations': [
+            (errors, field) => {
+              if (isOnlyWhitespace(field)) {
+                errors.addError('Please enter a valid city');
+              } else if (field?.length < 2) {
+                errors.addError('minimum of 2 characters');
+              } else if (field?.length > 20) {
+                errors.addError('maximum of 20 characters');
+              }
+            },
+          ],
+          'ui:options': {
+            replaceSchema: formData => {
+              const livesOnMilitaryBase =
+                formData['view:mailingAddress']?.livesOnMilitaryBase;
+
+              if (livesOnMilitaryBase) {
+                // Always have APO/FPO
+                const baseEnum = ['APO', 'FPO'];
+                // Conditionally add DPO if feature toggle is enabled
+                if (formData?.mebDpoAddressOptionEnabled) {
+                  baseEnum.push('DPO');
+                }
+
+                return {
+                  type: 'string',
+                  title: formData?.mebDpoAddressOptionEnabled
+                    ? 'APO/FPO/DPO'
+                    : 'APO/FPO',
+                  enum: baseEnum,
+                };
+              }
+
+              // If not on a military base, show a normal City field
+              return {
+                type: 'string',
+                title: 'City',
+              };
+            },
+          },
+        },
+        state: {
+          'ui:validations': [
+            (errors, field) => {
+              if (field?.length === 1) {
+                errors.addError('Must be more than 1 character');
+              } else if (field?.length > 31) {
+                errors.addError('Must be less than 31 characters');
+              }
+            },
+          ],
+        },
+        postalCode: {
+          'ui:options': {
+            updateSchema: formData => {
+              if (formData['view:mailingAddress']?.address?.country !== 'USA') {
+                return {
+                  title: 'Postal Code',
+                  type: 'string',
+                  minLength: 3,
+                  maxLength: 10,
+                };
+              }
+
+              return {
+                title: 'Zip code',
+                type: 'string',
+              };
+            },
+          },
+        },
+      },
+      'ui:options': {
+        hideLabelText: true,
+        showFieldLabel: false,
+        viewComponent: MailingAddressViewField,
+      },
+      'view:validateAddress': {
+        'ui:description': AddressValidationModal,
       },
     },
   },
   schema: {
     type: 'object',
-    required: [],
     properties: {
       'view:subHeadings': {
         type: 'object',
@@ -171,14 +336,9 @@ const newMailingAddress33 = {
       },
       [formFields.viewMailingAddress]: {
         type: 'object',
-        required: [formFields.address],
         properties: {
           [formFields.livesOnMilitaryBase]: {
             type: 'boolean',
-          },
-          addressValidated: {
-            type: 'boolean',
-            default: false,
           },
           livesOnMilitaryBaseInfo: {
             type: 'object',
@@ -186,6 +346,10 @@ const newMailingAddress33 = {
           },
           [formFields.address]: {
             ...address.schema(fullSchema, true),
+          },
+          'view:validateAddress': {
+            type: 'object',
+            properties: {},
           },
         },
       },
