@@ -69,7 +69,7 @@ export const certifierAddressSchema = {
     required: ['certifierAddress'],
     properties: {
       titleSchema,
-      certifierAddress: addressSchema(),
+      certifierAddress: addressSchema({ omit: ['street3'] }),
     },
   },
 };
