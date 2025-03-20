@@ -69,7 +69,6 @@ const SignInInterruptPage = ({ goBack, goForward, formData }) => {
       )}
 
       <div className="row form-progress-buttons schemaform-buttons vads-u-margin-top--6 vads-u-margin-bottom--7">
-        {/* <div className="small-6 medium-5 columns"> */}
         {goBack && (
           <ProgressButton
             onButtonClick={goBack}
@@ -78,13 +77,13 @@ const SignInInterruptPage = ({ goBack, goForward, formData }) => {
             beforeText="«"
           />
         )}
-        {/* </div> */}
       </div>
     </>
   );
 };
 
 SignInInterruptPage.propTypes = {
+  formData: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };

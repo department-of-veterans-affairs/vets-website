@@ -6,7 +6,7 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setTopicID } from '../actions';
 import CatAndTopicSummary from '../components/CatAndTopicSummary';
@@ -23,6 +23,7 @@ const TopicSelectPage = props => {
     categoryID,
   } = props;
   const dispatch = useDispatch();
+  const isLOA3 = useSelector(state => state.user.profile.loa.current === 3);
 
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
@@ -65,7 +66,8 @@ const TopicSelectPage = props => {
       contactPreferences: selected.attributes.contactPreferences,
       selectTopic: selectedValue,
       topicId: selected.id,
-      topicRequiresSignIn: selected.attributes.requiresAuthentication,
+      topicRequiresSignIn:
+        selected.attributes.requiresAuthentication && !isLOA3,
     });
   };
 
