@@ -34,14 +34,14 @@ describe('CG `normalizeFullName` method', () => {
 });
 
 describe('CG `replaceStrValues` method', () => {
-  it('should successfully replace the placeholder(s) when the value is a string', () => {
+  it('should successfully replace the placeholder when the value is a string', () => {
     const src = 'Hello, %s!';
     const val = 'World';
     const result = replaceStrValues(src, val);
     expect(result).to.equal('Hello, World!');
   });
 
-  it('should successfully replace the placeholder(s) when the value is an array', () => {
+  it('should successfully replace the placeholders when the value is an array', () => {
     const src = 'Hello, %s! My name is %s.';
     const val = ['World', 'John Smith'];
     const result = replaceStrValues(src, val);
