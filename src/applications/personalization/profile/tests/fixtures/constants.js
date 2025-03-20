@@ -14,7 +14,7 @@ export const Locators = {
 
 export const Data = {
   SIGNATURE: {
-    UDATE_SAVED: `Update saved.`,
+    UPDATE_SAVED: `Update saved.`,
   },
 };
 

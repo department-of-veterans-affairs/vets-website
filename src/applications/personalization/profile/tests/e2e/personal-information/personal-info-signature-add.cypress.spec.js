@@ -62,7 +62,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
 
     cy.get(Locators.SIGNATURE.ALERT)
       .should(`be.visible`)
-      .and('have.text', Data.SIGNATURE.UDATE_SAVED);
+      .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
     cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
 
     cy.injectAxeThenAxeCheck();
