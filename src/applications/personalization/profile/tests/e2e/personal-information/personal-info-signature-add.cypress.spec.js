@@ -30,10 +30,10 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
     cy.get(Locators.SIGNATURE.EDIT_BTN).click();
     cy.get(Locators.SIGNATURE.NAME_LABEL)
       .should('be.visible')
-      .and('contain.text', `(*Required)`);
+      .and('contain.text', Data.SIGNATURE.ALERTS.REQUIRED);
     cy.get(Locators.SIGNATURE.TITLE_LABEL)
       .should('be.visible')
-      .and('contain.text', `(*Required)`);
+      .and('contain.text', Data.SIGNATURE.ALERTS.REQUIRED);
 
     cy.get(Locators.SIGNATURE.CANCEL_BTN).click();
     cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);
@@ -60,7 +60,7 @@ describe('PERSONAL INFORMATION ADD SIGNATURE', () => {
         mockSignature.data.attributes.signatureTitle}`,
     );
 
-    cy.get(Locators.SIGNATURE.ALERT)
+    cy.get(Locators.SIGNATURE.ALERTS.SUCCESS)
       .should(`be.visible`)
       .and('have.text', Data.SIGNATURE.UPDATE_SAVED);
     cy.get(Locators.SIGNATURE.EDIT_BTN).should(`be.focused`);

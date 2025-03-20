@@ -9,7 +9,7 @@ export const Locators = {
     NAME_FIELD: `#root_signatureName`,
     TITLE_FIELD: `#root_signatureTitle`,
     ALERTS: {
-      ALERT: `#messagingSignature-alert`,
+      SUCCESS: `#messagingSignature-alert`,
       FIELD_ERROR: '[role="alert"]',
       CROSS_BTN: `.first-focusable-child`,
       CONFIRM_CANCEL_MODAL: `[data-testid="confirm-cancel-modal"]`,
@@ -26,6 +26,7 @@ export const Data = {
       CANCEL_ALERT: `You haven't finished editing and saving the changes to your messages signature. If you cancel now, we won't save your changes.`,
       CANCEL_BTN: `Yes, cancel my changes`,
       BACK_TO_EDIT_BTN: `No, go back to editing`,
+      REQUIRED: `(*Required)`,
     },
   },
 };
