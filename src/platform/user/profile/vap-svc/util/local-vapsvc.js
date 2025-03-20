@@ -8,7 +8,6 @@ export function isVAProfileServiceConfigured() {
     window.VetsGov.pollTimeout ||
     window.Cypress ||
     [
-      'localhost',
       'dev.va.gov',
       'preview.va.gov',
       'staging.va.gov',
