@@ -104,22 +104,6 @@ class LocatorApi {
   }
 
   /**
-   * Get one CC Provider's details.
-   *
-   * @param {string} id The ID of the CC Provider
-   */
-  static fetchProviderDetail(id) {
-    const api = getAPI();
-    const url = `${api.baseUrl}/ccp/${id}`;
-
-    return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
-        .then(res => res.json())
-        .then(data => resolve(data), error => reject(error));
-    });
-  }
-
-  /**
    * Get all known specialties available from all CC Providers.
    */
   static getProviderSpecialties() {
