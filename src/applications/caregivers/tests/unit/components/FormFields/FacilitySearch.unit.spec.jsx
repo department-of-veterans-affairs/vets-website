@@ -292,6 +292,9 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
+          expect(sentrySpy.firstCall.args[0]).to.equal(
+            'No selected facility offers caregiver services - loaded parent',
+          );
           expect(selectors().radioList).to.have.attr(
             'error',
             content['error--facilities-parent-facility'],
@@ -327,10 +330,6 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           sinon.assert.calledWith(mapboxStub, 'Tampa');
           sinon.assert.calledWith(facilitiesStub, { facilityIds: ['vha_757'] });
-          expect(sentrySpy.called).to.be.true;
-          expect(sentrySpy.firstCall.args[0]).to.equal(
-            'FetchFacilities parentId',
-          );
           expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
           expect(dispatch.firstCall.args[0].data).to.deep.include({
             'view:plannedClinic': {
@@ -379,6 +378,10 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
+          expect(sentrySpy.called).to.be.true;
+          expect(sentrySpy.firstCall.args[0]).to.equal(
+            'No selected facility offers caregiver services - fetch parent',
+          );
           expect(selectors().radioList).to.have.attr(
             'error',
             content['error--facilities-parent-facility'],
