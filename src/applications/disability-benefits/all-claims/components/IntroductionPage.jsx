@@ -15,6 +15,7 @@ import { show526Wizard, isBDD, getPageTitle, getStartText } from '../utils';
 import {
   BDD_INFO_URL,
   DISABILITY_526_V2_ROOT_URL,
+  ITF_NOTICE_TEXT,
   WIZARD_STATUS,
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
@@ -59,6 +60,7 @@ class IntroductionPage extends React.Component {
       downtime: formConfig.downtime,
       retentionPeriod: '1 year',
       ariaDescribedby: 'main-content',
+      buttonAriaDescribedby: ITF_NOTICE_TEXT,
     };
 
     return (
