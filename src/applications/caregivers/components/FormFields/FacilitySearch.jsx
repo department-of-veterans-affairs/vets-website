@@ -134,18 +134,20 @@ const FacilitySearch = props => {
             return loadedParent;
           }
 
+          // Log facility parent.id so we can troubleshoot if we are always sending the expected value
+          Sentry.withScope(scope => {
+            scope.setLevel(Sentry.Severity.Log);
+            scope.setExtra('facility', facility);
+            scope.setExtra('loadedParent facility', loadedParent);
+            Sentry.captureMessage(
+              'No selected facility offers caregiver services - loaded parent',
+            );
+          });
+
           // Display error if selected facility and selected facility's parent facility do not offer caregiver services
           setFacilitiesListError(content['error--facilities-parent-facility']);
           return null;
         }
-
-        // Log facility parent.id so we can troubleshoot if we are always sending the expected value
-        Sentry.withScope(scope => {
-          scope.setLevel(Sentry.Severity.Log);
-          scope.setExtra('facility', facility);
-          scope.setExtra('facility.parent.id', facility?.parent?.id);
-          Sentry.captureMessage('FetchFacilities parentId');
-        });
 
         // Fetch parent facility from api if we have the id and it is not in the facilities list already
         const parentFacilityResponse = await fetchFacilities({
@@ -162,6 +164,15 @@ const FacilitySearch = props => {
 
         // Display error if selected facility and selected facility's parent facility do not offer caregiver services
         if (!offersCaregiverSupport(parentFacility)) {
+          // Log facility parent.id so we can troubleshoot if we are always sending the expected value
+          Sentry.withScope(scope => {
+            scope.setLevel(Sentry.Severity.Log);
+            scope.setExtra('facility', facility);
+            scope.setExtra('parentFacility', parentFacility);
+            Sentry.captureMessage(
+              'No selected facility offers caregiver services - fetch parent',
+            );
+          });
           setFacilitiesListError(content['error--facilities-parent-facility']);
           return null;
         }
