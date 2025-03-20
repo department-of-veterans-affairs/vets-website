@@ -16,6 +16,7 @@ import summaryPage from './summary';
 import {
   arrayBuilderOptions,
   hasCause,
+  hasRemainingRatedDisabilities,
   hasSideOfBody,
   isActiveDemo,
   isNewCondition,
@@ -43,7 +44,9 @@ const conditionByConditionPages = arrayBuilderPages(
     conditionByConditionCondition: pageBuilder.itemPage({
       title: 'Select rated disability or new condition',
       path: `conditions-${CONDITION_BY_CONDITION}/:index/condition`,
-      depends: formData => isActiveDemo(formData, currentDemo),
+      depends: formData =>
+        isActiveDemo(formData, currentDemo) &&
+        hasRemainingRatedDisabilities(formData),
       uiSchema: conditionPage.uiSchema,
       schema: conditionPage.schema,
     }),
@@ -51,7 +54,9 @@ const conditionByConditionPages = arrayBuilderPages(
       title: 'Start date of rated disability worsening',
       path: `conditions-${CONDITION_BY_CONDITION}/:index/rated-disability-date`,
       depends: (formData, index) =>
-        isActiveDemo(formData, currentDemo) && !isNewCondition(formData, index),
+        isActiveDemo(formData, currentDemo) &&
+        hasRemainingRatedDisabilities(formData) &&
+        !isNewCondition(formData, index),
       uiSchema: ratedDisabilityDatePage.uiSchema,
       schema: ratedDisabilityDatePage.schema,
     }),

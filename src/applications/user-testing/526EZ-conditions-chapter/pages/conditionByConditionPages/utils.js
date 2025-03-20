@@ -1,6 +1,9 @@
 import { format } from 'date-fns';
 import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
-import { getArrayUrlSearchParams } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
+import {
+  getArrayIndexFromPathName,
+  getArrayUrlSearchParams,
+} from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
 import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
@@ -11,6 +14,7 @@ export const isActiveDemo = (formData, currentDemo) =>
   formData.demo === currentDemo;
 
 const checkNewConditionRadio = ratedDisability =>
+  !ratedDisability ||
   ratedDisability === 'Add a new condition' ||
   ratedDisability === 'Edit new condition';
 
@@ -35,6 +39,35 @@ export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
     return editTitle;
   }
   return defaultTitle;
+};
+
+export const createNonSelectedRatedDisabilities = fullData => {
+  const currentIndex = getArrayIndexFromPathName();
+  const selectedRatedDisabilities = [];
+
+  fullData?.[arrayPath]?.forEach((item, index) => {
+    if (index !== currentIndex) {
+      selectedRatedDisabilities.push(item?.ratedDisability);
+    }
+  });
+
+  const nonSelectedRatedDisabilities = {};
+
+  fullData?.ratedDisabilities?.forEach(disability => {
+    if (!selectedRatedDisabilities?.includes(disability.name)) {
+      nonSelectedRatedDisabilities[disability.name] = disability.name;
+    }
+  });
+
+  return nonSelectedRatedDisabilities;
+};
+
+export const hasRemainingRatedDisabilities = fullData => {
+  if (fullData?.ratedDisabilities?.length === 0) {
+    return false;
+  }
+
+  return Object.keys(createNonSelectedRatedDisabilities(fullData)).length > 0;
 };
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms

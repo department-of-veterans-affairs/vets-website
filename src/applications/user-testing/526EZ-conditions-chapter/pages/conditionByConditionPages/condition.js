@@ -6,7 +6,11 @@ import {
   withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
+import {
+  arrayBuilderOptions,
+  createDefaultAndEditTitles,
+  createNonSelectedRatedDisabilities,
+} from './utils';
 
 const createNewConditionOption = () => {
   const search = getArrayUrlSearchParams();
@@ -24,15 +28,14 @@ const createNewConditionOption = () => {
 };
 
 const createRatedDisabilitiesSchema = fullData => {
-  const ratedDisabilities = {};
+  const nonSelectedRatedDisabilities = createNonSelectedRatedDisabilities(
+    fullData,
+  );
 
-  fullData.ratedDisabilities.forEach(disability => {
-    ratedDisabilities[disability.name] = disability.name;
-  });
-
-  const newConditionOption = createNewConditionOption();
-
-  return { ...ratedDisabilities, ...newConditionOption };
+  return {
+    ...nonSelectedRatedDisabilities,
+    ...createNewConditionOption(),
+  };
 };
 
 const createRatedDisabilitiesDescriptions = fullData => {
