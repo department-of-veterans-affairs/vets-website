@@ -15,7 +15,6 @@ import {
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
 
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { Element } from 'platform/utilities/scroll';
 
 import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
@@ -38,8 +37,6 @@ import { getValidationErrors } from 'platform/forms-system/src/js/utilities/vali
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
-import { ContactInfoLoader } from './ContactInfoLoader';
-import { ContactInfoSuccessAlerts } from './ContactInfoSuccessAlerts';
 
 /**
  * Render contact info page
@@ -67,7 +64,6 @@ export const ContactInfoBase = ({
   contentAfterButtons,
   setFormData,
   content,
-  contactPath,
   keys,
   requiredKeys,
   uiSchema,
@@ -75,12 +71,8 @@ export const ContactInfoBase = ({
   contactInfoPageKey,
   disableMockContactInfo = false,
   contactSectionHeadingLevel,
-  prefillPatternEnabled,
   ...rest
 }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const aedpPrefillToggleEnabled = useToggleValue(TOGGLE_NAMES.aedpPrefill);
-
   const { router } = rest;
 
   const { pathname } = router?.location || { pathname: '' };
@@ -106,6 +98,24 @@ export const ContactInfoBase = ({
   const homePhone = dataWrap[keys.homePhone] || {};
   const mobilePhone = dataWrap[keys.mobilePhone] || {};
   const address = dataWrap[keys.address] || {};
+
+  // const shouldUseFormData = useMemo(
+  //   () =>
+  //     hasAddressFormFields(data, keys) &&
+  //     data[keys.wrapper][keys.address]?.updateProfileChoice,
+  //   [data, keys],
+  // );
+
+  // const addressReactive = useMemo(
+  //   () => {
+  //     return shouldUseFormData ? data[keys.wrapper][keys.address] : {};
+  //   },
+  //   [data, keys.address, keys.wrapper, shouldUseFormData],
+  // );
+
+  // if (shouldUseFormData && addressReactive) {
+  //   dataWrap[keys.address] = addressReactive;
+  // }
 
   const missingInfo = getMissingInfo({
     data: dataWrap,
@@ -233,9 +243,6 @@ export const ContactInfoBase = ({
   // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
   // delay to move focus away from the h3
   const showSuccessAlertInField = (id, text) => {
-    if (prefillPatternEnabled && aedpPrefillToggleEnabled) {
-      return null;
-    }
     return (
       <va-alert
         id={`updated-${id}`}
@@ -408,118 +415,87 @@ export const ContactInfoBase = ({
   );
 
   return (
-    <ContactInfoLoader
-      data={data}
-      goBack={goBack}
-      goForward={goForward}
-      onReviewPage={onReviewPage}
-      updatePage={updatePage}
-      contentBeforeButtons={contentBeforeButtons}
-      contentAfterButtons={contentAfterButtons}
-      setFormData={setFormData}
-      content={content}
-      contactPath={contactPath}
-      keys={keys}
-      requiredKeys={requiredKeys}
-      uiSchema={uiSchema}
-      testContinueAlert={testContinueAlert}
-      contactInfoPageKey={contactInfoPageKey}
-      disableMockContactInfo={disableMockContactInfo}
-      contactSectionHeadingLevel={contactSectionHeadingLevel}
-      router={router}
-      prefillPatternEnabled={prefillPatternEnabled && aedpPrefillToggleEnabled}
-    >
-      <div className="vads-u-margin-y--2">
-        <Element name={`${contactInfoPageKey}ScrollElement`} />
-        <ContactInfoSuccessAlerts
-          submitted={submitted}
-          missingInfo={missingInfo}
-          contactInfoPageKey={contactInfoPageKey}
-          editState={editState}
-          prefillPatternEnabled={
-            prefillPatternEnabled && aedpPrefillToggleEnabled
-          }
-        />
-        <form onSubmit={handlers.onSubmit}>
-          <MainHeader
-            id={`${contactInfoPageKey}Header`}
-            className="vads-u-margin-top--3 vads-u-margin-bottom--0"
-          >
-            {content.title}
-          </MainHeader>
-          {content.description}
-          {!loggedIn && (
-            <strong className="usa-input-error-message">
-              You must be logged in to enable view and edit this page.
-            </strong>
-          )}
-          <div ref={wrapRef}>
-            {hadError &&
-              missingInfo.length === 0 &&
-              validationErrors.length === 0 && (
-                <div className="vads-u-margin-top--1p5">
-                  <va-alert status="success" slim>
-                    <div className="vads-u-font-size--base">
-                      {content.alertContent}
-                    </div>
-                  </va-alert>
-                </div>
-              )}
-            {missingInfo.length > 0 && (
-              <>
-                <p className="vads-u-margin-top--1p5">
-                  <strong>Note:</strong>
-                  {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
-                  {list} {plural ? 'are' : 'is'} required for this application.
-                </p>
-                {submitted && (
-                  <div className="vads-u-margin-top--1p5" role="alert">
-                    <va-alert status="error" slim>
-                      <div className="vads-u-font-size--base">
-                        We still don’t have your {list}. Please edit and update
-                        the field.
-                      </div>
-                    </va-alert>
+    <div className="vads-u-margin-y--2">
+      <Element name={`${contactInfoPageKey}ScrollElement`} />
+      <form onSubmit={handlers.onSubmit}>
+        <MainHeader
+          id={`${contactInfoPageKey}Header`}
+          className="vads-u-margin-top--3 vads-u-margin-bottom--0"
+        >
+          {content.title}
+        </MainHeader>
+        {content.description}
+        {!loggedIn && (
+          <strong className="usa-input-error-message">
+            You must be logged in to enable view and edit this page.
+          </strong>
+        )}
+        <div ref={wrapRef}>
+          {hadError &&
+            missingInfo.length === 0 &&
+            validationErrors.length === 0 && (
+              <div className="vads-u-margin-top--1p5">
+                <va-alert status="success" slim>
+                  <div className="vads-u-font-size--base">
+                    {content.alertContent}
                   </div>
-                )}
-                <div className="vads-u-margin-top--1p5" role="alert">
-                  <va-alert status="warning" slim>
-                    <div className="vads-u-font-size--base">
-                      Your {list} {plural ? 'are' : 'is'} missing. Please edit
-                      and update the {plural ? 'fields' : 'field'}.
-                    </div>
-                  </va-alert>
-                </div>
-              </>
+                </va-alert>
+              </div>
             )}
-            {submitted &&
-              missingInfo.length === 0 &&
-              validationErrors.length > 0 && (
+          {missingInfo.length > 0 && (
+            <>
+              <p className="vads-u-margin-top--1p5">
+                <strong>Note:</strong>
+                {missingInfo[0].startsWith('e') ? ' An ' : ' A '}
+                {list} {plural ? 'are' : 'is'} required for this application.
+              </p>
+              {submitted && (
                 <div className="vads-u-margin-top--1p5" role="alert">
                   <va-alert status="error" slim>
                     <div className="vads-u-font-size--base">
-                      {validationErrors[0]}
+                      We still don’t have your {list}. Please edit and update
+                      the field.
                     </div>
                   </va-alert>
                 </div>
               )}
-          </div>
-          <div className="vads-u-margin-top--3">
-            <div
-              className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
-              onSubmit={handlers.onSubmit}
-            >
-              <div className="vads-l-row">
-                <div className="vads-l-col--12 medium-screen:vads-l-col--6">
-                  {contactSection}
-                </div>
+              <div className="vads-u-margin-top--1p5" role="alert">
+                <va-alert status="warning" slim>
+                  <div className="vads-u-font-size--base">
+                    Your {list} {plural ? 'are' : 'is'} missing. Please edit and
+                    update the {plural ? 'fields' : 'field'}.
+                  </div>
+                </va-alert>
+              </div>
+            </>
+          )}
+          {submitted &&
+            missingInfo.length === 0 &&
+            validationErrors.length > 0 && (
+              <div className="vads-u-margin-top--1p5" role="alert">
+                <va-alert status="error" slim>
+                  <div className="vads-u-font-size--base">
+                    {validationErrors[0]}
+                  </div>
+                </va-alert>
+              </div>
+            )}
+        </div>
+        <div className="vads-u-margin-top--3">
+          <div
+            className="va-profile-wrapper vads-l-grid-container vads-u-padding-x--0"
+            onSubmit={handlers.onSubmit}
+          >
+            <div className="vads-l-row">
+              <div className="vads-l-col--12 medium-screen:vads-l-col--6">
+                {contactSection}
               </div>
             </div>
           </div>
-        </form>
-        <div className="vads-u-margin-top--4">{navButtons}</div>
-      </div>
-    </ContactInfoLoader>
+        </div>
+      </form>
+      <div className="vads-u-margin-top--4">{navButtons}</div>
+    </div>
   );
 };
 

@@ -481,10 +481,8 @@ class ProfileInformationFieldController extends React.Component {
 
     if (showValidationView) {
       // allow custom address validation view to be passed in as a prop
-      const AddressValidationContent =
-        this.props?.AddressValidationView || AddressValidationView;
       content = (
-        <AddressValidationContent
+        <AddressValidationView
           refreshTransaction={this.refreshTransactionNotProps}
           transaction={transaction}
           transactionRequest={transactionRequest}
@@ -574,11 +572,6 @@ ProfileInformationFieldController.propTypes = {
   showEditView: PropTypes.bool.isRequired,
   showValidationView: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
-  AddressValidationView: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.func,
-    PropTypes.node,
-  ]),
   CustomConfirmCancelModal: PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func,

@@ -17,6 +17,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { focusElement, waitForRenderThenFocus } from 'platform/utilities/ui';
 import { Toggler } from '~/platform/utilities/feature-toggles/Toggler';
 import TOGGLE_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { setData } from 'platform/forms-system/exportsFile';
+import { ContactInfoFormAppConfigContext } from '../components/ContactInfoFormAppConfigContext';
 import * as VAP_SERVICE from '../constants';
 import {
   closeModal,
@@ -81,6 +83,28 @@ class AddressValidationView extends React.Component {
       ...selectedAddress,
       validationKey,
     };
+
+    if (this.context && this.context?.prefillPatternEnabled) {
+      const updateProfileChoice = this.props.vapServiceFormFields[
+        (this.context?.fieldName)
+      ]?.value?.updateProfileChoice;
+
+      const shouldOnlyUpdateForm = updateProfileChoice === 'no';
+
+      if (shouldOnlyUpdateForm) {
+        const { formKey, keys } = this.context;
+        const updatedFormAppData = {
+          ...this.props.formAppData,
+          [keys.wrapper]: {
+            ...this.props.formAppData[keys.wrapper],
+            [formKey]: { ...payload, updateProfileChoice },
+          },
+        };
+        this.props.setDataAction(updatedFormAppData);
+      }
+
+      return;
+    }
 
     const suggestedAddressSelected = selectedAddressId !== 'userEntered';
 
@@ -330,8 +354,13 @@ class AddressValidationView extends React.Component {
   }
 }
 
+AddressValidationView.contextType = ContactInfoFormAppConfigContext;
+
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
+  const vapServiceFormFields = state.vapService?.formFields;
+  const formAppData = state.form.data;
+
   const {
     addressFromUser,
     addressValidationError,
@@ -346,6 +375,8 @@ const mapStateToProps = (state, ownProps) => {
   const isNoValidationKeyAlertEnabled =
     state.featureToggles?.profileShowNoValidationKeyAddressAlert; // remove when profileShowNoValidationKeyAddressAlert flag is retired
   return {
+    vapServiceFormFields,
+    formAppData,
     analyticsSectionName:
       VAP_SERVICE.ANALYTICS_FIELD_MAP[addressValidationType],
     isLoading:
@@ -371,6 +402,7 @@ const mapDispatchToProps = {
   updateValidationKeyAndSave,
   createTransaction,
   resetAddressValidation: resetAddressValidationAction,
+  setDataAction: setData,
 };
 
 AddressValidationView.propTypes = {

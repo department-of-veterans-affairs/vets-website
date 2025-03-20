@@ -15,8 +15,8 @@ import {
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { withRouter } from 'react-router';
 import { refreshProfile } from 'platform/user/exportsFile';
+import { ContactInfoFormAppConfigProvider } from '@@vap-svc/components/ContactInfoFormAppConfigContext';
 import { useRouteMetadata } from './useRouteMetadata';
-import { ContactInfoFormAppConfigProvider } from './ContactInfoFormAppConfigContext';
 
 export const BuildPageBase = ({
   title,
@@ -86,7 +86,15 @@ export const BuildPageBase = ({
   };
 
   return (
-    <ContactInfoFormAppConfigProvider value={{ ...rest, goToPath, returnPath }}>
+    <ContactInfoFormAppConfigProvider
+      value={{
+        ...rest,
+        goToPath,
+        returnPath,
+        prefillPatternEnabled,
+        fieldName: FIELD_NAMES[field],
+      }}
+    >
       <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
         <InitializeVAPServiceID>
           {field !== 'MAILING_ADDRESS' && (

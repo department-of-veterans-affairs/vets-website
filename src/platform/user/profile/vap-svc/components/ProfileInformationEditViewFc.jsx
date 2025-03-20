@@ -18,7 +18,6 @@ import {
   radioUI,
   radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { useContactInfoFormAppConfig } from 'applications/_mock-form-ae-design-patterns/shared/components/ContactInfo/ContactInfoFormAppConfigContext';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   createTransaction,
@@ -136,7 +135,6 @@ export const ProfileInformationEditViewFc = ({
   cancelButtonText,
   saveButtonText,
   apiRoute,
-  shouldOnlyUpdateForm,
   convertCleanDataToPayload,
   refreshTransaction: refreshTransactionAction,
   clearTransactionRequest: clearTransactionRequestAction,
@@ -145,12 +143,7 @@ export const ProfileInformationEditViewFc = ({
   createTransaction: createTransactionAction,
   createPersonalInfoUpdate: createPersonalInfoUpdateAction,
   updateMessagingSignature: updateMessagingSignatureAction,
-  setData: setDataAction,
-  ...rest
 }) => {
-  // console.log('rest', rest);
-  const contactInfoFormAppConfig = useContactInfoFormAppConfig();
-  // console.log('contactInfoFormAppConfig', contactInfoFormAppConfig);
   const editFormRef = useRef(null);
   const [intervalId, setIntervalId] = useState(null);
 
@@ -366,20 +359,6 @@ export const ProfileInformationEditViewFc = ({
     const method = payload?.id ? 'PUT' : 'POST';
 
     if (isAddressField) {
-      if (shouldOnlyUpdateForm) {
-        const { formKey, keys } = contactInfoFormAppConfig;
-        const updatedFormAppData = {
-          ...rest.formAppData,
-          [keys.wrapper]: {
-            ...rest.formAppData[keys.wrapper],
-            [formKey]: field.value,
-          },
-        };
-
-        setDataAction(updatedFormAppData);
-        return;
-      }
-
       validateAddressAction(
         apiRoute,
         method,
@@ -503,7 +482,6 @@ ProfileInformationEditViewFc.propTypes = {
   }),
   forceEditView: PropTypes.bool,
   saveButtonText: PropTypes.string,
-  shouldOnlyUpdateForm: PropTypes.bool,
   showMailingAddressUpdateProfileChoice: PropTypes.bool,
   title: PropTypes.string,
   transaction: PropTypes.object,
@@ -518,19 +496,12 @@ export const mapStateToProps = (state, ownProps) => {
     fieldName,
   );
   const data = selectVAPContactInfoField(state, fieldName);
-  // const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
 
   const mailingAddress = selectVAPContactInfoField(
     state,
     FIELD_NAMES.MAILING_ADDRESS,
   );
-
-  const field = selectEditedFormField(state, fieldName);
-
-  const shouldOnlyUpdateForm =
-    ownProps.showMailingAddressUpdateProfileChoice &&
-    field?.value?.updateProfileChoice === 'no';
 
   return {
     /*
@@ -552,7 +523,6 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
-    shouldOnlyUpdateForm,
     formAppData: state?.form?.data,
   };
 };
