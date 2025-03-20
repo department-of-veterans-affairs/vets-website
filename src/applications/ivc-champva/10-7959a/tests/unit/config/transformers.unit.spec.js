@@ -7,26 +7,10 @@ import transformForSubmit from '../../../config/submitTransformer';
 describe('Submit transformer', () => {
   it('should add the file type to submitted files', () => {
     const result = JSON.parse(transformForSubmit(formConfig, mockData));
-    expect(result.medicalUpload[0].documentType).to.equal(
-      'itemized billing statement',
-    );
-    expect(result.primaryEob[0].documentType).to.equal('Eob');
-    expect(result.secondaryEob[0].documentType).to.equal('Eob');
-  });
-
-  it('should set primary contact name to false if not present', () => {
-    const result = JSON.parse(
-      transformForSubmit(formConfig, {
-        ...mockData,
-        certifierName: undefined,
-        applicantName: undefined,
-      }),
-    );
-    expect(result.medicalUpload[0].documentType).to.equal(
-      'itemized billing statement',
-    );
-    expect(result.primaryEob[0].documentType).to.equal('Eob');
-    expect(result.secondaryEob[0].documentType).to.equal('Eob');
+    const attachmentIds = result.supportingDocs.map(o => o.attachmentId);
+    expect(attachmentIds.length).to.eq(3); // 'EOB', 'EOB', and 'MEDDOCS'
+    expect(attachmentIds.includes('MEDDOCS')).to.be.true;
+    expect(attachmentIds.includes('EOB')).to.be.true;
   });
 
   it('should set primaryContact name to false if none present', () => {
