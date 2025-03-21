@@ -26,12 +26,12 @@ describe('find forms search results', () => {
     h.goToNextPage();
 
     h.validateSearchResult(
-      '10-9050',
-      'Health Care Personnel Influenza Vaccination Form Appendix B',
-      'August 2020',
-      'Veterans Health Administration',
-      3,
-      false,
+      '10-0137',
+      'VA Advance Directive: Durable Power of Attorney for Health Care and Living Will',
+      'July 2020',
+      'Health care',
+      1,
+      true,
     );
 
     h.goToPrevPage();
@@ -41,7 +41,7 @@ describe('find forms search results', () => {
       'Instructions and Enrollment Application for Health Benefits',
       'January 2020',
       'Health care',
-      8,
+      7,
       true,
       'Fill out VA Form 10-10EZ online',
     );
