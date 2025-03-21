@@ -37,9 +37,10 @@ import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessa
 class AddressValidationView extends React.Component {
   // using the context so we can get the right fieldName to access
   // the updateProfileChoice in the vapService.formFields state
-  updateProfileChoice = this.props.vapServiceFormFields[
-    (this.context?.fieldName)
-  ]?.value?.updateProfileChoice;
+  updateProfileChoice =
+    this.context?.fieldName &&
+    this.props.vapServiceFormFields[(this.context?.fieldName)]?.value
+      ?.updateProfileChoice;
 
   componentDidMount() {
     // scroll on the alert since the web component doesn't have a focus/auto-scroll method built in like the React component
@@ -93,7 +94,7 @@ class AddressValidationView extends React.Component {
       validationKey,
     };
 
-    if (this.context && this.context?.prefillPatternEnabled) {
+    if (this.context?.prefillPatternEnabled) {
       const shouldOnlyUpdateForm = this.updateProfileChoice === 'no';
 
       if (shouldOnlyUpdateForm) {
@@ -332,7 +333,8 @@ class AddressValidationView extends React.Component {
     const addressValidationMessage =
       ADDRESS_VALIDATION_MESSAGES[validationMessageKey];
 
-    const shouldShowSuggestions = confirmedSuggestions.length > 0;
+    const shouldShowSuggestions =
+      confirmedSuggestions && confirmedSuggestions.length > 0;
 
     const error =
       transactionRequest?.error ||
