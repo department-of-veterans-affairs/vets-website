@@ -1,7 +1,6 @@
 import * as webComponentPatterns from 'platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { formatReviewDate } from 'platform/forms-system/exportsFile';
-import { camelCase } from 'lodash';
 import {
   customStepPage,
   employmentHistory,
@@ -51,7 +50,7 @@ export const customStepPages = chapter => {
   const pages = {};
   chapter.pages.forEach(page => {
     // This assumes every pageTitle within a chapter is unique.
-    pages[camelCase(page.pageTitle)] = customStepPage(page);
+    pages[`page${page.id}`] = customStepPage(page);
   });
 
   return pages;

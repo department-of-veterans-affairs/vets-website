@@ -103,6 +103,7 @@ export const normalizedForm = {
               type: 'digital_form_text_input',
             },
           ],
+          id: '234567',
           pageTitle: 'My custom page',
         },
         {
@@ -121,6 +122,7 @@ export const normalizedForm = {
               type: 'digital_form_text_input',
             },
           ],
+          id: '765432',
           pageTitle: 'An additional page',
         },
       ],
