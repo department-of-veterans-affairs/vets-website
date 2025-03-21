@@ -29,6 +29,7 @@ const FilterBox = forwardRef((props, ref) => {
   const [fromDateError, setFromDateError] = useState('');
   const [toDateError, setToDateError] = useState('');
   const [formError, setFormError] = useState('');
+  const [isItemExpanded, setIsItemExpanded] = useState(false);
 
   const checkFormValidity = () => {
     const today = new Date();
@@ -97,9 +98,14 @@ const FilterBox = forwardRef((props, ref) => {
       )}
 
       <va-accordion data-dd-action-name="Accordion - Filter" open-single>
-        <va-accordion-item id="additional-filter-accordion">
+        <va-accordion-item
+          id="additional-filter-accordion"
+          onClick={e => {
+            setIsItemExpanded(e.target?.getAttribute('open') === 'true');
+          }}
+        >
           <h3 slot="headline" className="headline-text">
-            Add filters
+            {isItemExpanded ? 'Hide filters' : 'Show filters'}
           </h3>
           <div className="filter-content">
             <VaSelect
@@ -158,7 +164,7 @@ const FilterBox = forwardRef((props, ref) => {
                   <VaDate
                     label="Start date"
                     name="discharge-date"
-                    class="advanced-search-field"
+                    class="advanced-search-field vads-u-font-weight--bold"
                     onDateChange={e => setFromDate(e.target.value)}
                     value={fromDate}
                     required
@@ -168,7 +174,7 @@ const FilterBox = forwardRef((props, ref) => {
                   <VaDate
                     label="End date"
                     name="discharge-date"
-                    class="advanced-search-field"
+                    class="advanced-search-field vads-u-font-weight--bold"
                     onDateChange={e => setToDate(e.target.value)}
                     value={toDate}
                     required
