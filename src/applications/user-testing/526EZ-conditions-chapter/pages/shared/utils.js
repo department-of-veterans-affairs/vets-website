@@ -1,20 +1,16 @@
 import { format } from 'date-fns';
-import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import {
   getArrayIndexFromPathName,
   getArrayUrlSearchParams,
 } from 'platform/forms-system/src/js/patterns/array-builder/helpers';
 
-import { NULL_CONDITION_STRING, RATED_OR_NEW_RADIOS } from '../../constants';
+import { RATED_OR_NEW_RADIOS } from '../../constants';
 import { conditionObjects } from '../../content/conditionOptions';
 
 const arrayPath = 'demos';
 
 export const isActiveDemo = (formData, currentDemo) =>
   formData?.demo === currentDemo;
-
-export const hasCause = (formData, index, cause) =>
-  formData?.[arrayPath]?.[index]?.cause === cause;
 
 export const createDefaultAndEditTitles = (defaultTitle, editTitle) => {
   const search = getArrayUrlSearchParams();
@@ -61,19 +57,19 @@ const checkNewConditionRadio = ratedDisability =>
   ratedDisability === 'Add a new condition' ||
   ratedDisability === 'Edit new condition';
 
-export const isNewCondition = (formData, index) => {
-  if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
-    if (formData?.[arrayPath]) {
-      const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
+const isNewConditionRatedOrNewRadios = (formData, index) => {
+  if (formData?.[arrayPath]) {
+    const ratedOrNew = formData?.[arrayPath]?.[index]?.ratedOrNew;
 
-      return ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData);
-    }
-
-    return (
-      formData?.ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData)
-    );
+    return ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData);
   }
 
+  return (
+    formData?.ratedOrNew === 'NEW' || !hasRemainingRatedDisabilities(formData)
+  );
+};
+
+const isNewConditionRatedOrNewNextPage = (formData, index) => {
   if (formData?.[arrayPath]) {
     const ratedDisability = formData?.[arrayPath]?.[index]?.ratedDisability;
 
@@ -81,6 +77,14 @@ export const isNewCondition = (formData, index) => {
   }
 
   return checkNewConditionRadio(formData?.ratedDisability);
+};
+
+export const isNewCondition = (formData, index) => {
+  if (isActiveDemo(formData, RATED_OR_NEW_RADIOS.name)) {
+    return isNewConditionRatedOrNewRadios(formData, index);
+  }
+
+  return isNewConditionRatedOrNewNextPage(formData, index);
 };
 
 // Different than lodash _capitalize because does not make rest of string lowercase which would break acronyms
@@ -194,59 +198,6 @@ export const arrayBuilderOptions = {
     getItemName,
     cardDescription,
   },
-};
-
-export const missingConditionMessage =
-  'Enter a condition, diagnosis, or short description of your symptoms';
-
-const regexNonWord = /[^\w]/g;
-const generateSaveInProgressId = str =>
-  (str || 'blank').replace(regexNonWord, '').toLowerCase();
-
-const validateLength = (err, fieldData) => {
-  if (fieldData.length > 255) {
-    err.addError('This needs to be less than 256 characters');
-  }
-};
-
-const validateNotMissing = (err, fieldData) => {
-  const isMissingCondition =
-    !fieldData?.trim() ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
-
-  if (isMissingCondition) {
-    err.addError(missingConditionMessage);
-  }
-};
-
-const validateNotDuplicate = (err, fieldData, formData, path) => {
-  const index = getUrlPathIndex(window.location.pathname);
-
-  const lowerCasedConditions =
-    formData?.[path]?.map(condition => condition.newCondition?.toLowerCase()) ||
-    [];
-
-  const fieldDataLowerCased = fieldData?.toLowerCase() || '';
-  const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
-
-  const hasDuplicate = lowerCasedConditions.some((condition, i) => {
-    if (index === i) return false;
-
-    return (
-      condition === fieldDataLowerCased ||
-      generateSaveInProgressId(condition) === fieldDataSaveInProgressId
-    );
-  });
-
-  if (hasDuplicate) {
-    err.addError('You’ve already added this condition to your claim');
-  }
-};
-
-export const validateCondition = (err, fieldData = '', formData = {}) => {
-  validateLength(err, fieldData);
-  validateNotMissing(err, fieldData);
-  validateNotDuplicate(err, fieldData, formData, arrayBuilderOptions.arrayPath);
 };
 
 export const hasSideOfBody = (formData, index) => {

@@ -1,18 +1,68 @@
 import React from 'react';
+import { getUrlPathIndex } from 'platform/forms-system/src/js/helpers';
 import {
   titleUI,
   withAlertOrDescription,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import Autocomplete from '../../components/Autocomplete';
+import { NULL_CONDITION_STRING } from '../../constants';
 import { conditionOptions } from '../../content/conditionOptions';
 import { NewConditionDescription } from '../../content/conditions';
-import {
-  arrayBuilderOptions,
-  createDefaultAndEditTitles,
-  missingConditionMessage,
-  validateCondition,
-} from './utils';
+import { arrayBuilderOptions, createDefaultAndEditTitles } from './utils';
+
+export const missingConditionMessage =
+  'Enter a condition, diagnosis, or short description of your symptoms';
+
+const regexNonWord = /[^\w]/g;
+const generateSaveInProgressId = str =>
+  (str || 'blank').replace(regexNonWord, '').toLowerCase();
+
+const validateLength = (err, fieldData) => {
+  if (fieldData.length > 255) {
+    err.addError('This needs to be less than 256 characters');
+  }
+};
+
+const validateNotMissing = (err, fieldData) => {
+  const isMissingCondition =
+    !fieldData?.trim() ||
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase();
+
+  if (isMissingCondition) {
+    err.addError(missingConditionMessage);
+  }
+};
+
+const validateNotDuplicate = (err, fieldData, formData, path) => {
+  const index = getUrlPathIndex(window.location.pathname);
+
+  const lowerCasedConditions =
+    formData?.[path]?.map(condition => condition.newCondition?.toLowerCase()) ||
+    [];
+
+  const fieldDataLowerCased = fieldData?.toLowerCase() || '';
+  const fieldDataSaveInProgressId = generateSaveInProgressId(fieldData || '');
+
+  const hasDuplicate = lowerCasedConditions.some((condition, i) => {
+    if (index === i) return false;
+
+    return (
+      condition === fieldDataLowerCased ||
+      generateSaveInProgressId(condition) === fieldDataSaveInProgressId
+    );
+  });
+
+  if (hasDuplicate) {
+    err.addError('You’ve already added this condition to your claim');
+  }
+};
+
+const validateCondition = (err, fieldData = '', formData = {}) => {
+  validateLength(err, fieldData);
+  validateNotMissing(err, fieldData);
+  validateNotDuplicate(err, fieldData, formData, arrayBuilderOptions.arrayPath);
+};
 
 /** @returns {PageSchema} */
 const newConditionPage = {

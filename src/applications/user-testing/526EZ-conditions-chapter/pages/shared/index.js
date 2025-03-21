@@ -11,7 +11,6 @@ import sideOfBodyPage from './sideOfBody';
 import summaryPage from './summary';
 import {
   arrayBuilderOptions,
-  hasCause,
   hasRemainingRatedDisabilities,
   hasSideOfBody,
   isActiveDemo,
@@ -34,6 +33,9 @@ export const introAndSummaryPages = (demo, pageBuilder) => ({
     schema: summaryPage.schema,
   }),
 });
+
+const hasCause = (formData, index, cause) =>
+  formData?.[arrayBuilderOptions.arrayPath]?.[index]?.cause === cause;
 
 export const remainingSharedPages = (demo, pageBuilder, helpers) => ({
   [`${demo.name}RatedDisabilityDate`]: pageBuilder.itemPage({
