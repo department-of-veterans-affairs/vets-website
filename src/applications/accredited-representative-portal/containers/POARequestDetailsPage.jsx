@@ -333,7 +333,7 @@ const POARequestDetailsPage = title => {
         and the veteran information will show up here. if the veteran is filing themselves, they will appear as the claimant */}
             {poaRequest.powerOfAttorneyForm.veteran && (
               <>
-                <h2>Veteran information</h2>
+                <h2>Veteran identification information</h2>
                 <ul className="poa-request-details__list poa-request-details__list--info">
                   <li>
                     <p>Name</p>

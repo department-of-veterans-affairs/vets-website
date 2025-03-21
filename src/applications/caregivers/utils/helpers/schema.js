@@ -1,5 +1,25 @@
+import { mapValues } from 'lodash';
 import get from 'platform/utilities/data/get';
-import { MED_CENTERS_BY_STATE } from '../constants';
+import { caregiverProgramFacilities as facilities } from '../imports';
+
+export const MED_CENTERS_BY_STATE = mapValues(facilities, val =>
+  val.map(c => c.code),
+);
+
+export const MED_CENTER_LABELS = Object.keys(facilities).reduce(
+  (labels, state) => {
+    const stateLabels = facilities[state].reduce(
+      (centers, center) =>
+        Object.assign(centers, {
+          [center.code]: center.label,
+        }),
+      {},
+    );
+
+    return Object.assign(labels, stateLabels);
+  },
+  {},
+);
 
 export const setAddressCountry = (
   formData,

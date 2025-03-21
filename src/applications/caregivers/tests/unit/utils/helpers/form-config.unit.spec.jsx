@@ -6,7 +6,7 @@ import {
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
   showFacilityConfirmation,
-} from '../../../../utils/helpers/form-config';
+} from '../../../../utils/helpers';
 
 describe('CG `hideCaregiverRequiredAlert` method', () => {
   it('should return `true` when primary caregiver is defined', () => {
