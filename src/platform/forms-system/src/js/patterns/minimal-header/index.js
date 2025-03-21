@@ -13,7 +13,10 @@ import { createBreadcrumbListFromPath } from '../../routing';
  * @returns {boolean}
  */
 export function isMinimalHeaderApp() {
-  return sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE') === 'true';
+  return (
+    sessionStorage.getItem('MINIMAL_HEADER_APPLICABLE') === 'true' ||
+    document.querySelector('#header-minimal')
+  );
 }
 
 /**
