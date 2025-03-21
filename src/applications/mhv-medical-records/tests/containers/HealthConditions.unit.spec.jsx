@@ -155,3 +155,37 @@ describe('Health conditions container with errors', () => {
     });
   });
 });
+
+describe('Health conditions list shows sort information', () => {
+  const initialState = {
+    user,
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_filter_and_sort: true,
+    },
+    mr: {
+      conditions: {
+        conditionsList: conditions.entry.map(condition =>
+          convertCondition(condition),
+        ),
+      },
+    },
+  };
+
+  const screen = renderWithStoreAndRouter(<HealthConditions />, {
+    initialState,
+    reducers: reducer,
+    path: '/conditions',
+  });
+
+  expect(screen.getByText('Sort', { exact: true })).to.exist;
+  expect(screen.getByTestId('mr-sort-selector')).to.exist;
+  expect(
+    screen.getByText(
+      'Showing 1 to 5 of 5 records, Newest to oldest (date entered)',
+      {
+        exact: true,
+      },
+    ),
+  ).to.exist;
+});
