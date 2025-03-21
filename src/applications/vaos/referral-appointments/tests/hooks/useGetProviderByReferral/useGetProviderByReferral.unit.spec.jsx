@@ -65,7 +65,7 @@ describe('Community Care Referrals', () => {
       expect(getByTestId('provider-id')).to.contain.text(providerDetails.id);
       sandbox.assert.notCalled(getProviderByIdModule.getProviderById);
     });
-    it.skip('should fetch provider if not in redux', async () => {
+    it('should fetch provider if not in redux', async () => {
       const { getByTestId } = renderWithStoreAndRouter(
         <TestComponent providerId={providerDetails.id} />,
         {
