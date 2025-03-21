@@ -3,6 +3,7 @@ import {
   CategoryDebt,
   CHAPTER_2,
   CHAPTER_3,
+  hasPrefillInformation,
   schoolInYourProfileOptions,
   TopicEducationBenefitOverpayments,
   TopicEducationBenefitOverpaymentsForStudents,
@@ -174,28 +175,14 @@ export const ch3Pages = {
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => {
-      if (!form?.aboutYourself) return true;
-      return (
-        !form.aboutYourself.first ||
-        !form.aboutYourself.last ||
-        !form.aboutYourself.socialSecurityNumber
-      );
-    },
+    depends: form => !hasPrefillInformation(form),
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => {
-      if (!form?.aboutYourself) return true;
-      return (
-        !form.aboutYourself.first ||
-        !form.aboutYourself.last ||
-        !form.aboutYourself.socialSecurityNumber
-      );
-    },
+    depends: form => !hasPrefillInformation(form),
   },
   aboutYourselfRelationshipFamilyMember: {
     editModeOnReviewPage: false,
@@ -203,14 +190,7 @@ export const ch3Pages = {
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
     reviewTitle: 'Your personal information',
-    depends: form => {
-      if (!form?.aboutYourself) return true;
-      return (
-        !form.aboutYourself.first ||
-        !form.aboutYourself.last ||
-        !form.aboutYourself.socialSecurityNumber
-      );
-    },
+    depends: form => !hasPrefillInformation(form),
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -392,7 +372,7 @@ export const ch3Pages = {
       const authCheck =
         form.aboutYourself.first &&
         form.aboutYourself.last &&
-        form.aboutYourself.socialSecurityNumber;
+        form.aboutYourself.dateOfBirth;
       return authCheck && isBranchOfServiceRequired(form);
     },
   },
