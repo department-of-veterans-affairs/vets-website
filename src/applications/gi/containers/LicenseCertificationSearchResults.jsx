@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import ADDRESS_DATA from 'platform/forms/address/data';
 
 import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useSignalFetch } from '../utils/useSignalFetch';
 
-import { filterLcResults } from '../actions';
+import { fetchLicenseCertificationResults, filterLcResults } from '../actions';
 import {
   handleLcResultsSearch,
   isSmallScreen,
@@ -16,6 +15,7 @@ import {
   createCheckboxes,
   updateStateDropdown,
   handleZoom,
+  focusElement,
 } from '../utils/helpers';
 import { lacpCategoryList } from '../constants';
 
@@ -74,7 +74,12 @@ export default function LicenseCertificationSearchResults() {
     currentPage * itemsPerPage,
   );
 
-  useSignalFetch(hasFetchedOnce);
+  useEffect(() => {
+    if (!hasFetchedOnce) {
+      dispatch(fetchLicenseCertificationResults());
+    }
+    return null;
+  }, []);
 
   useEffect(
     () => {
@@ -167,6 +172,7 @@ export default function LicenseCertificationSearchResults() {
       state,
       initialCategoryParam,
     );
+    focusElement(searchInfoWrapperRef.current, 0);
   };
 
   const handleStateChange = e => {
@@ -189,11 +195,7 @@ export default function LicenseCertificationSearchResults() {
       page,
     );
     setCurrentPage(page);
-    setTimeout(() => {
-      if (searchInfoWrapperRef.current) {
-        searchInfoWrapperRef.current.focus();
-      }
-    }, 500);
+    focusElement(searchInfoWrapperRef.current, 500);
   };
 
   const handleGoToDetails = (e, id, name) => {
@@ -268,6 +270,7 @@ export default function LicenseCertificationSearchResults() {
       'all',
       initialCategoryParam,
     );
+    focusElement(searchInfoWrapperRef.current, 0);
   };
 
   if (fetchingLc) {

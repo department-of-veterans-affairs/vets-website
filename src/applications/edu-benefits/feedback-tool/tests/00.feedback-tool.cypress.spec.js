@@ -11,9 +11,9 @@ describe('Feedback Tool Test', () => {
 
     cy.visit('/education/submit-school-feedback');
     cy.get('body').should('be.visible');
-    cy.get('.schemaform-title').should('be.visible', {
-      timeout: Timeouts.slow,
-    });
+    cy.get('.schemaform-title', {
+      timeout: 10000,
+    }).should('be.visible');
     cy.get('.schemaform-start-button')
       .first()
       .click();
