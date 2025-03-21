@@ -58,7 +58,8 @@ class DownloadAllPage {
   };
 
   verifyErrorStartDateGreaterThanEnd = error => {
-    cy.get('va-select')
+    cy.get('[data-testid="va-date-end-date"]')
+      .find('[id^=error-message]')
       .contains(error)
       .should('be.visible');
   };
@@ -73,14 +74,14 @@ class DownloadAllPage {
     cy.get('[data-testid="va-date-start-date"]')
       .find('select')
       .eq(0)
-      .select(month);
+      .select(month, { force: true });
   };
 
   selectCustomStartDay = day => {
     cy.get('[data-testid="va-date-start-date"]')
       .find('select')
       .eq(1)
-      .select(day);
+      .select(day, { force: true });
   };
 
   selectCustomStartYear = year => {
@@ -105,14 +106,14 @@ class DownloadAllPage {
     cy.get('[data-testid="va-date-end-date"]')
       .find('select')
       .eq(0)
-      .select(month);
+      .select(month, { force: true });
   };
 
   selectCustomEndDay = day => {
     cy.get('[data-testid="va-date-end-date"]')
       .find('select')
       .eq(1)
-      .select(day);
+      .select(day, { force: true });
   };
 
   selectCustomEndYear = year => {
